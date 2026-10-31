@@ -7445,6 +7445,128 @@ def main() -> int:
     except Exception as e:
         check(_name88, False, repr(e)[:160])
 
+    # E287 r1314: E285's ceiling only means "no published instrument reaches these rows" if nothing
+    # wider is already published. Nothing is: of the six dated faces publishing a "multiplier", only
+    # two are band-edge supplies and both tops sit below the ceiling (1.8383 median / 2.2457 single
+    # seed), while the two numbers that look wider (63.0 pct tolerance, 2.0327 spread threshold) are
+    # off-axis. Both gap rows are reachable by that same supply -- one at the median, both at the
+    # single best seed -- so the gap is the only place existing supply could pay.
+    _name89 = ("product: the family's ceiling is above every supply the family already publishes -- "
+               "the extrapolated rows stay extrapolated and only the gap rows are reachable")
+    _bad89 = []
+    try:
+        _p89 = os.path.join("results", "state_tilt", "bandsupply_latest.json")
+        _f89 = None
+        if not os.path.exists(_p89):
+            _bad89.append("face missing: %s" % _p89)
+        else:
+            with io.open(_p89, encoding="utf-8") as _fh89:
+                _f89 = json.load(_fh89)
+        if _f89 is not None:
+            if _f89.get("evidence_cutoff") is None:
+                _bad89.append("no evidence_cutoff on the face")
+            _vocab89 = ("published_supply_reaches_a_row_above_the_published_ceiling",
+                        "published_supply_reaches_the_gap_rows_only",
+                        "no_published_supply_reaches_any_row_beyond_the_published_tails")
+            if _f89.get("verdict") not in _vocab89:
+                _bad89.append("verdict %r is outside the frozen set" % (_f89.get("verdict"),))
+            _s89 = _f89.get("summary") or {}
+            _ic89 = _f89.get("demand_identity") or {}
+            # (a) the ceiling is measured: it must equal the widest published arm top (D5)
+            if not _ic89.get("ceiling_equals_widest_published_arm_top"):
+                _bad89.append("the ceiling is not the widest published arm top")
+            if not _ic89.get("agree"):
+                _bad89.append("the flips disagree with the other face that publishes them")
+            if not _ic89.get("rows_are_the_e285_unreached_set"):
+                _bad89.append("the requirement rows are not E285's unreached set")
+            # (b) no usable supply may exceed the ceiling, or the verdict is wrong by construction
+            if not _ic89.get("no_reading_above_the_ceiling_except_the_circular_one"):
+                _bad89.append("a usable supply reading exceeds the ceiling")
+            _cons89 = _s89.get("widen_cap_conservative")
+            _opt89 = _s89.get("widen_cap_optimistic")
+            _ceil89 = _s89.get("ceiling")
+            if None in (_cons89, _opt89, _ceil89):
+                _bad89.append("a supply cap or the ceiling is not published")
+            elif not (_cons89 <= _opt89 <= _ceil89):
+                _bad89.append("the caps are not ordered conservative <= optimistic <= ceiling")
+            # (c) every reading is signed, and a circular/off-axis number never sets a cap
+            _rd89 = _f89.get("supply_readings") or []
+            if not _rd89:
+                _bad89.append("no supply readings are published")
+            if any(_r.get("axis") != "band_edge_multiplier" for _r in _rd89):
+                _bad89.append("a supply reading is not on the band-edge axis (D1)")
+            _unused89 = [_r for _r in _rd89 if not _r.get("usable_as_supply")]
+            if any(_r.get("cap") is not None and _r.get("direction") == "widen" and _r.get("cap") > _opt89
+                   for _r in _rd89 if _r.get("usable_as_supply")):
+                _bad89.append("a usable reading is wider than the published optimistic cap")
+            if not _unused89:
+                _bad89.append("the circular readings are not published at all")
+            _off89 = _f89.get("off_axis_readings") or []
+            if len(_off89) < 3 or any(not _o.get("reason") for _o in _off89):
+                _bad89.append("the off-axis numbers are not published with a reason each")
+            _offkeys89 = set((_o.get("face"), _o.get("label")) for _o in _off89)
+            if _offkeys89 & set((_r.get("face"), _r.get("label")) for _r in _rd89):
+                _bad89.append("an off-axis number was also carried as a supply reading")
+            # (d) the verdict agrees with its own reach counts
+            _rb89 = _s89.get("reach_by_class") or {}
+            _above89 = _rb89.get("above_ceiling") or {}
+            _gap89 = _rb89.get("in_gap") or {}
+            _v89 = _f89.get("verdict")
+            if _v89 == "published_supply_reaches_the_gap_rows_only":
+                if (_above89.get("n_reached_optimistic") or
+                        _above89.get("n_reached_conservative")):
+                    _bad89.append("the verdict says gap-only but an above-ceiling row is reached")
+                if not (_gap89.get("n_reached_optimistic") or
+                        _gap89.get("n_reached_conservative")):
+                    _bad89.append("the verdict says gap-only but no gap row is reached")
+            if _v89 == "no_published_supply_reaches_any_row_beyond_the_published_tails":
+                if (_gap89.get("n_reached_optimistic") or _above89.get("n_reached_optimistic")):
+                    _bad89.append("the verdict says nothing is reached but a row is")
+            # (e) this face never censuses itself (E180/E209/E294 self-inclusion family)
+            _disc89 = _f89.get("discovery") or {}
+            _censused89 = _disc89.get("dated_faces_with_a_multiplier_key") or []
+            if "BANDSUPPLY-2026-10-29.json" in _censused89 or "bandsupply_latest.json" in _censused89:
+                _bad89.append("this study's own face is inside its own census")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m89 = __import__("importlib").import_module("e287_supply_ceiling_axes")
+            _fresh89 = _m89.build()
+            if _fresh89.get("verdict") != _f89.get("verdict"):
+                _bad89.append("the verdict does not re-derive")
+            _fs89 = _fresh89.get("summary") or {}
+            for _k in ("ceiling", "widen_cap_conservative", "widen_cap_optimistic",
+                       "narrow_cap_conservative", "nearest_above_ceiling"):
+                if _fs89.get(_k) != _s89.get(_k):
+                    _bad89.append("summary.%s does not re-derive" % _k)
+            for _cls in ("above_ceiling", "in_gap", "below_floor"):
+                _a = (_fs89.get("reach_by_class") or {}).get(_cls) or {}
+                _b = _rb89.get(_cls) or {}
+                if _a.get("n_reached_optimistic") != _b.get("n_reached_optimistic"):
+                    _bad89.append("reach for %s does not re-derive" % _cls)
+        check(_name89, not _bad89,
+              "; ".join(_bad89)[:220]
+              or "verdict %r | ceiling %s vs supply %s (median) / %s (single seed); above-ceiling "
+                 "%d row(s) reached %d, gap %d row(s) reached %d at the median and %d at the seed; "
+                 "narrowing instrument %s misses the nearest below-floor row by %s pct; %d off-axis "
+                 "number(s) refused with a reason"
+                 % ((_f89 or {}).get("verdict"),
+                    _r77(_f89, "ceiling"),
+                    _r77(_f89, "widen_cap_conservative"),
+                    _r77(_f89, "widen_cap_optimistic"),
+                    (_s89.get("reach_by_class") or {}).get("above_ceiling", {}).get("n_rows") or 0,
+                    (_s89.get("reach_by_class") or {}).get("above_ceiling", {}).get(
+                        "n_reached_optimistic") or 0,
+                    (_s89.get("reach_by_class") or {}).get("in_gap", {}).get("n_rows") or 0,
+                    (_s89.get("reach_by_class") or {}).get("in_gap", {}).get(
+                        "n_reached_conservative") or 0,
+                    (_s89.get("reach_by_class") or {}).get("in_gap", {}).get(
+                        "n_reached_optimistic") or 0,
+                    _r77(_f89, "narrow_cap_conservative"),
+                    ("n/a" if not (_s89.get("nearest_below_floor") or {}).get("pct_short")
+                     else "%.3f" % _s89["nearest_below_floor"]["pct_short"]),
+                    _s89.get("n_off_axis_refused") or 0))
+    except Exception as e:
+        check(_name89, False, repr(e)[:160])
+
     return _finish()
 
 

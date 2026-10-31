@@ -58,6 +58,7 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
 import e286_count_field_scope as e286  # noqa: E402  (the census this study explains)
+import e_band_family_vintage as vintage  # noqa: E402  (universe vintage freeze, E292)
 
 ROOT = e286.ROOT
 OUTDIR = e286.OUTDIR
@@ -112,9 +113,23 @@ def resolve(obj, path):
 
 
 def census_names():
-    """The census universe minus E290's face and this study's own faces (self-inclusion guard)."""
+    """The census universe minus E290's face and this study's own faces (self-inclusion guard).
+
+    Frozen to the name list this face already published (E292: a face is a vintage). Re-reading the
+    live directory meant every later sibling publication moved the length null, the pair census and
+    therefore every share in the summary while the published face stayed put -- the smoke leg went red
+    on 2026-10-31 for exactly that reason.
+    """
     blocked = set(SUCCESSOR_EXCLUSIONS) | set(SELF_FACES)
-    return [n for n in e286.face_universe() if n not in blocked]
+    live = [n for n in e286.face_universe() if n not in blocked]
+    stored, stored_from = vintage.published_names(OUTDIR, (FACE, LATEST), ("faces_censused",))
+    if not stored:
+        return live, vintage.note(live, [], len(live), None, None)
+    keep = set(live)
+    used = [n for n in stored if n in keep and n not in blocked]
+    note = vintage.note(used, sorted(set(live) - set(used)), len(live), stored_from, None)
+    note["faces_published_but_gone_from_disk"] = [n for n in stored if n not in keep]
+    return used, note
 
 
 def census(names):
@@ -160,7 +175,7 @@ def content_class(a, b):
 
 # ------------------------------------------------------------------ build
 def build():
-    names = census_names()
+    names, universe_note = census_names()
     recs, groups, pool = census(names)
     shares, pool_total = length_null(pool)
 
@@ -315,6 +330,7 @@ def build():
         "no_bill": NO_BILL,
         "source_faces": [SRC_FACE],
         "faces_censused": names,
+        "universe_vintage": universe_note,
         "frozen_spec": {
             "D1_rows_are_e290s": "the row set, its alternative counts and its flag are read from the "
                                  "published BANDSELFAUDIT face; only the equal-length classification "

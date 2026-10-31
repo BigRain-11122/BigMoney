@@ -59,6 +59,7 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
 import e272_flip_budget_two_tails as e272  # noqa: E402  (ROOT / OUTDIR)
+import e_band_family_vintage as vintage  # noqa: E402  (universe vintage freeze)
 
 ROOT = e272.ROOT
 OUTDIR = e272.OUTDIR
@@ -206,9 +207,45 @@ def decide(summary):
     return "every_unit_named_count_is_re_derivable_and_agrees"
 
 
-def build(outdir=None):
+def _vintage(outdir):
+    """(names, disclosure): the universe as of this face's own publish stamp.
+
+    The family universe grows with each sibling study; re-deriving over the live directory made this
+    face disagree with itself after every new publication (see e_band_family_vintage).
+    """
+    live = face_universe(outdir)
+    stored, stored_from = vintage.published_names(outdir, (FACE, LATEST), ("faces_censused",))
+    if stored:
+        keep = set(live)
+        used = [n for n in stored if n in keep]
+        gone = [n for n in stored if n not in keep]
+        note = vintage.note(used, sorted(set(live) - set(used)), len(live), stored_from, None)
+        note["faces_published_but_gone_from_disk"] = gone
+        return used, note
+    cutoff, frozen_from = None, None
+    for name in (FACE, LATEST):
+        path = os.path.join(outdir, name)
+        if not os.path.exists(path):
+            continue
+        try:
+            with io.open(path, encoding="utf-8") as fh:
+                stamp = json.load(fh).get("generated")
+        except Exception:
+            stamp = None
+        cutoff = vintage._parse(stamp)
+        if cutoff:
+            frozen_from = name
+            break
+    used, dropped = vintage.vintage_names(outdir, live, cutoff)
+    return used, vintage.note(used, dropped, len(live), frozen_from, cutoff)
+
+
+def build(outdir=None, extend=False):
     outdir = outdir or OUTDIR
-    names = face_universe(outdir)
+    names, vintage_note = _vintage(outdir)
+    if extend:
+        names = face_universe(outdir)
+        vintage_note = vintage.note(names, [], len(names), None, None)
     faces = [analyse_face(name, outdir) for name in names]
 
     re_rows, cannot_rows = [], []
@@ -302,6 +339,7 @@ def build(outdir=None):
         "no_bill": NO_BILL,
         "source_faces": [SRC_SCOPE],
         "faces_censused": names,
+        "universe_vintage": vintage_note,
         "frozen_spec": {
             "D1_claim_from_name": "a key claims a unit only when the unit word is the whole name or "
                                   "its only qualifier (bare <unit>, n_<unit>, num_<unit>, "
@@ -382,7 +420,7 @@ def write_face(face, outdir=None):
 
 def cmd_run():
     import datetime
-    face = build()
+    face = build(extend=True)
     face["generated"] = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
     write_face(face)
     s = face["summary"]
@@ -529,6 +567,12 @@ def cmd_selftest():
     # L24 no division by zero when a face publishes no unit-named counts
     empty = analyse_face_from_object("EMPTY.json", {"p": {"x": 1}})
     leg("L24", empty["fields"] == [] and empty["qualified_unit_named_fields"] == 0)
+
+    # L25-L30 the vintage freeze rule (the mechanism that stopped this face drifting when sibling
+    #        studies publish; see e_band_family_vintage)
+    _vlegs = vintage.selftest()
+    leg("L25", all(okv for okv, _name, _detail in _vlegs),
+        [(n, d) for okv, n, d in _vlegs if not okv])
 
     print("E286 selftest: %d/%d" % (ok, ok + len(fail)))
     for f in fail:

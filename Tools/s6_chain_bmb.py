@@ -501,6 +501,18 @@ LEGS = [
     ("ambiguity_by_length_chance",
      ["python", "scripts/e291_ambiguity_chance.py", "verify"]),
 
+    # E287 (r1314 bm-b): E285 called 6 rows above the family ceiling 2.2963 "extrapolation", which
+    # only holds if nothing wider is already published. Six dated band faces publish a number called
+    # a multiplier; signed by axis, only two are band-edge supplies and both tops sit BELOW the
+    # ceiling (1.8383 median per window / 2.2457 at a single best seed), so no above-ceiling row is
+    # reachable (nearest self|200|0 needs 3.8 pct more). Both gap rows ARE reachable by that same
+    # supply (cross|60|11 at the median, star_lag1_residual|60|15 only at the single seed), and the
+    # published narrowing instrument (0.9220) misses the nearest below-floor row by 3.7 pct. The
+    # 63.0 pct tolerance and the 2.0327 spread threshold that look wider are published as off-axis.
+    # Published faces only, no draw. <1s.
+    ("supply_ceiling_axes",
+     ["python", "scripts/e287_supply_ceiling_axes.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

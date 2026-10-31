@@ -5765,3 +5765,53 @@ sibling's face by name and assert both absences. Evidence: `scripts/e291_ambigui
 17/17, run/verify 0 problems), `results/state_tilt/BANDAMBIENT-2026-10-29.json`, S6 leg
 `ambiguity_by_length_chance`, digest
 `research/digests/DIGEST-20261031-r1313-e291-ambiguity-by-length-chance.md`.
+
+### E292 - a published face is a vintage: a sibling-censusing study must re-derive against the universe it published (r1314 bm-b)
+
+The BAND family's studies census each other's published faces, so the universe a study reads GROWS by one
+face each time a sibling publishes -- and a `build()` that re-reads the live directory silently rewrites
+the older face's summary. Four smoke legs (81/82/86/87) went red for this and nothing was wrong with the
+numbers: E286 re-derived over 34 faces where it had published 32, E281 34 vs 27, E282 67 vs 55. Three
+reusable rules. (1) Freeze re-derivation to the published vintage and prefer the face's OWN stored name
+list (`e286.faces_censused`, `e281.source_faces`, `e282.scope_census` names): a timestamp rule cannot
+tell "published after this study" from "re-run after this study" -- `BANDPATH-2026-10-30.json` was
+already inside E286's 07:35 universe and was rewritten at 07:44, so a stamp cutoff over-drops it and
+leaves the summary two fields short. (2) A new run is the ONLY thing that widens the universe
+(`build(extend=True)` in `run()`, frozen by default everywhere else) and the drop must be DISCLOSED on
+the face (`universe_vintage`: faces_used / faces_in_directory_now / faces_excluded_as_later) -- a silent
+freeze would trade one lie for another. (3) A face whose growth is nobody's re-derivation is still not
+green: publish the vintage from birth (E293 did) and seed the audit of the remaining unfrozen studies
+instead of trusting that no other leg drifts. Evidence: `scripts/e_band_family_vintage.py` (selftest 6/6,
+folded into E286's legs), E286 selftest 25/25, E281/E282/E291/E293 `verify` 0 problems,
+`results/state_tilt/BANDDUPES-2026-10-29.json`, digest
+`research/digests/DIGEST-20261031-r1314-e293-duplicate-lists-and-vintage-freeze.md`.
+
+
+### E294 - a number called a multiplier is not a ruler: sign the axis before comparing (r1315 bm-b)
+
+E287 had to answer whether the family's published ceiling (2.2963) is the widest multiplier anything
+publishes, and six dated faces carry a field called `multiplier` / `multiplier_max`. Signing them
+first dissolved most of the question: only two are band-edge multipliers (E258's per-window draw
+multiplier, E257's borrowed ladder range); E272's tail ranges are the instrument the ceiling was read
+OFF, so using them as supply compares the ceiling with itself; BANDDISAGREE/BANDDEFLATE restate the
+same flips, which is a demand and not a supply; and the three numbers that LOOK wider are on other
+rulers entirely -- 63.03 pct is a relative tolerance a test could allow, 2.0327 is a threshold in
+spreads on the normalised gap. A comparison is legal only between two readings of the same quantity,
+so axis, direction (requirement vs supply) and basis (central value vs most extreme single seed) must
+be published per reading, and an off-axis number refused WITH its reason -- otherwise a reader cannot
+tell a number that was considered from one that was missed.
+
+Two reusable mechanics. (1) Report both offers and declare which one the verdict uses: the
+conservative cap (per-window median) reached 1 of 2 gap rows, the single best seed reached both, and
+no reading reached any of the 6 rows above the ceiling (nearest 3.8 pct short, while the mirror-image
+narrowing instrument missed its nearest row by 3.7 pct). A verdict stated at the conservative reading
+with the optimistic one printed beside it is the only form that can be read as neither boast nor
+dismissal. (2) A "closest row still short" helper must handle a closed class -- both gap rows being
+reached produced a null where the reader expects a number, so the block publishes
+`all_rows_reached_at_optimistic` instead of a fabricated nearest. Two selftest legs written first were
+wrong in the same way: "every narrowing reading is below 1.0" is false because a widening multiplier's
+per-seed MINIMUM can still exceed 1, and the leg now pins the partition that actually holds (every
+widening cap >= 1, at least one narrowing cap < 1). Evidence: `scripts/e287_supply_ceiling_axes.py`
+(selftest 22/22, verify 0 problems), `results/state_tilt/BANDSUPPLY-2026-10-29.json`, S6 leg
+`supply_ceiling_axes`, digest
+`research/digests/DIGEST-20261031-r1315-e287-supply-ceiling-axes.md`.

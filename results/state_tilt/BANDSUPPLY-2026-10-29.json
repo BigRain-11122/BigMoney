@@ -1,0 +1,976 @@
+{
+ "study": "E287_supply_ceiling_axes",
+ "title": "is the family's published ceiling one ceiling or many -- do any sibling faces publish a wider band-edge multiplier that would already reach the rows E285 called extrapolation?",
+ "evidence_cutoff": "2026-10-29",
+ "generated": "2026-10-31T09:50:01",
+ "no_bill": "measurement only: published faces are re-read and their published multipliers are compared on one axis. No shuffle stream is drawn, no band rebuilt, no engine runs. A verdict is a statement about what the family has already published, not about the market and not about what a bigger draw budget would eventually buy.",
+ "source_faces": [
+  "BANDGAPCEILING-2026-10-29.json",
+  "BANDWINMULT-2026-10-29.json",
+  "BANDTOPFLIP-2026-10-29.json",
+  "BANDFLIPBUDGET-2026-10-29.json",
+  "BANDFLOOR-2026-10-29.json",
+  "BANDDISAGREE-2026-10-29.json"
+ ],
+ "frozen_spec": {
+  "D1_axis": "only a band-edge multiplier is comparable to m_flip (b = edge * m); a spread ratio, a relative tolerance in pct, or an absolute edge is off-axis and is never compared",
+  "D2_direction": "requirements and supplies are separate populations; only supplies bound reach",
+  "D3_basis": "the verdict is taken at the conservative (central) supply reading; the optimistic (most extreme single seed) reading is published beside it and the rows it adds are named",
+  "D4_reach": "a widening row is reached iff flip <= cap; shortfall = flip / cap, so a factor above 1 is the widening still missing",
+  "D5_ceiling": "the family ceiling is read off the source summary AND asserted equal to the widest published arm top, so 'one ceiling' is measured",
+  "D6_scope": "the question is widening reach above the ceiling; the narrowing instrument's reach is published for the below-floor card and no verdict is taken on it here",
+  "tolerance": 1e-12,
+  "verdict_vocab": [
+   "published_supply_reaches_a_row_above_the_published_ceiling",
+   "published_supply_reaches_the_gap_rows_only",
+   "no_published_supply_reaches_any_row_beyond_the_published_tails"
+  ]
+ },
+ "axis_manifest": [
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "quantity": "edge(top draws) / edge(published draws), per published window x base",
+   "axis": "band_edge_multiplier",
+   "direction": "widen",
+   "usable_as_supply": true,
+   "basis_note": "median over seeds is the central reading; multiplier_max/_min are single seeds"
+  },
+  {
+   "face": "BANDTOPFLIP-2026-10-29.json",
+   "quantity": "E257's borrowed ladder range (same edge multiplier, applied as a range)",
+   "axis": "band_edge_multiplier",
+   "direction": "widen",
+   "usable_as_supply": true,
+   "basis_note": "summary median / min / max of the borrowed range"
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "quantity": "published p05/p95 tail ranges across cells, in multiplier units",
+   "axis": "band_edge_multiplier",
+   "direction": "widen",
+   "usable_as_supply": false,
+   "basis_note": "circular: E285's ceiling IS the widest arm top of this face"
+  },
+  {
+   "face": "BANDFLOOR-2026-10-29.json",
+   "quantity": "counterfactual 5 pct band's own edge multiplier (lo_top / lo_base)",
+   "axis": "band_edge_multiplier",
+   "direction": "narrow",
+   "usable_as_supply": true,
+   "basis_note": "a single published counterfactual, no seed scatter published"
+  },
+  {
+   "face": "BANDDISAGREE-2026-10-29.json",
+   "quantity": "per-row flip_multiplier (a requirement, restated on another face)",
+   "axis": "band_edge_multiplier",
+   "direction": "demand",
+   "usable_as_supply": false,
+   "basis_note": "requirements are the thing being reached, not a supply"
+  },
+  {
+   "face": "BANDDEFLATE-2026-10-29.json",
+   "quantity": "the degenerate reading's own published tail range (multiplier_min/max)",
+   "axis": "band_edge_multiplier",
+   "direction": "demand",
+   "usable_as_supply": false,
+   "basis_note": "a restatement of E272's tail range for the rows where the tail is degenerate; it also publishes a relative tolerance in pct, which is off-axis entirely"
+  },
+  {
+   "face": "BANDSUBSTITUTE-2026-10-29.json",
+   "quantity": "a normalised-gap threshold in spreads (may_go_as_high_as)",
+   "axis": "normalised_gap_threshold",
+   "direction": "none",
+   "usable_as_supply": false,
+   "basis_note": "not a band-edge multiplier: it is measured in spreads, and comparing it with a flip multiplier would be the parametrisation error this study exists to avoid"
+  }
+ ],
+ "supply_caps": {
+  "widen": {
+   "conservative": {
+    "cap": 1.8382513527582964,
+    "at": {
+     "face": "BANDWINMULT-2026-10-29.json",
+     "label": "early_three|60",
+     "basis": "central"
+    }
+   },
+   "optimistic": {
+    "cap": 2.245734429868289,
+    "at": {
+     "face": "BANDWINMULT-2026-10-29.json",
+     "label": "early_three|60",
+     "basis": "extreme"
+    }
+   },
+   "optimistic_adds": 0.40748307711
+  },
+  "narrow": {
+   "conservative": {
+    "cap": 0.9220216139981448,
+    "at": {
+     "face": "BANDFLOOR-2026-10-29.json",
+     "label": "counterfactual_band",
+     "basis": "central"
+    }
+   },
+   "optimistic": {
+    "cap": 0.9220216139981448,
+    "at": {
+     "face": "BANDFLOOR-2026-10-29.json",
+     "label": "counterfactual_band",
+     "basis": "central"
+    }
+   },
+   "optimistic_adds": 0.0
+  }
+ },
+ "supply_readings": [
+  {
+   "face": "BANDFLOOR-2026-10-29.json",
+   "label": "counterfactual_band",
+   "direction": "narrow",
+   "basis": "central",
+   "cap": 0.9220216139981448,
+   "axis": "band_edge_multiplier",
+   "quantity": "lo_top / lo_base of the counterfactual 5 pct band",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDTOPFLIP-2026-10-29.json",
+   "label": "borrowed_range",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.0983237432239998,
+   "axis": "band_edge_multiplier",
+   "quantity": "borrowed ladder multiplier, published bottom",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "all_five|200",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.1046343939394732,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "all_five|60",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.1391851958933774,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "early_three|200",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.1120196931084714,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "early_three|60",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.4022025093409514,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2023_2024|200",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.2443697464873256,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2023_2024|60",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.3382959296771073,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2025_now|200",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.252505496521813,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2025_now|60",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.5777731687311436,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDDEFLATE-2026-10-29.json",
+   "label": "cross|200|1",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.0,
+   "axis": "band_edge_multiplier",
+   "quantity": "degenerate tail's published range",
+   "usable_as_supply": false,
+   "note": "circular/demand restatement of E272's tail range"
+  },
+  {
+   "face": "BANDDEFLATE-2026-10-29.json",
+   "label": "cross|200|12",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.0,
+   "axis": "band_edge_multiplier",
+   "quantity": "degenerate tail's published range",
+   "usable_as_supply": false,
+   "note": "circular/demand restatement of E272's tail range"
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "label": "cross:200|tight",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.0,
+   "axis": "band_edge_multiplier",
+   "quantity": "published p05 range across cells",
+   "usable_as_supply": false,
+   "note": "circular: this is the range E285's ceiling was read off"
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "label": "cross:200|wide",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.7815713243912,
+   "axis": "band_edge_multiplier",
+   "quantity": "published p95 range across cells",
+   "usable_as_supply": false,
+   "note": "circular: this is the range E285's ceiling was read off"
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "label": "cross:60|tight",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.1008218707620367,
+   "axis": "band_edge_multiplier",
+   "quantity": "published p05 range across cells",
+   "usable_as_supply": false,
+   "note": "circular: this is the range E285's ceiling was read off"
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "label": "cross:60|wide",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 2.2963286417094975,
+   "axis": "band_edge_multiplier",
+   "quantity": "published p95 range across cells",
+   "usable_as_supply": false,
+   "note": "circular: this is the range E285's ceiling was read off"
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "label": "self:200|tight",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.068797342014263,
+   "axis": "band_edge_multiplier",
+   "quantity": "published p05 range across cells",
+   "usable_as_supply": false,
+   "note": "circular: this is the range E285's ceiling was read off"
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "label": "self:200|wide",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.7185953310281559,
+   "axis": "band_edge_multiplier",
+   "quantity": "published p95 range across cells",
+   "usable_as_supply": false,
+   "note": "circular: this is the range E285's ceiling was read off"
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "label": "self:60|tight",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.1064853190231985,
+   "axis": "band_edge_multiplier",
+   "quantity": "published p05 range across cells",
+   "usable_as_supply": false,
+   "note": "circular: this is the range E285's ceiling was read off"
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "label": "self:60|wide",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 2.1808219171985748,
+   "axis": "band_edge_multiplier",
+   "quantity": "published p95 range across cells",
+   "usable_as_supply": false,
+   "note": "circular: this is the range E285's ceiling was read off"
+  },
+  {
+   "face": "BANDTOPFLIP-2026-10-29.json",
+   "label": "borrowed_range",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.2323333287536493,
+   "axis": "band_edge_multiplier",
+   "quantity": "borrowed ladder multiplier, median",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDTOPFLIP-2026-10-29.json",
+   "label": "borrowed_range",
+   "direction": "widen",
+   "basis": "extreme",
+   "cap": 1.6634829352378064,
+   "axis": "band_edge_multiplier",
+   "quantity": "borrowed ladder multiplier, published top",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "all_five|200",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.3166618466295334,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), median over seeds",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "all_five|200",
+   "direction": "widen",
+   "basis": "extreme",
+   "cap": 1.3369005899072757,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single best seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "all_five|60",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.4985023392867785,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), median over seeds",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "all_five|60",
+   "direction": "widen",
+   "basis": "extreme",
+   "cap": 1.6651308048472273,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single best seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "early_three|200",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.266933019429098,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), median over seeds",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "early_three|200",
+   "direction": "widen",
+   "basis": "extreme",
+   "cap": 1.717145349746085,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single best seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "early_three|60",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.8382513527582964,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), median over seeds",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "early_three|60",
+   "direction": "widen",
+   "basis": "extreme",
+   "cap": 2.245734429868289,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single best seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2023_2024|200",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.2977190390443012,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), median over seeds",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2023_2024|200",
+   "direction": "widen",
+   "basis": "extreme",
+   "cap": 1.425368758060526,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single best seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2023_2024|60",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.4731822958792595,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), median over seeds",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2023_2024|60",
+   "direction": "widen",
+   "basis": "extreme",
+   "cap": 1.6180914021424722,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single best seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2025_now|200",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.335239761130158,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), median over seeds",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2025_now|200",
+   "direction": "widen",
+   "basis": "extreme",
+   "cap": 1.3946947449418323,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single best seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2025_now|60",
+   "direction": "widen",
+   "basis": "central",
+   "cap": 1.6441450852416506,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), median over seeds",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2025_now|60",
+   "direction": "widen",
+   "basis": "extreme",
+   "cap": 1.6661891111598466,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single best seed",
+   "usable_as_supply": true,
+   "note": null
+  }
+ ],
+ "off_axis_readings": [
+  {
+   "face": "BANDDEFLATE-2026-10-29.json",
+   "label": "tolerance_band.lower_pct",
+   "value": 63.025614960544814,
+   "reason": "a relative tolerance in percent, not a band-edge multiplier: it prices how loose a test must be before the reading fires, and a looser test is not a wider band"
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "multiplier_spread.ratio_max_over_min",
+   "value": 1.450945965230778,
+   "reason": "the ratio of two multipliers (how far the multiplier moves across windows), not itself a multiplier of any band"
+  },
+  {
+   "face": "BANDSUBSTITUTE-2026-10-29.json",
+   "label": "scope_bracket.may_go_as_high_as",
+   "value": 2.0327296874755554,
+   "reason": "a threshold on the normalised gap measured in spreads, not a band-edge multiplier"
+  }
+ ],
+ "rows": [
+  {
+   "row_key": "cross|200|1",
+   "class": "above_ceiling",
+   "flip": 2.704575069829843,
+   "direction": "widen",
+   "conservative": {
+    "cap": 1.8382513527582964,
+    "reached": false,
+    "shortfall_factor": 1.4712759850668016
+   },
+   "optimistic": {
+    "cap": 2.245734429868289,
+    "reached": false,
+    "shortfall_factor": 1.2043165183999358
+   },
+   "reached_any": false,
+   "reached_conservative": false
+  },
+  {
+   "row_key": "star_lag1_residual|200|12",
+   "class": "above_ceiling",
+   "flip": 3.254381491424318,
+   "direction": "widen",
+   "conservative": {
+    "cap": 1.8382513527582964,
+    "reached": false,
+    "shortfall_factor": 1.7703680655755363
+   },
+   "optimistic": {
+    "cap": 2.245734429868289,
+    "reached": false,
+    "shortfall_factor": 1.4491390647714233
+   },
+   "reached_any": false,
+   "reached_conservative": false
+  },
+  {
+   "row_key": "cross|60|7",
+   "class": "above_ceiling",
+   "flip": 2.4587098314134175,
+   "direction": "widen",
+   "conservative": {
+    "cap": 1.8382513527582964,
+    "reached": false,
+    "shortfall_factor": 1.3375264637907776
+   },
+   "optimistic": {
+    "cap": 2.245734429868289,
+    "reached": false,
+    "shortfall_factor": 1.0948355240550947
+   },
+   "reached_any": false,
+   "reached_conservative": false
+  },
+  {
+   "row_key": "star_lag1_residual|60|14",
+   "class": "above_ceiling",
+   "flip": 2.380091359569827,
+   "direction": "widen",
+   "conservative": {
+    "cap": 1.8382513527582964,
+    "reached": false,
+    "shortfall_factor": 1.2947583887255132
+   },
+   "optimistic": {
+    "cap": 2.245734429868289,
+    "reached": false,
+    "shortfall_factor": 1.0598276127019248
+   },
+   "reached_any": false,
+   "reached_conservative": false
+  },
+  {
+   "row_key": "self|200|0",
+   "class": "above_ceiling",
+   "flip": 2.331054649806725,
+   "direction": "widen",
+   "conservative": {
+    "cap": 1.8382513527582964,
+    "reached": false,
+    "shortfall_factor": 1.268082651650971
+   },
+   "optimistic": {
+    "cap": 2.245734429868289,
+    "reached": false,
+    "shortfall_factor": 1.0379921235581893
+   },
+   "reached_any": false,
+   "reached_conservative": false
+  },
+  {
+   "row_key": "self|60|6",
+   "class": "above_ceiling",
+   "flip": 2.6675958294079174,
+   "direction": "widen",
+   "conservative": {
+    "cap": 1.8382513527582964,
+    "reached": false,
+    "shortfall_factor": 1.451159454013288
+   },
+   "optimistic": {
+    "cap": 2.245734429868289,
+    "reached": false,
+    "shortfall_factor": 1.1878500832194883
+   },
+   "reached_any": false,
+   "reached_conservative": false
+  },
+  {
+   "row_key": "cross|60|11",
+   "class": "in_gap",
+   "flip": 1.8029783974819489,
+   "direction": "widen",
+   "conservative": {
+    "cap": 1.8382513527582964,
+    "reached": true,
+    "shortfall_factor": null
+   },
+   "optimistic": {
+    "cap": 2.245734429868289,
+    "reached": true,
+    "shortfall_factor": null
+   },
+   "reached_any": true,
+   "reached_conservative": true
+  },
+  {
+   "row_key": "star_lag1_residual|60|15",
+   "class": "in_gap",
+   "flip": 1.88430768682915,
+   "direction": "widen",
+   "conservative": {
+    "cap": 1.8382513527582964,
+    "reached": false,
+    "shortfall_factor": 1.0250544268615638
+   },
+   "optimistic": {
+    "cap": 2.245734429868289,
+    "reached": true,
+    "shortfall_factor": null
+   },
+   "reached_any": true,
+   "reached_conservative": false
+  },
+  {
+   "row_key": "self|60|8",
+   "class": "below_floor",
+   "flip": 0.8893869568794188,
+   "direction": "narrow",
+   "conservative": {
+    "cap": 0.9220216139981448,
+    "reached": false,
+    "shortfall_factor": 1.0366934289583363
+   },
+   "optimistic": {
+    "cap": 0.9220216139981448,
+    "reached": false,
+    "shortfall_factor": 1.0366934289583363
+   },
+   "reached_any": false,
+   "reached_conservative": false
+  },
+  {
+   "row_key": "self|60|10",
+   "class": "below_floor",
+   "flip": 0.6303939055900345,
+   "direction": "narrow",
+   "conservative": {
+    "cap": 0.9220216139981448,
+    "reached": false,
+    "shortfall_factor": 1.4626118777832302
+   },
+   "optimistic": {
+    "cap": 0.9220216139981448,
+    "reached": false,
+    "shortfall_factor": 1.4626118777832302
+   },
+   "reached_any": false,
+   "reached_conservative": false
+  }
+ ],
+ "demand_identity": {
+  "n_joined": 10,
+  "max_abs_diff": 0.0,
+  "agree": true,
+  "published_by_other_face": 12,
+  "ceiling_equals_widest_published_arm_top": true,
+  "ceiling_arms": {
+   "cross:200": 1.7815713243912,
+   "cross:60": 2.2963286417094975,
+   "self:200": 1.7185953310281559,
+   "self:60": 2.1808219171985748
+  },
+  "n_arm_tops_below_the_family_ceiling": 3,
+  "rows_are_the_e285_unreached_set": true,
+  "no_reading_above_the_ceiling_except_the_circular_one": true
+ },
+ "discovery": {
+  "frozen_from": "BANDSUPPLY-2026-10-29.json",
+  "generated": null,
+  "faces_used": 7,
+  "faces_in_directory_now": 6,
+  "faces_excluded_as_later": [],
+  "rule": "a face re-derives against the universe that existed when it published; only a new run widens it, and that run publishes a new stamp",
+  "faces_scanned": 153,
+  "dated_faces_with_a_multiplier_key": [
+   "BANDDEFLATE-2026-10-29.json",
+   "BANDDISAGREE-2026-10-29.json",
+   "BANDFLIPBUDGET-2026-10-29.json",
+   "BANDFLOOR-2026-10-29.json",
+   "BANDTOPFLIP-2026-10-29.json",
+   "BANDWINMULT-2026-10-29.json"
+  ],
+  "faces_declared": [
+   "BANDWINMULT-2026-10-29.json",
+   "BANDTOPFLIP-2026-10-29.json",
+   "BANDFLIPBUDGET-2026-10-29.json",
+   "BANDFLOOR-2026-10-29.json",
+   "BANDDISAGREE-2026-10-29.json",
+   "BANDDEFLATE-2026-10-29.json",
+   "BANDSUBSTITUTE-2026-10-29.json"
+  ],
+  "faces_used_names": [
+   "BANDWINMULT-2026-10-29.json",
+   "BANDTOPFLIP-2026-10-29.json",
+   "BANDFLIPBUDGET-2026-10-29.json",
+   "BANDFLOOR-2026-10-29.json",
+   "BANDDISAGREE-2026-10-29.json",
+   "BANDDEFLATE-2026-10-29.json",
+   "BANDSUBSTITUTE-2026-10-29.json"
+  ],
+  "faces_declared_but_missing": [],
+  "mirrors_excluded": [
+   "banddeflate_latest.json",
+   "banddisagree_latest.json",
+   "bandflipbudget_latest.json",
+   "bandfloor_latest.json",
+   "bandtopflip_latest.json",
+   "bandwinmult_latest.json"
+  ],
+  "unclassified_faces": [],
+  "census_complete": true,
+  "note": "frozen to the declared manifest: a dated face carrying a multiplier key that is not declared is disclosed as excluded-as-later, never silently added to the caps and never silently dropped"
+ },
+ "summary": {
+  "ceiling": 2.2963286417094975,
+  "floor": 1.0,
+  "n_supply_readings": 38,
+  "n_supply_readings_used": 28,
+  "n_supply_readings_rejected": 10,
+  "n_off_axis_refused": 3,
+  "widen_cap_conservative": 1.8382513527582964,
+  "widen_cap_optimistic": 2.245734429868289,
+  "widen_cap_conservative_at": {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "early_three|60",
+   "basis": "central"
+  },
+  "widen_cap_optimistic_at": {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "early_three|60",
+   "basis": "extreme"
+  },
+  "narrow_cap_conservative": 0.9220216139981448,
+  "narrow_cap_optimistic": 0.9220216139981448,
+  "optimistic_adds_multiplier": 0.40748307711,
+  "ceiling_over_optimistic_cap": 1.022529027105033,
+  "reach_by_class": {
+   "above_ceiling": {
+    "n_rows": 6,
+    "n_reached_conservative": 0,
+    "n_reached_optimistic": 0,
+    "rows": [
+     {
+      "row_key": "cross|200|1",
+      "flip": 2.704575069829843,
+      "direction": "widen",
+      "reached_conservative": false,
+      "reached_optimistic": false,
+      "shortfall_factor_conservative": 1.4712759850668016,
+      "shortfall_factor_optimistic": 1.2043165183999358
+     },
+     {
+      "row_key": "star_lag1_residual|200|12",
+      "flip": 3.254381491424318,
+      "direction": "widen",
+      "reached_conservative": false,
+      "reached_optimistic": false,
+      "shortfall_factor_conservative": 1.7703680655755363,
+      "shortfall_factor_optimistic": 1.4491390647714233
+     },
+     {
+      "row_key": "cross|60|7",
+      "flip": 2.4587098314134175,
+      "direction": "widen",
+      "reached_conservative": false,
+      "reached_optimistic": false,
+      "shortfall_factor_conservative": 1.3375264637907776,
+      "shortfall_factor_optimistic": 1.0948355240550947
+     },
+     {
+      "row_key": "star_lag1_residual|60|14",
+      "flip": 2.380091359569827,
+      "direction": "widen",
+      "reached_conservative": false,
+      "reached_optimistic": false,
+      "shortfall_factor_conservative": 1.2947583887255132,
+      "shortfall_factor_optimistic": 1.0598276127019248
+     },
+     {
+      "row_key": "self|200|0",
+      "flip": 2.331054649806725,
+      "direction": "widen",
+      "reached_conservative": false,
+      "reached_optimistic": false,
+      "shortfall_factor_conservative": 1.268082651650971,
+      "shortfall_factor_optimistic": 1.0379921235581893
+     },
+     {
+      "row_key": "self|60|6",
+      "flip": 2.6675958294079174,
+      "direction": "widen",
+      "reached_conservative": false,
+      "reached_optimistic": false,
+      "shortfall_factor_conservative": 1.451159454013288,
+      "shortfall_factor_optimistic": 1.1878500832194883
+     }
+    ]
+   },
+   "in_gap": {
+    "n_rows": 2,
+    "n_reached_conservative": 1,
+    "n_reached_optimistic": 2,
+    "rows": [
+     {
+      "row_key": "cross|60|11",
+      "flip": 1.8029783974819489,
+      "direction": "widen",
+      "reached_conservative": true,
+      "reached_optimistic": true,
+      "shortfall_factor_conservative": null,
+      "shortfall_factor_optimistic": null
+     },
+     {
+      "row_key": "star_lag1_residual|60|15",
+      "flip": 1.88430768682915,
+      "direction": "widen",
+      "reached_conservative": false,
+      "reached_optimistic": true,
+      "shortfall_factor_conservative": 1.0250544268615638,
+      "shortfall_factor_optimistic": null
+     }
+    ]
+   },
+   "below_floor": {
+    "n_rows": 2,
+    "n_reached_conservative": 0,
+    "n_reached_optimistic": 0,
+    "rows": [
+     {
+      "row_key": "self|60|8",
+      "flip": 0.8893869568794188,
+      "direction": "narrow",
+      "reached_conservative": false,
+      "reached_optimistic": false,
+      "shortfall_factor_conservative": 1.0366934289583363,
+      "shortfall_factor_optimistic": 1.0366934289583363
+     },
+     {
+      "row_key": "self|60|10",
+      "flip": 0.6303939055900345,
+      "direction": "narrow",
+      "reached_conservative": false,
+      "reached_optimistic": false,
+      "shortfall_factor_conservative": 1.4626118777832302,
+      "shortfall_factor_optimistic": 1.4626118777832302
+     }
+    ]
+   }
+  },
+  "nearest_above_ceiling": {
+   "row_key": "self|200|0",
+   "flip": 2.331054649806725,
+   "all_rows_reached_at_optimistic": false,
+   "n_rows_not_reached_at_optimistic": 6,
+   "shortfall_factor_optimistic": 1.0379921235581893,
+   "pct_short": 3.799212355818926
+  },
+  "nearest_gap": {
+   "row_key": null,
+   "all_rows_reached_at_optimistic": true,
+   "n_rows": 2,
+   "shortfall_factor_optimistic": null,
+   "pct_short": null
+  },
+  "nearest_below_floor": {
+   "row_key": "self|60|8",
+   "flip": 0.8893869568794188,
+   "all_rows_reached_at_optimistic": false,
+   "n_rows_not_reached_at_optimistic": 2,
+   "shortfall_factor_optimistic": 1.0366934289583363,
+   "pct_short": 3.669342895833627
+  },
+  "n_classes_examined": 3,
+  "verdict": "published_supply_reaches_the_gap_rows_only"
+ },
+ "verdict": "published_supply_reaches_the_gap_rows_only",
+ "verdict_reason": "no sibling publishes a band-edge multiplier above the family ceiling 2.296329 (supply top: 1.838251 central / 2.245734 at a single seed), so none of the 6 above-ceiling row(s) is reachable by anything already published; the nearest above-ceiling row (self|200|0, flip 2.331055) is still 3.799212 pct short of the optimistic cap; on the opposite polarity the published narrowing instrument (0.922022) is 3.669343 pct short of the nearest below-floor row (self|60|8, flip 0.889387), so neither margin is closed by anything already published; the published supplies do reach 2 of 2 gap row(s) -- 1 at the conservative cap, 2 only at the single best seed -- so the gap is the one place existing supply could pay."
+}

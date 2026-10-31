@@ -1,0 +1,652 @@
+{
+ "study": "E293_duplicate_list_census",
+ "title": "which published faces carry literally duplicated lists, is the copy schema-driven or accidental, and does any number in an enclosing scope count the copies twice?",
+ "evidence_cutoff": "2026-10-29",
+ "generated": "2026-10-31T09:04:25",
+ "no_bill": "measurement only: the dated BAND faces are re-read and the lists already published in them are grouped by content. No draw stream is drawn, no band rebuilt, no engine runs, no verdict about the market. A verdict here is a statement about the published JSON, its shapes and its duplicate content.",
+ "source_faces": [
+  "BANDAMBIENT-2026-10-29.json"
+ ],
+ "faces_censused": [
+  "BANDARRIVAL-2026-10-29.json",
+  "BANDARRIVALATE-2026-10-29.json",
+  "BANDBUCKET-2026-10-29.json",
+  "BANDDEFLATE-2026-10-29.json",
+  "BANDDISAGREE-2026-10-29.json",
+  "BANDDISAGREESCOPE-2026-10-29.json",
+  "BANDDONORCHOICE-2026-10-29.json",
+  "BANDDRAW-2026-10-29-d1920.json",
+  "BANDDRAW-2026-10-29-d960.json",
+  "BANDDRAW-2026-10-29.json",
+  "BANDEXP-2026-10-29.json",
+  "BANDFIELDS-2026-10-29.json",
+  "BANDFLIPBUDGET-2026-10-29.json",
+  "BANDFLOOR-2026-10-29.json",
+  "BANDGAPCEILING-2026-10-29.json",
+  "BANDMARGIN-2026-10-29.json",
+  "BANDNEAR1-2026-10-29.json",
+  "BANDPATH-2026-10-29.json",
+  "BANDPATH-2026-10-30.json",
+  "BANDPOOLED-2026-10-29.json",
+  "BANDSCREEN-2026-10-29.json",
+  "BANDSCREENBUDGET-2026-10-29.json",
+  "BANDSPREADFLOOR-2026-10-29.json",
+  "BANDSTRADDLESWEEP-2026-10-29.json",
+  "BANDSUBSTITUTE-2026-10-29.json",
+  "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+  "BANDTHRESHGUARD-2026-10-29.json",
+  "BANDTIGHT-2026-10-29.json",
+  "BANDTOPFLIP-2026-10-29.json",
+  "BANDTRANSFER-2026-10-29.json",
+  "BANDWINDIST-2026-10-29.json",
+  "BANDWINMULT-2026-10-29.json"
+ ],
+ "universe_vintage": {
+  "frozen_from": null,
+  "generated": null,
+  "faces_used": 32,
+  "faces_in_directory_now": 32,
+  "faces_excluded_as_later": [],
+  "rule": "a face re-derives against the universe that existed when it published; only a new run widens it, and that run publishes a new stamp"
+ },
+ "frozen_spec": {
+  "D1_unit_is_the_list_not_the_pair": "two aliases are one group; three are still one group",
+  "D2_only_the_strict_sum_test_convicts": "loose candidates are disclosed with a coincidence flag and never enter the verdict",
+  "D3_shape_is_measured": "schema-driven is a claim about where the copies sit, read from paths",
+  "D4_no_reburn": "published faces re-read only; no draw stream, no band rebuild, no engine",
+  "small_coincidence_threshold": 5,
+  "verdict_vocab": [
+   "no_published_face_repeats_list_content_so_no_alias_exists",
+   "every_alias_is_a_schema_copy_and_no_scope_counts_one_twice",
+   "some_aliases_are_accidental_copies_but_no_scope_counts_one_twice",
+   "a_count_in_an_enclosing_scope_equals_the_alias_total_so_the_duplicate_is_counted_twice"
+  ]
+ },
+ "groups": [
+  {
+   "face": "BANDDISAGREESCOPE-2026-10-29.json",
+   "unit": "labels",
+   "members": [
+    {
+     "path": "sweep.label_universe.faces[0].labels",
+     "length": 3
+    },
+    {
+     "path": "sweep.label_universe.labels",
+     "length": 3
+    }
+   ],
+   "n_members": 2,
+   "length": 3,
+   "lengths_seen": [
+    3
+   ],
+   "shape": "scattered",
+   "scope": null,
+   "scopes": [
+    "sweep.label_universe.faces.labels",
+    "sweep.label_universe.labels"
+   ],
+   "enclosing_scope": null,
+   "pairs": 1,
+   "strict_sum_joins": [],
+   "loose_joins": [],
+   "counts_one_twice": false
+  },
+  {
+   "face": "BANDDONORCHOICE-2026-10-29.json",
+   "unit": "cells",
+   "members": [
+    {
+     "path": "groups.cross:200.cells",
+     "length": 4
+    },
+    {
+     "path": "groups.cross:60.cells",
+     "length": 4
+    },
+    {
+     "path": "groups.self:200.cells",
+     "length": 4
+    },
+    {
+     "path": "groups.self:60.cells",
+     "length": 4
+    }
+   ],
+   "n_members": 4,
+   "length": 4,
+   "lengths_seen": [
+    4
+   ],
+   "shape": "parallel_slot_across_arms",
+   "scope": null,
+   "scopes": [
+    "groups.cross:200.cells",
+    "groups.cross:60.cells",
+    "groups.self:200.cells",
+    "groups.self:60.cells"
+   ],
+   "enclosing_scope": null,
+   "pairs": 6,
+   "strict_sum_joins": [],
+   "loose_joins": [],
+   "counts_one_twice": false
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "unit": "cells",
+   "members": [
+    {
+     "path": "tail_budget.cross:200.tight_range.cells",
+     "length": 4
+    },
+    {
+     "path": "tail_budget.cross:200.wide_range.cells",
+     "length": 4
+    },
+    {
+     "path": "tail_budget.cross:60.tight_range.cells",
+     "length": 4
+    },
+    {
+     "path": "tail_budget.cross:60.wide_range.cells",
+     "length": 4
+    },
+    {
+     "path": "tail_budget.self:200.tight_range.cells",
+     "length": 4
+    },
+    {
+     "path": "tail_budget.self:200.wide_range.cells",
+     "length": 4
+    },
+    {
+     "path": "tail_budget.self:60.tight_range.cells",
+     "length": 4
+    },
+    {
+     "path": "tail_budget.self:60.wide_range.cells",
+     "length": 4
+    }
+   ],
+   "n_members": 8,
+   "length": 4,
+   "lengths_seen": [
+    4
+   ],
+   "shape": "parallel_slot_across_arms",
+   "scope": null,
+   "scopes": [
+    "tail_budget.cross:200.tight_range.cells",
+    "tail_budget.cross:200.wide_range.cells",
+    "tail_budget.cross:60.tight_range.cells",
+    "tail_budget.cross:60.wide_range.cells",
+    "tail_budget.self:200.tight_range.cells",
+    "tail_budget.self:200.wide_range.cells",
+    "tail_budget.self:60.tight_range.cells",
+    "tail_budget.self:60.wide_range.cells"
+   ],
+   "enclosing_scope": null,
+   "pairs": 28,
+   "strict_sum_joins": [],
+   "loose_joins": [
+    {
+     "count_path": "tail_budget.cross:200.tight_range.n_cells",
+     "count_value": 4,
+     "matches": "member_length",
+     "coincidence_prone": true
+    },
+    {
+     "count_path": "tail_budget.cross:200.wide_range.n_cells",
+     "count_value": 4,
+     "matches": "member_length",
+     "coincidence_prone": true
+    },
+    {
+     "count_path": "tail_budget.cross:60.tight_range.n_cells",
+     "count_value": 4,
+     "matches": "member_length",
+     "coincidence_prone": true
+    },
+    {
+     "count_path": "tail_budget.cross:60.wide_range.n_cells",
+     "count_value": 4,
+     "matches": "member_length",
+     "coincidence_prone": true
+    },
+    {
+     "count_path": "tail_budget.self:200.tight_range.n_cells",
+     "count_value": 4,
+     "matches": "member_length",
+     "coincidence_prone": true
+    },
+    {
+     "count_path": "tail_budget.self:200.wide_range.n_cells",
+     "count_value": 4,
+     "matches": "member_length",
+     "coincidence_prone": true
+    },
+    {
+     "count_path": "tail_budget.self:60.tight_range.n_cells",
+     "count_value": 4,
+     "matches": "member_length",
+     "coincidence_prone": true
+    },
+    {
+     "count_path": "tail_budget.self:60.wide_range.n_cells",
+     "count_value": 4,
+     "matches": "member_length",
+     "coincidence_prone": true
+    }
+   ],
+   "counts_one_twice": false
+  },
+  {
+   "face": "BANDNEAR1-2026-10-29.json",
+   "unit": "arms",
+   "members": [
+    {
+     "path": "borrowed_flip_check.moved_rows[0].arms",
+     "length": 1
+    },
+    {
+     "path": "borrowed_flip_check.moved_rows[1].arms",
+     "length": 1
+    },
+    {
+     "path": "borrowed_flip_check.moved_rows_inside_the_top3_closest[0].arms",
+     "length": 1
+    },
+    {
+     "path": "borrowed_flip_check.moved_rows_inside_the_top3_closest[1].arms",
+     "length": 1
+    }
+   ],
+   "n_members": 4,
+   "length": 1,
+   "lengths_seen": [
+    1
+   ],
+   "shape": "scattered",
+   "scope": null,
+   "scopes": [
+    "borrowed_flip_check.moved_rows.arms",
+    "borrowed_flip_check.moved_rows_inside_the_top3_closest.arms"
+   ],
+   "enclosing_scope": null,
+   "pairs": 6,
+   "strict_sum_joins": [],
+   "loose_joins": [],
+   "counts_one_twice": false
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "unit": "cells",
+   "members": [
+    {
+     "path": "dominator_tight.cross:200.cells",
+     "length": 4
+    },
+    {
+     "path": "dominator_tight.cross:60.cells",
+     "length": 4
+    },
+    {
+     "path": "dominator_tight.self:200.cells",
+     "length": 4
+    },
+    {
+     "path": "dominator_tight.self:60.cells",
+     "length": 4
+    },
+    {
+     "path": "summary.dominators_wide.cross:200.cells",
+     "length": 4
+    },
+    {
+     "path": "summary.dominators_wide.cross:60.cells",
+     "length": 4
+    },
+    {
+     "path": "summary.dominators_wide.self:200.cells",
+     "length": 4
+    },
+    {
+     "path": "summary.dominators_wide.self:60.cells",
+     "length": 4
+    },
+    {
+     "path": "transfer_tight.cross:200.cells",
+     "length": 4
+    },
+    {
+     "path": "transfer_tight.cross:60.cells",
+     "length": 4
+    },
+    {
+     "path": "transfer_tight.self:200.cells",
+     "length": 4
+    },
+    {
+     "path": "transfer_tight.self:60.cells",
+     "length": 4
+    }
+   ],
+   "n_members": 12,
+   "length": 4,
+   "lengths_seen": [
+    4
+   ],
+   "shape": "scattered",
+   "scope": null,
+   "scopes": [
+    "dominator_tight.cross:200.cells",
+    "dominator_tight.cross:60.cells",
+    "dominator_tight.self:200.cells",
+    "dominator_tight.self:60.cells",
+    "summary.dominators_wide.cross:200.cells",
+    "summary.dominators_wide.cross:60.cells",
+    "summary.dominators_wide.self:200.cells",
+    "summary.dominators_wide.self:60.cells",
+    "transfer_tight.cross:200.cells",
+    "transfer_tight.cross:60.cells",
+    "transfer_tight.self:200.cells",
+    "transfer_tight.self:60.cells"
+   ],
+   "enclosing_scope": null,
+   "pairs": 66,
+   "strict_sum_joins": [],
+   "loose_joins": [
+    {
+     "count_path": "summary.rows_insensitive_to_observed_p05_range",
+     "count_value": 12,
+     "matches": "member_count",
+     "coincidence_prone": false
+    },
+    {
+     "count_path": "summary.rows_measured",
+     "count_value": 12,
+     "matches": "member_count",
+     "coincidence_prone": false
+    },
+    {
+     "count_path": "summary.tight_rows_measured",
+     "count_value": 12,
+     "matches": "member_count",
+     "coincidence_prone": false
+    }
+   ],
+   "counts_one_twice": false
+  },
+  {
+   "face": "BANDTRANSFER-2026-10-29.json",
+   "unit": "cells",
+   "members": [
+    {
+     "path": "dominator.cross:200.cells",
+     "length": 4
+    },
+    {
+     "path": "dominator.cross:60.cells",
+     "length": 4
+    },
+    {
+     "path": "dominator.self:200.cells",
+     "length": 4
+    },
+    {
+     "path": "dominator.self:60.cells",
+     "length": 4
+    },
+    {
+     "path": "transfer.cross:200.cells",
+     "length": 4
+    },
+    {
+     "path": "transfer.cross:60.cells",
+     "length": 4
+    },
+    {
+     "path": "transfer.self:200.cells",
+     "length": 4
+    },
+    {
+     "path": "transfer.self:60.cells",
+     "length": 4
+    }
+   ],
+   "n_members": 8,
+   "length": 4,
+   "lengths_seen": [
+    4
+   ],
+   "shape": "scattered",
+   "scope": null,
+   "scopes": [
+    "dominator.cross:200.cells",
+    "dominator.cross:60.cells",
+    "dominator.self:200.cells",
+    "dominator.self:60.cells",
+    "transfer.cross:200.cells",
+    "transfer.cross:60.cells",
+    "transfer.self:200.cells",
+    "transfer.self:60.cells"
+   ],
+   "enclosing_scope": null,
+   "pairs": 28,
+   "strict_sum_joins": [],
+   "loose_joins": [],
+   "counts_one_twice": false
+  }
+ ],
+ "identity_check": {
+  "every_group_has_two_members": true,
+  "every_group_members_are_distinct_paths": true,
+  "every_group_members_share_content": true,
+  "pairs_match_e291_alias_count": true,
+  "shape_partition": true,
+  "schema_plus_accidental_partition": true,
+  "self_faces_absent_from_universe": true,
+  "predecessor_faces_absent_from_universe": true,
+  "convictions_are_all_strict": true
+ },
+ "summary": {
+  "faces_censused": 32,
+  "alias_groups": 6,
+  "alias_members": 38,
+  "alias_member_share_of_all_lists": 0.26573426573426573,
+  "faces_with_an_alias": 6,
+  "top_faces": [
+   [
+    "BANDDISAGREESCOPE-2026-10-29.json",
+    1
+   ],
+   [
+    "BANDDONORCHOICE-2026-10-29.json",
+    1
+   ],
+   [
+    "BANDFLIPBUDGET-2026-10-29.json",
+    1
+   ],
+   [
+    "BANDNEAR1-2026-10-29.json",
+    1
+   ],
+   [
+    "BANDTIGHT-2026-10-29.json",
+    1
+   ]
+  ],
+  "top_units": [
+   [
+    "cells",
+    4
+   ],
+   [
+    "labels",
+    1
+   ],
+   [
+    "arms",
+    1
+   ]
+  ],
+  "shape_counts": {
+   "same_slot_across_arms": 0,
+   "parallel_slot_across_arms": 2,
+   "scattered": 4
+  },
+  "schema_driven_groups": 2,
+  "accidental_groups": 4,
+  "accidental_examples": [
+   {
+    "face": "BANDDISAGREESCOPE-2026-10-29.json",
+    "unit": "labels",
+    "members": [
+     {
+      "path": "sweep.label_universe.faces[0].labels",
+      "length": 3
+     },
+     {
+      "path": "sweep.label_universe.labels",
+      "length": 3
+     }
+    ]
+   },
+   {
+    "face": "BANDNEAR1-2026-10-29.json",
+    "unit": "arms",
+    "members": [
+     {
+      "path": "borrowed_flip_check.moved_rows[0].arms",
+      "length": 1
+     },
+     {
+      "path": "borrowed_flip_check.moved_rows[1].arms",
+      "length": 1
+     },
+     {
+      "path": "borrowed_flip_check.moved_rows_inside_the_top3_closest[0].arms",
+      "length": 1
+     },
+     {
+      "path": "borrowed_flip_check.moved_rows_inside_the_top3_closest[1].arms",
+      "length": 1
+     }
+    ]
+   },
+   {
+    "face": "BANDTIGHT-2026-10-29.json",
+    "unit": "cells",
+    "members": [
+     {
+      "path": "dominator_tight.cross:200.cells",
+      "length": 4
+     },
+     {
+      "path": "dominator_tight.cross:60.cells",
+      "length": 4
+     },
+     {
+      "path": "dominator_tight.self:200.cells",
+      "length": 4
+     },
+     {
+      "path": "dominator_tight.self:60.cells",
+      "length": 4
+     },
+     {
+      "path": "summary.dominators_wide.cross:200.cells",
+      "length": 4
+     },
+     {
+      "path": "summary.dominators_wide.cross:60.cells",
+      "length": 4
+     },
+     {
+      "path": "summary.dominators_wide.self:200.cells",
+      "length": 4
+     },
+     {
+      "path": "summary.dominators_wide.self:60.cells",
+      "length": 4
+     },
+     {
+      "path": "transfer_tight.cross:200.cells",
+      "length": 4
+     },
+     {
+      "path": "transfer_tight.cross:60.cells",
+      "length": 4
+     },
+     {
+      "path": "transfer_tight.self:200.cells",
+      "length": 4
+     },
+     {
+      "path": "transfer_tight.self:60.cells",
+      "length": 4
+     }
+    ]
+   },
+   {
+    "face": "BANDTRANSFER-2026-10-29.json",
+    "unit": "cells",
+    "members": [
+     {
+      "path": "dominator.cross:200.cells",
+      "length": 4
+     },
+     {
+      "path": "dominator.cross:60.cells",
+      "length": 4
+     },
+     {
+      "path": "dominator.self:200.cells",
+      "length": 4
+     },
+     {
+      "path": "dominator.self:60.cells",
+      "length": 4
+     },
+     {
+      "path": "transfer.cross:200.cells",
+      "length": 4
+     },
+     {
+      "path": "transfer.cross:60.cells",
+      "length": 4
+     },
+     {
+      "path": "transfer.self:200.cells",
+      "length": 4
+     },
+     {
+      "path": "transfer.self:60.cells",
+      "length": 4
+     }
+    ]
+   }
+  ],
+  "strict_sum_test": {
+   "groups_tested": 6,
+   "convictions": 0,
+   "hits": [],
+   "test": "a number whose scope strictly encloses an alias group, whose value equals the total length of EVERY list of that unit in its own container, with the copies among those lists, was built by adding the copies up"
+  },
+  "loose_join": {
+   "candidates": 11,
+   "coincidence_prone": 8,
+   "note": "these match the alias member count or total, which small integers do by accident. They never enter the verdict (D2)."
+  },
+  "calibrated": false,
+  "all_lists_censused": 143,
+  "alias_pairs_recounted": 135,
+  "e291_alias_pairs_published": 135,
+  "verdict": "some_aliases_are_accidental_copies_but_no_scope_counts_one_twice"
+ },
+ "verdict": "some_aliases_are_accidental_copies_but_no_scope_counts_one_twice",
+ "verdict_reason": "6 alias group(s) over 6 of 32 censused faces, 38 list(s) in total (26.6 pct of all lists): 0 are the same slot repeated across arms, 2 sit at the same slot of sibling containers and 4 are scattered restatements; the strict sum test (a number equal to the total length of the lists in its own dict) convicted 0 of the 6 non-scattered groups; the loose join found 11 number(s) equal to a member count or alias total, 8 of them small enough to be coincidence and none of them evidence. Copying is not automatic -- BANDDISAGREESCOPE-2026-10-29.json restates labels at sweep.label_universe.faces[0].labels, which no arm schema forces -- but nothing that reads it totals the copies."
+}

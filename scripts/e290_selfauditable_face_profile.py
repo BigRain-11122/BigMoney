@@ -57,6 +57,7 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
 import e286_count_field_scope as e286  # noqa: E402  (the census this face is a profile OF)
+import e_band_family_vintage as vintage  # noqa: E402  (universe vintage freeze, E292)
 
 ROOT = e286.ROOT
 OUTDIR = e286.OUTDIR
@@ -177,10 +178,28 @@ def profile_row(rec, obj, field, lists_by_unit):
 
 
 # ------------------------------------------------------------------ build
+def _universe():
+    """The 32 faces E286's own census was published over (E292: a face is a vintage).
+
+    This profile of E286's census must be computed over the SAME universe that census covered. Reading
+    the live directory made every later sibling publication change this face's headline while E286's
+    frozen census stayed put, so the two stopped joining (smoke leg red on 2026-10-31).
+    """
+    live = [n for n in e286.face_universe() if n not in SELF_FACES]
+    stored, stored_from = vintage.published_names(OUTDIR, (SRC_FACE,), ("faces_censused",))
+    if not stored:
+        return live, vintage.note(live, [], len(live), None, None)
+    keep = set(live)
+    used = [n for n in stored if n in keep and n not in SELF_FACES]
+    note = vintage.note(used, sorted(set(live) - set(used)), len(live), stored_from, None)
+    note["faces_published_but_gone_from_disk"] = [n for n in stored if n not in keep]
+    return used, note
+
+
 def build():
     # E286's universe excludes E286's own faces; this study's face also starts with BAND, so it is
     # filtered here or the face censuses itself on its second run (E209/E211 family, third sighting).
-    names = [n for n in e286.face_universe() if n not in SELF_FACES]
+    names, universe_note = _universe()
     recs = [e286.analyse_face(n) for n in names]
     objs = {rec["face"]: load(rec["face"]) for rec in recs}
 
@@ -303,6 +322,7 @@ def build():
         "no_bill": NO_BILL,
         "source_faces": [SRC_FACE],
         "faces_censused": names,
+        "universe_vintage": universe_note,
         "frozen_spec": {
             "D1_shape_from_face_census_from_e286": "features are read off the published face object; "
                                                    "which counts are checkable is imported from "

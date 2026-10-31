@@ -49,6 +49,7 @@ if HERE not in sys.path:
 
 import e262_p95_transfer_across_windows as e262  # noqa: E402
 import e279_substitution_soundness as e279  # noqa: E402  (tail reading + D2/D3, reused not rewritten)
+import e_band_family_vintage as vintage  # noqa: E402  (universe vintage freeze)
 
 ROOT = e262.ROOT
 OUTDIR = e262.OUTDIR
@@ -404,16 +405,52 @@ def reason_of(s):
 
 
 # ------------------------------------------------------------------ build / publish
-def build(outdir=None):
+def _vintage(outdir):
+    """(names, disclosure): the universe as of this face's own publish stamp.
+
+    The BAND family universe grows with each sibling study, so re-deriving over the live directory
+    made this face disagree with itself on every new publication (see e_band_family_vintage).
+    """
+    live = discover_faces(outdir)
+    stored, stored_from = vintage.published_names(outdir, (FACE, LATEST), ("source_faces",))
+    if stored:
+        keep = set(live)
+        used = [n for n in stored if n in keep]
+        note = vintage.note(used, sorted(keep - set(used)), len(live), stored_from, None)
+        note["faces_published_but_gone_from_disk"] = [n for n in stored if n not in keep]
+        return used, note
+    cutoff, frozen_from = None, None
+    for name in (FACE, LATEST):
+        path = os.path.join(outdir, name)
+        if not os.path.exists(path):
+            continue
+        try:
+            with io.open(path, encoding="utf-8") as fh:
+                cutoff = vintage._parse(json.load(fh).get("generated"))
+        except (IOError, ValueError):
+            cutoff = None
+        if cutoff:
+            frozen_from = name
+            break
+    used, dropped = vintage.vintage_names(outdir, live, cutoff)
+    return used, vintage.note(used, dropped, len(live), frozen_from, cutoff)
+
+
+def build(outdir=None, extend=False):
     outdir = outdir or OUTDIR
-    cen = census(outdir=outdir)
+    names, vintage_note = _vintage(outdir)
+    if extend:
+        names = discover_faces(outdir)
+        vintage_note = vintage.note(names, [], len(names), None, None)
+    cen = census(faces=names, outdir=outdir)
     s = summary_of(cen)
     return {
         "study": STUDY,
         "title": TITLE,
         "evidence_cutoff": CUTOFF,
         "generated": _stamp(),
-        "source_faces": discover_faces(outdir),
+        "universe_vintage": vintage_note,
+        "source_faces": names,
         "source_pointer": SRC_BUDGET,
         "frozen_spec": {
             "D1_claim_unit":
@@ -463,7 +500,7 @@ def _write(face, outdir=None):
 
 
 def run(save=True, outdir=None):
-    face = build(outdir)
+    face = build(outdir, extend=True)
     if save:
         face["_written"] = os.path.basename(_write(face, outdir))
     return face

@@ -58,6 +58,7 @@ if HERE not in sys.path:
 
 import e279_substitution_soundness as e279  # noqa: E402  (OUTDIR / TOL / load / rows_from)
 import e262_p95_transfer_across_windows as e262  # noqa: E402
+import e_band_family_vintage as vintage  # noqa: E402  (universe vintage freeze)
 
 ROOT = e262.ROOT
 OUTDIR = e262.OUTDIR
@@ -138,10 +139,15 @@ def _censusable(row):
     return True
 
 
-def scope_census(outdir=None):
+def scope_census(outdir=None, only=None):
     """D1: which published faces can be censused, and why the others cannot."""
     qual, excluded = [], []
     files, mirrors = face_files(outdir)
+    later = []
+    if only is not None:
+        later = [n for n in files + mirrors if n not in only]
+        files = [n for n in files if n in only]
+        mirrors = [n for n in mirrors if n in only]
     for name in mirrors:
         excluded.append({"face": name,
                          "reason": "mirror of a dated face (same rows, censused once via the "
@@ -476,9 +482,47 @@ def identity_check(censused_rows, face_e279, budget):
 
 
 # ------------------------------------------------------------------ build / publish
-def build(outdir=None):
+def _vintage_names(outdir):
+    """The universe this face already published, read back out of its own scope census.
+
+    The family universe grows with every sibling study, so re-deriving over the live directory made
+    this face disagree with itself after each new publication (see e_band_family_vintage).  The face
+    stores every name it scanned -- qualifying and excluded -- so the vintage is exact here, rather
+    than inferred from timestamps.
+    """
+    for name in (FACE, LATEST):
+        path = os.path.join(outdir, name)
+        if not os.path.exists(path):
+            continue
+        try:
+            with io.open(path, encoding="utf-8") as fh:
+                face = json.load(fh)
+        except (IOError, ValueError):
+            continue
+        scope = face.get("scope_census") or {}
+        names = []
+        for block in ("faces_qualifying", "faces_excluded"):
+            for item in scope.get(block) or []:
+                if isinstance(item, dict) and isinstance(item.get("face"), str):
+                    names.append(item["face"])
+        if names:
+            return set(names), name
+    return None, None
+
+
+def build(outdir=None, extend=False):
     outdir = outdir or OUTDIR
-    scope = scope_census(outdir)
+    frozen, frozen_from = (None, None) if extend else _vintage_names(outdir)
+    scope = scope_census(outdir, only=frozen)
+    vintage_note = None
+    if frozen is not None:
+        files, mirrors = face_files(outdir)
+        vintage_note = {
+            "frozen_from": frozen_from,
+            "faces_in_scope": len(frozen),
+            "faces_not_yet_published": sorted(n for n in files + mirrors if n not in frozen),
+            "rule": "a face re-derives against the universe it published; only a new run widens it",
+        }
     rows = []
     per_face = []
     for q in scope["faces_qualifying"]:
@@ -533,6 +577,7 @@ def build(outdir=None):
         "title": TITLE,
         "evidence_cutoff": CUTOFF,
         "generated": _stamp(),
+        "universe_vintage": vintage_note,
         "frozen_spec": {
             "D1_scope_measured": "every published BAND* face in results/state_tilt is classified "
                                  "qualifying / excluded-with-reason; counts published.",
@@ -607,7 +652,7 @@ def _write(face, outdir=None):
 
 
 def run(save=True, outdir=None):
-    face = build(outdir)
+    face = build(outdir, extend=True)
     if save:
         face["_written"] = os.path.basename(_write(face, outdir))
     return face
