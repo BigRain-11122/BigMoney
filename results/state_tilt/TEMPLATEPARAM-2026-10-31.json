@@ -1,0 +1,1450 @@
+{
+ "corpus": {
+  "files": 2280,
+  "self_excluded": "e326_template_parameter_consumers.py"
+ },
+ "evidence_cutoff": "2026-10-31",
+ "faces": [
+  {
+   "consumer_classes": {
+    "consumer_pins_the_parameter_literally": 2
+   },
+   "consumers": [
+    {
+     "class": "consumer_pins_the_parameter_literally",
+     "line": 53,
+     "lines_naming_the_face": 1,
+     "needle": "_fund_divlowvol_p2_freeze_probe_local.json",
+     "shape": "name",
+     "source": "scripts/fund_divlowvol_p2_backtest.py",
+     "text": "\"_fund_divlowvol_p2_freeze_probe_local.json\")",
+     "why": "the parameter is written out on the line"
+    },
+    {
+     "class": "consumer_pins_the_parameter_literally",
+     "line": 65,
+     "lines_naming_the_face": 1,
+     "needle": "_fund_divlowvol_p2_freeze_probe_local.json",
+     "shape": "name",
+     "source": "scripts/fund_divlowvol_p2_probe.py",
+     "text": "OUT_LOCAL = \"results/_fund_divlowvol_p2_freeze_probe_local.json\"",
+     "why": "the parameter is written out on the line"
+    }
+   ],
+   "face": "results/_fund_divlowvol_p2_freeze_probe_local.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "writer_template",
+    "kind": "class_token",
+    "token": "fund_divlowvol_p2_freeze_probe_local",
+    "tokens": [
+     "fund_divlowvol_p2_freeze_probe_local"
+    ]
+   },
+   "parameter_is_carried_by_the_face": false,
+   "parameter_republished_in_the_face": [],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/a6_corr_regime_probe.py",
+    "scripts/alloc_backtest.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "_fund_divlowvol_p2_freeze_probe_local.json",
+    "prefix": "_fund_divlowvol_p2_freeze_probe_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "consumer_formats_the_template_with_a_parameter_it_defines": 1,
+    "this_source_is_the_face_s_own_writer": 1
+   },
+   "consumers": [
+    {
+     "class": "consumer_formats_the_template_with_a_parameter_it_defines",
+     "line": 359,
+     "lines_naming_the_face": 6,
+     "needle": "CASHLeg-20261027.json",
+     "shape": "template",
+     "source": "scripts/e322_residual_refusal_causes.py",
+     "text": "src = [(\"scripts/fake_writer.py\", 'FACE = \"CASHLeg-%s.json\" % d\\n')]",
+     "why": "the consumer fills the template from a name it supplies"
+    },
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 26764,
+     "source": "scripts/e39_panel_census.py",
+     "text": "p = write_json(outdir, \"CASHLeg-%s.json\" % f[\"evidence_cutoff\"].replace(\"-\", \"\"), f)",
+     "why": "it writes this face"
+    }
+   ],
+   "face": "results/e40_cashleg_drag/CASHLeg-20261027.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "compact_date",
+    "token": "20261027",
+    "tokens": [
+     "20261027"
+    ]
+   },
+   "parameter_is_carried_by_the_face": false,
+   "parameter_republished_in_the_face": [],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "CASHLeg-20261027.json",
+    "prefix": "CASHLeg-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "this_source_is_the_face_s_own_writer": 1
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 647,
+     "source": "scripts/etf_book_production.py",
+     "text": "with open(os.path.join(OUT_DIR, \"PRODUCTION-%s.json\" % last.date()), \"w\", encoding=\"utf-8\") as f:",
+     "why": "it writes this face"
+    }
+   ],
+   "face": "results/etf_book_production/PRODUCTION-2026-10-27.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-27",
+    "tokens": [
+     "2026-10-27",
+     "20261027"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "evidence_cutoff",
+    "sheet.as_of_bar",
+    "spanning.as_of",
+    "spanning.staggered_arm",
+    "spanning.staggered_arm.window",
+    "hysteresis.evidence_cutoff"
+   ],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/etf_book_production.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 2,
+   "template_forms": {
+    "name": "PRODUCTION-2026-10-27.json",
+    "prefix": "PRODUCTION-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "this_source_is_the_face_s_own_writer": 1
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 647,
+     "source": "scripts/etf_book_production.py",
+     "text": "with open(os.path.join(OUT_DIR, \"PRODUCTION-%s.json\" % last.date()), \"w\", encoding=\"utf-8\") as f:",
+     "why": "it writes this face"
+    }
+   ],
+   "face": "results/etf_book_production/PRODUCTION-2026-10-28.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-28",
+    "tokens": [
+     "2026-10-28",
+     "20261028"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "evidence_cutoff",
+    "sheet.as_of_bar",
+    "spanning.as_of",
+    "spanning.staggered_arm",
+    "spanning.staggered_arm.window",
+    "hysteresis.evidence_cutoff"
+   ],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/etf_book_production.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 2,
+   "template_forms": {
+    "name": "PRODUCTION-2026-10-28.json",
+    "prefix": "PRODUCTION-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "face": "results/etf_book_voltarget_lag.json",
+   "face_class": "reproducible_through_a_path_the_source_composes",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "composed_path",
+    "kind": "none",
+    "token": null,
+    "tokens": []
+   },
+   "parameter_is_carried_by_the_face": false,
+   "parameter_republished_in_the_face": [],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/etf_book_voltarget_lag.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "etf_book_voltarget_lag.json",
+    "prefix": "etf_book_voltarget_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "this_source_is_the_face_s_own_writer": 1
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 215,
+     "source": "scripts/regime5_labeler.py",
+     "text": "with open(os.path.join(diag_dir, f\"REGIME5-DIAG-{cutoff}.json\"), \"w\",",
+     "why": "it writes this face"
+    }
+   ],
+   "face": "results/regime5_diag/REGIME5-DIAG-2026-09-30.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-09-30",
+    "tokens": [
+     "2026-09-30",
+     "20260930"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "cutoff"
+   ],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/regime5_labeler.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "REGIME5-DIAG-2026-09-30.json",
+    "prefix": "REGIME5-DIAG-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "this_source_is_the_face_s_own_writer": 1
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 215,
+     "source": "scripts/regime5_labeler.py",
+     "text": "with open(os.path.join(diag_dir, f\"REGIME5-DIAG-{cutoff}.json\"), \"w\",",
+     "why": "it writes this face"
+    }
+   ],
+   "face": "results/regime5_diag/REGIME5-DIAG-2026-10-19.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-19",
+    "tokens": [
+     "2026-10-19",
+     "20261019"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "cutoff"
+   ],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/regime5_labeler.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "REGIME5-DIAG-2026-10-19.json",
+    "prefix": "REGIME5-DIAG-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "face": "results/shortline/gtja191_ic.json",
+   "face_class": "reproducible_through_a_path_the_source_composes",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "composed_path",
+    "kind": "none",
+    "token": null,
+    "tokens": []
+   },
+   "parameter_is_carried_by_the_face": false,
+   "parameter_republished_in_the_face": [],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/shortline_p1_ic.py",
+    "scripts/shortline_p1b_wq101.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "gtja191_ic.json",
+    "prefix": "gtja191_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "consumer_pins_the_parameter_literally": 1
+   },
+   "consumers": [
+    {
+     "class": "consumer_pins_the_parameter_literally",
+     "line": 351,
+     "lines_naming_the_face": 3,
+     "needle": "p1e_nulls_M_arc.json",
+     "shape": "name",
+     "source": "scripts/e322_residual_refusal_causes.py",
+     "text": "name_prefixes(\"p1e_nulls_M_arc.json\") == [\"p1e_nulls_M\", \"p1e_nulls\", \"p1e\"],",
+     "why": "the parameter is written out on the line"
+    }
+   ],
+   "face": "results/shortline/p1e_nulls_M_arc.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "writer_template",
+    "kind": "class_token",
+    "token": "M_arc",
+    "tokens": [
+     "M_arc"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "class"
+   ],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/p1e_ic_batch.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "p1e_nulls_M_arc.json",
+    "prefix": "p1e_nulls_M_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "consumer_pins_the_parameter_literally": 1
+   },
+   "consumers": [
+    {
+     "class": "consumer_pins_the_parameter_literally",
+     "line": 804,
+     "lines_naming_the_face": 2,
+     "needle": "p1e_nulls_M_close.json",
+     "shape": "name",
+     "source": "scripts/p1e_ic_batch.py",
+     "text": "OUT_DIR, \"p1e_nulls_M_close.json\")) is False",
+     "why": "the parameter is written out on the line"
+    }
+   ],
+   "face": "results/shortline/p1e_nulls_M_close.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "writer_template",
+    "kind": "class_token",
+    "token": "M_close",
+    "tokens": [
+     "M_close"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "class",
+    "meta.equivalence.tag"
+   ],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/e322_residual_refusal_causes.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "p1e_nulls_M_close.json",
+    "prefix": "p1e_nulls_M_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "face": "results/shortline/p1e_nulls_M_close_tr.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "writer_template",
+    "kind": "class_token",
+    "token": "M_close_tr",
+    "tokens": [
+     "M_close_tr"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "class"
+   ],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/e322_residual_refusal_causes.py",
+    "scripts/p1e_ic_batch.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "p1e_nulls_M_close_tr.json",
+    "prefix": "p1e_nulls_M_close_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "face": "results/shortline/p1e_synth.json",
+   "face_class": "reproducible_through_a_path_the_source_composes",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "composed_path",
+    "kind": "none",
+    "token": null,
+    "tokens": []
+   },
+   "parameter_is_carried_by_the_face": false,
+   "parameter_republished_in_the_face": [],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/p1e_synth.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "p1e_synth.json",
+    "prefix": "p1e_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "face": "results/shortline/p1e_synth_parts.json",
+   "face_class": "reproducible_through_a_path_the_source_composes",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "composed_path",
+    "kind": "none",
+    "token": null,
+    "tokens": []
+   },
+   "parameter_is_carried_by_the_face": false,
+   "parameter_republished_in_the_face": [],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/p1e_synth.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "p1e_synth_parts.json",
+    "prefix": "p1e_synth_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "face": "results/shortline/pa_lhb_ic.json",
+   "face_class": "reproducible_through_a_path_the_source_composes",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "composed_path",
+    "kind": "none",
+    "token": null,
+    "tokens": []
+   },
+   "parameter_is_carried_by_the_face": false,
+   "parameter_republished_in_the_face": [],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/pa2_lhb_synth.py",
+    "scripts/pa_lhb_ic.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "pa_lhb_ic.json",
+    "prefix": "pa_lhb_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "face": "results/shortline/pb_synth.json",
+   "face_class": "reproducible_through_a_path_the_source_composes",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "composed_path",
+    "kind": "none",
+    "token": null,
+    "tokens": []
+   },
+   "parameter_is_carried_by_the_face": false,
+   "parameter_republished_in_the_face": [],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/pb_synth.py",
+    "scripts/ps2_synth.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "pb_synth.json",
+    "prefix": "pb_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "face": "results/shortline/t11_negday_ic.json",
+   "face_class": "reproducible_through_a_path_the_source_composes",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "composed_path",
+    "kind": "none",
+    "token": null,
+    "tokens": []
+   },
+   "parameter_is_carried_by_the_face": false,
+   "parameter_republished_in_the_face": [],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/t11_negday_ic.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "t11_negday_ic.json",
+    "prefix": "t11_negday_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "face": "results/shortline/turnover_derivation.json",
+   "face_class": "reproducible_through_a_path_the_source_composes",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "composed_path",
+    "kind": "none",
+    "token": null,
+    "tokens": []
+   },
+   "parameter_is_carried_by_the_face": false,
+   "parameter_republished_in_the_face": [],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/p1c_turnover_derive.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "turnover_derivation.json",
+    "prefix": "turnover_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "face": "results/shortline/xlib_synth.json",
+   "face_class": "reproducible_through_a_path_the_source_composes",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "composed_path",
+    "kind": "none",
+    "token": null,
+    "tokens": []
+   },
+   "parameter_is_carried_by_the_face": false,
+   "parameter_republished_in_the_face": [],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/p1d_gdhs_quarterly.py",
+    "scripts/xlib_synth.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "xlib_synth.json",
+    "prefix": "xlib_"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "this_source_is_the_face_s_own_writer": 2
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 67,
+     "source": "scripts/e283_degenerate_range_reachable.py",
+     "text": "FACE = \"BANDDEFLATE-%s.json\" % CUTOFF",
+     "why": "it writes this face"
+    },
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 75,
+     "source": "scripts/e287_supply_ceiling_axes.py",
+     "text": "SRC_DEFLATE = \"BANDDEFLATE-%s.json\" % CUTOFF        # degenerate-tail restatement (demand)",
+     "why": "it writes this face"
+    }
+   ],
+   "face": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-29",
+    "tokens": [
+     "2026-10-29",
+     "20261029"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "evidence_cutoff"
+   ],
+   "pointer_siblings": [
+    "results/state_tilt/bandambient_latest.json",
+    "results/state_tilt/bandcountscope_latest.json",
+    "results/state_tilt/banddeflate_latest.json",
+    "results/state_tilt/banddisagreescope_latest.json",
+    "results/state_tilt/banddupes_latest.json",
+    "results/state_tilt/bandfrozen_latest.json",
+    "results/state_tilt/bandscopefix_latest.json",
+    "results/state_tilt/bandselfaudit_latest.json",
+    "results/state_tilt/bandsupply_latest.json",
+    "results/state_tilt/decoyresolve_latest.json",
+    "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/printcov_latest.json",
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/reachwide_latest.json",
+    "results/state_tilt/replaycensus_latest.json",
+    "results/state_tilt/selfinclusion_latest.json",
+    "results/state_tilt/templateparam_latest.json"
+   ],
+   "producers": [
+    "scripts/e283_degenerate_range_reachable.py",
+    "scripts/e287_supply_ceiling_axes.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 7,
+   "template_forms": {
+    "name": "BANDDEFLATE-2026-10-29.json",
+    "prefix": "BANDDEFLATE-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "this_source_is_the_face_s_own_writer": 2
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 72,
+     "source": "scripts/e282_substitution_disagreement_census.py",
+     "text": "FACE = \"BANDDISAGREE-%s.json\" % CUTOFF",
+     "why": "it writes this face"
+    },
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 74,
+     "source": "scripts/e287_supply_ceiling_axes.py",
+     "text": "SRC_DISAGREE = \"BANDDISAGREE-%s.json\" % CUTOFF     # independent statement of the same flips",
+     "why": "it writes this face"
+    }
+   ],
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-29",
+    "tokens": [
+     "2026-10-29",
+     "20261029"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "evidence_cutoff"
+   ],
+   "pointer_siblings": [
+    "results/state_tilt/bandambient_latest.json",
+    "results/state_tilt/bandcountscope_latest.json",
+    "results/state_tilt/banddeflate_latest.json",
+    "results/state_tilt/banddisagreescope_latest.json",
+    "results/state_tilt/banddupes_latest.json",
+    "results/state_tilt/bandfrozen_latest.json",
+    "results/state_tilt/bandscopefix_latest.json",
+    "results/state_tilt/bandselfaudit_latest.json",
+    "results/state_tilt/bandsupply_latest.json",
+    "results/state_tilt/bandundatedvintage_latest.json",
+    "results/state_tilt/decoyresolve_latest.json",
+    "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/printcov_latest.json",
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/reachwide_latest.json",
+    "results/state_tilt/replaycensus_latest.json",
+    "results/state_tilt/templateparam_latest.json"
+   ],
+   "producers": [
+    "scripts/e282_substitution_disagreement_census.py",
+    "scripts/e287_supply_ceiling_axes.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 15,
+   "template_forms": {
+    "name": "BANDDISAGREE-2026-10-29.json",
+    "prefix": "BANDDISAGREE-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "consumer_formats_the_template_with_a_parameter_it_defines": 3,
+    "this_source_is_the_face_s_own_writer": 2
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 504,
+     "source": "scripts/e255_band_draw_starvation.py",
+     "text": "path = os.path.join(outdir, \"BANDDRAW-%s%s.json\" % (cutoff, tag))",
+     "why": "it writes this face"
+    },
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 335,
+     "source": "scripts/e256_band_draw_continuation.py",
+     "text": "head = os.path.join(outdir, \"BANDDRAW-%s%s.json\" % (cutoff, tag or \"-d%d\" % D_BUDGET))",
+     "why": "it writes this face"
+    },
+    {
+     "class": "consumer_formats_the_template_with_a_parameter_it_defines",
+     "line": 57,
+     "lines_naming_the_face": 1,
+     "needle": "BANDDRAW-%s",
+     "shape": "template",
+     "source": "scripts/e277_tight_multiplier_floor.py",
+     "text": "SRC_DRAW = \"BANDDRAW-%s.json\" % CUTOFF      # published endpoint draw exponent",
+     "why": "the consumer fills the template from a name it supplies"
+    },
+    {
+     "class": "consumer_formats_the_template_with_a_parameter_it_defines",
+     "line": 77,
+     "lines_naming_the_face": 1,
+     "needle": "BANDDRAW-%s",
+     "shape": "template",
+     "source": "scripts/e295_supply_gap_closure.py",
+     "text": "SRC_LADDER = \"BANDDRAW-%s-d1920.json\" % CUTOFF   # E256: rungs x draw counts, one stream per seed",
+     "why": "the consumer fills the template from a name it supplies"
+    },
+    {
+     "class": "consumer_formats_the_template_with_a_parameter_it_defines",
+     "line": 66,
+     "lines_naming_the_face": 1,
+     "needle": "BANDDRAW-%s",
+     "shape": "template",
+     "source": "scripts/e300_window_local_margin_census.py",
+     "text": "SRC_DRAW = \"BANDDRAW-%s-d1920.json\" % CUTOFF  # E256: the one window that owns a ladder",
+     "why": "the consumer fills the template from a name it supplies"
+    }
+   ],
+   "face": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-29",
+    "tokens": [
+     "2026-10-29",
+     "20261029"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "era",
+    "evidence_cutoff"
+   ],
+   "pointer_siblings": [
+    "results/state_tilt/bandambient_latest.json",
+    "results/state_tilt/bandcountscope_latest.json",
+    "results/state_tilt/banddeflate_latest.json",
+    "results/state_tilt/banddisagree_latest.json",
+    "results/state_tilt/banddisagreescope_latest.json",
+    "results/state_tilt/banddupes_latest.json",
+    "results/state_tilt/bandfields_latest.json",
+    "results/state_tilt/bandfloor_latest.json",
+    "results/state_tilt/bandscopefix_latest.json",
+    "results/state_tilt/bandselfaudit_latest.json",
+    "results/state_tilt/bandsubstituteaudit_latest.json",
+    "results/state_tilt/decoyresolve_latest.json",
+    "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/printcov_latest.json",
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/reachwide_latest.json",
+    "results/state_tilt/templateparam_latest.json"
+   ],
+   "producers": [
+    "scripts/e255_band_draw_starvation.py",
+    "scripts/e256_band_draw_continuation.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 2,
+   "template_forms": {
+    "name": "BANDDRAW-2026-10-29.json",
+    "prefix": "BANDDRAW-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "this_source_is_the_face_s_own_writer": 1
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 448,
+     "source": "scripts/e254_band_exponent_inside_cell.py",
+     "text": "path = os.path.join(outdir, \"BANDEXP-%s.json\" % cutoff)",
+     "why": "it writes this face"
+    }
+   ],
+   "face": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-29",
+    "tokens": [
+     "2026-10-29",
+     "20261029"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "era",
+    "evidence_cutoff"
+   ],
+   "pointer_siblings": [
+    "results/state_tilt/bandambient_latest.json",
+    "results/state_tilt/bandcountscope_latest.json",
+    "results/state_tilt/banddeflate_latest.json",
+    "results/state_tilt/banddisagree_latest.json",
+    "results/state_tilt/banddisagreescope_latest.json",
+    "results/state_tilt/banddupes_latest.json",
+    "results/state_tilt/bandfields_latest.json",
+    "results/state_tilt/bandscopefix_latest.json",
+    "results/state_tilt/bandselfaudit_latest.json",
+    "results/state_tilt/bandsubstituteaudit_latest.json",
+    "results/state_tilt/decoyresolve_latest.json",
+    "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/printcov_latest.json",
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/reachwide_latest.json",
+    "results/state_tilt/templateparam_latest.json"
+   ],
+   "producers": [
+    "scripts/e254_band_exponent_inside_cell.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "BANDEXP-2026-10-29.json",
+    "prefix": "BANDEXP-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "consumer_formats_the_template_with_a_parameter_it_defines": 1,
+    "consumer_pins_the_parameter_literally": 1,
+    "this_source_is_the_face_s_own_writer": 2
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 539,
+     "source": "scripts/e257_band_at_top_flips.py",
+     "text": "name = \"BANDTOPFLIP-%s%s.json\" % (CUTOFF, tag)",
+     "why": "it writes this face"
+    },
+    {
+     "class": "consumer_pins_the_parameter_literally",
+     "line": 65,
+     "lines_naming_the_face": 1,
+     "needle": "BANDTOPFLIP-2026-10-29.json",
+     "shape": "name",
+     "source": "scripts/e258_band_multiplier_per_window.py",
+     "text": "FACE_E257 = \"BANDTOPFLIP-2026-10-29.json\"",
+     "why": "the parameter is written out on the line"
+    },
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 48,
+     "source": "scripts/e274_spread_straddle_sweep.py",
+     "text": "SRC_TOP = \"BANDTOPFLIP-%s.json\" % CUTOFF",
+     "why": "it writes this face"
+    },
+    {
+     "class": "consumer_formats_the_template_with_a_parameter_it_defines",
+     "line": 71,
+     "lines_naming_the_face": 1,
+     "needle": "BANDTOPFLIP-%s",
+     "shape": "template",
+     "source": "scripts/e287_supply_ceiling_axes.py",
+     "text": "SRC_TOPFLIP = \"BANDTOPFLIP-%s.json\" % CUTOFF       # E257: borrowed ladder range (supply)",
+     "why": "the consumer fills the template from a name it supplies"
+    }
+   ],
+   "face": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-29",
+    "tokens": [
+     "2026-10-29",
+     "20261029"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "evidence_cutoff"
+   ],
+   "pointer_siblings": [
+    "results/state_tilt/bandambient_latest.json",
+    "results/state_tilt/bandclosure_latest.json",
+    "results/state_tilt/bandcountscope_latest.json",
+    "results/state_tilt/banddeflate_latest.json",
+    "results/state_tilt/banddisagree_latest.json",
+    "results/state_tilt/banddisagreescope_latest.json",
+    "results/state_tilt/banddupes_latest.json",
+    "results/state_tilt/bandfields_latest.json",
+    "results/state_tilt/bandfloormirror_latest.json",
+    "results/state_tilt/bandscopefix_latest.json",
+    "results/state_tilt/bandselfaudit_latest.json",
+    "results/state_tilt/bandstraddlesweep_latest.json",
+    "results/state_tilt/bandsubstituteaudit_latest.json",
+    "results/state_tilt/bandsupply_latest.json",
+    "results/state_tilt/bandwinmult_latest.json",
+    "results/state_tilt/decoyresolve_latest.json",
+    "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/printcov_latest.json",
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/reachwide_latest.json",
+    "results/state_tilt/selfinclusion_latest.json",
+    "results/state_tilt/templateparam_latest.json"
+   ],
+   "producers": [
+    "scripts/e257_band_at_top_flips.py",
+    "scripts/e274_spread_straddle_sweep.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "BANDTOPFLIP-2026-10-29.json",
+    "prefix": "BANDTOPFLIP-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "this_source_is_the_face_s_own_writer": 2
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 41,
+     "source": "scripts/e312_gate_operand_identity.py",
+     "text": "FACE = \"GATEOPERANDS-%s.json\"",
+     "why": "it writes this face"
+    },
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 102,
+     "source": "scripts/e322_residual_refusal_causes.py",
+     "text": "\"\"\"The literal prefix a templated name is written as (`GATEOPERANDS-%s.json` -> `GATEOPERANDS-`).\"\"\"",
+     "why": "it writes this face"
+    }
+   ],
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-31",
+    "tokens": [
+     "2026-10-31",
+     "20261031"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "evidence_cutoff",
+    "generated"
+   ],
+   "pointer_siblings": [
+    "results/state_tilt/decoyresolve_latest.json",
+    "results/state_tilt/gateoperands_latest.json",
+    "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/printcov_latest.json",
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/reachwide_latest.json",
+    "results/state_tilt/refusalcause_latest.json",
+    "results/state_tilt/selfinclusion_latest.json",
+    "results/state_tilt/templateparam_latest.json",
+    "results/state_tilt/zerotolprune_latest.json"
+   ],
+   "producers": [
+    "scripts/e312_gate_operand_identity.py",
+    "scripts/e322_residual_refusal_causes.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 22,
+   "template_forms": {
+    "name": "GATEOPERANDS-2026-10-31.json",
+    "prefix": "GATEOPERANDS-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-31",
+    "tokens": [
+     "2026-10-31",
+     "20261031"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "evidence_cutoff",
+    "generated"
+   ],
+   "pointer_siblings": [
+    "results/state_tilt/decoyresolve_latest.json",
+    "results/state_tilt/gatetol_latest.json",
+    "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/printcov_latest.json",
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/reachwide_latest.json",
+    "results/state_tilt/selfinclusion_latest.json",
+    "results/state_tilt/templateparam_latest.json",
+    "results/state_tilt/zerotolprune_latest.json"
+   ],
+   "producers": [
+    "scripts/e308_leg_vs_producer_tolerance.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 31,
+   "template_forms": {
+    "name": "GATETOL-2026-10-31.json",
+    "prefix": "GATETOL-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "this_source_is_the_face_s_own_writer": 1
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 59,
+     "source": "scripts/e299_rounded_vs_tolerance_census.py",
+     "text": "FACE = \"PRECISIONCENSUS-%s.json\"",
+     "why": "it writes this face"
+    }
+   ],
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-29",
+    "tokens": [
+     "2026-10-29",
+     "20261029"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "evidence_cutoff"
+   ],
+   "pointer_siblings": [
+    "results/state_tilt/decoyresolve_latest.json",
+    "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/printcov_latest.json",
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/reachwide_latest.json",
+    "results/state_tilt/replaycensus_latest.json",
+    "results/state_tilt/templateparam_latest.json",
+    "results/state_tilt/unpublishedkey_latest.json",
+    "results/state_tilt/zerotolprune_latest.json"
+   ],
+   "producers": [
+    "scripts/e299_rounded_vs_tolerance_census.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 64,
+   "template_forms": {
+    "name": "PRECISIONCENSUS-2026-10-29.json",
+    "prefix": "PRECISIONCENSUS-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "face_class": "reproducible_through_a_path_the_source_composes",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "composed_path",
+    "kind": "none",
+    "token": null,
+    "tokens": []
+   },
+   "parameter_is_carried_by_the_face": false,
+   "parameter_republished_in_the_face": [],
+   "pointer_siblings": [],
+   "producers": [
+    "scripts/e299_rounded_vs_tolerance_census.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 4,
+   "template_forms": {
+    "name": "PRECISIONCENSUS-2026-10-30.json",
+    "prefix": "PRECISIONCENSUS-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "this_source_is_the_face_s_own_writer": 1
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 48,
+     "source": "scripts/e305_face_level_row_pricing.py",
+     "text": "FACE = \"PRECISIONGAP-%s.json\"",
+     "why": "it writes this face"
+    }
+   ],
+   "face": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-31",
+    "tokens": [
+     "2026-10-31",
+     "20261031"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "evidence_cutoff",
+    "generated"
+   ],
+   "pointer_siblings": [
+    "results/state_tilt/decoyresolve_latest.json",
+    "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/printcov_latest.json",
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/reachwide_latest.json",
+    "results/state_tilt/replaycensus_latest.json",
+    "results/state_tilt/selfinclusion_latest.json",
+    "results/state_tilt/templateparam_latest.json",
+    "results/state_tilt/zerotolprune_latest.json"
+   ],
+   "producers": [
+    "scripts/e305_face_level_row_pricing.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "PRECISIONGAP-2026-10-31.json",
+    "prefix": "PRECISIONGAP-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "consumer_formats_the_template_with_a_parameter_it_defines": 2,
+    "this_source_is_the_face_s_own_writer": 1
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 316,
+     "source": "scripts/e241_pair_reproduction.py",
+     "text": "name = \"REPRO-%s.json\" % (face.get(\"evidence_cutoff\") or \"unknown\")",
+     "why": "it writes this face"
+    },
+    {
+     "class": "consumer_formats_the_template_with_a_parameter_it_defines",
+     "line": 128,
+     "lines_naming_the_face": 1,
+     "needle": "REPRO-%s",
+     "shape": "template",
+     "source": "scripts/e312_gate_operand_identity.py",
+     "text": "A templated face (`REPRO-%s.json`) has no literal basename, so the needle stops at the",
+     "why": "the consumer fills the template from a name it supplies"
+    },
+    {
+     "class": "consumer_formats_the_template_with_a_parameter_it_defines",
+     "line": 340,
+     "lines_naming_the_face": 1,
+     "needle": "REPRO-%s",
+     "shape": "template",
+     "source": "scripts/e322_residual_refusal_causes.py",
+     "text": "leg(\"L1 an ISO-dated name substitutes\", ISO_DATE.sub(\"%s\", \"REPRO-2026-10-31.json\") == \"REPRO-%s.json\")",
+     "why": "the consumer fills the template from a name it supplies"
+    }
+   ],
+   "face": "results/state_tilt/REPRO-2026-10-29.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-29",
+    "tokens": [
+     "2026-10-29",
+     "20261029"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "evidence_cutoff"
+   ],
+   "pointer_siblings": [
+    "results/state_tilt/basisrecovery_latest.json",
+    "results/state_tilt/decoyresolve_latest.json",
+    "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/printcov_latest.json",
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/reachwide_latest.json",
+    "results/state_tilt/replaycensus_latest.json",
+    "results/state_tilt/templateparam_latest.json"
+   ],
+   "producers": [
+    "scripts/decision_chain_e2e.py",
+    "scripts/e241_pair_reproduction.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "REPRO-2026-10-29.json",
+    "prefix": "REPRO-"
+   },
+   "unpinned_consumers": 0
+  },
+  {
+   "consumer_classes": {
+    "consumer_formats_the_template_with_a_parameter_it_defines": 2,
+    "this_source_is_the_face_s_own_writer": 1
+   },
+   "consumers": [
+    {
+     "class": "this_source_is_the_face_s_own_writer",
+     "line": 316,
+     "source": "scripts/e241_pair_reproduction.py",
+     "text": "name = \"REPRO-%s.json\" % (face.get(\"evidence_cutoff\") or \"unknown\")",
+     "why": "it writes this face"
+    },
+    {
+     "class": "consumer_formats_the_template_with_a_parameter_it_defines",
+     "line": 128,
+     "lines_naming_the_face": 1,
+     "needle": "REPRO-%s",
+     "shape": "template",
+     "source": "scripts/e312_gate_operand_identity.py",
+     "text": "A templated face (`REPRO-%s.json`) has no literal basename, so the needle stops at the",
+     "why": "the consumer fills the template from a name it supplies"
+    },
+    {
+     "class": "consumer_formats_the_template_with_a_parameter_it_defines",
+     "line": 340,
+     "lines_naming_the_face": 1,
+     "needle": "REPRO-%s",
+     "shape": "template",
+     "source": "scripts/e322_residual_refusal_causes.py",
+     "text": "leg(\"L1 an ISO-dated name substitutes\", ISO_DATE.sub(\"%s\", \"REPRO-2026-10-31.json\") == \"REPRO-%s.json\")",
+     "why": "the consumer fills the template from a name it supplies"
+    }
+   ],
+   "face": "results/state_tilt/REPRO-2026-10-30.json",
+   "face_class": "reproducible_through_a_format_template",
+   "on_disk": true,
+   "parameter": {
+    "derived_from": "file_name",
+    "kind": "date",
+    "token": "2026-10-30",
+    "tokens": [
+     "2026-10-30",
+     "20261030"
+    ]
+   },
+   "parameter_is_carried_by_the_face": true,
+   "parameter_republished_in_the_face": [
+    "evidence_cutoff"
+   ],
+   "pointer_siblings": [
+    "results/state_tilt/basisrecovery_latest.json",
+    "results/state_tilt/decoyresolve_latest.json",
+    "results/state_tilt/gatetol_latest.json",
+    "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/printcov_latest.json",
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/reachwide_latest.json",
+    "results/state_tilt/replaycensus_latest.json",
+    "results/state_tilt/templateparam_latest.json"
+   ],
+   "producers": [
+    "scripts/decision_chain_e2e.py",
+    "scripts/e241_pair_reproduction.py"
+   ],
+   "quoted_without_its_parameter": false,
+   "rows": 1,
+   "template_forms": {
+    "name": "REPRO-2026-10-30.json",
+    "prefix": "REPRO-"
+   },
+   "unpinned_consumers": 0
+  }
+ ],
+ "faces_quoted_without_their_parameter": [],
+ "held_fixed": "every upstream face class, row and producer list is read and never rewritten; only the consumer side is measured here",
+ "limits": "a consumer is judged by its weakest naming line, but only direct references to the family are seen: a reader that reaches the face through a *_latest pointer is counted as a pointer (summary.faces_reachable_through_a_latest_pointer) and its own source is not traversed this round; the scan is static, so a face loaded through a computed name outside the family prefix is not seen",
+ "no_bill": "published faces, in-repo sources only; no draws, no panel, no engine, no network",
+ "numbers_quoted_without_their_parameter": [],
+ "rules": {
+  "consumer_formats_the_template_with_a_parameter_it_defines": "the consumer fills the template from a name it defines",
+  "consumer_names_the_face_with_no_parameter_in_sight": "the face is named and no parameter appears on the line",
+  "consumer_pins_the_parameter_literally": "the parameter token appears on the consumer's own line",
+  "consumer_reads_the_parameter_back_out_of_the_face": "the consumer subscripts/gets a parameter-like key",
+  "parameter": "the token a template substitutes: an ISO date, a compact stamp, or the class suffix an underscore family varies",
+  "population": "E325 faces whose final class is a format template or a composed path",
+  "republished": "a key whose name carries cutoff/asof/date/class/era/window/tag and whose value contains the parameter token",
+  "the_mention_is_a_comment_or_docstring_not_a_dependency": "comments and docstrings are stripped before any of the above"
+ },
+ "study": "E326_template_parameter_consumers",
+ "summary": {
+  "consumers": 34,
+  "consumers_by_class": {
+   "consumer_formats_the_template_with_a_parameter_it_defines": 9,
+   "consumer_names_the_face_with_no_parameter_in_sight": 0,
+   "consumer_pins_the_parameter_literally": 5,
+   "consumer_reads_the_parameter_back_out_of_the_face": 0,
+   "the_mention_is_a_comment_or_docstring_not_a_dependency": 0,
+   "this_source_is_the_face_s_own_writer": 20
+  },
+  "faces_in_population": 30,
+  "faces_named_outside_their_writer": 8,
+  "faces_quoted_without_their_parameter": 0,
+  "faces_reachable_through_a_latest_pointer": 11,
+  "faces_that_do_not_republish_their_parameter": [
+   "results/_fund_divlowvol_p2_freeze_probe_local.json",
+   "results/e40_cashleg_drag/CASHLeg-20261027.json"
+  ],
+  "faces_whose_parameter_the_face_republishes": 18,
+  "faces_with_a_parameter": 20,
+  "faces_with_a_static_path": 10,
+  "latest_pointers_naming_a_parameterised_face": 143,
+  "numbers_quoted_without_their_parameter": 0,
+  "unpinned_consumers_on_faces_that_republish_the_parameter": 0,
+  "unpinned_share_of_non_writer_consumers": 0.0
+ },
+ "title": "the consumers of a template face, and which published numbers are quoted with the parameter that made them invisible",
+ "upstream": "ORPHANGATEFACE-2026-10-31.json",
+ "upstream_study": "E325_orphan_gate_faces",
+ "verdict": "every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source",
+ "verdict_reason": "all 14 consumers outside the writers of 20 parameterised faces pin the parameter in their own source or supply it from a constant they define"
+}

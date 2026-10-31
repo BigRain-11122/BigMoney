@@ -785,6 +785,15 @@ LEGS = [
     ("orphan_gate_faces",
      ["python", "scripts/e325_orphan_gate_faces.py", "verify"]),
 
+    # E326: the layer under E325 -- a template face has a FREE PARAMETER, so a consumer that
+    # never carries it quotes a number whose question it cannot state. Of 30 faces, 20 are
+    # parameterised, 18 republish the parameter beside their numbers, and all 14 consumers
+    # outside the writers pin it or supply it from their own constant (0 unpinned); 11 faces
+    # stay reachable through 143 *_latest pointers, which is the next study's population.
+    # Verify re-derives every consumer class from the tree so the census cannot drift. ~2s.
+    ("template_parameter_consumers",
+     ["python", "scripts/e326_template_parameter_consumers.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

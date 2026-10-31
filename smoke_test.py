@@ -9499,6 +9499,65 @@ def main() -> int:
     except Exception as e:
         check(_name311, False, repr(e)[:160])
 
+    # E326: E325 closed the face layer, but a template face carries a FREE PARAMETER -- the same
+    # template at another cutoff answers a different question. This leg refuses a census whose
+    # consumer classes do not re-derive, and refuses the "everything is pinned" reading while any
+    # consumer is classed unpinned and any face does not republish its parameter.
+    _name313 = ("product: a number quoted from a template face is only honest if the parameter "
+                "that made it is carried by the consumer or by the face")
+    _bad313 = []
+    try:
+        _p314 = os.path.join("results", "state_tilt", "templateparam_latest.json")
+        _f314 = json.load(open(_p314, encoding="utf-8")) if os.path.exists(_p314) else None
+        if _f314 is None:
+            _bad313.append("no published template-parameter census")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m314 = __import__("importlib").import_module("e326_template_parameter_consumers")
+            _fresh314 = _m314.build()
+            if _f314.get("verdict") != _fresh314.get("verdict"):
+                _bad313.append("the verdict does not re-derive")
+            if _f314.get("verdict") not in (_m314.VERDICT_ALL, _m314.VERDICT_CARRIED,
+                                            _m314.VERDICT_SILENT, _m314.VERDICT_NONE):
+                _bad313.append("verdict %r is outside the frozen set" % (_f314.get("verdict"),))
+            _s314 = _f314.get("summary") or {}
+            for _k314 in ("faces_in_population", "faces_with_a_parameter", "consumers",
+                          "numbers_quoted_without_their_parameter"):
+                if _s314.get(_k314) != (_fresh314.get("summary") or {}).get(_k314):
+                    _bad313.append("summary.%s does not re-derive" % _k314)
+            _disk314 = {f["face"]: f["consumer_classes"] for f in _f314.get("faces") or []}
+            if _disk314 != {f["face"]: f["consumer_classes"] for f in _fresh314["faces"]}:
+                _bad313.append("a face's consumer classes do not re-derive")
+            # the two reading-shape invariants: a composed path has no parameter, and a finding
+            # requires BOTH an unpinned consumer AND a face that does not republish it
+            for _f314r in _f314.get("faces") or []:
+                if (_f314r["parameter"]["kind"] == "none"
+                        and _f314r["parameter_is_carried_by_the_face"]):
+                    _bad313.append("a static path claims a carried parameter")
+                    break
+                if _f314r["quoted_without_its_parameter"] and \
+                        _f314r["parameter_is_carried_by_the_face"]:
+                    _bad313.append("a carried parameter is reported as a silent number")
+                    break
+            if _s314.get("numbers_quoted_without_their_parameter") != len(
+                    _f314.get("numbers_quoted_without_their_parameter") or []):
+                _bad313.append("the finding count disagrees with the finding list")
+            if _f314.get("limits") is None:
+                _bad313.append("the pointer-indirection limit is not disclosed")
+        check(_name313, not _bad313, "; ".join(_bad313)[:220]
+              or "%s | %s of %s parameterised faces carry the parameter, %s unpinned consumer(s), "
+                 "%s finding(s)"
+                 % (str((_f314 or {}).get("verdict")),
+                    ((_f314 or {}).get("summary") or {}).get(
+                        "faces_whose_parameter_the_face_republishes"),
+                    ((_f314 or {}).get("summary") or {}).get("faces_with_a_parameter"),
+                    (((_f314 or {}).get("summary") or {}).get("consumers_by_class") or {}).get(
+                        _m314.C_UNPINNED),
+                    ((_f314 or {}).get("summary") or {}).get(
+                        "numbers_quoted_without_their_parameter")))
+    except Exception as e:
+        check(_name313, False, repr(e)[:160])
+
     return _finish()
 
 
