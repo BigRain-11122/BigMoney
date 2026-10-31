@@ -746,6 +746,28 @@ LEGS = [
     ("decoy_resolution",
      ["python", "scripts/e320_decoy_resolution.py", "verify"]),
 
+    # E322: E321's verdict sentence says 25 gates "have no producer that publishes the key at
+    # all". They do not: the 25 rows are 4 faces and every one of them has a writer on disk. One
+    # face is written by the census machinery's own module and was lost to E312's source
+    # self-exclusion, one carries a compact date (CASHLeg-20261027) the ISO-only substitution
+    # never touches, and two are composed from a format string so the published filename appears
+    # nowhere in the writer. Verify re-derives every cause from the sources and re-checks that a
+    # caused face carries a writer and an uncaused face does not. <1s.
+    ("refusal_cause",
+     ["python", "scripts/e322_residual_refusal_causes.py", "verify"]),
+
+    # E323: E322 showed the needle refuses four faces, so E321's 21-of-196 named share was an
+    # untested lower bound. Re-priced over the whole population under the wider needle: the 25
+    # unowned rows all move to "a producer is found but its constant names nothing" and the named
+    # count does not move (21 -> 21), so the share is a repository fact, not a needle artefact.
+    # A naively accumulated producer set would report 28 named rows -- the 7 extra names all come
+    # from family needles (`etf_book` composes out of `etf_book_bakeoff.json` and matches 106
+    # scripts), which is why the study publishes class_naive beside class_after. Verify re-derives
+    # every class from the sources under both rules. ~1min (2279 corpus files, 51 faces; the
+    # tokenisation is memoised per source, which took the leg from 198s to 58s).
+    ("reach_under_wider_needle",
+     ["python", "scripts/e323_reach_under_wider_needle.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

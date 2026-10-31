@@ -25929,6 +25929,72 @@
     "workers": 1
    }
   }
+,
+   {
+    "id": "E322-REFUSAL-IS-THE-NEEDLE",
+    "lane": "cpu-only",
+    "priority": 3,
+    "question": "for each gate E321 refused for having no producer, is there a writer on disk, and which mechanical step of the lookup hid it?",
+    "result_ref": "results/state_tilt/REFUSALCAUSE-2026-10-31.json",
+    "runner": "scripts/e322_residual_refusal_causes.py",
+    "runner_args": [
+     "run"
+    ],
+    "source": "r1341 (E321): the verdict sentence publishes 25 gates with no producer publishing the key, which is a claim about the repository and must survive a wider needle",
+    "status": "done",
+    "target": "the 25 rows of QUANTITYNAME-2026-10-31.json whose class is no_producer_names_the_face",
+    "title": "a refused producer is a statement about the search until a wider needle also finds nothing: the 25 rows are 4 faces and all 4 have a writer, hidden by self-exclusion / compact dates / composed names",
+    "worker_class": "code-change",
+    "workers_plan": {
+     "priority": "BelowNormal",
+     "workers": 1
+    }
+   }
+   ,
+   {
+    "id": "E323-REACH-UNDER-A-WIDER-NEEDLE",
+    "lane": "cpu-only",
+    "priority": 3,
+    "question": "re-price E321's five classes for the whole 196-row population with the wider needle (compact dates, composed names, the auditor kept in the ownership corpus): which rows change class, and does the 10.7 pct named share move?",
+    "done_at": "2026-11-01T01:5x+08:00",
+    "done_by": "bm-b",
+    "evidence_cutoff": "2026-10-31",
+    "result_ref": "results/state_tilt/REACHWIDE-2026-10-31.json",
+    "runner": "scripts/e323_reach_under_wider_needle.py",
+    "runner_args": [
+     "run"
+    ],
+    "source": "r1342 (E322): the needle that refused 4 faces also bounds every row E321 classified -- the lookup admits ISO dates only, spells names literally, and drops the auditor's own file",
+    "status": "done",
+    "target": "the full 196-row population of QUANTITYNAME-2026-10-31.json, re-classified under E322's wider needle",
+    "title": "E321's 10.7 pct named-by-their-producer is a lower bound measured with a needle that refuses four faces: re-run the five-class census with the wider needle and publish what moves",
+    "verdict": "the_wider_needle_moves_rows_between_classes_without_naming_anything_new",
+    "outcome": "named 21 -> 21 (21 of 196 stay named); 25 unowned rows relocate to a producer that is found but names nothing; 0 regress; a naively accumulated producer set would report 28 -- the 7 extra names all come from family needles (etf_book composes out of etf_book_bakeoff.json and matches 106 scripts) and are published as rejected_name_gains",
+    "worker_class": "code-change",
+    "workers_plan": {
+     "priority": "BelowNormal",
+     "workers": 1
+    }
+   }   ,
+   {
+    "id": "E324-WHERE-THE-SIX-UNPUBLISHED-KEYS-LIVE",
+    "lane": "cpu-only",
+    "priority": 3,
+    "question": "six of E321's 196 gates have a producer that publishes no key of that name at all (four rows on two PRODUCTION faces, two on two PRECISIONCENSUS faces): is the key written under another name, copied in from a sub-face, or genuinely absent from the writer?",
+    "runner": "scripts/e324_unpublished_key_causes.py",
+    "runner_args": [
+     "run"
+    ],
+    "source": "r1342 (E323): the wider needle moved the 25 unowned rows but left these 6 untouched -- they were never a needle problem, since the producer is already found and simply does not publish the key",
+    "status": "ready",
+    "target": "the 6 rows of REACHWIDE-2026-10-31.json whose class_after is producer_found_but_publishes_no_such_key",
+    "title": "a producer that publishes no key of the gate's name is a different refusal from a producer that was never found: locate the six keys",
+    "worker_class": "code-change",
+    "workers_plan": {
+     "priority": "BelowNormal",
+     "workers": 1
+    }
+   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {

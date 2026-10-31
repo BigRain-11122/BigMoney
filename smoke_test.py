@@ -9243,6 +9243,131 @@ def main() -> int:
     except Exception as e:
         check(_name306, False, repr(e)[:160])
 
+    # E322: E321's verdict sentence reads "25 gates have no producer that publishes the key at
+    # all". That sentence is a claim about the repository, so it is only true if a wider needle
+    # still finds nothing -- this leg re-derives the wider sweep, refuses a face that carries a
+    # cause without a writer (or a writer without a cause), and ties the population back to
+    # E321's own count so the two faces cannot drift apart.
+    _name307 = ("product: the rows a producer lookup refuses are a statement about the writer "
+                "search, not about the repository")
+    _bad307 = []
+    try:
+        _p307 = os.path.join("results", "state_tilt", "refusalcause_latest.json")
+        _f307 = json.load(open(_p307, encoding="utf-8")) if os.path.exists(_p307) else None
+        if _f307 is None:
+            _bad307.append("no published refusal-cause face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m307 = __import__("importlib").import_module("e322_residual_refusal_causes")
+            _fresh307 = _m307.build()
+            if _f307.get("verdict") != _fresh307.get("verdict"):
+                _bad307.append("the verdict does not re-derive")
+            if _f307.get("verdict") not in _m307.VERDICTS:
+                _bad307.append("verdict %r is outside the frozen set" % (_f307.get("verdict"),))
+            _s307 = _f307.get("summary") or {}
+            _faces307 = _f307.get("faces") or []
+            if _s307 != _fresh307.get("summary"):
+                _bad307.append("the summary does not re-derive")
+            if sum(f.get("rows") or 0 for f in _faces307) != _s307.get("rows"):
+                _bad307.append("the row counts do not sum to the population")
+            for _f in _faces307:
+                if _f.get("cause") not in _m307.CAUSES:
+                    _bad307.append("a face cause is outside the frozen set")
+                    break
+                if (_f.get("cause") == _m307.CAUSE_NONE) != (not _f.get("writers")):
+                    _bad307.append("a cause and its writer list disagree")
+                    break
+            if _s307.get("faces_with_a_writer") != sum(
+                    1 for f in _faces307 if f.get("writers")):
+                _bad307.append("faces_with_a_writer disagrees with its own rows")
+            # the population must be exactly E321's refused population, or one of the two faces
+            # is quoting a different world
+            _p301 = os.path.join("results", "state_tilt", "quantityname_latest.json")
+            if os.path.exists(_p301):
+                _f301 = json.load(open(_p301, encoding="utf-8"))
+                _up301 = [r for r in (_f301.get("rows") or [])
+                          if r.get("class") == _m307.UPSTREAM_CLASS]
+                if len(_up301) != _s307.get("rows"):
+                    _bad307.append("the population is not E321's refused set (%d vs %d)"
+                                   % (_s307.get("rows"), len(_up301)))
+        check(_name307, not _bad307, "; ".join(_bad307)[:220]
+              or "%s | %d rows over %d faces, %d faces have a writer on disk (%d rows), by cause %s"
+                 % (str((_f307 or {}).get("verdict")),
+                    ((_f307 or {}).get("summary") or {}).get("rows") or 0,
+                    ((_f307 or {}).get("summary") or {}).get("faces") or 0,
+                    ((_f307 or {}).get("summary") or {}).get("faces_with_a_writer") or 0,
+                    ((_f307 or {}).get("summary") or {}).get("rows_with_a_writer") or 0,
+                    json.dumps(((_f307 or {}).get("summary") or {}).get("by_cause_faces") or {},
+                               ensure_ascii=False)))
+    except Exception as e:
+        check(_name307, False, repr(e)[:160])
+
+    # E323: E322 proved the needle refuses four faces, so "21 of 196 are named by their producer"
+    # was an untested lower bound. Re-priced over the whole population under the wider needle the
+    # named count does not move (21 -> 21) while 25 unowned rows are relocated -- so the share is a
+    # repository fact, not a needle artefact. The leg re-derives both rules, refuses a published
+    # name the attribution rule cannot reach, and pins the false-positive audit to its own rows.
+    _name308 = ("product: widening the producer needle relocates the unowned gates but names no "
+                "more of them, so the published named share was not a needle artefact")
+    _bad308 = []
+    try:
+        _p308 = os.path.join("results", "state_tilt", "reachwide_latest.json")
+        _f308 = json.load(open(_p308, encoding="utf-8")) if os.path.exists(_p308) else None
+        if _f308 is None:
+            _bad308.append("no published wider-needle face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m308 = __import__("importlib").import_module("e323_reach_under_wider_needle")
+            _fresh308 = _m308.build()
+            if _f308.get("verdict") != _fresh308.get("verdict"):
+                _bad308.append("the verdict does not re-derive")
+            if _f308.get("verdict") not in _m308.VERDICTS:
+                _bad308.append("verdict %r is outside the frozen set" % (_f308.get("verdict"),))
+            _s308 = _f308.get("summary") or {}
+            if _s308 != _fresh308.get("summary"):
+                _bad308.append("the summary does not re-derive")
+            _rows308 = _f308.get("rows") or []
+            if _s308.get("rows") != len(_rows308):
+                _bad308.append("the summary count disagrees with its own rows")
+            _named308 = sum(1 for r in _rows308
+                            if r.get("class_after") == _m308.e321.CLASS_NAMED)
+            if _named308 != _s308.get("named_after"):
+                _bad308.append("the named count disagrees with its own rows")
+            for _r308 in _rows308:
+                if _r308.get("class_after") not in _m308.e321.CLASSES:
+                    _bad308.append("a row class is outside the frozen set")
+                    break
+                if bool(_r308.get("moved")) != (_r308.get("class_before")
+                                                != _r308.get("class_after")):
+                    _bad308.append("a moved flag disagrees with its two classes")
+                    break
+            # the false-positive audit must be exactly the naive-minus-attended names, otherwise
+            # the published "the wider needle would have said 28" is an unbacked sentence
+            if len(_f308.get("rejected_name_gains") or []) != max(
+                    0, _s308.get("named_naive", 0) - _s308.get("named_after", 0)):
+                _bad308.append("the rejected name gains do not match the naive difference")
+            # and the named share must still be E321's own count, or the two faces quote two worlds
+            _p309 = os.path.join("results", "state_tilt", "quantityname_latest.json")
+            if os.path.exists(_p309):
+                _f309 = json.load(open(_p309, encoding="utf-8"))
+                if ((_f309.get("summary") or {}).get("named_by_the_producer")
+                        != _s308.get("named_before")):
+                    _bad308.append("named_before is not E321's own count")
+        check(_name308, not _bad308, "; ".join(_bad308)[:220]
+              or "%s | %d rows, named %d -> %d, %d rows moved, naive would say %d (%d names "
+                 "refused), by step %s"
+                 % (str((_f308 or {}).get("verdict")),
+                    ((_f308 or {}).get("summary") or {}).get("rows") or 0,
+                    ((_f308 or {}).get("summary") or {}).get("named_before") or 0,
+                    ((_f308 or {}).get("summary") or {}).get("named_after") or 0,
+                    ((_f308 or {}).get("summary") or {}).get("rows_moved") or 0,
+                    ((_f308 or {}).get("summary") or {}).get("named_naive") or 0,
+                    len((_f308 or {}).get("rejected_name_gains") or []),
+                    json.dumps(((_f308 or {}).get("summary") or {}).get("by_step") or {},
+                               ensure_ascii=False)))
+    except Exception as e:
+        check(_name308, False, repr(e)[:160])
+
     return _finish()
 
 

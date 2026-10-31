@@ -6562,3 +6562,57 @@ no_site), because 'I could not find it' and 'it is not there' are different clai
 
 证据：scripts/e321_quantity_name_reach.py（selftest 12/12·verify problems=[]）+ results/state_tilt/QUANTITYNAME-2026-10-31.json
 + smoke leg（product: for the gates whose face cannot name the gated quantity ...）+ research/digests/DIGEST-20261101-r1341-e321-producer-name-reach.md
+### E322 a producer lookup that refuses a face publishes a fact about the search, not about the repository -- separate the reading corpus from the ownership corpus, and keep every date/name shape a writer can use
+
+E321's verdict sentence said "25 gates have no producer that publishes the key at all". Re-asked
+with a wider needle those 25 rows are **4 faces and every one of them has a writer on disk**. Three
+mechanical steps hide a writer, and each is a distinct defect with a distinct fix:
+
+1. **self-exclusion**: `e312.sources()` drops its own file so a census cannot quote itself; the cost
+   is that every face that module writes becomes unowned (22 of the 25 rows are one such face,
+   counted once per gate row). Excluding self is right for *reading* and wrong for *ownership* --
+   the two uses need two corpora, and the ownership corpus must name which auditors it kept.
+2. **date shape**: the template substitution rewrites only `YYYY-MM-DD`; this repo also dates faces
+   compactly (`CASHLeg-20261027`), where the ISO pattern never fires and the search silently falls
+   back to the exact filename no source spells.
+3. **composed name**: `f"p1e_nulls_{cls}.json"` puts the class in a variable, so the published
+   filename exists only at runtime; the cure is a name prefix, not a looser match.
+
+Read a refusal as a statement about the needle until a wider needle also finds nothing -- and
+publish the step that did reach, because "found" without "found how" cannot be reproduced.
+Sibling, both directions of the same trap: the scanner that counts itself as a reader (E204/r1232)
+and the scanner that excludes itself and loses its own output (here).
+
+证据：scripts/e322_residual_refusal_causes.py（selftest 17/17·verify problems=[]）→ results/state_tilt/REFUSALCAUSE-2026-10-31.json
++ S6 leg refusal_cause + smoke leg（product: the rows a producer lookup refuses are a statement about the writer search ...）
++ research/digests/DIGEST-20261101-r1342-e322-refusal-cause.md
+
+### E323 a wider needle moves a population without naming it -- re-price the headline under the wide rule, then publish what the wide rule would have over-claimed
+
+E322 proved the producer lookup refuses four faces, which makes every share E321 published an
+untested lower bound. Re-running the whole 196-row, five-class census under the wider needle gives
+a flat answer: **the named count does not move (21 of 196, 10.7 pct)**. All 25 unowned rows relocate
+to "a producer is found, but the constant it publishes names nothing" -- the refusal was about the
+search (E322) and the *name* was never there (here). A published share that survives its own
+needle's widening stops being provisional.
+
+Three things this cost, all of them mechanical:
+
+1. **A needle must keep its directory.** `e322.strip_to_needle` basenames on the way, so the
+   "literal" attempt became a bare filename and one face's producer set exploded to 106 scripts
+   that all mention `etf_book_voltarget_phase.json`. Seeking a face is a path operation; seeking a
+   *name* is not.
+2. **Accumulating producers is not the same as widening the needle.** A composed prefix is family
+   membership, not ownership: `etf_book_bakeoff.json` composes to `etf_book`, which 106 scripts
+   contain, and any of them publishing a key called `tolerance_pp` for its own gate will be
+   credited to this one. The first burn moved 7 rows to "named" through exactly that crossing.
+   The rule that fixes it: **narrow steps (path, filename, dated template) define the producer set
+   when they reach anything; wide steps only serve faces nothing narrow reaches.** Publish the
+   naive set beside the attended one -- 28 named vs 21 -- so the false-positive volume of the wide
+   rule is a number, not an opinion.
+3. **Report a re-pricing in both directions.** 25 rows improved (unowned -> owned, still unnamed)
+   and 0 regressed; a census that only reports the direction it hoped for cannot be checked.
+
+证据：scripts/e323_reach_under_wider_needle.py（selftest 18/18·verify problems=[]）→ results/state_tilt/REACHWIDE-2026-10-31.json
++ S6 leg reach_under_wider_needle + smoke leg（product: widening the producer needle relocates the unowned gates but names no more of them ...）
++ research/digests/DIGEST-20261101-r1342-e323-wider-needle.md
