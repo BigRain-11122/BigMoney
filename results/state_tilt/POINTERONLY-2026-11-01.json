@@ -1,0 +1,1205 @@
+{
+ "study": "E331_pointer_only_readers",
+ "evidence_cutoff": "2026-11-01",
+ "verdict": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+ "verdict_reason": "all 24 pointer-only readers either branch before using the value or let the open error name the path, and no pointer they name is absent; 1 families cannot be judged because the pointer is their only published form",
+ "summary": {
+  "sources_scanned": 2284,
+  "families_referenced_only_through_a_pointer": 119,
+  "pairs": 44,
+  "pairs_by_class": {
+   "writer_only": 3,
+   "chain_with_a_variable_first": 6,
+   "reference_without_a_reader": 11,
+   "pointer_only_reader": 24
+  },
+  "pointer_only_readers": 24,
+  "distinct_families_read": 19,
+  "distinct_pointer_files_named": 19,
+  "handling_by_class": {
+   "a_helper_returns_none_and_nothing_checks_it": 0,
+   "the_callee_absorbs_the_None": 1,
+   "the_load_raises_at_the_file": 9,
+   "defaults_to_an_empty_payload": 2,
+   "narrowed_after_the_load": 2,
+   "guarded_by_try_except": 4,
+   "guarded_by_an_existence_test": 6
+  },
+  "readers_guarded_before_they_use_the_value": 15,
+  "readers_whose_helper_turns_a_miss_into_None": 0,
+  "readers_whose_None_is_absorbed_by_the_callee": 1,
+  "readers_that_raise_at_the_file": 9,
+  "pointer_files_missing_on_disk_today": 0,
+  "pointers_whose_stated_cut_is_not_on_disk_today": 0,
+  "pointers_that_state_no_cutoff": 2,
+  "families_that_resolve_today": 16,
+  "families_read_but_unresolvable_today": 3,
+  "prose_literals_rejected_as_notes": 22,
+  "sources_whose_tail_the_scanner_cannot_see": 22,
+  "rows_published": 44,
+  "rows_truncated": 0
+ },
+ "rules": {
+  "population": "a source names <stem>_latest.json outside its selftest region and names no dated cut or template of the same stem",
+  "reader": "not every occurrence writes the pointer",
+  "pointer_only": "the pointer is not a candidate in an ordered container and not handed to a helper that loops over candidates",
+  "load_site": "a line that opens the pointer directly or calls a helper whose own body opens a file",
+  "handling precedence": "existence test, then try/except, then `or {}`, then a None branch after the load, then the helper's contract"
+ },
+ "limits": {
+  "static": "a reader that resolves a pointer through a computed name is not seen, which under-counts the population rather than over-counting a finding",
+  "helper_scope": "a helper defined outside scripts/Tools/live/monitor/firm is not in the corpus, so its contract is reported as unknown and its caller as loud",
+  "single_line": "a try: block is detected at the indent of the loading line; a load inside a one-line `try: ... except ...` is out of population for this measurement",
+  "presence_not_behaviour": "the tool never deletes a pointer to watch a reader fire; the disk half reports what would be missing if it did",
+  "fixture_strings": "a pointer name inside a quoted string that forms no code (a doc row, a fixture) is not an occurrence",
+  "invisible_tail": "the corpus helper drops a triple-quoted block to its end, so a source whose docstring logic continues past a point loses the rest of its lines; the count of such sources is published because a load site in that tail cannot be seen (e312 is one)"
+ },
+ "rows": [
+  {
+   "source": "scripts/alphagen_beam_w18.py",
+   "family": "probe",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 120,
+   "first_text": "PROBE_RECEIPT = os.path.join(OUT_DIR, \"probe_latest.json\")",
+   "bound_names": [
+    "PROBE_RECEIPT"
+   ]
+  },
+  {
+   "source": "scripts/alphagen_beam_w19.py",
+   "family": "probe",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 173,
+   "first_text": "PROBE_RECEIPT = os.path.join(OUT_DIR, \"probe_latest.json\")",
+   "bound_names": [
+    "PROBE_RECEIPT"
+   ]
+  },
+  {
+   "source": "scripts/alphagen_beam_w20.py",
+   "family": "probe",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 193,
+   "first_text": "PROBE_RECEIPT = os.path.join(OUT_DIR, \"probe_latest.json\")",
+   "bound_names": [
+    "PROBE_RECEIPT"
+   ]
+  },
+  {
+   "source": "scripts/alphagen_rl_p1.py",
+   "family": "probe",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 156,
+   "first_text": "PROBE_RECEIPT = os.path.join(OUT_DIR, \"probe_latest.json\")",
+   "bound_names": [
+    "PROBE_RECEIPT"
+   ]
+  },
+  {
+   "source": "scripts/ceo_live_usage.py",
+   "family": "call",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 93,
+   "first_text": "CLOCK_JSON = os.path.join(ROOT, \"results\", \"market_clock\", \"call_latest.json\")",
+   "bound_names": [
+    "CLOCK_JSON"
+   ],
+   "load_sites": [
+    {
+     "idx": 258,
+     "line": 400,
+     "text": "clock = _read_json(CLOCK_JSON)",
+     "helper": "_read_json"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "the_load_raises_at_the_file",
+   "handling_why": "_read_json lets the open error out, naming the path",
+   "load_line": 400,
+   "load_text": "clock = _read_json(CLOCK_JSON)",
+   "load_helper": "_read_json",
+   "helper_contract": "propagates_the_open_error",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-27",
+   "dated_vintages_on_disk": 16,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/daily_report.py",
+   "family": "call",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 2,
+   "first_line": 91,
+   "first_text": "clock = _read_json(os.path.join(ROOT, \"results\", \"market_clock\", \"call_latest.json\")) or {}",
+   "bound_names": [
+    "clock"
+   ],
+   "load_sites": [
+    {
+     "idx": 44,
+     "line": 91,
+     "text": "clock = _read_json(os.path.join(ROOT, \"results\", \"market_clock\", \"call_latest.json\")) or {}",
+     "helper": "_read_json"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "defaults_to_an_empty_payload",
+   "handling_why": "the loaded value falls back to an empty payload",
+   "load_line": 91,
+   "load_text": "clock = _read_json(os.path.join(ROOT, \"results\", \"market_clock\", \"call_latest.json\")) or {}",
+   "load_helper": "_read_json",
+   "helper_contract": "turns_a_missing_file_into_None",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-27",
+   "dated_vintages_on_disk": 16,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e229_timing_selection.py",
+   "family": "matched",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 60,
+   "first_text": "E228_FACE = os.path.join(OUTDIR, \"matched_latest.json\")",
+   "bound_names": [
+    "E228_FACE"
+   ],
+   "load_sites": [
+    {
+     "idx": 150,
+     "line": 223,
+     "text": "ref = _load(E228_FACE)",
+     "helper": "_load"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "narrowed_after_the_load",
+   "handling_why": "the loaded value is branched on before it is used",
+   "load_line": 223,
+   "load_text": "ref = _load(E228_FACE)",
+   "load_helper": "_load",
+   "helper_contract": "turns_a_missing_file_into_None",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-30",
+   "dated_vintages_on_disk": 3,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e233_empirical_gamma.py",
+   "family": "empirical_gamma",
+   "class": "writer_only",
+   "class_why": "every use of the pointer in this source produces it",
+   "occurrences": 1,
+   "first_line": 554,
+   "first_text": "with open(os.path.join(outdir, \"empirical_gamma_latest.json\"), \"w\",",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e234_per_member_gamma.py",
+   "family": "per_member_gamma",
+   "class": "writer_only",
+   "class_why": "every use of the pointer in this source produces it",
+   "occurrences": 1,
+   "first_line": 546,
+   "first_text": "with open(os.path.join(outdir, \"per_member_gamma_latest.json\"), \"w\",",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e235_charge_granularity.py",
+   "family": "per_member_gamma",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 681,
+   "first_text": "path = os.path.join(OUTDIR, \"per_member_gamma_latest.json\")",
+   "bound_names": [
+    "path"
+   ],
+   "load_sites": [
+    {
+     "idx": 524,
+     "line": 683,
+     "text": "with open(path, encoding=\"utf-8\") as fh:",
+     "helper": null
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "guarded_by_try_except",
+   "handling_why": "a try: block encloses the load",
+   "load_line": 683,
+   "load_text": "with open(path, encoding=\"utf-8\") as fh:",
+   "load_helper": null,
+   "helper_contract": null,
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-30",
+   "dated_vintages_on_disk": 2,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e236_share_difference.py",
+   "family": "granularity",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 634,
+   "first_text": "path = os.path.join(OUTDIR, \"granularity_latest.json\")",
+   "bound_names": [
+    "path"
+   ],
+   "load_sites": [
+    {
+     "idx": 500,
+     "line": 636,
+     "text": "with open(path, encoding=\"utf-8\") as fh:",
+     "helper": null
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "guarded_by_try_except",
+   "handling_why": "a try: block encloses the load",
+   "load_line": 636,
+   "load_text": "with open(path, encoding=\"utf-8\") as fh:",
+   "load_helper": null,
+   "helper_contract": null,
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-30",
+   "dated_vintages_on_disk": 2,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e239_own_vs_cross.py",
+   "family": "loobook",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 260,
+   "first_text": "path = os.path.join(outdir or OUTDIR, \"loobook_latest.json\")",
+   "bound_names": [
+    "path"
+   ],
+   "load_sites": [
+    {
+     "idx": 173,
+     "line": 262,
+     "text": "with open(path, \"r\", encoding=\"utf-8\") as fh:",
+     "helper": null
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "guarded_by_try_except",
+   "handling_why": "a try: block encloses the load",
+   "load_line": 262,
+   "load_text": "with open(path, \"r\", encoding=\"utf-8\") as fh:",
+   "load_helper": null,
+   "helper_contract": null,
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-30",
+   "dated_vintages_on_disk": 2,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e240_aggregate_attenuation.py",
+   "family": "loobook",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 502,
+   "first_text": "e238_ref = _face_ref(\"loobook_latest.json\", outdir)",
+   "bound_names": [
+    "e238_ref"
+   ],
+   "load_sites": [
+    {
+     "idx": 358,
+     "line": 502,
+     "text": "e238_ref = _face_ref(\"loobook_latest.json\", outdir)",
+     "helper": "_face_ref"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "the_load_raises_at_the_file",
+   "handling_why": "_face_ref lets the open error out, naming the path",
+   "load_line": 502,
+   "load_text": "e238_ref = _face_ref(\"loobook_latest.json\", outdir)",
+   "load_helper": "_face_ref",
+   "helper_contract": "propagates_the_open_error",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-30",
+   "dated_vintages_on_disk": 2,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e240_aggregate_attenuation.py",
+   "family": "owncross",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 503,
+   "first_text": "e239_ref = _face_ref(\"owncross_latest.json\", outdir)",
+   "bound_names": [
+    "e239_ref"
+   ],
+   "load_sites": [
+    {
+     "idx": 359,
+     "line": 503,
+     "text": "e239_ref = _face_ref(\"owncross_latest.json\", outdir)",
+     "helper": "_face_ref"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "the_load_raises_at_the_file",
+   "handling_why": "_face_ref lets the open error out, naming the path",
+   "load_line": 503,
+   "load_text": "e239_ref = _face_ref(\"owncross_latest.json\", outdir)",
+   "load_helper": "_face_ref",
+   "helper_contract": "propagates_the_open_error",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-30",
+   "dated_vintages_on_disk": 2,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e241_pair_reproduction.py",
+   "family": "aggatt",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 2,
+   "first_line": 454,
+   "first_text": "pub_face = _read_face(os.path.join(outdir, \"aggatt_latest.json\")) or {}",
+   "bound_names": [
+    "pub_face"
+   ],
+   "load_sites": [
+    {
+     "idx": 338,
+     "line": 454,
+     "text": "pub_face = _read_face(os.path.join(outdir, \"aggatt_latest.json\")) or {}",
+     "helper": "_read_face"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "defaults_to_an_empty_payload",
+   "handling_why": "the loaded value falls back to an empty payload",
+   "load_line": 454,
+   "load_text": "pub_face = _read_face(os.path.join(outdir, \"aggatt_latest.json\")) or {}",
+   "load_helper": "_read_face",
+   "helper_contract": "turns_a_missing_file_into_None",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-29",
+   "dated_vintages_on_disk": 1,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e241_pair_reproduction.py",
+   "family": "loobook",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 2,
+   "first_line": 310,
+   "first_text": "\"face\": \"loobook_latest.json\",",
+   "bound_names": [
+    "published"
+   ],
+   "load_sites": [
+    {
+     "idx": 227,
+     "line": 335,
+     "text": "published = _published_pair(_read_face(os.path.join(outdir, \"loobook_latest.json\")))",
+     "helper": "_read_face"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "the_callee_absorbs_the_None",
+   "handling_why": "_read_face returns None and _published_pair branches on it",
+   "load_line": 335,
+   "load_text": "published = _published_pair(_read_face(os.path.join(outdir, \"loobook_latest.json\")))",
+   "load_helper": "_read_face",
+   "helper_contract": "turns_a_missing_file_into_None",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-30",
+   "dated_vintages_on_disk": 2,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e243_additivity_out_of_sample.py",
+   "family": "addos",
+   "class": "chain_with_a_variable_first",
+   "class_why": "the pointer is a candidate in an ordered container",
+   "occurrences": 1,
+   "first_line": 611,
+   "first_text": "for fn in (name, \"addos_latest.json\"):",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e243_additivity_out_of_sample.py",
+   "family": "aggatt",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 2,
+   "first_line": 490,
+   "first_text": "p = os.path.join(outdir, \"aggatt_latest.json\")",
+   "bound_names": [
+    "p"
+   ],
+   "load_sites": [
+    {
+     "idx": 369,
+     "line": 494,
+     "text": "with open(p, encoding=\"utf-8\") as fh:",
+     "helper": null
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "guarded_by_an_existence_test",
+   "handling_why": "an existence test names this path before the load",
+   "load_line": 494,
+   "load_text": "with open(p, encoding=\"utf-8\") as fh:",
+   "load_helper": null,
+   "helper_contract": null,
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-29",
+   "dated_vintages_on_disk": 1,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e244_pair_heterogeneity.py",
+   "family": "addos",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 41,
+   "first_text": "SOURCE_FACE = os.path.join(\"results\", \"state_tilt\", \"addos_latest.json\")",
+   "bound_names": [
+    "SOURCE_FACE"
+   ]
+  },
+  {
+   "source": "scripts/e244_pair_heterogeneity.py",
+   "family": "pairhet",
+   "class": "chain_with_a_variable_first",
+   "class_why": "the pointer is a candidate in an ordered container",
+   "occurrences": 1,
+   "first_line": 351,
+   "first_text": "for fn in (name, \"pairhet_latest.json\"):",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e245_pair_slope_matrix.py",
+   "family": "pairhet",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 266,
+   "first_text": "face = _face(\"pairhet_latest.json\")",
+   "bound_names": [
+    "face"
+   ],
+   "load_sites": [
+    {
+     "idx": 199,
+     "line": 266,
+     "text": "face = _face(\"pairhet_latest.json\")",
+     "helper": "_face"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "narrowed_after_the_load",
+   "handling_why": "the loaded value is branched on before it is used",
+   "load_line": 266,
+   "load_text": "face = _face(\"pairhet_latest.json\")",
+   "load_helper": "_face",
+   "helper_contract": "turns_a_missing_file_into_None",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-30",
+   "dated_vintages_on_disk": 2,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e245_pair_slope_matrix.py",
+   "family": "slopematrix",
+   "class": "chain_with_a_variable_first",
+   "class_why": "the pointer is a candidate in an ordered container",
+   "occurrences": 1,
+   "first_line": 389,
+   "first_text": "for fn in (name, \"slopematrix_latest.json\"):",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e246_star_direction.py",
+   "family": "stardir",
+   "class": "chain_with_a_variable_first",
+   "class_why": "the pointer is a candidate in an ordered container",
+   "occurrences": 1,
+   "first_line": 444,
+   "first_text": "for fn in (name, \"stardir_latest.json\"):",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e248_star_lag_band.py",
+   "family": "starlagband",
+   "class": "chain_with_a_variable_first",
+   "class_why": "the pointer is a candidate in an ordered container",
+   "occurrences": 1,
+   "first_line": 578,
+   "first_text": "for fn in (name, \"starlagband_latest.json\"):",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e249_lead_counterfactual.py",
+   "family": "leadcounter",
+   "class": "chain_with_a_variable_first",
+   "class_why": "the pointer is a candidate in an ordered container",
+   "occurrences": 1,
+   "first_line": 511,
+   "first_text": "for fn in (name, \"leadcounter_latest.json\"):",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e249_lead_counterfactual.py",
+   "family": "starlagband",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 375,
+   "first_text": "path = os.path.join(OUTDIR, \"starlagband_latest.json\")",
+   "bound_names": [
+    "path"
+   ],
+   "load_sites": [
+    {
+     "idx": 277,
+     "line": 379,
+     "text": "with open(path, \"r\", encoding=\"utf-8\") as fh:",
+     "helper": null
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "guarded_by_an_existence_test",
+   "handling_why": "an existence test names this path before the load",
+   "load_line": 379,
+   "load_text": "with open(path, \"r\", encoding=\"utf-8\") as fh:",
+   "load_helper": null,
+   "helper_contract": null,
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-30",
+   "dated_vintages_on_disk": 2,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e255_band_draw_starvation.py",
+   "family": "banddraw",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 536,
+   "first_text": "latest = os.path.join(outdir, \"banddraw_latest.json\")",
+   "bound_names": [
+    "latest"
+   ],
+   "load_sites": [
+    {
+     "idx": 423,
+     "line": 539,
+     "text": "with open(latest, encoding=\"utf-8\") as fh:",
+     "helper": null
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "guarded_by_an_existence_test",
+   "handling_why": "an existence test names this path before the load",
+   "load_line": 539,
+   "load_text": "with open(latest, encoding=\"utf-8\") as fh:",
+   "load_helper": null,
+   "helper_contract": null,
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-29",
+   "dated_vintages_on_disk": 1,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e257_band_at_top_flips.py",
+   "family": "bandtopflip",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 543,
+   "first_text": "latest = os.path.join(outdir, \"bandtopflip_latest.json\")",
+   "bound_names": [
+    "latest"
+   ]
+  },
+  {
+   "source": "scripts/e258_band_multiplier_per_window.py",
+   "family": "bandwinmult",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 584,
+   "first_text": "latest = os.path.join(outdir, \"bandwinmult_latest.json\")",
+   "bound_names": [
+    "latest"
+   ]
+  },
+  {
+   "source": "scripts/e260_band_endpoint_arrival.py",
+   "family": "bandarrival",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 407,
+   "first_text": "latest = os.path.join(outdir, \"bandarrival_latest.json\")",
+   "bound_names": [
+    "latest"
+   ]
+  },
+  {
+   "source": "scripts/e305_face_level_row_pricing.py",
+   "family": "precisioncensus",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 42,
+   "first_text": "CENSUS = \"precisioncensus_latest.json\"",
+   "bound_names": [
+    "CENSUS"
+   ],
+   "load_sites": [
+    {
+     "idx": 231,
+     "line": 317,
+     "text": "census = _read(census_path or os.path.join(outdir or OUTDIR, CENSUS))",
+     "helper": "_read"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "the_load_raises_at_the_file",
+   "handling_why": "_read lets the open error out, naming the path",
+   "load_line": 317,
+   "load_text": "census = _read(census_path or os.path.join(outdir or OUTDIR, CENSUS))",
+   "load_helper": "_read",
+   "helper_contract": "propagates_the_open_error",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-29",
+   "dated_vintages_on_disk": 2,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e312_gate_operand_identity.py",
+   "family": "gatetol",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 43,
+   "first_text": "UPSTREAM = os.path.join(ROOT, \"results\", \"state_tilt\", \"gatetol_latest.json\")",
+   "bound_names": [
+    "UPSTREAM"
+   ]
+  },
+  {
+   "source": "scripts/e313_gate_form_and_scale.py",
+   "family": "gateoperands",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 44,
+   "first_text": "UPSTREAM = os.path.join(OUTDIR, \"gateoperands_latest.json\")",
+   "bound_names": [
+    "UPSTREAM"
+   ],
+   "load_sites": [
+    {
+     "idx": 331,
+     "line": 426,
+     "text": "up = _read(UPSTREAM)",
+     "helper": "_read"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "the_load_raises_at_the_file",
+   "handling_why": "_read lets the open error out, naming the path",
+   "load_line": 426,
+   "load_text": "up = _read(UPSTREAM)",
+   "load_helper": "_read",
+   "helper_contract": "propagates_the_open_error",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-31",
+   "dated_vintages_on_disk": 1,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e313_gate_form_and_scale.py",
+   "family": "gatetol",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 45,
+   "first_text": "UPSTREAM_LEGS = os.path.join(OUTDIR, \"gatetol_latest.json\")",
+   "bound_names": [
+    "UPSTREAM_LEGS"
+   ],
+   "load_sites": [
+    {
+     "idx": 332,
+     "line": 427,
+     "text": "legs = _read(UPSTREAM_LEGS)",
+     "helper": "_read"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "the_load_raises_at_the_file",
+   "handling_why": "_read lets the open error out, naming the path",
+   "load_line": 427,
+   "load_text": "legs = _read(UPSTREAM_LEGS)",
+   "load_helper": "_read",
+   "helper_contract": "propagates_the_open_error",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-31",
+   "dated_vintages_on_disk": 1,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e314_clamped_gate_census.py",
+   "family": "gateform",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 47,
+   "first_text": "UPSTREAM = os.path.join(OUTDIR, \"gateform_latest.json\")",
+   "bound_names": [
+    "UPSTREAM"
+   ],
+   "load_sites": [
+    {
+     "idx": 278,
+     "line": 374,
+     "text": "up = _read(UPSTREAM)",
+     "helper": "_read"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "the_load_raises_at_the_file",
+   "handling_why": "_read lets the open error out, naming the path",
+   "load_line": 374,
+   "load_text": "up = _read(UPSTREAM)",
+   "load_helper": "_read",
+   "helper_contract": "propagates_the_open_error",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-31",
+   "dated_vintages_on_disk": 1,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e315_leg_epsilon_vs_flat_regime.py",
+   "family": "gateclamp",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 57,
+   "first_text": "UPSTREAM = os.path.join(OUTDIR, \"gateclamp_latest.json\")",
+   "bound_names": [
+    "UPSTREAM"
+   ],
+   "load_sites": [
+    {
+     "idx": 166,
+     "line": 263,
+     "text": "up = _read(UPSTREAM)",
+     "helper": "_read"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "the_load_raises_at_the_file",
+   "handling_why": "_read lets the open error out, naming the path",
+   "load_line": 263,
+   "load_text": "up = _read(UPSTREAM)",
+   "load_helper": "_read",
+   "helper_contract": "propagates_the_open_error",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-31",
+   "dated_vintages_on_disk": 1,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e316_gate_print_requirements.py",
+   "family": "legeps",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 63,
+   "first_text": "UPSTREAM = os.path.join(OUTDIR, \"legeps_latest.json\")",
+   "bound_names": [
+    "UPSTREAM"
+   ],
+   "load_sites": [
+    {
+     "idx": 363,
+     "line": 521,
+     "text": "up = _read(UPSTREAM)",
+     "helper": "_read"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "the_load_raises_at_the_file",
+   "handling_why": "_read lets the open error out, naming the path",
+   "load_line": 521,
+   "load_text": "up = _read(UPSTREAM)",
+   "load_helper": "_read",
+   "helper_contract": "propagates_the_open_error",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-31",
+   "dated_vintages_on_disk": 1,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e319_census_self_inclusion_sweep.py",
+   "family": "a",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 2,
+   "first_line": 325,
+   "first_text": "\"self_faces_excluded\": [\"A-1.json\", \"a_latest.json\"],",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/market_clock_call.py",
+   "family": "call",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 405,
+   "first_text": "latest = os.path.join(OUT_DIR, \"call_latest.json\")",
+   "bound_names": [
+    "latest"
+   ]
+  },
+  {
+   "source": "scripts/o2115_acceptance_pack.py",
+   "family": "pack",
+   "class": "writer_only",
+   "class_why": "every use of the pointer in this source produces it",
+   "occurrences": 2,
+   "first_line": 306,
+   "first_text": "with io.open(os.path.join(OUT_DIR, \"pack_latest.json\"), \"w\", encoding=\"utf-8\") as f:",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/perpetual_faces_n3.py",
+   "family": "_n3r1_probe",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 550,
+   "first_text": "fp = os.path.join(PATHS.results_dir, \"_n3r1_probe_latest.json\")",
+   "bound_names": [
+    "fp"
+   ],
+   "load_sites": [
+    {
+     "idx": 137,
+     "line": 226,
+     "text": "with open(fp, encoding=\"utf-8\") as fh:",
+     "helper": null
+    },
+    {
+     "idx": 446,
+     "line": 632,
+     "text": "with open(fp, encoding=\"utf-8\") as fh:",
+     "helper": null
+    },
+    {
+     "idx": 475,
+     "line": 671,
+     "text": "with open(fp, encoding=\"utf-8\") as fh:",
+     "helper": null
+    }
+   ],
+   "load_site_count": 3,
+   "handling": "guarded_by_an_existence_test",
+   "handling_why": "an existence test names this path before the load",
+   "load_line": 226,
+   "load_text": "with open(fp, encoding=\"utf-8\") as fh:",
+   "load_helper": null,
+   "helper_contract": null,
+   "pointer_on_disk": true,
+   "pointer_stated_cut": null,
+   "dated_vintages_on_disk": 0,
+   "resolution": "pointer_states_no_cutoff",
+   "resolves_today": false
+  },
+  {
+   "source": "scripts/perpetual_faces_n3.py",
+   "family": "_n3r2_probe",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 2,
+   "first_line": 784,
+   "first_text": "fp = os.path.join(PATHS.results_dir, \"_n3r2_probe_latest.json\")",
+   "bound_names": [
+    "fp"
+   ],
+   "load_sites": [
+    {
+     "idx": 137,
+     "line": 226,
+     "text": "with open(fp, encoding=\"utf-8\") as fh:",
+     "helper": null
+    },
+    {
+     "idx": 446,
+     "line": 632,
+     "text": "with open(fp, encoding=\"utf-8\") as fh:",
+     "helper": null
+    },
+    {
+     "idx": 475,
+     "line": 671,
+     "text": "with open(fp, encoding=\"utf-8\") as fh:",
+     "helper": null
+    }
+   ],
+   "load_site_count": 3,
+   "handling": "guarded_by_an_existence_test",
+   "handling_why": "an existence test names this path before the load",
+   "load_line": 226,
+   "load_text": "with open(fp, encoding=\"utf-8\") as fh:",
+   "load_helper": null,
+   "helper_contract": null,
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-09-22",
+   "dated_vintages_on_disk": 0,
+   "resolution": "the_pointer_is_the_familys_only_published_form",
+   "resolves_today": false
+  },
+  {
+   "source": "scripts/system_v1_paper.py",
+   "family": "call",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 60,
+   "first_text": "CALL_LATEST = os.path.join(ROOT, \"results\", \"market_clock\", \"call_latest.json\")",
+   "bound_names": [
+    "CALL_LATEST"
+   ],
+   "load_sites": [
+    {
+     "idx": 529,
+     "line": 681,
+     "text": "call_latest = _read_json(CALL_LATEST) if os.path.exists(CALL_LATEST) \\",
+     "helper": "_read_json"
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "guarded_by_try_except",
+   "handling_why": "a try: block encloses the load",
+   "load_line": 681,
+   "load_text": "call_latest = _read_json(CALL_LATEST) if os.path.exists(CALL_LATEST) \\",
+   "load_helper": "_read_json",
+   "helper_contract": "propagates_the_open_error",
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-10-27",
+   "dated_vintages_on_disk": 16,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "Tools/_r695bmc_close_facts.py",
+   "family": "pack",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 45,
+   "first_text": "pk = os.path.join(REPO, \"results\", \"o2115_acceptance\", \"pack_latest.json\")",
+   "bound_names": [
+    "pk"
+   ],
+   "load_sites": [
+    {
+     "idx": 33,
+     "line": 47,
+     "text": "with open(pk, encoding=\"utf-8\") as fh:",
+     "helper": null
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "guarded_by_an_existence_test",
+   "handling_why": "an existence test names this path before the load",
+   "load_line": 47,
+   "load_text": "with open(pk, encoding=\"utf-8\") as fh:",
+   "load_helper": null,
+   "helper_contract": null,
+   "pointer_on_disk": true,
+   "pointer_stated_cut": null,
+   "dated_vintages_on_disk": 1,
+   "resolution": "pointer_states_no_cutoff",
+   "resolves_today": false
+  }
+ ],
+ "sources_with_an_invisible_tail": [
+  {
+   "source": "scripts/e231_band_path_test.py",
+   "raw_lines": 795,
+   "last_visible_line": 264,
+   "dropped_tail_lines": 531
+  },
+  {
+   "source": "scripts/e280_e251_rng_drift_repin.py",
+   "raw_lines": 295,
+   "last_visible_line": 22,
+   "dropped_tail_lines": 273
+  },
+  {
+   "source": "scripts/e299_rounded_vs_tolerance_census.py",
+   "raw_lines": 937,
+   "last_visible_line": 817,
+   "dropped_tail_lines": 120
+  },
+  {
+   "source": "scripts/e308_leg_vs_producer_tolerance.py",
+   "raw_lines": 577,
+   "last_visible_line": 191,
+   "dropped_tail_lines": 386
+  },
+  {
+   "source": "scripts/e312_gate_operand_identity.py",
+   "raw_lines": 743,
+   "last_visible_line": 319,
+   "dropped_tail_lines": 424
+  },
+  {
+   "source": "scripts/e330_unpinned_choice.py",
+   "raw_lines": 835,
+   "last_visible_line": 106,
+   "dropped_tail_lines": 729
+  },
+  {
+   "source": "scripts/g2_overlap_census.py",
+   "raw_lines": 1241,
+   "last_visible_line": 1213,
+   "dropped_tail_lines": 28
+  },
+  {
+   "source": "scripts/spm_j4_attribution.py",
+   "raw_lines": 643,
+   "last_visible_line": 523,
+   "dropped_tail_lines": 120
+  },
+  {
+   "source": "scripts/t11_negday_ic.py",
+   "raw_lines": 544,
+   "last_visible_line": 23,
+   "dropped_tail_lines": 521
+  },
+  {
+   "source": "scripts/t28_stable_profit.py",
+   "raw_lines": 541,
+   "last_visible_line": 441,
+   "dropped_tail_lines": 100
+  },
+  {
+   "source": "Tools/_r1184bmb_card.py",
+   "raw_lines": 39,
+   "last_visible_line": 28,
+   "dropped_tail_lines": 11
+  },
+  {
+   "source": "Tools/_r1184bmb_renumber.py",
+   "raw_lines": 80,
+   "last_visible_line": 34,
+   "dropped_tail_lines": 46
+  },
+  {
+   "source": "Tools/_r1226bmb_face.py",
+   "raw_lines": 230,
+   "last_visible_line": 131,
+   "dropped_tail_lines": 99
+  },
+  {
+   "source": "Tools/_r1234bmb_card.py",
+   "raw_lines": 51,
+   "last_visible_line": 38,
+   "dropped_tail_lines": 13
+  },
+  {
+   "source": "Tools/_r390bmc_addendum.py",
+   "raw_lines": 86,
+   "last_visible_line": 15,
+   "dropped_tail_lines": 71
+  },
+  {
+   "source": "Tools/_r390bmc_close.py",
+   "raw_lines": 164,
+   "last_visible_line": 22,
+   "dropped_tail_lines": 142
+  },
+  {
+   "source": "Tools/_r700bmc_o1300_receipt.py",
+   "raw_lines": 95,
+   "last_visible_line": 37,
+   "dropped_tail_lines": 58
+  },
+  {
+   "source": "Tools/_r774bmc_outbound_a1.py",
+   "raw_lines": 163,
+   "last_visible_line": 57,
+   "dropped_tail_lines": 106
+  },
+  {
+   "source": "Tools/_r775bmc_outbound_v7.py",
+   "raw_lines": 163,
+   "last_visible_line": 58,
+   "dropped_tail_lines": 105
+  },
+  {
+   "source": "Tools/_r840bma_pit_directwrite.py",
+   "raw_lines": 35,
+   "last_visible_line": 5,
+   "dropped_tail_lines": 30
+  },
+  {
+   "source": "Tools/memory-budget-gate.py",
+   "raw_lines": 248,
+   "last_visible_line": 13,
+   "dropped_tail_lines": 235
+  },
+  {
+   "source": "Tools/tree_shrink_guard.py",
+   "raw_lines": 522,
+   "last_visible_line": 128,
+   "dropped_tail_lines": 394
+  }
+ ]
+}

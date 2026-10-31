@@ -26114,15 +26114,32 @@
    "id": "E331-POINTER-ONLY-READERS",
    "lane": "cpu-only",
    "priority": 3,
-   "status": "ready",
-   "owner": null,
-   "owner_since": null,
+   "status": "done",
+   "owner": "bm-b",
+   "owner_since": "2026-11-01T05:40:00+08:00",
    "entered_at": "2026-11-01T05:35:00+08:00",
    "question": "E330 found the tree's single two-reference decision and it is a pointer-first chain with a dated fallback. E327 found 143 pairs whose readers never see a date in a file name, i.e. they resolve through a `_latest` pointer alone. A pointer with no fallback is a reader that gets nothing in a tree where the pointer is absent or points at a cut that is not on disk. Count pointer-only readers and, for each, whether the None is handled: an explicit branch, a raise, or a silent attribute access that would fail far from its cause.",
    "target": "every reader that resolves a family through a `_latest` pointer and nothing else, paired with how it handles the missing-file case",
    "deliverable": "results/state_tilt/<face> + scripts/e331_*.py + chain leg + smoke leg + methodology card",
    "source": "E330 UNPINNEDCHOICE-2026-11-01 (decisions=1, unpinned=1, chains_whose_fallback_lags=1) + E327 pointer pairs",
-   "notes": "seeded by r1350 bm-b at E330 close; supply floor stays breached honestly (ready 1 of 3)"
+   "notes": "seeded by r1350 bm-b at E330 close; supply floor stays breached honestly (ready 1 of 3)",
+   "closed_at": "2026-11-01T06:05:00+08:00",
+   "result_ref": "scripts/e331_pointer_only_readers.py + results/state_tilt/POINTERONLY-2026-11-01.json (24 pointer-only readers, 0 silent, 3 families unjudgeable, 22 sources with an invisible tail)",
+   "answer": "44 (source, family) pairs reach a family only through a *_latest pointer: 3 write it, 11 publish the name, 6 are chains with a variable first, 24 are pointer-only readers over 19 families. Handling: 9 raise at the file, 6 existence-test, 4 try, 2 or-empty, 2 None branch, 1 callee absorbs, 0 silent. Disk: no absent pointer, no cut without a dated sibling, 2 pointers state no cutoff, 3 families unjudgeable."
+  },
+  {
+   "id": "E332-WHAT-LIVES-IN-THE-INVISIBLE-TAIL",
+   "lane": "cpu-only",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "owner_since": null,
+   "entered_at": "2026-11-01T06:05:00+08:00",
+   "question": "E331 found that the corpus helper drops everything after an unclosed triple-quoted block, and 22 of 2,284 sources lose their tail that way (e231 531 of 795 lines, e312 424 of 743, e330 729 of 835). Every census in the E3xx family reads through that helper. Two things are unmeasured: (a) what is actually in those tails -- definitions, face handles, load sites, selftest legs -- and (b) which published E3xx counts would move if the helper were fixed. Recover the dropped text independently of the helper (raw file minus the visible line numbers), classify what the tails contain, and re-price at least one published count against the recovered corpus so the error bar is a number and not a caveat.",
+   "target": "per invisible-tail source: the recovered line range, how many defs / face handles / selftest legs / load sites live there, plus a re-pricing of one published E3xx count (E326's source corpus size or E331's own handling classes) with and without the tails",
+   "deliverable": "results/state_tilt/<face> + scripts/e332_*.py + chain leg + smoke leg + methodology card",
+   "source": "E331 POINTERONLY-2026-11-01 (summary.sources_whose_tail_the_scanner_cannot_see=22, sources_with_an_invisible_tail)",
+   "notes": "seeded by r1351 bm-b at E331 close; supply floor stays breached honestly (ready 1 of 3)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -26137,6 +26154,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-01T04:33:00+08:00",
+ "updated_at": "2026-11-01T05:33:39+08:00",
  "version": 1
 }

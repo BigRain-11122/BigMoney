@@ -9832,6 +9832,86 @@ def main() -> int:
                 ((_f330 or {}).get("summary") or {}).get(
                     "or_lines_offered_and_rejected_as_one_sided")))
 
+    # E331: a reader that resolves a family through a *_latest pointer and nothing else gets NOTHING
+    # when the pointer is absent, and the question is whether that surfaces as a branch, a raise at
+    # the file, or a failure far from its cause. This leg refuses a face whose verdict does not
+    # re-derive, a row whose class or handling is outside the frozen sets, a reader with no load
+    # site or a non-reader that carries a handling class, a handling count that does not add up to
+    # the readers, a pointer resolved without a resolution class, and a face that hides the
+    # population cut or the invisible-tail bound.
+    _name331 = ("product: every reader that reaches a face only through a pointer is counted with "
+                "what a missing pointer does to it, and the scanner's own blind spot is published")
+    _bad331 = []
+    try:
+        _p331 = os.path.join("results", "state_tilt", "pointeronly_latest.json")
+        _f331 = json.load(open(_p331, encoding="utf-8")) if os.path.exists(_p331) else None
+        if _f331 is None:
+            _bad331.append("no published pointer-only face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m331 = __import__("importlib").import_module("e331_pointer_only_readers")
+            _fresh331 = _m331.build()
+            _s331 = _f331.get("summary") or {}
+            if _f331.get("verdict") != _fresh331.get("verdict"):
+                _bad331.append("the verdict does not re-derive")
+            if _f331.get("verdict") not in _m331.VERDICTS:
+                _bad331.append("verdict %r is outside the frozen set" % (_f331.get("verdict"),))
+            for _k331 in ("pairs", "pairs_by_class", "pointer_only_readers", "handling_by_class",
+                          "readers_that_raise_at_the_file",
+                          "readers_whose_helper_turns_a_miss_into_None",
+                          "pointer_files_missing_on_disk_today",
+                          "pointers_whose_stated_cut_is_not_on_disk_today"):
+                if _s331.get(_k331) != (_fresh331.get("summary") or {}).get(_k331):
+                    _bad331.append("summary.%s does not re-derive" % _k331)
+            _readers331 = 0
+            _handled331 = 0
+            for _r331 in _f331.get("rows") or []:
+                if _r331["class"] not in _m331.PAIR_CLASSES:
+                    _bad331.append("a row carries a class outside the frozen set")
+                    break
+                if (_r331.get("handling") is None) != (_r331["class"] != _m331.K_READER):
+                    _bad331.append("handling presence disagrees with the row class")
+                    break
+                if _r331["class"] == _m331.K_READER:
+                    _readers331 += 1
+                    if _r331.get("handling") not in _m331.HANDLING:
+                        _bad331.append("a reader carries a handling class outside the frozen set")
+                        break
+                    _handled331 += 1
+                    if not _r331.get("load_sites"):
+                        _bad331.append("a reader carries no load site")
+                        break
+                    if _r331.get("resolution") not in _m331.RESOLUTIONS:
+                        _bad331.append("a reader carries no resolution class")
+                        break
+            if _readers331 != _handled331:
+                _bad331.append("readers without a handling class")
+            if _readers331 != _s331.get("pointer_only_readers"):
+                _bad331.append("the reader count disagrees with the rows")
+            _lim331 = _f331.get("limits") or {}
+            if "invisible_tail" not in _lim331 or "static" not in _lim331:
+                _bad331.append("the population cut and the blind spot are not disclosed")
+            if not isinstance(_f331.get("sources_with_an_invisible_tail"), list):
+                _bad331.append("the invisible-tail bound is not published as a list")
+    except Exception as e:
+        check(_name331, False, repr(e)[:160])
+
+    check(_name331, not _bad331, "; ".join(_bad331)[:220]
+          or "%s | %s pointer-only readers over %s families (%s raise at the file, %s silently "
+             "swallow a miss); %s pointer(s) absent and %s whose stated cut has no dated sibling; "
+             "%s sources lose their tail to the scanner"
+             % (str((_f331 or {}).get("verdict")),
+                ((_f331 or {}).get("summary") or {}).get("pointer_only_readers"),
+                ((_f331 or {}).get("summary") or {}).get("distinct_families_read"),
+                ((_f331 or {}).get("summary") or {}).get("readers_that_raise_at_the_file"),
+                ((_f331 or {}).get("summary") or {}).get(
+                    "readers_whose_helper_turns_a_miss_into_None"),
+                ((_f331 or {}).get("summary") or {}).get("pointer_files_missing_on_disk_today"),
+                ((_f331 or {}).get("summary") or {}).get(
+                    "pointers_whose_stated_cut_is_not_on_disk_today"),
+                ((_f331 or {}).get("summary") or {}).get(
+                    "sources_whose_tail_the_scanner_cannot_see")))
+
     return _finish()
 
 

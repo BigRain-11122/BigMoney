@@ -6778,3 +6778,49 @@ results/state_tilt/UNPINNEDCHOICE-2026-11-01.json + unpinnedchoice_latest.json; 
 unpinned_choice (~40s, corpus scan); smoke leg "product: every two-reference decision in the tree is
 counted, and the ones no assertion names are separated from the ones whose branches already
 disagree"; research/digests/DIGEST-20261101-r1350-e330-unpinned-choice.md
+
+## E331 -- a pointer-only reader has no fallback, so measure what a miss does before counting it as risk
+
+E330 named the tree's one two-reference decision. This asks the complementary question: which sources
+resolve a family through a ``*_latest`` pointer and nothing else (no dated cut of that stem anywhere in
+the file), and what happens to them when the pointer is absent? 44 (source, family) pairs reach a
+family only through a pointer. Three only write it, 11 publish the name without loading it, 6 are
+E329's chains with a variable as the first candidate, and 24 are real pointer-only readers over 19
+families. None of the 24 is silent: 9 let the open error name the path, 15 branch first (existence 6,
+try 4, ``or {}`` 2, a None branch 2, a callee that absorbs the None 1). On today's disk no pointer is
+absent and none states a cut without a dated sibling; 2 state no cutoff and 3 families cannot be
+judged because the pointer is their only published form.
+
+Four rules, each of which caught its own bug first:
+
+- **A helper name is not unique in a 2,284-file corpus.** ``_read``/``_dump``/``_face`` are redefined
+  in dozens of studies; a corpus-wide name table read four writers as readers. Resolve through the
+  source's own definition, fall back to the corpus table, and give every helper a ``writes`` flag so
+  an ``open(..., "w")`` line is never a load site.
+- **The class follows the load site, not the wording.** Bound-but-only-written is a producer and
+  named-but-never-loaded is a reference: 14 of 44 pairs were in the wrong bucket when the class was
+  read off the occurrence text.
+- **A guard must sit on the loaded value's own expression.** ``or {}`` on a later statement guards
+  nothing about the load above it; scoping it to the expression moved 10 rows to 2 and flipped two
+  readers from "guarded" to loud.
+- **"Missing" has four states and one is not judgeable.** ``per_member_gamma_latest.json`` sits beside
+  ``PER-MEMBER-GAMMA-2026-10-30.json`` and ``call_latest.json`` beside ``CALL-2026-10-27.md``; raw-stem
+  comparison across ``.json`` alone reported 5 unresolvable families that all resolve once stems are
+  normalized and ``.md`` is admitted. A family with no dated sibling cannot be judged, and calling it
+  unresolvable is a false alarm wearing a finding's clothes.
+
+The bound is bigger than the study: the corpus helper drops a triple-quoted block to its end, so an
+odd number of triple-quote tokens in prose puts it in doc mode for the rest of the file. **22 sources
+lose their tail** (e231 531/795 lines, e312 424/743, e330 729/835), and every census in this E3xx
+family inherits that blind spot -- this study found it because e312's ``up = _read(UPSTREAM)`` lives
+there.
+
+How to apply: write a pointer-only read as an existence test or a ``try``, never as a bare
+``json.load(open(path))`` behind a soft helper; when a census says zero, publish the lines and classes
+you rejected; and before trusting a corpus-wide count in this family, check the invisible-tail list.
+
+Evidence: scripts/e331_pointer_only_readers.py (selftest 24/24, verify problems=[]) ->
+results/state_tilt/POINTERONLY-2026-11-01.json + pointeronly_latest.json; S6 leg pointer_only_readers
+(~45s); smoke leg "product: every reader that reaches a face only through a pointer is counted with
+what a missing pointer does to it, and the scanner's own blind spot is published";
+research/digests/DIGEST-20261101-r1351-e331-pointer-only-readers.md

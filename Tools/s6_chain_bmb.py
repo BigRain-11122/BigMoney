@@ -837,6 +837,20 @@ LEGS = [
     ("unpinned_choice",
      ["python", "scripts/e330_unpinned_choice.py", "verify"]),
 
+    # E331: E330's sibling question for the pointer layer -- who resolves a family through a
+    # *_latest pointer and nothing else, and what a missing pointer does to them? 44 (source,
+    # family) pairs reach a family only through a pointer: 3 only write it, 6 are chains whose
+    # first candidate is a variable, 11 publish the name without loading it, and 24 are real
+    # pointer-only readers over 19 families. None is silent: 9 raise at the file and 15 branch
+    # first (existence 6 / try 4 / `or {}` 2 / None branch 2 / callee absorbs 1). The disk half
+    # finds no absent pointer and no pointer whose stated cut lacks a dated sibling; 3 families
+    # cannot be judged because the pointer is their only published form. It also measures a bound
+    # that touches every corpus study: 22 sources lose their tail to the scanner's docstring rule
+    # (up to 531 lines), so a load site written there is invisible. Verify re-derives every row,
+    # the handling classes, the disk half and the tail list. ~45s (corpus scan).
+    ("pointer_only_readers",
+     ["python", "scripts/e331_pointer_only_readers.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
