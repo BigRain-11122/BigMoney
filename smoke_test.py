@@ -9912,6 +9912,104 @@ def main() -> int:
                 ((_f331 or {}).get("summary") or {}).get(
                     "sources_whose_tail_the_scanner_cannot_see")))
 
+    # E332: the corpus helper's docstring rule hides real code (a continuation line that OPENS with
+    # a closing delimiter is read as an opener), so every census in the E3xx family reads a corpus
+    # with 4,284 lines missing from 30 sources. This leg refuses a face whose verdict does not
+    # re-derive, a recovery that found nothing (a broken measurement, not a clean tree), a source
+    # row with no recovered line or no hidden span, a kind total that disagrees with the rows, a
+    # re-pricing block that is missing or internally inconsistent, and a reclassified pair whose
+    # two classes are the same.
+    _name332 = ("product: the text the corpus helper cannot see is recovered, classified and priced "
+                "-- and a published reader count is re-derived against the recovered corpus")
+    _bad332 = []
+    try:
+        _p332 = os.path.join("results", "state_tilt", "invisibletail_latest.json")
+        _f332 = json.load(open(_p332, encoding="utf-8")) if os.path.exists(_p332) else None
+        if _f332 is None:
+            _bad332.append("no published invisible-tail face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m332 = __import__("importlib").import_module("e332_invisible_tail_recovery")
+            _fresh332 = _m332.build()
+            _s332 = _f332.get("summary") or {}
+            _s332f = _fresh332.get("summary") or {}
+            if _f332.get("verdict") != _fresh332.get("verdict"):
+                _bad332.append("the verdict does not re-derive")
+            if _f332.get("verdict") not in _m332.VERDICTS:
+                _bad332.append("verdict %r is outside the frozen set" % (_f332.get("verdict"),))
+            for _k332 in ("sources_scanned", "sources_the_helper_blinds", "recovered_code_lines",
+                          "recovered_by_kind", "sources_whose_tail_is_invisible",
+                          "sources_blinded_before_their_last_line",
+                          "sources_with_more_than_one_span", "repricing_delta"):
+                if _s332.get(_k332) != _s332f.get(_k332):
+                    _bad332.append("summary.%s does not re-derive" % _k332)
+            if int(_s332.get("recovered_code_lines") or 0) <= 0:
+                _bad332.append("the recovery found nothing, which is a broken measurement")
+            _kinds332 = _s332.get("recovered_by_kind") or {}
+            for _k332 in _m332.KINDS:
+                if not isinstance(_kinds332.get(_k332), int):
+                    _bad332.append("kind %s is not an integer count" % _k332)
+                    break
+            _rows332 = _f332.get("sources") or []
+            if len(_rows332) != _s332.get("sources_the_helper_blinds"):
+                _bad332.append("the source rows disagree with the blinded count")
+            _sum332 = {k: 0 for k in _m332.KINDS}
+            for _r332 in _rows332:
+                if _r332.get("recovered_code_lines", 0) <= 0:
+                    _bad332.append("a published source recovered no line")
+                    break
+                if not _r332.get("spans"):
+                    _bad332.append("a published source carries no hidden span")
+                    break
+                if _r332.get("span_count") != len(_r332.get("spans") or []) and \
+                        _r332.get("span_count", 0) <= 6:
+                    _bad332.append("a source's span count disagrees with its spans")
+                    break
+                for _k332 in _m332.KINDS:
+                    _sum332[_k332] += (_r332.get("kinds") or {}).get(_k332, 0)
+            if all(_r332.get("span_count", 0) <= 6 for _r332 in _rows332):
+                for _k332 in _m332.KINDS:
+                    if _sum332[_k332] != _kinds332.get(_k332):
+                        _bad332.append("kind %s total disagrees with the rows" % _k332)
+                        break
+            _rep332 = _f332.get("repricing") or {}
+            if not _rep332.get("with_shipped_helper") or not _rep332.get("with_recovered_corpus"):
+                _bad332.append("the re-pricing block is incomplete")
+            else:
+                _d332 = _rep332.get("delta") or {}
+                for _k332, _v332 in _d332.items():
+                    _was332 = (_rep332["with_shipped_helper"] or {}).get(_k332) or 0
+                    _now332 = (_rep332["with_recovered_corpus"] or {}).get(_k332) or 0
+                    if _v332 != _now332 - _was332:
+                        _bad332.append("delta.%s is not the difference of the two runs" % _k332)
+                        break
+            if _rep332 != _fresh332.get("repricing"):
+                _bad332.append("the published re-pricing does not re-derive")
+            for _pair332 in _rep332.get("pairs_reclassified_when_the_corpus_is_read") or []:
+                if _pair332.get("with_helper") == _pair332.get("recovered"):
+                    _bad332.append("a reclassified pair carries the same class twice")
+                    break
+    except Exception as e:
+        check(_name332, False, repr(e)[:160])
+
+    check(_name332, not _bad332, "; ".join(_bad332)[:220]
+          or "%s | %s of %s sources carry %s lines the corpus helper cannot see (%s defs, %s load "
+             "lines, %s selftest mentions); E331's tail metric saw %s of them; re-pricing moves the "
+             "pointer-only reader count by %+d and reclassifies %s pair(s)"
+             % (str((_f332 or {}).get("verdict")),
+                ((_f332 or {}).get("summary") or {}).get("sources_the_helper_blinds"),
+                ((_f332 or {}).get("summary") or {}).get("sources_scanned"),
+                ((_f332 or {}).get("summary") or {}).get("recovered_code_lines"),
+                (((_f332 or {}).get("summary") or {}).get("recovered_by_kind") or {}).get("definitions"),
+                (((_f332 or {}).get("summary") or {}).get("recovered_by_kind") or {}).get("load_sites"),
+                (((_f332 or {}).get("summary") or {}).get("recovered_by_kind") or {}).get(
+                    "selftest_legs"),
+                ((_f332 or {}).get("summary") or {}).get("sources_whose_tail_is_invisible"),
+                (((_f332 or {}).get("summary") or {}).get("repricing_delta") or {}).get(
+                    "pointer_only_readers", 0),
+                ((_f332 or {}).get("summary") or {}).get(
+                    "pairs_reclassified_when_the_corpus_is_read")))
+
     return _finish()
 
 

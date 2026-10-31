@@ -6824,3 +6824,47 @@ results/state_tilt/POINTERONLY-2026-11-01.json + pointeronly_latest.json; S6 leg
 (~45s); smoke leg "product: every reader that reaches a face only through a pointer is counted with
 what a missing pointer does to it, and the scanner's own blind spot is published";
 research/digests/DIGEST-20261101-r1351-e331-pointer-only-readers.md
+
+## E332 -- a scanner that hides 4,284 lines of its own corpus reports counts that are floors, and its own "how much did I lose" metric under-reads
+
+E331 published that 22 of 2,284 sources lose their tail to the corpus helper's docstring rule. That
+number is the *small* half of the story. ``e326.code_lines`` flips into doc mode on any stripped line
+that *starts* with a triple quote and carries an odd count of them -- and the ``TEXT = ("""...""".split())``
+idiom ends with exactly such a line, so a closing delimiter is read as an opener. The flag then
+re-synchronises on the next line with an odd triple count, which is usually another ``X = ("""``
+opening, so the file alternates in and out of a docstring that never existed: real code vanishes and
+docstring prose enters the corpus. The tokenizer says 30 sources carry 4,284 real code lines the
+helper never shows (157 defs, 103 load-site lines, 18 face handles, 187 selftest mentions), 22 of them
+in several disjoint spans, and 8 of the 30 are missed entirely by E331's own tail metric because their
+file ends on a line the helper does show.
+
+Re-pricing E331 against the recovered corpus: pointer-only readers 24 -> 25 (``scripts/e312_gate_operand_identity.py``
+/``gatetol`` is a reader once the load site under it is visible, and its pair moves out of
+``reference_without_a_reader``), families reached only through a pointer 120 -> 125, pairs stay 44, and
+the verdict does not move. So the published count was a floor and the conclusion survived anyway --
+which is the only reason to keep both numbers.
+
+Four rules:
+
+- **Measure the corpus, not the scanner's own summary of it.** ``tail_is_invisible`` compares the raw
+  line count with the last visible line, so it can only see losses that reach the end of the file. A
+  loss in the middle reads as zero. Recover from an independent oracle (the tokenizer) and publish
+  both numbers side by side rather than "fixing" the old one.
+- **A helper defect has two directions, and only one of them is a loss.** The same rule also *shows*
+  single-line docstrings as code, because those lines carry two triple marks and never enter the odd
+  branch. That direction adds prose to the population; this study measures the losing direction only
+  and says so, instead of silently normalising both.
+- **Re-price by re-running the consumer, not by estimating the effect.** E331's own ``build()`` was
+  run twice over one file list with the helper swapped, in a ``finally`` block that restores the
+  shipped function and asserts the restore. The delta is then a measurement; the alternative (count
+  the recovered lines and guess what they would have contributed) is a story.
+- **A "lost pair" is usually a reclassification.** The first re-pricing written here reported
+  ``pairs_visible_only_with_the_shipped_helper=1``, which reads as a pair deleted by reading the code
+  correctly. It is the same (source, family) pair changing class. Publish the reclassification as
+  (source, family, from, to); a net count difference hides which number moved.
+
+Products: ``scripts/e332_invisible_tail_recovery.py`` (run / verify 0 problems / selftest 16/16);
+``results/state_tilt/INVISIBLETAIL-2026-11-01.json`` + ``invisibletail_latest.json``; S6 leg
+``invisible_tail_recovery`` (~75s); smoke leg "product: the text the corpus helper cannot see is
+recovered, classified and priced -- and a published reader count is re-derived against the recovered
+corpus" (3/3 mutations caught); ``research/digests/DIGEST-20261101-r1352-e332-invisible-tail.md``

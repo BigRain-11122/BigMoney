@@ -851,6 +851,16 @@ LEGS = [
     ("pointer_only_readers",
      ["python", "scripts/e331_pointer_only_readers.py", "verify"]),
 
+    # E332: E331's tail count (22 sources) is only the part of the helper's blind spot that reaches
+    # the end of a file. The tokenizer finds 30 sources carrying 4,284 real code lines the helper
+    # never shows (157 defs, 103 load lines, 18 face handles, 187 selftest mentions), 22 of them in
+    # several disjoint spans. Re-pricing E331 against the recovered corpus moves the pointer-only
+    # reader count 24 -> 25 (e312's gatetol pointer is a reader once its load site is visible) and
+    # flips that pair out of reference_without_a_reader; the verdict itself does not move.
+    # Verify re-derives every source row and the whole re-pricing block. ~2 min (corpus scan x2).
+    ("invisible_tail_recovery",
+     ["python", "scripts/e332_invisible_tail_recovery.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
@@ -917,6 +927,28 @@ LEGS = [
 ]
 
 
+def ghost_legs(legs=None):
+    """Legs whose script does not exist on disk.
+
+    D-20261101-13: ``Tools/s6_chain_bmc.py`` registered three commands pointing at
+    ``scripts/etf_book_width_cross.py``, which no commit ever contained, so three machines stayed
+    red in the "chain runner is the shared leg list" smoke leg.  A leg table without an existence
+    assertion is a wish list.  Check at registration time (this module's own table, before any leg
+    runs) so a ghost is a refusal here rather than a red smoke everywhere.
+
+    ``python -m pkg.module`` legs are skipped: their target is a module, not a path.
+    """
+    missing = []
+    for name, cmd in (legs if legs is not None else LEGS):
+        if len(cmd) < 2 or cmd[0] != "python" or cmd[1].startswith("-"):
+            continue
+        if cmd[1] == "-m":
+            continue
+        if not os.path.exists(cmd[1]):
+            missing.append((name, cmd[1]))
+    return missing
+
+
 def main(argv):
     # --only <name>[,<name>...] runs a subset of legs. r1281 recorded that the absence of this
     # selector meant the whole chain could not be spot-run inside a round, so a single leg could
@@ -939,6 +971,13 @@ def main(argv):
         print("usage: s6_chain_bmb.py <round_no> [--only leg1,leg2]")
         return 2
     rnd = str(rest[0])
+    ghosts = ghost_legs()
+    if ghosts:
+        for name, target in ghosts:
+            print("ghost leg registered: %s -> %s (the script does not exist)" % (name, target))
+        print("refusing to run a leg table that names a script no commit contains "
+              "(D-20261101-13: register only what is on disk)")
+        return 2
     legs = LEGS
     if only is not None:
         unknown = sorted(only - {name for name, _cmd in LEGS})

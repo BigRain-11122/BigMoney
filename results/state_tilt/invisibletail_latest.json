@@ -1,0 +1,1898 @@
+{
+ "study": "E332_invisible_tail_recovery",
+ "evidence_cutoff": "2026-11-01",
+ "verdict": "the_published_reader_count_is_a_floor_over_a_corpus_that_hides_its_own_code",
+ "verdict_reason": "30 sources carry 4284 lines of real code the corpus helper does not show, and reading them moves E331's pointer-only reader count by +1 (pairs +0, sources +0): the published count is a floor, not a count",
+ "summary": {
+  "sources_scanned": 2286,
+  "sources_the_helper_blinds": 30,
+  "recovered_code_lines": 4284,
+  "recovered_by_kind": {
+   "definitions": 157,
+   "classes": 0,
+   "face_handles": 18,
+   "load_sites": 103,
+   "selftest_legs": 187
+  },
+  "sources_whose_tail_is_invisible": 22,
+  "sources_blinded_before_their_last_line": 30,
+  "spans_per_source_median": 7,
+  "sources_with_more_than_one_span": 22,
+  "sources_whose_stream_ended_early": 0,
+  "repricing_delta": {
+   "sources_scanned": 0,
+   "families_referenced_only_through_a_pointer": 5,
+   "pairs": 0,
+   "pointer_only_readers": 1,
+   "distinct_families_read": 0,
+   "readers_guarded_before_they_use_the_value": 0,
+   "readers_whose_helper_turns_a_miss_into_None": 0,
+   "readers_that_raise_at_the_file": 1,
+   "sources_whose_tail_the_scanner_cannot_see": -22,
+   "prose_literals_rejected_as_notes": -1
+  },
+  "verdict_moved": false,
+  "pointer_only_readers_visible_only_in_the_recovered_text": 1,
+  "pairs_reclassified_when_the_corpus_is_read": 1,
+  "rows_published": 30,
+  "rows_truncated": 0
+ },
+ "rules": {
+  "recovery": "a line is recovered when the real tokenizer finds a token on it that is not STRING/COMMENT/NL/NEWLINE/INDENT/DEDENT/ENCODING/ENDMARKER and the corpus helper does not show that line number",
+  "helper_failure": "the helper flips into doc mode on a line that *starts* with a triple quote and carries an odd count of them; a continuation line that opens with a closing delimiter is read as an opener, and the flag re-synchronises one literal later in the wrong phase",
+  "reprice": "E331's own build() is run twice over the same file list, once with the shipped helper and once with a tokenizer-backed one; the patched helper is restored in a finally block and the restore is asserted",
+  "no_silent_substitution": "the recovered text is never used to overwrite a published face; the delta is reported beside the shipped numbers"
+ },
+ "limits": {
+  "tokenizer_truth": "the tokenizer answers 'is this line code', not 'would this module import'; a file with a genuinely unterminated literal stops the stream and is disclosed as stream_ended_early",
+  "single_consumer": "only E331 is re-priced.  E326/E328/E329/E330 read the same helper, so their counts are floors of the same shape but are not re-derived here",
+  "face_level": "the recovery classifies lines by shape (def / class / path literal / load call / selftest mention); it does not execute them"
+ },
+ "repricing": {
+  "with_shipped_helper": {
+   "sources_scanned": 2285,
+   "families_referenced_only_through_a_pointer": 120,
+   "pairs": 44,
+   "pointer_only_readers": 24,
+   "distinct_families_read": 19,
+   "readers_guarded_before_they_use_the_value": 15,
+   "readers_whose_helper_turns_a_miss_into_None": 0,
+   "readers_that_raise_at_the_file": 9,
+   "sources_whose_tail_the_scanner_cannot_see": 22,
+   "prose_literals_rejected_as_notes": 22
+  },
+  "with_recovered_corpus": {
+   "sources_scanned": 2285,
+   "families_referenced_only_through_a_pointer": 125,
+   "pairs": 44,
+   "pointer_only_readers": 25,
+   "distinct_families_read": 19,
+   "readers_guarded_before_they_use_the_value": 15,
+   "readers_whose_helper_turns_a_miss_into_None": 0,
+   "readers_that_raise_at_the_file": 10,
+   "sources_whose_tail_the_scanner_cannot_see": 0,
+   "prose_literals_rejected_as_notes": 21
+  },
+  "delta": {
+   "sources_scanned": 0,
+   "families_referenced_only_through_a_pointer": 5,
+   "pairs": 0,
+   "pointer_only_readers": 1,
+   "distinct_families_read": 0,
+   "readers_guarded_before_they_use_the_value": 0,
+   "readers_whose_helper_turns_a_miss_into_None": 0,
+   "readers_that_raise_at_the_file": 1,
+   "sources_whose_tail_the_scanner_cannot_see": -22,
+   "prose_literals_rejected_as_notes": -1
+  },
+  "handling_by_class": {
+   "the_load_raises_at_the_file": {
+    "with_helper": 9,
+    "recovered": 10,
+    "delta": 1
+   }
+  },
+  "verdict_with_shipped_helper": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+  "verdict_with_recovered_corpus": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+  "verdict_moved": false,
+  "readers_visible_only_in_the_recovered_text": [
+   {
+    "source": "scripts/e312_gate_operand_identity.py",
+    "family": "gatetol"
+   }
+  ],
+  "pairs_reclassified_when_the_corpus_is_read": [
+   {
+    "source": "scripts/e312_gate_operand_identity.py",
+    "family": "gatetol",
+    "with_helper": "reference_without_a_reader",
+    "recovered": "pointer_only_reader"
+   }
+  ],
+  "pairs_only_with_the_shipped_helper": 0,
+  "pairs_only_with_the_recovered_corpus": 0
+ },
+ "sources": [
+  {
+   "source": "scripts/e330_unpinned_choice.py",
+   "raw_lines": 835,
+   "lines_the_helper_shows": 40,
+   "real_code_lines": 635,
+   "recovered_code_lines": 602,
+   "spans": [
+    [
+     81,
+     81,
+     1
+    ],
+    [
+     83,
+     87,
+     5
+    ],
+    [
+     92,
+     93,
+     2
+    ],
+    [
+     96,
+     97,
+     2
+    ],
+    [
+     100,
+     100,
+     1
+    ],
+    [
+     108,
+     123,
+     16
+    ]
+   ],
+   "span_count": 66,
+   "first_hidden_code_line": 81,
+   "dropped_from_the_end": 729,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 24,
+    "classes": 0,
+    "face_handles": 2,
+    "load_sites": 9,
+    "selftest_legs": 11
+   },
+   "examples": [
+    {
+     "line": 81,
+     "text": "\"\"\".split())",
+     "kinds": []
+    },
+    {
+     "line": 83,
+     "text": "GLOBAL_SOURCES = (\"Tools/s6_chain_bmb.py\", \"smoke_test.py\")",
+     "kinds": []
+    },
+    {
+     "line": 84,
+     "text": "OWN_FACES = (FACE, LATEST)",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/e312_gate_operand_identity.py",
+   "raw_lines": 743,
+   "lines_the_helper_shows": 44,
+   "real_code_lines": 583,
+   "recovered_code_lines": 560,
+   "spans": [
+    [
+     61,
+     61,
+     1
+    ],
+    [
+     64,
+     66,
+     3
+    ],
+    [
+     69,
+     74,
+     6
+    ],
+    [
+     77,
+     78,
+     2
+    ],
+    [
+     81,
+     82,
+     2
+    ],
+    [
+     85,
+     90,
+     6
+    ]
+   ],
+   "span_count": 53,
+   "first_hidden_code_line": 61,
+   "dropped_from_the_end": 424,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 25,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 4,
+    "selftest_legs": 9
+   },
+   "examples": [
+    {
+     "line": 61,
+     "text": "\"\"\" .split())",
+     "kinds": []
+    },
+    {
+     "line": 64,
+     "text": "def _read(path):",
+     "kinds": [
+      "definitions"
+     ]
+    },
+    {
+     "line": 65,
+     "text": "with io.open(path, encoding=\"utf-8\") as fh:",
+     "kinds": [
+      "load_sites"
+     ]
+    }
+   ]
+  },
+  {
+   "source": "scripts/e231_band_path_test.py",
+   "raw_lines": 795,
+   "lines_the_helper_shows": 58,
+   "real_code_lines": 551,
+   "recovered_code_lines": 550,
+   "spans": [
+    [
+     59,
+     59,
+     1
+    ],
+    [
+     61,
+     66,
+     6
+    ],
+    [
+     68,
+     70,
+     3
+    ],
+    [
+     72,
+     74,
+     3
+    ],
+    [
+     76,
+     78,
+     3
+    ],
+    [
+     80,
+     84,
+     5
+    ]
+   ],
+   "span_count": 91,
+   "first_hidden_code_line": 59,
+   "dropped_from_the_end": 531,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 18,
+    "classes": 0,
+    "face_handles": 1,
+    "load_sites": 3,
+    "selftest_legs": 29
+   },
+   "examples": [
+    {
+     "line": 59,
+     "text": "from __future__ import annotations",
+     "kinds": []
+    },
+    {
+     "line": 61,
+     "text": "import argparse",
+     "kinds": []
+    },
+    {
+     "line": 62,
+     "text": "import csv",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/e308_leg_vs_producer_tolerance.py",
+   "raw_lines": 577,
+   "lines_the_helper_shows": 40,
+   "real_code_lines": 448,
+   "recovered_code_lines": 447,
+   "spans": [
+    [
+     37,
+     42,
+     6
+    ],
+    [
+     44,
+     47,
+     4
+    ],
+    [
+     49,
+     49,
+     1
+    ],
+    [
+     51,
+     56,
+     6
+    ],
+    [
+     58,
+     61,
+     4
+    ],
+    [
+     65,
+     66,
+     2
+    ]
+   ],
+   "span_count": 44,
+   "first_hidden_code_line": 37,
+   "dropped_from_the_end": 386,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 18,
+    "classes": 0,
+    "face_handles": 2,
+    "load_sites": 5,
+    "selftest_legs": 14
+   },
+   "examples": [
+    {
+     "line": 37,
+     "text": "import glob",
+     "kinds": []
+    },
+    {
+     "line": 38,
+     "text": "import io",
+     "kinds": []
+    },
+    {
+     "line": 39,
+     "text": "import json",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/t11_negday_ic.py",
+   "raw_lines": 544,
+   "lines_the_helper_shows": 18,
+   "real_code_lines": 437,
+   "recovered_code_lines": 436,
+   "spans": [
+    [
+     25,
+     30,
+     6
+    ],
+    [
+     32,
+     33,
+     2
+    ],
+    [
+     35,
+     36,
+     2
+    ],
+    [
+     38,
+     41,
+     4
+    ],
+    [
+     43,
+     47,
+     5
+    ],
+    [
+     49,
+     52,
+     4
+    ]
+   ],
+   "span_count": 53,
+   "first_hidden_code_line": 25,
+   "dropped_from_the_end": 521,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 16,
+    "classes": 0,
+    "face_handles": 1,
+    "load_sites": 7,
+    "selftest_legs": 4
+   },
+   "examples": [
+    {
+     "line": 25,
+     "text": "import argparse",
+     "kinds": []
+    },
+    {
+     "line": 26,
+     "text": "import hashlib",
+     "kinds": []
+    },
+    {
+     "line": 27,
+     "text": "import json",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/tree_shrink_guard.py",
+   "raw_lines": 522,
+   "lines_the_helper_shows": 19,
+   "real_code_lines": 388,
+   "recovered_code_lines": 387,
+   "spans": [
+    [
+     23,
+     23,
+     1
+    ],
+    [
+     25,
+     31,
+     7
+    ],
+    [
+     33,
+     34,
+     2
+    ],
+    [
+     37,
+     42,
+     6
+    ],
+    [
+     45,
+     45,
+     1
+    ],
+    [
+     47,
+     49,
+     3
+    ]
+   ],
+   "span_count": 51,
+   "first_hidden_code_line": 23,
+   "dropped_from_the_end": 394,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 20,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 9,
+    "selftest_legs": 23
+   },
+   "examples": [
+    {
+     "line": 23,
+     "text": "from __future__ import annotations",
+     "kinds": []
+    },
+    {
+     "line": 25,
+     "text": "import argparse",
+     "kinds": []
+    },
+    {
+     "line": 26,
+     "text": "import json",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/e280_e251_rng_drift_repin.py",
+   "raw_lines": 295,
+   "lines_the_helper_shows": 18,
+   "real_code_lines": 224,
+   "recovered_code_lines": 223,
+   "spans": [
+    [
+     25,
+     28,
+     4
+    ],
+    [
+     30,
+     32,
+     3
+    ],
+    [
+     34,
+     36,
+     3
+    ],
+    [
+     38,
+     41,
+     4
+    ],
+    [
+     44,
+     46,
+     3
+    ],
+    [
+     49,
+     50,
+     2
+    ]
+   ],
+   "span_count": 31,
+   "first_hidden_code_line": 25,
+   "dropped_from_the_end": 273,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 12,
+    "classes": 0,
+    "face_handles": 1,
+    "load_sites": 4,
+    "selftest_legs": 20
+   },
+   "examples": [
+    {
+     "line": 25,
+     "text": "import json",
+     "kinds": []
+    },
+    {
+     "line": 26,
+     "text": "import os",
+     "kinds": []
+    },
+    {
+     "line": 27,
+     "text": "import sys",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/memory-budget-gate.py",
+   "raw_lines": 248,
+   "lines_the_helper_shows": 9,
+   "real_code_lines": 209,
+   "recovered_code_lines": 209,
+   "spans": [
+    [
+     15,
+     18,
+     4
+    ],
+    [
+     20,
+     21,
+     2
+    ],
+    [
+     23,
+     40,
+     18
+    ],
+    [
+     42,
+     62,
+     21
+    ],
+    [
+     65,
+     91,
+     27
+    ],
+    [
+     94,
+     101,
+     8
+    ]
+   ],
+   "span_count": 18,
+   "first_hidden_code_line": 15,
+   "dropped_from_the_end": 235,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 6,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 7,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 15,
+     "text": "import datetime",
+     "kinds": []
+    },
+    {
+     "line": 16,
+     "text": "import os",
+     "kinds": []
+    },
+    {
+     "line": 17,
+     "text": "import re",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r390bmc_close.py",
+   "raw_lines": 164,
+   "lines_the_helper_shows": 14,
+   "real_code_lines": 106,
+   "recovered_code_lines": 96,
+   "spans": [
+    [
+     25,
+     25,
+     1
+    ],
+    [
+     28,
+     28,
+     1
+    ],
+    [
+     46,
+     46,
+     1
+    ],
+    [
+     48,
+     48,
+     1
+    ],
+    [
+     54,
+     54,
+     1
+    ],
+    [
+     57,
+     57,
+     1
+    ]
+   ],
+   "span_count": 16,
+   "first_hidden_code_line": 25,
+   "dropped_from_the_end": 142,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 1,
+    "classes": 0,
+    "face_handles": 1,
+    "load_sites": 9,
+    "selftest_legs": 1
+   },
+   "examples": [
+    {
+     "line": 25,
+     "text": "HANDOVER_ENTRY = \"\"\"> bm-c round 390 五倍数核对（2026-10-03 00:3x·增量窗 r381-390 十轮〔r385 漏 5x 核对=坑-79「指针写了≠执行」族如实注记·本行合并覆盖〕）：增量窗 r381-390=bm-c 面（**W",
+     "kinds": [
+      "face_handles"
+     ]
+    },
+    {
+     "line": 28,
+     "text": "VERIFY_TEXT = (\"r390 product round: LOWAMP-DEEP-P1-SENS burn COMPLETE + delivered to origin \"",
+     "kinds": []
+    },
+    {
+     "line": 46,
+     "text": "\"window covered this round.\")",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/spm_j4_attribution.py",
+   "raw_lines": 643,
+   "lines_the_helper_shows": 398,
+   "real_code_lines": 452,
+   "recovered_code_lines": 90,
+   "spans": [
+    [
+     525,
+     528,
+     4
+    ],
+    [
+     531,
+     536,
+     6
+    ],
+    [
+     540,
+     541,
+     2
+    ],
+    [
+     543,
+     548,
+     6
+    ],
+    [
+     550,
+     551,
+     2
+    ],
+    [
+     555,
+     570,
+     16
+    ]
+   ],
+   "span_count": 15,
+   "first_hidden_code_line": 525,
+   "dropped_from_the_end": 120,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 4,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 1,
+    "selftest_legs": 4
+   },
+   "examples": [
+    {
+     "line": 525,
+     "text": "with open(OUT_MD, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 526,
+     "text": "fh.write(rep)",
+     "kinds": []
+    },
+    {
+     "line": 527,
+     "text": "print(f\"report: {OUT_MD}\")",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/e299_rounded_vs_tolerance_census.py",
+   "raw_lines": 937,
+   "lines_the_helper_shows": 665,
+   "real_code_lines": 709,
+   "recovered_code_lines": 89,
+   "spans": [
+    [
+     821,
+     823,
+     3
+    ],
+    [
+     825,
+     830,
+     6
+    ],
+    [
+     832,
+     833,
+     2
+    ],
+    [
+     835,
+     847,
+     13
+    ],
+    [
+     850,
+     854,
+     5
+    ],
+    [
+     857,
+     859,
+     3
+    ]
+   ],
+   "span_count": 18,
+   "first_hidden_code_line": 821,
+   "dropped_from_the_end": 120,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 3,
+    "classes": 0,
+    "face_handles": 4,
+    "load_sites": 0,
+    "selftest_legs": 42
+   },
+   "examples": [
+    {
+     "line": 821,
+     "text": "def cmd_selftest():",
+     "kinds": [
+      "definitions",
+      "selftest_legs"
+     ]
+    },
+    {
+     "line": 822,
+     "text": "ok = 0",
+     "kinds": []
+    },
+    {
+     "line": 823,
+     "text": "fails = []",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r774bmc_outbound_a1.py",
+   "raw_lines": 163,
+   "lines_the_helper_shows": 33,
+   "real_code_lines": 104,
+   "recovered_code_lines": 87,
+   "spans": [
+    [
+     60,
+     60,
+     1
+    ],
+    [
+     70,
+     70,
+     1
+    ],
+    [
+     73,
+     75,
+     3
+    ],
+    [
+     78,
+     95,
+     18
+    ],
+    [
+     97,
+     138,
+     42
+    ],
+    [
+     140,
+     159,
+     20
+    ]
+   ],
+   "span_count": 7,
+   "first_hidden_code_line": 60,
+   "dropped_from_the_end": 106,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 2,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 3,
+    "selftest_legs": 10
+   },
+   "examples": [
+    {
+     "line": 60,
+     "text": "MSG = (\"mv0001 A-direction pre-start delivery v1 (bm-c r774, ORD 19:25 item-4, \"",
+     "kinds": []
+    },
+    {
+     "line": 70,
+     "text": "\"until CEO OK\")",
+     "kinds": []
+    },
+    {
+     "line": 73,
+     "text": "def run(cwd, args, env=None):",
+     "kinds": [
+      "definitions"
+     ]
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r775bmc_outbound_v7.py",
+   "raw_lines": 163,
+   "lines_the_helper_shows": 31,
+   "real_code_lines": 104,
+   "recovered_code_lines": 87,
+   "spans": [
+    [
+     61,
+     61,
+     1
+    ],
+    [
+     70,
+     70,
+     1
+    ],
+    [
+     73,
+     75,
+     3
+    ],
+    [
+     78,
+     95,
+     18
+    ],
+    [
+     97,
+     138,
+     42
+    ],
+    [
+     140,
+     159,
+     20
+    ]
+   ],
+   "span_count": 7,
+   "first_hidden_code_line": 61,
+   "dropped_from_the_end": 105,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 2,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 3,
+    "selftest_legs": 10
+   },
+   "examples": [
+    {
+     "line": 61,
+     "text": "MSG = (\"mv0001 A-direction rolling-cont delivery v1.1 (bm-c r775, ORD 19:25 \"",
+     "kinds": []
+    },
+    {
+     "line": 70,
+     "text": "\"unchanged; video lane stays frozen until CEO OK\")",
+     "kinds": []
+    },
+    {
+     "line": 73,
+     "text": "def run(cwd, args, env=None):",
+     "kinds": [
+      "definitions"
+     ]
+    }
+   ]
+  },
+  {
+   "source": "scripts/t28_stable_profit.py",
+   "raw_lines": 541,
+   "lines_the_helper_shows": 361,
+   "real_code_lines": 414,
+   "recovered_code_lines": 76,
+   "spans": [
+    [
+     443,
+     446,
+     4
+    ],
+    [
+     450,
+     451,
+     2
+    ],
+    [
+     453,
+     459,
+     7
+    ],
+    [
+     462,
+     465,
+     4
+    ],
+    [
+     468,
+     470,
+     3
+    ],
+    [
+     473,
+     480,
+     8
+    ]
+   ],
+   "span_count": 13,
+   "first_hidden_code_line": 443,
+   "dropped_from_the_end": 100,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 3,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 1,
+    "selftest_legs": 4
+   },
+   "examples": [
+    {
+     "line": 443,
+     "text": "with open(OUT_REPORT, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 444,
+     "text": "fh.write(rep)",
+     "kinds": []
+    },
+    {
+     "line": 445,
+     "text": "print(f\"report: {OUT_REPORT}\")",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r1226bmb_face.py",
+   "raw_lines": 230,
+   "lines_the_helper_shows": 98,
+   "real_code_lines": 95,
+   "recovered_code_lines": 70,
+   "spans": [
+    [
+     106,
+     106,
+     1
+    ],
+    [
+     109,
+     109,
+     1
+    ],
+    [
+     134,
+     136,
+     3
+    ],
+    [
+     139,
+     150,
+     12
+    ],
+    [
+     152,
+     157,
+     6
+    ],
+    [
+     160,
+     160,
+     1
+    ]
+   ],
+   "span_count": 11,
+   "first_hidden_code_line": 106,
+   "dropped_from_the_end": 99,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 4,
+    "load_sites": 2,
+    "selftest_legs": 1
+   },
+   "examples": [
+    {
+     "line": 106,
+     "text": "write_text(\"research/digests/DIGEST-20261028-e198-carrier-sign-flip.md\", DIGEST)",
+     "kinds": []
+    },
+    {
+     "line": 109,
+     "text": "CARD = \"\"\"",
+     "kinds": []
+    },
+    {
+     "line": 134,
+     "text": "with open(os.path.join(ROOT, \"knowledge\", \"METHODOLOGY_ASSETS.md\"), \"a\",",
+     "kinds": [
+      "load_sites"
+     ]
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r390bmc_addendum.py",
+   "raw_lines": 86,
+   "lines_the_helper_shows": 11,
+   "real_code_lines": 59,
+   "recovered_code_lines": 51,
+   "spans": [
+    [
+     18,
+     18,
+     1
+    ],
+    [
+     25,
+     25,
+     1
+    ],
+    [
+     27,
+     27,
+     1
+    ],
+    [
+     30,
+     30,
+     1
+    ],
+    [
+     33,
+     34,
+     2
+    ],
+    [
+     36,
+     51,
+     16
+    ]
+   ],
+   "span_count": 11,
+   "first_hidden_code_line": 18,
+   "dropped_from_the_end": 71,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 1,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 7,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 18,
+     "text": "APPEND_VERIFY = (\" MID-WINDOW ADDENDUM: local engine self-claimed + burned contest-ytd-p1 shards 3+4 \"",
+     "kinds": []
+    },
+    {
+     "line": 25,
+     "text": "\"r389 deliberate tombstone).\")",
+     "kinds": []
+    },
+    {
+     "line": 27,
+     "text": "APPEND_NEXT_PREFIX = (\"(a0) CONTEST SHARD-3/4 double-claim watch (first check): bm-a tick behavior on rows 3/4 \"",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r700bmc_o1300_receipt.py",
+   "raw_lines": 95,
+   "lines_the_helper_shows": 24,
+   "real_code_lines": 64,
+   "recovered_code_lines": 47,
+   "spans": [
+    [
+     39,
+     41,
+     3
+    ],
+    [
+     44,
+     45,
+     2
+    ],
+    [
+     52,
+     55,
+     4
+    ],
+    [
+     58,
+     95,
+     38
+    ]
+   ],
+   "span_count": 4,
+   "first_hidden_code_line": 39,
+   "dropped_from_the_end": 58,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 3,
+    "selftest_legs": 2
+   },
+   "examples": [
+    {
+     "line": 39,
+     "text": "with open(ORD, \"a\", encoding=\"utf-8\") as fh:",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 40,
+     "text": "fh.write(RECEIPT)",
+     "kinds": []
+    },
+    {
+     "line": 41,
+     "text": "print(\"order receipt appended\")",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r1184bmb_renumber.py",
+   "raw_lines": 80,
+   "lines_the_helper_shows": 25,
+   "real_code_lines": 41,
+   "recovered_code_lines": 38,
+   "spans": [
+    [
+     37,
+     45,
+     9
+    ],
+    [
+     48,
+     58,
+     11
+    ],
+    [
+     60,
+     69,
+     10
+    ],
+    [
+     72,
+     74,
+     3
+    ],
+    [
+     76,
+     80,
+     5
+    ]
+   ],
+   "span_count": 5,
+   "first_hidden_code_line": 37,
+   "dropped_from_the_end": 46,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 8,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 37,
+     "text": "P = \"knowledge/METHODOLOGY_ASSETS.md\"",
+     "kinds": []
+    },
+    {
+     "line": 38,
+     "text": "s = io.open(P, encoding=\"utf-8\").read()",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 39,
+     "text": "assert \"## E151 Two arms must be fitted\" in s, \"bm-c E151 text missing -- do not overwrite\"",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/g2_overlap_census.py",
+   "raw_lines": 1241,
+   "lines_the_helper_shows": 976,
+   "real_code_lines": 984,
+   "recovered_code_lines": 36,
+   "spans": [
+    [
+     1199,
+     1209,
+     11
+    ],
+    [
+     1215,
+     1232,
+     18
+    ],
+    [
+     1235,
+     1241,
+     7
+    ]
+   ],
+   "span_count": 3,
+   "first_hidden_code_line": 1199,
+   "dropped_from_the_end": 28,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 1,
+    "selftest_legs": 3
+   },
+   "examples": [
+    {
+     "line": 1199,
+     "text": "import tempfile",
+     "kinds": []
+    },
+    {
+     "line": 1200,
+     "text": "tmpdir = tempfile.mkdtemp()",
+     "kinds": []
+    },
+    {
+     "line": 1201,
+     "text": "fake = os.path.join(tmpdir, \"_factors_x.py\")",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r840bma_pit_directwrite.py",
+   "raw_lines": 35,
+   "lines_the_helper_shows": 2,
+   "real_code_lines": 27,
+   "recovered_code_lines": 25,
+   "spans": [
+    [
+     8,
+     8,
+     1
+    ],
+    [
+     11,
+     21,
+     11
+    ],
+    [
+     23,
+     35,
+     13
+    ]
+   ],
+   "span_count": 3,
+   "first_hidden_code_line": 8,
+   "dropped_from_the_end": 30,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 1,
+    "classes": 0,
+    "face_handles": 2,
+    "load_sites": 3,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 8,
+     "text": "E2 = \"\"\"- [2026-10-07 20:2x r840 bm-a] **PS 单元素数组 [1..($parts.Length-1)] 反转域切片坑（r840 S6 批 harness 实弹·6 假 rc=2）**: $parts 为单元素（Length=1）时 $pa",
+     "kinds": []
+    },
+    {
+     "line": 11,
+     "text": "def append_entry(path, entry):",
+     "kinds": [
+      "definitions"
+     ]
+    },
+    {
+     "line": 12,
+     "text": "add = entry.encode('utf-8')",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/update_etf_universe.py",
+   "raw_lines": 375,
+   "lines_the_helper_shows": 293,
+   "real_code_lines": 280,
+   "recovered_code_lines": 21,
+   "spans": [
+    [
+     38,
+     46,
+     9
+    ],
+    [
+     48,
+     49,
+     2
+    ],
+    [
+     51,
+     51,
+     1
+    ],
+    [
+     53,
+     60,
+     8
+    ],
+    [
+     66,
+     66,
+     1
+    ]
+   ],
+   "span_count": 5,
+   "first_hidden_code_line": 38,
+   "dropped_from_the_end": 0,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 1,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 0,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 38,
+     "text": "import datetime as dt",
+     "kinds": []
+    },
+    {
+     "line": 39,
+     "text": "import glob",
+     "kinds": []
+    },
+    {
+     "line": 40,
+     "text": "import io",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r1234bmb_card.py",
+   "raw_lines": 51,
+   "lines_the_helper_shows": 30,
+   "real_code_lines": 13,
+   "recovered_code_lines": 11,
+   "spans": [
+    [
+     41,
+     51,
+     11
+    ]
+   ],
+   "span_count": 1,
+   "first_hidden_code_line": 41,
+   "dropped_from_the_end": 13,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 2,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 41,
+     "text": "p = 'knowledge/METHODOLOGY_ASSETS.md'",
+     "kinds": []
+    },
+    {
+     "line": 42,
+     "text": "with io.open(p, encoding='utf-8') as fh:",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 43,
+     "text": "s = fh.read()",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r1184bmb_card.py",
+   "raw_lines": 39,
+   "lines_the_helper_shows": 25,
+   "real_code_lines": 11,
+   "recovered_code_lines": 9,
+   "spans": [
+    [
+     31,
+     39,
+     9
+    ]
+   ],
+   "span_count": 1,
+   "first_hidden_code_line": 31,
+   "dropped_from_the_end": 11,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 2,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 31,
+     "text": "p = \"knowledge/METHODOLOGY_ASSETS.md\"",
+     "kinds": []
+    },
+    {
+     "line": 32,
+     "text": "s = io.open(p, encoding=\"utf-8\").read()",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 33,
+     "text": "if \"E151 \" in s:",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r1232bmb_card.py",
+   "raw_lines": 43,
+   "lines_the_helper_shows": 25,
+   "real_code_lines": 9,
+   "recovered_code_lines": 7,
+   "spans": [
+    [
+     37,
+     43,
+     7
+    ]
+   ],
+   "span_count": 1,
+   "first_hidden_code_line": 37,
+   "dropped_from_the_end": 9,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 2,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 37,
+     "text": "p = \"knowledge/METHODOLOGY_ASSETS.md\"",
+     "kinds": []
+    },
+    {
+     "line": 38,
+     "text": "t = io.open(p, encoding=\"utf-8\").read()",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 39,
+     "text": "if \"E204 Before you publish\" in t:",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/_r855bma_handover_5x.py",
+   "raw_lines": 12,
+   "lines_the_helper_shows": 4,
+   "real_code_lines": 10,
+   "recovered_code_lines": 6,
+   "spans": [
+    [
+     7,
+     12,
+     6
+    ]
+   ],
+   "span_count": 1,
+   "first_hidden_code_line": 7,
+   "dropped_from_the_end": 7,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 2,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 7,
+     "text": "with open(P, encoding='utf-8') as f:",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 8,
+     "text": "body = f.read()",
+     "kinds": []
+    },
+    {
+     "line": 9,
+     "text": "assert ENTRY[:60] not in body, 'already appended'",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/_r855bma_oss_ledger_append.py",
+   "raw_lines": 25,
+   "lines_the_helper_shows": 13,
+   "real_code_lines": 10,
+   "recovered_code_lines": 6,
+   "spans": [
+    [
+     20,
+     25,
+     6
+    ]
+   ],
+   "span_count": 1,
+   "first_hidden_code_line": 20,
+   "dropped_from_the_end": 7,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 2,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 20,
+     "text": "with open(P, encoding='utf-8') as f:",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 21,
+     "text": "body = f.read()",
+     "kinds": []
+    },
+    {
+     "line": 22,
+     "text": "assert SECTION.strip() not in body, 'already appended'",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/_r855bma_pit_append.py",
+   "raw_lines": 14,
+   "lines_the_helper_shows": 5,
+   "real_code_lines": 10,
+   "recovered_code_lines": 6,
+   "spans": [
+    [
+     9,
+     14,
+     6
+    ]
+   ],
+   "span_count": 1,
+   "first_hidden_code_line": 9,
+   "dropped_from_the_end": 7,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 2,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 9,
+     "text": "with open(P, encoding='utf-8') as f:",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 10,
+     "text": "body = f.read()",
+     "kinds": []
+    },
+    {
+     "line": 11,
+     "text": "assert ENTRY.strip()[:60] not in body, 'already appended'",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/_r853bma_oss_ledger_append.py",
+   "raw_lines": 56,
+   "lines_the_helper_shows": 32,
+   "real_code_lines": 12,
+   "recovered_code_lines": 5,
+   "spans": [
+    [
+     51,
+     51,
+     1
+    ],
+    [
+     53,
+     56,
+     4
+    ]
+   ],
+   "span_count": 2,
+   "first_hidden_code_line": 51,
+   "dropped_from_the_end": 7,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 1,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 51,
+     "text": "'''+datetime.datetime.now().strftime('※r853 bm-a S3/S4/S5 补扫执行体（本章 append-only，本章在册）\\n')",
+     "kinds": []
+    },
+    {
+     "line": 53,
+     "text": "new = text + section",
+     "kinds": []
+    },
+    {
+     "line": 54,
+     "text": "with io.open(P, 'wb') as f:",
+     "kinds": [
+      "load_sites"
+     ]
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r700bmc_judge_tree.py",
+   "raw_lines": 16,
+   "lines_the_helper_shows": 10,
+   "real_code_lines": 7,
+   "recovered_code_lines": 4,
+   "spans": [
+    [
+     13,
+     16,
+     4
+    ]
+   ],
+   "span_count": 1,
+   "first_hidden_code_line": 13,
+   "dropped_from_the_end": 5,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 0,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 13,
+     "text": "r = subprocess.run([\"powershell\", \"-NoProfile\", \"-Command\", PS],",
+     "kinds": []
+    },
+    {
+     "line": 14,
+     "text": "capture_output=True, text=True, encoding=\"utf-8\",",
+     "kinds": []
+    },
+    {
+     "line": 15,
+     "text": "errors=\"replace\")",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/_r820bmc_clone_s6.py",
+   "raw_lines": 31,
+   "lines_the_helper_shows": 23,
+   "real_code_lines": 12,
+   "recovered_code_lines": 3,
+   "spans": [
+    [
+     29,
+     31,
+     3
+    ]
+   ],
+   "span_count": 1,
+   "first_hidden_code_line": 29,
+   "dropped_from_the_end": 4,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 1,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 29,
+     "text": "out = head + w20 + tail",
+     "kinds": []
+    },
+    {
+     "line": 30,
+     "text": "io.open('Tools/_r820bmc_s6.py', 'w', encoding='utf-8', newline='\\n').write(out)",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 31,
+     "text": "print('cloned s6 driver ok', len(out))",
+     "kinds": []
+    }
+   ]
+  }
+ ]
+}
