@@ -738,6 +738,14 @@ LEGS = [
     ("census_self_inclusion",
      ["python", "scripts/e319_census_self_inclusion_sweep.py", "verify"]),
 
+    # E320: of the 219 substitution-span gates E318 left standing, is the gated quantity itself
+    # published in the block? 23 are (16 by the gate key's own stem, 7 by the magnitude printed
+    # twice), 62 are ambiguous and 134 are not -- so E317's span is a careless-reader bound on a
+    # tenth of them and the reading on the rest. Verify re-reads every face from the PRINTCOV
+    # commit and re-derives all 219 spans. ~12s (57 faces read through git, not the worktree).
+    ("decoy_resolution",
+     ["python", "scripts/e320_decoy_resolution.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

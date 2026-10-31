@@ -25889,13 +25889,37 @@
    "priority": 3,
    "question": "for each decoy-bearing leaf: does any candidate share the gated quantity's name token or magnitude fingerprint, and how many decades of ambiguity remain after that match?",
    "runner": "scripts/e320_decoy_resolution.py",
+   "result_ref": "results/state_tilt/DECOYRESOLVE-2026-10-31.json",
    "runner_args": [
     "run"
    ],
    "source": "r1337 (E318): the surviving population cannot say which zero is a copy check and which is a computation - the same question one layer down is which decoy is actually the gated quantity",
-   "status": "ready",
+   "status": "done",
    "target": "the 219 substitution-span leaves surviving E318's prune",
    "title": "E317 published 225 leaves whose block offers a same-unit decoy for the gate; for each, does the block also publish the gated quantity itself, i.e. is the substitution avoidable by a reader who reads the whole block?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/QUANTITYNAME-<cutoff>.json",
+   "entered_at": "2026-10-31T23:5x+08:00",
+   "entered_by": "bm-b r1340",
+   "evidence_cutoff": "2026-10-31",
+   "id": "E321-PRODUCER-NAMES-THE-QUANTITY",
+   "lane": "cpu-only",
+   "priority": 3,
+   "question": "for each gate leaf E320 could not resolve from its own face, does the producing script name the quantity at its own comparison line, and how many of those names would survive being published?",
+   "runner": "scripts/e321_quantity_name_reach.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "r1340 (E320): 134 of 219 decoy-bearing gates publish nothing that names or fingerprints the gated quantity, so the span is the reading; E313 already resolved declared gate keys to the constant behind them for 30 rows -- the same producer-side reading applied to the unresolved population says whether the name exists at all",
+   "status": "ready",
+   "target": "the 134 unresolved rows (plus the 62 ambiguous ones) of DECOYRESOLVE-2026-10-31.json",
+   "title": "E320 measured that a tenth of the ambient gates publish the quantity they gate; for the rest, the face is silent -- but the producer may still name the operand, so measure how far a producer-side read reaches and what share of it is publishable",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",

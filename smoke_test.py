@@ -9135,6 +9135,57 @@ def main() -> int:
     except Exception as e:
         check(_name304, False, repr(e)[:160])
 
+    # E320 (r1340 bm-b): E317 priced the cost of substituting a neighbouring number for a gate's
+    # quantity as a substitution span, and E318 removed the leaves that are counts of gates. This
+    # leg asks the question that decides what the span means per leaf: is the gated quantity itself
+    # published in the block? It pins (a) the population is exactly E317's spans minus E318's
+    # count words, (b) every published span reproduces from the re-read block, (c) the classes
+    # account for every row and a resolved row names exactly one candidate, (d) the residual span
+    # recomputes from the published candidates, and (e) the input is pinned to a commit.
+    _name305 = ("product: a substitution span is judged by whether the quantity is published -- "
+                "23 of 219 gates are avoidable by reading the block, 134 are not")
+    _bad305 = []
+    try:
+        _m305 = __import__("importlib").import_module("e320_decoy_resolution")
+        _f305 = _m305.build()
+        _c305 = _f305.get("census") or {}
+        if _f305.get("evidence_cutoff") != "2026-10-31":
+            _bad305.append("evidence_cutoff moved: %r" % (_f305.get("evidence_cutoff"),))
+        if not _f305.get("base_commit"):
+            _bad305.append("the input face is not pinned to a commit")
+        if any(not c.get("ok") for c in _f305.get("identity_checks") or []):
+            _bad305.append("identity checks are not all green")
+        _rows305 = _f305.get("rows") or []
+        if len(_rows305) != _c305.get("population"):
+            _bad305.append("row count is not the published population")
+        if sum((_c305.get("classes") or {}).values()) != _c305.get("population"):
+            _bad305.append("the classes do not account for every row")
+        if (_c305.get("resolved") or 0) + (_c305.get("ambiguous") or 0) + \
+                (_c305.get("unresolved") or 0) != _c305.get("population"):
+            _bad305.append("resolved + ambiguous + unresolved is not the population")
+        if any(r.get("class") in ("resolved_by_name", "resolved_by_copy")
+               and r.get("n_matches") != 1 for r in _rows305):
+            _bad305.append("a resolved row does not name exactly one candidate")
+        if any(r.get("class") == "unresolved" and r.get("matches") for r in _rows305):
+            _bad305.append("an unresolved row names a candidate")
+        if any(not _m305._residual_ok(r) for r in _rows305):
+            _bad305.append("a residual span does not recompute from its candidates")
+        if (_c305.get("population") or 0) < 50:
+            _bad305.append("the population is too small for the readings to mean anything")
+        check(_name305, not _bad305,
+              "; ".join(_bad305)[:220]
+              or "%d substitution-span gates: %d avoidable (%d by the key's own stem, %d by the "
+                 "magnitude printed twice), %d ambiguous, %d unresolved; median span %s -> %s "
+                 "decades; %d faces carry an unresolved leaf"
+                 % (_c305.get("population") or 0, _c305.get("resolved") or 0,
+                    _c305.get("resolved_by_name") or 0, _c305.get("resolved_by_copy") or 0,
+                    _c305.get("ambiguous") or 0, _c305.get("unresolved") or 0,
+                    (_c305.get("span_before") or {}).get("median"),
+                    (_c305.get("span_after") or {}).get("median"),
+                    _c305.get("faces_with_an_unresolved_leaf") or 0))
+    except Exception as e:
+        check(_name305, False, repr(e)[:160])
+
     return _finish()
 
 
