@@ -722,6 +722,16 @@ LEGS = [
     ("zero_tolerance_prune",
      ["python", "scripts/e318_count_named_gate_leaves.py", "verify"]),
 
+    # E319: E318 found 68 of the 69 surviving zero-tolerance gates sitting on four earlier study
+    # faces because the exclusion list predated them. That is the shape of the mechanism, not one
+    # bad constant: 31 of 45 study faces are censuses, they make 120 census->census row edges, and
+    # NO declared exclusion list reaches any of them (19 censuses declare nothing; 8 guard only
+    # their own two filenames; the single family-prefix list still counts 7 censuses outside it).
+    # This leg rebuilds the graph from the published faces under the frozen pointer rule and
+    # re-checks the exclusion audit and the granularity-aware vintage audit. ~3s (reads all faces).
+    ("census_self_inclusion",
+     ["python", "scripts/e319_census_self_inclusion_sweep.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

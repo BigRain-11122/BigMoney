@@ -25143,10 +25143,13 @@
   },
   {
    "deliverable": "results/state_tilt/BANDDISAGREESCOPE-<cutoff>.json",
+   "done_at": "2026-10-31T08:15+08:00",
+   "done_by": "bm-b r1309",
    "evidence_cutoff": "2026-10-29",
    "id": "E284-DISAGREEMENT-FIELD-SCOPE",
    "lane": "cpu-only",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDDISAGREESCOPE-2026-10-29.json",
    "runner": "scripts/e284_disagreement_field_scope.py",
    "runner_args": [
     "run"
@@ -25161,17 +25164,18 @@
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "result_ref": "results/state_tilt/BANDDISAGREESCOPE-2026-10-29.json",
-   "done_at": "2026-10-31T08:15+08:00",
-   "done_by": "bm-b r1309"
+   }
   },
   {
    "deliverable": "results/state_tilt/BANDGAPCEILING-<cutoff>.json",
+   "done_at": "2026-10-31T07:45+08:00",
+   "done_by": "bm-b r1310",
+   "done_note": "12 rows / 4 arms: 2 in a positive inter-range gap (cross|60|11 1.8030, star_lag1_residual|60|15 1.8843 -- unreachable by both tails), 6 above the family's published ceiling 2.2963 (max 3.2544 = 1.417x), 2 below the floor, 2 reachable by the wide tail, 0 by the tight. Widening inside the published evidence can add at most the 2 gap rows; the extrapolation zone is 3x larger and is not headroom. Face BANDGAPCEILING-2026-10-29.",
    "evidence_cutoff": "2026-10-29",
    "id": "E285-INTERRANGE-GAP-CEILING",
    "lane": "cpu-only",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDGAPCEILING-2026-10-29.json",
    "runner": "scripts/e285_interrange_gap_ceiling.py",
    "runner_args": [
     "run"
@@ -25186,43 +25190,43 @@
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "result_ref": "results/state_tilt/BANDGAPCEILING-2026-10-29.json",
-   "done_at": "2026-10-31T07:45+08:00",
-   "done_by": "bm-b r1310",
-   "done_note": "12 rows / 4 arms: 2 in a positive inter-range gap (cross|60|11 1.8030, star_lag1_residual|60|15 1.8843 -- unreachable by both tails), 6 above the family's published ceiling 2.2963 (max 3.2544 = 1.417x), 2 below the floor, 2 reachable by the wide tail, 0 by the tight. Widening inside the published evidence can add at most the 2 gap rows; the extrapolation zone is 3x larger and is not headroom. Face BANDGAPCEILING-2026-10-29."
+   }
   },
   {
+   "claimed_by": "bm-b",
    "deliverable": "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
+   "done_at": "2026-10-31T07:48+08:00",
    "evidence_cutoff": "2026-10-29",
    "id": "E286-COUNT-FIELD-SCOPE",
-   "status": "done",
    "lane": "cpu-only",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
    "runner": "scripts/e286_count_field_scope.py",
    "runner_args": [
     "run"
    ],
    "seeded_at": "2026-10-31T08:15+08:00",
    "seeded_by": "bm-b r1309",
+   "source": "E284 swept all 30 dated BAND faces for name/value scope slips and classified every label list, but 1338 integer fields (n_rows 116, n_records 115, n_moved 112, n_seeds 96, n_at_base 28, cells_compared 26 ...) could not be judged because their scope depends on each face's own census semantics. Those fields are the same defect class one level down: a count whose name says rows may be counting cells, arms, or draws. The next unit should pick the count keys that carry an explicit unit on their own face (rows/cells/arms/draws/seeds) and re-derive each from the face's published records, publishing per key: measured unit, name-claimed unit, agrees, and the faces where the count cannot be re-derived. No reburn: published records only.",
+   "status": "done",
+   "target": "scripts/e286_count_field_scope.py (new runner)",
+   "title": "does any published COUNT field count the unit its name claims -- n_rows that counts cells, n_cells that counts arms, n_seeds that counts draws?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "target": "scripts/e286_count_field_scope.py (new runner)",
-   "source": "E284 swept all 30 dated BAND faces for name/value scope slips and classified every label list, but 1338 integer fields (n_rows 116, n_records 115, n_moved 112, n_seeds 96, n_at_base 28, cells_compared 26 ...) could not be judged because their scope depends on each face's own census semantics. Those fields are the same defect class one level down: a count whose name says rows may be counting cells, arms, or draws. The next unit should pick the count keys that carry an explicit unit on their own face (rows/cells/arms/draws/seeds) and re-derive each from the face's published records, publishing per key: measured unit, name-claimed unit, agrees, and the faces where the count cannot be re-derived. No reburn: published records only.",
-   "title": "does any published COUNT field count the unit its name claims -- n_rows that counts cells, n_cells that counts arms, n_seeds that counts draws?",
-   "result_ref": "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
-   "done_at": "2026-10-31T07:48+08:00",
-   "claimed_by": "bm-b"
+   }
   },
   {
    "deliverable": "results/state_tilt/BANDSUPPLY-<cutoff>.json",
+   "done_at": "2026-10-31T09:47+08:00",
+   "done_by": "bm-b",
    "evidence_cutoff": "2026-10-29",
    "id": "E287-ABOVE-CEILING-CROSS-FACE",
    "lane": "cpu-only",
+   "note": "runner scripts/e287_supply_ceiling_axes.py (selftest 22/22, verify 0 problems); the runner name in the seed (e287_above_ceiling_cross_face.py) was pre-chosen, the study turned out to need an axis signature before any comparison, so it landed as supply-ceiling-axes; census frozen to the declared manifest per E292",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDSUPPLY-2026-10-29.json :: 6 dated faces publish a multiplier, 2 are band-edge supplies, both tops BELOW the ceiling 2.2963 (1.8383 median / 2.2457 single seed) -> 0 of 6 above-ceiling rows reachable (nearest 3.8 pct short), both gap rows reachable (1 at the median, 2 at the seed); verdict published_supply_reaches_the_gap_rows_only",
    "runner": "scripts/e287_supply_ceiling_axes.py",
    "runner_args": [
     "run"
@@ -25237,18 +25241,17 @@
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "done_at": "2026-10-31T09:47+08:00",
-   "done_by": "bm-b",
-   "result_ref": "results/state_tilt/BANDSUPPLY-2026-10-29.json :: 6 dated faces publish a multiplier, 2 are band-edge supplies, both tops BELOW the ceiling 2.2963 (1.8383 median / 2.2457 single seed) -> 0 of 6 above-ceiling rows reachable (nearest 3.8 pct short), both gap rows reachable (1 at the median, 2 at the seed); verdict published_supply_reaches_the_gap_rows_only",
-   "note": "runner scripts/e287_supply_ceiling_axes.py (selftest 22/22, verify 0 problems); the runner name in the seed (e287_above_ceiling_cross_face.py) was pre-chosen, the study turned out to need an axis signature before any comparison, so it landed as supply-ceiling-axes; census frozen to the declared manifest per E292"
+   }
   },
   {
    "deliverable": "results/state_tilt/BANDFLOORMIRROR-<cutoff>.json",
+   "done_note": "r1317: 2 rows below the floor (11.06 / 36.96 pct); the family publishes exactly one sub-1.0 band-edge multiplier (0.9220216) and it reaches NEITHER (3.67 / 46.26 pct short); scored on each row's own polarity it reaches 0 of 12 rows, so tightening costs every widening row; E285's per-row distance column is published with its implied reference (1.0283 / 1.5815, both ABOVE the floor).",
    "evidence_cutoff": "2026-10-29",
    "id": "E288-BELOW-FLOOR-NARROWING",
    "lane": "cpu-only",
+   "note": "E287 (r1315) already answered the 'does the family publish a narrowing instrument' half: BANDFLOOR publishes one at 0.922022, and it misses the nearest below-floor row (self|60|8 flip 0.889387) by 3.7 pct -- so this card is now only the COST question.",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDFLOORMIRROR-2026-10-29.json",
    "runner": "scripts/e288_below_floor_narrowing.py",
    "runner_args": [
     "run"
@@ -25257,457 +25260,642 @@
    "seeded_by": "bm-b r1310",
    "source": "E285's partition has a bottom class it did not open: 2 of 12 flips sit below the published floor of 1.0 (self|60|8 0.8894, self|60|10 0.6304) and the source summary already counts them as rows_flip_needs_narrowing=2 -- a multiplier below 1 means the band must NARROW, the mirror of the widening every other row needs. Measure: how far below the floor each sits (absolute and relative), whether any face in the family publishes a sub-1.0 multiplier at all (i.e. whether a narrowing instrument exists in the published evidence), and what a narrowed tight tail would cost in rows it currently reaches (0 of 12 at publication). Publish the mirror verdict so 'unreachable' is never reported as a single direction of fix. No reburn: published records only.",
    "status": "done",
-   "result_ref": "results/state_tilt/BANDFLOORMIRROR-2026-10-29.json",
-   "done_note": "r1317: 2 rows below the floor (11.06 / 36.96 pct); the family publishes exactly one sub-1.0 band-edge multiplier (0.9220216) and it reaches NEITHER (3.67 / 46.26 pct short); scored on each row's own polarity it reaches 0 of 12 rows, so tightening costs every widening row; E285's per-row distance column is published with its implied reference (1.0283 / 1.5815, both ABOVE the floor).",
    "target": "scripts/e288_below_floor_narrowing.py (new runner)",
    "title": "a flip below 1.0 needs the band NARROWED, not widened -- does the family publish any narrowing instrument, and what would narrowing cost?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "note": "E287 (r1315) already answered the 'does the family publish a narrowing instrument' half: BANDFLOOR publishes one at 0.922022, and it misses the nearest below-floor row (self|60|8 flip 0.889387) by 3.7 pct -- so this card is now only the COST question."
+   }
   },
   {
+   "claimed_by": "bm-b",
+   "deliverable": "results/state_tilt/BANDSELFAUDIT-<cutoff>.json",
+   "done_at": "2026-10-31T08:02+08:00",
+   "done_note": "verdict: the checkable counts share one shape (a same-parent list of exactly the unit their name claims, 27/27 agree with it) but 12 of the 27 could be coincidence (an equal-length same-unit list elsewhere in the same face). Pattern coverage measured inside the exemplars: 27 of their own 151 unit-named counts = 17.9 pct against 3.0 pct family-wide.",
+   "evidence_cutoff": "2026-10-29",
    "id": "E290-SELF-AUDITABLE-FACE-PROFILE",
-   "title": "what do the few self-auditable faces have in common -- if a new face published its counts the way these five do, would the counts be checkable?",
    "lane": "cpu-only",
-   "status": "done",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDSELFAUDIT-2026-10-29.json",
    "runner": "scripts/e290_selfauditable_face_profile.py",
    "runner_args": [
     "run"
    ],
-   "target": "scripts/e290_selfauditable_face_profile.py (new runner)",
-   "deliverable": "results/state_tilt/BANDSELFAUDIT-<cutoff>.json",
-   "evidence_cutoff": "2026-10-29",
    "seeded_at": "2026-10-31T07:48+08:00",
    "seeded_by": "bm-b r1311",
+   "source": "E286 found that only 27 of 894 unit-named counts (3.0 pct) can be re-derived from the records their name points at, and that those 27 live in just 5 of 32 dated faces. The actionable question is not which counts are wrong (none of the checkable ones are) but what the 5 self-auditable faces do differently: do they place the record list as a sibling of the count, do they publish one record per arm instead of a rolled-up total, do they avoid design-parameter names (draws, seeds) in count position? Profile every face on structure alone (records-adjacent-to-count, per-arm record lists, count keys with a published unit list anywhere) and publish a checkable recipe with the number of faces that would pass it today, plus the per-face gap. No reburn: published records only.",
+   "status": "done",
+   "target": "scripts/e290_selfauditable_face_profile.py (new runner)",
+   "title": "what do the few self-auditable faces have in common -- if a new face published its counts the way these five do, would the counts be checkable?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "source": "E286 found that only 27 of 894 unit-named counts (3.0 pct) can be re-derived from the records their name points at, and that those 27 live in just 5 of 32 dated faces. The actionable question is not which counts are wrong (none of the checkable ones are) but what the 5 self-auditable faces do differently: do they place the record list as a sibling of the count, do they publish one record per arm instead of a rolled-up total, do they avoid design-parameter names (draws, seeds) in count position? Profile every face on structure alone (records-adjacent-to-count, per-arm record lists, count keys with a published unit list anywhere) and publish a checkable recipe with the number of faces that would pass it today, plus the per-face gap. No reburn: published records only.",
-   "result_ref": "results/state_tilt/BANDSELFAUDIT-2026-10-29.json",
-   "done_at": "2026-10-31T08:02+08:00",
-   "claimed_by": "bm-b",
-   "done_note": "verdict: the checkable counts share one shape (a same-parent list of exactly the unit their name claims, 27/27 agree with it) but 12 of the 27 could be coincidence (an equal-length same-unit list elsewhere in the same face). Pattern coverage measured inside the exemplars: 27 of their own 151 unit-named counts = 17.9 pct against 3.0 pct family-wide."
+   }
   },
   {
+   "deliverable": "results/state_tilt/BANDAMBIENT-<cutoff>.json",
+   "done_at": "2026-10-31T08:2x+08:00",
+   "done_by": "bm-b r1313",
+   "evidence_cutoff": "2026-10-29",
    "id": "E291-AMBIGUITY-BY-LENGTH-CHANCE",
-   "title": "is a same-length candidate list a coincidence -- how often do two same-unit lists in one face share a length by chance, and is the 12-of-27 ambiguity rate above it?",
    "lane": "cpu-only",
-   "status": "done",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDAMBIENT-2026-10-29.json (+ bandambient_latest.json; runner scripts/e291_ambiguity_chance.py selftest 17/17, verify 0 problems)",
    "runner": "scripts/e291_ambiguity_chance.py",
    "runner_args": [
     "run"
    ],
-   "target": "scripts/e291_ambiguity_chance.py (new runner)",
-   "deliverable": "results/state_tilt/BANDAMBIENT-<cutoff>.json",
-   "evidence_cutoff": "2026-10-29",
    "seeded_at": "2026-10-31T08:02+08:00",
    "seeded_by": "bm-b r1312",
+   "source": "E290 published 12 of 27 checkable counts as ambiguous because another same-unit list in the same face has the same length. That flag is only informative if equal lengths are sometimes a coincidence: measure the length distribution of same-unit lists per face and compare the observed share of equal-length pairs against the share the length distribution predicts. If equality is common the ambiguity flag is mostly noise and must be reported with its base rate; if it is rare the 12 are real conflicts.",
+   "status": "done",
+   "target": "scripts/e291_ambiguity_chance.py (new runner)",
+   "title": "is a same-length candidate list a coincidence -- how often do two same-unit lists in one face share a length by chance, and is the 12-of-27 ambiguity rate above it?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "source": "E290 published 12 of 27 checkable counts as ambiguous because another same-unit list in the same face has the same length. That flag is only informative if equal lengths are sometimes a coincidence: measure the length distribution of same-unit lists per face and compare the observed share of equal-length pairs against the share the length distribution predicts. If equality is common the ambiguity flag is mostly noise and must be reported with its base rate; if it is rare the 12 are real conflicts.",
-   "result_ref": "results/state_tilt/BANDAMBIENT-2026-10-29.json (+ bandambient_latest.json; runner scripts/e291_ambiguity_chance.py selftest 17/17, verify 0 problems)",
-   "done_at": "2026-10-31T08:2x+08:00",
-   "done_by": "bm-b r1313"
+   }
   },
   {
+   "deliverable": "results/state_tilt/BANDSCOPEFIX-<cutoff>.json",
+   "done_at": "2026-10-31T12:20:00+08:00",
+   "done_by": "bm-b r1321",
+   "evidence_cutoff": "2026-10-29",
    "id": "E292-SCOPE-FIX-PLAN",
-   "title": "which faces would gain the most checkable counts by moving a count into the scope that already publishes its unit -- a ranked fix plan over the 299 scopes?",
    "lane": "cpu-only",
-   "status": "done",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDSCOPEFIX-2026-10-29.json (verdict the_elsewhere_scope_premise_does_not_hold_no_move_lands_in_a_scope_related_to_the_count; 301 elsewhere rows: 0 related-scope clean moves, 126 agreements all against a <=1-item list in an unrelated subtree, 75 would convict, 76 need a choice, 24 name the unit as the key; runner scripts/e292_scope_fix_plan.py selftest 16/16, verify 0 problems)",
    "runner": "scripts/e292_scope_fix_plan.py",
    "runner_args": [
     "run"
    ],
-   "target": "scripts/e292_scope_fix_plan.py (new runner)",
-   "deliverable": "results/state_tilt/BANDSCOPEFIX-<cutoff>.json",
-   "evidence_cutoff": "2026-10-29",
    "seeded_at": "2026-10-31T08:02+08:00",
    "seeded_by": "bm-b r1312",
+   "source": "E290 split the un-derivable counts into 301 rows over 299 distinct scopes (the face already publishes the unit elsewhere, so the count can be moved or its scope named) and 566 rows over 8 keys (no records exist at all). Price the first half as work: group the 301 rows by face and by target scope, publish how many counts each move would make checkable, and rank the faces by that gain per move so the next author knows where a naming change buys the most auditability. No reburn: published faces only.",
+   "status": "done",
+   "target": "scripts/e292_scope_fix_plan.py (new runner)",
+   "title": "which faces would gain the most checkable counts by moving a count into the scope that already publishes its unit -- a ranked fix plan over the 299 scopes?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "source": "E290 split the un-derivable counts into 301 rows over 299 distinct scopes (the face already publishes the unit elsewhere, so the count can be moved or its scope named) and 566 rows over 8 keys (no records exist at all). Price the first half as work: group the 301 rows by face and by target scope, publish how many counts each move would make checkable, and rank the faces by that gain per move so the next author knows where a naming change buys the most auditability. No reburn: published faces only.",
-   "done_at": "2026-10-31T12:20:00+08:00",
-   "done_by": "bm-b r1321",
-   "result_ref": "results/state_tilt/BANDSCOPEFIX-2026-10-29.json (verdict the_elsewhere_scope_premise_does_not_hold_no_move_lands_in_a_scope_related_to_the_count; 301 elsewhere rows: 0 related-scope clean moves, 126 agreements all against a <=1-item list in an unrelated subtree, 75 would convict, 76 need a choice, 24 name the unit as the key; runner scripts/e292_scope_fix_plan.py selftest 16/16, verify 0 problems)"
+   }
   },
   {
+   "deliverable": "results/state_tilt/BANDDUPES-<cutoff>.json",
+   "done_at": "2026-10-31T09:15+08:00",
+   "done_at_note": "stamped 09:15 (the absorbed window's last heartbeat); it had written a forward stamp of 10:20",
+   "done_by": "bm-b",
+   "evidence_cutoff": "2026-10-29",
    "id": "E293-DUPLICATE-LIST-CENSUS",
-   "title": "which published faces carry literally duplicated lists, and does anything read them as two independent records -- a census of the 135 alias pairs E291 found, with the aggregates they sit inside",
    "lane": "cpu-only",
-   "status": "done",
+   "note": "runner scripts/e293_duplicate_list_census.py (selftest 15/15, verify 0 problems); universe = E286 unit-lists, vintage-frozen so a new sibling study cannot drift it",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDDUPES-2026-10-29.json :: 6 alias groups / 38 members (26.6 pct of the unit-list universe) / 135 pairs recount == E291's 135 / 0 strict sum convictions / verdict some_aliases_are_accidental_copies_but_no_scope_counts_one_twice",
    "runner": "scripts/e293_duplicate_list_census.py",
    "runner_args": [
     "run"
    ],
-   "target": "scripts/e293_duplicate_list_census.py (new runner)",
-   "deliverable": "results/state_tilt/BANDDUPES-<cutoff>.json",
-   "evidence_cutoff": "2026-10-29",
    "seeded_at": "2026-10-31T08:2x+08:00",
    "seeded_by": "bm-b r1313",
+   "source": "E291 classified 746 equal-length pairs by content and found 135 of them are the very same list content inside ONE face (18.1 pct), which nothing in the family reports as a defect. A duplicated list is not automatically wrong -- 25 `cells` lists of 24 each in BANDPATH are expected to look alike -- but an alias is a copy, and if a summary DERIVES from a pair of aliases it counts one thing twice. Census every alias group with its parent scope, say whether the duplicates are schema-driven (every arm carries the same key set) or accidental, and join each alias group to any count in the same or a parent scope that sums or compares it. Publish per group: paths, parent, n_aliases, whether the parent is a list of arms (legitimate shape) or a dict of distinct faces (suspect), and the counts that read them. Do NOT rewrite any face (published faces are frozen); the deliverable is a list of suspect duplicates with their readers.",
+   "status": "done",
+   "target": "scripts/e293_duplicate_list_census.py (new runner)",
+   "title": "which published faces carry literally duplicated lists, and does anything read them as two independent records -- a census of the 135 alias pairs E291 found, with the aggregates they sit inside",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "source": "E291 classified 746 equal-length pairs by content and found 135 of them are the very same list content inside ONE face (18.1 pct), which nothing in the family reports as a defect. A duplicated list is not automatically wrong -- 25 `cells` lists of 24 each in BANDPATH are expected to look alike -- but an alias is a copy, and if a summary DERIVES from a pair of aliases it counts one thing twice. Census every alias group with its parent scope, say whether the duplicates are schema-driven (every arm carries the same key set) or accidental, and join each alias group to any count in the same or a parent scope that sums or compares it. Publish per group: paths, parent, n_aliases, whether the parent is a list of arms (legitimate shape) or a dict of distinct faces (suspect), and the counts that read them. Do NOT rewrite any face (published faces are frozen); the deliverable is a list of suspect duplicates with their readers.",
-   "done_at": "2026-10-31T09:15+08:00",
-   "done_by": "bm-b",
-   "result_ref": "results/state_tilt/BANDDUPES-2026-10-29.json :: 6 alias groups / 38 members (26.6 pct of the unit-list universe) / 135 pairs recount == E291's 135 / 0 strict sum convictions / verdict some_aliases_are_accidental_copies_but_no_scope_counts_one_twice",
-   "note": "runner scripts/e293_duplicate_list_census.py (selftest 15/15, verify 0 problems); universe = E286 unit-lists, vintage-frozen so a new sibling study cannot drift it",
-   "done_at_note": "stamped 09:15 (the absorbed window's last heartbeat); it had written a forward stamp of 10:20"
+   }
   },
   {
+   "claimed_by": "bm-b",
+   "deliverable": "results/state_tilt/BANDFROZEN-<cutoff>.json",
+   "done_at": "2026-10-31T12:5x+08:00",
+   "evidence_cutoff": "2026-10-29",
    "id": "E294-LIVE-UNIVERSE-DRIFT",
-   "title": "which BAND-family studies still census the live directory, how many faces would each gain if re-derived today, and does any published verdict depend on the universe it happened to see?",
    "lane": "cpu-only",
-   "status": "done",
    "priority": 3,
+   "result_ref": {
+    "card": "E301",
+    "chain_leg": "live_universe_drift",
+    "digest": "research/digests/DIGEST-20261031-r1322-e294-live-universe-drift.md",
+    "face": "results/state_tilt/BANDFROZEN-2026-10-29.json",
+    "note": "12 of 54 family study scripts census the directory; 9 measured, all stable with up to 34 more faces in view; 3 cannot be asked because build() takes no universe argument",
+    "runner": "scripts/e294_live_universe_drift.py",
+    "smoke_leg": "E294",
+    "verdict": "no_published_verdict_moves_with_the_universe"
+   },
    "runner": "scripts/e294_live_universe_drift.py",
    "runner_args": [
     "run"
    ],
-   "target": "scripts/e294_live_universe_drift.py (new runner)",
-   "deliverable": "results/state_tilt/BANDFROZEN-<cutoff>.json",
-   "evidence_cutoff": "2026-10-29",
    "seeded_at": "2026-10-31T09:20+08:00",
    "seeded_by": "bm-b r1314",
+   "source": "r1314 found that every study in this family censuses its siblings' published faces, so four smoke legs went red for a reason that was not a number: the older faces re-derived over a directory that had grown (E286 32->34 faces, E281 27->34, E282 55->67). Three studies were frozen to their own vintage. The open question is the rest: for every study script in the family, does its build() read the LIVE face directory or a frozen universe, how many faces would it gain today, and would its published verdict survive that wider universe? Rank the unfrozen studies by faces gained and by verdict instability, publish each one's published vs live numbers side by side, and name the studies whose verdict is a function of the vintage rather than of the data. No reburn: published faces only, no draw stream, no engine.",
+   "status": "done",
+   "target": "scripts/e294_live_universe_drift.py (new runner)",
+   "title": "which BAND-family studies still census the live directory, how many faces would each gain if re-derived today, and does any published verdict depend on the universe it happened to see?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "source": "r1314 found that every study in this family censuses its siblings' published faces, so four smoke legs went red for a reason that was not a number: the older faces re-derived over a directory that had grown (E286 32->34 faces, E281 27->34, E282 55->67). Three studies were frozen to their own vintage. The open question is the rest: for every study script in the family, does its build() read the LIVE face directory or a frozen universe, how many faces would it gain today, and would its published verdict survive that wider universe? Rank the unfrozen studies by faces gained and by verdict instability, publish each one's published vs live numbers side by side, and name the studies whose verdict is a function of the vintage rather than of the data. No reburn: published faces only, no draw stream, no engine.",
-   "claimed_by": "bm-b",
-   "done_at": "2026-10-31T12:5x+08:00",
-   "result_ref": {
-    "face": "results/state_tilt/BANDFROZEN-2026-10-29.json",
-    "runner": "scripts/e294_live_universe_drift.py",
-    "digest": "research/digests/DIGEST-20261031-r1322-e294-live-universe-drift.md",
-    "card": "E301",
-    "chain_leg": "live_universe_drift",
-    "smoke_leg": "E294",
-    "verdict": "no_published_verdict_moves_with_the_universe",
-    "note": "12 of 54 family study scripts census the directory; 9 measured, all stable with up to 34 more faces in view; 3 cannot be asked because build() takes no universe argument"
    }
   },
   {
+   "deliverable": "results/state_tilt/BANDCLOSURE-<cutoff>.json",
+   "done_at": "2026-10-31T11:4x+08:00",
+   "done_by": "bm-b r1319",
+   "evidence_cutoff": "2026-10-29",
    "id": "E295-SUPPLY-GAP-CLOSURE",
-   "title": "both margins are one step away -- what is the smallest measured step that closes the 3.8 pct widening gap and the 3.7 pct narrowing gap, and does that step exist inside the draw ladder the family already measured?",
    "lane": "cpu-only",
-   "status": "done",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDCLOSURE-2026-10-29.json (verdict one_margin_is_crossed_by_a_single_seed_rung_only; ladder span 1.000..1.925 central / 2.427 seed-max; 37 of 70 steps finer than the widening margin; 2 demand(s) graded in-window, 2 interpolations aborted)",
    "runner": "scripts/e295_supply_gap_closure.py",
    "runner_args": [
     "run"
    ],
-   "target": "scripts/e295_supply_gap_closure.py (new runner)",
-   "deliverable": "results/state_tilt/BANDCLOSURE-<cutoff>.json",
-   "evidence_cutoff": "2026-10-29",
    "seeded_at": "2026-10-31T09:50+08:00",
    "seeded_by": "bm-b r1315",
+   "source": "E287 measured that the family's published supplies stop 3.8 pct above the nearest above-ceiling row (self|200|0 flip 2.3311 vs supply 2.2457 at the best single seed) and 3.7 pct below the nearest below-floor row (self|60|8 flip 0.8894 vs the 0.9220 narrowing instrument). Both margins are small enough that the question is no longer 'is there headroom' but 'is there one more rung'. E256/E257 published a draw ladder (rungs 100..408 sessions x 6 draw counts x 2 families) and E258 measured per-window multipliers at 60/200 base draws up to 1920. Read those ladders, price the multiplier each rung actually buys, and report whether any EXISTING rung crosses either margin -- publishing the interpolation abort when no rung does, never a fitted extrapolation. Do not draw a new stream: published ladders only (a new draw budget is a different, billable decision).",
+   "status": "done",
+   "target": "scripts/e295_supply_gap_closure.py (new runner)",
+   "title": "both margins are one step away -- what is the smallest measured step that closes the 3.8 pct widening gap and the 3.7 pct narrowing gap, and does that step exist inside the draw ladder the family already measured?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "source": "E287 measured that the family's published supplies stop 3.8 pct above the nearest above-ceiling row (self|200|0 flip 2.3311 vs supply 2.2457 at the best single seed) and 3.7 pct below the nearest below-floor row (self|60|8 flip 0.8894 vs the 0.9220 narrowing instrument). Both margins are small enough that the question is no longer 'is there headroom' but 'is there one more rung'. E256/E257 published a draw ladder (rungs 100..408 sessions x 6 draw counts x 2 families) and E258 measured per-window multipliers at 60/200 base draws up to 1920. Read those ladders, price the multiplier each rung actually buys, and report whether any EXISTING rung crosses either margin -- publishing the interpolation abort when no rung does, never a fitted extrapolation. Do not draw a new stream: published ladders only (a new draw budget is a different, billable decision).",
-   "result_ref": "results/state_tilt/BANDCLOSURE-2026-10-29.json (verdict one_margin_is_crossed_by_a_single_seed_rung_only; ladder span 1.000..1.925 central / 2.427 seed-max; 37 of 70 steps finer than the widening margin; 2 demand(s) graded in-window, 2 interpolations aborted)",
-   "done_at": "2026-10-31T11:4x+08:00",
-   "done_by": "bm-b r1319"
+   }
   },
   {
-   "id": "E296-WIRE-E293-LEGS",
-   "title": "E293's duplicate-list census published a face but no chain leg and no smoke leg -- wire both, and check that its alias verdict still re-derives from the frozen universe",
-   "lane": "cpu-only",
-   "status": "done",
-   "priority": 2,
-   "runner": "Tools/s6_chain_bmb.py + smoke_test.py (wiring), scripts/e293_duplicate_list_census.py",
-   "runner_args": [
-    "verify"
-   ],
-   "target": "Tools/s6_chain_bmb.py leg duplicate_list_census + smoke_test.py leg (no new runner)",
    "deliverable": "results/state_tilt/BANDDUPES-<cutoff>.json (unchanged) + two legs",
-   "evidence_cutoff": "2026-10-29",
-   "seeded_at": "2026-10-31T09:52+08:00",
-   "seeded_by": "bm-b r1315",
-   "worker_class": "code-change",
-   "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 1
-   },
-   "source": "The r1314 window published E293 (BANDDUPES face + runner, verify 0 problems, selftest 15/15) and card E292, then died before closeout: no commit, and neither a chain leg nor a smoke leg exists for it. That is the one state the family's own audits call unprotected -- a published face whose derivation is not re-checked every chain run can drift silently (E292 is exactly the rule it violated by omission). Wiring only: add a verify leg so the chain re-derives it, add a smoke leg that pins the alias verdict and the vintage freeze, and confirm the face still re-derives against the universe it published. Do not change the face's numbers.",
    "done_at": "2026-10-31T11:25:00+08:00",
    "done_by": "bm-b r1318",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E296-WIRE-E293-LEGS",
+   "lane": "cpu-only",
+   "priority": 2,
    "result_ref": [
     "results/state_tilt/BANDDUPES-2026-10-29.json",
     "Tools/s6_chain_bmb.py",
     "smoke_test.py",
     "scripts/e293_duplicate_list_census.py"
    ],
-   "runner_note": "the face had in fact stopped re-deriving: E297 froze E291 census_names to a (names, note) tuple and E293 still treated it as a name list (TypeError: unhashable list), so verify exited 1 before any leg could be wired. Fixed at the caller (tuple unwrapped) rather than at the source; verify 0 problems / selftest 15/15; chain leg duplicate_list_census rc=0 0.45s; smoke leg pins the verdict vocab, the no-double-count closed class, the summary re-derivation and the vintage disclosure -- PASS, and FAILs under a counts_one_twice mutation of the face. Face numbers unchanged (6 groups, 38 members, 2 schema / 4 accidental, 0 convictions)"
-  },
-  {
-   "id": "E297-FIX-TWO-RED-LEGS",
-   "title": "two smoke legs are red on published faces and both faces say so themselves -- E243's E240 replay is a MISMATCH at 5e-5 against a 1e-9 tolerance, and the empirical gamma face's interval endpoints are not in its own point set. Diagnose and publish the fix, or publish the defect and lower the claim",
-   "lane": "cpu-only",
-   "status": "done",
-   "priority": 2,
-   "runner": "scripts/e243_addos_*.py (find the producer) + the empirical gamma producer",
+   "runner": "Tools/s6_chain_bmb.py + smoke_test.py (wiring), scripts/e293_duplicate_list_census.py",
    "runner_args": [
     "verify"
    ],
-   "target": "the two producing scripts + their faces (no new runner unless the defect is structural)",
-   "deliverable": "results/state_tilt/addos_latest.json + results/state_tilt/empirical_gamma_latest.json (re-published with a consistent claim) OR a published defect note",
-   "evidence_cutoff": "2026-10-29",
-   "seeded_at": "2026-10-31T10:03+08:00",
+   "runner_note": "the face had in fact stopped re-deriving: E297 froze E291 census_names to a (names, note) tuple and E293 still treated it as a name list (TypeError: unhashable list), so verify exited 1 before any leg could be wired. Fixed at the caller (tuple unwrapped) rather than at the source; verify 0 problems / selftest 15/15; chain leg duplicate_list_census rc=0 0.45s; smoke leg pins the verdict vocab, the no-double-count closed class, the summary re-derivation and the vintage disclosure -- PASS, and FAILs under a counts_one_twice mutation of the face. Face numbers unchanged (6 groups, 38 members, 2 schema / 4 accidental, 0 convictions)",
+   "seeded_at": "2026-10-31T09:52+08:00",
    "seeded_by": "bm-b r1315",
+   "source": "The r1314 window published E293 (BANDDUPES face + runner, verify 0 problems, selftest 15/15) and card E292, then died before closeout: no commit, and neither a chain leg nor a smoke leg exists for it. That is the one state the family's own audits call unprotected -- a published face whose derivation is not re-checked every chain run can drift silently (E292 is exactly the rule it violated by omission). Wiring only: add a verify leg so the chain re-derives it, add a smoke leg that pins the alias verdict and the vintage freeze, and confirm the face still re-derives against the universe it published. Do not change the face's numbers.",
+   "status": "done",
+   "target": "Tools/s6_chain_bmb.py leg duplicate_list_census + smoke_test.py leg (no new runner)",
+   "title": "E293's duplicate-list census published a face but no chain leg and no smoke leg -- wire both, and check that its alias verdict still re-derives from the frozen universe",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "source": "The r1315 full-suite run (270 legs) leaves exactly two reds after the universe freezes fixed E290/E291. (1) addos face: e240_replay.status=MISMATCH, reproduced=false, gaps mean_b_one 5.15e-05 / mean_diff 2.65e-05 against tolerance 1e-09 -- so either the replay re-derives a different quantity than E240 published (a parameterisation slip, the E240 family's own trap) or the 1e-9 tolerance was never achievable and the headline claim's basis is wrong; both are science defects, not drift. (2) empirical_gamma face: the smoke leg requires each interval endpoint to appear in summary.gamma_points[:3] and one does not, so either the CI is computed on a different grid than the points or the points list is truncated. Fix the producer and re-publish, or publish the defect and weaken the claim -- do NOT relax the legs to make them pass.",
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/addos_latest.json + results/state_tilt/empirical_gamma_latest.json (re-published with a consistent claim) OR a published defect note",
    "done_at": "2026-10-31T10:30:00+08:00",
    "done_by": "bm-b r1316",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E297-FIX-TWO-RED-LEGS",
+   "lane": "cpu-only",
+   "priority": 2,
    "result_ref": [
     "results/state_tilt/addos_latest.json",
     "results/state_tilt/empirical_gamma_latest.json"
    ],
-   "runner_note": "both reds were the CHECK, not the science: E243's headline cell re-derived over the live panel instead of E240's declared window (1329 vs 1328 sessions, 5e-5 gap -> MISMATCH at 1e-9; pinned = gap 0.0), and E233's point set is published 6-dp while the leg compared it at 1e-9. Fixed in the producers with the precision and the window published, +2 selftest legs; evidence digest DIGEST-20261031-r1316-e297-two-red-legs.md, card E295"
+   "runner": "scripts/e243_addos_*.py (find the producer) + the empirical gamma producer",
+   "runner_args": [
+    "verify"
+   ],
+   "runner_note": "both reds were the CHECK, not the science: E243's headline cell re-derived over the live panel instead of E240's declared window (1329 vs 1328 sessions, 5e-5 gap -> MISMATCH at 1e-9; pinned = gap 0.0), and E233's point set is published 6-dp while the leg compared it at 1e-9. Fixed in the producers with the precision and the window published, +2 selftest legs; evidence digest DIGEST-20261031-r1316-e297-two-red-legs.md, card E295",
+   "seeded_at": "2026-10-31T10:03+08:00",
+   "seeded_by": "bm-b r1315",
+   "source": "The r1315 full-suite run (270 legs) leaves exactly two reds after the universe freezes fixed E290/E291. (1) addos face: e240_replay.status=MISMATCH, reproduced=false, gaps mean_b_one 5.15e-05 / mean_diff 2.65e-05 against tolerance 1e-09 -- so either the replay re-derives a different quantity than E240 published (a parameterisation slip, the E240 family's own trap) or the 1e-9 tolerance was never achievable and the headline claim's basis is wrong; both are science defects, not drift. (2) empirical_gamma face: the smoke leg requires each interval endpoint to appear in summary.gamma_points[:3] and one does not, so either the CI is computed on a different grid than the points or the points list is truncated. Fix the producer and re-publish, or publish the defect and weaken the claim -- do NOT relax the legs to make them pass.",
+   "status": "done",
+   "target": "the two producing scripts + their faces (no new runner unless the defect is structural)",
+   "title": "two smoke legs are red on published faces and both faces say so themselves -- E243's E240 replay is a MISMATCH at 5e-5 against a 1e-9 tolerance, and the empirical gamma face's interval endpoints are not in its own point set. Diagnose and publish the fix, or publish the defect and lower the claim",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   },
   {
-   "id": "E298-REPLAY-CONTROLS-CENSUS",
-   "status": "done",
-   "lane": "cpu-only",
+   "deliverable": "results/state_tilt/REPLAYCENSUS-<cutoff>.json",
+   "done_at": "2026-10-31T13:2x+08:00",
+   "done_by": "bm-b r1323",
    "entered_at": "2026-10-31T10:30:00+08:00",
    "entered_by": "bm-b r1316",
    "evidence_cutoff": "2026-10-30",
-   "source": "r1316: E243's replay control re-derived over the live panel and read its own vintage as a reproduction failure; E239/E240 carry e238/e239_reference blocks the same shape",
-   "target": "scripts/e2*_*.py + smoke_test.py",
-   "deliverable": "results/state_tilt/REPLAYCENSUS-<cutoff>.json",
+   "id": "E298-REPLAY-CONTROLS-CENSUS",
+   "lane": "cpu-only",
    "question": "which published faces carry a replay/reproduction control, how many of them re-derive over the live panel instead of the reference's declared window, and what does each one currently report",
    "result_ref": "results/state_tilt/REPLAYCENSUS-2026-10-30.json (verdict controls_that_cannot_state_their_basis_exist; 26 control blocks in 23 faces = 12 identity + 14 replay; 7 replays declare a basis (6 pinned, 1 live with its overshoot), 7 publish no basis at all and are reported unmeasurable; the ADDOS block moved undeclared -> live_declared between its two vintages)",
-   "done_at": "2026-10-31T13:2x+08:00",
-   "done_by": "bm-b r1323"
+   "source": "r1316: E243's replay control re-derived over the live panel and read its own vintage as a reproduction failure; E239/E240 carry e238/e239_reference blocks the same shape",
+   "status": "done",
+   "target": "scripts/e2*_*.py + smoke_test.py"
   },
   {
-   "id": "E299-ROUNDED-VS-TOLERANCE-CENSUS",
-   "status": "done",
-   "lane": "cpu-only",
+   "deliverable": "results/state_tilt/PRECISIONCENSUS-<cutoff>.json",
+   "done_at": "2026-10-31T14:5x+08:00",
    "entered_at": "2026-10-31T10:30:00+08:00",
    "entered_by": "bm-b r1316",
    "evidence_cutoff": "2026-10-30",
-   "source": "r1316: E233 publishes a 6-dp point set beside a full-precision interval and a leg compared them at 1e-9",
-   "target": "smoke_test.py legs + the faces they read",
-   "deliverable": "results/state_tilt/PRECISIONCENSUS-<cutoff>.json",
+   "id": "E299-ROUNDED-VS-TOLERANCE-CENSUS",
+   "lane": "cpu-only",
    "question": "which smoke legs compare a rounded published value at a full-precision tolerance (or at exact equality), how far apart are the copies, and does each face declare the precision it prints",
-   "done_at": "2026-10-31T14:5x+08:00",
-   "result_ref": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json (scripts/e299_rounded_vs_tolerance_census.py selftest 32/32; S6 leg precision_census rc=0)"
+   "result_ref": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json (scripts/e299_rounded_vs_tolerance_census.py selftest 32/32; S6 leg precision_census rc=0)",
+   "source": "r1316: E233 publishes a 6-dp point set beside a full-precision interval and a leg compared them at 1e-9",
+   "status": "done",
+   "target": "smoke_test.py legs + the faces they read"
   },
   {
-   "id": "E300-WINDOW-LOCAL-MARGIN-CENSUS",
-   "title": "the same widening margin moved from 3.80 pct to 5.98 pct purely by reading the demand in the ladder's own window -- for all twelve demand rows, what does the margin become when the reference is the window that owns it, and which of the nine rows without a ladder would gain one from a face the family already published?",
-   "lane": "cpu-only",
-   "status": "done",
-   "result_ref": "results/state_tilt/BANDMARGINWINDOW-2026-10-29.json (verdict every_widening_demand_is_graded_against_its_own_window_and_no_narrowing_one_is; 12 rows censused, 10 graded on their own window, 2 narrowing rows name the face they need; own-window margin -1.92..147.17 pct vs borrowed-cap -19.72..44.91 pct; 3 reach flips; cross-window column reproduces E295 on 2 row(s))",
+   "deliverable": "results/state_tilt/BANDMARGINWINDOW-<cutoff>.json",
    "done_at": "2026-10-31T12:0x+08:00",
    "done_by": "bm-b r1320",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E300-WINDOW-LOCAL-MARGIN-CENSUS",
+   "lane": "cpu-only",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDMARGINWINDOW-2026-10-29.json (verdict every_widening_demand_is_graded_against_its_own_window_and_no_narrowing_one_is; 12 rows censused, 10 graded on their own window, 2 narrowing rows name the face they need; own-window margin -1.92..147.17 pct vs borrowed-cap -19.72..44.91 pct; 3 reach flips; cross-window column reproduces E295 on 2 row(s))",
    "runner": "scripts/e300_window_local_margin_census.py",
    "runner_args": [
     "run"
    ],
-   "target": "scripts/e300_window_local_margin_census.py (new runner)",
-   "deliverable": "results/state_tilt/BANDMARGINWINDOW-<cutoff>.json",
-   "evidence_cutoff": "2026-10-29",
    "seeded_at": "2026-10-31T11:4x+08:00",
    "seeded_by": "bm-b r1319",
+   "source": "r1319: E295 graded 2 of 12 demands because only era_2025_now owns a published draw ladder, and the widening margin read there is 5.98 pct instead of E287's headline 3.80 pct -- the headline pair came from all_five and early_three|60. That is a measurement about WINDOWS, not about the band: for every demand row, pair it with the reference published in its own window (E258 per-window multipliers, E257 per-rung multipliers, E288's mirror yardsticks) and publish what the margin becomes. Publish the 9 rows that stay not_graded with the specific face each would need, so 'unreachable' is never quoted from a cross-window subtraction. Published faces only; no new draw budget.",
+   "status": "done",
+   "target": "scripts/e300_window_local_margin_census.py (new runner)",
+   "title": "the same widening margin moved from 3.80 pct to 5.98 pct purely by reading the demand in the ladder's own window -- for all twelve demand rows, what does the margin become when the reference is the window that owns it, and which of the nine rows without a ladder would gain one from a face the family already published?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "source": "r1319: E295 graded 2 of 12 demands because only era_2025_now owns a published draw ladder, and the widening margin read there is 5.98 pct instead of E287's headline 3.80 pct -- the headline pair came from all_five and early_three|60. That is a measurement about WINDOWS, not about the band: for every demand row, pair it with the reference published in its own window (E258 per-window multipliers, E257 per-rung multipliers, E288's mirror yardsticks) and publish what the margin becomes. Publish the 9 rows that stay not_graded with the specific face each would need, so 'unreachable' is never quoted from a cross-window subtraction. Published faces only; no new draw budget."
+   }
   },
   {
+   "deliverable": "results/state_tilt/BANDSWITCH-<cutoff>.json",
+   "done_at": "2026-10-31T14:45:31+08:00",
+   "done_by": "bm-b r1325",
+   "done_note": "the switch is one module-global redirect and it flips nothing: 31 module bindings must move for the simulation (a real outdir= parameter would instead thread 6 functions and 10 module-default load() calls), and all three studies reproduce their published verdict under a staged vintage (118/120/132 faces against the live 170). Verdict no_published_verdict_moves_with_the_universe. Face BANDSWITCH-2026-10-30.",
+   "evidence_cutoff": "2026-10-29",
    "id": "E302-UNIVERSE-SWITCH-BACKFILL",
-   "title": "three directory-censusing studies cannot be asked whether their verdict depends on the universe because build() takes no universe argument -- what would it cost to give each one a switch, and does any of them flip once it has one?",
    "lane": "cpu-only",
-   "status": "done",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDSWITCH-2026-10-30.json",
    "runner": "scripts/e302_universe_switch_backfill.py",
    "runner_args": [
     "run"
    ],
-   "target": "scripts/e290_selfauditable_face_profile.py, scripts/e291_ambiguity_chance.py, scripts/e292_scope_fix_plan.py",
-   "deliverable": "results/state_tilt/BANDSWITCH-<cutoff>.json",
-   "evidence_cutoff": "2026-10-29",
    "seeded_at": "2026-10-31T12:5x+08:00",
    "seeded_by": "bm-b r1322",
+   "source": "r1322 (E294) re-derived every directory-censusing study under a frozen vintage and under the live directory: 9 of 12 were varied and none flips, but e290/e291/e292 publish only build() with no universe argument, so the question is unasked for them rather than answered. Price the switch: what each study's build() would have to accept, whether the frozen vintage reproduces its published verdict once the switch exists, and whether it flips. No reburn: published faces only.",
+   "status": "done",
+   "target": "scripts/e290_selfauditable_face_profile.py, scripts/e291_ambiguity_chance.py, scripts/e292_scope_fix_plan.py",
+   "title": "three directory-censusing studies cannot be asked whether their verdict depends on the universe because build() takes no universe argument -- what would it cost to give each one a switch, and does any of them flip once it has one?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "source": "r1322 (E294) re-derived every directory-censusing study under a frozen vintage and under the live directory: 9 of 12 were varied and none flips, but e290/e291/e292 publish only build() with no universe argument, so the question is unasked for them rather than answered. Price the switch: what each study's build() would have to accept, whether the frozen vintage reproduces its published verdict once the switch exists, and whether it flips. No reburn: published faces only.",
-   "result_ref": "results/state_tilt/BANDSWITCH-2026-10-30.json",
-   "done_at": "2026-10-31T14:45:31+08:00",
-   "done_by": "bm-b r1325",
-   "done_note": "the switch is one module-global redirect and it flips nothing: 31 module bindings must move for the simulation (a real outdir= parameter would instead thread 6 functions and 10 module-default load() calls), and all three studies reproduce their published verdict under a staged vintage (118/120/132 faces against the live 170). Verdict no_published_verdict_moves_with_the_universe. Face BANDSWITCH-2026-10-30."
+   }
   },
   {
-   "id": "E303-RECOVER-UNMEASURABLE-BASIS",
-   "title": "seven published replay controls cannot say which panel they re-derived on -- for each one, does the code that wrote it read a pinned window or the live panel, and is the answer recoverable without re-running the study?",
-   "lane": "cpu-only",
-   "status": "done",
-   "priority": 3,
+   "claimed_at": "2026-10-31T15:13:41",
+   "claimed_by": "bm-b",
+   "deliverable": "results/state_tilt/BASISRECOVERY-<cutoff>.json",
+   "done_at": "2026-10-31T15:13:41",
    "entered_at": "2026-10-31T13:2x+08:00",
    "entered_by": "bm-b r1323",
    "evidence_cutoff": "2026-10-30",
-   "source": "r1323: E298 censused 26 published control blocks and found 7 replays that publish no window/pin/vintage field, so their panel is not recoverable from the face; the r1316 repair touched only ADDOS",
-   "target": "scripts/e2*_*.py (the writers of the 7 at-risk blocks)",
-   "deliverable": "results/state_tilt/BASISRECOVERY-<cutoff>.json",
-   "question": "for each of the 7 unmeasurable replay controls, does its writer read a pinned window (a literal date range or an upstream face's window) or the live panel? Publish per-block: writer symbol, the panel expression it uses, and whether the answer is decidable from the code alone.",
+   "id": "E303-RECOVER-UNMEASURABLE-BASIS",
+   "lane": "cpu-only",
    "owner": "bm-b",
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-31T15:13:41",
-   "done_at": "2026-10-31T15:13:41",
+   "priority": 3,
+   "progress": "delivered r1326 bm-b: 7 blocks -> 1 writer_publishes_dropped (ADDOS, witnessed by the 10-30 vintage), 4 declared_at_face_level, 2 live_panel_derived (REPRO/BANDPATH, measured vintage drift)",
+   "question": "for each of the 7 unmeasurable replay controls, does its writer read a pinned window (a literal date range or an upstream face's window) or the live panel? Publish per-block: writer symbol, the panel expression it uses, and whether the answer is decidable from the code alone.",
    "result_ref": "results/state_tilt/BASISRECOVERY-2026-10-30.json + scripts/e303_recover_unmeasurable_basis.py (selftest 26/26; chain leg basis_recovery; smoke leg E303)",
-   "progress": "delivered r1326 bm-b: 7 blocks -> 1 writer_publishes_dropped (ADDOS, witnessed by the 10-30 vintage), 4 declared_at_face_level, 2 live_panel_derived (REPRO/BANDPATH, measured vintage drift)"
+   "source": "r1323: E298 censused 26 published control blocks and found 7 replays that publish no window/pin/vintage field, so their panel is not recoverable from the face; the r1316 repair touched only ADDOS",
+   "status": "done",
+   "target": "scripts/e2*_*.py (the writers of the 7 at-risk blocks)",
+   "title": "seven published replay controls cannot say which panel they re-derived on -- for each one, does the code that wrote it read a pinned window or the live panel, and is the answer recoverable without re-running the study?"
   },
   {
-   "id": "E305-PRICE-THE-FACE-BOUND-ROWS",
-   "title": "eight at-risk rows rest on the face-level bound because the key the leg reads could not be located in the face -- for each one, is the key absent from the face, spelled differently, or read from a nested record the walker truncates?",
-   "lane": "cpu-only",
-   "status": "done",
-   "priority": 3,
+   "claimed_at": "2026-10-31T16:2x+08:00",
+   "claimed_by": "bm-b",
+   "deliverable": "results/state_tilt/PRECISIONGAP-<cutoff>.json",
+   "done_at": "2026-10-31T16:5x+08:00",
    "entered_at": "2026-10-31T14:5x+08:00",
    "entered_by": "bm-b r1324",
    "evidence_cutoff": "2026-10-30",
-   "source": "r1324 (E299) priced 62 numeric face sites: 29 compare finer than the field is printed, 21 on the field's own measured decimals and 8 only on the face's coarsest bound because no leaf under the read key name was found. Those 8 are the ones whose quantum is still an upper bound.",
-   "target": "scripts/e299_rounded_vs_tolerance_census.py face members named by the 8 face_level rows",
-   "deliverable": "results/state_tilt/PRECISIONGAP-<cutoff>.json",
-   "question": "for each face_level row: does the face publish that key at all, under a different spelling, or inside a list the leaf walk stops short of -- and once the key is found, does the row stay at risk on its own decimals?",
+   "id": "E305-PRICE-THE-FACE-BOUND-ROWS",
+   "lane": "cpu-only",
    "owner": "bm-b",
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-31T16:2x+08:00",
-   "done_at": "2026-10-31T16:5x+08:00",
+   "priority": 3,
+   "progress": "priced all 8 face-bound rows: 3 read a key living in a sibling face the same leg names (15 dp, not at risk), 3 read a container rather than a printed number, 1 reads a boolean flag, 1 reads a key the producer writes into per-record lists that are empty on this vintage; all 8 withdrawn, verdict none_of_the_face_level_rows_is_at_risk",
+   "question": "for each face_level row: does the face publish that key at all, under a different spelling, or inside a list the leaf walk stops short of -- and once the key is found, does the row stay at risk on its own decimals?",
    "result_ref": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
-   "progress": "priced all 8 face-bound rows: 3 read a key living in a sibling face the same leg names (15 dp, not at risk), 3 read a container rather than a printed number, 1 reads a boolean flag, 1 reads a key the producer writes into per-record lists that are empty on this vintage; all 8 withdrawn, verdict none_of_the_face_level_rows_is_at_risk"
+   "source": "r1324 (E299) priced 62 numeric face sites: 29 compare finer than the field is printed, 21 on the field's own measured decimals and 8 only on the face's coarsest bound because no leaf under the read key name was found. Those 8 are the ones whose quantum is still an upper bound.",
+   "status": "done",
+   "target": "scripts/e299_rounded_vs_tolerance_census.py face members named by the 8 face_level rows",
+   "title": "eight at-risk rows rest on the face-level bound because the key the leg reads could not be located in the face -- for each one, is the key absent from the face, spelled differently, or read from a nested record the walker truncates?"
   },
   {
-   "id": "E307-UNDATED-FACE-VINTAGE",
-   "title": "one face in results/state_tilt publishes no `generated` stamp and the freeze helper silently substitutes its file mtime -- how many frozen universes in the family depend on a file mtime today, and what does each rule read for that one face?",
-   "lane": "cpu-only",
-   "status": "done",
-   "priority": 3,
-   "evidence_cutoff": "2026-10-31",
+   "deliverable": "results/state_tilt/UNDATEDVINTAGE-<cutoff>.json",
+   "done_at": "2026-10-31T17:18+08:00",
    "entered_at": "2026-10-31T14:45:31+08:00",
    "entered_by": "bm-b r1325",
-   "source": "r1325 (E302): pricing the switch exposed a rule defect rather than a study defect -- e_band_family_vintage._face_stamp falls back to os.path.getmtime for a face with no `generated` field, so a frozen universe is not re-runnable across a rewrite of that face. The same code read one study's staged universe as 163 faces and then 132 with nothing published changing. E302 sidesteps it (stamp-only rule, an undated face is kept); this card asks how much of the family is exposed and whether the helper should be fixed at the source.",
-   "target": "scripts/e_band_family_vintage.py + every study that calls vintage.vintage_names()",
-   "deliverable": "results/state_tilt/UNDATEDVINTAGE-<cutoff>.json",
+   "evidence_cutoff": "2026-10-31",
+   "id": "E307-UNDATED-FACE-VINTAGE",
+   "lane": "cpu-only",
+   "priority": 3,
+   "progress": "measured all 10 consumers of scripts/e_band_family_vintage.py by calling each consumer own universe function: 176 faces on disk, 1 publishes no stamp (ERAPOWER-20261029.json, 0.57%); 0 of the stamp-vs-cutoff universes holds it, so touching every witness file moves no universe and therefore no verdict; e302 does carry it in its 174-name staged universe but reads generated itself (predates the card, refuses the fallback on purpose). helper fix = disclosure only: vintage.undated(outdir, names) + selftest leg V7, keep/drop rule unchanged. verdict no_frozen_universe_rests_on_a_file_mtime; counterfactual: if that face were BAND-prefixed, 4 cutoff studies would newly keep it.",
    "question": "per consumer of the freeze helper: does its frozen universe include any face whose only witness is a file mtime, and does re-running after touching those files change the universe, the verdict, or neither?",
+   "result_ref": "results/state_tilt/BANDUNDATEDVINTAGE-2026-10-31.json",
    "runner": "scripts/e307_undated_face_vintage.py",
    "runner_args": [
     "run"
    ],
+   "selftest": "14/14",
+   "source": "r1325 (E302): pricing the switch exposed a rule defect rather than a study defect -- e_band_family_vintage._face_stamp falls back to os.path.getmtime for a face with no `generated` field, so a frozen universe is not re-runnable across a rewrite of that face. The same code read one study's staged universe as 163 faces and then 132 with nothing published changing. E302 sidesteps it (stamp-only rule, an undated face is kept); this card asks how much of the family is exposed and whether the helper should be fixed at the source.",
+   "status": "done",
+   "target": "scripts/e_band_family_vintage.py + every study that calls vintage.vintage_names()",
+   "title": "one face in results/state_tilt publishes no `generated` stamp and the freeze helper silently substitutes its file mtime -- how many frozen universes in the family depend on a file mtime today, and what does each rule read for that one face?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "done_at": "2026-10-31T17:18+08:00",
-   "result_ref": "results/state_tilt/BANDUNDATEDVINTAGE-2026-10-31.json",
-   "progress": "measured all 10 consumers of scripts/e_band_family_vintage.py by calling each consumer own universe function: 176 faces on disk, 1 publishes no stamp (ERAPOWER-20261029.json, 0.57%); 0 of the stamp-vs-cutoff universes holds it, so touching every witness file moves no universe and therefore no verdict; e302 does carry it in its 174-name staged universe but reads generated itself (predates the card, refuses the fallback on purpose). helper fix = disclosure only: vintage.undated(outdir, names) + selftest leg V7, keep/drop rule unchanged. verdict no_frozen_universe_rests_on_a_file_mtime; counterfactual: if that face were BAND-prefixed, 4 cutoff studies would newly keep it.",
-   "selftest": "14/14"
+   }
   },
   {
-   "id": "E308-LEG-VS-PRODUCER-TOLERANCE",
-   "title": "ten of the 42 faces a smoke leg reads publish their own tolerance key -- where a leg compares at a tolerance tighter than the producer's own gate, does the leg flag differences the producer is entitled to make?",
-   "lane": "cpu-only",
-   "status": "done",
-   "priority": 3,
+   "deliverable": "results/state_tilt/GATETOL-<cutoff>.json",
+   "done_at": "2026-10-31T18:35+08:00",
+   "done_by": "bm-b r1330",
    "entered_at": "2026-10-31T16:5x+08:00",
    "entered_by": "bm-b r1327",
    "evidence_cutoff": "2026-10-31",
-   "source": "r1327 (E305): pricing the face-bound rows exposed the open-fill leg comparing two session_open values at 1e-9 absolute while the face it reads publishes rel_tol=0.002 as its own gate; 10 of the 42 faces named by smoke legs publish a tolerance at all (band family frozen_spec.tolerance=1e-12, repro reproduction.tolerance=0.005, t35 rel_tol=0.002)",
-   "target": "results/state_tilt/precisioncensus_latest.json sites × the faces that publish a tolerance",
-   "deliverable": "results/state_tilt/GATETOL-<cutoff>.json",
+   "id": "E308-LEG-VS-PRODUCER-TOLERANCE",
+   "lane": "cpu-only",
+   "priority": 3,
    "question": "per (leg, face) where the face declares its own tolerance: what is the producer's gate, what is the leg's, and would a difference inside the producer's gate fail the leg? Publish the pairing and the gap, never a count of 'wrong' legs.",
+   "result_note": "11 of 55 leg-read faces publish a real tolerance gate; 30 (leg,gate) pairs, 18 tighter + 1 exact. A scope reading of the scripts naming each face (is the gate used in a comparison?) leaves 1 standing, and that gate holds the same 0.1 an excluded key on the same face holds. Verdict bands_stand_only_where_the_producer_is_seen_comparing_with_the_gate.",
+   "result_ref": "results/state_tilt/GATETOL-2026-10-31.json",
    "runner": "scripts/e308_leg_vs_producer_tolerance.py",
    "runner_args": [
     "run"
    ],
+   "source": "r1327 (E305): pricing the face-bound rows exposed the open-fill leg comparing two session_open values at 1e-9 absolute while the face it reads publishes rel_tol=0.002 as its own gate; 10 of the 42 faces named by smoke legs publish a tolerance at all (band family frozen_spec.tolerance=1e-12, repro reproduction.tolerance=0.005, t35 rel_tol=0.002)",
+   "status": "done",
+   "target": "results/state_tilt/precisioncensus_latest.json sites × the faces that publish a tolerance",
+   "title": "ten of the 42 faces a smoke leg reads publish their own tolerance key -- where a leg compares at a tolerance tighter than the producer's own gate, does the leg flag differences the producer is entitled to make?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "done_at": "2026-10-31T18:35+08:00",
-   "done_by": "bm-b r1330",
-   "result_ref": "results/state_tilt/GATETOL-2026-10-31.json",
-   "result_note": "11 of 55 leg-read faces publish a real tolerance gate; 30 (leg,gate) pairs, 18 tighter + 1 exact. A scope reading of the scripts naming each face (is the gate used in a comparison?) leaves 1 standing, and that gate holds the same 0.1 an excluded key on the same face holds. Verdict bands_stand_only_where_the_producer_is_seen_comparing_with_the_gate."
+   }
   },
   {
-   "id": "E312-GATE-OPERAND-IDENTITY",
-   "title": "E308's scope test asks whether the producer compares with the gate at all -- it does not ask whether it compares the SAME quantity the leg compares; how many of the rows would survive an operand-identity reading?",
-   "lane": "cpu-only",
-   "status": "done",
-   "priority": 3,
+   "deliverable": "results/state_tilt/GATEOPERANDS-<cutoff>.json",
+   "done_at": "2026-10-31T19:0x+08:00",
+   "done_by": "bm-b r1331",
    "entered_at": "2026-10-31T18:35+08:00",
    "entered_by": "bm-b r1330",
    "evidence_cutoff": "2026-10-31",
-   "source": "r1330 (E308): the one band that survived the scope test pairs a leg comparing the face's fitted gamma at 1e-6 with gate verdict_inputs.tol=0.1, whose evidence line is 'if lo >= FROZEN_GAMMA - tol and hi <= FROZEN_GAMMA + tol' -- the producer compares with the gate to decide whether the ladder CAN decide, not to produce the number the leg compares",
-   "target": "results/state_tilt/gatetol_latest.json rows (the standing band + the 17 scope-rejected rows)",
-   "deliverable": "results/state_tilt/GATEOPERANDS-<cutoff>.json",
+   "id": "E312-GATE-OPERAND-IDENTITY",
+   "lane": "cpu-only",
+   "priority": 3,
    "question": "per band row: which variable/expression does the producer's own comparison put the gate against, and which keys does the leg compare? Publish the operand texts and whether they name the same quantity; never a count of wrong legs.",
+   "result_note": "30 band rows (11 faces, 12 gates). Every gate is published as a bare constant (TOL/MATCH_TOL/REL_TOL/GAMMA_TOL), so resolving the publish site and the parameter-default alias chain turns 29 of the 30 'declared but never compared' pairs into real producer comparisons. Operand identity then drops most of them: 25 rows compare names that never meet, 4 legs name no face key, 1 shares the leg's quantity. The two bands swap -- bandexp falls (its gate compares the window edges lo/hi against FROZEN_GAMMA +- tol, a feasibility test of the ladder) and t35 stands (relative abs(cost - session_open)/session_open vs an absolute leg epsilon, caveat published).",
+   "result_ref": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
    "runner": "scripts/e312_gate_operand_identity.py",
    "runner_args": [
     "run"
    ],
+   "source": "r1330 (E308): the one band that survived the scope test pairs a leg comparing the face's fitted gamma at 1e-6 with gate verdict_inputs.tol=0.1, whose evidence line is 'if lo >= FROZEN_GAMMA - tol and hi <= FROZEN_GAMMA + tol' -- the producer compares with the gate to decide whether the ladder CAN decide, not to produce the number the leg compares",
+   "status": "done",
+   "target": "results/state_tilt/gatetol_latest.json rows (the standing band + the 17 scope-rejected rows)",
+   "title": "E308's scope test asks whether the producer compares with the gate at all -- it does not ask whether it compares the SAME quantity the leg compares; how many of the rows would survive an operand-identity reading?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   },
-   "done_at": "2026-10-31T19:0x+08:00",
-   "done_by": "bm-b r1331",
-   "result_ref": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
-   "result_note": "30 band rows (11 faces, 12 gates). Every gate is published as a bare constant (TOL/MATCH_TOL/REL_TOL/GAMMA_TOL), so resolving the publish site and the parameter-default alias chain turns 29 of the 30 'declared but never compared' pairs into real producer comparisons. Operand identity then drops most of them: 25 rows compare names that never meet, 4 legs name no face key, 1 shares the leg's quantity. The two bands swap -- bandexp falls (its gate compares the window edges lo/hi against FROZEN_GAMMA +- tol, a feasibility test of the ladder) and t35 stands (relative abs(cost - session_open)/session_open vs an absolute leg epsilon, caveat published)."
+   }
   },
   {
-   "id": "E313-GATE-FORM-AND-SCALE",
-   "title": "E312's single surviving band matches names but not form: the gate is a relative tolerance and the leg an absolute epsilon. Across the 12 gates, how many carry a unit/form that the leg's comparison cannot inherit, and what scale would make the pair comparable?",
-   "lane": "cpu-only",
-   "status": "ready",
-   "priority": 3,
+   "deliverable": "results/state_tilt/GATEFORM-<cutoff>.json",
+   "done_at": "2026-10-31T19:2x+08:00",
    "entered_at": "2026-10-31T19:0x+08:00",
    "entered_by": "bm-b r1331",
    "evidence_cutoff": "2026-10-31",
-   "source": "r1331 (E312): the open-fill band survived the operand-identity reading only because the names match -- rel = abs(cost - session_open)/session_open vs abs(_px - r['session_open']) > 1e-9. A relative gate cannot entitle an absolute difference without a scale, and every row of the face already carries gate_units and leg_tolerance, so the form question is answerable from the published face alone",
-   "target": "results/state_tilt/gateoperands_latest.json rows (gate_units, leg_tolerance, operand_rows)",
-   "deliverable": "results/state_tilt/GATEFORM-<cutoff>.json",
+   "id": "E313-GATE-FORM-AND-SCALE",
+   "lane": "cpu-only",
+   "outcome": "30 rows priced: the gate's form is read at the producer's own comparison site, never from the gate_units label (silent on 28 of 30). 5 relative, 4 absolute, 21 multi_site. Only 1 row needs a free scale (t35 open-fill, breakeven session_open = 5e-07); 1 is absolute after a fixed 100.0 normalisation; 7 pair a count leg (no multiplicative scale exists); 7 demand exact float equality, which no tolerance can entitle; 14 are already in one unit.",
+   "priority": 3,
    "question": "per band row: what unit does the producer's comparison express the gate in (relative / absolute / count), what unit does the leg compare in, and at what scale would the two be comparable? Publish the scale and the transformation, never a count of wrong rows.",
+   "result_ref": "results/state_tilt/GATEFORM-2026-10-31.json",
    "runner": "scripts/e313_gate_form_and_scale.py",
    "runner_args": [
     "run"
    ],
+   "source": "r1331 (E312): the open-fill band survived the operand-identity reading only because the names match -- rel = abs(cost - session_open)/session_open vs abs(_px - r['session_open']) > 1e-9. A relative gate cannot entitle an absolute difference without a scale, and every row of the face already carries gate_units and leg_tolerance, so the form question is answerable from the published face alone",
+   "status": "done",
+   "target": "results/state_tilt/gateoperands_latest.json rows (gate_units, leg_tolerance, operand_rows)",
+   "title": "E312's single surviving band matches names but not form: the gate is a relative tolerance and the leg an absolute epsilon. Across the 12 gates, how many carry a unit/form that the leg's comparison cannot inherit, and what scale would make the pair comparable?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/GATECLAMP-<cutoff>.json",
+   "done_at": "2026-10-31T20:0x+08:00",
+   "done_by": "bm-b r1333",
+   "entered_at": "2026-10-31T19:2x+08:00",
+   "entered_by": "bm-b r1332",
+   "evidence_cutoff": "2026-10-31",
+   "id": "E314-CLAMPED-GATE-CENSUS",
+   "lane": "cpu-only",
+   "priority": 3,
+   "question": "per clamped gate: where does the form switch, what is the tolerance in each regime as a number in both units, and can a consumer of the face reproduce either regime without reading the producer?",
+   "result_ref": "results/state_tilt/GATECLAMP-2026-10-31.json (scripts/e314_clamped_gate_census.py selftest 37/37, verify 0 problems, S6 leg clamped_gate_census rc=0, smoke leg 7/7 mutations caught)",
+   "runner": "scripts/e314_clamped_gate_census.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "r1332 (E313): `abs(v - target) <= tol * max(1.0, target)` is relative above 1.0 and a flat 1e-12 below it, and `abs(1.0 - pct / 100.0) > TOL` is absolute only after a fixed division. Both shapes are published as one number on the face, so a reader cannot reproduce the gate from the face alone",
+   "status": "done",
+   "target": "results/state_tilt/gateform_latest.json rows (gate_scale_floors, gate_scales, gate_form_observed)",
+   "title": "three rows multiply a gate by max(1.0, x) and one divides by a fixed 100.0: which published gates change form with the size of the quantity they gate, and what is the tolerance in each regime?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/REGIMECOMPARE-<cutoff>.json",
+   "deliverable_published_as": "results/state_tilt/LEGEPS-2026-10-31.json -- the card declared REGIMECOMPARE-<cutoff>.json and scripts/e315_leg_epsilon_regime_check.py; the face is renamed because what it measures is the leg epsilon against the gate's flat regime, not a comparison between regimes, and a name that promises a comparison the face does not make is the E207 failure. Same card, same question, one name changed and disclosed here.",
+   "done_at": "2026-10-31T20:1x+08:00",
+   "done_by": "bm-b r1334",
+   "entered_at": "2026-10-31T20:0x+08:00",
+   "entered_by": "bm-b r1333",
+   "evidence_cutoff": "2026-10-31",
+   "id": "E315-LEG-EPSILON-INSIDE-THE-FLAT-REGIME",
+   "lane": "cpu-only",
+   "priority": 3,
+   "question": "per row: where does the leg's epsilon sit relative to the gate's regime at the magnitude the leg actually reads, and is the comparison decided by the flat regime, the linear regime, or the leg's own epsilon?",
+   "result_ref": "results/state_tilt/LEGEPS-2026-10-31.json (scripts/e315_leg_epsilon_vs_flat_regime.py selftest PASS, verify 0 problems, S6 leg leg_epsilon_vs_flat_regime rc=0, smoke leg PASS)",
+   "runner": "scripts/e315_leg_epsilon_regime_check.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "r1333 (E314): the three clamped rows switch at 1.0 and never engage on their own face (largest published number 1,920 draws vs a half-unit crossing of 5e11), while the fixed-normalisation row's gate is 1e-12 in the fraction it compares but 1e-10 percent in the unit its variable is named in -- so 'is the leg tighter than the gate' still cannot be answered from the face",
+   "status": "done",
+   "target": "results/state_tilt/gateclamp_latest.json rows (regime_model, switch_point, leg_tolerance)",
+   "title": "the four non-constant gates now publish a switch point and two regimes, but the legs that consume them still compare with one epsilon: how many leg epsilons fall inside the gate's flat regime (gate looser than the leg) and how many outside it?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/GATEPRINT-<cutoff>.json",
+   "done_at": "2026-10-31T20:3x+08:00",
+   "done_by": "bm-b r1335",
+   "entered_at": "2026-10-31T20:1x+08:00",
+   "entered_by": "bm-b r1334",
+   "evidence_cutoff": "2026-10-31",
+   "id": "E316-GATE-PRINT-REQUIREMENTS",
+   "lane": "cpu-only",
+   "outcome": "5 rows on 2 faces, 23 reader elements required / 3 present / 20 absent: no face lets a reader compute its own gate. The two faces fail for opposite reasons -- bandarrival publishes 57 numbers in the gated quantitys own unit and none of them is the quantity (a substituted tolerance spans 1.5 decades, 6e-11..1.92e-09), while t35_open_fill_verify covers a day with zero comparisons (matched/dropped/breach all 0, six empty detail lists) where the identifier exists only as a payload key in the producer (t35_open_fill_verify.py:214). Neither face prints the scale or the floor.",
+   "priority": 3,
+   "question": "per row: what is the smallest set of additional keys the face would have to print (quantity identifier, its unit, one magnitude, the floor) before the gate's tolerance at that magnitude is computable by a reader with no producer access -- and is that set already named somewhere in the producer's own face under another name?",
+   "result_ref": "results/state_tilt/GATEPRINT-2026-10-31.json (scripts/e316_gate_print_requirements.py run / verify 0 problems / selftest 42/42, S6 leg gate_print_requirements rc=0, smoke leg PASS, 26 identity checks)",
+   "runner": "scripts/e316_gate_print_requirements.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "r1334 (E315): 0 of 5 rows publish the quantity identifier their gate is normalised by (quantity_not_published_on_the_face 5/5), so the attributable leaf measurement is NOT-ASSESSED with 0 magnitudes; the crossover arithmetic (eps/tol) is the only reading left and it puts every crossover below one unit",
+   "status": "done",
+   "target": "results/state_tilt/legeps_latest.json rows + the two named faces",
+   "title": "E315 showed four of five legs demand exact equality and the fifth's crossover is 5e-07 units of session_open, so the leg, not the gate, decides every comparison in the live range -- but nobody can check that from the face, because `prev` and `session_open` are not keys on it: which published faces would have to print what, per row, before a reader could evaluate the gate at one magnitude of the quantity it is rated in?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/PRINTCOV-<cutoff>.json",
+   "done_at": "2026-10-31T22:0x+08:00",
+   "done_by": "bm-b r1336",
+   "entered_at": "2026-10-31T20:3x+08:00",
+   "entered_by": "bm-b r1335",
+   "evidence_cutoff": "2026-10-31",
+   "id": "E317-PRINT-COVERAGE-CENSUS",
+   "lane": "cpu-only",
+   "outcome": "289 faces / 1108 gate leaves: the unit is missing on 1047 of them and only 33 leaves (2.98%) are readable from their own face, on 2 faces that are both gate tables. 225 leaves publish a same-unit decoy; the substitution spans up to 19.6 orders of magnitude. 122 gates carry a zero tolerance.",
+   "priority": 3,
+   "question": "per face: does a reader holding only the face get all four (or five) elements for the gate it publishes, and if not, which element is missing and what does the nearest same-unit number cost in tolerance orders of magnitude?",
+   "result_ref": "results/state_tilt/PRINTCOV-2026-10-31.json (scripts/e317_print_coverage_census.py run / verify 0 problems / selftest 35/35, S6 leg print_coverage_census rc=0, smoke leg added, identity checks green)",
+   "runner": "scripts/e317_print_coverage_census.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "r1335 (E316): the reader-set test (identifier + unit + one magnitude + scale expression + floor) was applied to five rows chosen by E315; the elements are derived from the regime model, not from a per-face table, so the same test can run on every face that publishes a tolerance constant",
+   "status": "done",
+   "target": "every results/**/*.json face publishing a numeric tolerance leaf (name token tol/tolerance/rel_tol), excluded: the E313-E317 study faces",
+   "title": "E316 measured the reader set on the five rows E315 left: which of ALL the gate constants published in results/ are readable from the face that carries them, and what does substituting a same-unit number cost per face?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/ZEROTOLPRUNE-<cutoff>.json",
+   "done_at": "2026-10-31T22:4x+08:00",
+   "done_by": "bm-b r1337",
+   "entered_at": "2026-10-31T22:4x+08:00",
+   "entered_by": "bm-b r1337",
+   "evidence_cutoff": "2026-10-31",
+   "id": "E318-ZERO-TOLERANCE-PRUNE",
+   "lane": "cpu-only",
+   "outcome": "62 of the 1108 leaves are counts and 53 of the 122 zeros are those counts, so the zero band halves to 69; 68 of the 69 sit on this programme's own study faces (E299/E305/E308/E312) and exactly one survives on a real data face (t18 known-answer, whose published observed max is 0.0). The unpruned control reproduces E317's five published numbers.",
+   "priority": 3,
+   "question": "per row: is the leaf a count (then it is not a gate), and for the survivors, does the block it gates publish integers (exact equality on counts) or floats (exact float equality), on a study face or a data face?",
+   "result_ref": "results/state_tilt/ZEROTOLPRUNE-2026-10-31.json (run / verify 0 problems over 7 checks / selftest 25/25, S6 leg zero_tolerance_prune rc=0 0.08s, smoke leg executed standalone PASS)",
+   "runner": "scripts/e318_count_named_gate_leaves.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "r1336 (E317): one of the leaves it counted is n_tolerance_named_not_gate, a count of gates that named a tolerance without being one",
+   "status": "done",
+   "target": "every row of E317's published census (289 faces / 1108 gate leaves)",
+   "title": "E317's zero-tolerance headline re-counted under the count-word guard: how much of it is counts of gates, and what is a surviving zero actually gating?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/SELFINCLUSION-<cutoff>.json",
+   "done_at": "2026-10-31T23:1x+08:00",
+   "done_by": "bm-b r1338",
+   "entered_at": "2026-10-31T22:4x+08:00",
+   "entered_by": "bm-b r1337",
+   "evidence_cutoff": "2026-10-31",
+   "id": "E319-CENSUS-SELF-INCLUSION-SWEEP",
+   "lane": "cpu-only",
+   "outcome": "45 study faces, 31 of them censuses; 256 row arcs of which 120 are census->census; NO declared exclusion list reaches any of those 120 (19 censuses declare nothing, 8 guard only their own two filenames, the single family-prefix face still counts 7 censuses outside its window); 22 censuses are counted as rows by a later census, max in-degree 14, max transitive closure 37. The guard is a filename list and 'is this face itself a census' is not a filename property.",
+   "priority": 3,
+   "question": "for each census-style study face, which later study faces count its rows, and is the exclusion list a declared constant or a copy of the writer's own family?",
+   "result_ref": "results/state_tilt/SELFINCLUSION-2026-10-31.json (run / verify 0 problems over 11 checks / selftest 25/25, S6 leg census_self_inclusion rc=0 13.4s, smoke leg 304 executed standalone PASS)",
+   "runner": "scripts/e319_census_self_inclusion.py",
+   "runner_args": [
+    "run"
+   ],
+   "runner_note": "declared runner name was scripts/e319_census_self_inclusion.py; the runner shipped as scripts/e319_census_self_inclusion_sweep.py (the study is a sweep). The declared deliverable path is satisfied exactly.",
+   "source": "r1337 (E318): 68 of the 69 surviving zero-tolerance gates sit on four study faces published before E317's exclusion list existed",
+   "status": "done",
+   "target": "every results/**/*.json face whose top-level study matches ^E\\d+_",
+   "title": "E317 excluded its own E313-E317 family and let four earlier study faces through; sweep every study face (top-level study = E<n>_<slug>) and measure which of them are counted as rows by later censuses of the same programme",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/DECOYRESOLVE-<cutoff>.json",
+   "entered_at": "2026-10-31T22:4x+08:00",
+   "entered_by": "bm-b r1337",
+   "evidence_cutoff": "2026-10-31",
+   "id": "E320-DECOY-IS-THE-GATED-QUANTITY",
+   "lane": "cpu-only",
+   "priority": 3,
+   "question": "for each decoy-bearing leaf: does any candidate share the gated quantity's name token or magnitude fingerprint, and how many decades of ambiguity remain after that match?",
+   "runner": "scripts/e320_decoy_resolution.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "r1337 (E318): the surviving population cannot say which zero is a copy check and which is a computation - the same question one layer down is which decoy is actually the gated quantity",
+   "status": "ready",
+   "target": "the 219 substitution-span leaves surviving E318's prune",
+   "title": "E317 published 225 leaves whose block offers a same-unit decoy for the gate; for each, does the block also publish the gated quantity itself, i.e. is the substitution avoidable by a reader who reads the whole block?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
@@ -25727,7 +25915,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T19:0x+08:00",
+ "updated_at": "2026-10-31T22:0x+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

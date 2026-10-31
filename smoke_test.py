@@ -9066,6 +9066,75 @@ def main() -> int:
     except Exception as e:
         check(_name105, False, repr(e)[:160])
 
+    # E319 (r1338 bm-b): E318 found 68 of the 69 surviving zero-tolerance gates sitting on four
+    # earlier study faces because the exclusion list predated them. This leg says why: the guard
+    # on every census is a list of FILE NAMES, and "is this face itself a census" is not a file
+    # name. It pins (a) that the population and the census count re-derive, (b) that the census
+    # -> census arcs exist and no declared list reaches one of them, (c) that the per-row missed
+    # counts recompute, (d) that the vintage audit covers every arc and separates date-granularity
+    # pairs as indeterminate rather than forward, and (e) that the study did not count itself.
+    _name304 = ("product: every census in this programme counts other censuses and no declared "
+                "guard reaches any of those arcs -- the guard is a filename list, not a property")
+    _bad304 = []
+    try:
+        _m304 = __import__("importlib").import_module("e319_census_self_inclusion_sweep")
+        _f304 = _m304.build()
+        _c304 = _f304.get("census") or {}
+        _ex304 = _f304.get("exclusions") or []
+        _fc304 = _f304.get("faces") or []
+        if _f304.get("evidence_cutoff") != "2026-10-31":
+            _bad304.append("evidence_cutoff moved: %r" % (_f304.get("evidence_cutoff"),))
+        if any(not c.get("ok") for c in _f304.get("identity_checks") or []):
+            _bad304.append("identity checks are not all green")
+        if len(_ex304) != _c304.get("census_studies"):
+            _bad304.append("exclusion rows are not one per census")
+        if sum(r.get("counted_censuses") or 0 for r in _ex304) != \
+                _c304.get("census_to_census_edges"):
+            _bad304.append("census arcs do not recompute from the per-row counts")
+        if any(r.get("counted_censuses_missed") !=
+               (r.get("counted_censuses") or 0) -
+               (r.get("counted_censuses_covered_by_the_declaration") or 0)
+               for r in _ex304):
+            _bad304.append("a row's missed count does not recompute")
+        if (_c304.get("census_edges_covered_by_a_declaration") or 0) != \
+                sum(r.get("counted_censuses_covered_by_the_declaration") or 0 for r in _ex304):
+            _bad304.append("the covered total does not recompute")
+        if (_c304.get("census_edges_covered_by_a_declaration") or 0) + \
+                (_c304.get("census_edges_missed_by_every_declaration") or 0) != \
+                _c304.get("census_to_census_edges"):
+            _bad304.append("covered + missed is not the census arc count")
+        if sum(1 for f in _fc304 if f.get("is_census")) != _c304.get("census_studies"):
+            _bad304.append("is_census flags do not match the census count")
+        if (_c304.get("vintage") or {}).get("compared") != _c304.get("all_edges"):
+            _bad304.append("the vintage audit does not cover every arc")
+        if not _ex304:
+            _bad304.append("no census rows published")
+        elif max(r.get("counted_censuses") or 0 for r in _ex304) < 2:
+            _bad304.append("no census counts two or more censuses: the fixture would pass trivially")
+        if any(str(f.get("face") or "").upper().startswith("SELFINCLUSION-")
+               for f in _fc304):
+            _bad304.append("the study counted its own face")
+        _mut304 = __import__("json").loads(__import__("json").dumps(_f304))
+        _mut304["census"]["census_to_census_edges"] = -1
+        if not _m304.verify(_mut304):
+            _bad304.append("verify did not catch a mutated arc count")
+        check(_name304, not _bad304,
+              "; ".join(_bad304)[:220]
+              or "%d study faces, %d censuses, %d row arcs of which %d are census->census; "
+                 "declared lists reach %d of those arcs (%d censuses declare nothing, %d guard "
+                 "only their own files, %d a family-prefix window); %d censuses are counted by a "
+                 "later census; vintage %s"
+                 % (_c304.get("studies") or 0, _c304.get("census_studies") or 0,
+                    _c304.get("all_edges") or 0, _c304.get("census_to_census_edges") or 0,
+                    _c304.get("census_edges_covered_by_a_declaration") or 0,
+                    (_c304.get("declared_kind_counts") or {}).get("none") or 0,
+                    (_c304.get("declared_kind_counts") or {}).get("own_filenames_only") or 0,
+                    (_c304.get("declared_kind_counts") or {}).get("family_prefix_list") or 0,
+                    _c304.get("censuses_counted_by_a_later_census") or 0,
+                    __import__("json").dumps(_c304.get("vintage") or {}, sort_keys=True)))
+    except Exception as e:
+        check(_name304, False, repr(e)[:160])
+
     return _finish()
 
 

@@ -1,0 +1,1952 @@
+{
+ "census": {
+  "all_edges": 256,
+  "census_edges_covered_by_a_declaration": 0,
+  "census_edges_missed_by_every_declaration": 120,
+  "census_studies": 31,
+  "census_to_census_edges": 120,
+  "censuses_counted_by_a_later_census": 22,
+  "censuses_needing_an_exclusion_but_declaring_none": 19,
+  "declared_exclusion_faces": 10,
+  "declared_kind_counts": {
+   "family_prefix_list": 1,
+   "glob_pattern": 1,
+   "none": 21,
+   "own_filenames_only": 8
+  },
+  "max_in_degree": 14,
+  "max_transitive_closure": 37,
+  "studies": 45,
+  "studies_counted_as_rows": 37,
+  "transitive_closure_beats_direct_edges": [
+   {
+    "closure": 2,
+    "direct": 1,
+    "study": "E258_band_multiplier_per_window"
+   },
+   {
+    "closure": 3,
+    "direct": 1,
+    "study": "E259_band_multiplier_distribution"
+   },
+   {
+    "closure": 4,
+    "direct": 1,
+    "study": "E278_spread_floor"
+   },
+   {
+    "closure": 7,
+    "direct": 4,
+    "study": "E282_substitution_disagreement_census"
+   },
+   {
+    "closure": 21,
+    "direct": 6,
+    "study": "E287_supply_ceiling_axes"
+   },
+   {
+    "closure": 3,
+    "direct": 2,
+    "study": "E288_below_floor_narrowing"
+   },
+   {
+    "closure": 24,
+    "direct": 12,
+    "study": "E291_ambiguity_by_length_chance"
+   },
+   {
+    "closure": 22,
+    "direct": 10,
+    "study": "E292_scope_fix_plan"
+   }
+  ],
+  "vintage": {
+   "backward": 207,
+   "compared": 256,
+   "forward": 1,
+   "indeterminate": 32,
+   "unknown": 16
+  }
+ },
+ "discovery": {
+  "canonical_face_rule": "per study, the dated build; the *_latest twin is dropped",
+  "canonical_study_count": 45,
+  "face_count": 102,
+  "prose_rule": "every other .json mention is reported and never counted",
+  "root": "results/**/*.json",
+  "row_pointer_rule": "a .json string whose immediate parent key is one of face,face_file,face_name,face_path,faces,file,path,source,source_face,src or whose parent container key contains 'face'",
+  "study_rule": "top-level `study` matching ^E\\d+_"
+ },
+ "evidence_cutoff": "2026-10-31",
+ "exclusions": [
+  {
+   "counted_censuses": 0,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 0,
+   "counted_studies": 1,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E257_band_at_top_flips"
+  },
+  {
+   "counted_censuses": 1,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 1,
+   "counted_studies": 1,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E258_band_multiplier_per_window"
+  },
+  {
+   "counted_censuses": 1,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 1,
+   "counted_studies": 1,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E259_band_multiplier_distribution"
+  },
+  {
+   "counted_censuses": 3,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 3,
+   "counted_studies": 13,
+   "declared": [
+    "BANDFIELDS*.json",
+    "*_latest.json"
+   ],
+   "declared_kind": "glob_pattern",
+   "declared_reaches_studies": [
+    "E270_guard_field_audit"
+   ],
+   "study": "E270_guard_field_audit"
+  },
+  {
+   "counted_censuses": 0,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 0,
+   "counted_studies": 3,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E273_threshold_guard_substitution"
+  },
+  {
+   "counted_censuses": 1,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 1,
+   "counted_studies": 1,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E278_spread_floor"
+  },
+  {
+   "counted_censuses": 6,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 6,
+   "counted_studies": 18,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E281_substitution_dependency_audit"
+  },
+  {
+   "counted_censuses": 1,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 1,
+   "counted_studies": 4,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E282_substitution_disagreement_census"
+  },
+  {
+   "counted_censuses": 8,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 8,
+   "counted_studies": 20,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E283_degenerate_range_reachable"
+  },
+  {
+   "counted_censuses": 9,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 9,
+   "counted_studies": 21,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E284_disagreement_field_scope"
+  },
+  {
+   "counted_censuses": 10,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 10,
+   "counted_studies": 23,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E286_count_field_scope"
+  },
+  {
+   "counted_censuses": 4,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 4,
+   "counted_studies": 6,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E287_supply_ceiling_axes"
+  },
+  {
+   "counted_censuses": 2,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 2,
+   "counted_studies": 2,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E288_below_floor_narrowing"
+  },
+  {
+   "counted_censuses": 10,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 10,
+   "counted_studies": 23,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E290_selfauditable_face_profile"
+  },
+  {
+   "counted_censuses": 5,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 5,
+   "counted_studies": 12,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E291_ambiguity_by_length_chance"
+  },
+  {
+   "counted_censuses": 4,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 4,
+   "counted_studies": 10,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E292_scope_fix_plan"
+  },
+  {
+   "counted_censuses": 1,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 1,
+   "counted_studies": 5,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E293_duplicate_list_census"
+  },
+  {
+   "counted_censuses": 11,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 11,
+   "counted_studies": 11,
+   "declared": [
+    "BANDFROZEN-2026-10-29.json",
+    "bandfrozen_latest.json"
+   ],
+   "declared_kind": "own_filenames_only",
+   "declared_reaches_studies": [
+    "E294_live_universe_drift"
+   ],
+   "study": "E294_live_universe_drift"
+  },
+  {
+   "counted_censuses": 1,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 1,
+   "counted_studies": 1,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E295_supply_gap_closure"
+  },
+  {
+   "counted_censuses": 13,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 13,
+   "counted_studies": 17,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E298_replay_control_census"
+  },
+  {
+   "counted_censuses": 2,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 2,
+   "counted_studies": 2,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E300_window_local_margin_census"
+  },
+  {
+   "counted_censuses": 3,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 3,
+   "counted_studies": 3,
+   "declared": [
+    "BANDSWITCH-2026-10-30.json",
+    "bandswitch_latest.json"
+   ],
+   "declared_kind": "own_filenames_only",
+   "declared_reaches_studies": [
+    "E302_universe_switch_backfill"
+   ],
+   "study": "E302_universe_switch_backfill"
+  },
+  {
+   "counted_censuses": 1,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 1,
+   "counted_studies": 3,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E305_face_level_row_pricing"
+  },
+  {
+   "counted_censuses": 6,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 6,
+   "counted_studies": 17,
+   "declared": [
+    "GATETOL-2026-10-31.json",
+    "gatetol_latest.json"
+   ],
+   "declared_kind": "own_filenames_only",
+   "declared_reaches_studies": [
+    "E308_leg_vs_producer_tolerance"
+   ],
+   "study": "E308_leg_vs_producer_tolerance"
+  },
+  {
+   "counted_censuses": 3,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 3,
+   "counted_studies": 8,
+   "declared": [
+    "GATEOPERANDS-2026-10-31.json",
+    "gateoperands_latest.json"
+   ],
+   "declared_kind": "own_filenames_only",
+   "declared_reaches_studies": [
+    "E312_gate_operand_identity"
+   ],
+   "study": "E312_gate_operand_identity"
+  },
+  {
+   "counted_censuses": 2,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 2,
+   "counted_studies": 7,
+   "declared": [
+    "GATEFORM-2026-10-31.json",
+    "gateform_latest.json"
+   ],
+   "declared_kind": "own_filenames_only",
+   "declared_reaches_studies": [
+    "E313_gate_form_and_scale"
+   ],
+   "study": "E313_gate_form_and_scale"
+  },
+  {
+   "counted_censuses": 2,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 2,
+   "counted_studies": 7,
+   "declared": [
+    "GATECLAMP-2026-10-31.json",
+    "gateclamp_latest.json"
+   ],
+   "declared_kind": "own_filenames_only",
+   "declared_reaches_studies": [
+    "E314_clamped_gate_census"
+   ],
+   "study": "E314_clamped_gate_census"
+  },
+  {
+   "counted_censuses": 0,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 0,
+   "counted_studies": 1,
+   "declared": [
+    "LEGEPS-2026-10-31.json",
+    "legeps_latest.json"
+   ],
+   "declared_kind": "own_filenames_only",
+   "declared_reaches_studies": [
+    "E315_leg_epsilon_vs_flat_regime"
+   ],
+   "study": "E315_leg_epsilon_vs_flat_regime"
+  },
+  {
+   "counted_censuses": 0,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 0,
+   "counted_studies": 1,
+   "declared": [
+    "GATEPRINT-2026-10-31.json",
+    "gateprint_latest.json"
+   ],
+   "declared_kind": "own_filenames_only",
+   "declared_reaches_studies": [
+    "E316_gate_print_requirements"
+   ],
+   "study": "E316_gate_print_requirements"
+  },
+  {
+   "counted_censuses": 7,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 7,
+   "counted_studies": 10,
+   "declared": [
+    "PRINTCOV-2026-10-31.json",
+    "printcov_latest.json",
+    "GATEFORM-",
+    "GATECLAMP-",
+    "LEGEPS-",
+    "GATEPRINT-",
+    "PRINTCOV-"
+   ],
+   "declared_kind": "family_prefix_list",
+   "declared_reaches_studies": [
+    "E313_gate_form_and_scale",
+    "E314_clamped_gate_census",
+    "E315_leg_epsilon_vs_flat_regime",
+    "E316_gate_print_requirements",
+    "E317_print_coverage_census"
+   ],
+   "study": "E317_print_coverage_census"
+  },
+  {
+   "counted_censuses": 3,
+   "counted_censuses_covered_by_the_declaration": 0,
+   "counted_censuses_missed": 3,
+   "counted_studies": 4,
+   "declared": [],
+   "declared_kind": "none",
+   "declared_reaches_studies": [],
+   "study": "E318_count_named_gate_leaves"
+  }
+ ],
+ "faces": [
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDDRAW-2026-10-29-d960.json",
+   "generated": "2026-10-30T18:12:23",
+   "in_degree": 10,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 0,
+   "prose_only_targets": [],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [
+    "E258_band_multiplier_per_window",
+    "E270_guard_field_audit",
+    "E281_substitution_dependency_audit",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E286_count_field_scope",
+    "E287_supply_ceiling_axes",
+    "E288_below_floor_narrowing",
+    "E290_selfauditable_face_profile",
+    "E291_ambiguity_by_length_chance",
+    "E292_scope_fix_plan",
+    "E317_print_coverage_census"
+   ],
+   "face": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "generated": "2026-10-30T18:59:46",
+   "in_degree": 12,
+   "is_census": true,
+   "json_paths": [
+    "source_faces.ladder"
+   ],
+   "prose_only_mentions": 0,
+   "prose_only_targets": [],
+   "row_pointers": 1,
+   "row_targets": [
+    "E256_band_draw_continuation"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E259_band_multiplier_distribution",
+    "E270_guard_field_audit",
+    "E281_substitution_dependency_audit",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E286_count_field_scope",
+    "E287_supply_ceiling_axes",
+    "E288_below_floor_narrowing",
+    "E290_selfauditable_face_profile",
+    "E291_ambiguity_by_length_chance",
+    "E292_scope_fix_plan",
+    "E300_window_local_margin_census",
+    "E308_leg_vs_producer_tolerance"
+   ],
+   "face": "results/state_tilt/BANDWINMULT-2026-10-29.json",
+   "generated": "2026-10-30T20:06:26",
+   "in_degree": 13,
+   "is_census": true,
+   "json_paths": [
+    "source_faces.e257"
+   ],
+   "prose_only_mentions": 0,
+   "prose_only_targets": [],
+   "row_pointers": 1,
+   "row_targets": [
+    "E257_band_at_top_flips"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E270_guard_field_audit",
+    "E278_spread_floor",
+    "E281_substitution_dependency_audit",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E286_count_field_scope",
+    "E290_selfauditable_face_profile",
+    "E291_ambiguity_by_length_chance",
+    "E292_scope_fix_plan",
+    "E298_replay_control_census",
+    "E308_leg_vs_producer_tolerance"
+   ],
+   "face": "results/state_tilt/BANDWINDIST-2026-10-29.json",
+   "generated": "2026-10-30T20:52:45",
+   "in_degree": 11,
+   "is_census": true,
+   "json_paths": [
+    "source_faces.e258"
+   ],
+   "prose_only_mentions": 0,
+   "prose_only_targets": [],
+   "row_pointers": 1,
+   "row_targets": [
+    "E258_band_multiplier_per_window"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDARRIVAL-2026-10-29.json",
+   "generated": "2026-10-30T21:19:54",
+   "in_degree": 14,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 1,
+   "prose_only_targets": [
+    "E259_band_multiplier_distribution"
+   ],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDBUCKET-2026-10-29.json",
+   "generated": "2026-10-30T21:39:07",
+   "in_degree": 8,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 1,
+   "prose_only_targets": [
+    "E259_band_multiplier_distribution"
+   ],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDTRANSFER-2026-10-29.json",
+   "generated": "2026-10-30T23:15:36",
+   "in_degree": 13,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 2,
+   "prose_only_targets": [
+    "E259_band_multiplier_distribution"
+   ],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDARRIVALATE-2026-10-29.json",
+   "generated": "2026-10-30T22:39:31",
+   "in_degree": 10,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 2,
+   "prose_only_targets": [
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival"
+   ],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDNEAR1-2026-10-29.json",
+   "generated": "2026-10-30T23:34:53",
+   "in_degree": 10,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 1,
+   "prose_only_targets": [
+    "E259_band_multiplier_distribution"
+   ],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDSCREEN-2026-10-29.json",
+   "generated": "2026-10-30T23:45:29",
+   "in_degree": 8,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 1,
+   "prose_only_targets": [
+    "E262_p95_transfer_across_windows"
+   ],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDMARGIN-2026-10-29.json",
+   "generated": "2026-10-31T00:01:21",
+   "in_degree": 8,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 1,
+   "prose_only_targets": [
+    "E262_p95_transfer_across_windows"
+   ],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDPOOLED-2026-10-29.json",
+   "generated": "2026-10-31T02:15:06",
+   "in_degree": 7,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 1,
+   "prose_only_targets": [
+    "E262_p95_transfer_across_windows"
+   ],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDTIGHT-2026-10-29.json",
+   "generated": "2026-10-31T02:30:19",
+   "in_degree": 14,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 2,
+   "prose_only_targets": [
+    "E259_band_multiplier_distribution",
+    "E262_p95_transfer_across_windows"
+   ],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [
+    "E281_substitution_dependency_audit",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E286_count_field_scope",
+    "E290_selfauditable_face_profile"
+   ],
+   "face": "results/state_tilt/BANDFIELDS-2026-10-29.json",
+   "generated": "2026-10-31T02:48:23",
+   "in_degree": 5,
+   "is_census": true,
+   "json_paths": [
+    "faces.face",
+    "guard_complete_collections.face"
+   ],
+   "prose_only_mentions": 14,
+   "prose_only_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer"
+   ],
+   "row_pointers": 18,
+   "row_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDFLIPBUDGET-2026-10-29.json",
+   "generated": "2026-10-31T04:10:24",
+   "in_degree": 13,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 3,
+   "prose_only_targets": [
+    "E259_band_multiplier_distribution",
+    "E262_p95_transfer_across_windows",
+    "E269_tight_end_transfer"
+   ],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E286_count_field_scope",
+    "E290_selfauditable_face_profile",
+    "E308_leg_vs_producer_tolerance"
+   ],
+   "face": "results/state_tilt/BANDTHRESHGUARD-2026-10-29.json",
+   "generated": "2026-10-31T03:06:11",
+   "in_degree": 7,
+   "is_census": true,
+   "json_paths": [
+    "census.newly_runnable.face",
+    "census.threshold_runnable.face"
+   ],
+   "prose_only_mentions": 8,
+   "prose_only_targets": [
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E270_guard_field_audit"
+   ],
+   "row_pointers": 19,
+   "row_targets": [
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E281_substitution_dependency_audit",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E286_count_field_scope",
+    "E290_selfauditable_face_profile",
+    "E294_live_universe_drift",
+    "E298_replay_control_census"
+   ],
+   "face": "results/state_tilt/BANDSPREADFLOOR-2026-10-29.json",
+   "generated": "2026-10-31T04:59:38",
+   "in_degree": 7,
+   "is_census": true,
+   "json_paths": [
+    "faces_with_arm_rows.face"
+   ],
+   "prose_only_mentions": 2,
+   "prose_only_targets": [
+    "E259_band_multiplier_distribution",
+    "E272_flip_budget_two_tails"
+   ],
+   "row_pointers": 1,
+   "row_targets": [
+    "E259_band_multiplier_distribution"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDSUBSTITUTE-2026-10-29.json",
+   "generated": "2026-10-31T05:38:10",
+   "in_degree": 8,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 2,
+   "prose_only_targets": [
+    "E272_flip_budget_two_tails",
+    "E278_spread_floor"
+   ],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E286_count_field_scope",
+    "E290_selfauditable_face_profile",
+    "E294_live_universe_drift",
+    "E298_replay_control_census"
+   ],
+   "face": "results/state_tilt/BANDSUBSTITUTEAUDIT-2026-10-29.json",
+   "generated": "2026-10-31T06:09:48",
+   "in_degree": 6,
+   "is_census": true,
+   "json_paths": [
+    "claims.face",
+    "faces.face"
+   ],
+   "prose_only_mentions": 21,
+   "prose_only_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness"
+   ],
+   "row_pointers": 43,
+   "row_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E286_count_field_scope",
+    "E287_supply_ceiling_axes",
+    "E290_selfauditable_face_profile",
+    "E294_live_universe_drift",
+    "E298_replay_control_census",
+    "E308_leg_vs_producer_tolerance",
+    "E312_gate_operand_identity",
+    "E313_gate_form_and_scale",
+    "E314_clamped_gate_census",
+    "E317_print_coverage_census"
+   ],
+   "face": "results/_r1308bmb_state_backup.json",
+   "generated": "None",
+   "in_degree": 12,
+   "is_census": true,
+   "json_paths": [
+    "r1289.face",
+    "r1291.face",
+    "r1297.face",
+    "r1305.face"
+   ],
+   "prose_only_mentions": 1,
+   "prose_only_targets": [
+    "E262_p95_transfer_across_windows"
+   ],
+   "row_pointers": 4,
+   "row_targets": [
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E273_threshold_guard_substitution",
+    "E279_substitution_soundness"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E284_disagreement_field_scope",
+    "E286_count_field_scope",
+    "E287_supply_ceiling_axes",
+    "E290_selfauditable_face_profile",
+    "E294_live_universe_drift",
+    "E298_replay_control_census",
+    "E305_face_level_row_pricing",
+    "E308_leg_vs_producer_tolerance",
+    "E317_print_coverage_census"
+   ],
+   "face": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "generated": "2026-10-31T07:04:32",
+   "in_degree": 9,
+   "is_census": true,
+   "json_paths": [
+    "scope.faces_excluded.face",
+    "scope.faces_qualifying.face"
+   ],
+   "prose_only_mentions": 23,
+   "prose_only_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census"
+   ],
+   "row_pointers": 42,
+   "row_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E286_count_field_scope",
+    "E290_selfauditable_face_profile",
+    "E291_ambiguity_by_length_chance",
+    "E292_scope_fix_plan",
+    "E293_duplicate_list_census",
+    "E294_live_universe_drift"
+   ],
+   "face": "results/state_tilt/BANDDISAGREESCOPE-2026-10-29.json",
+   "generated": "2026-10-31T07:15:18",
+   "in_degree": 6,
+   "is_census": true,
+   "json_paths": [
+    "sweep.faces_with_label_fields.classified.face",
+    "sweep.faces_with_label_fields.face",
+    "sweep.flagged_fields.face",
+    "sweep.label_universe.faces.face"
+   ],
+   "prose_only_mentions": 23,
+   "prose_only_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable"
+   ],
+   "row_pointers": 43,
+   "row_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDGAPCEILING-2026-10-29.json",
+   "generated": "2026-10-31T07:24:25",
+   "in_degree": 10,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 1,
+   "prose_only_targets": [
+    "E272_flip_budget_two_tails"
+   ],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [
+    "E294_live_universe_drift",
+    "E298_replay_control_census"
+   ],
+   "face": "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
+   "generated": "2026-10-31T07:35:26",
+   "in_degree": 2,
+   "is_census": true,
+   "json_paths": [
+    "cannot_rederive.sample.face",
+    "per_face.face",
+    "re_derivable_rows.face"
+   ],
+   "prose_only_mentions": 84,
+   "prose_only_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E285_interrange_gap_ceiling"
+   ],
+   "row_pointers": 87,
+   "row_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E285_interrange_gap_ceiling"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E294_live_universe_drift",
+    "E295_supply_gap_closure",
+    "E300_window_local_margin_census"
+   ],
+   "face": "results/state_tilt/BANDSUPPLY-2026-10-29.json",
+   "generated": "2026-10-31T09:50:01",
+   "in_degree": 3,
+   "is_census": true,
+   "json_paths": [
+    "axis_manifest.face",
+    "off_axis_readings.face",
+    "summary.widen_cap_conservative_at.face",
+    "summary.widen_cap_optimistic_at.face",
+    "supply_caps.widen.conservative.at.face",
+    "supply_caps.widen.optimistic.at.face"
+   ],
+   "prose_only_mentions": 27,
+   "prose_only_targets": [
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E272_flip_budget_two_tails",
+    "E279_substitution_soundness",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E285_interrange_gap_ceiling"
+   ],
+   "row_pointers": 50,
+   "row_targets": [
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E272_flip_budget_two_tails",
+    "E279_substitution_soundness",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E308_leg_vs_producer_tolerance",
+    "E312_gate_operand_identity",
+    "E313_gate_form_and_scale",
+    "E314_clamped_gate_census"
+   ],
+   "face": "results/state_tilt/BANDFLOORMIRROR-2026-10-29.json",
+   "generated": "2026-10-31T10:49:02",
+   "in_degree": 4,
+   "is_census": true,
+   "json_paths": [
+    "narrowing_readings.face"
+   ],
+   "prose_only_mentions": 1,
+   "prose_only_targets": [
+    "E285_interrange_gap_ceiling"
+   ],
+   "row_pointers": 9,
+   "row_targets": [
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E291_ambiguity_by_length_chance",
+    "E294_live_universe_drift",
+    "E298_replay_control_census",
+    "E302_universe_switch_backfill"
+   ],
+   "face": "results/state_tilt/BANDSELFAUDIT-2026-10-29.json",
+   "generated": "2026-10-31T08:00:17",
+   "in_degree": 4,
+   "is_census": true,
+   "json_paths": [
+    "checkable_rows.face",
+    "per_face.face",
+    "summary.per_face_below_the_pattern_floor.face"
+   ],
+   "prose_only_mentions": 29,
+   "prose_only_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E285_interrange_gap_ceiling",
+    "E286_count_field_scope"
+   ],
+   "row_pointers": 50,
+   "row_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E285_interrange_gap_ceiling"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E294_live_universe_drift",
+    "E298_replay_control_census",
+    "E302_universe_switch_backfill"
+   ],
+   "face": "results/state_tilt/BANDAMBIENT-2026-10-29.json",
+   "generated": "2026-10-31T08:19:55",
+   "in_degree": 3,
+   "is_census": true,
+   "json_paths": [
+    "groups.face",
+    "rows.face",
+    "summary.pair_mechanism.different_content_pairs.face",
+    "summary.row_level.rows_per_scope.face",
+    "summary.row_level.source_face"
+   ],
+   "prose_only_mentions": 25,
+   "prose_only_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E285_interrange_gap_ceiling",
+    "E290_selfauditable_face_profile"
+   ],
+   "row_pointers": 44,
+   "row_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E262_p95_transfer_across_windows",
+    "E264_near_one_seeds_reading",
+    "E269_tight_end_transfer",
+    "E272_flip_budget_two_tails",
+    "E284_disagreement_field_scope",
+    "E285_interrange_gap_ceiling",
+    "E290_selfauditable_face_profile"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E294_live_universe_drift",
+    "E298_replay_control_census",
+    "E302_universe_switch_backfill"
+   ],
+   "face": "results/state_tilt/BANDSCOPEFIX-2026-10-29.json",
+   "generated": "2026-10-31T12:10:37",
+   "in_degree": 3,
+   "is_census": true,
+   "json_paths": [
+    "per_face.face",
+    "rows.face",
+    "summary.top_faces.face"
+   ],
+   "prose_only_mentions": 34,
+   "prose_only_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E285_interrange_gap_ceiling",
+    "E286_count_field_scope",
+    "E287_supply_ceiling_axes",
+    "E288_below_floor_narrowing",
+    "E290_selfauditable_face_profile",
+    "E291_ambiguity_by_length_chance",
+    "E293_duplicate_list_census",
+    "E295_supply_gap_closure",
+    "E300_window_local_margin_census"
+   ],
+   "row_pointers": 312,
+   "row_targets": [
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E269_tight_end_transfer",
+    "E272_flip_budget_two_tails",
+    "E284_disagreement_field_scope"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E294_live_universe_drift",
+    "E298_replay_control_census"
+   ],
+   "face": "results/state_tilt/BANDDUPES-2026-10-29.json",
+   "generated": "2026-10-31T09:04:25",
+   "in_degree": 2,
+   "is_census": true,
+   "json_paths": [
+    "groups.face",
+    "summary.accidental_examples.face"
+   ],
+   "prose_only_mentions": 29,
+   "prose_only_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E268_screen_on_pooled_end",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E285_interrange_gap_ceiling",
+    "E291_ambiguity_by_length_chance"
+   ],
+   "row_pointers": 9,
+   "row_targets": [
+    "E262_p95_transfer_across_windows",
+    "E264_near_one_seeds_reading",
+    "E269_tight_end_transfer",
+    "E272_flip_budget_two_tails",
+    "E284_disagreement_field_scope"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDFROZEN-2026-10-29.json",
+   "generated": "2026-10-31T22:20:25",
+   "in_degree": 0,
+   "is_census": true,
+   "json_paths": [
+    "rows.face"
+   ],
+   "prose_only_mentions": 0,
+   "prose_only_targets": [],
+   "row_pointers": 11,
+   "row_targets": [
+    "E278_spread_floor",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E284_disagreement_field_scope",
+    "E286_count_field_scope",
+    "E287_supply_ceiling_axes",
+    "E290_selfauditable_face_profile",
+    "E291_ambiguity_by_length_chance",
+    "E292_scope_fix_plan",
+    "E293_duplicate_list_census"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E298_replay_control_census"
+   ],
+   "face": "results/state_tilt/BANDCLOSURE-2026-10-29.json",
+   "generated": "2026-10-31T11:22:23",
+   "in_degree": 1,
+   "is_census": true,
+   "json_paths": [
+    "margins.reference.face",
+    "summary.widening_reference.face"
+   ],
+   "prose_only_mentions": 6,
+   "prose_only_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E258_band_multiplier_per_window",
+    "E285_interrange_gap_ceiling",
+    "E287_supply_ceiling_axes"
+   ],
+   "row_pointers": 2,
+   "row_targets": [
+    "E287_supply_ceiling_axes"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E317_print_coverage_census"
+   ],
+   "face": "results/state_tilt/REPLAYCENSUS-2026-10-31.json",
+   "generated": "2026-10-31T22:15:08",
+   "in_degree": 1,
+   "is_census": true,
+   "json_paths": [
+    "at_risk.face",
+    "controls.face"
+   ],
+   "prose_only_mentions": 3,
+   "prose_only_targets": [
+    "E263_arrival_vs_cell_size",
+    "E299_rounded_vs_tolerance_census",
+    "E314_clamped_gate_census"
+   ],
+   "row_pointers": 89,
+   "row_targets": [
+    "E259_band_multiplier_distribution",
+    "E263_arrival_vs_cell_size",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E285_interrange_gap_ceiling",
+    "E286_count_field_scope",
+    "E290_selfauditable_face_profile",
+    "E291_ambiguity_by_length_chance",
+    "E292_scope_fix_plan",
+    "E293_duplicate_list_census",
+    "E295_supply_gap_closure",
+    "E299_rounded_vs_tolerance_census",
+    "E305_face_level_row_pricing",
+    "E314_clamped_gate_census"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "generated": "2026-10-31T13:45:22",
+   "in_degree": 3,
+   "is_census": false,
+   "json_paths": [],
+   "prose_only_mentions": 0,
+   "prose_only_targets": [],
+   "row_pointers": 0,
+   "row_targets": []
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDMARGINWINDOW-2026-10-29.json",
+   "generated": "2026-10-31T11:41:06",
+   "in_degree": 0,
+   "is_census": true,
+   "json_paths": [
+    "rows.cross_window_reference.face",
+    "rows.own_reference.face",
+    "summary.cross_window_caps.widen.face"
+   ],
+   "prose_only_mentions": 5,
+   "prose_only_targets": [
+    "E256_band_draw_continuation",
+    "E258_band_multiplier_per_window",
+    "E285_interrange_gap_ceiling",
+    "E287_supply_ceiling_axes",
+    "E295_supply_gap_closure"
+   ],
+   "row_pointers": 21,
+   "row_targets": [
+    "E258_band_multiplier_per_window",
+    "E287_supply_ceiling_axes"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/BANDSWITCH-2026-10-30.json",
+   "generated": "2026-10-31T22:20:30",
+   "in_degree": 0,
+   "is_census": true,
+   "json_paths": [
+    "rows.face"
+   ],
+   "prose_only_mentions": 0,
+   "prose_only_targets": [],
+   "row_pointers": 3,
+   "row_targets": [
+    "E290_selfauditable_face_profile",
+    "E291_ambiguity_by_length_chance",
+    "E292_scope_fix_plan"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E317_print_coverage_census",
+    "E318_count_named_gate_leaves"
+   ],
+   "face": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "generated": "2026-10-31T22:21:21",
+   "in_degree": 3,
+   "is_census": true,
+   "json_paths": [
+    "rows.key_sites.in_other_faces.results/state_tilt/bandtight_latest.json.face",
+    "rows.key_sites.in_priced_face.face"
+   ],
+   "prose_only_mentions": 11,
+   "prose_only_targets": [
+    "E262_p95_transfer_across_windows",
+    "E269_tight_end_transfer",
+    "E283_degenerate_range_reachable",
+    "E285_interrange_gap_ceiling",
+    "E299_rounded_vs_tolerance_census"
+   ],
+   "row_pointers": 28,
+   "row_targets": [
+    "E269_tight_end_transfer",
+    "E283_degenerate_range_reachable",
+    "E285_interrange_gap_ceiling"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E312_gate_operand_identity",
+    "E317_print_coverage_census",
+    "E318_count_named_gate_leaves"
+   ],
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "generated": "2026-10-31",
+   "in_degree": 3,
+   "is_census": true,
+   "json_paths": [
+    "faces.face",
+    "faces.path",
+    "gate_exclusions.face",
+    "rows_leg_looser.face",
+    "rows_leg_tighter_or_exact.face"
+   ],
+   "prose_only_mentions": 0,
+   "prose_only_targets": [],
+   "row_pointers": 97,
+   "row_targets": [
+    "E256_band_draw_continuation",
+    "E258_band_multiplier_per_window",
+    "E259_band_multiplier_distribution",
+    "E260_band_endpoint_arrival",
+    "E261_degenerate_seeds_leave_one_bucket",
+    "E262_p95_transfer_across_windows",
+    "E263_arrival_vs_cell_size",
+    "E264_near_one_seeds_reading",
+    "E266_wide_end_screen_holdout",
+    "E267_screen_buffer_margin",
+    "E269_tight_end_transfer",
+    "E272_flip_budget_two_tails",
+    "E273_threshold_guard_substitution",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E285_interrange_gap_ceiling",
+    "E288_below_floor_narrowing"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [
+    "E317_print_coverage_census",
+    "E318_count_named_gate_leaves"
+   ],
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "generated": "2026-10-31",
+   "in_degree": 2,
+   "is_census": true,
+   "json_paths": [
+    "rows.face",
+    "upstream.face"
+   ],
+   "prose_only_mentions": 0,
+   "prose_only_targets": [],
+   "row_pointers": 26,
+   "row_targets": [
+    "E260_band_endpoint_arrival",
+    "E262_p95_transfer_across_windows",
+    "E269_tight_end_transfer",
+    "E272_flip_budget_two_tails",
+    "E282_substitution_disagreement_census",
+    "E285_interrange_gap_ceiling",
+    "E288_below_floor_narrowing",
+    "E308_leg_vs_producer_tolerance"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/GATEFORM-2026-10-31.json",
+   "generated": "2026-10-31",
+   "in_degree": 0,
+   "is_census": true,
+   "json_paths": [
+    "rows.face"
+   ],
+   "prose_only_mentions": 2,
+   "prose_only_targets": [
+    "E308_leg_vs_producer_tolerance",
+    "E312_gate_operand_identity"
+   ],
+   "row_pointers": 25,
+   "row_targets": [
+    "E260_band_endpoint_arrival",
+    "E262_p95_transfer_across_windows",
+    "E269_tight_end_transfer",
+    "E272_flip_budget_two_tails",
+    "E282_substitution_disagreement_census",
+    "E285_interrange_gap_ceiling",
+    "E288_below_floor_narrowing"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/GATECLAMP-2026-10-31.json",
+   "generated": "2026-10-31",
+   "in_degree": 1,
+   "is_census": true,
+   "json_paths": [
+    "clamped_rows.face",
+    "rows.face"
+   ],
+   "prose_only_mentions": 1,
+   "prose_only_targets": [
+    "E313_gate_form_and_scale"
+   ],
+   "row_pointers": 28,
+   "row_targets": [
+    "E260_band_endpoint_arrival",
+    "E262_p95_transfer_across_windows",
+    "E269_tight_end_transfer",
+    "E272_flip_budget_two_tails",
+    "E282_substitution_disagreement_census",
+    "E285_interrange_gap_ceiling",
+    "E288_below_floor_narrowing"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/LEGEPS-2026-10-31.json",
+   "generated": "2026-10-31",
+   "in_degree": 0,
+   "is_census": true,
+   "json_paths": [
+    "quantity_dependent_rows.face",
+    "rows.face"
+   ],
+   "prose_only_mentions": 1,
+   "prose_only_targets": [
+    "E314_clamped_gate_census"
+   ],
+   "row_pointers": 6,
+   "row_targets": [
+    "E260_band_endpoint_arrival"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/GATEPRINT-2026-10-31.json",
+   "generated": "2026-10-31",
+   "in_degree": 0,
+   "is_census": true,
+   "json_paths": [
+    "rows.face"
+   ],
+   "prose_only_mentions": 2,
+   "prose_only_targets": [
+    "E260_band_endpoint_arrival",
+    "E315_leg_epsilon_vs_flat_regime"
+   ],
+   "row_pointers": 3,
+   "row_targets": [
+    "E260_band_endpoint_arrival"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/PRINTCOV-2026-10-31.json",
+   "generated": "2026-10-31",
+   "in_degree": 0,
+   "is_census": true,
+   "json_paths": [
+    "census.top_substitution_spans.face",
+    "faces.face"
+   ],
+   "prose_only_mentions": 38,
+   "prose_only_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E260_band_endpoint_arrival",
+    "E262_p95_transfer_across_windows",
+    "E269_tight_end_transfer",
+    "E270_guard_field_audit",
+    "E272_flip_budget_two_tails",
+    "E278_spread_floor",
+    "E279_substitution_soundness",
+    "E281_substitution_dependency_audit",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E285_interrange_gap_ceiling",
+    "E287_supply_ceiling_axes",
+    "E288_below_floor_narrowing",
+    "E295_supply_gap_closure",
+    "E298_replay_control_census",
+    "E299_rounded_vs_tolerance_census",
+    "E300_window_local_margin_census",
+    "E305_face_level_row_pricing",
+    "E308_leg_vs_producer_tolerance",
+    "E312_gate_operand_identity"
+   ],
+   "row_pointers": 14,
+   "row_targets": [
+    "E256_band_draw_continuation",
+    "E257_band_at_top_flips",
+    "E282_substitution_disagreement_census",
+    "E283_degenerate_range_reachable",
+    "E285_interrange_gap_ceiling",
+    "E298_replay_control_census",
+    "E299_rounded_vs_tolerance_census",
+    "E305_face_level_row_pricing",
+    "E308_leg_vs_producer_tolerance",
+    "E312_gate_operand_identity"
+   ]
+  },
+  {
+   "counted_by_a_later_census": [],
+   "face": "results/state_tilt/ZEROTOLPRUNE-2026-10-31.json",
+   "generated": "2026-10-31",
+   "in_degree": 0,
+   "is_census": true,
+   "json_paths": [
+    "count_named.face",
+    "residual_gates.face"
+   ],
+   "prose_only_mentions": 1,
+   "prose_only_targets": [
+    "E317_print_coverage_census"
+   ],
+   "row_pointers": 130,
+   "row_targets": [
+    "E299_rounded_vs_tolerance_census",
+    "E305_face_level_row_pricing",
+    "E308_leg_vs_producer_tolerance",
+    "E312_gate_operand_identity"
+   ]
+  }
+ ],
+ "forward_vintage_rows": [
+  {
+   "census": "E298_replay_control_census",
+   "census_generated": "2026-10-31T22:15:08",
+   "counted": "E305_face_level_row_pricing",
+   "counted_generated": "2026-10-31T22:21:21",
+   "note": "counted face carries a later stamp than the census face"
+  }
+ ],
+ "generated": "2026-10-31",
+ "identity_checks": [
+  {
+   "check": "census edges <= all edges",
+   "ok": true
+  },
+  {
+   "check": "census studies <= studies",
+   "ok": true
+  },
+  {
+   "check": "every census has at least one counted study",
+   "ok": true
+  },
+  {
+   "check": "covered + missed equals the census edge count",
+   "ok": true
+  },
+  {
+   "check": "census edge count equals the sum of per-row counted censuses",
+   "ok": true
+  },
+  {
+   "check": "the vintage audit covers every census edge",
+   "ok": true
+  },
+  {
+   "check": "declared kind counts sum to the census rows",
+   "ok": true
+  },
+  {
+   "check": "counted-by-a-later set only names censuses",
+   "ok": true
+  },
+  {
+   "check": "no study counts itself",
+   "ok": true
+  },
+  {
+   "check": "prose mentions are never folded into rows",
+   "ok": true
+  },
+  {
+   "check": "the study's own face is not in the discovery set",
+   "ok": true
+  }
+ ],
+ "in_degree_top": [
+  {
+   "counted_by": 14,
+   "study": "E260_band_endpoint_arrival"
+  },
+  {
+   "counted_by": 14,
+   "study": "E269_tight_end_transfer"
+  },
+  {
+   "counted_by": 13,
+   "study": "E258_band_multiplier_per_window"
+  },
+  {
+   "counted_by": 13,
+   "study": "E262_p95_transfer_across_windows"
+  },
+  {
+   "counted_by": 13,
+   "study": "E272_flip_budget_two_tails"
+  },
+  {
+   "counted_by": 12,
+   "study": "E257_band_at_top_flips"
+  },
+  {
+   "counted_by": 12,
+   "study": "E282_substitution_disagreement_census"
+  },
+  {
+   "counted_by": 11,
+   "study": "E259_band_multiplier_distribution"
+  },
+  {
+   "counted_by": 10,
+   "study": "E256_band_draw_continuation"
+  },
+  {
+   "counted_by": 10,
+   "study": "E263_arrival_vs_cell_size"
+  }
+ ],
+ "notes": [
+  "A census is defined by what it does, not by its name: a study counts as a census only when its face carries a structured row pointer to another study's face. Prose mentions are published in prose_only_targets and are never counted.",
+  "The declared guard on every face is `self_faces_excluded`, and on 10 of 31 censuses it names only that face's own two filenames -- a list that cannot answer 'is this face itself a census'.",
+  "E317 is the only face that declares a filename-prefix family list; it still counts censuses outside that list, so the list is a copy of the writer's recent family rather than a property of the population.",
+  "Filenames are not versions: a census row names a file, and that file is rewritten in place, so the content a census actually counted is not recoverable from the arc.",
+  "Vintage comparison is granularity-aware: a date-only stamp against a same-day timestamp is INDETERMINATE, never forward. Plain string comparison manufactures 34 extra forward edges on this face."
+ ],
+ "schema": "e319-census-self-inclusion/v1",
+ "self_faces_excluded": [
+  "SELFINCLUSION-2026-10-31.json",
+  "selfinclusion_latest.json"
+ ],
+ "self_scripts_excluded": [
+  "scripts/e319_census_self_inclusion_sweep.py"
+ ],
+ "study": "E319_census_self_inclusion_sweep",
+ "title": "which study faces are counted as rows by later censuses of the same programme, and is the exclusion list a declared property or a copy of the writer's own family",
+ "verdict": "every_census_counts_other_censuses_and_the_only_declared_guard_is_a_filename_list_that_cannot_express_is_a_census"
+}
