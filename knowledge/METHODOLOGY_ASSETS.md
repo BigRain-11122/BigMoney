@@ -7548,3 +7548,35 @@ every gate stays green.
 **Verify.** `smoke_test.py` leg `product: the CEO page still prints where in the day the money is
 earned`; `scripts/etf_book_leg_attribution.py selftest` 13/13; `scripts/etf_book_ceo_page.py
 selftest` 65/65; the reprised files are byte-identical to `HEAD` and the published page restored.
+
+## E311 A measurement is not delivered until it reaches the face the reader opens -- and a verdict string carrying a pipe breaks its own table (2026-10-31 r1191 bm-a)
+
+**Shape.** r1190 built the concentration reading (top-3 share of the gross, delete-top-3,
+delete-the-whole-sleeve) and printed it on the ORDER ticket. The next round's own state file
+recorded the gap in one line: *"the concentration face has not reached the CEO page (only the
+ticket)"*. Two faces, one book: the ticket is what an executor holds, the live-book page is
+what the CEO actually opens. A reading that lands only on the first is a measurement delivered
+to an audience of one script.
+
+**Two rules.**
+
+1. **Name the reader before calling a face published.** The question is not "does a face exist"
+   but "which human face quotes it". Wiring ticket-only feels complete because something printed
+   it; it is not complete for the person the book is reported to. The r1290 family (producer
+   behind consumer) has a mirror-image failure: a producer *in front of* the wrong consumer.
+2. **A machine verdict embedded in prose needs escaping at the render site.** `BROAD|SURVIVES_WITHOUT_TOP3`
+   was written verbatim into a markdown table cell, and the pipe split the row into a fourth
+   column: the page still rendered, the number still read, and the table silently stopped being
+   the table it claimed to be. Cure: the renderer substitutes the separator (`BROAD · SURVIVES...`)
+   and the smoke leg asserts the *rendered* form, so a future consumer that re-adds the raw verdict
+   reads red instead of producing a legal-looking broken table.
+
+**Falsifiability.** ceo_page L63-L65: the four numbers and the verdict must reach the page from
+the published face's own values; a face whose identity gate failed (`no_identity`) or is absent
+must print "cannot verify" with **no numbers at all**, never "broad" by default. The smoke leg
+re-reads `results/etf_book_concentration.json` and demands the page print those exact strings
+(equal, not merely present, r1130 law).
+
+Live reading (2026-10-31): top3 22.1%, delete-top-3 -1.99pp, delete commodity sleeve -3.71pp
+(maxdd -11.8% -> -22.3%). Pos: scripts/etf_book_ceo_page.py::concentration_face + the page
+section + L63-L65 / smoke_test.py leg r1191 / docs/live_book/LIVE-BOOK-20261031.md.

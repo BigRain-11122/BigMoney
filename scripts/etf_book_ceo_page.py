@@ -34,6 +34,7 @@ CAL = os.path.join(ROOT, "data", "exchange_calendar.csv")
 REGIME_PATH = os.path.join(ROOT, "results", "etf_book_return_regime.json")
 BETS_JSON = os.path.join(ROOT, "results", "etf_book_bets_face.json")
 LEGS_JSON = os.path.join(ROOT, "results", "etf_book_legs", "latest.json")
+CONC_JSON = os.path.join(ROOT, "results", "etf_book_concentration.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -197,6 +198,55 @@ def leg_split(path=LEGS_JSON):
     except Exception as exc:                                    # noqa: BLE001
         return {"status": "unreadable", "artifact": path,
                 "detail": "reader failed (%s)" % str(exc)[:120], "arms": {}}
+
+
+def concentration_face(path=CONC_JSON):
+    """Whose CAGR is this? The page quotes the published reading (r1191).
+
+    The ticket started printing this at r1190; the page -- the face the CEO actually
+    opens -- still answered the headline with no hint that three gold ETFs carry a fifth
+    of the gross and that the whole commodity sleeve is what pays for the drawdown.
+    Single implementation: `etf_book_concentration.read_published()` owns the identity
+    gate (a face whose per-name replica does not reproduce the engine equity is refused
+    there), and this page only formats the numbers it published. Absent/unreadable/broken
+    reads as "cannot verify here", never as "broad"."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_concentration as _C
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "sentence": None,
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    out = _C.read_published(path=path)
+    out["artifact"] = path
+    if out.get("status") != "ok":
+        return out
+    try:
+        doc = json.load(open(path, encoding="utf-8"))
+    except Exception as exc:                                    # noqa: BLE001
+        out["status"] = "unreadable: %s" % exc
+        return out
+    conc = doc.get("concentration") or {}
+    names = doc.get("names") or {}
+    top = conc.get("top") or []
+    out["top3_share"] = conc.get("top3_share")
+    out["hhi"] = conc.get("positive_contribution_hhi")
+    out["names_negative"] = conc.get("names_negative")
+    out["names_above_1pct"] = conc.get("names_above_1pct_share")
+    out["distinct_names"] = (doc.get("exposure") or {}).get("distinct_names_held")
+    out["top"] = [{"symbol": t.get("symbol"),
+                   "name": names.get(t.get("symbol")) or t.get("symbol"),
+                   "share": t.get("share_of_return_sum")} for t in top[:3]]
+    out["baseline"] = (doc.get("baseline") or {}).get("full")
+    lk = doc.get("leave_top_k_out") or {}
+    out["top_k_out"] = {"k": lk.get("k"), "symbols": lk.get("symbols"),
+                        "delta_cagr_pp": lk.get("delta_cagr_pp"),
+                        "stats": lk.get("stats")}
+    veh = doc.get("leave_class_out") or {}
+    out["sleeve"] = {"class": veh.get("class"), "symbols_removed": veh.get("symbols_removed"),
+                     "delta_cagr_pp": veh.get("delta_cagr_pp"), "stats": veh.get("stats")}
+    return out
 
 
 def _load_ticket():
@@ -1097,6 +1147,7 @@ def build(with_stress=False):
     page["cash_handshake"] = cash_handshake(cash_amt, page["cash_ladder"], today=today)
     page["carry_regime"] = carry_regime()
     page["leg_split"] = leg_split()
+    page["concentration"] = concentration_face()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
     return page, today
 
@@ -1502,6 +1553,63 @@ def render_md(p):
         add("> 拆解面：`%s`（计价截止 %s；执行约定：%s；三臂=这本账 / 裸书 / 等权控制）。"
             % (_rel(ls.get("artifact") or LEGS_JSON, ROOT).replace(os.sep, "/"),
                ls.get("evidence_cutoff") or "—", ls.get("execution") or "—"))
+        add("")
+    cc = p.get("concentration") or {}
+    add("## 这个年化是「谁」赚来的")
+    add("")
+    if cc.get("status") != "ok":
+        add("这一节没有数：浓度面%s（`%s`）。缺面就写「无法核验」，不拿零或「分散」顶上。"
+            % ("未产出" if cc.get("status") == "absent" else "读不出",
+               _rel(cc.get("artifact") or CONC_JSON, ROOT).replace(os.sep, "/"))
+            )
+        add("")
+    else:
+        bl = cc.get("baseline") or {}
+        top = cc.get("top") or []
+        lk = cc.get("top_k_out") or {}
+        veh = cc.get("sleeve") or {}
+        add("上面那个回测年化（**%+.2f%%**）是把 %d 只票每天各自的贡献加起来的；"
+            "把它拆开看，钱并不是均匀来自每一只："
+            % (100 * (bl.get("cagr") or 0.0), cc.get("distinct_names") or 0))
+        add("")
+        add("| 读法 | 读数 |")
+        add("|---|---|")
+        add("| 第一名占毛收益 | **%.1f%%**（%s） |"
+            % (100 * ((top[0].get("share") if top else 0) or 0),
+               (top[0].get("name") if top else "—")))
+        add("| 前三名合计 | **%.1f%%** |" % (100 * (cc.get("top3_share") or 0)))
+        add("| 拥有正贡献的票 | %d 只（占 1%% 以上的 %d 只，负贡献 %d 只） |"
+            % (cc.get("distinct_names") or 0, cc.get("names_above_1pct") or 0,
+               cc.get("names_negative") or 0))
+        _v = str(cc.get("verdict") or "—")
+        # a verdict that carries a pipe would split its own table cell (markdown)
+        add("| 集中度 HHI | %.4f（%s） |"
+            % (cc.get("hhi") or 0.0, _v.replace("|", " · ")))
+        add("")
+        if lk.get("delta_cagr_pp") is not None:
+            s = lk.get("stats") or {}
+            f = s.get("full") or {}
+            add("- 删掉前三名重跑：年化 **%+.2fpp**（→ %.2f%%，夏普 %.2f，回撤 %+.1f%%）——"
+                "前面的数还是不是这套打法的数，取决于这一行。"
+                % (lk["delta_cagr_pp"], 100 * (f.get("cagr") or 0.0),
+                   f.get("sharpe") or 0.0, 100 * (f.get("maxdd") or 0.0)))
+        if veh.get("delta_cagr_pp") is not None:
+            s = veh.get("stats") or {}
+            f = s.get("full") or {}
+            base_dd = 100 * ((bl.get("maxdd") or 0.0))
+            add("- 删掉整条 **%s** 袖（%d 只）重跑：年化 **%+.2fpp**（→ %.2f%%，夏普 %.2f），"
+                "回撤从 %.1f%% 变成 **%+.1f%%**——赚钱的那条腿同时是抗回撤的那条腿。"
+                % ({"commodity": "商品", "equity": "权益", "bond": "债",
+                    "cash": "货币", "convertible": "转债"}.get(veh.get("class"),
+                                                              veh.get("class") or "—"),
+                   veh.get("symbols_removed") or 0,
+                   veh["delta_cagr_pp"], 100 * (f.get("cagr") or 0.0),
+                   f.get("sharpe") or 0.0, base_dd, 100 * (f.get("maxdd") or 0.0)))
+        add("")
+        add("> 浓度面：`%s`（计价截止 %s）。逐票贡献必须与引擎净值逐位相同才出件；"
+            "删票是把整只票从票池里拿掉重跑，不是把权重调大调小。"
+            % (_rel(cc.get("artifact") or CONC_JSON, ROOT).replace(os.sep, "/"),
+               cc.get("evidence_cutoff") or "—"))
         add("")
     add("## 换成年内能赚多少钱（按本单资金 ¥%s）" % format(p["money_cny"]["capital_cny"], ",.0f"))
     add("")
@@ -2178,6 +2286,42 @@ def selftest():
     chk("L62 leg split: absent or broken prints 'cannot verify' and no bucket numbers",
         "无法核验" in _md_legs_gone and "无法核验" in _md_legs_broken
         and "+9.83" not in _md_legs_gone and "+9.83" not in _md_legs_broken, "")
+
+    # L63-L65 (r1191): the ticket started printing "whose CAGR is this" at r1190 while the
+    # page -- the face the CEO opens -- answered with an unsourced headline. The page must
+    # quote the published reading (never re-derive it here), the two deletion arms must
+    # reach it with their own money, and a face that could not reproduce the engine equity
+    # must print no numbers at all.
+    def _render_conc(cc):
+        _p, _ = build(with_stress=False)
+        _p["concentration"] = cc
+        return render_md(_p)
+
+    _conc_ok = {"status": "ok", "artifact": CONC_JSON, "evidence_cutoff": "2026-10-30",
+                "verdict": "BROAD|SURVIVES_WITHOUT_TOP3", "top3_share": 0.2205,
+                "hhi": 0.0241, "names_negative": 69, "names_above_1pct": 41,
+                "distinct_names": 189,
+                "top": [{"symbol": "159934", "name": "黄金ETF", "share": 0.0752}],
+                "baseline": {"cagr": 0.096, "sharpe": 0.99, "maxdd": -0.1177},
+                "top_k_out": {"k": 3, "delta_cagr_pp": -1.99,
+                              "stats": {"full": {"cagr": 0.0761, "sharpe": 0.809,
+                                                 "maxdd": -0.1868}}},
+                "sleeve": {"class": "商品", "symbols_removed": 41, "delta_cagr_pp": -3.71,
+                           "stats": {"full": {"cagr": 0.0589, "sharpe": 0.64,
+                                              "maxdd": -0.223}}}}
+    _md_conc = _render_conc(_conc_ok)
+    chk("L63 concentration: the reader's own numbers reach the page (top3 share, both deletions)",
+        all(s in _md_conc for s in ("22.1%", "黄金ETF", "7.5%", "-1.99pp", "-3.71pp",
+                                    "BROAD · SURVIVES_WITHOUT_TOP3")), "")
+    chk("L64 concentration: the sleeve arm states that the paying leg is also the cushion",
+        "抗回撤" in _md_conc and "-22.3%" in _md_conc and "+-22.3" not in _md_conc, "")
+    _md_conc_absent = _render_conc({"status": "absent", "artifact": CONC_JSON,
+                                    "sentence": None, "verdict": None})
+    _md_conc_broken = _render_conc({"status": "no_identity", "artifact": CONC_JSON,
+                                    "sentence": None, "verdict": None})
+    chk("L65 concentration: absent or a broken identity prints 'cannot verify' and no numbers",
+        "无法核验" in _md_conc_absent and "无法核验" in _md_conc_broken
+        and "22.1%" not in _md_conc_absent and "22.1%" not in _md_conc_broken, "")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

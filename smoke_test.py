@@ -4331,6 +4331,62 @@ def main() -> int:
     except Exception as e:
         check("product: the book's CAGR is split into overnight / intraday / quiet / toll and "
               "the split closes to the same total", False, repr(e)[:160])
+    # ---- r1191: the page must say WHOSE CAGR it is quoting -------------------------------
+    # The ticket started printing this at r1190 while the page -- the face the CEO actually
+    # opens -- still published the headline with no source. The leg recomputes nothing: it
+    # reads the numbers out of the published face and demands the page print THOSE numbers
+    # (r1130 law: equal, not merely present), and it refuses a page that quotes a face whose
+    # identity gate failed.
+    try:
+        import importlib as _il51
+        _C51 = _il51.import_module("etf_book_concentration")
+        _p51 = os.path.join(PATHS.root, "results", "etf_book_concentration.json")
+        _bad51 = []
+        _d51 = {}
+        if not os.path.exists(_p51):
+            _bad51.append("results/etf_book_concentration.json missing")
+        else:
+            _pub51 = _C51.read_published(path=_p51)
+            if _pub51.get("status") != "ok":
+                _bad51.append("face does not read clean (%s)" % _pub51.get("status"))
+            else:
+                with open(_p51, encoding="utf-8") as _fh51:
+                    _d51 = json.load(_fh51)
+                _conc51 = _d51.get("concentration") or {}
+                _lk51 = _d51.get("leave_top_k_out") or {}
+                _vh51 = _d51.get("leave_class_out") or {}
+                _pg51 = _il51.import_module("etf_book_ceo_page")
+                if not _pg51.writer_allowed(None):
+                    pass                       # not the writer: the artifact still gates above
+                else:
+                    _md51p = os.path.join(PATHS.root, "docs", "live_book",
+                                          "LIVE-BOOK-%s.md"
+                                          % str(_d51.get("evidence_cutoff") or "").replace("-", ""))
+                    if not os.path.exists(_md51p):
+                        _bad51.append("live page missing for cutoff %s"
+                                      % (_d51.get("evidence_cutoff"),))
+                    else:
+                        with open(_md51p, encoding="utf-8") as _fh51:
+                            _md51 = _fh51.read()
+                        if "这个年化是" not in _md51:
+                            _bad51.append("page carries no concentration section")
+                        else:
+                            _want51 = ["%.1f%%" % (100 * float(_conc51.get("top3_share") or 0.0))]
+                            if _lk51.get("delta_cagr_pp") is not None:
+                                _want51.append("%+.2fpp" % _lk51["delta_cagr_pp"])
+                            if _vh51.get("delta_cagr_pp") is not None:
+                                _want51.append("%+.2fpp" % _vh51["delta_cagr_pp"])
+                            for _w51 in _want51:
+                                if _w51 not in _md51:
+                                    _bad51.append("page does not print %s" % _w51)
+        check("product: the page says whose CAGR it is quoting (top-3 share and both deletions)",
+              not _bad51, "; ".join(_bad51)[:220]
+              or "page == face (top3 %.1f%%, sleeve %+.2fpp)"
+                 % (100 * float(((_d51.get("concentration") or {}).get("top3_share")) or 0.0),
+                    float((_d51.get("leave_class_out") or {}).get("delta_cagr_pp") or 0.0)))
+    except Exception as e:
+        check("product: the page says whose CAGR it is quoting (top-3 share and both deletions)",
+              False, repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
         _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")
