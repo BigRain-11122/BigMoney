@@ -718,3 +718,23 @@ ls-remote == HEAD；**origin/main 未推**——领先 31 / 落后 40，promisor
 - 任务板 `results/runnable_pool.json`：E257 已 done；**E258 卡当前仍为 ready**——状态迁移归代理席写手制，本机禁写 POOL.json，只在此声明其产物已在盘（runner + face + 验证）。
 - 机队面：`fleet/machines/bm-b.json` round 1285，`state.json` 与 `state-bm-b.json` **双写**同步到 1285（双 state 面并存=既有面，双写腿按 r1020 判例保留）。
 - 交付面：main 仍落后远端一大截且 push 在 promisor 懒取上卡死（既有面），本机持续走 `machine/bm-b-r<N>` 分支交付。
+
+## r1315 5x 核对面（2026-10-31 10:0x · bm-b）
+
+> 权威口径：本轮起 HANDOVER 只做「指针核对」，产物清单正身=logs/iteration-loop/round_reports.md
+> 的 r1255..r1315 各行 + git 史；本节只补 r1255 之后新落盘的家族面，不重复复述轮报道。
+
+- 本轮产品：`scripts/e287_supply_ceiling_axes.py`（run/verify 0 problems/selftest 22/22）→
+  `results/state_tilt/BANDSUPPLY-2026-10-29.json` + `bandsupply_latest.json`；S6 腿
+  `supply_ceiling_axes`（rc=0, 0.30s）；smoke 腿（verbatim 提取执行 PASS）；卡
+  `knowledge/METHODOLOGY_ASSETS.md` E294；digest
+  `research/digests/DIGEST-20261031-r1315-e287-supply-ceiling-axes.md`。
+- 读数：家族已发布的可用于加宽的 band-edge 供给顶 = 1.838251（逐窗中位）/ 2.245734（单种子最优），
+  均低于 E285 已发布天花板 2.296329 → 6 条越界行一条也够不到（最近 self|200|0 flip 2.331055，差 3.8%）；
+  两条区间缝行反而在已发布供给射程内（cross|60|11 1.802978 中位档即达；star_lag1_residual|60|15
+  1.884308 仅种子档达）；缩小方向已发布器械 0.922022 差最近跌破下限行（self|60|8 0.889387）3.7%。
+- 红项处置：270 腿全跑 266/270 → 修 E290/E291 的活目录漂移（冻结到各自已发布名单，复跑腿全绿、
+  数字回到原发布值）→ 268/270；余下 2 条红属已发布面自身的科学缺陷（E243 E240 复算 MISMATCH、
+  empirical gamma 区间端点不在点集），已立卡 E297 未硬修；被前一窗丢下的 E293 接线缺腿立卡 E296。
+- 被抑制面：`results/runnable_pool.json` 的 CRLF 归属（工作树曾被他窗改写成 LF，整档重排 2.5 万行
+  为二条目改动的第三次现）——写池子前先探回写参数与本档行尾。
