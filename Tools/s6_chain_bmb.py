@@ -690,6 +690,18 @@ LEGS = [
     ("leg_epsilon_vs_flat_regime",
      ["python", "scripts/e315_leg_epsilon_vs_flat_regime.py", "verify"]),
 
+    # E316: the constructive half of E315. Per row it derives the smallest reader set from the
+    # regime model -- identifier, unit, one magnitude, the scale expression, plus the floor where
+    # the gate is piecewise -- and asks which of those the face already prints under another name.
+    # The answer splits the two faces by failure mode: three rows sit on a face that publishes 57
+    # numbers in the gated quantity's unit and none of them is that quantity (the tolerance a
+    # reader would substitute spans 1.5 orders of magnitude), while two rows sit on a face that
+    # covers a day with no comparisons at all, where the identifier exists only as a payload key
+    # in the producer. 0 of 5 rows lets a reader compute its own gate. Verify rebuilds from the
+    # E315 face and re-derives the elements, the decoys and the producer citation. <2s.
+    ("gate_print_requirements",
+     ["python", "scripts/e316_gate_print_requirements.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

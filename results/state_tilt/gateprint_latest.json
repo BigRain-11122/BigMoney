@@ -1,0 +1,867 @@
+{
+ "schema": "bigmoney/e316-gateprint/v1",
+ "study": "E316_gate_print_requirements",
+ "title": "what is the smallest set of keys a face would have to print before a reader with no producer access could evaluate the gate at one magnitude of the quantity it is rated in?",
+ "evidence_cutoff": "2026-10-31",
+ "generated": "2026-10-31",
+ "self_faces_excluded": [
+  "GATEPRINT-2026-10-31.json",
+  "gateprint_latest.json"
+ ],
+ "self_scripts_excluded": [
+  "scripts/e316_gate_print_requirements.py"
+ ],
+ "upstream": {
+  "leg_epsilon_face": "results/state_tilt/legeps_latest.json",
+  "upstream_rows": 5,
+  "rows_selected": 5,
+  "selection": "regime classes whose tolerance depends on the gated quantity"
+ },
+ "join_rules": {
+  "required_set": "identifier + unit + one magnitude + the scale expression, plus the floor where the regime model is piecewise; each element is derived from E314's regime model, not from a per-face list",
+  "presence": "an element is present only when a leaf on the face carries it: the identifier as a whole path token, the unit as a whole path token, the magnitude as a positive number under the identifier's own path, the scale as a string the producer's own `scale_identifier` resolves to the identifier, the floor as its number under a floor-named path or a floor-named string",
+  "decoys": "numbers in the gated quantity's unit whose path does not name it, with the gate's own value and every tolerance-named or timestamp leaf excluded -- the set a reader would substitute, priced by the tolerance each one would produce",
+  "day_without_comparisons": "no positive number outside the tolerance constants and at least one empty list field: the face covers a day on which the leg had nothing to compare, so its emptiness is the day and not the schema",
+  "unit_vocabulary": "declared per identifier with the line its unit was derived from; an identifier outside the table is published as unit_unassessable instead of being given a default unit"
+ },
+ "census": {
+  "upstream_rows": 5,
+  "upstream_rows_selected": 5,
+  "rows": 5,
+  "faces": 2,
+  "rows_in_each_class": {
+   "readable_from_the_face_alone": 0,
+   "schema_gap": 3,
+   "the_face_covers_a_day_with_no_comparisons": 2
+  },
+  "rows_readable_from_the_face_alone": 0,
+  "rows_with_a_schema_gap": 3,
+  "rows_on_a_face_that_covers_a_day_without_comparisons": 2,
+  "rows_needing_a_printed_identifier": 5,
+  "rows_needing_a_printed_unit": 2,
+  "rows_needing_a_printed_magnitude": 5,
+  "rows_needing_a_printed_scale_expression": 5,
+  "rows_needing_a_printed_floor": 3,
+  "rows_whose_identifier_exists_only_in_the_producer_schema": 2,
+  "schema_evidence_tiers": {
+   "writer": 2,
+   "other_script_naming_the_face": 0
+  },
+  "rows_whose_schema_evidence_names_a_script_that_writes_the_face": 2,
+  "rows_whose_unit_is_named_under_another_key": 3,
+  "rows_whose_unit_vocabulary_is_unassessable": 0,
+  "rows_publishing_at_least_one_magnitude_of_the_gated_quantity": 0,
+  "rows_carrying_same_unit_decoys": 3,
+  "decoy_magnitudes_total": 171,
+  "decoy_magnitudes_per_face": {
+   "results/state_tilt/bandarrival_latest.json": 57,
+   "results/t35_open_fill_verify.json": 0
+  },
+  "decoy_magnitudes_on_distinct_faces": 57,
+  "decoys_with_a_positive_value": 171,
+  "rows_whose_decoys_span_more_than_one_decade_of_tolerance": 3,
+  "tolerances_computable_from_the_faces_alone": 0,
+  "elements_required_total": 23,
+  "elements_present_total": 3,
+  "elements_absent_total": 20,
+  "minimal_added_keys_total": 20,
+  "element_availability": {
+   "quantity_identifier": {
+    "required_on": 5,
+    "present": 0,
+    "absent": 5
+   },
+   "quantity_unit": {
+    "required_on": 5,
+    "present": 3,
+    "absent": 2
+   },
+   "one_magnitude": {
+    "required_on": 5,
+    "present": 0,
+    "absent": 5
+   },
+   "scale_expression": {
+    "required_on": 5,
+    "present": 0,
+    "absent": 5
+   },
+   "floor": {
+    "required_on": 3,
+    "present": 0,
+    "absent": 3
+   }
+  },
+  "faces_seen": [
+   "results/state_tilt/bandarrival_latest.json",
+   "results/t35_open_fill_verify.json"
+  ]
+ },
+ "verdict": "the_reader_set_is_on_no_face_and_the_two_faces_fail_for_opposite_reasons_same_unit_decoys_on_one_a_day_without_comparisons_on_the_other",
+ "rows": [
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "regime_class": "piecewise_floor",
+   "quantity_identifier": "prev",
+   "quantity_unit": "draws",
+   "quantity_unit_derived_from": "scripts/e260_band_endpoint_arrival.py nonmonotone_steps: `prev` is the previous entry of a series keyed by draw counts",
+   "leg_expression": "(_s60.get('rows_pre_settlement') or 0) == 0",
+   "leg_epsilon": null,
+   "face_state": "present",
+   "required_elements": [
+    "quantity_identifier",
+    "quantity_unit",
+    "one_magnitude",
+    "scale_expression",
+    "floor"
+   ],
+   "elements": [
+    {
+     "element": "quantity_identifier",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_quantity.identifier"
+    },
+    {
+     "element": "quantity_unit",
+     "required": true,
+     "present": true,
+     "present_as": "cross_check.arms[0].base_draws",
+     "evidence": "present",
+     "suggested_key": "gate_quantity.unit"
+    },
+    {
+     "element": "one_magnitude",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_quantity.magnitude (with the step/row it belongs to)"
+    },
+    {
+     "element": "scale_expression",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_scale.expression"
+    },
+    {
+     "element": "floor",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_scale.floor"
+    }
+   ],
+   "elements_required": 5,
+   "elements_present": 1,
+   "elements_absent": 4,
+   "minimal_added_keys": [
+    "gate_quantity.identifier",
+    "gate_quantity.magnitude (with the step/row it belongs to)",
+    "gate_scale.expression",
+    "gate_scale.floor"
+   ],
+   "tolerance_computable_from_the_face_alone": false,
+   "identifier_named_in_the_producer_schema": null,
+   "producer_candidates": [
+    "scripts/e260_band_endpoint_arrival.py",
+    "scripts/e313_gate_form_and_scale.py"
+   ],
+   "producer_writers": [
+    "scripts/e260_band_endpoint_arrival.py",
+    "scripts/e313_gate_form_and_scale.py"
+   ],
+   "identifiers_on_the_face": [],
+   "gated_quantity_magnitudes": [],
+   "gated_quantity_magnitude_count": 0,
+   "decoy_magnitudes": [
+    {
+     "value": 200.0,
+     "path": "cross_check.arms[0].base_draws"
+    },
+    {
+     "value": 60.0,
+     "path": "cross_check.arms[1].base_draws"
+    },
+    {
+     "value": 200.0,
+     "path": "cross_check.arms[2].base_draws"
+    },
+    {
+     "value": 60.0,
+     "path": "cross_check.arms[3].base_draws"
+    },
+    {
+     "value": 200.0,
+     "path": "cross_check.arms[4].base_draws"
+    }
+   ],
+   "decoy_count": 57,
+   "decoy_positive_values": 57,
+   "decoy_tolerance_min": 6e-11,
+   "decoy_tolerance_max": 1.92e-09,
+   "decoy_tolerance_spread_orders_of_magnitude": 1.505149978319906,
+   "day_without_comparisons": {
+    "outcome_counters_published": 91,
+    "outcome_counters_nonzero": 88,
+    "outcome_counter_examples": [
+     {
+      "value": 200.0,
+      "path": "rows[0].base_draws"
+     },
+     {
+      "value": 1720.0,
+      "path": "rows[0].extra_draws_max"
+     },
+     {
+      "value": 1720.0,
+      "path": "rows[0].extra_draws_median"
+     },
+     {
+      "value": 2.0,
+      "path": "rows[0].n_at_base"
+     }
+    ],
+    "empty_list_fields": 0,
+    "empty_list_examples": [],
+    "day_without_comparisons": false
+   },
+   "class": "schema_gap"
+  },
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "regime_class": "piecewise_floor",
+   "quantity_identifier": "prev",
+   "quantity_unit": "draws",
+   "quantity_unit_derived_from": "scripts/e260_band_endpoint_arrival.py nonmonotone_steps: `prev` is the previous entry of a series keyed by draw counts",
+   "leg_expression": "_mine != _a.get('n_at_base')",
+   "leg_epsilon": null,
+   "face_state": "present",
+   "required_elements": [
+    "quantity_identifier",
+    "quantity_unit",
+    "one_magnitude",
+    "scale_expression",
+    "floor"
+   ],
+   "elements": [
+    {
+     "element": "quantity_identifier",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_quantity.identifier"
+    },
+    {
+     "element": "quantity_unit",
+     "required": true,
+     "present": true,
+     "present_as": "cross_check.arms[0].base_draws",
+     "evidence": "present",
+     "suggested_key": "gate_quantity.unit"
+    },
+    {
+     "element": "one_magnitude",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_quantity.magnitude (with the step/row it belongs to)"
+    },
+    {
+     "element": "scale_expression",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_scale.expression"
+    },
+    {
+     "element": "floor",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_scale.floor"
+    }
+   ],
+   "elements_required": 5,
+   "elements_present": 1,
+   "elements_absent": 4,
+   "minimal_added_keys": [
+    "gate_quantity.identifier",
+    "gate_quantity.magnitude (with the step/row it belongs to)",
+    "gate_scale.expression",
+    "gate_scale.floor"
+   ],
+   "tolerance_computable_from_the_face_alone": false,
+   "identifier_named_in_the_producer_schema": null,
+   "producer_candidates": [
+    "scripts/e260_band_endpoint_arrival.py",
+    "scripts/e313_gate_form_and_scale.py"
+   ],
+   "producer_writers": [
+    "scripts/e260_band_endpoint_arrival.py",
+    "scripts/e313_gate_form_and_scale.py"
+   ],
+   "identifiers_on_the_face": [],
+   "gated_quantity_magnitudes": [],
+   "gated_quantity_magnitude_count": 0,
+   "decoy_magnitudes": [
+    {
+     "value": 200.0,
+     "path": "cross_check.arms[0].base_draws"
+    },
+    {
+     "value": 60.0,
+     "path": "cross_check.arms[1].base_draws"
+    },
+    {
+     "value": 200.0,
+     "path": "cross_check.arms[2].base_draws"
+    },
+    {
+     "value": 60.0,
+     "path": "cross_check.arms[3].base_draws"
+    },
+    {
+     "value": 200.0,
+     "path": "cross_check.arms[4].base_draws"
+    }
+   ],
+   "decoy_count": 57,
+   "decoy_positive_values": 57,
+   "decoy_tolerance_min": 6e-11,
+   "decoy_tolerance_max": 1.92e-09,
+   "decoy_tolerance_spread_orders_of_magnitude": 1.505149978319906,
+   "day_without_comparisons": {
+    "outcome_counters_published": 91,
+    "outcome_counters_nonzero": 88,
+    "outcome_counter_examples": [
+     {
+      "value": 200.0,
+      "path": "rows[0].base_draws"
+     },
+     {
+      "value": 1720.0,
+      "path": "rows[0].extra_draws_max"
+     },
+     {
+      "value": 1720.0,
+      "path": "rows[0].extra_draws_median"
+     },
+     {
+      "value": 2.0,
+      "path": "rows[0].n_at_base"
+     }
+    ],
+    "empty_list_fields": 0,
+    "empty_list_examples": [],
+    "day_without_comparisons": false
+   },
+   "class": "schema_gap"
+  },
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "regime_class": "piecewise_floor",
+   "quantity_identifier": "prev",
+   "quantity_unit": "draws",
+   "quantity_unit_derived_from": "scripts/e260_band_endpoint_arrival.py nonmonotone_steps: `prev` is the previous entry of a series keyed by draw counts",
+   "leg_expression": "_rec.get('arrival_median') != _med60",
+   "leg_epsilon": null,
+   "face_state": "present",
+   "required_elements": [
+    "quantity_identifier",
+    "quantity_unit",
+    "one_magnitude",
+    "scale_expression",
+    "floor"
+   ],
+   "elements": [
+    {
+     "element": "quantity_identifier",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_quantity.identifier"
+    },
+    {
+     "element": "quantity_unit",
+     "required": true,
+     "present": true,
+     "present_as": "cross_check.arms[0].base_draws",
+     "evidence": "present",
+     "suggested_key": "gate_quantity.unit"
+    },
+    {
+     "element": "one_magnitude",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_quantity.magnitude (with the step/row it belongs to)"
+    },
+    {
+     "element": "scale_expression",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_scale.expression"
+    },
+    {
+     "element": "floor",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_scale.floor"
+    }
+   ],
+   "elements_required": 5,
+   "elements_present": 1,
+   "elements_absent": 4,
+   "minimal_added_keys": [
+    "gate_quantity.identifier",
+    "gate_quantity.magnitude (with the step/row it belongs to)",
+    "gate_scale.expression",
+    "gate_scale.floor"
+   ],
+   "tolerance_computable_from_the_face_alone": false,
+   "identifier_named_in_the_producer_schema": null,
+   "producer_candidates": [
+    "scripts/e260_band_endpoint_arrival.py",
+    "scripts/e313_gate_form_and_scale.py"
+   ],
+   "producer_writers": [
+    "scripts/e260_band_endpoint_arrival.py",
+    "scripts/e313_gate_form_and_scale.py"
+   ],
+   "identifiers_on_the_face": [],
+   "gated_quantity_magnitudes": [],
+   "gated_quantity_magnitude_count": 0,
+   "decoy_magnitudes": [
+    {
+     "value": 200.0,
+     "path": "cross_check.arms[0].base_draws"
+    },
+    {
+     "value": 60.0,
+     "path": "cross_check.arms[1].base_draws"
+    },
+    {
+     "value": 200.0,
+     "path": "cross_check.arms[2].base_draws"
+    },
+    {
+     "value": 60.0,
+     "path": "cross_check.arms[3].base_draws"
+    },
+    {
+     "value": 200.0,
+     "path": "cross_check.arms[4].base_draws"
+    }
+   ],
+   "decoy_count": 57,
+   "decoy_positive_values": 57,
+   "decoy_tolerance_min": 6e-11,
+   "decoy_tolerance_max": 1.92e-09,
+   "decoy_tolerance_spread_orders_of_magnitude": 1.505149978319906,
+   "day_without_comparisons": {
+    "outcome_counters_published": 91,
+    "outcome_counters_nonzero": 88,
+    "outcome_counter_examples": [
+     {
+      "value": 200.0,
+      "path": "rows[0].base_draws"
+     },
+     {
+      "value": 1720.0,
+      "path": "rows[0].extra_draws_max"
+     },
+     {
+      "value": 1720.0,
+      "path": "rows[0].extra_draws_median"
+     },
+     {
+      "value": 2.0,
+      "path": "rows[0].n_at_base"
+     }
+    ],
+    "empty_list_fields": 0,
+    "empty_list_examples": [],
+    "day_without_comparisons": false
+   },
+   "class": "schema_gap"
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "gate_path": "rel_tol",
+   "gate_value": 0.002,
+   "regime_class": "linear_in_the_quantity",
+   "quantity_identifier": "session_open",
+   "quantity_unit": "CNY per share",
+   "quantity_unit_derived_from": "scripts/t35_open_fill_verify.py: `session_open` is joined from the pending-watch marks, a share price",
+   "leg_expression": "_pp.get('marks_coverage_pct') == _c2.get('coverage_pct_closed')",
+   "leg_epsilon": null,
+   "face_state": "present",
+   "required_elements": [
+    "quantity_identifier",
+    "quantity_unit",
+    "one_magnitude",
+    "scale_expression"
+   ],
+   "elements": [
+    {
+     "element": "quantity_identifier",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "present_in_the_producer_schema_only",
+     "suggested_key": "gate_quantity.identifier"
+    },
+    {
+     "element": "quantity_unit",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_quantity.unit"
+    },
+    {
+     "element": "one_magnitude",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_quantity.magnitude (with the step/row it belongs to)"
+    },
+    {
+     "element": "scale_expression",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_scale.expression"
+    },
+    {
+     "element": "floor",
+     "required": false,
+     "present": false,
+     "present_as": null,
+     "evidence": "not_required",
+     "suggested_key": "gate_scale.floor"
+    }
+   ],
+   "elements_required": 4,
+   "elements_present": 0,
+   "elements_absent": 4,
+   "minimal_added_keys": [
+    "gate_quantity.identifier",
+    "gate_quantity.unit",
+    "gate_quantity.magnitude (with the step/row it belongs to)",
+    "gate_scale.expression"
+   ],
+   "tolerance_computable_from_the_face_alone": false,
+   "identifier_named_in_the_producer_schema": {
+    "script": "scripts/t35_open_fill_verify.py",
+    "line": 214,
+    "tier": "writer"
+   },
+   "producer_candidates": [
+    "scripts/_r857bma_closeout.py",
+    "scripts/e308_leg_vs_producer_tolerance.py",
+    "scripts/e313_gate_form_and_scale.py",
+    "scripts/t35_open_fill_verify.py",
+    "scripts/update_intraday_marks.py"
+   ],
+   "producer_writers": [
+    "scripts/e308_leg_vs_producer_tolerance.py",
+    "scripts/e313_gate_form_and_scale.py",
+    "scripts/t35_open_fill_verify.py"
+   ],
+   "identifiers_on_the_face": [],
+   "gated_quantity_magnitudes": [],
+   "gated_quantity_magnitude_count": 0,
+   "decoy_magnitudes": [],
+   "decoy_count": 0,
+   "decoy_positive_values": 0,
+   "decoy_tolerance_min": null,
+   "decoy_tolerance_max": null,
+   "decoy_tolerance_spread_orders_of_magnitude": null,
+   "day_without_comparisons": {
+    "outcome_counters_published": 3,
+    "outcome_counters_nonzero": 0,
+    "outcome_counter_examples": [
+     {
+      "value": 0.0,
+      "path": "counters.matched"
+     },
+     {
+      "value": 0.0,
+      "path": "counters.dropped"
+     },
+     {
+      "value": 0.0,
+      "path": "counters.breach"
+     }
+    ],
+    "empty_list_fields": 6,
+    "empty_list_examples": [
+     "per_trader.COMPOSITE-CE-01.detail",
+     "per_trader.COMPOSITE-CE-02.detail",
+     "per_trader.DROUGHT-CE-01.detail"
+    ],
+    "day_without_comparisons": true
+   },
+   "class": "the_face_covers_a_day_with_no_comparisons"
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "gate_path": "rel_tol",
+   "gate_value": 0.002,
+   "regime_class": "linear_in_the_quantity",
+   "quantity_identifier": "session_open",
+   "quantity_unit": "CNY per share",
+   "quantity_unit_derived_from": "scripts/t35_open_fill_verify.py: `session_open` is joined from the pending-watch marks, a share price",
+   "leg_expression": "abs(_px - _r['session_open']) > 1e-09",
+   "leg_epsilon": null,
+   "face_state": "present",
+   "required_elements": [
+    "quantity_identifier",
+    "quantity_unit",
+    "one_magnitude",
+    "scale_expression"
+   ],
+   "elements": [
+    {
+     "element": "quantity_identifier",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "present_in_the_producer_schema_only",
+     "suggested_key": "gate_quantity.identifier"
+    },
+    {
+     "element": "quantity_unit",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_quantity.unit"
+    },
+    {
+     "element": "one_magnitude",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_quantity.magnitude (with the step/row it belongs to)"
+    },
+    {
+     "element": "scale_expression",
+     "required": true,
+     "present": false,
+     "present_as": null,
+     "evidence": "absent",
+     "suggested_key": "gate_scale.expression"
+    },
+    {
+     "element": "floor",
+     "required": false,
+     "present": false,
+     "present_as": null,
+     "evidence": "not_required",
+     "suggested_key": "gate_scale.floor"
+    }
+   ],
+   "elements_required": 4,
+   "elements_present": 0,
+   "elements_absent": 4,
+   "minimal_added_keys": [
+    "gate_quantity.identifier",
+    "gate_quantity.unit",
+    "gate_quantity.magnitude (with the step/row it belongs to)",
+    "gate_scale.expression"
+   ],
+   "tolerance_computable_from_the_face_alone": false,
+   "identifier_named_in_the_producer_schema": {
+    "script": "scripts/t35_open_fill_verify.py",
+    "line": 214,
+    "tier": "writer"
+   },
+   "producer_candidates": [
+    "scripts/_r857bma_closeout.py",
+    "scripts/e308_leg_vs_producer_tolerance.py",
+    "scripts/e313_gate_form_and_scale.py",
+    "scripts/t35_open_fill_verify.py",
+    "scripts/update_intraday_marks.py"
+   ],
+   "producer_writers": [
+    "scripts/e308_leg_vs_producer_tolerance.py",
+    "scripts/e313_gate_form_and_scale.py",
+    "scripts/t35_open_fill_verify.py"
+   ],
+   "identifiers_on_the_face": [],
+   "gated_quantity_magnitudes": [],
+   "gated_quantity_magnitude_count": 0,
+   "decoy_magnitudes": [],
+   "decoy_count": 0,
+   "decoy_positive_values": 0,
+   "decoy_tolerance_min": null,
+   "decoy_tolerance_max": null,
+   "decoy_tolerance_spread_orders_of_magnitude": null,
+   "day_without_comparisons": {
+    "outcome_counters_published": 3,
+    "outcome_counters_nonzero": 0,
+    "outcome_counter_examples": [
+     {
+      "value": 0.0,
+      "path": "counters.matched"
+     },
+     {
+      "value": 0.0,
+      "path": "counters.dropped"
+     },
+     {
+      "value": 0.0,
+      "path": "counters.breach"
+     }
+    ],
+    "empty_list_fields": 6,
+    "empty_list_examples": [
+     "per_trader.COMPOSITE-CE-01.detail",
+     "per_trader.COMPOSITE-CE-02.detail",
+     "per_trader.DROUGHT-CE-01.detail"
+    ],
+    "day_without_comparisons": true
+   },
+   "class": "the_face_covers_a_day_with_no_comparisons"
+  }
+ ],
+ "notes": [
+  "three rows come off a face that publishes 57 numbers in the gated quantity's unit and none of them is the quantity: a decoy is worse than an absence because it invites substitution, and the tolerance a reader would compute from those decoys spans 1.5 orders of magnitude (6e-11 at the smallest published count to 1.92e-09 at the largest)",
+  "two rows come off a face that covers a day on which nothing was compared -- zero positive numbers outside the tolerance constant, every per-trader detail list empty -- so calling their absence a schema gap would be the same artefact E315 avoided one level down",
+  "on that second face the identifier is a quoted payload key in the producer and has zero instances today: the requirement is met for any day that carries a comparison, and the face does not say which kind of day it is",
+  "a unit word is not a quantity: `base_draws` names the unit of the gated quantity without being one of its magnitudes, and counting it would repeat the writer-side error of treating a name as a measurement"
+ ],
+ "identity_checks": [
+  {
+   "check": "the_rows_are_exactly_the_upstream_rows_with_a_quantity_dependent_gate",
+   "ok": true
+  },
+  {
+   "check": "the_class_partition_sums_to_the_rows",
+   "ok": true
+  },
+  {
+   "check": "every_row_derives_its_required_set_from_the_regime_model",
+   "ok": true
+  },
+  {
+   "check": "every_required_element_is_present_in_the_element_list",
+   "ok": true
+  },
+  {
+   "check": "a_present_element_always_cites_a_path_and_an_absent_one_never_does",
+   "ok": true
+  },
+  {
+   "check": "the_element_counts_recompute_from_the_elements",
+   "ok": true
+  },
+  {
+   "check": "the_minimal_added_set_is_exactly_the_absent_required_elements",
+   "ok": true
+  },
+  {
+   "check": "computability_is_the_empty_absent_set",
+   "ok": true
+  },
+  {
+   "check": "a_gated_quantity_magnitude_is_never_the_gate_itself",
+   "ok": true
+  },
+  {
+   "check": "no_decoy_is_the_gate_itself_or_a_tolerance_named_leaf",
+   "ok": true
+  },
+  {
+   "check": "no_decoy_names_the_gated_quantity_itself",
+   "ok": true
+  },
+  {
+   "check": "the_decoy_count_matches_the_published_decoys_or_exceeds_the_shown_page",
+   "ok": true
+  },
+  {
+   "check": "a_day_without_comparisons_publishes_outcome_counters_and_none_of_them_is_nonzero",
+   "ok": true
+  },
+  {
+   "check": "a_day_without_comparisons_carries_at_least_one_empty_list",
+   "ok": true
+  },
+  {
+   "check": "the_unavailability_class_is_derived_never_asserted",
+   "ok": true
+  },
+  {
+   "check": "a_schema_gap_row_carries_numbers_a_reader_could_mistake_for_the_quantity",
+   "ok": true
+  },
+  {
+   "check": "the_decoy_spread_recomputes_from_the_two_published_tolerances",
+   "ok": true
+  },
+  {
+   "check": "every_row_that_cites_a_producer_schema_evidence_points_at_a_file_on_disk",
+   "ok": true
+  },
+  {
+   "check": "the_schema_only_evidence_is_used_for_the_identifier_and_for_nothing_else",
+   "ok": true
+  },
+  {
+   "check": "a_row_that_needs_a_printed_identifier_is_exactly_a_row_without_one_on_the_face",
+   "ok": true
+  },
+  {
+   "check": "the_per_face_decoy_count_matches_every_row_cut_from_that_face",
+   "ok": true
+  },
+  {
+   "check": "the_study_never_reads_itself",
+   "ok": true
+  },
+  {
+   "check": "every_row_has_a_unit_or_is_published_as_unassessable",
+   "ok": true
+  },
+  {
+   "check": "no_schema_evidence_cites_this_study_itself",
+   "ok": true
+  },
+  {
+   "check": "this_study_is_not_among_the_producer_candidates_of_any_row",
+   "ok": true
+  },
+  {
+   "check": "a_schema_only_identifier_is_cited_from_its_writers_before_any_other_mention",
+   "ok": true
+  }
+ ]
+}

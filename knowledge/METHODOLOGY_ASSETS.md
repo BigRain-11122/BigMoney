@@ -6435,3 +6435,47 @@ in (with a magnitude the face actually carries), the leg's epsilon, and the cros
 If the quantity is not on the face, say `quantity_not_published_on_the_face` with a zero count, and
 treat "the gate is tighter than the leg" as unestablished rather than as proven by a ratio nobody
 can reproduce.
+
+### E317 no face carries the reader set for its own gate -- derive the required keys from the regime model, and count same-unit decoys separately from magnitudes (r1335 bm-b)
+
+E315 published what is missing; E316 published what would be enough. Per row, four elements are
+required before a reader with no producer access can evaluate a gate, plus a fifth where the gate is
+piecewise: the **identifier** of the gated quantity, its **unit**, **one magnitude** of it with the
+step it belongs to, the **scale expression**, and the **floor**. Demand them from the regime model,
+not from a per-face list: `floor` only for `piecewise_floor`, `scale_expression` only where a scale
+exists. Across five rows and two faces: 23 elements required, 3 present, 20 absent, and **0 of 5 rows
+lets a reader compute its own gate**.
+
+1. **Two absences, two causes -- do not merge them.** E315 reported `quantity_not_published_on_the_face
+   5/5`. Two of those five sit on a face that covers a day on which nothing was compared: every
+   outcome counter (`matched`, `dropped`, `breach`) is zero and every per-row detail list is empty, so
+   the face has no magnitude to print because the leg had nothing to compare. Reporting that as a
+   schema gap over-states the defect by 40 percent. Decide emptiness from published outcome counters
+   plus empty list fields, never from a verdict string.
+2. **A counter named after the absence is not a rung on the ladder.** `zero_pending_traders = 6` is a
+   positive number and it un-made the empty day on the first pass. Exclude counters whose own name
+   says *zero / no / missing*; and never declare an empty day on a face that publishes no outcome
+   counter at all.
+3. **A unit word is not a quantity: count decoys separately and price them.** The schema-gap face
+   prints 57 numbers in `prev`'s own unit (`base_draws`, `top_draws`, `frozen_spec.grid`) and not one
+   of them is `prev`. Counting them as magnitudes would repeat, reader-side, the error that a name is
+   a measurement (E207/E208 family). Instead publish them as **decoys** with the tolerance each would
+   produce: the substitution spans 1.5 orders of magnitude (6e-11 to 1.92e-09), which is the price of
+   reading a face that looks like it carries the number.
+4. **A reader that names its own identifiers will cite itself as the producer.** The first pass
+   reported `session_open` as a payload key at this study's own line 87 -- its unit vocabulary.
+   Any scan of `scripts/` for a key literal must exclude the scanning file, and should prefer the
+   script that *binds* the face name (a writer) over one that merely mentions it, publishing the
+   evidence tier so the artefact cannot return silently (E310 family).
+5. **An identifier that lives only in the schema is a conditional, not a presence.** On the empty-day
+   face `session_open` is a quoted payload key in the producer (`t35_open_fill_verify.py:214`) with
+   zero instances published, so the requirement is already met for any day that carries a comparison.
+   Publish that as `present_in_the_producer_schema_only`; do not tick the box and do not call it
+   absent.
+
+How to apply: when a face is supposed to govern a comparison, publish the four (or five) keys and
+test them by **path**, not by value -- an element is present only when a leaf carries it: the
+identifier as a whole path token, the magnitude as a positive number under that path, the scale as a
+string the producer's own `scale_identifier` resolves to the identifier, the floor as its number
+under a floor-named path. Then, separately, count the numbers that merely *look* like it and price
+what substituting one would cost.

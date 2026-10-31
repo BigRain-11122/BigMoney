@@ -25774,7 +25774,7 @@
    "id": "E316-GATE-PRINT-REQUIREMENTS",
    "title": "E315 showed four of five legs demand exact equality and the fifth's crossover is 5e-07 units of session_open, so the leg, not the gate, decides every comparison in the live range -- but nobody can check that from the face, because `prev` and `session_open` are not keys on it: which published faces would have to print what, per row, before a reader could evaluate the gate at one magnitude of the quantity it is rated in?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "entered_at": "2026-10-31T20:1x+08:00",
    "entered_by": "bm-b r1334",
@@ -25784,6 +25784,33 @@
    "deliverable": "results/state_tilt/GATEPRINT-<cutoff>.json",
    "question": "per row: what is the smallest set of additional keys the face would have to print (quantity identifier, its unit, one magnitude, the floor) before the gate's tolerance at that magnitude is computable by a reader with no producer access -- and is that set already named somewhere in the producer's own face under another name?",
    "runner": "scripts/e316_gate_print_requirements.py",
+   "runner_args": [
+    "run"
+   ],
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "done_at": "2026-10-31T20:3x+08:00",
+   "done_by": "bm-b r1335",
+   "result_ref": "results/state_tilt/GATEPRINT-2026-10-31.json (scripts/e316_gate_print_requirements.py run / verify 0 problems / selftest 42/42, S6 leg gate_print_requirements rc=0, smoke leg PASS, 26 identity checks)",
+   "outcome": "5 rows on 2 faces, 23 reader elements required / 3 present / 20 absent: no face lets a reader compute its own gate. The two faces fail for opposite reasons -- bandarrival publishes 57 numbers in the gated quantitys own unit and none of them is the quantity (a substituted tolerance spans 1.5 decades, 6e-11..1.92e-09), while t35_open_fill_verify covers a day with zero comparisons (matched/dropped/breach all 0, six empty detail lists) where the identifier exists only as a payload key in the producer (t35_open_fill_verify.py:214). Neither face prints the scale or the floor."
+  },
+  {
+   "id": "E317-PRINT-COVERAGE-CENSUS",
+   "title": "E316 measured the reader set on the five rows E315 left: which of ALL the gate constants published in results/ are readable from the face that carries them, and what does substituting a same-unit number cost per face?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "entered_at": "2026-10-31T20:3x+08:00",
+   "entered_by": "bm-b r1335",
+   "evidence_cutoff": "2026-10-31",
+   "source": "r1335 (E316): the reader-set test (identifier + unit + one magnitude + scale expression + floor) was applied to five rows chosen by E315; the elements are derived from the regime model, not from a per-face table, so the same test can run on every face that publishes a tolerance constant",
+   "target": "every results/**/*.json face publishing a numeric tolerance leaf (name token tol/tolerance/rel_tol), excluded: the E313-E317 study faces",
+   "deliverable": "results/state_tilt/PRINTCOV-<cutoff>.json",
+   "question": "per face: does a reader holding only the face get all four (or five) elements for the gate it publishes, and if not, which element is missing and what does the nearest same-unit number cost in tolerance orders of magnitude?",
+   "runner": "scripts/e317_print_coverage_census.py",
    "runner_args": [
     "run"
    ],
@@ -25806,6 +25833,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T20:1x+08:00",
+ "updated_at": "2026-10-31T20:3x+08:00",
  "version": 1
 }

@@ -8856,6 +8856,80 @@ def main() -> int:
     except Exception as e:
         check(_name102, False, repr(e)[:160])
 
+    # E316: E315 published what is missing; this leg asserts the constructive counterpart -- the
+    # smallest set of keys each face would have to print (identifier, unit, one magnitude, the
+    # scale expression, and the floor where the regime is piecewise), that a present element
+    # always cites a path, and that the two faces fail for opposite reasons: one ships same-unit
+    # decoys that are not the quantity, the other covers a day on which nothing was compared.
+    _name103 = ("product: no face carries the reader set for its own gate -- three rows need a "
+                "printed quantity on a face full of same-unit decoys, two sit on a day with no "
+                "comparisons at all")
+    _bad103 = []
+    try:
+        _p103 = os.path.join("results", "state_tilt", "gateprint_latest.json")
+        _f103 = None
+        if not os.path.exists(_p103):
+            _bad103.append("face missing: %s" % _p103)
+        else:
+            with io.open(_p103, encoding="utf-8") as _fh103:
+                _f103 = json.load(_fh103)
+        if _f103 is not None:
+            _c103 = _f103.get("census") or {}
+            _rows103 = _f103.get("rows") or []
+            if _f103.get("verdict") != ("the_reader_set_is_on_no_face_and_the_two_faces_fail_for_"
+                                        "opposite_reasons_same_unit_decoys_on_one_a_day_without_"
+                                        "comparisons_on_the_other"):
+                _bad103.append("verdict moved: %r" % (_f103.get("verdict"),))
+            if any(not c.get("ok") for c in (_f103.get("identity_checks") or [])):
+                _bad103.append("identity checks are not all green")
+            if (_c103.get("rows_in_each_class")
+                    and sum(_c103["rows_in_each_class"].values()) != len(_rows103)):
+                _bad103.append("the class partition does not sum to the rows")
+            if (_c103.get("tolerances_computable_from_the_faces_alone") or 0) != 0:
+                _bad103.append("a face claims to let a reader compute its own gate")
+            if (_c103.get("rows_with_a_schema_gap") or 0) < 1 or (
+                    _c103.get("rows_on_a_face_that_covers_a_day_without_comparisons") or 0) < 1:
+                _bad103.append("the two failure modes are not both present")
+            _self103 = (_f103.get("self_scripts_excluded") or [None])[0]
+            for _r103 in _rows103:
+                _absent103 = [e["suggested_key"] for e in (_r103.get("elements") or [])
+                              if e.get("required") and not e.get("present")]
+                if _absent103 != list(_r103.get("minimal_added_keys") or []):
+                    _bad103.append("the minimal added set is not the absent elements")
+                if bool(_r103.get("tolerance_computable_from_the_face_alone")) != (
+                        not _absent103):
+                    _bad103.append("computability disagrees with the absent set")
+                for _e103 in (_r103.get("elements") or []):
+                    if bool(_e103.get("present")) != bool(_e103.get("present_as")):
+                        _bad103.append("an element claims presence without a path")
+                if _r103.get("class") == "schema_gap" and not _r103.get("decoy_count"):
+                    _bad103.append("a schema gap row ships no number a reader could substitute")
+                if _r103.get("class") == "the_face_covers_a_day_with_no_comparisons":
+                    _dwc103 = _r103.get("day_without_comparisons") or {}
+                    if (_dwc103.get("outcome_counters_nonzero") or 0) != 0:
+                        _bad103.append("an empty day published a non-zero outcome counter")
+                    if (_dwc103.get("empty_list_fields") or 0) < 1:
+                        _bad103.append("an empty day carries no empty list")
+                _ev103 = _r103.get("identifier_named_in_the_producer_schema") or {}
+                if _ev103.get("script") and _ev103.get("script") == _self103:
+                    _bad103.append("the study cited itself as a producer")
+                for _m103 in (_r103.get("decoy_magnitudes") or []):
+                    if _m103.get("path") == _r103.get("gate_path"):
+                        _bad103.append("the gate itself is published as a decoy")
+        check(_name103, not _bad103, "; ".join(_bad103)[:220]
+              or "rows %s on %s faces | schema gaps %s / empty days %s | decoys %s (per face %s) "
+                 "| decoy spread %s decades | computable from the face %s"
+                 % (len(_f103.get("rows") or []), _c103.get("faces"),
+                    _c103.get("rows_with_a_schema_gap"),
+                    _c103.get("rows_on_a_face_that_covers_a_day_without_comparisons"),
+                    _c103.get("decoy_magnitudes_total"),
+                    _c103.get("decoy_magnitudes_on_distinct_faces"),
+                    ("%.2f" % max([r.get("decoy_tolerance_spread_orders_of_magnitude") or 0.0
+                                   for r in (_f103.get("rows") or [])] or [0.0])),
+                    _c103.get("tolerances_computable_from_the_faces_alone")))
+    except Exception as e:
+        check(_name103, False, repr(e)[:160])
+
     return _finish()
 
 
