@@ -2578,8 +2578,8 @@
   "etf_book_forward rc=3 FROZEN: ledger drift, needs the --rebase adopt-or-not decision; adopting a re-derived history without a path test is exactly the E188 error"
  ],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1318,
- "round_no": 1318,
+ "round": 1319,
+ "round_no": 1319,
  "round_no_label": "r1316",
  "round_no_note": "git log is the canvas; round number follows the highest round report row",
  "round_no_ts": "2026-10-31T10:29:27+08:00",
@@ -2609,7 +2609,7 @@
  "task": "E297 fix two red legs (done) -> next head E288 below-floor narrowing cost",
  "task_short": "E297 two red legs fixed",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-10-31T10:54:33+08:00",
+ "ts": "2026-10-31T11:24:39+08:00",
  "updated": "2026-10-31T10:30:09+08:00",
  "updated_at": "2026-10-31T10:30:09+08:00",
  "verdict": "both_red_legs_were_the_check_not_the_science",
@@ -2716,7 +2716,7 @@
   }
  },
  "notes_r1317": "| 2026-10-31T11:0x | r1317 | **watermark: py_low_with_work_cands at open (pool_ready 7, py idle); the round burned the head card E288 in-round.** **CURRENT:** E288 below-floor narrowing (done, face published). **LATEST PHYSICAL:** `results/state_tilt/BANDFLOORMIRROR-2026-10-29.json`. **NEXT MILESTONE:** E295 supply-gap closure or E292 scope-fix plan (both ready, runners not written; due next round, within 48h). **PRODUCT:** the mirror of E287's ceiling question -- the two rows below the published floor of 1.0 need the band NARROWED, not widened. `self|60|8` sits 11.06 pct under the floor and `self|60|10` 36.96 pct; the family publishes exactly one sub-1.0 band-edge multiplier (0.9220216, BANDFLOOR's counterfactual 5 pct band) -- every other 'narrow' reading in E287's census is a per-seed minimum of a WIDENING ratio and sits above 1.0 -- and it reaches neither row: the nearest is 3.67 pct short, the farthest 46.26 pct. Scored against all 12 rows on each row's OWN polarity the same instrument reaches 0, so tightening is not a free fix for the widening side either; the two demand sets and the 1.28 multiplier distance between the caps are published so 'unreachable' can never be quoted ",
- "watermark_verdict": "py_low_with_work_cands",
+ "watermark_verdict": "py_low_board_clear",
  "notes_r1318": "| 2026-10-31T11:13:17+08:00 | r1318 | **watermark: py_low_with_work_cands at open (pool_ready 6); the round burned E296 in-round.** **CURRENT:** E296 wiring (done). **LATEST PHYSICAL:** `Tools/s6_chain_bmb.py` leg `duplicate_list_census` (rc=0, 0.45s) + `smoke_test.py` leg (PASS, FAILs under mutation). **NEXT MILESTONE:** E295 supply-gap closure -- price each rung of the published draw ladder against the 3.8 pct widening and 3.7 pct narrowing margins and publish the interpolation abort if no rung crosses; due next round, within 48h. **PRODUCT:** the E293 face was not merely unwired, it had stopped re-deriving at all -- E297 froze E291.census_names to (names, note) and E293 kept treating the tuple as a name list, so `verify` raised TypeError before reaching a single leg. Fixed at the caller, verify 0 problems, selftest 15/15, and both legs wired: the verdict vocabulary, the no-double-count closed class (0 convictions), the summary re-deriving from the face's own frozen universe, and the vintage disclosing any later sibling as excluded. Numbers unchanged: 6 groups / 38 members / 2 schema + 4 accidental.",
  "r1318": {
   "round": 1318,
@@ -2746,5 +2746,28 @@
    "ts": "2026-10-31T11:14:12+08:00",
    "note": "8 files staged (2 producers, 2 legs/wiring, pool, state, heartbeat, round report); the ~590 dirty tracked files left by collectors and prior windows were not swept in. The pool patch was redone with newline=\\r\\n after the first attempt reflowed 25,504 lines."
   }
+ },
+ "notes_r1319": "| 2026-10-31T11:3x | r1319 | **watermark: py_low_board_clear at open (5 pool-ready, py 0.2 pct of 16 cores); the round burned E295 in-round.** **CURRENT:** E295 supply-gap closure (done, face published). **LATEST PHYSICAL:** `results/state_tilt/BANDCLOSURE-2026-10-29.json` (+bandclosure_latest.json) + chain leg `supply_gap_closure` (rc=0, 0.15s) + smoke leg PASS. **NEXT MILESTONE:** E300 window-local margin census -- grade all 12 demand rows against the reference published in their OWN window and publish the 9 that would still need a face; due next round, within 48h. **PRODUCT:** 'one more rung' is two measurements. Granularity: 70 adjacent ladder steps, median gain 1.0699, 37 of them larger than the widening margin on their own. Headroom: the ladder spans 1.0000..1.9254 central (2.4271 at one rung's widest seed), so no central rung crosses either margin. Both gradable demands live in the ladder's own window (era_2025_now): star_lag1_residual|60|14 widen margin 5.98 pct (residual 1.236123) and self|60|8 narrow with no sub-1.0 rung anywhere in the ladder (residual 1.124370). The 3.799 pct headline in E287 was a cross-window subtraction (demand all_five, cap early_three|60) and is not quotable against this ladder. E258's era_2025_now|60 = 1.644145 reproduces off the ladder rung to |diff| 0.0. Verdict one_margin_is_crossed_by_a_single_seed_rung_only; 2 of 2 interpolations aborted rather than fitted.",
+ "r1319": {
+  "round": 1319,
+  "ts": "2026-10-31T11:24:39+08:00",
+  "dept": "research+engineering",
+  "study": "E295_supply_gap_closure",
+  "face": "results/state_tilt/BANDCLOSURE-2026-10-29.json",
+  "finding": "Both margins looked 'one rung away'. Priced off the published ladder (E256: 14 rungs x 6 draw counts, base 60, prefix-nested per seed) they are two different questions. GRANULARITY is generous: 70 adjacent steps, median gain 1.069853, range 1.000000..1.258868, and 37 of 70 buy more than the widening margin on their own -- so a finer grid cannot be the fix. HEADROOM is not: the ladder spans 1.000000..1.925449 central (2.427092 at tail|100|1920 widest seed, whose central reading is 1.115094), so on the central basis no rung crosses. Which demands may be graded is a WINDOW question: only 3 of the 12 rows live in era_2025_now, the ladder's own cell. There the widening margin is 5.9828 pct (star_lag1_residual|60|14 flip 2.380091, nearest rung 1.925449, residual 1.236123, crossed at one seed only) and the narrowing margin 3.5395 pct (self|60|8 flip 0.889387) against a ladder that publishes no sub-1.0 reading at all (residual 1.124370 against its own 1.0 floor). E287's headline pair (3.799212 / 3.669343 pct) is a cross-window subtraction -- the widening demand is all_five and the cap was written at early_three|60 -- so it is quoted as the margin's denominator, never as a cap the ladder replaces. Verdict one_margin_is_crossed_by_a_single_seed_rung_only, 2 of 2 interpolations aborted.",
+  "pit": "(1) 'the margin is smaller than one step' answers a resolution question and says nothing about headroom -- publishing only the step number invites the wrong fix (grind the grid finer) when the ladder already stops 24 pct short; the face prices both and they disagree. (2) a margin is a subtraction, so both terms carry a window: grading a demand from all_five against a ladder measured in era_2025_now prices a different sleeve's null (E258's BASIS_WARNING, >15 pct between windows), and the same-family margin moves 3.80 -> 5.98 pct just by reading it where the ladder lives; the 9 rows with no ladder are published as not_graded with the reason, never as crossings or shortfalls. (3) matched-seed pairing matters: max(top)/min(base) splices two seeds into a multiplier nobody measured, so per-seed ratios are paired index by index and a mismatched vector is refused. (4) the same-window reproduction witness caught nothing only because it was checked at all -- E258 1.644145 vs the ladder rung 1.644145, |diff| 0.0.",
+  "product": [
+   "scripts/e295_supply_gap_closure.py (run / verify 0 problems / selftest 22/22)",
+   "results/state_tilt/BANDCLOSURE-2026-10-29.json + bandclosure_latest.json",
+   "research/digests/DIGEST-20261031-r1319-e295-supply-gap-closure.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E297",
+   "Tools/s6_chain_bmb.py leg supply_gap_closure (verify, 0.15s, rc=0)",
+   "smoke_test.py leg: a margin that looks one rung away is priced as one step, not as headroom (extracted verbatim and executed standalone: PASS; FAILs when a graded margin is repointed to another window or the ladder span is mutated)",
+   "results/runnable_pool.json E295 done + E300 seeded (796 entries, 5 ready)"
+  ],
+  "s1": "the full 271-leg suite was launched in a previous window and finished green before this round began (results/_smoke_r1318.out: 271/271 PASS, 0 FAIL, written 11:18). The new leg was extracted verbatim from smoke_test.py and executed standalone (PASS) and FAILED after a mutation of margins[0].cell plus ladder_span.central_min, then passed again after `run` regenerated the face -- so the board is green on the leg added here plus a full suite that closed an hour ago, not re-measured end to end in this window.",
+  "s6": "orphan probe py_faces=8 orphans=0 residents=0 | dualrun ZERO-DRIFT (796 entries, streak 51) | py_watermark py_low_board_clear (py 0.2 pct of 16 cores, 5 pool-ready, legal_idle_whitelist.satisfied=false, remediated by burning E295 in-round) | attrition CLEAN 4 ledgers (2 historical shrink rows healed) | new chain leg supply_gap_closure rc=0 0.15s | compute_audit and the lane collectors not re-run this window (wall budget, stated plainly)",
+  "s7": "orders 114 files / 115 acks / 0 unacked carried from r1318 | decisions face not re-scanned this window (state carries 97fe122f, 0 unacked) | loop pin=2 and LoopWatchdog left to their own ticks | pre-commit and pre-push claws untouched this window",
+  "pool": "E295 done with result_ref; 796 entries, 5 ready (E292, E294, E298, E299, E300)"
  }
 }

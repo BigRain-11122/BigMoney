@@ -1,0 +1,1852 @@
+{
+ "study": "E295_supply_gap_closure",
+ "title": "one more rung or none -- what does a single step of the published draw ladder buy, does any existing rung sit beyond either margin, and how much of each margin is resolution and how much is headroom?",
+ "evidence_cutoff": "2026-10-29",
+ "generated": "2026-10-31T11:22:23",
+ "no_bill": "measurement only: published faces are re-read and their published multipliers compared with the published demand rows. No draw stream is drawn, no band rebuilt, no engine runs. A verdict is a statement about the rungs the family has already measured, not about what a larger draw budget would buy.",
+ "source_faces": [
+  "BANDGAPCEILING-2026-10-29.json",
+  "BANDSUPPLY-2026-10-29.json",
+  "BANDDRAW-2026-10-29-d1920.json",
+  "BANDWINMULT-2026-10-29.json",
+  "BANDTOPFLIP-2026-10-29.json",
+  "BANDFLOOR-2026-10-29.json"
+ ],
+ "frozen_spec": {
+  "M1_axis": "only an absolute band-edge multiplier is compared with a demand flip; percentages carry the margin size and the step gain, never a cap",
+  "M2_window": "a rung is graded only against a demand published in the ladder's own window; another window's demand is published as not_graded",
+  "M3_step": "one more rung is priced as the adjacent-grid step multiplier on matched seeds; the span is edge(largest draw)/edge(base draw) on one rung",
+  "M4_cross": "a margin is crossed iff a published rung reaches the demand on the demand's own polarity (widen: cap >= flip; narrow: cap <= flip)",
+  "M5_abort": "no crossing -> publish the residual factor and declare the interpolation aborted; nothing is fitted between or beyond rungs",
+  "M6_nobill": "published records only: no stream drawn, no band rebuilt, no engine run",
+  "M7_seeds": "central / matched-seed min / matched-seed max are published per rung; a crossing at one seed only is published as seed-dependent",
+  "tolerance": 1e-12,
+  "base_draws": 60,
+  "verdict_vocab": [
+   "published_ladder_crosses_both_margins_on_the_central_basis",
+   "one_margin_is_crossed_by_a_single_seed_rung_only",
+   "no_published_ladder_rung_crosses_a_margin"
+  ]
+ },
+ "ladder": {
+  "cell": "era_2025_now",
+  "grid": [
+   60,
+   120,
+   240,
+   480,
+   960,
+   1920
+  ],
+  "base_draws": 60,
+  "n_rungs": 14,
+  "draw_budget": 1920,
+  "seeds": 3,
+  "prefix_nesting": "one draw stream at max(draw_grid) per seed; every smaller draw count reads its own PREFIX"
+ },
+ "readings": [
+  {
+   "family": "head",
+   "sessions": 100,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.7247698323528692,
+   "edge_top": 0.8318524579761816,
+   "multiplier_central": 1.147747078925,
+   "multiplier_seed_min": 1.078620378013,
+   "multiplier_seed_max": 1.312124926638,
+   "multiplier_seed_median": 1.295629384194,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 100,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.7247698323528692,
+   "edge_top": 0.8318524579761816,
+   "multiplier_central": 1.147747078925,
+   "multiplier_seed_min": 1.078620378013,
+   "multiplier_seed_max": 1.850186527311,
+   "multiplier_seed_median": 1.295629384194,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 100,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.7247698323528692,
+   "edge_top": 0.9914323855771564,
+   "multiplier_central": 1.367927225059,
+   "multiplier_seed_min": 1.078620378013,
+   "multiplier_seed_max": 1.850186527311,
+   "multiplier_seed_median": 1.659349154964,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 100,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.7247698323528692,
+   "edge_top": 1.0434694063214702,
+   "multiplier_central": 1.439725219983,
+   "multiplier_seed_min": 1.209361400121,
+   "multiplier_seed_max": 1.850186527311,
+   "multiplier_seed_median": 1.746442927223,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 100,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.7247698323528692,
+   "edge_top": 1.1505908810040328,
+   "multiplier_central": 1.587525900835,
+   "multiplier_seed_min": 1.411464688736,
+   "multiplier_seed_max": 1.925730926161,
+   "multiplier_seed_median": 1.850186527311,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 150,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.779233222438455,
+   "edge_top": 0.7833801540637697,
+   "multiplier_central": 1.005321810603,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.265461299704,
+   "multiplier_seed_median": 1.0,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 150,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.779233222438455,
+   "edge_top": 0.8412313831874618,
+   "multiplier_central": 1.079563035769,
+   "multiplier_seed_min": 1.018654641759,
+   "multiplier_seed_max": 1.265461299704,
+   "multiplier_seed_median": 1.073848218931,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 150,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.779233222438455,
+   "edge_top": 0.8776819181369684,
+   "multiplier_central": 1.126340475308,
+   "multiplier_seed_min": 1.120378035599,
+   "multiplier_seed_max": 1.265461299704,
+   "multiplier_seed_median": 1.249426535722,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 150,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.779233222438455,
+   "edge_top": 0.9860894864398191,
+   "multiplier_central": 1.265461299704,
+   "multiplier_seed_min": 1.265461299704,
+   "multiplier_seed_max": 1.349669005474,
+   "multiplier_seed_median": 1.340571461814,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 150,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.779233222438455,
+   "edge_top": 0.9860894864398191,
+   "multiplier_central": 1.265461299704,
+   "multiplier_seed_min": 1.265461299704,
+   "multiplier_seed_max": 1.349669005474,
+   "multiplier_seed_median": 1.340571461814,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 200,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.8439737937205944,
+   "edge_top": 0.8439737937205944,
+   "multiplier_central": 1.0,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.0,
+   "multiplier_seed_median": 1.0,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 200,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.8439737937205944,
+   "edge_top": 0.8439737937205944,
+   "multiplier_central": 1.0,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.016592631125,
+   "multiplier_seed_median": 1.0,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 200,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.8439737937205944,
+   "edge_top": 0.8982085164632747,
+   "multiplier_central": 1.064261145484,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.219023502615,
+   "multiplier_seed_median": 1.064261145484,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 200,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.8439737937205944,
+   "edge_top": 0.9407335034978099,
+   "multiplier_central": 1.114647765721,
+   "multiplier_seed_min": 1.064261145484,
+   "multiplier_seed_max": 1.219023502615,
+   "multiplier_seed_median": 1.171152464524,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 200,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.8439737937205944,
+   "edge_top": 0.9829071765296409,
+   "multiplier_central": 1.164618124215,
+   "multiplier_seed_min": 1.164618124215,
+   "multiplier_seed_max": 1.219023502615,
+   "multiplier_seed_median": 1.171152464524,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 250,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.7010377742508254,
+   "edge_top": 0.7561395326055051,
+   "multiplier_central": 1.078600270026,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.233030633541,
+   "multiplier_seed_median": 1.0,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 250,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.7010377742508254,
+   "edge_top": 0.7681719066988224,
+   "multiplier_central": 1.095763930153,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.25265172887,
+   "multiplier_seed_median": 1.0,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 250,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.7010377742508254,
+   "edge_top": 0.7681719066988224,
+   "multiplier_central": 1.095763930153,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.25265172887,
+   "multiplier_seed_median": 1.061894884074,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 250,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.7010377742508254,
+   "edge_top": 0.7692437557418906,
+   "multiplier_central": 1.097292876356,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.254399584454,
+   "multiplier_seed_median": 1.061894884074,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 250,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.7010377742508254,
+   "edge_top": 0.8615776581484272,
+   "multiplier_central": 1.229003186125,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.254399584454,
+   "multiplier_seed_median": 1.229003186125,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 300,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.489512540324095,
+   "edge_top": 0.5560699761353088,
+   "multiplier_central": 1.135966763522,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.616388405236,
+   "multiplier_seed_median": 1.124602624231,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 300,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.489512540324095,
+   "edge_top": 0.5704082002797016,
+   "multiplier_central": 1.165257584417,
+   "multiplier_seed_min": 1.025784927724,
+   "multiplier_seed_max": 1.616388405236,
+   "multiplier_seed_median": 1.139042725534,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 300,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.489512540324095,
+   "edge_top": 0.6780218227621364,
+   "multiplier_central": 1.385095920757,
+   "multiplier_seed_min": 1.14886501672,
+   "multiplier_seed_max": 1.616388405236,
+   "multiplier_seed_median": 1.385095920757,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 300,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.489512540324095,
+   "edge_top": 0.7818344041749494,
+   "multiplier_central": 1.597169305729,
+   "multiplier_seed_min": 1.452301200085,
+   "multiplier_seed_max": 1.616388405236,
+   "multiplier_seed_median": 1.461018599311,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 300,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.489512540324095,
+   "edge_top": 0.9425315999219831,
+   "multiplier_central": 1.925449344562,
+   "multiplier_seed_min": 1.694987394343,
+   "multiplier_seed_max": 1.967186044108,
+   "multiplier_seed_median": 1.737273573286,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 350,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.5976155921372696,
+   "edge_top": 0.6587039387119851,
+   "multiplier_central": 1.102220135114,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.389786541087,
+   "multiplier_seed_median": 1.102220135114,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 350,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.5976155921372696,
+   "edge_top": 0.6587039387119851,
+   "multiplier_central": 1.102220135114,
+   "multiplier_seed_min": 1.032544149483,
+   "multiplier_seed_max": 1.389786541087,
+   "multiplier_seed_median": 1.102220135114,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 350,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.5976155921372696,
+   "edge_top": 0.7234701756425397,
+   "multiplier_central": 1.210594544656,
+   "multiplier_seed_min": 1.032544149483,
+   "multiplier_seed_max": 1.571946311925,
+   "multiplier_seed_median": 1.401012122975,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 350,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.5976155921372696,
+   "edge_top": 0.7234701756425397,
+   "multiplier_central": 1.210594544656,
+   "multiplier_seed_min": 1.032544149483,
+   "multiplier_seed_max": 1.571946311925,
+   "multiplier_seed_median": 1.401012122975,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 350,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.5976155921372696,
+   "edge_top": 0.7234701756425397,
+   "multiplier_central": 1.210594544656,
+   "multiplier_seed_min": 1.0870917175,
+   "multiplier_seed_max": 1.571946311925,
+   "multiplier_seed_median": 1.401012122975,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 408,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.4548663297709018,
+   "edge_top": 0.4951072330585032,
+   "multiplier_central": 1.088467535744,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.312128470364,
+   "multiplier_seed_median": 1.0,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 408,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.4548663297709018,
+   "edge_top": 0.5600988394037456,
+   "multiplier_central": 1.231348206595,
+   "multiplier_seed_min": 1.131267737584,
+   "multiplier_seed_max": 1.330284869637,
+   "multiplier_seed_median": 1.312128470364,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 408,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.4548663297709018,
+   "edge_top": 0.6254578022361084,
+   "multiplier_central": 1.375036491602,
+   "multiplier_seed_min": 1.131267737584,
+   "multiplier_seed_max": 1.522775408626,
+   "multiplier_seed_median": 1.471087041384,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 408,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.4548663297709018,
+   "edge_top": 0.6691479632878377,
+   "multiplier_central": 1.471087041384,
+   "multiplier_seed_min": 1.138672935627,
+   "multiplier_seed_max": 1.66618911116,
+   "multiplier_seed_median": 1.471087041384,
+   "n_seeds": 3
+  },
+  {
+   "family": "head",
+   "sessions": 408,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.4548663297709018,
+   "edge_top": 0.747866240534736,
+   "multiplier_central": 1.644145085242,
+   "multiplier_seed_min": 1.577773168731,
+   "multiplier_seed_max": 1.66618911116,
+   "multiplier_seed_median": 1.644145085242,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 100,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 1.5605348278655884,
+   "edge_top": 1.5666792842884907,
+   "multiplier_central": 1.003937404224,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.853584680473,
+   "multiplier_seed_median": 1.003937404224,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 100,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 1.5605348278655884,
+   "edge_top": 1.5666792842884907,
+   "multiplier_central": 1.003937404224,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.853584680473,
+   "multiplier_seed_median": 1.003937404224,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 100,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 1.5605348278655884,
+   "edge_top": 1.5666792842884907,
+   "multiplier_central": 1.003937404224,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.854012764744,
+   "multiplier_seed_median": 1.003937404224,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 100,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 1.5605348278655884,
+   "edge_top": 1.7401433587364479,
+   "multiplier_central": 1.115094214922,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 2.372522101867,
+   "multiplier_seed_median": 1.161521561115,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 100,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 1.5605348278655884,
+   "edge_top": 1.7401433587364479,
+   "multiplier_central": 1.115094214922,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 2.427092404447,
+   "multiplier_seed_median": 1.161521561115,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 150,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.6595707462700655,
+   "edge_top": 0.6955402973726336,
+   "multiplier_central": 1.05453478843,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.372983558387,
+   "multiplier_seed_median": 1.241544923222,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 150,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.6595707462700655,
+   "edge_top": 0.8336023137309565,
+   "multiplier_central": 1.26385580083,
+   "multiplier_seed_min": 1.25234805472,
+   "multiplier_seed_max": 1.388519722092,
+   "multiplier_seed_median": 1.381986507267,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 150,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.6595707462700655,
+   "edge_top": 1.037931546703698,
+   "multiplier_central": 1.573647031154,
+   "multiplier_seed_min": 1.418162139953,
+   "multiplier_seed_max": 1.949730510925,
+   "multiplier_seed_median": 1.852716007008,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 150,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.6595707462700655,
+   "edge_top": 1.1205166616196236,
+   "multiplier_central": 1.698857428041,
+   "multiplier_seed_min": 1.614342998631,
+   "multiplier_seed_max": 2.000131089276,
+   "multiplier_seed_median": 1.949730510925,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 150,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.6595707462700655,
+   "edge_top": 1.2578487700257925,
+   "multiplier_central": 1.907071799559,
+   "multiplier_seed_min": 1.889707399232,
+   "multiplier_seed_max": 2.000131089276,
+   "multiplier_seed_median": 1.949730510925,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 200,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.7610566682859212,
+   "edge_top": 0.8208936244164765,
+   "multiplier_central": 1.078623522563,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.259916666292,
+   "multiplier_seed_median": 1.071860587717,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 200,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.7610566682859212,
+   "edge_top": 0.8208936244164765,
+   "multiplier_central": 1.078623522563,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.259916666292,
+   "multiplier_seed_median": 1.071860587717,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 200,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.7610566682859212,
+   "edge_top": 1.0239218043185105,
+   "multiplier_central": 1.345394958071,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.397133414622,
+   "multiplier_seed_median": 1.345394958071,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 200,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.7610566682859212,
+   "edge_top": 1.0239218043185105,
+   "multiplier_central": 1.345394958071,
+   "multiplier_seed_min": 1.217137438768,
+   "multiplier_seed_max": 1.397133414622,
+   "multiplier_seed_median": 1.345394958071,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 200,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.7610566682859212,
+   "edge_top": 1.0427761165758924,
+   "multiplier_central": 1.370168819261,
+   "multiplier_seed_min": 1.217137438768,
+   "multiplier_seed_max": 1.416185487373,
+   "multiplier_seed_median": 1.397133414622,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 250,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.8569818502837181,
+   "edge_top": 0.8569818502837181,
+   "multiplier_central": 1.0,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.0,
+   "multiplier_seed_median": 1.0,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 250,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.8569818502837181,
+   "edge_top": 0.8569818502837181,
+   "multiplier_central": 1.0,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.0,
+   "multiplier_seed_median": 1.0,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 250,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.8569818502837181,
+   "edge_top": 0.8839018304049442,
+   "multiplier_central": 1.031412544049,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.25661662128,
+   "multiplier_seed_median": 1.009222357924,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 250,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.8569818502837181,
+   "edge_top": 0.8839018304049442,
+   "multiplier_central": 1.031412544049,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.25661662128,
+   "multiplier_seed_median": 1.009222357924,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 250,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.8569818502837181,
+   "edge_top": 0.9473394724501834,
+   "multiplier_central": 1.105437031294,
+   "multiplier_seed_min": 1.071770008685,
+   "multiplier_seed_max": 1.25661662128,
+   "multiplier_seed_median": 1.232547193697,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 300,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.6145737742685762,
+   "edge_top": 0.7736673151945374,
+   "multiplier_central": 1.258868092956,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.367658864005,
+   "multiplier_seed_median": 1.10227523904,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 300,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.6145737742685762,
+   "edge_top": 0.7736673151945374,
+   "multiplier_central": 1.258868092956,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.811413078553,
+   "multiplier_seed_median": 1.215169736459,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 300,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.6145737742685762,
+   "edge_top": 0.8822847191374832,
+   "multiplier_central": 1.435604244889,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.811413078553,
+   "multiplier_seed_median": 1.471720334573,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 300,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.6145737742685762,
+   "edge_top": 0.9557298358360949,
+   "multiplier_central": 1.555110022346,
+   "multiplier_seed_min": 1.23532404312,
+   "multiplier_seed_max": 1.811413078553,
+   "multiplier_seed_median": 1.471720334573,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 300,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.6145737742685762,
+   "edge_top": 1.04002443476058,
+   "multiplier_central": 1.692269469192,
+   "multiplier_seed_min": 1.344278625108,
+   "multiplier_seed_max": 1.811413078553,
+   "multiplier_seed_median": 1.471720334573,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 350,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.63624264038343,
+   "edge_top": 0.63624264038343,
+   "multiplier_central": 1.0,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.0,
+   "multiplier_seed_median": 1.0,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 350,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.63624264038343,
+   "edge_top": 0.6708408867719856,
+   "multiplier_central": 1.054379012334,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.054379012334,
+   "multiplier_seed_median": 1.0,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 350,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.63624264038343,
+   "edge_top": 0.6915693026415272,
+   "multiplier_central": 1.08695843181,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.616332027448,
+   "multiplier_seed_median": 1.054379012334,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 350,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.63624264038343,
+   "edge_top": 0.6915693026415272,
+   "multiplier_central": 1.08695843181,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.616332027448,
+   "multiplier_seed_median": 1.081404877783,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 350,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.63624264038343,
+   "edge_top": 0.7671361354933256,
+   "multiplier_central": 1.20572889461,
+   "multiplier_seed_min": 1.109268633763,
+   "multiplier_seed_max": 1.616332027448,
+   "multiplier_seed_median": 1.135149808042,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 408,
+   "base_draws": 60,
+   "draws": 120,
+   "edge_base": 0.4548663297709018,
+   "edge_top": 0.4951072330585032,
+   "multiplier_central": 1.088467535744,
+   "multiplier_seed_min": 1.0,
+   "multiplier_seed_max": 1.312128470364,
+   "multiplier_seed_median": 1.0,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 408,
+   "base_draws": 60,
+   "draws": 240,
+   "edge_base": 0.4548663297709018,
+   "edge_top": 0.5600988394037456,
+   "multiplier_central": 1.231348206595,
+   "multiplier_seed_min": 1.131267737584,
+   "multiplier_seed_max": 1.330284869637,
+   "multiplier_seed_median": 1.312128470364,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 408,
+   "base_draws": 60,
+   "draws": 480,
+   "edge_base": 0.4548663297709018,
+   "edge_top": 0.6254578022361084,
+   "multiplier_central": 1.375036491602,
+   "multiplier_seed_min": 1.131267737584,
+   "multiplier_seed_max": 1.522775408626,
+   "multiplier_seed_median": 1.471087041384,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 408,
+   "base_draws": 60,
+   "draws": 960,
+   "edge_base": 0.4548663297709018,
+   "edge_top": 0.6691479632878377,
+   "multiplier_central": 1.471087041384,
+   "multiplier_seed_min": 1.138672935627,
+   "multiplier_seed_max": 1.66618911116,
+   "multiplier_seed_median": 1.471087041384,
+   "n_seeds": 3
+  },
+  {
+   "family": "tail",
+   "sessions": 408,
+   "base_draws": 60,
+   "draws": 1920,
+   "edge_base": 0.4548663297709018,
+   "edge_top": 0.747866240534736,
+   "multiplier_central": 1.644145085242,
+   "multiplier_seed_min": 1.577773168731,
+   "multiplier_seed_max": 1.66618911116,
+   "multiplier_seed_median": 1.644145085242,
+   "n_seeds": 3
+  }
+ ],
+ "steps": [
+  {
+   "family": "head",
+   "sessions": 100,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.147747078925,
+   "gain_seed_min": 1.078620378013,
+   "gain_seed_max": 1.312124926638
+  },
+  {
+   "family": "head",
+   "sessions": 100,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.410068881209
+  },
+  {
+   "family": "head",
+   "sessions": 100,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.191836816819,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.280728250847
+  },
+  {
+   "family": "head",
+   "sessions": 100,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.052486706609,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.121211340684
+  },
+  {
+   "family": "head",
+   "sessions": 100,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.102658951028,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.167115709659
+  },
+  {
+   "family": "head",
+   "sessions": 150,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.005321810603,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.265461299704
+  },
+  {
+   "family": "head",
+   "sessions": 150,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.073848218931,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.073848218931
+  },
+  {
+   "family": "head",
+   "sessions": 150,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.043329975174,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.226545763896
+  },
+  {
+   "family": "head",
+   "sessions": 150,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.123515781814,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.204655002677
+  },
+  {
+   "family": "head",
+   "sessions": 150,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.0
+  },
+  {
+   "family": "head",
+   "sessions": 200,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.0
+  },
+  {
+   "family": "head",
+   "sessions": 200,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.016592631125
+  },
+  {
+   "family": "head",
+   "sessions": 200,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.064261145484,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.199126833397
+  },
+  {
+   "family": "head",
+   "sessions": 200,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.04734422604,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.171152464524
+  },
+  {
+   "family": "head",
+   "sessions": 200,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.044830627245,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.094297324634
+  },
+  {
+   "family": "head",
+   "sessions": 250,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.078600270026,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.233030633541
+  },
+  {
+   "family": "head",
+   "sessions": 250,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.015912901752,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.015912901752
+  },
+  {
+   "family": "head",
+   "sessions": 250,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.061894884074
+  },
+  {
+   "family": "head",
+   "sessions": 250,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.00139532445,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.00139532445
+  },
+  {
+   "family": "head",
+   "sessions": 250,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.120032046692,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.157368026306
+  },
+  {
+   "family": "head",
+   "sessions": 300,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.135966763522,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.616388405236
+  },
+  {
+   "family": "head",
+   "sessions": 300,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.025784927724,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.025784927724
+  },
+  {
+   "family": "head",
+   "sessions": 300,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.188660721269,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.2160175292
+  },
+  {
+   "family": "head",
+   "sessions": 300,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.153110973611,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.264118220112
+  },
+  {
+   "family": "head",
+   "sessions": 300,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.205538659963,
+   "gain_seed_min": 1.074787203162,
+   "gain_seed_max": 1.346448323817
+  },
+  {
+   "family": "head",
+   "sessions": 350,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.102220135114,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.389786541087
+  },
+  {
+   "family": "head",
+   "sessions": 350,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.032544149483
+  },
+  {
+   "family": "head",
+   "sessions": 350,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.098323743224,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.426163668986
+  },
+  {
+   "family": "head",
+   "sessions": 350,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.0
+  },
+  {
+   "family": "head",
+   "sessions": 350,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.052828315423
+  },
+  {
+   "family": "head",
+   "sessions": 408,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.088467535744,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.312128470364
+  },
+  {
+   "family": "head",
+   "sessions": 408,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.131267737584,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.330284869637
+  },
+  {
+   "family": "head",
+   "sessions": 408,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.116691837644,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.144698735874
+  },
+  {
+   "family": "head",
+   "sessions": 408,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.06985309144,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.094179155851
+  },
+  {
+   "family": "head",
+   "sessions": 408,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.117639567877,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.385624545351
+  },
+  {
+   "family": "tail",
+   "sessions": 100,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.003937404224,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.853584680473
+  },
+  {
+   "family": "tail",
+   "sessions": 100,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.0
+  },
+  {
+   "family": "tail",
+   "sessions": 100,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.000230949401
+  },
+  {
+   "family": "tail",
+   "sessions": 100,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.110720857924,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.27966869861
+  },
+  {
+   "family": "tail",
+   "sessions": 100,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.023000967003
+  },
+  {
+   "family": "tail",
+   "sessions": 150,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.05453478843,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.372983558387
+  },
+  {
+   "family": "tail",
+   "sessions": 150,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.198496071155,
+   "gain_seed_min": 1.006557215362,
+   "gain_seed_max": 1.25234805472
+  },
+  {
+   "family": "tail",
+   "sessions": 150,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.245115961901,
+   "gain_seed_min": 1.132402557426,
+   "gain_seed_max": 1.410817327573
+  },
+  {
+   "family": "tail",
+   "sessions": 150,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.079567014971,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.138334576245
+  },
+  {
+   "family": "tail",
+   "sessions": 150,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.122561415738,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.17057366423
+  },
+  {
+   "family": "tail",
+   "sessions": 200,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.078623522563,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.259916666292
+  },
+  {
+   "family": "tail",
+   "sessions": 200,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.0
+  },
+  {
+   "family": "tail",
+   "sessions": 200,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.247325809171,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.255195846819
+  },
+  {
+   "family": "tail",
+   "sessions": 200,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.217137438768
+  },
+  {
+   "family": "tail",
+   "sessions": 200,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.018413820448,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.052616912882
+  },
+  {
+   "family": "tail",
+   "sessions": 250,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.0
+  },
+  {
+   "family": "tail",
+   "sessions": 250,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.0
+  },
+  {
+   "family": "tail",
+   "sessions": 250,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.031412544049,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.25661662128
+  },
+  {
+   "family": "tail",
+   "sessions": 250,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.0
+  },
+  {
+   "family": "tail",
+   "sessions": 250,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.071770008685,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.221284074833
+  },
+  {
+   "family": "tail",
+   "sessions": 300,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.258868092956,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.367658864005
+  },
+  {
+   "family": "tail",
+   "sessions": 300,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.324462646517
+  },
+  {
+   "family": "tail",
+   "sessions": 300,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.140392907662,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.211123261563
+  },
+  {
+   "family": "tail",
+   "sessions": 300,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.083244235229,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.23532404312
+  },
+  {
+   "family": "tail",
+   "sessions": 300,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.088199191616,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.088199191616
+  },
+  {
+   "family": "tail",
+   "sessions": 350,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.0
+  },
+  {
+   "family": "tail",
+   "sessions": 350,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.054379012334,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.054379012334
+  },
+  {
+   "family": "tail",
+   "sessions": 350,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.030899154,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.616332027448
+  },
+  {
+   "family": "tail",
+   "sessions": 350,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.0,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.02563202144
+  },
+  {
+   "family": "tail",
+   "sessions": 350,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.109268633763,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.109268633763
+  },
+  {
+   "family": "tail",
+   "sessions": 408,
+   "from_draws": 60,
+   "to_draws": 120,
+   "gain_central": 1.088467535744,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.312128470364
+  },
+  {
+   "family": "tail",
+   "sessions": 408,
+   "from_draws": 120,
+   "to_draws": 240,
+   "gain_central": 1.131267737584,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.330284869637
+  },
+  {
+   "family": "tail",
+   "sessions": 408,
+   "from_draws": 240,
+   "to_draws": 480,
+   "gain_central": 1.116691837644,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.144698735874
+  },
+  {
+   "family": "tail",
+   "sessions": 408,
+   "from_draws": 480,
+   "to_draws": 960,
+   "gain_central": 1.06985309144,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.094179155851
+  },
+  {
+   "family": "tail",
+   "sessions": 408,
+   "from_draws": 960,
+   "to_draws": 1920,
+   "gain_central": 1.117639567877,
+   "gain_seed_min": 1.0,
+   "gain_seed_max": 1.385624545351
+  }
+ ],
+ "ladder_span": {
+  "n_readings": 70,
+  "central_min": 1.0,
+  "central_max": 1.925449344562,
+  "seed_min": 1.0,
+  "seed_max": 2.427092404447,
+  "at": {
+   "family": "head",
+   "sessions": 300,
+   "draws": 1920,
+   "multiplier_central": 1.925449344562
+  },
+  "seed_at": {
+   "family": "tail",
+   "sessions": 100,
+   "draws": 1920,
+   "multiplier_seed_max": 2.427092404447
+  },
+  "stated": "the ladder spans 1.000000..1.925449 on the central basis and 1.000000..2.427092 across its own seeds"
+ },
+ "step": {
+  "n_steps": 70,
+  "min_gain": 1.0,
+  "median_gain": 1.06985309144,
+  "max_gain": 1.258868092956,
+  "n_gains_at_or_above_the_widening_margin": 37,
+  "share_finer_than_the_widening_margin": 0.528571428571,
+  "n_below_one": 0,
+  "stated": "70 adjacent step(s) between draw rungs, median gain 1.069853, range 1.000000..1.258868; 37 of them buy more than the widening margin on their own"
+ },
+ "demand_census": {
+  "in_window": [
+   {
+    "row_key": "cross|60|9",
+    "cell": "era_2025_now",
+    "class": "reachable_wide",
+    "flip": 2.1964962193681883,
+    "arm": "cross:60"
+   },
+   {
+    "row_key": "star_lag1_residual|60|14",
+    "cell": "era_2025_now",
+    "class": "above_ceiling",
+    "flip": 2.380091359569827,
+    "arm": "cross:60"
+   },
+   {
+    "row_key": "self|60|8",
+    "cell": "era_2025_now",
+    "class": "below_floor",
+    "flip": 0.8893869568794188,
+    "arm": "self:60"
+   }
+  ],
+  "not_graded": [
+   {
+    "row_key": "cross|200|1",
+    "cell": "all_five",
+    "class": "above_ceiling",
+    "flip": 2.704575069829843,
+    "reason": "no published draw ladder for this window"
+   },
+   {
+    "row_key": "star_lag1_residual|200|12",
+    "cell": "all_five",
+    "class": "above_ceiling",
+    "flip": 3.254381491424318,
+    "reason": "no published draw ladder for this window"
+   },
+   {
+    "row_key": "cross|60|7",
+    "cell": "era_2023_2024",
+    "class": "above_ceiling",
+    "flip": 2.4587098314134175,
+    "reason": "no published draw ladder for this window"
+   },
+   {
+    "row_key": "cross|60|11",
+    "cell": "early_three",
+    "class": "in_gap",
+    "flip": 1.8029783974819489,
+    "reason": "no published draw ladder for this window"
+   },
+   {
+    "row_key": "star_lag1_residual|60|13",
+    "cell": "era_2023_2024",
+    "class": "reachable_wide",
+    "flip": 2.1383765610561616,
+    "reason": "no published draw ladder for this window"
+   },
+   {
+    "row_key": "star_lag1_residual|60|15",
+    "cell": "early_three",
+    "class": "in_gap",
+    "flip": 1.88430768682915,
+    "reason": "no published draw ladder for this window"
+   },
+   {
+    "row_key": "self|200|0",
+    "cell": "all_five",
+    "class": "above_ceiling",
+    "flip": 2.331054649806725,
+    "reason": "no published draw ladder for this window"
+   },
+   {
+    "row_key": "self|60|6",
+    "cell": "era_2023_2024",
+    "class": "above_ceiling",
+    "flip": 2.6675958294079174,
+    "reason": "no published draw ladder for this window"
+   },
+   {
+    "row_key": "self|60|10",
+    "cell": "early_three",
+    "class": "below_floor",
+    "flip": 0.6303939055900345,
+    "reason": "no published draw ladder for this window"
+   }
+  ]
+ },
+ "margins": [
+  {
+   "row_key": "star_lag1_residual|60|14",
+   "cell": "era_2025_now",
+   "class": "above_ceiling",
+   "flip": 2.380091359569827,
+   "direction": "widen",
+   "reference": {
+    "face": "BANDSUPPLY-2026-10-29.json",
+    "label": "widen_cap_optimistic",
+    "value": 2.245734429868289
+   },
+   "margin_factor": 1.059827612702,
+   "margin_pct": 5.982761,
+   "crossed_central": false,
+   "crossed_at_one_seed": true,
+   "n_rungs_crossing_central": 0,
+   "n_rungs_crossing_at_one_seed": 1,
+   "n_rungs_graded": 70,
+   "closest_rung": {
+    "family": "head",
+    "sessions": 300,
+    "draws": 1920,
+    "multiplier_central": 1.925449344562
+   },
+   "residual_factor": 1.236122553051,
+   "interpolation_aborted": true,
+   "abort_statement": "no published rung reaches 2.380091 on this polarity; the demand lies outside the ladder's measured span by a factor of 1.236123, so nothing between or beyond the rungs is interpolated -- a larger draw budget is a different, billable decision (M5)"
+  },
+  {
+   "row_key": "self|60|8",
+   "cell": "era_2025_now",
+   "class": "below_floor",
+   "flip": 0.8893869568794188,
+   "direction": "narrow",
+   "reference": {
+    "face": "BANDFLOOR-2026-10-29.json",
+    "label": "counterfactual_percentile_band.multiplier",
+    "value": 0.9220216139981448
+   },
+   "margin_factor": 0.964605323104,
+   "margin_pct": 3.539468,
+   "crossed_central": false,
+   "crossed_at_one_seed": false,
+   "n_rungs_crossing_central": 0,
+   "n_rungs_crossing_at_one_seed": 0,
+   "n_rungs_graded": 70,
+   "closest_rung": {
+    "family": "head",
+    "sessions": 200,
+    "draws": 120,
+    "multiplier_central": 1.0
+   },
+   "residual_factor": 1.124369985713,
+   "interpolation_aborted": true,
+   "abort_statement": "no published rung reaches 0.889387 on this polarity; the demand lies outside the ladder's measured span by a factor of 1.124370, so nothing between or beyond the rungs is interpolated -- a larger draw budget is a different, billable decision (M5)"
+  }
+ ],
+ "summary": {
+  "ladder_cell": "era_2025_now",
+  "base_draws": 60,
+  "draw_grid": [
+   60,
+   120,
+   240,
+   480,
+   960,
+   1920
+  ],
+  "n_rungs": 14,
+  "n_readings": 70,
+  "n_steps": 70,
+  "ladder_span": {
+   "n_readings": 70,
+   "central_min": 1.0,
+   "central_max": 1.925449344562,
+   "seed_min": 1.0,
+   "seed_max": 2.427092404447,
+   "at": {
+    "family": "head",
+    "sessions": 300,
+    "draws": 1920,
+    "multiplier_central": 1.925449344562
+   },
+   "seed_at": {
+    "family": "tail",
+    "sessions": 100,
+    "draws": 1920,
+    "multiplier_seed_max": 2.427092404447
+   },
+   "stated": "the ladder spans 1.000000..1.925449 on the central basis and 1.000000..2.427092 across its own seeds"
+  },
+  "step": {
+   "n_steps": 70,
+   "min_gain": 1.0,
+   "median_gain": 1.06985309144,
+   "max_gain": 1.258868092956,
+   "n_gains_at_or_above_the_widening_margin": 37,
+   "share_finer_than_the_widening_margin": 0.528571428571,
+   "n_below_one": 0,
+   "stated": "70 adjacent step(s) between draw rungs, median gain 1.069853, range 1.000000..1.258868; 37 of them buy more than the widening margin on their own"
+  },
+  "n_demand_rows_censused": 12,
+  "n_demand_rows_in_the_ladder_window": 3,
+  "n_demand_rows_not_graded": 9,
+  "n_gradable_widening": 1,
+  "n_gradable_narrowing": 1,
+  "n_crossed_central": 0,
+  "n_crossed_at_one_seed": 1,
+  "n_interpolations_aborted": 2,
+  "widening_reference": {
+   "face": "BANDSUPPLY-2026-10-29.json",
+   "label": "widen_cap_optimistic",
+   "value": 2.245734429868289
+  },
+  "narrowing_reference": {
+   "face": "BANDFLOOR-2026-10-29.json",
+   "label": "counterfactual_percentile_band.multiplier",
+   "value": 0.9220216139981448
+  },
+  "supply_cap_note": "the widening reference is E287's optimistic cap, which was written at early_three|60; E258 measured per-window multipliers to differ by more than 15 pct, so the ladder is graded against the DEMAND and the cap is quoted as the margin's denominator, not as a cap the ladder replaces",
+  "reproduction": {
+   "checked": true,
+   "window": "era_2025_now",
+   "base_draws": 60,
+   "winmult_face": "BANDWINMULT-2026-10-29.json",
+   "winmult_multiplier": 1.6441450852416506,
+   "ladder_rung": {
+    "family": "head",
+    "sessions": 408,
+    "draws": 1920,
+    "multiplier": 1.644145085242
+   },
+   "abs_diff": 0.0,
+   "agrees_at_1e9": true,
+   "note": "two producers, same window and same base draw count: E258 rebuilt the band per window, E256's ladder reads its own per-rung edges"
+  },
+  "verdict": "one_margin_is_crossed_by_a_single_seed_rung_only"
+ },
+ "verdict": "one_margin_is_crossed_by_a_single_seed_rung_only",
+ "verdict_reason": "the ladder measured in era_2025_now spans 1.000000..1.925449 on the central basis (base 60 draws to 1920) and 2.427092 across its own seeds; one adjacent step buys a median 1.069853, so 37 of 70 step(s) clear the widening margin's size on their own; star_lag1_residual|60|14 (widen, flip 2.380091) is not crossed on the central basis: the nearest rung stops at 1.925449, a residual factor of 1.236123; it is crossed only by 1 rung(s) at their own widest seed, so the crossing is seed-dependent and not a published result; self|60|8 (narrow, flip 0.889387) is not crossed on the central basis: the nearest rung stops at 1.000000, a residual factor of 1.124370; the margins are inside one step's mileage, so what is missing is not a finer grid but a rung the family has not measured -- the interpolation is aborted rather than fitted"
+}

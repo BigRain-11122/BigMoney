@@ -5881,3 +5881,37 @@ Evidence: `scripts/e288_below_floor_narrowing.py` (selftest 19/19, `verify` 0 pr
 `Tools/s6_chain_bmb.py` leg `below_floor_narrowing` (rc=0, 0.14s), smoke leg E288 (extracted
 verbatim out of `smoke_test.py` and executed standalone: PASS), digest
 `research/digests/DIGEST-20261031-r1317-e288-below-floor-mirror.md`.
+
+
+### E297 one more rung is two questions -- price granularity and headroom separately, and re-derive the margin in the window that owns the ladder
+
+"The gap is small enough for one more rung" hides two independent measurements. Granularity is what a
+single step of the published grid buys (adjacent-rung multiplier, matched seed for seed); headroom is
+what the grid reaches at all (largest draw count over the base draw count). They can point in opposite
+directions and in this family they did: the draw ladder's 70 adjacent steps have a median gain of
+1.0699 with 37 of them clearing a 5.98 pct margin on their own, while its span tops out at 1.9254
+central (2.4271 at one rung's own widest seed). The margin was never a resolution problem, so grinding
+the grid finer cannot be the fix -- publish both numbers or the cheap-looking answer (more rungs)
+passes for the fix.
+
+The second rule is about which numbers may be subtracted. A margin is a demand minus a reference and
+both carry a window; the headline widening margin here was 3.799 pct only because the demand
+(self|200|0, cell all_five) and the cap (written at early_three|60) came from other windows than the
+ladder (era_2025_now). Re-read where the ladder lives, the same-family margin is 5.98 pct. A rung is
+not transferable across windows: E258 had already measured per-window multipliers to differ by more
+than 15 pct, i.e. a borrowed rung prices a different sleeve's null. Demand rows outside the ladder's
+window are published as not_graded with that reason, never counted as a crossing and never as a
+shortfall.
+
+Third: a crossing that exists at one seed of three is published as seed-dependent. One rung
+(tail|100|1920) reaches 2.4271 at its widest seed while its central reading is 1.1151; the face counts
+crossing rungs per basis and, when the central count is zero, publishes the residual factor and
+declares the interpolation aborted -- the next rung is a larger draw budget, a billable decision, not
+an arithmetic continuation.
+
+Evidence: `scripts/e295_supply_gap_closure.py` (selftest 22/22, `verify` 0 problems),
+`results/state_tilt/BANDCLOSURE-2026-10-29.json` (+ `bandclosure_latest.json`),
+`Tools/s6_chain_bmb.py` leg `supply_gap_closure` (rc=0, 0.15s), smoke leg E295 (extracted verbatim out
+of `smoke_test.py` and executed standalone: PASS; FAILs when a graded margin is repointed to another
+window or the ladder span is mutated), digest
+`research/digests/DIGEST-20261031-r1319-e295-supply-gap-closure.md`.

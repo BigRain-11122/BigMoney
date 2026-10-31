@@ -25394,7 +25394,7 @@
    "id": "E295-SUPPLY-GAP-CLOSURE",
    "title": "both margins are one step away -- what is the smallest measured step that closes the 3.8 pct widening gap and the 3.7 pct narrowing gap, and does that step exist inside the draw ladder the family already measured?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "runner": "scripts/e295_supply_gap_closure.py",
    "runner_args": [
@@ -25410,7 +25410,10 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "source": "E287 measured that the family's published supplies stop 3.8 pct above the nearest above-ceiling row (self|200|0 flip 2.3311 vs supply 2.2457 at the best single seed) and 3.7 pct below the nearest below-floor row (self|60|8 flip 0.8894 vs the 0.9220 narrowing instrument). Both margins are small enough that the question is no longer 'is there headroom' but 'is there one more rung'. E256/E257 published a draw ladder (rungs 100..408 sessions x 6 draw counts x 2 families) and E258 measured per-window multipliers at 60/200 base draws up to 1920. Read those ladders, price the multiplier each rung actually buys, and report whether any EXISTING rung crosses either margin -- publishing the interpolation abort when no rung does, never a fitted extrapolation. Do not draw a new stream: published ladders only (a new draw budget is a different, billable decision)."
+   "source": "E287 measured that the family's published supplies stop 3.8 pct above the nearest above-ceiling row (self|200|0 flip 2.3311 vs supply 2.2457 at the best single seed) and 3.7 pct below the nearest below-floor row (self|60|8 flip 0.8894 vs the 0.9220 narrowing instrument). Both margins are small enough that the question is no longer 'is there headroom' but 'is there one more rung'. E256/E257 published a draw ladder (rungs 100..408 sessions x 6 draw counts x 2 families) and E258 measured per-window multipliers at 60/200 base draws up to 1920. Read those ladders, price the multiplier each rung actually buys, and report whether any EXISTING rung crosses either margin -- publishing the interpolation abort when no rung does, never a fitted extrapolation. Do not draw a new stream: published ladders only (a new draw budget is a different, billable decision).",
+   "result_ref": "results/state_tilt/BANDCLOSURE-2026-10-29.json (verdict one_margin_is_crossed_by_a_single_seed_rung_only; ladder span 1.000..1.925 central / 2.427 seed-max; 37 of 70 steps finer than the widening margin; 2 demand(s) graded in-window, 2 interpolations aborted)",
+   "done_at": "2026-10-31T11:4x+08:00",
+   "done_by": "bm-b r1319"
   },
   {
    "id": "E296-WIRE-E293-LEGS",
@@ -25495,6 +25498,28 @@
    "target": "smoke_test.py legs + the faces they read",
    "deliverable": "results/state_tilt/PRECISIONCENSUS-<cutoff>.json",
    "question": "which smoke legs compare a rounded published value at a full-precision tolerance (or at exact equality), how far apart are the copies, and does each face declare the precision it prints"
+  },
+  {
+   "id": "E300-WINDOW-LOCAL-MARGIN-CENSUS",
+   "title": "the same widening margin moved from 3.80 pct to 5.98 pct purely by reading the demand in the ladder's own window -- for all twelve demand rows, what does the margin become when the reference is the window that owns it, and which of the nine rows without a ladder would gain one from a face the family already published?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "runner": "scripts/e300_window_local_margin_census.py",
+   "runner_args": [
+    "run"
+   ],
+   "target": "scripts/e300_window_local_margin_census.py (new runner)",
+   "deliverable": "results/state_tilt/BANDMARGINWINDOW-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "seeded_at": "2026-10-31T11:4x+08:00",
+   "seeded_by": "bm-b r1319",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "source": "r1319: E295 graded 2 of 12 demands because only era_2025_now owns a published draw ladder, and the widening margin read there is 5.98 pct instead of E287's headline 3.80 pct -- the headline pair came from all_five and early_three|60. That is a measurement about WINDOWS, not about the band: for every demand row, pair it with the reference published in its own window (E258 per-window multipliers, E257 per-rung multipliers, E288's mirror yardsticks) and publish what the margin becomes. Publish the 9 rows that stay not_graded with the specific face each would need, so 'unreachable' is never quoted from a cross-window subtraction. Published faces only; no new draw budget."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25509,6 +25534,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T10:30:00+08:00",
+ "updated_at": "2026-10-31T11:4x+08:00",
  "version": 1
 }

@@ -7780,6 +7780,106 @@ def main() -> int:
     except Exception as e:
         check(_name91, False, repr(e)[:160])
 
+    # E295 r1319 (published r1319, wired same round): E287's two margins both looked "one rung
+    # away". The leg pins (a) the verdict vocabulary, (b) that every graded margin is the one the
+    # face actually graded IN THE LADDER'S OWN WINDOW -- a demand from another window must be
+    # published as not_graded with a reason, never counted as a crossing, (c) that an aborted
+    # interpolation carries a residual factor instead of a fitted number, and (d) that E258's
+    # same-window multiplier reproduces off the ladder, so "the ladder agrees with the family" is
+    # measured here rather than asserted by the face.
+    _name92 = ("product: a margin that looks one rung away is priced as one step, not as headroom -- "
+               "the ladder's own step size sits beside the derived demand set, and a crossing that "
+               "needs a rung the family never measured is declared aborted, not fitted")
+    _bad92 = []
+    try:
+        _p92 = os.path.join("results", "state_tilt", "bandclosure_latest.json")
+        _f92 = None
+        if not os.path.exists(_p92):
+            _bad92.append("face missing: %s" % _p92)
+        else:
+            with io.open(_p92, encoding="utf-8") as _fh92:
+                _f92 = json.load(_fh92)
+        if _f92 is not None:
+            if _f92.get("evidence_cutoff") is None:
+                _bad92.append("no evidence_cutoff on the face")
+            _vocab92 = ("published_ladder_crosses_both_margins_on_the_central_basis",
+                        "one_margin_is_crossed_by_a_single_seed_rung_only",
+                        "no_published_ladder_rung_crosses_a_margin")
+            _v92 = _f92.get("verdict")
+            if _v92 not in _vocab92:
+                _bad92.append("verdict %r is outside the frozen vocabulary" % (_v92,))
+            _s92 = _f92.get("summary") or {}
+            _sp92 = _s92.get("ladder_span") or {}
+            _st92 = _s92.get("step") or {}
+            _mg92 = _f92.get("margins") or []
+            _cnc92 = _f92.get("demand_census") or {}
+            _cell92 = _s92.get("ladder_cell")
+            if not _cell92:
+                _bad92.append("the face does not name the ladder's own window")
+            # (b) only the ladder's own window is graded, and the census partitions
+            if any(m.get("cell") != _cell92 for m in _mg92):
+                _bad92.append("a margin was graded from outside the ladder's own window")
+            if len(_cnc92.get("in_window") or []) != _s92.get(
+                    "n_demand_rows_in_the_ladder_window") or len(
+                    _cnc92.get("not_graded") or []) != _s92.get("n_demand_rows_not_graded"):
+                _bad92.append("the demand census disagrees with its own rows")
+            if (_s92.get("n_demand_rows_in_the_ladder_window") or 0) + \
+                    (_s92.get("n_demand_rows_not_graded") or 0) != \
+                    _s92.get("n_demand_rows_censused"):
+                _bad92.append("the demand census does not add up")
+            if any(not x.get("reason") for x in (_cnc92.get("not_graded") or [])):
+                _bad92.append("a demand was left ungraded without a reason")
+            if not _st92.get("n_steps"):
+                _bad92.append("no step of the draw ladder was priced")
+            # (c) an aborted interpolation always carries the residual factor it aborted on
+            if any(m.get("residual_factor") is None for m in _mg92
+                   if m.get("interpolation_aborted")):
+                _bad92.append("an aborted interpolation has no residual factor")
+            # (d) the same-window reproduction witness
+            _rp92 = _s92.get("reproduction") or {}
+            if not _rp92.get("checked"):
+                _bad92.append("the same-window reproduction witness was not checked")
+            elif not _rp92.get("agrees_at_1e9"):
+                _bad92.append("the ladder and E258 disagree in the same window by %s"
+                              % _rp92.get("abs_diff"))
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m92 = __import__("importlib").import_module("e295_supply_gap_closure")
+            _fresh92 = _m92.build()
+            if _fresh92.get("verdict") != _v92:
+                _bad92.append("the verdict does not re-derive")
+            _fs92 = _fresh92.get("summary") or {}
+            for _k in ("ladder_cell", "n_readings", "n_steps", "n_gradable_widening",
+                       "n_gradable_narrowing", "n_crossed_central", "n_interpolations_aborted"):
+                if _fs92.get(_k) != _s92.get(_k):
+                    _bad92.append("summary.%s does not re-derive" % _k)
+            if [m.get("row_key") for m in (_fresh92.get("margins") or [])] != \
+                    [m.get("row_key") for m in _mg92]:
+                _bad92.append("the graded margin rows do not re-derive")
+            if _fresh92.get("ladder_span") != _f92.get("ladder_span"):
+                _bad92.append("the ladder span does not re-derive")
+        check(_name92, not _bad92,
+              "; ".join(_bad92)[:220]
+              or "verdict %r | ladder %s spans %.6f..%.6f central / %s seed-max; %d step(s), "
+                 "median gain %s, %s of them finer than the widening margin; %d demand(s) "
+                 "censused, %d graded in-window (%d crossed central, %d at one seed, %d "
+                 "interpolation(s) aborted); same-window reproduction |diff| %s"
+                 % ((_f92 or {}).get("verdict"),
+                    (_f92 or {}).get("summary", {}).get("ladder_cell"),
+                    _sp92.get("central_min") or 0.0, _sp92.get("central_max") or 0.0,
+                    _sp92.get("seed_max"),
+                    _st92.get("n_steps") or 0, _st92.get("median_gain"),
+                    _st92.get("n_gains_at_or_above_the_widening_margin"),
+                    (_f92 or {}).get("summary", {}).get("n_demand_rows_censused") or 0,
+                    ((_f92 or {}).get("summary", {}).get("n_gradable_widening") or 0)
+                    + ((_f92 or {}).get("summary", {}).get("n_gradable_narrowing") or 0),
+                    (_f92 or {}).get("summary", {}).get("n_crossed_central") or 0,
+                    (_f92 or {}).get("summary", {}).get("n_crossed_at_one_seed") or 0,
+                    (_f92 or {}).get("summary", {}).get("n_interpolations_aborted") or 0,
+                    (((_f92 or {}).get("summary", {}) or {}).get("reproduction") or {})
+                    .get("abs_diff")))
+    except Exception as e:
+        check(_name92, False, repr(e)[:160])
+
     return _finish()
 
 

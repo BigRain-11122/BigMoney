@@ -535,6 +535,17 @@ LEGS = [
     ("duplicate_list_census",
      ["python", "scripts/e293_duplicate_list_census.py", "verify"]),
 
+    # E295 (r1319 bm-b): E287's two margins asked for "one more rung" of the published draw ladder.
+    # Priced: the ladder spans 1.000..1.925 central (2.427 at a single seed) over 70 rung-readings,
+    # its median adjacent step buys 6.99 pct, and 37 of 70 steps are finer than the widening margin
+    # -- so the margin was never a resolution problem. Both gradable demands live in the ladder's
+    # OWN window (star_lag1_residual|60|14 widen 5.98 pct short of the nearest rung, self|60|8
+    # narrow with no sub-1.0 rung at all), and neither the rung nor a narrowing rung exists, so the
+    # face declares the interpolation aborted instead of fitting one. Also witnesses E258's
+    # era_2025_now|60 multiplier reproduce off the ladder to 0.0. Published faces only. <1s.
+    ("supply_gap_closure",
+     ["python", "scripts/e295_supply_gap_closure.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
