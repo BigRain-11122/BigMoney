@@ -1,0 +1,332 @@
+{
+ "study": "E288_below_floor_narrowing",
+ "title": "a flip below the published floor needs the band NARROWED, not widened -- how far below the floor does each sit, does a narrowing instrument exist, and what does tightening cost in rows it would give up?",
+ "evidence_cutoff": "2026-10-29",
+ "generated": "2026-10-31T10:49:02",
+ "no_bill": "measurement only: published faces are re-read and their band-edge multipliers compared on one axis. No shuffle stream is drawn, no band rebuilt, no engine runs. A verdict is a statement about what the family has already published, not about what a tighter percentile band would eventually buy.",
+ "source_faces": [
+  "BANDGAPCEILING-2026-10-29.json",
+  "BANDFLOOR-2026-10-29.json"
+ ],
+ "frozen_spec": {
+  "M1_axis": "only a band-edge multiplier is comparable to m_flip (b = edge * m); a relative tolerance in pct or a spread ratio is off-axis",
+  "M2_polarity": "flip < floor is a NARROWING requirement, reached iff flip >= cap; shortfall = cap / flip",
+  "M3_yardstick": "the common yardstick is the published narrowing instrument; E285's per-row reference is published with its implied value and never ranked against another row's",
+  "M4_cost": "every row is scored against the narrowing instrument on its own polarity; the cost of tightening is the count of rows it does not reach",
+  "M5_single": "'one instrument serves both polarities' is counted, not assumed",
+  "M6_nobill": "published records only: no stream drawn, no band rebuilt, no engine run",
+  "tolerance": 1e-12,
+  "verdict_vocab": [
+   "published_narrowing_instrument_reaches_every_below_floor_row",
+   "published_narrowing_instrument_reaches_its_nearest_below_floor_row",
+   "no_published_narrowing_instrument_reaches_a_below_floor_row"
+  ]
+ },
+ "narrowing_instrument": {
+  "face": "BANDFLOOR-2026-10-29.json",
+  "multiplier": 0.9220216139981448,
+  "band_pct": 5.0,
+  "lo_base": 0.9912570596797203,
+  "lo_top": 0.913960434052951,
+  "is_below_floor": true,
+  "n_narrowing_readings_published": 10,
+  "readings_at_or_below_floor": [
+   0.9220216139981448
+  ],
+  "note": "the only sub-1.0 band-edge multiplier the family publishes is this counterfactual band; every other 'narrow' reading in E287's census is a per-seed minimum of a WIDENING ratio and sits above 1.0"
+ },
+ "narrowing_readings": [
+  {
+   "face": "BANDFLOOR-2026-10-29.json",
+   "label": "counterfactual_band",
+   "direction": "narrow",
+   "basis": "central",
+   "cap": 0.9220216139981448,
+   "axis": "band_edge_multiplier",
+   "quantity": "lo_top / lo_base of the counterfactual 5 pct band",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDTOPFLIP-2026-10-29.json",
+   "label": "borrowed_range",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.0983237432239998,
+   "axis": "band_edge_multiplier",
+   "quantity": "borrowed ladder multiplier, published bottom",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "all_five|200",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.1046343939394732,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "all_five|60",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.1391851958933774,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "early_three|200",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.1120196931084714,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "early_three|60",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.4022025093409514,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2023_2024|200",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.2443697464873256,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2023_2024|60",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.3382959296771073,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2025_now|200",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.252505496521813,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "label": "era_2025_now|60",
+   "direction": "narrow",
+   "basis": "extreme",
+   "cap": 1.5777731687311436,
+   "axis": "band_edge_multiplier",
+   "quantity": "edge(top)/edge(published), single weakest seed",
+   "usable_as_supply": true,
+   "note": null
+  }
+ ],
+ "mirror_rows": [
+  {
+   "row_key": "self|60|10",
+   "cell": "early_three",
+   "flip": 0.6303939055900345,
+   "floor": 1.0,
+   "distance_below_floor": 0.36960609441,
+   "distance_below_floor_pct": 36.960609,
+   "contraction_factor_required": 1.586309751938,
+   "e285_distance_below_tight_lo_pct": 60.13844488582435,
+   "e285_reference_implied": 1.581458384612,
+   "e285_reference_is_above_floor": true,
+   "common_yardstick": {
+    "cap": 0.9220216139981448,
+    "reached": false,
+    "shortfall_factor": 1.4626118777832302,
+    "pct_short": 46.26118777832302
+   }
+  },
+  {
+   "row_key": "self|60|8",
+   "cell": "era_2025_now",
+   "flip": 0.8893869568794188,
+   "floor": 1.0,
+   "distance_below_floor": 0.110613043121,
+   "distance_below_floor_pct": 11.061304,
+   "contraction_factor_required": 1.124369985713,
+   "e285_distance_below_tight_lo_pct": 13.505487038951394,
+   "e285_reference_implied": 1.028258240242,
+   "e285_reference_is_above_floor": true,
+   "common_yardstick": {
+    "cap": 0.9220216139981448,
+    "reached": false,
+    "shortfall_factor": 1.0366934289583363,
+    "pct_short": 3.669342895833627
+   }
+  }
+ ],
+ "partition_identity": {
+  "rows_censused": 12,
+  "classes_published": [
+   "above_ceiling",
+   "below_floor",
+   "in_gap",
+   "reachable_wide"
+  ],
+  "n_class_from_bounds_matches_published": 12,
+  "below_floor_rows_published": [
+   "self|60|10",
+   "self|60|8"
+  ],
+  "below_floor_rows_rederived": [
+   "self|60|10",
+   "self|60|8"
+  ],
+  "partition_sums_to_rows": true,
+  "n_below_floor": 2,
+  "n_rows_by_class": {
+   "above_ceiling": 6,
+   "below_floor": 2,
+   "in_gap": 2,
+   "reachable_wide": 2
+  },
+  "below_floor_set_matches": true
+ },
+ "cost": {
+  "rows_censused": 12,
+  "rows_reached_by_the_narrowing_instrument": 0,
+  "reached_row_keys": [],
+  "by_class": {
+   "above_ceiling": {
+    "n_rows": 6,
+    "n_reached": 0
+   },
+   "reachable_wide": {
+    "n_rows": 2,
+    "n_reached": 0
+   },
+   "in_gap": {
+    "n_rows": 2,
+    "n_reached": 0
+   },
+   "below_floor": {
+    "n_rows": 2,
+    "n_reached": 0
+   }
+  },
+  "share_reached": 0.0,
+  "widening_rows_given_up": 10,
+  "statement": "a single published multiplier is scored against all 12 rows; at the published narrowing cap it reaches 0"
+ },
+ "polarity": {
+  "n_widening_demands": 10,
+  "n_narrowing_demands": 2,
+  "widening_demand_range": [
+   1.8029783974819489,
+   3.254381491424318
+  ],
+  "narrowing_demand_range": [
+   0.6303939055900345,
+   0.8893869568794188
+  ],
+  "widening_cap_optimistic": 2.245734429868289,
+  "narrowing_cap_optimistic": 0.9220216139981448,
+  "one_instrument_serves_both_polarities": false,
+  "gap_between_the_caps": 1.32371281587,
+  "statement": "a widening row needs a multiplier at or above its flip and a narrowing row one at or below its flip; the family publishes 10 widening and 2 narrowing demand(s), so 'unreachable' is always a statement about one polarity"
+ },
+ "summary": {
+  "floor": 1.0,
+  "ceiling": 2.2963286417094975,
+  "n_below_floor_rows": 2,
+  "narrowing_cap": 0.9220216139981448,
+  "narrowing_cap_at": {
+   "face": "BANDFLOOR-2026-10-29.json",
+   "label": "counterfactual_band",
+   "basis": "central"
+  },
+  "n_narrowing_readings": 10,
+  "n_sub_floor_readings": 1,
+  "n_reached_conservative": 0,
+  "deepest_below_floor": "self|60|10",
+  "nearest_below_floor": {
+   "row_key": "self|60|8",
+   "flip": 0.8893869568794188,
+   "shortfall_factor": 1.0366934289583363,
+   "pct_short": 3.669342895833627
+  },
+  "farthest_below_floor": {
+   "row_key": "self|60|10",
+   "flip": 0.6303939055900345,
+   "shortfall_factor": 1.4626118777832302,
+   "pct_short": 46.26118777832302
+  },
+  "cost": {
+   "rows_censused": 12,
+   "rows_reached_by_the_narrowing_instrument": 0,
+   "reached_row_keys": [],
+   "by_class": {
+    "above_ceiling": {
+     "n_rows": 6,
+     "n_reached": 0
+    },
+    "reachable_wide": {
+     "n_rows": 2,
+     "n_reached": 0
+    },
+    "in_gap": {
+     "n_rows": 2,
+     "n_reached": 0
+    },
+    "below_floor": {
+     "n_rows": 2,
+     "n_reached": 0
+    }
+   },
+   "share_reached": 0.0,
+   "widening_rows_given_up": 10,
+   "statement": "a single published multiplier is scored against all 12 rows; at the published narrowing cap it reaches 0"
+  },
+  "polarity": {
+   "n_widening_demands": 10,
+   "n_narrowing_demands": 2,
+   "widening_demand_range": [
+    1.8029783974819489,
+    3.254381491424318
+   ],
+   "narrowing_demand_range": [
+    0.6303939055900345,
+    0.8893869568794188
+   ],
+   "widening_cap_optimistic": 2.245734429868289,
+   "narrowing_cap_optimistic": 0.9220216139981448,
+   "one_instrument_serves_both_polarities": false,
+   "gap_between_the_caps": 1.32371281587,
+   "statement": "a widening row needs a multiplier at or above its flip and a narrowing row one at or below its flip; the family publishes 10 widening and 2 narrowing demand(s), so 'unreachable' is always a statement about one polarity"
+  },
+  "n_e285_rows_whose_reference_is_above_floor": 2,
+  "verdict": "no_published_narrowing_instrument_reaches_a_below_floor_row"
+ },
+ "verdict": "no_published_narrowing_instrument_reaches_a_below_floor_row",
+ "verdict_reason": "2 row(s) sit below the published floor 1.000000; the tightest narrowing instrument the family publishes is 0.922022; it reaches none -- the nearest (self|60|8, flip 0.889387) is 3.669343 pct short of it and the farthest (self|60|10, flip 0.630394) is 46.261188 pct short; scored against all 12 rows on their own polarity the same instrument reaches 0, so tightening is not free on the widening side either"
+}

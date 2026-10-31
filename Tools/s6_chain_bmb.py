@@ -513,6 +513,17 @@ LEGS = [
     ("supply_ceiling_axes",
      ["python", "scripts/e287_supply_ceiling_axes.py", "verify"]),
 
+    # E288 (r1317 bm-b): the mirror of the ceiling question -- a flip BELOW the published floor of
+    # 1.0 needs the band NARROWED. Two rows sit 11.06 and 36.96 pct under the floor; the family
+    # publishes exactly one sub-1.0 band-edge multiplier (0.9220216) and it misses the nearest row
+    # by 3.67 pct and the farthest by 46.26 pct, so the verdict is "reaches none". Scored against
+    # all 12 rows on each row's own polarity the same instrument reaches 0, so tightening is not a
+    # free fix for the widening side either. E285's per-row "distance below tight lo" column is
+    # published with its implied reference (1.0283 / 1.5815, both ABOVE the floor) because it
+    # gauges a narrowing demand with a widening instrument. Published faces only, no draw. <1s.
+    ("below_floor_narrowing",
+     ["python", "scripts/e288_below_floor_narrowing.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

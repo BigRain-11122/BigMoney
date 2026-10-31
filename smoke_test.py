@@ -7582,6 +7582,116 @@ def main() -> int:
     except Exception as e:
         check(_name89, False, repr(e)[:160])
 
+    # E288 r1317: the mirror of the ceiling question. A flip BELOW the published floor of 1.0 needs
+    # the band NARROWED, so "unreachable" is never one direction of fix. Two rows sit under the
+    # floor, the family publishes exactly one sub-1.0 band-edge multiplier, it reaches neither, and
+    # scored against all 12 rows on each row's own polarity it reaches none -- tightening is not a
+    # free fix for the widening side either.
+    _name90 = ("product: a below-floor flip needs the band narrowed -- the published narrowing "
+               "instrument is measured on its own polarity and its cost on the others")
+    _bad90 = []
+    try:
+        _p90 = os.path.join("results", "state_tilt", "bandfloormirror_latest.json")
+        _f90 = None
+        if not os.path.exists(_p90):
+            _bad90.append("face missing: %s" % _p90)
+        else:
+            with io.open(_p90, encoding="utf-8") as _fh90:
+                _f90 = json.load(_fh90)
+        if _f90 is not None:
+            if _f90.get("evidence_cutoff") is None:
+                _bad90.append("no evidence_cutoff on the face")
+            _vocab90 = ("published_narrowing_instrument_reaches_every_below_floor_row",
+                        "published_narrowing_instrument_reaches_its_nearest_below_floor_row",
+                        "no_published_narrowing_instrument_reaches_a_below_floor_row")
+            if _f90.get("verdict") not in _vocab90:
+                _bad90.append("verdict %r is outside the frozen set" % (_f90.get("verdict"),))
+            _s90 = _f90.get("summary") or {}
+            _id90 = _f90.get("partition_identity") or {}
+            _ins90 = _f90.get("narrowing_instrument") or {}
+            _mr90 = _f90.get("mirror_rows") or []
+            # (a) the below-floor rows are E285's own set and every class re-derives from flip
+            if not _id90.get("below_floor_set_matches"):
+                _bad90.append("the below-floor set is not the set E285 published")
+            if _id90.get("n_class_from_bounds_matches_published") != _id90.get("rows_censused"):
+                _bad90.append("a row's polarity does not re-derive from flip vs the two bounds")
+            if len(_mr90) != _s90.get("n_below_floor_rows"):
+                _bad90.append("the mirror rows do not cover the below-floor class")
+            # (b) the yardstick must be a SUB-1.0 multiplier, or nothing is being measured
+            if not _ins90.get("is_below_floor"):
+                _bad90.append("the common yardstick is not a sub-1.0 band-edge multiplier")
+            if not _ins90.get("readings_at_or_below_floor"):
+                _bad90.append("no published reading at or below the floor is named")
+            # (c) every mirror row carries a distance under the floor and a yardstick reading
+            for _r90 in _mr90:
+                _cy90 = _r90.get("common_yardstick") or {}
+                if _cy90.get("cap") is None:
+                    _bad90.append("row %s has no yardstick reading" % _r90.get("row_key"))
+                _flip90 = _r90.get("flip")
+                if _flip90 is None or abs((_flip90 + _r90.get("distance_below_floor", 0)) - 1.0) > 1e-9:
+                    _bad90.append("row %s: distance under the floor does not add up to 1.0"
+                                  % _r90.get("row_key"))
+                if _flip90 is not None and _flip90 >= 1.0:
+                    _bad90.append("row %s is not below the floor" % _r90.get("row_key"))
+            # (d) E285's own distance column is gauged with a reference that is published
+            _refs90 = [r.get("e285_reference_implied") for r in _mr90
+                       if r.get("e285_reference_implied") is not None]
+            if len(_refs90) != len(_mr90):
+                _bad90.append("a per-row reference is published without its implied value")
+            _above90 = _s90.get("n_e285_rows_whose_reference_is_above_floor")
+            if _above90 != sum(1 for r in _mr90 if r.get("e285_reference_is_above_floor")):
+                _bad90.append("the count of references above the floor does not re-derive")
+            # (e) the cost block scores all rows, and the verdict agrees with its own reach count
+            _c90 = _f90.get("cost") or {}
+            if _c90.get("rows_censused") != _id90.get("rows_censused"):
+                _bad90.append("the cost block does not cover the whole census")
+            _reached90 = _s90.get("n_reached_conservative")
+            _v90 = _f90.get("verdict")
+            if _v90 == "no_published_narrowing_instrument_reaches_a_below_floor_row" and _reached90:
+                _bad90.append("the verdict says nothing is reached but a row is")
+            if _v90 == "published_narrowing_instrument_reaches_every_below_floor_row" and \
+                    _reached90 != _s90.get("n_below_floor_rows"):
+                _bad90.append("the verdict says every row is reached but the count disagrees")
+            # (f) two polarities are counted, never assumed away (M5)
+            _pol90 = _f90.get("polarity") or {}
+            if not _pol90.get("n_widening_demands") or not _pol90.get("n_narrowing_demands"):
+                _bad90.append("a demand set is empty: the polarity claim cannot be checked")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m90 = __import__("importlib").import_module("e288_below_floor_narrowing")
+            _fresh90 = _m90.build()
+            if _fresh90.get("verdict") != _f90.get("verdict"):
+                _bad90.append("the verdict does not re-derive")
+            _fs90 = _fresh90.get("summary") or {}
+            for _k in ("floor", "n_below_floor_rows", "narrowing_cap", "n_reached_conservative",
+                       "nearest_below_floor", "farthest_below_floor"):
+                if _fs90.get(_k) != _s90.get(_k):
+                    _bad90.append("summary.%s does not re-derive" % _k)
+            if _fresh90.get("mirror_rows") != _mr90:
+                _bad90.append("the mirror rows do not re-derive")
+        check(_name90, not _bad90,
+              "; ".join(_bad90)[:220]
+              or "verdict %r | %d row(s) below the floor %s, nearest short by %s pct and farthest "
+                 "by %s pct of the only sub-1.0 instrument %s; that same instrument reaches %d of "
+                 "%d rows on their own polarity; %d of %d E285 references sit above the floor"
+                 % ((_f90 or {}).get("verdict"),
+                    (_f90 or {}).get("summary", {}).get("n_below_floor_rows") or 0,
+                    _r77(_f90, "floor"),
+                    __import__("json").dumps(
+                        ((_f90 or {}).get("summary", {}).get("nearest_below_floor") or {})
+                        .get("pct_short")),
+                    __import__("json").dumps(
+                        ((_f90 or {}).get("summary", {}).get("farthest_below_floor") or {})
+                        .get("pct_short")),
+                    _r77(_f90, "narrowing_cap"),
+                    ((_f90 or {}).get("cost") or {}).get(
+                        "rows_reached_by_the_narrowing_instrument") or 0,
+                    ((_f90 or {}).get("cost") or {}).get("rows_censused") or 0,
+                    ((_f90 or {}).get("summary", {}) or {}).get(
+                        "n_e285_rows_whose_reference_is_above_floor") or 0,
+                    len(_mr90)))
+    except Exception as e:
+        check(_name90, False, repr(e)[:160])
+
     return _finish()
 
 

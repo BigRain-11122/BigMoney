@@ -5852,3 +5852,32 @@ grew", "replay says when it had no window"), `scripts/e233_empirical_gamma.py` (
 `results/state_tilt/empirical_gamma_latest.json`, smoke legs E243/E233 (both extracted verbatim and
 executed standalone: PASS), digest
 `research/digests/DIGEST-20261031-r1316-e297-two-red-legs.md`.
+
+
+### E296 a below-floor flip needs the band NARROWED -- measure the mirror polarity before you quote "unreachable"
+
+The band family partitions its twelve flips against a published floor of 1.0 and a published ceiling
+of 2.2963. Everything above the ceiling is a WIDENING demand (the band must be scaled up); the two
+rows below the floor are the opposite object -- they need the band CONTRACTED, so an instrument
+that widens reaches them in the wrong direction. Two consequences are worth carrying as method.
+
+First, the yardstick must be published before the distance is quoted. E285 ships a per-row
+`distance_below_tight_lo_pct` column; its implied reference (flip / (1 - pct/100)) is 1.0283 and
+1.5815, i.e. both ABOVE the floor, so that column gauges a narrowing demand with a widening
+instrument and its two percentages (13.5 / 60.1) are not distances to the thing the rows need.
+Against the one sub-1.0 band-edge multiplier the family actually publishes (0.9220216, the
+counterfactual 5 pct band) the rows sit 3.67 pct and 46.26 pct short. A percentage is only a
+distance once its reference is on the page.
+
+Second, tightening has a price on the other polarity. Scored against all twelve rows on each row's
+own polarity, that same instrument reaches 0 -- it is far below every widening demand. So "one
+instrument fixes the floor class" is false in the arithmetic, not merely unevidenced: a row needs
+a multiplier at or above its flip on one side and at or below it on the other. Publish the two
+demand sets and the number of rows any candidate instrument reaches, or a reader who buys the
+narrowing band to fix two rows silently gives up twelve.
+
+Evidence: `scripts/e288_below_floor_narrowing.py` (selftest 19/19, `verify` 0 problems),
+`results/state_tilt/BANDFLOORMIRROR-2026-10-29.json` (+`bandfloormirror_latest.json`),
+`Tools/s6_chain_bmb.py` leg `below_floor_narrowing` (rc=0, 0.14s), smoke leg E288 (extracted
+verbatim out of `smoke_test.py` and executed standalone: PASS), digest
+`research/digests/DIGEST-20261031-r1317-e288-below-floor-mirror.md`.
