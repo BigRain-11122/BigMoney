@@ -4582,6 +4582,17 @@ def main() -> int:
                         _bad56.append("arm %r changed the engine's picks" % (_a56.get("arm"),))
             if not (_doc56.get("placebo") or {}).get("scale_series_preserved_all"):
                 _bad56.append("a control path did not carry the engine's own exposure multiset")
+            # r1197: the arms may only differ in one number, so the production arm must
+            # reproduce the engine's nav and hold the engine's names on every shared bar.
+            # Without this the "timing" could be measuring a slightly different book (it
+            # was: reading the engine's published 6dp scale back into the arm made the gap
+            # ~1e-7 on the real panel -- caught here, not by the fixture).
+            _id56 = _doc56.get("identity") or {}
+            if not _id56.get("passes"):
+                _bad56.append("identity gate failed (gap %r, pick drift %r)"
+                              % (_id56.get("gap"), _id56.get("pick_drift")))
+            if int(_id56.get("pick_drift") or 0) != 0:
+                _bad56.append("the production arm does not hold the engine's names")
         check("product: a de-levered book is told apart from a well-timed one", not _bad56,
               "; ".join(_bad56)[:220] or "verdict %s, timing %+.2fpp vs placebo [%+.2f, %+.2f]"
               % ((_doc56.get("verdict") or {}).get("state"),
@@ -4590,6 +4601,130 @@ def main() -> int:
                  (_doc56.get("verdict") or {}).get("placebo_p95_pp") or 0.0))
     except Exception as e:
         check("product: a de-levered book is told apart from a well-timed one", False,
+              repr(e)[:160])
+    # ---- r1197: the exposure-timing answer has to reach the face the CEO opens ----
+    # r1196 answered "is the de-lever timing or just a smaller book?" and filed it in a
+    # research note; the page -- the one face the CEO actually opens -- still told him the
+    # book shrinks without saying the shrinking buys no skill. Same wound as E311. This leg
+    # re-reads the published face and requires the page to print THAT verdict and THOSE
+    # numbers on the same pricing bar, so a stale page or a hand-typed number turns red.
+    try:
+        import importlib as _il57
+        _P57 = _il57.import_module("etf_book_exposure_timing")
+        _p57 = os.path.join(PATHS.results_dir, "etf_book_exposure_timing.json")
+        _bad57 = []
+        _pub57 = _P57.read_published(path=_p57)
+        if _pub57.get("status") != "ok":
+            _bad57.append("face does not read clean (%s)" % _pub57.get("status"))
+        else:
+            _ptr57p = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
+            _page57 = ""
+            if os.path.exists(_ptr57p):
+                with open(_ptr57p, encoding="utf-8") as _fh57:
+                    _page57 = os.path.join(PATHS.root, json.load(_fh57).get("page") or "")
+            if not _page57 or not os.path.exists(_page57):
+                _bad57.append("no page the latest.json pointer names")
+            else:
+                with open(_page57, encoding="utf-8") as _fh57:
+                    _md57 = _fh57.read()
+                _json57p = os.path.splitext(_page57)[0] + ".json"
+                _priced57 = None
+                if os.path.exists(_json57p):
+                    with open(_json57p, encoding="utf-8") as _fh57:
+                        _pj57 = json.load(_fh57)
+                    _priced57 = ((_pj57.get("priced_faces") or {}).get("page")
+                                 or _pj57.get("evidence_cutoff"))
+                if _priced57 != _pub57.get("evidence_cutoff"):
+                    _bad57.append("page priced on %s but the exposure face is %s (stale page)"
+                                  % (_priced57, _pub57.get("evidence_cutoff")))
+                if "仓位不是一直满的" not in _md57:
+                    _bad57.append("page carries no exposure-timing section")
+                else:
+                    _v57 = _pub57.get("verdict") or {}
+                    _a57 = _pub57.get("arms") or {}
+                    _want57 = [str(_v57.get("state")),
+                               "%+.2fpp" % (_v57.get("timing_pp") or 0.0),
+                               "%.2f%%" % (100 * ((_a57.get("production") or {}).get("cagr")
+                                                  or 0.0)),
+                               "%.2f%%" % (100 * ((_a57.get("constant") or {}).get("cagr")
+                                                  or 0.0))]
+                    for _w57 in _want57:
+                        if _w57 not in _md57:
+                            _bad57.append("page does not print %r" % (_w57,))
+                    # the control is a matched-average book: if the page compared the
+                    # book against full exposure instead, every de-lever "reduces drawdown"
+                    if "同样的平均仓位" not in _md57:
+                        _bad57.append("page does not name the matched-average control")
+        check("product: the page tells a de-levered book from a well-timed one", not _bad57,
+              "; ".join(_bad57)[:220] or "page prints %s on the face's own pricing bar"
+              % ((_pub57.get("verdict") or {}).get("state"),))
+    except Exception as e:
+        check("product: the page tells a de-levered book from a well-timed one", False,
+              repr(e)[:160])
+    # ---- r1198: the cost assumption under every published number must be priced -----
+    # Every CAGR on every face is charged 10 bp a side, and r1195 measured the tape at
+    # 5.9 bp -- in a research note. The page kept silently carrying the assumption, the
+    # same wound as E311 twice over. This leg demands the page print the MEASURED cost,
+    # the three arms and the verdict from the published face, on the face's own cutoff,
+    # and that the face's control arm reproduced the published CAGR (otherwise the
+    # "conservative" claim compares two different books).
+    try:
+        import importlib as _il58
+        _P58 = _il58.import_module("etf_book_cost_tape")
+        _p58 = os.path.join(PATHS.results_dir, "etf_book_cost_tape.json")
+        _bad58 = []
+        _pub58 = _P58.read_published(path=_p58)
+        if _pub58.get("status") != "ok":
+            _bad58.append("face does not read clean (%s)" % _pub58.get("status"))
+        else:
+            if not (_pub58.get("control") or {}).get("passes"):
+                _bad58.append("control arm did not reproduce the published CAGR")
+            _ctl58 = _pub58.get("control") or {}
+            if _ctl58.get("engine_cagr") is not None and _ctl58.get("published_cagr") is not None:
+                if abs(float(_ctl58["engine_cagr"]) - float(_ctl58["published_cagr"])) * 100 \
+                        > float(_ctl58.get("tolerance_pp") or 0.0):
+                    _bad58.append("re-price at the assumed cost is %.2fpp away from the card"
+                                  % (100 * abs(float(_ctl58["engine_cagr"])
+                                               - float(_ctl58["published_cagr"]))))
+            _ptr58p = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
+            _page58 = ""
+            if os.path.exists(_ptr58p):
+                with open(_ptr58p, encoding="utf-8") as _fh58:
+                    _page58 = os.path.join(PATHS.root, json.load(_fh58).get("page") or "")
+            if not _page58 or not os.path.exists(_page58):
+                _bad58.append("no page the latest.json pointer names")
+            else:
+                with open(_page58, encoding="utf-8") as _fh58:
+                    _md58 = _fh58.read()
+                if "每一分钱按 10bp" not in _md58:
+                    _bad58.append("page carries no cost-tape section")
+                else:
+                    _a58 = _pub58.get("arms") or {}
+                    _want58 = ["%.1f bp" % (_pub58.get("measured_bp") or 0.0),
+                               "%.0f%%" % (100 * (_pub58.get("ratio_vs_assumed") or 0.0)),
+                               "%.2f%%" % (100 * ((_a58.get("measured") or {}).get("cagr")
+                                                  or 0.0)),
+                               "%.2f%%" % (100 * ((_a58.get("upper_p75") or {}).get("cagr")
+                                                  or 0.0))]
+                    for _w58 in _want58:
+                        if _w58 not in _md58:
+                            _bad58.append("page does not print %r" % (_w58,))
+                    # a ">" inside a markdown table splits the row without any error (r1193):
+                    # the page must carry the verdict with the pipe already replaced.
+                    _v58 = str(_pub58.get("verdict") or "")
+                    _v58_safe = " ".join(_v58.replace("|", "·").split())
+                    if "|" in _v58 and _v58_safe not in " ".join(_md58.split()):
+                        _bad58.append("page does not print the verdict in table-safe form")
+                    if "控制臂" not in _md58:
+                        _bad58.append("page does not name the control arm")
+        check("product: the page prices the cost assumption under every number",
+              not _bad58,
+              "; ".join(_bad58)[:220]
+              or "page prints the measured %.1f bp vs the card's %.0f bp (verdict %s)"
+              % ((_pub58.get("measured_bp") or 0.0), (_pub58.get("assumed_bp") or 0.0),
+                 _pub58.get("verdict")))
+    except Exception as e:
+        check("product: the page prices the cost assumption under every number", False,
               repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:

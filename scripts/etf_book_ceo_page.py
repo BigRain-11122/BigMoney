@@ -37,6 +37,8 @@ LEGS_JSON = os.path.join(ROOT, "results", "etf_book_legs", "latest.json")
 CONC_JSON = os.path.join(ROOT, "results", "etf_book_concentration.json")
 SLEEVE_JSON = os.path.join(ROOT, "results", "etf_book_sleeve_gate.json")
 PATHS_JSON = os.path.join(ROOT, "results", "etf_book_sleeve_paths.json")
+EXPOSURE_JSON = os.path.join(ROOT, "results", "etf_book_exposure_timing.json")
+COST_JSON = os.path.join(ROOT, "results", "etf_book_cost_tape.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -270,6 +272,55 @@ def sleeve_paths_face(path=PATHS_JSON):
         return _SP.read_published(path=path)
     except Exception as exc:                                    # noqa: BLE001
         return {"status": "unreadable", "artifact": path,
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def exposure_timing_face(path=EXPOSURE_JSON):
+    """The book's own de-levering: is it timing, or just a smaller book? (r1197)
+
+    The page tells the reader the book is not always fully invested, and the reader's
+    question is whether shrinking before bad stretches is a skill the record is paid for.
+    r1196 measured exactly that (production vs a constant book at the same average
+    exposure, against 20 permutations of the rule's own scale series) but it only reached
+    a research file -- E311's old wound. Single implementation: the arms, the band and the
+    verdict come from `etf_book_exposure_timing.read_published()`. Absent, unreadable or a
+    failed identity gate reads as "cannot verify here", never as "the timing works"."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_exposure_timing as _ET
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "sentence": None,
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        return _ET.read_published(path=path)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "sentence": None,
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def cost_tape_face(path=COST_JSON):
+    """Every published number charges 10 bp a side. Is that assumption true? (r1198)
+
+    r1195 measured the tape and filed it in a research note; the page -- the face the CEO
+    opens -- still silently carried the assumption. Same wound as E311, twice in a row.
+    Single implementation: the measured cost, the three arms and the verdict come from
+    `etf_book_cost_tape.read_published()`. Absent, unreadable or a control arm that does
+    not reproduce the published CAGR reads as "cannot verify here", never as "the card is
+    conservative"."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_cost_tape as _CT
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "sentence": None,
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        return _CT.read_published(path=path)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "sentence": None,
                 "detail": "reading failed (%s)" % str(exc)[:120]}
 
 
@@ -1174,6 +1225,8 @@ def build(with_stress=False):
     page["concentration"] = concentration_face()
     page["sleeve_gate"] = sleeve_gate_face()
     page["sleeve_paths"] = sleeve_paths_face()
+    page["exposure_timing"] = exposure_timing_face()
+    page["cost_tape"] = cost_tape_face()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
     return page, today
 
@@ -1751,6 +1804,128 @@ def render_md(p):
         add("> 网格重测面：`%s`（计算截止 %s）。"
             % (_rel(sp.get("artifact") or PATHS_JSON, ROOT).replace(os.sep, "/"),
                sp.get("evidence_cutoff") or "无"))
+        add("")
+    et = p.get("exposure_timing") or {}
+    add("## 仓位不是一直满的：这是本事，还是只是把书变小了")
+    add("")
+    if et.get("status") != "ok":
+        add("这一节没有数：仓位面%s（`%s`）。"
+            "缺面、读不出、或身份门没过（生产臂复现不出引擎自己的净值）就写「无法核验」，"
+            "绝不默认读成「择时有效」。"
+            % ({"absent": "未产出", "no_identity": "未通过身份门"}.get(et.get("status"), "读不出"),
+               _rel(et.get("artifact") or EXPOSURE_JSON, ROOT).replace(os.sep, "/")))
+        add("")
+    else:
+        arms_e = et.get("arms") or {}
+        v_e = et.get("verdict") or {}
+        pl_e = et.get("placebo") or {}
+        ex_e = et.get("exposure") or {}
+        prod_e = arms_e.get("production") or {}
+        full_e = arms_e.get("full") or {}
+        const_e = arms_e.get("constant") or {}
+        _lab = {"production": "生产（8% 波动率目标，引擎自己的缩放）",
+                "full": "满仓（暴露恒 1.0）",
+                "constant": "对照（按本书自己的平均暴露 %.0f%%，天天持平）"
+                % (100 * (const_e.get("mean_exposure") or 0.0))}
+        add("这本书并不是一直满仓：**%.1f%%** 的决策日把仓位缩了下去，平均暴露 **%.1f%%**。"
+            "问题不是「缩仓好不好」，而是「缩仓省下来的风险，是不是靠看准了时间换来的」——"
+            "如果只是把书按比例变小，那么收益少、波动也小，这篇纸面上看起来一样漂亮，但一分本事都没有。"
+            % (100 * (ex_e.get("delevered_decision_share") or 0.0),
+               100 * (ex_e.get("mean_engine_scale") or 0.0)))
+        add("")
+        add("| 臂 | 年化 | 夏普 | 最大回撤 | 平均暴露 |")
+        add("|---|---|---|---|---|")
+        for k in ("production", "full", "constant"):
+            a_e = arms_e.get(k) or {}
+            add("| %s | %.2f%% | %.3f | %.2f%% | %.1f%% |"
+                % (_lab[k], 100 * (a_e.get("cagr") or 0.0), a_e.get("sharpe") or 0.0,
+                   100 * (a_e.get("maxdd") or 0.0),
+                   100 * (a_e.get("mean_exposure") or 0.0)))
+        add("")
+        _st = str(v_e.get("state") or "—")
+        _zh_st = {"AVERAGE_EXPOSURE_ONLY": "**AVERAGE_EXPOSURE_ONLY**——缩仓不是本事，是少承担风险",
+                  "TIMING_ADDS": "**TIMING_ADDS**——同样的平均仓位下，这条缩仓路径确实跑赢了随机的",
+                  "TIMING_SUBTRACTS": "**TIMING_SUBTRACTS**——同样的平均仓位下，这条缩仓路径还不如随机的",
+                  "INCOMPLETE": "**INCOMPLETE**——臂不齐，判不了"}.get(_st, _st)
+        add("- 生产 **%.2f%%** vs 对照 **%.2f%%**：在同样的平均仓位下，这条缩仓路径值 **%+.2fpp/年**，"
+            "落在 %d 条安慰剂路径的 **%+.2f ~ %+.2fpp** 区间里 → 判词 %s。"
+            "（安慰剂＝把引擎自己的缩放序列在它自己的决策日之间打乱：暴露分布一模一样，"
+            "「哪天缩、哪天放」的信息被清零。）"
+            % (100 * (prod_e.get("cagr") or 0.0), 100 * (const_e.get("cagr") or 0.0),
+               v_e.get("timing_pp") or 0.0, pl_e.get("n") or 0,
+               v_e.get("placebo_p05_pp") or 0.0, v_e.get("placebo_p95_pp") or 0.0, _zh_st))
+        add("- 对照 vs 满仓：**%+.2fpp/年**——这才是这条覆盖律真正买到的东西："
+            "一本更小的书、更浅的回撤（满仓 %.2f%% → 对照 %.2f%%），少赚的记在收益上。"
+            % (v_e.get("de_risking_pp") or 0.0, 100 * (full_e.get("maxdd") or 0.0),
+               100 * (const_e.get("maxdd") or 0.0)))
+        add("- 读法：要判断「缩仓有没有本事」，唯一诚实的对照是**同一本书、同样的平均仓位**，"
+            "而不是和满仓比——和满仓比，任何减仓都会「看起来减少了回撤」。")
+        add("")
+        add("> 仓位面：`%s`（计价截止 %s，%s bars / %s 决策；身份门与引擎净值误差 %s）。"
+            % (_rel(et.get("artifact") or EXPOSURE_JSON, ROOT).replace(os.sep, "/"),
+               et.get("evidence_cutoff") or "—", et.get("bars") or "—",
+               et.get("decisions") or "—",
+               "%.1e" % ((et.get("identity") or {}).get("gap") or 0.0)))
+        add("")
+    ct = p.get("cost_tape") or {}
+    add("## 「每一分钱按 10bp 扣」——这个假设是该收紧，还是本来就更保守")
+    add("")
+    if ct.get("status") != "ok":
+        add("这一节没有数：盘口面%s（`%s`）。"
+            "缺面、读不出、或控制臂没能复现卡片自己的年化（那就不是同一本书）就写「无法核验」，"
+            "绝不默认读成「卡片是保守的」。"
+            % ({"absent": "未产出", "no_control": "未通过控制臂"}.get(ct.get("status"), "读不出"),
+               _rel(ct.get("artifact") or COST_JSON, ROOT).replace(os.sep, "/")))
+        add("")
+    else:
+        arms_c = ct.get("arms") or {}
+        tp_c = ct.get("tape") or {}
+        _lab_c = {"assumed_10bp": "卡片假设（每边 %.0f bp）" % (ct.get("assumed_bp") or 0.0),
+                  "measured": "盘口实测（按本书自己的换手加权）",
+                  "upper_p75": "悲观臂（每只票都按自己的 75 分位）"}
+        add("这本书的每一次买卖都按每边 **%.0f bp** 扣钱——**所有已发布的年化都踩在这个数上**。"
+            "如果真实价差是它的三倍，整面结论都该重写，所以这个假设本身就是个被测量的对象："
+            "拿每只票自己的日高低价去估有效价差（滚动 20 日中位，**滞后一根 bar**，"
+            "决策看不到次日），再按本书自己的换手加权，得到实测单边成本 **%.1f bp**——"
+            "是假设的 **%.0f%%**。"
+            % (ct.get("assumed_bp") or 0.0, ct.get("measured_bp") or 0.0,
+               100 * (ct.get("ratio_vs_assumed") or 0.0)))
+        add("")
+        add("| 成本口径 | 年化 | 夏普 | 最大回撤 |")
+        add("|---|---|---|---|")
+        for _k in ("assumed_10bp", "measured", "upper_p75"):
+            a_c = arms_c.get(_k) or {}
+            add("| %s | %.2f%% | %.3f | %.2f%% |"
+                % (_lab_c[_k], 100 * (a_c.get("cagr") or 0.0), a_c.get("sharpe") or 0.0,
+                   100 * (a_c.get("maxdd") or 0.0)))
+        add("")
+        add("- 判词：**%s**——卡片收的比盘口贵，所以纸上那个年化是**偏保守**的；"
+            "换成实测成本同一台引擎是 **%.2f%% / 夏普 %.2f**，"
+            "就算每只票都按自己历史上最宽的 75 分位算也还有 **%.2f%% / %.2f**。"
+            % (" ".join(str(ct.get("verdict") or "—").replace("|", "·").split()),
+               100 * ((arms_c.get("measured") or {}).get("cagr") or 0.0),
+               (arms_c.get("measured") or {}).get("sharpe") or 0.0,
+               100 * ((arms_c.get("upper_p75") or {}).get("cagr") or 0.0),
+               (arms_c.get("upper_p75") or {}).get("sharpe") or 0.0))
+        add("- **控制臂**：同一台引擎按卡片的 10bp 重跑必须复现卡片自己的年化（%.2f%% vs %.2f%%，"
+            "容差 %.1fpp，%s）——所以这是测量，不是断言；若复现不出，这一节整段写「无法核验」。"
+            % (100 * ((ct.get("control") or {}).get("engine_cagr") or 0.0),
+               100 * ((ct.get("control") or {}).get("published_cagr") or 0.0),
+               (ct.get("control") or {}).get("tolerance_pp") or 0.0,
+               "通过" if (ct.get("control") or {}).get("passes") else "未通过"))
+        add("- 盘口：本书真正交易过的 **%s** 只票有估值，中位相对价差 **%.1f bp**，"
+            "最宽的一只 %s 是 **%.1f bp**；%s/%s 个决策日全部可定价。"
+            % (tp_c.get("n_traded_names") or "—", tp_c.get("median_name_p50_bp") or 0.0,
+               ((tp_c.get("widest_traded") or [{}])[0]).get("symbol") or "—",
+               ((tp_c.get("widest_traded") or [{}])[0]).get("p50_bp") or 0.0,
+               (ct.get("decisions") or {}).get("priced") or "—",
+               ((ct.get("decisions") or {}).get("priced") or 0)
+               + ((ct.get("decisions") or {}).get("dropped_low_coverage") or 0)))
+        add("- 诚实缺口：这里估的是**半边价差**，冲击成本没计；也就是说这张盘口是成本的地板不是天花板。")
+        add("")
+        add("> 盘口面：`%s`（计价截止 %s）。"
+            % (_rel(ct.get("artifact") or COST_JSON, ROOT).replace(os.sep, "/"),
+               ct.get("evidence_cutoff") or "—"))
         add("")
     add("## 换成年内能赚多少钱（按本单资金 ¥%s）" % format(p["money_cny"]["capital_cny"], ",.0f"))
     add("")
@@ -2515,6 +2690,84 @@ def selftest():
         "无法核验" in _md_sg_gone and "无法核验" in _md_sg_broken
         and "| 门 |" not in _md_sg_gone and "| 门 |" not in _md_sg_broken
         and "20/83" not in _md_sg_gone and "20/83" not in _md_sg_broken, "")
+
+    # L70-L72 (r1197): r1196 proved the vol overlay is average exposure, not timing -- and
+    # filed it in a research note. The page is what the CEO opens, and it was still telling
+    # him the book shrinks with no hint that shrinking buys no skill. The page must quote
+    # the reader (never re-derive), name the matched-average control instead of comparing
+    # against a full book (any de-lever "reduces drawdown" against full), and print nothing
+    # at all when the artifact is missing or its identity gate failed.
+    def _render_et(et):
+        _p, _ = build(with_stress=False)
+        _p["exposure_timing"] = et
+        return render_md(_p)
+
+    _et_ok = {"status": "ok", "artifact": EXPOSURE_JSON, "evidence_cutoff": "2026-10-30",
+              "bars": 1653, "decisions": 83,
+              "identity": {"gap": 0.0, "tol": 1e-12},
+              "exposure": {"mean_engine_scale": 0.7073, "delevered_decision_share": 0.879},
+              "arms": {"production": {"cagr": 0.0912, "sharpe": 0.955, "maxdd": -0.1326,
+                                      "mean_exposure": 0.7073},
+                       "full": {"cagr": 0.1321, "sharpe": 0.921, "maxdd": -0.1629,
+                                "mean_exposure": 1.0},
+                       "constant": {"cagr": 0.1003, "sharpe": 0.974, "maxdd": -0.1154,
+                                    "mean_exposure": 0.7073}},
+              "placebo": {"n": 20, "cagr_mean": 0.098},
+              "verdict": {"state": "AVERAGE_EXPOSURE_ONLY", "timing_pp": -0.91,
+                          "placebo_p05_pp": -1.9, "placebo_p95_pp": 0.88,
+                          "de_risking_pp": -3.18},
+              "sentence": "production 9.12% vs a constant book 10.03%"}
+    _md_et = _render_et(_et_ok)
+    chk("L70 exposure timing: the reader's own numbers reach the page",
+        all(s in _md_et for s in ("9.12%", "10.03%", "-0.91pp", "-1.90", "+0.88pp",
+                                  "20 条安慰剂", "AVERAGE_EXPOSURE_ONLY", "87.9%", "70.7%")),
+        "")
+    chk("L71 exposure timing: the control is a matched-average book, and the cost of "
+        "de-risking is printed",
+        "同样的平均仓位" in _md_et and "-3.18pp" in _md_et
+        and "和满仓比" in _md_et and "-0.1629" not in _md_et, "")
+    _md_et_gone = _render_et({"status": "absent", "artifact": EXPOSURE_JSON, "sentence": None})
+    _md_et_broken = _render_et({"status": "no_identity", "artifact": EXPOSURE_JSON,
+                                "sentence": None})
+    chk("L72 exposure timing: absent or a failed identity gate reads 'cannot verify' "
+        "and prints no arithmetic",
+        "无法核验" in _md_et_gone and "无法核验" in _md_et_broken
+        and "9.12%" not in _md_et_gone and "9.12%" not in _md_et_broken
+        and "AVERAGE_EXPOSURE_ONLY" not in _md_et_gone
+        and "AVERAGE_EXPOSURE_ONLY" not in _md_et_broken, "")
+
+    # r1198: the cost assumption under every published number -----------------------
+    def _render_ct(ct):
+        _p, _ = build(with_stress=False)
+        _p["cost_tape"] = ct
+        return render_md(_p)
+    _ct_ok = {"status": "ok", "artifact": COST_JSON, "evidence_cutoff": "2026-10-30",
+              "verdict": "CONSERVATIVE | SURVIVES", "assumed_bp": 10.0, "measured_bp": 5.9,
+              "ratio_vs_assumed": 0.589,
+              "arms": {"assumed_10bp": {"cagr": 0.096, "sharpe": 0.99, "maxdd": -0.1177},
+                       "measured": {"cagr": 0.1011, "sharpe": 1.037, "maxdd": -0.1137},
+                       "upper_p75": {"cagr": 0.0972, "sharpe": 1.001, "maxdd": -0.1168}},
+              "tape": {"n_traded_names": 189, "median_name_p50_bp": 13.2,
+                       "widest_traded": [{"symbol": "159967", "p50_bp": 31.5}]},
+              "control": {"passes": True, "engine_cagr": 0.096, "published_cagr": 0.096,
+                          "tolerance_pp": 0.5},
+              "decisions": {"priced": 83, "dropped_low_coverage": 0}}
+    _md_ct = _render_ct(_ct_ok)
+    chk("L73 cost tape: the measured cost, all three arms and the verdict reach the page",
+        all(s in _md_ct for s in ("5.9 bp", "59%", "10.11%", "9.72%", "9.60%",
+                                  "CONSERVATIVE · SURVIVES", "189", "159967")), "")
+    chk("L74 cost tape: the control arm is named, and the pipe in the verdict never "
+        "reaches a table cell",
+        "控制臂" in _md_ct and "CONSERVATIVE | SURVIVES" not in _md_ct,
+        "a raw '|' in a cell silently splits the markdown row (r1193)")
+    _md_ct_gone = _render_ct({"status": "absent", "artifact": COST_JSON, "sentence": None})
+    _md_ct_bad = _render_ct({"status": "no_control", "artifact": COST_JSON,
+                             "sentence": None})
+    chk("L75 cost tape: absent or a failed control arm reads 'cannot verify' and prints "
+        "no arithmetic",
+        "无法核验" in _md_ct_gone and "无法核验" in _md_ct_bad
+        and "5.9 bp" not in _md_ct_gone and "5.9 bp" not in _md_ct_bad
+        and "CONSERVATIVE" not in _md_ct_gone and "CONSERVATIVE" not in _md_ct_bad, "")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

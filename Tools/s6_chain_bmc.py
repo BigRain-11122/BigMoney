@@ -435,6 +435,12 @@ LEGS = [
     # have did not exist. docs/live_book/<date>.md is a pure mirror (order, money split,
     # forward nav, backtest band, next rebalance) with zero new judgement; single writer
     # = bm-a, other hosts print an honest no-op. <1s, no network.
+    # r1198: the 10 bp per side that every published number rests on is itself a measured
+    # quantity, and until this leg it had no scheduled producer -- the page would have
+    # quoted a stale tape (or the assumption) with nobody noticing. Runs BEFORE the page,
+    # which formats it (r1318 ordering law).
+    ("etf_book_cost_tape", ["python", "scripts/etf_book_cost_tape.py", "--check"],
+     ["python", "scripts/etf_book_cost_tape.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1150: the four-tier ticket menu is the same book sold at four betas, and it
     # lived a full round with no scheduled producer -- the r1290 two-face class. bm-a

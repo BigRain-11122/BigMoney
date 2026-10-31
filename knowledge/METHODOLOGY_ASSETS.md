@@ -7695,3 +7695,60 @@ control is the same book at the same average size, and a permutation of the rule
 the placebo that separates "timing" from "less risk"; (b) an arm that replaces one number must be
 built on the engine's own state machine with an identity arm that reproduces the engine's nav bit
 for bit -- otherwise the comparison is between two books, not between two exposures.
+
+### E316 An identity arm that reads back the engine's *published* number is measuring the publication (r1197)
+
+The exposure-timing face (scripts/etf_book_exposure_timing.py) builds its arms on the engine's own
+state machine and hands scale_fn the scale for that decision. The first version read it off
+last_decision["scale"] -- the value the engine *publishes*, rounded to 6 decimals. On the fixture the
+identity arm reproduced the engine exactly (gap 0.00e+00); on the real panel it was off by
+**1.29e-07** of nav. Small, invisible in every printed number, and wrong: the "identity" arm held
+marginally different weights, so every other arm was being compared against a book that was not the
+book. The 6dp publication is part of the *reporting* surface, not the *decision* surface; feeding it
+back is a round trip through a lossy channel.
+
+Fix: the subclass mirrors the decision (selection -> base weights -> P.scale_for -> scale_fn) so
+the identity arm consumes the same unrounded scale the engine did, and gap becomes exactly 0.0 on the
+real panel. Two reusable moves:
+
+- **(a) The artifact publishes its own identity evidence.** 
+un() re-runs the untouched engine and
+  writes identity = {gap, tol, passes, pick_drift}; 
+ead_published() refuses to hand back arms when
+  passes is false, so the page reads "cannot verify" instead of quoting a verdict off an unverified
+  book. A selftest-only identity leg cannot do this: the fixture is where the bug hides.
+- **(b) A structurally-zero counter cannot testify.** selection_drift counts "the arm changed the
+  engine's picks", but every arm derives picks from the same rule, so it is 0 by construction and a
+  smoke leg asserting it guards nothing. The real check is a cross-book comparison -- pick_drift
+  counts bars where the two books hold different names -- and that is what the gate asserts.
+
+Live: gap 0.00e+00, pick_drift 0, verdict unchanged (AVERAGE_EXPOSURE_ONLY, -0.91pp), published
+reading identical to r1196 -- i.e. the defect was in the *witness*, not in the finding, which is the
+cheapest possible place to find it.
+
+### E317 A measurement with no scheduled producer goes stale in silence, and a reader must carry the control (r1198)
+
+r1195 measured the cost assumption that sits under *every* published number (10 bp per side; the real
+tape says 5.9 bp) and filed it in a research note. Twelve hours later the card, the ticket and the CEO
+page were still quoting 10 bp -- not as a mistake, but because the face had **no producer on the
+chain**: nothing would ever re-price it, and nothing would notice if the panel moved. This is the
+r1290 two-face class one layer down: a face with no scheduled producer is indistinguishable from a
+face that agrees.
+
+Two moves, both cheap:
+
+- **(a) An assumption that enters every published number is a measurement target, and it belongs on
+  the chain ahead of its readers.** `etf_book_cost_tape` now runs (check + run) immediately before
+  `etf_book_ceo_page`, and the page formats it through `read_published()` -- one reader, no second
+  implementation (r1290/r1371 family).
+- **(b) The reader carries the control, not just the numbers.** The artifact's control arm re-prices
+  the same engine *at the assumption* and must reproduce the published CAGR (0.5pp tolerance). If it
+  does not, the face is a different book and `read_published()` returns `no_control` with no sentence,
+  so the page prints "cannot verify" rather than "the card is conservative". Without that gate the
+  claim "our headline is conservative" is unfalsifiable: any mis-specified re-price would still be
+  read as evidence about the cost.
+
+Third, smaller: a verdict string containing `|` ("CONSERVATIVE | SURVIVES") is a markdown table
+column separator. The page collapses it to `CONSERVATIVE · SURVIVES` and the smoke leg compares
+whitespace-normalised, because a raw pipe splits the row *silently* -- the table renders, the number
+reads, and it is no longer a table (r1193 recurrence, now pinned at the reader-facing form).

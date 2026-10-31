@@ -315,6 +315,74 @@ def sentence(p):
                "survives" if p["survives_verdict"] == "SURVIVES" else "does not survive"))
 
 
+def read_published(path=None):
+    """Consumer entry point: the measured cost, or an honest gap (r1198).
+
+    The card, the ticket and the CEO page all restate "every side costs 10 bp", and until
+    r1195 nobody had measured it. They must not each re-open the artifact and re-decide
+    what it says (E289 family), so the read travels through this one function.
+
+    The control arm travels with the read: a face whose re-price at the assumed cost does
+    not reproduce the published CAGR is not evidence about the cost assumption -- it is a
+    different book -- so it reads as `no_control` and callers print no numbers at all.
+    """
+    p = path or OUT_JSON
+    if not os.path.exists(p):
+        return {"status": "absent", "artifact": str(p), "verdict": None,
+                "sentence": None, "evidence_cutoff": None}
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except Exception as exc:                                        # noqa: BLE001
+        return {"status": "unreadable: %s" % str(exc)[:120], "artifact": str(p),
+                "verdict": None, "sentence": None, "evidence_cutoff": None}
+    ctl = doc.get("control") or {}
+    if not ctl.get("passes"):
+        return {"status": "no_control", "artifact": str(p),
+                "verdict": doc.get("verdict"), "sentence": None, "evidence_cutoff": None,
+                "detail": "re-price at %.0f bp gave %r vs published %r (tolerance %r pp)"
+                          % (float((doc.get("criteria") or {}).get("assumed_cost_bp") or 0.0),
+                             ctl.get("engine_cagr_at_10bp"), ctl.get("published_cagr"),
+                             ctl.get("tolerance_pp"))}
+    arms = doc.get("arms") or {}
+    bk = doc.get("book") or {}
+    tape = doc.get("tape") or {}
+    crit = doc.get("criteria") or {}
+
+    def _arm(k):
+        a = arms.get(k) or {}
+        return {"cagr": a.get("cagr"), "sharpe": a.get("sharpe"), "maxdd": a.get("maxdd"),
+                "vol": a.get("vol"), "worst_month": a.get("worst_month"),
+                "worst_year": a.get("worst_year")}
+
+    return {
+        "status": "ok",
+        "artifact": str(p),
+        "evidence_cutoff": doc.get("evidence_cutoff"),
+        "verdict": doc.get("verdict"),
+        "assumption_verdict": doc.get("assumption_verdict"),
+        "survives_verdict": doc.get("survives_verdict"),
+        "sentence": doc.get("sentence"),
+        "assumed_bp": crit.get("assumed_cost_bp"),
+        "measured_bp": bk.get("equivalent_cost_bp"),
+        "upper_p75_bp": bk.get("upper_scalar_bp"),
+        "ratio_vs_assumed": bk.get("ratio_vs_assumed"),
+        "turnover_total": bk.get("turnover_total"),
+        "arms": {k: _arm(k) for k in ("assumed_10bp", "measured", "upper_p75")},
+        "tape": {"n_traded_names": tape.get("n_traded_names"),
+                 "median_name_p50_bp": tape.get("median_name_p50_bp"),
+                 "median_name_p75_bp": tape.get("median_name_p75_bp"),
+                 "widest_traded": (tape.get("widest_traded") or [])[:3]},
+        "control": {"passes": ctl.get("passes"),
+                    "engine_cagr": ctl.get("engine_cagr_at_10bp"),
+                    "published_cagr": ctl.get("published_cagr"),
+                    "tolerance_pp": ctl.get("tolerance_pp")},
+        "decisions": {"priced": (doc.get("decisions") or {}).get("priced"),
+                      "dropped_low_coverage":
+                          (doc.get("decisions") or {}).get("dropped_low_coverage")},
+    }
+
+
 def write_json(payload, path):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = path + ".tmp"
@@ -430,6 +498,37 @@ def selftest():
     s = sentence(payload)
     leg("the sentence quotes the arms it came from",
         "12.0 bp" in s and "8.0% CAGR" in s and "percentile: 6.0%" in s, s[-60:])
+
+    # r1198: the consumer read. Three faces restate the 10 bp assumption and they must all
+    # get the same answer from one place; a control that does not reproduce the published
+    # CAGR must read as "no evidence", never as "the card is conservative".
+    import tempfile
+    absent = read_published(os.path.join(tempfile.gettempdir(), "ct_absent_r1198.json"))
+    leg("absent artifact reads absent, never 'free'",
+        absent["status"] == "absent" and absent["verdict"] is None and absent["sentence"] is None)
+
+    good = {"control": {"passes": True}, "evidence_cutoff": "2026-10-30",
+            "criteria": {"assumed_cost_bp": 10.0}, "assumption_verdict": "CONSERVATIVE",
+            "survives_verdict": "SURVIVES", "verdict": "CONSERVATIVE | SURVIVES",
+            "sentence": "measured 5.9 bp", "arms": {"measured": {"cagr": 0.1}},
+            "book": {"equivalent_cost_bp": 5.9}, "tape": {}, "decisions": {}}
+    bad_ctl = dict(good, control={"passes": False, "engine_cagr_at_10bp": 0.12,
+                                  "published_cagr": 0.096, "tolerance_pp": 0.5})
+    tmpdir = tempfile.mkdtemp(prefix="ct_r1198_")
+    p_good = os.path.join(tmpdir, "ok.json")
+    p_bad = os.path.join(tmpdir, "bad.json")
+    with open(p_good, "w", encoding="utf-8") as fh:
+        json.dump(good, fh)
+    with open(p_bad, "w", encoding="utf-8") as fh:
+        json.dump(bad_ctl, fh)
+    r_good = read_published(p_good)
+    r_bad = read_published(p_bad)
+    leg("a clean artifact hands back the published cost and verdict",
+        r_good["status"] == "ok" and r_good["measured_bp"] == 5.9
+        and r_good["verdict"] == "CONSERVATIVE | SURVIVES")
+    leg("a face whose control re-price misses the published CAGR reads no_control and carries no sentence",
+        r_bad["status"] == "no_control" and r_bad["sentence"] is None,
+        "control would have claimed 12.0% vs published 9.6%")
 
     ok = all(l["pass"] for l in legs)
     print(json.dumps({"selftest": "PASS" if ok else "FAIL", "legs": legs}, ensure_ascii=False, indent=1))
