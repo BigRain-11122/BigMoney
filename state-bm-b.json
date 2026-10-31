@@ -3060,6 +3060,17 @@
    "quantity_published_on_the_face": 0,
    "attributable_magnitudes": 0,
    "s6_legs_ok": "4/4"
+  },
+  "delivery": {
+   "branch": "machine/bm-b-r1334",
+   "pushed_sha": "b90715171493545830127aeadb55147f2710f57c",
+   "remote_ref_sha": "b90715171493545830127aeadb55147f2710f57c",
+   "verified": true,
+   "local_not_on_origin_main": 125,
+   "behind_origin_main": 204,
+   "main_push_blocker": "the local main has diverged from origin/main for many rounds (promisor lazy fetch wedges before negotiation, r1255 family); main push not attempted, no unattended rebase per r1243",
+   "ts": "2026-10-31T20:13:00+08:00",
+   "note": "12 files staged (producer, both faces, digest, methodology card, two wiring files, the pool, state, heartbeat, round report, orphan probe face); the ~620 dirty tracked files left by collectors and prior windows were not swept in. First commit rewrote five files end-to-end (text-mode writes on Windows emit CRLF into LF blobs); normalised back to each file's own blob convention and amended, so the final diff is 39 lines on the card and 29/2 on the pool instead of 6,437/6,398 and 25,811/25,784"
   }
  },
  "notes_r1334": "| 2026-10-31T20:10:05+08:00 | r1334 | **watermark: pool-batch red at open (E315 ready, py idle) -- burned the ready head E315 in-round** | E315 leg epsilon vs flat regime published: 4 of 5 quantity-dependent legs demand exact equality so the gate is looser at every published magnitude, and the fifth crosses at 5e-07 units of session_open. **CURRENT:** E315 done. **LATEST PHYSICAL:** results/state_tilt/LEGEPS-2026-10-31.json. **NEXT MILESTONE:** E316 gate print requirements (ready, runner not written; due next round, within 48h). **PRODUCT:** neither face carries the quantity its gate is rated in, so the two-regime arithmetic cannot be exercised by any reader of either face."
