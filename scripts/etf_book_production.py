@@ -981,6 +981,8 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
             "would trade names the book never held." % rebal,
         ],
         "preperiod": preperiod_support(),
+        "concentration": concentration_support(),
+        "sleeve_gate": sleeve_gate_support(),
         "commodity": commodity_support(),
         "passive_mix": passive_mix_support(),
         "window_decomp": decomp_support(),
@@ -1069,6 +1071,131 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
     write_card(out)
     print(json.dumps(sheet, ensure_ascii=False, indent=1))
     return out
+
+
+def concentration_support():
+    """Whose CAGR is this? The card quotes the published reading (r1192).
+
+    Through `etf_book_concentration.reading()` -- the same single implementation the ticket
+    (r1190) and the CEO page (r1191) consume -- so the three faces can only disagree by
+    pricing different days, never by formatting the same document twice."""
+    try:
+        import etf_book_concentration as _C
+    except Exception as exc:                                      # noqa: BLE001
+        return {"status": "unreadable", "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        return _C.reading()
+    except Exception as exc:                                      # noqa: BLE001
+        return {"status": "unreadable", "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def sleeve_gate_support():
+    """Does the commodity sleeve need a risk gate of its own? (r1192)
+
+    Soft-fails to None: the card keeps working without the experiment's artifact, it just
+    says so. It never prints a gate verdict it did not read."""
+    try:
+        import etf_book_sleeve_gate as _G
+    except Exception as exc:                                      # noqa: BLE001
+        return {"status": "unreadable", "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        return _G.read_published()
+    except Exception as exc:                                      # noqa: BLE001
+        return {"status": "unreadable", "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def concentration_paragraphs(cc):
+    """Whose CAGR this card is quoting, from the concentration face's own numbers."""
+    if not cc or cc.get("status") != "ok":
+        return ["Cannot verify here: %s. The card will not imply a broad book from a face it "
+                "cannot read." % ((cc or {}).get("status") or "absent"), ""]
+    top = cc.get("top") or []
+    base = cc.get("baseline") or {}
+    lk = cc.get("top_k_out") or {}
+    veh = cc.get("sleeve") or {}
+    lead = ", ".join("%s %s %.1f%%" % (t.get("symbol"), t.get("name") or "", 100 * (t.get("share") or 0))
+                     for t in top[:3])
+    parts = ["The top three contributors are %s of a %s%%/yr book (their share of the gross "
+             "return sum is %.1f%%, HHI %.2f across %s names held)."
+             % (lead or "unknown", "%.1f" % (100 * base.get("cagr")) if base.get("cagr") is not None else "?",
+                100 * (cc.get("top3_share") or 0), cc.get("hhi") or 0, cc.get("distinct_names"))]
+    if lk.get("delta_cagr_pp") is not None:
+        parts.append("Delete those %s names from the universe and the book's CAGR drops %.2fpp "
+                     "against this card, so the ranking is not only those names."
+                     % (lk.get("k"), abs(lk["delta_cagr_pp"])))
+    if veh.get("delta_cagr_pp") is not None:
+        veh_full = (veh.get("stats") or {}).get("full") or {}
+        dd = None
+        if veh_full.get("maxdd") is not None and base.get("maxdd") is not None:
+            dd = 100 * (veh_full["maxdd"] - base["maxdd"])
+        parts.append("Delete the whole %s sleeve (%s ETFs) and the book's CAGR drops %.2fpp"
+                     % (veh.get("class"), veh.get("symbols_removed"), abs(veh["delta_cagr_pp"]))
+                     + (" while the drawdown goes %.1fpp deeper -- the paying leg is also the "
+                        "cushion." % abs(dd) if dd is not None else "."))
+    art = cc.get("artifact") or "the concentration face"
+    try:
+        _root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        art = os.path.relpath(art, _root).replace("\\", "/")
+    except Exception:                                             # noqa: BLE001
+        pass
+    return [" ".join(parts), "",
+            "Read the headline above as the return of a book built like this, not as the return "
+            "of the ranking rule alone. See %s." % art, ""]
+
+
+def sleeve_gate_paragraphs(sg):
+    """The sleeve-gate answer: three gates, each against its own dose-matched placebo."""
+    if not sg or sg.get("status") != "ok":
+        return ["Not assessed here: %s -- the card will not imply that the sleeve needs no gate "
+                "just because the experiment is missing." % ((sg or {}).get("status") or "absent"), ""]
+    lines = [str(sg.get("sentence") or ""), ""]
+    doc = {}
+    try:
+        import etf_book_sleeve_gate as _G
+        doc = json.load(open(_G.OUT_JSON, encoding="utf-8"))
+    except Exception:                                             # noqa: BLE001
+        doc = {}
+    gates = doc.get("gates") or {}
+    if gates:
+        lines += ["| gate | sleeve switched off | CAGR vs card | max drawdown vs card | verdict |",
+                  "|---|---|---|---|---|"]
+        ar = doc.get("arms") or {}
+        for name in ("trend", "vol", "drawdown"):
+            g = gates.get(name) or {}
+            arm = ar.get("gate_%s" % name) or {}
+            st = (g.get("stats") or {}).get("full") or {}
+            lines.append("| %s | %d/%d decisions (%.1f%%) | %+.2fpp | %+.2fpp | %s |" % (
+                name, g.get("off_decisions") or 0, (doc.get("book") or {}).get("decisions") or 0,
+                100 * (g.get("off_share") or 0), arm.get("delta_cagr_pp") or 0.0,
+                arm.get("delta_maxdd_pp") or 0.0,
+                (g.get("judgement") or {}).get("verdict") or "?"))
+        lines += ["",
+                  "A positive drawdown delta is a *shallower* drawdown than this card's; the dose "
+                  "column is how much of the decision grid the gate kept the sleeve out of, and "
+                  "each arm is compared against its own placebo of the same dose.", ""]
+        # the near miss, derived from the rows rather than remembered: a gate that failed
+        # only the drawdown bar is a re-test candidate on new data, never a re-threshold.
+        bar = ((doc.get("criteria") or {}).get("min_dd_gain_pp"))
+        best = None
+        for name, g in gates.items():
+            n = ((g.get("judgement") or {}).get("numbers") or {})
+            dd = n.get("dd_gain_pp")
+            if dd is None or (g.get("judgement") or {}).get("verdict") == "ADOPT":
+                continue
+            if best is None or dd > best[1]:
+                best = (name, dd, n)
+        if best and bar is not None and best[1] > 0:
+            lines += ["Closest arm: the %s gate improves the drawdown by %+.2fpp (frozen bar "
+                      "%.1fpp) and beats its dose-matched placebo by %+.2fpp on the same measure, "
+                      "so it is the only arm not explained by holding less sleeve -- it missed "
+                      "the bar and is therefore NOT adopted; re-test it on new data, do not move "
+                      "the bar." % (best[0], best[1], bar,
+                                    best[2].get("placebo_dd_edge_pp") or 0.0), ""]
+    lines += ["The placebo arm matters: switching a sleeve off a fixed share of decisions "
+              "changes the exposure and the timing at once, so only the arm that beats its own "
+              "untimed placebo is evidence of a signal rather than of a shorter holding period. "
+              "See %s." % (sg.get("artifact") or "results/etf_book_sleeve_gate.json"), ""]
+    return lines
 
 
 def write_card(out):
@@ -1180,6 +1307,10 @@ def write_card(out):
             format(int(s["lot_residual_cny"]), ","),
             s["lot_residual_pct_nav"] or 0.0), "",
     ]
+    lines += ["## Whose CAGR is this?", ""]
+    lines += concentration_paragraphs(out.get("concentration"))
+    lines += ["## Does the commodity sleeve need a gate of its own?", ""]
+    lines += sleeve_gate_paragraphs(out.get("sleeve_gate"))
     lines += ["## What the rotation is worth", ""]
     lines += passive_mix_paragraphs(out.get("passive_mix"))
     lines += decomp_paragraphs(out.get("window_decomp"))

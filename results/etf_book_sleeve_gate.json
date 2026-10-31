@@ -1,0 +1,527 @@
+{
+ "ts": "2026-10-31 13:46:42",
+ "script": "scripts/etf_book_sleeve_gate.py",
+ "face": "results/etf_book_sleeve_gate.json",
+ "evidence_cutoff": "2026-10-30",
+ "criteria": {
+  "sleeve_class": "commodity",
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_bp_per_side": 10.0,
+  "vol_target": 0.08,
+  "trend_ma": 200,
+  "vol_win": 60,
+  "vol_q": 0.8,
+  "vol_lookback": 252,
+  "dd_win": 250,
+  "dd_thr": 0.1,
+  "min_history": 250,
+  "min_dd_gain_pp": 1.0,
+  "cagr_keep": 0.95,
+  "placebo_dd_edge_pp": 0.5,
+  "placebo_cagr_edge_pp": 0.5,
+  "min_decisions": 20,
+  "frozen": "constants above were written before the first run; --check refuses a face that echoes others and re-derives every verdict from its own rows",
+  "verdict_rule": "per gate: ADOPT requires (a) full maxdd better than baseline by >= min_dd_gain_pp, (b) full CAGR >= cagr_keep * baseline, (c) beats its dose-matched placebo by placebo_dd_edge_pp of drawdown OR placebo_cagr_edge_pp of CAGR; the face verdict is ADOPT_GATE when any gate adopts, else NO_GATE"
+ },
+ "execution": "decide at close t -> fill at open t+1 -> hold to next decision",
+ "panel": {
+  "columns": 1504,
+  "bars": 5270,
+  "flips_repaired": 168,
+  "sleeve_symbols": 41,
+  "digest": "a1a42aee64453839"
+ },
+ "book": {
+  "n_hold": 12,
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cost_bp_per_side": 10.0,
+  "decisions": 83,
+  "turnover_per_decision": 0.934
+ },
+ "identity": {
+  "zero_gate_vs_baseline_max_abs": 0.0,
+  "bars_compared": 1652,
+  "cross_face_delete_sleeve": {
+   "reference_delta_cagr_pp": -3.71,
+   "mine_delta_cagr_pp": -3.71,
+   "gap_pp": 0.0,
+   "same_cutoff": true,
+   "reference_status": "ok",
+   "passes": true,
+   "detail": "the two faces must price the same deletion; a differing cutoff is reported as stale, not as agreement"
+  },
+  "passes": true
+ },
+ "baseline": {
+  "full": {
+   "cagr": 0.096,
+   "sharpe": 0.99,
+   "maxdd": -0.1177,
+   "vol": 0.1017,
+   "years": 6.82
+  },
+  "is": {
+   "cagr": 0.0384,
+   "sharpe": 0.442,
+   "maxdd": -0.1177,
+   "vol": 0.0997,
+   "years": 3.99
+  },
+  "oos": {
+   "cagr": 0.1835,
+   "sharpe": 1.738,
+   "maxdd": -0.107,
+   "vol": 0.1044,
+   "years": 2.83
+  }
+ },
+ "arms": {
+  "gate_trend": {
+   "stats": {
+    "full": {
+     "cagr": 0.0928,
+     "sharpe": 0.951,
+     "maxdd": -0.1454,
+     "vol": 0.1028,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.025,
+     "sharpe": 0.307,
+     "maxdd": -0.1454,
+     "vol": 0.0998,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1963,
+     "sharpe": 1.806,
+     "maxdd": -0.107,
+     "vol": 0.1068,
+     "years": 2.83
+    }
+   },
+   "off_decisions": 20,
+   "off_share": 0.241,
+   "delta_cagr_pp": -0.32,
+   "delta_sharpe": -0.039,
+   "delta_maxdd_pp": -2.77
+  },
+  "placebo_trend": {
+   "stats": {
+    "full": {
+     "cagr": 0.1069,
+     "sharpe": 1.078,
+     "maxdd": -0.1351,
+     "vol": 0.1031,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0381,
+     "sharpe": 0.437,
+     "maxdd": -0.1351,
+     "vol": 0.1005,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.2128,
+     "sharpe": 1.942,
+     "maxdd": -0.107,
+     "vol": 0.1067,
+     "years": 2.83
+    }
+   },
+   "off_decisions": 20,
+   "off_share": 0.241,
+   "delta_cagr_pp": 1.09,
+   "delta_sharpe": 0.088,
+   "delta_maxdd_pp": -1.74
+  },
+  "gate_vol": {
+   "stats": {
+    "full": {
+     "cagr": 0.0962,
+     "sharpe": 0.996,
+     "maxdd": -0.1091,
+     "vol": 0.1012,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0415,
+     "sharpe": 0.473,
+     "maxdd": -0.1075,
+     "vol": 0.0999,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1791,
+     "sharpe": 1.719,
+     "maxdd": -0.1091,
+     "vol": 0.1031,
+     "years": 2.83
+    }
+   },
+   "off_decisions": 25,
+   "off_share": 0.3012,
+   "delta_cagr_pp": 0.02,
+   "delta_sharpe": 0.006,
+   "delta_maxdd_pp": 0.86
+  },
+  "placebo_vol": {
+   "stats": {
+    "full": {
+     "cagr": 0.067,
+     "sharpe": 0.721,
+     "maxdd": -0.1591,
+     "vol": 0.1008,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0281,
+     "sharpe": 0.337,
+     "maxdd": -0.1591,
+     "vol": 0.1004,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.125,
+     "sharpe": 1.263,
+     "maxdd": -0.1067,
+     "vol": 0.1014,
+     "years": 2.83
+    }
+   },
+   "off_decisions": 25,
+   "off_share": 0.3012,
+   "delta_cagr_pp": -2.9,
+   "delta_sharpe": -0.269,
+   "delta_maxdd_pp": -4.14
+  },
+  "gate_drawdown": {
+   "stats": {
+    "full": {
+     "cagr": 0.0942,
+     "sharpe": 0.967,
+     "maxdd": -0.1304,
+     "vol": 0.1023,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0346,
+     "sharpe": 0.403,
+     "maxdd": -0.1304,
+     "vol": 0.1001,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1849,
+     "sharpe": 1.734,
+     "maxdd": -0.1067,
+     "vol": 0.1054,
+     "years": 2.83
+    }
+   },
+   "off_decisions": 13,
+   "off_share": 0.1566,
+   "delta_cagr_pp": -0.18,
+   "delta_sharpe": -0.023,
+   "delta_maxdd_pp": -1.27
+  },
+  "placebo_drawdown": {
+   "stats": {
+    "full": {
+     "cagr": 0.0742,
+     "sharpe": 0.783,
+     "maxdd": -0.1547,
+     "vol": 0.1019,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0296,
+     "sharpe": 0.353,
+     "maxdd": -0.1547,
+     "vol": 0.1003,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1411,
+     "sharpe": 1.376,
+     "maxdd": -0.107,
+     "vol": 0.1041,
+     "years": 2.83
+    }
+   },
+   "off_decisions": 13,
+   "off_share": 0.1566,
+   "delta_cagr_pp": -2.18,
+   "delta_sharpe": -0.207,
+   "delta_maxdd_pp": -3.7
+  },
+  "delete_sleeve": {
+   "stats": {
+    "full": {
+     "cagr": 0.0589,
+     "sharpe": 0.643,
+     "maxdd": -0.2226,
+     "vol": 0.1005,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0097,
+     "sharpe": 0.151,
+     "maxdd": -0.2226,
+     "vol": 0.1002,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1322,
+     "sharpe": 1.334,
+     "maxdd": -0.1086,
+     "vol": 0.101,
+     "years": 2.83
+    }
+   },
+   "off_decisions": 83,
+   "off_share": 1.0,
+   "delta_cagr_pp": -3.71,
+   "delta_sharpe": -0.347,
+   "delta_maxdd_pp": -10.49
+  }
+ },
+ "gates": {
+  "trend": {
+   "off_decisions": 20,
+   "off_share": 0.241,
+   "first_off": "2020-04-03",
+   "last_off": "2026-10-14",
+   "turnover": 0.931,
+   "placebo_turnover": 0.973,
+   "stats": {
+    "full": {
+     "cagr": 0.0928,
+     "sharpe": 0.951,
+     "maxdd": -0.1454,
+     "vol": 0.1028,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.025,
+     "sharpe": 0.307,
+     "maxdd": -0.1454,
+     "vol": 0.0998,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1963,
+     "sharpe": 1.806,
+     "maxdd": -0.107,
+     "vol": 0.1068,
+     "years": 2.83
+    }
+   },
+   "placebo_stats": {
+    "full": {
+     "cagr": 0.1069,
+     "sharpe": 1.078,
+     "maxdd": -0.1351,
+     "vol": 0.1031,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0381,
+     "sharpe": 0.437,
+     "maxdd": -0.1351,
+     "vol": 0.1005,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.2128,
+     "sharpe": 1.942,
+     "maxdd": -0.107,
+     "vol": 0.1067,
+     "years": 2.83
+    }
+   },
+   "judgement": {
+    "verdict": "NO_GATE",
+    "reasons": [
+     "drawdown gain -2.77 pp vs baseline (needs >= 1.0)",
+     "CAGR kept 0.967 of baseline (needs >= 0.95)",
+     "beats placebo by -1.03 pp drawdown / -1.41 pp CAGR (needs +0.5 or +0.5)"
+    ],
+    "numbers": {
+     "dd_gain_pp": -2.77,
+     "cagr_keep": 0.9667,
+     "placebo_dd_edge_pp": -1.03,
+     "placebo_cagr_edge_pp": -1.41
+    }
+   }
+  },
+  "vol": {
+   "off_decisions": 25,
+   "off_share": 0.3012,
+   "first_off": "2020-04-03",
+   "last_off": "2026-04-15",
+   "turnover": 0.927,
+   "placebo_turnover": 0.954,
+   "stats": {
+    "full": {
+     "cagr": 0.0962,
+     "sharpe": 0.996,
+     "maxdd": -0.1091,
+     "vol": 0.1012,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0415,
+     "sharpe": 0.473,
+     "maxdd": -0.1075,
+     "vol": 0.0999,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1791,
+     "sharpe": 1.719,
+     "maxdd": -0.1091,
+     "vol": 0.1031,
+     "years": 2.83
+    }
+   },
+   "placebo_stats": {
+    "full": {
+     "cagr": 0.067,
+     "sharpe": 0.721,
+     "maxdd": -0.1591,
+     "vol": 0.1008,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0281,
+     "sharpe": 0.337,
+     "maxdd": -0.1591,
+     "vol": 0.1004,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.125,
+     "sharpe": 1.263,
+     "maxdd": -0.1067,
+     "vol": 0.1014,
+     "years": 2.83
+    }
+   },
+   "judgement": {
+    "verdict": "NO_GATE",
+    "reasons": [
+     "drawdown gain 0.86 pp vs baseline (needs >= 1.0)",
+     "CAGR kept 1.002 of baseline (needs >= 0.95)",
+     "beats placebo by 5.0 pp drawdown / 2.92 pp CAGR (needs +0.5 or +0.5)"
+    ],
+    "numbers": {
+     "dd_gain_pp": 0.86,
+     "cagr_keep": 1.0021,
+     "placebo_dd_edge_pp": 5.0,
+     "placebo_cagr_edge_pp": 2.92
+    }
+   }
+  },
+  "drawdown": {
+   "off_decisions": 13,
+   "off_share": 0.1566,
+   "first_off": "2021-12-24",
+   "last_off": "2026-10-14",
+   "turnover": 0.945,
+   "placebo_turnover": 0.958,
+   "stats": {
+    "full": {
+     "cagr": 0.0942,
+     "sharpe": 0.967,
+     "maxdd": -0.1304,
+     "vol": 0.1023,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0346,
+     "sharpe": 0.403,
+     "maxdd": -0.1304,
+     "vol": 0.1001,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1849,
+     "sharpe": 1.734,
+     "maxdd": -0.1067,
+     "vol": 0.1054,
+     "years": 2.83
+    }
+   },
+   "placebo_stats": {
+    "full": {
+     "cagr": 0.0742,
+     "sharpe": 0.783,
+     "maxdd": -0.1547,
+     "vol": 0.1019,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0296,
+     "sharpe": 0.353,
+     "maxdd": -0.1547,
+     "vol": 0.1003,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1411,
+     "sharpe": 1.376,
+     "maxdd": -0.107,
+     "vol": 0.1041,
+     "years": 2.83
+    }
+   },
+   "judgement": {
+    "verdict": "NO_GATE",
+    "reasons": [
+     "drawdown gain -1.27 pp vs baseline (needs >= 1.0)",
+     "CAGR kept 0.981 of baseline (needs >= 0.95)",
+     "beats placebo by 2.43 pp drawdown / 2.0 pp CAGR (needs +0.5 or +0.5)"
+    ],
+    "numbers": {
+     "dd_gain_pp": -1.27,
+     "cagr_keep": 0.9813,
+     "placebo_dd_edge_pp": 2.43,
+     "placebo_cagr_edge_pp": 2.0
+    }
+   }
+  }
+ },
+ "verdict": "NO_GATE",
+ "adopting": [],
+ "answer": "No sleeve-level gate earns adoption: switching the sleeve off on trend 24%, vol 30%, drawdown 16% of the decision grid is no better than switching it off on the same number of untimed decisions, so a gate here would buy a shorter holding period, not a signal. The closest arm is the vol gate: +0.86pp of drawdown against the frozen 1.0pp bar, and it does beat its own placebo by +5.00pp -- which is why it is named as the re-test candidate on new data, not re-thresholded here. Verdict NO_GATE.",
+ "names": {
+  "159029": "有色ETF广发",
+  "159032": "工业有色ETF易方达",
+  "159049": "有色ETF工银",
+  "159157": "有色金属ETF天弘",
+  "159162": "工业有色ETF鹏华",
+  "159163": "有色ETF泰康",
+  "159168": "有色ETF富国",
+  "159171": "工业有色ETF博时",
+  "159315": "黄金股ETF工银",
+  "159321": "黄金股ETF华安",
+  "159322": "黄金股ETF平安",
+  "159562": "黄金股ETF华夏",
+  "159652": "有色ETF汇添富",
+  "159690": "有色矿业ETF招商",
+  "159812": "黄金ETF前海开源",
+  "159871": "有色ETF银华",
+  "159876": "有色ETF华宝",
+  "159880": "有色ETF鹏华",
+  "159881": "有色金属ETF国泰",
+  "159934": "黄金ETF易方达",
+  "159937": "黄金ETF博时",
+  "159980": "有色ETF大成",
+  "159981": "能源化工ETF建信",
+  "159985": "豆粕ETF华夏"
+ }
+}

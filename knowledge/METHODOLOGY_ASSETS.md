@@ -7580,3 +7580,53 @@ re-reads `results/etf_book_concentration.json` and demands the page print those 
 Live reading (2026-10-31): top3 22.1%, delete-top-3 -1.99pp, delete commodity sleeve -3.71pp
 (maxdd -11.8% -> -22.3%). Pos: scripts/etf_book_ceo_page.py::concentration_face + the page
 section + L63-L65 / smoke_test.py leg r1191 / docs/live_book/LIVE-BOOK-20261031.md.
+
+### E312 -- a sleeve gate that is not better than "hold less sleeve" is not a signal (r1192 bm-a)
+
+The next question after "the commodity sleeve is the cushion" is not "keep it?" (yes: deleting
+it costs 3.71pp of CAGR and takes the drawdown from -11.8% to -22.3%) but "does it need a gate of
+its own?" -- three gates priced on the production engine through the same mechanism the
+concentration face uses (commodity columns' score -> NaN on the gated decision dates, so the
+engine substitutes on its own grid; nothing here re-implements selection, sizing or costs):
+
+| gate | sleeve off | CAGR vs card | max drawdown vs card | vs its own placebo |
+|---|---|---|---|---|
+| sleeve below its own 200d MA | 20/83 (24.1%) | -0.32pp | -2.77pp | loses |
+| sleeve vol > its own trailing p80 | 25/83 (30.1%) | +0.02pp | **+0.86pp** | wins by 5.00pp |
+| sleeve 10% below trailing peak | 13/83 (15.7%) | -0.18pp | -1.27pp | loses |
+
+## The three reusable pieces
+
+1. **Dose-matched placebo, or the arm measures nothing.** Switching a sleeve off a fixed share
+   of decisions changes two things at once: the exposure level and the timing. A placebo with the
+   *same number* of off-decisions spread evenly over the grid holds the exposure change fixed and
+   destroys only the timing, so "beats its own placebo" is the only form of the claim that can be
+   a signal. Two of the three gates lose to their own placebo -- i.e. the causal-looking state is
+   worse than switching the sleeve off arbitrarily -- which is a stronger statement than "no
+   significant gain" (E188/E199 path-test family).
+2. **Freeze the bar before the run, then quote the near miss instead of moving it.** The vol gate
+   cut the drawdown 0.86pp against a pre-registered 1.0pp bar and beat its placebo by 5.00pp:
+   the honest publication is "named as the re-test candidate on new data, NOT adopted", never
+   "bar 1.0 -> 0.8". The card prints that sentence from the rows (`judge_gate` + `--check`
+   recompute every verdict), so the retelling cannot drift from the numbers.
+3. **A new face must reproduce the old face's deletion arm.** The reference arm (delete the whole
+   sleeve) has to land on the concentration face's published -3.71pp to 0.01pp on the same
+   cutoff, or the two faces are quoting different books (live: gap 0.0pp, same cutoff). Same
+   discipline as the page==face equality leg (r1191); an all-on gate must also be bit-identical
+   to the baseline (live: max abs 0.0), which is what proves the gate mechanism adds nothing by
+   itself.
+
+## Answer to the question
+
+NO_GATE. The sleeve's risk is already carried by the book-level vol target (it only de-levers);
+a sleeve gate on top of it was, in two of three shapes, worse than a shorter holding period.
+The one shape that survived the placebo leg (sleeve-vol cutoff) missed its frozen drawdown bar
+and stays a candidate, not a component.
+
+Pos: `scripts/etf_book_sleeve_gate.py` (selftest 18/18, `--check` recomputes verdicts and the
+answer string) + `results/etf_book_sleeve_gate.json` + CARD.md section "Does the commodity
+sleeve need a gate of its own?" (r1192) + `research/digests/DIGEST-20261031-r1192-bma-sleeve-gate.md`.
+
+Also r1192: the "whose CAGR" block moved down into `etf_book_concentration.reading()` so the
+card, the ticket and the CEO page format one implementation instead of three copies (E289
+family; the page's `concentration_face` is now a delegate).

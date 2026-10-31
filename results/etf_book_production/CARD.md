@@ -17,7 +17,7 @@ Config: 12 names of a 1504-instrument bond-free pool, rebalance every 20 bars, 1
 
 **Panel digest:** `a1a42aee64453839` (5270 bars x 1613 symbols, 2005-02-23->2026-10-30, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-10-30 / ticket 2026-10-30 / page 2026-10-30 (compared at 2026-10-31 08:50:03); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-10-30 / ticket 2026-10-30 / page 2026-10-30 (compared at 2026-10-31 14:12:16); this card, the executable sheet and the CEO page all priced the same closing bar.
 
 **Family coherence: ONE_WORLD** -- all 10 width arms priced `a1a42aee64453839` (cutoff 2026-10-30); the verdicts that license this card's width are measurements on one panel.
 
@@ -42,6 +42,28 @@ Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.
 | cash | - | money | 29.9% | 299,225 | 301,289 | - |
 
 **Which column is money.** A weight times capital is the sizing INTENT; only whole 100-share lots can be placed. So the executable column can only spend 698,711 of the 700,776 target book, and the desk keeps 2,065 (0.21% NAV) in cash that the risk scale never asked for -- that residue is the price of lot granularity, not a position. Place the executable column. Until r1342 this card printed the target column as if it were the order, which is why the ticket disagreed with it by 0.13% NAV (E201); the two faces now reconcile to the yuan.
+
+## Whose CAGR is this?
+
+The top three contributors are 159934 黄金ETF易方达 7.5%, 518800 黄金ETF国泰 7.4%, 159937 黄金ETF博时 7.1% of a 9.6%/yr book (their share of the gross return sum is 22.1%, HHI 0.02 across 189 names held). Delete those 3 names from the universe and the book's CAGR drops 1.99pp against this card, so the ranking is not only those names. Delete the whole commodity sleeve (41 ETFs) and the book's CAGR drops 3.71pp while the drawdown goes 10.5pp deeper -- the paying leg is also the cushion.
+
+Read the headline above as the return of a book built like this, not as the return of the ranking rule alone. See results/etf_book_concentration.json.
+
+## Does the commodity sleeve need a gate of its own?
+
+No sleeve-level gate earns adoption: switching the sleeve off on trend 24%, vol 30%, drawdown 16% of the decision grid is no better than switching it off on the same number of untimed decisions, so a gate here would buy a shorter holding period, not a signal. The closest arm is the vol gate: +0.86pp of drawdown against the frozen 1.0pp bar, and it does beat its own placebo by +5.00pp -- which is why it is named as the re-test candidate on new data, not re-thresholded here. Verdict NO_GATE.
+
+| gate | sleeve switched off | CAGR vs card | max drawdown vs card | verdict |
+|---|---|---|---|---|
+| trend | 20/83 decisions (24.1%) | -0.32pp | -2.77pp | NO_GATE |
+| vol | 25/83 decisions (30.1%) | +0.02pp | +0.86pp | NO_GATE |
+| drawdown | 13/83 decisions (15.7%) | -0.18pp | -1.27pp | NO_GATE |
+
+A positive drawdown delta is a *shallower* drawdown than this card's; the dose column is how much of the decision grid the gate kept the sleeve out of, and each arm is compared against its own placebo of the same dose.
+
+Closest arm: the vol gate improves the drawdown by +0.86pp (frozen bar 1.0pp) and beats its dose-matched placebo by +5.00pp on the same measure, so it is the only arm not explained by holding less sleeve -- it missed the bar and is therefore NOT adopted; re-test it on new data, do not move the bar.
+
+The placebo arm matters: switching a sleeve off a fixed share of decisions changes the exposure and the timing at once, so only the arm that beats its own untimed placebo is evidence of a signal rather than of a shorter holding period. See results/etf_book_sleeve_gate.json.
 
 ## What the rotation is worth
 

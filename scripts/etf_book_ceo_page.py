@@ -206,10 +206,11 @@ def concentration_face(path=CONC_JSON):
     The ticket started printing this at r1190; the page -- the face the CEO actually
     opens -- still answered the headline with no hint that three gold ETFs carry a fifth
     of the gross and that the whole commodity sleeve is what pays for the drawdown.
-    Single implementation: `etf_book_concentration.read_published()` owns the identity
-    gate (a face whose per-name replica does not reproduce the engine equity is refused
-    there), and this page only formats the numbers it published. Absent/unreadable/broken
-    reads as "cannot verify here", never as "broad"."""
+    Single implementation, moved down a level at r1192: `etf_book_concentration.reading()`
+    now owns both the identity gate and the structured block (the card needs the same
+    numbers, and a second copy of this assembly is the defect E289 named), so all three
+    faces only format what it published. Absent/unreadable/broken reads as
+    "cannot verify here", never as "broad"."""
     scripts_dir = os.path.dirname(os.path.abspath(__file__))
     if scripts_dir not in sys.path:
         sys.path.insert(0, scripts_dir)
@@ -218,35 +219,7 @@ def concentration_face(path=CONC_JSON):
     except Exception as exc:                                    # noqa: BLE001
         return {"status": "unreadable", "artifact": path, "sentence": None,
                 "detail": "reader failed (%s)" % str(exc)[:120]}
-    out = _C.read_published(path=path)
-    out["artifact"] = path
-    if out.get("status") != "ok":
-        return out
-    try:
-        doc = json.load(open(path, encoding="utf-8"))
-    except Exception as exc:                                    # noqa: BLE001
-        out["status"] = "unreadable: %s" % exc
-        return out
-    conc = doc.get("concentration") or {}
-    names = doc.get("names") or {}
-    top = conc.get("top") or []
-    out["top3_share"] = conc.get("top3_share")
-    out["hhi"] = conc.get("positive_contribution_hhi")
-    out["names_negative"] = conc.get("names_negative")
-    out["names_above_1pct"] = conc.get("names_above_1pct_share")
-    out["distinct_names"] = (doc.get("exposure") or {}).get("distinct_names_held")
-    out["top"] = [{"symbol": t.get("symbol"),
-                   "name": names.get(t.get("symbol")) or t.get("symbol"),
-                   "share": t.get("share_of_return_sum")} for t in top[:3]]
-    out["baseline"] = (doc.get("baseline") or {}).get("full")
-    lk = doc.get("leave_top_k_out") or {}
-    out["top_k_out"] = {"k": lk.get("k"), "symbols": lk.get("symbols"),
-                        "delta_cagr_pp": lk.get("delta_cagr_pp"),
-                        "stats": lk.get("stats")}
-    veh = doc.get("leave_class_out") or {}
-    out["sleeve"] = {"class": veh.get("class"), "symbols_removed": veh.get("symbols_removed"),
-                     "delta_cagr_pp": veh.get("delta_cagr_pp"), "stats": veh.get("stats")}
-    return out
+    return _C.reading(path=path)
 
 
 def _load_ticket():

@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-31 08:50:03",
+ "ts": "2026-10-31 14:12:16",
  "evidence_cutoff": "2026-10-30",
  "feed_status": {
   "ticket_bar": "2026-10-30",
@@ -448,6 +448,109 @@
   "null_p": 0.96,
   "cells_negative": 6,
   "cells_total": 6
+ },
+ "concentration": {
+  "status": "ok",
+  "sentence": "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
+  "evidence_cutoff": "2026-10-30",
+  "verdict": "BROAD|SURVIVES_WITHOUT_TOP3",
+  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_concentration.json",
+  "top3_share": 0.2205,
+  "hhi": 0.0241,
+  "names_negative": 69,
+  "names_above_1pct": 41,
+  "distinct_names": 189,
+  "top": [
+   {
+    "symbol": "159934",
+    "name": "黄金ETF易方达",
+    "share": 0.0752
+   },
+   {
+    "symbol": "518800",
+    "name": "黄金ETF国泰",
+    "share": 0.0745
+   },
+   {
+    "symbol": "159937",
+    "name": "黄金ETF博时",
+    "share": 0.0707
+   }
+  ],
+  "baseline": {
+   "cagr": 0.096,
+   "sharpe": 0.99,
+   "maxdd": -0.1177,
+   "vol": 0.1017,
+   "years": 6.82
+  },
+  "top_k_out": {
+   "k": 3,
+   "symbols": [
+    "159934",
+    "518800",
+    "159937"
+   ],
+   "delta_cagr_pp": -1.99,
+   "stats": {
+    "full": {
+     "cagr": 0.0761,
+     "sharpe": 0.809,
+     "maxdd": -0.1868,
+     "vol": 0.1007,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0237,
+     "sharpe": 0.294,
+     "maxdd": -0.1868,
+     "vol": 0.0996,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1551,
+     "sharpe": 1.525,
+     "maxdd": -0.1083,
+     "vol": 0.1021,
+     "years": 2.83
+    }
+   }
+  },
+  "sleeve": {
+   "class": "commodity",
+   "symbols_removed": 41,
+   "delta_cagr_pp": -3.71,
+   "stats": {
+    "full": {
+     "cagr": 0.0589,
+     "sharpe": 0.643,
+     "maxdd": -0.2226,
+     "vol": 0.1005,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0097,
+     "sharpe": 0.151,
+     "maxdd": -0.2226,
+     "vol": 0.1002,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1322,
+     "sharpe": 1.334,
+     "maxdd": -0.1086,
+     "vol": 0.101,
+     "years": 2.83
+    }
+   }
+  }
+ },
+ "sleeve_gate": {
+  "status": "ok",
+  "sentence": "No sleeve-level gate earns adoption: switching the sleeve off on trend 24%, vol 30%, drawdown 16% of the decision grid is no better than switching it off on the same number of untimed decisions, so a gate here would buy a shorter holding period, not a signal. The closest arm is the vol gate: +0.86pp of drawdown against the frozen 1.0pp bar, and it does beat its own placebo by +5.00pp -- which is why it is named as the re-test candidate on new data, not re-thresholded here. Verdict NO_GATE.",
+  "evidence_cutoff": "2026-10-30",
+  "verdict": "NO_GATE",
+  "adopting": []
  },
  "commodity": {
   "artifact": "results/etf_book_commodity_split.json",

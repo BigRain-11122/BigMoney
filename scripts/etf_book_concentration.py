@@ -412,6 +412,47 @@ def read_published(path=None):
             "verdict": doc.get("verdict")}
 
 
+def reading(path=None):
+    """The structured reading every face quotes (card, ticket, CEO page).
+
+    One implementation, three consumers (r1192): the ticket started printing this at r1190
+    and the page at r1191, each assembling the same block from the same document; the card
+    is the third. A third copy of the assembly is exactly the defect E289 named, so the
+    numbers a face can quote are produced here, once, and the callers only format them.
+    Absent, unreadable or identity-less input returns a `status` that is NOT `ok` and no
+    numbers at all -- never a zero, never "broad"."""
+    out = read_published(path=path)
+    p = Path(path) if path else OUT_JSON
+    out["artifact"] = str(p)
+    if out.get("status") != "ok":
+        return out
+    try:
+        doc = json.load(open(p, encoding="utf-8"))
+    except Exception as exc:                                      # noqa: BLE001
+        out["status"] = "unreadable: %s" % exc
+        return out
+    conc = doc.get("concentration") or {}
+    names = doc.get("names") or {}
+    top = conc.get("top") or []
+    out["top3_share"] = conc.get("top3_share")
+    out["hhi"] = conc.get("positive_contribution_hhi")
+    out["names_negative"] = conc.get("names_negative")
+    out["names_above_1pct"] = conc.get("names_above_1pct_share")
+    out["distinct_names"] = (doc.get("exposure") or {}).get("distinct_names_held")
+    out["top"] = [{"symbol": t.get("symbol"),
+                   "name": names.get(t.get("symbol")) or t.get("symbol"),
+                   "share": t.get("share_of_return_sum")} for t in top[:3]]
+    out["baseline"] = (doc.get("baseline") or {}).get("full")
+    lk = doc.get("leave_top_k_out") or {}
+    out["top_k_out"] = {"k": lk.get("k"), "symbols": lk.get("symbols"),
+                        "delta_cagr_pp": lk.get("delta_cagr_pp"),
+                        "stats": lk.get("stats")}
+    veh = doc.get("leave_class_out") or {}
+    out["sleeve"] = {"class": veh.get("class"), "symbols_removed": veh.get("symbols_removed"),
+                     "delta_cagr_pp": veh.get("delta_cagr_pp"), "stats": veh.get("stats")}
+    return out
+
+
 # ---------------------------------------------------------------------- check
 def check(path=None):
     """Re-read the published face and recompute the verdict from its own rows."""
