@@ -3011,16 +3011,20 @@
   ],
   "s1": "the full 330-leg suite was not re-run this window (~35 min); the new E313 leg was exercised through the real S6 driver and its own selftest runs 31 legs including 6 mutation legs plus a standalone verify rebuild",
   "s6": "gate_form_and_scale rc=0 0.53s through the real driver (results/_rverifybmb_s6_chain.json, S6 99/107); the five censuses whose summaries count this source were re-derived and re-verified (E298 31 controls / E299 63 sites / E305 8 rows / E308 30 pairs / E312 30 rows); dualrun, compute_audit, py_watermark, attrition and the lane collectors were NOT re-run this window (wall budget, stated plainly)",
-  "s7": "Bigmoney-IterationLoop / Bigmoney-LoopWatchdog / Bigmoney-SatEngine-bm-b left to their own ticks this window (no re-registration, no drift observed); pre-commit and pre-push claws read but not re-installed",
+  "s7": "Bigmoney-IterationLoop / Bigmoney-LoopWatchdog / Bigmoney-SatEngine-bm-b left to their own ticks this window (no re-registration, no drift observed); pre-commit and pre-push claws read but not re-installed | task table read at 19:29: Bigmoney-IterationLoop 19:32, Bigmoney-LoopWatchdog 19:31, Bigmoney-SatEngine-bm-b 19:31 -- all present, no re-registration",
   "orders": "orders/acks not re-scanned this window (114 files / 115 acks carried from r1331)",
   "pool": "E313 done with result_ref; E314-CLAMPED-GATE-CENSUS seeded ready (804 entries, 1 ready)",
   "identity": "identity_checks 15/15 ALL PASS (partitions, scale on every relative row, breakeven or an explicit reason, self-exclusion, recomputable label agreement)",
   "delivery": {
    "branch": "machine/bm-b-r1332",
-   "local_not_on_origin_main": null,
-   "behind_origin_main": null,
+   "local_not_on_origin_main": 119,
+   "behind_origin_main": 201,
    "main_push_blocker": "the local main has diverged from origin/main for many rounds (promisor lazy fetch wedges before negotiation, r1255 family); main push not attempted",
-   "ts": "2026-10-31T19:2x+08:00"
+   "ts": "2026-10-31T19:2x+08:00",
+   "pushed_sha": "91b76373b0cf791c34e5b6b99bffe1397843f1be",
+   "remote_ref_sha": "91b76373b0cf791c34e5b6b99bffe1397843f1be",
+   "verified": true,
+   "note": "16 files staged (producer, both faces, the E305 repair, digest, methodology card, two wiring files, the two re-derived sibling faces, the pool, state, heartbeat, round report); the ~620 dirty tracked files left by collectors and prior windows were not swept in"
   }
  },
  "notes_r1332": "| 2026-10-31T19:2x+08:00 | r1332 | **watermark: pool-batch red at open (E313 ready, py idle) -- burned the ready head E313 in-round** | E313 gate form and scale published: the form is read at the producer's own comparison line, not from the face's label (silent on 28 of 30); one row needs a free scale (t35 breakeven session_open = 5e-07), one is absolute after a fixed 100.0 normalisation, seven pair a count leg where no multiplicative scale exists. **CURRENT:** E313 done. **LATEST PHYSICAL:** results/state_tilt/GATEFORM-2026-10-31.json. **NEXT MILESTONE:** E314 clamped gate census (ready, runner not written; due next round, within 48h). **PRODUCT:** three rows multiply a published gate by max(1.0, x), so the face prints one number for two regimes."
