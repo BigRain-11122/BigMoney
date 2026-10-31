@@ -8643,6 +8643,73 @@ def main() -> int:
     except Exception as e:
         check(_name99, False, repr(e)[:160])
 
+    # E312: E308 pair-keyed a leg to a face's gate on the DECLARED key, but the writer publishes a
+    # constant ("tolerance": TOL) and compares with the constant or a parameter defaulted from it --
+    # so 29 of the 30 "declared but never compared" pairs do have a producer comparison, including
+    # the case-blind miss rel_tol vs REL_TOL. Being compared is not being compared to the leg's
+    # quantity: the band E308 let stand compares the window edges lo/hi against FROZEN_GAMMA+-tol
+    # (a feasibility test of the ladder), while the open-fill band it rejected compares
+    # abs(cost - session_open)/session_open -- the very price the leg reads, disclosed as relative
+    # vs absolute. A leg may be tighter than a gate that governs another number entirely.
+    _name100 = ("product: a tolerance gate is compared with a number the leg may never read -- the "
+                "constant behind the declared key decides it")
+    _bad100 = []
+    try:
+        _p100 = os.path.join("results", "state_tilt", "gateoperands_latest.json")
+        _f100 = None
+        if not os.path.exists(_p100):
+            _bad100.append("face missing: %s" % _p100)
+        else:
+            with io.open(_p100, encoding="utf-8") as _fh100:
+                _f100 = json.load(_fh100)
+        if _f100 is not None:
+            _c100 = _f100.get("census") or {}
+            _rows100 = _f100.get("rows") or []
+            if _f100.get("verdict") != ("a_gate_is_compared_with_something_and_that_something_is_"
+                                        "rarely_the_legs_quantity"):
+                _bad100.append("verdict moved: %r" % (_f100.get("verdict"),))
+            _part100 = ((_c100.get("rows_same_named_quantity") or 0)
+                        + (_c100.get("rows_operand_names_disjoint") or 0)
+                        + (_c100.get("rows_leg_names_no_face_key") or 0)
+                        + (_c100.get("rows_producer_never_compares") or 0)
+                        + (_c100.get("rows_gate_identity_unresolvable") or 0))
+            if _part100 != len(_rows100):
+                _bad100.append("operand partition does not sum: %s vs %s" % (_part100, len(_rows100)))
+            if any(r.get("operand_identity") == "operand_names_disjoint_from_the_legs"
+                   and not r.get("leg_refs") for r in _rows100):
+                _bad100.append("a row whose leg names no face key is counted as disjoint")
+            if any(r.get("operand_identity") == "same_named_quantity" and not r.get("shared_refs")
+                   for r in _rows100):
+                _bad100.append("a same-named row publishes no shared name")
+            if any(r.get("band_stands_after_operand_identity") and not r.get("operand_rows")
+                   for r in _rows100):
+                _bad100.append("a standing row carries no comparison site")
+            if any(not c.get("ok") for c in (_f100.get("identity_checks") or [])):
+                _bad100.append("identity checks are not all green")
+            if not (_c100.get("rows_scope_flipped_by_the_constant_chain") or 0):
+                _bad100.append("the constant chain flipped no scope -- the E308 miss is not shown")
+            _t35_100 = [r for r in _rows100 if r.get("gate_path") == "rel_tol"
+                        and r.get("operand_identity") == "same_named_quantity"]
+            if not _t35_100 or not _t35_100[0].get("form_caveat"):
+                _bad100.append("the open-fill band lost its relative/absolute caveat")
+        check(_name100, not _bad100, "; ".join(_bad100)[:220]
+              or "rows %s (upstream %s) faces %s gates %s; constant identity %s, producer compares "
+                 "%s (legacy declared-only %s, flips %s); operand identity same %s / disjoint %s / "
+                 "no-key %s; bands standing legacy %s -> %s"
+                 % (len(_f100.get("rows") or []), _c100.get("upstream_rows"),
+                    _c100.get("faces"), _c100.get("gates"),
+                    _c100.get("rows_gate_identity_resolved_to_a_constant"),
+                    _c100.get("rows_producer_compares_with_the_gate"),
+                    _c100.get("rows_legacy_declared_but_never_compared"),
+                    _c100.get("rows_scope_flipped_by_the_constant_chain"),
+                    _c100.get("rows_same_named_quantity"),
+                    _c100.get("rows_operand_names_disjoint"),
+                    _c100.get("rows_leg_names_no_face_key"),
+                    _c100.get("legacy_bands_standing"),
+                    _c100.get("bands_standing_after_operand_identity")))
+    except Exception as e:
+        check(_name100, False, repr(e)[:160])
+
     return _finish()
 
 

@@ -1,0 +1,5429 @@
+{
+ "schema": "bigmoney/e312-gateoperands/v1",
+ "study": "E312_gate_operand_identity",
+ "title": "which quantity does the producer's own comparison put the gate against, and is that the quantity the leg compares?",
+ "evidence_cutoff": "2026-10-31",
+ "generated": "2026-10-31",
+ "self_faces_excluded": [
+  "GATEOPERANDS-2026-10-31.json",
+  "gateoperands_latest.json"
+ ],
+ "upstream": {
+  "face": "results/state_tilt/gatetol_latest.json",
+  "verdict": "bands_stand_only_where_the_producer_is_seen_comparing_with_the_gate",
+  "census_pairs": 30
+ },
+ "join_rules": {
+  "publish_site": "a line in a script naming the face that binds the gate's last path key either as a mapping value (`\"tol\": X`) or an item (`x[\"tol\"] = X`)",
+  "alias_chain": "the published expression, if a bare identifier, plus parameter defaults `def f(p=X)` and plain rebinds `p = X` on the same file",
+  "comparison": "a line carrying an alias of the gate next to a comparison operator; operands = identifiers on both sides of the comparator, gate excluded, split on and/or",
+  "operand_identity": "the leg's own names (extracted face keys + expression identifiers) intersected with the operand names and the identifiers one hop down their definitions"
+ },
+ "census": {
+  "upstream_rows": 31,
+  "rows": 30,
+  "duplicates_collapsed": 1,
+  "faces": 11,
+  "gates": 12,
+  "rows_with_publish_site": 30,
+  "rows_gate_identity_resolved_to_a_constant": 30,
+  "rows_producer_compares_with_the_gate": 30,
+  "rows_legacy_declared_but_never_compared": 28,
+  "rows_scope_flipped_by_the_constant_chain": 29,
+  "rows_operand_names_disjoint": 25,
+  "rows_same_named_quantity": 1,
+  "rows_producer_never_compares": 0,
+  "rows_gate_identity_unresolvable": 0,
+  "rows_leg_names_no_face_key": 4,
+  "legacy_bands_standing": 1,
+  "bands_standing_after_operand_identity": 1
+ },
+ "verdict": "a_gate_is_compared_with_something_and_that_something_is_rarely_the_legs_quantity",
+ "rows": [
+  {
+   "leg": "product: a non-reproducing pair is traced rung by rung to the reader",
+   "leg_line": 3441,
+   "face": "results/state_tilt/REPRO-%s.json",
+   "gate_path": "reproduction.tolerance",
+   "gate_value": 0.005,
+   "gate_units": "unspecified",
+   "legacy_scope": "producer_not_found",
+   "leg_tolerance": 1e-06,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 6,
+   "publish_sites": [
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 388,
+     "text": "repro[\"tolerance\"] = MATCH_TOL",
+     "expression": "MATCH_TOL"
+    }
+   ],
+   "leg_refs": [
+    "aligned_gap"
+   ],
+   "gate_identity": {
+    "published_as": "MATCH_TOL",
+    "resolved_constant": "MATCH_TOL",
+    "producers_using_the_constant": [
+     "scripts/e241_pair_reproduction.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 386,
+     "name": "repro",
+     "side": "compared_against",
+     "resolved": {
+      "line": 379,
+      "text": "repro = {\"published_a_share\": published[\"a_share\"],",
+      "expression": "{\"published_a_share\": published[\"a_share\"],"
+     }
+    },
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 387,
+     "name": "repro",
+     "side": "compared_against",
+     "resolved": {
+      "line": 379,
+      "text": "repro = {\"published_a_share\": published[\"a_share\"],",
+      "expression": "{\"published_a_share\": published[\"a_share\"],"
+     }
+    },
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 464,
+     "name": "pub_sb",
+     "side": "compared_against",
+     "resolved": {
+      "line": 455,
+      "text": "pub_sb = ((pub_face.get(\"designs\") or {}).get(\"share_book_reproduction\") or {})",
+      "expression": "((pub_face.get(\"designs\") or {}).get(\"share_book_reproduction\") or {})"
+     }
+    },
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 464,
+     "name": "r3",
+     "side": "compared_against",
+     "resolved": {
+      "line": 353,
+      "text": "r3 = {\"design\": \"share_book_reproduction_as_published\",",
+      "expression": "{\"design\": \"share_book_reproduction_as_published\","
+     }
+    },
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 480,
+     "name": "r3b",
+     "side": "compared_against",
+     "resolved": {
+      "line": 372,
+      "text": "r3b = {\"rows\": r3b.get(\"rows_used\"), \"a_share\": r3b[\"A_share\"],",
+      "expression": "{\"rows\": r3b.get(\"rows_used\"), \"a_share\": r3b[\"A_share\"],"
+     }
+    },
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 480,
+     "name": "r3",
+     "side": "compared_against",
+     "resolved": {
+      "line": 353,
+      "text": "r3 = {\"design\": \"share_book_reproduction_as_published\",",
+      "expression": "{\"design\": \"share_book_reproduction_as_published\","
+     }
+    }
+   ],
+   "operand_names": [
+    "repro",
+    "pub_sb",
+    "r3",
+    "r3b"
+   ],
+   "operand_names_through_definitions": [
+    "published_a_share",
+    "published",
+    "a_share",
+    "pub_face",
+    "et",
+    "designs",
+    "share_book_reproduction",
+    "design",
+    "share_book_reproduction_as_published",
+    "rows",
+    "r3b",
+    "rows_used",
+    "A_share"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the published base draw count sits below the endpoint arrival count",
+   "leg_line": 4848,
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 343,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "arrival_median"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e260_band_endpoint_arrival.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 120,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": {
+      "line": 117,
+      "text": "v = series.get(d)",
+      "expression": "series.get(d)"
+     }
+    },
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 120,
+     "name": "target",
+     "side": "compared_against",
+     "resolved": {
+      "line": 114,
+      "text": "target = abs(float(target))",
+      "expression": "abs(float(target))"
+     }
+    },
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 120,
+     "name": "scale",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 115,
+      "text": "scale = max(1.0, target)",
+      "expression": "max(1.0, target)"
+     }
+    },
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 132,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": {
+      "line": 129,
+      "text": "v = series.get(d)",
+      "expression": "series.get(d)"
+     }
+    },
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 132,
+     "name": "prev",
+     "side": "gate_reference",
+     "resolved": null
+    }
+   ],
+   "operand_names": [
+    "v",
+    "target",
+    "scale",
+    "prev"
+   ],
+   "operand_names_through_definitions": [
+    "series",
+    "et",
+    "d",
+    "target"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the published base draw count sits below the endpoint arrival count",
+   "leg_line": 4870,
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 343,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "n_at_base"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e260_band_endpoint_arrival.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 120,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": {
+      "line": 117,
+      "text": "v = series.get(d)",
+      "expression": "series.get(d)"
+     }
+    },
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 120,
+     "name": "target",
+     "side": "compared_against",
+     "resolved": {
+      "line": 114,
+      "text": "target = abs(float(target))",
+      "expression": "abs(float(target))"
+     }
+    },
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 120,
+     "name": "scale",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 115,
+      "text": "scale = max(1.0, target)",
+      "expression": "max(1.0, target)"
+     }
+    },
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 132,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": {
+      "line": 129,
+      "text": "v = series.get(d)",
+      "expression": "series.get(d)"
+     }
+    },
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 132,
+     "name": "prev",
+     "side": "gate_reference",
+     "resolved": null
+    }
+   ],
+   "operand_names": [
+    "v",
+    "target",
+    "scale",
+    "prev"
+   ],
+   "operand_names_through_definitions": [
+    "series",
+    "et",
+    "d",
+    "target"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the published base draw count sits below the endpoint arrival count",
+   "leg_line": 4874,
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 343,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "rows_pre_settlement"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e260_band_endpoint_arrival.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 120,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": {
+      "line": 117,
+      "text": "v = series.get(d)",
+      "expression": "series.get(d)"
+     }
+    },
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 120,
+     "name": "target",
+     "side": "compared_against",
+     "resolved": {
+      "line": 114,
+      "text": "target = abs(float(target))",
+      "expression": "abs(float(target))"
+     }
+    },
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 120,
+     "name": "scale",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 115,
+      "text": "scale = max(1.0, target)",
+      "expression": "max(1.0, target)"
+     }
+    },
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 132,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": {
+      "line": 129,
+      "text": "v = series.get(d)",
+      "expression": "series.get(d)"
+     }
+    },
+    {
+     "producer": "scripts/e260_band_endpoint_arrival.py",
+     "line": 132,
+     "name": "prev",
+     "side": "gate_reference",
+     "resolved": null
+    }
+   ],
+   "operand_names": [
+    "v",
+    "target",
+    "scale",
+    "prev"
+   ],
+   "operand_names_through_definitions": [
+    "series",
+    "et",
+    "d",
+    "target"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the two disagreeing tails are a RANGE difference, not a rounding tie -- the gap field reads 0 for every interior reading, so it cannot say 'on the flip'",
+   "leg_line": 6822,
+   "face": "results/state_tilt/banddisagree_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 322,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 596,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "reaching_readings",
+    "reaching_readings_with_zero_gap"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e282_substitution_disagreement_census.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 180,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 180,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 180,
+     "name": "lo",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 189,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 189,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 276,
+     "name": "missing_gap",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "missing_gap = mtail[\"gap_pct\"]",
+      "expression": "mtail[\"gap_pct\"]"
+     }
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 297,
+     "name": "rtail",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 299,
+     "name": "rtail",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 347,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 376,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 697,
+     "name": "gap",
+     "side": "compared_against",
+     "resolved": {
+      "line": 693,
+      "text": "gap = 0.0",
+      "expression": "0.0"
+     }
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 749,
+     "name": "cells",
+     "side": "compared_against",
+     "resolved": {
+      "line": 747,
+      "text": "cells = disagreement_cells([at_bound])",
+      "expression": "disagreement_cells([at_bound])"
+     }
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 766,
+     "name": "_imp",
+     "side": "compared_against",
+     "resolved": {
+      "line": 763,
+      "text": "_imp = (_real.get(\"hypothesis_test\") or {}).get(\"tie_impossibility\") or {}",
+      "expression": "(_real.get(\"hypothesis_test\") or {}).get(\"tie_impossibility\") or {}"
+     }
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 786,
+     "name": "leg",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 786,
+     "name": "cells_dist",
+     "side": "compared_against",
+     "resolved": {
+      "line": 785,
+      "text": "cells_dist = disagreement_cells([at_bound])",
+      "expression": "disagreement_cells([at_bound])"
+     }
+    }
+   ],
+   "operand_names": [
+    "flip",
+    "hi",
+    "lo",
+    "missing_gap",
+    "rtail",
+    "r",
+    "c",
+    "gap",
+    "cells",
+    "_imp",
+    "leg",
+    "cells_dist"
+   ],
+   "operand_names_through_definitions": [
+    "mtail",
+    "gap_pct",
+    "disagreement_cells",
+    "at_bound",
+    "_real",
+    "et",
+    "hypothesis_test",
+    "tie_impossibility"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the two disagreeing tails are a RANGE difference, not a rounding tie -- the gap field reads 0 for every interior reading, so it cannot say 'on the flip'",
+   "leg_line": 6822,
+   "face": "results/state_tilt/banddisagree_latest.json",
+   "gate_path": "hypothesis_test.tie_impossibility.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 322,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 596,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "reaching_readings",
+    "reaching_readings_with_zero_gap"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e282_substitution_disagreement_census.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 180,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 180,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 180,
+     "name": "lo",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 189,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 189,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 276,
+     "name": "missing_gap",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "missing_gap = mtail[\"gap_pct\"]",
+      "expression": "mtail[\"gap_pct\"]"
+     }
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 297,
+     "name": "rtail",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 299,
+     "name": "rtail",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 347,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 376,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 697,
+     "name": "gap",
+     "side": "compared_against",
+     "resolved": {
+      "line": 693,
+      "text": "gap = 0.0",
+      "expression": "0.0"
+     }
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 749,
+     "name": "cells",
+     "side": "compared_against",
+     "resolved": {
+      "line": 747,
+      "text": "cells = disagreement_cells([at_bound])",
+      "expression": "disagreement_cells([at_bound])"
+     }
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 766,
+     "name": "_imp",
+     "side": "compared_against",
+     "resolved": {
+      "line": 763,
+      "text": "_imp = (_real.get(\"hypothesis_test\") or {}).get(\"tie_impossibility\") or {}",
+      "expression": "(_real.get(\"hypothesis_test\") or {}).get(\"tie_impossibility\") or {}"
+     }
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 786,
+     "name": "leg",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e282_substitution_disagreement_census.py",
+     "line": 786,
+     "name": "cells_dist",
+     "side": "compared_against",
+     "resolved": {
+      "line": 785,
+      "text": "cells_dist = disagreement_cells([at_bound])",
+      "expression": "disagreement_cells([at_bound])"
+     }
+    }
+   ],
+   "operand_names": [
+    "flip",
+    "hi",
+    "lo",
+    "missing_gap",
+    "rtail",
+    "r",
+    "c",
+    "gap",
+    "cells",
+    "_imp",
+    "leg",
+    "cells_dist"
+   ],
+   "operand_names_through_definitions": [
+    "mtail",
+    "gap_pct",
+    "disagreement_cells",
+    "at_bound",
+    "_real",
+    "et",
+    "hypothesis_test",
+    "tie_impossibility"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the band's own ladder decides the exponent, not the assumed one",
+   "leg_line": 4404,
+   "face": "results/state_tilt/bandexp_latest.json",
+   "gate_path": "verdict_inputs.tol",
+   "gate_value": 0.1,
+   "gate_units": "unspecified",
+   "legacy_scope": "used_in_a_comparison",
+   "leg_tolerance": 1e-06,
+   "band": "leg_tighter",
+   "legacy_band_stands": true,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 388,
+     "text": "\"verdict_inputs\": {\"gammas\": gammas, \"r2\": r2s, \"tol\": GAMMA_TOL,",
+     "expression": "GAMMA_TOL"
+    }
+   ],
+   "leg_refs": [],
+   "gate_identity": {
+    "published_as": "GAMMA_TOL",
+    "resolved_constant": "GAMMA_TOL",
+    "producers_using_the_constant": [
+     "scripts/e254_band_exponent_inside_cell.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 134,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 93,
+      "text": "lo = body.get(\"lo\")",
+      "expression": "body.get(\"lo\")"
+     }
+    },
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 134,
+     "name": "FROZEN_GAMMA",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 78,
+      "text": "FROZEN_GAMMA = 0.5              # E253's assumption",
+      "expression": "0.5              # E253's assumption"
+     }
+    },
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 134,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 136,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 136,
+     "name": "FROZEN_GAMMA",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 78,
+      "text": "FROZEN_GAMMA = 0.5              # E253's assumption",
+      "expression": "0.5              # E253's assumption"
+     }
+    },
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 138,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 93,
+      "text": "lo = body.get(\"lo\")",
+      "expression": "body.get(\"lo\")"
+     }
+    },
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 138,
+     "name": "FROZEN_GAMMA",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 78,
+      "text": "FROZEN_GAMMA = 0.5              # E253's assumption",
+      "expression": "0.5              # E253's assumption"
+     }
+    }
+   ],
+   "operand_names": [
+    "lo",
+    "FROZEN_GAMMA",
+    "hi"
+   ],
+   "operand_names_through_definitions": [
+    "body",
+    "et",
+    "lo",
+    "E253",
+    "s",
+    "assumption"
+   ],
+   "shared_refs": [],
+   "operand_identity": "leg_names_no_face_key",
+   "scope_changed_from_legacy": false,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "leg_line": 5948,
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-09,
+   "band": "leg_looser_or_equal",
+   "legacy_band_stands": false,
+   "producers_naming_face": 2,
+   "publish_sites": [
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 369,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    },
+    {
+     "producer": "scripts/e281_substitution_dependency_audit.py",
+     "line": 473,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e272_flip_budget_two_tails.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 140,
+     "name": "mf",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 150,
+     "name": "gap",
+     "side": "compared_against",
+     "resolved": {
+      "line": 148,
+      "text": "gap = gap_to_flip_pct(mf, lo_m, hi_m)",
+      "expression": "gap_to_flip_pct(mf, lo_m, hi_m)"
+     }
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 153,
+     "name": "hi_m",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 153,
+     "name": "mf",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 154,
+     "name": "lo_m",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 154,
+     "name": "mf",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 183,
+     "name": "nt",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 183,
+     "name": "nw",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 265,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 265,
+     "name": "all_p05",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 231,
+      "text": "all_p05 = [v.get(\"p05\") for v in (arms or {}).values() if v.get(\"p05\") is not None]",
+      "expression": "[v.get(\"p05\") for v in (arms or {}).values() if v.get(\"p05\") is not None]"
+     }
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 453,
+     "name": "mf",
+     "side": "compared_against",
+     "resolved": {
+      "line": 450,
+      "text": "mf = r[\"flip_multiplier\"]",
+      "expression": "r[\"flip_multiplier\"]"
+     }
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 460,
+     "name": "mf",
+     "side": "compared_against",
+     "resolved": {
+      "line": 450,
+      "text": "mf = r[\"flip_multiplier\"]",
+      "expression": "r[\"flip_multiplier\"]"
+     }
+    }
+   ],
+   "operand_names": [
+    "mf",
+    "gap",
+    "hi_m",
+    "lo_m",
+    "nt",
+    "nw",
+    "r",
+    "all_p05"
+   ],
+   "operand_names_through_definitions": [
+    "gap_to_flip_pct",
+    "mf",
+    "lo_m",
+    "hi_m",
+    "v",
+    "et",
+    "p05",
+    "arms",
+    "alues",
+    "r",
+    "flip_multiplier"
+   ],
+   "shared_refs": [],
+   "operand_identity": "leg_names_no_face_key",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "leg_line": 5955,
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-12,
+   "band": "leg_looser_or_equal",
+   "legacy_band_stands": false,
+   "producers_naming_face": 2,
+   "publish_sites": [
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 369,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    },
+    {
+     "producer": "scripts/e281_substitution_dependency_audit.py",
+     "line": 473,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "gap_pct"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e272_flip_budget_two_tails.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 140,
+     "name": "mf",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 150,
+     "name": "gap",
+     "side": "compared_against",
+     "resolved": {
+      "line": 148,
+      "text": "gap = gap_to_flip_pct(mf, lo_m, hi_m)",
+      "expression": "gap_to_flip_pct(mf, lo_m, hi_m)"
+     }
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 153,
+     "name": "hi_m",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 153,
+     "name": "mf",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 154,
+     "name": "lo_m",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 154,
+     "name": "mf",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 183,
+     "name": "nt",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 183,
+     "name": "nw",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 265,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 265,
+     "name": "all_p05",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 231,
+      "text": "all_p05 = [v.get(\"p05\") for v in (arms or {}).values() if v.get(\"p05\") is not None]",
+      "expression": "[v.get(\"p05\") for v in (arms or {}).values() if v.get(\"p05\") is not None]"
+     }
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 453,
+     "name": "mf",
+     "side": "compared_against",
+     "resolved": {
+      "line": 450,
+      "text": "mf = r[\"flip_multiplier\"]",
+      "expression": "r[\"flip_multiplier\"]"
+     }
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 460,
+     "name": "mf",
+     "side": "compared_against",
+     "resolved": {
+      "line": 450,
+      "text": "mf = r[\"flip_multiplier\"]",
+      "expression": "r[\"flip_multiplier\"]"
+     }
+    }
+   ],
+   "operand_names": [
+    "mf",
+    "gap",
+    "hi_m",
+    "lo_m",
+    "nt",
+    "nw",
+    "r",
+    "all_p05"
+   ],
+   "operand_names_through_definitions": [
+    "gap_to_flip_pct",
+    "mf",
+    "lo_m",
+    "hi_m",
+    "v",
+    "et",
+    "p05",
+    "arms",
+    "alues",
+    "r",
+    "flip_multiplier"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "leg_line": 5976,
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-12,
+   "band": "leg_looser_or_equal",
+   "legacy_band_stands": false,
+   "producers_naming_face": 2,
+   "publish_sites": [
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 369,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    },
+    {
+     "producer": "scripts/e281_substitution_dependency_audit.py",
+     "line": 473,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e272_flip_budget_two_tails.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 140,
+     "name": "mf",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 150,
+     "name": "gap",
+     "side": "compared_against",
+     "resolved": {
+      "line": 148,
+      "text": "gap = gap_to_flip_pct(mf, lo_m, hi_m)",
+      "expression": "gap_to_flip_pct(mf, lo_m, hi_m)"
+     }
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 153,
+     "name": "hi_m",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 153,
+     "name": "mf",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 154,
+     "name": "lo_m",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 154,
+     "name": "mf",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 183,
+     "name": "nt",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 183,
+     "name": "nw",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 265,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 265,
+     "name": "all_p05",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 231,
+      "text": "all_p05 = [v.get(\"p05\") for v in (arms or {}).values() if v.get(\"p05\") is not None]",
+      "expression": "[v.get(\"p05\") for v in (arms or {}).values() if v.get(\"p05\") is not None]"
+     }
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 453,
+     "name": "mf",
+     "side": "compared_against",
+     "resolved": {
+      "line": 450,
+      "text": "mf = r[\"flip_multiplier\"]",
+      "expression": "r[\"flip_multiplier\"]"
+     }
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 460,
+     "name": "mf",
+     "side": "compared_against",
+     "resolved": {
+      "line": 450,
+      "text": "mf = r[\"flip_multiplier\"]",
+      "expression": "r[\"flip_multiplier\"]"
+     }
+    }
+   ],
+   "operand_names": [
+    "mf",
+    "gap",
+    "hi_m",
+    "lo_m",
+    "nt",
+    "nw",
+    "r",
+    "all_p05"
+   ],
+   "operand_names_through_definitions": [
+    "gap_to_flip_pct",
+    "mf",
+    "lo_m",
+    "hi_m",
+    "v",
+    "et",
+    "p05",
+    "arms",
+    "alues",
+    "r",
+    "flip_multiplier"
+   ],
+   "shared_refs": [],
+   "operand_identity": "leg_names_no_face_key",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "leg_line": 5982,
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 2,
+   "publish_sites": [
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 369,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    },
+    {
+     "producer": "scripts/e281_substitution_dependency_audit.py",
+     "line": 473,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "rows_scored"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e272_flip_budget_two_tails.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 140,
+     "name": "mf",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 150,
+     "name": "gap",
+     "side": "compared_against",
+     "resolved": {
+      "line": 148,
+      "text": "gap = gap_to_flip_pct(mf, lo_m, hi_m)",
+      "expression": "gap_to_flip_pct(mf, lo_m, hi_m)"
+     }
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 153,
+     "name": "hi_m",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 153,
+     "name": "mf",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 154,
+     "name": "lo_m",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 154,
+     "name": "mf",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 183,
+     "name": "nt",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 183,
+     "name": "nw",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 265,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 265,
+     "name": "all_p05",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 231,
+      "text": "all_p05 = [v.get(\"p05\") for v in (arms or {}).values() if v.get(\"p05\") is not None]",
+      "expression": "[v.get(\"p05\") for v in (arms or {}).values() if v.get(\"p05\") is not None]"
+     }
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 453,
+     "name": "mf",
+     "side": "compared_against",
+     "resolved": {
+      "line": 450,
+      "text": "mf = r[\"flip_multiplier\"]",
+      "expression": "r[\"flip_multiplier\"]"
+     }
+    },
+    {
+     "producer": "scripts/e272_flip_budget_two_tails.py",
+     "line": 460,
+     "name": "mf",
+     "side": "compared_against",
+     "resolved": {
+      "line": 450,
+      "text": "mf = r[\"flip_multiplier\"]",
+      "expression": "r[\"flip_multiplier\"]"
+     }
+    }
+   ],
+   "operand_names": [
+    "mf",
+    "gap",
+    "hi_m",
+    "lo_m",
+    "nt",
+    "nw",
+    "r",
+    "all_p05"
+   ],
+   "operand_names_through_definitions": [
+    "gap_to_flip_pct",
+    "mf",
+    "lo_m",
+    "hi_m",
+    "v",
+    "et",
+    "p05",
+    "arms",
+    "alues",
+    "r",
+    "flip_multiplier"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: a below-floor flip needs the band narrowed -- the published narrowing instrument is measured on its own polarity and its cost on the others",
+   "leg_line": 7631,
+   "face": "results/state_tilt/bandfloormirror_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-09,
+   "band": "leg_looser_or_equal",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 358,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "distance_below_floor"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e288_below_floor_narrowing.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 132,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": {
+      "line": 115,
+      "text": "flip = _num(rec.get(\"flip\"))",
+      "expression": "_num(rec.get(\"flip\"))"
+     }
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 132,
+     "name": "floor",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 134,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": {
+      "line": 115,
+      "text": "flip = _num(rec.get(\"flip\"))",
+      "expression": "_num(rec.get(\"flip\"))"
+     }
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 134,
+     "name": "ceiling",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 151,
+     "name": "pct",
+     "side": "compared_against",
+     "resolved": {
+      "line": 149,
+      "text": "pct = rec.get(\"distance_below_tight_lo_pct\")",
+      "expression": "rec.get(\"distance_below_tight_lo_pct\")"
+     }
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 161,
+     "name": "implied",
+     "side": "compared_against",
+     "resolved": {
+      "line": 152,
+      "text": "implied = flip / (1.0 - pct / 100.0)",
+      "expression": "flip / (1.0 - pct / 100.0)"
+     }
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 161,
+     "name": "FLOOR",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 77,
+      "text": "FLOOR = 1.0",
+      "expression": "1.0"
+     }
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 165,
+     "name": "reached",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 165,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": {
+      "line": 148,
+      "text": "flip = rec[\"flip\"]",
+      "expression": "rec[\"flip\"]"
+     }
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 165,
+     "name": "cap",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 186,
+     "name": "rec",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 186,
+     "name": "FLOOR",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 77,
+      "text": "FLOOR = 1.0",
+      "expression": "1.0"
+     }
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 187,
+     "name": "got",
+     "side": "compared_against",
+     "resolved": {
+      "line": 182,
+      "text": "got = None",
+      "expression": "None"
+     }
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 187,
+     "name": "rec",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 187,
+     "name": "cap",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 188,
+     "name": "rec",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 188,
+     "name": "FLOOR",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 77,
+      "text": "FLOOR = 1.0",
+      "expression": "1.0"
+     }
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 189,
+     "name": "got",
+     "side": "compared_against",
+     "resolved": {
+      "line": 187,
+      "text": "got = rec[\"flip\"] <= cap + TOL",
+      "expression": "rec[\"flip\"] <= cap + TOL"
+     }
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 189,
+     "name": "rec",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 189,
+     "name": "cap",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 191,
+     "name": "got",
+     "side": "compared_against",
+     "resolved": {
+      "line": 189,
+      "text": "got = rec[\"flip\"] >= cap - TOL",
+      "expression": "rec[\"flip\"] >= cap - TOL"
+     }
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 191,
+     "name": "rec",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 191,
+     "name": "cap",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 212,
+     "name": "widen",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 212,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 212,
+     "name": "rows",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 212,
+     "name": "FLOOR",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 77,
+      "text": "FLOOR = 1.0",
+      "expression": "1.0"
+     }
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 213,
+     "name": "narrow",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 213,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 213,
+     "name": "rows",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e288_below_floor_narrowing.py",
+     "line": 213,
+     "name": "FLOOR",
+     "side": "gate_reference",
+     "resolved": {
+      "line": 77,
+      "text": "FLOOR = 1.0",
+      "expression": "1.0"
+     }
+    }
+   ],
+   "operand_names": [
+    "flip",
+    "floor",
+    "ceiling",
+    "pct",
+    "implied",
+    "FLOOR",
+    "reached",
+    "cap",
+    "rec",
+    "got",
+    "widen",
+    "r",
+    "rows",
+    "narrow"
+   ],
+   "operand_names_through_definitions": [
+    "_num",
+    "rec",
+    "et",
+    "flip",
+    "distance_below_tight_lo_pct",
+    "pct",
+    "cap",
+    "TOL"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "leg_line": 7092,
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 334,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "n_gap_rows"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e285_interrange_gap_ceiling.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 134,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 134,
+     "name": "hull",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 134,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 147,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 147,
+     "name": "tight",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 147,
+     "name": "tight",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 149,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 149,
+     "name": "wide",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 149,
+     "name": "wide",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 151,
+     "name": "tight",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 151,
+     "name": "flip",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 151,
+     "name": "wide",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 153,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 153,
+     "name": "wide",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 155,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 155,
+     "name": "tight",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 164,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 164,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 164,
+     "name": "lo",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 171,
+     "name": "den",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 188,
+     "name": "gap_width",
+     "side": "compared_against",
+     "resolved": {
+      "line": 183,
+      "text": "gap_width = None if (gap_lo is None or gap_hi is None) else (gap_hi - gap_lo)",
+      "expression": "None if (gap_lo is None or gap_hi is None) else (gap_hi - gap_lo)"
+     }
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 195,
+     "name": "wide",
+     "side": "compared_against",
+     "resolved": {
+      "line": 180,
+      "text": "wide = interval(rows, \"wide\")",
+      "expression": "interval(rows, \"wide\")"
+     }
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 195,
+     "name": "published_ceiling",
+     "side": "gate_reference",
+     "resolved": null
+    }
+   ],
+   "operand_names": [
+    "lo",
+    "hull",
+    "hi",
+    "flip",
+    "tight",
+    "wide",
+    "den",
+    "gap_width",
+    "published_ceiling"
+   ],
+   "operand_names_through_definitions": [
+    "gap_lo",
+    "gap_hi",
+    "interval",
+    "rows",
+    "wide"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "leg_line": 7094,
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 334,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "max_rows_any_gap_widening_could_add"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e285_interrange_gap_ceiling.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 134,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 134,
+     "name": "hull",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 134,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 147,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 147,
+     "name": "tight",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 147,
+     "name": "tight",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 149,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 149,
+     "name": "wide",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 149,
+     "name": "wide",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 151,
+     "name": "tight",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 151,
+     "name": "flip",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 151,
+     "name": "wide",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 153,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 153,
+     "name": "wide",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 155,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 155,
+     "name": "tight",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 164,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 164,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 164,
+     "name": "lo",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 171,
+     "name": "den",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 188,
+     "name": "gap_width",
+     "side": "compared_against",
+     "resolved": {
+      "line": 183,
+      "text": "gap_width = None if (gap_lo is None or gap_hi is None) else (gap_hi - gap_lo)",
+      "expression": "None if (gap_lo is None or gap_hi is None) else (gap_hi - gap_lo)"
+     }
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 195,
+     "name": "wide",
+     "side": "compared_against",
+     "resolved": {
+      "line": 180,
+      "text": "wide = interval(rows, \"wide\")",
+      "expression": "interval(rows, \"wide\")"
+     }
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 195,
+     "name": "published_ceiling",
+     "side": "gate_reference",
+     "resolved": null
+    }
+   ],
+   "operand_names": [
+    "lo",
+    "hull",
+    "hi",
+    "flip",
+    "tight",
+    "wide",
+    "den",
+    "gap_width",
+    "published_ceiling"
+   ],
+   "operand_names_through_definitions": [
+    "gap_lo",
+    "gap_hi",
+    "interval",
+    "rows",
+    "wide"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "leg_line": 7130,
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 334,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "gap_rows",
+    "summary"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e285_interrange_gap_ceiling.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 134,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 134,
+     "name": "hull",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 134,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 147,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 147,
+     "name": "tight",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 147,
+     "name": "tight",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 149,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 149,
+     "name": "wide",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 149,
+     "name": "wide",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 151,
+     "name": "tight",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 151,
+     "name": "flip",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 151,
+     "name": "wide",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 153,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 153,
+     "name": "wide",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 155,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 155,
+     "name": "tight",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 164,
+     "name": "flip",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 164,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 164,
+     "name": "lo",
+     "side": "gate_reference",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 171,
+     "name": "den",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 188,
+     "name": "gap_width",
+     "side": "compared_against",
+     "resolved": {
+      "line": 183,
+      "text": "gap_width = None if (gap_lo is None or gap_hi is None) else (gap_hi - gap_lo)",
+      "expression": "None if (gap_lo is None or gap_hi is None) else (gap_hi - gap_lo)"
+     }
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 195,
+     "name": "wide",
+     "side": "compared_against",
+     "resolved": {
+      "line": 180,
+      "text": "wide = interval(rows, \"wide\")",
+      "expression": "interval(rows, \"wide\")"
+     }
+    },
+    {
+     "producer": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 195,
+     "name": "published_ceiling",
+     "side": "gate_reference",
+     "resolved": null
+    }
+   ],
+   "operand_names": [
+    "lo",
+    "hull",
+    "hi",
+    "flip",
+    "tight",
+    "wide",
+    "den",
+    "gap_width",
+    "published_ceiling"
+   ],
+   "operand_names_through_definitions": [
+    "gap_lo",
+    "gap_hi",
+    "interval",
+    "rows",
+    "wide"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5741,
+   "face": "results/state_tilt/bandtight_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 389,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "verdict_at_max_p05",
+    "verdict_at_min_p05"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e269_tight_end_transfer.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "bottoms",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 197,
+      "text": "vals = {c: p05_of(arms, c, leg, base) for c in cells}",
+      "expression": "{c: p05_of(arms, c, leg, base) for c in cells}"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 202,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "hi_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 218,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 201,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "lo_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 218,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 202,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    }
+   ],
+   "operand_names": [
+    "bottoms",
+    "c",
+    "v",
+    "vals",
+    "lo",
+    "hi_from",
+    "hi",
+    "lo_from"
+   ],
+   "operand_names_through_definitions": [
+    "c",
+    "p05_of",
+    "arms",
+    "leg",
+    "base",
+    "cells",
+    "vals",
+    "alues",
+    "v",
+    "tems"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5753,
+   "face": "results/state_tilt/bandtight_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 389,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "rows_could_move_within_observed_p05_range"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e269_tight_end_transfer.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "bottoms",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 197,
+      "text": "vals = {c: p05_of(arms, c, leg, base) for c in cells}",
+      "expression": "{c: p05_of(arms, c, leg, base) for c in cells}"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 202,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "hi_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 218,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 201,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "lo_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 218,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 202,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    }
+   ],
+   "operand_names": [
+    "bottoms",
+    "c",
+    "v",
+    "vals",
+    "lo",
+    "hi_from",
+    "hi",
+    "lo_from"
+   ],
+   "operand_names_through_definitions": [
+    "c",
+    "p05_of",
+    "arms",
+    "leg",
+    "base",
+    "cells",
+    "vals",
+    "alues",
+    "v",
+    "tems"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5778,
+   "face": "results/state_tilt/bandtight_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-12,
+   "band": "leg_looser_or_equal",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 389,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "flat_p05"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e269_tight_end_transfer.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "bottoms",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 197,
+      "text": "vals = {c: p05_of(arms, c, leg, base) for c in cells}",
+      "expression": "{c: p05_of(arms, c, leg, base) for c in cells}"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 202,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "hi_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 218,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 201,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "lo_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 218,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 202,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    }
+   ],
+   "operand_names": [
+    "bottoms",
+    "c",
+    "v",
+    "vals",
+    "lo",
+    "hi_from",
+    "hi",
+    "lo_from"
+   ],
+   "operand_names_through_definitions": [
+    "c",
+    "p05_of",
+    "arms",
+    "leg",
+    "base",
+    "cells",
+    "vals",
+    "alues",
+    "v",
+    "tems"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5781,
+   "face": "results/state_tilt/bandtight_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-12,
+   "band": "leg_looser_or_equal",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 389,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "flat_loose_p05"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e269_tight_end_transfer.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "bottoms",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 197,
+      "text": "vals = {c: p05_of(arms, c, leg, base) for c in cells}",
+      "expression": "{c: p05_of(arms, c, leg, base) for c in cells}"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 203,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 202,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "hi_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 218,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 224,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 201,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "lo_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 218,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e269_tight_end_transfer.py",
+     "line": 225,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 202,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    }
+   ],
+   "operand_names": [
+    "bottoms",
+    "c",
+    "v",
+    "vals",
+    "lo",
+    "hi_from",
+    "hi",
+    "lo_from"
+   ],
+   "operand_names_through_definitions": [
+    "c",
+    "p05_of",
+    "arms",
+    "leg",
+    "base",
+    "cells",
+    "vals",
+    "alues",
+    "v",
+    "tems"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: another window's wide end is not a bound",
+   "leg_line": 5149,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-09,
+   "band": "leg_looser_or_equal",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 423,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e262_p95_transfer_across_windows.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "b",
+     "side": "compared_against",
+     "resolved": {
+      "line": 130,
+      "text": "b = row.get(\"b\")",
+      "expression": "row.get(\"b\")"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "tops",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 265,
+      "text": "vals = {c: p95_of(arms, c, leg, base) for c in cells}",
+      "expression": "{c: p95_of(arms, c, leg, base) for c in cells}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 270,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    }
+   ],
+   "operand_names": [
+    "r",
+    "b",
+    "tops",
+    "c",
+    "v",
+    "vals",
+    "hi",
+    "hi_from",
+    "lo_from",
+    "lo"
+   ],
+   "operand_names_through_definitions": [
+    "row",
+    "et",
+    "b",
+    "c",
+    "p95_of",
+    "arms",
+    "leg",
+    "base",
+    "cells",
+    "vals",
+    "alues",
+    "v",
+    "tems"
+   ],
+   "shared_refs": [],
+   "operand_identity": "leg_names_no_face_key",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: another window's wide end is not a bound",
+   "leg_line": 5167,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-12,
+   "band": "leg_looser_or_equal",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 423,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "donor_p95",
+    "p95"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e262_p95_transfer_across_windows.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "b",
+     "side": "compared_against",
+     "resolved": {
+      "line": 130,
+      "text": "b = row.get(\"b\")",
+      "expression": "row.get(\"b\")"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "tops",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 265,
+      "text": "vals = {c: p95_of(arms, c, leg, base) for c in cells}",
+      "expression": "{c: p95_of(arms, c, leg, base) for c in cells}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 270,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    }
+   ],
+   "operand_names": [
+    "r",
+    "b",
+    "tops",
+    "c",
+    "v",
+    "vals",
+    "hi",
+    "hi_from",
+    "lo_from",
+    "lo"
+   ],
+   "operand_names_through_definitions": [
+    "row",
+    "et",
+    "b",
+    "c",
+    "p95_of",
+    "arms",
+    "leg",
+    "base",
+    "cells",
+    "vals",
+    "alues",
+    "v",
+    "tems"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: another window's wide end is not a bound",
+   "leg_line": 5202,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-12,
+   "band": "leg_looser_or_equal",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 423,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "flat_p95"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e262_p95_transfer_across_windows.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "b",
+     "side": "compared_against",
+     "resolved": {
+      "line": 130,
+      "text": "b = row.get(\"b\")",
+      "expression": "row.get(\"b\")"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "tops",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 265,
+      "text": "vals = {c: p95_of(arms, c, leg, base) for c in cells}",
+      "expression": "{c: p95_of(arms, c, leg, base) for c in cells}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 270,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    }
+   ],
+   "operand_names": [
+    "r",
+    "b",
+    "tops",
+    "c",
+    "v",
+    "vals",
+    "hi",
+    "hi_from",
+    "lo_from",
+    "lo"
+   ],
+   "operand_names_through_definitions": [
+    "row",
+    "et",
+    "b",
+    "c",
+    "p95_of",
+    "arms",
+    "leg",
+    "base",
+    "cells",
+    "vals",
+    "alues",
+    "v",
+    "tems"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: another window's wide end is not a bound",
+   "leg_line": 5204,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-12,
+   "band": "leg_looser_or_equal",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 423,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "flat_tight_p95"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e262_p95_transfer_across_windows.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "b",
+     "side": "compared_against",
+     "resolved": {
+      "line": 130,
+      "text": "b = row.get(\"b\")",
+      "expression": "row.get(\"b\")"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "tops",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 265,
+      "text": "vals = {c: p95_of(arms, c, leg, base) for c in cells}",
+      "expression": "{c: p95_of(arms, c, leg, base) for c in cells}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 270,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    }
+   ],
+   "operand_names": [
+    "r",
+    "b",
+    "tops",
+    "c",
+    "v",
+    "vals",
+    "hi",
+    "hi_from",
+    "lo_from",
+    "lo"
+   ],
+   "operand_names_through_definitions": [
+    "row",
+    "et",
+    "b",
+    "c",
+    "p95_of",
+    "arms",
+    "leg",
+    "base",
+    "cells",
+    "vals",
+    "alues",
+    "v",
+    "tems"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5741,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 423,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "verdict_at_max_p05",
+    "verdict_at_min_p05"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e262_p95_transfer_across_windows.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "b",
+     "side": "compared_against",
+     "resolved": {
+      "line": 130,
+      "text": "b = row.get(\"b\")",
+      "expression": "row.get(\"b\")"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "tops",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 265,
+      "text": "vals = {c: p95_of(arms, c, leg, base) for c in cells}",
+      "expression": "{c: p95_of(arms, c, leg, base) for c in cells}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 270,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    }
+   ],
+   "operand_names": [
+    "r",
+    "b",
+    "tops",
+    "c",
+    "v",
+    "vals",
+    "hi",
+    "hi_from",
+    "lo_from",
+    "lo"
+   ],
+   "operand_names_through_definitions": [
+    "row",
+    "et",
+    "b",
+    "c",
+    "p95_of",
+    "arms",
+    "leg",
+    "base",
+    "cells",
+    "vals",
+    "alues",
+    "v",
+    "tems"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5753,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 423,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "rows_could_move_within_observed_p05_range"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e262_p95_transfer_across_windows.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "b",
+     "side": "compared_against",
+     "resolved": {
+      "line": 130,
+      "text": "b = row.get(\"b\")",
+      "expression": "row.get(\"b\")"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "tops",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 265,
+      "text": "vals = {c: p95_of(arms, c, leg, base) for c in cells}",
+      "expression": "{c: p95_of(arms, c, leg, base) for c in cells}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 270,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    }
+   ],
+   "operand_names": [
+    "r",
+    "b",
+    "tops",
+    "c",
+    "v",
+    "vals",
+    "hi",
+    "hi_from",
+    "lo_from",
+    "lo"
+   ],
+   "operand_names_through_definitions": [
+    "row",
+    "et",
+    "b",
+    "c",
+    "p95_of",
+    "arms",
+    "leg",
+    "base",
+    "cells",
+    "vals",
+    "alues",
+    "v",
+    "tems"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5778,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-12,
+   "band": "leg_looser_or_equal",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 423,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "flat_p05"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e262_p95_transfer_across_windows.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "b",
+     "side": "compared_against",
+     "resolved": {
+      "line": 130,
+      "text": "b = row.get(\"b\")",
+      "expression": "row.get(\"b\")"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "tops",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 265,
+      "text": "vals = {c: p95_of(arms, c, leg, base) for c in cells}",
+      "expression": "{c: p95_of(arms, c, leg, base) for c in cells}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 270,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    }
+   ],
+   "operand_names": [
+    "r",
+    "b",
+    "tops",
+    "c",
+    "v",
+    "vals",
+    "hi",
+    "hi_from",
+    "lo_from",
+    "lo"
+   ],
+   "operand_names_through_definitions": [
+    "row",
+    "et",
+    "b",
+    "c",
+    "p95_of",
+    "arms",
+    "leg",
+    "base",
+    "cells",
+    "vals",
+    "alues",
+    "v",
+    "tems"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5781,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-12,
+   "band": "leg_looser_or_equal",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 423,
+     "text": "\"tolerance\": TOL,",
+     "expression": "TOL"
+    }
+   ],
+   "leg_refs": [
+    "flat_loose_p05"
+   ],
+   "gate_identity": {
+    "published_as": "TOL",
+    "resolved_constant": "TOL",
+    "producers_using_the_constant": [
+     "scripts/e262_p95_transfer_across_windows.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "r",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 135,
+     "name": "b",
+     "side": "compared_against",
+     "resolved": {
+      "line": 130,
+      "text": "b = row.get(\"b\")",
+      "expression": "row.get(\"b\")"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "tops",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 265,
+      "text": "vals = {c: p95_of(arms, c, leg, base) for c in cells}",
+      "expression": "{c: p95_of(arms, c, leg, base) for c in cells}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 271,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 292,
+     "name": "hi",
+     "side": "compared_against",
+     "resolved": {
+      "line": 269,
+      "text": "hi = max(vals.values())",
+      "expression": "max(vals.values())"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo_from",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "c",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "v",
+     "side": "compared_against",
+     "resolved": null
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "vals",
+     "side": "compared_against",
+     "resolved": {
+      "line": 286,
+      "text": "vals = {c: v for c, v in vals.items() if v is not None}",
+      "expression": "{c: v for c, v in vals.items() if v is not None}"
+     }
+    },
+    {
+     "producer": "scripts/e262_p95_transfer_across_windows.py",
+     "line": 293,
+     "name": "lo",
+     "side": "compared_against",
+     "resolved": {
+      "line": 270,
+      "text": "lo = min(vals.values())",
+      "expression": "min(vals.values())"
+     }
+    }
+   ],
+   "operand_names": [
+    "r",
+    "b",
+    "tops",
+    "c",
+    "v",
+    "vals",
+    "hi",
+    "hi_from",
+    "lo_from",
+    "lo"
+   ],
+   "operand_names_through_definitions": [
+    "row",
+    "et",
+    "b",
+    "c",
+    "p95_of",
+    "arms",
+    "leg",
+    "base",
+    "cells",
+    "vals",
+    "alues",
+    "v",
+    "tems"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: a non-reproducing pair is traced rung by rung to the reader",
+   "leg_line": 3441,
+   "face": "results/state_tilt/repro_latest.json",
+   "gate_path": "reproduction.tolerance",
+   "gate_value": 0.005,
+   "gate_units": "unspecified",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-06,
+   "band": "leg_tighter",
+   "legacy_band_stands": false,
+   "producers_naming_face": 1,
+   "publish_sites": [
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 388,
+     "text": "repro[\"tolerance\"] = MATCH_TOL",
+     "expression": "MATCH_TOL"
+    }
+   ],
+   "leg_refs": [
+    "aligned_gap"
+   ],
+   "gate_identity": {
+    "published_as": "MATCH_TOL",
+    "resolved_constant": "MATCH_TOL",
+    "producers_using_the_constant": [
+     "scripts/e241_pair_reproduction.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 386,
+     "name": "repro",
+     "side": "compared_against",
+     "resolved": {
+      "line": 379,
+      "text": "repro = {\"published_a_share\": published[\"a_share\"],",
+      "expression": "{\"published_a_share\": published[\"a_share\"],"
+     }
+    },
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 387,
+     "name": "repro",
+     "side": "compared_against",
+     "resolved": {
+      "line": 379,
+      "text": "repro = {\"published_a_share\": published[\"a_share\"],",
+      "expression": "{\"published_a_share\": published[\"a_share\"],"
+     }
+    },
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 464,
+     "name": "pub_sb",
+     "side": "compared_against",
+     "resolved": {
+      "line": 455,
+      "text": "pub_sb = ((pub_face.get(\"designs\") or {}).get(\"share_book_reproduction\") or {})",
+      "expression": "((pub_face.get(\"designs\") or {}).get(\"share_book_reproduction\") or {})"
+     }
+    },
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 464,
+     "name": "r3",
+     "side": "compared_against",
+     "resolved": {
+      "line": 353,
+      "text": "r3 = {\"design\": \"share_book_reproduction_as_published\",",
+      "expression": "{\"design\": \"share_book_reproduction_as_published\","
+     }
+    },
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 480,
+     "name": "r3b",
+     "side": "compared_against",
+     "resolved": {
+      "line": 372,
+      "text": "r3b = {\"rows\": r3b.get(\"rows_used\"), \"a_share\": r3b[\"A_share\"],",
+      "expression": "{\"rows\": r3b.get(\"rows_used\"), \"a_share\": r3b[\"A_share\"],"
+     }
+    },
+    {
+     "producer": "scripts/e241_pair_reproduction.py",
+     "line": 480,
+     "name": "r3",
+     "side": "compared_against",
+     "resolved": {
+      "line": 353,
+      "text": "r3 = {\"design\": \"share_book_reproduction_as_published\",",
+      "expression": "{\"design\": \"share_book_reproduction_as_published\","
+     }
+    }
+   ],
+   "operand_names": [
+    "repro",
+    "pub_sb",
+    "r3",
+    "r3b"
+   ],
+   "operand_names_through_definitions": [
+    "published_a_share",
+    "published",
+    "a_share",
+    "pub_face",
+    "et",
+    "designs",
+    "share_book_reproduction",
+    "design",
+    "share_book_reproduction_as_published",
+    "rows",
+    "r3b",
+    "rows_used",
+    "A_share"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": null
+  },
+  {
+   "leg": "product: dashboard carries the marks coverage gap",
+   "leg_line": 703,
+   "face": "results/t35_open_fill_verify.json",
+   "gate_path": "rel_tol",
+   "gate_value": 0.002,
+   "gate_units": "relative",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 0.0,
+   "band": "leg_exact_equality_tighter_for_any_positive_scale",
+   "legacy_band_stands": false,
+   "producers_naming_face": 7,
+   "publish_sites": [
+    {
+     "producer": "scripts/t35_open_fill_verify.py",
+     "line": 239,
+     "text": "return {\"verdict\": verdict, \"rel_tol\": REL_TOL,",
+     "expression": "REL_TOL"
+    }
+   ],
+   "leg_refs": [
+    "coverage_pct_closed",
+    "marks_coverage_pct"
+   ],
+   "gate_identity": {
+    "published_as": "REL_TOL",
+    "resolved_constant": "REL_TOL",
+    "producers_using_the_constant": [
+     "scripts/t35_open_fill_verify.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/t35_open_fill_verify.py",
+     "line": 222,
+     "name": "rel",
+     "side": "compared_against",
+     "resolved": {
+      "line": 218,
+      "text": "rel = abs(cost - session_open) / session_open",
+      "expression": "abs(cost - session_open) / session_open"
+     }
+    }
+   ],
+   "operand_names": [
+    "rel"
+   ],
+   "operand_names_through_definitions": [
+    "cost",
+    "session_open"
+   ],
+   "shared_refs": [],
+   "operand_identity": "operand_names_disjoint_from_the_legs",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": false,
+   "form_caveat": "the gate is a RELATIVE tolerance while the leg compares an absolute deviation: the names agree but the gate cannot be transported to the leg's number without a scale"
+  },
+  {
+   "leg": "product: open-fill gate names its evidence tier and the bar tier's prices are the bars'",
+   "leg_line": 750,
+   "face": "results/t35_open_fill_verify.json",
+   "gate_path": "rel_tol",
+   "gate_value": 0.002,
+   "gate_units": "relative",
+   "legacy_scope": "declared_but_never_compared",
+   "leg_tolerance": 1e-09,
+   "band": "leg_tighter_for_any_scale_above_that",
+   "legacy_band_stands": false,
+   "producers_naming_face": 7,
+   "publish_sites": [
+    {
+     "producer": "scripts/t35_open_fill_verify.py",
+     "line": 239,
+     "text": "return {\"verdict\": verdict, \"rel_tol\": REL_TOL,",
+     "expression": "REL_TOL"
+    }
+   ],
+   "leg_refs": [
+    "session_open"
+   ],
+   "gate_identity": {
+    "published_as": "REL_TOL",
+    "resolved_constant": "REL_TOL",
+    "producers_using_the_constant": [
+     "scripts/t35_open_fill_verify.py"
+    ]
+   },
+   "corrected_scope": "compared_through_the_published_constant",
+   "operand_rows": [
+    {
+     "producer": "scripts/t35_open_fill_verify.py",
+     "line": 222,
+     "name": "rel",
+     "side": "compared_against",
+     "resolved": {
+      "line": 218,
+      "text": "rel = abs(cost - session_open) / session_open",
+      "expression": "abs(cost - session_open) / session_open"
+     }
+    }
+   ],
+   "operand_names": [
+    "rel"
+   ],
+   "operand_names_through_definitions": [
+    "cost",
+    "session_open"
+   ],
+   "shared_refs": [
+    "session_open"
+   ],
+   "operand_identity": "same_named_quantity",
+   "scope_changed_from_legacy": true,
+   "band_stands_after_operand_identity": true,
+   "form_caveat": "the gate is a RELATIVE tolerance while the leg compares an absolute deviation: the names agree but the gate cannot be transported to the leg's number without a scale"
+  }
+ ],
+ "notes": [
+  "a name-level overlap is a LOWER bound on identity: two code paths may compute the same quantity under different names (invisible here) and two different quantities may share a short local name (r, b) -- every row publishes both name sets so the reading is re-checkable by eye and neither direction is claimed as proof",
+  "the band arithmetic of E308 is untouched; this study only re-scopes it, so a row can gain a producer comparison and still fail the operand test",
+  "a gate used to decide whether a measurement is possible (the bandexp ladder) is a feasibility test, not a tolerance on the number the leg compares"
+ ],
+ "identity_checks": [
+  {
+   "check": "row_count_matches_the_upstream_deduplicated_set",
+   "ok": true
+  },
+  {
+   "check": "partitions_sum_to_the_rows",
+   "ok": true
+  },
+  {
+   "check": "a_row_whose_leg_names_no_key_is_not_counted_as_disjoint",
+   "ok": true
+  },
+  {
+   "check": "every_row_names_its_face_and_gate",
+   "ok": true
+  },
+  {
+   "check": "every_same_named_row_publishes_the_shared_names",
+   "ok": true
+  },
+  {
+   "check": "no_shared_names_outside_the_same_named_partition",
+   "ok": true
+  },
+  {
+   "check": "a_row_that_stands_names_a_comparison_and_a_shared_quantity",
+   "ok": true
+  },
+  {
+   "check": "a_standing_row_is_derivable_from_its_own_legacy_fields",
+   "ok": true
+  },
+  {
+   "check": "the_study_never_counts_itself_as_a_producer",
+   "ok": true
+  },
+  {
+   "check": "scope_flip_count_is_recomputable",
+   "ok": true
+  },
+  {
+   "check": "every_row_that_compares_publishes_a_comparison_text",
+   "ok": true
+  },
+  {
+   "check": "upstream_pairs_reconcile_or_collapse_is_disclosed",
+   "ok": true
+  }
+ ]
+}

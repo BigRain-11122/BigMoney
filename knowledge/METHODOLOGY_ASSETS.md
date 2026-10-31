@@ -6283,3 +6283,40 @@ set, or the study answers its own question with its own text.
 How to apply: any "leg vs gate" or "threshold vs threshold" pairing must carry a scope reading with
 it; where the scope cannot be established from the producer's source, the pair is published as a
 distance, never as a defect. A band of size zero after scope is a real result, not a failed study.
+
+### E312 a gate is compared with a quantity, not with a face -- resolve the constant behind the declared key, then ask whether the operands name the leg's number (r1331 bm-b)
+
+E311 said "pair a leg to a gate only through the producer's own comparison". Pricing that rule
+shows the pairing was still keyed on the wrong name, and that scope is only half the question:
+
+1. **The declared key is a label; the producer compares with the constant it is bound to.** All 30
+   band rows publish their gate as a bare constant (`"tolerance": TOL`, `"tolerance": MATCH_TOL`,
+   `"rel_tol": REL_TOL`, `"tol": GAMMA_TOL`). A scan for the declared name therefore reports
+   "declared_but_never_compared" on 28 of them, while the producer compares with `TOL` and often
+   through a parameter defaulted from it (`def verdict_from(..., tol=GAMMA_TOL)`). Resolve the
+   publish site to its constant, add parameter-default and rebind aliases, and 29 of 30 pairs turn
+   out to have a producer comparison. **Before concluding "the gate is never used", check whether
+   you scanned the label instead of the value.**
+2. **Scope is not operand identity.** Being compared somewhere does not mean being compared with
+   the number the leg reads. In this class 25 rows compare names that never meet, 4 legs name no
+   face key at all, and exactly 1 shares the leg's quantity — and the two bands *swap*: the only
+   band E311 let stand compares the window edges `lo`/`hi` against `FROZEN_GAMMA ± tol` (a
+   feasibility test of the ladder, `FROZEN_GAMMA = 0.5` an assumption), while the open-fill band it
+   rejected compares `abs(cost - session_open)/session_open` — the very price the leg reads. A band
+   that survives scope and dies on operands (or the reverse) is the normal outcome, not an
+   inconsistency.
+3. **Publish the form, not just the name.** The surviving row's gate is *relative* while the leg is
+   *absolute*: same object, untransportable threshold. Names agreeing is not the same as
+   entitlement to a difference.
+
+Four operational traps, all live in this round: (a) raw-text scanning reads **prose** as a
+comparison — a docstring carrying "tol" and a ">" yielded `this`, `counts`, `as` as operands, so
+comparisons must come from `tokenize` NAME/OP tokens; (b) `1e-06` yields the identifier `e` unless
+identifiers are required not to start after a digit or dot; (c) a leg naming no face key is **not**
+"disjoint" — give it its own partition or the finding inflates itself; (d) `x in [list]` is an
+element test, not a substring test, so a self-inclusion guard written that way can never fail.
+
+How to apply: when grading "is this leg tighter than that gate", walk three steps in this order —
+declared key → published value/constant → the operands on both sides of the producer's comparator
+(one hop down their definitions) — and publish all three with every row. Where the leg names no
+face key, record the question as unanswerable at name level instead of counting it.

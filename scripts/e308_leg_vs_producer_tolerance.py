@@ -59,6 +59,10 @@ GATE_WORDS = {"tolerance", "tol", "rel_tol", "abs_tol", "rtol", "atol", "epsilon
 EXCLUDE_WORDS = (
     "required", "reachable", "fraction", "pct", "edge", "scale", "toll", "stability",
     "clears", "flat_rel_tol", "gamma_tol",
+    # r1331: a study's own bookkeeping of the leg's epsilon is a measurement, not a gate the
+    # producer grants. Without this, E312's row dump (30 `leg_tolerance` cells) graded itself into
+    # this census as a 12th gated face and added 17 pairs that no producer ever wrote.
+    "leg_tolerance",
 )
 
 
@@ -270,7 +274,12 @@ def build(outdir=None):
     legs, tree = E299.parse_legs(src)
     sites = E299.extract_sites(legs, tree)
 
+    self_faces = {FACE % TODAY, LATEST}
     faces = sorted({f for s in sites for f in (s.get("faces_named") or [])})
+    # r1331: this study's own leg reads this study's own face, so without the filter the census
+    # prices its own bookkeeping as a gated face (the E294/E298 self-inclusion family, leg side).
+    self_faces_skipped = sorted(f for f in faces if os.path.basename(f) in self_faces)
+    faces = [f for f in faces if os.path.basename(f) not in self_faces]
     gates_by_face, face_rows, exclusions, missing = {}, [], [], []
     scope_by_gate = {}
     for face in faces:
@@ -358,6 +367,7 @@ def build(outdir=None):
             "gates_with_an_excluded_twin": len(
                 [g for f in face_rows for g in f["gates"] if g.get("same_value_as_excluded_key")]),
             "unresolved_faces": len(missing),
+            "self_faces_skipped": len(self_faces_skipped),
         },
         "verdict": (
             "bands_stand_only_where_the_producer_is_seen_comparing_with_the_gate" if stands

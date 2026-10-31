@@ -2579,7 +2579,7 @@
  ],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1323,
- "round_no": 1330,
+ "round_no": 1331,
  "round_no_label": "r1316",
  "round_no_note": "git log is the canvas; round number follows the highest round report row",
  "round_no_ts": "2026-10-31T12:13:18+08:00",
@@ -2607,7 +2607,7 @@
  "task": "E298 replay-control census",
  "task_short": "E298 basis census",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-10-31T18:02:00+08:00",
+ "ts": "2026-10-31T19:0x+08:00",
  "updated": "2026-10-31T13:13:05+08:00",
  "updated_at": "2026-10-31T13:13:05+08:00",
  "verdict": "r1323: E298 published; 26 published control blocks, 14 are replays and 7 of those cannot state which panel they re-derived on",
@@ -2951,5 +2951,32 @@
    "note": "11 files staged (producer, both faces, digest, methodology card, two wiring files, pool, state, heartbeat, round report); the ~600 dirty tracked files left by collectors and prior windows were not swept in. Line endings normalised to each file's own blob convention before the amend, so the diff is 30-570 lines per file instead of a whole-file rewrite."
   }
  },
- "notes_r1330": "| 2026-10-31T18:02:00+08:00 | r1330 | **watermark: pool-batch red at open (E308 ready, py idle) -- burned the ready head E308 in-round** | E308 gate-vs-leg tolerance published: 11 of 55 leg-read faces publish a real gate; 30 pairs, 18 arithmetically tighter, 1 survives a scope reading of the writers -- and its gate is the same 0.1 an excluded key holds. **CURRENT:** E308 done. **LATEST PHYSICAL:** results/state_tilt/GATETOL-2026-10-31.json. **NEXT MILESTONE:** E312 gate operand identity (ready, runner not written; due next round, within 48h). **PRODUCT:** the face-level pairing manufactures 17 bands out of tolerance parameters the producers never compare with."
-}
+ "notes_r1330": "| 2026-10-31T18:02:00+08:00 | r1330 | **watermark: pool-batch red at open (E308 ready, py idle) -- burned the ready head E308 in-round** | E308 gate-vs-leg tolerance published: 11 of 55 leg-read faces publish a real gate; 30 pairs, 18 arithmetically tighter, 1 survives a scope reading of the writers -- and its gate is the same 0.1 an excluded key holds. **CURRENT:** E308 done. **LATEST PHYSICAL:** results/state_tilt/GATETOL-2026-10-31.json. **NEXT MILESTONE:** E312 gate operand identity (ready, runner not written; due next round, within 48h). **PRODUCT:** the face-level pairing manufactures 17 bands out of tolerance parameters the producers never compare with.",
+ "r1331": {
+  "round": 1331,
+  "ts": "2026-10-31T19:0x+08:00",
+  "dept": "research+engineering",
+  "study": "E312_gate_operand_identity",
+  "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+  "watermark_red": "pool-batch-red at open (4 ready at 18:37, py CPU idle, saturation engine rc=0 idle) -- burned the ready head E312 in-round",
+  "finding": "E308 paired each leg to its face's gate on the DECLARED key, but every one of the 30 band rows publishes the gate as a bare constant (TOL / MATCH_TOL / REL_TOL / GAMMA_TOL) and the producer compares with the constant or with a parameter defaulted from it (def verdict_from(..., tol=GAMMA_TOL)), so 29 of the 30 pairs E308 called 'declared but never compared' do have a producer comparison -- including the case-blind miss rel_tol vs REL_TOL and the templated face REPRO-%s that E308 reported as producer_not_found. Being compared is still not being compared to the leg's quantity: 25 rows compare names that never meet, 4 legs name no face key at all, and 1 shares the leg's quantity. The two bands swap -- bandexp falls (its gate compares the window edges lo/hi against FROZEN_GAMMA +- tol, a feasibility test of the ladder) and t35 stands (rel = abs(cost - session_open)/session_open, relative vs the leg's absolute epsilon, caveat published on the row).",
+  "verdict": "a_gate_is_compared_with_something_and_that_something_is_rarely_the_legs_quantity",
+  "pit": "(1) raw-text scanning reads PROSE as a comparison: a docstring carrying 'tol' and a '>' yielded this/counts/as/half/agreement as operands before the scan moved to tokenize NAME/OP tokens; (2) `1e-06` yields the identifier `e` unless a name may not start after a digit or a dot; (3) a leg that names no face key is NOT 'disjoint' -- counting it inflates the finding by 4 rows, so it gets its own partition; (4) `x in [list]` is an element test, not a substring test -- the self-inclusion identity leg could never fail until it was rewritten; (5) adding a smoke leg re-derives three sibling censuses (E310 coupling) and exposed a latent defect in E308: its own leg reads its own face, so the census graded its own `leg_tolerance` bookkeeping as a 12th gated face with 17 extra pairs -- fixed by excluding the self face and by treating leg_tolerance as a measurement (E208 rule), E308 verify back to 0 problems, selftest PASS.",
+  "product": [
+   "scripts/e312_gate_operand_identity.py (run / verify 0 problems / selftest 21/21)",
+   "results/state_tilt/GATEOPERANDS-2026-10-31.json + gateoperands_latest.json",
+   "research/digests/DIGEST-20261031-r1331-e312-gate-operand-identity.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E312",
+   "Tools/s6_chain_bmb.py leg gate_operand_identity (verify, 1.4s, rc=0)",
+   "smoke_test.py leg E312 (executed standalone: PASS)",
+   "results/runnable_pool.json E312 done with result_ref + E313 seeded ready"
+  ],
+  "s1": "the full 330-leg suite was not re-run this window (~35 min); the new E312 leg was extracted from smoke_test.py and executed standalone against the published face: PASS. The five studies whose summaries count this source were re-derived and re-verified after the new leg landed (E298 31 controls / E299 63 sites / E302 / E305 8 rows / E308 30 pairs).",
+  "s6": "orphan probe py_faces=10 orphans=0 residents=0 | chain legs replay_control_census rc=0 0.37s, precision_census rc=0 48.1s, gate_tolerance_census rc=0 0.04s, gate_operand_identity rc=0 1.4s (results/_r1331bmb_s6_chain.json, S6 4/4 rc=0) | dualrun, compute_audit, py_watermark, attrition and the lane collectors were NOT re-run this window (wall budget), so no dualrun streak is claimed",
+  "s7": "orders 114 files / 115 acks / 0 unacked at the round-open scan; decisions/orders watermarks not re-fetched this window (no fetch attempted, the recorded watermark stays); scheduler and claws read but not re-registered (no drift observed)",
+  "orders": "114 order files / 115 acks / 0 unacked",
+  "pool": "E312 done with result_ref; E313-GATE-FORM-AND-SCALE seeded ready (803 entries, 1 ready)",
+  "identity": "identity_checks 12/12 ALL PASS (partitions, shared-name disclosure, self-inclusion, scope-flip count, legacy derivability)"
+ },
+ "notes_r1331": "| 2026-10-31T19:0x+08:00 | r1331 | **watermark: pool-batch red at open (4 ready, py idle) -- burned the ready head E312 in-round** | E312 gate operand identity published: 29 of 30 E308 pairs do have a producer comparison once the DECLARED key is resolved to the constant behind it, but 25 rows compare names that never meet -- and the two bands swap. **CURRENT:** E312 done. **LATEST PHYSICAL:** results/state_tilt/GATEOPERANDS-2026-10-31.json. **NEXT MILESTONE:** E313 gate form and scale (ready, runner not written; due next round, within 48h). **PRODUCT:** a leg can be tighter than a gate that governs another number entirely, so the band joins on the operand, not on the face."
+}

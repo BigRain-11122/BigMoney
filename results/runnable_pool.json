@@ -25668,7 +25668,7 @@
    "id": "E312-GATE-OPERAND-IDENTITY",
    "title": "E308's scope test asks whether the producer compares with the gate at all -- it does not ask whether it compares the SAME quantity the leg compares; how many of the rows would survive an operand-identity reading?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "entered_at": "2026-10-31T18:35+08:00",
    "entered_by": "bm-b r1330",
@@ -25678,6 +25678,33 @@
    "deliverable": "results/state_tilt/GATEOPERANDS-<cutoff>.json",
    "question": "per band row: which variable/expression does the producer's own comparison put the gate against, and which keys does the leg compare? Publish the operand texts and whether they name the same quantity; never a count of wrong legs.",
    "runner": "scripts/e312_gate_operand_identity.py",
+   "runner_args": [
+    "run"
+   ],
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "done_at": "2026-10-31T19:0x+08:00",
+   "done_by": "bm-b r1331",
+   "result_ref": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "result_note": "30 band rows (11 faces, 12 gates). Every gate is published as a bare constant (TOL/MATCH_TOL/REL_TOL/GAMMA_TOL), so resolving the publish site and the parameter-default alias chain turns 29 of the 30 'declared but never compared' pairs into real producer comparisons. Operand identity then drops most of them: 25 rows compare names that never meet, 4 legs name no face key, 1 shares the leg's quantity. The two bands swap -- bandexp falls (its gate compares the window edges lo/hi against FROZEN_GAMMA +- tol, a feasibility test of the ladder) and t35 stands (relative abs(cost - session_open)/session_open vs an absolute leg epsilon, caveat published)."
+  },
+  {
+   "id": "E313-GATE-FORM-AND-SCALE",
+   "title": "E312's single surviving band matches names but not form: the gate is a relative tolerance and the leg an absolute epsilon. Across the 12 gates, how many carry a unit/form that the leg's comparison cannot inherit, and what scale would make the pair comparable?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "entered_at": "2026-10-31T19:0x+08:00",
+   "entered_by": "bm-b r1331",
+   "evidence_cutoff": "2026-10-31",
+   "source": "r1331 (E312): the open-fill band survived the operand-identity reading only because the names match -- rel = abs(cost - session_open)/session_open vs abs(_px - r['session_open']) > 1e-9. A relative gate cannot entitle an absolute difference without a scale, and every row of the face already carries gate_units and leg_tolerance, so the form question is answerable from the published face alone",
+   "target": "results/state_tilt/gateoperands_latest.json rows (gate_units, leg_tolerance, operand_rows)",
+   "deliverable": "results/state_tilt/GATEFORM-<cutoff>.json",
+   "question": "per band row: what unit does the producer's comparison express the gate in (relative / absolute / count), what unit does the leg compare in, and at what scale would the two be comparable? Publish the scale and the transformation, never a count of wrong rows.",
+   "runner": "scripts/e313_gate_form_and_scale.py",
    "runner_args": [
     "run"
    ],
@@ -25700,6 +25727,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T18:35:00",
+ "updated_at": "2026-10-31T19:0x+08:00",
  "version": 1
 }

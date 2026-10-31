@@ -21,15 +21,16 @@
    "stability",
    "clears",
    "flat_rel_tol",
-   "gamma_tol"
+   "gamma_tol",
+   "leg_tolerance"
   ],
   "band_absolute": "non-empty iff leg_tolerance < gate_value (scale-free)",
   "band_relative": "permitted error = gate*|x|; non-empty iff |x| > leg_tolerance/gate",
   "slack": "leg tolerance read from smoke_test.py by the E299 parser"
  },
  "census": {
-  "legs": 326,
-  "sites": 93,
+  "legs": 330,
+  "sites": 94,
   "faces_named_by_sites": 55,
   "faces_resolved": 55,
   "faces_publishing_a_gate": 11,
@@ -49,7 +50,8 @@
   "pairs_scope_producer_not_found": 1,
   "gate_exclusions": 35,
   "gates_with_an_excluded_twin": 1,
-  "unresolved_faces": 0
+  "unresolved_faces": 0,
+  "self_faces_skipped": 1
  },
  "verdict": "bands_stand_only_where_the_producer_is_seen_comparing_with_the_gate",
  "rows_band_stands": [

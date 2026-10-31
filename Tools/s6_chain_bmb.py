@@ -647,6 +647,17 @@ LEGS = [
     ("gate_tolerance_census",
      ["python", "scripts/e308_leg_vs_producer_tolerance.py", "verify"]),
 
+    # E312: those pairings were keyed on the DECLARED key, but a writer publishes a constant
+    # ("tolerance": TOL) and compares with the constant or with a parameter defaulted from it, so
+    # 29 of the 30 pairs E308 called "declared but never compared" do have a producer comparison.
+    # Being compared is still not being compared to the leg's quantity: the one band E308 let stand
+    # compares the window edges lo/hi against FROZEN_GAMMA +- tol (a feasibility test of the
+    # ladder), while the open-fill band it rejected compares abs(cost - session_open)/session_open,
+    # the very price the leg reads (relative vs absolute: disclosed). Verify rebuilds from source
+    # and the published face; seconds.
+    ("gate_operand_identity",
+     ["python", "scripts/e312_gate_operand_identity.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
