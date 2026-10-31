@@ -27,12 +27,15 @@
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "delivery": {
-  "behind_origin_main": 102,
-  "branch": "machine/bm-b-r1282",
-  "local_not_on_origin_main": 9,
-  "sha": "8806271e3e93c1f446215c0d4730af8dfbc700c6",
-  "ts": "2026-10-30T18:05:00+08:00",
-  "verified": "git ls-remote == git rev-parse HEAD"
+  "branch": "machine/bm-b-r1313",
+  "pushed_sha": "d5e4d152b9dc77989af3c95ea90c5a8f40802045",
+  "remote_ref_sha": "d5e4d152b9dc77989af3c95ea90c5a8f40802045",
+  "verified": true,
+  "local_not_on_origin_main": 77,
+  "behind_origin_main": 166,
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1312 family); main push not attempted",
+  "ts": "2026-10-31T08:24:57+08:00",
+  "note": "staged 12 files, all this round's outputs; the ~340 dirty tracked files left by collectors and prior windows were not swept in. Heartbeat EOL had to be repaired from CRLF to the blob's LF and orders_ack kept a LIST (type flip caught before push)."
  },
  "dept": "research+engineering",
  "did": "burned E266 end-to-end: the written wide-end screen (any donor p95 above the row's threshold) scores 2/18 against E262's published pairs -- 12 of its 16 false positives are rows the donor could never break, 4 are rows it does not reach because max(|lo|,|hi|) is only the flip multiplier on the WIDER side (18 of 36 comparisons sit on the narrow side); guarding on the row's own end removes every false positive but loses one real move, and only the bracket with the row's own side reproduces the moved set exactly (2/0/0)",
@@ -961,12 +964,12 @@
  "status": "green",
  "study": "E291_ambiguity_by_length_chance",
  "sync": {
-  "ahead": 32,
-  "behind": 120,
-  "branch": "machine/bm-b-r1292",
-  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1291 family); delivery on the machine branch",
+  "ahead": 77,
+  "behind": 166,
+  "branch": "machine/bm-b-r1313",
   "peer": "origin",
-  "ts": "2026-10-30T23:47:45+08:00"
+  "ts": "2026-10-31T08:24:57+08:00",
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1312 family); main push not attempted"
  },
  "sync_note": "the 29-commit deferral is closed: every round since r1230 rode machine/bm-b-r* branches instead of main because the blob:none promisor clone hung on rebase and mktree replay is banned after the LEDGER loss. A git-native merge in a throwaway worktree with -c merge.renames=false (the rename pass is what triggered the unfetchable-object fetch) lands both lineages at once.",
  "task": "E291 ambiguity by length chance (done)",
@@ -996,7 +999,18 @@
   "s7": "loop pin=2 and LoopWatchdog left to their own ticks | clones untouched | orders 114 files / 115 acks / 0 unacked (1 stale ack note) | decisions face not re-scanned (state carries 97fe122f / 4348aa21, 0 unacked from r1312)",
   "pool": "E291 done with result_ref; 789 entries, ready 4 (E287-ABOVE-CEILING-CROSS-FACE, E288-BELOW-FLOOR-NARROWING, E292-SCOPE-FIX-PLAN, E293-DUPLICATE-LIST-CENSUS)",
   "face": "results/state_tilt/BANDAMBIENT-2026-10-29.json",
-  "study": "E291_ambiguity_by_length_chance"
+  "study": "E291_ambiguity_by_length_chance",
+  "delivery": {
+   "branch": "machine/bm-b-r1313",
+   "pushed_sha": "d5e4d152b9dc77989af3c95ea90c5a8f40802045",
+   "remote_ref_sha": "d5e4d152b9dc77989af3c95ea90c5a8f40802045",
+   "verified": true,
+   "local_not_on_origin_main": 77,
+   "behind_origin_main": 166,
+   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1312 family); main push not attempted",
+   "ts": "2026-10-31T08:24:57+08:00",
+   "note": "staged 12 files, all this round's outputs; the ~340 dirty tracked files left by collectors and prior windows were not swept in. Heartbeat EOL had to be repaired from CRLF to the blob's LF and orders_ack kept a LIST (type flip caught before push)."
+  }
  },
  "finding": "an equal length is not a coin flip: E290 flagged 12 of 27 checkable counts as ambiguous because another same-unit list in the same face has the same length, but that rate is exactly the pooled length null (12 vs 10.78 expected = 39.9 pct, tail p=0.384) AND all 12 come from just 2 (face, unit) scopes (BANDFLIPBUDGET::cells 8, BANDGAPCEILING::rows 4). At list level lengths are MORE concentrated than the null predicts (104 of 125 = 83.2 pct vs 67.4 pct, p=0.00005), and of 746 equal-length pairs 605 share a record schema (81.1 pct), 135 are the very same content (18.1 pct -- 135 duplicated lists nothing in the family reports) and only 6 differ (0.8 pct). So the flag marks a shared shape plus a duplicate census, not two lists competing for one meaning."
 }

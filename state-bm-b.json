@@ -87,11 +87,15 @@
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "delivery": {
-  "behind_origin_main": 164,
-  "branch": "machine/bm-b-r1308",
-  "local_not_on_origin_main": 66,
-  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1307 family); delivery stays on the machine branch, not re-attempted",
-  "ts": "2026-10-31T07:26:00+08:00"
+  "branch": "machine/bm-b-r1313",
+  "pushed_sha": "d5e4d152b9dc77989af3c95ea90c5a8f40802045",
+  "remote_ref_sha": "d5e4d152b9dc77989af3c95ea90c5a8f40802045",
+  "verified": true,
+  "local_not_on_origin_main": 77,
+  "behind_origin_main": 166,
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1312 family); main push not attempted",
+  "ts": "2026-10-31T08:24:57+08:00",
+  "note": "staged 12 files, all this round's outputs; the ~340 dirty tracked files left by collectors and prior windows were not swept in. Heartbeat EOL had to be repaired from CRLF to the blob's LF and orders_ack kept a LIST (type flip caught before push)."
  },
  "delivery_note": "main-branch push is not attempted: a bounded attempt has hung in promisor lazy-fetch for thirteen consecutive rounds (r1255..r1295 family), so the machine branch is the delivery channel until it clears",
  "dept": "research+engineering",
@@ -2595,12 +2599,12 @@
  "status": "green",
  "study": "E291_ambiguity_by_length_chance",
  "sync": {
-  "ahead": 71,
+  "ahead": 77,
   "behind": 166,
-  "branch": "machine/bm-b-r1310",
-  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1309 family); main push not attempted",
+  "branch": "machine/bm-b-r1313",
   "peer": "origin",
-  "ts": "2026-10-31T07:36:00+08:00"
+  "ts": "2026-10-31T08:24:57+08:00",
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1312 family); main push not attempted"
  },
  "task": "E291 ambiguity by length chance (done)",
  "task_short": "E283 degenerate range",
@@ -2629,6 +2633,17 @@
   "s7": "loop pin=2 and LoopWatchdog left to their own ticks | clones untouched | orders 114 files / 115 acks / 0 unacked (1 stale ack note) | decisions face not re-scanned (state carries 97fe122f / 4348aa21, 0 unacked from r1312)",
   "pool": "E291 done with result_ref; 789 entries, ready 4 (E287-ABOVE-CEILING-CROSS-FACE, E288-BELOW-FLOOR-NARROWING, E292-SCOPE-FIX-PLAN, E293-DUPLICATE-LIST-CENSUS)",
   "face": "results/state_tilt/BANDAMBIENT-2026-10-29.json",
-  "study": "E291_ambiguity_by_length_chance"
+  "study": "E291_ambiguity_by_length_chance",
+  "delivery": {
+   "branch": "machine/bm-b-r1313",
+   "pushed_sha": "d5e4d152b9dc77989af3c95ea90c5a8f40802045",
+   "remote_ref_sha": "d5e4d152b9dc77989af3c95ea90c5a8f40802045",
+   "verified": true,
+   "local_not_on_origin_main": 77,
+   "behind_origin_main": 166,
+   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1312 family); main push not attempted",
+   "ts": "2026-10-31T08:24:57+08:00",
+   "note": "staged 12 files, all this round's outputs; the ~340 dirty tracked files left by collectors and prior windows were not swept in. Heartbeat EOL had to be repaired from CRLF to the blob's LF and orders_ack kept a LIST (type flip caught before push)."
+  }
  }
 }
