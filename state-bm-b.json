@@ -2571,18 +2571,18 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "ram_load_pct": 80,
+ "ram_load_pct": 75,
  "ram_total_gb": 23.92,
  "reds_open": [
   "cal_audit rc=1 panel_gap: data_lag_audit says the astock panel is effective 2026-10-28 with 10-29/10-30 missing while scripts/update_astock_daily.py reports cutoff 2026-10-30 and no-ops -- two faces of one panel (r1290 family), must be measured before either is believed",
   "etf_book_forward rc=3 FROZEN: ledger drift, needs the --rebase adopt-or-not decision; adopting a re-derived history without a path test is exactly the E188 error"
  ],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1315,
- "round_no": 1316,
- "round_no_label": "r1315",
+ "round": 1316,
+ "round_no": 1317,
+ "round_no_label": "r1316",
  "round_no_note": "git log is the canvas; round number follows the highest round report row",
- "round_no_ts": "2026-10-31T10:05:00+08:00",
+ "round_no_ts": "2026-10-31T10:29:27+08:00",
  "round_no_ts_note": "r1295 closeout",
  "round_pit": "(1) the degeneracy cross-check summed n_at_base over the 16 PUBLISHED ROWS and read 29 against E259 52 -- the published rows and E259 distribution arms are two different 16s, so the \"reproduction failure\" was my lookup, not a broken upstream; the pin is now per arm (base count AND leg in the key) and a selftest leg pins that the row sum is NOT the arm total. (2) my first selftest assertion on extra_draws_median said 280 while the code (correctly) returns the median of [280,1720]=1000 -- the assertion was wrong, not the code (r1281 shape). (3) two fixture counts in the new arm-level leg were written as if the cross arm had 1 degenerate seed when its own fixture implies 2; the leg caught it, which is what a pin is for. (4) a self-contained smoke leg cannot be run by the suite in-round (~35 min) so it is executed by exec-ing its own text out of smoke_test.py -- a re-implementation would prove the copy.",
  "s1": "the full 270-leg suite ran to completion: 266/270 PASS with 4 FAIL at open. Two were universe drift (E290 and E291 re-deriving over the live directory); both are now frozen to their published census and PASS with their original numbers, so the board reads 268/270 with two science-defect reds seeded as E297 (E243 E240-replay MISMATCH at 5e-5 against a 1e-9 tolerance; empirical gamma CI endpoint absent from its own point set). The new E287 leg was also extracted verbatim and executed standalone (PASS, and FAILs under a reach-count mutation)",
@@ -2590,14 +2590,14 @@
  "s6_note": "the new smoke leg was verified standalone against the on-disk face (6 cells, gate recompute, band-draw count, crossing-vs-family-line, two-session block) rather than by re-running the 230-leg suite",
  "s7": "loop pin=2 and LoopWatchdog left to their own ticks | orders 114 files / 115 acks / 0 unacked | decisions face not re-scanned (0 unacked carried from r1313) | pre-commit and pre-push claws untouched this window",
  "sat_engine": "rc=0 idle",
- "selftest": "e285_interrange_gap_ceiling 23/23",
- "seq": 1315,
- "smoke": "new leg verified standalone by exec-ing its own source out of smoke_test.py -> PASS (results/_r1310bmb_e285_smokeleg_harness.py); the full ~250-leg suite was not re-run",
+ "selftest": "e243 16/16, e233 13/13",
+ "seq": 1316,
+ "smoke": "the two red legs executed verbatim standalone: both FAIL before, both PASS after; full suite not re-run this window",
  "smoke_note": "the suite was re-run to completion after the leg was registered; the earlier 244/244 was the same suite before the leg existed",
  "snapshot": {},
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
- "study": "E287_supply_ceiling_axes",
+ "study": "E297_fix_two_red_legs",
  "sync": {
   "ahead": 77,
   "behind": 166,
@@ -2606,15 +2606,15 @@
   "ts": "2026-10-31T08:24:57+08:00",
   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1312 family); main push not attempted"
  },
- "task": "E287 supply ceiling axes (done) -> next head E288 below-floor narrowing cost",
- "task_short": "E283 degenerate range",
+ "task": "E297 fix two red legs (done) -> next head E288 below-floor narrowing cost",
+ "task_short": "E297 two red legs fixed",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-10-31T10:09:00+08:00",
- "updated": "2026-10-31T10:09:00+08:00",
- "updated_at": "2026-10-31T10:09:00+08:00",
- "verdict": "published_supply_reaches_the_gap_rows_only",
- "watermark_red": "py_low_with_work_cands at open (lane pool-batch-runnable-idle-low-cpu, 4 ready pool rows, py 0.1 pct of 16 cores, legal_idle_whitelist.satisfied=false); the round burned the head card E287 in-round and re-seeded the pool to 6 ready",
- "work": "E282 done",
+ "ts": "2026-10-31T10:29:27+08:00",
+ "updated": "2026-10-31T10:29:27+08:00",
+ "updated_at": "2026-10-31T10:29:27+08:00",
+ "verdict": "both_red_legs_were_the_check_not_the_science",
+ "watermark_red": "py_low_with_work_cands at open (pool_ready 6, py 0.0 pct of 16 cores, legal_idle_whitelist.satisfied=false); the round burned the head red card E297 in-round and re-seeded the pool to 7 ready",
+ "work": "E297 done",
  "r1313": {
   "ts": "2026-10-31T08:23:49+08:00",
   "dept": "research+engineering",
@@ -2646,7 +2646,7 @@
    "note": "staged 12 files, all this round's outputs; the ~340 dirty tracked files left by collectors and prior windows were not swept in. Heartbeat EOL had to be repaired from CRLF to the blob's LF and orders_ack kept a LIST (type flip caught before push)."
   }
  },
- "face": "results/state_tilt/BANDSUPPLY-2026-10-29.json",
+ "face": "results/state_tilt/addos_latest.json",
  "r1315": {
   "round": 1315,
   "ts": "2026-10-31T10:05:00+08:00",
@@ -2680,5 +2680,28 @@
    "ts": "2026-10-31T10:09:00+08:00",
    "note": "21 files staged, all this round's outputs plus the absorbed r1314 window's landed files; the ~600 dirty tracked files left by collectors and prior windows were not swept in. state-bm-b.json and fleet/machines/bm-b.json carry a one-time whole-file reflow from the dead window and are landed as found."
   }
+ },
+ "r1316": {
+  "round": 1316,
+  "ts": "2026-10-31T10:29:27+08:00",
+  "dept": "research+engineering",
+  "study": "E297_fix_two_red_legs",
+  "face": "results/state_tilt/addos_latest.json",
+  "finding": "Both red smoke legs were the CHECK, not the science. E243's headline cell is a replay of E240 but was built over the live panel, so it re-derived over 1329 sessions against E240's published 1328 and read MISMATCH on a 5.15e-05 gap at a 1e-09 tolerance; pinned to the reference's own book window both gaps are exactly 0.0, and the face now discloses the sessions it excludes (1) rather than dropping them silently. E233 publishes gamma_points rounded to 6 dp beside a full-precision interval, so a leg comparing them at 1e-09 saw an endpoint absent from its own printed copy (difference 3.09e-07); the precision and the point provenance are now published by the face and the leg compares at one rounding unit and requires the endpoints to be NAMED. No verdict moved (headline unresolved_heterogeneous_pairs, roll-up additivity_only_in_the_mean on 10 cells; gamma 0.928 [0.830,1.025], 12/12 ladder cells stable inside the interval, 2 decided by the identification span).",
+  "pit": "(1) the first fix attempt pinned every run to the reference window, including fixtures, whose synthetic panels then got clipped to 0 sessions (additive fixture turned additivity_era_dependent) -- a window must be refused when it does not describe the panel under test (ends after the panel's last session, or keeps fewer than MIN_SESSIONS), and the refusal is published. (2) the exec harness initially produced 'unexpected indent' because src.index('# E233:') starts AFTER the four spaces of indentation, so the first line kept zero indent and dedent() became a no-op -- cut blocks from the line start. (3) the pool writer parameters matter again: the blob is CRLF+indent=1+trailing CRLF, and a two-entry patch stayed at 34/3 lines (+2057 bytes) instead of the 25k-line reflow of r1309-r1315.",
+  "product": [
+   "scripts/e243_additivity_out_of_sample.py (selftest 16/16, +2 legs; replay pinned to the reference window with refusal + drift disclosure)",
+   "scripts/e233_empirical_gamma.py (selftest 13/13; GAMMA_POINT_DECIMALS + gamma_points_sources)",
+   "results/state_tilt/addos_latest.json + ADDOS-2026-10-30.json (e240_replay.status=reproduced, gaps 0.0)",
+   "results/state_tilt/empirical_gamma_latest.json + EMPIRICAL-GAMMA-2026-10-30.json",
+   "smoke_test.py E233 leg: compares at the published precision and requires named endpoint sources",
+   "research/digests/DIGEST-20261031-r1316-e297-two-red-legs.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E295",
+   "results/runnable_pool.json E297 done + E298/E299 seeded (795 entries, 7 ready)"
+  ],
+  "s1": "the two red legs from r1315 were extracted verbatim from smoke_test.py and executed standalone (exec harness, no re-implementation) and both FAILED for the reasons above; after the fix both PASS, and the producers' own selftests are 16/16 and 13/13. The full ~270-leg suite was NOT re-run in this window (wall budget) -- stated plainly: the board is green on the two legs that were red, not re-measured end to end.",
+  "s6": "orphan probe py_faces=7 orphans=0 residents=0 | py_watermark insufficient_history with pool_ready=6 and py 0.0 pct of 16 cores (legal_idle_whitelist.satisfied=false) | dualrun ZERO-DRIFT (793 entries, streak 51) | attrition CLEAN 4 ledgers (2 historical shrink rows healed) | collectors/compute_audit not re-run this window (wall budget, stated plainly)",
+  "s7": "orders 114 files / 115 acks / 0 unacked (1 stale ack name for a non-order file) | decisions face sha256 97fe122f... unchanged vs the recorded watermark -> zero action | loop pin=2 and LoopWatchdog left to their own ticks | pre-commit and pre-push claws untouched this window",
+  "pool": "E297 done with result_ref; 795 entries, 7 ready (E288, E292, E294, E295, E296, E298, E299)"
  }
 }
