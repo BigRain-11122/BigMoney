@@ -459,6 +459,40 @@ def summarise(rows):
     }
 
 
+# The two counts below measure a directory that only accumulates: every study this repository
+# publishes drops a *.json beside the faces those rows stage, so the same build() one publication
+# later returns a different pair without any published statement having changed. They are therefore
+# live-bound -- a reader may see how far the gauge has moved since the vintage, but they are not part
+# of what the face asserts. Everything else must re-derive exactly, and the pair may only grow: a
+# shrink means a face was deleted, which is a different finding, not a live count.
+LIVE_BOUND_ROW_FIELDS = ("staged", "live")
+
+
+def strip_live(summary):
+    """The summary with its declared live-bound fields removed -- the part a vintage can assert."""
+    out = dict(summary)
+    out["rows"] = [{k: v for k, v in row.items() if k not in LIVE_BOUND_ROW_FIELDS}
+                   for row in (summary.get("rows") or [])]
+    return out
+
+
+def live_bound_growth(published, fresh):
+    """Rows whose live/staged pair moved backwards between the published vintage and a fresh build."""
+    by_script = {r.get("script"): r for r in (fresh.get("rows") or [])}
+    grown = []
+    for row in (published.get("rows") or []):
+        now = by_script.get(row.get("script"))
+        if now is None:
+            grown.append({"script": row.get("script"), "problem": "row disappeared"})
+            continue
+        for key in LIVE_BOUND_ROW_FIELDS:
+            was, is_now = row.get(key), now.get(key)
+            if isinstance(was, int) and isinstance(is_now, int) and is_now < was:
+                grown.append({"script": row.get("script"), "field": key,
+                              "published": was, "now": is_now})
+    return grown
+
+
 def verdict_of(summary):
     if summary["flipping"]:
         return VERDICT_FLIPS
@@ -506,6 +540,14 @@ def build(outdir=None):
         "evidence_cutoff": EVIDENCE_CUTOFF,
         "verdict": verdict,
         "verdict_reason": reason_of(verdict, summary),
+        "live_bound_fields": {
+            "paths": ["summary.rows[].staged", "summary.rows[].live"],
+            "why": ("both count the face directory as it stands when the build runs, and this "
+                    "directory gains one *.json per published study, so they move without any "
+                    "statement in this face changing; strip_live() removes exactly these and the "
+                    "rest must re-derive"),
+            "direction": "non-decreasing; a shrink means a published face was deleted",
+        },
         "summary": summary,
         "status_counts_reconciled": counts == summary["status_counts"],
         "varied": "the visible universe, through the module-level directory global",

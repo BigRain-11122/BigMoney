@@ -6541,3 +6541,24 @@ E317 published a substitution span for every gate whose block offers two or more
 3. **A census over a mutable directory measures the directory.** The control reproduces all 219 published spans only when the input is pinned to the commit that carries it: read from the live worktree, three rows fail because later rounds rewrote those faces (`GATETOL-2026-10-31.json` shows 1774 added lines, `PRECISIONCENSUS` moved `exact_equality` 22 -> 26). Publish `base_commit` and `read_sources` so the counted population is recoverable.
 
 How to apply: a span quoted as risk must name the channel that would resolve it. Where the quantity is published the span is a careless-reader bound; where it is not, the block is undecidable from itself and no reader discipline rescues it. Face = `results/state_tilt/DECOYRESOLVE-2026-10-31.json`, runner = `scripts/e320_decoy_resolution.py` (run / verify / selftest 14 legs), chain leg `decoy_resolution`, smoke leg "a substitution span is judged by whether the quantity is published".
+## E321 -- the name of a tolerance can live on the producing side, and usually does not
+
+A gate whose face never names the gated quantity looks unreadable, but the face is not the only place
+a name can live: the writer holds the tolerance in a constant.  Reading the producing script for the
+same 196 unresolved/ambiguous gates E320 left standing (single reuse of E312's producers_for /
+publish_sites / constant_definition -- no re-implementation) gives three populations: **21 (10.7%)
+are named by their producer**, of which **7 sit on a module-level constant** that would survive being
+published as-is; **139 write a constant that names nothing** (MATCH_TOL, LEVEL_TOL, GAP); and **31**
+have no producer that publishes the key at all.  So the producer side buys about one gate in ten, and
+the two dominant cases are a name that was never written and a producer nobody can find -- which are
+different defects with different fixes (name the constant vs. publish the producer).
+
+Two readings that produced the number: (1) a dated face is invisible to a needle built from its own
+filename, so the producer lookup must fall back to the dated template -- without that step 154 of 196
+rows read as 'no producer', i.e. the first answer was a search bug wearing a finding's clothes;
+(2) a definition's own comment line is part of what it says about the quantity, so it is read before a
+constant is called nameless.  The published face keeps the negative decision per row (no_producer /
+no_site), because 'I could not find it' and 'it is not there' are different claims.
+
+证据：scripts/e321_quantity_name_reach.py（selftest 12/12·verify problems=[]）+ results/state_tilt/QUANTITYNAME-2026-10-31.json
++ smoke leg（product: for the gates whose face cannot name the gated quantity ...）+ research/digests/DIGEST-20261101-r1341-e321-producer-name-reach.md

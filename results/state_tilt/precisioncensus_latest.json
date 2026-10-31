@@ -2708,6 +2708,54 @@
     9007,
     9008
    ]
+  },
+  {
+   "index": 339,
+   "name": "product: the zero-tolerance headline is half counts -- 53 of 122 were counts of gates and 68 of the 69 survivors sit on this programme's own study faces",
+   "lines": [
+    9009,
+    9056
+   ]
+  },
+  {
+   "index": 340,
+   "name": "product: the zero-tolerance headline is half counts -- 53 of 122 were counts of gates and 68 of the 69 survivors sit on this programme's own study faces",
+   "lines": [
+    9066,
+    9067
+   ]
+  },
+  {
+   "index": 341,
+   "name": "product: every census in this programme counts other censuses and no declared guard reaches any of those arcs -- the guard is a filename list, not a property",
+   "lines": [
+    9068,
+    9121
+   ]
+  },
+  {
+   "index": 342,
+   "name": "product: every census in this programme counts other censuses and no declared guard reaches any of those arcs -- the guard is a filename list, not a property",
+   "lines": [
+    9135,
+    9136
+   ]
+  },
+  {
+   "index": 343,
+   "name": "product: a substitution span is judged by whether the quantity is published -- 23 of 219 gates are avoidable by reading the block, 134 are not",
+   "lines": [
+    9137,
+    9175
+   ]
+  },
+  {
+   "index": 344,
+   "name": "product: a substitution span is judged by whether the quantity is published -- 23 of 219 gates are avoidable by reading the block, 134 are not",
+   "lines": [
+    9186,
+    9187
+   ]
   }
  ],
  "sites": [
@@ -5410,6 +5458,50 @@
    ],
    "at_risk": true,
    "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 339,
+   "leg": "product: the zero-tolerance headline is half counts -- 53 of 122 were counts of gates and 68 of the 69 survivors sit on this programme's own study faces",
+   "line": 9050,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "face_provenance",
+    "zero_tolerance_gates_that_describe_a_gate"
+   ],
+   "faces_named": [
+    "results/state_tilt/zerotolprune_latest.json"
+   ],
+   "expression": "len([r for r in _rg105 if r.get('face_provenance') == 'study_face']) != (_c105.get('zero_tolerance_gates_that_describe_a_gate') or 0)",
+   "key_profiles": [
+    {
+     "key": "face_provenance",
+     "n_values": 69,
+     "n_integral": 0,
+     "n_non_numeric": 69,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/zerotolprune_latest.json"
+    },
+    {
+     "key": "zero_tolerance_gates_that_describe_a_gate",
+     "n_values": 1,
+     "n_integral": 1,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/zerotolprune_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
   }
  ],
  "at_risk": [
@@ -6448,17 +6540,18 @@
    "face": "results/state_tilt/gatetol_latest.json",
    "exists": true,
    "readable": true,
-   "n_float_leaves": 69,
+   "n_float_leaves": 96,
    "decimals_histogram": {
     "0": 9,
     "1": 14,
-    "3": 7,
+    "3": 17,
     "6": 4,
-    "7": 1,
-    "9": 4,
+    "7": 2,
+    "9": 5,
+    "11": 12,
     "13": 3,
     "14": 2,
-    "15": 4,
+    "15": 7,
     "16": 3
    },
    "coarsest_printed_decimals": 0,
@@ -6808,6 +6901,26 @@
    "declares_its_precision": false,
    "declared_precision_keys": []
   },
+  "results/state_tilt/zerotolprune_latest.json": {
+   "face": "results/state_tilt/zerotolprune_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 22,
+   "decimals_histogram": {
+    "0": 9,
+    "4": 2,
+    "14": 6,
+    "17": 2
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/count_named/0/value",
+    "value": 41.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
   "results/t35_open_fill_verify.json": {
    "face": "results/t35_open_fill_verify.json",
    "exists": true,
@@ -6879,15 +6992,15 @@
  },
  "measured_pairs": {},
  "summary": {
-  "legs_in_smoke_test": 338,
-  "n_numeric_face_sites": 67,
-  "legs_with_a_numeric_face_site": 46,
+  "legs_in_smoke_test": 344,
+  "n_numeric_face_sites": 68,
+  "legs_with_a_numeric_face_site": 47,
   "by_kind": {
    "epsilon": 39,
-   "exact_equality": 26,
+   "exact_equality": 27,
    "quantized_equality": 2
   },
-  "faces_read_by_legs": 46,
+  "faces_read_by_legs": 47,
   "names_that_are_templates_not_faces": [
    "results/dom_profile/PROFILE-*.json",
    "results/state_tilt/BANDPATH-%s.json",
@@ -6934,6 +7047,7 @@
    "results/state_tilt/starownrepin_latest.json",
    "results/state_tilt/starself_latest.json",
    "results/state_tilt/timingsel_latest.json",
+   "results/state_tilt/zerotolprune_latest.json",
    "results/t35_open_fill_verify.json",
    "results/tom_overlay/latest.json",
    "results/vol_gate/latest.json"
@@ -6969,7 +7083,7 @@
   "n_cross_face_key_rows": 7,
   "n_cross_face_rows_exceeding_tolerance": 7,
   "cross_face_disclosure": "the same key name in two faces is not evidence of the same quantity; the gap is published as a distance so a reader can tell a copy pair from two unrelated studies that happen to share a name. A gap above the tolerance is read as 'same name, different quantity', never as a defect count.",
-  "statement": "46 leg(s) carry a numeric comparison against a published face; 30 of them compare at a tolerance finer than the quantum the field they read is printed with (22 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 46 face(s) read, 40 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects."
+  "statement": "47 leg(s) carry a numeric comparison against a published face; 30 of them compare at a tolerance finer than the quantum the field they read is printed with (22 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 47 face(s) read, 41 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects."
  },
  "identity_check": {
   "kind_partition_sums_to_sites": true,
@@ -6983,6 +7097,5 @@
   "all_checks": true
  },
  "verdict": "legs_compare_face_values_finer_than_the_faces_print",
- "verdict_reason": "46 leg(s) carry a numeric comparison against a published face; 30 of them compare at a tolerance finer than the quantum the field they read is printed with (22 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 46 face(s) read, 40 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects.",
- "generated": "2026-10-31T22:16:03"
+ "verdict_reason": "47 leg(s) carry a numeric comparison against a published face; 30 of them compare at a tolerance finer than the quantum the field they read is printed with (22 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 47 face(s) read, 41 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects."
 }

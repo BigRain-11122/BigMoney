@@ -8550,8 +8550,15 @@ def main() -> int:
                 _bad96.append("the priced binding set is empty")
             if set(_bind96) & {"__main__", "__mp_main__", _m96.SELF_MODULE}:
                 _bad96.append("the study's own module is counted as a binding")
-            if _f96.get("summary") != _fresh96.get("summary"):
-                _bad96.append("the summary does not re-derive")
+            # The face declares which of its fields are live-bound: they count a directory that
+            # gains a face per publication. Everything else must re-derive exactly, and the live
+            # pair may only grow. Comparing the whole summary turned this leg red on every
+            # publication day although no statement in the face had changed.
+            _grow96 = _m96.live_bound_growth(_s96, _fresh96.get("summary") or {})
+            if _m96.strip_live(_s96) != _m96.strip_live(_fresh96.get("summary") or {}):
+                _bad96.append("the summary does not re-derive outside its live-bound counts")
+            if _grow96:
+                _bad96.append("a live-bound count moved backwards (%r)" % (_grow96[0],))
             # The dated face and the mirror must say the same thing: a reader who opens one and a
             # leg that reads the other would otherwise be judging two different publications.
             _dated96 = os.path.join("results", "state_tilt", _m96.FACE)
@@ -9185,6 +9192,56 @@ def main() -> int:
                     _c305.get("faces_with_an_unresolved_leaf") or 0))
     except Exception as e:
         check(_name305, False, repr(e)[:160])
+
+    # E321: the same population one layer down -- the face never names the gated quantity, but the
+    # producer may. The leg re-derives the reach and refuses a named row that carries no name.
+    _name306 = ("product: for the gates whose face cannot name the gated quantity, the producer "
+                "side names only a tenth of them and most write a constant that names nothing")
+    _bad306 = []
+    try:
+        _p306 = os.path.join("results", "state_tilt", "quantityname_latest.json")
+        _f306 = None
+        if os.path.exists(_p306):
+            _f306 = json.load(open(_p306, encoding="utf-8"))
+        if _f306 is None:
+            _bad306.append("no published reach face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m306 = __import__("importlib").import_module("e321_quantity_name_reach")
+            _fresh306 = _m306.build()
+            if _f306.get("verdict") != _fresh306.get("verdict"):
+                _bad306.append("the verdict does not re-derive")
+            if _f306.get("verdict") not in _m306.VERDICTS:
+                _bad306.append("verdict %r is outside the frozen set" % (_f306.get("verdict"),))
+            _s306 = _f306.get("summary") or {}
+            _rows306 = _f306.get("rows") or []
+            if _s306.get("rows") != len(_rows306):
+                _bad306.append("the summary count disagrees with its own rows")
+            for _row306 in _rows306:
+                if _row306.get("class") not in _m306.CLASSES:
+                    _bad306.append("a row class is outside the frozen set")
+                    break
+                if _row306.get("class") == _m306.CLASS_NAMED and not _row306.get(
+                        "quantity_words"):
+                    _bad306.append("a named gate carries no quantity word")
+                    break
+            if _s306 != _fresh306.get("summary"):
+                _bad306.append("the summary does not re-derive")
+        check(_name306, not _bad306, "; ".join(_bad306)[:220]
+              or "verdict %s | %d of %d gates named by their producer (%d publishable), %d write "
+                 "a constant that names nothing, %d have no producer publishing the key"
+                 % (str((_f306 or {}).get("verdict")),
+                    ((_f306 or {}).get("summary") or {}).get("named_by_the_producer") or 0,
+                    ((_f306 or {}).get("summary") or {}).get("rows") or 0,
+                    ((_f306 or {}).get("summary") or {}).get("named_and_publishable") or 0,
+                    (((_f306 or {}).get("summary") or {}).get("by_class") or {}).get(
+                        "published_as_a_constant_that_names_nothing") or 0,
+                    ((((_f306 or {}).get("summary") or {}).get("by_class") or {}).get(
+                        "no_producer_names_the_face") or 0)
+                    + (((_f306 or {}).get("summary") or {}).get("by_class") or {}).get(
+                        "producer_found_but_publishes_no_such_key") or 0))
+    except Exception as e:
+        check(_name306, False, repr(e)[:160])
 
     return _finish()
 

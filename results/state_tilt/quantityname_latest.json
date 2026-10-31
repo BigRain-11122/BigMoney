@@ -1,0 +1,4031 @@
+{
+ "evidence_cutoff": "2026-10-31",
+ "held_fixed": "the upstream faces are read, never written; the producers are read off scripts/*.py as published; no gate value is recomputed and no verdict of E320 is changed",
+ "no_bill": "published faces and in-repo sources only; no draws, no panel read, no engine, no network",
+ "population": {
+  "by_upstream_class": {
+   "ambiguous": 62,
+   "unresolved": 134
+  },
+  "rows": 196,
+  "source": "DECOYRESOLVE-2026-10-31.json rows with class unresolved or ambiguous"
+ },
+ "rows": [
+  {
+   "block": "recovery_known_answer",
+   "class": "published_as_a_bare_literal",
+   "constant": null,
+   "decoy_class": "unresolved",
+   "face": "results/_fund_divlowvol_p1_transfer_probe.json",
+   "gate_value": 0.02,
+   "leaf": "recovery_known_answer.tolerance",
+   "name_publishable": false,
+   "producer": "scripts/fund_divlowvol_p1_probe.py",
+   "publish_line": 321,
+   "published_as": "0.02",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 6,
+    "max": 36399.0,
+    "min": 2.942919241633035e-10,
+    "span_orders_of_magnitude": 14.09231110778366
+   }
+  },
+  {
+   "block": "recovery_known_answer",
+   "class": "published_as_a_bare_literal",
+   "constant": null,
+   "decoy_class": "unresolved",
+   "face": "results/_fund_divlowvol_p2_freeze_probe_local.json",
+   "gate_value": 0.02,
+   "leaf": "recovery_known_answer.tolerance",
+   "name_publishable": false,
+   "producer": "scripts/fund_divlowvol_p2_probe.py",
+   "publish_line": 415,
+   "published_as": "0.02",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 5,
+    "max": 36697.0,
+    "min": 2.6454851642654376e-09,
+    "span_orders_of_magnitude": 13.142125231514235
+   }
+  },
+  {
+   "block": "EF_params",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "LIMIT_EXCL_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/cn_sector_leader_probe.json",
+   "gate_value": 0.002,
+   "leaf": "EF_params.limit_excl_tol",
+   "name_publishable": true,
+   "producer": "scripts/cn_sector_leader_p1.py",
+   "publish_line": 1465,
+   "published_as": "LIMIT_EXCL_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 20.0,
+    "min": 3.0,
+    "span_orders_of_magnitude": 0.8239087409443188
+   }
+  },
+  {
+   "block": "windows.2020-01-01.cash_window_by_book.wide_top9999",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "unresolved",
+   "face": "results/e40_cashleg_drag/CASHLeg-20261027.json",
+   "gate_value": 5.0,
+   "leaf": "windows.2020-01-01.cash_window_by_book.wide_top9999.tolerance_bp",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 14,
+    "max": 1271.0,
+    "min": 1.172,
+    "span_orders_of_magnitude": 3.0352179388719365
+   }
+  },
+  {
+   "block": "control_check",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "CONTROL_TOL_PP",
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_bakeoff.json",
+   "gate_value": 0.5,
+   "leaf": "control_check.tolerance_pp",
+   "name_publishable": true,
+   "producer": "scripts/etf_book_bakeoff.py",
+   "publish_line": 256,
+   "published_as": "CONTROL_TOL_PP",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.0962,
+    "min": 0.0962,
+    "span_orders_of_magnitude": 0.0
+   }
+  },
+  {
+   "block": "control",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "CONTROL_TOL_PP",
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_commodity_split.json",
+   "gate_value": 0.5,
+   "leaf": "control.tolerance_pp",
+   "name_publishable": true,
+   "producer": "scripts/etf_book_commodity_split.py",
+   "publish_line": 180,
+   "published_as": "CONTROL_TOL_PP",
+   "quantity_words": [
+    "bars"
+   ],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.0913,
+    "min": 0.0912,
+    "span_orders_of_magnitude": 0.0004759392058827784
+   }
+  },
+  {
+   "block": "control",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "CONTROL_TOL_PP",
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_passive_mix.json",
+   "gate_value": 0.5,
+   "leaf": "control.tolerance_pp",
+   "name_publishable": true,
+   "producer": "scripts/etf_book_passive_mix.py",
+   "publish_line": 337,
+   "published_as": "CONTROL_TOL_PP",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.0949,
+    "min": 0.0949,
+    "span_orders_of_magnitude": 0.0
+   }
+  },
+  {
+   "block": "control",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "CONTROL_TOL_PP",
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_premium_phases.json",
+   "gate_value": 0.5,
+   "leaf": "control.tolerance_pp",
+   "name_publishable": true,
+   "producer": "scripts/etf_book_premium_phases.py",
+   "publish_line": 248,
+   "published_as": "CONTROL_TOL_PP",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.097,
+    "min": 0.097,
+    "span_orders_of_magnitude": 0.0
+   }
+  },
+  {
+   "block": "criteria",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "CONTROL_TOL_PP",
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_premium_phases.json",
+   "gate_value": 0.5,
+   "leaf": "criteria.control_tolerance_pp",
+   "name_publishable": true,
+   "producer": "scripts/etf_book_premium_phases.py",
+   "publish_line": 78,
+   "published_as": "CONTROL_TOL_PP",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 5,
+    "max": 20.0,
+    "min": 0.75,
+    "span_orders_of_magnitude": 1.4259687322722812
+   }
+  },
+  {
+   "block": "spanning_pre2020.control",
+   "class": "producer_found_but_publishes_no_such_key",
+   "constant": null,
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_production/PRODUCTION-2026-10-27.json",
+   "gate_value": 0.5,
+   "leaf": "spanning_pre2020.control.tolerance_pp",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 0.13,
+    "min": 0.0499,
+    "span_orders_of_magnitude": 0.41584280668344686
+   }
+  },
+  {
+   "block": "window_decomp.controls.rung4_vs_passive_mix_pre2020",
+   "class": "producer_found_but_publishes_no_such_key",
+   "constant": null,
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_production/PRODUCTION-2026-10-27.json",
+   "gate_value": 0.5,
+   "leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.0512,
+    "min": 0.0512,
+    "span_orders_of_magnitude": 0.0
+   }
+  },
+  {
+   "block": "spanning_pre2020.control",
+   "class": "producer_found_but_publishes_no_such_key",
+   "constant": null,
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_production/PRODUCTION-2026-10-28.json",
+   "gate_value": 0.5,
+   "leaf": "spanning_pre2020.control.tolerance_pp",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 0.13,
+    "min": 0.0499,
+    "span_orders_of_magnitude": 0.41584280668344686
+   }
+  },
+  {
+   "block": "window_decomp.controls.rung4_vs_passive_mix_pre2020",
+   "class": "producer_found_but_publishes_no_such_key",
+   "constant": null,
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_production/PRODUCTION-2026-10-28.json",
+   "gate_value": 0.5,
+   "leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.0512,
+    "min": 0.0512,
+    "span_orders_of_magnitude": 0.0
+   }
+  },
+  {
+   "block": "control",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "TOL_PP",
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_spanning_pre2020.json",
+   "gate_value": 0.5,
+   "leaf": "control.tolerance_pp",
+   "name_publishable": true,
+   "producer": "scripts/etf_book_spanning_pre2020.py",
+   "publish_line": 123,
+   "published_as": "TOL_PP",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 0.13,
+    "min": 0.0499,
+    "span_orders_of_magnitude": 0.41584280668344686
+   }
+  },
+  {
+   "block": "control_check",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "CONTROL_TOL_PP",
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_tsmom.json",
+   "gate_value": 0.5,
+   "leaf": "control_check.tolerance_pp",
+   "name_publishable": true,
+   "producer": "scripts/etf_book_tsmom.py",
+   "publish_line": 325,
+   "published_as": "CONTROL_TOL_PP",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.0949,
+    "min": 0.0949,
+    "span_orders_of_magnitude": 0.0
+   }
+  },
+  {
+   "block": "criteria",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "CONTROL_TOL_CAGR_PP",
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_voltarget_lag.json",
+   "gate_value": 0.5,
+   "leaf": "criteria.control_tol_cagr_pp",
+   "name_publishable": true,
+   "producer": "scripts/etf_book_voltarget_lag.py",
+   "publish_line": 82,
+   "published_as": "CONTROL_TOL_CAGR_PP",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 8,
+    "max": 60.0,
+    "min": 0.001,
+    "span_orders_of_magnitude": 4.778151250383644
+   }
+  },
+  {
+   "block": "control",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "CONTROL_TOL_PP",
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_voltarget_phase.json",
+   "gate_value": 0.5,
+   "leaf": "control.tolerance_pp",
+   "name_publishable": true,
+   "producer": "scripts/etf_book_voltarget_phase.py",
+   "publish_line": 258,
+   "published_as": "CONTROL_TOL_PP",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.097,
+    "min": 0.097,
+    "span_orders_of_magnitude": 0.0
+   }
+  },
+  {
+   "block": "controls.rung4_vs_passive_mix_pre2020",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "CONTROL_TOL_PP",
+   "decoy_class": "unresolved",
+   "face": "results/etf_book_window_decomp.json",
+   "gate_value": 0.5,
+   "leaf": "controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+   "name_publishable": true,
+   "producer": "scripts/etf_book_pre2020_wf.py",
+   "publish_line": 255,
+   "published_as": "CONTROL_TOL_PP",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.0512,
+    "min": 0.0512,
+    "span_orders_of_magnitude": 0.0
+   }
+  },
+  {
+   "block": "decision.legs.sharpe_not_worse",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "VOL_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/etf_vol_calibration.json",
+   "gate_value": 0.02,
+   "leaf": "decision.legs.sharpe_not_worse.tol",
+   "name_publishable": true,
+   "producer": "scripts/etf_vol_calibration.py",
+   "publish_line": 174,
+   "published_as": "VOL_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.978,
+    "min": 0.946,
+    "span_orders_of_magnitude": 0.014447718385808652
+   }
+  },
+  {
+   "block": "decision_median.legs.sharpe_not_worse",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "VOL_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/etf_vol_calibration.json",
+   "gate_value": 0.02,
+   "leaf": "decision_median.legs.sharpe_not_worse.tol",
+   "name_publishable": true,
+   "producer": "scripts/etf_vol_calibration.py",
+   "publish_line": 174,
+   "published_as": "VOL_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.992,
+    "min": 0.978,
+    "span_orders_of_magnitude": 0.006172817366577212
+   }
+  },
+  {
+   "block": "decision_rms.legs.sharpe_not_worse",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "VOL_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/etf_vol_calibration.json",
+   "gate_value": 0.02,
+   "leaf": "decision_rms.legs.sharpe_not_worse.tol",
+   "name_publishable": true,
+   "producer": "scripts/etf_vol_calibration.py",
+   "publish_line": 174,
+   "published_as": "VOL_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.978,
+    "min": 0.946,
+    "span_orders_of_magnitude": 0.014447718385808652
+   }
+  },
+  {
+   "block": "level_test",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "LEVEL_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/fund_divlowvol_p2/split_adequacy.json",
+   "gate_value": 0.05,
+   "leaf": "level_test.tolerance",
+   "name_publishable": true,
+   "producer": "scripts/fund_divlowvol_p2_split_adequacy.py",
+   "publish_line": 236,
+   "published_as": "LEVEL_TOL",
+   "quantity_words": [
+    "median"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 1702.0,
+    "min": 0.339924,
+    "span_orders_of_magnitude": 3.699577727147852
+   }
+  },
+  {
+   "block": "constants",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "ANCHOR_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/g2_nsp1.json",
+   "gate_value": 0.002,
+   "leaf": "constants.anchor_tol",
+   "name_publishable": true,
+   "producer": "scripts/g2_nsp1.py",
+   "publish_line": 375,
+   "published_as": "ANCHOR_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 5,
+    "max": 0.8892,
+    "min": 0.4004,
+    "span_orders_of_magnitude": 0.346505385219672
+   }
+  },
+  {
+   "block": "thresholds",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "NH_TOL",
+   "decoy_class": "ambiguous",
+   "face": "results/regime5_diag/REGIME5-DIAG-2026-09-30.json",
+   "gate_value": 0.995,
+   "leaf": "thresholds.nh_tol",
+   "name_publishable": true,
+   "producer": "scripts/regime5_labeler.py",
+   "publish_line": 76,
+   "published_as": "NH_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 14,
+    "max": 200.0,
+    "min": 0.03,
+    "span_orders_of_magnitude": 3.8239087409443187
+   }
+  },
+  {
+   "block": "thresholds",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "NH_TOL",
+   "decoy_class": "ambiguous",
+   "face": "results/regime5_diag/REGIME5-DIAG-2026-10-19.json",
+   "gate_value": 0.995,
+   "leaf": "thresholds.nh_tol",
+   "name_publishable": true,
+   "producer": "scripts/regime5_labeler.py",
+   "publish_line": 76,
+   "published_as": "NH_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 14,
+    "max": 200.0,
+    "min": 0.03,
+    "span_orders_of_magnitude": 3.8239087409443187
+   }
+  },
+  {
+   "block": "universe",
+   "class": "published_as_a_bare_literal",
+   "constant": null,
+   "decoy_class": "unresolved",
+   "face": "results/shortline/a158_gates.json",
+   "gate_value": 1.0,
+   "leaf": "universe.tolerance",
+   "name_publishable": false,
+   "producer": "scripts/a158_truegap_ic.py",
+   "publish_line": 427,
+   "published_as": "1",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5130.0,
+    "min": 5129.0,
+    "span_orders_of_magnitude": 8.466604606271714e-05
+   }
+  },
+  {
+   "block": "equivalence_check",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "EQUIV_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/gtja191_ic.json",
+   "gate_value": 1e-06,
+   "leaf": "equivalence_check.tol",
+   "name_publishable": true,
+   "producer": "scripts/shortline_p1_ic.py",
+   "publish_line": 383,
+   "published_as": "EQUIV_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 1551.0,
+    "min": 3.3306690738754696e-16,
+    "span_orders_of_magnitude": 18.668080313284946
+   }
+  },
+  {
+   "block": "equivalence",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "EQUIV_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/og1_overnight_ic.json",
+   "gate_value": 1e-06,
+   "leaf": "equivalence.tol",
+   "name_publishable": true,
+   "producer": "scripts/og1_overnight_ic.py",
+   "publish_line": 644,
+   "published_as": "EQUIV_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 383.0,
+    "min": 2.220446049250313e-16,
+    "span_orders_of_magnitude": 18.236758548495644
+   }
+  },
+  {
+   "block": "<face root>",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "EQUIV_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/p1e_equiv.json",
+   "gate_value": 1e-06,
+   "leaf": "tol",
+   "name_publishable": true,
+   "producer": "scripts/p1e_ic_batch.py",
+   "publish_line": 215,
+   "published_as": "EQUIV_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 8709.0,
+    "min": 2.220446049250313e-16,
+    "span_orders_of_magnitude": 19.59352806507836
+   }
+  },
+  {
+   "block": "meta.equivalence",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "ANCHOR_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/p1e_neighbor_corr.json",
+   "gate_value": 1e-06,
+   "leaf": "meta.equivalence.tol",
+   "name_publishable": true,
+   "producer": "scripts/p1e_neighbor_corr.py",
+   "publish_line": 295,
+   "published_as": "ANCHOR_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 8709.0,
+    "min": 2.220446049250313e-16,
+    "span_orders_of_magnitude": 19.59352806507836
+   }
+  },
+  {
+   "block": "meta.equivalence",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "unresolved",
+   "face": "results/shortline/p1e_nulls_M_arc.json",
+   "gate_value": 1e-06,
+   "leaf": "meta.equivalence.tol",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 8709.0,
+    "min": 2.220446049250313e-16,
+    "span_orders_of_magnitude": 19.59352806507836
+   }
+  },
+  {
+   "block": "meta.equivalence",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "EQUIV_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/p1e_nulls_M_close.json",
+   "gate_value": 1e-06,
+   "leaf": "meta.equivalence.tol",
+   "name_publishable": true,
+   "producer": "scripts/p1e_ic_batch.py",
+   "publish_line": 215,
+   "published_as": "EQUIV_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 8709.0,
+    "min": 2.220446049250313e-16,
+    "span_orders_of_magnitude": 19.59352806507836
+   }
+  },
+  {
+   "block": "meta.equivalence",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "unresolved",
+   "face": "results/shortline/p1e_nulls_M_close_tr.json",
+   "gate_value": 1e-06,
+   "leaf": "meta.equivalence.tol",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 8709.0,
+    "min": 2.220446049250313e-16,
+    "span_orders_of_magnitude": 19.59352806507836
+   }
+  },
+  {
+   "block": "equivalence",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "ANCHOR_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/p1e_synth.json",
+   "gate_value": 1e-06,
+   "leaf": "equivalence.tol",
+   "name_publishable": true,
+   "producer": "scripts/p1e_synth.py",
+   "publish_line": 173,
+   "published_as": "ANCHOR_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 8709.0,
+    "min": 2.220446049250313e-16,
+    "span_orders_of_magnitude": 19.59352806507836
+   }
+  },
+  {
+   "block": "equivalence",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "ANCHOR_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/p1e_synth_parts.json",
+   "gate_value": 1e-06,
+   "leaf": "equivalence.tol",
+   "name_publishable": true,
+   "producer": "scripts/p1e_synth.py",
+   "publish_line": 173,
+   "published_as": "ANCHOR_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 8709.0,
+    "min": 2.220446049250313e-16,
+    "span_orders_of_magnitude": 19.59352806507836
+   }
+  },
+  {
+   "block": "equivalence",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "EQUIV_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/p1e_zoo_behavior.json",
+   "gate_value": 1e-06,
+   "leaf": "equivalence.tol",
+   "name_publishable": true,
+   "producer": "scripts/p1e_ic_batch.py",
+   "publish_line": 215,
+   "published_as": "EQUIV_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 8709.0,
+    "min": 2.220446049250313e-16,
+    "span_orders_of_magnitude": 19.59352806507836
+   }
+  },
+  {
+   "block": "equivalence",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "EQUIV_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/pa1_premium_ic.json",
+   "gate_value": 1e-06,
+   "leaf": "equivalence.tol",
+   "name_publishable": true,
+   "producer": "scripts/pa1_premium_ic.py",
+   "publish_line": 391,
+   "published_as": "EQUIV_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 379.0,
+    "min": 2.220446049250313e-16,
+    "span_orders_of_magnitude": 18.232198984495096
+   }
+  },
+  {
+   "block": "equivalence",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "EQUIV_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/pa_lhb_ic.json",
+   "gate_value": 1e-06,
+   "leaf": "equivalence.tol",
+   "name_publishable": true,
+   "producer": "scripts/pa_lhb_ic.py",
+   "publish_line": 322,
+   "published_as": "EQUIV_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 393.0,
+    "min": 1.1102230246251565e-16,
+    "span_orders_of_magnitude": 18.54898232056643
+   }
+  },
+  {
+   "block": "equivalence",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "EQUIV_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/pb_synth.json",
+   "gate_value": 1e-06,
+   "leaf": "equivalence.tol",
+   "name_publishable": true,
+   "producer": "scripts/pb_synth.py",
+   "publish_line": 476,
+   "published_as": "EQUIV_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 393.0,
+    "min": 1.1102230246251565e-16,
+    "span_orders_of_magnitude": 18.54898232056643
+   }
+  },
+  {
+   "block": "equivalence",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "EQUIV_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/t11_negday_ic.json",
+   "gate_value": 1e-06,
+   "leaf": "equivalence.tol",
+   "name_publishable": true,
+   "producer": "scripts/t11_negday_ic.py",
+   "publish_line": 408,
+   "published_as": "EQUIV_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 378.0,
+    "min": 1.1102230246251565e-16,
+    "span_orders_of_magnitude": 18.53208157002823
+   }
+  },
+  {
+   "block": "check_A_stored_vs_derived",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "REL_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/turnover_derivation.json",
+   "gate_value": 1e-06,
+   "leaf": "check_A_stored_vs_derived.tol",
+   "name_publishable": true,
+   "producer": "scripts/p1c_turnover_derive.py",
+   "publish_line": 108,
+   "published_as": "REL_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 5204.0,
+    "min": 101.52090806055995,
+    "span_orders_of_magnitude": 1.7097817942094538
+   }
+  },
+  {
+   "block": "reproduction_gate",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "EQUIV_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/shortline/xlib_synth.json",
+   "gate_value": 0.0001,
+   "leaf": "reproduction_gate.tol",
+   "name_publishable": true,
+   "producer": "scripts/xlib_synth.py",
+   "publish_line": 357,
+   "published_as": "EQUIV_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 125.0,
+    "min": 125.0,
+    "span_orders_of_magnitude": 0.0
+   }
+  },
+  {
+   "block": "gates.reproduction",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/shortline_xstock_tilt.json",
+   "gate_value": 5e-05,
+   "leaf": "gates.reproduction.tol_ic",
+   "name_publishable": true,
+   "producer": "scripts/xstock_tilt.py",
+   "publish_line": 157,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 1.03,
+    "min": 1.03,
+    "span_orders_of_magnitude": 0.0
+   }
+  },
+  {
+   "block": "gates.reproduction",
+   "class": "published_as_a_bare_literal",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/shortline_xstock_tilt.json",
+   "gate_value": 0.005,
+   "leaf": "gates.reproduction.tol_ir",
+   "name_publishable": false,
+   "producer": "scripts/xstock_tilt.py",
+   "publish_line": 157,
+   "published_as": "0.5e-2",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.1078,
+    "min": 0.1078,
+    "span_orders_of_magnitude": 0.0
+   }
+  },
+  {
+   "block": "branch.deflatable[0]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "gap",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "gate_value": 63.025614960544814,
+   "leaf": "branch.deflatable[0].required_tolerance_pct",
+   "name_publishable": true,
+   "producer": "scripts/e283_degenerate_range_reachable.py",
+   "publish_line": 170,
+   "published_as": "gap",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 2.704575069829843,
+    "min": 1.0,
+    "span_orders_of_magnitude": 0.4320990404870452
+   }
+  },
+  {
+   "block": "branch.deflatable[1]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "gap",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "gate_value": 69.27219495823958,
+   "leaf": "branch.deflatable[1].required_tolerance_pct",
+   "name_publishable": true,
+   "producer": "scripts/e283_degenerate_range_reachable.py",
+   "publish_line": 170,
+   "published_as": "gap",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 3.254381491424318,
+    "min": 1.0,
+    "span_orders_of_magnitude": 0.5124684612957651
+   }
+  },
+  {
+   "block": "degenerate_readings[0]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "NoneifgapisNoneelsefloat",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "gate_value": 0.6302561496054482,
+   "leaf": "degenerate_readings[0].required_tolerance_fraction",
+   "name_publishable": false,
+   "producer": "scripts/e283_degenerate_range_reachable.py",
+   "publish_line": 171,
+   "published_as": "(NoneifgapisNoneelsefloat(gap)/100.0)",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 8,
+    "max": 200.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": 2.3010299956639813
+   }
+  },
+  {
+   "block": "degenerate_readings[1]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "NoneifgapisNoneelsefloat",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "gate_value": 0.6927219495823959,
+   "leaf": "degenerate_readings[1].required_tolerance_fraction",
+   "name_publishable": false,
+   "producer": "scripts/e283_degenerate_range_reachable.py",
+   "publish_line": 171,
+   "published_as": "(NoneifgapisNoneelsefloat(gap)/100.0)",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 8,
+    "max": 200.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": 2.3010299956639813
+   }
+  },
+  {
+   "block": "discrimination_at_band",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "tau",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "gate_value": 0.6302561496054482,
+   "leaf": "discrimination_at_band.tolerance_fraction",
+   "name_publishable": true,
+   "producer": "scripts/e283_degenerate_range_reachable.py",
+   "publish_line": 266,
+   "published_as": "tau/100.0",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 5,
+    "max": 24.0,
+    "min": 0.5,
+    "span_orders_of_magnitude": 1.6812412373755872
+   }
+  },
+  {
+   "block": "discrimination_at_band",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "tau",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "gate_value": 63.025614960544814,
+   "leaf": "discrimination_at_band.tolerance_pct",
+   "name_publishable": true,
+   "producer": "scripts/e283_degenerate_range_reachable.py",
+   "publish_line": 265,
+   "published_as": "tau",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 5,
+    "max": 24.0,
+    "min": 0.5,
+    "span_orders_of_magnitude": 1.6812412373755872
+   }
+  },
+  {
+   "block": "summary",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "gap",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "gate_value": 63.025614960544814,
+   "leaf": "summary.required_tolerance_pct",
+   "name_publishable": true,
+   "producer": "scripts/e283_degenerate_range_reachable.py",
+   "publish_line": 170,
+   "published_as": "gap",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 6,
+    "max": 24.0,
+    "min": 2.0,
+    "span_orders_of_magnitude": 1.0791812460476249
+   }
+  },
+  {
+   "block": "census[0]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 3.6974385039455185e-11,
+   "leaf": "census[0].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 200.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": 2.3010299956639813
+   }
+  },
+  {
+   "block": "census[10]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 1.1243699857131792e-10,
+   "leaf": "census[10].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 60.0,
+    "min": 0.8893869568794188,
+    "span_orders_of_magnitude": 1.8290604942799826
+   }
+  },
+  {
+   "block": "census[11]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 1.5863097519383892e-10,
+   "leaf": "census[11].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 60.0,
+    "min": 0.6303939055900345,
+    "span_orders_of_magnitude": 1.9785392444767202
+   }
+  },
+  {
+   "block": "census[1]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 3.072780504176043e-11,
+   "leaf": "census[1].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 200.0,
+    "min": 3.254381491424318,
+    "span_orders_of_magnitude": 1.7885615343682162
+   }
+  },
+  {
+   "block": "census[2]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 4.0671737153511055e-11,
+   "leaf": "census[2].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 60.0,
+    "min": 2.4587098314134175,
+    "span_orders_of_magnitude": 1.3874439725810088
+   }
+  },
+  {
+   "block": "census[3]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 4.5527053094024685e-11,
+   "leaf": "census[3].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 60.0,
+    "min": 2.1964962193681883,
+    "span_orders_of_magnitude": 1.4364207902937758
+   }
+  },
+  {
+   "block": "census[4]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 5.546378156258591e-11,
+   "leaf": "census[4].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 60.0,
+    "min": 1.8029783974819489,
+    "span_orders_of_magnitude": 1.5221607271612911
+   }
+  },
+  {
+   "block": "census[5]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 4.676444823666099e-11,
+   "leaf": "census[5].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 60.0,
+    "min": 2.1383765610561616,
+    "span_orders_of_magnitude": 1.4480670649511744
+   }
+  },
+  {
+   "block": "census[6]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 4.201519391174707e-11,
+   "leaf": "census[6].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 60.0,
+    "min": 2.380091359569827,
+    "span_orders_of_magnitude": 1.401557622656738
+   }
+  },
+  {
+   "block": "census[7]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 5.3069889115761475e-11,
+   "leaf": "census[7].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 60.0,
+    "min": 1.88430768682915,
+    "span_orders_of_magnitude": 1.5029994305989869
+   }
+  },
+  {
+   "block": "census[8]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 4.28990371411032e-11,
+   "leaf": "census[8].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 2,
+    "max": 200.0,
+    "min": 2.331054649806725,
+    "span_orders_of_magnitude": 1.933477540319603
+   }
+  },
+  {
+   "block": "census[9]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 3.7486938200152816e-11,
+   "leaf": "census[9].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 3,
+    "max": 60.0,
+    "min": 2.6675958294079174,
+    "span_orders_of_magnitude": 1.3520312206243366
+   }
+  },
+  {
+   "block": "disagreement_cells[0]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 4.5527053094024685e-11,
+   "leaf": "disagreement_cells[0].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 12,
+    "max": 60.0,
+    "min": 0.6961481034948748,
+    "span_orders_of_magnitude": 1.93544960604882
+   }
+  },
+  {
+   "block": "disagreement_cells[1]",
+   "class": "published_as_a_constant_that_names_a_quantity",
+   "constant": "edge_tolerance_pct",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 4.676444823666099e-11,
+   "leaf": "disagreement_cells[1].edge_tolerance_pct",
+   "name_publishable": false,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 240,
+   "published_as": "edge_tolerance_pct(flip)",
+   "quantity_words": [
+    "pct"
+   ],
+   "residual_span": {
+    "candidates": 12,
+    "max": 60.0,
+    "min": 0.5192539844484232,
+    "span_orders_of_magnitude": 2.062771412644346
+   }
+  },
+  {
+   "block": "hypothesis_test.tie_impossibility",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "TOL",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "hypothesis_test.tie_impossibility.tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e282_substitution_disagreement_census.py",
+   "publish_line": 322,
+   "published_as": "TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 49.88282424275317,
+    "min": 48.520672606964425,
+    "span_orders_of_magnitude": 0.012024221641109407
+   }
+  },
+  {
+   "block": "secondary_reads",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "GAMMA_TOL",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "gate_value": 0.1,
+   "leaf": "secondary_reads.gamma_tol",
+   "name_publishable": true,
+   "producer": "scripts/e255_band_draw_starvation.py",
+   "publish_line": 402,
+   "published_as": "GAMMA_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 480.0,
+    "min": 408.0,
+    "span_orders_of_magnitude": 0.07058107428570728
+   }
+  },
+  {
+   "block": "summary.secondary_reads",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "GAMMA_TOL",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "gate_value": 0.1,
+   "leaf": "summary.secondary_reads.gamma_tol",
+   "name_publishable": true,
+   "producer": "scripts/e255_band_draw_starvation.py",
+   "publish_line": 402,
+   "published_as": "GAMMA_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 480.0,
+    "min": 408.0,
+    "span_orders_of_magnitude": 0.07058107428570728
+   }
+  },
+  {
+   "block": "verdict_inputs",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "GAMMA_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "gate_value": 0.1,
+   "leaf": "verdict_inputs.tol",
+   "name_publishable": true,
+   "producer": "scripts/e254_band_exponent_inside_cell.py",
+   "publish_line": 388,
+   "published_as": "GAMMA_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.8,
+    "min": 0.5,
+    "span_orders_of_magnitude": 0.2041199826559248
+   }
+  },
+  {
+   "block": "ladder_verdicts",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "gamma_tol",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "gate_value": 0.1,
+   "leaf": "ladder_verdicts.gamma_tol",
+   "name_publishable": true,
+   "producer": "scripts/e257_band_at_top_flips.py",
+   "publish_line": 347,
+   "published_as": "gamma_tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 1920.0,
+    "min": 0.8,
+    "span_orders_of_magnitude": 3.380211241711606
+   }
+  },
+  {
+   "block": "rows[10]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[10].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 2.0,
+    "min": 2.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[12]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[12].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[13]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[13].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[14]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[14].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[15]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[15].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[16]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[16].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[17]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows[17].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[18]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows[18].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[1]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[1].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[20]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows[20].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[21]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows[21].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[22]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows[22].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[23]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[23].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[24]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[24].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[25]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows[25].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[26]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows[26].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[2]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[2].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[3]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[3].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[4]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[4].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[5]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows[5].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1.0,
+    "min": 1.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[8]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows[8].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 2.0,
+    "min": 2.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[9]",
+   "class": "no_producer_names_the_face",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows[9].leg_tolerance",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 2.0,
+    "min": 2.0,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_band_stands[0]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-06,
+   "leaf": "rows_band_stands[0].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 0.1,
+    "min": 0.1,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_looser[0]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-09,
+   "leaf": "rows_leg_looser[0].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1e-12,
+    "min": 1e-12,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_looser[10]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows_leg_looser[10].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_looser[11]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-09,
+   "leaf": "rows_leg_looser[11].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1e-12,
+    "min": 1e-12,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_looser[1]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows_leg_looser[1].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_looser[2]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows_leg_looser[2].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_looser[3]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows_leg_looser[3].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_looser[4]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows_leg_looser[4].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_looser[5]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows_leg_looser[5].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_looser[6]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows_leg_looser[6].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_looser[7]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows_leg_looser[7].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_looser[8]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-12,
+   "leaf": "rows_leg_looser[8].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_looser[9]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-09,
+   "leaf": "rows_leg_looser[9].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 1e-12,
+    "min": 1e-12,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[0]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-09,
+   "leaf": "rows_leg_tighter_or_exact[0].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 0.002,
+    "min": 0.002,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[10]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[10].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[11]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[11].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[12]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[12].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[13]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[13].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[14]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[14].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[15]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[15].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[16]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[16].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[17]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[17].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 0.002,
+    "min": 0.002,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[1]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-06,
+   "leaf": "rows_leg_tighter_or_exact[1].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 0.005,
+    "min": 0.005,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[2]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-06,
+   "leaf": "rows_leg_tighter_or_exact[2].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 0.005,
+    "min": 0.005,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[3]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 1e-06,
+   "leaf": "rows_leg_tighter_or_exact[3].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 1,
+    "max": 0.1,
+    "min": 0.1,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[4]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[4].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[5]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[5].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[6]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[6].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[7]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[7].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[8]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[8].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows_leg_tighter_or_exact[9]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "gate_value": 0.0,
+   "leaf": "rows_leg_tighter_or_exact[9].leg_tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "publish_line": 236,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "sites[0]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-06,
+   "leaf": "sites[0].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 116.0,
+    "min": 19.0,
+    "span_orders_of_magnitude": 0.7857043882740895
+   }
+  },
+  {
+   "block": "sites[10]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-06,
+   "leaf": "sites[10].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 2183.0,
+    "min": 175.0,
+    "span_orders_of_magnitude": 1.0960156870228448
+   }
+  },
+  {
+   "block": "sites[11]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[11].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 2229.0,
+    "min": 177.0,
+    "span_orders_of_magnitude": 1.100136802118431
+   }
+  },
+  {
+   "block": "sites[12]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[12].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 2361.0,
+    "min": 180.0,
+    "span_orders_of_magnitude": 1.117823481975421
+   }
+  },
+  {
+   "block": "sites[13]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[13].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 2332.0,
+    "min": 180.0,
+    "span_orders_of_magnitude": 1.1124560409836703
+   }
+  },
+  {
+   "block": "sites[14]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[14].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 2411.0,
+    "min": 183.0,
+    "span_orders_of_magnitude": 1.1197461206470243
+   }
+  },
+  {
+   "block": "sites[15]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-06,
+   "leaf": "sites[15].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 2556.0,
+    "min": 187.0,
+    "span_orders_of_magnitude": 1.1357192429498635
+   }
+  },
+  {
+   "block": "sites[16]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-06,
+   "leaf": "sites[16].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 2564.0,
+    "min": 187.0,
+    "span_orders_of_magnitude": 1.1370764143102807
+   }
+  },
+  {
+   "block": "sites[17]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[17].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 2553.0,
+    "min": 187.0,
+    "span_orders_of_magnitude": 1.1352092082677514
+   }
+  },
+  {
+   "block": "sites[18]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-06,
+   "leaf": "sites[18].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 2623.0,
+    "min": 189.0,
+    "span_orders_of_magnitude": 1.1423364864171095
+   }
+  },
+  {
+   "block": "sites[19]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[19].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 2826.0,
+    "min": 193.0,
+    "span_orders_of_magnitude": 1.1656148485047662
+   }
+  },
+  {
+   "block": "sites[1]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[1].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 703.0,
+    "min": 76.0,
+    "span_orders_of_magnitude": 0.9661417327390326
+   }
+  },
+  {
+   "block": "sites[20]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-06,
+   "leaf": "sites[20].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 3012.0,
+    "min": 199.0,
+    "span_orders_of_magnitude": 1.1800018911189563
+   }
+  },
+  {
+   "block": "sites[21]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[21].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 3056.0,
+    "min": 201.0,
+    "span_orders_of_magnitude": 1.1819572924831634
+   }
+  },
+  {
+   "block": "sites[22]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[22].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 3170.0,
+    "min": 205.0,
+    "span_orders_of_magnitude": 1.1893054011619972
+   }
+  },
+  {
+   "block": "sites[23]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-06,
+   "leaf": "sites[23].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 3441.0,
+    "min": 213.0,
+    "span_orders_of_magnitude": 1.2083050691821924
+   }
+  },
+  {
+   "block": "sites[24]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[24].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 3966.0,
+    "min": 229.0,
+    "span_orders_of_magnitude": 1.2385172275293959
+   }
+  },
+  {
+   "block": "sites[25]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[25].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 4028.0,
+    "min": 231.0,
+    "span_orders_of_magnitude": 1.241477481989436
+   }
+  },
+  {
+   "block": "sites[26]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[26].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 4117.0,
+    "min": 233.0,
+    "span_orders_of_magnitude": 1.247224945971467
+   }
+  },
+  {
+   "block": "sites[27]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[27].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 4129.0,
+    "min": 233.0,
+    "span_orders_of_magnitude": 1.2484889618486832
+   }
+  },
+  {
+   "block": "sites[28]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[28].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 4209.0,
+    "min": 235.0,
+    "span_orders_of_magnitude": 1.253111063476286
+   }
+  },
+  {
+   "block": "sites[29]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-06,
+   "leaf": "sites[29].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 4259.0,
+    "min": 237.0,
+    "span_orders_of_magnitude": 1.254559294063645
+   }
+  },
+  {
+   "block": "sites[2]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[2].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 750.0,
+    "min": 78.0,
+    "span_orders_of_magnitude": 0.9829666607012196
+   }
+  },
+  {
+   "block": "sites[30]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[30].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 4580.0,
+    "min": 243.0,
+    "span_orders_of_magnitude": 1.275259204405557
+   }
+  },
+  {
+   "block": "sites[31]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[31].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 4874.0,
+    "min": 249.0,
+    "span_orders_of_magnitude": 1.2916861777529691
+   }
+  },
+  {
+   "block": "sites[32]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[32].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 4870.0,
+    "min": 249.0,
+    "span_orders_of_magnitude": 1.2913296141188981
+   }
+  },
+  {
+   "block": "sites[33]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[33].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 4848.0,
+    "min": 249.0,
+    "span_orders_of_magnitude": 1.2893632640624935
+   }
+  },
+  {
+   "block": "sites[34]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[34].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 4955.0,
+    "min": 251.0,
+    "span_orders_of_magnitude": 1.295369937340256
+   }
+  },
+  {
+   "block": "sites[35]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[35].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5033.0,
+    "min": 253.0,
+    "span_orders_of_magnitude": 1.2987064092213214
+   }
+  },
+  {
+   "block": "sites[36]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[36].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5040.0,
+    "min": 253.0,
+    "span_orders_of_magnitude": 1.2993100152697072
+   }
+  },
+  {
+   "block": "sites[37]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[37].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5202.0,
+    "min": 255.0,
+    "span_orders_of_magnitude": 1.3096301674258988
+   }
+  },
+  {
+   "block": "sites[38]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[38].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5204.0,
+    "min": 255.0,
+    "span_orders_of_magnitude": 1.3097971074555934
+   }
+  },
+  {
+   "block": "sites[39]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[39].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5167.0,
+    "min": 255.0,
+    "span_orders_of_magnitude": 1.3066982811117065
+   }
+  },
+  {
+   "block": "sites[3]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[3].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 1768.0,
+    "min": 154.0,
+    "span_orders_of_magnitude": 1.0599615398405913
+   }
+  },
+  {
+   "block": "sites[40]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[40].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5275.0,
+    "min": 257.0,
+    "span_orders_of_magnitude": 1.3122893406384357
+   }
+  },
+  {
+   "block": "sites[41]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[41].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5401.0,
+    "min": 259.0,
+    "span_orders_of_magnitude": 1.3191744131999417
+   }
+  },
+  {
+   "block": "sites[42]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[42].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5467.0,
+    "min": 261.0,
+    "span_orders_of_magnitude": 1.3211085665532762
+   }
+  },
+  {
+   "block": "sites[43]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[43].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5474.0,
+    "min": 261.0,
+    "span_orders_of_magnitude": 1.3216642857358238
+   }
+  },
+  {
+   "block": "sites[44]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[44].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5753.0,
+    "min": 265.0,
+    "span_orders_of_magnitude": 1.3366485000886914
+   }
+  },
+  {
+   "block": "sites[45]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[45].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5778.0,
+    "min": 265.0,
+    "span_orders_of_magnitude": 1.3385316635713702
+   }
+  },
+  {
+   "block": "sites[46]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[46].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5781.0,
+    "min": 265.0,
+    "span_orders_of_magnitude": 1.3387570954383077
+   }
+  },
+  {
+   "block": "sites[47]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[47].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5741.0,
+    "min": 265.0,
+    "span_orders_of_magnitude": 1.3357416729308114
+   }
+  },
+  {
+   "block": "sites[48]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[48].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5866.0,
+    "min": 267.0,
+    "span_orders_of_magnitude": 1.3418307972799581
+   }
+  },
+  {
+   "block": "sites[49]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[49].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5982.0,
+    "min": 269.0,
+    "span_orders_of_magnitude": 1.3470941286928915
+   }
+  },
+  {
+   "block": "sites[4]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[4].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 1769.0,
+    "min": 154.0,
+    "span_orders_of_magnitude": 1.0602071120732601
+   }
+  },
+  {
+   "block": "sites[50]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[50].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 5955.0,
+    "min": 269.0,
+    "span_orders_of_magnitude": 1.3451294858163885
+   }
+  },
+  {
+   "block": "sites[51]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[51].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 6186.0,
+    "min": 273.0,
+    "span_orders_of_magnitude": 1.355247268626404
+   }
+  },
+  {
+   "block": "sites[52]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[52].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 6221.0,
+    "min": 275.0,
+    "span_orders_of_magnitude": 1.354527507512407
+   }
+  },
+  {
+   "block": "sites[53]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[53].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 6223.0,
+    "min": 275.0,
+    "span_orders_of_magnitude": 1.3546671071542078
+   }
+  },
+  {
+   "block": "sites[54]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-12,
+   "leaf": "sites[54].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 6252.0,
+    "min": 275.0,
+    "span_orders_of_magnitude": 1.3566862755168867
+   }
+  },
+  {
+   "block": "sites[55]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[55].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 6522.0,
+    "min": 281.0,
+    "span_orders_of_magnitude": 1.3656744745648584
+   }
+  },
+  {
+   "block": "sites[56]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[56].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 6822.0,
+    "min": 289.0,
+    "span_orders_of_magnitude": 1.3730138723148306
+   }
+  },
+  {
+   "block": "sites[57]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[57].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 6946.0,
+    "min": 291.0,
+    "span_orders_of_magnitude": 1.3778417899888362
+   }
+  },
+  {
+   "block": "sites[58]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[58].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 7092.0,
+    "min": 295.0,
+    "span_orders_of_magnitude": 1.3809467109507172
+   }
+  },
+  {
+   "block": "sites[59]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[59].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 7094.0,
+    "min": 295.0,
+    "span_orders_of_magnitude": 1.381069168157761
+   }
+  },
+  {
+   "block": "sites[5]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[5].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 1901.0,
+    "min": 160.0,
+    "span_orders_of_magnitude": 1.0748621342095184
+   }
+  },
+  {
+   "block": "sites[60]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[60].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 7130.0,
+    "min": 295.0,
+    "span_orders_of_magnitude": 1.3832675138737025
+   }
+  },
+  {
+   "block": "sites[61]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[61].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 7631.0,
+    "min": 305.0,
+    "span_orders_of_magnitude": 1.3982816142076655
+   }
+  },
+  {
+   "block": "sites[62]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[62].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 8610.0,
+    "min": 327.0,
+    "span_orders_of_magnitude": 1.4204553987933688
+   }
+  },
+  {
+   "block": "sites[6]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0001,
+   "leaf": "sites[6].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 1956.0,
+    "min": 165.0,
+    "span_orders_of_magnitude": 1.0738849062376763
+   }
+  },
+  {
+   "block": "sites[7]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0001,
+   "leaf": "sites[7].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 1979.0,
+    "min": 167.0,
+    "span_orders_of_magnitude": 1.073729323058813
+   }
+  },
+  {
+   "block": "sites[8]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 0.0,
+   "leaf": "sites[8].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 2094.0,
+    "min": 171.0,
+    "span_orders_of_magnitude": 1.0879805669506697
+   }
+  },
+  {
+   "block": "sites[9]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 1e-09,
+   "leaf": "sites[9].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 2186.0,
+    "min": 175.0,
+    "span_orders_of_magnitude": 1.0966121089273895
+   }
+  },
+  {
+   "block": "summary.by_kind",
+   "class": "producer_found_but_publishes_no_such_key",
+   "constant": null,
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "gate_value": 39.0,
+   "leaf": "summary.by_kind.epsilon",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 22.0,
+    "min": 2.0,
+    "span_orders_of_magnitude": 1.0413926851582251
+   }
+  },
+  {
+   "block": "at_risk[1]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "gate_value": 1e-12,
+   "leaf": "at_risk[1].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 3221.0,
+    "min": 0.1,
+    "span_orders_of_magnitude": 4.507990724819692
+   }
+  },
+  {
+   "block": "rows[10]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "gate_value": 1e-09,
+   "leaf": "rows[10].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 1900.0,
+    "min": 0.1,
+    "span_orders_of_magnitude": 4.278753600952829
+   }
+  },
+  {
+   "block": "rows[23]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tolerance",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "gate_value": 1e-12,
+   "leaf": "rows[23].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "publish_line": 323,
+   "published_as": "tolerance",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 3221.0,
+    "min": 0.1,
+    "span_orders_of_magnitude": 4.507990724819692
+   }
+  },
+  {
+   "block": "summary.by_verdict",
+   "class": "producer_found_but_publishes_no_such_key",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "gate_value": 1.0,
+   "leaf": "summary.by_verdict.tolerance_silently_defaulted",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 0,
+    "max": null,
+    "min": null,
+    "span_orders_of_magnitude": null
+   }
+  },
+  {
+   "block": "rows[1]",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "gate_value": 1e-09,
+   "leaf": "rows[1].tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e305_face_level_row_pricing.py",
+   "publish_line": 290,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 3,
+    "max": 4028.0,
+    "min": 1e-15,
+    "span_orders_of_magnitude": 18.60508946188158
+   }
+  },
+  {
+   "block": "reproduction",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "MATCH_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/REPRO-2026-10-29.json",
+   "gate_value": 0.005,
+   "leaf": "reproduction.tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e241_pair_reproduction.py",
+   "publish_line": 388,
+   "published_as": "MATCH_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 6,
+    "max": 13911.0,
+    "min": 0.5962738909935611,
+    "span_orders_of_magnitude": 4.367912557277896
+   }
+  },
+  {
+   "block": "reproduction",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "MATCH_TOL",
+   "decoy_class": "unresolved",
+   "face": "results/state_tilt/REPRO-2026-10-30.json",
+   "gate_value": 0.005,
+   "leaf": "reproduction.tolerance",
+   "name_publishable": true,
+   "producer": "scripts/e241_pair_reproduction.py",
+   "publish_line": 388,
+   "published_as": "MATCH_TOL",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 6,
+    "max": 13916.0,
+    "min": 0.5962496292423473,
+    "span_orders_of_magnitude": 4.368086298078622
+   }
+  },
+  {
+   "block": "reproduction",
+   "class": "published_as_a_constant_that_names_nothing",
+   "constant": "tol",
+   "decoy_class": "ambiguous",
+   "face": "results/xstock_tilt_probe.json",
+   "gate_value": 5e-05,
+   "leaf": "reproduction.tol_ic",
+   "name_publishable": true,
+   "producer": "scripts/xstock_tilt.py",
+   "publish_line": 157,
+   "published_as": "tol",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 1.03,
+    "min": 1.03,
+    "span_orders_of_magnitude": 0.0
+   }
+  },
+  {
+   "block": "reproduction",
+   "class": "published_as_a_bare_literal",
+   "constant": null,
+   "decoy_class": "ambiguous",
+   "face": "results/xstock_tilt_probe.json",
+   "gate_value": 0.005,
+   "leaf": "reproduction.tol_ir",
+   "name_publishable": false,
+   "producer": "scripts/xstock_tilt.py",
+   "publish_line": 157,
+   "published_as": "0.5e-2",
+   "quantity_words": [],
+   "residual_span": {
+    "candidates": 2,
+    "max": 0.1078,
+    "min": 0.1078,
+    "span_orders_of_magnitude": 0.0
+   }
+  }
+ ],
+ "study": "E321_quantity_name_reach",
+ "summary": {
+  "by_class": {
+   "no_producer_names_the_face": 25,
+   "producer_found_but_publishes_no_such_key": 6,
+   "published_as_a_bare_literal": 5,
+   "published_as_a_constant_that_names_a_quantity": 21,
+   "published_as_a_constant_that_names_nothing": 139
+  },
+  "classes": [
+   "no_producer_names_the_face",
+   "producer_found_but_publishes_no_such_key",
+   "published_as_a_bare_literal",
+   "published_as_a_constant_that_names_a_quantity",
+   "published_as_a_constant_that_names_nothing"
+  ],
+  "named_and_publishable": 7,
+  "named_by_the_producer": 21,
+  "producer_located": 165,
+  "quantity_word_vocabulary": [
+   "bars",
+   "count",
+   "days",
+   "events",
+   "frac",
+   "fraction",
+   "mean",
+   "median",
+   "n",
+   "num",
+   "number",
+   "obs",
+   "observations",
+   "p90",
+   "pct",
+   "percent",
+   "rate",
+   "ratio",
+   "rows",
+   "samples",
+   "sd",
+   "sessions",
+   "share",
+   "stdev",
+   "tested",
+   "tests",
+   "trials"
+  ],
+  "rows": 196
+ },
+ "title": "E320 left 134 gates whose face never names the gated quantity; this reads the producer instead and asks whether the name exists there and would survive being published",
+ "upstream": "DECOYRESOLVE-2026-10-31.json",
+ "verdict": "the_producer_names_more_than_the_face_does_but_not_all_of_it",
+ "verdict_reason": "21 of 196 unresolved-or-ambiguous gates (10.7%) have a producer that names the quantity at the line that publishes the gate; 7 of those names sit on a module-level constant, i.e. would survive being published as-is; 31 gates have no producer that publishes the key at all, so no reading of the producer can name them."
+}
