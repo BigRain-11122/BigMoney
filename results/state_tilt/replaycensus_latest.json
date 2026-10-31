@@ -310,6 +310,54 @@
    "at_risk": false
   },
   {
+   "face": "PRECISIONCENSUS-2026-10-29.json",
+   "path": "/identity_check",
+   "key": "identity_check",
+   "kind": "identity",
+   "basis": "undeclared",
+   "basis_evidence": [],
+   "tolerance": null,
+   "status": null,
+   "reproduced": null,
+   "at_risk": false
+  },
+  {
+   "face": "PRECISIONCENSUS-2026-10-30.json",
+   "path": "/summary/per_leg/product: the drift split is reproduced as a traded exposure-matched arm",
+   "key": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "kind": "replay",
+   "basis": "undeclared",
+   "basis_evidence": [],
+   "tolerance": null,
+   "status": null,
+   "reproduced": null,
+   "at_risk": true
+  },
+  {
+   "face": "PRECISIONCENSUS-2026-10-30.json",
+   "path": "/summary/per_leg/product: a non-reproducing pair is traced rung by rung to the reader",
+   "key": "product: a non-reproducing pair is traced rung by rung to the reader",
+   "kind": "replay",
+   "basis": "undeclared",
+   "basis_evidence": [],
+   "tolerance": null,
+   "status": null,
+   "reproduced": null,
+   "at_risk": true
+  },
+  {
+   "face": "PRECISIONCENSUS-2026-10-30.json",
+   "path": "/identity_check",
+   "key": "identity_check",
+   "kind": "identity",
+   "basis": "undeclared",
+   "basis_evidence": [],
+   "tolerance": null,
+   "status": null,
+   "reproduced": null,
+   "at_risk": false
+  },
+  {
    "face": "REPRO-2026-10-29.json",
    "path": "/reproduction",
    "key": "reproduction",
@@ -371,6 +419,20 @@
    "basis": "undeclared"
   },
   {
+   "face": "PRECISIONCENSUS-2026-10-30.json",
+   "path": "/summary/per_leg/product: the drift split is reproduced as a traded exposure-matched arm",
+   "key": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "kind": "replay",
+   "basis": "undeclared"
+  },
+  {
+   "face": "PRECISIONCENSUS-2026-10-30.json",
+   "path": "/summary/per_leg/product: a non-reproducing pair is traced rung by rung to the reader",
+   "key": "product: a non-reproducing pair is traced rung by rung to the reader",
+   "kind": "replay",
+   "basis": "undeclared"
+  },
+  {
    "face": "REPRO-2026-10-29.json",
    "path": "/reproduction",
    "key": "reproduction",
@@ -397,31 +459,32 @@
   }
  ],
  "summary": {
-  "faces_scanned": 90,
-  "mirror_files_excluded": 67,
+  "faces_scanned": 94,
+  "mirror_files_excluded": 70,
   "self_faces_excluded": 2,
-  "faces_with_controls": 23,
-  "n_control_containers": 26,
-  "n_leaf_witnesses": 195,
+  "faces_with_controls": 25,
+  "n_control_containers": 30,
+  "n_leaf_witnesses": 196,
   "by_kind": {
-   "replay": 14,
-   "identity": 12
+   "replay": 16,
+   "identity": 14
   },
   "by_basis": {
-   "undeclared": 19,
+   "undeclared": 23,
    "live_declared": 1,
    "pinned_literal": 6
   },
-  "n_replay_controls": 14,
+  "n_replay_controls": 16,
   "n_replay_with_declared_basis": 7,
   "n_replay_that_rederive_on_the_live_panel_and_say_so": 1,
-  "n_at_risk": 7,
+  "n_at_risk": 9,
   "at_risk_faces": [
    "ADDOS-2026-10-29.json",
    "AGGATT-2026-10-29.json",
    "BANDARRIVALATE-2026-10-29.json",
    "BANDPATH-2026-10-29.json",
    "BANDPATH-2026-10-30.json",
+   "PRECISIONCENSUS-2026-10-30.json",
    "REPRO-2026-10-29.json",
    "REPRO-2026-10-30.json"
   ],
@@ -510,6 +573,14 @@
     "controls": 2,
     "at_risk": 0
    },
+   "PRECISIONCENSUS-2026-10-29.json": {
+    "controls": 1,
+    "at_risk": 0
+   },
+   "PRECISIONCENSUS-2026-10-30.json": {
+    "controls": 3,
+    "at_risk": 2
+   },
    "REPRO-2026-10-29.json": {
     "controls": 1,
     "at_risk": 1
@@ -519,7 +590,7 @@
     "at_risk": 1
    }
   },
-  "statement": "26 control block(s) across 23 published face(s); 14 of them are replays, 7 of those declare their basis and 7 cannot, so 7 replay control(s) are published as reacting-to-an-unknown-panel rather than as safe or broken."
+  "statement": "30 control block(s) across 25 published face(s); 16 of them are replays, 7 of those declare their basis and 9 cannot, so 9 replay control(s) are published as reacting-to-an-unknown-panel rather than as safe or broken."
  },
  "identity_check": {
   "face_counter_agrees": true,
@@ -533,6 +604,6 @@
   "all_checks": true
  },
  "verdict": "controls_that_cannot_state_their_basis_exist",
- "verdict_reason": "26 control block(s) across 23 published face(s); 14 of them are replays, 7 of those declare their basis and 7 cannot, so 7 replay control(s) are published as reacting-to-an-unknown-panel rather than as safe or broken.",
- "generated": "2026-10-31T13:11:25"
+ "verdict_reason": "30 control block(s) across 25 published face(s); 16 of them are replays, 7 of those declare their basis and 9 cannot, so 9 replay control(s) are published as reacting-to-an-unknown-panel rather than as safe or broken.",
+ "generated": "2026-10-31T15:30:39"
 }

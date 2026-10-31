@@ -62,6 +62,9 @@ PANEL_EXPRS = (
     "common_grid", "_panel(", "live panel",
 )
 
+# A per-leg counter row carries only these keys; it holds no comparison to a reference.
+PER_LEG_KEYS = ("rows", "at_risk", "copies")
+
 # The census scripts themselves name every key they censor; they are never writers.
 CENSUS_SCRIPTS = ("e298_replay_control_census.py", "e299_rounded_vs_tolerance_census.py",
                   "e303_recover_unmeasurable_basis.py")
@@ -306,7 +309,11 @@ def is_basis_key(k):
     return any(w in low for w in BASIS_WORDS)
 
 
-def _classify(published_keys, writer_keys, face_level, writer_found):
+def _classify(published_keys, writer_keys, face_level, writer_found, is_block=True):
+    if not is_block:
+        # the census's control detector convicts a key that is not a control at all (a smoke
+        # leg's name string in E299's face).  Say so instead of calling it undecidable.
+        return "not_a_control_block", []
     pub = [k for k in published_keys if is_basis_key(k)]
     if pub:
         return "published_basis", pub
@@ -352,14 +359,21 @@ def build(census_path=CENSUS, face_dir=FACE_DIR):
             panel_expr = _panel_expressions(src)
 
         face_level = sorted({k for k in _iter_dict_keys_all(fdoc) if is_basis_key(k)})
+        # a per-leg counter row is not a reproduction control: the census convicts it because
+        # the leg's *name* says "reproduced", and its body is counts of rows, not a comparison
+        is_block = isinstance(pub_block, dict) and not (
+            "/per_leg/" in (blk.get("path") or "")
+            or (set(published_keys) <= set(PER_LEG_KEYS) if published_keys else False))
         cls, witness = _classify(published_keys, writer_keys,
-                                 [k for k in face_level if k not in writer_keys], bool(writer))
+                                 [k for k in face_level if k not in writer_keys], bool(writer),
+                                 is_block=is_block)
         drift = _measure_drift(stem, key, face_dir)
         rows.append({
             "face": face, "path": blk.get("path"), "key": key, "face_stem": stem,
             "writer": os.path.relpath(writer, ROOT).replace("\\", "/") if writer else None,
             "writer_symbol": writer_symbol,
             "published_keys": published_keys,
+            "published_type": type(pub_block).__name__ if pub_block is not None else None,
             "writer_basis_keys": [k for k in writer_keys if is_basis_key(k)],
             "face_level_basis_keys": face_level,
             "panel_expressions": panel_expr,
@@ -382,38 +396,43 @@ def build(census_path=CENSUS, face_dir=FACE_DIR):
         "n_declared_at_face_level": by_class.get("declared_at_face_level", 0),
         "n_live_panel_derived": by_class.get("live_panel_derived", 0),
         "n_undecidable": by_class.get("undecidable", 0),
+        "n_not_a_control_block": by_class.get("not_a_control_block", 0),
         "n_recoverable_without_rerun": sum(1 for r in rows if r["recoverable_without_rerun"]),
         "n_with_measured_vintage_drift": sum(1 for r in rows
                                              if r["vintage_drift"].get("n_moved")),
         "n_writer_dropped_confirmed_by_another_vintage": sum(
             1 for r in rows if r["class"] == "writer_publishes_dropped"
             and any(v["basis_keys"] for v in r["vintage_basis"])),
-        "one_line": ("of the seven replays that publish no basis: %d is computed by its writer "
+        "one_line": ("of the %d replays the census cannot place: %d is computed by its writer "
                      "and dropped from the face, %d have the basis declared beside the block, "
-                     "%d derive on the live panel and say so nowhere -- %d of %d are recoverable "
-                     "without re-running anything"
-                     % (by_class.get("writer_publishes_dropped", 0),
+                     "%d derive on the live panel and say so nowhere; %d of %d are recoverable "
+                     "without re-running anything, and %d of the rows are not control blocks at "
+                     "all"
+                     % (len(rows),
+                        by_class.get("writer_publishes_dropped", 0),
                         by_class.get("declared_at_face_level", 0),
                         by_class.get("live_panel_derived", 0),
-                        sum(1 for r in rows if r["recoverable_without_rerun"]), len(rows))),
+                        sum(1 for r in rows if r["recoverable_without_rerun"]), len(rows),
+                        by_class.get("not_a_control_block", 0))),
     }
     cutoff = max((r["vintage_drift"].get("last") or "") for r in rows) or \
         census.get("evidence_cutoff")
     face = {
         "study": "E303",
-        "title": "seven replay controls publish no basis -- what does their writer read?",
+        "title": ("every replay control the census cannot place -- what does its writer read, "
+                  "and is a row even a control block?"),
         "generated": _now(),
         "evidence_cutoff": cutoff,
         "census_read": os.path.relpath(census_path, ROOT).replace("\\", "/"),
-        "question": ("for each of the 7 unmeasurable replay controls, does its writer read a "
-                     "pinned window or the live panel, and is the answer decidable from the "
-                     "code alone?"),
+        "question": ("for each at-risk control the census names, does its writer read a pinned window "
+                     "or the live panel, and is the answer decidable from the code alone?"),
         "method": {
             "published_keys": "read from the face on disk at the block's own path",
             "writer_keys": ("string keys of every Dict in the node that holds the block and in "
                             "the function that produced its right-hand side"),
             "class_vocabulary": ["published_basis", "writer_publishes_dropped",
-                                 "declared_at_face_level", "live_panel_derived", "undecidable"],
+                                 "declared_at_face_level", "live_panel_derived",
+                                 "not_a_control_block", "undecidable"],
             "basis_words": list(BASIS_WORDS),
             "vintage_drift": ("two dated vintages of the same face: the numeric leaves of the "
                               "block are compared; movement means the basis is the live panel"),
@@ -588,12 +607,23 @@ def selftest():
         n += 1
         assert _classify(["window"], [], [], False)[0] == "published_basis"
         n += 1
+        # a per-leg counter row is not a control block, whatever its name says
+        assert _classify(["rows", "at_risk", "copies"], [], [], False, is_block=False)[0] == \
+            "not_a_control_block"
+        n += 1
+        assert f["summary"]["n_not_a_control_block"] + \
+            f["summary"]["n_recoverable_without_rerun"] <= f["summary"]["blocks"]
+        n += 1
     print("selftest %d/%d PASS" % (n, n))
     return 0
 
 
 def verify(face):
-    """The face must satisfy its own contract before it is published."""
+    """The face must satisfy its own contract before it is published.
+
+    `recoverable_without_rerun` is recomputed from the class rather than trusted, so a row whose
+    class was edited (by hand or by a stale build) is caught instead of described.
+    """
     problems = []
     for r in face["blocks"]:
         for f in ("face", "key", "writer", "class", "published_keys"):
@@ -603,6 +633,13 @@ def verify(face):
             problems.append("%s class outside vocabulary" % r["face"])
         if r["class"] == "writer_publishes_dropped" and not r["writer_basis_keys"]:
             problems.append("%s claims a dropped basis with no witness" % r["face"])
+        if r["class"] == "writer_publishes_dropped" and not any(
+                v.get("basis_keys") for v in r.get("vintage_basis") or []):
+            problems.append("%s claims a dropped basis no other vintage carries" % r["face"])
+        expect_recoverable = r["class"] in ("writer_publishes_dropped",
+                                            "declared_at_face_level", "published_basis")
+        if bool(r.get("recoverable_without_rerun")) != expect_recoverable:
+            problems.append("%s publishes a recoverable flag its class does not carry" % r["face"])
         if r["decidable_from_code"] and not r["writer"]:
             problems.append("%s decides without a writer" % r["face"])
     s = face["summary"]
@@ -610,6 +647,9 @@ def verify(face):
         problems.append("summary block count does not match the rows")
     if sum(s["by_class"].values()) != s["blocks"]:
         problems.append("class counts do not sum to the block count")
+    if s["n_recoverable_without_rerun"] != sum(1 for r in face["blocks"]
+                                               if r["recoverable_without_rerun"]):
+        problems.append("the recoverable count does not match the rows")
     return problems
 
 

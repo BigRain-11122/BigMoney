@@ -6154,8 +6154,8 @@ fixture mtimes are now pinned with `os.utime`, so the leg tests the rule and not
 ### E308 a published block that names no panel is a question for the writer, not a verdict on the face (r1326 bm-b)
 
 E298 left seven replay controls "unmeasurable" because their face carries no window / pin / vintage
-key. Asking the code that wrote them answers five of the seven without re-running anything, and
-splits the seven into three different defects:
+key. Asking the code that wrote them answers five without re-running anything, and splits the
+question into three different defects -- plus one that is not a control at all:
 
 1. **The writer's own vocabulary is the first thing to test.** One of the seven (ADDOS) is computed by
    `_replay`, which since r1316 writes `window_used`, `window_source`, `live_panel_last` and
@@ -6172,8 +6172,15 @@ splits the seven into three different defects:
    changing (rows 13,911 -> 13,916; 285.88 -> 289.83 bp/yr). When a block has two dated vintages, the
    drift of its own numbers is the observable consequence of an unpinned basis -- a single vintage
    cannot show it and must not be read as "pinned".
+4. **A key whose *name* says "reproduced" is not a reproduction.** Re-running E298 after two new faces
+   landed turned its seven rows into nine: the two new ones are `per_leg` counter rows
+   (`{rows, at_risk, copies}`) whose leg labels merely contain the word. Ask what the row *is*
+   (`/per_leg/` container, or keys that are only counts) before asking which panel it read.
 
 Keeping the keys honest: a writer extends its block after building it (`out["window_source"] = ...`),
 so a literal-dict scan misses exactly the field being looked for -- the selftest asserts the subscript
-form. And the class a row gets must be catchable by the face's own `verify()`: a mutated class is
-asserted to be rejected, otherwise the gate is a rubber stamp.
+form. And the class a row gets must be catchable by the face's own `verify()`: `recoverable_without_rerun`
+is recomputed from the class rather than trusted, and a mutated class is asserted to be rejected.
+Also: a census that counts the directory must be regenerated when the directory grows -- three
+sibling smoke legs (E298/E299/E302) went red the moment new faces landed, all with the same verdict
+"the summary does not re-derive".
