@@ -813,6 +813,18 @@ LEGS = [
     ("quoted_number_staleness",
      ["python", "scripts/e328_quoted_number_staleness.py", "verify"]),
 
+    # E329: E328 measured numbers on a stale cut and assumed one file per source. A source can name
+    # two: 9 of 597 (source, family) pairs name two vintages of one stem (8 with two dated cuts,
+    # 1 pointer pair), only 2 have both cuts on disk, and 2 more bind them to separately named roles
+    # (ASOF/FRESH) so nothing races. One pair is order-decided: e242's _face_file tries the
+    # *_latest pointer first and falls back to a pinned 2026-10-29 cut -- and that order has no leg
+    # covering it. On today's disk all 4 of its call-site stems are served from the pointer, but 2
+    # of them (owncross, sharediff) hold a newer 2026-10-30 cut that the pinned fallback would
+    # silently miss if the pointer ever disappeared. Verify re-derives the pair classes, the call
+    # sites and every on-disk exposure from the tree. ~7s.
+    ("two_vintage_binding",
+     ["python", "scripts/e329_two_vintage_binding.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

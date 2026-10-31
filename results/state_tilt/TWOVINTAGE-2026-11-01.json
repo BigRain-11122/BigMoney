@@ -1,0 +1,743 @@
+{
+ "study": "E329_two_vintage_binding",
+ "evidence_cutoff": "2026-11-01",
+ "verdict": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_newer_cut",
+ "summary": {
+  "sources_scanned": 228,
+  "source_family_pairs": 597,
+  "pairs_naming_two_vintages": 9,
+  "pairs_with_two_dated_cuts": 8,
+  "pairs_with_a_pointer_pair": 1,
+  "pairs_both_cuts_on_disk": 2,
+  "pairs_order_decided": 1,
+  "pairs_roles_named": 2,
+  "pairs_no_static_winner": 4,
+  "chains_with_an_existence_test": 1,
+  "ordered_lists_with_no_test": 1,
+  "chains_whose_order_a_leg_covers": 0,
+  "call_site_stems": 4,
+  "stems_served_from_a_pointer_today": 4,
+  "stems_serving_a_stale_cut_today": 0,
+  "stems_where_the_pinned_fallback_is_already_stale": 2,
+  "stems_whose_disk_spelling_differs": 3
+ },
+ "rules": {
+  "handle": "a dated literal, a _latest pointer, or a %%s template for one stem",
+  "family": "lit:STEM for literal stems, var:VAR for %%-formatted stems",
+  "vintage": "a dated cut, or the pointer (which holds whatever cut is on disk today)",
+  "order_class": [
+   "fallback_chain",
+   "same_target_rebound",
+   "separate_targets",
+   "mention_only",
+   "ordered_list"
+  ],
+  "serves_stale_today": "the chain's first existing handle is older than the newest cut of the same stem already on disk",
+  "fallback_shadowed": "the pointer exists today (so nothing is served stale) while a newer cut than the pinned fallback sits on disk"
+ },
+ "limits": {
+  "family_by_stem": "a bare literal carries no directory, so a source-level family is the stem alone; E328 keys families by (directory, stem) because it measures files, not sources",
+  "static_binding_only": "a chain is read on the line its container sits on; a resolver that builds its order over several lines is classified mention_only rather than guessed",
+  "presence_not_behaviour": "serves_stale_today evaluates presence on disk, not a run: the tool never moves a file to see the fallback fire",
+  "template_is_not_a_vintage": "NAME-%%s.json names a form, not a cut, and is not counted toward two vintages"
+ },
+ "rows": [
+  {
+   "source": "scripts/e242_omission_inflation_sweep.py",
+   "family": "var:stem",
+   "dated_cuts": [
+    "2026-10-29"
+   ],
+   "has_latest": true,
+   "order_class": "fallback_chain",
+   "roles_named": false,
+   "named_targets": [],
+   "cuts_present_on_disk": [],
+   "both_cuts_on_disk": false,
+   "handles": [
+    {
+     "kind": "latest",
+     "stem": null,
+     "var": "stem",
+     "date": null,
+     "mode": "call",
+     "target": "in",
+     "line": 288,
+     "text": "for cand in (\"%s_latest.json\" % stem, \"%s-2026-10-29.json\" % stem):"
+    },
+    {
+     "kind": "dated",
+     "stem": null,
+     "var": "stem",
+     "date": "2026-10-29",
+     "mode": "call",
+     "target": "in",
+     "line": 288,
+     "text": "for cand in (\"%s_latest.json\" % stem, \"%s-2026-10-29.json\" % stem):"
+    }
+   ],
+   "exposures": [
+    {
+     "stem": "AGGATT",
+     "disk_spelling": [
+      "AGGATT",
+      "aggatt"
+     ],
+     "spellings_differing": [
+      "aggatt"
+     ],
+     "pointer_present": true,
+     "cuts_on_disk": [
+      "2026-10-29"
+     ],
+     "newest_cut": "2026-10-29",
+     "served_today": "2026-10-29",
+     "served_handle": "latest",
+     "pinned_fallback_dates": [
+      "2026-10-29"
+     ],
+     "serves_stale_today": false,
+     "fallback_shadowed": false
+    },
+    {
+     "stem": "owncross",
+     "disk_spelling": [
+      "OWNCROSS",
+      "owncross"
+     ],
+     "spellings_differing": [
+      "OWNCROSS"
+     ],
+     "pointer_present": true,
+     "cuts_on_disk": [
+      "2026-10-29",
+      "2026-10-30"
+     ],
+     "newest_cut": "2026-10-30",
+     "served_today": "2026-10-30",
+     "served_handle": "latest",
+     "pinned_fallback_dates": [
+      "2026-10-29"
+     ],
+     "serves_stale_today": false,
+     "fallback_shadowed": true
+    },
+    {
+     "stem": "per_member_gamma",
+     "disk_spelling": [
+      "per_member_gamma"
+     ],
+     "spellings_differing": [],
+     "pointer_present": true,
+     "cuts_on_disk": [],
+     "newest_cut": null,
+     "served_today": "2026-10-30",
+     "served_handle": "latest",
+     "pinned_fallback_dates": [
+      "2026-10-29"
+     ],
+     "serves_stale_today": false,
+     "fallback_shadowed": false
+    },
+    {
+     "stem": "sharediff",
+     "disk_spelling": [
+      "SHAREDIFF",
+      "sharediff"
+     ],
+     "spellings_differing": [
+      "SHAREDIFF"
+     ],
+     "pointer_present": true,
+     "cuts_on_disk": [
+      "2026-10-29",
+      "2026-10-30"
+     ],
+     "newest_cut": "2026-10-30",
+     "served_today": "2026-10-30",
+     "served_handle": "latest",
+     "pinned_fallback_dates": [
+      "2026-10-29"
+     ],
+     "serves_stale_today": false,
+     "fallback_shadowed": true
+    }
+   ],
+   "chain": {
+    "line": 288,
+    "order": [
+     {
+      "kind": "latest",
+      "stem": null,
+      "date": null
+     },
+     {
+      "kind": "dated",
+      "stem": null,
+      "date": "2026-10-29"
+     }
+    ],
+    "has_existence_test": true,
+    "resolver": "_face_file",
+    "order_covered_by_a_leg": false
+   },
+   "call_site_stems": [
+    "AGGATT",
+    "owncross",
+    "per_member_gamma",
+    "sharediff"
+   ]
+  },
+  {
+   "source": "scripts/e298_replay_control_census.py",
+   "family": "lit:ADDOS",
+   "dated_cuts": [
+    "2026-10-29",
+    "2026-10-30"
+   ],
+   "has_latest": false,
+   "order_class": "same_target_rebound",
+   "roles_named": false,
+   "named_targets": [
+    "mixed"
+   ],
+   "cuts_present_on_disk": [
+    "2026-10-29",
+    "2026-10-30"
+   ],
+   "both_cuts_on_disk": true,
+   "handles": [
+    {
+     "kind": "dated",
+     "stem": "ADDOS",
+     "var": null,
+     "date": "2026-10-29",
+     "mode": "call",
+     "target": "census_face",
+     "line": 413,
+     "text": "ca, _ = census_face(\"ADDOS-2026-10-29.json\", a)"
+    },
+    {
+     "kind": "dated",
+     "stem": "ADDOS",
+     "var": null,
+     "date": "2026-10-30",
+     "mode": "call",
+     "target": "census_face",
+     "line": 414,
+     "text": "cb, _ = census_face(\"ADDOS-2026-10-30.json\", b)"
+    },
+    {
+     "kind": "dated",
+     "stem": "ADDOS",
+     "var": null,
+     "date": "2026-10-29",
+     "mode": "assign",
+     "target": "mixed",
+     "line": 495,
+     "text": "mixed = {\"ADDOS-2026-10-29.json\": a, \"ADDOS-2026-10-30.json\": b}"
+    },
+    {
+     "kind": "dated",
+     "stem": "ADDOS",
+     "var": null,
+     "date": "2026-10-30",
+     "mode": "assign",
+     "target": "mixed",
+     "line": 495,
+     "text": "mixed = {\"ADDOS-2026-10-29.json\": a, \"ADDOS-2026-10-30.json\": b}"
+    }
+   ],
+   "exposures": []
+  },
+  {
+   "source": "scripts/e298_replay_control_census.py",
+   "family": "lit:REPLAYCENSUS",
+   "dated_cuts": [
+    "2026-02-02",
+    "2026-02-03"
+   ],
+   "has_latest": false,
+   "order_class": "ordered_list",
+   "roles_named": false,
+   "named_targets": [
+    "FACE"
+   ],
+   "cuts_present_on_disk": [],
+   "both_cuts_on_disk": false,
+   "handles": [
+    {
+     "kind": "template",
+     "stem": "REPLAYCENSUS",
+     "var": null,
+     "date": null,
+     "mode": "assign",
+     "target": "FACE",
+     "line": 50,
+     "text": "FACE = \"REPLAYCENSUS-%s.json\""
+    },
+    {
+     "kind": "dated",
+     "stem": "REPLAYCENSUS",
+     "var": null,
+     "date": "2026-02-02",
+     "mode": "mention",
+     "target": null,
+     "line": 437,
+     "text": "(\"REPLAYCENSUS-2026-02-02.json\", {\"replay_self\": {\"cell\": \"a\"}})):"
+    },
+    {
+     "kind": "dated",
+     "stem": "REPLAYCENSUS",
+     "var": null,
+     "date": "2026-02-02",
+     "mode": "call",
+     "target": "in",
+     "line": 451,
+     "text": "for name in (\"AAA-2026-02-02.json\", \"REPLAYCENSUS-2026-02-02.json\","
+    },
+    {
+     "kind": "dated",
+     "stem": "REPLAYCENSUS",
+     "var": null,
+     "date": "2026-02-03",
+     "mode": "mention",
+     "target": null,
+     "line": 452,
+     "text": "\"REPLAYCENSUS-2026-02-03.json\", \"replaycensus_latest.json\"):"
+    }
+   ],
+   "exposures": []
+  },
+  {
+   "source": "scripts/e303_recover_unmeasurable_basis.py",
+   "family": "lit:CCC",
+   "dated_cuts": [
+    "2026-10-01",
+    "2026-10-02"
+   ],
+   "has_latest": false,
+   "order_class": "mention_only",
+   "roles_named": false,
+   "named_targets": [],
+   "cuts_present_on_disk": [],
+   "both_cuts_on_disk": false,
+   "handles": [
+    {
+     "kind": "dated",
+     "stem": "CCC",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 497,
+     "text": "\"CCC-2026-10-01.json\": {\"ccc_replay\": {\"d_bp\": 1.0}},"
+    },
+    {
+     "kind": "dated",
+     "stem": "CCC",
+     "var": null,
+     "date": "2026-10-02",
+     "mode": "mention",
+     "target": null,
+     "line": 498,
+     "text": "\"CCC-2026-10-02.json\": {\"ccc_replay\": {\"d_bp\": 2.0}},"
+    },
+    {
+     "kind": "dated",
+     "stem": "CCC",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 528,
+     "text": "{\"face\": \"CCC-2026-10-01.json\", \"path\": \"/ccc_replay\", \"key\": \"ccc_replay\"},"
+    },
+    {
+     "kind": "dated",
+     "stem": "CCC",
+     "var": null,
+     "date": "2026-10-02",
+     "mode": "mention",
+     "target": null,
+     "line": 529,
+     "text": "{\"face\": \"CCC-2026-10-02.json\", \"path\": \"/ccc_replay\", \"key\": \"ccc_replay\"},"
+    },
+    {
+     "kind": "dated",
+     "stem": "CCC",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 563,
+     "text": "assert rows[\"CCC-2026-10-01.json\"][\"class\"] == \"live_panel_derived\", rows[\"CCC-2026-10-01.json\"]"
+    },
+    {
+     "kind": "dated",
+     "stem": "CCC",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 563,
+     "text": "assert rows[\"CCC-2026-10-01.json\"][\"class\"] == \"live_panel_derived\", rows[\"CCC-2026-10-01.json\"]"
+    },
+    {
+     "kind": "dated",
+     "stem": "CCC",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "call",
+     "target": "any",
+     "line": 565,
+     "text": "assert any(\"single_panel\" in p[\"text\"] for p in rows[\"CCC-2026-10-01.json\"][\"panel_expressions\"])"
+    },
+    {
+     "kind": "dated",
+     "stem": "CCC",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 567,
+     "text": "assert rows[\"CCC-2026-10-01.json\"][\"vintage_drift\"][\"n_moved\"] == 1"
+    },
+    {
+     "kind": "dated",
+     "stem": "CCC",
+     "var": null,
+     "date": "2026-10-02",
+     "mode": "mention",
+     "target": null,
+     "line": 582,
+     "text": "assert rows[\"CCC-2026-10-02.json\"][\"recoverable_without_rerun\"] is False"
+    },
+    {
+     "kind": "dated",
+     "stem": "CCC",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 589,
+     "text": "assert rows[\"CCC-2026-10-01.json\"][\"vintage_drift\"][\"comparable\"] is True"
+    }
+   ],
+   "exposures": []
+  },
+  {
+   "source": "scripts/e303_recover_unmeasurable_basis.py",
+   "family": "lit:DDD",
+   "dated_cuts": [
+    "2026-10-01",
+    "2026-10-02"
+   ],
+   "has_latest": false,
+   "order_class": "mention_only",
+   "roles_named": false,
+   "named_targets": [
+    "vb"
+   ],
+   "cuts_present_on_disk": [],
+   "both_cuts_on_disk": false,
+   "handles": [
+    {
+     "kind": "dated",
+     "stem": "DDD",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 499,
+     "text": "\"DDD-2026-10-01.json\": {\"ddd_replay\": {\"d\": 1.0}},"
+    },
+    {
+     "kind": "dated",
+     "stem": "DDD",
+     "var": null,
+     "date": "2026-10-02",
+     "mode": "mention",
+     "target": null,
+     "line": 500,
+     "text": "\"DDD-2026-10-02.json\": {\"ddd_replay\": {\"window_source\": \"pinned\", \"d\": 1.0}},"
+    },
+    {
+     "kind": "dated",
+     "stem": "DDD",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 530,
+     "text": "{\"face\": \"DDD-2026-10-01.json\", \"path\": \"/ddd_replay\", \"key\": \"ddd_replay\"},"
+    },
+    {
+     "kind": "dated",
+     "stem": "DDD",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 570,
+     "text": "assert rows[\"DDD-2026-10-01.json\"][\"class\"] == \"writer_publishes_dropped\", rows[\"DDD-2026-10-01.json\"]"
+    },
+    {
+     "kind": "dated",
+     "stem": "DDD",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 570,
+     "text": "assert rows[\"DDD-2026-10-01.json\"][\"class\"] == \"writer_publishes_dropped\", rows[\"DDD-2026-10-01.json\"]"
+    },
+    {
+     "kind": "dated",
+     "stem": "DDD",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 572,
+     "text": "assert rows[\"DDD-2026-10-01.json\"][\"witness_keys\"] == [\"window_source\"]"
+    },
+    {
+     "kind": "dated",
+     "stem": "DDD",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "assign",
+     "target": "vb",
+     "line": 575,
+     "text": "vb = {v[\"vintage\"]: v[\"basis_keys\"] for v in rows[\"DDD-2026-10-01.json\"][\"vintage_basis\"]}"
+    }
+   ],
+   "exposures": []
+  },
+  {
+   "source": "scripts/e328_quoted_number_staleness.py",
+   "family": "lit:A",
+   "dated_cuts": [
+    "2026-10-01",
+    "2026-10-05"
+   ],
+   "has_latest": false,
+   "order_class": "mention_only",
+   "roles_named": false,
+   "named_targets": [
+    "reader"
+   ],
+   "cuts_present_on_disk": [],
+   "both_cuts_on_disk": false,
+   "handles": [
+    {
+     "kind": "dated",
+     "stem": "A",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "call",
+     "target": "_write",
+     "line": 399,
+     "text": "_write(root, \"results/fam/A-2026-10-01.json\","
+    },
+    {
+     "kind": "dated",
+     "stem": "A",
+     "var": null,
+     "date": "2026-10-05",
+     "mode": "call",
+     "target": "_write",
+     "line": 401,
+     "text": "_write(root, \"results/fam/A-2026-10-05.json\","
+    },
+    {
+     "kind": "dated",
+     "stem": "A",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 420,
+     "text": "'p = \"results/fam/A-2026-10-01.json\"\\n'"
+    },
+    {
+     "kind": "dated",
+     "stem": "A",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "assign",
+     "target": "reader",
+     "line": 471,
+     "text": "reader = quotes_of(\"results/fam/A-2026-10-01.json\", index)"
+    },
+    {
+     "kind": "dated",
+     "stem": "A",
+     "var": null,
+     "date": "2026-10-01",
+     "mode": "mention",
+     "target": null,
+     "line": 485,
+     "text": "[r[\"face\"] for r in doc[\"rows\"]] == [\"results/fam/A-2026-10-01.json\"],"
+    }
+   ],
+   "exposures": []
+  },
+  {
+   "source": "scripts/e328_quoted_number_staleness.py",
+   "family": "lit:B",
+   "dated_cuts": [
+    "2026-10-02",
+    "2026-10-09"
+   ],
+   "has_latest": false,
+   "order_class": "mention_only",
+   "roles_named": false,
+   "named_targets": [
+    "producer"
+   ],
+   "cuts_present_on_disk": [],
+   "both_cuts_on_disk": false,
+   "handles": [
+    {
+     "kind": "dated",
+     "stem": "B",
+     "var": null,
+     "date": "2026-10-09",
+     "mode": "call",
+     "target": "_write",
+     "line": 404,
+     "text": "_write(root, \"results/fam/B-2026-10-09.json\","
+    },
+    {
+     "kind": "dated",
+     "stem": "B",
+     "var": null,
+     "date": "2026-10-02",
+     "mode": "call",
+     "target": "_write",
+     "line": 406,
+     "text": "_write(root, \"results/fam/B-2026-10-02.json\","
+    },
+    {
+     "kind": "dated",
+     "stem": "B",
+     "var": null,
+     "date": "2026-10-09",
+     "mode": "mention",
+     "target": null,
+     "line": 428,
+     "text": "'f = \"results/fam/B-2026-10-09.json\"\\n'"
+    },
+    {
+     "kind": "dated",
+     "stem": "B",
+     "var": null,
+     "date": "2026-10-09",
+     "mode": "assign",
+     "target": "producer",
+     "line": 474,
+     "text": "producer = quotes_of(\"results/fam/B-2026-10-09.json\", index)"
+    }
+   ],
+   "exposures": []
+  },
+  {
+   "source": "scripts/regime_gate_dualarm.py",
+   "family": "lit:DUALARM",
+   "dated_cuts": [
+    "2026-09-22",
+    "2026-09-30"
+   ],
+   "has_latest": false,
+   "order_class": "separate_targets",
+   "roles_named": true,
+   "named_targets": [
+    "art_path",
+    "out",
+    "p1"
+   ],
+   "cuts_present_on_disk": [
+    "2026-09-30"
+   ],
+   "both_cuts_on_disk": false,
+   "handles": [
+    {
+     "kind": "template",
+     "stem": "DUALARM",
+     "var": null,
+     "date": null,
+     "mode": "assign",
+     "target": "out",
+     "line": 287,
+     "text": "out = os.path.join(OUT_DIR, \"DUALARM-%s.json\" % artifact[\"asof\"])"
+    },
+    {
+     "kind": "dated",
+     "stem": "DUALARM",
+     "var": null,
+     "date": "2026-09-30",
+     "mode": "assign",
+     "target": "p1",
+     "line": 369,
+     "text": "p1 = os.path.join(out_dir, \"DUALARM-2026-09-30.json\")"
+    },
+    {
+     "kind": "dated",
+     "stem": "DUALARM",
+     "var": null,
+     "date": "2026-09-22",
+     "mode": "assign",
+     "target": "art_path",
+     "line": 422,
+     "text": "art_path = os.path.join(out2, \"DUALARM-2026-09-22.json\")"
+    }
+   ],
+   "exposures": []
+  },
+  {
+   "source": "scripts/sscombo_pit_drift_audit.py",
+   "family": "lit:REGIME5",
+   "dated_cuts": [
+    "2026-09-30",
+    "2026-10-19"
+   ],
+   "has_latest": false,
+   "order_class": "separate_targets",
+   "roles_named": true,
+   "named_targets": [
+    "DEFAULT_ASOF",
+    "DEFAULT_FRESH"
+   ],
+   "cuts_present_on_disk": [
+    "2026-09-30",
+    "2026-10-19"
+   ],
+   "both_cuts_on_disk": true,
+   "handles": [
+    {
+     "kind": "dated",
+     "stem": "REGIME5",
+     "var": null,
+     "date": "2026-09-30",
+     "mode": "assign",
+     "target": "DEFAULT_ASOF",
+     "line": 29,
+     "text": "DEFAULT_ASOF = os.path.join(LABEL_DIR, \"REGIME5-2026-09-30.json\")"
+    },
+    {
+     "kind": "dated",
+     "stem": "REGIME5",
+     "var": null,
+     "date": "2026-10-19",
+     "mode": "assign",
+     "target": "DEFAULT_FRESH",
+     "line": 30,
+     "text": "DEFAULT_FRESH = os.path.join(LABEL_DIR, \"REGIME5-2026-10-19.json\")"
+    }
+   ],
+   "exposures": []
+  }
+ ]
+}

@@ -9681,6 +9681,80 @@ def main() -> int:
     except Exception as e:
         check(_name328, False, repr(e)[:160])
 
+    # E329: a source that names two vintages of one family hands the choice to *something*. This leg
+    # refuses a row outside the frozen order vocabulary, a chain row that claims an order without an
+    # existence test, a "served stale" verdict with no served cut, a newest cut older than a cut the
+    # same row lists on disk, a both-cuts-on-disk row that lists fewer than two, and a face that
+    # hides its limits or does not re-derive.
+    _name329 = ("product: every source that names two vintages of one family is classed by how the "
+                "choice is made, and the stale cut is measured on today's disk")
+    _bad329 = []
+    try:
+        _p329 = os.path.join("results", "state_tilt", "twovintage_latest.json")
+        _f329 = json.load(open(_p329, encoding="utf-8")) if os.path.exists(_p329) else None
+        if _f329 is None:
+            _bad329.append("no published two-vintage face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m329 = __import__("importlib").import_module("e329_two_vintage_binding")
+            _fresh329 = _m329.build()
+            _s329 = _f329.get("summary") or {}
+            if _f329.get("verdict") != _fresh329.get("verdict"):
+                _bad329.append("the verdict does not re-derive")
+            if _f329.get("verdict") not in _m329.VERDICTS:
+                _bad329.append("verdict %r is outside the frozen set" % (_f329.get("verdict"),))
+            for _k329 in ("source_family_pairs", "pairs_naming_two_vintages",
+                          "pairs_order_decided", "pairs_roles_named", "call_site_stems",
+                          "stems_serving_a_stale_cut_today",
+                          "stems_where_the_pinned_fallback_is_already_stale"):
+                if _s329.get(_k329) != (_fresh329.get("summary") or {}).get(_k329):
+                    _bad329.append("summary.%s does not re-derive" % _k329)
+            _classes = {_m329.O_CHAIN, _m329.O_REBOUND, _m329.O_SEPARATE, _m329.O_MENTION,
+                        _m329.O_LIST}
+            for _r329 in _f329.get("rows") or []:
+                if _r329["order_class"] not in _classes:
+                    _bad329.append("a row carries an order class outside the frozen set")
+                    break
+                if len(_r329["dated_cuts"]) < 2 and not _r329["has_latest"]:
+                    _bad329.append("a row names neither two dated cuts nor a pointer")
+                    break
+                if _r329["both_cuts_on_disk"] and len(_r329["cuts_present_on_disk"]) < 2:
+                    _bad329.append("a both-cuts-on-disk row lists fewer than two cuts")
+                    break
+                if _r329["order_class"] == _m329.O_CHAIN:
+                    _chain = _r329.get("chain") or {}
+                    if not _chain.get("order") or not _chain.get("has_existence_test"):
+                        _bad329.append("an order-decided row has no order or no existence test")
+                        break
+                    if _r329["has_latest"] and _chain["order"][0]["kind"] != _m329.K_LATEST:
+                        _bad329.append("a pointer pair is not tried first")
+                        break
+                for _e329 in _r329.get("exposures") or []:
+                    if _e329["serves_stale_today"] and _e329["served_today"] is None:
+                        _bad329.append("a served-stale verdict carries no served cut")
+                        break
+                    if (_e329["newest_cut"] and _e329["cuts_on_disk"]
+                            and _e329["newest_cut"] != max(_e329["cuts_on_disk"])):
+                        _bad329.append("a row's newest cut is not the newest cut it lists")
+                        break
+            if _f329.get("limits") is None:
+                _bad329.append("the instrument's limits are not disclosed")
+    except Exception as e:
+        check(_name329, False, repr(e)[:160])
+
+    check(_name329, not _bad329, "; ".join(_bad329)[:220]
+          or "%s | %s of %s source-family pairs name two vintages (%s order-decided, %s with "
+             "named roles), and %s of %s call-site stems hold a pinned fallback older than a cut "
+             "already on disk"
+             % (str((_f329 or {}).get("verdict")),
+                ((_f329 or {}).get("summary") or {}).get("pairs_naming_two_vintages"),
+                ((_f329 or {}).get("summary") or {}).get("source_family_pairs"),
+                ((_f329 or {}).get("summary") or {}).get("pairs_order_decided"),
+                ((_f329 or {}).get("summary") or {}).get("pairs_roles_named"),
+                ((_f329 or {}).get("summary") or {}).get(
+                    "stems_where_the_pinned_fallback_is_already_stale"),
+                ((_f329 or {}).get("summary") or {}).get("call_site_stems")))
+
     return _finish()
 
 
