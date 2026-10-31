@@ -2976,7 +2976,18 @@
   "s7": "orders 114 files / 115 acks / 0 unacked at the round-open scan; decisions/orders watermarks not re-fetched this window (no fetch attempted, the recorded watermark stays); scheduler and claws read but not re-registered (no drift observed)",
   "orders": "114 order files / 115 acks / 0 unacked",
   "pool": "E312 done with result_ref; E313-GATE-FORM-AND-SCALE seeded ready (803 entries, 1 ready)",
-  "identity": "identity_checks 12/12 ALL PASS (partitions, shared-name disclosure, self-inclusion, scope-flip count, legacy derivability)"
+  "identity": "identity_checks 12/12 ALL PASS (partitions, shared-name disclosure, self-inclusion, scope-flip count, legacy derivability)",
+  "delivery": {
+   "branch": "machine/bm-b-r1331",
+   "pushed_sha": "699bbc56bcc0e2db74afc8bd384bd7f2edd26350",
+   "remote_ref_sha": "699bbc56bcc0e2db74afc8bd384bd7f2edd26350",
+   "verified": true,
+   "local_not_on_origin_main": 117,
+   "behind_origin_main": 195,
+   "main_push_blocker": "the local main has diverged from origin/main for many rounds (promisor lazy fetch wedges before negotiation, r1255 family); main push not attempted",
+   "ts": "2026-10-31T18:53:52+08:00",
+   "note": "20 files staged (producer, both faces, the E308 repair, digest, methodology card, two wiring files, the pool, state, heartbeat, round report, five re-derived sibling faces); the ~600 dirty tracked files left by collectors and prior windows were not swept in"
+  }
  },
  "notes_r1331": "| 2026-10-31T19:0x+08:00 | r1331 | **watermark: pool-batch red at open (4 ready, py idle) -- burned the ready head E312 in-round** | E312 gate operand identity published: 29 of 30 E308 pairs do have a producer comparison once the DECLARED key is resolved to the constant behind it, but 25 rows compare names that never meet -- and the two bands swap. **CURRENT:** E312 done. **LATEST PHYSICAL:** results/state_tilt/GATEOPERANDS-2026-10-31.json. **NEXT MILESTONE:** E313 gate form and scale (ready, runner not written; due next round, within 48h). **PRODUCT:** a leg can be tighter than a gate that governs another number entirely, so the band joins on the operand, not on the face."
 }
