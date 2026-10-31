@@ -35,6 +35,7 @@ REGIME_PATH = os.path.join(ROOT, "results", "etf_book_return_regime.json")
 BETS_JSON = os.path.join(ROOT, "results", "etf_book_bets_face.json")
 LEGS_JSON = os.path.join(ROOT, "results", "etf_book_legs", "latest.json")
 CONC_JSON = os.path.join(ROOT, "results", "etf_book_concentration.json")
+SLEEVE_JSON = os.path.join(ROOT, "results", "etf_book_sleeve_gate.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -220,6 +221,31 @@ def concentration_face(path=CONC_JSON):
         return {"status": "unreadable", "artifact": path, "sentence": None,
                 "detail": "reader failed (%s)" % str(exc)[:120]}
     return _C.reading(path=path)
+
+
+def sleeve_gate_face(path=SLEEVE_JSON):
+    """Does the commodity sleeve need a risk gate of its own? (r1193)
+
+    The concentration section tells the reader the whole commodity sleeve is what pays
+    for the drawdown; the reader's next question is "so should we gate it?". r1192
+    measured exactly that and answered NO_GATE on the card; this page -- the face the
+    CEO actually opens -- still ended the sentence there. Single implementation: the
+    rows and the closest arm come from `etf_book_sleeve_gate.read_published()`, and the
+    page only formats what it published. Absent/unreadable/broken reads as
+    "cannot verify here", never as "no gate needed"."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_sleeve_gate as _G
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "sentence": None,
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        return _G.read_published(path=path) if path else _G.read_published()
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "sentence": None,
+                "detail": "reading failed (%s)" % str(exc)[:120]}
 
 
 def _load_ticket():
@@ -1121,6 +1147,7 @@ def build(with_stress=False):
     page["carry_regime"] = carry_regime()
     page["leg_split"] = leg_split()
     page["concentration"] = concentration_face()
+    page["sleeve_gate"] = sleeve_gate_face()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
     return page, today
 
@@ -1583,6 +1610,71 @@ def render_md(p):
             "删票是把整只票从票池里拿掉重跑，不是把权重调大调小。"
             % (_rel(cc.get("artifact") or CONC_JSON, ROOT).replace(os.sep, "/"),
                cc.get("evidence_cutoff") or "—"))
+        add("")
+    sg = p.get("sleeve_gate") or {}
+    add("## 要不要给商品袖单独立个风险门")
+    add("")
+    if sg.get("status") != "ok":
+        add("这一节没有数：袖门面%s（`%s`）。缺面就写「无法核验」，"
+            "绝不默认读成「不需要门」。"
+            % ("未产出" if sg.get("status") == "absent" else "读不出",
+               _rel(sg.get("artifact") or SLEEVE_JSON, ROOT).replace(os.sep, "/")))
+        add("")
+    else:
+        rows = sg.get("gates") or []
+        crit = sg.get("criteria") or {}
+        closest = sg.get("closest") or {}
+        decisions = (sg.get("book") or {}).get("decisions") or 0
+        add("上一节说了：赚钱的那条腿就是抗回撤的那条腿。那要不要给这条袖单独立个门"
+            "（趋势破了就撤、波动太高就撤、回撤太深就撤）？同一套引擎、同一批票、同样的换手与成本，"
+            "把三种门各跑一遍，并且每种门都配一个**同样关掉次数的安慰剂**——"
+            "因为「固定比例地不持有」本身就会改变风险，只有赢过自己安慰剂的那种才算信号。")
+        add("")
+        add("| 门 | 关掉袖的决策数 | 占决策网格 | 年化变化 | 回撤变化 | 判词 |")
+        add("|---|---|---|---|---|---|")
+        for r in rows:
+            add("| %s | %s/%d | %.1f%% | %+.2fpp | %+.2fpp | %s |"
+                % ({"trend": "趋势（跌破 200 日线）", "vol": "波动（波动率过高）",
+                    "drawdown": "回撤（从高点回落过深）"}.get(r.get("name"), r.get("name")),
+                   r.get("off_decisions") or 0, decisions,
+                   100 * (r.get("off_share") or 0),
+                   r.get("delta_cagr_pp") or 0.0, r.get("delta_maxdd_pp") or 0.0,
+                   str(r.get("verdict") or "—").replace("|", " · ")))
+        add("")
+        add("回撤一列是正数=比不加门时的回撤更浅。结论：**%s**"
+            % str(sg.get("verdict") or "—").replace("|", " · "))
+        add("")
+        if closest.get("dd_gain_pp") is not None and (closest.get("dd_gain_pp") or 0) > 0:
+            add("- 最接近的一条是 **%s门**：回撤只改善 **%+.2fpp**，没到事先冻结的 **%.1fpp** 门槛，"
+                "但它赢了自己的安慰剂 **%+.2fpp**——所以它是「将来拿新数据再测」的候选，"
+                "**不是**把门槛降下来让它过（那样就是跑到达标为止，本账不许）。"
+                % ({"trend": "趋势", "vol": "波动", "drawdown": "回撤"}.get(closest.get("name")),
+                   closest.get("dd_gain_pp") or 0.0, crit.get("min_dd_gain_pp") or 0.0,
+                   closest.get("placebo_dd_edge_pp") or 0.0))
+        # the rest of the verdict, read off each gate's own classification (never asserted
+        # in prose): a gate can fail because it gains nothing, or because it loses to its
+        # own untimed placebo -- and the same gate can be both at once
+        no_gain = [r for r in rows if r.get("why") == "no_gain_vs_baseline"]
+        lost = [r for r in rows if r.get("why") == "no_gain_vs_baseline"
+                and not r.get("beats_placebo")]
+        if no_gain:
+            _zh = {"trend": "趋势", "vol": "波动", "drawdown": "回撤"}
+            add("- 有 **%d 条**门（%s）连基线都没超过：按信号把这条袖关掉，回撤并不比一直拿着更浅。"
+                % (len(no_gain), "、".join(_zh.get(r.get("name"), r.get("name"))
+                                          for r in no_gain)))
+        if lost:
+            add("- 其中 **%s** 连自己的安慰剂也赢不了（换成同样次数的随机不持有更好）——"
+                "它们看起来像「避险」，实际只是**少拿了这条袖**。"
+                % "、".join({"trend": "趋势", "vol": "波动", "drawdown": "回撤"}.get(
+                    r.get("name"), r.get("name")) for r in lost))
+        add("- 也就是说：这条袖的风险已经在**书级**的波动目标里（整本账只降不升杠杆）管住了，"
+            "再在袖上加一层门不会更安全，只会更常空仓。")
+        add("")
+        add("> 袖门面：`%s`（计价截止 %s）。每个臂都对照自己的同剂量安慰剂；"
+            "判据（回撤门槛 %.1fpp、年化至少保留 %.0f%%）写在跑之前。"
+            % (_rel(sg.get("artifact") or SLEEVE_JSON, ROOT).replace(os.sep, "/"),
+               sg.get("evidence_cutoff") or "—",
+               crit.get("min_dd_gain_pp") or 0.0, 100 * (crit.get("cagr_keep") or 0.0)))
         add("")
     add("## 换成年内能赚多少钱（按本单资金 ¥%s）" % format(p["money_cny"]["capital_cny"], ",.0f"))
     add("")
@@ -2295,6 +2387,58 @@ def selftest():
     chk("L65 concentration: absent or a broken identity prints 'cannot verify' and no numbers",
         "无法核验" in _md_conc_absent and "无法核验" in _md_conc_broken
         and "22.1%" not in _md_conc_absent and "22.1%" not in _md_conc_broken, "")
+
+    # L66-L68 (r1193): the concentration section tells the reader the whole commodity
+    # sleeve pays for the drawdown, and the reader's next question is "so should we gate
+    # it?". r1192 measured that and answered on the card; the page has to answer too --
+    # quoting the reader's rows, and reading each gate's failure mode off its own numbers
+    # (a draft of this text said "both hard gates lose to their placebo" about an arm
+    # that beat it by 2.43pp, which is why the sentence is generated, not written).
+    def _render_sleeve(sg):
+        _p, _ = build(with_stress=False)
+        _p["sleeve_gate"] = sg
+        return render_md(_p)
+
+    _sg_ok = {"status": "ok", "artifact": SLEEVE_JSON, "evidence_cutoff": "2026-10-30",
+              "verdict": "NO_GATE", "book": {"decisions": 83},
+              "criteria": {"min_dd_gain_pp": 1.0, "cagr_keep": 0.95,
+                           "placebo_dd_edge_pp": 0.5, "placebo_cagr_edge_pp": 0.5},
+              "gates": [
+                  {"name": "trend", "off_decisions": 20, "off_share": 0.241,
+                   "delta_cagr_pp": -0.32, "delta_maxdd_pp": -2.77,
+                   "dd_gain_pp": -2.77, "cagr_keep": 0.9667,
+                   "placebo_dd_edge_pp": -1.03, "placebo_cagr_edge_pp": -1.41,
+                   "beats_placebo": False, "verdict": "NO_GATE", "why": "no_gain_vs_baseline"},
+                  {"name": "vol", "off_decisions": 25, "off_share": 0.3012,
+                   "delta_cagr_pp": 0.02, "delta_maxdd_pp": 0.86,
+                   "dd_gain_pp": 0.86, "cagr_keep": 1.0021,
+                   "placebo_dd_edge_pp": 5.0, "placebo_cagr_edge_pp": 2.92,
+                   "beats_placebo": True, "verdict": "NO_GATE", "why": "short_of_bar"},
+                  {"name": "drawdown", "off_decisions": 13, "off_share": 0.1566,
+                   "delta_cagr_pp": -0.18, "delta_maxdd_pp": -1.27,
+                   "dd_gain_pp": -1.27, "cagr_keep": 0.9813,
+                   "placebo_dd_edge_pp": 2.43, "placebo_cagr_edge_pp": 2.0,
+                   "beats_placebo": True, "verdict": "NO_GATE", "why": "no_gain_vs_baseline"}],
+              "closest": {"name": "vol", "dd_gain_pp": 0.86, "placebo_dd_edge_pp": 5.0}}
+    _md_sg = _render_sleeve(_sg_ok)
+    chk("L66 sleeve gate: every arm's dose and both deltas reach the page from the reader",
+        all(s in _md_sg for s in ("20/83", "25/83", "13/83", "24.1%", "30.1%", "15.7%",
+                                  "+0.86pp", "-2.77pp", "-1.27pp", "NO_GATE")), "")
+    chk("L67 sleeve gate: the near miss is named as a re-test candidate, not a re-threshold",
+        "波动门" in _md_sg and "1.0pp" in _md_sg and "+5.00pp" in _md_sg
+        and "跑到达标为止" in _md_sg, "")
+    chk("L68 sleeve gate: each failure mode comes from the row's own 'why', not from prose",
+        "有 **2 条**门（趋势、回撤）" in _md_sg
+        and "其中 **趋势** 连自己的安慰剂也赢不了" in _md_sg
+        and "回撤 连自己的安慰剂" not in _md_sg, "")
+    _md_sg_gone = _render_sleeve({"status": "absent", "artifact": SLEEVE_JSON,
+                                  "sentence": None, "verdict": None})
+    _md_sg_broken = _render_sleeve({"status": "no_identity", "artifact": SLEEVE_JSON,
+                                    "sentence": None, "verdict": None})
+    chk("L69 sleeve gate: absent or an identity failure reads 'cannot verify' and no gate table",
+        "无法核验" in _md_sg_gone and "无法核验" in _md_sg_broken
+        and "| 门 |" not in _md_sg_gone and "| 门 |" not in _md_sg_broken
+        and "20/83" not in _md_sg_gone and "20/83" not in _md_sg_broken, "")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

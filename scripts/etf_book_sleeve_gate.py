@@ -323,8 +323,82 @@ def answer_sentence(base_full, gates, verdict, adopting):
     return " ".join(parts)
 
 
+def gate_rows(doc):
+    """Per-gate rows + the closest arm, once for every consumer (r1193).
+
+    Two faces already quote this experiment (the card and, from this round, the CEO
+    page). Each of them used to re-walk `gates` to answer "which arm came closest",
+    which is the E289 defect class: the same reading assembled twice drifts. The rows
+    carry only what was published on the artifact -- no re-pricing here.
+    """
+    gates = (doc or {}).get("gates") or {}
+    arms = (doc or {}).get("arms") or {}
+    crit = (doc or {}).get("criteria") or {}
+    bar = crit.get("min_dd_gain_pp")
+    pl_dd = crit.get("placebo_dd_edge_pp")
+    pl_cagr = crit.get("placebo_cagr_edge_pp")
+    out = []
+    for name in ("trend", "vol", "drawdown"):
+        g = gates.get(name) or {}
+        if not g:
+            continue
+        n = (g.get("judgement") or {}).get("numbers") or {}
+        arm = arms.get("gate_%s" % name) or {}
+        pl = arms.get("placebo_%s" % name) or {}
+        verdict = (g.get("judgement") or {}).get("verdict")
+        # why a non-adopted gate failed, read off its own two numbers -- a face that
+        # said "it loses to its placebo" about an arm that beat it would be a prose
+        # drift nobody could catch by eye (r1193 caught exactly that in a draft)
+        why = None
+        if verdict == "ADOPT":
+            why = "adopted"
+        elif verdict == "NOT_ASSESSED":
+            why = "not_assessed"
+        elif n.get("dd_gain_pp") is None:
+            why = "unmeasured"
+        elif n.get("dd_gain_pp") <= 0:
+            why = "no_gain_vs_baseline"
+        elif bar is not None and n["dd_gain_pp"] < bar:
+            why = "short_of_bar"
+        elif crit.get("cagr_keep") is not None and (n.get("cagr_keep") or 0) < crit["cagr_keep"]:
+            why = "gives_up_cagr"
+        else:
+            why = "loses_to_placebo"
+        out.append({
+            "name": name,
+            "off_decisions": g.get("off_decisions"),
+            "off_share": g.get("off_share"),
+            "delta_cagr_pp": arm.get("delta_cagr_pp"),
+            "delta_maxdd_pp": arm.get("delta_maxdd_pp"),
+            "placebo_delta_cagr_pp": pl.get("delta_cagr_pp"),
+            "placebo_delta_maxdd_pp": pl.get("delta_maxdd_pp"),
+            "dd_gain_pp": n.get("dd_gain_pp"),
+            "cagr_keep": n.get("cagr_keep"),
+            "placebo_dd_edge_pp": n.get("placebo_dd_edge_pp"),
+            "placebo_cagr_edge_pp": n.get("placebo_cagr_edge_pp"),
+            "beats_placebo": not ((n.get("placebo_dd_edge_pp") is None
+                                   or n["placebo_dd_edge_pp"] < (pl_dd or 0))
+                                  and (n.get("placebo_cagr_edge_pp") is None
+                                       or n["placebo_cagr_edge_pp"] < (pl_cagr or 0))),
+            "verdict": verdict,
+            "why": why,
+        })
+    closest = None
+    for r in out:
+        if r["verdict"] == "ADOPT" or r["dd_gain_pp"] is None:
+            continue
+        if closest is None or r["dd_gain_pp"] > closest["dd_gain_pp"]:
+            closest = dict(r)
+    return out, closest
+
+
 def read_published(path=None):
-    """Consumer entry point: {status, sentence, evidence_cutoff, verdict} or an honest gap."""
+    """Consumer entry point: the published block, or an honest gap.
+
+    `gates` / `closest` / `criteria` / `book` exist so the card and the page print the
+    same numbers from one assembly (r1193); before that each face re-read the artifact
+    and re-derived "closest" on its own.
+    """
     p = Path(path) if path else OUT_JSON
     if not p.exists():
         return {"status": "absent", "sentence": None, "evidence_cutoff": None, "verdict": None}
@@ -337,9 +411,23 @@ def read_published(path=None):
     if not ident.get("passes"):
         return {"status": "no_identity", "sentence": None, "evidence_cutoff": None,
                 "verdict": doc.get("verdict")}
+    rows, closest = gate_rows(doc)
+    crit = doc.get("criteria") or {}
+    book = doc.get("book") or {}
+    base = (doc.get("baseline") or {}).get("full") or {}
     return {"status": "ok", "sentence": doc.get("answer"),
             "evidence_cutoff": doc.get("evidence_cutoff"), "verdict": doc.get("verdict"),
-            "adopting": doc.get("adopting") or []}
+            "adopting": doc.get("adopting") or [],
+            "artifact": str(p),
+            "gates": rows, "closest": closest,
+            "criteria": {"min_dd_gain_pp": crit.get("min_dd_gain_pp"),
+                         "cagr_keep": crit.get("cagr_keep"),
+                         "placebo_dd_edge_pp": crit.get("placebo_dd_edge_pp"),
+                         "placebo_cagr_edge_pp": crit.get("placebo_cagr_edge_pp")},
+            "book": {"decisions": book.get("decisions"),
+                     "n_hold": book.get("n_hold"),
+                     "sleeve_class": crit.get("sleeve_class")},
+            "baseline": {"cagr": base.get("cagr"), "maxdd": base.get("maxdd")}}
 
 
 # --------------------------------------------------------------------------- run
@@ -452,9 +540,88 @@ def run(out_path=None, verbose=True):
     p.parent.mkdir(parents=True, exist_ok=True)
     with open(p, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=1)
+    write_md(payload)
     if verbose:
         print("saved", p)
     return payload
+
+
+def write_md(payload, path=None):
+    """The research card, generated from the payload -- OUT_MD was declared at r1192 and
+    never written, so the only prose record of this experiment was the hand-written card
+    ledger... which said the drawdown gate "loses" to its placebo while its own numbers
+    (+2.43pp dd / +2.00pp cagr) say it wins. Prose that is typed once cannot be re-checked;
+    this one is regenerated by every run."""
+    doc = {"gates": payload.get("gates"), "arms": payload.get("arms"),
+           "criteria": payload.get("criteria"), "book": payload.get("book")}
+    rows, closest = gate_rows(doc)
+    zh = {"trend": "sleeve below its own 200d MA", "vol": "sleeve vol > own trailing p80",
+          "drawdown": "sleeve 10% below its trailing peak"}
+    why = {"adopted": "**adopted**", "no_gain_vs_baseline": "no drawdown gain vs baseline",
+           "short_of_bar": "short of the pre-frozen bar",
+           "gives_up_cagr": "gives up too much CAGR",
+           "loses_to_placebo": "loses to its own placebo",
+           "not_assessed": "not assessed", "unmeasured": "unmeasured"}
+    crit = payload.get("criteria") or {}
+    base = (payload.get("baseline") or {}).get("full") or {}
+    L = ["# Does the commodity sleeve need a risk gate of its own?",
+         "",
+         "Priced on the production engine through the same mechanism the concentration face "
+         "uses: the sleeve's own score is set to NaN on the gated decision dates and the engine "
+         "substitutes on its own grid -- nothing here re-implements selection, sizing or costs.",
+         "",
+         "Cutoff %s | book %s names, rebalance %s bars, %s bp/side, %s%% vol target | "
+         "baseline CAGR %.2f%% / max drawdown %.2f%% over %.2f years."
+         % (payload.get("evidence_cutoff"), (payload.get("book") or {}).get("n_hold"),
+            (payload.get("book") or {}).get("rebal"),
+            (payload.get("book") or {}).get("cost_bp_per_side"),
+            100 * ((payload.get("book") or {}).get("vol_target") or 0),
+            100 * (base.get("cagr") or 0), 100 * (base.get("maxdd") or 0),
+            base.get("years") or 0),
+         "",
+         "| gate | sleeve off | CAGR vs baseline | max drawdown vs baseline | vs its own placebo | why |",
+         "|---|---|---|---|---|---|"]
+    for r in rows:
+        L.append("| %s | %d/%d (%.1f%%) | %+.2fpp | %+.2fpp | %s | %s |"
+                 % (zh.get(r["name"], r["name"]), r.get("off_decisions") or 0,
+                    (payload.get("book") or {}).get("decisions") or 0,
+                    100 * (r.get("off_share") or 0), r.get("delta_cagr_pp") or 0.0,
+                    r.get("delta_maxdd_pp") or 0.0,
+                    ("wins by %+.2fpp dd / %+.2fpp CAGR"
+                     % (r.get("placebo_dd_edge_pp") or 0.0,
+                        r.get("placebo_cagr_edge_pp") or 0.0))
+                    if r.get("beats_placebo") else "loses", why.get(r.get("why"), r.get("why"))))
+    L += ["", "Verdict **%s**." % payload.get("verdict"), ""]
+    if closest:
+        L += ["Closest arm: the %s gate (%+.2fpp drawdown against a pre-frozen %.1fpp bar, "
+              "beating its placebo by %+.2fpp). It is named as the re-test candidate on new "
+              "data; the bar is not moved to meet it." % (closest["name"],
+                                                         closest.get("dd_gain_pp") or 0.0,
+                                                         crit.get("min_dd_gain_pp") or 0.0,
+                                                         closest.get("placebo_dd_edge_pp") or 0.0),
+              ""]
+    L += ["## The three reusable pieces", "",
+          "1. **Dose-matched placebo, or the arm measures nothing.** Switching a sleeve off a "
+          "fixed share of decisions changes exposure and timing at once; a placebo with the same "
+          "number of off-decisions spread evenly holds the exposure change fixed and destroys "
+          "only the timing. Note what the table shows: two of the three gates DO beat their own "
+          "placebo, and still do not improve the drawdown against simply holding the sleeve -- "
+          "so a signal can be real and still not be worth trading (a gate here buys a shorter "
+          "holding period).", "",
+          "2. **Freeze the bar before the run, then quote the near miss.** The vol gate cut the "
+          "drawdown %.2fpp against a pre-registered %.1fpp bar: the honest publication is "
+          "\"re-test candidate on new data, NOT adopted\", never \"bar 1.0 -> 0.8\"."
+          % ((closest or {}).get("dd_gain_pp") or 0.0, crit.get("min_dd_gain_pp") or 0.0), "",
+          "3. **A new face must reproduce the old face's deletion arm.** Deleting the whole "
+          "sleeve has to land on the concentration face's published number on the same cutoff, "
+          "or the two faces are quoting different books (live gap %s pp)."
+          % ((((payload.get("identity") or {}).get("cross_face_delete_sleeve") or {})
+              .get("gap_pp"))), ""]
+    Path(OUT_MD).parent.mkdir(parents=True, exist_ok=True)
+    out = Path(path) if path else OUT_MD
+    with open(out, "w", encoding="utf-8", newline="\n") as f:
+        f.write("\n".join(L))
+    return out
 
 
 # --------------------------------------------------------------------------- check
@@ -574,6 +741,67 @@ def selftest():
     # a result computed before that date
     chk("L9 gate inputs are prefixes of the index (no future read)",
         all(si.loc[:d].index[-1] == d for d in list(si.index[250:260])))
+
+    # L10 the shared row assembly: one closest-arm pick that a consumer cannot re-derive
+    # differently, and an ADOPT arm is never the "closest" one
+    _doc = {
+        "gates": {"trend": {"off_decisions": 20, "off_share": 0.24,
+                            "judgement": {"verdict": "NO_GATE",
+                                          "numbers": {"dd_gain_pp": -2.77, "cagr_keep": 0.97,
+                                                      "placebo_dd_edge_pp": -1.03,
+                                                      "placebo_cagr_edge_pp": -1.41}}},
+                  "vol": {"off_decisions": 25, "off_share": 0.30,
+                          "judgement": {"verdict": "NO_GATE",
+                                        "numbers": {"dd_gain_pp": 0.86, "cagr_keep": 1.0,
+                                                    "placebo_dd_edge_pp": 5.0,
+                                                    "placebo_cagr_edge_pp": 2.92}}},
+                  "drawdown": {"off_decisions": 13, "off_share": 0.16,
+                               "judgement": {"verdict": "ADOPT",
+                                             "numbers": {"dd_gain_pp": 1.80, "cagr_keep": 1.0,
+                                                         "placebo_dd_edge_pp": 0.9,
+                                                         "placebo_cagr_edge_pp": 0.8}}}},
+        "arms": {"gate_trend": {"delta_cagr_pp": -0.32, "delta_maxdd_pp": -2.77},
+                 "gate_vol": {"delta_cagr_pp": 0.02, "delta_maxdd_pp": 0.86},
+                 "gate_drawdown": {"delta_cagr_pp": -0.18, "delta_maxdd_pp": 1.80}},
+        "criteria": {"min_dd_gain_pp": 1.0, "cagr_keep": 0.95,
+                     "placebo_dd_edge_pp": 0.5, "placebo_cagr_edge_pp": 0.5},
+    }
+    _rows, _closest = gate_rows(_doc)
+    chk("L10a gate rows carry the arm's own deltas and the closest arm skips ADOPT",
+        len(_rows) == 3 and _closest["name"] == "vol" and _closest["dd_gain_pp"] == 0.86
+        and _rows[0]["delta_cagr_pp"] == -0.32)
+    chk("L10b an empty artifact yields no rows and no closest arm (not a zero)",
+        gate_rows({}) == ([], None))
+    # L11 the failure mode is read off each gate's own numbers; a prose sentence that
+    # says "it lost to its placebo" about an arm that beat it is the defect this kills
+    _by = {r["name"]: r for r in _rows}
+    _dd_row = gate_rows({"gates": {"drawdown": {"judgement": {"verdict": "NO_GATE", "numbers": {
+        "dd_gain_pp": -1.27, "cagr_keep": 0.98, "placebo_dd_edge_pp": 2.43,
+        "placebo_cagr_edge_pp": 2.0}}}},
+        "criteria": {"min_dd_gain_pp": 1.0, "cagr_keep": 0.95,
+                     "placebo_dd_edge_pp": 0.5, "placebo_cagr_edge_pp": 0.5}})[0][0]
+    chk("L11a a gate with no drawdown gain is named as such, even when it beats its placebo",
+        _dd_row["why"] == "no_gain_vs_baseline" and _dd_row["beats_placebo"] is True
+        and _by["trend"]["why"] == "no_gain_vs_baseline"
+        and _by["trend"]["beats_placebo"] is False)
+    chk("L11b a gate that clears neither bar is short, and one clearing both is adopted",
+        _by["vol"]["why"] == "short_of_bar"
+        and gate_rows({"gates": {"vol": {"judgement": {"verdict": "ADOPT", "numbers": {
+            "dd_gain_pp": 1.5, "cagr_keep": 1.0}}}},
+            "criteria": {"min_dd_gain_pp": 1.0}})[0][0]["why"] == "adopted")
+
+    # L12 the research card is generated from the payload, so its "wins/loses" column is
+    # the reader's own classification. The hand-written version of this table (card E312)
+    # said the drawdown gate loses to its placebo; its own numbers say it wins.
+    import tempfile as _tf
+    _md_path = str(Path(_tf.mkdtemp()) / "card.md")
+    _md = open(write_md(_doc, path=_md_path), encoding="utf-8").read()
+    _dd_line = [ln for ln in _md.splitlines() if "trailing peak" in ln]
+    _tr_line = [ln for ln in _md.splitlines() if "200d MA" in ln]
+    chk("L12 the generated card's placebo column comes from the rows, not from prose",
+        bool(_dd_line) and "wins by" in _dd_line[0]
+        and bool(_tr_line) and "| loses |" in _tr_line[0]
+        and "no drawdown gain" in _tr_line[0])
 
     ok = sum(1 for p, _, _ in legs if p)
     for p, name, info in legs:

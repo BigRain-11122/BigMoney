@@ -1149,48 +1149,31 @@ def sleeve_gate_paragraphs(sg):
         return ["Not assessed here: %s -- the card will not imply that the sleeve needs no gate "
                 "just because the experiment is missing." % ((sg or {}).get("status") or "absent"), ""]
     lines = [str(sg.get("sentence") or ""), ""]
-    doc = {}
-    try:
-        import etf_book_sleeve_gate as _G
-        doc = json.load(open(_G.OUT_JSON, encoding="utf-8"))
-    except Exception:                                             # noqa: BLE001
-        doc = {}
-    gates = doc.get("gates") or {}
+    # r1193: the rows and the closest arm come from the reader's single assembly; the
+    # card used to re-open the artifact and re-derive "closest" for itself.
+    gates = sg.get("gates") or []
     if gates:
+        decisions = (sg.get("book") or {}).get("decisions") or 0
         lines += ["| gate | sleeve switched off | CAGR vs card | max drawdown vs card | verdict |",
                   "|---|---|---|---|---|"]
-        ar = doc.get("arms") or {}
-        for name in ("trend", "vol", "drawdown"):
-            g = gates.get(name) or {}
-            arm = ar.get("gate_%s" % name) or {}
-            st = (g.get("stats") or {}).get("full") or {}
+        for g in gates:
             lines.append("| %s | %d/%d decisions (%.1f%%) | %+.2fpp | %+.2fpp | %s |" % (
-                name, g.get("off_decisions") or 0, (doc.get("book") or {}).get("decisions") or 0,
-                100 * (g.get("off_share") or 0), arm.get("delta_cagr_pp") or 0.0,
-                arm.get("delta_maxdd_pp") or 0.0,
-                (g.get("judgement") or {}).get("verdict") or "?"))
+                g.get("name"), g.get("off_decisions") or 0, decisions,
+                100 * (g.get("off_share") or 0), g.get("delta_cagr_pp") or 0.0,
+                g.get("delta_maxdd_pp") or 0.0, g.get("verdict") or "?"))
         lines += ["",
                   "A positive drawdown delta is a *shallower* drawdown than this card's; the dose "
                   "column is how much of the decision grid the gate kept the sleeve out of, and "
                   "each arm is compared against its own placebo of the same dose.", ""]
-        # the near miss, derived from the rows rather than remembered: a gate that failed
-        # only the drawdown bar is a re-test candidate on new data, never a re-threshold.
-        bar = ((doc.get("criteria") or {}).get("min_dd_gain_pp"))
-        best = None
-        for name, g in gates.items():
-            n = ((g.get("judgement") or {}).get("numbers") or {})
-            dd = n.get("dd_gain_pp")
-            if dd is None or (g.get("judgement") or {}).get("verdict") == "ADOPT":
-                continue
-            if best is None or dd > best[1]:
-                best = (name, dd, n)
-        if best and bar is not None and best[1] > 0:
+        best = sg.get("closest")
+        bar = (sg.get("criteria") or {}).get("min_dd_gain_pp")
+        if best and bar is not None and (best.get("dd_gain_pp") or 0) > 0:
             lines += ["Closest arm: the %s gate improves the drawdown by %+.2fpp (frozen bar "
                       "%.1fpp) and beats its dose-matched placebo by %+.2fpp on the same measure, "
                       "so it is the only arm not explained by holding less sleeve -- it missed "
                       "the bar and is therefore NOT adopted; re-test it on new data, do not move "
-                      "the bar." % (best[0], best[1], bar,
-                                    best[2].get("placebo_dd_edge_pp") or 0.0), ""]
+                      "the bar." % (best.get("name"), best.get("dd_gain_pp") or 0.0, bar,
+                                    best.get("placebo_dd_edge_pp") or 0.0), ""]
     lines += ["The placebo arm matters: switching a sleeve off a fixed share of decisions "
               "changes the exposure and the timing at once, so only the arm that beats its own "
               "untimed placebo is evidence of a signal rather than of a shorter holding period. "

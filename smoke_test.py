@@ -4387,6 +4387,88 @@ def main() -> int:
     except Exception as e:
         check("product: the page says whose CAGR it is quoting (top-3 share and both deletions)",
               False, repr(e)[:160])
+    # ---- r1193: the page must answer "should the sleeve have a gate of its own?" --------
+    # Same defect one face over: r1192 measured the three sleeve gates against their own
+    # dose-matched placebos and answered NO_GATE on the card, while the page -- the face
+    # the CEO opens -- ended the sentence at "the sleeve is the cushion". This leg
+    # recomputes nothing: it reads the rows out of the published face, reads the page the
+    # `latest.json` pointer names, and demands that page print THOSE numbers (equal, not
+    # merely present). It also refuses a page that is one bar stale, because a page quoting
+    # an older face is exactly how a green suite ends up guarding nothing.
+    try:
+        import importlib as _il52
+        _G52 = _il52.import_module("etf_book_sleeve_gate")
+        _p52 = os.path.join(PATHS.results_dir, "etf_book_sleeve_gate.json")
+        _bad52 = []
+        if not os.path.exists(_p52):
+            _bad52.append("results/etf_book_sleeve_gate.json missing")
+        else:
+            _pub52 = _G52.read_published(path=_p52)
+            if _pub52.get("status") != "ok":
+                _bad52.append("face does not read clean (%s)" % _pub52.get("status"))
+            else:
+                _ptr52p = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
+                _md52p = ""
+                if os.path.exists(_ptr52p):
+                    with open(_ptr52p, encoding="utf-8") as _fh52:
+                        _ptr52 = json.load(_fh52)
+                    _md52p = os.path.join(PATHS.root, _ptr52.get("page") or "")
+                if not _md52p or not os.path.exists(_md52p):
+                    _bad52.append("no page the latest.json pointer names")
+                else:
+                    with open(_md52p, encoding="utf-8") as _fh52:
+                        _md52 = _fh52.read()
+                    _json52p = os.path.splitext(_md52p)[0] + ".json"
+                    _priced52 = None
+                    if os.path.exists(_json52p):
+                        with open(_json52p, encoding="utf-8") as _fh52:
+                            _pj52 = json.load(_fh52)
+                        _priced52 = ((_pj52.get("priced_faces") or {}).get("page")
+                                     or _pj52.get("evidence_cutoff"))
+                    if _priced52 != _pub52.get("evidence_cutoff"):
+                        _bad52.append("page priced on %s but the sleeve face is %s (stale page)"
+                                      % (_priced52, _pub52.get("evidence_cutoff")))
+                    if "要不要给商品袖" not in _md52:
+                        _bad52.append("page carries no sleeve-gate section")
+                    else:
+                        _dec52 = (_pub52.get("book") or {}).get("decisions") or 0
+                        for _r52 in _pub52.get("gates") or []:
+                            _want52 = ["%d/%d" % (_r52.get("off_decisions") or 0, _dec52),
+                                       "%+.2fpp" % (_r52.get("delta_cagr_pp") or 0.0),
+                                       "%+.2fpp" % (_r52.get("delta_maxdd_pp") or 0.0)]
+                            for _w52 in _want52:
+                                if _w52 not in _md52:
+                                    _bad52.append("page does not print %s (%s gate)"
+                                                  % (_w52, _r52.get("name")))
+                        # the failure-mode sentence is generated from each row's own
+                        # classification: the page must not claim a gate lost to its placebo
+                        # when that gate beat it.
+                        _nogain52 = [r.get("name") for r in (_pub52.get("gates") or [])
+                                     if r.get("why") == "no_gain_vs_baseline"]
+                        _lost52 = [r.get("name") for r in (_pub52.get("gates") or [])
+                                   if r.get("why") == "no_gain_vs_baseline"
+                                   and not r.get("beats_placebo")]
+                        _zh52 = {"trend": "趋势", "vol": "波动", "drawdown": "回撤"}
+                        if _nogain52:
+                            _line52 = "有 **%d 条**门（%s）" % (
+                                len(_nogain52), "、".join(_zh52.get(n, n) for n in _nogain52))
+                            if _line52 not in _md52:
+                                _bad52.append("page does not name the no-gain gates: %s"
+                                              % _line52)
+                        for _n52 in sorted(set(_zh52) - set(_lost52)):
+                            _ph52 = "其中 **%s** 连自己的安慰剂也赢不了" % _zh52.get(_n52)
+                            if _ph52 in _md52:
+                                _bad52.append("page says the %s gate lost to its placebo "
+                                              "but the face says it beat it" % _n52)
+        check("product: the page answers whether the commodity sleeve needs its own gate",
+              not _bad52, "; ".join(_bad52)[:220]
+              or "page == face (%s; %d gates, %d named no-gain)"
+                 % (_pub52.get("verdict"), len(_pub52.get("gates") or []),
+                    len([r for r in (_pub52.get("gates") or [])
+                         if r.get("why") == "no_gain_vs_baseline"])))
+    except Exception as e:
+        check("product: the page answers whether the commodity sleeve needs its own gate",
+              False, repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
         _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")

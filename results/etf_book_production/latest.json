@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-31 14:12:16",
+ "ts": "2026-10-31 15:06:22",
  "evidence_cutoff": "2026-10-30",
  "feed_status": {
   "ticket_bar": "2026-10-30",
@@ -550,7 +550,89 @@
   "sentence": "No sleeve-level gate earns adoption: switching the sleeve off on trend 24%, vol 30%, drawdown 16% of the decision grid is no better than switching it off on the same number of untimed decisions, so a gate here would buy a shorter holding period, not a signal. The closest arm is the vol gate: +0.86pp of drawdown against the frozen 1.0pp bar, and it does beat its own placebo by +5.00pp -- which is why it is named as the re-test candidate on new data, not re-thresholded here. Verdict NO_GATE.",
   "evidence_cutoff": "2026-10-30",
   "verdict": "NO_GATE",
-  "adopting": []
+  "adopting": [],
+  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_sleeve_gate.json",
+  "gates": [
+   {
+    "name": "trend",
+    "off_decisions": 20,
+    "off_share": 0.241,
+    "delta_cagr_pp": -0.32,
+    "delta_maxdd_pp": -2.77,
+    "placebo_delta_cagr_pp": 1.09,
+    "placebo_delta_maxdd_pp": -1.74,
+    "dd_gain_pp": -2.77,
+    "cagr_keep": 0.9667,
+    "placebo_dd_edge_pp": -1.03,
+    "placebo_cagr_edge_pp": -1.41,
+    "beats_placebo": false,
+    "verdict": "NO_GATE",
+    "why": "no_gain_vs_baseline"
+   },
+   {
+    "name": "vol",
+    "off_decisions": 25,
+    "off_share": 0.3012,
+    "delta_cagr_pp": 0.02,
+    "delta_maxdd_pp": 0.86,
+    "placebo_delta_cagr_pp": -2.9,
+    "placebo_delta_maxdd_pp": -4.14,
+    "dd_gain_pp": 0.86,
+    "cagr_keep": 1.0021,
+    "placebo_dd_edge_pp": 5.0,
+    "placebo_cagr_edge_pp": 2.92,
+    "beats_placebo": true,
+    "verdict": "NO_GATE",
+    "why": "short_of_bar"
+   },
+   {
+    "name": "drawdown",
+    "off_decisions": 13,
+    "off_share": 0.1566,
+    "delta_cagr_pp": -0.18,
+    "delta_maxdd_pp": -1.27,
+    "placebo_delta_cagr_pp": -2.18,
+    "placebo_delta_maxdd_pp": -3.7,
+    "dd_gain_pp": -1.27,
+    "cagr_keep": 0.9813,
+    "placebo_dd_edge_pp": 2.43,
+    "placebo_cagr_edge_pp": 2.0,
+    "beats_placebo": true,
+    "verdict": "NO_GATE",
+    "why": "no_gain_vs_baseline"
+   }
+  ],
+  "closest": {
+   "name": "vol",
+   "off_decisions": 25,
+   "off_share": 0.3012,
+   "delta_cagr_pp": 0.02,
+   "delta_maxdd_pp": 0.86,
+   "placebo_delta_cagr_pp": -2.9,
+   "placebo_delta_maxdd_pp": -4.14,
+   "dd_gain_pp": 0.86,
+   "cagr_keep": 1.0021,
+   "placebo_dd_edge_pp": 5.0,
+   "placebo_cagr_edge_pp": 2.92,
+   "beats_placebo": true,
+   "verdict": "NO_GATE",
+   "why": "short_of_bar"
+  },
+  "criteria": {
+   "min_dd_gain_pp": 1.0,
+   "cagr_keep": 0.95,
+   "placebo_dd_edge_pp": 0.5,
+   "placebo_cagr_edge_pp": 0.5
+  },
+  "book": {
+   "decisions": 83,
+   "n_hold": 12,
+   "sleeve_class": "commodity"
+  },
+  "baseline": {
+   "cagr": 0.096,
+   "maxdd": -0.1177
+  }
  },
  "commodity": {
   "artifact": "results/etf_book_commodity_split.json",
