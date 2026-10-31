@@ -5737,3 +5737,31 @@ its own records share its scope`, digest
 `research/digests/DIGEST-20261031-r1312-e290-self-audit-shape.md`.
 Pool item `E290-SELF-AUDITABLE-FACE-PROFILE` (pool E290 -> card E290; the ids coincide this round).
 Seeded this round: `E291-AMBIGUITY-BY-LENGTH-CHANCE`, `E292-SCOPE-FIX-PLAN`.
+
+
+### E291 - an equal length is the face's shape repeating: publish a flag's base rate and its mechanism, not just its rate (r1313 bm-b)
+
+E290 flagged 12 of 27 checkable counts as ambiguous because another list of the same unit in the same
+face has the same length. That flag only informs if equal lengths can be accidents, and they mostly
+cannot be. The RATE is the base rate: 12 of 27 against 10.78 expected from the pooled length mix
+(39.9 pct, tail p=0.384), and all 12 rows come from just TWO (face, unit) scopes -- `BANDFLIPBUDGET ::
+cells` (8) and `BANDGAPCEILING :: rows` (4) -- so twelve labels are two observations. The MECHANISM is
+not chance at all: of 746 equal-length pairs, 605 share a record schema with different rows (81.1
+pct), 135 are the very same content (18.1 pct, i.e. 135 duplicated lists nothing else reports) and only
+6 differ (0.8 pct). At list level the concentration is ABOVE the null (104 of 125 = 83.2 pct against
+67.4 pct expected, p<0.001) because a face draws its arms from one schema; the pooled mix is lopsided
+to begin with (24 appears 50 times, 4 thirty-five times). So "two same-unit lists of the same length"
+marks shared shape -- and catches duplicates -- rather than two lists competing for one meaning.
+
+Three laws. (1) A rate is only readable beside its null and its tail: 12-vs-10.78 has no story without
+the 39.9 pct, and the verdict rule therefore requires BOTH a tail beyond alpha AND a structural share
+below 0.5 before it may call an ambiguity real -- a high base rate must not be able to manufacture a
+conflict. (2) Publish the independent unit count, not only the row count: eight rows from one scope
+inflate the evidence sixfold. (3) Classify the equal-length pair by content before calling it a
+near-miss: alias / same-schema / different-content is a partition, and an alias is a duplicate, never
+an ambiguity. Sibling pit, fourth sighting: `e286.face_universe()` excludes only E286's own faces, so
+E290's `BANDSELFAUDIT-*` face sits inside the census (33 faces, not 32) -- a successor must filter its
+sibling's face by name and assert both absences. Evidence: `scripts/e291_ambiguity_chance.py` (selftest
+17/17, run/verify 0 problems), `results/state_tilt/BANDAMBIENT-2026-10-29.json`, S6 leg
+`ambiguity_by_length_chance`, digest
+`research/digests/DIGEST-20261031-r1313-e291-ambiguity-by-length-chance.md`.

@@ -490,6 +490,17 @@ LEGS = [
     ("self_auditable_face_profile",
      ["python", "scripts/e290_selfauditable_face_profile.py", "verify"]),
 
+    # E291 (r1313 bm-b): E290 flagged 12 of 27 counts as ambiguous because another same-unit list in
+    # the same face has the same length -- which only informs if equal lengths can be accidents. They
+    # cannot, or not mostly: 104 of 125 eligible lists (83.2 pct) have an equal-length sibling against
+    # 67.4 pct expected from the pooled length distribution (tail p<0.001), and of the 746 equal-length
+    # pairs 605 share a record schema and 135 are the very same content -- only 6 differ in content.
+    # At the flag's own level 12 of 27 is exactly the null (39.9 pct expected) and all 12 come from
+    # just 2 scopes, so "ambiguous" marks a shared shape (and 135 duplicated lists) rather than two
+    # lists competing for one meaning. Published faces only, no draw. <1s.
+    ("ambiguity_by_length_chance",
+     ["python", "scripts/e291_ambiguity_chance.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

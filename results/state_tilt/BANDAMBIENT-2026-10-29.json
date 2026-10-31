@@ -1,0 +1,790 @@
+{
+ "study": "E291_ambiguity_by_length_chance",
+ "title": "is a same-length candidate list a coincidence -- how often do two same-unit lists in one face share a length by chance, and is the 12-of-27 ambiguity rate above it?",
+ "evidence_cutoff": "2026-10-29",
+ "generated": "2026-10-31T08:19:55",
+ "no_bill": "measurement only: the dated BAND faces are re-read and the lists already published in them are classified by length and by content. No draw stream is drawn, no band rebuilt, no engine runs, no verdict about the market. A verdict here is a statement about the published JSON, its shapes and its duplicates.",
+ "source_faces": [
+  "BANDSELFAUDIT-2026-10-29.json"
+ ],
+ "faces_censused": [
+  "BANDARRIVAL-2026-10-29.json",
+  "BANDARRIVALATE-2026-10-29.json",
+  "BANDBUCKET-2026-10-29.json",
+  "BANDDEFLATE-2026-10-29.json",
+  "BANDDISAGREE-2026-10-29.json",
+  "BANDDISAGREESCOPE-2026-10-29.json",
+  "BANDDONORCHOICE-2026-10-29.json",
+  "BANDDRAW-2026-10-29-d1920.json",
+  "BANDDRAW-2026-10-29-d960.json",
+  "BANDDRAW-2026-10-29.json",
+  "BANDEXP-2026-10-29.json",
+  "BANDFIELDS-2026-10-29.json",
+  "BANDFLIPBUDGET-2026-10-29.json",
+  "BANDFLOOR-2026-10-29.json",
+  "BANDGAPCEILING-2026-10-29.json",
+  "BANDMARGIN-2026-10-29.json",
+  "BANDNEAR1-2026-10-29.json",
+  "BANDPATH-2026-10-29.json",
+  "BANDPATH-2026-10-30.json",
+  "BANDPOOLED-2026-10-29.json",
+  "BANDSCREEN-2026-10-29.json",
+  "BANDSCREENBUDGET-2026-10-29.json",
+  "BANDSPREADFLOOR-2026-10-29.json",
+  "BANDSTRADDLESWEEP-2026-10-29.json",
+  "BANDSUBSTITUTE-2026-10-29.json",
+  "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+  "BANDTHRESHGUARD-2026-10-29.json",
+  "BANDTIGHT-2026-10-29.json",
+  "BANDTOPFLIP-2026-10-29.json",
+  "BANDTRANSFER-2026-10-29.json",
+  "BANDWINDIST-2026-10-29.json",
+  "BANDWINMULT-2026-10-29.json"
+ ],
+ "frozen_spec": {
+  "D1_rows_are_e290s": "the row set, its alternative counts and its flag are read from the published BANDSELFAUDIT face; only the equal-length classification is measured here",
+  "D2_rate_and_mechanism_are_two_questions": "the rate is tested against the pooled length null; the mechanism is classified by content",
+  "D3_rows_are_not_independent": "the number of distinct (face, unit) scopes behind the flagged rows is published with the row count",
+  "D4_an_alias_is_not_an_ambiguity": "identical list content is a duplicate, counted apart",
+  "D5_two_aggregators": "row level and list level are both published; agreement is disclosed",
+  "D6_no_reburn": "published faces re-read only; no draw stream, no band rebuild, no engine",
+  "alpha": 0.05,
+  "verdict_vocab": [
+   "the_ambiguity_rate_is_the_length_base_rate_and_the_pairs_are_schema_not_accident",
+   "the_flagged_rows_exceed_the_length_base_rate_so_the_ambiguity_is_real",
+   "no_face_publishes_two_lists_of_the_same_unit_so_ambiguity_cannot_arise"
+  ]
+ },
+ "groups": [
+  {
+   "face": "BANDDISAGREESCOPE-2026-10-29.json",
+   "unit": "labels",
+   "n_lists": 2,
+   "lengths": [
+    3,
+    3
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDDONORCHOICE-2026-10-29.json",
+   "unit": "cells",
+   "n_lists": 4,
+   "lengths": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDDONORCHOICE-2026-10-29.json",
+   "unit": "rows",
+   "n_lists": 4,
+   "lengths": [
+    2,
+    6,
+    1,
+    3
+   ],
+   "distinct_lengths": 4,
+   "any_equal_length": false
+  },
+  {
+   "face": "BANDDRAW-2026-10-29-d1920.json",
+   "unit": "rows",
+   "n_lists": 2,
+   "lengths": [
+    6,
+    6
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDDRAW-2026-10-29-d960.json",
+   "unit": "rows",
+   "n_lists": 2,
+   "lengths": [
+    5,
+    5
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDDRAW-2026-10-29.json",
+   "unit": "rows",
+   "n_lists": 2,
+   "lengths": [
+    4,
+    4
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "unit": "cells",
+   "n_lists": 8,
+   "lengths": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "unit": "rows",
+   "n_lists": 4,
+   "lengths": [
+    2,
+    6,
+    1,
+    3
+   ],
+   "distinct_lengths": 4,
+   "any_equal_length": false
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "unit": "rows",
+   "n_lists": 7,
+   "lengths": [
+    2,
+    6,
+    1,
+    3,
+    2,
+    6,
+    2
+   ],
+   "distinct_lengths": 4,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDNEAR1-2026-10-29.json",
+   "unit": "arms",
+   "n_lists": 4,
+   "lengths": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDNEAR1-2026-10-29.json",
+   "unit": "rows",
+   "n_lists": 2,
+   "lengths": [
+    12,
+    16
+   ],
+   "distinct_lengths": 2,
+   "any_equal_length": false
+  },
+  {
+   "face": "BANDPATH-2026-10-29.json",
+   "unit": "cells",
+   "n_lists": 25,
+   "lengths": [
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDPATH-2026-10-30.json",
+   "unit": "cells",
+   "n_lists": 25,
+   "lengths": [
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDSTRADDLESWEEP-2026-10-29.json",
+   "unit": "rows",
+   "n_lists": 3,
+   "lengths": [
+    12,
+    12,
+    12
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "unit": "cells",
+   "n_lists": 12,
+   "lengths": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "unit": "rows",
+   "n_lists": 5,
+   "lengths": [
+    16,
+    2,
+    6,
+    1,
+    3
+   ],
+   "distinct_lengths": 5,
+   "any_equal_length": false
+  },
+  {
+   "face": "BANDTOPFLIP-2026-10-29.json",
+   "unit": "rows",
+   "n_lists": 2,
+   "lengths": [
+    14,
+    16
+   ],
+   "distinct_lengths": 2,
+   "any_equal_length": false
+  },
+  {
+   "face": "BANDTRANSFER-2026-10-29.json",
+   "unit": "cells",
+   "n_lists": 8,
+   "lengths": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDWINDIST-2026-10-29.json",
+   "unit": "rows",
+   "n_lists": 2,
+   "lengths": [
+    16,
+    16
+   ],
+   "distinct_lengths": 1,
+   "any_equal_length": true
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "unit": "rows",
+   "n_lists": 2,
+   "lengths": [
+    12,
+    16
+   ],
+   "distinct_lengths": 2,
+   "any_equal_length": false
+  }
+ ],
+ "rows": [
+  {
+   "face": "BANDARRIVAL-2026-10-29.json",
+   "path": "cross_check.n_arms",
+   "key": "n_arms",
+   "claimed_unit": "arms",
+   "length": 16,
+   "alternatives": 0,
+   "p_any_equal_under_null": 0.0,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDDONORCHOICE-2026-10-29.json",
+   "path": "groups.cross:200.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 2,
+   "alternatives": 3,
+   "p_any_equal_under_null": 0.1586180458496953,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDDONORCHOICE-2026-10-29.json",
+   "path": "groups.cross:60.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 6,
+   "alternatives": 3,
+   "p_any_equal_under_null": 0.1397818280306422,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDDONORCHOICE-2026-10-29.json",
+   "path": "groups.self:200.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 1,
+   "alternatives": 3,
+   "p_any_equal_under_null": 0.19546153880351147,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDDONORCHOICE-2026-10-29.json",
+   "path": "groups.self:60.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 3,
+   "alternatives": 3,
+   "p_any_equal_under_null": 0.1586180458496953,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.cross:200.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 2,
+   "alternatives": 3,
+   "p_any_equal_under_null": 0.1586180458496953,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.cross:200.tight_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "length": 4,
+   "alternatives": 7,
+   "p_any_equal_under_null": 0.8598432474914084,
+   "flagged_ambiguous_by_e290": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.cross:200.wide_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "length": 4,
+   "alternatives": 7,
+   "p_any_equal_under_null": 0.8598432474914084,
+   "flagged_ambiguous_by_e290": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.cross:60.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 6,
+   "alternatives": 3,
+   "p_any_equal_under_null": 0.1397818280306422,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.cross:60.tight_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "length": 4,
+   "alternatives": 7,
+   "p_any_equal_under_null": 0.8598432474914084,
+   "flagged_ambiguous_by_e290": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.cross:60.wide_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "length": 4,
+   "alternatives": 7,
+   "p_any_equal_under_null": 0.8598432474914084,
+   "flagged_ambiguous_by_e290": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.self:200.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 1,
+   "alternatives": 3,
+   "p_any_equal_under_null": 0.19546153880351147,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.self:200.tight_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "length": 4,
+   "alternatives": 7,
+   "p_any_equal_under_null": 0.8598432474914084,
+   "flagged_ambiguous_by_e290": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.self:200.wide_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "length": 4,
+   "alternatives": 7,
+   "p_any_equal_under_null": 0.8598432474914084,
+   "flagged_ambiguous_by_e290": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.self:60.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 3,
+   "alternatives": 3,
+   "p_any_equal_under_null": 0.1586180458496953,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.self:60.tight_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "length": 4,
+   "alternatives": 7,
+   "p_any_equal_under_null": 0.8598432474914084,
+   "flagged_ambiguous_by_e290": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.self:60.wide_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "length": 4,
+   "alternatives": 7,
+   "p_any_equal_under_null": 0.8598432474914084,
+   "flagged_ambiguous_by_e290": true
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "path": "arms[0].n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 2,
+   "alternatives": 6,
+   "p_any_equal_under_null": 0.29207640723021455,
+   "flagged_ambiguous_by_e290": true
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "path": "arms[1].n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 6,
+   "alternatives": 6,
+   "p_any_equal_under_null": 0.2600246966136963,
+   "flagged_ambiguous_by_e290": true
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "path": "arms[2].n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 1,
+   "alternatives": 6,
+   "p_any_equal_under_null": 0.3527178644555863,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "path": "arms[3].n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 3,
+   "alternatives": 6,
+   "p_any_equal_under_null": 0.29207640723021455,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "path": "beyond_ceiling.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 6,
+   "alternatives": 6,
+   "p_any_equal_under_null": 0.2600246966136963,
+   "flagged_ambiguous_by_e290": true
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "path": "below_floor.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 2,
+   "alternatives": 6,
+   "p_any_equal_under_null": 0.29207640723021455,
+   "flagged_ambiguous_by_e290": true
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "path": "sensitivity.cross:200.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 2,
+   "alternatives": 4,
+   "p_any_equal_under_null": 0.20568836496299903,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "path": "sensitivity.cross:60.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 6,
+   "alternatives": 4,
+   "p_any_equal_under_null": 0.18189040987529603,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "path": "sensitivity.self:200.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 1,
+   "alternatives": 4,
+   "p_any_equal_under_null": 0.2517229696564127,
+   "flagged_ambiguous_by_e290": false
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "path": "sensitivity.self:60.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "length": 3,
+   "alternatives": 4,
+   "p_any_equal_under_null": 0.20568836496299903,
+   "flagged_ambiguous_by_e290": false
+  }
+ ],
+ "identity_check": {
+  "row_count_matches_e290_summary": true,
+  "flagged_rows_match_e290_summary": true,
+  "flagged_rows_are_the_e290_ambiguous_set": true,
+  "mechanism_partition": true,
+  "self_faces_absent_from_universe": true,
+  "source_face_absent_from_universe": true,
+  "every_group_has_two_lists": true,
+  "scopes_partition_the_flagged_rows": true
+ },
+ "summary": {
+  "faces_censused": 32,
+  "same_unit_lists": 143,
+  "repeated_unit_groups": 20,
+  "single_list_groups": 18,
+  "length_histogram_top": [
+   [
+    24,
+    50
+   ],
+   [
+    4,
+    35
+   ],
+   [
+    16,
+    12
+   ],
+   [
+    1,
+    10
+   ],
+   [
+    2,
+    8
+   ],
+   [
+    3,
+    8
+   ],
+   [
+    6,
+    7
+   ],
+   [
+    12,
+    6
+   ],
+   [
+    8,
+    2
+   ],
+   [
+    5,
+    2
+   ]
+  ],
+  "list_level": {
+   "eligible_lists": 125,
+   "observed_equal_length_sibling": 104,
+   "observed_rate": 0.832,
+   "expected_rate_under_pooled_length_null": 0.6739066167788078,
+   "expected_count": 84.23832709735098,
+   "ratio_observed_to_expected": 1.234592418719465,
+   "tail_p_above_null": 5.359851599177699e-05
+  },
+  "pair_mechanism": {
+   "equal_length_pairs": 746,
+   "alias_identical_content": 135,
+   "same_schema_different_rows": 605,
+   "different_content": 6,
+   "share_alias": 0.18096514745308312,
+   "share_same_schema": 0.8109919571045576,
+   "share_different_content": 0.00804289544235925,
+   "structural_share": 0.9919571045576407,
+   "different_content_pairs": [
+    {
+     "face": "BANDGAPCEILING-2026-10-29.json",
+     "unit": "rows",
+     "a": "arms[0].rows",
+     "b": "widening_target.rows",
+     "length": 2
+    },
+    {
+     "face": "BANDGAPCEILING-2026-10-29.json",
+     "unit": "rows",
+     "a": "arms[0].rows",
+     "b": "below_floor.rows",
+     "length": 2
+    },
+    {
+     "face": "BANDGAPCEILING-2026-10-29.json",
+     "unit": "rows",
+     "a": "widening_target.rows",
+     "b": "below_floor.rows",
+     "length": 2
+    },
+    {
+     "face": "BANDSTRADDLESWEEP-2026-10-29.json",
+     "unit": "rows",
+     "a": "axes.tight_p05.rows",
+     "b": "axes.top_ladder.rows",
+     "length": 12
+    },
+    {
+     "face": "BANDSTRADDLESWEEP-2026-10-29.json",
+     "unit": "rows",
+     "a": "axes.top_ladder.rows",
+     "b": "axes.wide_donor.rows",
+     "length": 12
+    },
+    {
+     "face": "BANDWINDIST-2026-10-29.json",
+     "unit": "rows",
+     "a": "interval_spread.rows",
+     "b": "rows",
+     "length": 16
+    }
+   ]
+  },
+  "row_level": {
+   "source_face": "BANDSELFAUDIT-2026-10-29.json",
+   "checkable_rows": 27,
+   "flagged_ambiguous": 12,
+   "observed_rate": 0.4444444444444444,
+   "expected_flagged_under_null": 10.777691485829683,
+   "expected_rate_under_null": 0.3991737587344327,
+   "tail_p_above_null": 0.3838721738728723,
+   "distinct_scopes_behind_the_flag": 2,
+   "rows_per_scope": [
+    {
+     "face": "BANDFLIPBUDGET-2026-10-29.json",
+     "unit": "cells",
+     "rows": 8
+    },
+    {
+     "face": "BANDGAPCEILING-2026-10-29.json",
+     "unit": "rows",
+     "rows": 4
+    }
+   ]
+  },
+  "aggregator_agreement": {
+   "row_level_says_at_or_below_null": true,
+   "list_level_says_above_null": true,
+   "stable": false,
+   "statement": "the row test asks whether the FLAG fires above chance; the list test asks whether equal lengths are more concentrated inside a face than the pool predicts. They can disagree, and the disagreement is the finding: the flag's rate is the base rate while the mechanism behind it is structure."
+  },
+  "calibrated": false,
+  "verdict": "the_ambiguity_rate_is_the_length_base_rate_and_the_pairs_are_schema_not_accident"
+ },
+ "verdict": "the_ambiguity_rate_is_the_length_base_rate_and_the_pairs_are_schema_not_accident",
+ "verdict_reason": "12 of 27 checkable rows are flagged ambiguous, against 39.9 pct expected from the pooled length distribution alone (tail p=0.384), and the group behind all of them is only 2 scope(s); at list level 104 of 125 eligible lists (83.2 pct) have an equal-length sibling against 67.4 pct expected under the same null (tail p=0.000); and the 746 equal-length pairs are not accidents: 135 are the very same content (18.1 pct), 605 share a record schema with different rows (81.1 pct) and only 6 differ in content (0.8 pct), so an equal length here marks a shared shape and occasionally a duplicate, not two lists competing for one meaning. The two aggregators are reported separately because they answer different questions and here they split: the row-level rate is at the null while the list-level concentration is far above it (stable=false)."
+}

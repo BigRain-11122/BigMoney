@@ -25291,7 +25291,7 @@
    "id": "E291-AMBIGUITY-BY-LENGTH-CHANCE",
    "title": "is a same-length candidate list a coincidence -- how often do two same-unit lists in one face share a length by chance, and is the 12-of-27 ambiguity rate above it?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "runner": "scripts/e291_ambiguity_chance.py",
    "runner_args": [
@@ -25307,7 +25307,10 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "source": "E290 published 12 of 27 checkable counts as ambiguous because another same-unit list in the same face has the same length. That flag is only informative if equal lengths are sometimes a coincidence: measure the length distribution of same-unit lists per face and compare the observed share of equal-length pairs against the share the length distribution predicts. If equality is common the ambiguity flag is mostly noise and must be reported with its base rate; if it is rare the 12 are real conflicts."
+   "source": "E290 published 12 of 27 checkable counts as ambiguous because another same-unit list in the same face has the same length. That flag is only informative if equal lengths are sometimes a coincidence: measure the length distribution of same-unit lists per face and compare the observed share of equal-length pairs against the share the length distribution predicts. If equality is common the ambiguity flag is mostly noise and must be reported with its base rate; if it is rare the 12 are real conflicts.",
+   "result_ref": "results/state_tilt/BANDAMBIENT-2026-10-29.json (+ bandambient_latest.json; runner scripts/e291_ambiguity_chance.py selftest 17/17, verify 0 problems)",
+   "done_at": "2026-10-31T08:2x+08:00",
+   "done_by": "bm-b r1313"
   },
   {
    "id": "E292-SCOPE-FIX-PLAN",
@@ -25330,6 +25333,28 @@
     "workers": 1
    },
    "source": "E290 split the un-derivable counts into 301 rows over 299 distinct scopes (the face already publishes the unit elsewhere, so the count can be moved or its scope named) and 566 rows over 8 keys (no records exist at all). Price the first half as work: group the 301 rows by face and by target scope, publish how many counts each move would make checkable, and rank the faces by that gain per move so the next author knows where a naming change buys the most auditability. No reburn: published faces only."
+  },
+  {
+   "id": "E293-DUPLICATE-LIST-CENSUS",
+   "title": "which published faces carry literally duplicated lists, and does anything read them as two independent records -- a census of the 135 alias pairs E291 found, with the aggregates they sit inside",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "runner": "scripts/e293_duplicate_list_census.py",
+   "runner_args": [
+    "run"
+   ],
+   "target": "scripts/e293_duplicate_list_census.py (new runner)",
+   "deliverable": "results/state_tilt/BANDDUPES-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "seeded_at": "2026-10-31T08:2x+08:00",
+   "seeded_by": "bm-b r1313",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "source": "E291 classified 746 equal-length pairs by content and found 135 of them are the very same list content inside ONE face (18.1 pct), which nothing in the family reports as a defect. A duplicated list is not automatically wrong -- 25 `cells` lists of 24 each in BANDPATH are expected to look alike -- but an alias is a copy, and if a summary DERIVES from a pair of aliases it counts one thing twice. Census every alias group with its parent scope, say whether the duplicates are schema-driven (every arm carries the same key set) or accidental, and join each alias group to any count in the same or a parent scope that sums or compares it. Publish per group: paths, parent, n_aliases, whether the parent is a list of arms (legitimate shape) or a dict of distinct faces (suspect), and the counts that read them. Do NOT rewrite any face (published faces are frozen); the deliverable is a list of suspect duplicates with their readers."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25344,6 +25369,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T08:02+08:00",
+ "updated_at": "2026-10-31T08:2x+08:00",
  "version": 1
 }

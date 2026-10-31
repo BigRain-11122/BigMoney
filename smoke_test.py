@@ -7341,6 +7341,110 @@ def main() -> int:
     except Exception as e:
         check(_name87, False, repr(e)[:160])
 
+    # E291 r1313: E290's ambiguity flag is only informative if equal-length siblings can be accidents.
+    # They are not: the rows fire at the pooled-length null while the list-level concentration is far
+    # above it, and the equal-length pairs are schema (605) or the same content (135), with only 6
+    # differing in content -- so the flag marks a shared shape, and 135 duplicated lists, not conflict.
+    _name88 = ("product: an equal-length sibling is the face's shape repeating, not a coin flip -- the "
+               "ambiguity flag's rate is the length base rate and its mechanism is schema and aliases")
+    _bad88 = []
+    try:
+        _p88 = os.path.join("results", "state_tilt", "bandambient_latest.json")
+        _f88 = None
+        if not os.path.exists(_p88):
+            _bad88.append("face missing: %s" % _p88)
+        else:
+            with io.open(_p88, encoding="utf-8") as _fh88:
+                _f88 = json.load(_fh88)
+        if _f88 is not None:
+            if _f88.get("evidence_cutoff") is None:
+                _bad88.append("no evidence_cutoff on the face")
+            if _f88.get("verdict") not in (
+                    "the_ambiguity_rate_is_the_length_base_rate_and_the_pairs_are_schema_not_accident",
+                    "the_flagged_rows_exceed_the_length_base_rate_so_the_ambiguity_is_real",
+                    "no_face_publishes_two_lists_of_the_same_unit_so_ambiguity_cannot_arise"):
+                _bad88.append("verdict %r is outside the frozen set" % (_f88.get("verdict"),))
+            _s88 = _f88.get("summary") or {}
+            _row88 = _s88.get("row_level") or {}
+            _lst88 = _s88.get("list_level") or {}
+            _mech88 = _s88.get("pair_mechanism") or {}
+            _rows88 = _f88.get("rows") or []
+            if _row88.get("checkable_rows") != len(_rows88):
+                _bad88.append("checkable_rows disagrees with the published row list")
+            _flag88 = [_r for _r in _rows88 if _r.get("flagged_ambiguous_by_e290")]
+            if _row88.get("flagged_ambiguous") != len(_flag88):
+                _bad88.append("flagged_ambiguous disagrees with the published rows")
+            if _row88.get("distinct_scopes_behind_the_flag") is None or \
+                    _row88["distinct_scopes_behind_the_flag"] > max(1, len(_flag88)):
+                _bad88.append("the scopes behind the flag are not published or exceed the rows")
+            # a rate is only readable beside its null and its tail
+            for _k in ("expected_rate_under_null", "tail_p_above_null", "observed_rate"):
+                if _row88.get(_k) is None:
+                    _bad88.append("row_level.%s is not published" % _k)
+            for _k in ("observed_rate", "expected_rate_under_pooled_length_null", "tail_p_above_null"):
+                if _lst88.get(_k) is None:
+                    _bad88.append("list_level.%s is not published" % _k)
+            # (b) the mechanism is a partition, and an alias is never folded into a conflict
+            _sum88 = (_mech88.get("alias_identical_content") or 0) + \
+                     (_mech88.get("same_schema_different_rows") or 0) + \
+                     (_mech88.get("different_content") or 0)
+            if _sum88 != (_mech88.get("equal_length_pairs") or 0):
+                _bad88.append("the content classes do not partition the equal-length pairs")
+            if _mech88.get("share_different_content") is None:
+                _bad88.append("the content-different share is not published")
+            # (c) the two aggregators are published with their own reading
+            _ag88 = _s88.get("aggregator_agreement") or {}
+            if "row_level_says_at_or_below_null" not in _ag88 or \
+                    "list_level_says_above_null" not in _ag88 or "stable" not in _ag88:
+                _bad88.append("the two aggregators are not both published")
+            _ic88 = _f88.get("identity_check") or {}
+            for _k in ("row_count_matches_e290_summary", "flagged_rows_match_e290_summary",
+                       "flagged_rows_are_the_e290_ambiguous_set", "mechanism_partition",
+                       "self_faces_absent_from_universe", "source_face_absent_from_universe",
+                       "scopes_partition_the_flagged_rows"):
+                if not _ic88.get(_k):
+                    _bad88.append("identity check %s is false" % _k)
+            if "BANDSELFAUDIT-2026-10-29.json" in (_f88.get("faces_censused") or []):
+                _bad88.append("E290's own face is inside the census it is explaining")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m88 = __import__("importlib").import_module("e291_ambiguity_chance")
+            _fresh88 = _m88.build()
+            if _fresh88.get("verdict") != _f88.get("verdict"):
+                _bad88.append("the verdict does not re-derive")
+            _fs88 = _fresh88.get("summary") or {}
+            for _blk in ("row_level", "list_level", "pair_mechanism", "aggregator_agreement"):
+                if _fs88.get(_blk) != _s88.get(_blk):
+                    _bad88.append("summary.%s does not re-derive" % _blk)
+            for _k in ("faces_censused", "same_unit_lists", "repeated_unit_groups"):
+                if _fs88.get(_k) != _s88.get(_k):
+                    _bad88.append("summary.%s does not re-derive" % _k)
+        check(_name88, not _bad88,
+              "; ".join(_bad88)[:220]
+              or "verdict %r | %d of %d flagged row(s) vs %s expected (p=%s) over %d scope(s); "
+                 "lists %d of %d (%s) vs %s expected (p=%s); %d equal-length pair(s) = alias %d / "
+                 "same_schema %d / different_content %d"
+                 % ((_f88 or {}).get("verdict"),
+                    _row88.get("flagged_ambiguous") or 0, _row88.get("checkable_rows") or 0,
+                    "n/a" if _row88.get("expected_rate_under_null") is None
+                    else "%.1f pct" % (100.0 * _row88["expected_rate_under_null"]),
+                    "n/a" if _row88.get("tail_p_above_null") is None
+                    else "%.3f" % _row88["tail_p_above_null"],
+                    _row88.get("distinct_scopes_behind_the_flag") or 0,
+                    _lst88.get("observed_equal_length_sibling") or 0,
+                    _lst88.get("eligible_lists") or 0,
+                    "n/a" if _lst88.get("observed_rate") is None
+                    else "%.1f pct" % (100.0 * _lst88["observed_rate"]),
+                    "n/a" if _lst88.get("expected_rate_under_pooled_length_null") is None
+                    else "%.1f pct" % (100.0 * _lst88["expected_rate_under_pooled_length_null"]),
+                    "n/a" if _lst88.get("tail_p_above_null") is None
+                    else "%.3f" % _lst88["tail_p_above_null"],
+                    _mech88.get("equal_length_pairs") or 0,
+                    _mech88.get("alias_identical_content") or 0,
+                    _mech88.get("same_schema_different_rows") or 0,
+                    _mech88.get("different_content") or 0))
+    except Exception as e:
+        check(_name88, False, repr(e)[:160])
+
     return _finish()
 
 
