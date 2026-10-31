@@ -179,7 +179,7 @@
  "last_seen": "2026-10-31T12:13:18+08:00",
  "last_updated": "2026-10-31T04:46:00+08:00",
  "latest_artifact": "results/state_tilt/BANDFROZEN-2026-10-29.json",
- "local_not_on_origin": 93,
+ "local_not_on_origin": 94,
  "local_not_on_origin_commits": 93,
  "machine_health": "OK 8/8 for bm-a,bm-b,bm-c after gpu_face apply + machine_health_face write bm-b",
  "machine_id": "bm-b",
@@ -2835,7 +2835,18 @@
   "s7": "orders 114 files / 115 acks / 0 unacked | decisions face not re-scanned this window (no fetch attempted, the recorded watermark stays) | Bigmoney-IterationLoop next 13:07 and Bigmoney-LoopWatchdog next 13:04 both present, pin untouched | pre-commit and pre-push claws present and untouched this window",
   "pool": "E294 done with result_ref; 797 entries, 3 ready (E298, E299, E302)",
   "verdict": "no_published_verdict_moves_with_the_universe",
-  "ts": "2026-10-31T13:04:01+08:00"
+  "ts": "2026-10-31T13:04:01+08:00",
+  "delivery": {
+   "branch": "machine/bm-b-r1322",
+   "pushed_sha": "1ac077bdbd9d8283db21d0a78cff2bce5b2c1b3d",
+   "remote_ref_sha": "1ac077bdbd9d8283db21d0a78cff2bce5b2c1b3d",
+   "verified": true,
+   "local_not_on_origin_main": 94,
+   "behind_origin_main": 177,
+   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1321 family); main push not attempted",
+   "ts": "2026-10-31T13:0x+08:00",
+   "note": "14 files staged (the new producer, both faces, the digest, the methodology card, two wiring files, the pool, state, heartbeat, round report, and three evidence files); the ~600 dirty tracked files left by collectors and prior windows were not swept in"
+  }
  },
  "notes_r1322": "| 2026-10-31T13:04:01 | r1322 | **watermark: pool-batch red at open (4 pool-ready, py idle); the round burned the head card E294.** **CURRENT:** E294 live-universe drift priced (done, face published). **LATEST PHYSICAL:** `results/state_tilt/BANDFROZEN-2026-10-29.json`. **NEXT MILESTONE:** E298 replay-controls census (ready, runner not written; due next round, within 48h). **PRODUCT:** of 54 family study scripts only 12 census the directory; 9 varied, all stable with up to 34 more faces in view; 3 unaskable (build() has no universe argument)."
 }
