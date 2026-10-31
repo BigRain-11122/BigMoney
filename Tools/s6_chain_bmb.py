@@ -794,6 +794,16 @@ LEGS = [
     ("template_parameter_consumers",
      ["python", "scripts/e326_template_parameter_consumers.py", "verify"]),
 
+    # E327: the 143-pointer layer E326 measured and did not traverse. Traversing it shows most
+    # of it is not a pointer layer: of 143 (pointer, face) pairs only 3 are pointers (the sibling
+    # is a content-identical copy of the dated face); 3 cite it through source_faces and 137 are
+    # other faces that merely CENSUSED it (faces_censused / rows[].face). The helper's substring
+    # test counted "a face that measures it" as "a pointer to it". The 3 real pointers all carry
+    # evidence_cutoff, so the parameter survives one indirection. Verify re-derives every pair
+    # class from parsed content, so the count cannot drift. ~2s.
+    ("who_reads_a_face_through_a_pointer",
+     ["python", "scripts/e327_who_reads_a_face_through_a_pointer.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

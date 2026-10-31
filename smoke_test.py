@@ -9558,6 +9558,72 @@ def main() -> int:
     except Exception as e:
         check(_name313, False, repr(e)[:160])
 
+    # E327: E326 measured a 143-pointer layer but did not traverse it. Traversing it here shows
+    # most of the layer is not pointers at all -- a sibling that CENSUSES a face (faces_censused /
+    # rows[].face) answers the helper's substring test exactly like a pointer to it. This leg
+    # refuses: a pair class that does not re-derive, a MEASURED_SUBJECT row reported as a pointer,
+    # a non-pointer count that disagrees with the pair count, and a "parameter survives" verdict
+    # while any real pointer fails to carry its cutoff.
+    _name327 = ("product: a *_latest sibling that measures a face is not a pointer to it, and the "
+                "3 that are pointers carry the parameter they name")
+    _bad327 = []
+    try:
+        _p327 = os.path.join("results", "state_tilt", "pointerread_latest.json")
+        _f327 = json.load(open(_p327, encoding="utf-8")) if os.path.exists(_p327) else None
+        if _f327 is None:
+            _bad327.append("no published pointer census")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m327 = __import__("importlib").import_module(
+                "e327_who_reads_a_face_through_a_pointer")
+            _fresh327 = _m327.build()
+            _s327 = _f327.get("summary") or {}
+            if _f327.get("verdict") != _fresh327.get("verdict"):
+                _bad327.append("the verdict does not re-derive")
+            if _f327.get("verdict") not in (_m327.VERDICT_SURVIVES, _m327.VERDICT_READ_ONLY,
+                                            _m327.VERDICT_LOST, _m327.VERDICT_NO_POINTER):
+                _bad327.append("verdict %r is outside the frozen set" % (_f327.get("verdict"),))
+            for _k327 in ("pairs", "real_pointers", "distinct_pointer_files",
+                          "faces_with_a_real_pointer", "pairs_that_are_not_pointers",
+                          "consumers"):
+                if _s327.get(_k327) != (_fresh327.get("summary") or {}).get(_k327):
+                    _bad327.append("summary.%s does not re-derive" % _k327)
+            _disk327 = {(p["pointer"], p["target"]): p["kind"] for p in _f327.get("pairs") or []}
+            if _disk327 != {(p["pointer"], p["target"]): p["kind"]
+                            for p in _fresh327["pairs"]}:
+                _bad327.append("a pair's class does not re-derive")
+            for _pr327 in _f327.get("pairs") or []:
+                if _pr327["kind"] not in _m327.PAIR_CLASSES:
+                    _bad327.append("pair class %r is outside the frozen set"
+                                   % (_pr327["kind"],))
+                    break
+                if _pr327["is_a_pointer"] != (
+                        _pr327["kind"] in (_m327.P_IDENTICAL, _m327.P_SAME_STUDY)):
+                    _bad327.append("a census subject is reported as a pointer")
+                    break
+            if _s327.get("pairs_that_are_not_pointers") != (
+                    (_s327.get("pairs") or 0) - (_s327.get("real_pointers") or 0)):
+                _bad327.append("the non-pointer count disagrees with the pair count")
+            if _s327.get("real_pointers_that_do_not_carry_it") and \
+                    _f327.get("verdict") == _m327.VERDICT_SURVIVES:
+                _bad327.append("a pointer without the parameter is reported as surviving")
+            if _f327.get("limits") is None:
+                _bad327.append("the indirection limit is not disclosed")
+        check(_name327, not _bad327, "; ".join(_bad327)[:220]
+              or "%s | %s of %s pairs are real pointers (%s files / %s faces), %s are censuses or "
+                 "citations, %s/%s carry the parameter"
+                 % (str((_f327 or {}).get("verdict")),
+                    ((_f327 or {}).get("summary") or {}).get("real_pointers"),
+                    ((_f327 or {}).get("summary") or {}).get("pairs"),
+                    ((_f327 or {}).get("summary") or {}).get("distinct_pointer_files"),
+                    ((_f327 or {}).get("summary") or {}).get("faces_with_a_real_pointer"),
+                    ((_f327 or {}).get("summary") or {}).get("pairs_that_are_not_pointers"),
+                    ((_f327 or {}).get("summary") or {}).get(
+                        "real_pointers_carrying_the_parameter"),
+                    ((_f327 or {}).get("summary") or {}).get("real_pointers")))
+    except Exception as e:
+        check(_name327, False, repr(e)[:160])
+
     return _finish()
 
 

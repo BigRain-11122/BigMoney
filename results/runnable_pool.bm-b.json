@@ -25888,8 +25888,8 @@
    "lane": "cpu-only",
    "priority": 3,
    "question": "for each decoy-bearing leaf: does any candidate share the gated quantity's name token or magnitude fingerprint, and how many decades of ambiguity remain after that match?",
-   "runner": "scripts/e320_decoy_resolution.py",
    "result_ref": "results/state_tilt/DECOYRESOLVE-2026-10-31.json",
+   "runner": "scripts/e320_decoy_resolution.py",
    "runner_args": [
     "run"
    ],
@@ -25905,6 +25905,8 @@
   },
   {
    "deliverable": "results/state_tilt/QUANTITYNAME-<cutoff>.json",
+   "done_at": "2026-11-01T00:28:21+08:00",
+   "done_by": "bm-b r1341",
    "entered_at": "2026-10-31T23:5x+08:00",
    "entered_by": "bm-b r1340",
    "evidence_cutoff": "2026-10-31",
@@ -25912,12 +25914,13 @@
    "lane": "cpu-only",
    "priority": 3,
    "question": "for each gate leaf E320 could not resolve from its own face, does the producing script name the quantity at its own comparison line, and how many of those names would survive being published?",
+   "result_ref": "results/state_tilt/QUANTITYNAME-2026-10-31.json",
    "runner": "scripts/e321_quantity_name_reach.py",
    "runner_args": [
     "run"
    ],
    "source": "r1340 (E320): 134 of 219 decoy-bearing gates publish nothing that names or fingerprints the gated quantity, so the span is the reading; E313 already resolved declared gate keys to the constant behind them for 30 rows -- the same producer-side reading applied to the unresolved population says whether the name exists at all",
-   "status": "ready",
+   "status": "done",
    "target": "the 134 unresolved rows (plus the 62 ambiguous ones) of DECOYRESOLVE-2026-10-31.json",
    "title": "E320 measured that a tenth of the ambient gates publish the quantity they gate; for the rest, the face is silent -- but the producer may still name the operand, so measure how far a producer-side read reaches and what share of it is publishable",
    "worker_class": "code-change",
@@ -25925,6 +25928,150 @@
     "priority": "BelowNormal",
     "workers": 1
    }
+  },
+  {
+   "id": "E322-REFUSAL-IS-THE-NEEDLE",
+   "lane": "cpu-only",
+   "priority": 3,
+   "question": "for each gate E321 refused for having no producer, is there a writer on disk, and which mechanical step of the lookup hid it?",
+   "result_ref": "results/state_tilt/REFUSALCAUSE-2026-10-31.json",
+   "runner": "scripts/e322_residual_refusal_causes.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "r1341 (E321): the verdict sentence publishes 25 gates with no producer publishing the key, which is a claim about the repository and must survive a wider needle",
+   "status": "done",
+   "target": "the 25 rows of QUANTITYNAME-2026-10-31.json whose class is no_producer_names_the_face",
+   "title": "a refused producer is a statement about the search until a wider needle also finds nothing: the 25 rows are 4 faces and all 4 have a writer, hidden by self-exclusion / compact dates / composed names",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "done_at": "2026-11-01T01:5x+08:00",
+   "done_by": "bm-b",
+   "evidence_cutoff": "2026-10-31",
+   "id": "E323-REACH-UNDER-A-WIDER-NEEDLE",
+   "lane": "cpu-only",
+   "outcome": "named 21 -> 21 (21 of 196 stay named); 25 unowned rows relocate to a producer that is found but names nothing; 0 regress; a naively accumulated producer set would report 28 -- the 7 extra names all come from family needles (etf_book composes out of etf_book_bakeoff.json and matches 106 scripts) and are published as rejected_name_gains",
+   "priority": 3,
+   "question": "re-price E321's five classes for the whole 196-row population with the wider needle (compact dates, composed names, the auditor kept in the ownership corpus): which rows change class, and does the 10.7 pct named share move?",
+   "result_ref": "results/state_tilt/REACHWIDE-2026-10-31.json",
+   "runner": "scripts/e323_reach_under_wider_needle.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "r1342 (E322): the needle that refused 4 faces also bounds every row E321 classified -- the lookup admits ISO dates only, spells names literally, and drops the auditor's own file",
+   "status": "done",
+   "target": "the full 196-row population of QUANTITYNAME-2026-10-31.json, re-classified under E322's wider needle",
+   "title": "E321's 10.7 pct named-by-their-producer is a lower bound measured with a needle that refuses four faces: re-run the five-class census with the wider needle and publish what moves",
+   "verdict": "the_wider_needle_moves_rows_between_classes_without_naming_anything_new",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "done_at": "2026-11-01T02:5x+08:00",
+   "done_by": "bm-b",
+   "evidence_cutoff": "2026-10-31",
+   "id": "E324-WHERE-THE-SIX-UNPUBLISHED-KEYS-LIVE",
+   "lane": "cpu-only",
+   "outcome": "4 of 6 are copied wholesale from a sub-face writer (PRODUCTION-<date> embeds `\"control\": doc.get(\"control\")` from etf_book_spanning_pre2020.json and `\"controls\": doc.get(\"controls\")` from etf_book_window_decomp.json; both publish tolerance_pp = 0.5 against the sub-face, value-identical to the card); 1 of 6 is an accumulation keyed by a data value (`by_kind[r[\"kind\"]]`) so no literal key exists anywhere -- epsilon=39 re-counts to the 39 rows of kind epsilon; 1 of 6 exists only inside the published face: no source under scripts/Tools/live/monitor/firm mentions `tolerance_silently_defaulted` at all, so PRECISIONCENSUS-2026-10-30.json (generated 2026-10-31T13:45:22, committed at r1324) cannot be reproduced from the tree it lives in. Blind spot measured: 16 of the 196 census rows sit inside a block their face writer copies from another face.",
+   "priority": 3,
+   "question": "six of E321's 196 gates have a producer that publishes no key of that name at all (four rows on two PRODUCTION faces, two on two PRECISIONCENSUS faces): is the key written under another name, copied in from a sub-face, or genuinely absent from the writer?",
+   "result_ref": "results/state_tilt/UNPUBLISHEDKEY-2026-10-31.json",
+   "runner": "scripts/e324_unpublished_key_causes.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "r1342 (E323): the wider needle moved the 25 unowned rows but left these 6 untouched -- they were never a needle problem, since the producer is already found and simply does not publish the key",
+   "status": "done",
+   "target": "the 6 rows of REACHWIDE-2026-10-31.json whose class_after is producer_found_but_publishes_no_such_key",
+   "title": "a producer that publishes no key of the gate's name is a different refusal from a producer that was never found: locate the six keys",
+   "verdict": "five_of_the_six_keys_are_published_by_a_writer_and_the_sixth_is_a_face_no_committed_writer_can_reproduce",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "done_at": "2026-11-01T02:52:00+08:00",
+   "done_note": "25 of 196 gate rows (12.76 pct) on 4 of 51 faces are writer-less under the published lookup; a writer-evidence rule reports 164 rows / 24 faces, format templates 11 / 8, composed paths 0 / 0. No face in the population survives as an orphan and 0 rows are left in the named-but-unwritten residue. The published lookup is an INSTRUMENT, not a rung: its stem fallback credits a bare mention, so it under-reports writer-less rows by 139 while a strict rule over-reports faces by 20.",
+   "id": "E325-HOW-MANY-CENSUS-GATES-SIT-ON-AN-UNREPRODUCIBLE-FACE",
+   "lane": "cpu-only",
+   "priority": 3,
+   "question": "E324 found one of six gates whose key no source in the tree mentions: a published face that cannot be reproduced from the repository it is committed in. Over the whole 196-gate population (51 faces), how many gate keys are mentioned by no producer source at all -- and does the share concentrate on faces committed after their writer's last edit?",
+   "result_ref": "results/state_tilt/ORPHANGATEFACE-2026-10-31.json + scripts/e325_orphan_gate_faces.py (run / verify / selftest 13/13)",
+   "runner": "scripts/e325_unreproducible_face_census.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "r1344 (E324): the sixth key existed only inside PRECISIONCENSUS-2026-10-30.json while no .py in the tree contains the string; that is a different defect from a missing key and it has not been counted at population scale",
+   "status": "done",
+   "target": "every gate key of the 196 rows of REACHWIDE-2026-10-31.json, against the full producer corpus",
+   "title": "count how many census gates read a value no source in the tree can produce: an orphan face is a face-level defect, not a naming defect",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/<face> + scripts/e326_*.py + chain leg + smoke leg + methodology card",
+   "done_at": "2026-11-01T03:2x+08:00",
+   "done_by": "bm-b",
+   "done_note": "30 faces / 2280 sources: 20 faces carry a free parameter (date, compact stamp, class suffix) and 10 are composed paths with none. 18 of 20 republish the parameter beside their numbers; the 2 that do not are named only by their own writers. All 14 references outside the writers pin the name (5) or supply the parameter from their own constant (9): 0 unpinned, 0 numbers quoted without their parameter. Bound published: 11 of the 20 faces stay reachable through 143 *_latest pointers whose readers never see a date -- next card's population.",
+   "entered_at": "2026-11-01T02:52:00+08:00",
+   "id": "E326-WHICH-CONSUMERS-TIE-A-NUMBER-TO-AN-UNREPUBLISHED-PARAMETER",
+   "lane": "cpu-only",
+   "notes": "seeded by r1345 bm-b when E325 closed; the supply floor stays breached honestly (ready 1 of floor 3) -- the next card needs a consumer census, not another face",
+   "owner_since": null,
+   "priority": 3,
+   "question": "E325 showed that no face in the 196-gate population is an orphan once every naming rule is allowed, but 14 of 51 faces are written only through a format template or a composed path -- no single-line writer exists. Do the consumers of those faces depend on the template's own parameter (a cutoff, a class) in a way that re-deriving from a different parameter would silently answer a different question, and which published numbers are tied to a face whose parameter is not republished beside the number?",
+   "result_ref": "results/state_tilt/TEMPLATEPARAM-2026-10-31.json + scripts/e326_template_parameter_consumers.py (run / verify / selftest 16/16)",
+   "runner": "scripts/e326_template_parameter_consumers.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "E325 ORPHANGATEFACE-2026-10-31 (faces by rung, evidence per face) + E323 REACHWIDE rows for the consumers",
+   "status": "done",
+   "target": "every population face whose final E325 class is a format template or a composed path, against the consumers that quote its leaves"
+  },
+  {
+   "deliverable": "results/state_tilt/<face> + scripts/e327_*.py + chain leg + smoke leg + methodology card",
+   "entered_at": "2026-11-01T03:2x+08:00",
+   "id": "E327-WHO-READS-A-FACE-THROUGH-A-POINTER",
+   "lane": "cpu-only",
+   "notes": "seeded by r1346 bm-b when E326 closed; the supply floor stays breached honestly (ready 1 of floor 3) -- the pointer layer is the indirection E326 measured but did not traverse",
+   "owner_since": null,
+   "priority": 3,
+   "question": "E326 found 0 consumers that quote a template face without its parameter, but 11 of its 20 parameterised faces are reachable through 143 *_latest.json pointers in their own directories. A reader that opens a pointer never sees a date in a file name at all: which published numbers are read through a pointer, and does the pointer's content republish the face it names (so the parameter survives one indirection), or does the number's provenance stop at a file whose name says 'latest'?",
+   "source": "E326 TEMPLATEPARAM-2026-10-31 (summary.faces_reachable_through_a_latest_pointer=11, latest_pointers_naming_a_parameterised_face=143)",
+   "status": "done",
+   "target": "every consumer of a *_latest*.json pointer that names one of E326's parameterised faces, against the pointer's own content and the consumer's parameter handling",
+   "owner": "bm-b",
+   "closed_at": "2026-11-01T03:5x+08:00",
+   "result_ref": "results/state_tilt/POINTERREAD-2026-11-01.json",
+   "result_note": "143 pairs / 3 real pointers / 140 censuses-or-citations; the 3 carry evidence_cutoff so the parameter survives one indirection; 3 of 5 consumer sources never surface it"
+  },
+  {
+   "id": "E328-WHICH-PUBLISHED-NUMBER-CARRIES-NO-CUTOFF-AT-ALL",
+   "lane": "cpu-only",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "owner_since": null,
+   "entered_at": "2026-11-01T03:5x+08:00",
+   "question": "E326 measured whether a consumer carries the parameter of a face it names and E327 measured whether a pointer republishes it. Neither asked the last question: of the numbers actually quoted out of faces (not the faces, the numbers), which ones are read from a face whose own evidence_cutoff is older than the newest cut of the same family on disk -- a stated cutoff, but a stale one.",
+   "target": "every quote of a numeric key read from a face whose evidence_cutoff is not the max cutoff available for that family in the tree",
+   "deliverable": "results/state_tilt/<face> + scripts/e328_*.py + chain leg + smoke leg + methodology card",
+   "source": "E327 POINTERREAD-2026-11-01 (all 3 real pointers carry the parameter; the staleness of the parameter itself was out of scope)",
+   "notes": "seeded by r1347 bm-b at E327 close; supply floor stays breached honestly (ready 1 of floor 3)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25939,7 +26086,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T22:0x+08:00",
+ "updated_at": "2026-11-01T03:2x+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

@@ -1,0 +1,4031 @@
+{
+ "corpus": {
+  "files": 2280,
+  "self_excluded": "e327_who_reads_a_face_through_a_pointer.py"
+ },
+ "evidence_cutoff": "2026-11-01",
+ "faces_with_a_real_pointer": [
+  "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+  "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+  "results/state_tilt/GATETOL-2026-10-31.json"
+ ],
+ "held_fixed": "E326's population, every upstream face class and every upstream row is read and never rewritten; only the pointer layer is measured here",
+ "limits": "static analysis of the python corpus in scripts/Tools/live/monitor/firm, so a reader that resolves a pointer through a computed name is not seen; a pointer whose content diverges from its dated face in a way neither equality nor study identity catches would land in the census classes and be under-counted",
+ "no_bill": "published faces and in-repo sources only; no draws, no panel, no engine, no network",
+ "pairs": [
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[3]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandambient_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E291_ambiguity_by_length_chance",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[3]",
+    "per_key[6].faces_cannot_rederive[0]",
+    "per_key[7].faces_cannot_rederive[2]",
+    "per_face[3].face",
+    "summary.faces_where_no_count_can_be_checked[2]"
+   ],
+   "keys_naming_the_target_count": 5,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandcountscope_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E286_count_field_scope",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {
+    "this_source_declares_the_pointer": 1
+   },
+   "consumers": [
+    {
+     "class": "this_source_declares_the_pointer",
+     "line": 68,
+     "lines_naming_the_pointer": 1,
+     "source": "scripts/e283_degenerate_range_reachable.py",
+     "text": "LATEST = \"banddeflate_latest.json\"",
+     "why": "this source binds the pointer's name and writes to it"
+    }
+   ],
+   "is_a_pointer": true,
+   "keys_naming_the_target": [
+    "scope.self_faces_excluded[0]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "POINTER_IDENTICAL",
+   "pointer": "results/state_tilt/banddeflate_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E283_degenerate_range_reachable",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "sweep.faces_with_label_fields[3].face",
+    "sweep.faces_with_label_fields[3].classified[0].face",
+    "sweep.faces_with_label_fields[3].classified[1].face",
+    "sweep.faces_with_label_fields[3].classified[2].face",
+    "sweep.faces_with_label_fields[3].classified[3].face"
+   ],
+   "keys_naming_the_target_count": 5,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagreescope_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E284_disagreement_field_scope",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[3]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddupes_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E293_duplicate_list_census",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[4].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandfrozen_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E294_live_universe_drift",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[3]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandscopefix_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E292_scope_fix_plan",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[3]",
+    "per_face[3].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandselfaudit_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E290_selfauditable_face_profile",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "axis_manifest[5].face",
+    "supply_readings[10].face",
+    "supply_readings[11].face",
+    "off_axis_readings[0].face",
+    "discovery.dated_faces_with_a_multiplier_key[0]",
+    "discovery.faces_declared[5]"
+   ],
+   "keys_naming_the_target_count": 7,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandsupply_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E287_supply_ceiling_axes",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[49].face",
+    "rows[50].face",
+    "rows[51].face",
+    "rows[52].face",
+    "rows[53].face",
+    "rows[54].face"
+   ],
+   "keys_naming_the_target_count": 9,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E320_decoy_resolution",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[14]",
+    "faces[38].face",
+    "moved_faces[18].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E325_orphan_gate_faces",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[226][0]",
+    "census.faces_seen[192]",
+    "faces[192].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E317_print_coverage_census",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[44].face",
+    "rows[45].face",
+    "rows[46].face",
+    "rows[47].face",
+    "rows[48].face",
+    "rows[49].face"
+   ],
+   "keys_naming_the_target_count": 7,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E321_quantity_name_reach",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[44].face",
+    "rows[45].face",
+    "rows[46].face",
+    "rows[47].face",
+    "rows[48].face",
+    "rows[49].face"
+   ],
+   "keys_naming_the_target_count": 7,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E323_reach_under_wider_needle",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "controls[8].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/replaycensus_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E298_replay_control_census",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[20].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/selfinclusion_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E319_census_self_inclusion_sweep",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[18].face",
+    "faces[18].template_forms.name"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E326_template_parameter_consumers",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E283_degenerate_range_reachable"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[4]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandambient_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E291_ambiguity_by_length_chance",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[4]",
+    "per_key[7].faces_cannot_rederive[3]",
+    "per_face[4].face",
+    "summary.faces_where_no_count_can_be_checked[3]"
+   ],
+   "keys_naming_the_target_count": 4,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandcountscope_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E286_count_field_scope",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "scope.faces_excluded[31].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddeflate_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E283_degenerate_range_reachable",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "sweep.faces_with_label_fields[4].face",
+    "sweep.faces_with_label_fields[4].classified[0].face",
+    "sweep.faces_with_label_fields[4].classified[1].face",
+    "sweep.faces_with_label_fields[4].classified[2].face",
+    "sweep.faces_with_label_fields[4].classified[3].face",
+    "sweep.faces_with_label_fields[4].classified[4].face"
+   ],
+   "keys_naming_the_target_count": 7,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagreescope_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E284_disagreement_field_scope",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[4]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddupes_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E293_duplicate_list_census",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[3].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandfrozen_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E294_live_universe_drift",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[4]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandscopefix_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E292_scope_fix_plan",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[4]",
+    "per_face[4].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandselfaudit_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E290_selfauditable_face_profile",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "source_faces[5]",
+    "axis_manifest[4].face",
+    "discovery.dated_faces_with_a_multiplier_key[1]",
+    "discovery.faces_declared[4]",
+    "discovery.faces_used_names[4]"
+   ],
+   "keys_naming_the_target_count": 5,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandsupply_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E287_supply_ceiling_axes",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[1].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandundatedvintage_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E307",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[58].face",
+    "rows[59].face",
+    "rows[60].face",
+    "rows[61].face",
+    "rows[62].face",
+    "rows[63].face"
+   ],
+   "keys_naming_the_target_count": 15,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E320_decoy_resolution",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[15]",
+    "faces[39].face",
+    "moved_faces[19].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E325_orphan_gate_faces",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[227][0]",
+    "census.faces_seen[193]",
+    "faces[193].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E317_print_coverage_census",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[51].face",
+    "rows[52].face",
+    "rows[53].face",
+    "rows[54].face",
+    "rows[55].face",
+    "rows[56].face"
+   ],
+   "keys_naming_the_target_count": 15,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E321_quantity_name_reach",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[51].face",
+    "rows[52].face",
+    "rows[53].face",
+    "rows[54].face",
+    "rows[55].face",
+    "rows[56].face"
+   ],
+   "keys_naming_the_target_count": 15,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E323_reach_under_wider_needle",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "controls[9].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/replaycensus_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E298_replay_control_census",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[19].face",
+    "faces[19].template_forms.name"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E326_template_parameter_consumers",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E282_substitution_disagreement_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[9]",
+    "groups[5].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandambient_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E291_ambiguity_by_length_chance",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[9]",
+    "per_key[0].faces_cannot_rederive[2]",
+    "per_key[5].faces_cannot_rederive[5]",
+    "per_face[9].face",
+    "summary.faces_where_no_count_can_be_checked[7]"
+   ],
+   "keys_naming_the_target_count": 5,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandcountscope_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E286_count_field_scope",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "scope.faces_excluded[35].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddeflate_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E283_degenerate_range_reachable",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "scope_census.faces_excluded[33].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagree_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E282_substitution_disagreement_census",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "sweep.faces_with_label_fields[8].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagreescope_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E284_disagreement_field_scope",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[9]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddupes_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E293_duplicate_list_census",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[5].face",
+    "source_faces[5]"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandfields_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E270_guard_field_audit",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "source_faces[0]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "CITES_AS_INPUT",
+   "pointer": "results/state_tilt/bandfloor_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "e277_tight_multiplier_floor",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[9]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandscopefix_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E292_scope_fix_plan",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[9]",
+    "per_face[9].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandselfaudit_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E290_selfauditable_face_profile",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[6].face",
+    "source_faces[6]"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandsubstituteaudit_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E281_substitution_dependency_audit",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[77].face",
+    "rows[78].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E320_decoy_resolution",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[16]",
+    "faces[40].face",
+    "moved_faces[20].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E325_orphan_gate_faces",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[230][0]",
+    "census.faces_seen[196]",
+    "faces[196].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E317_print_coverage_census",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[66].face",
+    "rows[67].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E321_quantity_name_reach",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[66].face",
+    "rows[67].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E323_reach_under_wider_needle",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[20].face",
+    "faces[20].template_forms.name"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E326_template_parameter_consumers",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E255"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[10]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandambient_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E291_ambiguity_by_length_chance",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[10]",
+    "per_key[0].faces_cannot_rederive[3]",
+    "per_key[5].faces_cannot_rederive[6]",
+    "per_face[10].face",
+    "summary.faces_where_no_count_can_be_checked[8]"
+   ],
+   "keys_naming_the_target_count": 5,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandcountscope_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E286_count_field_scope",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "scope.faces_excluded[36].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddeflate_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E283_degenerate_range_reachable",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "scope_census.faces_excluded[34].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagree_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E282_substitution_disagreement_census",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "sweep.faces_with_label_fields[9].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagreescope_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E284_disagreement_field_scope",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[10]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddupes_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E293_duplicate_list_census",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[6].face",
+    "source_faces[6]"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandfields_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E270_guard_field_audit",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[10]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandscopefix_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E292_scope_fix_plan",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[10]",
+    "per_face[10].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandselfaudit_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E290_selfauditable_face_profile",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[7].face",
+    "source_faces[7]"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandsubstituteaudit_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E281_substitution_dependency_audit",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[79].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E320_decoy_resolution",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[17]",
+    "faces[41].face",
+    "moved_faces[21].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E325_orphan_gate_faces",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[231][0]",
+    "census.faces_seen[197]",
+    "faces[197].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E317_print_coverage_census",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[68].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E321_quantity_name_reach",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[68].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E323_reach_under_wider_needle",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[21].face",
+    "faces[21].template_forms.name"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E326_template_parameter_consumers",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E254"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[28]",
+    "groups[16].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandambient_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E291_ambiguity_by_length_chance",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "source_faces[4]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "CITES_AS_INPUT",
+   "pointer": "results/state_tilt/bandclosure_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E295_supply_gap_closure",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[28]",
+    "per_key[7].faces_cannot_rederive[10]",
+    "per_face[28].face",
+    "summary.faces_where_no_count_can_be_checked[16]"
+   ],
+   "keys_naming_the_target_count": 4,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandcountscope_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E286_count_field_scope",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "scope.faces_excluded[52].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddeflate_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E283_degenerate_range_reachable",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "scope_census.faces_excluded[50].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagree_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E282_substitution_disagreement_census",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "sweep.faces_with_label_fields[26].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagreescope_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E284_disagreement_field_scope",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[28]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddupes_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E293_duplicate_list_census",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[14].face",
+    "source_faces[14]"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandfields_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E270_guard_field_audit",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "narrowing_readings[1].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandfloormirror_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E288_below_floor_narrowing",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[28]",
+    "rows[244].face",
+    "per_face[9].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandscopefix_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E292_scope_fix_plan",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces_censused[28]",
+    "per_face[28].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandselfaudit_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E290_selfauditable_face_profile",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "source_faces[3]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "CITES_AS_INPUT",
+   "pointer": "results/state_tilt/bandstraddlesweep_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "e274_spread_straddle_sweep",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[23].face",
+    "source_faces[23]"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandsubstituteaudit_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E281_substitution_dependency_audit",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "source_faces[2]",
+    "axis_manifest[1].face",
+    "supply_readings[1].face",
+    "supply_readings[20].face",
+    "supply_readings[21].face",
+    "discovery.dated_faces_with_a_multiplier_key[4]"
+   ],
+   "keys_naming_the_target_count": 8,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandsupply_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E287_supply_ceiling_axes",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "source_faces.e257"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandwinmult_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-29",
+   "pointer_study": "E258_band_multiplier_per_window",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[80].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E320_decoy_resolution",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[18]",
+    "faces[42].face",
+    "faces[42].writers_composed[0].evidence.needle",
+    "faces[42].writers_composed[0].evidence.text",
+    "moved_faces[22].face"
+   ],
+   "keys_naming_the_target_count": 5,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E325_orphan_gate_faces",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[244][0]",
+    "census.faces_seen[201]",
+    "faces[201].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E317_print_coverage_census",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[69].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E321_quantity_name_reach",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[69].face",
+    "rows[69].needle"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E323_reach_under_wider_needle",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[1].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/selfinclusion_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E319_census_self_inclusion_sweep",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[22].consumers[1].needle",
+    "faces[22].consumers[1].text",
+    "faces[22].face",
+    "faces[22].template_forms.name"
+   ],
+   "keys_naming_the_target_count": 4,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E326_template_parameter_consumers",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E257_band_at_top_flips"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[81].face",
+    "rows[82].face",
+    "rows[83].face",
+    "rows[84].face",
+    "rows[85].face",
+    "rows[86].face"
+   ],
+   "keys_naming_the_target_count": 30,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E320_decoy_resolution",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E312_gate_operand_identity"
+  },
+  {
+   "consumer_classes": {
+    "consumer_names_the_pointer_and_never_shows_the_parameter": 1,
+    "consumer_surfaces_the_parameter_out_of_the_pointer": 1
+   },
+   "consumers": [
+    {
+     "class": "consumer_names_the_pointer_and_never_shows_the_parameter",
+     "line": 42,
+     "lines_naming_the_pointer": 1,
+     "source": "scripts/e312_gate_operand_identity.py",
+     "text": "LATEST = \"gateoperands_latest.json\"",
+     "why": "the source names the pointer and never surfaces its cutoff"
+    },
+    {
+     "class": "consumer_surfaces_the_parameter_out_of_the_pointer",
+     "line": 44,
+     "lines_naming_the_pointer": 1,
+     "source": "scripts/e313_gate_form_and_scale.py",
+     "text": "UPSTREAM = os.path.join(OUTDIR, \"gateoperands_latest.json\")",
+     "why": "the source names the pointer and subscripts a cutoff key"
+    }
+   ],
+   "is_a_pointer": true,
+   "keys_naming_the_target": [
+    "self_faces_excluded[0]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "POINTER_IDENTICAL",
+   "pointer": "results/state_tilt/gateoperands_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E312_gate_operand_identity",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E312_gate_operand_identity"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "by_rung.R1_standard_needle.orphan_face_names[3]",
+    "by_rung.R2_every_auditor_kept.orphan_face_names[19]",
+    "faces[43].face",
+    "moved_faces[23].face",
+    "summary.faces_orphan_on_one_rung_and_written_on_a_later_one[3].face"
+   ],
+   "keys_naming_the_target_count": 5,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E325_orphan_gate_faces",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E312_gate_operand_identity"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[250][0]",
+    "census.faces_seen[206]",
+    "faces[206].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E317_print_coverage_census",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E312_gate_operand_identity"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[70].face",
+    "rows[71].face",
+    "rows[72].face",
+    "rows[73].face",
+    "rows[74].face",
+    "rows[75].face"
+   ],
+   "keys_naming_the_target_count": 22,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E321_quantity_name_reach",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E312_gate_operand_identity"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[70].face",
+    "rows[71].face",
+    "rows[72].face",
+    "rows[73].face",
+    "rows[74].face",
+    "rows[75].face"
+   ],
+   "keys_naming_the_target_count": 22,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E323_reach_under_wider_needle",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E312_gate_operand_identity"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[3].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/refusalcause_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E322_residual_refusal_causes",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E312_gate_operand_identity"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "exclusions[24].declared[0]",
+    "faces[38].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/selfinclusion_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E319_census_self_inclusion_sweep",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E312_gate_operand_identity"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[23].face",
+    "faces[23].template_forms.name"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E326_template_parameter_consumers",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E312_gate_operand_identity"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "residual_gates[1].face",
+    "residual_gates[2].face",
+    "residual_gates[3].face",
+    "residual_gates[4].face",
+    "residual_gates[5].face",
+    "residual_gates[6].face"
+   ],
+   "keys_naming_the_target_count": 14,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/zerotolprune_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E318_count_named_gate_leaves",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E312_gate_operand_identity"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[111].face",
+    "rows[112].face",
+    "rows[113].face",
+    "rows[114].face",
+    "rows[115].face",
+    "rows[116].face"
+   ],
+   "keys_naming_the_target_count": 31,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E320_decoy_resolution",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E308_leg_vs_producer_tolerance"
+  },
+  {
+   "consumer_classes": {
+    "consumer_names_the_pointer_and_never_shows_the_parameter": 1,
+    "consumer_surfaces_the_parameter_out_of_the_pointer": 1
+   },
+   "consumers": [
+    {
+     "class": "consumer_names_the_pointer_and_never_shows_the_parameter",
+     "line": 43,
+     "lines_naming_the_pointer": 1,
+     "source": "scripts/e312_gate_operand_identity.py",
+     "text": "UPSTREAM = os.path.join(ROOT, \"results\", \"state_tilt\", \"gatetol_latest.json\")",
+     "why": "the source names the pointer and never surfaces its cutoff"
+    },
+    {
+     "class": "consumer_surfaces_the_parameter_out_of_the_pointer",
+     "line": 45,
+     "lines_naming_the_pointer": 1,
+     "source": "scripts/e313_gate_form_and_scale.py",
+     "text": "UPSTREAM_LEGS = os.path.join(OUTDIR, \"gatetol_latest.json\")",
+     "why": "the source names the pointer and subscripts a cutoff key"
+    }
+   ],
+   "is_a_pointer": true,
+   "keys_naming_the_target": [
+    "self_faces_excluded[0]"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "POINTER_IDENTICAL",
+   "pointer": "results/state_tilt/gatetol_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E308_leg_vs_producer_tolerance",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E308_leg_vs_producer_tolerance"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[20]",
+    "faces[44].face",
+    "moved_faces[24].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E325_orphan_gate_faces",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E308_leg_vs_producer_tolerance"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[251][0]",
+    "census.faces_seen[207]",
+    "faces[207].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E317_print_coverage_census",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E308_leg_vs_producer_tolerance"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[92].face",
+    "rows[93].face",
+    "rows[94].face",
+    "rows[95].face",
+    "rows[96].face",
+    "rows[97].face"
+   ],
+   "keys_naming_the_target_count": 31,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E321_quantity_name_reach",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E308_leg_vs_producer_tolerance"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[92].face",
+    "rows[93].face",
+    "rows[94].face",
+    "rows[95].face",
+    "rows[96].face",
+    "rows[97].face"
+   ],
+   "keys_naming_the_target_count": 31,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E323_reach_under_wider_needle",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E308_leg_vs_producer_tolerance"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "exclusions[23].declared[0]",
+    "faces[37].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/selfinclusion_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E319_census_self_inclusion_sweep",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E308_leg_vs_producer_tolerance"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[24].face",
+    "faces[24].template_forms.name"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E326_template_parameter_consumers",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E308_leg_vs_producer_tolerance"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "residual_gates[15].face",
+    "residual_gates[16].face",
+    "residual_gates[17].face",
+    "residual_gates[18].face",
+    "residual_gates[19].face",
+    "residual_gates[20].face"
+   ],
+   "keys_naming_the_target_count": 72,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/zerotolprune_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E318_count_named_gate_leaves",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E308_leg_vs_producer_tolerance"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[142].face",
+    "rows[143].face",
+    "rows[144].face",
+    "rows[145].face",
+    "rows[146].face",
+    "rows[147].face"
+   ],
+   "keys_naming_the_target_count": 64,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E320_decoy_resolution",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E299_rounded_vs_tolerance_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[21]",
+    "faces[45].face",
+    "moved_faces[25].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E325_orphan_gate_faces",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E299_rounded_vs_tolerance_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[265][0]",
+    "census.faces_seen[219]",
+    "faces[219].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E317_print_coverage_census",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E299_rounded_vs_tolerance_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[123].face",
+    "rows[124].face",
+    "rows[125].face",
+    "rows[126].face",
+    "rows[127].face",
+    "rows[128].face"
+   ],
+   "keys_naming_the_target_count": 64,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E321_quantity_name_reach",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E299_rounded_vs_tolerance_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[123].face",
+    "rows[124].face",
+    "rows[125].face",
+    "rows[126].face",
+    "rows[127].face",
+    "rows[128].face"
+   ],
+   "keys_naming_the_target_count": 64,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E323_reach_under_wider_needle",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E299_rounded_vs_tolerance_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "controls[57].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/replaycensus_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E298_replay_control_census",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E299_rounded_vs_tolerance_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[25].face",
+    "faces[25].template_forms.name"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E326_template_parameter_consumers",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E299_rounded_vs_tolerance_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[4].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/unpublishedkey_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E324_unpublished_key_causes",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E299_rounded_vs_tolerance_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "residual_gates[29].face",
+    "residual_gates[30].face",
+    "residual_gates[31].face",
+    "residual_gates[32].face",
+    "residual_gates[33].face",
+    "residual_gates[34].face"
+   ],
+   "keys_naming_the_target_count": 36,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/zerotolprune_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E318_count_named_gate_leaves",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E299_rounded_vs_tolerance_census"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "census.top_residual_spans[9].face",
+    "rows[210].face",
+    "rows[211].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E320_decoy_resolution",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E305_face_level_row_pricing"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[23]",
+    "faces[47].face",
+    "moved_faces[27].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E325_orphan_gate_faces",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E305_face_level_row_pricing"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[267][0]",
+    "census.top_substitution_spans[9].face",
+    "census.faces_seen[221]",
+    "faces[221].face"
+   ],
+   "keys_naming_the_target_count": 4,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E317_print_coverage_census",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E305_face_level_row_pricing"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[191].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E321_quantity_name_reach",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E305_face_level_row_pricing"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[191].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E323_reach_under_wider_needle",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E305_face_level_row_pricing"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "controls[61].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/replaycensus_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E298_replay_control_census",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E305_face_level_row_pricing"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[36].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/selfinclusion_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E319_census_self_inclusion_sweep",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E305_face_level_row_pricing"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[27].face",
+    "faces[27].template_forms.name"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E326_template_parameter_consumers",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E305_face_level_row_pricing"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "residual_gates[64].face",
+    "residual_gates[65].face",
+    "residual_gates[66].face",
+    "residual_gates[67].face",
+    "residual_gates[68].face"
+   ],
+   "keys_naming_the_target_count": 5,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/zerotolprune_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E318_count_named_gate_leaves",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "target_parameter_token": "2026-10-31",
+   "target_study": "E305_face_level_row_pricing"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "blocks[7].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/basisrecovery_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-30",
+   "pointer_study": "E303",
+   "target": "results/state_tilt/REPRO-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[212].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E320_decoy_resolution",
+   "target": "results/state_tilt/REPRO-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[48].face",
+    "moved_faces[28].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E325_orphan_gate_faces",
+   "target": "results/state_tilt/REPRO-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[270][0]",
+    "census.faces_seen[224]",
+    "faces[224].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E317_print_coverage_census",
+   "target": "results/state_tilt/REPRO-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[192].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E321_quantity_name_reach",
+   "target": "results/state_tilt/REPRO-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[192].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E323_reach_under_wider_needle",
+   "target": "results/state_tilt/REPRO-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "controls[62].face",
+    "at_risk[40].face",
+    "summary.at_risk_faces[7]"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/replaycensus_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E298_replay_control_census",
+   "target": "results/state_tilt/REPRO-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[28].face",
+    "faces[28].template_forms.name"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E326_template_parameter_consumers",
+   "target": "results/state_tilt/REPRO-2026-10-29.json",
+   "target_parameter_token": "2026-10-29",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "blocks[8].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/basisrecovery_latest.json",
+   "pointer_carries_the_parameter": true,
+   "pointer_evidence_cutoff": "2026-10-30",
+   "pointer_study": "E303",
+   "target": "results/state_tilt/REPRO-2026-10-30.json",
+   "target_parameter_token": "2026-10-30",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[213].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E320_decoy_resolution",
+   "target": "results/state_tilt/REPRO-2026-10-30.json",
+   "target_parameter_token": "2026-10-30",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[11].path"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/gatetol_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E308_leg_vs_producer_tolerance",
+   "target": "results/state_tilt/REPRO-2026-10-30.json",
+   "target_parameter_token": "2026-10-30",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[49].face",
+    "moved_faces[29].face"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E325_orphan_gate_faces",
+   "target": "results/state_tilt/REPRO-2026-10-30.json",
+   "target_parameter_token": "2026-10-30",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[271][0]",
+    "census.faces_seen[225]",
+    "faces[225].face"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E317_print_coverage_census",
+   "target": "results/state_tilt/REPRO-2026-10-30.json",
+   "target_parameter_token": "2026-10-30",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[193].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E321_quantity_name_reach",
+   "target": "results/state_tilt/REPRO-2026-10-30.json",
+   "target_parameter_token": "2026-10-30",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "rows[193].face"
+   ],
+   "keys_naming_the_target_count": 1,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E323_reach_under_wider_needle",
+   "target": "results/state_tilt/REPRO-2026-10-30.json",
+   "target_parameter_token": "2026-10-30",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "controls[63].face",
+    "at_risk[41].face",
+    "summary.at_risk_faces[8]"
+   ],
+   "keys_naming_the_target_count": 3,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/replaycensus_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E298_replay_control_census",
+   "target": "results/state_tilt/REPRO-2026-10-30.json",
+   "target_parameter_token": "2026-10-30",
+   "target_study": "E241"
+  },
+  {
+   "consumer_classes": {},
+   "consumers": [],
+   "is_a_pointer": false,
+   "keys_naming_the_target": [
+    "faces[29].face",
+    "faces[29].template_forms.name"
+   ],
+   "keys_naming_the_target_count": 2,
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "pointer_carries_the_parameter": false,
+   "pointer_evidence_cutoff": "2026-10-31",
+   "pointer_study": "E326_template_parameter_consumers",
+   "target": "results/state_tilt/REPRO-2026-10-30.json",
+   "target_parameter_token": "2026-10-30",
+   "target_study": "E241"
+  }
+ ],
+ "pairs_that_are_not_pointers": [
+  {
+   "keys_naming_the_target": [
+    "faces_censused[3]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandambient_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[3]",
+    "per_key[6].faces_cannot_rederive[0]",
+    "per_key[7].faces_cannot_rederive[2]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandcountscope_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "sweep.faces_with_label_fields[3].face",
+    "sweep.faces_with_label_fields[3].classified[0].face",
+    "sweep.faces_with_label_fields[3].classified[1].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagreescope_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[3]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddupes_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[4].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandfrozen_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[3]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandscopefix_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[3]",
+    "per_face[3].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandselfaudit_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "axis_manifest[5].face",
+    "supply_readings[10].face",
+    "supply_readings[11].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandsupply_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[49].face",
+    "rows[50].face",
+    "rows[51].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[14]",
+    "faces[38].face",
+    "moved_faces[18].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[226][0]",
+    "census.faces_seen[192]",
+    "faces[192].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[44].face",
+    "rows[45].face",
+    "rows[46].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[44].face",
+    "rows[45].face",
+    "rows[46].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "controls[8].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/replaycensus_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[20].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/selfinclusion_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[18].face",
+    "faces[18].template_forms.name"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "target": "results/state_tilt/BANDDEFLATE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[4]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandambient_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[4]",
+    "per_key[7].faces_cannot_rederive[3]",
+    "per_face[4].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandcountscope_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "scope.faces_excluded[31].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddeflate_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "sweep.faces_with_label_fields[4].face",
+    "sweep.faces_with_label_fields[4].classified[0].face",
+    "sweep.faces_with_label_fields[4].classified[1].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagreescope_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[4]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddupes_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[3].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandfrozen_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[4]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandscopefix_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[4]",
+    "per_face[4].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandselfaudit_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "source_faces[5]",
+    "axis_manifest[4].face",
+    "discovery.dated_faces_with_a_multiplier_key[1]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandsupply_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[1].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandundatedvintage_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[58].face",
+    "rows[59].face",
+    "rows[60].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[15]",
+    "faces[39].face",
+    "moved_faces[19].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[227][0]",
+    "census.faces_seen[193]",
+    "faces[193].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[51].face",
+    "rows[52].face",
+    "rows[53].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[51].face",
+    "rows[52].face",
+    "rows[53].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "controls[9].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/replaycensus_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[19].face",
+    "faces[19].template_forms.name"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "target": "results/state_tilt/BANDDISAGREE-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[9]",
+    "groups[5].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandambient_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[9]",
+    "per_key[0].faces_cannot_rederive[2]",
+    "per_key[5].faces_cannot_rederive[5]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandcountscope_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "scope.faces_excluded[35].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddeflate_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "scope_census.faces_excluded[33].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagree_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "sweep.faces_with_label_fields[8].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagreescope_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[9]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddupes_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[5].face",
+    "source_faces[5]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandfields_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "source_faces[0]"
+   ],
+   "kind": "CITES_AS_INPUT",
+   "pointer": "results/state_tilt/bandfloor_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[9]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandscopefix_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[9]",
+    "per_face[9].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandselfaudit_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[6].face",
+    "source_faces[6]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandsubstituteaudit_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[77].face",
+    "rows[78].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[16]",
+    "faces[40].face",
+    "moved_faces[20].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[230][0]",
+    "census.faces_seen[196]",
+    "faces[196].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[66].face",
+    "rows[67].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[66].face",
+    "rows[67].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[20].face",
+    "faces[20].template_forms.name"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "target": "results/state_tilt/BANDDRAW-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[10]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandambient_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[10]",
+    "per_key[0].faces_cannot_rederive[3]",
+    "per_key[5].faces_cannot_rederive[6]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandcountscope_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "scope.faces_excluded[36].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddeflate_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "scope_census.faces_excluded[34].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagree_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "sweep.faces_with_label_fields[9].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagreescope_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[10]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddupes_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[6].face",
+    "source_faces[6]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandfields_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[10]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandscopefix_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[10]",
+    "per_face[10].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandselfaudit_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[7].face",
+    "source_faces[7]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandsubstituteaudit_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[79].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[17]",
+    "faces[41].face",
+    "moved_faces[21].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[231][0]",
+    "census.faces_seen[197]",
+    "faces[197].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[68].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[68].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[21].face",
+    "faces[21].template_forms.name"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "target": "results/state_tilt/BANDEXP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[28]",
+    "groups[16].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandambient_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "source_faces[4]"
+   ],
+   "kind": "CITES_AS_INPUT",
+   "pointer": "results/state_tilt/bandclosure_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[28]",
+    "per_key[7].faces_cannot_rederive[10]",
+    "per_face[28].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandcountscope_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "scope.faces_excluded[52].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddeflate_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "scope_census.faces_excluded[50].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagree_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "sweep.faces_with_label_fields[26].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddisagreescope_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[28]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/banddupes_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[14].face",
+    "source_faces[14]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandfields_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "narrowing_readings[1].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandfloormirror_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[28]",
+    "rows[244].face",
+    "per_face[9].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandscopefix_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces_censused[28]",
+    "per_face[28].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandselfaudit_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "source_faces[3]"
+   ],
+   "kind": "CITES_AS_INPUT",
+   "pointer": "results/state_tilt/bandstraddlesweep_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[23].face",
+    "source_faces[23]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandsubstituteaudit_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "source_faces[2]",
+    "axis_manifest[1].face",
+    "supply_readings[1].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandsupply_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "source_faces.e257"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/bandwinmult_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[80].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[18]",
+    "faces[42].face",
+    "faces[42].writers_composed[0].evidence.needle"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[244][0]",
+    "census.faces_seen[201]",
+    "faces[201].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[69].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[69].face",
+    "rows[69].needle"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[1].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/selfinclusion_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[22].consumers[1].needle",
+    "faces[22].consumers[1].text",
+    "faces[22].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "target": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[81].face",
+    "rows[82].face",
+    "rows[83].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "by_rung.R1_standard_needle.orphan_face_names[3]",
+    "by_rung.R2_every_auditor_kept.orphan_face_names[19]",
+    "faces[43].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[250][0]",
+    "census.faces_seen[206]",
+    "faces[206].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[70].face",
+    "rows[71].face",
+    "rows[72].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[70].face",
+    "rows[71].face",
+    "rows[72].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[3].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/refusalcause_latest.json",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "exclusions[24].declared[0]",
+    "faces[38].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/selfinclusion_latest.json",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[23].face",
+    "faces[23].template_forms.name"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "residual_gates[1].face",
+    "residual_gates[2].face",
+    "residual_gates[3].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/zerotolprune_latest.json",
+   "target": "results/state_tilt/GATEOPERANDS-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[111].face",
+    "rows[112].face",
+    "rows[113].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[20]",
+    "faces[44].face",
+    "moved_faces[24].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[251][0]",
+    "census.faces_seen[207]",
+    "faces[207].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[92].face",
+    "rows[93].face",
+    "rows[94].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[92].face",
+    "rows[93].face",
+    "rows[94].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "exclusions[23].declared[0]",
+    "faces[37].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/selfinclusion_latest.json",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[24].face",
+    "faces[24].template_forms.name"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "residual_gates[15].face",
+    "residual_gates[16].face",
+    "residual_gates[17].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/zerotolprune_latest.json",
+   "target": "results/state_tilt/GATETOL-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[142].face",
+    "rows[143].face",
+    "rows[144].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[21]",
+    "faces[45].face",
+    "moved_faces[25].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[265][0]",
+    "census.faces_seen[219]",
+    "faces[219].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[123].face",
+    "rows[124].face",
+    "rows[125].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[123].face",
+    "rows[124].face",
+    "rows[125].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "controls[57].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/replaycensus_latest.json",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[25].face",
+    "faces[25].template_forms.name"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[4].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/unpublishedkey_latest.json",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "residual_gates[29].face",
+    "residual_gates[30].face",
+    "residual_gates[31].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/zerotolprune_latest.json",
+   "target": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "census.top_residual_spans[9].face",
+    "rows[210].face",
+    "rows[211].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "by_rung.R2_every_auditor_kept.orphan_face_names[23]",
+    "faces[47].face",
+    "moved_faces[27].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[267][0]",
+    "census.top_substitution_spans[9].face",
+    "census.faces_seen[221]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[191].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[191].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "controls[61].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/replaycensus_latest.json",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[36].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/selfinclusion_latest.json",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[27].face",
+    "faces[27].template_forms.name"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "residual_gates[64].face",
+    "residual_gates[65].face",
+    "residual_gates[66].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/zerotolprune_latest.json",
+   "target": "results/state_tilt/PRECISIONGAP-2026-10-31.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "blocks[7].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/basisrecovery_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[212].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[48].face",
+    "moved_faces[28].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[270][0]",
+    "census.faces_seen[224]",
+    "faces[224].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[192].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[192].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "controls[62].face",
+    "at_risk[40].face",
+    "summary.at_risk_faces[7]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/replaycensus_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[28].face",
+    "faces[28].template_forms.name"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-29.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "blocks[8].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/basisrecovery_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-30.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[213].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/decoyresolve_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-30.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[11].path"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/gatetol_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-30.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[49].face",
+    "moved_faces[29].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/orphangateface_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-30.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "census.manifest.selected_files[271][0]",
+    "census.faces_seen[225]",
+    "faces[225].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/printcov_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-30.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[193].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/quantityname_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-30.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "rows[193].face"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/reachwide_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-30.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "controls[63].face",
+    "at_risk[41].face",
+    "summary.at_risk_faces[8]"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/replaycensus_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-30.json"
+  },
+  {
+   "keys_naming_the_target": [
+    "faces[29].face",
+    "faces[29].template_forms.name"
+   ],
+   "kind": "MEASURED_SUBJECT",
+   "pointer": "results/state_tilt/templateparam_latest.json",
+   "target": "results/state_tilt/REPRO-2026-10-30.json"
+  }
+ ],
+ "pointer_files": [
+  "results/state_tilt/banddeflate_latest.json",
+  "results/state_tilt/gateoperands_latest.json",
+  "results/state_tilt/gatetol_latest.json"
+ ],
+ "rules": {
+  "UNEXPLAINED": "the basename is present and no key accounts for it (must be 0)",
+  "citation": "the face appears only under a provenance key (source_faces/upstream/inputs)",
+  "consumer_names_the_pointer_and_never_shows_the_parameter": "the source names the pointer and never surfaces the cutoff",
+  "consumer_surfaces_the_parameter_out_of_the_pointer": "the source names the pointer and subscripts a cutoff key",
+  "measured_subject": "the face appears inside a census result, which measures it",
+  "pointer": "the pointer's parsed content equals the dated face, or is a copy of the same study at another vintage -- decided on content, never on substring",
+  "population": "every sibling *latest*.json E326's helper returns for a parameterised face",
+  "this_source_declares_the_pointer": "the source writes the pointer file"
+ },
+ "study": "E327_who_reads_a_face_through_a_pointer",
+ "summary": {
+  "consumers": 5,
+  "consumers_by_class": {
+   "consumer_names_the_pointer_and_never_shows_the_parameter": 2,
+   "consumer_surfaces_the_parameter_out_of_the_pointer": 2,
+   "this_source_declares_the_pointer": 1
+  },
+  "delta_faces_vs_upstream": 8,
+  "delta_pointers_vs_upstream": 0,
+  "distinct_pointer_files": 3,
+  "faces_in_population": 20,
+  "faces_with_a_real_pointer": 3,
+  "overcount_factor": 4766.67,
+  "pairs": 143,
+  "pairs_by_class": {
+   "CITES_AS_INPUT": 3,
+   "MEASURED_SUBJECT": 137,
+   "POINTER_IDENTICAL": 3,
+   "POINTER_SAME_STUDY": 0,
+   "UNEXPLAINED": 0
+  },
+  "pairs_that_are_not_pointers": 140,
+  "readers_that_do_not_surface_the_cutoff": 2,
+  "real_pointers": 3,
+  "real_pointers_carrying_the_parameter": 3,
+  "real_pointers_that_do_not_carry_it": 0,
+  "upstream_claimed_faces_reachable_through_a_pointer": 11,
+  "upstream_claimed_pointers_naming_a_face": 143
+ },
+ "title": "who reads a parameterised face through a *_latest pointer, and whether the parameter survives the indirection",
+ "upstream": "TEMPLATEPARAM-2026-10-31.json",
+ "verdict": "the_parameter_survives_one_indirection_in_content_but_some_reader_quotes_the_pointer_without_surfacing_the_cutoff",
+ "verdict_reason": "all 3 real pointers carry the parameter in content, but 2 of 5 consumer sources name a pointer and never surface its cutoff"
+}

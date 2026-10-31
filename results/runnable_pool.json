@@ -26052,8 +26052,26 @@
    "priority": 3,
    "question": "E326 found 0 consumers that quote a template face without its parameter, but 11 of its 20 parameterised faces are reachable through 143 *_latest.json pointers in their own directories. A reader that opens a pointer never sees a date in a file name at all: which published numbers are read through a pointer, and does the pointer's content republish the face it names (so the parameter survives one indirection), or does the number's provenance stop at a file whose name says 'latest'?",
    "source": "E326 TEMPLATEPARAM-2026-10-31 (summary.faces_reachable_through_a_latest_pointer=11, latest_pointers_naming_a_parameterised_face=143)",
+   "status": "done",
+   "target": "every consumer of a *_latest*.json pointer that names one of E326's parameterised faces, against the pointer's own content and the consumer's parameter handling",
+   "owner": "bm-b",
+   "closed_at": "2026-11-01T03:5x+08:00",
+   "result_ref": "results/state_tilt/POINTERREAD-2026-11-01.json",
+   "result_note": "143 pairs / 3 real pointers / 140 censuses-or-citations; the 3 carry evidence_cutoff so the parameter survives one indirection; 3 of 5 consumer sources never surface it"
+  },
+  {
+   "id": "E328-WHICH-PUBLISHED-NUMBER-CARRIES-NO-CUTOFF-AT-ALL",
+   "lane": "cpu-only",
+   "priority": 3,
    "status": "ready",
-   "target": "every consumer of a *_latest*.json pointer that names one of E326's parameterised faces, against the pointer's own content and the consumer's parameter handling"
+   "owner": null,
+   "owner_since": null,
+   "entered_at": "2026-11-01T03:5x+08:00",
+   "question": "E326 measured whether a consumer carries the parameter of a face it names and E327 measured whether a pointer republishes it. Neither asked the last question: of the numbers actually quoted out of faces (not the faces, the numbers), which ones are read from a face whose own evidence_cutoff is older than the newest cut of the same family on disk -- a stated cutoff, but a stale one.",
+   "target": "every quote of a numeric key read from a face whose evidence_cutoff is not the max cutoff available for that family in the tree",
+   "deliverable": "results/state_tilt/<face> + scripts/e328_*.py + chain leg + smoke leg + methodology card",
+   "source": "E327 POINTERREAD-2026-11-01 (all 3 real pointers carry the parameter; the staleness of the parameter itself was out of scope)",
+   "notes": "seeded by r1347 bm-b at E327 close; supply floor stays breached honestly (ready 1 of floor 3)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
