@@ -4525,6 +4525,14 @@ The one scope decision is stated rather than hidden: `results/_*` are raw diff c
 six of them hold 103 unbalanced marker lines by design, so the scan skips them by the
 repo's own underscore convention rather than by naming the six.
 
+**Second live case (2026-10-31 r1188 bm-a):** the same class recurred in the r1381 landing
+(commit 24e881c5a5 put ||||||| parent of 552f00ce84 at line 7320 of this file, again by the
+rebase path) and the balance scan above is what found it, ~50 min later, as a red smoke leg.
+Nothing new was needed: the detector was the fix and it fired. What this second case buys is
+the escalation rule -- when the same defect lands twice, the assertion is the deliverable and
+the deletion is only cleanup.
+
+
 Face: smoke leg `config: no tracked blob carries a conflict-marker fragment`, ~1.5s (one
 `git grep -l` plus a `git show` per candidate file). Live reading 0 fragments at HEAD
 0034e48e9 and 1 at c07483b9 (the ledger) -- the gate is red exactly on the case it was

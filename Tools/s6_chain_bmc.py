@@ -362,6 +362,17 @@ LEGS = [
     ("etf_book_atlas_toll_ladder",
      ["python", "scripts/etf_book_atlas_toll_ladder.py", "--check"],
      ["python", "scripts/etf_book_atlas_toll_ladder.py", "run"]),
+    # r1188 bm-a: every published number for this book is one CAGR, and nothing said which part
+    # of the day earns it -- the overnight leg the old book keeps while the order is pending, the
+    # session leg the new book earns after the fill, the quiet bars, or the toll. This leg walks
+    # the SAME Forward state machine with four log buckets (identity to Forward is a selftest leg,
+    # so the attribution cannot drift from the engine) and the chain only recounts the published
+    # arithmetic: buckets must sum to the total, per-bar x bars must reproduce each bucket, and the
+    # two headline sentences (plain carry minus fill-bar drag) must equal that total. Reads one
+    # JSON, ~0.1s; the run costs a ~20s panel build.
+    ("etf_book_leg_attribution",
+     ["python", "scripts/etf_book_leg_attribution.py", "--check"],
+     ["python", "scripts/etf_book_leg_attribution.py", "run"]),
     # r1362: E275's one sign-stable direction (wider = better) was measured inside one grid on
     # one panel. This leg re-asks it on the E198 18-name cross and rebuilds the verdict from the
     # stored arm summaries, so a hand-edited verdict or a rung that never traded is red. It also

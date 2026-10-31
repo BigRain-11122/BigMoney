@@ -4160,6 +4160,50 @@ def main() -> int:
     except Exception as e:
         check("product: the dashboard says which bar the three papers were priced on",
               False, repr(e)[:160])
+    # ---- r1188: the book's CAGR is split by leg, and the split has to close ------------
+    # Every published number for this book is one CAGR. The new face says where the day's
+    # money is earned (overnight while the order is pending / intraday after the fill /
+    # quiet bars / toll) by walking the SAME Forward state machine with four log buckets.
+    # The leg does not re-run the walk (that is a 20s panel build); it demands that the
+    # published arithmetic CLOSE, and it proves the checker is not vacuous by feeding it
+    # three doctored copies that must each be rejected.
+    try:
+        _bad49 = []
+        import etf_book_leg_attribution as _LA49
+        _p49 = os.path.join(PATHS.results_dir, "etf_book_legs", "latest.json")
+        if not os.path.exists(_p49):
+            _bad49.append("results/etf_book_legs/latest.json missing")
+        else:
+            with open(_p49, encoding="utf-8") as _fh49:
+                _f49 = json.load(_fh49)
+            if (_f49.get("config") or {}).get("buckets") != list(_LA49.BUCKETS):
+                _bad49.append("face does not echo its own bucket list")
+            _bad49.extend(_LA49.check_face(_f49))
+            import copy as _cp49
+            _doctored = []
+            _d1 = _cp49.deepcopy(_f49)
+            _d1["arms"]["production"]["buckets_pp_per_year"]["plain"] += 1.0
+            _doctored.append(("buckets that do not sum", _d1))
+            _d2 = _cp49.deepcopy(_f49)
+            _d2["arms"]["production"]["per_bar_bp"]["plain"] += 1.0
+            _doctored.append(("a per-bar reading that contradicts its bucket", _d2))
+            _d3 = _cp49.deepcopy(_f49)
+            _d3["arms"]["production"]["fill_bar_drag_pp_per_year"] *= -1.0
+            _doctored.append(("a drag that disagrees in sign with the net", _d3))
+            for _lab49, _doc49 in _doctored:
+                if not _LA49.check_face(_doc49):
+                    _bad49.append("checker accepted a face with %s" % _lab49)
+        _pr49 = ((_f49.get("arms") or {}).get("production") or {}) if os.path.exists(_p49) else {}
+        check("product: the book's CAGR is split into overnight / intraday / quiet / toll and "
+              "the split closes to the same total",
+              not _bad49, "; ".join(_bad49)[:220]
+              or ("production %.2fpp/yr = plain %+.2f + fill drag %+.2f (bars %d/%d/%d)"
+                  % (_pr49.get("total_log_pp", 0.0), _pr49.get("plain_carry_pp_per_year", 0.0),
+                     _pr49.get("fill_bar_drag_pp_per_year", 0.0), _pr49.get("fill_bars", 0),
+                     _pr49.get("plain_bars", 0), _pr49.get("seed_bars", 0))))
+    except Exception as e:
+        check("product: the book's CAGR is split into overnight / intraday / quiet / toll and "
+              "the split closes to the same total", False, repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
         _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")
