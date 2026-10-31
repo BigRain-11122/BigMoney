@@ -91,6 +91,22 @@ def _write_pool_double(shared_path, lane_path, pool_obj):
         os.replace(tmp2, lane_path)
 
 
+# A prereg that carries one of these is a finished judgement, not supply.
+# Kept deliberately short and literal: these are the words the two live
+# closed rows actually use (W3 已判决关单 / W11 RETRACTED 撤回), and a wider
+# vocabulary would start refusing live rows for narrative reasons.
+CLOSED_MARKERS = ("已判决", "关单", "RETRACTED", "撤回", "判负终局")
+
+
+def _closed_marker(text):
+    """Return the closed marker found in `text`, else ''. r1381."""
+    up = (text or "").upper()
+    for marker in CLOSED_MARKERS:
+        if marker.upper() in up:
+            return marker
+    return ""
+
+
 def _gate_pass(gate, machine_id, pool, cand_runner=None):
     """Catalog gate: list of requirement strings, all must hold.
 
@@ -104,7 +120,13 @@ def _gate_pass(gate, machine_id, pool, cand_runner=None):
                                               must be free of draft markers
                                               (非冻结/冻结挂起/禁按本稿/起草中/
                                               草稿面) -- W5 draft-head
-                                              convention, r176 calibration
+                                              convention, r176 calibration;
+                                              a frozen prereg whose status
+                                              line marks it closed/retracted
+                                              (已判决/关单/RETRACTED/撤回) is
+                                              refused as DECIDED, never supply
+                                              (r1381 SLOT-3 judged-negative
+                                              live case)
       runner_exists                        -- the candidate's own runner file
                                               must exist (no ignition of an
                                               unbuilt runner)
@@ -131,10 +153,28 @@ def _gate_pass(gate, machine_id, pool, cand_runner=None):
             # frozen prereg and starved the supply floor).
             m = re.search(r"【状态[:：]([^】]*)】", head)
             if m:
-                if "FROZEN" not in m.group(1).upper():
+                status_txt = m.group(1)
+                if "FROZEN" not in status_txt.upper():
                     return False, "prereg not frozen (status=%s): %s" % (
-                        m.group(1)[:40], p)
+                        status_txt[:40], p)
+                # r1381: frozen is not open. A prereg whose own status line
+                # says it was adjudicated closed (已判决关单 / judged-negative)
+                # or retracted is a DECISION, not supply -- enqueuing it burns
+                # a family whose parameters are already known to be negative.
+                # Live case: INNOVATION-QUOTA-SLOT-3 (HIGHERMOM-TIMING-P1
+                # judged-negative 0/3, r240) was held out of the pool only by
+                # the consumer_plan schema field -- one glance at the board
+                # said "add a consumer plan", which would have re-burned a
+                # closed family. Status-line authority (r189) applies: the
+                # narrative may mention 撤回 as history, the status field is
+                # the live state.
+                closed = _closed_marker(status_txt)
+                if closed:
+                    return False, "prereg closed (%s): %s" % (closed, p)
             else:
+                closed = _closed_marker(head)
+                if closed:
+                    return False, "prereg closed (%s): %s" % (closed, p)
                 for marker in ("非冻结", "冻结挂起", "禁按本稿", "起草中", "草稿面"):
                     if marker in head:
                         return False, "prereg draft-pending (%s): %s" % (marker, p)
@@ -339,6 +379,31 @@ def selftest():
             f.write("# t\n> 本件为草稿面，尚未冻结\n")
         okc, whyc = _gate_pass(["prereg_frozen:" + os.path.abspath(fc)], "bm-c", {"entries": []})
         assert not okc and "draft-pending" in whyc, whyc
+        # r1381 closed-family refusal: a FROZEN prereg whose status line says
+        # the family was adjudicated closed or retracted is a decision, not
+        # supply. Three legs: (d) judged-negative status refused, (e) RETRACTED
+        # status refused, (f) narrative mention of 撤回 under a FROZEN status
+        # still passes (r189 status-line authority -- history is not state).
+        fd = os.path.join(tmp, "d_prereg.md")
+        with open(fd, "w", encoding="utf-8") as f:
+            f.write("# t\n> 状态：**已判决关单（judged-negative 0/3）**\nbody\n")
+        okd, whyd = _gate_pass(["prereg_frozen:" + os.path.abspath(fd)], "bm-c", {"entries": []})
+        assert not okd and "prereg closed" in whyd, whyd
+        fe = os.path.join(tmp, "e_prereg.md")
+        with open(fe, "w", encoding="utf-8") as f:
+            f.write("# t\n> **状态：RETRACTED（撤回·烧前反重复拦截）**\nbody\n")
+        oke, whye = _gate_pass(["prereg_frozen:" + os.path.abspath(fe)], "bm-c", {"entries": []})
+        assert not oke and "prereg closed" in whye, whye
+        ff = os.path.join(tmp, "f_prereg.md")
+        with open(ff, "w", encoding="utf-8") as f:
+            f.write("# t\n> 【状态：FROZEN——跑前冻结】前史：同族曾撤回一次，本件为独立新族\n")
+        okf, whyf = _gate_pass(["prereg_frozen:" + os.path.abspath(ff)], "bm-c", {"entries": []})
+        assert okf, whyf
+        # live anchor: the row that starved nothing and would have re-burned a
+        # closed family is refused for the RIGHT reason (not for schema).
+        okl, whyl = _gate_pass(["prereg_frozen:research/INNOVATION_QUOTA_W3_PREREG.md"],
+                              "bm-c", {"entries": []})
+        assert not okl and "prereg closed" in whyl, whyl
         # gate check: runner_exists on unbuilt runner refused, built runner passes
         okr, whyr = _gate_pass(["runner_exists"], "bm-c", {"entries": []}, "scripts/__nope__.py")
         assert not okr and "runner not built" in whyr

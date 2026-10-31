@@ -7313,3 +7313,28 @@ scripts/etf_book_order.py::priced_face_check quotes it (selftest 79/79, legs 26b
 own block; smoke_test.py leg "the three papers print the day each was priced on, and can disagree"
 now checks all three papers. (Card number: bm-c took E300 at r1380, so this one moved to E301 per the
 collision rule -- card ids live only in this ledger, so the references moved with it.)
+||||||| parent of 552f00ce84 (round 1381: a supply gate said 'missing a schema field' about a family its own prereg calls judged-negative)
+
+## E302 - 供给阶梯把「已关单的家族」读成「缺一个 schema 字段」
+
+**症状**：Tools/fill_ladder.py 的供给阶梯在池空时打印唯一一行阻断：
+「INNOVATION-QUOTA-SLOT-3 (consumer_plan missing ...)」。这一行的字面意思是
+「补一个 consumer_plan 就有活了」——而该条目的 prereg 自己的状态行写着
+**已判决关单（judged-negative 0/3）**。一个读者照着这行做，就会把同一个
+zoo #95 族、同一套冻结参数、同一组格子再烧一遍，产出第二次同名判决。
+
+**根因**：prereg_frozen 闸只问了两件事——文件在不在、头部有没有**草稿**标记。
+关单与撤回不是草稿标记：它们是**结论**。于是「冻结」被当成「可烧」，能拦住它
+的只剩 consumer_plan 这个跟科学无关的 schema 字段。这正是本仓反复记录的形态：
+**闸通过的理由不是它想测的那个理由**。
+
+**修法**：状态行（r189 权威面）出现 已判决/关单/RETRACTED/撤回/判负终局 -> 拒，
+理由写作 prereg closed (已判决)。叙述里提到「曾撤回」而状态是 FROZEN 的照旧通过
+——历史不是状态。
+
+**可证伪**：自检四条腿。已判决状态拒 / RETRACTED 状态拒 / FROZEN 状态但叙述含
+撤回仍过 / 真实的 W3 prereg 被**以关单为理由**拒（不是以 schema 为理由）。现场跑
+一次阶梯，阻断行从「缺字段」变成「已关单」。
+
+**局限（写明）**：闸只认这五个字面，别族的关单词汇仍可能漏；真正的重开通道是写
+新 prereg，阶梯不做语义推断。
