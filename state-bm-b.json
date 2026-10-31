@@ -397,7 +397,7 @@
   "group origin c53dc000b: cph4/fleet/queue-receipts/OB-20261031-182307-132-bm-b.json + OB-20261031-174059-609-bm-b.json"
  ],
  "push": "machine/bm-b-r1298",
- "push_note": "receipts delivered to group origin main c53dc000b via CAS surgery (temp index, commit-tree, push sha:refs/heads/main after one non-ff retry)",
+ "push_note": "r1338 delivered to machine/bm-b-r1338 @ 33fe4b0c1 (verified remote==local); main push not attempted (standing divergence, r1243/r1255 family)",
  "push_receipt_pending": false,
  "push_receipts_r1049": {
   "ahead": 0,
@@ -3117,6 +3117,13 @@
    "max_transitive_closure": 37,
    "studies": 45
   },
+  "delivery": {
+   "behind_origin_main": 205,
+   "branch": "machine/bm-b-r1338",
+   "local_not_on_origin_main": 137,
+   "pushed_sha": "33fe4b0c1c95966134ac3648ac2a939b924f1f53",
+   "verified": true
+  },
   "dept": "research+engineering",
   "face": "results/state_tilt/SELFINCLUSION-2026-10-31.json",
   "finding": "45 study faces, 31 of them censuses; 256 structured row arcs of which 120 are census->census; NO declared exclusion list reaches any of those 120 arcs (19 censuses declare nothing at all, 8 guard only their own two filenames, and the one family-prefix face -- E317 -- still counts 7 censuses outside its window). 22 censuses are counted as rows by a later census; max in-degree 14; max transitive closure 37 (82% of the programme). The guard on every face is a filename list, and 'is this face itself a census' is not a filename property.",
@@ -3142,6 +3149,16 @@
   "ts": "2026-10-31T23:16:55+08:00",
   "verdict": "every_census_counts_other_censuses_and_the_only_declared_guard_is_a_filename_list_that_cannot_express_is_a_census",
   "watermark_red": "pool-batch-red at open (1 ready = E319, py idle, saturation engine rc=0 idle, compute_audit flags supply_gap/supply_floor ready 1 / floor 3) -- burned the ready head E319 in-round"
+ },
+ "r1338_push": {
+  "behind_origin_main": 205,
+  "branch": "machine/bm-b-r1338",
+  "local_not_on_origin_main": 137,
+  "main_push_blocker": "local main has diverged from origin/main for many rounds (promisor lazy fetch wedges before negotiation, r1255 family); main push not attempted, no unattended rebase per r1243",
+  "pushed_sha": "33fe4b0c1c95966134ac3648ac2a939b924f1f53",
+  "remote_ref_sha": "33fe4b0c1c95966134ac3648ac2a939b924f1f53",
+  "ts": "2026-10-31T23:18:41+08:00",
+  "verified": true
  },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
