@@ -3293,6 +3293,14 @@
   "verdict": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_newer_cut"
  },
  "r1350": {
+  "delivery": {
+   "branch": "machine/bm-b-r1350",
+   "local_not_on_origin_main": 160,
+   "main_push_blocker": "local main has diverged from origin/main for many rounds (promisor lazy fetch wedges before negotiation, r1255 family); not attempted, no unattended rebase per r1243",
+   "pushed_sha": "21bda513d0b1762ad5610be4c9139a1c0bfe0c9b",
+   "ts": "2026-11-01T05:16:00+08:00",
+   "verified": "local HEAD == remote ref (git ls-remote origin refs/heads/machine/bm-b-r1350)"
+  },
   "dept": "research+engineering",
   "face": "results/state_tilt/UNPINNEDCHOICE-2026-11-01.json",
   "finding": "2,284 sources / 646k code lines carry exactly one construct that picks between two references to one family: e242's _face_file (pointer first, pinned 2026-10-29 second). It is unpinned -- no assertion in its own selftest region or in the chain/smoke files names _face_file. Per stem: owncross and sharediff hold a 2026-10-30 pointer, so a swapped order returns 2026-10-29 today; AGGATT's pointer and fallback agree; per_member_gamma's pinned branch names a cut that is not on disk and returns None. Zero argparse defaults name a face (39 add_argument lines seen), zero functions carry a mutable default, and 34 `or` lines offering a face on one side only are rejected and published rather than dropped.",
@@ -3347,16 +3355,16 @@
  "status": "green",
  "study": "E330_unpinned_choice",
  "sync": {
-  "ahead": 158,
+  "ahead": 160,
   "behind_origin_main": 206,
   "branch": "main",
   "peer": "origin",
-  "ts": "2026-11-01T04:35:03+08:00"
+  "ts": "2026-11-01T05:16:00+08:00"
  },
  "task": "r1350 E330: the tree makes one two-reference decision (e242's _face_file) and no assertion pins it; swapping its order returns a cut one vintage older today",
  "task_short": "r1350 E330 unpinned choice",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-11-01T05:10:00+08:00",
+ "ts": "2026-11-01T05:16:00+08:00",
  "ts_utc_ms": 1793474610481,
  "updated": "2026-11-01T05:10:00+08:00",
  "updated_at": "2026-11-01T05:10:00+08:00",
