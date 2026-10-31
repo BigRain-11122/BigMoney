@@ -88,7 +88,13 @@
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "delivery": {
   "branch": "machine/bm-b-r1341",
-  "note": "push recorded below"
+  "local_main_ahead_of_origin": 144,
+  "local_main_behind_origin": 205,
+  "main_push_blocker": "local main diverged from origin/main for many rounds (promisor lazy fetch wedges before negotiation, r1255 family); main push not attempted, no unattended rebase per r1243",
+  "pushed_sha": "a7fcbe2cab310b55ed53c5aa67a61bd7cdc58264",
+  "remote_ref_sha": "a7fcbe2cab310b55ed53c5aa67a61bd7cdc58264",
+  "ts": "2026-11-01T00:29:36+08:00",
+  "verified": true
  },
  "delivery_note": "main-branch push is not attempted: a bounded attempt has hung in promisor lazy-fetch for thirteen consecutive rounds (r1255..r1295 family), so the machine branch is the delivery channel until it clears",
  "dept": "research+engineering",
