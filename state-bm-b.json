@@ -3049,7 +3049,7 @@
   ],
   "s1": "the full 330-leg suite was not re-run this window (~35 min); the new E315 leg was extracted from smoke_test.py and executed standalone against the published face: PASS",
   "s6": "orphan face probe py_faces=7 orphans=0 residents=0 | dualrun ZERO-DRIFT 805 entries streak 51 rc=0 | pool_deliverable rc=0 closed=0 skipped=1 | compute_audit rc=0 | py_watermark rc=0 | clamped_gate_census rc=0 0.10s | leg_epsilon_vs_flat_regime rc=0 0.05s (results/_r1334bmb_s6_chain.json); lane collectors and attrition guard not re-run this window (wall budget, stated plainly)",
-  "s7": "Bigmoney-IterationLoop / Bigmoney-LoopWatchdog / Bigmoney-SatEngine-bm-b left to their own ticks this window (saturation engine status rc=0 idle, no drift observed); pre-commit and pre-push claws present and untouched",
+  "s7": "s7: Bigmoney-IterationLoop no-op at its pinned slot (pin=2, next fire 20:17:00); Bigmoney-LoopWatchdog re-registered through register_watchdog_task.ps1 (S4U, SWA=false, first fire 20:15:00); Bigmoney-SatEngine-bm-b / Bigmoney-Autofill / Bigmoney-IntradayMarks all present in the full schtasks table; pre-commit and pre-push claws present and untouched; attrition guard scan CLEAN (4 ledger files, no active loss)",
   "orders": "114 order files / 115 acks / 0 unacked at this window's scan",
   "pool": "E315 done with result_ref; E316-GATE-PRINT-REQUIREMENTS seeded ready (806 entries, 1 ready)",
   "identity": "identity_checks 18/18 ALL PASS",
@@ -3071,7 +3071,10 @@
    "main_push_blocker": "the local main has diverged from origin/main for many rounds (promisor lazy fetch wedges before negotiation, r1255 family); main push not attempted, no unattended rebase per r1243",
    "ts": "2026-10-31T20:13:00+08:00",
    "note": "12 files staged (producer, both faces, digest, methodology card, two wiring files, the pool, state, heartbeat, round report, orphan probe face); the ~620 dirty tracked files left by collectors and prior windows were not swept in. First commit rewrote five files end-to-end (text-mode writes on Windows emit CRLF into LF blobs); normalised back to each file's own blob convention and amended, so the final diff is 39 lines on the card and 29/2 on the pool instead of 6,437/6,398 and 25,811/25,784"
-  }
+  },
+  "s7_correction": [
+   "earlier text claimed nothing was re-registered: Bigmoney-IterationLoop / Bigmoney-LoopWatchdog / Bigmoney-SatEngine-bm-b left to their own ticks this window (saturation engine status rc=0 idle, no drift observed); pre-commit and pre-push claws present and untouched"
+  ]
  },
  "notes_r1334": "| 2026-10-31T20:10:05+08:00 | r1334 | **watermark: pool-batch red at open (E315 ready, py idle) -- burned the ready head E315 in-round** | E315 leg epsilon vs flat regime published: 4 of 5 quantity-dependent legs demand exact equality so the gate is looser at every published magnitude, and the fifth crosses at 5e-07 units of session_open. **CURRENT:** E315 done. **LATEST PHYSICAL:** results/state_tilt/LEGEPS-2026-10-31.json. **NEXT MILESTONE:** E316 gate print requirements (ready, runner not written; due next round, within 48h). **PRODUCT:** neither face carries the quantity its gate is rated in, so the two-regime arithmetic cannot be exercised by any reader of either face."
 }
