@@ -2612,6 +2612,22 @@
     8580,
     8581
    ]
+  },
+  {
+   "index": 327,
+   "name": "product: a leg is not at-risk from a gate the producer only declares -- and the one band that survives scope is name-fragile",
+   "lines": [
+    8582,
+    8627
+   ]
+  },
+  {
+   "index": 328,
+   "name": "product: a leg is not at-risk from a gate the producer only declares -- and the one band that survives scope is name-fragile",
+   "lines": [
+    8643,
+    8644
+   ]
   }
  ],
  "sites": [
@@ -5130,6 +5146,41 @@
    "at_risk_faces": [],
    "at_risk": false,
    "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 327,
+   "leg": "product: a leg is not at-risk from a gate the producer only declares -- and the one band that survives scope is name-fragile",
+   "line": 8610,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "pairs",
+    "rows_leg_looser",
+    "rows_leg_tighter_or_exact",
+    "rows_no_leg_tolerance"
+   ],
+   "faces_named": [
+    "results/state_tilt/gatetol_latest.json"
+   ],
+   "expression": "_c99.get('pairs') != len(_f99.get('rows_leg_tighter_or_exact') or []) + len(_f99.get('rows_leg_looser') or []) + len(_f99.get('rows_no_leg_tolerance') or [])",
+   "key_profiles": [
+    {
+     "key": "pairs",
+     "n_values": 1,
+     "n_integral": 1,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/gatetol_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
   }
  ],
  "at_risk": [
@@ -6125,6 +6176,32 @@
    "declares_its_precision": false,
    "declared_precision_keys": []
   },
+  "results/state_tilt/gatetol_latest.json": {
+   "face": "results/state_tilt/gatetol_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 69,
+   "decimals_histogram": {
+    "0": 9,
+    "1": 14,
+    "3": 7,
+    "6": 4,
+    "7": 1,
+    "9": 4,
+    "13": 3,
+    "14": 2,
+    "15": 4,
+    "16": 3
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/rows_leg_looser/1/leg_share_of_gate",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
   "results/state_tilt/granularity_latest.json": {
    "face": "results/state_tilt/granularity_latest.json",
    "exists": true,
@@ -6481,15 +6558,15 @@
  },
  "measured_pairs": {},
  "summary": {
-  "legs_in_smoke_test": 326,
-  "n_numeric_face_sites": 62,
-  "legs_with_a_numeric_face_site": 42,
+  "legs_in_smoke_test": 328,
+  "n_numeric_face_sites": 63,
+  "legs_with_a_numeric_face_site": 43,
   "by_kind": {
    "epsilon": 39,
-   "exact_equality": 21,
+   "exact_equality": 22,
    "quantized_equality": 2
   },
-  "faces_read_by_legs": 42,
+  "faces_read_by_legs": 43,
   "names_that_are_templates_not_faces": [
    "results/dom_profile/PROFILE-*.json",
    "results/state_tilt/BANDPATH-%s.json",
@@ -6521,6 +6598,7 @@
    "results/state_tilt/bandtransfer_latest.json",
    "results/state_tilt/bandwinmult_latest.json",
    "results/state_tilt/bookecho_latest.json",
+   "results/state_tilt/gatetol_latest.json",
    "results/state_tilt/granularity_latest.json",
    "results/state_tilt/hysteresis_latest.json",
    "results/state_tilt/infostruct_latest.json",
@@ -6568,7 +6646,7 @@
   "n_cross_face_key_rows": 7,
   "n_cross_face_rows_exceeding_tolerance": 7,
   "cross_face_disclosure": "the same key name in two faces is not evidence of the same quantity; the gap is published as a distance so a reader can tell a copy pair from two unrelated studies that happen to share a name. A gap above the tolerance is read as 'same name, different quantity', never as a defect count.",
-  "statement": "42 leg(s) carry a numeric comparison against a published face; 29 of them compare at a tolerance finer than the quantum the field they read is printed with (21 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 42 face(s) read, 37 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects."
+  "statement": "43 leg(s) carry a numeric comparison against a published face; 29 of them compare at a tolerance finer than the quantum the field they read is printed with (21 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 43 face(s) read, 38 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects."
  },
  "identity_check": {
   "kind_partition_sums_to_sites": true,
@@ -6582,6 +6660,6 @@
   "all_checks": true
  },
  "verdict": "legs_compare_face_values_finer_than_the_faces_print",
- "verdict_reason": "42 leg(s) carry a numeric comparison against a published face; 29 of them compare at a tolerance finer than the quantum the field they read is printed with (21 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 42 face(s) read, 37 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects.",
- "generated": "2026-10-31T17:22:34"
+ "verdict_reason": "43 leg(s) carry a numeric comparison against a published face; 29 of them compare at a tolerance finer than the quantum the field they read is printed with (21 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 43 face(s) read, 38 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects.",
+ "generated": "2026-10-31T18:30:07"
 }
