@@ -9435,6 +9435,70 @@ def main() -> int:
     except Exception as e:
         check(_name309, False, repr(e)[:160])
 
+    # E325: every study from E321 to E324 took the FACE for granted. This leg asks the layer
+    # under them -- which gate rows read a face no source can produce -- and refuses a face whose
+    # published ladder disagrees with a fresh re-derivation. The published lookup is disclosed as
+    # an instrument, not a rung: it credits a bare mention through its stem fallback, so it
+    # reports FEWER writer-less rows than a writer-evidence rule does.
+    _name311 = ("product: a gate whose face no source can produce is a face-level defect, and the "
+                "orphan count is a fact about a named rule")
+    _bad311 = []
+    try:
+        _p312 = os.path.join("results", "state_tilt", "orphangateface_latest.json")
+        _f312 = json.load(open(_p312, encoding="utf-8")) if os.path.exists(_p312) else None
+        if _f312 is None:
+            _bad311.append("no published orphan-face ladder")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m312 = __import__("importlib").import_module("e325_orphan_gate_faces")
+            _fresh312 = _m312.build()
+            if _f312.get("verdict") != _fresh312.get("verdict"):
+                _bad311.append("the verdict does not re-derive")
+            if _f312.get("verdict") not in (_m312.VERDICT_NONE, _m312.VERDICT_SOME,
+                                            _m312.VERDICT_EMPTY):
+                _bad311.append("verdict %r is outside the frozen set" % (_f312.get("verdict"),))
+            if _f312.get("verdict_reason") != _fresh312.get("verdict_reason"):
+                _bad311.append("the reason does not re-derive")
+            if _f312.get("by_rung") != _fresh312.get("by_rung"):
+                _bad311.append("a rung's counts do not re-derive")
+            _s312 = _f312.get("summary") or {}
+            if _s312.get("ladder_is_monotone_from") != _m312.RUNG_FULL:
+                _bad311.append("the published lookup is not disclosed as an instrument")
+            # the ladder is monotone from the second rung, and the published face must say so
+            _rows = [_s312["orphan_rows_by_rung"][r] for r in _m312.RUNGS[1:]]
+            if any(_rows[i + 1] > _rows[i] for i in range(len(_rows) - 1)):
+                _bad311.append("the writer-evidence ladder is not monotone: %s" % (_rows,))
+            # every face in the population is one the rows name -- no invented face, no dropped one
+            _up312 = json.load(open(os.path.join("results", "state_tilt", "reachwide_latest.json"),
+                                    encoding="utf-8"))
+            if (set(f.get("face") for f in _f312.get("faces") or [])
+                    != set(r.get("face") for r in _up312.get("rows") or [])):
+                _bad311.append("the face population is not the rows' own faces")
+            # an unresolved face is not an orphan and not a resolution: it must be published
+            # separately, or "0 orphans" reads as "every face is reproduced"
+            if _s312.get("unresolved_rows") is None:
+                _bad311.append("the named-but-unwritten residue is not published")
+            for _u312 in _s312.get("unresolved_faces_named_but_no_writer_shown") or []:
+                if not _u312.get("mentions_only"):
+                    _bad311.append("an unresolved face names no source")
+                    break
+            # a survivor must carry the writer that rescued it, else the rung is an assertion
+            for _f312r in _f312.get("faces") or []:
+                if (_f312r["class_by_rung"][_m312.RUNG_COMPOSED] != _m312.CLS_ORPHAN
+                        and not _f312r.get("evidence")):
+                    _bad311.append("a non-orphan face carries no evidence")
+                    break
+        check(_name311, not _bad311, "; ".join(_bad311)[:220]
+              or "%s | rows writer-less %s by rung, faces %s, unresolved %d rows"
+                 % (str((_f312 or {}).get("verdict")),
+                    json.dumps(((_f312 or {}).get("summary") or {}).get("orphan_rows_by_rung")
+                               or {}, ensure_ascii=False),
+                    json.dumps(((_f312 or {}).get("summary") or {}).get("orphan_faces_by_rung")
+                               or {}, ensure_ascii=False),
+                    ((_f312 or {}).get("summary") or {}).get("unresolved_rows") or 0))
+    except Exception as e:
+        check(_name311, False, repr(e)[:160])
+
     return _finish()
 
 

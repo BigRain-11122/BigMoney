@@ -778,6 +778,13 @@ LEGS = [
     ("unpublished_key_causes",
      ["python", "scripts/e324_unpublished_key_causes.py", "verify"]),
 
+    # E325: the layer under E321..E324 -- every one of those studies took the FACE for granted.
+    # 25 of 196 gate rows (12.76 pct) read a face with no writer under the published lookup; a
+    # writer-evidence rule reports 164, format templates 11, composed paths 0. Verify re-derives
+    # every rung's counts from the tree so the ladder cannot drift from its published face. ~22s.
+    ("orphan_gate_faces",
+     ["python", "scripts/e325_orphan_gate_faces.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

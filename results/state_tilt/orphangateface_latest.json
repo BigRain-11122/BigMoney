@@ -1,0 +1,5645 @@
+{
+ "by_rung": {
+  "R1_standard_needle": {
+   "absent_faces": 0,
+   "faces_total": 51,
+   "largest_orphan_rows": 22,
+   "orphan_face_names": [
+    "results/shortline/p1e_nulls_M_arc.json",
+    "results/shortline/p1e_nulls_M_close_tr.json",
+    "results/shortline/turnover_derivation.json",
+    "results/state_tilt/GATEOPERANDS-2026-10-31.json"
+   ],
+   "orphan_faces": 4,
+   "orphan_rows": 25,
+   "rows_total": 196,
+   "share_of_rows": 12.76
+  },
+  "R2_every_auditor_kept": {
+   "absent_faces": 0,
+   "faces_total": 51,
+   "largest_orphan_rows": 64,
+   "orphan_face_names": [
+    "results/_fund_divlowvol_p2_freeze_probe_local.json",
+    "results/etf_book_production/PRODUCTION-2026-10-27.json",
+    "results/etf_book_production/PRODUCTION-2026-10-28.json",
+    "results/etf_book_voltarget_lag.json",
+    "results/regime5_diag/REGIME5-DIAG-2026-09-30.json",
+    "results/regime5_diag/REGIME5-DIAG-2026-10-19.json",
+    "results/shortline/gtja191_ic.json",
+    "results/shortline/p1e_nulls_M_close.json",
+    "results/shortline/p1e_nulls_M_close_tr.json",
+    "results/shortline/p1e_synth.json",
+    "results/shortline/p1e_synth_parts.json",
+    "results/shortline/pb_synth.json",
+    "results/shortline/t11_negday_ic.json",
+    "results/shortline/turnover_derivation.json",
+    "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+    "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+    "results/state_tilt/BANDDRAW-2026-10-29.json",
+    "results/state_tilt/BANDEXP-2026-10-29.json",
+    "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+    "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+    "results/state_tilt/GATETOL-2026-10-31.json",
+    "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+    "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+    "results/state_tilt/PRECISIONGAP-2026-10-31.json"
+   ],
+   "orphan_faces": 24,
+   "orphan_rows": 164,
+   "rows_total": 196,
+   "share_of_rows": 83.67
+  },
+  "R3_plus_format_templates": {
+   "absent_faces": 0,
+   "faces_total": 51,
+   "largest_orphan_rows": 4,
+   "orphan_face_names": [
+    "results/etf_book_voltarget_lag.json",
+    "results/shortline/gtja191_ic.json",
+    "results/shortline/p1e_synth.json",
+    "results/shortline/p1e_synth_parts.json",
+    "results/shortline/pb_synth.json",
+    "results/shortline/t11_negday_ic.json",
+    "results/shortline/turnover_derivation.json",
+    "results/state_tilt/PRECISIONCENSUS-2026-10-30.json"
+   ],
+   "orphan_faces": 8,
+   "orphan_rows": 11,
+   "rows_total": 196,
+   "share_of_rows": 5.61
+  },
+  "R4_plus_composed_paths": {
+   "absent_faces": 0,
+   "faces_total": 51,
+   "largest_orphan_rows": 0,
+   "orphan_face_names": [],
+   "orphan_faces": 0,
+   "orphan_rows": 0,
+   "rows_total": 196,
+   "share_of_rows": 0.0
+  }
+ },
+ "corpus": {
+  "files": 2280,
+  "packages": [
+   "scripts",
+   "Tools",
+   "live",
+   "monitor",
+   "firm"
+  ],
+  "self_excluded": "e325_orphan_gate_faces.py"
+ },
+ "evidence_cutoff": "2026-10-31",
+ "faces": [
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "OUT"
+     },
+     "producer": "scripts/fund_divlowvol_p1_probe.py"
+    }
+   ],
+   "face": "results/_fund_divlowvol_p1_transfer_probe.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "recovery_known_answer.tolerance"
+   ],
+   "mentions_only": [
+    "scripts/fund_divlowvol_p1.py",
+    "scripts/science_gates.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_bare_literal"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 192,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "out.setdefault(\"segments\", {})[f\"{era}_{g}\"] = {",
+      "write_call": "open(OUT_PATH, \"w"
+     },
+     "producer": "scripts/a6_corr_regime_probe.py"
+    },
+    {
+     "evidence": {
+      "line": 418,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "offs[f\"plus_{k}\"] = {\"unavailable\": f\"no trading day in {target_m}\"}",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/alloc_backtest.py"
+    },
+    {
+     "evidence": {
+      "line": 588,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "**{f\"leaf_{k}\": leaves[k] for k in BASE_INPUTS})",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/alphagen_rg_census.py"
+    },
+    {
+     "evidence": {
+      "line": 519,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "leaves[k] = z[f\"leaf_{k}\"][:, sub]",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/alphagen_rl_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 198,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "tag = \"%06d\" % ym if s == \"%04d%02d01\" % (ym // 100, ym % 100) else \"%s_%s\" % (s, e)",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/backfill_ext_slots.py"
+    },
+    {
+     "evidence": {
+      "line": 923,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "label=f\"null_{k}\", firsts=firsts)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/bond_carry_w3a.py"
+    },
+    {
+     "evidence": {
+      "line": 135,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "col = \"is_%s_end\" % scope",
+      "write_call": "open(fd, \"w"
+     },
+     "producer": "scripts/build_trading_calendar.py"
+    },
+    {
+     "evidence": {
+      "line": 197,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "out[f\"roll_{w}d\"] = {",
+      "write_call": "open(OUT_PATH, \"w"
+     },
+     "producer": "scripts/census_588000_fullhist.py"
+    },
+    {
+     "evidence": {
+      "line": 936,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "np.save(os.path.join(td, f\"z_{bnm}.npy\"), np.zeros_like(z0))",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/census_fusion_s2_w2.py"
+    },
+    {
+     "evidence": {
+      "line": 127,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "assert all(f\"{s}_{a}\" in JUDGED_CELLS",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/cn_core_ddctl_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 437,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "f\"cell_{cell}_{face}\", tf, cost_fn)",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/cn_core_sat_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 735,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "cell = f\"W{w}_{'gate' if gate_on else 'bare'}\"",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/cn_div_lowvol_rot_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 533,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "payload[f\"ret_{cell}_{face}\"] = rec[\"returns\"].to_numpy(float)",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/cn_regime_policy_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 669,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "specs1.append((f\"null_{k:02d}\", null_sels[k],",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/cn_rev_tilt_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 771,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "jobs = [(f\"null_{k:04d}\", _null_sharpe, (k,)) for k in range(K_NULLS)]",
+      "write_call": "open(ATT_JSON + \".tmp\", \"w"
+     },
+     "producer": "scripts/cn_soe_etf_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 706,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "jobs = [(f\"null_{k:04d}\", _null_sharpe, (k,)) for k in range(K_NULLS)]",
+      "write_call": "open(ATT_JSON + \".tmp\", \"w"
+     },
+     "producer": "scripts/cn_trend_etf_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 655,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "wr.writerow([f\"null_{k}\", \"random\", \"r20\", \"null\", c[\"full\"][\"sharpe\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/cta_p1_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 386,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "wr.writerow([f\"null_{k}\", \"random\", \"r20\", \"null\", c[\"full\"][\"sharpe\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/cta_p2_noau.py"
+    },
+    {
+     "evidence": {
+      "line": 509,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "name = f\"legb_{bname}@{cap_name}\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/cta_wave1.py"
+    },
+    {
+     "evidence": {
+      "line": 316,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "k = sum(1 for c in full if c[f\"beat_{wname}\"])",
+      "write_call": "open(log_path, \"a"
+     },
+     "producer": "scripts/decision_chain_e2e.py"
+    },
+    {
+     "evidence": {
+      "line": 443,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "out[f\"ret_{wname}\"] = ret",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/decision_chain_v2.py"
+    },
+    {
+     "evidence": {
+      "line": 153,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "k = sum(1 for c in full if c[f\"beat_{wname}\"])",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/decision_chain_v3_tournament.py"
+    },
+    {
+     "evidence": {
+      "line": 15,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "applied to t+1, unit turnover pays one side, w_{-1} = 0 so entry pays a side).",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e228_matched_exposure.py"
+    },
+    {
+     "evidence": {
+      "line": 138,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "label = \"%04d_%s\" % (year, (ERA_STARTS[k + 1] - 1) if end_tag else str(dates[-1])[:4])",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e231_band_path_test.py"
+    },
+    {
+     "evidence": {
+      "line": 203,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "# On a balanced equal-weight book the TOTAL move is a date effect, so SUM_{-m} = total -",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e240_aggregate_attenuation.py"
+    },
+    {
+     "evidence": {
+      "line": 164,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "band = cell.get(\"band_%s\" % row) or {}",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e253_self_row_resolution.py"
+    },
+    {
+     "evidence": {
+      "line": 279,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "rec[\"edge_%s\" % leg] = median(vals)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e255_band_draw_starvation.py"
+    },
+    {
+     "evidence": {
+      "line": 179,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "vals = (cell or {}).get(\"edge_%s_per_seed\" % leg) or []",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e258_band_multiplier_per_window.py"
+    },
+    {
+     "evidence": {
+      "line": 235,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "rec[\"edge_%s_per_seed\" % leg] = vals",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e259_band_multiplier_distribution.py"
+    },
+    {
+     "evidence": {
+      "line": 428,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "name = FACE if not tag else FACE.replace(\".json\", \"_%s.json\" % tag)",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e278_spread_floor.py"
+    },
+    {
+     "evidence": {
+      "line": 471,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "name = FACE if not tag else FACE.replace(\".json\", \"_%s.json\" % tag)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e279_substitution_soundness.py"
+    },
+    {
+     "evidence": {
+      "line": 4402,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "cols[\"%s_%s\" % (name, which)] = (prof.get(which) or {}).get(\"month\")",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/e39_panel_census.py"
+    },
+    {
+     "evidence": {
+      "line": 495,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "key = \"n%d_%s\" % (n, lbl)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/etf_book_production.py"
+    },
+    {
+     "evidence": {
+      "line": 257,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "crossovers[\"n%d_%s\" % (r[\"breadth\"], struct)] = x",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/etf_breadth_sweep.py"
+    },
+    {
+     "evidence": {
+      "line": 135,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "m = metrics(sl, \"%s_%s\" % (tag, lbl))",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/etf_composite_decomp.py"
+    },
+    {
+     "evidence": {
+      "line": 490,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "m = metrics(sl, \"%srebal%d_%s\" % (\"nextopen_\" if basis == \"next_open\" else \"\", rebal, lbl))",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/etf_composite_pf.py"
+    },
+    {
+     "evidence": {
+      "line": 802,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "vt[f\"{wname}_{face_key}\"] = {\"n_starts\": 0, \"beat_rate\":",
+      "write_call": "open(fd, \"w"
+     },
+     "producer": "scripts/etf_ops_bp1.py"
+    },
+    {
+     "evidence": {
+      "line": 936,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "vt[f\"{wname}_{face_key}\"] = {",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/etf_ops_bp2.py"
+    },
+    {
+     "evidence": {
+      "line": 80,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "m = F.metrics(sl, \"%s_%s\" % (label, lbl))",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/etf_variants_open_yearly.py"
+    },
+    {
+     "evidence": {
+      "line": 384,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "roll[f\"worst_{yy}y\"] = float(r.min())",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/exclusion_marginal_scan.py"
+    },
+    {
+     "evidence": {
+      "line": 263,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "f\"rows_{la}\": len(rows_a),",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/fund_avail_face_impact.py"
+    },
+    {
+     "evidence": {
+      "line": 402,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "want = [f\"{c}__{f}\" for c in CELLS for f in FACES]",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/fund_divlowvol_p2_backtest.py"
+    },
+    {
+     "evidence": {
+      "line": 137,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "needle = \"fund_%s_p1.py\" % fam",
+      "write_call": "open(LOG, \"a"
+     },
+     "producer": "scripts/fund_nulls_gap_repair.py"
+    },
+    {
+     "evidence": {
+      "line": 1201,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "log = f\"{cell}_{face}\"",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/fund_quality_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 1125,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "log = f\"{cell}_{face}\"",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/fund_value_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 722,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "jobs = [(f\"{fam}__{sub}\", _cell_job, (fam, sub))",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/fusion_grid_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 502,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "labels = [\"%s_%s\" % (tag, lab) for tag, lb in LOOKBACKS.items()",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/futures_overlay_fliprate.py"
+    },
+    {
+     "evidence": {
+      "line": 100,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "specs.append({\"name\": \"loo_%s\" % v, \"close\": close.drop(columns=[v]),",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/futures_overlay_fliprate_paths.py"
+    },
+    {
+     "evidence": {
+      "line": 1099,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "vt[f\"{wname}_{face_key}\"] = {",
+      "write_call": "open(fd, \"w"
+     },
+     "producer": "scripts/grid_dualface_backtest.py"
+    },
+    {
+     "evidence": {
+      "line": 210,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "keys += [f\"null_{k}\" for k in range(K_NULLS)]",
+      "write_call": "open(RUNS_JSONL, \"a"
+     },
+     "producer": "scripts/im_ic_pair.py"
+    },
+    {
+     "evidence": {
+      "line": 184,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "randoms.append({\"name\": f\"rand_{tag}_p{p}_s{k}\", \"family\":",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/lfc_p1_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 643,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "chk(f\"members_{axis}\", ff[\"members\"] == 48, ff[\"members\"])",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/lowamp_deep_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 570,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "chk(f\"members_{axis}\", ff[\"members\"] == 48, ff[\"members\"])",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/lowamp_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 589,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "chk(f\"members_{axis}\", ff[\"members\"] == 48, ff[\"members\"])",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/lowamp_p2.py"
+    },
+    {
+     "evidence": {
+      "line": 614,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "chk(f\"members_{axis}\", ff[\"members\"] == 48, ff[\"members\"])",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/lowamp_p3.py"
+    },
+    {
+     "evidence": {
+      "line": 166,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "cells[d] = f\"{st}_{heatv}\"",
+      "write_call": "open(out_json, \"w"
+     },
+     "producer": "scripts/market_clock_backtest.py"
+    },
+    {
+     "evidence": {
+      "line": 329,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "cell = f\"{state}_{heatv}\" if (state and heatv) else \"UNDETERMINED\"",
+      "write_call": "open(md_path, \"w"
+     },
+     "producer": "scripts/market_clock_call.py"
+    },
+    {
+     "evidence": {
+      "line": 394,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "rec[f\"d6_{ref_name}\"] = {\"max_abs_corr\": mx, \"days\": n,",
+      "write_call": "open(out_json, \"w"
+     },
+     "producer": "scripts/mf_ic_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 351,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "\"state\": f\"winner_{winner[0]}\"}",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/mf_rot_backtest.py"
+    },
+    {
+     "evidence": {
+      "line": 412,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "randoms.append({\"name\": f\"rand_{tag}_p{p}_s{k}\", \"family\":",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/new_signal_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 128,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "(close[t+h] + sum_{t<d<=t+h} div_per_unit[d]) / close[t] - 1.\"\"\"",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/og1_overnight_ic.py"
+    },
+    {
+     "evidence": {
+      "line": 150,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "P[f\"list_{u}\"] = r[0] if isinstance(r, tuple) else r",
+      "write_call": "open(OUT, \"w"
+     },
+     "producer": "scripts/option_s3_audit_probe.py"
+    },
+    {
+     "evidence": {
+      "line": 821,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "wr.writerow([f\"null_{k}\", \"random\", \"\", \"weekly\", \"null\", c[\"full\"][\"sharpe\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/options_wave2.py"
+    },
+    {
+     "evidence": {
+      "line": 335,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "**{f\"oos_{k}\": v for k, v in r[\"oos\"].items()},",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/p1_strategy_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 251,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "ports[f\"{scheme}_{key}\"] = {",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/p3_portfolio.py"
+    },
+    {
+     "evidence": {
+      "line": 357,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "randoms.append({\"name\": f\"rand_{tag}_p{p}_s{k}\", \"family\":",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/p4_batch1_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 626,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "return [{\"key\": f\"null_{'ce' if ce else 'default'}_s{seed}\",",
+      "write_call": "open(OUT_JSON, \"w"
+     },
+     "producer": "scripts/p4_batch2_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 413,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "randoms.append({\"name\": f\"rand_{tag}_p{p}_s{k}\", \"family\":",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/p4_batch2a_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 270,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "return {\"key\": f\"null|{regime}|{k}\", \"name\": f\"rand_{regime}_p{p}_s{k}\",",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/p4_batch3_dca.py"
+    },
+    {
+     "evidence": {
+      "line": 418,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "randoms.append({\"name\": f\"rand_{tag}_p{p}_s{k}\", \"family\":",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/p4_folk_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 358,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "f\"single_{p['a']}_{p['b']}\")",
+      "write_call": "open(RESULTS_JSON, \"w"
+     },
+     "producer": "scripts/p4_pairs_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 303,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "randoms.append({\"name\": f\"rand_{tag}_p{p}_s{k}\",",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/p4_queue_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 274,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "return os.path.join(d, f\"shard_{shard}of{shards}.jsonl\")",
+      "write_call": "open(path, \"a"
+     },
+     "producer": "scripts/p5c_virtual_timepoint.py"
+    },
+    {
+     "evidence": {
+      "line": 105,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "(close[t+h] + sum_{t<d<=t+h} div_per_unit[d]) / close[t] - 1.",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/pa1_premium_ic.py"
+    },
+    {
+     "evidence": {
+      "line": 101,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "(close[t+h] + sum_{t<d<=t+h} div_per_unit[d]) / close[t] - 1.\"\"\"",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/pa1e_premium_event.py"
+    },
+    {
+     "evidence": {
+      "line": 200,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "chk(f\"g3_{sym}_exit_deferred_one_bd\",",
+      "write_call": "open(BASELINE_PATH, \"w"
+     },
+     "producer": "scripts/paper_guard_gates.py"
+    },
+    {
+     "evidence": {
+      "line": 143,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "exp = t[\"prospect\"][f\"recorded_{f}\"]",
+      "write_call": "open(path, \"a"
+     },
+     "producer": "scripts/prospect_regime_segments.py"
+    },
+    {
+     "evidence": {
+      "line": 68,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "return f\"cont_{cell}_{axis}_{face}.json\"",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/regime_p0_slice5.py"
+    },
+    {
+     "evidence": {
+      "line": 414,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "rec[f\"d6_{ref_name}\"] = {\"max_abs_corr\": mx, \"days\": n,",
+      "write_call": "open(out_json, \"w"
+     },
+     "producer": "scripts/sina_construct_ic.py"
+    },
+    {
+     "evidence": {
+      "line": 364,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "rec[f\"{seg}_{k}\"] = blk.get(k, \"\")",
+      "write_call": "open(out_json, \"w"
+     },
+     "producer": "scripts/sina_mf_ic_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 102,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "entry[f\"roll_{win}m\"] = rolling_stats(r, win)",
+      "write_call": "open(OUT, \"w"
+     },
+     "producer": "scripts/spm_face_f_calibration.py"
+    },
+    {
+     "evidence": {
+      "line": 175,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "m = metrics(sl, \"rebal%d_%s\" % (rebal, lbl))",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/stock_composite_pf.py"
+    },
+    {
+     "evidence": {
+      "line": 345,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "rec = {\"cell\": \"negban_%s_%d\" % (name, n), \"scope\": name,",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/t11_negday_ic.py"
+    },
+    {
+     "evidence": {
+      "line": 454,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "k += int(bool(r[f\"beat_{wname}\"]))",
+      "write_call": "open(log_path, \"a"
+     },
+     "producer": "scripts/t22_virtual_timepoints.py"
+    },
+    {
+     "evidence": {
+      "line": 35,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "logs/{axis}_{shard}.log             progress log (T54_DETACHED=1 -> log-only)",
+      "write_call": "open(log_path, \"a"
+     },
+     "producer": "scripts/t54_prospect_grid.py"
+    },
+    {
+     "evidence": {
+      "line": 118,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "b = row.get(\"arm_%s_local\" % arm, {}) if arm == \"B\" else row.get(\"arm_A_cloud\", {})",
+      "write_call": "open(OUT_JSON, \"w"
+     },
+     "producer": "scripts/t70_midterm_dossier.py"
+    },
+    {
+     "evidence": {
+      "line": 441,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "nets.setdefault(rid, {})[f\"sys_{cost_name}\"] = \\",
+      "write_call": "open(PANEL_META, \"w"
+     },
+     "producer": "scripts/theme_judge_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 384,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "nets.setdefault(rid, {})[f\"sys_{cost_name}\"] = \\",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/theme_judge_p2.py"
+    },
+    {
+     "evidence": {
+      "line": 334,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "tercile[f\"tercile_{gi}\"] = dict(themes=ids, sys_net=sn, bh_net=bn)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/theme_persist_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 1225,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "st[f\"prices_{leg}\"], st[f\"P_{leg}\"], st[f\"idx_{leg}\"],",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/trial_labor_w1.py"
+    },
+    {
+     "evidence": {
+      "line": 2739,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w10.py"
+    },
+    {
+     "evidence": {
+      "line": 2856,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w11.py"
+    },
+    {
+     "evidence": {
+      "line": 3212,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w12.py"
+    },
+    {
+     "evidence": {
+      "line": 3387,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w13.py"
+    },
+    {
+     "evidence": {
+      "line": 3289,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w14.py"
+    },
+    {
+     "evidence": {
+      "line": 3049,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w16.py"
+    },
+    {
+     "evidence": {
+      "line": 1344,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/trial_labor_w17.py"
+    },
+    {
+     "evidence": {
+      "line": 1401,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(gl, \"w"
+     },
+     "producer": "scripts/trial_labor_w18.py"
+    },
+    {
+     "evidence": {
+      "line": 1529,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(gl, \"w"
+     },
+     "producer": "scripts/trial_labor_w19.py"
+    },
+    {
+     "evidence": {
+      "line": 1299,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/trial_labor_w2.py"
+    },
+    {
+     "evidence": {
+      "line": 1378,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(gl, \"w"
+     },
+     "producer": "scripts/trial_labor_w20.py"
+    },
+    {
+     "evidence": {
+      "line": 1445,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(gl, \"w"
+     },
+     "producer": "scripts/trial_labor_w21.py"
+    },
+    {
+     "evidence": {
+      "line": 1237,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/trial_labor_w3.py"
+    },
+    {
+     "evidence": {
+      "line": 1428,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/trial_labor_w4.py"
+    },
+    {
+     "evidence": {
+      "line": 1550,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/trial_labor_w5.py"
+    },
+    {
+     "evidence": {
+      "line": 456,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "k = f\"{gname}_{vname}_{yname}_{sname}\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/trial_labor_w6.py"
+    },
+    {
+     "evidence": {
+      "line": 1860,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w7.py"
+    },
+    {
+     "evidence": {
+      "line": 2204,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w8.py"
+    },
+    {
+     "evidence": {
+      "line": 2393,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w9.py"
+    },
+    {
+     "evidence": {
+      "line": 254,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "return f\"primary_{PRIMARY}_all_nan\"",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/update_moneyflow.py"
+    },
+    {
+     "evidence": {
+      "line": 361,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "return f\"primary_{PRIMARY}_all_nan\"",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/update_sina_mf.py"
+    },
+    {
+     "evidence": {
+      "line": 573,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "tasks.append((f\"{key}__{ckind}\", ckind, top_k, sels,",
+      "write_call": "open(LOCK, \"w"
+     },
+     "producer": "scripts/xstock_tilt.py"
+    },
+    {
+     "evidence": {
+      "line": 22,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "facts[f\"attr_{name}\"] = getattr(science_gates, name)()",
+      "write_call": "open(out, \"w"
+     },
+     "producer": "Tools/_r695bmc_chain_head.py"
+    },
+    {
+     "evidence": {
+      "line": 2429,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "out = os.path.join(ROOT, \"logs\", f\"autofill_{e['id']}.log\")",
+      "write_call": "open(LOG, \"a"
+     },
+     "producer": "Tools/autofill.py"
+    }
+   ],
+   "writers_named": [
+    "scripts/fund_divlowvol_p1_probe.py"
+   ],
+   "writers_standard": [
+    "scripts/fund_divlowvol_p1_probe.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 192,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "out.setdefault(\"segments\", {})[f\"{era}_{g}\"] = {",
+      "write_call": "open(OUT_PATH, \"w"
+     },
+     "producer": "scripts/a6_corr_regime_probe.py"
+    },
+    {
+     "evidence": {
+      "line": 418,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "offs[f\"plus_{k}\"] = {\"unavailable\": f\"no trading day in {target_m}\"}",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/alloc_backtest.py"
+    }
+   ],
+   "face": "results/_fund_divlowvol_p2_freeze_probe_local.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "recovery_known_answer.tolerance"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_bare_literal"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 53,
+      "needle": "_fund_divlowvol_p2_freeze_probe_local.json",
+      "shape": "composed_path",
+      "text": "\"_fund_divlowvol_p2_freeze_probe_local.json\")",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/fund_divlowvol_p2_backtest.py"
+    },
+    {
+     "evidence": {
+      "line": 65,
+      "needle": "_fund_divlowvol_p2_freeze_probe_local.json",
+      "shape": "composed_path",
+      "text": "OUT_LOCAL = \"results/_fund_divlowvol_p2_freeze_probe_local.json\"",
+      "write_call": "open(out_path, \"w"
+     },
+     "producer": "scripts/fund_divlowvol_p2_probe.py"
+    }
+   ],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 192,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "out.setdefault(\"segments\", {})[f\"{era}_{g}\"] = {",
+      "write_call": "open(OUT_PATH, \"w"
+     },
+     "producer": "scripts/a6_corr_regime_probe.py"
+    },
+    {
+     "evidence": {
+      "line": 418,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "offs[f\"plus_{k}\"] = {\"unavailable\": f\"no trading day in {target_m}\"}",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/alloc_backtest.py"
+    },
+    {
+     "evidence": {
+      "line": 588,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "**{f\"leaf_{k}\": leaves[k] for k in BASE_INPUTS})",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/alphagen_rg_census.py"
+    },
+    {
+     "evidence": {
+      "line": 519,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "leaves[k] = z[f\"leaf_{k}\"][:, sub]",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/alphagen_rl_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 198,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "tag = \"%06d\" % ym if s == \"%04d%02d01\" % (ym // 100, ym % 100) else \"%s_%s\" % (s, e)",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/backfill_ext_slots.py"
+    },
+    {
+     "evidence": {
+      "line": 923,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "label=f\"null_{k}\", firsts=firsts)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/bond_carry_w3a.py"
+    },
+    {
+     "evidence": {
+      "line": 135,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "col = \"is_%s_end\" % scope",
+      "write_call": "open(fd, \"w"
+     },
+     "producer": "scripts/build_trading_calendar.py"
+    },
+    {
+     "evidence": {
+      "line": 197,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "out[f\"roll_{w}d\"] = {",
+      "write_call": "open(OUT_PATH, \"w"
+     },
+     "producer": "scripts/census_588000_fullhist.py"
+    },
+    {
+     "evidence": {
+      "line": 936,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "np.save(os.path.join(td, f\"z_{bnm}.npy\"), np.zeros_like(z0))",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/census_fusion_s2_w2.py"
+    },
+    {
+     "evidence": {
+      "line": 127,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "assert all(f\"{s}_{a}\" in JUDGED_CELLS",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/cn_core_ddctl_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 437,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "f\"cell_{cell}_{face}\", tf, cost_fn)",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/cn_core_sat_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 735,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "cell = f\"W{w}_{'gate' if gate_on else 'bare'}\"",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/cn_div_lowvol_rot_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 533,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "payload[f\"ret_{cell}_{face}\"] = rec[\"returns\"].to_numpy(float)",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/cn_regime_policy_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 669,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "specs1.append((f\"null_{k:02d}\", null_sels[k],",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/cn_rev_tilt_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 771,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "jobs = [(f\"null_{k:04d}\", _null_sharpe, (k,)) for k in range(K_NULLS)]",
+      "write_call": "open(ATT_JSON + \".tmp\", \"w"
+     },
+     "producer": "scripts/cn_soe_etf_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 706,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "jobs = [(f\"null_{k:04d}\", _null_sharpe, (k,)) for k in range(K_NULLS)]",
+      "write_call": "open(ATT_JSON + \".tmp\", \"w"
+     },
+     "producer": "scripts/cn_trend_etf_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 655,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "wr.writerow([f\"null_{k}\", \"random\", \"r20\", \"null\", c[\"full\"][\"sharpe\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/cta_p1_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 386,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "wr.writerow([f\"null_{k}\", \"random\", \"r20\", \"null\", c[\"full\"][\"sharpe\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/cta_p2_noau.py"
+    },
+    {
+     "evidence": {
+      "line": 509,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "name = f\"legb_{bname}@{cap_name}\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/cta_wave1.py"
+    },
+    {
+     "evidence": {
+      "line": 316,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "k = sum(1 for c in full if c[f\"beat_{wname}\"])",
+      "write_call": "open(log_path, \"a"
+     },
+     "producer": "scripts/decision_chain_e2e.py"
+    },
+    {
+     "evidence": {
+      "line": 443,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "out[f\"ret_{wname}\"] = ret",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/decision_chain_v2.py"
+    },
+    {
+     "evidence": {
+      "line": 153,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "k = sum(1 for c in full if c[f\"beat_{wname}\"])",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/decision_chain_v3_tournament.py"
+    },
+    {
+     "evidence": {
+      "line": 15,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "applied to t+1, unit turnover pays one side, w_{-1} = 0 so entry pays a side).",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e228_matched_exposure.py"
+    },
+    {
+     "evidence": {
+      "line": 138,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "label = \"%04d_%s\" % (year, (ERA_STARTS[k + 1] - 1) if end_tag else str(dates[-1])[:4])",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e231_band_path_test.py"
+    },
+    {
+     "evidence": {
+      "line": 203,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "# On a balanced equal-weight book the TOTAL move is a date effect, so SUM_{-m} = total -",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e240_aggregate_attenuation.py"
+    },
+    {
+     "evidence": {
+      "line": 164,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "band = cell.get(\"band_%s\" % row) or {}",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e253_self_row_resolution.py"
+    },
+    {
+     "evidence": {
+      "line": 279,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "rec[\"edge_%s\" % leg] = median(vals)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e255_band_draw_starvation.py"
+    },
+    {
+     "evidence": {
+      "line": 179,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "vals = (cell or {}).get(\"edge_%s_per_seed\" % leg) or []",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e258_band_multiplier_per_window.py"
+    },
+    {
+     "evidence": {
+      "line": 235,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "rec[\"edge_%s_per_seed\" % leg] = vals",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e259_band_multiplier_distribution.py"
+    },
+    {
+     "evidence": {
+      "line": 428,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "name = FACE if not tag else FACE.replace(\".json\", \"_%s.json\" % tag)",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e278_spread_floor.py"
+    },
+    {
+     "evidence": {
+      "line": 471,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "name = FACE if not tag else FACE.replace(\".json\", \"_%s.json\" % tag)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e279_substitution_soundness.py"
+    },
+    {
+     "evidence": {
+      "line": 4402,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "cols[\"%s_%s\" % (name, which)] = (prof.get(which) or {}).get(\"month\")",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/e39_panel_census.py"
+    },
+    {
+     "evidence": {
+      "line": 495,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "key = \"n%d_%s\" % (n, lbl)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/etf_book_production.py"
+    },
+    {
+     "evidence": {
+      "line": 257,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "crossovers[\"n%d_%s\" % (r[\"breadth\"], struct)] = x",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/etf_breadth_sweep.py"
+    },
+    {
+     "evidence": {
+      "line": 135,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "m = metrics(sl, \"%s_%s\" % (tag, lbl))",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/etf_composite_decomp.py"
+    },
+    {
+     "evidence": {
+      "line": 490,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "m = metrics(sl, \"%srebal%d_%s\" % (\"nextopen_\" if basis == \"next_open\" else \"\", rebal, lbl))",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/etf_composite_pf.py"
+    },
+    {
+     "evidence": {
+      "line": 802,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "vt[f\"{wname}_{face_key}\"] = {\"n_starts\": 0, \"beat_rate\":",
+      "write_call": "open(fd, \"w"
+     },
+     "producer": "scripts/etf_ops_bp1.py"
+    },
+    {
+     "evidence": {
+      "line": 936,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "vt[f\"{wname}_{face_key}\"] = {",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/etf_ops_bp2.py"
+    },
+    {
+     "evidence": {
+      "line": 80,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "m = F.metrics(sl, \"%s_%s\" % (label, lbl))",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/etf_variants_open_yearly.py"
+    },
+    {
+     "evidence": {
+      "line": 384,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "roll[f\"worst_{yy}y\"] = float(r.min())",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/exclusion_marginal_scan.py"
+    },
+    {
+     "evidence": {
+      "line": 263,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "f\"rows_{la}\": len(rows_a),",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/fund_avail_face_impact.py"
+    },
+    {
+     "evidence": {
+      "line": 1273,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "log = f\"{cell}_{face}\"",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/fund_divlowvol_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 137,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "needle = \"fund_%s_p1.py\" % fam",
+      "write_call": "open(LOG, \"a"
+     },
+     "producer": "scripts/fund_nulls_gap_repair.py"
+    },
+    {
+     "evidence": {
+      "line": 1201,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "log = f\"{cell}_{face}\"",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/fund_quality_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 1125,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "log = f\"{cell}_{face}\"",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/fund_value_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 722,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "jobs = [(f\"{fam}__{sub}\", _cell_job, (fam, sub))",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/fusion_grid_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 502,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "labels = [\"%s_%s\" % (tag, lab) for tag, lb in LOOKBACKS.items()",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/futures_overlay_fliprate.py"
+    },
+    {
+     "evidence": {
+      "line": 100,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "specs.append({\"name\": \"loo_%s\" % v, \"close\": close.drop(columns=[v]),",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/futures_overlay_fliprate_paths.py"
+    },
+    {
+     "evidence": {
+      "line": 1099,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "vt[f\"{wname}_{face_key}\"] = {",
+      "write_call": "open(fd, \"w"
+     },
+     "producer": "scripts/grid_dualface_backtest.py"
+    },
+    {
+     "evidence": {
+      "line": 210,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "keys += [f\"null_{k}\" for k in range(K_NULLS)]",
+      "write_call": "open(RUNS_JSONL, \"a"
+     },
+     "producer": "scripts/im_ic_pair.py"
+    },
+    {
+     "evidence": {
+      "line": 184,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "randoms.append({\"name\": f\"rand_{tag}_p{p}_s{k}\", \"family\":",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/lfc_p1_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 643,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "chk(f\"members_{axis}\", ff[\"members\"] == 48, ff[\"members\"])",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/lowamp_deep_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 570,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "chk(f\"members_{axis}\", ff[\"members\"] == 48, ff[\"members\"])",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/lowamp_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 589,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "chk(f\"members_{axis}\", ff[\"members\"] == 48, ff[\"members\"])",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/lowamp_p2.py"
+    },
+    {
+     "evidence": {
+      "line": 614,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "chk(f\"members_{axis}\", ff[\"members\"] == 48, ff[\"members\"])",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/lowamp_p3.py"
+    },
+    {
+     "evidence": {
+      "line": 166,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "cells[d] = f\"{st}_{heatv}\"",
+      "write_call": "open(out_json, \"w"
+     },
+     "producer": "scripts/market_clock_backtest.py"
+    },
+    {
+     "evidence": {
+      "line": 329,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "cell = f\"{state}_{heatv}\" if (state and heatv) else \"UNDETERMINED\"",
+      "write_call": "open(md_path, \"w"
+     },
+     "producer": "scripts/market_clock_call.py"
+    },
+    {
+     "evidence": {
+      "line": 394,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "rec[f\"d6_{ref_name}\"] = {\"max_abs_corr\": mx, \"days\": n,",
+      "write_call": "open(out_json, \"w"
+     },
+     "producer": "scripts/mf_ic_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 351,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "\"state\": f\"winner_{winner[0]}\"}",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/mf_rot_backtest.py"
+    },
+    {
+     "evidence": {
+      "line": 412,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "randoms.append({\"name\": f\"rand_{tag}_p{p}_s{k}\", \"family\":",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/new_signal_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 128,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "(close[t+h] + sum_{t<d<=t+h} div_per_unit[d]) / close[t] - 1.\"\"\"",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/og1_overnight_ic.py"
+    },
+    {
+     "evidence": {
+      "line": 150,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "P[f\"list_{u}\"] = r[0] if isinstance(r, tuple) else r",
+      "write_call": "open(OUT, \"w"
+     },
+     "producer": "scripts/option_s3_audit_probe.py"
+    },
+    {
+     "evidence": {
+      "line": 821,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "wr.writerow([f\"null_{k}\", \"random\", \"\", \"weekly\", \"null\", c[\"full\"][\"sharpe\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/options_wave2.py"
+    },
+    {
+     "evidence": {
+      "line": 335,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "**{f\"oos_{k}\": v for k, v in r[\"oos\"].items()},",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/p1_strategy_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 251,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "ports[f\"{scheme}_{key}\"] = {",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/p3_portfolio.py"
+    },
+    {
+     "evidence": {
+      "line": 357,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "randoms.append({\"name\": f\"rand_{tag}_p{p}_s{k}\", \"family\":",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/p4_batch1_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 626,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "return [{\"key\": f\"null_{'ce' if ce else 'default'}_s{seed}\",",
+      "write_call": "open(OUT_JSON, \"w"
+     },
+     "producer": "scripts/p4_batch2_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 413,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "randoms.append({\"name\": f\"rand_{tag}_p{p}_s{k}\", \"family\":",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/p4_batch2a_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 270,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "return {\"key\": f\"null|{regime}|{k}\", \"name\": f\"rand_{regime}_p{p}_s{k}\",",
+      "write_call": "open(LOG_PATH, \"a"
+     },
+     "producer": "scripts/p4_batch3_dca.py"
+    },
+    {
+     "evidence": {
+      "line": 418,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "randoms.append({\"name\": f\"rand_{tag}_p{p}_s{k}\", \"family\":",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/p4_folk_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 358,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "f\"single_{p['a']}_{p['b']}\")",
+      "write_call": "open(RESULTS_JSON, \"w"
+     },
+     "producer": "scripts/p4_pairs_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 303,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "randoms.append({\"name\": f\"rand_{tag}_p{p}_s{k}\",",
+      "write_call": "open(csv_path, \"w"
+     },
+     "producer": "scripts/p4_queue_screen.py"
+    },
+    {
+     "evidence": {
+      "line": 274,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "return os.path.join(d, f\"shard_{shard}of{shards}.jsonl\")",
+      "write_call": "open(path, \"a"
+     },
+     "producer": "scripts/p5c_virtual_timepoint.py"
+    },
+    {
+     "evidence": {
+      "line": 105,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "(close[t+h] + sum_{t<d<=t+h} div_per_unit[d]) / close[t] - 1.",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/pa1_premium_ic.py"
+    },
+    {
+     "evidence": {
+      "line": 101,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "(close[t+h] + sum_{t<d<=t+h} div_per_unit[d]) / close[t] - 1.\"\"\"",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/pa1e_premium_event.py"
+    },
+    {
+     "evidence": {
+      "line": 200,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "chk(f\"g3_{sym}_exit_deferred_one_bd\",",
+      "write_call": "open(BASELINE_PATH, \"w"
+     },
+     "producer": "scripts/paper_guard_gates.py"
+    },
+    {
+     "evidence": {
+      "line": 143,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "exp = t[\"prospect\"][f\"recorded_{f}\"]",
+      "write_call": "open(path, \"a"
+     },
+     "producer": "scripts/prospect_regime_segments.py"
+    },
+    {
+     "evidence": {
+      "line": 68,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "return f\"cont_{cell}_{axis}_{face}.json\"",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/regime_p0_slice5.py"
+    },
+    {
+     "evidence": {
+      "line": 414,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "rec[f\"d6_{ref_name}\"] = {\"max_abs_corr\": mx, \"days\": n,",
+      "write_call": "open(out_json, \"w"
+     },
+     "producer": "scripts/sina_construct_ic.py"
+    },
+    {
+     "evidence": {
+      "line": 364,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "rec[f\"{seg}_{k}\"] = blk.get(k, \"\")",
+      "write_call": "open(out_json, \"w"
+     },
+     "producer": "scripts/sina_mf_ic_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 102,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "entry[f\"roll_{win}m\"] = rolling_stats(r, win)",
+      "write_call": "open(OUT, \"w"
+     },
+     "producer": "scripts/spm_face_f_calibration.py"
+    },
+    {
+     "evidence": {
+      "line": 175,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "m = metrics(sl, \"rebal%d_%s\" % (rebal, lbl))",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/stock_composite_pf.py"
+    },
+    {
+     "evidence": {
+      "line": 345,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "rec = {\"cell\": \"negban_%s_%d\" % (name, n), \"scope\": name,",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/t11_negday_ic.py"
+    },
+    {
+     "evidence": {
+      "line": 454,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "k += int(bool(r[f\"beat_{wname}\"]))",
+      "write_call": "open(log_path, \"a"
+     },
+     "producer": "scripts/t22_virtual_timepoints.py"
+    },
+    {
+     "evidence": {
+      "line": 35,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "logs/{axis}_{shard}.log             progress log (T54_DETACHED=1 -> log-only)",
+      "write_call": "open(log_path, \"a"
+     },
+     "producer": "scripts/t54_prospect_grid.py"
+    },
+    {
+     "evidence": {
+      "line": 118,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "b = row.get(\"arm_%s_local\" % arm, {}) if arm == \"B\" else row.get(\"arm_A_cloud\", {})",
+      "write_call": "open(OUT_JSON, \"w"
+     },
+     "producer": "scripts/t70_midterm_dossier.py"
+    },
+    {
+     "evidence": {
+      "line": 441,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "nets.setdefault(rid, {})[f\"sys_{cost_name}\"] = \\",
+      "write_call": "open(PANEL_META, \"w"
+     },
+     "producer": "scripts/theme_judge_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 384,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "nets.setdefault(rid, {})[f\"sys_{cost_name}\"] = \\",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/theme_judge_p2.py"
+    },
+    {
+     "evidence": {
+      "line": 334,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "tercile[f\"tercile_{gi}\"] = dict(themes=ids, sys_net=sn, bh_net=bn)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/theme_persist_p1.py"
+    },
+    {
+     "evidence": {
+      "line": 1225,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "st[f\"prices_{leg}\"], st[f\"P_{leg}\"], st[f\"idx_{leg}\"],",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/trial_labor_w1.py"
+    },
+    {
+     "evidence": {
+      "line": 2739,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w10.py"
+    },
+    {
+     "evidence": {
+      "line": 2856,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w11.py"
+    },
+    {
+     "evidence": {
+      "line": 3212,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w12.py"
+    },
+    {
+     "evidence": {
+      "line": 3387,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w13.py"
+    },
+    {
+     "evidence": {
+      "line": 3289,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w14.py"
+    },
+    {
+     "evidence": {
+      "line": 3049,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w16.py"
+    },
+    {
+     "evidence": {
+      "line": 1344,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/trial_labor_w17.py"
+    },
+    {
+     "evidence": {
+      "line": 1401,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(gl, \"w"
+     },
+     "producer": "scripts/trial_labor_w18.py"
+    },
+    {
+     "evidence": {
+      "line": 1529,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(gl, \"w"
+     },
+     "producer": "scripts/trial_labor_w19.py"
+    },
+    {
+     "evidence": {
+      "line": 1299,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/trial_labor_w2.py"
+    },
+    {
+     "evidence": {
+      "line": 1378,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(gl, \"w"
+     },
+     "producer": "scripts/trial_labor_w20.py"
+    },
+    {
+     "evidence": {
+      "line": 1445,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(gl, \"w"
+     },
+     "producer": "scripts/trial_labor_w21.py"
+    },
+    {
+     "evidence": {
+      "line": 1237,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/trial_labor_w3.py"
+    },
+    {
+     "evidence": {
+      "line": 1428,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/trial_labor_w4.py"
+    },
+    {
+     "evidence": {
+      "line": 1550,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/trial_labor_w5.py"
+    },
+    {
+     "evidence": {
+      "line": 456,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "k = f\"{gname}_{vname}_{yname}_{sname}\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/trial_labor_w6.py"
+    },
+    {
+     "evidence": {
+      "line": 1860,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w7.py"
+    },
+    {
+     "evidence": {
+      "line": 2204,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w8.py"
+    },
+    {
+     "evidence": {
+      "line": 2393,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "prices, P, idx = (st[f\"prices_{leg}\"], st[f\"P_{leg}\"],",
+      "write_call": "open(GRAMMAR_FILE, \"w"
+     },
+     "producer": "scripts/trial_labor_w9.py"
+    },
+    {
+     "evidence": {
+      "line": 254,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "return f\"primary_{PRIMARY}_all_nan\"",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/update_moneyflow.py"
+    },
+    {
+     "evidence": {
+      "line": 361,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "return f\"primary_{PRIMARY}_all_nan\"",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/update_sina_mf.py"
+    },
+    {
+     "evidence": {
+      "line": 573,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "tasks.append((f\"{key}__{ckind}\", ckind, top_k, sels,",
+      "write_call": "open(LOCK, \"w"
+     },
+     "producer": "scripts/xstock_tilt.py"
+    },
+    {
+     "evidence": {
+      "line": 22,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "facts[f\"attr_{name}\"] = getattr(science_gates, name)()",
+      "write_call": "open(out, \"w"
+     },
+     "producer": "Tools/_r695bmc_chain_head.py"
+    },
+    {
+     "evidence": {
+      "line": 2429,
+      "needle": "_",
+      "shape": "format_template",
+      "text": "out = os.path.join(ROOT, \"logs\", f\"autofill_{e['id']}.log\")",
+      "write_call": "open(LOG, \"a"
+     },
+     "producer": "Tools/autofill.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/fund_divlowvol_p2_probe.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "SECTOR_PROBE"
+     },
+     "producer": "scripts/cn_mkneutral_p1.py"
+    },
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "PROBE_JSON"
+     },
+     "producer": "scripts/cn_sector_leader_p1.py"
+    }
+   ],
+   "face": "results/cn_sector_leader_probe.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "EF_params.limit_excl_tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/cn_mkneutral_p1.py",
+    "scripts/cn_sector_leader_p1.py"
+   ],
+   "writers_standard": [
+    "scripts/cn_mkneutral_p1.py",
+    "scripts/cn_sector_leader_p1.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "named_by_sources_that_never_write",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 26764,
+      "needle": "CASHLeg-%s.json",
+      "shape": "format_template",
+      "text": "p = write_json(outdir, \"CASHLeg-%s.json\" % f[\"evidence_cutoff\"].replace(\"-\", \"\"), f)",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/e39_panel_census.py"
+    }
+   ],
+   "face": "results/e40_cashleg_drag/CASHLeg-20261027.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "windows.2020-01-01.cash_window_by_book.wide_top9999.tolerance_bp"
+   ],
+   "mentions_only": [
+    "scripts/e322_residual_refusal_causes.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 26764,
+      "needle": "CASHLeg-%s.json",
+      "shape": "format_template",
+      "text": "p = write_json(outdir, \"CASHLeg-%s.json\" % f[\"evidence_cutoff\"].replace(\"-\", \"\"), f)",
+      "write_call": "open(p, \"w"
+     },
+     "producer": "scripts/e39_panel_census.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/e323_reach_under_wider_needle.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "p"
+     },
+     "producer": "scripts/etf_book_bakeoff.py"
+    }
+   ],
+   "face": "results/etf_book_bakeoff.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "control_check.tolerance_pp"
+   ],
+   "mentions_only": [
+    "Tools/s6_chain_bmb.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/etf_book_bakeoff.py"
+   ],
+   "writers_standard": [
+    "scripts/etf_book_bakeoff.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "OUT"
+     },
+     "producer": "scripts/etf_book_commodity_split.py"
+    }
+   ],
+   "face": "results/etf_book_commodity_split.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "control.tolerance_pp"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_a_quantity"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 51,
+      "needle": "etf_book_commodity_split.json",
+      "shape": "composed_path",
+      "text": "p = os.path.join(E.PATHS.results_dir, \"etf_book_commodity_split.json\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/etf_book_production.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/etf_book_commodity_split.py"
+   ],
+   "writers_standard": [
+    "scripts/etf_book_commodity_split.py",
+    "scripts/etf_book_production.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "OUT"
+     },
+     "producer": "scripts/etf_book_passive_mix.py"
+    }
+   ],
+   "face": "results/etf_book_passive_mix.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "control.tolerance_pp"
+   ],
+   "mentions_only": [
+    "scripts/etf_book_premium_phases.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 84,
+      "needle": "etf_book_passive_mix.json",
+      "shape": "composed_path",
+      "text": "p = os.path.join(E.PATHS.results_dir, \"etf_book_passive_mix.json\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/etf_book_production.py"
+    },
+    {
+     "evidence": {
+      "line": 47,
+      "needle": "etf_book_passive_mix.json",
+      "shape": "composed_path",
+      "text": "PUBMIX = os.path.join(E.PATHS.results_dir, \"etf_book_passive_mix.json\")",
+      "write_call": "open(OUT, \"w"
+     },
+     "producer": "scripts/etf_book_window_decomp.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/etf_book_passive_mix.py"
+   ],
+   "writers_standard": [
+    "scripts/etf_book_passive_mix.py",
+    "scripts/etf_book_production.py",
+    "scripts/etf_book_window_decomp.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "OUT_JSON"
+     },
+     "producer": "scripts/etf_book_premium_phases.py"
+    }
+   ],
+   "face": "results/etf_book_premium_phases.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "control.tolerance_pp",
+    "criteria.control_tolerance_pp"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 2,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/etf_book_premium_phases.py"
+   ],
+   "writers_standard": [
+    "scripts/etf_book_premium_phases.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 647,
+      "needle": "PRODUCTION-%s.json",
+      "shape": "format_template",
+      "text": "with open(os.path.join(OUT_DIR, \"PRODUCTION-%s.json\" % last.date()), \"w\", encoding=\"utf-8\") as f:",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/etf_book_production.py"
+    }
+   ],
+   "face": "results/etf_book_production/PRODUCTION-2026-10-27.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "spanning_pre2020.control.tolerance_pp",
+    "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 2,
+   "upstream_classes": [
+    "producer_found_but_publishes_no_such_key"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 647,
+      "needle": "PRODUCTION-%s.json",
+      "shape": "format_template",
+      "text": "with open(os.path.join(OUT_DIR, \"PRODUCTION-%s.json\" % last.date()), \"w\", encoding=\"utf-8\") as f:",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/etf_book_production.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/etf_book_buffer_adoption.py",
+    "scripts/etf_book_hysteresis.py",
+    "scripts/etf_book_order.py",
+    "scripts/etf_book_production.py",
+    "scripts/etf_book_voltarget_lag.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 647,
+      "needle": "PRODUCTION-%s.json",
+      "shape": "format_template",
+      "text": "with open(os.path.join(OUT_DIR, \"PRODUCTION-%s.json\" % last.date()), \"w\", encoding=\"utf-8\") as f:",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/etf_book_production.py"
+    }
+   ],
+   "face": "results/etf_book_production/PRODUCTION-2026-10-28.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "spanning_pre2020.control.tolerance_pp",
+    "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 2,
+   "upstream_classes": [
+    "producer_found_but_publishes_no_such_key"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 647,
+      "needle": "PRODUCTION-%s.json",
+      "shape": "format_template",
+      "text": "with open(os.path.join(OUT_DIR, \"PRODUCTION-%s.json\" % last.date()), \"w\", encoding=\"utf-8\") as f:",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/etf_book_production.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/etf_book_buffer_adoption.py",
+    "scripts/etf_book_hysteresis.py",
+    "scripts/etf_book_order.py",
+    "scripts/etf_book_production.py",
+    "scripts/etf_book_voltarget_lag.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "RESULT"
+     },
+     "producer": "scripts/etf_book_spanning_pre2020.py"
+    }
+   ],
+   "face": "results/etf_book_spanning_pre2020.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "control.tolerance_pp"
+   ],
+   "mentions_only": [
+    "scripts/e324_unpublished_key_causes.py",
+    "scripts/etf_book_forward.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 225,
+      "needle": "etf_book_spanning_pre2020.json",
+      "shape": "composed_path",
+      "text": "p = os.path.join(E.PATHS.results_dir, \"etf_book_spanning_pre2020.json\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/etf_book_production.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/etf_book_spanning_pre2020.py"
+   ],
+   "writers_standard": [
+    "scripts/etf_book_production.py",
+    "scripts/etf_book_spanning_pre2020.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "p"
+     },
+     "producer": "scripts/etf_book_tsmom.py"
+    }
+   ],
+   "face": "results/etf_book_tsmom.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "control_check.tolerance_pp"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/etf_book_tsmom.py"
+   ],
+   "writers_standard": [
+    "scripts/etf_book_tsmom.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "no_source_in_the_corpus_names_the_face",
+    "R4_plus_composed_paths": "reproducible_through_a_path_the_source_composes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 55,
+      "needle": "etf_book_voltarget_lag.json",
+      "shape": "composed_path",
+      "text": "OUT_JSON = ROOT / \"results\" / \"etf_book_voltarget_lag.json\"",
+      "write_call": ".write_text"
+     },
+     "producer": "scripts/etf_book_voltarget_lag.py"
+    }
+   ],
+   "face": "results/etf_book_voltarget_lag.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "criteria.control_tol_cagr_pp"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept",
+    "R3_plus_format_templates"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 55,
+      "needle": "etf_book_voltarget_lag.json",
+      "shape": "composed_path",
+      "text": "OUT_JSON = ROOT / \"results\" / \"etf_book_voltarget_lag.json\"",
+      "write_call": ".write_text"
+     },
+     "producer": "scripts/etf_book_voltarget_lag.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/etf_book_voltarget_lag.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "OUT_JSON"
+     },
+     "producer": "scripts/etf_book_voltarget_phase.py"
+    }
+   ],
+   "face": "results/etf_book_voltarget_phase.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "control.tolerance_pp"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/etf_book_voltarget_phase.py"
+   ],
+   "writers_standard": [
+    "scripts/etf_book_voltarget_phase.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "OUT"
+     },
+     "producer": "scripts/etf_book_window_decomp.py"
+    }
+   ],
+   "face": "results/etf_book_window_decomp.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "controls.rung4_vs_passive_mix_pre2020.tolerance_pp"
+   ],
+   "mentions_only": [
+    "scripts/e324_unpublished_key_causes.py",
+    "scripts/round_open_absorb.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 43,
+      "needle": "etf_book_window_decomp.json",
+      "shape": "composed_path",
+      "text": "DEC = os.path.join(E.PATHS.results_dir, \"etf_book_window_decomp.json\")",
+      "write_call": "open(OUT, \"w"
+     },
+     "producer": "scripts/etf_book_pre2020_wf.py"
+    },
+    {
+     "evidence": {
+      "line": 122,
+      "needle": "etf_book_window_decomp.json",
+      "shape": "composed_path",
+      "text": "p = os.path.join(E.PATHS.results_dir, \"etf_book_window_decomp.json\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/etf_book_production.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/etf_book_window_decomp.py"
+   ],
+   "writers_standard": [
+    "scripts/etf_book_pre2020_wf.py",
+    "scripts/etf_book_production.py",
+    "scripts/etf_book_window_decomp.py",
+    "scripts/round_open_absorb.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "OUT"
+     },
+     "producer": "scripts/etf_vol_calibration.py"
+    }
+   ],
+   "face": "results/etf_vol_calibration.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "decision.legs.sharpe_not_worse.tol",
+    "decision_median.legs.sharpe_not_worse.tol",
+    "decision_rms.legs.sharpe_not_worse.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 3,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/etf_vol_calibration.py"
+   ],
+   "writers_standard": [
+    "scripts/etf_vol_calibration.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "RECEIPT"
+     },
+     "producer": "scripts/fund_divlowvol_p2_split_adequacy.py"
+    }
+   ],
+   "face": "results/fund_divlowvol_p2/split_adequacy.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "level_test.tolerance"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_a_quantity"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/fund_divlowvol_p2_split_adequacy.py"
+   ],
+   "writers_standard": [
+    "scripts/fund_divlowvol_p2_split_adequacy.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "json_path"
+     },
+     "producer": "scripts/g2_nsp1.py"
+    }
+   ],
+   "face": "results/g2_nsp1.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "constants.anchor_tol"
+   ],
+   "mentions_only": [
+    "scripts/science_audit.py",
+    "scripts/sleeve_p3.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 1196,
+      "needle": "g2_nsp1.json",
+      "shape": "composed_path",
+      "text": "g2n = _read_json(os.path.join(res, \"g2_nsp1.json\")) or {}",
+      "write_call": "open(os.path.join(PATHS.results_dir, \"w"
+     },
+     "producer": "monitor/build_status.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/g2_nsp1.py"
+   ],
+   "writers_standard": [
+    "monitor/build_status.py",
+    "scripts/g2_nsp1.py",
+    "scripts/sleeve_p3.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 215,
+      "needle": "REGIME5-DIAG",
+      "shape": "format_template",
+      "text": "with open(os.path.join(diag_dir, f\"REGIME5-DIAG-{cutoff}.json\"), \"w\",",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/regime5_labeler.py"
+    }
+   ],
+   "face": "results/regime5_diag/REGIME5-DIAG-2026-09-30.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "thresholds.nh_tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 215,
+      "needle": "REGIME5-DIAG",
+      "shape": "format_template",
+      "text": "with open(os.path.join(diag_dir, f\"REGIME5-DIAG-{cutoff}.json\"), \"w\",",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/regime5_labeler.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/regime5_labeler.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 215,
+      "needle": "REGIME5-DIAG",
+      "shape": "format_template",
+      "text": "with open(os.path.join(diag_dir, f\"REGIME5-DIAG-{cutoff}.json\"), \"w\",",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/regime5_labeler.py"
+    }
+   ],
+   "face": "results/regime5_diag/REGIME5-DIAG-2026-10-19.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "thresholds.nh_tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 215,
+      "needle": "REGIME5-DIAG",
+      "shape": "format_template",
+      "text": "with open(os.path.join(diag_dir, f\"REGIME5-DIAG-{cutoff}.json\"), \"w\",",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/regime5_labeler.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/regime5_labeler.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "GATES_JSON"
+     },
+     "producer": "scripts/a158_truegap_ic.py"
+    }
+   ],
+   "face": "results/shortline/a158_gates.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "universe.tolerance"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_bare_literal"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/a158_truegap_ic.py"
+   ],
+   "writers_standard": [
+    "scripts/a158_truegap_ic.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "no_source_in_the_corpus_names_the_face",
+    "R4_plus_composed_paths": "reproducible_through_a_path_the_source_composes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 392,
+      "needle": "gtja191_ic.json",
+      "shape": "composed_path",
+      "text": "with open(os.path.join(OUT_DIR, \"gtja191_ic.json\"), \"w\",",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/shortline_p1_ic.py"
+    },
+    {
+     "evidence": {
+      "line": 145,
+      "needle": "gtja191_ic.json",
+      "shape": "composed_path",
+      "text": "r9_path = os.path.join(OUT_DIR, \"gtja191_ic.json\")",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/shortline_p1b_wq101.py"
+    }
+   ],
+   "face": "results/shortline/gtja191_ic.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "equivalence_check.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept",
+    "R3_plus_format_templates"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 392,
+      "needle": "gtja191_ic.json",
+      "shape": "composed_path",
+      "text": "with open(os.path.join(OUT_DIR, \"gtja191_ic.json\"), \"w\",",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/shortline_p1_ic.py"
+    },
+    {
+     "evidence": {
+      "line": 145,
+      "needle": "gtja191_ic.json",
+      "shape": "composed_path",
+      "text": "r9_path = os.path.join(OUT_DIR, \"gtja191_ic.json\")",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/shortline_p1b_wq101.py"
+    },
+    {
+     "evidence": {
+      "line": 50,
+      "needle": "gtja191_ic.json",
+      "shape": "composed_path",
+      "text": "GTJA_JSON = os.path.join(OUT_DIR, \"gtja191_ic.json\")",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/xlib_synth.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/shortline_p1_ic.py",
+    "scripts/shortline_p1b_wq101.py",
+    "scripts/xlib_synth.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "OUT_JSON"
+     },
+     "producer": "scripts/og1_overnight_ic.py"
+    }
+   ],
+   "face": "results/shortline/og1_overnight_ic.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "equivalence.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/og1_overnight_ic.py"
+   ],
+   "writers_standard": [
+    "scripts/og1_overnight_ic.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "EQUIV_JSON"
+     },
+     "producer": "scripts/p1e_ic_batch.py"
+    }
+   ],
+   "face": "results/shortline/p1e_equiv.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "tol"
+   ],
+   "mentions_only": [
+    "scripts/p1e_synth.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/p1e_ic_batch.py"
+   ],
+   "writers_standard": [
+    "scripts/p1e_ic_batch.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "OUT_JSON"
+     },
+     "producer": "scripts/p1e_neighbor_corr.py"
+    }
+   ],
+   "face": "results/shortline/p1e_neighbor_corr.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "meta.equivalence.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/p1e_neighbor_corr.py"
+   ],
+   "writers_standard": [
+    "scripts/p1e_neighbor_corr.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "no_source_in_the_corpus_names_the_face",
+    "R2_every_auditor_kept": "named_by_sources_that_never_write",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 338,
+      "needle": "p1e_nulls_",
+      "shape": "format_template",
+      "text": "out_path = os.path.join(OUT_DIR, f\"p1e_nulls_{cls}.json\")",
+      "write_call": "open(EQUIV_JSON, \"w"
+     },
+     "producer": "scripts/p1e_ic_batch.py"
+    }
+   ],
+   "face": "results/shortline/p1e_nulls_M_arc.json",
+   "first_rung_that_finds_a_writer": "R2_every_auditor_kept",
+   "leaves": [
+    "meta.equivalence.tol"
+   ],
+   "mentions_only": [
+    "scripts/e322_residual_refusal_causes.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [
+    "R1_standard_needle"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 338,
+      "needle": "p1e_nulls_",
+      "shape": "format_template",
+      "text": "out_path = os.path.join(OUT_DIR, f\"p1e_nulls_{cls}.json\")",
+      "write_call": "open(EQUIV_JSON, \"w"
+     },
+     "producer": "scripts/p1e_ic_batch.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": []
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 19,
+      "needle": "p1e_nulls_",
+      "shape": "format_template",
+      "text": "(``f\"p1e_nulls_{cls}.json\"``).  Both families are searched here and the winning step is published.",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e322_residual_refusal_causes.py"
+    }
+   ],
+   "face": "results/shortline/p1e_nulls_M_close.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "meta.equivalence.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 805,
+      "needle": "p1e_nulls_M_close.json",
+      "shape": "composed_path",
+      "text": "or json.load(open(os.path.join(OUT_DIR, \"p1e_nulls_M_close.json\"),",
+      "write_call": "open(EQUIV_JSON, \"w"
+     },
+     "producer": "scripts/p1e_ic_batch.py"
+    }
+   ],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 19,
+      "needle": "p1e_nulls_",
+      "shape": "format_template",
+      "text": "(``f\"p1e_nulls_{cls}.json\"``).  Both families are searched here and the winning step is published.",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e322_residual_refusal_causes.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/p1e_ic_batch.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "no_source_in_the_corpus_names_the_face",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 19,
+      "needle": "p1e_nulls_",
+      "shape": "format_template",
+      "text": "(``f\"p1e_nulls_{cls}.json\"``).  Both families are searched here and the winning step is published.",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e322_residual_refusal_causes.py"
+    },
+    {
+     "evidence": {
+      "line": 338,
+      "needle": "p1e_nulls_",
+      "shape": "format_template",
+      "text": "out_path = os.path.join(OUT_DIR, f\"p1e_nulls_{cls}.json\")",
+      "write_call": "open(EQUIV_JSON, \"w"
+     },
+     "producer": "scripts/p1e_ic_batch.py"
+    }
+   ],
+   "face": "results/shortline/p1e_nulls_M_close_tr.json",
+   "first_rung_that_finds_a_writer": "R3_plus_format_templates",
+   "leaves": [
+    "meta.equivalence.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R1_standard_needle",
+    "R2_every_auditor_kept"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 19,
+      "needle": "p1e_nulls_",
+      "shape": "format_template",
+      "text": "(``f\"p1e_nulls_{cls}.json\"``).  Both families are searched here and the winning step is published.",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e322_residual_refusal_causes.py"
+    },
+    {
+     "evidence": {
+      "line": 338,
+      "needle": "p1e_nulls_",
+      "shape": "format_template",
+      "text": "out_path = os.path.join(OUT_DIR, f\"p1e_nulls_{cls}.json\")",
+      "write_call": "open(EQUIV_JSON, \"w"
+     },
+     "producer": "scripts/p1e_ic_batch.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": []
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "no_source_in_the_corpus_names_the_face",
+    "R4_plus_composed_paths": "reproducible_through_a_path_the_source_composes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 68,
+      "needle": "p1e_synth.json",
+      "shape": "composed_path",
+      "text": "RESULT_JSON = os.path.join(OUT_DIR, \"p1e_synth.json\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/p1e_synth.py"
+    }
+   ],
+   "face": "results/shortline/p1e_synth.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "equivalence.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept",
+    "R3_plus_format_templates"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 68,
+      "needle": "p1e_synth.json",
+      "shape": "composed_path",
+      "text": "RESULT_JSON = os.path.join(OUT_DIR, \"p1e_synth.json\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/p1e_synth.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/p1e_synth.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "no_source_in_the_corpus_names_the_face",
+    "R4_plus_composed_paths": "reproducible_through_a_path_the_source_composes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 67,
+      "needle": "p1e_synth_parts.json",
+      "shape": "composed_path",
+      "text": "PARTS_JSON = os.path.join(OUT_DIR, \"p1e_synth_parts.json\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/p1e_synth.py"
+    }
+   ],
+   "face": "results/shortline/p1e_synth_parts.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "equivalence.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept",
+    "R3_plus_format_templates"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 67,
+      "needle": "p1e_synth_parts.json",
+      "shape": "composed_path",
+      "text": "PARTS_JSON = os.path.join(OUT_DIR, \"p1e_synth_parts.json\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/p1e_synth.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/p1e_synth.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "RESULT_JSON"
+     },
+     "producer": "scripts/p1e_ic_batch.py"
+    }
+   ],
+   "face": "results/shortline/p1e_zoo_behavior.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "equivalence.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 70,
+      "needle": "p1e_zoo_behavior.json",
+      "shape": "composed_path",
+      "text": "MOTHER_JSON = os.path.join(OUT_DIR, \"p1e_zoo_behavior.json\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/p1e_synth.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/p1e_ic_batch.py"
+   ],
+   "writers_standard": [
+    "scripts/p1e_ic_batch.py",
+    "scripts/p1e_synth.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "OUT_JSON"
+     },
+     "producer": "scripts/pa1_premium_ic.py"
+    }
+   ],
+   "face": "results/shortline/pa1_premium_ic.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "equivalence.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/pa1_premium_ic.py"
+   ],
+   "writers_standard": [
+    "scripts/pa1_premium_ic.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "named_by_sources_that_never_write",
+    "R3_plus_format_templates": "named_by_sources_that_never_write",
+    "R4_plus_composed_paths": "reproducible_through_a_path_the_source_composes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 42,
+      "needle": "pa_lhb_ic.json",
+      "shape": "composed_path",
+      "text": "PA_JSON = os.path.join(OUT_DIR, \"pa_lhb_ic.json\")",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/pa2_lhb_synth.py"
+    },
+    {
+     "evidence": {
+      "line": 340,
+      "needle": "pa_lhb_ic.json",
+      "shape": "composed_path",
+      "text": "with open(os.path.join(OUT_DIR, \"pa_lhb_ic.json\"), \"w\",",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/pa_lhb_ic.py"
+    }
+   ],
+   "face": "results/shortline/pa_lhb_ic.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "equivalence.tol"
+   ],
+   "mentions_only": [
+    "monitor/build_status.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 42,
+      "needle": "pa_lhb_ic.json",
+      "shape": "composed_path",
+      "text": "PA_JSON = os.path.join(OUT_DIR, \"pa_lhb_ic.json\")",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/pa2_lhb_synth.py"
+    },
+    {
+     "evidence": {
+      "line": 340,
+      "needle": "pa_lhb_ic.json",
+      "shape": "composed_path",
+      "text": "with open(os.path.join(OUT_DIR, \"pa_lhb_ic.json\"), \"w\",",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/pa_lhb_ic.py"
+    },
+    {
+     "evidence": {
+      "line": 44,
+      "needle": "pa_lhb_ic.json",
+      "shape": "composed_path",
+      "text": "PA_JSON = os.path.join(ROOT, \"results\", \"shortline\", \"pa_lhb_ic.json\")",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/pb_synth.py"
+    },
+    {
+     "evidence": {
+      "line": 77,
+      "needle": "pa_lhb_ic.json",
+      "shape": "composed_path",
+      "text": "PA_JSON = os.path.join(OUT_DIR, \"pa_lhb_ic.json\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/xstock_synth.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [],
+   "writers_standard": [
+    "monitor/build_status.py",
+    "scripts/pa2_lhb_synth.py",
+    "scripts/pa_lhb_ic.py",
+    "scripts/pb_synth.py",
+    "scripts/xstock_synth.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "no_source_in_the_corpus_names_the_face",
+    "R4_plus_composed_paths": "reproducible_through_a_path_the_source_composes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 491,
+      "needle": "pb_synth.json",
+      "shape": "composed_path",
+      "text": "with open(os.path.join(OUT_DIR, \"pb_synth.json\"), \"w\",",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/pb_synth.py"
+    },
+    {
+     "evidence": {
+      "line": 38,
+      "needle": "pb_synth.json",
+      "shape": "composed_path",
+      "text": "V1_JSON = os.path.join(ROOT, \"results\", \"shortline\", \"pb_synth.json\")",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/ps2_synth.py"
+    }
+   ],
+   "face": "results/shortline/pb_synth.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "equivalence.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept",
+    "R3_plus_format_templates"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 491,
+      "needle": "pb_synth.json",
+      "shape": "composed_path",
+      "text": "with open(os.path.join(OUT_DIR, \"pb_synth.json\"), \"w\",",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/pb_synth.py"
+    },
+    {
+     "evidence": {
+      "line": 38,
+      "needle": "pb_synth.json",
+      "shape": "composed_path",
+      "text": "V1_JSON = os.path.join(ROOT, \"results\", \"shortline\", \"pb_synth.json\")",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/ps2_synth.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/pb_synth.py",
+    "scripts/ps2_synth.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "no_source_in_the_corpus_names_the_face",
+    "R4_plus_composed_paths": "reproducible_through_a_path_the_source_composes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 438,
+      "needle": "t11_negday_ic.json",
+      "shape": "composed_path",
+      "text": "with open(os.path.join(OUT_DIR, \"t11_negday_ic.json\"), \"w\",",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/t11_negday_ic.py"
+    }
+   ],
+   "face": "results/shortline/t11_negday_ic.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "equivalence.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept",
+    "R3_plus_format_templates"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 438,
+      "needle": "t11_negday_ic.json",
+      "shape": "composed_path",
+      "text": "with open(os.path.join(OUT_DIR, \"t11_negday_ic.json\"), \"w\",",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/t11_negday_ic.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/t11_negday_ic.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "no_source_in_the_corpus_names_the_face",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "no_source_in_the_corpus_names_the_face",
+    "R4_plus_composed_paths": "reproducible_through_a_path_the_source_composes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 36,
+      "needle": "turnover_derivation.json",
+      "shape": "composed_path",
+      "text": "\"turnover_derivation.json\")",
+      "write_call": "open(OUT_PATH, \"w"
+     },
+     "producer": "scripts/p1c_turnover_derive.py"
+    }
+   ],
+   "face": "results/shortline/turnover_derivation.json",
+   "first_rung_that_finds_a_writer": "R4_plus_composed_paths",
+   "leaves": [
+    "check_A_stored_vs_derived.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R1_standard_needle",
+    "R2_every_auditor_kept",
+    "R3_plus_format_templates"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 36,
+      "needle": "turnover_derivation.json",
+      "shape": "composed_path",
+      "text": "\"turnover_derivation.json\")",
+      "write_call": "open(OUT_PATH, \"w"
+     },
+     "producer": "scripts/p1c_turnover_derive.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [],
+   "writers_standard": []
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "named_by_sources_that_never_write",
+    "R3_plus_format_templates": "named_by_sources_that_never_write",
+    "R4_plus_composed_paths": "reproducible_through_a_path_the_source_composes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 49,
+      "needle": "xlib_synth.json",
+      "shape": "composed_path",
+      "text": "LEDGER_PREV_FILE = \"xlib_synth.json\"",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/p1d_gdhs_quarterly.py"
+    },
+    {
+     "evidence": {
+      "line": 396,
+      "needle": "xlib_synth.json",
+      "shape": "composed_path",
+      "text": "with open(os.path.join(OUT_DIR, \"xlib_synth.json\"), \"w\",",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/xlib_synth.py"
+    }
+   ],
+   "face": "results/shortline/xlib_synth.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "reproduction_gate.tol"
+   ],
+   "mentions_only": [
+    "monitor/build_status.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 49,
+      "needle": "xlib_synth.json",
+      "shape": "composed_path",
+      "text": "LEDGER_PREV_FILE = \"xlib_synth.json\"",
+      "write_call": "open(tmp, \"w"
+     },
+     "producer": "scripts/p1d_gdhs_quarterly.py"
+    },
+    {
+     "evidence": {
+      "line": 396,
+      "needle": "xlib_synth.json",
+      "shape": "composed_path",
+      "text": "with open(os.path.join(OUT_DIR, \"xlib_synth.json\"), \"w\",",
+      "write_call": ".to_csv"
+     },
+     "producer": "scripts/xlib_synth.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [],
+   "writers_standard": [
+    "monitor/build_status.py",
+    "scripts/p1d_gdhs_quarterly.py",
+    "scripts/xlib_synth.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "OUT_JSON"
+     },
+     "producer": "scripts/xstock_tilt.py"
+    }
+   ],
+   "face": "results/shortline_xstock_tilt.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "gates.reproduction.tol_ic",
+    "gates.reproduction.tol_ir"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 2,
+   "upstream_classes": [
+    "published_as_a_bare_literal",
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/xstock_tilt.py"
+   ],
+   "writers_standard": [
+    "scripts/xstock_tilt.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 67,
+      "needle": "BANDDEFLATE-%s.json",
+      "shape": "format_template",
+      "text": "FACE = \"BANDDEFLATE-%s.json\" % CUTOFF",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e283_degenerate_range_reachable.py"
+    },
+    {
+     "evidence": {
+      "line": 75,
+      "needle": "BANDDEFLATE-%s.json",
+      "shape": "format_template",
+      "text": "SRC_DEFLATE = \"BANDDEFLATE-%s.json\" % CUTOFF        # degenerate-tail restatement (demand)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e287_supply_ceiling_axes.py"
+    }
+   ],
+   "face": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "branch.deflatable[0].required_tolerance_pct",
+    "branch.deflatable[1].required_tolerance_pct",
+    "degenerate_readings[0].required_tolerance_fraction",
+    "degenerate_readings[1].required_tolerance_fraction",
+    "discrimination_at_band.tolerance_fraction",
+    "discrimination_at_band.tolerance_pct",
+    "summary.required_tolerance_pct"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 7,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_a_quantity",
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 67,
+      "needle": "BANDDEFLATE-%s.json",
+      "shape": "format_template",
+      "text": "FACE = \"BANDDEFLATE-%s.json\" % CUTOFF",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e283_degenerate_range_reachable.py"
+    },
+    {
+     "evidence": {
+      "line": 75,
+      "needle": "BANDDEFLATE-%s.json",
+      "shape": "format_template",
+      "text": "SRC_DEFLATE = \"BANDDEFLATE-%s.json\" % CUTOFF        # degenerate-tail restatement (demand)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e287_supply_ceiling_axes.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/e283_degenerate_range_reachable.py",
+    "scripts/e287_supply_ceiling_axes.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 72,
+      "needle": "BANDDISAGREE-%s.json",
+      "shape": "format_template",
+      "text": "FACE = \"BANDDISAGREE-%s.json\" % CUTOFF",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e282_substitution_disagreement_census.py"
+    },
+    {
+     "evidence": {
+      "line": 74,
+      "needle": "BANDDISAGREE-%s.json",
+      "shape": "format_template",
+      "text": "SRC_DISAGREE = \"BANDDISAGREE-%s.json\" % CUTOFF     # independent statement of the same flips",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e287_supply_ceiling_axes.py"
+    }
+   ],
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "census[0].edge_tolerance_pct",
+    "census[10].edge_tolerance_pct",
+    "census[11].edge_tolerance_pct",
+    "census[1].edge_tolerance_pct",
+    "census[2].edge_tolerance_pct",
+    "census[3].edge_tolerance_pct",
+    "census[4].edge_tolerance_pct",
+    "census[5].edge_tolerance_pct",
+    "census[6].edge_tolerance_pct",
+    "census[7].edge_tolerance_pct",
+    "census[8].edge_tolerance_pct",
+    "census[9].edge_tolerance_pct",
+    "disagreement_cells[0].edge_tolerance_pct",
+    "disagreement_cells[1].edge_tolerance_pct",
+    "hypothesis_test.tie_impossibility.tolerance"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 15,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_a_quantity",
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 72,
+      "needle": "BANDDISAGREE-%s.json",
+      "shape": "format_template",
+      "text": "FACE = \"BANDDISAGREE-%s.json\" % CUTOFF",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e282_substitution_disagreement_census.py"
+    },
+    {
+     "evidence": {
+      "line": 74,
+      "needle": "BANDDISAGREE-%s.json",
+      "shape": "format_template",
+      "text": "SRC_DISAGREE = \"BANDDISAGREE-%s.json\" % CUTOFF     # independent statement of the same flips",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e287_supply_ceiling_axes.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/e282_substitution_disagreement_census.py",
+    "scripts/e284_disagreement_field_scope.py",
+    "scripts/e286_count_field_scope.py",
+    "scripts/e287_supply_ceiling_axes.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 504,
+      "needle": "BANDDRAW",
+      "shape": "format_template",
+      "text": "path = os.path.join(outdir, \"BANDDRAW-%s%s.json\" % (cutoff, tag))",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e255_band_draw_starvation.py"
+    },
+    {
+     "evidence": {
+      "line": 335,
+      "needle": "BANDDRAW",
+      "shape": "format_template",
+      "text": "head = os.path.join(outdir, \"BANDDRAW-%s%s.json\" % (cutoff, tag or \"-d%d\" % D_BUDGET))",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e256_band_draw_continuation.py"
+    }
+   ],
+   "face": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "secondary_reads.gamma_tol",
+    "summary.secondary_reads.gamma_tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 2,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 504,
+      "needle": "BANDDRAW",
+      "shape": "format_template",
+      "text": "path = os.path.join(outdir, \"BANDDRAW-%s%s.json\" % (cutoff, tag))",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e255_band_draw_starvation.py"
+    },
+    {
+     "evidence": {
+      "line": 335,
+      "needle": "BANDDRAW",
+      "shape": "format_template",
+      "text": "head = os.path.join(outdir, \"BANDDRAW-%s%s.json\" % (cutoff, tag or \"-d%d\" % D_BUDGET))",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e256_band_draw_continuation.py"
+    },
+    {
+     "evidence": {
+      "line": 57,
+      "needle": "BANDDRAW-%s.json",
+      "shape": "format_template",
+      "text": "SRC_DRAW = \"BANDDRAW-%s.json\" % CUTOFF      # published endpoint draw exponent",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e277_tight_multiplier_floor.py"
+    },
+    {
+     "evidence": {
+      "line": 77,
+      "needle": "BANDDRAW",
+      "shape": "format_template",
+      "text": "SRC_LADDER = \"BANDDRAW-%s-d1920.json\" % CUTOFF   # E256: rungs x draw counts, one stream per seed",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e295_supply_gap_closure.py"
+    },
+    {
+     "evidence": {
+      "line": 66,
+      "needle": "BANDDRAW",
+      "shape": "format_template",
+      "text": "SRC_DRAW = \"BANDDRAW-%s-d1920.json\" % CUTOFF  # E256: the one window that owns a ladder",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e300_window_local_margin_census.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/e255_band_draw_starvation.py",
+    "scripts/e256_band_draw_continuation.py",
+    "scripts/e277_tight_multiplier_floor.py",
+    "scripts/e295_supply_gap_closure.py",
+    "scripts/e300_window_local_margin_census.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 448,
+      "needle": "BANDEXP-%s.json",
+      "shape": "format_template",
+      "text": "path = os.path.join(outdir, \"BANDEXP-%s.json\" % cutoff)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e254_band_exponent_inside_cell.py"
+    }
+   ],
+   "face": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "verdict_inputs.tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 448,
+      "needle": "BANDEXP-%s.json",
+      "shape": "format_template",
+      "text": "path = os.path.join(outdir, \"BANDEXP-%s.json\" % cutoff)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e254_band_exponent_inside_cell.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/e254_band_exponent_inside_cell.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 539,
+      "needle": "BANDTOPFLIP",
+      "shape": "format_template",
+      "text": "name = \"BANDTOPFLIP-%s%s.json\" % (CUTOFF, tag)",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e257_band_at_top_flips.py"
+    },
+    {
+     "evidence": {
+      "line": 48,
+      "needle": "BANDTOPFLIP-%s.json",
+      "shape": "format_template",
+      "text": "SRC_TOP = \"BANDTOPFLIP-%s.json\" % CUTOFF",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e274_spread_straddle_sweep.py"
+    }
+   ],
+   "face": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "ladder_verdicts.gamma_tol"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 65,
+      "needle": "BANDTOPFLIP-2026-10-29.json",
+      "shape": "composed_path",
+      "text": "FACE_E257 = \"BANDTOPFLIP-2026-10-29.json\"",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e258_band_multiplier_per_window.py"
+    }
+   ],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 539,
+      "needle": "BANDTOPFLIP",
+      "shape": "format_template",
+      "text": "name = \"BANDTOPFLIP-%s%s.json\" % (CUTOFF, tag)",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e257_band_at_top_flips.py"
+    },
+    {
+     "evidence": {
+      "line": 48,
+      "needle": "BANDTOPFLIP-%s.json",
+      "shape": "format_template",
+      "text": "SRC_TOP = \"BANDTOPFLIP-%s.json\" % CUTOFF",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e274_spread_straddle_sweep.py"
+    },
+    {
+     "evidence": {
+      "line": 71,
+      "needle": "BANDTOPFLIP-%s.json",
+      "shape": "format_template",
+      "text": "SRC_TOPFLIP = \"BANDTOPFLIP-%s.json\" % CUTOFF       # E257: borrowed ladder range (supply)",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e287_supply_ceiling_axes.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/e257_band_at_top_flips.py",
+    "scripts/e258_band_multiplier_per_window.py",
+    "scripts/e274_spread_straddle_sweep.py",
+    "scripts/e287_supply_ceiling_axes.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "no_source_in_the_corpus_names_the_face",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 41,
+      "needle": "GATEOPERANDS-%s.json",
+      "shape": "format_template",
+      "text": "FACE = \"GATEOPERANDS-%s.json\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e312_gate_operand_identity.py"
+    },
+    {
+     "evidence": {
+      "line": 348,
+      "needle": "GATEOPERANDS-%s.json",
+      "shape": "format_template",
+      "text": "strip_to_needle(\"GATEOPERANDS-%s.json\") == \"GATEOPERANDS-\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e322_residual_refusal_causes.py"
+    }
+   ],
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "first_rung_that_finds_a_writer": "R3_plus_format_templates",
+   "leaves": [
+    "rows[10].leg_tolerance",
+    "rows[12].leg_tolerance",
+    "rows[13].leg_tolerance",
+    "rows[14].leg_tolerance",
+    "rows[15].leg_tolerance",
+    "rows[16].leg_tolerance",
+    "rows[17].leg_tolerance",
+    "rows[18].leg_tolerance",
+    "rows[1].leg_tolerance",
+    "rows[20].leg_tolerance",
+    "rows[21].leg_tolerance",
+    "rows[22].leg_tolerance",
+    "rows[23].leg_tolerance",
+    "rows[24].leg_tolerance",
+    "rows[25].leg_tolerance",
+    "rows[26].leg_tolerance",
+    "rows[2].leg_tolerance",
+    "rows[3].leg_tolerance",
+    "rows[4].leg_tolerance",
+    "rows[5].leg_tolerance",
+    "rows[8].leg_tolerance",
+    "rows[9].leg_tolerance"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R1_standard_needle",
+    "R2_every_auditor_kept"
+   ],
+   "rows": 22,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 41,
+      "needle": "GATEOPERANDS-%s.json",
+      "shape": "format_template",
+      "text": "FACE = \"GATEOPERANDS-%s.json\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e312_gate_operand_identity.py"
+    },
+    {
+     "evidence": {
+      "line": 348,
+      "needle": "GATEOPERANDS-%s.json",
+      "shape": "format_template",
+      "text": "strip_to_needle(\"GATEOPERANDS-%s.json\") == \"GATEOPERANDS-\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e322_residual_refusal_causes.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": []
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 54,
+      "needle": "GATETOL-%s.json",
+      "shape": "format_template",
+      "text": "FACE = \"GATETOL-%s.json\"",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e308_leg_vs_producer_tolerance.py"
+    }
+   ],
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "rows_band_stands[0].leg_tolerance",
+    "rows_leg_looser[0].leg_tolerance",
+    "rows_leg_looser[10].leg_tolerance",
+    "rows_leg_looser[11].leg_tolerance",
+    "rows_leg_looser[1].leg_tolerance",
+    "rows_leg_looser[2].leg_tolerance",
+    "rows_leg_looser[3].leg_tolerance",
+    "rows_leg_looser[4].leg_tolerance",
+    "rows_leg_looser[5].leg_tolerance",
+    "rows_leg_looser[6].leg_tolerance",
+    "rows_leg_looser[7].leg_tolerance",
+    "rows_leg_looser[8].leg_tolerance",
+    "rows_leg_looser[9].leg_tolerance",
+    "rows_leg_tighter_or_exact[0].leg_tolerance",
+    "rows_leg_tighter_or_exact[10].leg_tolerance",
+    "rows_leg_tighter_or_exact[11].leg_tolerance",
+    "rows_leg_tighter_or_exact[12].leg_tolerance",
+    "rows_leg_tighter_or_exact[13].leg_tolerance",
+    "rows_leg_tighter_or_exact[14].leg_tolerance",
+    "rows_leg_tighter_or_exact[15].leg_tolerance",
+    "rows_leg_tighter_or_exact[16].leg_tolerance",
+    "rows_leg_tighter_or_exact[17].leg_tolerance",
+    "rows_leg_tighter_or_exact[1].leg_tolerance",
+    "rows_leg_tighter_or_exact[2].leg_tolerance",
+    "rows_leg_tighter_or_exact[3].leg_tolerance",
+    "rows_leg_tighter_or_exact[4].leg_tolerance",
+    "rows_leg_tighter_or_exact[5].leg_tolerance",
+    "rows_leg_tighter_or_exact[6].leg_tolerance",
+    "rows_leg_tighter_or_exact[7].leg_tolerance",
+    "rows_leg_tighter_or_exact[8].leg_tolerance",
+    "rows_leg_tighter_or_exact[9].leg_tolerance"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 31,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 54,
+      "needle": "GATETOL-%s.json",
+      "shape": "format_template",
+      "text": "FACE = \"GATETOL-%s.json\"",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e308_leg_vs_producer_tolerance.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/e308_leg_vs_producer_tolerance.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 59,
+      "needle": "PRECISIONCENSUS-%s.json",
+      "shape": "format_template",
+      "text": "FACE = \"PRECISIONCENSUS-%s.json\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e299_rounded_vs_tolerance_census.py"
+    }
+   ],
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "sites[0].tolerance",
+    "sites[10].tolerance",
+    "sites[11].tolerance",
+    "sites[12].tolerance",
+    "sites[13].tolerance",
+    "sites[14].tolerance",
+    "sites[15].tolerance",
+    "sites[16].tolerance",
+    "sites[17].tolerance",
+    "sites[18].tolerance",
+    "sites[19].tolerance",
+    "sites[1].tolerance",
+    "sites[20].tolerance",
+    "sites[21].tolerance",
+    "sites[22].tolerance",
+    "sites[23].tolerance",
+    "sites[24].tolerance",
+    "sites[25].tolerance",
+    "sites[26].tolerance",
+    "sites[27].tolerance",
+    "sites[28].tolerance",
+    "sites[29].tolerance",
+    "sites[2].tolerance",
+    "sites[30].tolerance",
+    "sites[31].tolerance",
+    "sites[32].tolerance",
+    "sites[33].tolerance",
+    "sites[34].tolerance",
+    "sites[35].tolerance",
+    "sites[36].tolerance",
+    "sites[37].tolerance",
+    "sites[38].tolerance",
+    "sites[39].tolerance",
+    "sites[3].tolerance",
+    "sites[40].tolerance",
+    "sites[41].tolerance",
+    "sites[42].tolerance",
+    "sites[43].tolerance",
+    "sites[44].tolerance",
+    "sites[45].tolerance"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 64,
+   "upstream_classes": [
+    "producer_found_but_publishes_no_such_key",
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 59,
+      "needle": "PRECISIONCENSUS-%s.json",
+      "shape": "format_template",
+      "text": "FACE = \"PRECISIONCENSUS-%s.json\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e299_rounded_vs_tolerance_census.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/e299_rounded_vs_tolerance_census.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "no_source_in_the_corpus_names_the_face",
+    "R4_plus_composed_paths": "reproducible_through_a_path_the_source_composes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 59,
+      "needle": "PRECISIONCENSUS-",
+      "shape": "composed_path",
+      "text": "FACE = \"PRECISIONCENSUS-%s.json\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e299_rounded_vs_tolerance_census.py"
+    }
+   ],
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "at_risk[1].tolerance",
+    "rows[10].tolerance",
+    "rows[23].tolerance",
+    "summary.by_verdict.tolerance_silently_defaulted"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept",
+    "R3_plus_format_templates"
+   ],
+   "rows": 4,
+   "upstream_classes": [
+    "producer_found_but_publishes_no_such_key",
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 59,
+      "needle": "PRECISIONCENSUS-",
+      "shape": "composed_path",
+      "text": "FACE = \"PRECISIONCENSUS-%s.json\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e299_rounded_vs_tolerance_census.py"
+    }
+   ],
+   "writers_family": [],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/e299_rounded_vs_tolerance_census.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 48,
+      "needle": "PRECISIONGAP-%s.json",
+      "shape": "format_template",
+      "text": "FACE = \"PRECISIONGAP-%s.json\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e305_face_level_row_pricing.py"
+    }
+   ],
+   "face": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "rows[1].tolerance"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [
+    "R2_every_auditor_kept"
+   ],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 48,
+      "needle": "PRECISIONGAP-%s.json",
+      "shape": "format_template",
+      "text": "FACE = \"PRECISIONGAP-%s.json\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e305_face_level_row_pricing.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/e305_face_level_row_pricing.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "named_by_sources_that_never_write",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 724,
+      "needle": "REPRO",
+      "shape": "format_template",
+      "text": "_log(f\"G-REPRO {'PASS' if repro_ok else 'FAIL'} {repro_checks}\")",
+      "write_call": "open(log_path, \"a"
+     },
+     "producer": "scripts/decision_chain_e2e.py"
+    },
+    {
+     "evidence": {
+      "line": 316,
+      "needle": "REPRO-%s.json",
+      "shape": "format_template",
+      "text": "name = \"REPRO-%s.json\" % (face.get(\"evidence_cutoff\") or \"unknown\")",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e241_pair_reproduction.py"
+    }
+   ],
+   "face": "results/state_tilt/REPRO-2026-10-29.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "reproduction.tolerance"
+   ],
+   "mentions_only": [
+    "scripts/e312_gate_operand_identity.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 724,
+      "needle": "REPRO",
+      "shape": "format_template",
+      "text": "_log(f\"G-REPRO {'PASS' if repro_ok else 'FAIL'} {repro_checks}\")",
+      "write_call": "open(log_path, \"a"
+     },
+     "producer": "scripts/decision_chain_e2e.py"
+    },
+    {
+     "evidence": {
+      "line": 316,
+      "needle": "REPRO-%s.json",
+      "shape": "format_template",
+      "text": "name = \"REPRO-%s.json\" % (face.get(\"evidence_cutoff\") or \"unknown\")",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e241_pair_reproduction.py"
+    },
+    {
+     "evidence": {
+      "line": 340,
+      "needle": "REPRO-%s.json",
+      "shape": "format_template",
+      "text": "leg(\"L1 an ISO-dated name substitutes\", ISO_DATE.sub(\"%s\", \"REPRO-2026-10-31.json\") == \"REPRO-%s.json\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e322_residual_refusal_causes.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/_r855bma_conflict_resolve.py",
+    "scripts/d19_watermark.py",
+    "scripts/decision_chain_v2.py",
+    "scripts/e15_emotion_reeval.py",
+    "scripts/e241_pair_reproduction.py",
+    "scripts/e242_omission_inflation_sweep.py",
+    "scripts/e294_live_universe_drift.py",
+    "scripts/e302_universe_switch_backfill.py",
+    "scripts/g25_retro.py",
+    "scripts/g2_folk.py",
+    "scripts/lowamp_deep_p1.py",
+    "scripts/t22_virtual_timepoints.py",
+    "scripts/xlib_synth.py",
+    "scripts/xstock_synth.py",
+    "scripts/xstock_tilt.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "named_by_sources_that_never_write",
+    "R3_plus_format_templates": "reproducible_through_a_format_template",
+    "R4_plus_composed_paths": "reproducible_through_a_format_template"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "line": 724,
+      "needle": "REPRO",
+      "shape": "format_template",
+      "text": "_log(f\"G-REPRO {'PASS' if repro_ok else 'FAIL'} {repro_checks}\")",
+      "write_call": "open(log_path, \"a"
+     },
+     "producer": "scripts/decision_chain_e2e.py"
+    },
+    {
+     "evidence": {
+      "line": 316,
+      "needle": "REPRO-%s.json",
+      "shape": "format_template",
+      "text": "name = \"REPRO-%s.json\" % (face.get(\"evidence_cutoff\") or \"unknown\")",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e241_pair_reproduction.py"
+    }
+   ],
+   "face": "results/state_tilt/REPRO-2026-10-30.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "reproduction.tolerance"
+   ],
+   "mentions_only": [
+    "scripts/e312_gate_operand_identity.py"
+   ],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 1,
+   "upstream_classes": [
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [
+    {
+     "evidence": {
+      "line": 724,
+      "needle": "REPRO",
+      "shape": "format_template",
+      "text": "_log(f\"G-REPRO {'PASS' if repro_ok else 'FAIL'} {repro_checks}\")",
+      "write_call": "open(log_path, \"a"
+     },
+     "producer": "scripts/decision_chain_e2e.py"
+    },
+    {
+     "evidence": {
+      "line": 316,
+      "needle": "REPRO-%s.json",
+      "shape": "format_template",
+      "text": "name = \"REPRO-%s.json\" % (face.get(\"evidence_cutoff\") or \"unknown\")",
+      "write_call": "open(path, \"w"
+     },
+     "producer": "scripts/e241_pair_reproduction.py"
+    },
+    {
+     "evidence": {
+      "line": 340,
+      "needle": "REPRO-%s.json",
+      "shape": "format_template",
+      "text": "leg(\"L1 an ISO-dated name substitutes\", ISO_DATE.sub(\"%s\", \"REPRO-2026-10-31.json\") == \"REPRO-%s.json\")",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e322_residual_refusal_causes.py"
+    }
+   ],
+   "writers_named": [],
+   "writers_standard": [
+    "scripts/_r855bma_conflict_resolve.py",
+    "scripts/d19_watermark.py",
+    "scripts/decision_chain_v2.py",
+    "scripts/e15_emotion_reeval.py",
+    "scripts/e241_pair_reproduction.py",
+    "scripts/e242_omission_inflation_sweep.py",
+    "scripts/e294_live_universe_drift.py",
+    "scripts/e302_universe_switch_backfill.py",
+    "scripts/g25_retro.py",
+    "scripts/g2_folk.py",
+    "scripts/lowamp_deep_p1.py",
+    "scripts/t22_virtual_timepoints.py",
+    "scripts/xlib_synth.py",
+    "scripts/xstock_synth.py",
+    "scripts/xstock_tilt.py"
+   ]
+  },
+  {
+   "class_by_rung": {
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R2_every_auditor_kept": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R3_plus_format_templates": "reproducible_by_a_source_that_names_the_file_and_writes",
+    "R4_plus_composed_paths": "reproducible_by_a_source_that_names_the_file_and_writes"
+   },
+   "evidence": [
+    {
+     "evidence": {
+      "shape": "assignment_then_open",
+      "var": "PROBE_JSON"
+     },
+     "producer": "scripts/xstock_tilt.py"
+    }
+   ],
+   "face": "results/xstock_tilt_probe.json",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "leaves": [
+    "reproduction.tol_ic",
+    "reproduction.tol_ir"
+   ],
+   "mentions_only": [],
+   "on_disk": true,
+   "orphan_under": [],
+   "rows": 2,
+   "upstream_classes": [
+    "published_as_a_bare_literal",
+    "published_as_a_constant_that_names_nothing"
+   ],
+   "writers_composed": [],
+   "writers_family": [],
+   "writers_named": [
+    "scripts/xstock_tilt.py"
+   ],
+   "writers_standard": [
+    "scripts/xstock_tilt.py"
+   ]
+  }
+ ],
+ "held_fixed": "every row, leaf, class and gate value of the upstream face is read and never rewritten; only the definition of 'a source can produce this face' moves, one rule per rung",
+ "moved_faces": [
+  {
+   "face": "results/_fund_divlowvol_p2_freeze_probe_local.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/e40_cashleg_drag/CASHLeg-20261027.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/etf_book_production/PRODUCTION-2026-10-27.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 2,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/etf_book_production/PRODUCTION-2026-10-28.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 2,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/etf_book_voltarget_lag.json",
+   "final": "reproducible_through_a_path_the_source_composes",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/regime5_diag/REGIME5-DIAG-2026-09-30.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/regime5_diag/REGIME5-DIAG-2026-10-19.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/shortline/gtja191_ic.json",
+   "final": "reproducible_through_a_path_the_source_composes",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/shortline/p1e_nulls_M_arc.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R2_every_auditor_kept",
+   "rows": 1,
+   "standard": "no_source_in_the_corpus_names_the_face"
+  },
+  {
+   "face": "results/shortline/p1e_nulls_M_close.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/shortline/p1e_nulls_M_close_tr.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R3_plus_format_templates",
+   "rows": 1,
+   "standard": "no_source_in_the_corpus_names_the_face"
+  },
+  {
+   "face": "results/shortline/p1e_synth.json",
+   "final": "reproducible_through_a_path_the_source_composes",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/shortline/p1e_synth_parts.json",
+   "final": "reproducible_through_a_path_the_source_composes",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/shortline/pa_lhb_ic.json",
+   "final": "reproducible_through_a_path_the_source_composes",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/shortline/pb_synth.json",
+   "final": "reproducible_through_a_path_the_source_composes",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/shortline/t11_negday_ic.json",
+   "final": "reproducible_through_a_path_the_source_composes",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/shortline/turnover_derivation.json",
+   "final": "reproducible_through_a_path_the_source_composes",
+   "first_rung_that_finds_a_writer": "R4_plus_composed_paths",
+   "rows": 1,
+   "standard": "no_source_in_the_corpus_names_the_face"
+  },
+  {
+   "face": "results/shortline/xlib_synth.json",
+   "final": "reproducible_through_a_path_the_source_composes",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 7,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 15,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 2,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R3_plus_format_templates",
+   "rows": 22,
+   "standard": "no_source_in_the_corpus_names_the_face"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 31,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 64,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "final": "reproducible_through_a_path_the_source_composes",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 4,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/state_tilt/REPRO-2026-10-29.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  },
+  {
+   "face": "results/state_tilt/REPRO-2026-10-30.json",
+   "final": "reproducible_through_a_format_template",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
+   "rows": 1,
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
+  }
+ ],
+ "no_bill": "published faces and in-repo sources only; no draws, no panel read, no engine, no network",
+ "rules": {
+  "R1_standard_needle": "E321/E312 producer_candidates as published -- an INSTRUMENT measured for reference, not a rung of the writer-evidence ladder (its stem fallback credits a mention without a writer)",
+  "R2_every_auditor_kept": "every python source under the producing packages, this scanner excluded",
+  "R3_plus_format_templates": "a face named by a format template counts",
+  "R4_plus_composed_paths": "a file name on an assignment/os.path.join line counts when its module can write"
+ },
+ "study": "E325_orphan_gate_faces",
+ "summary": {
+  "face_reading_rises_by": -4,
+  "faces": 51,
+  "faces_moved": 30,
+  "faces_orphan_on_one_rung_and_written_on_a_later_one": [
+   {
+    "face": "results/shortline/p1e_nulls_M_arc.json",
+    "first_rung_that_finds_a_writer": "R2_every_auditor_kept",
+    "rows": 1
+   },
+   {
+    "face": "results/shortline/p1e_nulls_M_close_tr.json",
+    "first_rung_that_finds_a_writer": "R3_plus_format_templates",
+    "rows": 1
+   },
+   {
+    "face": "results/shortline/turnover_derivation.json",
+    "first_rung_that_finds_a_writer": "R4_plus_composed_paths",
+    "rows": 1
+   },
+   {
+    "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+    "first_rung_that_finds_a_writer": "R3_plus_format_templates",
+    "rows": 22
+   }
+  ],
+  "faces_that_survive_every_rung": [],
+  "ladder_is_monotone_from": "R2_every_auditor_kept",
+  "orphan_faces_by_rung": {
+   "R1_standard_needle": 4,
+   "R2_every_auditor_kept": 24,
+   "R3_plus_format_templates": 8,
+   "R4_plus_composed_paths": 0
+  },
+  "orphan_rows_by_rung": {
+   "R1_standard_needle": 25,
+   "R2_every_auditor_kept": 164,
+   "R3_plus_format_templates": 11,
+   "R4_plus_composed_paths": 0
+  },
+  "row_and_face_readings_disagree": false,
+  "row_reading_falls_by": 25,
+  "rows": 196,
+  "rows_on_the_largest_first_rung_orphan": 22,
+  "rows_that_survive_every_rung": 0,
+  "rows_the_published_lookup_credits_that_writer_evidence_refuses": 139,
+  "unpublished_lookup_self_exclusion_is_the_largest_cause": true,
+  "unresolved_faces_named_but_no_writer_shown": [],
+  "unresolved_rows": 0
+ },
+ "title": "the gate rows whose face has no writer: a face-level defect measured as a ladder of naming rules, so 'unreproducible' can never be quoted from one rung",
+ "upstream": "REACHWIDE-2026-10-31.json",
+ "upstream_study": "E323_reach_under_wider_needle",
+ "verdict": "every_writer_less_face_in_the_population_is_a_lookup_artefact_under_a_later_rung",
+ "verdict_reason": "the published lookup reports 25 of 196 rows (12.76 pct) and 4 of 51 faces writer-less. A rule that demands a writer rather than a mention reports 164 rows / 24 faces, format templates take that to 11 rows / 8 faces, and composed paths to 0 / 0. So the published lookup OVER-credits (its stem fallback accepts a bare mention: 139 rows are orphan under writer evidence but named under it) while the strictest rule is the one that orphans the most faces -- the ladder is monotone only from the second rung, and 'no writer' is a fact about a named rule, never about the repository."
+}

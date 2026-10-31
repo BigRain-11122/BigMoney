@@ -26009,7 +26009,10 @@
     "run"
    ],
    "source": "r1344 (E324): the sixth key existed only inside PRECISIONCENSUS-2026-10-30.json while no .py in the tree contains the string; that is a different defect from a missing key and it has not been counted at population scale",
-   "status": "ready",
+   "status": "done",
+  "done_at": "2026-11-01T02:52:00+08:00",
+  "result_ref": "results/state_tilt/ORPHANGATEFACE-2026-10-31.json + scripts/e325_orphan_gate_faces.py (run / verify / selftest 13/13)",
+  "done_note": "25 of 196 gate rows (12.76 pct) on 4 of 51 faces are writer-less under the published lookup; a writer-evidence rule reports 164 rows / 24 faces, format templates 11 / 8, composed paths 0 / 0. No face in the population survives as an orphan and 0 rows are left in the named-but-unwritten residue. The published lookup is an INSTRUMENT, not a rung: its stem fallback credits a bare mention, so it under-reports writer-less rows by 139 while a strict rule over-reports faces by 20.",
    "target": "every gate key of the 196 rows of REACHWIDE-2026-10-31.json, against the full producer corpus",
    "title": "count how many census gates read a value no source in the tree can produce: an orphan face is a face-level defect, not a naming defect",
    "worker_class": "code-change",
@@ -26017,6 +26020,19 @@
     "priority": "BelowNormal",
     "workers": 1
    }
+  },
+  {
+   "deliverable": "results/state_tilt/<face> + scripts/e326_*.py + chain leg + smoke leg + methodology card",
+   "entered_at": "2026-11-01T02:52:00+08:00",
+   "id": "E326-WHICH-CONSUMERS-TIE-A-NUMBER-TO-AN-UNREPUBLISHED-PARAMETER",
+   "lane": "cpu-only",
+   "notes": "seeded by r1345 bm-b when E325 closed; the supply floor stays breached honestly (ready 1 of floor 3) -- the next card needs a consumer census, not another face",
+   "owner_since": null,
+   "priority": 3,
+   "question": "E325 showed that no face in the 196-gate population is an orphan once every naming rule is allowed, but 14 of 51 faces are written only through a format template or a composed path -- no single-line writer exists. Do the consumers of those faces depend on the template's own parameter (a cutoff, a class) in a way that re-deriving from a different parameter would silently answer a different question, and which published numbers are tied to a face whose parameter is not republished beside the number?",
+   "source": "E325 ORPHANGATEFACE-2026-10-31 (faces by rung, evidence per face) + E323 REACHWIDE rows for the consumers",
+   "status": "ready",
+   "target": "every population face whose final E325 class is a format template or a composed path, against the consumers that quote its leaves"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
