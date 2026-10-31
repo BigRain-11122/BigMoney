@@ -25548,7 +25548,7 @@
    "id": "E302-UNIVERSE-SWITCH-BACKFILL",
    "title": "three directory-censusing studies cannot be asked whether their verdict depends on the universe because build() takes no universe argument -- what would it cost to give each one a switch, and does any of them flip once it has one?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "runner": "scripts/e302_universe_switch_backfill.py",
    "runner_args": [
@@ -25564,7 +25564,11 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "source": "r1322 (E294) re-derived every directory-censusing study under a frozen vintage and under the live directory: 9 of 12 were varied and none flips, but e290/e291/e292 publish only build() with no universe argument, so the question is unasked for them rather than answered. Price the switch: what each study's build() would have to accept, whether the frozen vintage reproduces its published verdict once the switch exists, and whether it flips. No reburn: published faces only."
+   "source": "r1322 (E294) re-derived every directory-censusing study under a frozen vintage and under the live directory: 9 of 12 were varied and none flips, but e290/e291/e292 publish only build() with no universe argument, so the question is unasked for them rather than answered. Price the switch: what each study's build() would have to accept, whether the frozen vintage reproduces its published verdict once the switch exists, and whether it flips. No reburn: published faces only.",
+   "result_ref": "results/state_tilt/BANDSWITCH-2026-10-30.json",
+   "done_at": "2026-10-31T14:45:31+08:00",
+   "done_by": "bm-b r1325",
+   "done_note": "the switch is one module-global redirect and it flips nothing: 31 module bindings must move for the simulation (a real outdir= parameter would instead thread 6 functions and 10 module-default load() calls), and all three studies reproduce their published verdict under a staged vintage (118/120/132 faces against the live 170). Verdict no_published_verdict_moves_with_the_universe. Face BANDSWITCH-2026-10-30."
   },
   {
    "id": "E303-RECOVER-UNMEASURABLE-BASIS",
@@ -25593,6 +25597,29 @@
    "target": "scripts/e299_rounded_vs_tolerance_census.py face members named by the 8 face_level rows",
    "deliverable": "results/state_tilt/PRECISIONGAP-<cutoff>.json",
    "question": "for each face_level row: does the face publish that key at all, under a different spelling, or inside a list the leaf walk stops short of -- and once the key is found, does the row stay at risk on its own decimals?"
+  },
+  {
+   "id": "E307-UNDATED-FACE-VINTAGE",
+   "title": "one face in results/state_tilt publishes no `generated` stamp and the freeze helper silently substitutes its file mtime -- how many frozen universes in the family depend on a file mtime today, and what does each rule read for that one face?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "evidence_cutoff": "2026-10-31",
+   "entered_at": "2026-10-31T14:45:31+08:00",
+   "entered_by": "bm-b r1325",
+   "source": "r1325 (E302): pricing the switch exposed a rule defect rather than a study defect -- e_band_family_vintage._face_stamp falls back to os.path.getmtime for a face with no `generated` field, so a frozen universe is not re-runnable across a rewrite of that face. The same code read one study's staged universe as 163 faces and then 132 with nothing published changing. E302 sidesteps it (stamp-only rule, an undated face is kept); this card asks how much of the family is exposed and whether the helper should be fixed at the source.",
+   "target": "scripts/e_band_family_vintage.py + every study that calls vintage.vintage_names()",
+   "deliverable": "results/state_tilt/UNDATEDVINTAGE-<cutoff>.json",
+   "question": "per consumer of the freeze helper: does its frozen universe include any face whose only witness is a file mtime, and does re-running after touching those files change the universe, the verdict, or neither?",
+   "runner": "scripts/e307_undated_face_vintage.py",
+   "runner_args": [
+    "run"
+   ],
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

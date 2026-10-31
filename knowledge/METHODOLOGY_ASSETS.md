@@ -6122,3 +6122,31 @@ Evidence: `scripts/e299_rounded_vs_tolerance_census.py` (selftest 32/32, `verify
 `results/state_tilt/PRECISIONCENSUS-2026-10-30.json` (+ `precisioncensus_latest.json`),
 `Tools/s6_chain_bmb.py` leg `precision_census`, smoke leg E299, digest
 `research/digests/DIGEST-20261031-r1324-e299-precision-census.md`.
+
+### E306 a switch that needs no source edit still has a price, and the price is not the finding (r1325 bm-b)
+
+E294 could not ask three directory-censusing studies whether their verdict depends on the universe,
+because their `build()` takes no argument. This study makes them askable without editing a line: the
+universe reaches each study through a module-level directory global, so redirecting every module
+binding of that global at a staged directory re-derives the study. All three reproduce their published
+verdict and none flips (staged 118/120/132 faces against the live 170).
+
+Three rules:
+
+1. **Cost and effect are two numbers, published separately.** A global-redirect switch costs 31 module
+   bindings to move (measured, and order-independent -- a leg asserts it); a durable `outdir=` parameter
+   would instead thread 6 functions and 10 module-default `load()` calls. A cheap simulation is not a
+   fix, and "none of them flips" is the answer to the question -- folding both into one figure lets
+   either hide the other.
+2. **A staging that is not narrower than the live directory is a tautology.** Publish both file counts
+   per row and refuse the "stable" reading when the staged universe is not strictly smaller; a leg
+   asserts it. A test that re-runs the same computation twice manufactures stability for free.
+3. **A vintage may only be witnessed by a stamp the face publishes.** A freeze helper that falls back to
+   the file mtime re-reads a different universe after any rewrite of an undated face (observed: one
+   study's staged universe read 163 and then 132 across two runs with nothing published changing). Keep
+   an undated face rather than drop it on a guessed date, and pin with a leg that touching the file does
+   not move the frozen universe.
+
+Also fixed in passing: `e_band_family_vintage.selftest()` leg V2 was date-dependent (its undated
+fixture inherits today's mtime, so it rots once the wall clock passes the frozen fixture cutoff) --
+fixture mtimes are now pinned with `os.utime`, so the leg tests the rule and not today's date.

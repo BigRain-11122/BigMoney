@@ -1,0 +1,336 @@
+{
+ "study": "E302_universe_switch_backfill",
+ "title": "three studies publish build() with no universe argument -- what would a switch cost, and does any verdict flip once they have one",
+ "evidence_cutoff": "2026-10-30",
+ "verdict": "no_published_verdict_moves_with_the_universe",
+ "verdict_reason": "all 3 switchable studies print the same verdict under the staged vintage and the live directory, so the unasked question is now asked and answered for them; the switch costs 31 module bindings to redirect and 6 functions to thread",
+ "summary": {
+  "studies_priced": 3,
+  "status_counts": {
+   "reproduces_and_stable": 3
+  },
+  "measured": 3,
+  "unmeasurable": 0,
+  "flipping": [],
+  "no_reproduction": [],
+  "global_redirect_switch": {
+   "dir_global": "OUTDIR",
+   "bindings_that_must_move": [
+    "e225_state_tilt",
+    "e228_matched_exposure",
+    "e230_hysteresis_toll",
+    "e232_cost_curvature",
+    "e233_empirical_gamma",
+    "e234_per_member_gamma",
+    "e235_charge_granularity",
+    "e236_share_difference",
+    "e239_own_vs_cross",
+    "e240_aggregate_attenuation",
+    "e243_additivity_out_of_sample",
+    "e245_pair_slope_matrix",
+    "e246_star_direction",
+    "e248_star_lag_band",
+    "e250_book_turnover_echo",
+    "e251_star_own_component",
+    "e252_star_prices_itself",
+    "e253_self_row_resolution",
+    "e254_band_exponent_inside_cell",
+    "e255_band_draw_starvation",
+    "e257_band_at_top_flips",
+    "e258_band_multiplier_per_window",
+    "e259_band_multiplier_distribution",
+    "e262_p95_transfer_across_windows",
+    "e269_tight_end_transfer",
+    "e272_flip_budget_two_tails",
+    "e286_count_field_scope",
+    "e290_selfauditable_face_profile",
+    "e291_ambiguity_chance",
+    "e292_scope_fix_plan",
+    "e294_live_universe_drift"
+   ],
+   "bindings_measured": 31
+  },
+  "parameter_threading_cost": [
+   {
+    "script": "e290_selfauditable_face_profile.py",
+    "functions": [
+     "_universe",
+     "write_face"
+    ],
+    "load_calls_on_the_module_default": 3,
+    "module_level_dir_assignments": 1
+   },
+   {
+    "script": "e291_ambiguity_chance.py",
+    "functions": [
+     "census_names",
+     "write_face"
+    ],
+    "load_calls_on_the_module_default": 3,
+    "module_level_dir_assignments": 1
+   },
+   {
+    "script": "e292_scope_fix_plan.py",
+    "functions": [
+     "_universe",
+     "write_face"
+    ],
+    "load_calls_on_the_module_default": 4,
+    "module_level_dir_assignments": 1
+   }
+  ],
+  "rows": [
+   {
+    "script": "e290_selfauditable_face_profile.py",
+    "status": "reproduces_and_stable",
+    "staged": 118,
+    "live": 170,
+    "bindings": 31
+   },
+   {
+    "script": "e291_ambiguity_chance.py",
+    "status": "reproduces_and_stable",
+    "staged": 120,
+    "live": 170,
+    "bindings": 31
+   },
+   {
+    "script": "e292_scope_fix_plan.py",
+    "status": "reproduces_and_stable",
+    "staged": 132,
+    "live": 170,
+    "bindings": 31
+   }
+  ]
+ },
+ "status_counts_reconciled": true,
+ "varied": "the visible universe, through the module-level directory global",
+ "held_fixed": "the studies' own source is untouched -- no file under scripts/ is edited by this study, so every row is a reading of the code as published",
+ "self_faces_excluded": [
+  "BANDSWITCH-2026-10-30.json",
+  "bandswitch_latest.json"
+ ],
+ "switch_shapes_priced": {
+  "A_global_redirect": "assign the directory global on every module binding before calling build(); measured, zero source edits, not a durable fix",
+  "B_parameter_threading": "add outdir=None to build() and pass it through the functions that mention the global and the load() calls that fall back to it; priced per study from the source"
+ },
+ "staging_note": "the staged universe is the stamp-filtered set plus the faces those faces name, one level; both counts are published per row and a staging that is not narrower than the live directory is classed not_measurable (D2)",
+ "no_bill": "published faces only; the staged universe is a temporary directory removed after each row; no draw stream, no band rebuild, no engine, no network; the real directory's mtimes are asserted unchanged around every measurement",
+ "classification_frozen": {
+  "A": "reproduces_and_stable -- frozen == published and live == published",
+  "B": "reproduces_and_flips -- frozen == published and live != published",
+  "C": "does_not_reproduce -- frozen != published",
+  "D": "not_measurable -- raised, had no face, or the staging was not narrower"
+ },
+ "frozen_spec": {
+  "dir_global": "OUTDIR",
+  "universe_rule": "the universe at publish time is every *.json whose own `generated` stamp is not later than mine; an undated face is kept, never dropped on a guess",
+  "widening_rule": "plus every face named inside those faces, resolved against the directory",
+  "verdict_rule": "depends if any switched face flips under the live directory; stable if some face was measured and none flips; unmeasurable when nothing could be varied",
+  "statuses": [
+   "reproduces_and_stable",
+   "reproduces_and_flips",
+   "does_not_reproduce",
+   "not_measurable"
+  ],
+  "verdicts": [
+   "verdict_depends_on_the_universe_it_saw",
+   "no_published_verdict_moves_with_the_universe",
+   "unmeasurable_before_the_universe_question"
+  ],
+  "targets": [
+   "e290_selfauditable_face_profile.py",
+   "e291_ambiguity_chance.py",
+   "e292_scope_fix_plan.py"
+  ]
+ },
+ "rows": [
+  {
+   "script": "e290_selfauditable_face_profile.py",
+   "face": "BANDSELFAUDIT-2026-10-29.json",
+   "build_args": [],
+   "published_verdict": "the_checkable_counts_share_a_same_parent_record_list_but_some_agreements_could_be_coincidence",
+   "face_generated": "2026-10-31T08:00:17",
+   "faces_in_directory_now": 170,
+   "faces_kept_by_stamp": 115,
+   "faces_dropped_as_later": 55,
+   "staged_face_count": 118,
+   "staged_widened_by": 3,
+   "staged_is_narrower": true,
+   "switch_kind": "no_argument_build_needs_a_global_redirect",
+   "dir_bindings_rewired": [
+    "e225_state_tilt",
+    "e228_matched_exposure",
+    "e230_hysteresis_toll",
+    "e232_cost_curvature",
+    "e233_empirical_gamma",
+    "e234_per_member_gamma",
+    "e235_charge_granularity",
+    "e236_share_difference",
+    "e239_own_vs_cross",
+    "e240_aggregate_attenuation",
+    "e243_additivity_out_of_sample",
+    "e245_pair_slope_matrix",
+    "e246_star_direction",
+    "e248_star_lag_band",
+    "e250_book_turnover_echo",
+    "e251_star_own_component",
+    "e252_star_prices_itself",
+    "e253_self_row_resolution",
+    "e254_band_exponent_inside_cell",
+    "e255_band_draw_starvation",
+    "e257_band_at_top_flips",
+    "e258_band_multiplier_per_window",
+    "e259_band_multiplier_distribution",
+    "e262_p95_transfer_across_windows",
+    "e269_tight_end_transfer",
+    "e272_flip_budget_two_tails",
+    "e286_count_field_scope",
+    "e290_selfauditable_face_profile",
+    "e291_ambiguity_chance",
+    "e292_scope_fix_plan",
+    "e294_live_universe_drift"
+   ],
+   "threaded_cost": {
+    "functions_mentioning_the_dir_global": [
+     "_universe",
+     "write_face"
+    ],
+    "load_calls": 3,
+    "load_calls_on_the_module_default": 3,
+    "module_level_dir_assignments": 1
+   },
+   "varied": "module-global OUTDIR redirect (31 bindings, staged 118 faces) vs live directory (170 faces)",
+   "frozen_verdict": "the_checkable_counts_share_a_same_parent_record_list_but_some_agreements_could_be_coincidence",
+   "live_verdict": "the_checkable_counts_share_a_same_parent_record_list_but_some_agreements_could_be_coincidence",
+   "published_files_touched": [],
+   "status": "reproduces_and_stable",
+   "reason": "same verdict under both universes"
+  },
+  {
+   "script": "e291_ambiguity_chance.py",
+   "face": "BANDAMBIENT-2026-10-29.json",
+   "build_args": [],
+   "published_verdict": "the_ambiguity_rate_is_the_length_base_rate_and_the_pairs_are_schema_not_accident",
+   "face_generated": "2026-10-31T08:19:55",
+   "faces_in_directory_now": 170,
+   "faces_kept_by_stamp": 117,
+   "faces_dropped_as_later": 53,
+   "staged_face_count": 120,
+   "staged_widened_by": 3,
+   "staged_is_narrower": true,
+   "switch_kind": "no_argument_build_needs_a_global_redirect",
+   "dir_bindings_rewired": [
+    "e225_state_tilt",
+    "e228_matched_exposure",
+    "e230_hysteresis_toll",
+    "e232_cost_curvature",
+    "e233_empirical_gamma",
+    "e234_per_member_gamma",
+    "e235_charge_granularity",
+    "e236_share_difference",
+    "e239_own_vs_cross",
+    "e240_aggregate_attenuation",
+    "e243_additivity_out_of_sample",
+    "e245_pair_slope_matrix",
+    "e246_star_direction",
+    "e248_star_lag_band",
+    "e250_book_turnover_echo",
+    "e251_star_own_component",
+    "e252_star_prices_itself",
+    "e253_self_row_resolution",
+    "e254_band_exponent_inside_cell",
+    "e255_band_draw_starvation",
+    "e257_band_at_top_flips",
+    "e258_band_multiplier_per_window",
+    "e259_band_multiplier_distribution",
+    "e262_p95_transfer_across_windows",
+    "e269_tight_end_transfer",
+    "e272_flip_budget_two_tails",
+    "e286_count_field_scope",
+    "e290_selfauditable_face_profile",
+    "e291_ambiguity_chance",
+    "e292_scope_fix_plan",
+    "e294_live_universe_drift"
+   ],
+   "threaded_cost": {
+    "functions_mentioning_the_dir_global": [
+     "census_names",
+     "write_face"
+    ],
+    "load_calls": 3,
+    "load_calls_on_the_module_default": 3,
+    "module_level_dir_assignments": 1
+   },
+   "varied": "module-global OUTDIR redirect (31 bindings, staged 120 faces) vs live directory (170 faces)",
+   "frozen_verdict": "the_ambiguity_rate_is_the_length_base_rate_and_the_pairs_are_schema_not_accident",
+   "live_verdict": "the_ambiguity_rate_is_the_length_base_rate_and_the_pairs_are_schema_not_accident",
+   "published_files_touched": [],
+   "status": "reproduces_and_stable",
+   "reason": "same verdict under both universes"
+  },
+  {
+   "script": "e292_scope_fix_plan.py",
+   "face": "BANDSCOPEFIX-2026-10-29.json",
+   "build_args": [],
+   "published_verdict": "the_elsewhere_scope_premise_does_not_hold_no_move_lands_in_a_scope_related_to_the_count",
+   "face_generated": "2026-10-31T12:10:37",
+   "faces_in_directory_now": 170,
+   "faces_kept_by_stamp": 129,
+   "faces_dropped_as_later": 41,
+   "staged_face_count": 132,
+   "staged_widened_by": 3,
+   "staged_is_narrower": true,
+   "switch_kind": "no_argument_build_needs_a_global_redirect",
+   "dir_bindings_rewired": [
+    "e225_state_tilt",
+    "e228_matched_exposure",
+    "e230_hysteresis_toll",
+    "e232_cost_curvature",
+    "e233_empirical_gamma",
+    "e234_per_member_gamma",
+    "e235_charge_granularity",
+    "e236_share_difference",
+    "e239_own_vs_cross",
+    "e240_aggregate_attenuation",
+    "e243_additivity_out_of_sample",
+    "e245_pair_slope_matrix",
+    "e246_star_direction",
+    "e248_star_lag_band",
+    "e250_book_turnover_echo",
+    "e251_star_own_component",
+    "e252_star_prices_itself",
+    "e253_self_row_resolution",
+    "e254_band_exponent_inside_cell",
+    "e255_band_draw_starvation",
+    "e257_band_at_top_flips",
+    "e258_band_multiplier_per_window",
+    "e259_band_multiplier_distribution",
+    "e262_p95_transfer_across_windows",
+    "e269_tight_end_transfer",
+    "e272_flip_budget_two_tails",
+    "e286_count_field_scope",
+    "e290_selfauditable_face_profile",
+    "e291_ambiguity_chance",
+    "e292_scope_fix_plan",
+    "e294_live_universe_drift"
+   ],
+   "threaded_cost": {
+    "functions_mentioning_the_dir_global": [
+     "_universe",
+     "write_face"
+    ],
+    "load_calls": 4,
+    "load_calls_on_the_module_default": 4,
+    "module_level_dir_assignments": 1
+   },
+   "varied": "module-global OUTDIR redirect (31 bindings, staged 132 faces) vs live directory (170 faces)",
+   "frozen_verdict": "the_elsewhere_scope_premise_does_not_hold_no_move_lands_in_a_scope_related_to_the_count",
+   "live_verdict": "the_elsewhere_scope_premise_does_not_hold_no_move_lands_in_a_scope_related_to_the_count",
+   "published_files_touched": [],
+   "status": "reproduces_and_stable",
+   "reason": "same verdict under both universes"
+  }
+ ],
+ "generated": "2026-10-31T14:39:22"
+}

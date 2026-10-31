@@ -122,6 +122,10 @@ def selftest():
     write("OLD.json", "2026-10-30T10:00:00")
     write("NEW.json", "2026-10-31T09:00:00")
     write("UNDATED.json", None, payload={"study": "x"})
+    # An undated face falls back to its file mtime, and a fixture written today is always later than
+    # the fixture cutoff -- the leg then rots once the wall clock passes it (found 2026-10-31: it
+    # read UNDATED as a later face).  Pin the mtime so the leg tests the rule, not today's date.
+    os.utime(os.path.join(tmp, "UNDATED.json"), (1700000000, 1700000000))
 
     kept, dropped = vintage_names(tmp, ["OLD.json", "NEW.json", "UNDATED.json"], "2026-10-31T06:31:08")
     leg("V2 a later stamp is dropped and an undated face is kept (never dropped on a guess)",

@@ -582,6 +582,18 @@ LEGS = [
     ("live_universe_drift",
      ["python", "scripts/e294_live_universe_drift.py", "verify"]),
 
+    # E302 (r1325 bm-b): E294's own finding was that three directory-censusing studies publish
+    # build() with no universe argument, so for them the universe question was UNASKED. This leg
+    # prices the switch instead of assuming it: the universe reaches each study through a
+    # module-level directory global, so redirecting every module binding of that global re-derives
+    # the study against a staged vintage without editing a line -- the price is 31 bindings, and a
+    # real `outdir=` parameter would instead thread 6 functions and 10 module-default load() calls.
+    # All three reproduce their published verdict and none flips (staged 118/120/132 faces against
+    # the live 170). Each row publishes both file counts so a staging that is not narrower cannot be
+    # read as "stable", and the real directory's mtimes are asserted unchanged. ~5s.
+    ("universe_switch_backfill",
+     ["python", "scripts/e302_universe_switch_backfill.py", "verify"]),
+
     # E298 (r1323 bm-b): r1316 taught ONE replay control (E243's) to say which panel it re-derived
     # on, which fixed a face and not the class. This leg censuses every control block published in
     # results/state_tilt (90 dated faces; 67 mirrors and its own two faces excluded): 26 containers,

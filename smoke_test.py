@@ -8380,6 +8380,85 @@ def main() -> int:
     except Exception as e:
         check(_name95, False, repr(e)[:160])
 
+    # E302: three studies publish build() with no universe argument, so E294 could not ask them
+    # whether their verdict depends on the directory. This leg re-derives the priced switch:
+    # (a) every row that reports a verdict was measured against a staged universe that is actually
+    # narrower than the live one (a tautology would read "stable" for free, the E294 trap), (b) a
+    # measured row declares what it varied, (c) nothing in results/state_tilt was written by the
+    # measurement, (d) the priced binding set is non-empty and never counts this study's own module,
+    # and (e) the summary re-derives.
+    _name96 = ("product: the three universe-unaskable studies are switchable, each row varies a "
+               "narrower universe than the live one, and the price of the switch is published")
+    _bad96 = []
+    try:
+        _p96 = os.path.join("results", "state_tilt", "bandswitch_latest.json")
+        _f96 = None
+        if os.path.exists(_p96):
+            _f96 = json.load(open(_p96, encoding="utf-8"))
+        if _f96 is None:
+            _bad96.append("no published switch face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m96 = __import__("importlib").import_module("e302_universe_switch_backfill")
+            _fresh96 = _m96.build()
+            if _f96.get("verdict") != _fresh96.get("verdict"):
+                _bad96.append("the verdict does not re-derive")
+            if _f96.get("verdict") not in _m96.VERDICTS:
+                _bad96.append("verdict %r is outside the frozen set" % (_f96.get("verdict"),))
+            _s96 = _f96.get("summary") or {}
+            _rows96 = _f96.get("rows") or []
+            if _s96.get("studies_priced") != len(_rows96):
+                _bad96.append("the summary count disagrees with its own rows")
+            for _r96 in _rows96:
+                if _r96.get("status") not in _m96.STATUSES:
+                    _bad96.append("a row status is outside the frozen set")
+                    break
+                if _r96.get("status") in (_m96.STATUS_STABLE, _m96.STATUS_FLIPS):
+                    if " vs " not in (_r96.get("varied") or ""):
+                        _bad96.append("a measured row does not declare what it varied")
+                        break
+                    if not _r96.get("staged_is_narrower"):
+                        _bad96.append("a measured row ran against a staged universe that is not "
+                                      "narrower than the live one")
+                        break
+                if _r96.get("published_files_touched"):
+                    _bad96.append("a row wrote to the published directory")
+                    break
+            _bind96 = (_s96.get("global_redirect_switch") or {}).get("bindings_that_must_move") or []
+            if not _bind96:
+                _bad96.append("the priced binding set is empty")
+            if set(_bind96) & {"__main__", "__mp_main__", _m96.SELF_MODULE}:
+                _bad96.append("the study's own module is counted as a binding")
+            if _f96.get("summary") != _fresh96.get("summary"):
+                _bad96.append("the summary does not re-derive")
+            # The dated face and the mirror must say the same thing: a reader who opens one and a
+            # leg that reads the other would otherwise be judging two different publications.
+            _dated96 = os.path.join("results", "state_tilt", _m96.FACE)
+            if os.path.exists(_dated96):
+                _d96 = json.load(open(_dated96, encoding="utf-8"))
+                _dd96 = dict(_d96)
+                _ff96 = dict(_f96)
+                _dd96.pop("generated", None)
+                _ff96.pop("generated", None)
+                if json.dumps(_dd96, sort_keys=True) != json.dumps(_ff96, sort_keys=True):
+                    _bad96.append("the dated face and the mirror disagree beyond their stamp")
+            else:
+                _bad96.append("the dated face named by FACE is not published")
+        check(_name96, not _bad96, "; ".join(_bad96)[:220]
+              or "verdict %s | %d study(ies) priced, %d switchable and stable, %d flipping; the "
+                 "switch costs %d module bindings to redirect and %d functions to thread"
+                 % (str((_f96 or {}).get("verdict")),
+                    ((_f96 or {}).get("summary") or {}).get("studies_priced") or 0,
+                    (((_f96 or {}).get("summary") or {}).get("status_counts") or {}
+                     ).get("reproduces_and_stable") or 0,
+                    len(((_f96 or {}).get("summary") or {}).get("flipping") or []),
+                    (((_f96 or {}).get("summary") or {}).get("global_redirect_switch") or {}
+                     ).get("bindings_measured") or 0,
+                    sum(len(_t.get("functions") or []) for _t in
+                        (((_f96 or {}).get("summary") or {}).get("parameter_threading_cost") or []))))
+    except Exception as e:
+        check(_name96, False, repr(e)[:160])
+
     return _finish()
 
 
