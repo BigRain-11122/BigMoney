@@ -1,8 +1,8 @@
 {
-  "ts": "2026-10-31T13:52:43",
-  "mode": "refresh incomplete (checkpoint preserved)",
+  "ts": "2026-10-31T18:08:44",
+  "mode": "refresh complete",
   "panel": {
-    "complete": false,
+    "complete": true,
     "cutoff": "2026-10-30",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
     "coverage_pct": 99.9,
@@ -62,9 +62,16 @@
     "repull": false
   },
   "quarantined_n": 4,
-  "last_spawn_attempt": "2026-10-31T13:52:11",
-  "settled_n": 0,
-  "settled": [],
+  "last_spawn_attempt": "2026-10-31T18:08:04",
+  "settled_n": 6,
+  "settled": [
+    "002717",
+    "002827",
+    "601326",
+    "605258",
+    "688121",
+    "688496"
+  ],
   "per_files_on_disk": 5222,
   "validation": {
     "suspended_rows": 0,
@@ -74,8 +81,8 @@
   "takeover": {
     "owner": "bm-b",
     "by": "bm-a",
-    "reason": "owner bm-b silent 25.2h >= 120min",
-    "ts": "2026-10-31T13:52:11"
+    "reason": "owner bm-b silent 29.4h >= 120min",
+    "ts": "2026-10-31T18:08:04"
   },
   "spawn_reason": "panel incomplete at cutoff 2026-10-30 (coverage 99.9%, expected 2026-10-30) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation"

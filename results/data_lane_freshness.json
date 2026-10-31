@@ -1,6 +1,6 @@
 {
  "schema": "data-lane-freshness/v1",
- "as_of": "2026-10-31T13:55:29",
+ "as_of": "2026-10-31T18:05:05",
  "close_accept_time": "15:30",
  "calendar_path": "data/exchange_calendar.csv",
  "calendar_days": 8797,
@@ -33,9 +33,9 @@
    "lanes_unverifiable": [
     "etf_panel"
    ],
-   "last_seen": "2026-10-31T13:16:29+08:00",
-   "age_h": 0.65,
-   "alive": true
+   "last_seen": "2026-10-31T15:30:42+08:00",
+   "age_h": 2.57,
+   "alive": false
   },
   "bm-b": {
    "host": "bm-b",
@@ -56,15 +56,17 @@
     "astock_daily"
    ],
    "last_seen": "2026-10-30T12:43:06+08:00",
-   "age_h": 25.21,
+   "age_h": 29.37,
    "alive": false
   }
  },
  "hosts_down": [
+  "bm-a",
   "bm-b"
  ],
  "lanes_hostage": [
   "astock_daily",
+  "etf_panel",
   "heat",
   "marks",
   "moneyflow",
@@ -94,7 +96,7 @@
     ],
     "n": 6,
     "alive": false,
-    "age_h": 25.21,
+    "age_h": 29.37,
     "last_seen": "2026-10-30T12:43:06+08:00"
    }
   ],
@@ -106,7 +108,7 @@
    "repo",
    "zt_pool"
   ],
-  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-b 的盘上（25.21h 未报到）；留在本机盘上的 3 条里 2 条可核实，1 条连署名都没有。",
+  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-b 的盘上（29.37h 未报到）；留在本机盘上的 3 条里 2 条可核实，1 条连署名都没有。",
   "labels": {
    "moneyflow": "无主封套",
    "heat": "无主封套",
@@ -156,7 +158,7 @@
    "copy_verdict": "stalled",
    "retired_reason": "O-20261009-1105 -- the options face is closed; the panel is a historical wave-2 batch with no forward accumulation",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 25.21,
+   "host_age_h": 29.37,
    "host_alive": false
   },
   {
@@ -186,7 +188,7 @@
    "copy_verdict": "stalled",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 25.21,
+   "host_age_h": 29.37,
    "host_alive": false
   },
   {
@@ -219,7 +221,7 @@
    "copy_verdict": "stalled",
    "why": "the lane publishes no tail and this reading is this machine's local copy; it is hosted by bm-b",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 25.21,
+   "host_age_h": 29.37,
    "host_alive": false
   },
   {
@@ -242,7 +244,7 @@
    "copy_verdict": "stalled",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 25.21,
+   "host_age_h": 29.37,
    "host_alive": false
   },
   {
@@ -265,7 +267,7 @@
    "copy_verdict": "behind_1d",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 25.21,
+   "host_age_h": 29.37,
    "host_alive": false
   },
   {
@@ -293,7 +295,7 @@
    "copy_verdict": "behind_1d",
    "why": "read from this machine's local copy; the lane is hosted by bm-b",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 25.21,
+   "host_age_h": 29.37,
    "host_alive": false
   },
   {
@@ -313,7 +315,7 @@
    "copy_verdict": "in_sync",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 25.21,
+   "host_age_h": 29.37,
    "host_alive": false
   },
   {
@@ -335,9 +337,9 @@
    "auditable": false,
    "copy_verdict": "in_sync",
    "why": "the envelope does not name the machine whose data it describes",
-   "host_last_seen": "2026-10-31T13:16:29+08:00",
-   "host_age_h": 0.65,
-   "host_alive": true
+   "host_last_seen": "2026-10-31T15:30:42+08:00",
+   "host_age_h": 2.57,
+   "host_alive": false
   },
   {
    "lane": "futures",
@@ -353,9 +355,9 @@
    "lane_host": "bm-a",
    "authority": "host_envelope",
    "auditable": true,
-   "host_last_seen": "2026-10-31T13:16:29+08:00",
-   "host_age_h": 0.65,
-   "host_alive": true
+   "host_last_seen": "2026-10-31T15:30:42+08:00",
+   "host_age_h": 2.57,
+   "host_alive": false
   },
   {
    "lane": "lhb",
@@ -371,9 +373,9 @@
    "lane_host": "bm-a",
    "authority": "host_envelope",
    "auditable": true,
-   "host_last_seen": "2026-10-31T13:16:29+08:00",
-   "host_age_h": 0.65,
-   "host_alive": true
+   "host_last_seen": "2026-10-31T15:30:42+08:00",
+   "host_age_h": 2.57,
+   "host_alive": false
   }
  ]
 }

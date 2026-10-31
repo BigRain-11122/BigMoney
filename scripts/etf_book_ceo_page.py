@@ -36,6 +36,7 @@ BETS_JSON = os.path.join(ROOT, "results", "etf_book_bets_face.json")
 LEGS_JSON = os.path.join(ROOT, "results", "etf_book_legs", "latest.json")
 CONC_JSON = os.path.join(ROOT, "results", "etf_book_concentration.json")
 SLEEVE_JSON = os.path.join(ROOT, "results", "etf_book_sleeve_gate.json")
+PATHS_JSON = os.path.join(ROOT, "results", "etf_book_sleeve_paths.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -245,6 +246,30 @@ def sleeve_gate_face(path=SLEEVE_JSON):
         return _G.read_published(path=path) if path else _G.read_published()
     except Exception as exc:                                    # noqa: BLE001
         return {"status": "unreadable", "artifact": path, "sentence": None,
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def sleeve_paths_face(path=PATHS_JSON):
+    """Was the named re-test candidate actually re-tested? (r1195)
+
+    r1193 ended the sleeve section with "the vol gate is the candidate to re-test on new
+    data, not a bar to lower". This page is where that promise has to be paid or dropped:
+    the path face re-prices the same gate on several decision grids, and this reader is the
+    single implementation every consumer uses (`read_published`). Absent, unreadable and
+    stale all read as "cannot verify here" -- the one answer this section must never
+    invent is "not needed"."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_sleeve_paths as _SP
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "detail": "reader failed (%s)"
+                % str(exc)[:120]}
+    try:
+        return _SP.read_published(path=path)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path,
                 "detail": "reading failed (%s)" % str(exc)[:120]}
 
 
@@ -1148,6 +1173,7 @@ def build(with_stress=False):
     page["leg_split"] = leg_split()
     page["concentration"] = concentration_face()
     page["sleeve_gate"] = sleeve_gate_face()
+    page["sleeve_paths"] = sleeve_paths_face()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
     return page, today
 
@@ -1675,6 +1701,56 @@ def render_md(p):
             % (_rel(sg.get("artifact") or SLEEVE_JSON, ROOT).replace(os.sep, "/"),
                sg.get("evidence_cutoff") or "—",
                crit.get("min_dd_gain_pp") or 0.0, 100 * (crit.get("cagr_keep") or 0.0)))
+        add("")
+    sp = p.get("sleeve_paths") or {}
+    gs = sp.get("gates_summary") or {}
+    add("### 那个「拿新网格再测」的候选，测完了")
+    add("")
+    if sp.get("status") != "ok" or sp.get("stale_vs_sleeve_gate"):
+        add("这一节没有数：网格重测面%s（`%s`）。"
+            "缺面或落后于上面那张表就写「无法核验」，绝不默认读成「重测过了、没问题」。"
+            % ("早于上面的袖门面" if sp.get("status") == "ok"
+               else ("未产出" if sp.get("status") == "absent" else "读不出"),
+               _rel(sp.get("artifact") or PATHS_JSON, ROOT).replace(os.sep, "/")))
+        add("")
+    else:
+        rows_sp = [r for r in (sp.get("rows") or []) if r.get("placebo_offset") == 0]
+        _zh = {"trend": "趋势", "vol": "波动", "drawdown": "回撤"}
+        add("- 把决策网格整体往后挪 **0/5/10/15/20 根 bar**，得到 **%d 个网格**；"
+            "每个网格再配 **%d 个不同起点的同剂量安慰剂**，共 **%d 条路径**。"
+            "同一条门、同一道事先冻结的门槛、同一批票、同样的成本——变的只有「哪天做决定」。"
+            % (gs.get("grids") or 0,
+               (len(sp.get("rows") or []) // max(gs.get("grids") or 1, 1) or 0),
+               gs.get("paths") or 0))
+        add("")
+        add("| 网格起点 | 关掉袖的决策数 | 回撤改善 | 年化保留 | 判词 |")
+        add("|---|---|---|---|---|")
+        for r in rows_sp:
+            add("| %s | %s/%s | %+.2fpp | %.3f | %s |"
+                % (r.get("start") or r.get("phase"),
+                   r.get("off_decisions") if r.get("off_decisions") is not None else "无",
+                   r.get("decisions") if r.get("decisions") is not None else "无",
+                   r.get("dd_gain_pp") or 0.0, r.get("cagr_keep") or 0.0,
+                   "过" if r.get("verdict") == "PASS" else "不过"))
+        add("")
+        add("- 回撤改善在 **%+.2f ~ %+.2fpp** 之间，**%d/%d** 条路径赢了自己的安慰剂，"
+            "**%d/%d** 条够到 %.1fpp 的回撤门槛、**%d/%d** 条守住了 %.0f%% 的年化。"
+            "三道条件要同时满足，全过的有 **%d 条**。"
+            % (gs.get("dd_gain_min_pp") or 0.0, gs.get("dd_gain_max_pp") or 0.0,
+               gs.get("beats_placebo") or 0, gs.get("paths") or 0,
+               gs.get("clears_bar") or 0, gs.get("paths") or 0,
+               (sp.get("criteria") or {}).get("min_dd_gain_pp") or 0.0,
+               gs.get("keeps_cagr") or 0, gs.get("paths") or 0,
+               100 * ((sp.get("criteria") or {}).get("cagr_keep") or 0.0),
+               gs.get("passed") or 0))
+        add("")
+        add("- 结论：**%s**。这就是那句话的下文——候选真的拿去重测了，"
+            "而不是把门槛降到它刚好能过（跑到达标为止是账上禁止的动作）。"
+            % str(sp.get("verdict") or "无法核验").replace("|", " · "))
+        add("")
+        add("> 网格重测面：`%s`（计算截止 %s）。"
+            % (_rel(sp.get("artifact") or PATHS_JSON, ROOT).replace(os.sep, "/"),
+               sp.get("evidence_cutoff") or "无"))
         add("")
     add("## 换成年内能赚多少钱（按本单资金 ¥%s）" % format(p["money_cny"]["capital_cny"], ",.0f"))
     add("")

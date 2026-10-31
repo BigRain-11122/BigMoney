@@ -4469,6 +4469,69 @@ def main() -> int:
     except Exception as e:
         check("product: the page answers whether the commodity sleeve needs its own gate",
               False, repr(e)[:160])
+    # ---- r1195: the sleeve-gate answer must survive a moved decision grid -----
+    # r1193's "no sleeve-level gate earns adoption" was read on ONE decision grid, and a
+    # rule that only improves on one phase of the grid has not been measured (E188). The
+    # path face re-prices the same gate on several grids. Two things must stay true on
+    # disk: every judgement and the face verdict recompute from the published rows, and
+    # the phases are genuinely different grids -- the first version of that face dropped
+    # the panel prefix, which does NOT move an engine grid anchored at `start`, and it
+    # published fifteen identical "paths" as if they were fifteen experiments.
+    try:
+        import importlib as _il55
+        _P55 = _il55.import_module("etf_book_sleeve_paths")
+        _p55 = os.path.join(PATHS.results_dir, "etf_book_sleeve_paths.json")
+        _bad55 = []
+        if not os.path.exists(_p55):
+            _bad55.append("results/etf_book_sleeve_paths.json missing")
+        else:
+            with open(_p55, encoding="utf-8") as _fh55:
+                _doc55 = json.load(_fh55)
+            if _P55.check(_p55) != 0:
+                _bad55.append("judgements do not recompute from the published rows")
+            _ph55 = [p.get("first_decision") for p in (_doc55.get("phases") or [])]
+            if len(_ph55) < 2 or len(set(_ph55)) != len(_ph55):
+                _bad55.append("the phases are one grid under different names (%r)" % (_ph55,))
+            _sup55 = _doc55.get("support") or {}
+            _judged55 = [p for p in (_doc55.get("paths") or [])
+                         if (p.get("judgement") or {}).get("verdict") in ("PASS", "FAIL")]
+            _ans55 = _doc55.get("answer") or ""
+            if not _judged55:
+                _bad55.append("no path was assessed")
+            if _doc55.get("verdict") not in ("SUPPORTED", "FRAGILE", "NO_GATE", "NOT_ASSESSED"):
+                _bad55.append("unknown face verdict %r" % (_doc55.get("verdict"),))
+            if "%d of them" % len(_judged55) not in _ans55:
+                _bad55.append("the sentence does not line up with the path count")
+            if _doc55.get("verdict") == "NO_GATE" and abs(float(_sup55.get("share") or 0)) > 0.5:
+                _bad55.append("face says NO_GATE with %r of paths passing" % (_sup55.get("share"),))
+            # the page is the face the CEO opens: it must print THESE numbers, and it must
+            # name the verdict rather than leaving the candidate un-retested on the page
+            _ptr55p = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
+            _page55 = ""
+            if os.path.exists(_ptr55p):
+                with open(_ptr55p, encoding="utf-8") as _fh55:
+                    _page55 = os.path.join(PATHS.root, json.load(_fh55).get("page") or "")
+            if not _page55 or not os.path.exists(_page55):
+                _bad55.append("no page the latest.json pointer names")
+            else:
+                with open(_page55, encoding="utf-8") as _fh55:
+                    _md55 = _fh55.read()
+                _gs55 = _doc55.get("gates_summary") or {}
+                for _want55 in ("再测",
+                                "%d 个网格" % len({p.get("phase") for p in _doc55.get("paths") or []}),
+                                "%d 条路径" % len(_judged55),
+                                "%d 条" % ((_doc55.get("support") or {}).get("passed") or 0),
+                                str(_doc55.get("verdict"))):
+                    if _want55 not in _md55:
+                        _bad55.append("page does not print %r" % (_want55,))
+        check("product: the sleeve-gate answer survives a moved decision grid", not _bad55,
+              "; ".join(_bad55)[:220] or "face %s on %d grids, %d/%d paths pass"
+              % (_doc55.get("verdict"), len(_doc55.get("phases") or []),
+                 (_doc55.get("support") or {}).get("passed"),
+                 (_doc55.get("support") or {}).get("assessed")))
+    except Exception as e:
+        check("product: the sleeve-gate answer survives a moved decision grid", False,
+              repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
         _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")
