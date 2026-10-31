@@ -1,0 +1,455 @@
+{
+ "schema": "bigmoney/e315-legeps/v1",
+ "study": "E315_leg_epsilon_vs_flat_regime",
+ "title": "where does each two-regime gate's tolerance meet the leg's epsilon, and which of the two is the real gate at the magnitudes the face publishes?",
+ "evidence_cutoff": "2026-10-31",
+ "generated": "2026-10-31",
+ "self_faces_excluded": [
+  "LEGEPS-2026-10-31.json",
+  "legeps_latest.json"
+ ],
+ "upstream": {
+  "gate_clamp_face": "results/state_tilt/gateclamp_latest.json",
+  "upstream_rows": 30,
+  "rows_selected": 5,
+  "selection": "regime classes whose tolerance depends on the gated quantity (piecewise_floor, linear_in_the_quantity, constant_after_normalisation_and_linear)"
+ },
+ "join_rules": {
+  "crossover_scale": "eps / tol -- the magnitude at which a `tol * x` tolerance equals the leg's epsilon; defined only where the gate really is `tol * x`, and never borrowed across regimes",
+  "flat_regime_tolerance": "piecewise: tol * floor, the gate's finest tolerance in the flat regime; linear with no floor: 0.0, which is exact equality at the zero end rather than a rounded tolerance",
+  "orders_of_magnitude": "log10(gate tolerance / leg epsilon) at the face's largest magnitude; None (not a big number) when the epsilon is zero, because the ratio is unbounded",
+  "published_range": "the face's own numeric leaves bound what a reader can see; a crossover above the largest leaf is a crossover no reader reaches",
+  "leaves": "only leaves whose own path names the quantity the gate is rated in are counted; the tolerance constant and the sample size sit on the same face and counting them would say the gate is exercised when it is not, so an unattributable set is published as a status with zero, never as a count"
+ },
+ "census": {
+  "upstream_rows": 30,
+  "upstream_rows_selected": 5,
+  "rows": 5,
+  "rows_in_each_class": {
+   "leg_demands_exact_equality": 4,
+   "gate_is_exact_only_at_the_zero_end": 1,
+   "leg_finer_than_the_gates_flattest_tolerance": 0,
+   "leg_coarser_than_the_gates_flattest_tolerance": 0,
+   "leg_epsilon_equals_the_gates_flattest_tolerance": 0,
+   "gate_has_no_flat_regime_to_compare": 0,
+   "leg_epsilon_unpublished": 0
+  },
+  "rows_whose_leg_demands_exact_equality": 4,
+  "rows_whose_leg_epsilon_is_published": 5,
+  "rows_whose_gate_is_tighter_at_the_face_maximum": 1,
+  "rows_with_a_crossover_scale": 5,
+  "rows_whose_crossover_lies_inside_the_published_range": 5,
+  "rows_whose_crossover_lies_beyond_the_published_range": 0,
+  "rows_whose_crossover_is_unpublished": 0,
+  "rows_publishing_a_flat_regime": 3,
+  "rows_whose_quantity_identifier_is_published": 0,
+  "rows_whose_quantity_identifier_is_not_a_key_on_the_face": 5,
+  "rows_whose_leaf_measurement_is_unattributable": 5,
+  "leaf_measurement_status": {
+   "attributed_by_name": 0,
+   "quantity_not_published_on_the_face": 5,
+   "no_quantity_identifier": 0,
+   "face_absent": 0
+  },
+  "magnitudes_attributable_to_the_rated_quantity": 0,
+  "attributable_magnitudes_inside_a_flat_regime": 0,
+  "attributable_magnitudes_where_the_gate_is_looser_than_the_leg": 0,
+  "attributable_magnitudes_where_the_gate_is_tighter_than_the_leg": 0,
+  "attributable_magnitudes_where_the_gate_equals_the_leg": 0,
+  "rows_whose_gate_is_looser_than_the_leg_at_one_unit_of_the_quantity": 1,
+  "rows_whose_named_face_is_absent": 0
+ },
+ "verdict": "four_of_five_quantity_dependent_legs_demand_exact_equality_so_the_gate_is_looser_at_every_magnitude_the_face_publishes",
+ "quantity_dependent_rows": [
+  {
+   "class": "leg_demands_exact_equality",
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "regime_class": "piecewise_floor",
+   "switch_point": 1.0,
+   "leg_epsilon": 0.0,
+   "flat_regime_tolerance": 1e-12,
+   "quantity_identifier": "prev",
+   "quantity_published_on_the_face": false,
+   "gate_tolerance_at_one_unit_of_the_quantity": 1e-12,
+   "orders_of_magnitude_the_gate_is_looser_at_one_unit": null,
+   "gate_tolerance_at_the_face_maximum": 1.92e-09,
+   "face_max_abs_value": 1920.0,
+   "crossover_scale": 0.0,
+   "crossover_inside_the_published_range": true,
+   "orders_of_magnitude_the_leg_is_tighter_at_the_face_maximum": null,
+   "leaves": {
+    "status": "quantity_not_published_on_the_face",
+    "leaves_total": 0,
+    "leaves_in_the_flat_regime": 0,
+    "leaves_where_the_gate_is_looser_than_the_leg": 0,
+    "leaves_where_the_gate_is_tighter_than_the_leg": 0,
+    "leaves_where_the_gate_equals_the_leg": 0,
+    "leaves_with_no_gate_value": 0
+   }
+  },
+  {
+   "class": "leg_demands_exact_equality",
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "regime_class": "piecewise_floor",
+   "switch_point": 1.0,
+   "leg_epsilon": 0.0,
+   "flat_regime_tolerance": 1e-12,
+   "quantity_identifier": "prev",
+   "quantity_published_on_the_face": false,
+   "gate_tolerance_at_one_unit_of_the_quantity": 1e-12,
+   "orders_of_magnitude_the_gate_is_looser_at_one_unit": null,
+   "gate_tolerance_at_the_face_maximum": 1.92e-09,
+   "face_max_abs_value": 1920.0,
+   "crossover_scale": 0.0,
+   "crossover_inside_the_published_range": true,
+   "orders_of_magnitude_the_leg_is_tighter_at_the_face_maximum": null,
+   "leaves": {
+    "status": "quantity_not_published_on_the_face",
+    "leaves_total": 0,
+    "leaves_in_the_flat_regime": 0,
+    "leaves_where_the_gate_is_looser_than_the_leg": 0,
+    "leaves_where_the_gate_is_tighter_than_the_leg": 0,
+    "leaves_where_the_gate_equals_the_leg": 0,
+    "leaves_with_no_gate_value": 0
+   }
+  },
+  {
+   "class": "leg_demands_exact_equality",
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "regime_class": "piecewise_floor",
+   "switch_point": 1.0,
+   "leg_epsilon": 0.0,
+   "flat_regime_tolerance": 1e-12,
+   "quantity_identifier": "prev",
+   "quantity_published_on_the_face": false,
+   "gate_tolerance_at_one_unit_of_the_quantity": 1e-12,
+   "orders_of_magnitude_the_gate_is_looser_at_one_unit": null,
+   "gate_tolerance_at_the_face_maximum": 1.92e-09,
+   "face_max_abs_value": 1920.0,
+   "crossover_scale": 0.0,
+   "crossover_inside_the_published_range": true,
+   "orders_of_magnitude_the_leg_is_tighter_at_the_face_maximum": null,
+   "leaves": {
+    "status": "quantity_not_published_on_the_face",
+    "leaves_total": 0,
+    "leaves_in_the_flat_regime": 0,
+    "leaves_where_the_gate_is_looser_than_the_leg": 0,
+    "leaves_where_the_gate_is_tighter_than_the_leg": 0,
+    "leaves_where_the_gate_equals_the_leg": 0,
+    "leaves_with_no_gate_value": 0
+   }
+  },
+  {
+   "class": "leg_demands_exact_equality",
+   "face": "results/t35_open_fill_verify.json",
+   "gate_path": "rel_tol",
+   "gate_value": 0.002,
+   "regime_class": "linear_in_the_quantity",
+   "switch_point": null,
+   "leg_epsilon": 0.0,
+   "flat_regime_tolerance": 0.0,
+   "quantity_identifier": "session_open",
+   "quantity_published_on_the_face": false,
+   "gate_tolerance_at_one_unit_of_the_quantity": 0.002,
+   "orders_of_magnitude_the_gate_is_looser_at_one_unit": null,
+   "gate_tolerance_at_the_face_maximum": 0.012,
+   "face_max_abs_value": 6.0,
+   "crossover_scale": 0.0,
+   "crossover_inside_the_published_range": true,
+   "orders_of_magnitude_the_leg_is_tighter_at_the_face_maximum": null,
+   "leaves": {
+    "status": "quantity_not_published_on_the_face",
+    "leaves_total": 0,
+    "leaves_in_the_flat_regime": 0,
+    "leaves_where_the_gate_is_looser_than_the_leg": 0,
+    "leaves_where_the_gate_is_tighter_than_the_leg": 0,
+    "leaves_where_the_gate_equals_the_leg": 0,
+    "leaves_with_no_gate_value": 0
+   }
+  },
+  {
+   "class": "gate_is_exact_only_at_the_zero_end",
+   "face": "results/t35_open_fill_verify.json",
+   "gate_path": "rel_tol",
+   "gate_value": 0.002,
+   "regime_class": "linear_in_the_quantity",
+   "switch_point": null,
+   "leg_epsilon": 1e-09,
+   "flat_regime_tolerance": 0.0,
+   "quantity_identifier": "session_open",
+   "quantity_published_on_the_face": false,
+   "gate_tolerance_at_one_unit_of_the_quantity": 0.002,
+   "orders_of_magnitude_the_gate_is_looser_at_one_unit": 6.301029995663981,
+   "gate_tolerance_at_the_face_maximum": 0.012,
+   "face_max_abs_value": 6.0,
+   "crossover_scale": 5e-07,
+   "crossover_inside_the_published_range": true,
+   "orders_of_magnitude_the_leg_is_tighter_at_the_face_maximum": 7.079181246047625,
+   "leaves": {
+    "status": "quantity_not_published_on_the_face",
+    "leaves_total": 0,
+    "leaves_in_the_flat_regime": 0,
+    "leaves_where_the_gate_is_looser_than_the_leg": 0,
+    "leaves_where_the_gate_is_tighter_than_the_leg": 0,
+    "leaves_where_the_gate_equals_the_leg": 0,
+    "leaves_with_no_gate_value": 0
+   }
+  }
+ ],
+ "rows": [
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "regime_class": "piecewise_floor",
+   "switch_point": 1.0,
+   "scale_expressions": [
+    "scale",
+    "max(1.0, prev)"
+   ],
+   "quantity_identifier": "prev",
+   "quantity_published_on_the_face": false,
+   "leg_expression": "(_s60.get('rows_pre_settlement') or 0) == 0",
+   "leg_epsilon": 0.0,
+   "flat_regime_tolerance": 1e-12,
+   "gate_tolerance_at_one_unit_of_the_quantity": 1e-12,
+   "orders_of_magnitude_the_gate_is_looser_at_one_unit": null,
+   "gate_tolerance_at_the_face_maximum": 1.92e-09,
+   "face_max_abs_value": 1920.0,
+   "crossover_scale": 0.0,
+   "crossover_inside_the_published_range": true,
+   "orders_of_magnitude_the_leg_is_tighter_at_the_face_maximum": null,
+   "class": "leg_demands_exact_equality",
+   "face_state": "present",
+   "leaves": {
+    "status": "quantity_not_published_on_the_face",
+    "leaves_total": 0,
+    "leaves_in_the_flat_regime": 0,
+    "leaves_where_the_gate_is_looser_than_the_leg": 0,
+    "leaves_where_the_gate_is_tighter_than_the_leg": 0,
+    "leaves_where_the_gate_equals_the_leg": 0,
+    "leaves_with_no_gate_value": 0
+   }
+  },
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "regime_class": "piecewise_floor",
+   "switch_point": 1.0,
+   "scale_expressions": [
+    "scale",
+    "max(1.0, prev)"
+   ],
+   "quantity_identifier": "prev",
+   "quantity_published_on_the_face": false,
+   "leg_expression": "_mine != _a.get('n_at_base')",
+   "leg_epsilon": 0.0,
+   "flat_regime_tolerance": 1e-12,
+   "gate_tolerance_at_one_unit_of_the_quantity": 1e-12,
+   "orders_of_magnitude_the_gate_is_looser_at_one_unit": null,
+   "gate_tolerance_at_the_face_maximum": 1.92e-09,
+   "face_max_abs_value": 1920.0,
+   "crossover_scale": 0.0,
+   "crossover_inside_the_published_range": true,
+   "orders_of_magnitude_the_leg_is_tighter_at_the_face_maximum": null,
+   "class": "leg_demands_exact_equality",
+   "face_state": "present",
+   "leaves": {
+    "status": "quantity_not_published_on_the_face",
+    "leaves_total": 0,
+    "leaves_in_the_flat_regime": 0,
+    "leaves_where_the_gate_is_looser_than_the_leg": 0,
+    "leaves_where_the_gate_is_tighter_than_the_leg": 0,
+    "leaves_where_the_gate_equals_the_leg": 0,
+    "leaves_with_no_gate_value": 0
+   }
+  },
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "regime_class": "piecewise_floor",
+   "switch_point": 1.0,
+   "scale_expressions": [
+    "scale",
+    "max(1.0, prev)"
+   ],
+   "quantity_identifier": "prev",
+   "quantity_published_on_the_face": false,
+   "leg_expression": "_rec.get('arrival_median') != _med60",
+   "leg_epsilon": 0.0,
+   "flat_regime_tolerance": 1e-12,
+   "gate_tolerance_at_one_unit_of_the_quantity": 1e-12,
+   "orders_of_magnitude_the_gate_is_looser_at_one_unit": null,
+   "gate_tolerance_at_the_face_maximum": 1.92e-09,
+   "face_max_abs_value": 1920.0,
+   "crossover_scale": 0.0,
+   "crossover_inside_the_published_range": true,
+   "orders_of_magnitude_the_leg_is_tighter_at_the_face_maximum": null,
+   "class": "leg_demands_exact_equality",
+   "face_state": "present",
+   "leaves": {
+    "status": "quantity_not_published_on_the_face",
+    "leaves_total": 0,
+    "leaves_in_the_flat_regime": 0,
+    "leaves_where_the_gate_is_looser_than_the_leg": 0,
+    "leaves_where_the_gate_is_tighter_than_the_leg": 0,
+    "leaves_where_the_gate_equals_the_leg": 0,
+    "leaves_with_no_gate_value": 0
+   }
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "gate_path": "rel_tol",
+   "gate_value": 0.002,
+   "regime_class": "linear_in_the_quantity",
+   "switch_point": null,
+   "scale_expressions": [
+    "session_open"
+   ],
+   "quantity_identifier": "session_open",
+   "quantity_published_on_the_face": false,
+   "leg_expression": "_pp.get('marks_coverage_pct') == _c2.get('coverage_pct_closed')",
+   "leg_epsilon": 0.0,
+   "flat_regime_tolerance": 0.0,
+   "gate_tolerance_at_one_unit_of_the_quantity": 0.002,
+   "orders_of_magnitude_the_gate_is_looser_at_one_unit": null,
+   "gate_tolerance_at_the_face_maximum": 0.012,
+   "face_max_abs_value": 6.0,
+   "crossover_scale": 0.0,
+   "crossover_inside_the_published_range": true,
+   "orders_of_magnitude_the_leg_is_tighter_at_the_face_maximum": null,
+   "class": "leg_demands_exact_equality",
+   "face_state": "present",
+   "leaves": {
+    "status": "quantity_not_published_on_the_face",
+    "leaves_total": 0,
+    "leaves_in_the_flat_regime": 0,
+    "leaves_where_the_gate_is_looser_than_the_leg": 0,
+    "leaves_where_the_gate_is_tighter_than_the_leg": 0,
+    "leaves_where_the_gate_equals_the_leg": 0,
+    "leaves_with_no_gate_value": 0
+   }
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "gate_path": "rel_tol",
+   "gate_value": 0.002,
+   "regime_class": "linear_in_the_quantity",
+   "switch_point": null,
+   "scale_expressions": [
+    "session_open"
+   ],
+   "quantity_identifier": "session_open",
+   "quantity_published_on_the_face": false,
+   "leg_expression": "abs(_px - _r['session_open']) > 1e-09",
+   "leg_epsilon": 1e-09,
+   "flat_regime_tolerance": 0.0,
+   "gate_tolerance_at_one_unit_of_the_quantity": 0.002,
+   "orders_of_magnitude_the_gate_is_looser_at_one_unit": 6.301029995663981,
+   "gate_tolerance_at_the_face_maximum": 0.012,
+   "face_max_abs_value": 6.0,
+   "crossover_scale": 5e-07,
+   "crossover_inside_the_published_range": true,
+   "orders_of_magnitude_the_leg_is_tighter_at_the_face_maximum": 7.079181246047625,
+   "class": "gate_is_exact_only_at_the_zero_end",
+   "face_state": "present",
+   "leaves": {
+    "status": "quantity_not_published_on_the_face",
+    "leaves_total": 0,
+    "leaves_in_the_flat_regime": 0,
+    "leaves_where_the_gate_is_looser_than_the_leg": 0,
+    "leaves_where_the_gate_is_tighter_than_the_leg": 0,
+    "leaves_where_the_gate_equals_the_leg": 0,
+    "leaves_with_no_gate_value": 0
+   }
+  }
+ ],
+ "notes": [
+  "an epsilon of 0.0 is exact equality, not a very small tolerance: no gate tolerance can be as tight, so the leg binds at every magnitude and the gate's flat regime is only the loosest place the gate ever gets",
+  "at one unit of the gated quantity the gate's tolerance is already far looser than the one non-zero leg epsilon, and the crossover sits at 5e-07 units -- below any share price, so the leg is the binding test across the whole live range",
+  "the flat regime is a statement about the small end of the domain, and the quantity it is rated in is not a key on either face, so the regime cannot be exercised by reading the face at all: the leaf measurement is published as a status with zero magnitudes instead of a count of unrelated numbers",
+  "the crossover is published only where the gate really is `tol * x`: a row whose gate carries no scale has no crossover, and deriving one from another regime would reintroduce the unit error E313 was written to remove"
+ ],
+ "identity_checks": [
+  {
+   "check": "the_rows_are_exactly_the_upstream_rows_with_a_quantity_dependent_gate",
+   "ok": true
+  },
+  {
+   "check": "the_class_partition_sums_to_the_rows",
+   "ok": true
+  },
+  {
+   "check": "every_row_publishes_a_leg_epsilon",
+   "ok": true
+  },
+  {
+   "check": "a_zero_epsilon_is_classified_as_exact_equality_and_never_as_a_ratio",
+   "ok": true
+  },
+  {
+   "check": "the_crossover_is_the_epsilon_over_the_gate",
+   "ok": true
+  },
+  {
+   "check": "a_row_with_no_scale_publishes_no_crossover",
+   "ok": true
+  },
+  {
+   "check": "the_flat_regime_tolerance_is_the_gate_times_the_floor",
+   "ok": true
+  },
+  {
+   "check": "the_orders_of_magnitude_at_the_face_maximum_match_the_two_published_numbers",
+   "ok": true
+  },
+  {
+   "check": "the_orders_of_magnitude_at_one_unit_match_the_two_published_numbers",
+   "ok": true
+  },
+  {
+   "check": "every_leaf_lands_on_exactly_one_side_of_the_leg",
+   "ok": true
+  },
+  {
+   "check": "an_unattributable_measurement_publishes_zero_magnitudes_and_a_status",
+   "ok": true
+  },
+  {
+   "check": "the_quantity_published_flag_is_derived_from_the_measurement_status",
+   "ok": true
+  },
+  {
+   "check": "a_zero_epsilon_row_never_publishes_a_finite_ratio",
+   "ok": true
+  },
+  {
+   "check": "leaves_in_the_flat_regime_are_a_subset_of_the_leaves_examined",
+   "ok": true
+  },
+  {
+   "check": "a_zero_epsilon_row_has_no_leaf_on_which_the_gate_is_tighter",
+   "ok": true
+  },
+  {
+   "check": "the_study_never_reads_itself",
+   "ok": true
+  },
+  {
+   "check": "a_crossover_verdict_is_published_for_every_row_that_has_one",
+   "ok": true
+  },
+  {
+   "check": "no_row_claims_the_leg_finer_than_a_flat_tolerance_it_does_not_have",
+   "ok": true
+  }
+ ]
+}

@@ -6396,3 +6396,42 @@ How to apply: whenever a gate is not a single number, publish (switch point in t
 units, tolerance below and above in both units, half-unit crossing `0.5/tol`) and one boolean per
 face: can this be reproduced from what the face prints? A tolerance that cannot be reproduced is a
 comment, not a gate.
+
+### E316 a zero epsilon is exact equality, and a gate can only be read at a magnitude the face prints -- publish the leg's epsilon beside the gate, or the regime is arithmetic nobody can exercise (r1334 bm-b)
+
+E314 published each clamped gate's two regimes. E315 joined those five gates to the legs that
+consume them and found that the join, not the regime, decides the comparison.
+
+1. **`leg_tolerance = 0.0` is exact equality, not a small tolerance.** Four of five
+   quantity-dependent legs publish zero: no gate tolerance can ever be as tight, so the leg binds at
+   every magnitude and the gate's flat regime is only the loosest place the gate ever gets. Print
+   the leg's epsilon beside the gate, and print `null` for the ratio rather than `log10(tol/0)` --
+   manufacturing `1e12` there is the same error as printing a tolerance for an exact test.
+2. **The crossover `eps / tol` is the number a reader needs.** It is defined only where the gate
+   really is `tol * x`, and it says where the two gates swap which one binds. On the open-fill row
+   it is `1e-09 / 0.002 = 5e-07` units of `session_open`, below any share price, so the leg binds
+   across the live range; at one unit the gate is 6.3 orders of magnitude looser.
+3. **A magnitude is only a magnitude of the gated quantity when it is attributable.** Counting every
+   numeric leaf put `frozen_spec.tolerance = 1e-12` itself into the bucket and produced "240
+   magnitudes inside the flat regime" -- an artefact of the gate's own constant (E207/E208 family,
+   third contact). Attribute leaves by the identifier the producer builds the scale on (`prev`,
+   `session_open`); when that identifier is not a key on the face, publish a status with zero
+   magnitudes rather than a count of unrelated numbers.
+4. **A regime nobody can evaluate is a claim, not a gate.** Both faces are unattributable: 5 of 5
+   rows do not carry the quantity their gate is rated in, so the two-regime arithmetic E314
+   published cannot be exercised by any reader of either face.
+
+Two traps caught inside the window:
+
+* **A mutation leg that cannot change the number is not a test.** Doubling a crossover of `0.0`
+  leaves `0.0`; the leg passed against a deliberately broken check until the mutation was moved to a
+  row where the value moves.
+* **A metric with an identity check at one magnitude and none at another is half-tested.** The
+  face-maximum ratio had a `10 ** x * eps == tol` check; the one-unit ratio had none, so a forged
+  `99.0` survived. Every published order-of-magnitude needs its own recomputation leg.
+
+How to apply: for every gate, print four things and join them -- the gate, the quantity it is rated
+in (with a magnitude the face actually carries), the leg's epsilon, and the crossover between them.
+If the quantity is not on the face, say `quantity_not_published_on_the_face` with a zero count, and
+treat "the gate is tighter than the leg" as unestablished rather than as proven by a ratio nobody
+can reproduce.

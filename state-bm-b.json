@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-31T17:34:04+08:00",
+ "clock_read": "2026-10-31T20:10:05+08:00",
  "cpu_pct": 6.0,
  "current": "r1329: E307 undated-face-vintage published; e298 self-face + e302 sys.modules reds fixed",
  "current_task": "E313 published; E314 (clamped gate census) is the ready head",
@@ -101,7 +101,7 @@
  "did": "E303 recovery census: 7 blocks -> 1 writer_publishes_dropped, 4 declared_at_face_level, 2 live_panel_derived; 4 with measured vintage drift",
  "did_round": 1326,
  "finding": "The family's ceiling is above every supply it already publishes. Six dated band faces carry a field called a multiplier; signed by axis only two are band-edge multipliers and both tops sit below the ceiling 2.296329 (1.838251 per-window median, 2.245734 at the single best seed), so none of the 6 rows above the ceiling is reachable by anything already published -- the nearest (self|200|0, flip 2.331055) is 3.8 pct short. The two inter-range-gap rows ARE reachable by that same supply (cross|60|11 1.802978 at the median, star_lag1_residual|60|15 1.884308 at the single seed), and the published narrowing instrument (0.922022) misses the nearest below-floor row (self|60|8, flip 0.889387) by 3.7 pct -- so both margins are one step away, the gap is the one place existing supply could pay, and the extrapolation zone is a wall rather than headroom. The 63.03 pct tolerance, the 2.0327 spread threshold and E272's own 9.90 arm tops lose their ceiling-like look once each is signed: none is a band-edge multiplier; only the two supply faces are.",
- "heartbeat_epoch_utc": 1793439244,
+ "heartbeat_epoch_utc": 1793448605,
  "heartbeat_epoch_utc_face": "int",
  "heartbeat_note": "cpu_pct from two GetSystemTimes samples, not the memory-load field (E235 pit)",
  "history": [
@@ -2579,7 +2579,7 @@
  ],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1323,
- "round_no": 1332,
+ "round_no": 1334,
  "round_no_label": "r1316",
  "round_no_note": "git log is the canvas; round number follows the highest round report row",
  "round_no_ts": "2026-10-31T12:13:18+08:00",
@@ -2607,7 +2607,7 @@
  "task": "E298 replay-control census",
  "task_short": "E298 basis census",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-10-31T19:0x+08:00",
+ "ts": "2026-10-31T20:10:05+08:00",
  "updated": "2026-10-31T13:13:05+08:00",
  "updated_at": "2026-10-31T13:13:05+08:00",
  "verdict": "a_shared_name_does_not_carry_a_shared_unit_so_every_relative_gate_has_to_name_its_scale",
@@ -3027,5 +3027,40 @@
    "note": "16 files staged (producer, both faces, the E305 repair, digest, methodology card, two wiring files, the two re-derived sibling faces, the pool, state, heartbeat, round report); the ~620 dirty tracked files left by collectors and prior windows were not swept in"
   }
  },
- "notes_r1332": "| 2026-10-31T19:2x+08:00 | r1332 | **watermark: pool-batch red at open (E313 ready, py idle) -- burned the ready head E313 in-round** | E313 gate form and scale published: the form is read at the producer's own comparison line, not from the face's label (silent on 28 of 30); one row needs a free scale (t35 breakeven session_open = 5e-07), one is absolute after a fixed 100.0 normalisation, seven pair a count leg where no multiplicative scale exists. **CURRENT:** E313 done. **LATEST PHYSICAL:** results/state_tilt/GATEFORM-2026-10-31.json. **NEXT MILESTONE:** E314 clamped gate census (ready, runner not written; due next round, within 48h). **PRODUCT:** three rows multiply a published gate by max(1.0, x), so the face prints one number for two regimes."
+ "notes_r1332": "| 2026-10-31T19:2x+08:00 | r1332 | **watermark: pool-batch red at open (E313 ready, py idle) -- burned the ready head E313 in-round** | E313 gate form and scale published: the form is read at the producer's own comparison line, not from the face's label (silent on 28 of 30); one row needs a free scale (t35 breakeven session_open = 5e-07), one is absolute after a fixed 100.0 normalisation, seven pair a count leg where no multiplicative scale exists. **CURRENT:** E313 done. **LATEST PHYSICAL:** results/state_tilt/GATEFORM-2026-10-31.json. **NEXT MILESTONE:** E314 clamped gate census (ready, runner not written; due next round, within 48h). **PRODUCT:** three rows multiply a published gate by max(1.0, x), so the face prints one number for two regimes.",
+ "r1334": {
+  "round": 1334,
+  "ts": "2026-10-31T20:10:05+08:00",
+  "dept": "research+engineering",
+  "study": "E315_leg_epsilon_vs_flat_regime",
+  "face": "results/state_tilt/LEGEPS-2026-10-31.json",
+  "watermark_red": "pool-batch-red at open (1 ready=E315, py CPU idle, saturation engine rc=0 idle) -- burned the ready head E315 in-round",
+  "finding": "E314 published each clamped gate's two regimes; a gate only ever governs a comparison, and the comparison belongs to a leg carrying its own epsilon. Joining the five quantity-dependent gates to their legs: 4 of 5 legs publish leg_tolerance=0.0, which is exact equality, so no gate tolerance can be as tight and the gate's flat regime is only where it is loosest; the fifth (1e-09 against a 0.002 relative gate) crosses at 5e-07 units of session_open, below any share price, so the leg is the binding test across the live range (at one unit the gate is 6.3 orders of magnitude looser). The first leaf census counted 1,975 published numbers and reported 240 'inside the flat regime' -- an artefact: the face's own frozen_spec.tolerance=1e-12 was being counted as a magnitude of the quantity it gates. Attributed by the producer's own scale identifier, neither face carries the quantity its gate is rated in (prev, session_open are not keys), so 5 of 5 rows publish quantity_not_published_on_the_face with 0 attributable magnitudes instead of a count of unrelated numbers.",
+  "verdict": "four_of_five_quantity_dependent_legs_demand_exact_equality_so_the_gate_is_looser_at_every_magnitude_the_face_publishes",
+  "pit": "(1) a zero epsilon is exact equality and log10(tol/0) is not a big number -- the ratio is published as null with its own class, not as 1e12; (2) a leaf set is not a domain: counting every number on a face puts the tolerance constant, the sample size and the version stamp in the measurement bucket (E207/E208 family, third contact), so leaves are attributed by the identifier the producer builds the scale on; (3) a mutation leg that cannot change the number is not a test -- doubling a crossover of 0.0 leaves 0.0 and the leg passed against a broken check until the mutation moved to a row where the value moves; (4) a metric with an identity check at one magnitude and none at another is half-tested: the face-maximum ratio had a recomputation leg, the one-unit ratio had none, so a forged 99.0 survived; (5) the card's declared deliverable name is a contract -- the card said REGIMECOMPARE-<cutoff> and the face is published as LEGEPS-<cutoff> because it measures an epsilon against a regime rather than comparing regimes, and the rename is disclosed in the pool entry instead of being satisfied by a twin file.",
+  "product": [
+   "scripts/e315_leg_epsilon_vs_flat_regime.py (run / verify 0 problems / selftest PASS, 12 mutation legs)",
+   "results/state_tilt/LEGEPS-2026-10-31.json + legeps_latest.json (18/18 identity checks)",
+   "research/digests/DIGEST-20261031-r1334-e315-leg-epsilon-vs-flat-regime.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E316",
+   "Tools/s6_chain_bmb.py leg leg_epsilon_vs_flat_regime (verify, 0.05s, rc=0)",
+   "smoke_test.py leg E315 (executed standalone: PASS)",
+   "results/runnable_pool.json E315 done with result_ref + E316-GATE-PRINT-REQUIREMENTS seeded ready (806 entries, 1 ready)"
+  ],
+  "s1": "the full 330-leg suite was not re-run this window (~35 min); the new E315 leg was extracted from smoke_test.py and executed standalone against the published face: PASS",
+  "s6": "orphan face probe py_faces=7 orphans=0 residents=0 | dualrun ZERO-DRIFT 805 entries streak 51 rc=0 | pool_deliverable rc=0 closed=0 skipped=1 | compute_audit rc=0 | py_watermark rc=0 | clamped_gate_census rc=0 0.10s | leg_epsilon_vs_flat_regime rc=0 0.05s (results/_r1334bmb_s6_chain.json); lane collectors and attrition guard not re-run this window (wall budget, stated plainly)",
+  "s7": "Bigmoney-IterationLoop / Bigmoney-LoopWatchdog / Bigmoney-SatEngine-bm-b left to their own ticks this window (saturation engine status rc=0 idle, no drift observed); pre-commit and pre-push claws present and untouched",
+  "orders": "114 order files / 115 acks / 0 unacked at this window's scan",
+  "pool": "E315 done with result_ref; E316-GATE-PRINT-REQUIREMENTS seeded ready (806 entries, 1 ready)",
+  "identity": "identity_checks 18/18 ALL PASS",
+  "census_headline": {
+   "rows": 5,
+   "leg_demands_exact_equality": 4,
+   "crossover_published": 5,
+   "quantity_published_on_the_face": 0,
+   "attributable_magnitudes": 0,
+   "s6_legs_ok": "4/4"
+  }
+ },
+ "notes_r1334": "| 2026-10-31T20:10:05+08:00 | r1334 | **watermark: pool-batch red at open (E315 ready, py idle) -- burned the ready head E315 in-round** | E315 leg epsilon vs flat regime published: 4 of 5 quantity-dependent legs demand exact equality so the gate is looser at every published magnitude, and the fifth crosses at 5e-07 units of session_open. **CURRENT:** E315 done. **LATEST PHYSICAL:** results/state_tilt/LEGEPS-2026-10-31.json. **NEXT MILESTONE:** E316 gate print requirements (ready, runner not written; due next round, within 48h). **PRODUCT:** neither face carries the quantity its gate is rated in, so the two-regime arithmetic cannot be exercised by any reader of either face."
 }

@@ -8792,6 +8792,70 @@ def main() -> int:
     except Exception as e:
         check(_name101, False, repr(e)[:160])
 
+    # E315: E314 published each clamped gate's two regimes, but a gate only ever governs a
+    # comparison, and the comparison belongs to a leg carrying its own epsilon. This leg asserts
+    # the join: a zero epsilon is exact equality and must never publish a finite ratio, the
+    # crossover must be eps/tol, and a face that does not carry the quantity its gate is rated in
+    # must publish an unattributable measurement with zero magnitudes rather than a count of
+    # unrelated numbers.
+    _name102 = ("product: a two-regime gate meets a leg epsilon -- four legs demand exact equality "
+                "and the fifth's crossover sits below one unit of the quantity")
+    _bad102 = []
+    try:
+        _p102 = os.path.join("results", "state_tilt", "legeps_latest.json")
+        _f102 = None
+        if not os.path.exists(_p102):
+            _bad102.append("face missing: %s" % _p102)
+        else:
+            with io.open(_p102, encoding="utf-8") as _fh102:
+                _f102 = json.load(_fh102)
+        if _f102 is not None:
+            _c102 = _f102.get("census") or {}
+            _rows102 = _f102.get("rows") or []
+            if _f102.get("verdict") != ("four_of_five_quantity_dependent_legs_demand_exact_"
+                                        "equality_so_the_gate_is_looser_at_every_magnitude_the_"
+                                        "face_publishes"):
+                _bad102.append("verdict moved: %r" % (_f102.get("verdict"),))
+            if any(not c.get("ok") for c in (_f102.get("identity_checks") or [])):
+                _bad102.append("identity checks are not all green")
+            if (_c102.get("rows_in_each_class")
+                    and sum(_c102["rows_in_each_class"].values()) != len(_rows102)):
+                _bad102.append("the class partition does not sum to the rows")
+            if (_c102.get("rows_whose_leg_demands_exact_equality") or 0) != 4:
+                _bad102.append("the exact-equality count moved: %s"
+                               % (_c102.get("rows_whose_leg_demands_exact_equality"),))
+            for _r102 in _rows102:
+                _eps = _r102.get("leg_epsilon")
+                _gate = _r102.get("gate_value")
+                _cr = _r102.get("crossover_scale")
+                if _eps is None:
+                    _bad102.append("a row omits its leg epsilon")
+                    continue
+                if _eps == 0.0 and _r102.get(
+                        "orders_of_magnitude_the_gate_is_looser_at_one_unit") is not None:
+                    _bad102.append("a zero epsilon published a finite ratio")
+                if _cr is not None and _gate:
+                    if abs(_cr * _gate - _eps) > 1e-9 * max(abs(_cr * _gate), abs(_eps), 1e-30):
+                        _bad102.append("the crossover is not eps/tol on one row")
+                if _cr is not None and _cr >= 1.0:
+                    _bad102.append("a crossover reaches a whole unit of the quantity")
+                if (_r102.get("quantity_published_on_the_face") is False
+                        and (_r102.get("leaves") or {}).get("leaves_total") != 0):
+                    _bad102.append("an unattributable measurement published a count")
+            if (_c102.get("magnitudes_attributable_to_the_rated_quantity") or 0) != 0:
+                _bad102.append("attributable magnitudes appeared without the quantity being on a "
+                               "face")
+        check(_name102, not _bad102, "; ".join(_bad102)[:220]
+              or "rows %s | exact equality %s | crossovers %s (below a unit) | quantity on the "
+                 "face %s | attributable magnitudes %s"
+                 % (len(_f102.get("rows") or []),
+                    _c102.get("rows_whose_leg_demands_exact_equality"),
+                    _c102.get("rows_with_a_crossover_scale"),
+                    _c102.get("rows_whose_quantity_identifier_is_published"),
+                    _c102.get("magnitudes_attributable_to_the_rated_quantity")))
+    except Exception as e:
+        check(_name102, False, repr(e)[:160])
+
     return _finish()
 
 

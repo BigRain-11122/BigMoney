@@ -679,6 +679,17 @@ LEGS = [
     ("clamped_gate_census",
      ["python", "scripts/e314_clamped_gate_census.py", "verify"]),
 
+    # E315: a two-regime gate only governs a comparison, and the comparison belongs to a leg that
+    # carries its OWN epsilon. Joining the five quantity-dependent gates to their legs: four legs
+    # publish 0.0, which is exact equality, so no gate tolerance can ever be as tight and the
+    # gate's flat regime is merely where it is loosest; the fifth leg (1e-09) crosses a 0.002
+    # gate at 5e-07 units of session_open -- below any share price -- so the leg binds across the
+    # live range. The leaf measurement is published as NOT-ASSESSED (0 attributable magnitudes)
+    # because neither face carries the quantity its gate is rated in: `prev` and `session_open`
+    # are not keys there. Verify rebuilds from the E314 face and re-counts. <1s.
+    ("leg_epsilon_vs_flat_regime",
+     ["python", "scripts/e315_leg_epsilon_vs_flat_regime.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
