@@ -2938,7 +2938,18 @@
   "s6": "new chain leg gate_tolerance_census rc=0 0.05s through the real driver (results/_r1330bmb_s6_chain.json, S6 1/1); dualrun, compute_audit, py_watermark, attrition and the lane collectors were NOT re-run this window (wall budget, stated plainly)",
   "s7": "Bigmoney-IterationLoop next 18:07, Bigmoney-LoopWatchdog next 18:05, Bigmoney-SatEngine-bm-b next 18:04 -- all present in the full task table, no re-registration; pre-commit and pre-push claws present and untouched",
   "orders": "114 order files / 115 acks / 0 unacked at the wrapper's S0.5 scan (17:47:02)",
-  "pool": "E308 done with result_ref; E312-GATE-OPERAND-IDENTITY seeded ready (802 entries, 1 ready)"
+  "pool": "E308 done with result_ref; E312-GATE-OPERAND-IDENTITY seeded ready (802 entries, 1 ready)",
+  "delivery": {
+   "branch": "machine/bm-b-r1330",
+   "pushed_sha": "d80d39ab72cef36274f8a5afe81d83217558d315",
+   "remote_ref_sha": "d80d39ab72cef36274f8a5afe81d83217558d315",
+   "verified": true,
+   "local_not_on_origin_main": 114,
+   "behind_origin_main": 195,
+   "main_push_blocker": "the local main has diverged from origin/main for many rounds (promisor lazy fetch wedges before negotiation, r1255 family); main push not attempted",
+   "ts": "2026-10-31T18:07:00+08:00",
+   "note": "11 files staged (producer, both faces, digest, methodology card, two wiring files, pool, state, heartbeat, round report); the ~600 dirty tracked files left by collectors and prior windows were not swept in. Line endings normalised to each file's own blob convention before the amend, so the diff is 30-570 lines per file instead of a whole-file rewrite."
+  }
  },
  "notes_r1330": "| 2026-10-31T18:02:00+08:00 | r1330 | **watermark: pool-batch red at open (E308 ready, py idle) -- burned the ready head E308 in-round** | E308 gate-vs-leg tolerance published: 11 of 55 leg-read faces publish a real gate; 30 pairs, 18 arithmetically tighter, 1 survives a scope reading of the writers -- and its gate is the same 0.1 an excluded key holds. **CURRENT:** E308 done. **LATEST PHYSICAL:** results/state_tilt/GATETOL-2026-10-31.json. **NEXT MILESTONE:** E312 gate operand identity (ready, runner not written; due next round, within 48h). **PRODUCT:** the face-level pairing manufactures 17 bands out of tolerance parameters the producers never compare with."
 }
