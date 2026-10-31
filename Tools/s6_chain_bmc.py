@@ -276,6 +276,23 @@ LEGS = [
     ("etf_book_buffer_price_of_size",
      ["python", "scripts/etf_book_buffer_price_of_size.py", "--check"],
      ["python", "scripts/etf_book_buffer_price_of_size.py", "run"]),
+    # r1195 (bm-a): the sleeve-gate face answered "no gate earns adoption" on ONE decision
+    # grid, and its own numbers named the vol gate as the closest arm. A rule that only
+    # improves on one phase of the grid has not been measured (E188), so this face re-prices
+    # that gate on 5 grids x 3 placebo schedules. The first version of it dropped the panel
+    # prefix, which does NOT move an engine grid anchored at `start`, and published fifteen
+    # identical paths; the gate below therefore refuses phases that are not distinct grids,
+    # and refuses a face whose verdicts do not recompute from its own rows. Engine-free.
+    ("etf_book_sleeve_paths", ["python", "scripts/etf_book_sleeve_paths.py", "--check"],
+     ["python", "scripts/etf_book_sleeve_paths.py", "run"]),
+    # r1196 (bm-a): the card calls the 8% vol target "a drawdown tool, not an edge" while the
+    # slot census says 87.3% of decisions were de-levered -- nobody had measured whether that
+    # de-levering TIMES anything or is simply a smaller book. This face holds the same names
+    # on the same grid at the book's own average exposure and permutes the engine's own scale
+    # series (20 placebo paths) as the control. Engine-free: every arm is the engine's state
+    # machine with one number replaced, and the identity arm must reproduce the engine's nav.
+    ("etf_book_exposure_timing", ["python", "scripts/etf_book_exposure_timing.py", "--check"],
+     ["python", "scripts/etf_book_exposure_timing.py", "run"]),
     # r1348: every published number is one point estimate on ONE ordering of 1,651 days, and
     # the face that publishes the distribution (block bootstrap of the book's own return
     # path) can be re-judged from its stored resample rows without re-running the 2000

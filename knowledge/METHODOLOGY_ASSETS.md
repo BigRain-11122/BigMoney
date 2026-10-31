@@ -7676,3 +7676,22 @@ cost path, which keeps the engine the single source. Honest limits printed on th
 estimator proxies the quote from the day's range (a wide-range day absorbs volatility into the
 implied spread), so its p75 arm is the pessimistic bound, not a forecast; and it is an estimate
 of half-spread only -- impact beyond the quote is not in it.
+
+
+### E315 A de-levered book is not a timed book (r1196)
+
+The card has always called the 8% vol target "a drawdown tool, not an edge", and the slot census
+agrees that 87.3% of decisions were de-levered -- but nothing had measured whether the exposure
+PATH earns anything over simply holding the same book at the same average size. Three arms that
+differ in exactly one number (the scale applied at each decision): production (engine scale),
+full (exposure 1.0), constant (the book's own mean scale every bar); the control is 20 placebo
+paths built by permuting the engine's own scale series across its own decision bars, which keeps
+the exposure distribution and destroys the timing information. Live on the 2026-10-30 panel (1653
+bars, 83 decisions): production 9.12% CAGR vs constant 10.03% -- timing **-0.91 pp/yr** inside a
+placebo band of [-1.90, +0.88] -> AVERAGE_EXPOSURE_ONLY; and constant vs full is **-3.18 pp/yr**,
+so what the overlay actually buys is a smaller book, paid for in return rather than earned back
+by timing. Two reusable moves: (a) when a rule changes the *size* of a position, the honest
+control is the same book at the same average size, and a permutation of the rule's own series is
+the placebo that separates "timing" from "less risk"; (b) an arm that replaces one number must be
+built on the engine's own state machine with an identity arm that reproduces the engine's nav bit
+for bit -- otherwise the comparison is between two books, not between two exposures.

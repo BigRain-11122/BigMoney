@@ -4532,6 +4532,57 @@ def main() -> int:
     except Exception as e:
         check("product: the sleeve-gate answer survives a moved decision grid", False,
               repr(e)[:160])
+    # ---- r1196: a de-levered book must be told apart from a well-timed one ---------
+    # The card has always said the vol target is a drawdown tool rather than an edge, but
+    # nothing measured whether the exposure PATH earns anything over holding the same book
+    # at the same average size. The face answers it with 20 permuted-scale controls. On disk
+    # the controls must stay controls (the placebo band ordered, the exposure multiset
+    # preserved) and the arms must really differ in exposure -- a face whose three arms all
+    # held 1.0 would print a timing verdict that measured nothing.
+    try:
+        import importlib as _il56
+        _P56 = _il56.import_module("etf_book_exposure_timing")
+        _p56 = os.path.join(PATHS.results_dir, "etf_book_exposure_timing.json")
+        _bad56 = []
+        if not os.path.exists(_p56):
+            _bad56.append("results/etf_book_exposure_timing.json missing")
+        else:
+            with open(_p56, encoding="utf-8") as _fh56:
+                _doc56 = json.load(_fh56)
+            if _P56.check(_p56) != 0:
+                _bad56.append("the verdict does not recompute from the published rows")
+            _v56 = _doc56.get("verdict") or {}
+            if _v56.get("state") not in ("TIMING_ADDS", "TIMING_SUBTRACTS",
+                                         "AVERAGE_EXPOSURE_ONLY", "INCOMPLETE"):
+                _bad56.append("unknown verdict %r" % (_v56.get("state"),))
+            if not (_v56.get("placebo_p05_pp") <= _v56.get("placebo_p50_pp")
+                    <= _v56.get("placebo_p95_pp")):
+                _bad56.append("the placebo band is not ordered")
+            if int(_v56.get("n_placebo") or 0) < 5:
+                _bad56.append("fewer than five control paths -- not a band")
+            _arms56 = {a.get("arm"): a for a in (_doc56.get("arms") or [])}
+            if set(_arms56) != {"production", "full", "constant"}:
+                _bad56.append("arms are %r" % (sorted(_arms56),))
+            else:
+                if abs(float(_arms56["full"]["mean_exposure"]) - 1.0) > 1e-6:
+                    _bad56.append("the 'full' arm is not fully invested")
+                if not (float(_arms56["production"]["mean_exposure"])
+                        < float(_arms56["constant"]["mean_exposure"]) + 1e-6):
+                    _bad56.append("production is not at or below its own average exposure")
+                for _a56 in _arms56.values():
+                    if int(_a56.get("selection_drift") or 0) != 0:
+                        _bad56.append("arm %r changed the engine's picks" % (_a56.get("arm"),))
+            if not (_doc56.get("placebo") or {}).get("scale_series_preserved_all"):
+                _bad56.append("a control path did not carry the engine's own exposure multiset")
+        check("product: a de-levered book is told apart from a well-timed one", not _bad56,
+              "; ".join(_bad56)[:220] or "verdict %s, timing %+.2fpp vs placebo [%+.2f, %+.2f]"
+              % ((_doc56.get("verdict") or {}).get("state"),
+                 (_doc56.get("verdict") or {}).get("timing_pp") or 0.0,
+                 (_doc56.get("verdict") or {}).get("placebo_p05_pp") or 0.0,
+                 (_doc56.get("verdict") or {}).get("placebo_p95_pp") or 0.0))
+    except Exception as e:
+        check("product: a de-levered book is told apart from a well-timed one", False,
+              repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
         _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")
