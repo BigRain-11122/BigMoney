@@ -316,6 +316,23 @@ def pool_ready_count():
     return sum(1 for e in entries if e.get("status") == "ready")
 
 
+def supply_candidates_face(path=None):
+    """Summary of the published supply-candidate face, or None if unpublished.
+
+    An empty pool has two causes that need opposite responses (enqueue vs
+    generate a topic). The audit reports the floor; this face answers why.
+    Absent artifact -> None (unknown), never AGENDA_DEBT by default.
+    """
+    path = path or os.path.join(ROOT, "results", "supply_candidates.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError):
+        return None
+    return {k: d.get(k) for k in ("verdict", "pool_ready", "tickets_unclaimed",
+                                  "startable_now", "shortfall", "floor")}
+
+
 def _ts_age_min(stamp, now_epoch=None):
     """Minutes since an ISO-8601 / 'YYYY-MM-DD HH:MM:SS' stamp; None if
     unparseable (honest unknown, never 0)."""
@@ -950,6 +967,11 @@ def main():
                                               ignitable["ready_ignitable"]
                                               < SUPPLY_FLOOR_READY)},
         "pool_ignitable": ignitable,
+        # r1199: the floor flag says the pool is empty; it cannot say whether
+        # there was anything to put in it. Read the published candidate face
+        # (scripts/supply_candidate_face.py owns that reader) rather than
+        # re-deriving it here -- a missing/unreadable artifact stays None.
+        "supply_candidates": supply_candidates_face(),
         "ignition_sla_breach_ids": sla_ids,
         "supply_family_streak_min": streak_min,
         "gpu": gpu,
@@ -1385,6 +1407,26 @@ def _selftest():
               sil.get("bm-y", "absent"), None)
         check("r1114 absent dir -> empty map",
               heartbeat_silence(os.path.join(hdir, "nope"), now), {})
+
+    # r1199 supply candidate face: the reader is a thin, fail-open read of a
+    # published artifact. It must never invent a verdict from a missing file
+    # (an absent face is unknown, not "no work").
+    _scd = tempfile.mkdtemp(prefix="audit-sc-")
+    _scp = os.path.join(_scd, "supply_candidates.json")
+    check("r1199 absent supply face -> None",
+          supply_candidates_face(os.path.join(_scd, "nope.json")), None)
+    with open(_scp, "w", encoding="utf-8") as f:
+        f.write("{broken")
+    check("r1199 corrupt supply face -> None", supply_candidates_face(_scp), None)
+    with open(_scp, "w", encoding="utf-8") as f:
+        json.dump({"verdict": "AGENDA_DEBT", "pool_ready": 0,
+                   "tickets_unclaimed": 0, "startable_now": 0,
+                   "shortfall": 3, "floor": 3, "extra": "dropped"}, f)
+    _sc = supply_candidates_face(_scp)
+    check("r1199 supply face verdict read", _sc.get("verdict"), "AGENDA_DEBT")
+    check("r1199 supply face exposes only the published keys",
+          sorted(_sc), ["floor", "pool_ready", "shortfall", "startable_now",
+                        "tickets_unclaimed", "verdict"])
 
     n_pass = sum(1 for _, ok, _, _ in cases if ok)
     print(f"compute_audit selftest: {n_pass}/{len(cases)} PASS")

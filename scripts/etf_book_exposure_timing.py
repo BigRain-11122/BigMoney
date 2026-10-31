@@ -72,19 +72,31 @@ class ScaledBook(F.Forward):
         super().__init__(*a, **kw)
 
     def _decide(self, d):
-        super()._decide(d)
-        if self.pending is None:
+        # Mirrors Forward._decide line for line except that the scale handed to `scale_fn`
+        # is the engine's own unrounded value. Reading it back off `last_decision["scale"]`
+        # (which the engine publishes rounded to 6dp) made the identity arm differ from the
+        # engine by ~1e-7 on the real panel -- small, but it means the "identity" arm was
+        # not the engine, and a face that cannot reproduce the book it describes is
+        # measuring a different book (found by the r1197 identity gate, not by a fixture).
+        s = self.score.loc[d].dropna()
+        if len(s) < self.n_hold:
             return
-        names = list(self.last_decision["names"])
-        if len(names) != self.n_hold:
+        picks = list(s.nlargest(self.n_hold).index)
+        if len(picks) != self.n_hold:
             self.selection_drift += 1
-        m = float(self.scale_fn(d, self.last_decision["scale"]))
-        base = 1.0 / self.n_hold
-        new = {k: base * m for k in names}
+        base = {p: 1.0 / self.n_hold for p in picks}
+        scale, vol = 1.0, None
+        if self.vol_target:
+            scale, vol = P.scale_for(base, self.op, d, self.vol_target)
+        m = float(self.scale_fn(d, scale))
+        new = {k: w * m for k, w in base.items()}
         turn = sum(abs(new.get(k, 0.0) - self.held.get(k, 0.0))
                    for k in set(new) | set(self.held))
         self.pending = (new, turn)
-        self.last_decision["scale"] = round(m, 6)
+        self.last_decision = {"bar": str(d.date()), "scale": round(m, 6),
+                              "realised_vol_60d": None if vol is None else round(float(vol), 6),
+                              "names": picks, "turnover": round(float(turn), 6)}
+        self.books[str(d.date())] = self.last_decision
 
 
 def _series(marks):
@@ -199,6 +211,24 @@ def run():
             abs(float(np.mean(list(mapping.values()) or [0.0])) - mean_scale) < 1e-9)
         placebo_rows.append(r)
 
+    # identity leg, published (r1197): the production arm IS the engine's own scale path,
+    # so re-running the untouched engine must reproduce its nav bit for bit. Without this
+    # block on the artifact, a page or a card could quote "timing" for an arm that was
+    # silently a different book -- the selftest only proves it on a fixture.
+    eng = F.Forward(close, openp, score, N_HOLD, REBAL, COST, vol_target=VOL_TARGET,
+                    carry=carry)
+    eng_ser = _series(eng.run(dates, rebal_days))
+    ident_gap = float(np.max(np.abs(eng_ser.to_numpy() - prod_ser.to_numpy())))
+    # a real cross-book check: the arms may only differ in the scale, so every bar the two
+    # books share must hold the same names. `selection_drift` alone is structurally zero
+    # (every arm builds its book from the same rule), which is why it cannot carry this.
+    pick_drift = sum(1 for b, v in eng.books.items()
+                     if b in prod.books
+                     and list(prod.books[b]["names"]) != list(v["names"]))
+    identity = {"gap": ident_gap, "tol": IDENT_TOL,
+                "passes": ident_gap <= IDENT_TOL and pick_drift == 0,
+                "pick_drift": pick_drift, "selection_drift": prod.selection_drift}
+
     verdict = decide(rows, placebo_rows)
     doc = {
         "generated": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -206,6 +236,7 @@ def run():
         "evidence_cutoff": str(dates[-1].date()),
         "bars": len(dates),
         "decisions": len(bars),
+        "identity": identity,
         "panel": F._panel_block(cls, n_flip),
         "config": {"n_hold": N_HOLD, "rebal": REBAL, "cost_bp": round(COST * 1e4, 1),
                    "vol_target": VOL_TARGET, "classes": list(P.USE_CLASSES),
@@ -269,6 +300,9 @@ def write_md(doc):
     lines += ["",
               "## Placebo: same exposure distribution, no timing", "",
               "| | value |", "|---|---|",
+              "| identity gap vs the untouched engine | %.2e (tol %.0e) |"
+              % ((doc.get("identity") or {}).get("gap") or 0.0,
+                 (doc.get("identity") or {}).get("tol") or 0.0),
               "| arms | %d (seed %d) |" % (doc["placebo"]["n"], doc["placebo"]["seed"]),
               "| mean CAGR | %.2f%% |" % (100 * doc["placebo"]["cagr_mean"]),
               "| mean Sharpe | %.3f |" % doc["placebo"]["sharpe_mean"],
@@ -301,9 +335,75 @@ def write_md(doc):
         fh.write("\n".join(lines))
 
 
+def read_published(path=None):
+    """Consumer entry point: the published comparison, or an honest gap (r1197).
+
+    The card and the CEO page both have to answer "is the vol target timing, or just a
+    smaller book?"; before this, each face would have re-opened the artifact and re-built
+    the arms block on its own (E289 family). The identity gate travels with the read: an
+    artifact whose production arm could not reproduce the engine's nav is not evidence
+    about timing, so it reads as `no_identity` and callers print no numbers at all.
+    """
+    p = path or OUT_JSON
+    if not os.path.exists(p):
+        return {"status": "absent", "artifact": str(p), "verdict": None,
+                "sentence": None, "evidence_cutoff": None}
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except Exception as exc:                                        # noqa: BLE001
+        return {"status": "unreadable: %s" % str(exc)[:120], "artifact": str(p),
+                "verdict": None, "sentence": None, "evidence_cutoff": None}
+    ident = doc.get("identity") or {}
+    if not ident.get("passes"):
+        return {"status": "no_identity", "artifact": str(p), "verdict": doc.get("verdict"),
+                "sentence": None, "evidence_cutoff": None,
+                "detail": "identity gap %r" % (ident.get("gap"),)}
+    arms = {r.get("arm"): r for r in doc.get("arms") or []}
+    v = doc.get("verdict") or {}
+    pl = doc.get("placebo") or {}
+    ex = doc.get("exposure") or {}
+    return {
+        "status": "ok",
+        "artifact": str(p),
+        "evidence_cutoff": doc.get("evidence_cutoff"),
+        "bars": doc.get("bars"),
+        "decisions": doc.get("decisions"),
+        "identity": {"gap": ident.get("gap"), "tol": ident.get("tol"),
+                     "pick_drift": ident.get("pick_drift")},
+        "arms": {k: {"cagr": (arms.get(k) or {}).get("cagr"),
+                     "sharpe": (arms.get(k) or {}).get("sharpe"),
+                     "maxdd": (arms.get(k) or {}).get("maxdd"),
+                     "vol": (arms.get(k) or {}).get("vol"),
+                     "mean_exposure": (arms.get(k) or {}).get("mean_exposure"),
+                     "delevered_share": (arms.get(k) or {}).get("delevered_share")}
+                 for k in ("production", "full", "constant")},
+        "exposure": {"mean_engine_scale": ex.get("mean_engine_scale"),
+                     "delevered_decision_share": ex.get("delevered_decision_share")},
+        "placebo": {"n": pl.get("n"), "cagr_mean": pl.get("cagr_mean")},
+        "verdict": {"state": v.get("state"), "timing_pp": v.get("timing_pp"),
+                    "placebo_p05_pp": v.get("placebo_p05_pp"),
+                    "placebo_p95_pp": v.get("placebo_p95_pp"),
+                    "de_risking_pp": v.get("de_risking_pp")},
+        "sentence": ("production %.2f%% vs a constant book at the same average exposure "
+                     "%.2f%% -> timing %+.2fpp/yr inside a %d-path placebo band of "
+                     "[%+.2f, %+.2f]pp" % (
+                         100 * (arms.get("production") or {}).get("cagr", 0.0),
+                         100 * (arms.get("constant") or {}).get("cagr", 0.0),
+                         v.get("timing_pp") or 0.0, pl.get("n") or 0,
+                         v.get("placebo_p05_pp") or 0.0, v.get("placebo_p95_pp") or 0.0))
+        if v.get("state") else None,
+    }
+
+
 def check(path=None):
     with open(path or OUT_JSON, "r", encoding="utf-8") as fh:
         doc = json.load(fh)
+    ident = doc.get("identity") or {}
+    if not ident.get("passes"):
+        print("CHECK FAIL: the production arm does not reproduce the engine's nav "
+              "(gap %r, pick drift %r)" % (ident.get("gap"), ident.get("pick_drift")))
+        return 1
     v = decide(doc["arms"], doc["placebo"]["rows"])
     if v["state"] != doc["verdict"]["state"]:
         print("CHECK FAIL: published verdict %s, re-derived %s"
@@ -400,6 +500,47 @@ def selftest():
         small.mean_turnover < ident_book.mean_turnover,
         "%.3f < %.3f" % (small.mean_turnover, ident_book.mean_turnover))
     chk("half-size book holds the same names", small.selection_drift == 0)
+
+    # L7-L9 (r1197): the reader every consumer goes through. An artifact whose production
+    # arm did not reproduce the engine must read as no_identity (and produce no sentence),
+    # a missing file as absent, and a clean one must hand back the arms it published --
+    # otherwise a face could quote numbers off a book nobody verified.
+    import tempfile
+    tmpdir = tempfile.mkdtemp(prefix="extim_")
+    absent = read_published(os.path.join(tmpdir, "nope.json"))
+    chk("reader: missing artifact reads absent, never zero-timing",
+        absent["status"] == "absent" and absent["sentence"] is None)
+
+    def _write(doc, name="face.json"):
+        fp = os.path.join(tmpdir, name)
+        with open(fp, "w", encoding="utf-8") as fh:
+            json.dump(doc, fh)
+        return fp
+
+    good = {"evidence_cutoff": "2026-10-30", "bars": 10, "decisions": 3,
+            "identity": {"gap": 0.0, "tol": IDENT_TOL, "passes": True, "pick_drift": 0},
+            "exposure": {"mean_engine_scale": 0.7, "delevered_decision_share": 0.8},
+            "arms": [{"arm": "production", "cagr": 0.0912, "sharpe": 0.95, "maxdd": -0.13,
+                      "vol": 0.10, "mean_exposure": 0.707, "delevered_share": 0.879},
+                     {"arm": "full", "cagr": 0.1321, "sharpe": 0.92, "maxdd": -0.16,
+                      "vol": 0.15, "mean_exposure": 1.0, "delevered_share": 0.0},
+                     {"arm": "constant", "cagr": 0.1003, "sharpe": 0.97, "maxdd": -0.12,
+                      "vol": 0.11, "mean_exposure": 0.707, "delevered_share": 1.0}],
+            "placebo": {"n": 20, "cagr_mean": 0.098},
+            "verdict": {"state": "AVERAGE_EXPOSURE_ONLY", "timing_pp": -0.91,
+                        "placebo_p05_pp": -1.90, "placebo_p95_pp": 0.88,
+                        "de_risking_pp": -3.18}}
+    okf = _write(good)
+    got = read_published(okf)
+    chk("reader: a clean artifact hands back the published arms and verdict",
+        got["status"] == "ok" and got["verdict"]["state"] == "AVERAGE_EXPOSURE_ONLY"
+        and abs(got["arms"]["production"]["cagr"] - 0.0912) < 1e-9
+        and "constant book" in (got["sentence"] or ""))
+    broken = dict(good)
+    broken["identity"] = {"gap": 1e-3, "tol": IDENT_TOL, "passes": False, "pick_drift": 0}
+    got_b = read_published(_write(broken, "face_broken.json"))
+    chk("reader: a failed identity gate reads no_identity and carries no sentence",
+        got_b["status"] == "no_identity" and got_b["sentence"] is None)
 
     print("selftest %d/%d" % (ok[1], ok[0]))
     return 0 if ok[1] == ok[0] else 1

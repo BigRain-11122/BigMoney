@@ -1,6 +1,6 @@
 # Is the de-levering timing, or just a smaller book?
 
-Face: `results/etf_book_exposure_timing.json` (evidence cutoff 2026-10-30, 1653 bars, 83 decisions, 127.1 s).
+Face: `results/etf_book_exposure_timing.json` (evidence cutoff 2026-10-30, 1653 bars, 83 decisions, 130.5 s).
 
 All three arms hold the same names on the same 20-bar grid and pay the same 10 bp/side; only the exposure path differs.
 
@@ -14,6 +14,7 @@ All three arms hold the same names on the same 20-bar grid and pay the same 10 b
 
 | | value |
 |---|---|
+| identity gap vs the untouched engine | 0.00e+00 (tol 1e-12) |
 | arms | 20 (seed 20261031) |
 | mean CAGR | 9.50% |
 | mean Sharpe | 0.904 |

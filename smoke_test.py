@@ -382,6 +382,14 @@ def main() -> int:
             # every suite instead of once in a digest.
             ("product: S6 chain refresh branch (stale pays, inconsistent does not)",
              "Tools/s6_chain_bmc.py", ["--selftest"]),
+            # r1199: an empty pool has two causes needing opposite responses.
+            # The exit-code leg keeps the counter callable; the --check leg
+            # refuses a published verdict that does not follow from its own
+            # numbers, so "supply is fine" cannot be typed in.
+            ("product: supply candidate face (empty pool: broken vs no work)",
+             "scripts/supply_candidate_face.py", ["--selftest"]),
+            ("product: supply candidate verdict recomputed from its published rows",
+             "scripts/supply_candidate_face.py", ["--check"]),
             ("product: etf_book_production card (exit-code contract)",
              "scripts/etf_book_production.py", ["--selftest"]),
             ("product: etf_vol_delivery_audit (exit-code contract)",

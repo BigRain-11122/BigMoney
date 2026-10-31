@@ -7752,3 +7752,32 @@ Third, smaller: a verdict string containing `|` ("CONSERVATIVE | SURVIVES") is a
 column separator. The page collapses it to `CONSERVATIVE · SURVIVES` and the smoke leg compares
 whitespace-normalised, because a raw pipe splits the row *silently* -- the table renders, the number
 reads, and it is no longer a table (r1193 recurrence, now pinned at the reader-facing form).
+
+### E318 A red that measures one half of a two-cause state cannot be acted on, so it stays red (r1199)
+
+The compute_audit `supply_floor` flag had been red for 1,258 minutes: pool ready 0, floor 3. That
+number has exactly two causes and they need **opposite** responses -- *work exists and nobody put it
+in the pool* (enqueue it: a mechanism fault) versus *no startable work exists at all* (generate a
+topic: an agenda debt). Because the reader measured only the pool, both printed the same word, and a
+red nobody can act on is a red that stays red. Twenty-one hours of it were not a mystery; they were a
+missing second half.
+
+The cheap fix is the wrong one: lowering the floor (or adding an "idle is fine" whitelist) is the
+cheapest way to lose the signal, and it was already rejected once (r1135 family). The fix used here
+adds the other half **beside** the reading, never instead of it:
+
+- **count candidates from the sources that own them**, reusing the one pool/ticket reader
+  (`compute_audit.pool_ready_entries` / `fleet_open_tasks`) rather than writing a second parser;
+- **separate `startable_now` from everything that merely looks like work**: queue drafts each still
+  need a prereg freeze, and `fleet/backlog.md` is cross-company with the owner named in the row --
+  counting either as supply would manufacture a green;
+- **print the shortfall**, so the verdict carries an amount and not just a mood
+  (`AGENDA_DEBT`, shortfall 3, startable 0 on the live face);
+- **an unreadable pool stays `UNKNOWN`** -- r98's law again: unknown is not empty.
+
+Gate: the smoke leg re-derives the verdict from the published rows (`--check`), so a "supply is fine"
+line has to follow from the numbers that were published, not from whoever typed it.
+
+Read across: any standing flag that has been red for more than a day is a candidate for this defect --
+ask what the flag measures and whether the state it names has more than one cause. If it does, publish
+the split; do not publish a looser threshold.
