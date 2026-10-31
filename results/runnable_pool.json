@@ -25801,7 +25801,7 @@
    "id": "E317-PRINT-COVERAGE-CENSUS",
    "title": "E316 measured the reader set on the five rows E315 left: which of ALL the gate constants published in results/ are readable from the face that carries them, and what does substituting a same-unit number cost per face?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "entered_at": "2026-10-31T20:3x+08:00",
    "entered_by": "bm-b r1335",
@@ -25818,7 +25818,11 @@
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "done_at": "2026-10-31T22:0x+08:00",
+   "done_by": "bm-b r1336",
+   "result_ref": "results/state_tilt/PRINTCOV-2026-10-31.json (scripts/e317_print_coverage_census.py run / verify 0 problems / selftest 35/35, S6 leg print_coverage_census rc=0, smoke leg added, identity checks green)",
+   "outcome": "289 faces / 1108 gate leaves: the unit is missing on 1047 of them and only 33 leaves (2.98%) are readable from their own face, on 2 faces that are both gate tables. 225 leaves publish a same-unit decoy; the substitution spans up to 19.6 orders of magnitude. 122 gates carry a zero tolerance."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25833,6 +25837,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T20:3x+08:00",
+ "updated_at": "2026-10-31T22:0x+08:00",
  "version": 1
 }

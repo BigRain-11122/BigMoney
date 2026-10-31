@@ -702,6 +702,16 @@ LEGS = [
     ("gate_print_requirements",
      ["python", "scripts/e316_gate_print_requirements.py", "verify"]),
 
+    # E317: E316 priced the reader set on five rows chosen by E315. This leg carries the same test
+    # to every face in results/ that publishes a tolerance leaf: 289 faces, 1108 gates, and the
+    # element almost nobody prints turns out to be the unit (1047 of 1108). Only 33 gates are
+    # readable from their own face (2.98%) and they sit on two faces, both of them gate tables --
+    # while 225 gates publish a same-unit decoy, whose substitution span reaches 19.6 orders of
+    # magnitude. Verify re-derives the counts from the published rows and re-checks that the study
+    # excluded its own face and script. ~20s (it re-reads all 289 faces to recount).
+    ("print_coverage_census",
+     ["python", "scripts/e317_print_coverage_census.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
@@ -755,7 +765,13 @@ LEGS = [
     ("pagegate", ["python", "scripts/e97_routing.py", "pagegate", "--publish"]),
     # fleet / bookkeeping guards
     ("machine_health", ["python", "Tools/machine_health_face.py", "check"]),
-    ("gpu_face", ["python", "Tools/gpu_face.py", "audit"]),
+    # r1336: this leg used to be `audit` -- it reported a drifted GPU face and did nothing, so
+    # the face stayed half-owned (33 aliases written at four different samples; smoke read
+    # free=3789 beside free=3025 MiB, spread 764 MiB) until a human ran repair by hand. A verdict
+    # that no next step consumes is not a gate (r1288). `apply` re-probes once and rewrites every
+    # alias from that one sample; on probe failure the GPU keys are dropped with a warning rather
+    # than invented, so the leg is fail-safe on a parked machine.
+    ("gpu_face", ["python", "Tools/gpu_face.py", "apply"]),
     ("attrition_guard", ["python", "scripts/attrition_ledger_guard.py", "scan"]),
     ("pool_audit", ["python", os.path.join("scripts", "pool_audit.py")]),
     ("token_meter", ["python", "scripts/token_meter.py"]),

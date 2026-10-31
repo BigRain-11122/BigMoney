@@ -8930,6 +8930,83 @@ def main() -> int:
     except Exception as e:
         check(_name103, False, repr(e)[:160])
 
+    # E317: E316 priced the reader set on five rows; this leg asserts the census that carries it to
+    # every face publishing a tolerance leaf -- the counts must be recomputable from the published
+    # rows themselves (faces, gate leaves, which element is missing how often, complete rows, zero
+    # tolerances), the study must exclude its own face and script, and no row may be called readable
+    # while an element is missing.
+    _name104 = ("product: the reader set is missing across the whole published corpus -- 1047 of "
+                "1108 gate leaves print no unit and 33 are readable at all")
+    _bad104 = []
+    try:
+        _p104 = os.path.join("results", "state_tilt", "printcov_latest.json")
+        _f104 = None
+        if not os.path.exists(_p104):
+            _bad104.append("face missing: %s" % _p104)
+        else:
+            with io.open(_p104, encoding="utf-8") as _fh104:
+                _f104 = json.load(_fh104)
+        if _f104 is not None:
+            _c104 = _f104.get("census") or {}
+            _faces104 = _f104.get("faces") or []
+            if _f104.get("evidence_cutoff") != "2026-10-31":
+                _bad104.append("evidence_cutoff moved: %r" % (_f104.get("evidence_cutoff"),))
+            if not str(_f104.get("verdict") or "").startswith("the_unit_is_missing_on_"):
+                _bad104.append("verdict moved: %r" % (_f104.get("verdict"),))
+            if any(not c.get("ok") for c in (_f104.get("identity_checks") or [])):
+                _bad104.append("identity checks are not all green")
+            _rows104 = [r for _fc104 in _faces104 for r in (_fc104.get("rows") or [])]
+            if (_c104.get("faces_scanned") or 0) != len(_faces104):
+                _bad104.append("faces_scanned is not the published face list")
+            if (_c104.get("gate_leaves") or 0) != len(_rows104):
+                _bad104.append("gate_leaves is not the published row count")
+            _miss104 = {}
+            for _r104 in _rows104:
+                for _n104 in (_r104.get("missing_elements") or []):
+                    _miss104[_n104] = _miss104.get(_n104, 0) + 1
+            if (_c104.get("leaves_missing_each_element") or {}) != _miss104:
+                _bad104.append("the per-element absence counts do not recompute")
+            if _miss104.get(_c104.get("most_commonly_missing_element")) != max(_miss104.values()):
+                _bad104.append("the most commonly missing element is not the maximum")
+            _complete104 = [r for r in _rows104 if r.get("reader_complete")]
+            if (_c104.get("reader_complete_leaves") or 0) != len(_complete104):
+                _bad104.append("reader_complete_leaves does not recompute")
+            _faces_ok104 = len([_fc104 for _fc104 in _faces104
+                                if any(r.get("reader_complete") for r in (_fc104.get("rows") or []))])
+            if (_c104.get("faces_with_at_least_one_reader_complete_leaf") or 0) != _faces_ok104:
+                _bad104.append("the count of faces carrying a complete row does not recompute")
+            if (_c104.get("gates_with_a_zero_tolerance") or 0) != len(
+                    [r for r in _rows104 if r.get("value") == 0]):
+                _bad104.append("the zero-tolerance count does not recompute")
+            for _r104 in _rows104:
+                _absent104 = [e["element"] for e in (_r104.get("elements") or [])
+                              if e.get("required") and not e.get("present")]
+                if _absent104 != list(_r104.get("missing_elements") or []):
+                    _bad104.append("the missing set is not the absent required elements")
+                if bool(_r104.get("reader_complete")) != (not _absent104):
+                    _bad104.append("a row is called readable while an element is missing")
+                for _e104 in (_r104.get("elements") or []):
+                    if bool(_e104.get("present")) != bool(_e104.get("as")):
+                        _bad104.append("an element claims presence without a path")
+            _paths104 = set(_fc104.get("face") for _fc104 in _faces104)
+            for _sf104 in (_f104.get("self_faces_excluded") or []):
+                if _sf104 in _paths104:
+                    _bad104.append("the study counted its own face: %s" % _sf104)
+            if not (_f104.get("self_scripts_excluded") or []):
+                _bad104.append("the study did not exclude its own script")
+        check(_name104, not _bad104, "; ".join(_bad104)[:220]
+              or "faces %s | gate leaves %s | missing %s | complete rows %s (%.2f%%) on %s faces "
+                 "| zero tolerances %s | largest substitution span %.2f decades"
+                 % (_c104.get("faces_scanned"), _c104.get("gate_leaves"),
+                    _c104.get("most_commonly_missing_element"),
+                    _c104.get("reader_complete_leaves"),
+                    100.0 * (_c104.get("reader_complete_share") or 0.0),
+                    _c104.get("faces_with_at_least_one_reader_complete_leaf"),
+                    _c104.get("gates_with_a_zero_tolerance"),
+                    _c104.get("max_substitution_span_orders_of_magnitude") or 0.0))
+    except Exception as e:
+        check(_name104, False, repr(e)[:160])
+
     return _finish()
 
 
