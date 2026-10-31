@@ -7657,3 +7657,22 @@ Generalisation: when a face prints a *verdict for a reader*, the verdict must be
 artifact, not a phrase in the renderer. And a near miss is worth publishing as a near miss: two
 gates beating their placebos while still being worse than the baseline is a stronger statement
 than "no significant gain".
+
+### E314 The cost assumption is also a number nobody measured (r1195)
+
+The production card charges every leg a flat 10 bp per side and every downstream number is
+priced net of it -- but no face had ever asked what these ETFs actually quote. Estimating each
+name's effective spread from its own daily high/low (Corwin-Schultz 2012; 20-day rolling median,
+lagged one bar so a decision cannot see t+1) and then weighting the spreads by the book's own
+turnover gives a measured one-way cost of **5.9 bp/side** against the 10 bp assumption, i.e. the
+card over-charges by ~41%: re-pricing the identical engine at the measured cost earns 10.1%
+CAGR / 1.04 Sharpe vs the published 9.6% / 0.99, and even the pessimistic arm (every traded name
+at its own 75th percentile -> 9.0 bp/side) leaves 9.7% / 1.00. Two reusable moves: (a) an
+assumption that enters every published number deserves its own estimator with a control arm --
+the control here is the same engine at the published 10 bp reproducing the card's CAGR, so the
+comparison is measured rather than asserted; (b) convert the assumption into the engine's own
+unit (equivalent scalar cost = sum|dw|*halfspread / sum|dw|) instead of re-implementing the
+cost path, which keeps the engine the single source. Honest limits printed on the face: the
+estimator proxies the quote from the day's range (a wide-range day absorbs volatility into the
+implied spread), so its p75 arm is the pessimistic bound, not a forecast; and it is an estimate
+of half-spread only -- impact beyond the quote is not in it.
