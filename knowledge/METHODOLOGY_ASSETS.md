@@ -5815,3 +5815,40 @@ widening cap >= 1, at least one narrowing cap < 1). Evidence: `scripts/e287_supp
 (selftest 22/22, verify 0 problems), `results/state_tilt/BANDSUPPLY-2026-10-29.json`, S6 leg
 `supply_ceiling_axes`, digest
 `research/digests/DIGEST-20261031-r1315-e287-supply-ceiling-axes.md`.
+
+
+### E295 - a replay control must be pinned to the reference's own window, and a published rounded copy is compared at its own precision (r1316 bm-b)
+
+Two smoke legs were red on faces that were themselves correct, and both reds were the CHECK, not the
+science. (1) E243's headline cell is a replay of E240's numbers, but the cell was built on the live
+panel: the panel prints one new session every trading day, so the "control" re-derived over 1329
+sessions against E240's published 1328 and read `MISMATCH` on a 5.15e-5 / 2.65e-5 gap against a 1e-9
+tolerance. Pinning the cell to the reference's OWN window (`book.first/book.last` in the E240 face)
+makes both gaps exactly 0.0 -- so the drift was vintage, not reproduction (E292/E294 family). A replay
+means same data AND same window; the face now publishes `window_used`, `window_source`,
+`live_panel_last` and `sessions_past_the_pinned_window` (1 this round) so the excluded sessions are
+disclosed rather than silently dropped, and it refuses a window that does not apply to this panel
+(ends after the panel's last session, or keeps fewer than MIN_SESSIONS) with the reason printed.
+
+(2) E233 publishes its gamma point set ROUNDED to 6 dp while the interval beside it is full
+precision, and the leg compared the two at 1e-9 -- so a 6-dp copy of the endpoint (0.829856 vs
+0.8298563090732277) read as "an endpoint is missing from its own point set". A rounded publication
+must be compared at its own resolution, and the precision has to be published by the face
+(`gamma_points_decimals`) rather than defaulted by the reader; the tolerance is then one rounding
+unit (1e-6), which still separates a genuinely absent endpoint by seven orders of magnitude. The same
+face now also publishes `gamma_points_sources`, and the leg requires the first three points to be
+NAMED `interval_lo` / `point` / `interval_hi` -- being numerically inside the interval is a weaker
+claim than being the endpoint.
+
+Two reusable rules. (a) Any control/replay cell must be pinned to the reference's declared window and
+disclose the readings it excluded; an unpinned re-derivation turns a data vintage into a false
+reproduction failure, and a false failure is expensive in exactly the direction that matters (the
+cheapest "fix" is to relax the tolerance). (b) A comparison tolerance is a claim about the printed
+resolution: full-precision tolerances on rounded publications manufacture reds, and the fix belongs in
+the publisher (declare precision + provenance), never in a blanket tolerance bump. Evidence:
+`scripts/e243_additivity_out_of_sample.py` (selftest 16/16, +2 legs: "replay survives a panel that
+grew", "replay says when it had no window"), `scripts/e233_empirical_gamma.py` (selftest 13/13),
+`results/state_tilt/addos_latest.json` (`e240_replay.status=reproduced`, gaps 0.0),
+`results/state_tilt/empirical_gamma_latest.json`, smoke legs E243/E233 (both extracted verbatim and
+executed standalone: PASS), digest
+`research/digests/DIGEST-20261031-r1316-e297-two-red-legs.md`.

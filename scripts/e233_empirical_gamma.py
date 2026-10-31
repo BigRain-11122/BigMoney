@@ -83,6 +83,7 @@ ESTIMATORS = ("A_naive", "B_controlled", "C_reverse")
 PRIMARY_ESTIMATOR = "B_controlled"
 PRIMARY_PANEL = "primary_single"
 GAMMA_FLOOR, GAMMA_CEIL = 0.05, 3.0
+GAMMA_POINT_DECIMALS = 6         # published precision of the point set (see summary note)
 FINE_STEPS = (0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85,
               0.90, 0.95, 1.00, 1.05, 1.10, 1.15, 1.20, 1.25, 1.30, 1.35, 1.40, 1.45,
               1.50, 1.60, 1.70, 1.80, 1.90, 2.00)
@@ -351,9 +352,12 @@ def run(save=True, panel_dir=None, outdir=None):
         return None
     prim = prim[0]
     ci = prim.get("gamma_ci") or [prim["gamma"], prim["gamma"]]
-    points = [{"gamma": round(clip_gamma(ci[0]), 6), "source": "interval_lo"},
-              {"gamma": round(clip_gamma(prim["gamma"]), 6), "source": "point"},
-              {"gamma": round(clip_gamma(ci[1]), 6), "source": "interval_hi"}]
+    points = [{"gamma": round(clip_gamma(ci[0]), GAMMA_POINT_DECIMALS),
+               "source": "interval_lo"},
+              {"gamma": round(clip_gamma(prim["gamma"]), GAMMA_POINT_DECIMALS),
+               "source": "point"},
+              {"gamma": round(clip_gamma(ci[1]), GAMMA_POINT_DECIMALS),
+               "source": "interval_hi"}]
     # the interval is only one source of uncertainty: the two estimators disagree by more
     # than the interval is wide (the regressor is endogenous), so the family verdicts also
     # have to survive the identification dispute, not just sampling error at fixed design.
@@ -504,7 +508,14 @@ def run(save=True, panel_dir=None, outdir=None):
                    for c in ladder],
         "fine_scan": scan,
         "summary": {
+            # The published point set is ROUNDED (6 dp) while the interval beside it is full
+            # precision, so a reader comparing the two at 1e-9 sees the endpoint "missing"
+            # from its own point set when it is only a rounded copy of the same number
+            # (E233 r1316). The precision and the provenance are published so the check can
+            # be made at the resolution the face actually prints.
             "gamma_points": point_set,
+            "gamma_points_decimals": GAMMA_POINT_DECIMALS,
+            "gamma_points_sources": [p["source"] for p in points],
             "gamma_interval": ci,
             "interval_points": interval_points,
             "identification_span": [min(point_set), max(point_set)],

@@ -1,16 +1,16 @@
 {
- "answer": "Estimated from the panel rather than assumed: |r_oc| ~ k * amount ** gamma gives gamma = 0.928 [0.830, 1.026] on primary_single over 2012-05-28..2026-10-29 (Newey-West, lag 20, n=3455); the naive contemporaneous reading is 0.255 and the reverse diagnostic regression is reported but not used. Re-deriving the family at the measured interval (0.830, 0.928, 1.026) and, separately, at the naive contemporaneous estimate (identification span 0.255..1.026): the toll clears its bar (|t| >= 3.08) on 6 of 6 arm cells at every point, the ladder keeps one verdict inside the interval on 12 of 12 cells, and 9 of 12 ladder cells keep one verdict across the whole identification span -- so 3 of them are decided by WHERE you put gamma, not by the data. The passing band is conditional: primary_single/tilt_linear/f=0.10 up to gamma 1.10, primary_single/tilt_linear/f=0.25 up to gamma 0.35, basket_equal_weight/tilt_linear/f=0.10 up to gamma 0.75, and 1 of 3 such cells have their BAND_PAYS support inside the measured interval. Caveat carried, not buried: what is measured is the market's elasticity of price to aggregate turnover on this instrument; treating it as our own |dw| exponent is the bridge assumption stated in frozen_spec.bridge.",
+ "answer": "Estimated from the panel rather than assumed: |r_oc| ~ k * amount ** gamma gives gamma = 0.928 [0.830, 1.025] on primary_single over 2012-05-28..2026-10-30 (Newey-West, lag 20, n=3456); the naive contemporaneous reading is 0.254 and the reverse diagnostic regression is reported but not used. Re-deriving the family at the measured interval (0.830, 0.928, 1.025) and, separately, at the naive contemporaneous estimate (identification span 0.254..1.025): the toll clears its bar (|t| >= 3.08) on 6 of 6 arm cells at every point, the ladder keeps one verdict inside the interval on 12 of 12 cells, and 10 of 12 ladder cells keep one verdict across the whole identification span -- so 2 of them are decided by WHERE you put gamma, not by the data. The passing band is conditional: primary_single/tilt_linear/f=0.10 up to gamma 1.10, primary_single/tilt_linear/f=0.25 up to gamma 0.35, basket_equal_weight/tilt_linear/f=0.10 up to gamma 0.75, and 1 of 3 such cells have their BAND_PAYS support inside the measured interval. Caveat carried, not buried: what is measured is the market's elasticity of price to aggregate turnover on this instrument; treating it as our own |dw| exponent is the bridge assumption stated in frozen_spec.bridge.",
  "channels": [
   {
    "arm": "binary_low",
-   "gamma": 0.830291,
+   "gamma": 0.829856,
    "gamma_source": "interval_lo",
-   "mu_is_bp_per_day": 4.892948685668115,
-   "pair_t_nw": -1.684046434186749,
+   "mu_is_bp_per_day": 4.872155467162772,
+   "pair_t_nw": -1.6757594499185715,
    "panel": "primary_single",
-   "selection_t_nw": 1.2557277531257278,
+   "selection_t_nw": 1.2711850219158707,
    "toll_clears_bar": true,
-   "toll_t_nw": -6.131318577455483,
+   "toll_t_nw": -6.136331499336092,
    "total_cost_bp": {
     "total_cost_bp": 2008.3139999999976,
     "weight_changes": 154
@@ -18,22 +18,22 @@
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 1402,
-    "pair_ann_bp_per_year": -519.7513826678564,
-    "selection_ann_bp_per_year": 261.4400456689053,
-    "sizing_ann_bp_per_year": -579.6047293353354,
+    "pair_ann_bp_per_year": -515.2541290833926,
+    "selection_ann_bp_per_year": 264.75752642578357,
+    "sizing_ann_bp_per_year": -578.4249565077499,
     "toll_ann_bp_per_year": -201.58669900142684
    }
   },
   {
    "arm": "binary_low",
-   "gamma": 0.928023,
+   "gamma": 0.927615,
    "gamma_source": "point",
-   "mu_is_bp_per_day": 4.892948685668115,
-   "pair_t_nw": -1.684046434186749,
+   "mu_is_bp_per_day": 4.872155467162772,
+   "pair_t_nw": -1.6757594499185715,
    "panel": "primary_single",
-   "selection_t_nw": 1.2557277531257278,
+   "selection_t_nw": 1.2711850219158707,
    "toll_clears_bar": true,
-   "toll_t_nw": -6.131318577455483,
+   "toll_t_nw": -6.136331499336092,
    "total_cost_bp": {
     "total_cost_bp": 2008.3139999999976,
     "weight_changes": 154
@@ -41,22 +41,22 @@
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 1402,
-    "pair_ann_bp_per_year": -519.7513826678564,
-    "selection_ann_bp_per_year": 261.4400456689053,
-    "sizing_ann_bp_per_year": -579.6047293353354,
+    "pair_ann_bp_per_year": -515.2541290833926,
+    "selection_ann_bp_per_year": 264.75752642578357,
+    "sizing_ann_bp_per_year": -578.4249565077499,
     "toll_ann_bp_per_year": -201.58669900142684
    }
   },
   {
    "arm": "binary_low",
-   "gamma": 1.025754,
+   "gamma": 1.025374,
    "gamma_source": "interval_hi",
-   "mu_is_bp_per_day": 4.892948685668115,
-   "pair_t_nw": -1.684046434186749,
+   "mu_is_bp_per_day": 4.872155467162772,
+   "pair_t_nw": -1.6757594499185715,
    "panel": "primary_single",
-   "selection_t_nw": 1.2557277531257278,
+   "selection_t_nw": 1.2711850219158707,
    "toll_clears_bar": true,
-   "toll_t_nw": -6.131318577455483,
+   "toll_t_nw": -6.136331499336092,
    "total_cost_bp": {
     "total_cost_bp": 2008.3139999999976,
     "weight_changes": 154
@@ -64,22 +64,22 @@
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 1402,
-    "pair_ann_bp_per_year": -519.7513826678564,
-    "selection_ann_bp_per_year": 261.4400456689053,
-    "sizing_ann_bp_per_year": -579.6047293353354,
+    "pair_ann_bp_per_year": -515.2541290833926,
+    "selection_ann_bp_per_year": 264.75752642578357,
+    "sizing_ann_bp_per_year": -578.4249565077499,
     "toll_ann_bp_per_year": -201.58669900142684
    }
   },
   {
    "arm": "binary_low",
-   "gamma": 0.254735,
+   "gamma": 0.253727,
    "gamma_source": "naive_contemporaneous",
-   "mu_is_bp_per_day": 4.892948685668115,
-   "pair_t_nw": -1.684046434186749,
+   "mu_is_bp_per_day": 4.872155467162772,
+   "pair_t_nw": -1.6757594499185715,
    "panel": "primary_single",
-   "selection_t_nw": 1.2557277531257278,
+   "selection_t_nw": 1.2711850219158707,
    "toll_clears_bar": true,
-   "toll_t_nw": -6.131318577455483,
+   "toll_t_nw": -6.136331499336092,
    "total_cost_bp": {
     "total_cost_bp": 2008.3139999999976,
     "weight_changes": 154
@@ -87,206 +87,206 @@
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 1402,
-    "pair_ann_bp_per_year": -519.7513826678564,
-    "selection_ann_bp_per_year": 261.4400456689053,
-    "sizing_ann_bp_per_year": -579.6047293353354,
+    "pair_ann_bp_per_year": -515.2541290833926,
+    "selection_ann_bp_per_year": 264.75752642578357,
+    "sizing_ann_bp_per_year": -578.4249565077499,
     "toll_ann_bp_per_year": -201.58669900142684
    }
   },
   {
    "arm": "tilt_step",
-   "gamma": 0.830291,
+   "gamma": 0.829856,
    "gamma_source": "interval_lo",
-   "mu_is_bp_per_day": 4.892948685668115,
-   "pair_t_nw": -2.138196728047383,
+   "mu_is_bp_per_day": 4.872155467162772,
+   "pair_t_nw": -2.1387873415113994,
    "panel": "primary_single",
-   "selection_t_nw": -0.11907126126397885,
+   "selection_t_nw": -0.12251496455860823,
    "toll_clears_bar": true,
-   "toll_t_nw": -9.505256256125216,
+   "toll_t_nw": -9.512352483694148,
    "total_cost_bp": {
-    "total_cost_bp": 2052.844824214924,
+    "total_cost_bp": 2053.4442257948217,
     "weight_changes": 276
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 1402,
-    "pair_ann_bp_per_year": -659.5335757381391,
-    "selection_ann_bp_per_year": -29.874736344673558,
-    "sizing_ann_bp_per_year": -424.878706448637,
-    "toll_ann_bp_per_year": -204.78013294482966
+    "pair_ann_bp_per_year": -659.4714089057012,
+    "selection_ann_bp_per_year": -30.738868757677277,
+    "sizing_ann_bp_per_year": -423.8927734177208,
+    "toll_ann_bp_per_year": -204.83976673030273
    }
   },
   {
    "arm": "tilt_step",
-   "gamma": 0.928023,
+   "gamma": 0.927615,
    "gamma_source": "point",
-   "mu_is_bp_per_day": 4.892948685668115,
-   "pair_t_nw": -2.096537046059194,
+   "mu_is_bp_per_day": 4.872155467162772,
+   "pair_t_nw": -2.0970789668476164,
    "panel": "primary_single",
-   "selection_t_nw": -0.11907126126397885,
+   "selection_t_nw": -0.12251496455860823,
    "toll_clears_bar": true,
-   "toll_t_nw": -9.51551203678875,
+   "toll_t_nw": -9.52262091851599,
    "total_cost_bp": {
-    "total_cost_bp": 1922.65625801502,
+    "total_cost_bp": 1923.1816270375923,
     "weight_changes": 276
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 1402,
-    "pair_ann_bp_per_year": -646.581262484126,
-    "selection_ann_bp_per_year": -29.874736344673558,
-    "sizing_ann_bp_per_year": -424.878706448637,
-    "toll_ann_bp_per_year": -191.8278196908166
+    "pair_ann_bp_per_year": -646.511730236264,
+    "selection_ann_bp_per_year": -30.738868757677277,
+    "sizing_ann_bp_per_year": -423.8927734177208,
+    "toll_ann_bp_per_year": -191.88008806086557
    }
   },
   {
    "arm": "tilt_step",
-   "gamma": 1.025754,
+   "gamma": 1.025374,
    "gamma_source": "interval_hi",
-   "mu_is_bp_per_day": 4.892948685668115,
-   "pair_t_nw": -2.0575556701932864,
+   "mu_is_bp_per_day": 4.872155467162772,
+   "pair_t_nw": -2.05805272673846,
    "panel": "primary_single",
-   "selection_t_nw": -0.11907126126397885,
+   "selection_t_nw": -0.12251496455860823,
    "toll_clears_bar": true,
-   "toll_t_nw": -9.524727320132381,
+   "toll_t_nw": -9.53184605751329,
    "total_cost_bp": {
-    "total_cost_bp": 1800.9961253914992,
+    "total_cost_bp": 1801.453385924476,
     "weight_changes": 276
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 1402,
-    "pair_ann_bp_per_year": -634.4774334439834,
-    "selection_ann_bp_per_year": -29.874736344673558,
-    "sizing_ann_bp_per_year": -424.878706448637,
-    "toll_ann_bp_per_year": -179.7239906506745
+    "pair_ann_bp_per_year": -634.4011251594987,
+    "selection_ann_bp_per_year": -30.738868757677277,
+    "sizing_ann_bp_per_year": -423.8927734177208,
+    "toll_ann_bp_per_year": -179.76948298410076
    }
   },
   {
    "arm": "tilt_step",
-   "gamma": 0.254735,
+   "gamma": 0.253727,
    "gamma_source": "naive_contemporaneous",
-   "mu_is_bp_per_day": 4.892948685668115,
-   "pair_t_nw": -2.4479780087311567,
+   "mu_is_bp_per_day": 4.872155467162772,
+   "pair_t_nw": -2.44923257906774,
    "panel": "primary_single",
-   "selection_t_nw": -0.11907126126397885,
+   "selection_t_nw": -0.12251496455860823,
    "toll_clears_bar": true,
-   "toll_t_nw": -9.43573539421734,
+   "toll_t_nw": -9.44267902568877,
    "total_cost_bp": {
-    "total_cost_bp": 3027.2885878916463,
+    "total_cost_bp": 3029.3588962283625,
     "weight_changes": 276
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 1402,
-    "pair_ann_bp_per_year": -756.4798840351427,
-    "selection_ann_bp_per_year": -29.874736344673558,
-    "sizing_ann_bp_per_year": -424.878706448637,
-    "toll_ann_bp_per_year": -301.7264412418341
+    "pair_ann_bp_per_year": -756.5640560528656,
+    "selection_ann_bp_per_year": -30.738868757677277,
+    "sizing_ann_bp_per_year": -423.8927734177208,
+    "toll_ann_bp_per_year": -301.9324138774664
    }
   },
   {
    "arm": "tilt_linear",
-   "gamma": 0.830291,
+   "gamma": 0.829856,
    "gamma_source": "interval_lo",
-   "mu_is_bp_per_day": 4.892948685668115,
-   "pair_t_nw": -2.3104809692715027,
+   "mu_is_bp_per_day": 4.872155467162772,
+   "pair_t_nw": -2.321556635657472,
    "panel": "primary_single",
-   "selection_t_nw": -0.11907126126397977,
+   "selection_t_nw": -0.12251496455860635,
    "toll_clears_bar": true,
-   "toll_t_nw": -10.481116271567352,
+   "toll_t_nw": -10.473704418369236,
    "total_cost_bp": {
-    "total_cost_bp": 2406.7365805871127,
-    "weight_changes": 1140
+    "total_cost_bp": 2410.718969871703,
+    "weight_changes": 1141
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 1402,
-    "pair_ann_bp_per_year": -758.0671620430235,
-    "selection_ann_bp_per_year": -31.11242443957197,
-    "sizing_ann_bp_per_year": -509.6900099159261,
-    "toll_ann_bp_per_year": -217.26472768752512
+    "pair_ann_bp_per_year": -763.4818880819607,
+    "selection_ann_bp_per_year": -32.02092766203184,
+    "sizing_ann_bp_per_year": -514.6398230917931,
+    "toll_ann_bp_per_year": -216.82113732813582
    }
   },
   {
    "arm": "tilt_linear",
-   "gamma": 0.928023,
+   "gamma": 0.927615,
    "gamma_source": "point",
-   "mu_is_bp_per_day": 4.892948685668115,
-   "pair_t_nw": -2.218725171372558,
+   "mu_is_bp_per_day": 4.872155467162772,
+   "pair_t_nw": -2.230082659466317,
    "panel": "primary_single",
-   "selection_t_nw": -0.11907126126397977,
+   "selection_t_nw": -0.12251496455860635,
    "toll_clears_bar": true,
-   "toll_t_nw": -10.426858804809601,
+   "toll_t_nw": -10.4161826187378,
    "total_cost_bp": {
-    "total_cost_bp": 2066.429791928817,
-    "weight_changes": 1140
+    "total_cost_bp": 2069.5726052783016,
+    "weight_changes": 1141
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 1402,
-    "pair_ann_bp_per_year": -728.1060144426613,
-    "selection_ann_bp_per_year": -31.11242443957197,
-    "sizing_ann_bp_per_year": -509.6900099159261,
-    "toll_ann_bp_per_year": -187.30358008716308
+    "pair_ann_bp_per_year": -733.54159750989,
+    "selection_ann_bp_per_year": -32.02092766203184,
+    "sizing_ann_bp_per_year": -514.6398230917931,
+    "toll_ann_bp_per_year": -186.8808467560651
    }
   },
   {
    "arm": "tilt_linear",
-   "gamma": 1.025754,
+   "gamma": 1.025374,
    "gamma_source": "interval_hi",
-   "mu_is_bp_per_day": 4.892948685668115,
-   "pair_t_nw": -2.144255832658496,
+   "mu_is_bp_per_day": 4.872155467162772,
+   "pair_t_nw": -2.155875271512249,
    "panel": "primary_single",
-   "selection_t_nw": -0.11907126126397977,
+   "selection_t_nw": -0.12251496455860635,
    "toll_clears_bar": true,
-   "toll_t_nw": -10.341642893145895,
+   "toll_t_nw": -10.32789228783767,
    "total_cost_bp": {
-    "total_cost_bp": 1791.385469335472,
-    "weight_changes": 1140
+    "total_cost_bp": 1793.8724278136901,
+    "weight_changes": 1141
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 1402,
-    "pair_ann_bp_per_year": -703.8131587467677,
-    "selection_ann_bp_per_year": -31.11242443957197,
-    "sizing_ann_bp_per_year": -509.6900099159261,
-    "toll_ann_bp_per_year": -163.01072439126943
+    "pair_ann_bp_per_year": -709.2770871285527,
+    "selection_ann_bp_per_year": -32.02092766203184,
+    "sizing_ann_bp_per_year": -514.6398230917931,
+    "toll_ann_bp_per_year": -162.6163363747272
    }
   },
   {
    "arm": "tilt_linear",
-   "gamma": 0.254735,
+   "gamma": 0.253727,
    "gamma_source": "naive_contemporaneous",
-   "mu_is_bp_per_day": 4.892948685668115,
-   "pair_t_nw": -3.63726346424766,
+   "mu_is_bp_per_day": 4.872155467162772,
+   "pair_t_nw": -3.6489584161873894,
    "panel": "primary_single",
-   "selection_t_nw": -0.11907126126397977,
+   "selection_t_nw": -0.12251496455860635,
    "toll_clears_bar": true,
-   "toll_t_nw": -10.368014440549969,
+   "toll_t_nw": -10.378273777423766,
    "total_cost_bp": {
-    "total_cost_bp": 7524.290176222202,
-    "weight_changes": 1140
+    "total_cost_bp": 7550.326581432078,
+    "weight_changes": 1141
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 1402,
-    "pair_ann_bp_per_year": -1199.9558530644108,
-    "selection_ann_bp_per_year": -31.11242443957197,
-    "sizing_ann_bp_per_year": -509.6900099159261,
-    "toll_ann_bp_per_year": -659.1534187089138
+    "pair_ann_bp_per_year": -1206.7049791953698,
+    "selection_ann_bp_per_year": -32.02092766203184,
+    "sizing_ann_bp_per_year": -514.6398230917931,
+    "toll_ann_bp_per_year": -660.0442284415457
    }
   },
   {
    "arm": "binary_low",
-   "gamma": 0.830291,
+   "gamma": 0.829856,
    "gamma_source": "interval_lo",
-   "mu_is_bp_per_day": 4.279109499320082,
-   "pair_t_nw": 0.7424734997611577,
+   "mu_is_bp_per_day": 4.314140682395488,
+   "pair_t_nw": 0.7811270765333983,
    "panel": "basket_equal_weight",
-   "selection_t_nw": 1.3176768614575876,
+   "selection_t_nw": 1.379213347864252,
    "toll_clears_bar": true,
-   "toll_t_nw": -6.365377198718131,
+   "toll_t_nw": -6.36866629899763,
    "total_cost_bp": {
     "total_cost_bp": 1538.8379999999997,
     "weight_changes": 118
@@ -294,22 +294,22 @@
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 2108,
-    "pair_ann_bp_per_year": 226.97359746682187,
-    "selection_ann_bp_per_year": 265.4779740698094,
-    "sizing_ann_bp_per_year": 83.09614332111111,
+    "pair_ann_bp_per_year": 239.00619331417792,
+    "selection_ann_bp_per_year": 279.4528674103753,
+    "sizing_ann_bp_per_year": 81.15384582790091,
     "toll_ann_bp_per_year": -121.60051992409892
    }
   },
   {
    "arm": "binary_low",
-   "gamma": 0.928023,
+   "gamma": 0.927615,
    "gamma_source": "point",
-   "mu_is_bp_per_day": 4.279109499320082,
-   "pair_t_nw": 0.7424734997611577,
+   "mu_is_bp_per_day": 4.314140682395488,
+   "pair_t_nw": 0.7811270765333983,
    "panel": "basket_equal_weight",
-   "selection_t_nw": 1.3176768614575876,
+   "selection_t_nw": 1.379213347864252,
    "toll_clears_bar": true,
-   "toll_t_nw": -6.365377198718131,
+   "toll_t_nw": -6.36866629899763,
    "total_cost_bp": {
     "total_cost_bp": 1538.8379999999997,
     "weight_changes": 118
@@ -317,22 +317,22 @@
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 2108,
-    "pair_ann_bp_per_year": 226.97359746682187,
-    "selection_ann_bp_per_year": 265.4779740698094,
-    "sizing_ann_bp_per_year": 83.09614332111111,
+    "pair_ann_bp_per_year": 239.00619331417792,
+    "selection_ann_bp_per_year": 279.4528674103753,
+    "sizing_ann_bp_per_year": 81.15384582790091,
     "toll_ann_bp_per_year": -121.60051992409892
    }
   },
   {
    "arm": "binary_low",
-   "gamma": 1.025754,
+   "gamma": 1.025374,
    "gamma_source": "interval_hi",
-   "mu_is_bp_per_day": 4.279109499320082,
-   "pair_t_nw": 0.7424734997611577,
+   "mu_is_bp_per_day": 4.314140682395488,
+   "pair_t_nw": 0.7811270765333983,
    "panel": "basket_equal_weight",
-   "selection_t_nw": 1.3176768614575876,
+   "selection_t_nw": 1.379213347864252,
    "toll_clears_bar": true,
-   "toll_t_nw": -6.365377198718131,
+   "toll_t_nw": -6.36866629899763,
    "total_cost_bp": {
     "total_cost_bp": 1538.8379999999997,
     "weight_changes": 118
@@ -340,22 +340,22 @@
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 2108,
-    "pair_ann_bp_per_year": 226.97359746682187,
-    "selection_ann_bp_per_year": 265.4779740698094,
-    "sizing_ann_bp_per_year": 83.09614332111111,
+    "pair_ann_bp_per_year": 239.00619331417792,
+    "selection_ann_bp_per_year": 279.4528674103753,
+    "sizing_ann_bp_per_year": 81.15384582790091,
     "toll_ann_bp_per_year": -121.60051992409892
    }
   },
   {
    "arm": "binary_low",
-   "gamma": 0.254735,
+   "gamma": 0.253727,
    "gamma_source": "naive_contemporaneous",
-   "mu_is_bp_per_day": 4.279109499320082,
-   "pair_t_nw": 0.7424734997611577,
+   "mu_is_bp_per_day": 4.314140682395488,
+   "pair_t_nw": 0.7811270765333983,
    "panel": "basket_equal_weight",
-   "selection_t_nw": 1.3176768614575876,
+   "selection_t_nw": 1.379213347864252,
    "toll_clears_bar": true,
-   "toll_t_nw": -6.365377198718131,
+   "toll_t_nw": -6.36866629899763,
    "total_cost_bp": {
     "total_cost_bp": 1538.8379999999997,
     "weight_changes": 118
@@ -363,198 +363,198 @@
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 2108,
-    "pair_ann_bp_per_year": 226.97359746682187,
-    "selection_ann_bp_per_year": 265.4779740698094,
-    "sizing_ann_bp_per_year": 83.09614332111111,
+    "pair_ann_bp_per_year": 239.00619331417792,
+    "selection_ann_bp_per_year": 279.4528674103753,
+    "sizing_ann_bp_per_year": 81.15384582790091,
     "toll_ann_bp_per_year": -121.60051992409892
    }
   },
   {
    "arm": "tilt_step",
-   "gamma": 0.830291,
+   "gamma": 0.829856,
    "gamma_source": "interval_lo",
-   "mu_is_bp_per_day": 4.279109499320082,
-   "pair_t_nw": -0.6245966753810036,
+   "mu_is_bp_per_day": 4.314140682395488,
+   "pair_t_nw": -0.6198096573319224,
    "panel": "basket_equal_weight",
-   "selection_t_nw": -0.3400660546756332,
+   "selection_t_nw": -0.3225647656792506,
    "toll_clears_bar": true,
-   "toll_t_nw": -10.007156066319114,
+   "toll_t_nw": -10.01325054487153,
    "total_cost_bp": {
-    "total_cost_bp": 1801.845109559068,
+    "total_cost_bp": 1802.3648858368397,
     "weight_changes": 241
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 2108,
-    "pair_ann_bp_per_year": -198.2276638476823,
-    "selection_ann_bp_per_year": -82.95449777555524,
-    "sizing_ann_bp_per_year": 26.671456981204816,
-    "toll_ann_bp_per_year": -141.94462305333212
+    "pair_ann_bp_per_year": -196.65736326198697,
+    "selection_ann_bp_per_year": -78.65604134716638,
+    "sizing_ann_bp_per_year": 23.983755929108796,
+    "toll_ann_bp_per_year": -141.98507784392885
    }
   },
   {
    "arm": "tilt_step",
-   "gamma": 0.928023,
+   "gamma": 0.927615,
    "gamma_source": "point",
-   "mu_is_bp_per_day": 4.279109499320082,
-   "pair_t_nw": -0.5970294056898727,
+   "mu_is_bp_per_day": 4.314140682395488,
+   "pair_t_nw": -0.5922198513170027,
    "panel": "basket_equal_weight",
-   "selection_t_nw": -0.3400660546756332,
+   "selection_t_nw": -0.3225647656792506,
    "toll_clears_bar": true,
-   "toll_t_nw": -10.02058946222142,
+   "toll_t_nw": -10.026697266903705,
    "total_cost_bp": {
-    "total_cost_bp": 1688.950965437381,
+    "total_cost_bp": 1689.4065437410873,
     "weight_changes": 241
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 2108,
-    "pair_ann_bp_per_year": -189.4409816627827,
-    "selection_ann_bp_per_year": -82.95449777555524,
-    "sizing_ann_bp_per_year": 26.671456981204816,
-    "toll_ann_bp_per_year": -133.15794086843223
+    "pair_ann_bp_per_year": -187.86568447430088,
+    "selection_ann_bp_per_year": -78.65604134716638,
+    "sizing_ann_bp_per_year": 23.983755929108796,
+    "toll_ann_bp_per_year": -133.1933990562429
    }
   },
   {
    "arm": "tilt_step",
-   "gamma": 1.025754,
+   "gamma": 1.025374,
    "gamma_source": "interval_hi",
-   "mu_is_bp_per_day": 4.279109499320082,
-   "pair_t_nw": -0.5712537378780416,
+   "mu_is_bp_per_day": 4.314140682395488,
+   "pair_t_nw": -0.5664232641899992,
    "panel": "basket_equal_weight",
-   "selection_t_nw": -0.3400660546756332,
+   "selection_t_nw": -0.3225647656792506,
    "toll_clears_bar": true,
-   "toll_t_nw": -10.031797515232741,
+   "toll_t_nw": -10.037914023905387,
    "total_cost_bp": {
-    "total_cost_bp": 1583.4523264465024,
+    "total_cost_bp": 1583.848843882848,
     "weight_changes": 241
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 2108,
-    "pair_ann_bp_per_year": -181.22990022038908,
-    "selection_ann_bp_per_year": -82.95449777555524,
-    "sizing_ann_bp_per_year": 26.671456981204816,
-    "toll_ann_bp_per_year": -124.94685942603918
+    "pair_ann_bp_per_year": -179.65000625609596,
+    "selection_ann_bp_per_year": -78.65604134716638,
+    "sizing_ann_bp_per_year": 23.983755929108796,
+    "toll_ann_bp_per_year": -124.97772083803771
    }
   },
   {
    "arm": "tilt_step",
-   "gamma": 0.254735,
+   "gamma": 0.253727,
    "gamma_source": "naive_contemporaneous",
-   "mu_is_bp_per_day": 4.279109499320082,
-   "pair_t_nw": -0.8303640660042049,
+   "mu_is_bp_per_day": 4.314140682395488,
+   "pair_t_nw": -0.8259357200414346,
    "panel": "basket_equal_weight",
-   "selection_t_nw": -0.3400660546756332,
+   "selection_t_nw": -0.3225647656792506,
    "toll_clears_bar": true,
-   "toll_t_nw": -9.90515207100234,
+   "toll_t_nw": -9.911042315269617,
    "total_cost_bp": {
-    "total_cost_bp": 2646.842469204939,
+    "total_cost_bp": 2648.637755031976,
     "weight_changes": 241
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 2108,
-    "pair_ann_bp_per_year": -263.994788476263,
-    "selection_ann_bp_per_year": -82.95449777555524,
-    "sizing_ann_bp_per_year": 26.671456981204816,
-    "toll_ann_bp_per_year": -207.7117476819129
+    "pair_ann_bp_per_year": -262.5237622782729,
+    "selection_ann_bp_per_year": -78.65604134716638,
+    "sizing_ann_bp_per_year": 23.983755929108796,
+    "toll_ann_bp_per_year": -207.8514768602144
    }
   },
   {
    "arm": "tilt_linear",
-   "gamma": 0.830291,
+   "gamma": 0.829856,
    "gamma_source": "interval_lo",
-   "mu_is_bp_per_day": 4.279109499320082,
-   "pair_t_nw": -0.6402683262754203,
+   "mu_is_bp_per_day": 4.314140682395488,
+   "pair_t_nw": -0.6145291681025469,
    "panel": "basket_equal_weight",
-   "selection_t_nw": -0.3400660546756256,
+   "selection_t_nw": -0.32256476567924985,
    "toll_clears_bar": true,
-   "toll_t_nw": -10.200815990021106,
+   "toll_t_nw": -10.206163962526084,
    "total_cost_bp": {
-    "total_cost_bp": 2192.4461625442054,
-    "weight_changes": 997
+    "total_cost_bp": 2196.021028384853,
+    "weight_changes": 998
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 2108,
-    "pair_ann_bp_per_year": -207.56083195969597,
-    "selection_ann_bp_per_year": -84.65527540489039,
-    "sizing_ann_bp_per_year": 48.985837761416946,
-    "toll_ann_bp_per_year": -171.891394316223
+    "pair_ann_bp_per_year": -198.89961150437702,
+    "selection_ann_bp_per_year": -80.24908805363864,
+    "sizing_ann_bp_per_year": 53.62225276295001,
+    "toll_ann_bp_per_year": -172.2727762136882
    }
   },
   {
    "arm": "tilt_linear",
-   "gamma": 0.928023,
+   "gamma": 0.927615,
    "gamma_source": "point",
-   "mu_is_bp_per_day": 4.279109499320082,
-   "pair_t_nw": -0.5696126572858531,
+   "mu_is_bp_per_day": 4.314140682395488,
+   "pair_t_nw": -0.543504262184203,
    "panel": "basket_equal_weight",
-   "selection_t_nw": -0.3400660546756256,
+   "selection_t_nw": -0.32256476567924985,
    "toll_clears_bar": true,
-   "toll_t_nw": -10.12641173723025,
+   "toll_t_nw": -10.1320277120346,
    "total_cost_bp": {
-    "total_cost_bp": 1890.9775798028634,
-    "weight_changes": 997
+    "total_cost_bp": 1893.785916806931,
+    "weight_changes": 998
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 2108,
-    "pair_ann_bp_per_year": -184.53734424315957,
-    "selection_ann_bp_per_year": -84.65527540489039,
-    "sizing_ann_bp_per_year": 48.985837761416946,
-    "toll_ann_bp_per_year": -148.86790659968625
+    "pair_ann_bp_per_year": -175.79849594343602,
+    "selection_ann_bp_per_year": -80.24908805363864,
+    "sizing_ann_bp_per_year": 53.62225276295001,
+    "toll_ann_bp_per_year": -149.17166065274736
    }
   },
   {
    "arm": "tilt_linear",
-   "gamma": 1.025754,
+   "gamma": 1.025374,
    "gamma_source": "interval_hi",
-   "mu_is_bp_per_day": 4.279109499320082,
-   "pair_t_nw": -0.5120783205789449,
+   "mu_is_bp_per_day": 4.314140682395488,
+   "pair_t_nw": -0.48567453417963224,
    "panel": "basket_equal_weight",
-   "selection_t_nw": -0.3400660546756256,
+   "selection_t_nw": -0.32256476567924985,
    "toll_clears_bar": true,
-   "toll_t_nw": -10.023726231390603,
+   "toll_t_nw": -10.029686107969741,
    "total_cost_bp": {
-    "total_cost_bp": 1646.22313408298,
-    "weight_changes": 997
+    "total_cost_bp": 1648.4342697604388,
+    "weight_changes": 998
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 2108,
-    "pair_ann_bp_per_year": -165.81334593789373,
-    "selection_ann_bp_per_year": -84.65527540489039,
-    "sizing_ann_bp_per_year": 48.985837761416946,
-    "toll_ann_bp_per_year": -130.1439082944201
+    "pair_ann_bp_per_year": -157.01313947410253,
+    "selection_ann_bp_per_year": -80.24908805363864,
+    "sizing_ann_bp_per_year": 53.62225276295001,
+    "toll_ann_bp_per_year": -130.38630418341393
    }
   },
   {
    "arm": "tilt_linear",
-   "gamma": 0.254735,
+   "gamma": 0.253727,
    "gamma_source": "naive_contemporaneous",
-   "mu_is_bp_per_day": 4.279109499320082,
-   "pair_t_nw": -1.6665515511320732,
+   "mu_is_bp_per_day": 4.314140682395488,
+   "pair_t_nw": -1.6479130704614668,
    "panel": "basket_equal_weight",
-   "selection_t_nw": -0.3400660546756256,
+   "selection_t_nw": -0.32256476567924985,
    "toll_clears_bar": true,
-   "toll_t_nw": -10.06158721560762,
+   "toll_t_nw": -10.068512341235781,
    "total_cost_bp": {
-    "total_cost_bp": 6654.229367536259,
-    "weight_changes": 997
+    "total_cost_bp": 6677.578366295022,
+    "weight_changes": 998
    },
    "totals": {
     "identity_residual_bp": 0.0,
     "oos_sessions": 2108,
-    "pair_ann_bp_per_year": -547.5586374663025,
-    "selection_ann_bp_per_year": -84.65527540489039,
-    "sizing_ann_bp_per_year": 48.985837761416946,
-    "toll_ann_bp_per_year": -511.8891998228292
+    "pair_ann_bp_per_year": -540.6403826690646,
+    "selection_ann_bp_per_year": -80.24908805363864,
+    "sizing_ann_bp_per_year": 53.62225276295001,
+    "toll_ann_bp_per_year": -514.0135473783755
    }
   }
  ],
- "evidence_cutoff": "2026-10-29",
+ "evidence_cutoff": "2026-10-30",
  "fine_scan": [
   {
    "arm": "binary_low",
@@ -565,182 +565,182 @@
    "panel": "primary_single",
    "scan": [
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.55,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.65,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.75,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.85,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 0.95,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.0,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.05,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.1,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.15,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.2,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.25,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 1.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
      "gamma": 2.0,
      "verdict": "BAND_NOISE"
     }
@@ -755,182 +755,182 @@
    "panel": "primary_single",
    "scan": [
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.55,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.65,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.75,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.85,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 0.95,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.0,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.05,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.1,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.15,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.2,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.25,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 1.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "gamma": 2.0,
      "verdict": "BAND_NOISE"
     }
@@ -945,182 +945,182 @@
    "panel": "primary_single",
    "scan": [
     {
-     "d_pair_ann_bp_per_year": 295.43059024625103,
-     "d_pair_t_nw": 2.5986861582144183,
+     "d_pair_ann_bp_per_year": 297.2915547933222,
+     "d_pair_t_nw": 2.620081387036822,
      "gamma": 0.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 291.21499185121417,
-     "d_pair_t_nw": 2.570521990707969,
+     "d_pair_ann_bp_per_year": 293.01110103836174,
+     "d_pair_t_nw": 2.59120346256103,
      "gamma": 0.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 287.1429922132902,
-     "d_pair_t_nw": 2.5430303748559666,
+     "d_pair_ann_bp_per_year": 288.87645525216203,
+     "d_pair_t_nw": 2.563020050250014,
      "gamma": 0.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 283.2096998316512,
-     "d_pair_t_nw": 2.516207028082042,
+     "d_pair_ann_bp_per_year": 284.88265068003625,
+     "d_pair_t_nw": 2.5355263808905417,
      "gamma": 0.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 279.41038982794225,
-     "d_pair_t_nw": 2.4900467078915667,
+     "d_pair_ann_bp_per_year": 281.02488975319324,
+     "d_pair_t_nw": 2.5087167164456394,
      "gamma": 0.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 275.7404982705124,
-     "d_pair_t_nw": 2.4645432961550666,
+     "d_pair_ann_bp_per_year": 277.298538325649,
+     "d_pair_t_nw": 2.4825844367989256,
      "gamma": 0.55,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 272.1956166919762,
-     "d_pair_t_nw": 2.439689879997097,
+     "d_pair_ann_bp_per_year": 273.69912010744326,
+     "d_pair_t_nw": 2.4571221228785642,
      "gamma": 0.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 268.77148679353206,
-     "d_pair_t_nw": 2.4154788291187614,
+     "d_pair_ann_bp_per_year": 270.2223112874844,
+     "d_pair_t_nw": 2.4323216359988122,
      "gamma": 0.65,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 265.4639953296669,
-     "d_pair_t_nw": 2.391901869433863,
+     "d_pair_ann_bp_per_year": 266.86393533955976,
+     "d_pair_t_nw": 2.408174193312523,
      "gamma": 0.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 262.2691691671103,
-     "d_pair_t_nw": 2.3689501529474124,
+     "d_pair_ann_bp_per_year": 263.61995800527154,
+     "d_pair_t_nw": 2.3846704393142715,
      "gamma": 0.75,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 259.1831705120981,
-     "d_pair_t_nw": 2.3466143238440913,
+     "d_pair_ann_bp_per_year": 260.48648244787466,
+     "d_pair_t_nw": 2.3618005133752007,
      "gamma": 0.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 256.2022923002081,
-     "d_pair_t_nw": 2.3248845807918483,
+     "d_pair_ann_bp_per_year": 257.45974457118615,
+     "d_pair_t_nw": 2.339554113325747,
      "gamma": 0.85,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 253.32295374324278,
-     "d_pair_t_nw": 2.3037507354947557,
+     "d_pair_ann_bp_per_year": 254.53610849796002,
+     "d_pair_t_nw": 2.3179205551334143,
      "gamma": 0.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 250.54169602779643,
-     "d_pair_t_nw": 2.283202267555522,
+     "d_pair_ann_bp_per_year": 251.71206220227603,
+     "d_pair_t_nw": 2.2968888287479476,
      "gamma": 0.95,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 247.8551781603442,
-     "d_pair_t_nw": 2.263228375730516,
+     "d_pair_ann_bp_per_year": 248.9842132907092,
+     "d_pair_t_nw": 2.276447650206737,
      "gamma": 1.0,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 245.2601729538663,
-     "d_pair_t_nw": 2.243818025675527,
+     "d_pair_ann_bp_per_year": 246.34928492720846,
+     "d_pair_t_nw": 2.2565855101116696,
      "gamma": 1.05,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 242.7535631511801,
-     "d_pair_t_nw": 2.2249599942970066,
+     "d_pair_ann_bp_per_year": 243.80411189678858,
+     "d_pair_t_nw": 2.237290718601004,
      "gamma": 1.1,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 240.33233768032642,
-     "d_pair_t_nw": 2.2066429108329952,
+     "d_pair_ann_bp_per_year": 241.34563680330638,
+     "d_pair_t_nw": 2.2185514469505923,
      "gamma": 1.15,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 237.99358803751065,
-     "d_pair_t_nw": 2.1888552947967312,
+     "d_pair_ann_bp_per_year": 238.97090639675514,
+     "d_pair_t_nw": 2.200355765947643,
      "gamma": 1.2,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 235.73450479325507,
-     "d_pair_t_nw": 2.1715855909211483,
+     "d_pair_ann_bp_per_year": 236.67706802566477,
+     "d_pair_t_nw": 2.182691681183048,
      "gamma": 1.25,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 233.55237421756283,
-     "d_pair_t_nw": 2.154822201247603,
+     "d_pair_ann_bp_per_year": 234.46136621034643,
+     "d_pair_t_nw": 2.165547165413572,
      "gamma": 1.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 231.44457502004462,
-     "d_pair_t_nw": 2.138553514501973,
+     "d_pair_ann_bp_per_year": 232.32113933286627,
+     "d_pair_t_nw": 2.148910188146055,
      "gamma": 1.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 229.40857520108258,
-     "d_pair_t_nw": 2.1227679329037157,
+     "d_pair_ann_bp_per_year": 230.25381643976652,
+     "d_pair_t_nw": 2.132768742594139,
      "gamma": 1.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 227.44192901026273,
-     "d_pair_t_nw": 2.107453896550895,
+     "d_pair_ann_bp_per_year": 228.25691415370324,
+     "d_pair_t_nw": 2.117110870158787,
      "gamma": 1.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 225.54227400840847,
-     "d_pair_t_nw": 2.0925999055229694,
+     "d_pair_ann_bp_per_year": 226.32803369028187,
+     "d_pair_t_nw": 2.101924682579452,
      "gamma": 1.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 221.93488744042546,
-     "d_pair_t_nw": 2.0642264774136017,
+     "d_pair_ann_bp_per_year": 222.6651488674069,
+     "d_pair_t_nw": 2.07292027839045,
      "gamma": 1.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 218.56907675927062,
-     "d_pair_t_nw": 2.0375575581165455,
+     "d_pair_ann_bp_per_year": 219.24755648346508,
+     "d_pair_t_nw": 2.045662539372899,
      "gamma": 1.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 215.42866435048614,
-     "d_pair_t_nw": 2.0125050966760933,
+     "d_pair_ann_bp_per_year": 216.05883003762244,
+     "d_pair_t_nw": 2.0200606771160836,
      "gamma": 1.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 212.49855596605886,
-     "d_pair_t_nw": 1.9889834652812628,
+     "d_pair_ann_bp_per_year": 213.08364306266554,
+     "d_pair_t_nw": 1.996026485184237,
      "gamma": 1.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 209.7646681746097,
-     "d_pair_t_nw": 1.9669097527362962,
+     "d_pair_ann_bp_per_year": 210.30769545903996,
+     "d_pair_t_nw": 1.9734746275362922,
      "gamma": 2.0,
      "verdict": "BAND_NOISE"
     }
@@ -1135,182 +1135,182 @@
    "panel": "primary_single",
    "scan": [
     {
-     "d_pair_ann_bp_per_year": 265.425840130437,
-     "d_pair_t_nw": 1.7589510905511152,
+     "d_pair_ann_bp_per_year": 255.08689894950692,
+     "d_pair_t_nw": 1.6817798592195445,
      "gamma": 0.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 258.7457380583011,
-     "d_pair_t_nw": 1.7181555455529516,
+     "d_pair_ann_bp_per_year": 248.40679687737094,
+     "d_pair_t_nw": 1.640933153875053,
      "gamma": 0.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 252.29318478589897,
-     "d_pair_t_nw": 1.6785296577230926,
+     "d_pair_ann_bp_per_year": 241.95424360496887,
+     "d_pair_t_nw": 1.60126665789079,
      "gamma": 0.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 246.06042916576308,
-     "d_pair_t_nw": 1.64005095475254,
+     "d_pair_ann_bp_per_year": 235.72148798483312,
+     "d_pair_t_nw": 1.5627570509624948,
      "gamma": 0.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 240.03998408296295,
-     "d_pair_t_nw": 1.6026963958003275,
+     "d_pair_ann_bp_per_year": 229.70104290203284,
+     "d_pair_t_nw": 1.5253804927193417,
      "gamma": 0.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 234.2246174611895,
-     "d_pair_t_nw": 1.5664424854714813,
+     "d_pair_ann_bp_per_year": 223.88567628025945,
+     "d_pair_t_nw": 1.4891127353191498,
      "gamma": 0.55,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 228.60734357520147,
-     "d_pair_t_nw": 1.5312653784912198,
+     "d_pair_ann_bp_per_year": 218.2684023942715,
+     "d_pair_t_nw": 1.4539292265966413,
      "gamma": 0.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 223.181414659205,
-     "d_pair_t_nw": 1.4971409754988074,
+     "d_pair_ann_bp_per_year": 212.84247347827502,
+     "d_pair_t_nw": 1.4198052042222655,
      "gamma": 0.65,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 217.9403128010801,
-     "d_pair_t_nw": 1.4640450104062455,
+     "d_pair_ann_bp_per_year": 207.60137162015005,
+     "d_pair_t_nw": 1.3867157813455853,
      "gamma": 0.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 212.8777421127217,
-     "d_pair_t_nw": 1.431953129777904,
+     "d_pair_ann_bp_per_year": 202.53880093179163,
+     "d_pair_t_nw": 1.3546360242051183,
      "gamma": 0.75,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 207.98762116708633,
-     "d_pair_t_nw": 1.400840964692025,
+     "d_pair_ann_bp_per_year": 197.6486799861563,
+     "d_pair_t_nw": 1.3235410221883719,
      "gamma": 0.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 203.2640756928608,
-     "d_pair_t_nw": 1.370684195544982,
+     "d_pair_ann_bp_per_year": 192.92513451193068,
+     "d_pair_t_nw": 1.2934059508216926,
      "gamma": 0.85,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 198.70143151797782,
-     "d_pair_t_nw": 1.3414586102524955,
+     "d_pair_ann_bp_per_year": 188.36249033704792,
+     "d_pair_t_nw": 1.2642061281602976,
      "gamma": 0.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 194.2942077535009,
-     "d_pair_t_nw": 1.3131401562925507,
+     "d_pair_ann_bp_per_year": 183.9552665725709,
+     "d_pair_t_nw": 1.2359170650376872,
      "gamma": 0.95,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 190.03711020969186,
-     "d_pair_t_nw": 1.2857049870224089,
+     "d_pair_ann_bp_per_year": 179.69816902876178,
+     "d_pair_t_nw": 1.2085145096174938,
      "gamma": 1.0,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 185.92502503634987,
-     "d_pair_t_nw": 1.2591295026862577,
+     "d_pair_ann_bp_per_year": 175.58608385541967,
+     "d_pair_t_nw": 1.1819744866743276,
      "gamma": 1.05,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 181.95301257978574,
-     "d_pair_t_nw": 1.2333903865135019,
+     "d_pair_ann_bp_per_year": 171.61407139885574,
+     "d_pair_t_nw": 1.156273332010659,
      "gamma": 1.1,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 178.11630144904848,
-     "d_pair_t_nw": 1.2084646362892,
+     "d_pair_ann_bp_per_year": 167.77736026811834,
+     "d_pair_t_nw": 1.131387722397722,
      "gamma": 1.15,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 174.41028278427876,
-     "d_pair_t_nw": 1.1843295917593903,
+     "d_pair_ann_bp_per_year": 164.07134160334869,
+     "d_pair_t_nw": 1.1072947014071786,
      "gamma": 1.2,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 170.83050472030453,
-     "d_pair_t_nw": 1.1609629582138152,
+     "d_pair_ann_bp_per_year": 160.4915635393744,
+     "d_pair_t_nw": 1.0839717014800336,
      "gamma": 1.25,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 167.3726670388232,
-     "d_pair_t_nw": 1.138342826569511,
+     "d_pair_ann_bp_per_year": 157.03372585789316,
+     "d_pair_t_nw": 1.0613965625582185,
      "gamma": 1.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 164.03261600275533,
-     "d_pair_t_nw": 1.1164476902589213,
+     "d_pair_ann_bp_per_year": 153.6936748218253,
+     "d_pair_t_nw": 1.0395475475839426,
      "gamma": 1.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 160.80633936655428,
-     "d_pair_t_nw": 1.0952564592067766,
+     "d_pair_ann_bp_per_year": 150.46739818562412,
+     "d_pair_t_nw": 1.018403355151596,
      "gamma": 1.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 157.6899615564863,
-     "d_pair_t_nw": 1.074748471160933,
+     "d_pair_ann_bp_per_year": 147.35102037555617,
+     "d_pair_t_nw": 0.9979431295779729,
      "gamma": 1.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 154.67973901508626,
-     "d_pair_t_nw": 1.0549035006247625,
+     "d_pair_ann_bp_per_year": 144.34079783415615,
+     "d_pair_t_nw": 0.9781464686371771,
      "gamma": 1.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 148.96341876120547,
-     "d_pair_t_nw": 1.0171239324962624,
+     "d_pair_ann_bp_per_year": 138.62447758027545,
+     "d_pair_t_nw": 0.9404645309128187,
      "gamma": 1.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 143.62990337414487,
-     "d_pair_t_nw": 0.9817648956194923,
+     "d_pair_ann_bp_per_year": 133.29096219321474,
+     "d_pair_t_nw": 0.90520356137057,
      "gamma": 1.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 138.65355755714793,
-     "d_pair_t_nw": 0.9486807649958969,
+     "d_pair_ann_bp_per_year": 128.3146163762179,
+     "d_pair_t_nw": 0.8722170144182396,
      "gamma": 1.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 134.01046273259354,
-     "d_pair_t_nw": 0.9177331339923087,
+     "d_pair_ann_bp_per_year": 123.67152155166353,
+     "d_pair_t_nw": 0.8413657356500822,
      "gamma": 1.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 129.6783020784507,
-     "d_pair_t_nw": 0.8887907265434482,
+     "d_pair_ann_bp_per_year": 119.33936089752063,
+     "d_pair_t_nw": 0.8125178493507205,
      "gamma": 2.0,
      "verdict": "BAND_NOISE"
     }
@@ -1343,182 +1343,182 @@
    "panel": "primary_single",
    "scan": [
     {
-     "d_pair_ann_bp_per_year": 550.8719749883026,
-     "d_pair_t_nw": 6.369698914637312,
+     "d_pair_ann_bp_per_year": 555.2507930025487,
+     "d_pair_t_nw": 6.397025129204934,
      "gamma": 0.3,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 499.45831873385293,
-     "d_pair_t_nw": 6.0312604810095785,
+     "d_pair_ann_bp_per_year": 503.7192633503484,
+     "d_pair_t_nw": 6.059138605534567,
      "gamma": 0.35,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 455.72819736034063,
-     "d_pair_t_nw": 5.707842772111157,
+     "d_pair_ann_bp_per_year": 459.8903431455013,
+     "d_pair_t_nw": 5.736412861826098,
      "gamma": 0.4,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 418.3930654244576,
-     "d_pair_t_nw": 5.403341903345812,
+     "d_pair_ann_bp_per_year": 422.47225974591373,
+     "d_pair_t_nw": 5.432699277452806,
      "gamma": 0.45,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 386.4061781076344,
-     "d_pair_t_nw": 5.120132771490813,
+     "d_pair_ann_bp_per_year": 390.41558099986094,
+     "d_pair_t_nw": 5.150331007543093,
      "gamma": 0.5,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 358.9122716053862,
-     "d_pair_t_nw": 4.859327323872992,
+     "d_pair_ann_bp_per_year": 362.8628065818444,
+     "d_pair_t_nw": 4.890384619068811,
      "gamma": 0.55,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 335.2087210089372,
-     "d_pair_t_nw": 4.621059373352985,
+     "d_pair_ann_bp_per_year": 339.10945138073134,
+     "d_pair_t_nw": 4.652966142302061,
      "gamma": 0.6,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 314.7153436134374,
-     "d_pair_t_nw": 4.40475397819488,
+     "d_pair_ann_bp_per_year": 318.57378650524254,
+     "d_pair_t_nw": 4.4374802831045,
      "gamma": 0.65,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 296.95076165321274,
-     "d_pair_t_nw": 4.209358748219228,
+     "d_pair_ann_bp_per_year": 300.77314992259545,
+     "d_pair_t_nw": 4.24286080536763,
      "gamma": 0.7,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 281.51377722229864,
-     "d_pair_t_nw": 4.033529060400902,
+     "d_pair_ann_bp_per_year": 285.30527782617514,
+     "d_pair_t_nw": 4.067754533164657,
      "gamma": 0.75,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 268.0686037296063,
-     "d_pair_t_nw": 3.875768313297393,
+     "d_pair_ann_bp_per_year": 271.8334996892173,
+     "d_pair_t_nw": 3.9106603862395946,
      "gamma": 0.8,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 256.3330847365597,
-     "d_pair_t_nw": 3.7345290124196913,
+     "d_pair_ann_bp_per_year": 260.07492668616294,
+     "d_pair_t_nw": 3.7700293853539923,
      "gamma": 0.85,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 246.0692420227041,
-     "d_pair_t_nw": 3.608282116305102,
+     "d_pair_ann_bp_per_year": 249.7909743505274,
+     "d_pair_t_nw": 3.6443331106918233,
      "gamma": 0.9,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 237.07565114835324,
-     "d_pair_t_nw": 3.4955619696289935,
+     "d_pair_ann_bp_per_year": 240.779716920446,
+     "d_pair_t_nw": 3.5321079417411174,
      "gamma": 0.95,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 229.18125951441147,
-     "d_pair_t_nw": 3.394993215994869,
+     "d_pair_ann_bp_per_year": 232.8696876871444,
+     "d_pair_t_nw": 3.4319814489160074,
      "gamma": 1.0,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 222.24034960103126,
-     "d_pair_t_nw": 3.3053048769991515,
+     "d_pair_ann_bp_per_year": 225.91482745451782,
+     "d_pair_t_nw": 3.3426860927253967,
      "gamma": 1.05,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 216.1284163545408,
-     "d_pair_t_nw": 3.225335603747767,
+     "d_pair_ann_bp_per_year": 219.79034959909677,
+     "d_pair_t_nw": 3.2630642059244903,
      "gamma": 1.1,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 210.73877812504145,
-     "d_pair_t_nw": 3.1540330847151012,
+     "d_pair_ann_bp_per_year": 214.38934073085727,
+     "d_pair_t_nw": 3.1920672156187453,
      "gamma": 1.15,
      "verdict": "BAND_PAYS_TOLL_SHORT"
     },
     {
-     "d_pair_ann_bp_per_year": 205.97977916678258,
-     "d_pair_t_nw": 3.090449768454726,
+     "d_pair_ann_bp_per_year": 209.61995463048123,
+     "d_pair_t_nw": 3.128751241883302,
      "gamma": 1.2,
      "verdict": "BAND_PAYS_TOLL_SHORT"
     },
     {
-     "d_pair_ann_bp_per_year": 201.77247145129,
-     "d_pair_t_nw": 3.0337364230898016,
+     "d_pair_ann_bp_per_year": 205.4030869314328,
+     "d_pair_t_nw": 3.0722705777283568,
      "gamma": 1.25,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 198.04868658321965,
-     "d_pair_t_nw": 2.9831345792895427,
+     "d_pair_ann_bp_per_year": 201.6704411011179,
+     "d_pair_t_nw": 3.021870084190567,
      "gamma": 1.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 194.7494265615877,
-     "d_pair_t_nw": 2.9379685574007075,
+     "d_pair_ann_bp_per_year": 198.36291426655913,
+     "d_pair_t_nw": 2.976877191665071,
      "gamma": 1.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 191.8235161948802,
-     "d_pair_t_nw": 2.897637532557578,
+     "d_pair_ann_bp_per_year": 195.42924552809217,
+     "d_pair_t_nw": 2.936693954348868,
      "gamma": 1.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 189.2264710575233,
-     "d_pair_t_nw": 2.8616079187051526,
+     "d_pair_ann_bp_per_year": 192.82488051053025,
+     "d_pair_t_nw": 2.900789433739828,
      "gamma": 1.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 186.91954364598723,
-     "d_pair_t_nw": 2.829406233551811,
+     "d_pair_ann_bp_per_year": 190.51101469463546,
+     "d_pair_t_nw": 2.868692569666563,
      "gamma": 1.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 183.0450235916325,
-     "d_pair_t_nw": 2.774854396869742,
+     "d_pair_ann_bp_per_year": 186.62358522636498,
+     "d_pair_t_nw": 2.8142981834882974,
      "gamma": 1.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 179.97700341296763,
-     "d_pair_t_nw": 2.731161225977981,
+     "d_pair_ann_bp_per_year": 183.54372767648226,
+     "d_pair_t_nw": 2.7707053052599497,
      "gamma": 1.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 177.5438874238914,
-     "d_pair_t_nw": 2.696107318034071,
+     "d_pair_ann_bp_per_year": 181.0996631439138,
+     "d_pair_t_nw": 2.7357070415425206,
      "gamma": 1.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 175.61274045670942,
-     "d_pair_t_nw": 2.667943841196406,
+     "d_pair_ann_bp_per_year": 179.15833453229868,
+     "d_pair_t_nw": 2.707564710501303,
      "gamma": 1.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 174.07995610924328,
-     "d_pair_t_nw": 2.6452897114781475,
+     "d_pair_ann_bp_per_year": 177.6160530047656,
+     "d_pair_t_nw": 2.684905417137211,
      "gamma": 2.0,
      "verdict": "BAND_NOISE"
     }
@@ -1536,182 +1536,182 @@
    "panel": "primary_single",
    "scan": [
     {
-     "d_pair_ann_bp_per_year": 561.5227505090618,
-     "d_pair_t_nw": 3.694850804532717,
+     "d_pair_ann_bp_per_year": 559.9165255759608,
+     "d_pair_t_nw": 3.6836917369752946,
      "gamma": 0.3,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 502.3038378176938,
-     "d_pair_t_nw": 3.33411305107117,
+     "d_pair_ann_bp_per_year": 500.5698585779662,
+     "d_pair_t_nw": 3.3221101538117264,
      "gamma": 0.35,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 451.3904347295283,
-     "d_pair_t_nw": 3.015622774476636,
+     "d_pair_ann_bp_per_year": 449.5493172983766,
+     "d_pair_t_nw": 3.0029002210292997,
      "gamma": 0.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 407.43509139625314,
-     "d_pair_t_nw": 2.735129588353911,
+     "d_pair_ann_bp_per_year": 405.5040755306665,
+     "d_pair_t_nw": 2.7217964715681724,
      "gamma": 0.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 369.33870688273396,
-     "d_pair_t_nw": 2.4883536384388227,
+     "d_pair_ann_bp_per_year": 367.3322082044551,
+     "d_pair_t_nw": 2.4745044335908086,
      "gamma": 0.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 336.19937762010954,
-     "d_pair_t_nw": 2.271242149582463,
+     "d_pair_ann_bp_per_year": 334.12944983737094,
+     "d_pair_t_nw": 2.2569578051485717,
      "gamma": 0.55,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 307.27284025330977,
-     "d_pair_t_nw": 2.0800933548146605,
+     "d_pair_ann_bp_per_year": 305.1495620107821,
+     "d_pair_t_nw": 2.0654426850071874,
      "gamma": 0.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 281.94165917949516,
-     "d_pair_t_nw": 1.9116007848334562,
+     "d_pair_ann_bp_per_year": 279.77345779169667,
+     "d_pair_t_nw": 1.8966419504821115,
      "gamma": 0.65,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 259.6910579341228,
-     "d_pair_t_nw": 1.762852503626975,
+     "d_pair_ann_bp_per_year": 257.4849802683137,
+     "d_pair_t_nw": 1.7476344534215422,
      "gamma": 0.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 240.08983467553736,
-     "d_pair_t_nw": 1.631306819054437,
+     "d_pair_ann_bp_per_year": 237.85177378348112,
+     "d_pair_t_nw": 1.6158706220961359,
      "gamma": 0.75,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 222.77519556553796,
-     "d_pair_t_nw": 1.5147573404705845,
+     "d_pair_ann_bp_per_year": 220.5100802671655,
+     "d_pair_t_nw": 1.4991373790142302,
      "gamma": 0.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 207.44062798001704,
-     "d_pair_t_nw": 1.4112947654993238,
+     "d_pair_ann_bp_per_year": 205.15258143215013,
+     "d_pair_t_nw": 1.3955197797336731,
      "gamma": 0.85,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 193.82614785517134,
-     "d_pair_t_nw": 1.3192694091465573,
+     "d_pair_ann_bp_per_year": 191.51862015837392,
+     "d_pair_t_nw": 1.303363398848855,
      "gamma": 0.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 181.71041305152656,
-     "d_pair_t_nw": 1.2372564792979794,
+     "d_pair_ann_bp_per_year": 179.38629212704603,
+     "d_pair_t_nw": 1.221239473854296,
      "gamma": 0.95,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 170.904312318112,
-     "d_pair_t_nw": 1.1640249396510294,
+     "d_pair_ann_bp_per_year": 168.56601659901264,
+     "d_pair_t_nw": 1.1479136507408865,
      "gamma": 1.0,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 161.24572793590846,
-     "d_pair_t_nw": 1.0985101527792887,
+     "d_pair_ann_bp_per_year": 158.89528384025084,
+     "d_pair_t_nw": 1.082318524600693,
      "gamma": 1.05,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 152.59523709402174,
-     "d_pair_t_nw": 1.0397901543808292,
+     "d_pair_ann_bp_per_year": 150.23434376523295,
+     "d_pair_t_nw": 1.0235298256520369,
      "gamma": 1.1,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 144.83256806401064,
-     "d_pair_t_nw": 0.9870652469592367,
+     "d_pair_ann_bp_per_year": 142.4626514592336,
+     "d_pair_t_nw": 0.9707459376976033,
      "gamma": 1.15,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 137.85366633625284,
-     "d_pair_t_nw": 0.9396405398612452,
+     "d_pair_ann_bp_per_year": 135.47592440476657,
+     "d_pair_t_nw": 0.9232703744710791,
      "gamma": 1.2,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 131.56825603333252,
-     "d_pair_t_nw": 0.8969110566089167,
+     "d_pair_ann_bp_per_year": 129.1836964434393,
+     "d_pair_t_nw": 0.8804968333125649,
      "gamma": 1.25,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 125.89780530514321,
-     "d_pair_t_nw": 0.8583490527402949,
+     "d_pair_ann_bp_per_year": 123.50727694030898,
+     "d_pair_t_nw": 0.8418964679723385,
      "gamma": 1.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 120.77382265952696,
-     "d_pair_t_nw": 0.8234932223441477,
+     "d_pair_ann_bp_per_year": 118.37804190555799,
+     "d_pair_t_nw": 0.8070070574456318,
      "gamma": 1.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 116.1364254997211,
-     "d_pair_t_nw": 0.7919395104435355,
+     "d_pair_ann_bp_per_year": 113.73599817810107,
+     "d_pair_t_nw": 0.7754237868614017,
      "gamma": 1.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 111.93313343272042,
-     "d_pair_t_nw": 0.7633332867099045,
+     "d_pair_ann_bp_per_year": 109.52857309566598,
+     "d_pair_t_nw": 0.7467913949251196,
      "gamma": 1.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 108.11784786549596,
-     "d_pair_t_nw": 0.7373626713906174,
+     "d_pair_ann_bp_per_year": 105.7095910514243,
+     "d_pair_t_nw": 0.7207974779580941,
      "gamma": 1.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 101.49374735496214,
-     "d_pair_t_nw": 0.6922611277159694,
+     "d_pair_ann_bp_per_year": 99.07916061067844,
+     "d_pair_t_nw": 0.67565626389066,
      "gamma": 1.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 95.99315118169791,
-     "d_pair_t_nw": 0.6547978942998349,
+     "d_pair_ann_bp_per_year": 93.5733365313343,
+     "d_pair_t_nw": 0.638160489195026,
      "gamma": 1.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 91.40354477705148,
-     "d_pair_t_nw": 0.6235306325809381,
+     "d_pair_ann_bp_per_year": 88.97932628604184,
+     "d_pair_t_nw": 0.6068659687932153,
      "gamma": 1.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 87.5569961011288,
-     "d_pair_t_nw": 0.5973186761270095,
+     "d_pair_ann_bp_per_year": 85.12900272137965,
+     "d_pair_t_nw": 0.5806307546692225,
      "gamma": 1.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 84.31986413221513,
-     "d_pair_t_nw": 0.5752537657246828,
+     "d_pair_ann_bp_per_year": 81.88858702244094,
+     "d_pair_t_nw": 0.5585456927360352,
      "gamma": 2.0,
      "verdict": "BAND_NOISE"
     }
@@ -1727,181 +1727,181 @@
    "scan": [
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.3,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.35,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.4,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.45,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.5,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.55,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.6,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.65,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.7,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.75,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.8,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.85,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.9,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 0.95,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.0,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.05,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.1,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.15,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.2,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.25,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.3,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.35,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.4,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.45,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.5,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.6,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.7,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.8,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 1.9,
      "verdict": "BAND_COSTS"
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "gamma": 2.0,
      "verdict": "BAND_COSTS"
     }
@@ -1916,182 +1916,182 @@
    "panel": "basket_equal_weight",
    "scan": [
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.55,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.65,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.75,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.85,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 0.95,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.0,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.05,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.1,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.15,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.2,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.25,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 1.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "gamma": 2.0,
      "verdict": "BAND_NOISE"
     }
@@ -2106,182 +2106,182 @@
    "panel": "basket_equal_weight",
    "scan": [
     {
-     "d_pair_ann_bp_per_year": 30.685387226205897,
-     "d_pair_t_nw": 0.43196552101619995,
+     "d_pair_ann_bp_per_year": 30.637227658581335,
+     "d_pair_t_nw": 0.431189312136207,
      "gamma": 0.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 28.356132202913873,
-     "d_pair_t_nw": 0.39934440753505124,
+     "d_pair_ann_bp_per_year": 28.30797263528933,
+     "d_pair_t_nw": 0.3985756477517296,
      "gamma": 0.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 26.106220156585387,
-     "d_pair_t_nw": 0.3677934352342651,
+     "d_pair_ann_bp_per_year": 26.05806058896085,
+     "d_pair_t_nw": 0.36703187781567126,
      "gamma": 0.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 23.93294837415105,
-     "d_pair_t_nw": 0.33728242779058004,
+     "d_pair_ann_bp_per_year": 23.88478880652654,
+     "d_pair_t_nw": 0.33652782888462435,
      "gamma": 0.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 21.833706206870566,
-     "d_pair_t_nw": 0.3077814858083443,
+     "d_pair_ann_bp_per_year": 21.785546639246014,
+     "d_pair_t_nw": 0.3070336052061798,
      "gamma": 0.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 19.8059719342833,
-     "d_pair_t_nw": 0.2792610564975383,
+     "d_pair_ann_bp_per_year": 19.757812366658776,
+     "d_pair_t_nw": 0.27851965827010006,
      "gamma": 0.55,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 17.847309734985352,
-     "d_pair_t_nw": 0.251691993562329,
+     "d_pair_ann_bp_per_year": 17.79915016736082,
+     "d_pair_t_nw": 0.2509568465835957,
      "gamma": 0.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 15.955366760591595,
-     "d_pair_t_nw": 0.2250456082120874,
+     "d_pair_ann_bp_per_year": 15.907207192967032,
+     "d_pair_t_nw": 0.22431648658238337,
      "gamma": 0.65,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 14.12787030937054,
-     "d_pair_t_nw": 0.19929371215016417,
+     "d_pair_ann_bp_per_year": 14.07971074174598,
+     "d_pair_t_nw": 0.1985703955310521,
      "gamma": 0.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 12.362625096154925,
-     "d_pair_t_nw": 0.17440865333735908,
+     "d_pair_ann_bp_per_year": 12.314465528530368,
+     "d_pair_t_nw": 0.17369092720894794,
      "gamma": 0.75,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 10.657510615249237,
-     "d_pair_t_nw": 0.15036334526954065,
+     "d_pair_ann_bp_per_year": 10.60935104762468,
+     "d_pair_t_nw": 0.14965100111988167,
      "gamma": 0.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 9.010478593166603,
-     "d_pair_t_nw": 0.12713129045269955,
+     "d_pair_ann_bp_per_year": 8.96231902554206,
+     "d_pair_t_nw": 0.12642412590810617,
      "gamma": 0.85,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 7.419550528134449,
-     "d_pair_t_nw": 0.104686598704131,
+     "d_pair_ann_bp_per_year": 7.371390960509904,
+     "d_pair_t_nw": 0.10398441760821762,
      "gamma": 0.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 5.8828153134137775,
-     "d_pair_t_nw": 0.08300400085624658,
+     "d_pair_ann_bp_per_year": 5.83465574578922,
+     "d_pair_t_nw": 0.0823066133047918,
      "gamma": 0.95,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 4.3984269415769734,
-     "d_pair_t_nw": 0.06205885838983021,
+     "d_pair_ann_bp_per_year": 4.350267373952464,
+     "d_pair_t_nw": 0.061366080727840215,
      "gamma": 1.0,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 2.9646022869861794,
-     "d_pair_t_nw": 0.04182716947688331,
+     "d_pair_ann_bp_per_year": 2.916442719361622,
+     "d_pair_t_nw": 0.0411388242633642,
      "gamma": 1.05,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 1.5796189638088254,
-     "d_pair_t_nw": 0.022285571869054503,
+     "d_pair_ann_bp_per_year": 1.531459396184282,
+     "d_pair_t_nw": 0.02160148781460275,
      "gamma": 1.1,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 0.24181325699675832,
-     "d_pair_t_nw": 0.0034113430268244162,
+     "d_pair_ann_bp_per_year": 0.1936536893722216,
+     "d_pair_t_nw": 0.0027313549083748407,
      "gamma": 1.15,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": -1.0504218762559852,
-     "d_pair_t_nw": -0.014817602153608363,
+     "d_pair_ann_bp_per_year": -1.0985814438805592,
+     "d_pair_t_nw": -0.015493653596928688,
      "gamma": 1.2,
      "verdict": "BAND_COSTS"
     },
     {
-     "d_pair_ann_bp_per_year": -2.298638736977896,
-     "d_pair_t_nw": -0.03242271569391293,
+     "d_pair_ann_bp_per_year": -2.346798304602436,
+     "d_pair_t_nw": -0.033094983880411946,
      "gamma": 1.25,
      "verdict": "BAND_COSTS"
     },
     {
-     "d_pair_ann_bp_per_year": -3.50433674912567,
-     "d_pair_t_nw": -0.049424822678380186,
+     "d_pair_ann_bp_per_year": -3.552496316750217,
+     "d_pair_t_nw": -0.05009345531589783,
      "gamma": 1.3,
      "verdict": "BAND_COSTS"
     },
     {
-     "d_pair_ann_bp_per_year": -4.668964260771685,
-     "d_pair_t_nw": -0.06584412893032791,
+     "d_pair_ann_bp_per_year": -4.717123828396247,
+     "d_pair_t_nw": -0.06650926815816392,
      "gamma": 1.35,
      "verdict": "BAND_COSTS"
     },
     {
-     "d_pair_ann_bp_per_year": -5.793920283935869,
-     "d_pair_t_nw": -0.08170022998790322,
+     "d_pair_ann_bp_per_year": -5.842079851560444,
+     "d_pair_t_nw": -0.0823620125263035,
      "gamma": 1.4,
      "verdict": "BAND_COSTS"
     },
     {
-     "d_pair_ann_bp_per_year": -6.880556175153042,
-     "d_pair_t_nw": -0.09701212117201174,
+     "d_pair_ann_bp_per_year": -6.928715742777616,
+     "d_pair_t_nw": -0.09767067847718801,
      "gamma": 1.45,
      "verdict": "BAND_COSTS"
     },
     {
-     "d_pair_ann_bp_per_year": -7.930177258793291,
-     "d_pair_t_nw": -0.11179820856165736,
+     "d_pair_ann_bp_per_year": -7.978336826417879,
+     "d_pair_t_nw": -0.11245366698467814,
      "gamma": 1.5,
      "verdict": "BAND_COSTS"
     },
     {
-     "d_pair_ann_bp_per_year": -9.923375494735897,
-     "d_pair_t_nw": -0.1398637209749763,
+     "d_pair_ann_bp_per_year": -9.971535062360458,
+     "d_pair_t_nw": -0.14051334107363458,
      "gamma": 1.6,
      "verdict": "BAND_COSTS"
     },
     {
-     "d_pair_ann_bp_per_year": -11.78309520754334,
-     "d_pair_t_nw": -0.16603269027518966,
+     "d_pair_ann_bp_per_year": -11.831254775167888,
+     "d_pair_t_nw": -0.16667692023664765,
      "gamma": 1.7,
      "verdict": "BAND_COSTS"
     },
     {
-     "d_pair_ann_bp_per_year": -13.518275054603968,
-     "d_pair_t_nw": -0.19043241314401319,
+     "d_pair_ann_bp_per_year": -13.56643462222853,
+     "d_pair_t_nw": -0.19107166612928048,
      "gamma": 1.8,
      "verdict": "BAND_COSTS"
     },
     {
-     "d_pair_ann_bp_per_year": -15.137255098161365,
-     "d_pair_t_nw": -0.21318199009111496,
+     "d_pair_ann_bp_per_year": -15.185414665785942,
+     "d_pair_t_nw": -0.21381664675171003,
      "gamma": 1.9,
      "verdict": "BAND_COSTS"
     },
     {
-     "d_pair_ann_bp_per_year": -16.64781689144012,
-     "d_pair_t_nw": -0.23439276211352528,
+     "d_pair_ann_bp_per_year": -16.695976459064696,
+     "d_pair_t_nw": -0.23502317301322048,
      "gamma": 2.0,
      "verdict": "BAND_COSTS"
     }
@@ -2296,182 +2296,182 @@
    "panel": "basket_equal_weight",
    "scan": [
     {
-     "d_pair_ann_bp_per_year": 153.70832401773063,
-     "d_pair_t_nw": 1.143264681605905,
+     "d_pair_ann_bp_per_year": 153.52615521845524,
+     "d_pair_t_nw": 1.1418182019656322,
      "gamma": 0.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 149.56742619854478,
-     "d_pair_t_nw": 1.1132223022347236,
+     "d_pair_ann_bp_per_year": 149.3852573992694,
+     "d_pair_t_nw": 1.111777342962036,
      "gamma": 0.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 145.56758256062741,
-     "d_pair_t_nw": 1.0841439066801846,
+     "d_pair_ann_bp_per_year": 145.38541376135214,
+     "d_pair_t_nw": 1.0827004620825529,
      "gamma": 0.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 141.70398828074434,
-     "d_pair_t_nw": 1.0560020335659803,
+     "d_pair_ann_bp_per_year": 141.52181948146895,
+     "d_pair_t_nw": 1.0545600937328192,
      "gamma": 0.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 137.97200220557878,
-     "d_pair_t_nw": 1.0287696715817904,
+     "d_pair_ann_bp_per_year": 137.7898334063035,
+     "d_pair_t_nw": 1.0273292229368165,
      "gamma": 0.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 134.36714127653494,
-     "d_pair_t_nw": 1.0024202871373562,
+     "d_pair_ann_bp_per_year": 134.18497247725966,
+     "d_pair_t_nw": 1.0009813129365501,
      "gamma": 0.55,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 130.88507514444962,
-     "d_pair_t_nw": 0.9769278474403705,
+     "d_pair_ann_bp_per_year": 130.70290634517434,
+     "d_pair_t_nw": 0.9754903282196825,
      "gamma": 0.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 127.52162096774983,
-     "d_pair_t_nw": 0.95226683943156,
+     "d_pair_ann_bp_per_year": 127.33945216847435,
+     "d_pair_t_nw": 0.9508307534092779,
      "gamma": 0.65,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 124.27273838780123,
-     "d_pair_t_nw": 0.9284122849792956,
+     "d_pair_ann_bp_per_year": 124.09056958852588,
+     "d_pair_t_nw": 0.9269776084166867,
      "gamma": 0.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 121.13452467541792,
-     "d_pair_t_nw": 0.9053397527066067,
+     "d_pair_ann_bp_per_year": 120.95235587614236,
+     "d_pair_t_nw": 0.9039064602306066,
      "gamma": 0.75,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 118.1032100426965,
-     "d_pair_t_nw": 0.883025366794121,
+     "d_pair_ann_bp_per_year": 117.92104124342121,
+     "d_pair_t_nw": 0.8815934316857893,
      "gamma": 0.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 115.17515311454974,
-     "d_pair_t_nw": 0.861445813076062,
+     "d_pair_ann_bp_per_year": 114.99298431527428,
+     "d_pair_t_nw": 0.8600152075277823,
      "gamma": 0.85,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 112.3468365544926,
-     "d_pair_t_nw": 0.8405783427202839,
+     "d_pair_ann_bp_per_year": 112.1646677552172,
+     "d_pair_t_nw": 0.8391490380645584,
      "gamma": 0.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 109.61486283943363,
-     "d_pair_t_nw": 0.8204007737590083,
+     "d_pair_ann_bp_per_year": 109.43269404015828,
+     "d_pair_t_nw": 0.8189727406716782,
      "gamma": 0.95,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 106.97595017839036,
-     "d_pair_t_nw": 0.800891490714419,
+     "d_pair_ann_bp_per_year": 106.793781379115,
+     "d_pair_t_nw": 0.799464699394549,
      "gamma": 1.0,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 104.42692857022904,
-     "d_pair_t_nw": 0.7820294425420037,
+     "d_pair_ann_bp_per_year": 104.24475977095362,
+     "d_pair_t_nw": 0.7806038628712066,
      "gamma": 1.05,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 101.96473599569146,
-     "d_pair_t_nw": 0.7637941390946779,
+     "d_pair_ann_bp_per_year": 101.78256719641612,
+     "d_pair_t_nw": 0.7623697407769614,
      "gamma": 1.1,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 99.58641473913673,
-     "d_pair_t_nw": 0.7461656462921975,
+     "d_pair_ann_bp_per_year": 99.40424593986128,
+     "d_pair_t_nw": 0.7447423989772216,
      "gamma": 1.15,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 97.28910783557627,
-     "d_pair_t_nw": 0.729124580163526,
+     "d_pair_ann_bp_per_year": 97.1069390363009,
+     "d_pair_t_nw": 0.7277024535543669,
      "gamma": 1.2,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 95.07005563873726,
-     "d_pair_t_nw": 0.71265209991402,
+     "d_pair_ann_bp_per_year": 94.88788683946203,
+     "d_pair_t_nw": 0.7112310638611122,
      "gamma": 1.25,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 92.92659250603013,
-     "d_pair_t_nw": 0.6967299001548888,
+     "d_pair_ann_bp_per_year": 92.74442370675479,
+     "d_pair_t_nw": 0.6953099247377111,
      "gamma": 1.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 90.85614359643719,
-     "d_pair_t_nw": 0.6813402024187067,
+     "d_pair_ann_bp_per_year": 90.67397479716188,
+     "d_pair_t_nw": 0.6799212580161276,
      "gamma": 1.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 88.85622177747865,
-     "d_pair_t_nw": 0.6664657460727116,
+     "d_pair_ann_bp_per_year": 88.67405297820324,
+     "d_pair_t_nw": 0.6650478034235988,
      "gamma": 1.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 86.92442463753696,
-     "d_pair_t_nw": 0.6520897787303744,
+     "d_pair_ann_bp_per_year": 86.74225583826166,
+     "d_pair_t_nw": 0.6506728089852913,
      "gamma": 1.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 85.05843159995433,
-     "d_pair_t_nw": 0.6381960462516499,
+     "d_pair_ann_bp_per_year": 84.87626280067894,
+     "d_pair_t_nw": 0.6367800210164773,
      "gamma": 1.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 81.51496806938975,
-     "d_pair_t_nw": 0.611792698313885,
+     "d_pair_ann_bp_per_year": 81.3327992701143,
+     "d_pair_t_nw": 0.610378478914025,
      "gamma": 1.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 78.20879969106538,
-     "d_pair_t_nw": 0.5871352355428309,
+     "d_pair_ann_bp_per_year": 78.0266308917901,
+     "d_pair_t_nw": 0.5857227146650249,
      "gamma": 1.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 75.12403551851314,
-     "d_pair_t_nw": 0.5641104804836476,
+     "d_pair_ann_bp_per_year": 74.94186671923777,
+     "d_pair_t_nw": 0.5626995553990771,
      "gamma": 1.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 72.24584877441116,
-     "d_pair_t_nw": 0.5426121927466122,
+     "d_pair_ann_bp_per_year": 72.06367997513571,
+     "d_pair_t_nw": 0.5412027654958224,
      "gamma": 1.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 69.56040558635995,
-     "d_pair_t_nw": 0.5225407164772692,
+     "d_pair_ann_bp_per_year": 69.37823678708472,
+     "d_pair_t_nw": 0.5211326939506893,
      "gamma": 2.0,
      "verdict": "BAND_NOISE"
     }
@@ -2497,182 +2497,182 @@
    "panel": "basket_equal_weight",
    "scan": [
     {
-     "d_pair_ann_bp_per_year": 332.8368546528979,
-     "d_pair_t_nw": 6.230101211002644,
+     "d_pair_ann_bp_per_year": 329.9482697801209,
+     "d_pair_t_nw": 6.166730080000297,
      "gamma": 0.3,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 294.03950730089184,
-     "d_pair_t_nw": 5.838173754070204,
+     "d_pair_ann_bp_per_year": 291.0678649205499,
+     "d_pair_t_nw": 5.767565423624298,
      "gamma": 0.35,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 261.1346838089756,
-     "d_pair_t_nw": 5.4482829477564225,
+     "d_pair_ann_bp_per_year": 258.08835257236643,
+     "d_pair_t_nw": 5.37110578785714,
      "gamma": 0.4,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 233.1139900928795,
-     "d_pair_t_nw": 5.068935901468157,
+     "d_pair_ann_bp_per_year": 230.0004954484807,
+     "d_pair_t_nw": 4.985974179573704,
      "gamma": 0.45,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 209.16223107474664,
-     "d_pair_t_nw": 4.706699785592159,
+     "d_pair_ann_bp_per_year": 205.98834022706734,
+     "d_pair_t_nw": 4.618776323871896,
      "gamma": 0.5,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 188.61638357854676,
-     "d_pair_t_nw": 4.366138511576403,
+     "d_pair_ann_bp_per_year": 185.38818188675248,
+     "d_pair_t_nw": 4.274053385532306,
      "gamma": 0.55,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 170.93413509349824,
-     "d_pair_t_nw": 4.049990836098468,
+     "d_pair_ann_bp_per_year": 167.65709477231607,
+     "d_pair_t_nw": 3.9544802185413745,
      "gamma": 0.6,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 155.66955583834775,
-     "d_pair_t_nw": 3.7594815310777436,
+     "d_pair_ann_bp_per_year": 152.3485977368515,
+     "d_pair_t_nw": 3.6611953512503006,
      "gamma": 0.65,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 142.45414351963262,
-     "d_pair_t_nw": 3.494674452399554,
+     "d_pair_ann_bp_per_year": 139.09369267536508,
+     "d_pair_t_nw": 3.3941687465950143,
      "gamma": 0.7,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 130.9819511295107,
-     "d_pair_t_nw": 3.2548068903231586,
+     "d_pair_ann_bp_per_year": 127.58598672512139,
+     "d_pair_t_nw": 3.152546077651815,
      "gamma": 0.75,
      "verdict": "BAND_PAYS"
     },
     {
-     "d_pair_ann_bp_per_year": 120.99784290778261,
-     "d_pair_t_nw": 3.0385737245863425,
+     "d_pair_ann_bp_per_year": 117.56994319416904,
+     "d_pair_t_nw": 2.934938640352406,
      "gamma": 0.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 112.28816463698654,
-     "d_pair_t_nw": 2.8443511847130867,
+     "d_pair_ann_bp_per_year": 108.83154733010002,
+     "d_pair_t_nw": 2.7396497683216987,
      "gamma": 0.85,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 104.6732900008784,
-     "d_pair_t_nw": 2.6703627236448875,
+     "d_pair_ann_bp_per_year": 101.19084860825649,
+     "d_pair_t_nw": 2.564841318093029,
      "gamma": 0.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 98.0016339297939,
-     "d_pair_t_nw": 2.5147955455750783,
+     "d_pair_ann_bp_per_year": 94.49597041692931,
+     "d_pair_t_nw": 2.408649616347673,
      "gamma": 0.95,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 92.14481981207153,
-     "d_pair_t_nw": 2.3758780917626368,
+     "d_pair_ann_bp_per_year": 88.61827397740491,
+     "d_pair_t_nw": 2.2692617723299824,
      "gamma": 1.0,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 86.99375931718437,
-     "d_pair_t_nw": 2.251928251464403,
+     "d_pair_ann_bp_per_year": 83.44843520735235,
+     "d_pair_t_nw": 2.144962504439802,
      "gamma": 1.05,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 82.45545780996024,
-     "d_pair_t_nw": 2.1413805422519574,
+     "d_pair_ann_bp_per_year": 78.89324747351354,
+     "d_pair_t_nw": 2.0341599459578017,
      "gamma": 1.1,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 78.45039954662326,
-     "d_pair_t_nw": 2.0427987474887632,
+     "d_pair_ann_bp_per_year": 74.8730043943848,
+     "d_pair_t_nw": 1.9353970303859789,
      "gamma": 1.15,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 74.91039835949994,
-     "d_pair_t_nw": 1.9548788774140324,
+     "d_pair_ann_bp_per_year": 71.31934837270875,
+     "d_pair_t_nw": 1.8473533688243782,
      "gamma": 1.2,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 71.77682378210399,
-     "d_pair_t_nw": 1.8764459749701705,
+     "d_pair_ann_bp_per_year": 68.173494785201,
+     "d_pair_t_nw": 1.7688411484084017,
      "gamma": 1.25,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 68.99913132129804,
-     "d_pair_t_nw": 1.8064472396770495,
+     "d_pair_ann_bp_per_year": 65.38476051434976,
+     "d_pair_t_nw": 1.698797513338951,
      "gamma": 1.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 66.533640167518,
-     "d_pair_t_nw": 1.743943160504954,
+     "d_pair_ann_bp_per_year": 62.909340093636835,
+     "d_pair_t_nw": 1.636275099130212,
      "gamma": 1.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 64.34251303165155,
-     "d_pair_t_nw": 1.6880977822336583,
+     "d_pair_ann_bp_per_year": 60.709284137095025,
+     "d_pair_t_nw": 1.5804318219438747,
      "gamma": 1.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 62.39290174672567,
-     "d_pair_t_nw": 1.6381688294117889,
+     "d_pair_ann_bp_per_year": 58.75164367547436,
+     "d_pair_t_nw": 1.5305206254682275,
      "gamma": 1.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 60.6562293319926,
-     "d_pair_t_nw": 1.593498134823518,
+     "d_pair_ann_bp_per_year": 57.007751082316894,
+     "d_pair_t_nw": 1.4858796130204583,
      "gamma": 1.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 57.72521151686982,
-     "d_pair_t_nw": 1.5176660391851604,
+     "d_pair_ann_bp_per_year": 54.06440206816793,
+     "d_pair_t_nw": 1.4101316572071563,
      "gamma": 1.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 55.38548506453292,
-     "d_pair_t_nw": 1.4566937860483598,
+     "d_pair_ann_bp_per_year": 51.7147041469895,
+     "d_pair_t_nw": 1.3492638101599699,
      "gamma": 1.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 53.511135527721784,
-     "d_pair_t_nw": 1.407517992483348,
+     "d_pair_ann_bp_per_year": 49.83229130744161,
+     "d_pair_t_nw": 1.3002026517192864,
      "gamma": 1.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 52.00484486700588,
-     "d_pair_t_nw": 1.3677345459588865,
+     "d_pair_ann_bp_per_year": 48.31948035848538,
+     "d_pair_t_nw": 1.2605379256310167,
      "gamma": 1.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 50.790950175040024,
-     "d_pair_t_nw": 1.335452859387255,
+     "d_pair_ann_bp_per_year": 47.10031311752515,
+     "d_pair_t_nw": 1.228375280613803,
      "gamma": 2.0,
      "verdict": "BAND_NOISE"
     }
@@ -2687,182 +2687,182 @@
    "panel": "basket_equal_weight",
    "scan": [
     {
-     "d_pair_ann_bp_per_year": 404.04696336965776,
-     "d_pair_t_nw": 2.9117840663097203,
+     "d_pair_ann_bp_per_year": 386.83982263205263,
+     "d_pair_t_nw": 2.731777842065585,
      "gamma": 0.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 358.68440104195867,
-     "d_pair_t_nw": 2.618709181574253,
+     "d_pair_ann_bp_per_year": 341.3942027967888,
+     "d_pair_t_nw": 2.440262483805648,
      "gamma": 0.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 319.7945898010186,
-     "d_pair_t_nw": 2.3590616033179934,
+     "d_pair_ann_bp_per_year": 302.42970269958283,
+     "d_pair_t_nw": 2.182563329102105,
      "gamma": 0.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 286.3004664160614,
-     "d_pair_t_nw": 2.129559302967344,
+     "d_pair_ann_bp_per_year": 268.8684159068352,
+     "d_pair_t_nw": 1.9552086357265628,
      "gamma": 0.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 257.3286848062442,
-     "d_pair_t_nw": 1.9269060992305318,
+     "d_pair_ann_bp_per_year": 239.83623809373765,
+     "d_pair_t_nw": 1.7547717546487194,
      "gamma": 0.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 232.16665010932903,
-     "d_pair_t_nw": 1.747970722720714,
+     "d_pair_ann_bp_per_year": 214.619892552708,
+     "d_pair_t_nw": 1.5780349350076424,
      "gamma": 0.55,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 210.22952241021466,
-     "d_pair_t_nw": 1.5898778443882118,
+     "d_pair_ann_bp_per_year": 192.63392622420545,
+     "d_pair_t_nw": 1.4220679723714886,
      "gamma": 0.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 191.03466633062257,
-     "d_pair_t_nw": 1.4500438857377578,
+     "d_pair_ann_bp_per_year": 173.39515236429943,
+     "d_pair_t_nw": 1.2842545542190997,
      "gamma": 0.65,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 174.1817164587537,
-     "d_pair_t_nw": 1.3261801230460772,
+     "d_pair_ann_bp_per_year": 156.50270974965898,
+     "d_pair_t_nw": 1.162288395887901,
      "gamma": 0.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 159.3369159309952,
-     "d_pair_t_nw": 1.216277763543736,
+     "d_pair_ann_bp_per_year": 141.6223956617786,
+     "d_pair_t_nw": 1.054153315998115,
      "gamma": 0.75,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 146.22073259779503,
-     "d_pair_t_nw": 1.1185841738682496,
+     "d_pair_ann_bp_per_year": 128.4742770193541,
+     "d_pair_t_nw": 0.9580959421485936,
      "gamma": 0.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 134.59800758071964,
-     "d_pair_t_nw": 1.0315757755707973,
+     "d_pair_ann_bp_per_year": 116.8228344090059,
+     "d_pair_t_nw": 0.8725961610676276,
      "gamma": 0.85,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 124.27007367000353,
-     "d_pair_t_nw": 0.9539307669816354,
+     "d_pair_ann_bp_per_year": 106.46907641255467,
+     "d_pair_t_nw": 0.7963381650474205,
      "gamma": 0.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 115.0684155993895,
-     "d_pair_t_nw": 0.8845033622392535,
+     "d_pair_ann_bp_per_year": 97.24419622169765,
+     "d_pair_t_nw": 0.7281835582006573,
      "gamma": 0.95,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 106.84954431664015,
-     "d_pair_t_nw": 0.8223003489984787,
+     "d_pair_ann_bp_per_year": 89.0044426171462,
+     "d_pair_t_nw": 0.6671471599830403,
      "gamma": 1.0,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 99.49083240335158,
-     "d_pair_t_nw": 0.766460245351559,
+     "d_pair_ann_bp_per_year": 81.6269524286922,
+     "d_pair_t_nw": 0.6123756698693136,
      "gamma": 1.05,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 92.88711447542197,
-     "d_pair_t_nw": 0.7162350446025055,
+     "d_pair_ann_bp_per_year": 75.00634827414804,
+     "d_pair_t_nw": 0.5631290997398705,
      "gamma": 1.1,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 86.94789950007096,
-     "d_pair_t_nw": 0.6709743841428978,
+     "d_pair_ann_bp_per_year": 69.05194848300519,
+     "d_pair_t_nw": 0.5187647528752767,
      "gamma": 1.15,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 81.59507495438481,
-     "d_pair_t_nw": 0.6301119052250614,
+     "d_pair_ann_bp_per_year": 63.68546910276649,
+     "d_pair_t_nw": 0.4787234764982085,
      "gamma": 1.2,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 76.76100814644504,
-     "d_pair_t_nw": 0.5931535487830273,
+     "d_pair_ann_bp_per_year": 58.83912328471476,
+     "d_pair_t_nw": 0.4425179054357112,
      "gamma": 1.25,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 72.38696967885988,
-     "d_pair_t_nw": 0.5596675371208853,
+     "d_pair_ann_bp_per_year": 54.454043007084586,
+     "d_pair_t_nw": 0.40972242772216644,
      "gamma": 1.3,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 68.42181933162132,
-     "d_pair_t_nw": 0.5292758093608406,
+     "d_pair_ann_bp_per_year": 50.47896339291303,
+     "d_pair_t_nw": 0.37996462700676004,
      "gamma": 1.35,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 64.82090660354055,
-     "d_pair_t_nw": 0.5016467024282938,
+     "d_pair_ann_bp_per_year": 46.86912184415699,
+     "d_pair_t_nw": 0.352917984661935,
      "gamma": 1.4,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 61.54514755059462,
-     "d_pair_t_nw": 0.4764886947305503,
+     "d_pair_ann_bp_per_year": 43.58533361451603,
+     "d_pair_t_nw": 0.3282956527433348,
      "gamma": 1.45,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 58.5602469783209,
-     "d_pair_t_nw": 0.45354505422013613,
+     "d_pair_ann_bp_per_year": 40.59321286381782,
+     "d_pair_t_nw": 0.305845135473919,
      "gamma": 1.5,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 53.34593907140193,
-     "d_pair_t_nw": 0.41342104721851736,
+     "d_pair_ann_bp_per_year": 35.36657375787278,
+     "d_pair_t_nw": 0.2665946848042096,
      "gamma": 1.6,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 48.97677854464721,
-     "d_pair_t_nw": 0.3797580011276361,
+     "d_pair_ann_bp_per_year": 30.9874417622766,
+     "d_pair_t_nw": 0.23367640839117082,
      "gamma": 1.7,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 45.29514485442227,
-     "d_pair_t_nw": 0.3513623894811383,
+     "d_pair_ann_bp_per_year": 27.297744769314757,
+     "d_pair_t_nw": 0.20591837374300348,
      "gamma": 1.8,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 42.176573126846904,
-     "d_pair_t_nw": 0.3272883356536764,
+     "d_pair_ann_bp_per_year": 24.17265275349912,
+     "d_pair_t_nw": 0.1823923358975728,
      "gamma": 1.9,
      "verdict": "BAND_NOISE"
     },
     {
-     "d_pair_ann_bp_per_year": 39.52204714330298,
-     "d_pair_t_nw": 0.30678115421087165,
+     "d_pair_ann_bp_per_year": 21.512854220960847,
+     "d_pair_t_nw": 0.16235803205415097,
      "gamma": 2.0,
      "verdict": "BAND_NOISE"
     }
@@ -2885,26 +2885,26 @@
   ],
   "cost_side_bp": 13.041,
   "downstream_point_set": [
-   0.830291,
-   0.928023,
-   1.025754,
-   0.254735
+   0.829856,
+   0.927615,
+   1.025374,
+   0.253727
   ],
   "downstream_points": [
    {
-    "gamma": 0.830291,
+    "gamma": 0.829856,
     "source": "interval_lo"
    },
    {
-    "gamma": 0.928023,
+    "gamma": 0.927615,
     "source": "point"
    },
    {
-    "gamma": 1.025754,
+    "gamma": 1.025374,
     "source": "interval_hi"
    },
    {
-    "gamma": 0.254735,
+    "gamma": 0.253727,
     "source": "naive_contemporaneous"
    }
   ],
@@ -2962,36 +2962,36 @@
    "era": "all",
    "estimator": "A_naive",
    "first": "2012-05-28",
-   "gamma": 0.2547351429091691,
+   "gamma": 0.25372726192966866,
    "gamma_ci": [
-    0.20026660854606926,
-    0.30920367727226894
+    0.19925377002913744,
+    0.3082007538301999
    ],
-   "gamma_se": 0.027790068552601965,
-   "last": "2026-10-29",
-   "n": 3456,
+   "gamma_se": 0.0277925979084343,
+   "last": "2026-10-30",
+   "n": 3457,
    "names": [
     "const",
     "log_amount"
    ],
    "panel": "primary_single",
-   "r2": 0.043026010604227505,
+   "r2": 0.04271707473525299,
    "rows_dropped": 48,
-   "rows_used": 3456,
-   "t_nw": 9.166409302913303
+   "rows_used": 3457,
+   "t_nw": 9.129310716673569
   },
   {
    "era": "all",
    "estimator": "B_controlled",
    "first": "2012-05-28",
-   "gamma": 0.9280226288162794,
+   "gamma": 0.9276152246467291,
    "gamma_ci": [
-    0.8302907699956412,
-    1.0257544876369176
+    0.8298563090732277,
+    1.0253741402202305
    ],
-   "gamma_se": 0.04986319327583581,
-   "last": "2026-10-29",
-   "n": 3455,
+   "gamma_se": 0.049876997741582337,
+   "last": "2026-10-30",
+   "n": 3456,
    "names": [
     "const",
     "log_amount",
@@ -2999,10 +2999,10 @@
     "log_amount_lag1"
    ],
    "panel": "primary_single",
-   "r2": 0.11224266553625728,
+   "r2": 0.11200462340890827,
    "rows_dropped": 48,
-   "rows_used": 3456,
-   "t_nw": 18.61137580344274
+   "rows_used": 3457,
+   "t_nw": 18.598056552096327
   },
   {
    "era": "all",
@@ -3011,20 +3011,20 @@
    "gamma": null,
    "gamma_ci": null,
    "gamma_se": null,
-   "implied_forward_reciprocal": 5.920491798598972,
-   "last": "2026-10-29",
-   "n": 3456,
+   "implied_forward_reciprocal": 5.93971528953661,
+   "last": "2026-10-30",
+   "n": 3457,
    "names": [
     "const",
     "log_abs_ret"
    ],
    "note": "diagnostic only, not an estimator of gamma",
    "panel": "primary_single",
-   "r2": 0.04302601060422295,
-   "reverse_se": 0.020224955709583776,
-   "reverse_slope": 0.16890488729950448,
+   "r2": 0.04271707473525033,
+   "reverse_se": 0.02021674139742501,
+   "reverse_slope": 0.16835823793803684,
    "rows_dropped": 48,
-   "rows_used": 3456
+   "rows_used": 3457
   },
   {
    "era": "pre2017",
@@ -3098,36 +3098,36 @@
    "era": "2017plus",
    "estimator": "A_naive",
    "first": "2017-01-03",
-   "gamma": 0.233700089764298,
+   "gamma": 0.23238806723956884,
    "gamma_ci": [
-    0.1722027125083722,
-    0.2951974670202238
+    0.17092461097485556,
+    0.2938515235042821
    ],
-   "gamma_se": 0.03137621288567642,
-   "last": "2026-10-29",
-   "n": 2354,
+   "gamma_se": 0.03135890625750678,
+   "last": "2026-10-30",
+   "n": 2355,
    "names": [
     "const",
     "log_amount"
    ],
    "panel": "primary_single",
-   "r2": 0.03594203656846273,
+   "r2": 0.03556990083610101,
    "rows_dropped": 29,
-   "rows_used": 2354,
-   "t_nw": 7.448320503682732
+   "rows_used": 2355,
+   "t_nw": 7.410592235943789
   },
   {
    "era": "2017plus",
    "estimator": "B_controlled",
    "first": "2017-01-03",
-   "gamma": 0.8830948613018563,
+   "gamma": 0.8825305614204808,
    "gamma_ci": [
-    0.7681907437176859,
-    0.9979989788860267
+    0.7675888792607302,
+    0.9974722435802315
    ],
-   "gamma_se": 0.058624549787842054,
-   "last": "2026-10-29",
-   "n": 2353,
+   "gamma_se": 0.05864371538762791,
+   "last": "2026-10-30",
+   "n": 2354,
    "names": [
     "const",
     "log_amount",
@@ -3135,10 +3135,10 @@
     "log_amount_lag1"
    ],
    "panel": "primary_single",
-   "r2": 0.10245056140258657,
+   "r2": 0.10216678980124172,
    "rows_dropped": 29,
-   "rows_used": 2354,
-   "t_nw": 15.063567472973556
+   "rows_used": 2355,
+   "t_nw": 15.049021972551703
   },
   {
    "era": "2017plus",
@@ -3147,55 +3147,55 @@
    "gamma": null,
    "gamma_ci": null,
    "gamma_se": null,
-   "implied_forward_reciprocal": 6.5021382224548105,
-   "last": "2026-10-29",
-   "n": 2354,
+   "implied_forward_reciprocal": 6.533278467959061,
+   "last": "2026-10-30",
+   "n": 2355,
    "names": [
     "const",
     "log_abs_ret"
    ],
    "note": "diagnostic only, not an estimator of gamma",
    "panel": "primary_single",
-   "r2": 0.035942036568466285,
-   "reverse_se": 0.02311905633352814,
-   "reverse_slope": 0.15379556167331998,
+   "r2": 0.035569900836097124,
+   "reverse_se": 0.023096661019400357,
+   "reverse_slope": 0.15306250987222825,
    "rows_dropped": 29,
-   "rows_used": 2354
+   "rows_used": 2355
   },
   {
    "era": "all",
    "estimator": "A_naive",
    "first": "2005-02-23",
-   "gamma": 0.00326460707954368,
+   "gamma": 0.0033726753997385117,
    "gamma_ci": [
-    -0.02580249755964621,
-    0.03233171171873357
+    -0.025684644839302738,
+    0.03242999563877976
    ],
-   "gamma_se": 0.014830155428158107,
-   "last": "2026-10-29",
-   "n": 5234,
+   "gamma_se": 0.014825163387265944,
+   "last": "2026-10-30",
+   "n": 5235,
    "names": [
     "const",
     "log_amount"
    ],
    "panel": "basket_equal_weight",
-   "r2": 1.635457533899487e-05,
+   "r2": 1.7465757675139137e-05,
    "rows_dropped": 35,
-   "rows_used": 5234,
-   "t_nw": 0.22013303200755066
+   "rows_used": 5235,
+   "t_nw": 0.22749667653818015
   },
   {
    "era": "all",
    "estimator": "B_controlled",
    "first": "2005-02-23",
-   "gamma": 0.9174517163412474,
+   "gamma": 0.9175141800583333,
    "gamma_ci": [
-    0.8108260032683241,
-    1.0240774294141708
+    0.8108889563707727,
+    1.024139403745894
    ],
-   "gamma_se": 0.054400874016797655,
-   "last": "2026-10-29",
-   "n": 5233,
+   "gamma_se": 0.054400624330388045,
+   "last": "2026-10-30",
+   "n": 5234,
    "names": [
     "const",
     "log_amount",
@@ -3203,10 +3203,10 @@
     "log_amount_lag1"
    ],
    "panel": "basket_equal_weight",
-   "r2": 0.09168556649004944,
+   "r2": 0.0916878441077128,
    "rows_dropped": 35,
-   "rows_used": 5234,
-   "t_nw": 16.864650300617612
+   "rows_used": 5235,
+   "t_nw": 16.8658759224168
   },
   {
    "era": "all",
@@ -3215,20 +3215,20 @@
    "gamma": null,
    "gamma_ci": null,
    "gamma_se": null,
-   "implied_forward_reciprocal": 199.61429828782192,
-   "last": "2026-10-29",
-   "n": 5234,
+   "implied_forward_reciprocal": 193.10215236864977,
+   "last": "2026-10-30",
+   "n": 5235,
    "names": [
     "const",
     "log_abs_ret"
    ],
    "note": "diagnostic only, not an estimator of gamma",
    "panel": "basket_equal_weight",
-   "r2": 1.6354575333554777e-05,
-   "reverse_se": 0.022728019068693303,
-   "reverse_slope": 0.00500966117446211,
+   "r2": 1.746575767425096e-05,
+   "reverse_se": 0.022733184425168126,
+   "reverse_slope": 0.005178606181928558,
    "rows_dropped": 35,
-   "rows_used": 5234
+   "rows_used": 5235
   },
   {
    "era": "pre2017",
@@ -3302,36 +3302,36 @@
    "era": "2017plus",
    "estimator": "A_naive",
    "first": "2017-01-03",
-   "gamma": 0.32209740245663454,
+   "gamma": 0.3222340270262407,
    "gamma_ci": [
-    0.2618171612936362,
-    0.3823776436196329
+    0.2620421525645095,
+    0.3824259014879719
    ],
-   "gamma_se": 0.03075522508316242,
-   "last": "2026-10-29",
-   "n": 2383,
+   "gamma_se": 0.030710140031495504,
+   "last": "2026-10-30",
+   "n": 2384,
    "names": [
     "const",
     "log_amount"
    ],
    "panel": "basket_equal_weight",
-   "r2": 0.05301486759540408,
+   "r2": 0.053129083461587734,
    "rows_dropped": 0,
-   "rows_used": 2383,
-   "t_nw": 10.472932699587798
+   "rows_used": 2384,
+   "t_nw": 10.492756682182694
   },
   {
    "era": "2017plus",
    "estimator": "B_controlled",
    "first": "2017-01-03",
-   "gamma": 1.2018337811464335,
+   "gamma": 1.2019492405440815,
    "gamma_ci": [
-    1.0420325591439459,
-    1.361635003148921
+    1.0421605428758811,
+    1.3617379382122818
    ],
-   "gamma_se": 0.08153123571555486,
-   "last": "2026-10-29",
-   "n": 2382,
+   "gamma_se": 0.08152484574908181,
+   "last": "2026-10-30",
+   "n": 2383,
    "names": [
     "const",
     "log_amount",
@@ -3339,10 +3339,10 @@
     "log_amount_lag1"
    ],
    "panel": "basket_equal_weight",
-   "r2": 0.11051440681558089,
+   "r2": 0.11060907076374527,
    "rows_dropped": 0,
-   "rows_used": 2383,
-   "t_nw": 14.74077720763826
+   "rows_used": 2384,
+   "t_nw": 14.74334884660139
   },
   {
    "era": "2017plus",
@@ -3351,67 +3351,67 @@
    "gamma": null,
    "gamma_ci": null,
    "gamma_se": null,
-   "implied_forward_reciprocal": 6.0756051474961525,
-   "last": "2026-10-29",
-   "n": 2383,
+   "implied_forward_reciprocal": 6.065115489128276,
+   "last": "2026-10-30",
+   "n": 2384,
    "names": [
     "const",
     "log_abs_ret"
    ],
    "note": "diagnostic only, not an estimator of gamma",
    "panel": "basket_equal_weight",
-   "r2": 0.053014867595402304,
-   "reverse_se": 0.021631079041863094,
-   "reverse_slope": 0.16459265796957112,
+   "r2": 0.05312908346158696,
+   "reverse_se": 0.021645934468688253,
+   "reverse_slope": 0.16487732208768335,
    "rows_dropped": 0,
-   "rows_used": 2383
+   "rows_used": 2384
   }
  ],
- "generated": "2026-10-30T07:23:41",
+ "generated": "2026-10-31T10:25:23",
  "ladder": [
   {
    "arm": "binary_low",
-   "band_bp": 7.700147582589842,
+   "band_bp": 7.698398966364391,
    "band_frac": 0.1,
    "by_gamma": [
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
-     "d_toll_ann_bp_per_year": 67.97691012838801,
-     "gamma": 0.830291,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
+     "d_toll_ann_bp_per_year": 70.32094151212553,
+     "gamma": 0.829856,
      "gamma_source": "interval_lo",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=2.84 < bar 3.08",
+     "verdict_reason": "t=2.86 < bar 3.08",
      "weight_changes": 104
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
-     "d_toll_ann_bp_per_year": 67.97691012838801,
-     "gamma": 0.928023,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
+     "d_toll_ann_bp_per_year": 70.32094151212553,
+     "gamma": 0.927615,
      "gamma_source": "point",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=2.84 < bar 3.08",
+     "verdict_reason": "t=2.86 < bar 3.08",
      "weight_changes": 104
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
-     "d_toll_ann_bp_per_year": 67.97691012838801,
-     "gamma": 1.025754,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
+     "d_toll_ann_bp_per_year": 70.32094151212553,
+     "gamma": 1.025374,
      "gamma_source": "interval_hi",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=2.84 < bar 3.08",
+     "verdict_reason": "t=2.86 < bar 3.08",
      "weight_changes": 104
     },
     {
-     "d_pair_ann_bp_per_year": 504.6684302885811,
-     "d_pair_t_nw": 2.844467609031319,
-     "d_toll_ann_bp_per_year": 67.97691012838801,
-     "gamma": 0.254735,
+     "d_pair_ann_bp_per_year": 506.9265005493109,
+     "d_pair_t_nw": 2.8591294853245075,
+     "d_toll_ann_bp_per_year": 70.32094151212553,
+     "gamma": 0.253727,
      "gamma_source": "naive_contemporaneous",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=2.84 < bar 3.08",
+     "verdict_reason": "t=2.86 < bar 3.08",
      "weight_changes": 104
     }
    ],
@@ -3446,47 +3446,47 @@
   },
   {
    "arm": "binary_low",
-   "band_bp": 19.250368956474606,
+   "band_bp": 19.245997415910978,
    "band_frac": 0.25,
    "by_gamma": [
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "d_toll_ann_bp_per_year": 133.6097888730387,
-     "gamma": 0.830291,
+     "gamma": 0.829856,
      "gamma_source": "interval_lo",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=1.79 < bar 3.08",
+     "verdict_reason": "t=1.66 < bar 3.08",
      "weight_changes": 59
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "d_toll_ann_bp_per_year": 133.6097888730387,
-     "gamma": 0.928023,
+     "gamma": 0.927615,
      "gamma_source": "point",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=1.79 < bar 3.08",
+     "verdict_reason": "t=1.66 < bar 3.08",
      "weight_changes": 59
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "d_toll_ann_bp_per_year": 133.6097888730387,
-     "gamma": 1.025754,
+     "gamma": 1.025374,
      "gamma_source": "interval_hi",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=1.79 < bar 3.08",
+     "verdict_reason": "t=1.66 < bar 3.08",
      "weight_changes": 59
     },
     {
-     "d_pair_ann_bp_per_year": 351.10610623855604,
-     "d_pair_t_nw": 1.790024738976144,
+     "d_pair_ann_bp_per_year": 330.4170115563037,
+     "d_pair_t_nw": 1.6620733243064314,
      "d_toll_ann_bp_per_year": 133.6097888730387,
-     "gamma": 0.254735,
+     "gamma": 0.253727,
      "gamma_source": "naive_contemporaneous",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=1.79 < bar 3.08",
+     "verdict_reason": "t=1.66 < bar 3.08",
      "weight_changes": 59
     }
    ],
@@ -3521,47 +3521,47 @@
   },
   {
    "arm": "tilt_step",
-   "band_bp": 7.700147582589842,
+   "band_bp": 7.698398966364391,
    "band_frac": 0.1,
    "by_gamma": [
     {
-     "d_pair_ann_bp_per_year": 257.36497499944176,
-     "d_pair_t_nw": 2.333378286779145,
-     "d_toll_ann_bp_per_year": 78.65872265935462,
-     "gamma": 0.830291,
+     "d_pair_ann_bp_per_year": 258.6665535621703,
+     "d_pair_t_nw": 2.348442419136159,
+     "d_toll_ann_bp_per_year": 80.00328178358714,
+     "gamma": 0.829856,
      "gamma_source": "interval_lo",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=2.33 < bar 3.08",
+     "verdict_reason": "t=2.35 < bar 3.08",
      "weight_changes": 175
     },
     {
-     "d_pair_ann_bp_per_year": 251.7523059227029,
-     "d_pair_t_nw": 2.292162725005437,
-     "d_toll_ann_bp_per_year": 73.04605358261577,
-     "gamma": 0.928023,
+     "d_pair_ann_bp_per_year": 252.96429494761796,
+     "d_pair_t_nw": 2.3062310428674095,
+     "d_toll_ann_bp_per_year": 74.30102316903456,
+     "gamma": 0.927615,
      "gamma_source": "point",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=2.29 < bar 3.08",
+     "verdict_reason": "t=2.31 < bar 3.08",
      "weight_changes": 175
     },
     {
-     "d_pair_ann_bp_per_year": 246.50731333864167,
-     "d_pair_t_nw": 2.2531608179102944,
-     "d_toll_ann_bp_per_year": 67.80106099855405,
-     "gamma": 1.025754,
+     "d_pair_ann_bp_per_year": 247.63562871384178,
+     "d_pair_t_nw": 2.2662963781159897,
+     "d_toll_ann_bp_per_year": 68.97235693525828,
+     "gamma": 1.025374,
      "gamma_source": "interval_hi",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=2.25 < bar 3.08",
+     "verdict_reason": "t=2.27 < bar 3.08",
      "weight_changes": 175
     },
     {
-     "d_pair_ann_bp_per_year": 299.3750419281442,
-     "d_pair_t_nw": 2.6247659346797736,
-     "d_toll_ann_bp_per_year": 120.66878958805671,
-     "gamma": 0.254735,
+     "d_pair_ann_bp_per_year": 301.38731830692285,
+     "d_pair_t_nw": 2.6474287811080703,
+     "d_toll_ann_bp_per_year": 122.72404652833941,
+     "gamma": 0.253727,
      "gamma_source": "naive_contemporaneous",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=2.62 < bar 3.08",
+     "verdict_reason": "t=2.65 < bar 3.08",
      "weight_changes": 175
     }
    ],
@@ -3596,47 +3596,47 @@
   },
   {
    "arm": "tilt_step",
-   "band_bp": 19.250368956474606,
+   "band_bp": 19.245997415910978,
    "band_frac": 0.25,
    "by_gamma": [
     {
-     "d_pair_ann_bp_per_year": 205.10648058549327,
-     "d_pair_t_nw": 1.382458865990416,
-     "d_toll_ann_bp_per_year": 133.4429552545462,
-     "gamma": 0.830291,
+     "d_pair_ann_bp_per_year": 194.80848793725485,
+     "d_pair_t_nw": 1.3054328885626327,
+     "d_toll_ann_bp_per_year": 133.4839037872379,
+     "gamma": 0.829856,
      "gamma_source": "interval_lo",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=1.38 < bar 3.08",
+     "verdict_reason": "t=1.31 < bar 3.08",
      "weight_changes": 105
     },
     {
-     "d_pair_ann_bp_per_year": 196.2125588177376,
-     "d_pair_t_nw": 1.3254770491725787,
-     "d_toll_ann_bp_per_year": 124.54903348679058,
-     "gamma": 0.928023,
+     "d_pair_ann_bp_per_year": 185.90950858424122,
+     "d_pair_t_nw": 1.2484710366609637,
+     "d_toll_ann_bp_per_year": 124.58492443422409,
+     "gamma": 0.927615,
      "gamma_source": "point",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=1.33 < bar 3.08",
+     "verdict_reason": "t=1.25 < bar 3.08",
      "weight_changes": 105
     },
     {
-     "d_pair_ann_bp_per_year": 187.90126287683987,
-     "d_pair_t_nw": 1.2719106013114465,
-     "d_toll_ann_bp_per_year": 116.23773754589278,
-     "gamma": 1.025754,
+     "d_pair_ann_bp_per_year": 177.59355976486302,
+     "d_pair_t_nw": 1.1949396800598906,
+     "d_toll_ann_bp_per_year": 116.26897561484574,
+     "gamma": 1.025374,
      "gamma_source": "interval_hi",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=1.27 < bar 3.08",
+     "verdict_reason": "t=1.19 < bar 3.08",
      "weight_changes": 105
     },
     {
-     "d_pair_ann_bp_per_year": 271.67627894943627,
-     "d_pair_t_nw": 1.796910256279938,
-     "d_toll_ann_bp_per_year": 200.01275361848923,
-     "gamma": 0.254735,
+     "d_pair_ann_bp_per_year": 261.4787723116412,
+     "d_pair_t_nw": 1.7206530952449717,
+     "d_toll_ann_bp_per_year": 200.15418816162398,
+     "gamma": 0.253727,
      "gamma_source": "naive_contemporaneous",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=1.80 < bar 3.08",
+     "verdict_reason": "t=1.72 < bar 3.08",
      "weight_changes": 105
     }
    ],
@@ -3671,47 +3671,47 @@
   },
   {
    "arm": "tilt_linear",
-   "band_bp": 7.700147582589842,
+   "band_bp": 7.698398966364391,
    "band_frac": 0.1,
    "by_gamma": [
     {
-     "d_pair_ann_bp_per_year": 260.77095492369625,
-     "d_pair_t_nw": 3.788328795578951,
-     "d_toll_ann_bp_per_year": 88.28800053304742,
-     "gamma": 0.830291,
+     "d_pair_ann_bp_per_year": 264.6223259352927,
+     "d_pair_t_nw": 3.824805500588673,
+     "d_toll_ann_bp_per_year": 88.716328252933,
+     "gamma": 0.829856,
      "gamma_source": "interval_lo",
      "verdict": "BAND_PAYS",
-     "verdict_reason": "t=3.79, toll +176.6 vs selection -42.0 bp/yr at x2 costs",
+     "verdict_reason": "t=3.82, toll +177.4 vs selection -42.1 bp/yr at x2 costs",
      "weight_changes": 295
     },
     {
-     "d_pair_ann_bp_per_year": 240.88382927520374,
-     "d_pair_t_nw": 3.5435312780739605,
-     "d_toll_ann_bp_per_year": 68.40087488455438,
-     "gamma": 0.928023,
+     "d_pair_ann_bp_per_year": 244.66832019043517,
+     "d_pair_t_nw": 3.58077580527076,
+     "d_toll_ann_bp_per_year": 68.7623225080751,
+     "gamma": 0.927615,
      "gamma_source": "point",
      "verdict": "BAND_PAYS",
-     "verdict_reason": "t=3.54, toll +136.8 vs selection -42.0 bp/yr at x2 costs",
+     "verdict_reason": "t=3.58, toll +137.5 vs selection -42.1 bp/yr at x2 costs",
      "weight_changes": 295
     },
     {
-     "d_pair_ann_bp_per_year": 225.49536503769866,
-     "d_pair_t_nw": 3.347513561298261,
-     "d_toll_ann_bp_per_year": 53.01241064704982,
-     "gamma": 1.025754,
+     "d_pair_ann_bp_per_year": 229.22915741375752,
+     "d_pair_t_nw": 3.38538753868745,
+     "d_toll_ann_bp_per_year": 53.32315973139819,
+     "gamma": 1.025374,
      "gamma_source": "interval_hi",
      "verdict": "BAND_PAYS",
-     "verdict_reason": "t=3.35, toll +106.0 vs selection -42.0 bp/yr at x2 costs",
+     "verdict_reason": "t=3.39, toll +106.6 vs selection -42.1 bp/yr at x2 costs",
      "weight_changes": 295
     },
     {
-     "d_pair_ann_bp_per_year": 605.3689657390695,
-     "d_pair_t_nw": 6.68440921304529,
-     "d_toll_ann_bp_per_year": 432.88601134842054,
-     "gamma": 0.254735,
+     "d_pair_ann_bp_per_year": 611.1879438630326,
+     "d_pair_t_nw": 6.718443298279844,
+     "d_toll_ann_bp_per_year": 435.28194618067334,
+     "gamma": 0.253727,
      "gamma_source": "naive_contemporaneous",
      "verdict": "BAND_PAYS",
-     "verdict_reason": "t=6.68, toll +865.8 vs selection -42.0 bp/yr at x2 costs",
+     "verdict_reason": "t=6.72, toll +870.6 vs selection -42.1 bp/yr at x2 costs",
      "weight_changes": 295
     }
    ],
@@ -3746,47 +3746,47 @@
   },
   {
    "arm": "tilt_linear",
-   "band_bp": 19.250368956474606,
+   "band_bp": 19.245997415910978,
    "band_frac": 0.25,
    "by_gamma": [
     {
-     "d_pair_ann_bp_per_year": 213.26633865111407,
-     "d_pair_t_nw": 1.4506258526843372,
-     "d_toll_ann_bp_per_year": 146.3238419692806,
-     "gamma": 0.830291,
+     "d_pair_ann_bp_per_year": 211.11878339608515,
+     "d_pair_t_nw": 1.4357990091316983,
+     "d_toll_ann_bp_per_year": 146.63644312590858,
+     "gamma": 0.829856,
      "gamma_source": "interval_lo",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=1.45 < bar 3.08",
+     "verdict_reason": "t=1.44 < bar 3.08",
      "weight_changes": 129
     },
     {
-     "d_pair_ann_bp_per_year": 186.86395161454956,
-     "d_pair_t_nw": 1.2721541860072791,
-     "d_toll_ann_bp_per_year": 119.92145493271595,
-     "gamma": 0.928023,
+     "d_pair_ann_bp_per_year": 184.64509396708598,
+     "d_pair_t_nw": 1.256849140817097,
+     "d_toll_ann_bp_per_year": 120.16275369690923,
+     "gamma": 0.927615,
      "gamma_source": "point",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=1.27 < bar 3.08",
+     "verdict_reason": "t=1.26 < bar 3.08",
      "weight_changes": 129
     },
     {
-     "d_pair_ann_bp_per_year": 165.79533947675853,
-     "d_pair_t_nw": 1.1293771005605413,
-     "d_toll_ann_bp_per_year": 98.85284279492492,
-     "gamma": 1.025754,
+     "d_pair_ann_bp_per_year": 163.52391664751622,
+     "d_pair_t_nw": 1.1137204550460083,
+     "d_toll_ann_bp_per_year": 99.04157637733972,
+     "gamma": 1.025374,
      "gamma_source": "interval_hi",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=1.13 < bar 3.08",
+     "verdict_reason": "t=1.11 < bar 3.08",
      "weight_changes": 129
     },
     {
-     "d_pair_ann_bp_per_year": 623.6775631888439,
-     "d_pair_t_nw": 4.061019870573252,
-     "d_toll_ann_bp_per_year": 556.7350665070106,
-     "gamma": 0.254735,
+     "d_pair_ann_bp_per_year": 623.699521746686,
+     "d_pair_t_nw": 4.059365528287131,
+     "d_toll_ann_bp_per_year": 559.2171814765103,
+     "gamma": 0.253727,
      "gamma_source": "naive_contemporaneous",
      "verdict": "BAND_PAYS",
-     "verdict_reason": "t=4.06, toll +1113.5 vs selection -39.3 bp/yr at x2 costs",
+     "verdict_reason": "t=4.06, toll +1118.4 vs selection -39.3 bp/yr at x2 costs",
      "weight_changes": 129
     }
    ],
@@ -3821,14 +3821,14 @@
   },
   {
    "arm": "binary_low",
-   "band_bp": 8.543388291155438,
+   "band_bp": 8.54035341979355,
    "band_frac": 0.1,
    "by_gamma": [
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "d_toll_ann_bp_per_year": 43.65146869070209,
-     "gamma": 0.830291,
+     "gamma": 0.829856,
      "gamma_source": "interval_lo",
      "verdict": "BAND_COSTS",
      "verdict_reason": "pair 17.3 bp/yr not better than the base arm",
@@ -3836,9 +3836,9 @@
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "d_toll_ann_bp_per_year": 43.65146869070209,
-     "gamma": 0.928023,
+     "gamma": 0.927615,
      "gamma_source": "point",
      "verdict": "BAND_COSTS",
      "verdict_reason": "pair 17.3 bp/yr not better than the base arm",
@@ -3846,9 +3846,9 @@
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "d_toll_ann_bp_per_year": 43.65146869070209,
-     "gamma": 1.025754,
+     "gamma": 1.025374,
      "gamma_source": "interval_hi",
      "verdict": "BAND_COSTS",
      "verdict_reason": "pair 17.3 bp/yr not better than the base arm",
@@ -3856,9 +3856,9 @@
     },
     {
      "d_pair_ann_bp_per_year": -17.334736578961806,
-     "d_pair_t_nw": -0.22585040765863668,
+     "d_pair_t_nw": -0.2258128725286895,
      "d_toll_ann_bp_per_year": 43.65146869070209,
-     "gamma": 0.254735,
+     "gamma": 0.253727,
      "gamma_source": "naive_contemporaneous",
      "verdict": "BAND_COSTS",
      "verdict_reason": "pair 17.3 bp/yr not better than the base arm",
@@ -3896,44 +3896,44 @@
   },
   {
    "arm": "binary_low",
-   "band_bp": 21.358470727888594,
+   "band_bp": 21.350883549483875,
    "band_frac": 0.25,
    "by_gamma": [
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "d_toll_ann_bp_per_year": 65.47720303605314,
-     "gamma": 0.830291,
+     "gamma": 0.829856,
      "gamma_source": "interval_lo",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=0.19 < bar 3.08",
      "weight_changes": 56
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "d_toll_ann_bp_per_year": 65.47720303605314,
-     "gamma": 0.928023,
+     "gamma": 0.927615,
      "gamma_source": "point",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=0.19 < bar 3.08",
      "weight_changes": 56
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "d_toll_ann_bp_per_year": 65.47720303605314,
-     "gamma": 1.025754,
+     "gamma": 1.025374,
      "gamma_source": "interval_hi",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=0.19 < bar 3.08",
      "weight_changes": 56
     },
     {
-     "d_pair_ann_bp_per_year": 40.66025537582618,
-     "d_pair_t_nw": 0.19413408945655286,
+     "d_pair_ann_bp_per_year": 40.589062971511645,
+     "d_pair_t_nw": 0.19379901720062548,
      "d_toll_ann_bp_per_year": 65.47720303605314,
-     "gamma": 0.254735,
+     "gamma": 0.253727,
      "gamma_source": "naive_contemporaneous",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=0.19 < bar 3.08",
@@ -3971,44 +3971,44 @@
   },
   {
    "arm": "tilt_step",
-   "band_bp": 8.543388291155438,
+   "band_bp": 8.54035341979355,
    "band_frac": 0.1,
    "by_gamma": [
     {
-     "d_pair_ann_bp_per_year": 9.652898544951793,
-     "d_pair_t_nw": 0.13619346692349193,
-     "d_toll_ann_bp_per_year": 45.78797824474106,
-     "gamma": 0.830291,
+     "d_pair_ann_bp_per_year": 9.619017138714423,
+     "d_pair_t_nw": 0.13568564382547638,
+     "d_toll_ann_bp_per_year": 45.80225640612827,
+     "gamma": 0.829856,
      "gamma_source": "interval_lo",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=0.14 < bar 3.08",
      "weight_changes": 160
     },
     {
-     "d_pair_ann_bp_per_year": 6.551716597340139,
-     "d_pair_t_nw": 0.09244209424114051,
-     "d_toll_ann_bp_per_year": 42.68679629712942,
-     "gamma": 0.928023,
+     "d_pair_ann_bp_per_year": 6.516071684236966,
+     "d_pair_t_nw": 0.0919191607578396,
+     "d_toll_ann_bp_per_year": 42.69931095165079,
+     "gamma": 0.927615,
      "gamma_source": "point",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=0.09 < bar 3.08",
      "weight_changes": 160
     },
     {
-     "d_pair_ann_bp_per_year": 3.6536878529660455,
-     "d_pair_t_nw": 0.05155030795965212,
-     "d_toll_ann_bp_per_year": 39.78876755275531,
-     "gamma": 1.025754,
+     "d_pair_ann_bp_per_year": 3.61642054839995,
+     "d_pair_t_nw": 0.05101349476301433,
+     "d_toll_ann_bp_per_year": 39.79965981581375,
+     "gamma": 1.025374,
      "gamma_source": "interval_hi",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=0.05 < bar 3.08",
      "weight_changes": 160
     },
     {
-     "d_pair_ann_bp_per_year": 32.86482488445089,
-     "d_pair_t_nw": 0.46244570641658533,
-     "d_toll_ann_bp_per_year": 68.99990458424024,
-     "gamma": 0.254735,
+     "d_pair_ann_bp_per_year": 32.86598149740363,
+     "d_pair_t_nw": 0.4623515808671523,
+     "d_toll_ann_bp_per_year": 69.0492207648174,
+     "gamma": 0.253727,
      "gamma_source": "naive_contemporaneous",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=0.46 < bar 3.08",
@@ -4046,44 +4046,44 @@
   },
   {
    "arm": "tilt_step",
-   "band_bp": 21.358470727888594,
+   "band_bp": 21.350883549483875,
    "band_frac": 0.25,
    "by_gamma": [
     {
-     "d_pair_ann_bp_per_year": 116.31723302883458,
-     "d_pair_t_nw": 0.8698657683636082,
-     "d_toll_ann_bp_per_year": 77.93644793583329,
-     "gamma": 0.830291,
+     "d_pair_ann_bp_per_year": 116.16044762758074,
+     "d_pair_t_nw": 0.8686217268999694,
+     "d_toll_ann_bp_per_year": 77.96183133385492,
+     "gamma": 0.829856,
      "gamma_source": "interval_lo",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=0.87 < bar 3.08",
      "weight_changes": 98
     },
     {
-     "d_pair_ann_bp_per_year": 110.80402067752482,
-     "d_pair_t_nw": 0.8291860435985176,
-     "d_toll_ann_bp_per_year": 72.42323558452364,
-     "gamma": 0.928023,
+     "d_pair_ann_bp_per_year": 110.6441001529543,
+     "d_pair_t_nw": 0.8279217744138921,
+     "d_toll_ann_bp_per_year": 72.44548385922825,
+     "gamma": 0.927615,
      "gamma_source": "point",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=0.83 < bar 3.08",
      "weight_changes": 98
     },
     {
-     "d_pair_ann_bp_per_year": 105.65196957641534,
-     "d_pair_t_nw": 0.7910965015893652,
-     "d_toll_ann_bp_per_year": 67.27118448341402,
-     "gamma": 1.025754,
+     "d_pair_ann_bp_per_year": 105.48916480035518,
+     "d_pair_t_nw": 0.7898136194255106,
+     "d_toll_ann_bp_per_year": 67.29054850662902,
+     "gamma": 1.025374,
      "gamma_source": "interval_hi",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=0.79 < bar 3.08",
      "weight_changes": 98
     },
     {
-     "d_pair_ann_bp_per_year": 157.58287985461072,
-     "d_pair_t_nw": 1.171316697038015,
-     "d_toll_ann_bp_per_year": 119.2020947616095,
-     "gamma": 0.254735,
+     "d_pair_ann_bp_per_year": 157.48838426525057,
+     "d_pair_t_nw": 1.1705029089087973,
+     "d_toll_ann_bp_per_year": 119.28976797152461,
+     "gamma": 0.253727,
      "gamma_source": "naive_contemporaneous",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=1.17 < bar 3.08",
@@ -4121,47 +4121,47 @@
   },
   {
    "arm": "tilt_linear",
-   "band_bp": 8.543388291155438,
+   "band_bp": 8.54035341979355,
    "band_frac": 0.1,
    "by_gamma": [
     {
-     "d_pair_ann_bp_per_year": 115.58134018654843,
-     "d_pair_t_nw": 2.9183934301568115,
-     "d_toll_ann_bp_per_year": 66.0059453668245,
-     "gamma": 0.830291,
+     "d_pair_ann_bp_per_year": 112.21060430562304,
+     "d_pair_t_nw": 2.815759278375551,
+     "d_toll_ann_bp_per_year": 66.34812665762077,
+     "gamma": 0.829856,
      "gamma_source": "interval_lo",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=2.92 < bar 3.08",
+     "verdict_reason": "t=2.82 < bar 3.08",
      "weight_changes": 254
     },
     {
-     "d_pair_ann_bp_per_year": 100.82662510023853,
-     "d_pair_t_nw": 2.5810196910383865,
-     "d_toll_ann_bp_per_year": 51.251230280514676,
-     "gamma": 0.928023,
+     "d_pair_ann_bp_per_year": 97.38505034157451,
+     "d_pair_t_nw": 2.4763928307533747,
+     "d_toll_ann_bp_per_year": 51.52257269357229,
+     "gamma": 0.927615,
      "gamma_source": "point",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=2.58 < bar 3.08",
+     "verdict_reason": "t=2.48 < bar 3.08",
      "weight_changes": 254
     },
     {
-     "d_pair_ann_bp_per_year": 89.40968137229883,
-     "d_pair_t_nw": 2.3102664315705312,
-     "d_toll_ann_bp_per_year": 39.83428655257513,
-     "gamma": 1.025754,
+     "d_pair_ann_bp_per_year": 85.91241932763371,
+     "d_pair_t_nw": 2.2043997777068047,
+     "d_toll_ann_bp_per_year": 40.049941679631296,
+     "gamma": 1.025374,
      "gamma_source": "interval_hi",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=2.31 < bar 3.08",
+     "verdict_reason": "t=2.20 < bar 3.08",
      "weight_changes": 254
     },
     {
-     "d_pair_ann_bp_per_year": 374.0847550147303,
-     "d_pair_t_nw": 6.578294449091612,
-     "d_toll_ann_bp_per_year": 324.5093601950068,
-     "gamma": 0.254735,
+     "d_pair_ann_bp_per_year": 372.27488175156856,
+     "d_pair_t_nw": 6.529663589140476,
+     "d_toll_ann_bp_per_year": 326.4124041035665,
+     "gamma": 0.253727,
      "gamma_source": "naive_contemporaneous",
      "verdict": "BAND_PAYS",
-     "verdict_reason": "t=6.58, toll +649.0 vs selection -5.3 bp/yr at x2 costs",
+     "verdict_reason": "t=6.53, toll +652.8 vs selection -5.3 bp/yr at x2 costs",
      "weight_changes": 254
     }
    ],
@@ -4196,55 +4196,55 @@
   },
   {
    "arm": "tilt_linear",
-   "band_bp": 21.358470727888594,
+   "band_bp": 21.350883549483875,
    "band_frac": 0.25,
    "by_gamma": [
     {
-     "d_pair_ann_bp_per_year": 139.01456309889787,
-     "d_pair_t_nw": 1.0646855882034327,
-     "d_toll_ann_bp_per_year": 104.11537163374044,
-     "gamma": 0.830291,
+     "d_pair_ann_bp_per_year": 121.35042428648286,
+     "d_pair_t_nw": 0.9058609268129796,
+     "d_toll_ann_bp_per_year": 104.48270585787441,
+     "gamma": 0.829856,
      "gamma_source": "interval_lo",
-     "verdict": "BAND_NOISE",
-     "verdict_reason": "t=1.06 < bar 3.08",
-     "weight_changes": 112
-    },
-    {
-     "d_pair_ann_bp_per_year": 118.98390331354831,
-     "d_pair_t_nw": 0.9140741953668298,
-     "d_toll_ann_bp_per_year": 84.08471184839088,
-     "gamma": 0.928023,
-     "gamma_source": "point",
      "verdict": "BAND_NOISE",
      "verdict_reason": "t=0.91 < bar 3.08",
      "weight_changes": 112
     },
     {
-     "d_pair_ann_bp_per_year": 102.95880310333357,
-     "d_pair_t_nw": 0.792793224800288,
-     "d_toll_ann_bp_per_year": 68.05961163817588,
-     "gamma": 1.025754,
-     "gamma_source": "interval_hi",
+     "d_pair_ann_bp_per_year": 101.2443319934282,
+     "d_pair_t_nw": 0.7577608395483993,
+     "d_toll_ann_bp_per_year": 84.37661356481956,
+     "gamma": 0.927615,
+     "gamma_source": "point",
      "verdict": "BAND_NOISE",
-     "verdict_reason": "t=0.79 < bar 3.08",
+     "verdict_reason": "t=0.76 < bar 3.08",
      "weight_changes": 112
     },
     {
-     "d_pair_ann_bp_per_year": 451.80665272445924,
-     "d_pair_t_nw": 3.208416182519486,
-     "d_toll_ann_bp_per_year": 416.9074612593018,
-     "gamma": 0.254735,
+     "d_pair_ann_bp_per_year": 85.15974681034679,
+     "d_pair_t_nw": 0.6386177104618957,
+     "d_toll_ann_bp_per_year": 68.29202838173806,
+     "gamma": 1.025374,
+     "gamma_source": "interval_hi",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.64 < bar 3.08",
+     "weight_changes": 112
+    },
+    {
+     "d_pair_ann_bp_per_year": 435.8299343728664,
+     "d_pair_t_nw": 3.0345019678463525,
+     "d_toll_ann_bp_per_year": 418.9622159442581,
+     "gamma": 0.253727,
      "gamma_source": "naive_contemporaneous",
-     "verdict": "BAND_PAYS",
-     "verdict_reason": "t=3.21, toll +833.8 vs selection +47.7 bp/yr at x2 costs",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=3.03 < bar 3.08",
      "weight_changes": 112
     }
    ],
    "panel": "basket_equal_weight",
    "verdict_inside_interval": false,
-   "verdict_sensitive_to_identification": true,
+   "verdict_sensitive_to_identification": false,
    "verdict_stable": true,
-   "verdict_stable_all_points": false,
+   "verdict_stable_all_points": true,
    "verdicts": [
     [
      "interval_lo",
@@ -4260,7 +4260,7 @@
     ],
     [
      "naive_contemporaneous",
-     "BAND_PAYS"
+     "BAND_NOISE"
     ]
    ],
    "verdicts_interval": [
@@ -4273,40 +4273,40 @@
  "panels": [
   {
    "first": "2012-05-28",
-   "last": "2026-10-29",
+   "last": "2026-10-30",
    "panel": "primary_single",
-   "sessions": 3504,
-   "signal_sd_is_bp": 77.00147582589842,
-   "split_date": "2021-01-13",
-   "split_session": 2102,
+   "sessions": 3505,
+   "signal_sd_is_bp": 76.98398966364391,
+   "split_date": "2021-01-14",
+   "split_session": 2103,
    "symbol": "sh510300"
   },
   {
    "first": "2005-02-23",
-   "last": "2026-10-29",
+   "last": "2026-10-30",
    "panel": "basket_equal_weight",
-   "sessions": 5269,
-   "signal_sd_is_bp": 85.43388291155438,
-   "split_date": "2018-02-14",
-   "split_session": 3161,
+   "sessions": 5270,
+   "signal_sd_is_bp": 85.4035341979355,
+   "split_date": "2018-02-22",
+   "split_session": 3162,
    "symbol": "sh510050+sh510300+sh510500+sh512100+sh588000"
   }
  ],
  "primary_estimate": {
   "era": "all",
   "estimator": "B_controlled",
-  "gamma": 0.9280226288162794,
+  "gamma": 0.9276152246467291,
   "gamma_ci": [
-   0.8302907699956412,
-   1.0257544876369176
+   0.8298563090732277,
+   1.0253741402202305
   ],
-  "gamma_se": 0.04986319327583581,
-  "n": 3455,
+  "gamma_se": 0.049876997741582337,
+  "n": 3456,
   "panel": "primary_single",
-  "r2": 0.11224266553625728,
+  "r2": 0.11200462340890827,
   "rows_dropped": 48,
-  "rows_used": 3456,
-  "t_nw": 18.61137580344274
+  "rows_used": 3457,
+  "t_nw": 18.598056552096327
  },
  "study": "E233",
  "summary": {
@@ -4337,29 +4337,36 @@
   "cells_with_band_pays": 3,
   "channel_cells": 24,
   "gamma_interval": [
-   0.8302907699956412,
-   1.0257544876369176
+   0.8298563090732277,
+   1.0253741402202305
   ],
   "gamma_points": [
-   0.830291,
-   0.928023,
-   1.025754,
-   0.254735
+   0.829856,
+   0.927615,
+   1.025374,
+   0.253727
+  ],
+  "gamma_points_decimals": 6,
+  "gamma_points_sources": [
+   "interval_lo",
+   "point",
+   "interval_hi",
+   "naive_contemporaneous"
   ],
   "identification_span": [
-   0.254735,
-   1.025754
+   0.253727,
+   1.025374
   ],
   "interval_points": [
-   0.830291,
-   0.928023,
-   1.025754
+   0.829856,
+   0.927615,
+   1.025374
   ],
   "ladder_cells": 12,
   "ladder_verdicts_inside_interval": 0,
-  "ladder_verdicts_sensitive_to_identification": 3,
+  "ladder_verdicts_sensitive_to_identification": 2,
   "ladder_verdicts_stable": 12,
-  "ladder_verdicts_stable_all_points": 9,
+  "ladder_verdicts_stable_all_points": 10,
   "toll_clears_bar_every_point": 6
  },
  "title": "measure the charge curvature instead of assuming it, then re-read the family"

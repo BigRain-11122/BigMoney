@@ -396,10 +396,39 @@ def run(save=True, per=None, outdir=None, lag=NW_LAG, e240_ref=None, basket=None
     if len(allsyms) < 4:
         return {"study": STUDY, "error": "fewer than four members have a panel"}
 
+    ref = e240_ref if e240_ref is not None else _e240_ref(outdir)
+    live_dates = _live_grid_dates(per, allsyms)
+    pin = (ref or {}).get("window") or {}
+    pin_lo, pin_hi = pin.get("first"), pin.get("last")
+    if pin_hi is None:
+        # the reference publishes no window: replay unbounded, and say so
+        pin_lo = pin_hi = None
+        win_source = "the reference publishes no window -- replay is unbounded"
+    else:
+        inside = [d for d in (live_dates or [])
+                  if (pin_lo is None or d >= pin_lo) and d <= pin_hi]
+        last_live = (live_dates or [None])[-1]
+        if last_live is not None and pin_hi > last_live:
+            # the reference window ends after this panel prints: it describes another panel
+            # (a fixture, or a reference from another universe), so pinning would clip it
+            win_source = ("the reference window %s..%s ends after this panel's last session %s, "
+                          "so it does not apply here -- replay is unbounded"
+                          % (pin_lo, pin_hi, last_live))
+            pin_lo = pin_hi = None
+        elif len(inside) < MIN_SESSIONS:
+            # a fixture panel, or a reference from another universe: the window does not apply
+            win_source = ("the reference window %s..%s keeps only %d sessions of this panel, so "
+                          "it does not apply here -- replay is unbounded"
+                          % (pin_lo, pin_hi, len(inside)))
+            pin_lo = pin_hi = None
+        else:
+            win_source = "e240_reference.window"
+
     pre2020 = [s for s in allsyms if min(per[s]) < PRE2020_END_BEFORE]
     cells = []
-    cells.append(_cell(per, allsyms, None, None, label="all_five", kind="headline",
-                       note="the E240 window; replay control"))
+    cells.append(_cell(per, allsyms, pin_lo, pin_hi, label="all_five", kind="headline",
+                       note="the E240 window (pinned to the reference face's own book window); "
+                            "replay control"))
     cells.append(_cell(per, pre2020, None, PRE2020_END_BEFORE, label="pre2020_four",
                        kind="window",
                        note="the members that exist before sh588000 prints"))
@@ -419,8 +448,7 @@ def run(save=True, per=None, outdir=None, lag=NW_LAG, e240_ref=None, basket=None
 
     art = pooled_split_is_an_artifact()
     roll = rollup(cells)
-    ref = e240_ref if e240_ref is not None else _e240_ref(outdir)
-    replay = _replay(ref, cells)
+    replay = _replay(ref, cells, live_dates=live_dates, window_source=win_source)
 
     face = {
         "study": STUDY,
@@ -468,18 +496,47 @@ def _e240_ref(outdir):
     except (ValueError, OSError):
         return None
     pv = (d.get("designs") or {}).get("pair_one_vs_rest") or {}
+    book = d.get("book") or {}
     return {"source": "results/state_tilt/aggatt_latest.json",
             "mean_b_one": pv.get("mean_b_one"),
             "mean_b_rest": pv.get("mean_b_rest3"),
             "mean_diff": pv.get("mean_diff"),
             "diff_ci": pv.get("diff_ci"),
-            "pooled_diff": (pv.get("pooled") or {}).get("diff")}
+            "pooled_diff": (pv.get("pooled") or {}).get("diff"),
+            # The reference's OWN window. A replay means same data AND same window, so the
+            # control cell has to be pinned to this rather than to whatever the live panel now
+            # holds: the panel prints a new session every trading day and re-deriving over it
+            # moved the headline by ~5e-5 -- which reads as a reproduction failure when it is
+            # only a vintage difference (E292/E294 live-universe-drift family, E243 r1316).
+            "window": {"first": book.get("first"), "last": book.get("last"),
+                       "sessions": book.get("sessions")}}
 
 
-def _replay(ref, cells):
+def _live_grid_dates(per, syms):
+    """The unbounded common increment grid: what the panel holds today, for drift disclosure."""
+    win = subset_per(per, syms)
+    try:
+        _, panel = e240.common_increments(win, syms)
+    except Exception:
+        return None
+    return panel.get("dates") or None
+
+
+def _replay(ref, cells, live_dates=None, window_source=None):
     """The headline cell must be the E240 cell, not merely similar to it."""
     head = next((c for c in cells if c["label"] == "all_five"), None)
     out = {"cell": "all_five", "tolerance": 1e-9}
+    used = (head or {}).get("window_inclusive") or [None, None]
+    out["window_used"] = {"first": used[0], "last": used[1]}
+    out["window_source"] = window_source or ("e240_reference.window" if used[1] is not None
+                                             else "no window applied")
+    if live_dates:
+        last = used[1]
+        past = [d for d in live_dates if last is not None and d > last]
+        out["live_panel_last"] = live_dates[-1]
+        out["sessions_past_the_pinned_window"] = len(past)
+        out["sessions_past_note"] = ("sessions the live panel now prints beyond the pinned "
+                                     "window; they are excluded from the control cell on purpose")
     if ref is None or (ref.get("mean_diff") is None and ref.get("mean_b_one") is None):
         out.update({"status": "no_reference", "reproduced": None})
         return out
@@ -689,6 +746,43 @@ def selftest():
         if rep.get("status") != "no_reference" or rep.get("reproduced") is not None:
             raise AssertionError("an empty reference face was not reported as no_reference")
 
+    def replay_survives_a_panel_that_grew():
+        """A replay is same-data-same-window: a later session must not turn it into a MISMATCH."""
+        per_old = synth(n=300, own=0.5, one=0.2, rest=0.2, seed=5, start="2019-01-01")
+        old = _run(per_old)
+        hl = next(c for c in old["cells"] if c["label"] == "all_five")
+        ref = {"mean_b_one": hl["mean_b_one"], "mean_diff": hl["mean_diff"],
+               "window": {"first": hl["first"], "last": hl["last"], "sessions": hl["sessions"]}}
+        # the live panel later prints 12 more sessions of the same book
+        per_new = synth(n=312, own=0.5, one=0.2, rest=0.2, seed=5, start="2019-01-01")
+        face = run(save=False, per=per_new, e240_ref=ref, basket=sorted(per_new))
+        rep = face["e240_replay"]
+        if rep.get("reproduced") is not True:
+            raise AssertionError("the control cell re-derived over a longer panel instead of "
+                                 "its own window (%s, gaps %s)" % (rep.get("status"),
+                                                                   rep.get("gaps")))
+        if not rep.get("sessions_past_the_pinned_window"):
+            raise AssertionError("the face hid that the live panel prints past the pinned "
+                                 "window (%s)" % rep.get("live_panel_last"))
+        hl2 = next(c for c in face["cells"] if c["label"] == "all_five")
+        if hl2["sessions"] != hl["sessions"]:
+            raise AssertionError("the headline cell grew with the panel (%d vs %d sessions)"
+                                 % (hl2["sessions"], hl["sessions"]))
+
+    def replay_says_when_it_had_no_window():
+        """A reference that publishes no window must be disclosed, not silently unbounded."""
+        per = synth(n=300, own=0.5, one=0.2, rest=0.2, seed=5, start="2019-01-01")
+        face = _run(per)
+        hl = next(c for c in face["cells"] if c["label"] == "all_five")
+        ref = {"mean_b_one": hl["mean_b_one"], "mean_diff": hl["mean_diff"]}
+        face2 = run(save=False, per=per, e240_ref=ref, basket=sorted(per))
+        rep = face2["e240_replay"]
+        if "no window" not in (rep.get("window_source") or ""):
+            raise AssertionError("an unbounded replay did not say why (%s)"
+                                 % rep.get("window_source"))
+        if rep.get("sessions_past_the_pinned_window") not in (None, 0):
+            raise AssertionError("an unbounded replay claimed a pinned window")
+
     def subset_keeps_one_base_session():
         per = {"a": {"d1": (1.0, 10.0), "d2": (1.1, 10.1), "d3": (1.2, 10.3)},
                "b": {"d1": (1.0, 10.0), "d2": (1.3, 10.2), "d3": (1.1, 10.4)},
@@ -749,6 +843,8 @@ def selftest():
                      ("missing E240 face does not crash", missing_reference_does_not_crash),
                      ("window keeps one base session", subset_keeps_one_base_session),
                      ("replay gate rejects a foreign face", replay_gate_rejects_a_different_face),
+                     ("replay survives a panel that grew", replay_survives_a_panel_that_grew),
+                     ("replay says when it had no window", replay_says_when_it_had_no_window),
                      ("wide interval is NOT-ASSESSED", wide_interval_is_not_assessed),
                      ("rollup names the mean-only case", rollup_names_the_mean_only_case)):
         leg(name, fn)

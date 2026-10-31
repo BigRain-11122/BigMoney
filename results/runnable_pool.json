@@ -25436,7 +25436,7 @@
    "id": "E297-FIX-TWO-RED-LEGS",
    "title": "two smoke legs are red on published faces and both faces say so themselves -- E243's E240 replay is a MISMATCH at 5e-5 against a 1e-9 tolerance, and the empirical gamma face's interval endpoints are not in its own point set. Diagnose and publish the fix, or publish the defect and lower the claim",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 2,
    "runner": "scripts/e243_addos_*.py (find the producer) + the empirical gamma producer",
    "runner_args": [
@@ -25452,7 +25452,38 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "source": "The r1315 full-suite run (270 legs) leaves exactly two reds after the universe freezes fixed E290/E291. (1) addos face: e240_replay.status=MISMATCH, reproduced=false, gaps mean_b_one 5.15e-05 / mean_diff 2.65e-05 against tolerance 1e-09 -- so either the replay re-derives a different quantity than E240 published (a parameterisation slip, the E240 family's own trap) or the 1e-9 tolerance was never achievable and the headline claim's basis is wrong; both are science defects, not drift. (2) empirical_gamma face: the smoke leg requires each interval endpoint to appear in summary.gamma_points[:3] and one does not, so either the CI is computed on a different grid than the points or the points list is truncated. Fix the producer and re-publish, or publish the defect and weaken the claim -- do NOT relax the legs to make them pass."
+   "source": "The r1315 full-suite run (270 legs) leaves exactly two reds after the universe freezes fixed E290/E291. (1) addos face: e240_replay.status=MISMATCH, reproduced=false, gaps mean_b_one 5.15e-05 / mean_diff 2.65e-05 against tolerance 1e-09 -- so either the replay re-derives a different quantity than E240 published (a parameterisation slip, the E240 family's own trap) or the 1e-9 tolerance was never achievable and the headline claim's basis is wrong; both are science defects, not drift. (2) empirical_gamma face: the smoke leg requires each interval endpoint to appear in summary.gamma_points[:3] and one does not, so either the CI is computed on a different grid than the points or the points list is truncated. Fix the producer and re-publish, or publish the defect and weaken the claim -- do NOT relax the legs to make them pass.",
+   "done_at": "2026-10-31T10:30:00+08:00",
+   "done_by": "bm-b r1316",
+   "result_ref": [
+    "results/state_tilt/addos_latest.json",
+    "results/state_tilt/empirical_gamma_latest.json"
+   ],
+   "runner_note": "both reds were the CHECK, not the science: E243's headline cell re-derived over the live panel instead of E240's declared window (1329 vs 1328 sessions, 5e-5 gap -> MISMATCH at 1e-9; pinned = gap 0.0), and E233's point set is published 6-dp while the leg compared it at 1e-9. Fixed in the producers with the precision and the window published, +2 selftest legs; evidence digest DIGEST-20261031-r1316-e297-two-red-legs.md, card E295"
+  },
+  {
+   "id": "E298-REPLAY-CONTROLS-CENSUS",
+   "status": "ready",
+   "lane": "cpu-only",
+   "entered_at": "2026-10-31T10:30:00+08:00",
+   "entered_by": "bm-b r1316",
+   "evidence_cutoff": "2026-10-30",
+   "source": "r1316: E243's replay control re-derived over the live panel and read its own vintage as a reproduction failure; E239/E240 carry e238/e239_reference blocks the same shape",
+   "target": "scripts/e2*_*.py + smoke_test.py",
+   "deliverable": "results/state_tilt/REPLAYCENSUS-<cutoff>.json",
+   "question": "which published faces carry a replay/reproduction control, how many of them re-derive over the live panel instead of the reference's declared window, and what does each one currently report"
+  },
+  {
+   "id": "E299-ROUNDED-VS-TOLERANCE-CENSUS",
+   "status": "ready",
+   "lane": "cpu-only",
+   "entered_at": "2026-10-31T10:30:00+08:00",
+   "entered_by": "bm-b r1316",
+   "evidence_cutoff": "2026-10-30",
+   "source": "r1316: E233 publishes a 6-dp point set beside a full-precision interval and a leg compared them at 1e-9",
+   "target": "smoke_test.py legs + the faces they read",
+   "deliverable": "results/state_tilt/PRECISIONCENSUS-<cutoff>.json",
+   "question": "which smoke legs compare a rounded published value at a full-precision tolerance (or at exact equality), how far apart are the copies, and does each face declare the precision it prints"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25467,6 +25498,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T10:05+08:00",
+ "updated_at": "2026-10-31T10:30:00+08:00",
  "version": 1
 }

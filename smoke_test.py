@@ -2918,8 +2918,23 @@ def main() -> int:
                 _pts33 = _s33.get("gamma_points") or []
                 if len(_pts33) < 3:
                     _bad33.append("fewer than three gamma points re-derived")
-                if any(not (_lo33 - 1e-9 <= p <= _hi33 + 1e-9) for p in _pts33[:3]):
+                # The point set is PUBLISHED ROUNDED, so it is compared at its own resolution:
+                # at 1e-9 a 6-dp copy of the endpoint reads as "missing from its own point
+                # set" when it is the same number printed shorter (E233 r1316). The precision
+                # is required, not defaulted, and the first three points must be NAMED as the
+                # interval endpoints plus the estimate -- being numerically inside the
+                # interval is not the same claim.
+                _dec33 = _s33.get("gamma_points_decimals")
+                if not isinstance(_dec33, int) or _dec33 < 0:
+                    _bad33.append("the face does not publish the point set's precision")
+                    _dec33 = 6
+                _tol33 = 10.0 ** (-_dec33)
+                if any(not (_lo33 - _tol33 <= p <= _hi33 + _tol33) for p in _pts33[:3]):
                     _bad33.append("an interval endpoint is missing from the point set")
+                _src33 = _s33.get("gamma_points_sources") or []
+                if _src33[:3] != ["interval_lo", "point", "interval_hi"]:
+                    _bad33.append("the first three points are not named as the interval "
+                                  "endpoints and the estimate (%s)" % (_src33[:3],))
             if not _s33.get("toll_clears_bar_every_point"):
                 _bad33.append("the toll channel does not survive the measured interval")
             _cells33 = _s33.get("ladder_cells") or 0
