@@ -68,6 +68,7 @@ per-face replay npy/json caches + null seed-shard npy checkpoints
 Usage: run | selftest   (exit 0 ok; 2 = fail-closed gate refusal)
 """
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -342,7 +343,23 @@ def _attr_row(batch, delta, total, gates, entries):
     os.replace(ATT_JSON + ".tmp", ATT_JSON)
 
 
-def _chain_base(path):
+def _inputs_sha256(roster_face, panel_face):
+    """Digest of the inputs that produced this product (r1382).
+
+    "batch" and "evidence_cutoff" are literals THIS module writes, so a guard
+    built on them answers "is the filename mine", never "was this computed from
+    what I am computing from now". The roster ids and the panel face are
+    computed off the inputs, and the digest covers them plus BATCH_CELLS.
+    """
+    payload = {"cells": BATCH_CELLS,
+               "roster": [t["id"] for t in roster_face],
+               "panel": panel_face}
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True, ensure_ascii=False)
+        .encode("utf-8")).hexdigest()
+
+
+def _chain_base(path, expect_sha=None, expect_roster=None, expect_panel=None):
     """(prev_total, source) read off a landed product -- only from OUR OWN batch.
 
     The ledger head this batch chains onto lives inside its own product, so a
@@ -367,6 +384,16 @@ def _chain_base(path):
         return None, "foreign-batch"
     if old.get("evidence_cutoff") != EVIDENCE_CUTOFF:
         return None, "foreign-cutoff"
+    # r1382: the two literals above are written by this same module, so they
+    # only prove the name; these compare what the product was COMPUTED from.
+    if expect_roster is not None and \
+            [t.get("id") for t in (old.get("roster") or [])] != expect_roster:
+        return None, "foreign-roster"
+    if expect_panel is not None and (old.get("panel") or {}) != expect_panel:
+        return None, "foreign-panel"
+    stored_sha = old.get("inputs_sha256")
+    if expect_sha is not None and stored_sha and stored_sha != expect_sha:
+        return None, "foreign-inputs"
     prev = (old.get("trials_ledger") or {}).get("prev_total")
     if prev is None:
         return None, "own-batch-no-head"
@@ -375,7 +402,11 @@ def _chain_base(path):
 
 def finalize(roster_face, panel_face, g_anchor, replays, densities, nulls,
              seeds, f3, f4, d6, f1_flags, f2_stability):
-    prev_total, chain_base_src = _chain_base(OUT_JSON)
+    roster_ids = [t["id"] for t in roster_face]
+    inputs_sha = _inputs_sha256(roster_face, panel_face)
+    prev_total, chain_base_src = _chain_base(
+        OUT_JSON, expect_sha=inputs_sha, expect_roster=roster_ids,
+        expect_panel=panel_face)
     seed1 = seeds[0]
     pool1 = nulls[seed1]
     gates = {}
@@ -399,6 +430,7 @@ def finalize(roster_face, panel_face, g_anchor, replays, densities, nulls,
     product = {
         "batch": BATCH_NAME,
         "evidence_cutoff": EVIDENCE_CUTOFF,
+        "inputs_sha256": inputs_sha,
         "cutoff_meta": SG.cutoff_meta(EVIDENCE_CUTOFF),
         "prereg": "research/MEMBER_REINFORCE_P1_PREREG.md (@dd62920e freeze)",
         "seeds": {k: SG.SEED_REGISTRY[k] for k in SEED_KEYS},
@@ -794,6 +826,48 @@ def cmd_selftest():
         prev, src = _chain_base(_cb)
         ok.append(("chain base: our own head is inherited",
                    prev == 777 and src == "own-batch"))
+
+        # r1382: the name is not the product -- compare what it was computed from
+        _own = json.load(open(OUT_JSON, encoding="utf-8"))
+        _ids = [t["id"] for t in _own["roster"]]
+        _pnl = _own["panel"]
+        _sha = _own.get("inputs_sha256")
+        ok.append(("chain base: product publishes its inputs digest",
+                   isinstance(_sha, str) and len(_sha) == 64))
+        _same = dict(_own)
+        json.dump(_same, open(_cb, "w"))
+        prev, src = _chain_base(_cb, expect_sha=_sha, expect_roster=_ids,
+                                expect_panel=_pnl)
+        ok.append(("chain base: same name AND same inputs is trusted",
+                   prev is not None and src == "own-batch"))
+        _moved = json.loads(json.dumps(_own))
+        _moved["panel"] = dict(_pnl, last="2026-09-23")
+        json.dump(_moved, open(_cb, "w"))
+        prev, src = _chain_base(_cb, expect_sha=_sha, expect_roster=_ids,
+                                expect_panel=_pnl)
+        ok.append(("chain base: same name, panel moved -> refused",
+                   prev is None and src == "foreign-panel"))
+        _regroup = json.loads(json.dumps(_own))
+        _regroup["roster"] = _own["roster"][:-1]
+        json.dump(_regroup, open(_cb, "w"))
+        prev, src = _chain_base(_cb, expect_sha=_sha, expect_roster=_ids,
+                                expect_panel=_pnl)
+        ok.append(("chain base: same name, roster regrouped -> refused",
+                   prev is None and src == "foreign-roster"))
+        _edited = json.loads(json.dumps(_own))
+        _edited["inputs_sha256"] = "0" * 64
+        json.dump(_edited, open(_cb, "w"))
+        prev, src = _chain_base(_cb, expect_sha=_sha, expect_roster=_ids,
+                                expect_panel=_pnl)
+        ok.append(("chain base: same name, digest disagrees -> refused",
+                   prev is None and src == "foreign-inputs"))
+        _legacy = json.loads(json.dumps(_own))
+        _legacy.pop("inputs_sha256", None)
+        json.dump(_legacy, open(_cb, "w"))
+        prev, src = _chain_base(_cb, expect_sha=_sha, expect_roster=_ids,
+                                expect_panel=_pnl)
+        ok.append(("chain base: a pre-digest product is graded on its faces",
+                   prev is not None and src == "own-batch"))
 
         # drift refusal paths
         real_id = probe["roster_face"]["members"][0]["anchor_is_sharpe"]

@@ -4604,6 +4604,21 @@ def main() -> int:
               False, repr(e)[:160])
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
+_SMOKE_GC = None
+
+
+def _claw():
+    """Tools/git_claw.py as a module (r1382): the marker rule lives there because
+    the push side asks the same question, and a copy of a rule is the next defect."""
+    global _SMOKE_GC
+    if _SMOKE_GC is None:
+        import importlib.util as _ilu
+        _p = os.path.join("Tools", "git_claw.py")
+        _s = _ilu.spec_from_file_location("_smoke_git_claw", _p)
+        _m = _ilu.module_from_spec(_s)
+        _s.loader.exec_module(_m)
+        _SMOKE_GC = _m
+    return _SMOKE_GC
 
 
 def _hunk_state(text: str, rev: str = "HEAD"):
@@ -4614,27 +4629,12 @@ def _hunk_state(text: str, rev: str = "HEAD"):
     replay). Balance is mechanical, so no path whitelist is needed -- and a
     markdown "=======" underline cannot trip the gate because a separator only
     counts inside an open hunk.
+
+    r1382: delegates to Tools/git_claw.marker_fragments, the same function the
+    pre-push gate runs -- commit-side and push-side cannot disagree about a file.
     """
-    out = []
-    state = None
-    for ln, line in enumerate(text.split("\n"), 1):
-        kind = next((k for tok, k in _MARK if line.startswith(tok)), None)
-        if kind is None:
-            continue
-        if kind == "open" and state is None:
-            state = "open"
-            continue
-        if kind == "base" and state == "open":
-            state = "base"
-            continue
-        if kind == "sep" and state in ("open", "base"):
-            state = "sep"
-            continue
-        if kind == "close" and state == "sep":
-            state = None
-            continue
-        out.append((ln, kind))
-    return out, state
+    _frag, _state, _opened = _claw().marker_fragments(text)
+    return _frag, _state
 
 
 def _marker_fragments():

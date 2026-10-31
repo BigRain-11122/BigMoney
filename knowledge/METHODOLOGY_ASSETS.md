@@ -7317,7 +7317,6 @@ collision rule -- card ids live only in this ledger, so the references moved wit
 **Renumbered E301 -> E303 (r1187):** the move to E301 was itself a collision -- bm-c's r1380 batch
 landed TWO cards (E300 and E301) while this window only checked against the one id it knew about, so
 the ledger now carried E301 twice and bm-c's next window took E302. See E304 for the rule.
-||||||| parent of 552f00ce84 (round 1381: a supply gate said 'missing a schema field' about a family its own prereg calls judged-negative)
 
 ## E302 - 供给阶梯把「已关单的家族」读成「缺一个 schema 字段」
 
@@ -7362,3 +7361,34 @@ ambiguous forever, and the only repair is renumbering one of them and disclosing
 
 Pos: knowledge/METHODOLOGY_ASSETS.md (E303 renumber + this card); the check is `git show
 origin/main:knowledge/METHODOLOGY_ASSETS.md` id sweep before every assignment.
+
+## E305 - 唯一的记号闸装在提交上，而手术推送从不走提交
+
+**症状**：`knowledge/METHODOLOGY_ASSETS.md:7316` 带着一行孤立的
+`||||||| parent of 552f00ce84` 进了 r1381 的提交（09:42 上链），一直到
+10:14 一个已经死掉的窗口的 smoke 才把它报红——它在一个每轮都被读的账本里
+躺了 44 分钟。而 pre-commit claw 当天是好的（探针：stage 一个含 base 记号的
+临时文件，claw 直接 rc=1）。
+
+**根因**：闸只挂在 commit 上。手术推送路径是「cherry-pick 到 origin 顶端
+再 push」，而 `git rebase` / `git cherry-pick` / `commit-tree` 都不跑
+pre-commit（钩子文件自己的头注就写着 Rebase replays are not affected）。于是
+「所有路径都会经过的那一步」是 push，而 push 上只有属主爪，没有记号爪。
+两次实弹（r1304、r1381）走的是同一条路。
+
+**修法**：`Tools/git_claw.py` 新增 `marker_fragments()` / `marker_violations()`，
+接进 `check_push()` —— pre-push 钩子直接继承，零新装、零名单。作用域与 smoke
+腿一致：只扫本次推送 AMCR 的 blob，`results/_*` 抓原始 diff 的捕获件除外；
+整块平衡 hunk（文档引用一次完整冲突）合法，孤立 `|||||||`/`=======`/`>>>>>>>`
+与未闭合 hunk 一律拒。规则只有一份：`smoke_test._hunk_state` 改为委托
+`git_claw.marker_fragments()`（抄一份规则就是下一个缺陷）。
+
+**验证脚**：`Tools/git_claw.py selftest` 38→**44/44**（孤立 base 拒 / 整块引用
+通过 / results/_ 捕获不扫 / 未闭合 hunk 拒 / 拒绝信息带文件名与行号 / 纯函数
+判定本身）。实弹：`check_push(origin/main, r1381)` **rc=1** 点名
+`knowledge/METHODOLOGY_ASSETS.md:7316 |||||||` —— 这道闸今天就会在 r1381 的
+推送口上把它挡住。
+
+**局限**：闸在本机钩子上，`--no-verify` 仍是逃生口（须在轮报留痕）；`results/_*`
+不扫意味着抓原始 diff 的捕获件里可以合法躺记号（与 smoke 同 scope）；
+已经进历史的记号不会被这道闸回溯清理（r1381 的靠行级删除修）。

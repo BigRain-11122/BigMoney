@@ -365,9 +365,100 @@ def pool_claim_regressions(old_sha, new_sha, repo):
     return out
 
 
+MARKER_SCAN_EXCLUDE = ("results/_",)
+MARKER_TOKENS = (("<<<<<<<", "open"), ("|||||||", "base"),
+                 ("=======", "sep"), (">>>>>>>", "close"))
+
+
+def marker_fragments(text):
+    """Conflict-marker lines that are NOT part of a complete hunk -> (list, state).
+
+    Single implementation, two gates (r1382): a probe fixture or a canon page may
+    legitimately QUOTE a whole open/base/sep/close hunk, while a leftover is a
+    fragment of one (git applied half a resolution, or a base marker survived a
+    rebase replay). Balance is mechanical, so no path whitelist is needed; a
+    markdown "=======" underline cannot trip the gate because a separator only
+    counts inside an open hunk. smoke_test.py::_hunk_state delegates here so the
+    commit-side and push-side gates cannot drift apart.
+    """
+    out = []
+    state = None
+    opened_at = 0
+    for ln, line in enumerate(text.split("\n"), 1):
+        kind = next((k for tok, k in MARKER_TOKENS if line.startswith(tok)),
+                    None)
+        if kind is None:
+            continue
+        if kind == "open":
+            if state is None:
+                state = "open"
+                opened_at = ln
+                continue
+            out.append((ln, kind))
+            continue
+        if kind == "base" and state == "open":
+            state = "base"
+            continue
+        if kind == "sep" and state in ("open", "base"):
+            state = "sep"
+            continue
+        if kind == "close" and state == "sep":
+            state = None
+            continue
+        out.append((ln, kind))
+    return out, state, opened_at
+
+
+def marker_violations(old_sha, new_sha, repo, limit=5):
+    """Conflict-marker fragments inside the blobs this push adds or rewrites.
+
+    r1382: the pre-commit claw was the ONLY marker gate, and the surgery push
+    paths (rebase replay, cherry-pick onto an origin tip, commit-tree CAS) never
+    run it -- the hook file says so itself. Two live incidents entered that way
+    (r1304, r1381: a lone '||||||| parent of <sha>' line sat in the card ledger
+    for 44 minutes until a smoke leg read it). The gate therefore moves to the
+    one step EVERY path shares: the push. Scope mirrors the smoke leg -- the
+    results/_* scratch captures quote raw diffs on purpose and are excluded.
+    """
+    if not new_sha or new_sha == _ZERO or new_sha == old_sha:
+        return []
+    base = old_sha if (old_sha and old_sha != _ZERO) else None
+    args = ["diff-tree", "-r", "--no-renames", "--diff-filter=ACMR",
+            "--name-only"]
+    args += ([base, new_sha] if base else ["--root", new_sha])
+    r = _git(args, repo)
+    if r.returncode != 0:
+        _git(["fetch", "origin"], repo)          # object bring-in, as above
+        r = _git(args, repo)
+    if r.returncode != 0:
+        raise RuntimeError("diff-tree(AMCR) rc=%d %s" % (
+            r.returncode, (r.stderr or b"")[:160].decode(errors="replace")))
+    out = []
+    for line in (r.stdout or b"").splitlines():
+        rel = line.strip().decode("utf-8", errors="replace")
+        if not rel or rel.startswith(MARKER_SCAN_EXCLUDE):
+            continue
+        b = _git(["show", "%s:%s" % (new_sha, rel)], repo)
+        if b.returncode != 0:
+            continue
+        frag, state, opened_at = marker_fragments(
+            (b.stdout or b"").decode("utf-8", errors="replace"))
+        for ln, kind in frag:
+            out.append({"path": rel, "line": ln, "kind": kind})
+            if len(out) >= limit:
+                return out
+        if state is not None:
+            out.append({"path": rel, "line": opened_at,
+                        "kind": "unclosed-hunk"})
+            if len(out) >= limit:
+                return out
+    return out
+
+
 def check_push(old_sha, new_sha, repo=None):
     repo = repo or os.getcwd()
     viol = deletion_violations(old_sha, new_sha, repo)
+    mark = marker_violations(old_sha, new_sha, repo)
     pool_viol = pool_claim_regressions(old_sha, new_sha, repo)
     if viol or pool_viol:
         print("PRE-PUSH CLAW: deletion set carries non-self-owned files "
@@ -382,6 +473,15 @@ def check_push(old_sha, new_sha, repo=None):
                 print("  POOL %s -- %s" % (v["shard"], v["reason"]))
         print("Escape hatch: git push --no-verify (state the reason in "
               "the round report).")
+        return 1
+    if mark:
+        print("PRE-PUSH CLAW: a conflict-marker fragment is being pushed "
+              "(r1382; rebase/cherry-pick paths never run pre-commit).")
+        for v in mark[:10]:
+            print("  M %s:%d %s" % (v["path"], v["line"], v["kind"]))
+        print("Delete the line (or quote a whole balanced hunk) and redo "
+              "the commit. Escape hatch: git push --no-verify (state the "
+              "reason in the round report).")
         return 1
     return 0
 
@@ -661,6 +761,56 @@ def selftest():
             any(v["path"] == "qa/old-r3.png"
                 for v in deletion_violations(qa_base, "HEAD", repo,
                                              mid="bm-z")))
+
+    # ---- r1382: the marker gate lives on the push, not only on commit ----
+        def _commit_file(rel, text, msg):
+            fp = os.path.join(repo, *rel.split("/"))
+            os.makedirs(os.path.dirname(fp), exist_ok=True)
+            with open(fp, "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(text)
+            _git(["add", rel], repo)
+            _git(["-c", "user.name=st", "-c", "user.email=st@t",
+                  "commit", "-q", "-m", msg], repo)
+            return _tip()
+
+        leg("marker: balanced hunk in prose is legal",
+            marker_fragments("# doc\n<<<<<<< ours\na\n=======\nb\n"
+                             ">>>>>>> theirs\n")[0] == [])
+        leg("marker: a lone base line is a fragment",
+            marker_fragments("x\n||||||| parent of abc\ny\n")[0]
+            == [(2, "base")])
+
+        m_base = _tip()
+        _commit_file("knowledge/_selftest_marker.md",
+                     "line\n||||||| parent of 552f00ce84\n\nnext\n",
+                     "marker fixture (lone base)")
+        leg("marker: a lone base line blocks the push (rc 1)",
+            check_push(m_base, "HEAD", repo) == 1)
+        leg("marker: the block names the file and the line",
+            [(v["path"], v["line"]) for v in
+             marker_violations(m_base, "HEAD", repo)]
+            == [("knowledge/_selftest_marker.md", 2)])
+
+        m_base = _tip()
+        _commit_file("knowledge/_selftest_marker.md",
+                     "# canon quoting a resolved conflict\n"
+                     "<<<<<<< ours\na\n=======\nb\n>>>>>>> theirs\n",
+                     "marker fixture (balanced hunk)")
+        leg("marker: a whole quoted hunk passes the push (rc 0)",
+            check_push(m_base, "HEAD", repo) == 0)
+
+        m_base = _tip()
+        _commit_file("results/_r1382bmz_capture.txt",
+                     "diff capture\n||||||| parent of abc\n", "scratch")
+        leg("marker: results/_ scratch captures are out of scope",
+            check_push(m_base, "HEAD", repo) == 0)
+
+        m_base = _tip()
+        _commit_file("knowledge/_selftest_marker.md",
+                     "line\n<<<<<<< ours\nnever closed\n",
+                     "marker fixture (unclosed)")
+        leg("marker: an unclosed hunk blocks the push",
+            check_push(m_base, "HEAD", repo) == 1)
 
     # machine.json reader on the real tree (read-only environment fact)
     mid = machine_id(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
