@@ -8580,6 +8580,69 @@ def main() -> int:
     except Exception as e:
         check(_name96, False, repr(e)[:160])
 
+    # E308: a face-level tolerance gate cannot be paired to a leg by face alone. Of 30 pairs on the
+    # 11 gated faces, 18 are arithmetically tighter than the gate; a scope reading of the writers
+    # that name each face (is the gate USED in a comparison, or only published?) leaves 1 standing
+    # -- and that one's gate carries the same number as an excluded key (verdict_inputs.tol 0.1 ==
+    # frozen_spec.gamma_tol 0.1), so it is name-fragile too. Bands must be keyed on the compared
+    # quantity, never on the face.
+    _name99 = ("product: a leg is not at-risk from a gate the producer only declares -- and the one "
+               "band that survives scope is name-fragile")
+    _bad99 = []
+    try:
+        _p99 = os.path.join("results", "state_tilt", "gatetol_latest.json")
+        _f99 = None
+        if not os.path.exists(_p99):
+            _bad99.append("face missing: %s" % _p99)
+        else:
+            with io.open(_p99, encoding="utf-8") as _fh99:
+                _f99 = json.load(_fh99)
+        if _f99 is not None:
+            _c99 = _f99.get("census") or {}
+            if _f99.get("verdict") != ("bands_stand_only_where_the_producer_is_seen_comparing_"
+                                      "with_the_gate"):
+                _bad99.append("verdict moved: %r" % (_f99.get("verdict"),))
+            _sum99 = ((_c99.get("pairs_leg_tighter") or 0) + (_c99.get("pairs_leg_exact_equality") or 0)
+                      + (_c99.get("pairs_leg_looser_or_equal") or 0)
+                      + (_c99.get("pairs_no_leg_tolerance") or 0))
+            if _c99.get("pairs") != _sum99:
+                _bad99.append("pair partition does not sum: %s vs %s" % (_c99.get("pairs"), _sum99))
+            if _c99.get("pairs") != (len(_f99.get("rows_leg_tighter_or_exact") or [])
+                                     + len(_f99.get("rows_leg_looser") or [])
+                                     + len(_f99.get("rows_no_leg_tolerance") or [])):
+                _bad99.append("published row lists disagree with the census")
+            _stands99 = _f99.get("rows_band_stands") or []
+            if len(_stands99) != (_c99.get("pairs_band_stands") or 0):
+                _bad99.append("standing-band rows disagree with the census")
+            if any(r.get("gate_scope") != "used_in_a_comparison" or not r.get("gate_scope_evidence")
+                   for r in _stands99):
+                _bad99.append("a standing band carries no scope evidence")
+            if (_c99.get("pairs_band_stands") or 0) + (_c99.get("pairs_band_rejected_scope") or 0) != \
+                    (_c99.get("pairs_leg_tighter") or 0) + (_c99.get("pairs_leg_exact_equality") or 0):
+                _bad99.append("scope partition does not cover the tighter rows")
+            if any(not c.get("ok") for c in (_f99.get("identity_checks") or [])):
+                _bad99.append("identity checks are not all green")
+            if not (_c99.get("gates_with_an_excluded_twin") or 0):
+                _bad99.append("the gate/exclusion twin is not disclosed")
+        check(_name99, not _bad99, "; ".join(_bad99)[:220]
+              or "verdict %s; legs %s / sites %s / faces %s resolved %s gated %s; pairs %s -> "
+                 "tighter %s + exact %s, standing %s (scope-rejected %s), twin gates %s, exclusions %s"
+                 % ((_f99 or {}).get("verdict"),
+                    ((_f99 or {}).get("census") or {}).get("legs"),
+                    ((_f99 or {}).get("census") or {}).get("sites"),
+                    ((_f99 or {}).get("census") or {}).get("faces_named_by_sites"),
+                    ((_f99 or {}).get("census") or {}).get("faces_resolved"),
+                    ((_f99 or {}).get("census") or {}).get("faces_publishing_a_gate"),
+                    ((_f99 or {}).get("census") or {}).get("pairs"),
+                    ((_f99 or {}).get("census") or {}).get("pairs_leg_tighter"),
+                    ((_f99 or {}).get("census") or {}).get("pairs_leg_exact_equality"),
+                    ((_f99 or {}).get("census") or {}).get("pairs_band_stands"),
+                    ((_f99 or {}).get("census") or {}).get("pairs_band_rejected_scope"),
+                    ((_f99 or {}).get("census") or {}).get("gates_with_an_excluded_twin"),
+                    ((_f99 or {}).get("census") or {}).get("gate_exclusions")))
+    except Exception as e:
+        check(_name99, False, repr(e)[:160])
+
     return _finish()
 
 

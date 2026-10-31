@@ -1,0 +1,1782 @@
+{
+ "schema": "bigmoney/e308-gatetol/v1",
+ "study": "E308_leg_vs_producer_tolerance",
+ "title": "where a smoke leg compares a face value tighter than the face's own declared tolerance gate, how wide is the band of differences the producer may contain and the leg would fail?",
+ "evidence_cutoff": "2026-10-31",
+ "generated": "2026-10-31",
+ "self_faces_excluded": [
+  "GATETOL-2026-10-31.json",
+  "gatetol_latest.json"
+ ],
+ "join_rules": {
+  "gate": "number under a tolerance-named last key segment, 0<v<=1, booleans excluded",
+  "gate_exclusions": [
+   "required",
+   "reachable",
+   "fraction",
+   "pct",
+   "edge",
+   "scale",
+   "toll",
+   "stability",
+   "clears",
+   "flat_rel_tol",
+   "gamma_tol"
+  ],
+  "band_absolute": "non-empty iff leg_tolerance < gate_value (scale-free)",
+  "band_relative": "permitted error = gate*|x|; non-empty iff |x| > leg_tolerance/gate",
+  "slack": "leg tolerance read from smoke_test.py by the E299 parser"
+ },
+ "census": {
+  "legs": 326,
+  "sites": 93,
+  "faces_named_by_sites": 55,
+  "faces_resolved": 55,
+  "faces_publishing_a_gate": 11,
+  "faces_with_tolerance_named_not_gate_only": 3,
+  "faces_with_no_tolerance_name_at_all": 41,
+  "pairs": 30,
+  "pairs_leg_tighter": 17,
+  "pairs_leg_exact_equality": 1,
+  "pairs_leg_looser_or_equal": 12,
+  "pairs_no_leg_tolerance": 0,
+  "pairs_band_stands": 1,
+  "pairs_band_stands_relative": 0,
+  "pairs_band_stands_exact_equality": 0,
+  "pairs_band_rejected_scope": 17,
+  "pairs_scope_used_in_a_comparison": 1,
+  "pairs_scope_declared_but_never_compared": 28,
+  "pairs_scope_producer_not_found": 1,
+  "gate_exclusions": 35,
+  "gates_with_an_excluded_twin": 1,
+  "unresolved_faces": 0
+ },
+ "verdict": "bands_stand_only_where_the_producer_is_seen_comparing_with_the_gate",
+ "rows_band_stands": [
+  {
+   "leg": "product: the band's own ladder decides the exponent, not the assumed one",
+   "leg_line": 4404,
+   "face": "results/state_tilt/bandexp_latest.json",
+   "leg_tolerance": 1e-06,
+   "leg_kind": "epsilon",
+   "leg_keys": [],
+   "leg_expression": "abs(_re54 - _tgt54) > 1e-06",
+   "gate_path": "verdict_inputs.tol",
+   "gate_value": 0.1,
+   "gate_units": "unspecified",
+   "gate_scope": "used_in_a_comparison",
+   "gate_scope_evidence": [
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 134,
+     "text": "if lo >= FROZEN_GAMMA - tol and hi <= FROZEN_GAMMA + tol:"
+    },
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 136,
+     "text": "if hi < FROZEN_GAMMA - tol:"
+    },
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 138,
+     "text": "if lo > FROZEN_GAMMA + tol:"
+    }
+   ],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 9.999999999999999e-06,
+   "band_stands": true
+  }
+ ],
+ "rows_leg_tighter_or_exact": [
+  {
+   "leg": "product: open-fill gate names its evidence tier and the bar tier's prices are the bars'",
+   "leg_line": 750,
+   "face": "results/t35_open_fill_verify.json",
+   "leg_tolerance": 1e-09,
+   "leg_kind": "epsilon",
+   "leg_keys": [
+    "session_open"
+   ],
+   "leg_expression": "abs(_px - _r['session_open']) > 1e-09",
+   "gate_path": "rel_tol",
+   "gate_value": 0.002,
+   "gate_units": "relative",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "scale_above_which_leg_is_tighter": 5e-07,
+   "band": "leg_tighter_for_any_scale_above_that",
+   "band_stands": false
+  },
+  {
+   "leg": "product: a non-reproducing pair is traced rung by rung to the reader",
+   "leg_line": 3441,
+   "face": "results/state_tilt/REPRO-%s.json",
+   "leg_tolerance": 1e-06,
+   "leg_kind": "epsilon",
+   "leg_keys": [
+    "aligned_gap"
+   ],
+   "leg_expression": "abs((_al41.get('aligned_gap') or 0.0) - _par41) > 1e-06",
+   "gate_path": "reproduction.tolerance",
+   "gate_value": 0.005,
+   "gate_units": "unspecified",
+   "gate_scope": "producer_not_found",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.00019999999999999998,
+   "band_stands": false
+  },
+  {
+   "leg": "product: a non-reproducing pair is traced rung by rung to the reader",
+   "leg_line": 3441,
+   "face": "results/state_tilt/repro_latest.json",
+   "leg_tolerance": 1e-06,
+   "leg_kind": "epsilon",
+   "leg_keys": [
+    "aligned_gap"
+   ],
+   "leg_expression": "abs((_al41.get('aligned_gap') or 0.0) - _par41) > 1e-06",
+   "gate_path": "reproduction.tolerance",
+   "gate_value": 0.005,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.00019999999999999998,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the band's own ladder decides the exponent, not the assumed one",
+   "leg_line": 4404,
+   "face": "results/state_tilt/bandexp_latest.json",
+   "leg_tolerance": 1e-06,
+   "leg_kind": "epsilon",
+   "leg_keys": [],
+   "leg_expression": "abs(_re54 - _tgt54) > 1e-06",
+   "gate_path": "verdict_inputs.tol",
+   "gate_value": 0.1,
+   "gate_units": "unspecified",
+   "gate_scope": "used_in_a_comparison",
+   "gate_scope_evidence": [
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 134,
+     "text": "if lo >= FROZEN_GAMMA - tol and hi <= FROZEN_GAMMA + tol:"
+    },
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 136,
+     "text": "if hi < FROZEN_GAMMA - tol:"
+    },
+    {
+     "producer": "scripts/e254_band_exponent_inside_cell.py",
+     "line": 138,
+     "text": "if lo > FROZEN_GAMMA + tol:"
+    }
+   ],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 9.999999999999999e-06,
+   "band_stands": true
+  },
+  {
+   "leg": "product: the published base draw count sits below the endpoint arrival count",
+   "leg_line": 4874,
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "rows_pre_settlement"
+   ],
+   "leg_expression": "(_s60.get('rows_pre_settlement') or 0) == 0",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the published base draw count sits below the endpoint arrival count",
+   "leg_line": 4870,
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "n_at_base"
+   ],
+   "leg_expression": "_mine != _a.get('n_at_base')",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the published base draw count sits below the endpoint arrival count",
+   "leg_line": 4848,
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "arrival_median"
+   ],
+   "leg_expression": "_rec.get('arrival_median') != _med60",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5753,
+   "face": "results/state_tilt/bandtight_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "rows_could_move_within_observed_p05_range"
+   ],
+   "leg_expression": "_s69.get('rows_could_move_within_observed_p05_range') != _could69",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5753,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "rows_could_move_within_observed_p05_range"
+   ],
+   "leg_expression": "_s69.get('rows_could_move_within_observed_p05_range') != _could69",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5741,
+   "face": "results/state_tilt/bandtight_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "verdict_at_max_p05",
+    "verdict_at_min_p05"
+   ],
+   "leg_expression": "_r69c.get('verdict_at_min_p05') != _r69c.get('verdict_at_max_p05')",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5741,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "verdict_at_max_p05",
+    "verdict_at_min_p05"
+   ],
+   "leg_expression": "_r69c.get('verdict_at_min_p05') != _r69c.get('verdict_at_max_p05')",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "leg_line": 5982,
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "rows_scored"
+   ],
+   "leg_expression": "len(_scored72) != (_s72.get('rows_scored') or 0)",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the two disagreeing tails are a RANGE difference, not a rounding tie -- the gap field reads 0 for every interior reading, so it cannot say 'on the flip'",
+   "leg_line": 6822,
+   "face": "results/state_tilt/banddisagree_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "reaching_readings",
+    "reaching_readings_with_zero_gap"
+   ],
+   "leg_expression": "_s82.get('reaching_readings') != _s82.get('reaching_readings_with_zero_gap')",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the two disagreeing tails are a RANGE difference, not a rounding tie -- the gap field reads 0 for every interior reading, so it cannot say 'on the flip'",
+   "leg_line": 6822,
+   "face": "results/state_tilt/banddisagree_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "reaching_readings",
+    "reaching_readings_with_zero_gap"
+   ],
+   "leg_expression": "_s82.get('reaching_readings') != _s82.get('reaching_readings_with_zero_gap')",
+   "gate_path": "hypothesis_test.tie_impossibility.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "leg_line": 7092,
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "n_gap_rows"
+   ],
+   "leg_expression": "_s85.get('n_gap_rows') != len(_gap_rows85)",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "leg_line": 7094,
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "max_rows_any_gap_widening_could_add"
+   ],
+   "leg_expression": "_gap85.get('max_rows_any_gap_widening_could_add') != len(_gap_rows85)",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "leg_line": 7130,
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "gap_rows",
+    "summary"
+   ],
+   "leg_expression": "(_fresh85.get('summary') or {}).get('gap_rows') != _s85.get('gap_rows')",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_tighter",
+   "leg_share_of_gate": 0.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: dashboard carries the marks coverage gap",
+   "leg_line": 703,
+   "face": "results/t35_open_fill_verify.json",
+   "leg_tolerance": 0.0,
+   "leg_kind": "exact_equality",
+   "leg_keys": [
+    "coverage_pct_closed",
+    "marks_coverage_pct"
+   ],
+   "leg_expression": "_pp.get('marks_coverage_pct') == _c2.get('coverage_pct_closed')",
+   "gate_path": "rel_tol",
+   "gate_value": 0.002,
+   "gate_units": "relative",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "scale_above_which_leg_is_tighter": 0.0,
+   "band": "leg_exact_equality_tighter_for_any_positive_scale",
+   "band_stands": false,
+   "band_note": "exact equality is the widest possible band, but the producer's float gate does not entitle a difference in a count; published, not counted as a permitted difference"
+  }
+ ],
+ "rows_leg_looser": [
+  {
+   "leg": "product: another window's wide end is not a bound",
+   "leg_line": 5149,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "leg_tolerance": 1e-09,
+   "leg_kind": "epsilon",
+   "leg_keys": [],
+   "leg_expression": "max(_p95s) - min(_p95s) <= 1e-09",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_looser_or_equal",
+   "leg_share_of_gate": 1000.0000000000001,
+   "band_stands": false
+  },
+  {
+   "leg": "product: another window's wide end is not a bound",
+   "leg_line": 5202,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "leg_tolerance": 1e-12,
+   "leg_kind": "epsilon",
+   "leg_keys": [
+    "flat_p95"
+   ],
+   "leg_expression": "abs(float(_fl['flat_p95']) - max(_vals)) > 1e-12",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_looser_or_equal",
+   "leg_share_of_gate": 1.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: another window's wide end is not a bound",
+   "leg_line": 5204,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "leg_tolerance": 1e-12,
+   "leg_kind": "epsilon",
+   "leg_keys": [
+    "flat_tight_p95"
+   ],
+   "leg_expression": "abs(float(_fl['flat_tight_p95']) - min(_vals)) > 1e-12",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_looser_or_equal",
+   "leg_share_of_gate": 1.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: another window's wide end is not a bound",
+   "leg_line": 5167,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "leg_tolerance": 1e-12,
+   "leg_kind": "epsilon",
+   "leg_keys": [
+    "donor_p95",
+    "p95"
+   ],
+   "leg_expression": "abs(float(_da['p95']) - float(_p['donor_p95'])) > 1e-12",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_looser_or_equal",
+   "leg_share_of_gate": 1.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5778,
+   "face": "results/state_tilt/bandtight_latest.json",
+   "leg_tolerance": 1e-12,
+   "leg_kind": "epsilon",
+   "leg_keys": [
+    "flat_p05"
+   ],
+   "leg_expression": "abs(_blk69f.get('flat_p05') - min(_vals69)) > 1e-12",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_looser_or_equal",
+   "leg_share_of_gate": 1.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5778,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "leg_tolerance": 1e-12,
+   "leg_kind": "epsilon",
+   "leg_keys": [
+    "flat_p05"
+   ],
+   "leg_expression": "abs(_blk69f.get('flat_p05') - min(_vals69)) > 1e-12",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_looser_or_equal",
+   "leg_share_of_gate": 1.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5781,
+   "face": "results/state_tilt/bandtight_latest.json",
+   "leg_tolerance": 1e-12,
+   "leg_kind": "epsilon",
+   "leg_keys": [
+    "flat_loose_p05"
+   ],
+   "leg_expression": "abs(_blk69f.get('flat_loose_p05') - max(_vals69)) > 1e-12",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_looser_or_equal",
+   "leg_share_of_gate": 1.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "leg_line": 5781,
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "leg_tolerance": 1e-12,
+   "leg_kind": "epsilon",
+   "leg_keys": [
+    "flat_loose_p05"
+   ],
+   "leg_expression": "abs(_blk69f.get('flat_loose_p05') - max(_vals69)) > 1e-12",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_looser_or_equal",
+   "leg_share_of_gate": 1.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "leg_line": 5955,
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "leg_tolerance": 1e-12,
+   "leg_kind": "epsilon",
+   "leg_keys": [
+    "gap_pct"
+   ],
+   "leg_expression": "(_b72.get('gap_pct') or 0) > 1e-12",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_looser_or_equal",
+   "leg_share_of_gate": 1.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "leg_line": 5948,
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "leg_tolerance": 1e-09,
+   "leg_kind": "epsilon",
+   "leg_keys": [],
+   "leg_expression": "abs(_pub72 - _gn72) > 1e-09",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_looser_or_equal",
+   "leg_share_of_gate": 1000.0000000000001,
+   "band_stands": false
+  },
+  {
+   "leg": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "leg_line": 5976,
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "leg_tolerance": 1e-12,
+   "leg_kind": "epsilon",
+   "leg_keys": [],
+   "leg_expression": "abs(_a72 - _c72) <= 1e-12",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_looser_or_equal",
+   "leg_share_of_gate": 1.0,
+   "band_stands": false
+  },
+  {
+   "leg": "product: a below-floor flip needs the band narrowed -- the published narrowing instrument is measured on its own polarity and its cost on the others",
+   "leg_line": 7631,
+   "face": "results/state_tilt/bandfloormirror_latest.json",
+   "leg_tolerance": 1e-09,
+   "leg_kind": "epsilon",
+   "leg_keys": [
+    "distance_below_floor"
+   ],
+   "leg_expression": "abs(_flip90 + _r90.get('distance_below_floor', 0) - 1.0) > 1e-09",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_units": "unspecified",
+   "gate_scope": "declared_but_never_compared",
+   "gate_scope_evidence": [],
+   "band": "leg_looser_or_equal",
+   "leg_share_of_gate": 1000.0000000000001,
+   "band_stands": false
+  }
+ ],
+ "rows_no_leg_tolerance": [],
+ "faces": [
+  {
+   "face": "results/dashboard_status.json",
+   "path": "results/dashboard_status.json",
+   "reader_legs": [
+    "product: dashboard carries the marks coverage gap"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/dom_profile/PROFILE-*.json",
+   "path": "results/dom_profile/PROFILE-20261030.json",
+   "reader_legs": [
+    "product: the day-of-month face counts sessions, not name-days"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/futures_overlay_fliprate_paths.json",
+   "path": "results/futures_overlay_fliprate_paths.json",
+   "reader_legs": [
+    "product: the flip damper is adopted or rejected by path cells, not one run"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/futures_overlay_sweep.json",
+   "path": "results/futures_overlay_sweep.json",
+   "reader_legs": [
+    "product: overlay breakeven is recomputable from its own ladder",
+    "product: overlay no-trade band is priced on both sides of the trade"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/futures_tsmom_signal.json",
+   "path": "results/futures_tsmom_signal.json",
+   "reader_legs": [
+    "product: futures TSMOM face is current, capped and not an order"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/marks_coverage.json",
+   "path": "results/marks_coverage.json",
+   "reader_legs": [
+    "product: dashboard carries the marks coverage gap"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/BANDPATH-%s.json",
+   "path": "results/state_tilt/BANDPATH-2026-10-30.json",
+   "reader_legs": [
+    "product: a band that passed on one path is path-tested before it is a finding"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/BANDSCREEN-2026-10-29.json",
+   "path": "results/state_tilt/BANDSCREEN-2026-10-29.json",
+   "reader_legs": [
+    "product: a published threshold re-runs the guard, and the face says which form"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/HYSTERESIS-%s.json",
+   "path": "results/state_tilt/HYSTERESIS-2026-10-30.json",
+   "reader_legs": [
+    "product: a hysteresis band's toll saving is judged against its selection loss"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/MATCHED-%s.json",
+   "path": "results/state_tilt/MATCHED-2026-10-30.json",
+   "reader_legs": [
+    "product: the drift split is reproduced as a traded exposure-matched arm"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/OWNCROSS-%s.json",
+   "path": "results/state_tilt/OWNCROSS-2026-10-30.json",
+   "reader_legs": [
+    "product: own turnover is priced against ONE counterparty's turnover on the same footing"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/REPRO-%s.json",
+   "path": "results/state_tilt/REPRO-2026-10-30.json",
+   "reader_legs": [
+    "product: a non-reproducing pair is traced rung by rung to the reader"
+   ],
+   "n_gates": 1,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": [
+    {
+     "path": "reproduction.tolerance",
+     "key": "tolerance",
+     "value": 0.005,
+     "units": "unspecified",
+     "scope": "producer_not_found",
+     "scope_evidence": []
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/TIMINGSEL-%s.json",
+   "path": "results/state_tilt/TIMINGSEL-2026-10-30.json",
+   "reader_legs": [
+    "product: the paired timing value splits into selection, sizing and toll"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "path": "results/state_tilt/bandarrival_latest.json",
+   "reader_legs": [
+    "product: the published base draw count sits below the endpoint arrival count"
+   ],
+   "n_gates": 1,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [
+    "scripts/e260_band_endpoint_arrival.py"
+   ],
+   "gates": [
+    {
+     "path": "frozen_spec.tolerance",
+     "key": "tolerance",
+     "value": 1e-12,
+     "units": "unspecified",
+     "scope": "declared_but_never_compared",
+     "scope_evidence": []
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandarrivalate_latest.json",
+   "path": "results/state_tilt/bandarrivalate_latest.json",
+   "reader_legs": [
+    "product: a draw budget is neither a window length nor a band width"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bandbucket_latest.json",
+   "path": "results/state_tilt/bandbucket_latest.json",
+   "reader_legs": [
+    "product: the floor at one belongs to the attained bucket, not the stream"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/banddeflate_latest.json",
+   "path": "results/state_tilt/banddeflate_latest.json",
+   "reader_legs": [
+    "product: a contradiction branch that needs a 63 pct tolerance is not a test -- publish the split the tolerance would produce, not only the tolerance"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 10,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/banddisagree_latest.json",
+   "path": "results/state_tilt/banddisagree_latest.json",
+   "reader_legs": [
+    "product: the two disagreeing tails are a RANGE difference, not a rounding tie -- the gap field reads 0 for every interior reading, so it cannot say 'on the flip'"
+   ],
+   "n_gates": 2,
+   "n_tolerance_named_not_gate": 14,
+   "writers_naming_this_face": [
+    "scripts/e282_substitution_disagreement_census.py"
+   ],
+   "gates": [
+    {
+     "path": "frozen_spec.tolerance",
+     "key": "tolerance",
+     "value": 1e-12,
+     "units": "unspecified",
+     "scope": "declared_but_never_compared",
+     "scope_evidence": []
+    },
+    {
+     "path": "hypothesis_test.tie_impossibility.tolerance",
+     "key": "tolerance",
+     "value": 1e-12,
+     "units": "unspecified",
+     "scope": "declared_but_never_compared",
+     "scope_evidence": []
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/banddraw-d1920_latest.json",
+   "path": "results/state_tilt/banddraw-d1920_latest.json",
+   "reader_legs": [
+    "product: the band endpoint is scheduled, not waited out"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 5,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/banddraw-d960_latest.json",
+   "path": "results/state_tilt/banddraw-d960_latest.json",
+   "reader_legs": [
+    "product: the band endpoint is scheduled, not waited out"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 5,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bandexp_latest.json",
+   "path": "results/state_tilt/bandexp_latest.json",
+   "reader_legs": [
+    "product: the band's own ladder decides the exponent, not the assumed one"
+   ],
+   "n_gates": 1,
+   "n_tolerance_named_not_gate": 1,
+   "writers_naming_this_face": [
+    "scripts/e254_band_exponent_inside_cell.py"
+   ],
+   "gates": [
+    {
+     "path": "verdict_inputs.tol",
+     "key": "tol",
+     "value": 0.1,
+     "units": "unspecified",
+     "scope": "used_in_a_comparison",
+     "scope_evidence": [
+      {
+       "producer": "scripts/e254_band_exponent_inside_cell.py",
+       "line": 134,
+       "text": "if lo >= FROZEN_GAMMA - tol and hi <= FROZEN_GAMMA + tol:"
+      },
+      {
+       "producer": "scripts/e254_band_exponent_inside_cell.py",
+       "line": 136,
+       "text": "if hi < FROZEN_GAMMA - tol:"
+      },
+      {
+       "producer": "scripts/e254_band_exponent_inside_cell.py",
+       "line": 138,
+       "text": "if lo > FROZEN_GAMMA + tol:"
+      }
+     ],
+     "same_value_as_excluded_key": [
+      "frozen_spec.gamma_tol"
+     ]
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "path": "results/state_tilt/bandflipbudget_latest.json",
+   "reader_legs": [
+    "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe"
+   ],
+   "n_gates": 1,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [
+    "scripts/e272_flip_budget_two_tails.py",
+    "scripts/e281_substitution_dependency_audit.py"
+   ],
+   "gates": [
+    {
+     "path": "frozen_spec.tolerance",
+     "key": "tolerance",
+     "value": 1e-12,
+     "units": "unspecified",
+     "scope": "declared_but_never_compared",
+     "scope_evidence": []
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandfloor_latest.json",
+   "path": "results/state_tilt/bandfloor_latest.json",
+   "reader_legs": [
+    "product: the tight multiplier floor is the band build, not the windows -- a tight-pass check on this family can only return zero"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bandfloormirror_latest.json",
+   "path": "results/state_tilt/bandfloormirror_latest.json",
+   "reader_legs": [
+    "product: a below-floor flip needs the band narrowed -- the published narrowing instrument is measured on its own polarity and its cost on the others"
+   ],
+   "n_gates": 1,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [
+    "scripts/e288_below_floor_narrowing.py"
+   ],
+   "gates": [
+    {
+     "path": "frozen_spec.tolerance",
+     "key": "tolerance",
+     "value": 1e-12,
+     "units": "unspecified",
+     "scope": "declared_but_never_compared",
+     "scope_evidence": []
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "path": "results/state_tilt/bandgapceiling_latest.json",
+   "reader_legs": [
+    "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added"
+   ],
+   "n_gates": 1,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [
+    "scripts/e285_interrange_gap_ceiling.py"
+   ],
+   "gates": [
+    {
+     "path": "frozen_spec.tolerance",
+     "key": "tolerance",
+     "value": 1e-12,
+     "units": "unspecified",
+     "scope": "declared_but_never_compared",
+     "scope_evidence": []
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandmargin_latest.json",
+   "path": "results/state_tilt/bandmargin_latest.json",
+   "reader_legs": [
+    "product: a margin is not a substitute for the row's own side"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bandnear1_latest.json",
+   "path": "results/state_tilt/bandnear1_latest.json",
+   "reader_legs": [
+    "product: a row's verdict is its own threshold, not a neighbour's draws"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bandpath_latest.json",
+   "path": "results/state_tilt/bandpath_latest.json",
+   "reader_legs": [
+    "product: a band that passed on one path is path-tested before it is a finding"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bandscreen_latest.json",
+   "path": "results/state_tilt/bandscreen_latest.json",
+   "reader_legs": [
+    "product: a donor above the row is not yet a screen (it needs the row's own side)",
+    "product: a margin is not a substitute for the row's own side"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bandscreenbudget_latest.json",
+   "path": "results/state_tilt/bandscreenbudget_latest.json",
+   "reader_legs": [
+    "product: a cleared row is not equally cleared -- the margin left is measured, and a zone is not a movement claim"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bandstraddlesweep_latest.json",
+   "path": "results/state_tilt/bandstraddlesweep_latest.json",
+   "reader_legs": [
+    "product: two published numbers -- the flip multiplier and the range an axis offers -- reproduce every moved set the band family published"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bandthreshguard_latest.json",
+   "path": "results/state_tilt/bandthreshguard_latest.json",
+   "reader_legs": [
+    "product: a published threshold re-runs the guard, and the face says which form"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bandtight_latest.json",
+   "path": "results/state_tilt/bandtight_latest.json",
+   "reader_legs": [
+    "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured"
+   ],
+   "n_gates": 1,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [
+    "scripts/e269_tight_end_transfer.py"
+   ],
+   "gates": [
+    {
+     "path": "frozen_spec.tolerance",
+     "key": "tolerance",
+     "value": 1e-12,
+     "units": "unspecified",
+     "scope": "declared_but_never_compared",
+     "scope_evidence": []
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "path": "results/state_tilt/bandtransfer_latest.json",
+   "reader_legs": [
+    "product: another window's wide end is not a bound",
+    "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured"
+   ],
+   "n_gates": 1,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [
+    "scripts/e262_p95_transfer_across_windows.py"
+   ],
+   "gates": [
+    {
+     "path": "frozen_spec.tolerance",
+     "key": "tolerance",
+     "value": 1e-12,
+     "units": "unspecified",
+     "scope": "declared_but_never_compared",
+     "scope_evidence": []
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandwindist_latest.json",
+   "path": "results/state_tilt/bandwindist_latest.json",
+   "reader_legs": [
+    "product: the draw multiplier is a distribution, not a three-seed range"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bandwinmult_latest.json",
+   "path": "results/state_tilt/bandwinmult_latest.json",
+   "reader_legs": [
+    "product: each published window's draw multiplier is measured, not borrowed"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/bookecho_latest.json",
+   "path": "results/state_tilt/bookecho_latest.json",
+   "reader_legs": [
+    "product: the shared lead is tested against the book's own aggregate turnover",
+    "product: the star's residual is decomposed and split from volatility and age"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/costcurve_latest.json",
+   "path": "results/state_tilt/costcurve_latest.json",
+   "reader_legs": [
+    "product: the family's toll conclusion is re-read under a non-linear charge"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/granularity_latest.json",
+   "path": "results/state_tilt/granularity_latest.json",
+   "reader_legs": [
+    "product: the price of a sleeve move is measured against own and book turnover before the book is charged"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/hysteresis_latest.json",
+   "path": "results/state_tilt/hysteresis_latest.json",
+   "reader_legs": [
+    "product: a band that passed on one path is path-tested before it is a finding",
+    "product: a hysteresis band's toll saving is judged against its selection loss"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/infostruct_latest.json",
+   "path": "results/state_tilt/infostruct_latest.json",
+   "reader_legs": [
+    "product: the own-turnover channel is tested against information arrival before it is called an impact effect"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/latest.json",
+   "path": "results/state_tilt/latest.json",
+   "reader_legs": [
+    "product: the state tilt publishes its own effective sample size"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/leadcounter_latest.json",
+   "path": "results/state_tilt/leadcounter_latest.json",
+   "reader_legs": [
+    "product: the negative lead is read column by column, not off one column"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/matched_latest.json",
+   "path": "results/state_tilt/matched_latest.json",
+   "reader_legs": [
+    "product: the drift split is reproduced as a traded exposure-matched arm"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/owncross_latest.json",
+   "path": "results/state_tilt/owncross_latest.json",
+   "reader_legs": [
+    "product: own turnover is priced against ONE counterparty's turnover on the same footing"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/per_member_gamma_latest.json",
+   "path": "results/state_tilt/per_member_gamma_latest.json",
+   "reader_legs": [
+    "product: a book-level exponent is measured per member before it is charged"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/repro_latest.json",
+   "path": "results/state_tilt/repro_latest.json",
+   "reader_legs": [
+    "product: a non-reproducing pair is traced rung by rung to the reader"
+   ],
+   "n_gates": 1,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [
+    "scripts/e241_pair_reproduction.py"
+   ],
+   "gates": [
+    {
+     "path": "reproduction.tolerance",
+     "key": "tolerance",
+     "value": 0.005,
+     "units": "unspecified",
+     "scope": "declared_but_never_compared",
+     "scope_evidence": []
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/selfres_latest.json",
+   "path": "results/state_tilt/selfres_latest.json",
+   "reader_legs": [
+    "product: the star's unread self row is scheduled, not excused"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/starown_latest.json",
+   "path": "results/state_tilt/starown_latest.json",
+   "reader_legs": [
+    "product: the star's own row is priced against the column it carries for others",
+    "product: the star's residual is decomposed and split from volatility and age"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/starownrepin_latest.json",
+   "path": "results/state_tilt/starownrepin_latest.json",
+   "reader_legs": [
+    "product: a claimed RNG drift is decided by measurement, and the stream is pinned"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/starself_latest.json",
+   "path": "results/state_tilt/starself_latest.json",
+   "reader_legs": [
+    "product: the star's own row is priced against the column it carries for others"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/state_tilt/timingsel_latest.json",
+   "path": "results/state_tilt/timingsel_latest.json",
+   "reader_legs": [
+    "product: the paired timing value splits into selection, sizing and toll"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "path": "results/t35_open_fill_verify.json",
+   "reader_legs": [
+    "product: dashboard carries the marks coverage gap",
+    "product: open-fill gate names its evidence tier and the bar tier's prices are the bars'"
+   ],
+   "n_gates": 1,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [
+    "Tools/_r506bmc_rebase_resolve.py",
+    "Tools/_r517bmc_rebase_resolve.py",
+    "Tools/_r518bmc_rebase_resolve.py",
+    "Tools/_r808bmc_close.py",
+    "monitor/build_status.py",
+    "scripts/t35_open_fill_verify.py"
+   ],
+   "gates": [
+    {
+     "path": "rel_tol",
+     "key": "rel_tol",
+     "value": 0.002,
+     "units": "relative",
+     "scope": "declared_but_never_compared",
+     "scope_evidence": []
+    }
+   ]
+  },
+  {
+   "face": "results/tom_overlay/latest.json",
+   "path": "results/tom_overlay/latest.json",
+   "reader_legs": [
+    "product: the turn-of-month overlay keeps its rule, its toll and its OOS record"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  },
+  {
+   "face": "results/vol_gate/latest.json",
+   "path": "results/vol_gate/latest.json",
+   "reader_legs": [
+    "product: the volatility gate separates held days from episodes"
+   ],
+   "n_gates": 0,
+   "n_tolerance_named_not_gate": 0,
+   "writers_naming_this_face": [],
+   "gates": []
+  }
+ ],
+ "gate_exclusions": [
+  {
+   "path": "branch.deflatable[0].required_tolerance_pct",
+   "key": "required_tolerance_pct",
+   "value": 63.025614960544814,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: required,pct",
+   "face": "results/state_tilt/banddeflate_latest.json"
+  },
+  {
+   "path": "branch.deflatable[1].required_tolerance_pct",
+   "key": "required_tolerance_pct",
+   "value": 69.27219495823958,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: required,pct",
+   "face": "results/state_tilt/banddeflate_latest.json"
+  },
+  {
+   "path": "degenerate_readings[0].required_tolerance_fraction",
+   "key": "required_tolerance_fraction",
+   "value": 0.6302561496054482,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: required,fraction",
+   "face": "results/state_tilt/banddeflate_latest.json"
+  },
+  {
+   "path": "degenerate_readings[0].required_tolerance_pct",
+   "key": "required_tolerance_pct",
+   "value": 63.025614960544814,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: required,pct",
+   "face": "results/state_tilt/banddeflate_latest.json"
+  },
+  {
+   "path": "degenerate_readings[1].required_tolerance_fraction",
+   "key": "required_tolerance_fraction",
+   "value": 0.6927219495823959,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: required,fraction",
+   "face": "results/state_tilt/banddeflate_latest.json"
+  },
+  {
+   "path": "degenerate_readings[1].required_tolerance_pct",
+   "key": "required_tolerance_pct",
+   "value": 69.27219495823958,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: required,pct",
+   "face": "results/state_tilt/banddeflate_latest.json"
+  },
+  {
+   "path": "discrimination_at_band.tolerance_fraction",
+   "key": "tolerance_fraction",
+   "value": 0.6302561496054482,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: fraction",
+   "face": "results/state_tilt/banddeflate_latest.json"
+  },
+  {
+   "path": "discrimination_at_band.tolerance_pct",
+   "key": "tolerance_pct",
+   "value": 63.025614960544814,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct",
+   "face": "results/state_tilt/banddeflate_latest.json"
+  },
+  {
+   "path": "summary.required_tolerance_pct",
+   "key": "required_tolerance_pct",
+   "value": 63.025614960544814,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: required,pct",
+   "face": "results/state_tilt/banddeflate_latest.json"
+  },
+  {
+   "path": "tolerance_band.published_tolerance_pct",
+   "key": "published_tolerance_pct",
+   "value": 1e-12,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct",
+   "face": "results/state_tilt/banddeflate_latest.json"
+  },
+  {
+   "path": "census[0].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 3.6974385039455185e-11,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "census[1].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 3.072780504176043e-11,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "census[2].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 4.0671737153511055e-11,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "census[3].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 4.5527053094024685e-11,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "census[4].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 5.546378156258591e-11,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "census[5].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 4.676444823666099e-11,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "census[6].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 4.201519391174707e-11,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "census[7].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 5.3069889115761475e-11,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "census[8].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 4.28990371411032e-11,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "census[9].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 3.7486938200152816e-11,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "census[10].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 1.1243699857131792e-10,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "census[11].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 1.5863097519383892e-10,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "disagreement_cells[0].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 4.5527053094024685e-11,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "disagreement_cells[1].edge_tolerance_pct",
+   "key": "edge_tolerance_pct",
+   "value": 4.676444823666099e-11,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: pct,edge",
+   "face": "results/state_tilt/banddisagree_latest.json"
+  },
+  {
+   "path": "frozen_spec.flat_rel_tol",
+   "key": "flat_rel_tol",
+   "value": 0.2,
+   "units": "relative",
+   "excluded_because": "name measures rather than permits: flat_rel_tol",
+   "face": "results/state_tilt/banddraw-d1920_latest.json"
+  },
+  {
+   "path": "frozen_spec.gamma_tol",
+   "key": "gamma_tol",
+   "value": 0.1,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: gamma_tol",
+   "face": "results/state_tilt/banddraw-d1920_latest.json"
+  },
+  {
+   "path": "secondary_reads.gamma_tol",
+   "key": "gamma_tol",
+   "value": 0.1,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: gamma_tol",
+   "face": "results/state_tilt/banddraw-d1920_latest.json"
+  },
+  {
+   "path": "summary.secondary_reads.gamma_tol",
+   "key": "gamma_tol",
+   "value": 0.1,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: gamma_tol",
+   "face": "results/state_tilt/banddraw-d1920_latest.json"
+  },
+  {
+   "path": "verdict_inputs.flat_rel_tol",
+   "key": "flat_rel_tol",
+   "value": 0.2,
+   "units": "relative",
+   "excluded_because": "name measures rather than permits: flat_rel_tol",
+   "face": "results/state_tilt/banddraw-d1920_latest.json"
+  },
+  {
+   "path": "frozen_spec.flat_rel_tol",
+   "key": "flat_rel_tol",
+   "value": 0.2,
+   "units": "relative",
+   "excluded_because": "name measures rather than permits: flat_rel_tol",
+   "face": "results/state_tilt/banddraw-d960_latest.json"
+  },
+  {
+   "path": "frozen_spec.gamma_tol",
+   "key": "gamma_tol",
+   "value": 0.1,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: gamma_tol",
+   "face": "results/state_tilt/banddraw-d960_latest.json"
+  },
+  {
+   "path": "secondary_reads.gamma_tol",
+   "key": "gamma_tol",
+   "value": 0.1,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: gamma_tol",
+   "face": "results/state_tilt/banddraw-d960_latest.json"
+  },
+  {
+   "path": "summary.secondary_reads.gamma_tol",
+   "key": "gamma_tol",
+   "value": 0.1,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: gamma_tol",
+   "face": "results/state_tilt/banddraw-d960_latest.json"
+  },
+  {
+   "path": "verdict_inputs.flat_rel_tol",
+   "key": "flat_rel_tol",
+   "value": 0.2,
+   "units": "relative",
+   "excluded_because": "name measures rather than permits: flat_rel_tol",
+   "face": "results/state_tilt/banddraw-d960_latest.json"
+  },
+  {
+   "path": "frozen_spec.gamma_tol",
+   "key": "gamma_tol",
+   "value": 0.1,
+   "units": "unspecified",
+   "excluded_because": "name measures rather than permits: gamma_tol",
+   "face": "results/state_tilt/bandexp_latest.json"
+  }
+ ],
+ "unresolved_faces": [],
+ "notes": [
+  "a band is not a defect: a leg may be reading a sibling the face also publishes at full precision, and a relative gate's scale may be far below the threshold published",
+  "exclusions are published with their reason so a tolerance-named measurement is not promoted into a gate (the E207/E208 name-semantics rule)",
+  "scope is a source reading, not a proof: a gate used in a comparison elsewhere in the writer is evidence the gate is a gate, not that it governs this leg's quantity",
+  "a gate and an exclusion can carry the same value under different names (gamma_tol vs tol): those twins are published on the gate row, because the partition is a reading of names and names are not stable"
+ ],
+ "identity_checks": [
+  {
+   "check": "pair_partition_sums",
+   "ok": true
+  },
+  {
+   "check": "face_partition_sums",
+   "ok": true
+  },
+  {
+   "check": "every_row_names_a_gate",
+   "ok": true
+  },
+  {
+   "check": "every_gated_face_has_a_reader",
+   "ok": true
+  },
+  {
+   "check": "excluded_keys_never_appear_as_gates",
+   "ok": true
+  },
+  {
+   "check": "gate_values_inside_unit_interval",
+   "ok": true
+  },
+  {
+   "check": "no_self_face_in_census",
+   "ok": true
+  },
+  {
+   "check": "relative_rows_publish_a_threshold",
+   "ok": true
+  },
+  {
+   "check": "band_standing_rows_all_carry_scope_evidence",
+   "ok": true
+  },
+  {
+   "check": "scope_partition_sums",
+   "ok": true
+  },
+  {
+   "check": "standing_bands_are_a_subset_of_tighter_rows",
+   "ok": true
+  }
+ ]
+}

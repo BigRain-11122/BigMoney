@@ -25641,7 +25641,7 @@
    "id": "E308-LEG-VS-PRODUCER-TOLERANCE",
    "title": "ten of the 42 faces a smoke leg reads publish their own tolerance key -- where a leg compares at a tolerance tighter than the producer's own gate, does the leg flag differences the producer is entitled to make?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "entered_at": "2026-10-31T16:5x+08:00",
    "entered_by": "bm-b r1327",
@@ -25651,6 +25651,33 @@
    "deliverable": "results/state_tilt/GATETOL-<cutoff>.json",
    "question": "per (leg, face) where the face declares its own tolerance: what is the producer's gate, what is the leg's, and would a difference inside the producer's gate fail the leg? Publish the pairing and the gap, never a count of 'wrong' legs.",
    "runner": "scripts/e308_leg_vs_producer_tolerance.py",
+   "runner_args": [
+    "run"
+   ],
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "done_at": "2026-10-31T18:35+08:00",
+   "done_by": "bm-b r1330",
+   "result_ref": "results/state_tilt/GATETOL-2026-10-31.json",
+   "result_note": "11 of 55 leg-read faces publish a real tolerance gate; 30 (leg,gate) pairs, 18 tighter + 1 exact. A scope reading of the scripts naming each face (is the gate used in a comparison?) leaves 1 standing, and that gate holds the same 0.1 an excluded key on the same face holds. Verdict bands_stand_only_where_the_producer_is_seen_comparing_with_the_gate."
+  },
+  {
+   "id": "E312-GATE-OPERAND-IDENTITY",
+   "title": "E308's scope test asks whether the producer compares with the gate at all -- it does not ask whether it compares the SAME quantity the leg compares; how many of the rows would survive an operand-identity reading?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "entered_at": "2026-10-31T18:35+08:00",
+   "entered_by": "bm-b r1330",
+   "evidence_cutoff": "2026-10-31",
+   "source": "r1330 (E308): the one band that survived the scope test pairs a leg comparing the face's fitted gamma at 1e-6 with gate verdict_inputs.tol=0.1, whose evidence line is 'if lo >= FROZEN_GAMMA - tol and hi <= FROZEN_GAMMA + tol' -- the producer compares with the gate to decide whether the ladder CAN decide, not to produce the number the leg compares",
+   "target": "results/state_tilt/gatetol_latest.json rows (the standing band + the 17 scope-rejected rows)",
+   "deliverable": "results/state_tilt/GATEOPERANDS-<cutoff>.json",
+   "question": "per band row: which variable/expression does the producer's own comparison put the gate against, and which keys does the leg compare? Publish the operand texts and whether they name the same quantity; never a count of wrong legs.",
+   "runner": "scripts/e312_gate_operand_identity.py",
    "runner_args": [
     "run"
    ],
@@ -25673,6 +25700,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T17:18:38",
+ "updated_at": "2026-10-31T18:35:00",
  "version": 1
 }

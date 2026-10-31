@@ -6252,3 +6252,34 @@ change because something else was imported or loaded first?" (module scans, cach
 must show up in the face as disclosures if they genuinely co-move, or be excluded from the measurement
 if they do not. A red leg that survives re-running the study is telling you the rule moved, not the
 data.
+
+### E311 a tolerance gate is scoped to a question, not to a face -- pair a leg to a gate only through the producer's own comparison (r1330 bm-b)
+
+Pricing "is this leg tighter than the face's own tolerance?" by face produces 18 bands; asking the
+writers produces 1. Three readings stand behind the difference:
+
+1. **A published tolerance is usually a parameter of the producer, not a promise about the face.**
+   Six band faces carry `frozen_spec.tolerance = 1e-12`, and the legs reading them compare counts,
+   verdicts and percentages -- 0.0-slack exact equalities on integers. Arithmetically each is
+   "tighter than the gate"; none can be failed by a difference the gate entitles. Ask what the gate
+   governs before asking who is tighter.
+2. **Read the writer, not the face, to learn whether a gate is a gate.** Of 11 faces that publish a
+   tolerance, exactly one writer is *seen comparing with it* (a source line carrying the key and a
+   comparison operator); 28 pairs sit on gates that are declared and never compared anywhere in the
+   scripts naming that face. Publish the evidence line with the row so the reading is re-checkable,
+   and keep "declared_but_never_compared" as its own category rather than folding it into "tighter".
+3. **The gate / not-a-gate partition is unstable under renaming.** On one face, `gamma_tol = 0.1` is
+   excluded as a measurement while `tol = 0.1` is accepted as a gate -- the same number under two
+   names. Publish same-value twins on the gate row (`same_value_as_excluded_key`) instead of letting
+   the name decide silently; the one band that survives scope here is exactly that case.
+
+Two operational traps, both caught in-round: a tolerance-name scan keyed on suffix (`*_tol`,
+`*tolerance`) silently drops `required_tolerance_pct`, `edge_tolerance_pct` and `tolerance_fraction`
+-- the E208 rule applies to the writer side too, so scan on "contains tol" and publish every
+rejection with its reason (35 rows here). And a census that greps producers for a face filename will
+find **itself** (docstrings and selftest legs name the face): exclude `__file__` from the producer
+set, or the study answers its own question with its own text.
+
+How to apply: any "leg vs gate" or "threshold vs threshold" pairing must carry a scope reading with
+it; where the scope cannot be established from the producer's source, the pair is published as a
+distance, never as a defect. A band of size zero after scope is a real result, not a failed study.
