@@ -1,0 +1,308 @@
+{
+ "study": "E307",
+ "mode": "undated-face-vintage",
+ "evidence_cutoff": "2026-10-31",
+ "generated": "2026-10-31T17:17:26",
+ "question": "per consumer of the freeze helper: does its frozen universe include any face whose only witness is a file mtime, and does re-running after touching those files change the universe, the verdict, or neither?",
+ "verdict": "no_frozen_universe_rests_on_a_file_mtime",
+ "verdict_reason": "10 consumers read the freeze helper; 3 of them decide their universe by stamp-vs-cutoff (the only rule the mtime fallback can move), and none of those universes holds the 1 mtime-witnessed face(s) found among the 178 faces on disk. 1 consumer(s) do carry an undated face in their staged universe but read `generated` themselves, so the fallback never runs for them",
+ "helper_source": "scripts/e_band_family_vintage.py",
+ "helper_fallback": "os.path.getmtime when the face publishes no parseable `generated`",
+ "consumers_measured": 10,
+ "consumers_exposed": 0,
+ "consumers_holding_an_undated_face_but_safe": [
+  "e302"
+ ],
+ "consumers_moved_by_a_touch": 0,
+ "face_census": {
+  "faces_total": 178,
+  "faces_without_a_published_stamp": [
+   "ERAPOWER-20261029.json"
+  ],
+  "share": 0.0056
+ },
+ "counterfactual_if_undated_face_were_in_the_family_glob": {
+  "applicable": true,
+  "renamed_faces": [
+   "BANDERAPOWER-20261029.json"
+  ],
+  "scope": "only the consumers that read stamps through vintage_names (the mtime-fallback path); a consumer reading `generated` itself would simply see 'no stamp'",
+  "note": "if one of these faces were BAND-prefixed it would enter the family glob; a cutoff study would keep it only when the mtime fallback lands at or before its own stamp",
+  "rows": [
+   {
+    "consumer": "e281",
+    "would_newly_keep": [
+     "BANDERAPOWER-20261029.json"
+    ],
+    "applies": true,
+    "cutoff": "2026-10-31T06:09:48"
+   },
+   {
+    "consumer": "e282",
+    "would_newly_keep": [
+     "BANDERAPOWER-20261029.json"
+    ],
+    "applies": true,
+    "cutoff": "2026-10-31T06:31:08"
+   },
+   {
+    "consumer": "e286",
+    "would_newly_keep": [
+     "BANDERAPOWER-20261029.json"
+    ],
+    "applies": true,
+    "cutoff": "2026-10-31T07:35:26"
+   },
+   {
+    "consumer": "e287",
+    "would_newly_keep": [],
+    "applies": false
+   },
+   {
+    "consumer": "e290",
+    "would_newly_keep": [],
+    "applies": false
+   },
+   {
+    "consumer": "e291",
+    "would_newly_keep": [],
+    "applies": false
+   },
+   {
+    "consumer": "e292",
+    "would_newly_keep": [],
+    "applies": false
+   },
+   {
+    "consumer": "e293",
+    "would_newly_keep": [],
+    "applies": false
+   },
+   {
+    "consumer": "e294",
+    "would_newly_keep": [
+     "BANDERAPOWER-20261029.json"
+    ],
+    "applies": true,
+    "cutoff": "2026-10-31T12:56:43"
+   },
+   {
+    "consumer": "e302",
+    "would_newly_keep": [],
+    "applies": false
+   }
+  ]
+ },
+ "rows": [
+  {
+   "consumer": "e281",
+   "module": "e281_substitution_dependency_audit",
+   "face": "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+   "own_stamp": "2026-10-31T06:09:48",
+   "universe_source": "e281.discover_faces()",
+   "rule_read_from_source": "stamp_vs_cutoff",
+   "rule_declared": "stamp_vs_cutoff",
+   "rule_matches_declared": true,
+   "universe_size": 43,
+   "faces_witnessed_only_by_mtime": [],
+   "reads_the_mtime_fallback": true,
+   "exposed": false,
+   "touch_experiment": {
+    "performed": false,
+    "why": "no face in this universe is witnessed only by an mtime, so there is nothing to touch",
+    "universe_changed": false,
+    "verdict_reachable_via_universe": false
+   }
+  },
+  {
+   "consumer": "e282",
+   "module": "e282_substitution_disagreement_census",
+   "face": "BANDDISAGREE-2026-10-29.json",
+   "own_stamp": "2026-10-31T06:31:08",
+   "universe_source": "e282.face_files()",
+   "rule_read_from_source": "declared_manifest",
+   "rule_declared": "stamp_vs_cutoff",
+   "rule_matches_declared": false,
+   "universe_size": 43,
+   "faces_witnessed_only_by_mtime": [],
+   "reads_the_mtime_fallback": false,
+   "exposed": false,
+   "touch_experiment": {
+    "performed": false,
+    "why": "this consumer does not read the mtime fallback, so touching a face cannot move it",
+    "universe_changed": false,
+    "verdict_reachable_via_universe": false
+   }
+  },
+  {
+   "consumer": "e286",
+   "module": "e286_count_field_scope",
+   "face": "BANDCOUNTSCOPE-2026-10-29.json",
+   "own_stamp": "2026-10-31T07:35:26",
+   "universe_source": "e286.face_universe()",
+   "rule_read_from_source": "stamp_vs_cutoff",
+   "rule_declared": "stamp_vs_cutoff",
+   "rule_matches_declared": true,
+   "universe_size": 43,
+   "faces_witnessed_only_by_mtime": [],
+   "reads_the_mtime_fallback": true,
+   "exposed": false,
+   "touch_experiment": {
+    "performed": false,
+    "why": "no face in this universe is witnessed only by an mtime, so there is nothing to touch",
+    "universe_changed": false,
+    "verdict_reachable_via_universe": false
+   }
+  },
+  {
+   "consumer": "e287",
+   "module": "e287_supply_ceiling_axes",
+   "face": "BANDSUPPLY-2026-10-29.json",
+   "own_stamp": "2026-10-31T09:50:01",
+   "universe_source": "e287.discovery().faces_declared (declared manifest)",
+   "rule_read_from_source": "declared_manifest",
+   "rule_declared": "declared_manifest",
+   "rule_matches_declared": true,
+   "universe_size": 7,
+   "faces_witnessed_only_by_mtime": [],
+   "reads_the_mtime_fallback": false,
+   "exposed": false,
+   "touch_experiment": {
+    "performed": false,
+    "why": "this consumer does not read the mtime fallback, so touching a face cannot move it",
+    "universe_changed": false,
+    "verdict_reachable_via_universe": false
+   }
+  },
+  {
+   "consumer": "e290",
+   "module": "e290_selfauditable_face_profile",
+   "face": "BANDSELFAUDIT-2026-10-29.json",
+   "own_stamp": "2026-10-31T08:00:17",
+   "universe_source": "e290._universe()",
+   "rule_read_from_source": "published_name_list",
+   "rule_declared": "published_name_list",
+   "rule_matches_declared": true,
+   "universe_size": 32,
+   "faces_witnessed_only_by_mtime": [],
+   "reads_the_mtime_fallback": false,
+   "exposed": false,
+   "touch_experiment": {
+    "performed": false,
+    "why": "this consumer does not read the mtime fallback, so touching a face cannot move it",
+    "universe_changed": false,
+    "verdict_reachable_via_universe": false
+   }
+  },
+  {
+   "consumer": "e291",
+   "module": "e291_ambiguity_chance",
+   "face": "BANDAMBIENT-2026-10-29.json",
+   "own_stamp": "2026-10-31T08:19:55",
+   "universe_source": "published name list from BANDAMBIENT-2026-10-29.json",
+   "rule_read_from_source": "published_name_list",
+   "rule_declared": "published_name_list",
+   "rule_matches_declared": true,
+   "universe_size": 32,
+   "faces_witnessed_only_by_mtime": [],
+   "reads_the_mtime_fallback": false,
+   "exposed": false,
+   "touch_experiment": {
+    "performed": false,
+    "why": "this consumer does not read the mtime fallback, so touching a face cannot move it",
+    "universe_changed": false,
+    "verdict_reachable_via_universe": false
+   }
+  },
+  {
+   "consumer": "e292",
+   "module": "e292_scope_fix_plan",
+   "face": "BANDSCOPEFIX-2026-10-29.json",
+   "own_stamp": "2026-10-31T12:10:37",
+   "universe_source": "e292._universe()",
+   "rule_read_from_source": "published_name_list",
+   "rule_declared": "published_name_list",
+   "rule_matches_declared": true,
+   "universe_size": 32,
+   "faces_witnessed_only_by_mtime": [],
+   "reads_the_mtime_fallback": false,
+   "exposed": false,
+   "touch_experiment": {
+    "performed": false,
+    "why": "this consumer does not read the mtime fallback, so touching a face cannot move it",
+    "universe_changed": false,
+    "verdict_reachable_via_universe": false
+   }
+  },
+  {
+   "consumer": "e293",
+   "module": "e293_duplicate_list_census",
+   "face": "BANDDUPES-2026-10-29.json",
+   "own_stamp": "2026-10-31T09:04:25",
+   "universe_source": "published name list from BANDDUPES-2026-10-29.json",
+   "rule_read_from_source": "published_name_list",
+   "rule_declared": "published_name_list",
+   "rule_matches_declared": true,
+   "universe_size": 32,
+   "faces_witnessed_only_by_mtime": [],
+   "reads_the_mtime_fallback": false,
+   "exposed": false,
+   "touch_experiment": {
+    "performed": false,
+    "why": "this consumer does not read the mtime fallback, so touching a face cannot move it",
+    "universe_changed": false,
+    "verdict_reachable_via_universe": false
+   }
+  },
+  {
+   "consumer": "e294",
+   "module": "e294_live_universe_drift",
+   "face": "BANDFROZEN-2026-10-29.json",
+   "own_stamp": "2026-10-31T12:56:43",
+   "universe_source": "e294.live_names()",
+   "rule_read_from_source": "stamp_vs_cutoff",
+   "rule_declared": "stamp_vs_cutoff",
+   "rule_matches_declared": true,
+   "universe_size": 85,
+   "faces_witnessed_only_by_mtime": [],
+   "reads_the_mtime_fallback": true,
+   "exposed": false,
+   "touch_experiment": {
+    "performed": false,
+    "why": "no face in this universe is witnessed only by an mtime, so there is nothing to touch",
+    "universe_changed": false,
+    "verdict_reachable_via_universe": false
+   }
+  },
+  {
+   "consumer": "e302",
+   "module": "e302_universe_switch_backfill",
+   "face": "BANDSWITCH-2026-10-30.json",
+   "own_stamp": "2026-10-31T15:46:23",
+   "universe_source": "e302.live_universe()",
+   "rule_read_from_source": "own_reader",
+   "rule_declared": "own_reader",
+   "rule_matches_declared": true,
+   "universe_size": 176,
+   "faces_witnessed_only_by_mtime": [
+    "ERAPOWER-20261029.json"
+   ],
+   "reads_the_mtime_fallback": false,
+   "exposed": false,
+   "why_safe": "the undated face is in this universe, but the consumer reads `generated` itself, so a missing stamp reads as 'no stamp' rather than as the file's mtime (E302 predates this card: it refuses the fallback on purpose)",
+   "touch_experiment": {
+    "performed": false,
+    "why": "this consumer does not read the mtime fallback, so touching a face cannot move it",
+    "universe_changed": false,
+    "verdict_reachable_via_universe": false
+   }
+  }
+ ],
+ "fix_at_source": {
+  "recommended": "disclose, do not change the keep/drop rule",
+  "why": "dropping an undated face would re-base every affected study on a guess; the defect is silence, not the keep",
+  "done": "scripts/e_band_family_vintage.py now exports undated(outdir, names) plus selftest leg V7, so a consumer can publish the set instead of discovering it after a rewrite",
+  "precedent": "e302_universe_switch_backfill already refuses the fallback for its own stamp reader (line: 'Deliberately NOT vintage._face_stamp()'), which is the special case this card exists to price"
+ },
+ "law": "a face is a vintage; an mtime is not a vintage (E292/E302 family)"
+}

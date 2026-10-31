@@ -25614,7 +25614,7 @@
    "id": "E307-UNDATED-FACE-VINTAGE",
    "title": "one face in results/state_tilt publishes no `generated` stamp and the freeze helper silently substitutes its file mtime -- how many frozen universes in the family depend on a file mtime today, and what does each rule read for that one face?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "evidence_cutoff": "2026-10-31",
    "entered_at": "2026-10-31T14:45:31+08:00",
@@ -25631,7 +25631,11 @@
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "done_at": "2026-10-31T17:18+08:00",
+   "result_ref": "results/state_tilt/BANDUNDATEDVINTAGE-2026-10-31.json",
+   "progress": "measured all 10 consumers of scripts/e_band_family_vintage.py by calling each consumer own universe function: 176 faces on disk, 1 publishes no stamp (ERAPOWER-20261029.json, 0.57%); 0 of the stamp-vs-cutoff universes holds it, so touching every witness file moves no universe and therefore no verdict; e302 does carry it in its 174-name staged universe but reads generated itself (predates the card, refuses the fallback on purpose). helper fix = disclosure only: vintage.undated(outdir, names) + selftest leg V7, keep/drop rule unchanged. verdict no_frozen_universe_rests_on_a_file_mtime; counterfactual: if that face were BAND-prefixed, 4 cutoff studies would newly keep it.",
+   "selftest": "14/14"
   },
   {
    "id": "E308-LEG-VS-PRODUCER-TOLERANCE",
@@ -25669,6 +25673,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T16:5x+08:00",
+ "updated_at": "2026-10-31T17:18:38",
  "version": 1
 }

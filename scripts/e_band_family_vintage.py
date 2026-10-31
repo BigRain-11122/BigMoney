@@ -87,6 +87,29 @@ def vintage_names(outdir, names, cutoff):
     return kept, dropped
 
 
+def undated(outdir, names):
+    """The subset of `names` whose only witness is a file mtime (the face publishes no stamp).
+
+    Kept rather than dropped is the right call for the vintage rule (a face that cannot be shown to
+    postdate the study must not be excluded on a guess), but an mtime is not a vintage: the same face
+    leaves the universe the moment its file is rewritten or merely touched.  Disclosing the set lets
+    a consumer publish "these N faces rest on mtime" instead of leaving it silent (E307).
+    """
+    out = []
+    for name in names:
+        path = os.path.join(outdir, name)
+        published = False
+        try:
+            with io.open(path, encoding="utf-8") as fh:
+                face = json.load(fh)
+            published = isinstance(face, dict) and bool(_parse(face.get("generated")))
+        except Exception:
+            published = False
+        if not published and _face_stamp(path) is not None:
+            out.append(name)
+    return out
+
+
 def note(used, dropped, live_total, frozen_from, cutoff):
     """The disclosure block a face carries so the freeze is visible instead of silent."""
     return {
@@ -148,4 +171,11 @@ def selftest():
     leg("V6 the note carries every count a reader needs to see the freeze",
         n["faces_used"] == 1 and n["faces_in_directory_now"] == 3
         and n["faces_excluded_as_later"] == ["B.json"] and n["frozen_from"] == "FACE.json")
+
+    write("BROKEN.json", None, payload=None)
+    with io.open(os.path.join(tmp, "BROKEN.json"), "w", encoding="utf-8") as fh:
+        fh.write("{not json")
+    found = undated(tmp, ["OLD.json", "NEW.json", "UNDATED.json", "BROKEN.json", "GONE.json"])
+    leg("V7 only a face with no published stamp and a readable mtime is listed as mtime-witnessed",
+        found == ["UNDATED.json", "BROKEN.json"], found)
     return legs

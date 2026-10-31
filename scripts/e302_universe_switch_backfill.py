@@ -187,18 +187,53 @@ def frozen_names(base, names, cutoff):
     return kept, dropped
 
 
-def dir_bindings(base=None):
+def import_closure(roots):
+    """Module names reachable from `roots` by static import, read off scripts/*.py.
+
+    The switch cost must be a property of the study, not of the interpreter's history: scanning
+    `sys.modules` counted every unrelated module this process happened to have imported, so the same
+    measurement read 31 bindings in a fresh process and 33 inside the smoke run (which imports
+    everything first) and the leg comparing it to the published face went red for good.
+    """
+    import ast
+    seen, queue = set(), [r for r in roots if r]
+    while queue:
+        name = queue.pop()
+        if name in seen:
+            continue
+        seen.add(name)
+        try:
+            src = _read_source(os.path.join(HERE, name + ".py"))
+            tree = ast.parse(src)
+        except Exception:
+            continue
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                for alias in node.names:
+                    queue.append(alias.name.split(".")[0])
+            elif isinstance(node, ast.ImportFrom):
+                if node.module and not node.level:
+                    queue.append(node.module.split(".")[0])
+    return seen
+
+
+def dir_bindings(base=None, roots=None):
     """Every imported module object that holds a copy of the face directory string.
 
     This is the switch: the universe reaches the study through these bindings, so the number of
     bindings IS the measured cost of a global-redirect switch.  Only modules that already point at
-    the published directory are counted, so an unrelated module is never swept in.
+    the published directory are counted, so an unrelated module is never swept in.  With `roots`
+    the count is further restricted to the study's own import closure, which makes it independent
+    of what else the interpreter has loaded.
     """
     base = base or OUTDIR
+    allowed = import_closure(roots) if roots else None
     out = []
     for name in list(sys.modules):
         mod = sys.modules.get(name)
         if mod is None or name == SELF_MODULE:
+            continue
+        if allowed is not None and name not in allowed:
             continue
         if name in ("__main__", "__mp_main__"):
             # This study's own module when invoked as a script: counting it would make the cost of
@@ -321,7 +356,7 @@ def measure_one(script, base=None):
         return row
     row["switch_kind"] = "no_argument_build_needs_a_global_redirect"
 
-    names = dir_bindings(base)
+    names = dir_bindings(base, roots=[modname])
     row["dir_bindings_rewired"] = names
 
     before = _mtimes(base)
@@ -734,6 +769,30 @@ def selftest():
         leg("L35 touching an undated face does not move the frozen universe", kept2 == kept1, (kept1, kept2))
     finally:
         shutil.rmtree(tmp2, ignore_errors=True)
+
+    # L36 the binding count belongs to the study, not to this interpreter: importing an unrelated
+    # module that also binds the directory must not widen it (the smoke-vs-fresh-process drift).
+    import types
+    probe_root = "e302_leg_probe_root"
+    probe_extra = "e302_leg_probe_extra"
+    for name in (probe_root, probe_extra):
+        mod = types.ModuleType(name)
+        setattr(mod, DIR_GLOBAL, OUTDIR)
+        sys.modules[name] = mod
+    try:
+        fn = os.path.join(HERE, probe_root + ".py")
+        with io.open(fn, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write("import os\n")
+        try:
+            with_roots = dir_bindings(OUTDIR, roots=[probe_root])
+            without = dir_bindings(OUTDIR, roots=["e302_leg_no_such_module"])
+        finally:
+            os.remove(fn)
+        leg("L36 a module outside the study's import closure is never counted as a binding",
+            with_roots == [probe_root] and without == [], (with_roots, without))
+    finally:
+        for name in (probe_root, probe_extra):
+            sys.modules.pop(name, None)
     return legs
 
 

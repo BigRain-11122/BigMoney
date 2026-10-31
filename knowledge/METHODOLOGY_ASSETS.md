@@ -6214,3 +6214,41 @@ publish `n_at_risk_on_face_level_bound_only`; the "29 at risk" sentence is what 
 measurements), and price the fallback rows in a second study rather than in the same face. The
 withdrawal is the product: a bound reported as a measurement is the defect, and naming which of the
 four kinds it was is the whole repair.
+
+### E310 a census that lives in the directory it scans must count itself by STUDY, and a cost read off sys.modules belongs to the interpreter, not the study (r1327 bm-b)
+
+Two sibling smoke legs went red for good the day their studies ran on a new date, and neither was a
+numbers problem:
+
+1. **A dated vintage per run makes the self-count drift one a day.** E298 counted its own files
+   (`REPLAYCENSUS-*` plus the mirror) into `self_faces_excluded`. Each day it runs it leaves one more
+   dated vintage on disk, so the next day reads 2 -> 3 and the published face can never be re-derived
+   -- the leg asserting `summary` equality is red forever, and re-running only moves the target.
+   Counting the self face ONCE (however many of its vintages sit beside it) plus the mirror once fixes
+   it; the raw file count is disclosed separately as `self_face_files_on_disk`, so nothing is hidden.
+   Keep a leg with two vintages of the study in one directory -- the single-vintage fixture passes
+   either way.
+
+2. **A measurement that walks `sys.modules` is a property of the process.** E302 priced the cost of a
+   directory switch by counting imported modules holding the directory string: 31 in a fresh process,
+   33 inside the smoke run that had already imported half the tree. The study's own published face was
+   therefore un-reproducible from any session that had loaded more than it did. Price the switch
+   against the study's STATIC import closure (parse `import` / `from ... import` off `scripts/*.py`),
+   so the number depends on the study and not on the interpreter (28 either way). Leg it by
+   registering an unrelated fake module that binds the same directory and asserting it is never
+   counted.
+
+3. **A fallback that keeps the honest default still has to be disclosed.** The vintage helper's mtime
+   fallback is right (an undated face cannot be shown to postdate the study, so it is kept, never
+   dropped on a guess) and yet silent: touch the file and the same face leaves the universe. E307
+   measured all ten consumers and found today's exposure is zero -- the one undated face among 176 is
+   not in any stamp-vs-cutoff universe, and the consumer that does stage it reads `generated` itself
+   (E302 refuses the fallback on purpose). The repair is therefore disclosure, not a rule change:
+   `vintage.undated(outdir, names)` names the mtime-witnessed set so a consumer can publish it.
+
+How to apply: before publishing any census of a directory you also write into, ask two questions --
+"can this count change because I ran again?" (self-faces, mirrors, own outputs) and "does this count
+change because something else was imported or loaded first?" (module scans, caches, env). Both answers
+must show up in the face as disclosures if they genuinely co-move, or be excluded from the measurement
+if they do not. A red leg that survives re-running the study is telling you the rule moved, not the
+data.

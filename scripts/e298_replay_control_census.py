@@ -202,16 +202,24 @@ def vintage_transitions(controls):
 def build(outdir=None):
     outdir = outdir or OUTDIR
     paths = sorted(glob.glob(os.path.join(outdir, "*.json")))
-    faces, mirrors, self_faces = [], 0, 0
+    faces, mirrors = [], 0
+    self_files = []
     for p in paths:
         name = os.path.basename(p)
-        # the census lives in the directory it scans: it must never grade itself (E180 family)
+        # The census lives in the directory it scans, so it must never grade itself (E180 family).
+        # Counted by STUDY, not by file: this study publishes one dated vintage per day it runs, and
+        # counting files made every later run disagree with what it published (self_faces_excluded
+        # 2 -> 3 the next day, leaving smoke's "summary does not re-derive" red forever).
         if name.startswith("REPLAYCENSUS-") or name == LATEST:
-            self_faces += 1
+            self_files.append(name)
         elif FACE_NAME_RE.match(name):
             faces.append((name, _read(p)))
         elif name.endswith("_latest.json"):
             mirrors += 1
+
+    # one self face (however many vintages of it sit on disk) plus its mirror when present
+    self_faces = (1 if any(n.startswith("REPLAYCENSUS-") for n in self_files) else 0) \
+        + (1 if LATEST in self_files else 0)
 
     controls, leaves = [], []
     for name, payload in faces:
@@ -250,6 +258,7 @@ def build(outdir=None):
         "faces_scanned": len(faces),
         "mirror_files_excluded": mirrors,
         "self_faces_excluded": self_faces,
+        "self_face_files_on_disk": len(self_files),
         "faces_with_controls": len(with_controls),
         "n_control_containers": len(controls),
         "n_leaf_witnesses": len(leaves),
@@ -436,6 +445,21 @@ def cmd_selftest():
         and face["summary"]["mirror_files_excluded"] == 1
         and face["summary"]["self_faces_excluded"] == 1
         and face["summary"]["n_control_containers"] == 1, face["summary"]["faces_scanned"])
+
+    # L11b yesterday's vintage is still this study: counting files made the census drift one a day
+    tmp2b = tempfile.mkdtemp(prefix="e298_selfvint_")
+    for name in ("AAA-2026-02-02.json", "REPLAYCENSUS-2026-02-02.json",
+                 "REPLAYCENSUS-2026-02-03.json", "replaycensus_latest.json"):
+        fh = io.open(os.path.join(tmp2b, name), "w", encoding="utf-8", newline="\n")
+        try:
+            fh.write(json.dumps({"replay_x": {"cell": "a"}}))
+        finally:
+            fh.close()
+    face = build(tmp2b)
+    leg("L11b two vintages of this census count as one self face, and both files are disclosed",
+        face["summary"]["self_faces_excluded"] == 2
+        and face["summary"]["self_face_files_on_disk"] == 3
+        and face["summary"]["faces_scanned"] == 1, face["summary"])
 
     # L12 the partitions are exhaustive on a mixed fixture
     f = {"identity_check": {"checked": 1}, "e240_replay": {"tolerance": 1e-9},

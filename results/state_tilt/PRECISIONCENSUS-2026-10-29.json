@@ -1,0 +1,6587 @@
+{
+ "study": "E299_rounded_vs_tolerance_census",
+ "title": "which smoke legs compare a published face value at a tolerance finer than the face prints, and do the faces say what precision they print at?",
+ "evidence_cutoff": "2026-10-29",
+ "decision_rule": "at-risk = the site's tolerance is finer than half the coarsest quantum the face prints; published as a question, never as broken. A measured pair is reported only where the smaller leaf is exactly the larger rounded to d and the gap alone exceeds the tolerance.",
+ "no_bill": "measurement only: the leg list and the comparison sites are read out of smoke_test.py's source, and every quantum is measured from the published JSON under results/. No study is re-run, no face is rebuilt, no engine runs, no draw stream is regenerated. A site is called AT-RISK, never broken: the face may also publish the full-precision copy the leg actually reads.",
+ "legs": [
+  {
+   "index": 1,
+   "name": "env: core deps",
+   "lines": [
+    1,
+    32
+   ]
+  },
+  {
+   "index": 2,
+   "name": "env: core deps",
+   "lines": [
+    34,
+    35
+   ]
+  },
+  {
+   "index": 3,
+   "name": "config: paths",
+   "lines": [
+    36,
+    41
+   ]
+  },
+  {
+   "index": 4,
+   "name": "config: paths",
+   "lines": [
+    42,
+    43
+   ]
+  },
+  {
+   "index": 5,
+   "name": "config: param grid",
+   "lines": [
+    45,
+    46
+   ]
+  },
+  {
+   "index": 6,
+   "name": "config: combo_hash deterministic",
+   "lines": [
+    47,
+    49
+   ]
+  },
+  {
+   "index": 7,
+   "name": "data: core ETF pool",
+   "lines": [
+    50,
+    53
+   ]
+  },
+  {
+   "index": 8,
+   "name": "data: OHLCV readable",
+   "lines": [
+    55,
+    70
+   ]
+  },
+  {
+   "index": 9,
+   "name": "data: freshness",
+   "lines": [
+    72,
+    74
+   ]
+  },
+  {
+   "index": 10,
+   "name": "rules: fee schedule sane",
+   "lines": [
+    76,
+    79
+   ]
+  },
+  {
+   "index": 11,
+   "name": "rules: T+0 list",
+   "lines": [
+    81,
+    81
+   ]
+  },
+  {
+   "index": 12,
+   "name": "exit: loss 8d force-close",
+   "lines": [
+    83,
+    89
+   ]
+  },
+  {
+   "index": 13,
+   "name": "exit: tiered take-profit",
+   "lines": [
+    90,
+    90
+   ]
+  },
+  {
+   "index": 14,
+   "name": "exit: hard stop -8%",
+   "lines": [
+    92,
+    92
+   ]
+  },
+  {
+   "index": 15,
+   "name": "exit: hold otherwise",
+   "lines": [
+    93,
+    93
+   ]
+  },
+  {
+   "index": 16,
+   "name": "engine: smoke backtest",
+   "lines": [
+    94,
+    106
+   ]
+  },
+  {
+   "index": 17,
+   "name": "engine: deterministic",
+   "lines": [
+    108,
+    108
+   ]
+  },
+  {
+   "index": 18,
+   "name": "engine: T+1 respected",
+   "lines": [
+    109,
+    111
+   ]
+  },
+  {
+   "index": 19,
+   "name": "engine: exits fill at T+1 open (RW-1)",
+   "lines": [
+    113,
+    118
+   ]
+  },
+  {
+   "index": 20,
+   "name": "engine: evidence_cutoff hard truncation (RW-2)",
+   "lines": [
+    120,
+    132
+   ]
+  },
+  {
+   "index": 21,
+   "name": "engine: rows actually read <= cutoff (RW-2)",
+   "lines": [
+    135,
+    136
+   ]
+  },
+  {
+   "index": 22,
+   "name": "engine: legacy keyset intact without evidence_cutoff (RW-2)",
+   "lines": [
+    143,
+    143
+   ]
+  },
+  {
+   "index": 23,
+   "name": "engine: emptying cutoff refused (RW-2)",
+   "lines": [
+    145,
+    150
+   ]
+  },
+  {
+   "index": 24,
+   "name": "engine: single-source cost parity (RW-3)",
+   "lines": [
+    152,
+    165
+   ]
+  },
+  {
+   "index": 25,
+   "name": "engine: grid legacy divergence = declared 0.041bp (RW-3)",
+   "lines": [
+    168,
+    168
+   ]
+  },
+  {
+   "index": 26,
+   "name": "panel gate: real in-service panel inside frozen 48-lock (RW-4)",
+   "lines": [
+    172,
+    187
+   ]
+  },
+  {
+   "index": 27,
+   "name": "panel gate: twins refused, len(set)==len(list) (RW-4)",
+   "lines": [
+    191,
+    191
+   ]
+  },
+  {
+   "index": 28,
+   "name": "panel gate: stale in-service member refused (RW-4)",
+   "lines": [
+    195,
+    195
+   ]
+  },
+  {
+   "index": 29,
+   "name": "panel gate: out-of-lock + silent-shrink refused (RW-4)",
+   "lines": [
+    198,
+    198
+   ]
+  },
+  {
+   "index": 30,
+   "name": "rules: stock fee routing sell 18.141bp / buy 13.141bp (D-39)",
+   "lines": [
+    202,
+    215
+   ]
+  },
+  {
+   "index": 31,
+   "name": "engine: one-word bar buy dropped + sell deferred (CN-A, D-38)",
+   "lines": [
+    220,
+    240
+   ]
+  },
+  {
+   "index": 32,
+   "name": "exit: P1 signal_reversal beats P2 stop (RW-7)",
+   "lines": [
+    246,
+    252
+   ]
+  },
+  {
+   "index": 33,
+   "name": "exit: P2 stop_loss beats P3 take_profit (RW-7)",
+   "lines": [
+    255,
+    258
+   ]
+  },
+  {
+   "index": 34,
+   "name": "exit: P4 time_decay beats P5 loss_time_stop (RW-7)",
+   "lines": [
+    262,
+    263
+   ]
+  },
+  {
+   "index": 35,
+   "name": "exit: P6 global_hard_limit terminal tier (RW-7)",
+   "lines": [
+    266,
+    267
+   ]
+  },
+  {
+   "index": 36,
+   "name": "gate: daily_loss_breaker boundary (RW-7)",
+   "lines": [
+    270,
+    271
+   ]
+  },
+  {
+   "index": 37,
+   "name": "<unnamed leg at line 286>",
+   "lines": [
+    274,
+    286
+   ]
+  },
+  {
+   "index": 38,
+   "name": "gate: rejections raise, never silently drop (RW-7)",
+   "lines": [
+    288,
+    291
+   ]
+  },
+  {
+   "index": 39,
+   "name": "<unnamed leg at line 297>",
+   "lines": [
+    296,
+    297
+   ]
+  },
+  {
+   "index": 40,
+   "name": "gate: halted day still lets exits through (RW-7)",
+   "lines": [
+    299,
+    299
+   ]
+  },
+  {
+   "index": 41,
+   "name": "gate: emit_order_sheet is the sole gated exit (RW-7)",
+   "lines": [
+    302,
+    317
+   ]
+  },
+  {
+   "index": 42,
+   "name": "network: detector",
+   "lines": [
+    320,
+    323
+   ]
+  },
+  {
+   "index": 43,
+   "name": "network: status readable",
+   "lines": [
+    324,
+    325
+   ]
+  },
+  {
+   "index": 44,
+   "name": "network: traffic gate",
+   "lines": [
+    326,
+    327
+   ]
+  },
+  {
+   "index": 45,
+   "name": "paper: pipeline selftest",
+   "lines": [
+    328,
+    330
+   ]
+  },
+  {
+   "index": 46,
+   "name": "paper: pipeline selftest",
+   "lines": [
+    333,
+    334
+   ]
+  },
+  {
+   "index": 47,
+   "name": "<unnamed leg at line 371>",
+   "lines": [
+    335,
+    371
+   ]
+  },
+  {
+   "index": 48,
+   "name": "<unnamed leg at line 373>",
+   "lines": [
+    372,
+    373
+   ]
+  },
+  {
+   "index": 49,
+   "name": "<unnamed leg at line 540>",
+   "lines": [
+    374,
+    540
+   ]
+  },
+  {
+   "index": 50,
+   "name": "<unnamed leg at line 542>",
+   "lines": [
+    541,
+    542
+   ]
+  },
+  {
+   "index": 51,
+   "name": "product: card reconciles its two 2015-2019 readings",
+   "lines": [
+    543,
+    548
+   ]
+  },
+  {
+   "index": 52,
+   "name": "product: card reconciles its two 2015-2019 readings",
+   "lines": [
+    552,
+    553
+   ]
+  },
+  {
+   "index": 53,
+   "name": "product: card reconciles its two 2015-2019 readings",
+   "lines": [
+    555,
+    556
+   ]
+  },
+  {
+   "index": 54,
+   "name": "product: ETF book legs wired into the S6 chain",
+   "lines": [
+    557,
+    569
+   ]
+  },
+  {
+   "index": 55,
+   "name": "product: ETF book legs wired into the S6 chain",
+   "lines": [
+    571,
+    572
+   ]
+  },
+  {
+   "index": 56,
+   "name": "product: ETF book registry published",
+   "lines": [
+    573,
+    579
+   ]
+  },
+  {
+   "index": 57,
+   "name": "product: ETF book registry published",
+   "lines": [
+    582,
+    583
+   ]
+  },
+  {
+   "index": 58,
+   "name": "product: the forward ledger publishes its own noise floor",
+   "lines": [
+    584,
+    587
+   ]
+  },
+  {
+   "index": 59,
+   "name": "product: the forward ledger publishes its own noise floor",
+   "lines": [
+    594,
+    595
+   ]
+  },
+  {
+   "index": 60,
+   "name": "product: the forward face prices what its horizon can resolve, not only bars",
+   "lines": [
+    596,
+    600
+   ]
+  },
+  {
+   "index": 61,
+   "name": "product: every candidate edge states the file it was read from",
+   "lines": [
+    607,
+    608
+   ]
+  },
+  {
+   "index": 62,
+   "name": "product: the forward face prices what its horizon can resolve, not only bars",
+   "lines": [
+    612,
+    613
+   ]
+  },
+  {
+   "index": 63,
+   "name": "product: every candidate edge states the file it was read from",
+   "lines": [
+    615,
+    615
+   ]
+  },
+  {
+   "index": 64,
+   "name": "product: the paper book owns the book the card sells",
+   "lines": [
+    616,
+    619
+   ]
+  },
+  {
+   "index": 65,
+   "name": "product: the paper book owns the book the card sells",
+   "lines": [
+    627,
+    628
+   ]
+  },
+  {
+   "index": 66,
+   "name": "product: ETF registry says when the staggered book turns",
+   "lines": [
+    629,
+    632
+   ]
+  },
+  {
+   "index": 67,
+   "name": "product: ETF registry says when the staggered book turns",
+   "lines": [
+    636,
+    637
+   ]
+  },
+  {
+   "index": 68,
+   "name": "product: staggered book states when each sleeve next turns",
+   "lines": [
+    638,
+    644
+   ]
+  },
+  {
+   "index": 69,
+   "name": "product: staggered book states when each sleeve next turns",
+   "lines": [
+    647,
+    648
+   ]
+  },
+  {
+   "index": 70,
+   "name": "product: data lag audit face published",
+   "lines": [
+    649,
+    654
+   ]
+  },
+  {
+   "index": 71,
+   "name": "product: data lag audit face published",
+   "lines": [
+    657,
+    658
+   ]
+  },
+  {
+   "index": 72,
+   "name": "product: marks coverage face names its holes",
+   "lines": [
+    659,
+    669
+   ]
+  },
+  {
+   "index": 73,
+   "name": "product: marks coverage face names its holes",
+   "lines": [
+    674,
+    675
+   ]
+  },
+  {
+   "index": 74,
+   "name": "product: every marks hole carries a cause from the lane's own ownership contract",
+   "lines": [
+    676,
+    687
+   ]
+  },
+  {
+   "index": 75,
+   "name": "product: every marks hole carries a cause from the lane's own ownership contract",
+   "lines": [
+    691,
+    692
+   ]
+  },
+  {
+   "index": 76,
+   "name": "product: dashboard carries the marks coverage gap",
+   "lines": [
+    694,
+    711
+   ]
+  },
+  {
+   "index": 77,
+   "name": "product: dashboard carries the marks coverage gap",
+   "lines": [
+    716,
+    717
+   ]
+  },
+  {
+   "index": 78,
+   "name": "product: open-fill gate names its evidence tier and the bar tier's prices are the bars'",
+   "lines": [
+    718,
+    757
+   ]
+  },
+  {
+   "index": 79,
+   "name": "product: open-fill gate names its evidence tier and the bar tier's prices are the bars'",
+   "lines": [
+    762,
+    763
+   ]
+  },
+  {
+   "index": 80,
+   "name": "product: live paper book states its price lag",
+   "lines": [
+    765,
+    773
+   ]
+  },
+  {
+   "index": 81,
+   "name": "product: live paper book states its price lag",
+   "lines": [
+    777,
+    778
+   ]
+  },
+  {
+   "index": 82,
+   "name": "product: ETF live-book page current and its money closes",
+   "lines": [
+    779,
+    804
+   ]
+  },
+  {
+   "index": 83,
+   "name": "product: ETF live-book yuan figures are its own percentages x its own capital",
+   "lines": [
+    810,
+    822
+   ]
+  },
+  {
+   "index": 84,
+   "name": "product: ETF live-book page says whether to trade today",
+   "lines": [
+    825,
+    842
+   ]
+  },
+  {
+   "index": 85,
+   "name": "product: ETF live-book stress rows are their own percentages x capital",
+   "lines": [
+    846,
+    862
+   ]
+  },
+  {
+   "index": 86,
+   "name": "product: ETF live-book page current and its money closes",
+   "lines": [
+    865,
+    866
+   ]
+  },
+  {
+   "index": 87,
+   "name": "product: astock panel states its coverage, not just its date",
+   "lines": [
+    867,
+    878
+   ]
+  },
+  {
+   "index": 88,
+   "name": "product: astock panel states its coverage, not just its date",
+   "lines": [
+    882,
+    883
+   ]
+  },
+  {
+   "index": 89,
+   "name": "fleet: heartbeat epoch fields present",
+   "lines": [
+    885,
+    893
+   ]
+  },
+  {
+   "index": 90,
+   "name": "fleet: heartbeat epoch fields present",
+   "lines": [
+    896,
+    897
+   ]
+  },
+  {
+   "index": 91,
+   "name": "fleet: GPU face self-consistent on heartbeat",
+   "lines": [
+    898,
+    903
+   ]
+  },
+  {
+   "index": 92,
+   "name": "fleet: GPU face leg wired into the S6 chain",
+   "lines": [
+    905,
+    906
+   ]
+  },
+  {
+   "index": 93,
+   "name": "fleet: GPU face self-consistent on heartbeat",
+   "lines": [
+    908,
+    909
+   ]
+  },
+  {
+   "index": 94,
+   "name": "fleet: GPU face leg wired into the S6 chain",
+   "lines": [
+    910,
+    910
+   ]
+  },
+  {
+   "index": 95,
+   "name": "fleet: machine-health face is machine-keyed, not a nesting generator",
+   "lines": [
+    911,
+    914
+   ]
+  },
+  {
+   "index": 96,
+   "name": "fleet: machine-health face is machine-keyed, not a nesting generator",
+   "lines": [
+    917,
+    918
+   ]
+  },
+  {
+   "index": 97,
+   "name": "fleet: live machine-health rows carry every pinned field",
+   "lines": [
+    920,
+    929
+   ]
+  },
+  {
+   "index": 98,
+   "name": "fleet: live machine-health rows carry every pinned field",
+   "lines": [
+    931,
+    932
+   ]
+  },
+  {
+   "index": 99,
+   "name": "fleet: a thin face reads as UNKNOWN, not as a calm row",
+   "lines": [
+    933,
+    949
+   ]
+  },
+  {
+   "index": 100,
+   "name": "fleet: a thin face reads as UNKNOWN, not as a calm row",
+   "lines": [
+    954,
+    955
+   ]
+  },
+  {
+   "index": 101,
+   "name": "fleet: oversight writer's deployed copy tracks its source",
+   "lines": [
+    956,
+    961
+   ]
+  },
+  {
+   "index": 102,
+   "name": "fleet: oversight writer's deployed copy tracks its source",
+   "lines": [
+    963,
+    982
+   ]
+  },
+  {
+   "index": 103,
+   "name": "fleet: oversight writer's deployed copy tracks its source",
+   "lines": [
+    986,
+    993
+   ]
+  },
+  {
+   "index": 104,
+   "name": "fleet: oversight writer's deployed copy tracks its source",
+   "lines": [
+    995,
+    996
+   ]
+  },
+  {
+   "index": 105,
+   "name": "fleet: panel carries the machine-health verdict, not a row count",
+   "lines": [
+    997,
+    1029
+   ]
+  },
+  {
+   "index": 106,
+   "name": "fleet: machine-health gate leg wired into the S6 chain",
+   "lines": [
+    1031,
+    1032
+   ]
+  },
+  {
+   "index": 107,
+   "name": "fleet: health writer runs before the panel that reads it",
+   "lines": [
+    1034,
+    1038
+   ]
+  },
+  {
+   "index": 108,
+   "name": "fleet: panel carries the machine-health verdict, not a row count",
+   "lines": [
+    1042,
+    1043
+   ]
+  },
+  {
+   "index": 109,
+   "name": "fleet: machine-health gate leg wired into the S6 chain",
+   "lines": [
+    1045,
+    1045
+   ]
+  },
+  {
+   "index": 110,
+   "name": "product: the CEO-page quote audit runs after the pages it audits",
+   "lines": [
+    1046,
+    1050
+   ]
+  },
+  {
+   "index": 111,
+   "name": "product: the CEO-page quote audit runs after the pages it audits",
+   "lines": [
+    1054,
+    1055
+   ]
+  },
+  {
+   "index": 112,
+   "name": "product: the CEO-page quote gate runs after the sweep and owns a baseline",
+   "lines": [
+    1057,
+    1070
+   ]
+  },
+  {
+   "index": 113,
+   "name": "product: the CEO-page quote gate runs after the sweep and owns a baseline",
+   "lines": [
+    1072,
+    1073
+   ]
+  },
+  {
+   "index": 114,
+   "name": "product: the off-book era leg is on the chain and publishes a cross-era verdict",
+   "lines": [
+    1075,
+    1093
+   ]
+  },
+  {
+   "index": 115,
+   "name": "product: the off-book era leg is on the chain and publishes a cross-era verdict",
+   "lines": [
+    1097,
+    1098
+   ]
+  },
+  {
+   "index": 116,
+   "name": "product: the mid-month gap arrives split into timing and selection",
+   "lines": [
+    1100,
+    1119
+   ]
+  },
+  {
+   "index": 117,
+   "name": "product: the mid-month gap arrives split into timing and selection",
+   "lines": [
+    1125,
+    1126
+   ]
+  },
+  {
+   "index": 118,
+   "name": "product: the calendar split is re-read at matched candidate width, as a distribution rather than a point",
+   "lines": [
+    1128,
+    1147
+   ]
+  },
+  {
+   "index": 119,
+   "name": "product: the calendar split is re-read at matched candidate width, as a distribution rather than a point",
+   "lines": [
+    1154,
+    1155
+   ]
+  },
+  {
+   "index": 120,
+   "name": "product: the matched-width control is laddered across book widths, with the invariance of the gap published beside it",
+   "lines": [
+    1157,
+    1180
+   ]
+  },
+  {
+   "index": 121,
+   "name": "product: the matched-width control is laddered across book widths, with the invariance of the gap published beside it",
+   "lines": [
+    1186,
+    1187
+   ]
+  },
+  {
+   "index": 122,
+   "name": "product: the width ladder is split into timing and selection, so its movement is attributed to a named part",
+   "lines": [
+    1189,
+    1219
+   ]
+  },
+  {
+   "index": 123,
+   "name": "product: the width ladder is split into timing and selection, so its movement is attributed to a named part",
+   "lines": [
+    1227,
+    1228
+   ]
+  },
+  {
+   "index": 124,
+   "name": "pool: the deliverable reconciliation runs before anything counts pool ready",
+   "lines": [
+    1230,
+    1245
+   ]
+  },
+  {
+   "index": 125,
+   "name": "pool: the deliverable reconciliation runs before anything counts pool ready",
+   "lines": [
+    1252,
+    1253
+   ]
+  },
+  {
+   "index": 126,
+   "name": "memory: CODELY.md structure intact",
+   "lines": [
+    1255,
+    1260
+   ]
+  },
+  {
+   "index": 127,
+   "name": "memory: CODELY.md structure intact",
+   "lines": [
+    1263,
+    1264
+   ]
+  },
+  {
+   "index": 128,
+   "name": "fleet: a partial-index commit cannot silently shrink the tree",
+   "lines": [
+    1265,
+    1270
+   ]
+  },
+  {
+   "index": 129,
+   "name": "fleet: this repo's last 20 commits lost no tree",
+   "lines": [
+    1272,
+    1276
+   ]
+  },
+  {
+   "index": 130,
+   "name": "fleet: a partial-index commit cannot silently shrink the tree",
+   "lines": [
+    1278,
+    1279
+   ]
+  },
+  {
+   "index": 131,
+   "name": "fleet: the tree-shrink push gate is installed in both repos",
+   "lines": [
+    1280,
+    1285
+   ]
+  },
+  {
+   "index": 132,
+   "name": "fleet: the tree-shrink push gate is installed in both repos",
+   "lines": [
+    1287,
+    1288
+   ]
+  },
+  {
+   "index": 133,
+   "name": "<unnamed leg at line 1328>",
+   "lines": [
+    1289,
+    1328
+   ]
+  },
+  {
+   "index": 134,
+   "name": "<unnamed leg at line 1330>",
+   "lines": [
+    1329,
+    1330
+   ]
+  },
+  {
+   "index": 135,
+   "name": "<unnamed leg at line 1523>",
+   "lines": [
+    1331,
+    1523
+   ]
+  },
+  {
+   "index": 136,
+   "name": "<unnamed leg at line 1525>",
+   "lines": [
+    1524,
+    1525
+   ]
+  },
+  {
+   "index": 137,
+   "name": "product: E196 carrier verdict is recomputable from its own gate",
+   "lines": [
+    1526,
+    1547
+   ]
+  },
+  {
+   "index": 138,
+   "name": "product: E196 carrier verdict is recomputable from its own gate",
+   "lines": [
+    1551,
+    1552
+   ]
+  },
+  {
+   "index": 139,
+   "name": "product: E196 carrier verdict is recomputable from its own gate",
+   "lines": [
+    1554,
+    1555
+   ]
+  },
+  {
+   "index": 140,
+   "name": "product: E198 cross-panel verdict is recomputable from its own gate",
+   "lines": [
+    1557,
+    1578
+   ]
+  },
+  {
+   "index": 141,
+   "name": "product: E198 cross-panel verdict is recomputable from its own gate",
+   "lines": [
+    1582,
+    1583
+   ]
+  },
+  {
+   "index": 142,
+   "name": "product: E198 cross-panel verdict is recomputable from its own gate",
+   "lines": [
+    1585,
+    1586
+   ]
+  },
+  {
+   "index": 143,
+   "name": "product: E199 detection floor is recomputable from its own gate",
+   "lines": [
+    1588,
+    1622
+   ]
+  },
+  {
+   "index": 144,
+   "name": "product: E199 detection floor is recomputable from its own gate",
+   "lines": [
+    1625,
+    1626
+   ]
+  },
+  {
+   "index": 145,
+   "name": "product: E199 detection floor is recomputable from its own gate",
+   "lines": [
+    1628,
+    1629
+   ]
+  },
+  {
+   "index": 146,
+   "name": "product: ETF book legs wired into the S6 chain",
+   "lines": [
+    1631,
+    1644
+   ]
+  },
+  {
+   "index": 147,
+   "name": "product: ETF book legs wired into the S6 chain",
+   "lines": [
+    1646,
+    1647
+   ]
+  },
+  {
+   "index": 148,
+   "name": "product: ETF registry runs after every face it summarises",
+   "lines": [
+    1648,
+    1653
+   ]
+  },
+  {
+   "index": 149,
+   "name": "product: ETF registry runs after every face it summarises",
+   "lines": [
+    1655,
+    1656
+   ]
+  },
+  {
+   "index": 150,
+   "name": "product: ETF live-book page current and its money closes",
+   "lines": [
+    1657,
+    1682
+   ]
+  },
+  {
+   "index": 151,
+   "name": "product: ETF live-book yuan figures are its own percentages x its own capital",
+   "lines": [
+    1688,
+    1700
+   ]
+  },
+  {
+   "index": 152,
+   "name": "product: ETF live-book page says whether to trade today",
+   "lines": [
+    1703,
+    1720
+   ]
+  },
+  {
+   "index": 153,
+   "name": "product: ETF live-book stress rows are their own percentages x capital",
+   "lines": [
+    1724,
+    1740
+   ]
+  },
+  {
+   "index": 154,
+   "name": "product: ETF live-book cash leg is priced off the repo panel's own close",
+   "lines": [
+    1743,
+    1777
+   ]
+  },
+  {
+   "index": 155,
+   "name": "product: cash-leg ladder verdict is the panels' own rolls, not a typed-in answer",
+   "lines": [
+    1779,
+    1859
+   ]
+  },
+  {
+   "index": 156,
+   "name": "product: ETF live-book page current and its money closes",
+   "lines": [
+    1861,
+    1862
+   ]
+  },
+  {
+   "index": 157,
+   "name": "fleet: bm-a's chain runner is the shared leg list, not a snapshot",
+   "lines": [
+    1863,
+    1871
+   ]
+  },
+  {
+   "index": 158,
+   "name": "fleet: bm-a's chain runner is the shared leg list, not a snapshot",
+   "lines": [
+    1874,
+    1875
+   ]
+  },
+  {
+   "index": 159,
+   "name": "product: futures TSMOM shadow face keeps its sizing rules",
+   "lines": [
+    1877,
+    1884
+   ]
+  },
+  {
+   "index": 160,
+   "name": "product: futures TSMOM face is current, capped and not an order",
+   "lines": [
+    1886,
+    1903
+   ]
+  },
+  {
+   "index": 161,
+   "name": "product: futures TSMOM shadow face keeps its sizing rules",
+   "lines": [
+    1907,
+    1908
+   ]
+  },
+  {
+   "index": 162,
+   "name": "product: futures overlay sweep keeps its blend arithmetic",
+   "lines": [
+    1909,
+    1915
+   ]
+  },
+  {
+   "index": 163,
+   "name": "product: overlay sweep sells risk and publishes the equal-risk reading",
+   "lines": [
+    1917,
+    1928
+   ]
+  },
+  {
+   "index": 164,
+   "name": "product: futures overlay sweep keeps its blend arithmetic",
+   "lines": [
+    1934,
+    1935
+   ]
+  },
+  {
+   "index": 165,
+   "name": "product: overlay breakeven is recomputable from its own ladder",
+   "lines": [
+    1936,
+    1963
+   ]
+  },
+  {
+   "index": 166,
+   "name": "product: overlay breakeven is recomputable from its own ladder",
+   "lines": [
+    1965,
+    1966
+   ]
+  },
+  {
+   "index": 167,
+   "name": "product: overlay no-trade band is priced on both sides of the trade",
+   "lines": [
+    1967,
+    2003
+   ]
+  },
+  {
+   "index": 168,
+   "name": "product: overlay no-trade band is priced on both sides of the trade",
+   "lines": [
+    2006,
+    2007
+   ]
+  },
+  {
+   "index": 169,
+   "name": "product: flip-rate arms cut flips, not exposure, and the cut is priced",
+   "lines": [
+    2008,
+    2052
+   ]
+  },
+  {
+   "index": 170,
+   "name": "product: flip-rate arms cut flips, not exposure, and the cut is priced",
+   "lines": [
+    2056,
+    2057
+   ]
+  },
+  {
+   "index": 171,
+   "name": "product: the flip damper is adopted or rejected by path cells, not one run",
+   "lines": [
+    2059,
+    2104
+   ]
+  },
+  {
+   "index": 172,
+   "name": "product: the flip damper is adopted or rejected by path cells, not one run",
+   "lines": [
+    2108,
+    2109
+   ]
+  },
+  {
+   "index": 173,
+   "name": "product: the adopted flip damper reaches the live shadow book",
+   "lines": [
+    2111,
+    2156
+   ]
+  },
+  {
+   "index": 174,
+   "name": "product: the adopted flip damper reaches the live shadow book",
+   "lines": [
+    2160,
+    2161
+   ]
+  },
+  {
+   "index": 175,
+   "name": "product: the day-of-month face counts sessions, not name-days",
+   "lines": [
+    2162,
+    2201
+   ]
+  },
+  {
+   "index": 176,
+   "name": "product: the day-of-month face counts sessions, not name-days",
+   "lines": [
+    2204,
+    2205
+   ]
+  },
+  {
+   "index": 177,
+   "name": "product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
+   "lines": [
+    2206,
+    2245
+   ]
+  },
+  {
+   "index": 178,
+   "name": "product: the observation-rate ladder prices its own resolution",
+   "lines": [
+    2250,
+    2291
+   ]
+  },
+  {
+   "index": 179,
+   "name": "product: the observation-rate ladder prices its own resolution",
+   "lines": [
+    2298,
+    2299
+   ]
+  },
+  {
+   "index": 180,
+   "name": "product: the volatility gate separates held days from episodes",
+   "lines": [
+    2301,
+    2364
+   ]
+  },
+  {
+   "index": 181,
+   "name": "product: the volatility gate separates held days from episodes",
+   "lines": [
+    2372,
+    2373
+   ]
+  },
+  {
+   "index": 182,
+   "name": "product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
+   "lines": [
+    2375,
+    2376
+   ]
+  },
+  {
+   "index": 183,
+   "name": "product: the state tilt publishes its own effective sample size",
+   "lines": [
+    2378,
+    2432
+   ]
+  },
+  {
+   "index": 184,
+   "name": "product: the state tilt publishes its own effective sample size",
+   "lines": [
+    2442,
+    2443
+   ]
+  },
+  {
+   "index": 185,
+   "name": "product: the state tilt prices the toll it would need",
+   "lines": [
+    2445,
+    2501
+   ]
+  },
+  {
+   "index": 186,
+   "name": "product: the state tilt prices the toll it would need",
+   "lines": [
+    2513,
+    2514
+   ]
+  },
+  {
+   "index": 187,
+   "name": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "lines": [
+    2515,
+    2571
+   ]
+  },
+  {
+   "index": 188,
+   "name": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "lines": [
+    2582,
+    2583
+   ]
+  },
+  {
+   "index": 189,
+   "name": "product: the paired timing value splits into selection, sizing and toll",
+   "lines": [
+    2585,
+    2645
+   ]
+  },
+  {
+   "index": 190,
+   "name": "product: the paired timing value splits into selection, sizing and toll",
+   "lines": [
+    2657,
+    2658
+   ]
+  },
+  {
+   "index": 191,
+   "name": "product: a hysteresis band's toll saving is judged against its selection loss",
+   "lines": [
+    2660,
+    2734
+   ]
+  },
+  {
+   "index": 192,
+   "name": "product: a hysteresis band's toll saving is judged against its selection loss",
+   "lines": [
+    2743,
+    2744
+   ]
+  },
+  {
+   "index": 193,
+   "name": "product: a band that passed on one path is path-tested before it is a finding",
+   "lines": [
+    2746,
+    2843
+   ]
+  },
+  {
+   "index": 194,
+   "name": "product: a band that passed on one path is path-tested before it is a finding",
+   "lines": [
+    2853,
+    2854
+   ]
+  },
+  {
+   "index": 195,
+   "name": "product: the family's toll conclusion is re-read under a non-linear charge",
+   "lines": [
+    2856,
+    2887
+   ]
+  },
+  {
+   "index": 196,
+   "name": "product: the family's toll conclusion is re-read under a non-linear charge",
+   "lines": [
+    2893,
+    2894
+   ]
+  },
+  {
+   "index": 197,
+   "name": "product: the charge curvature is measured, not assumed, before verdicts ride it",
+   "lines": [
+    2896,
+    2953
+   ]
+  },
+  {
+   "index": 198,
+   "name": "product: the charge curvature is measured, not assumed, before verdicts ride it",
+   "lines": [
+    2963,
+    2964
+   ]
+  },
+  {
+   "index": 199,
+   "name": "product: a book-level exponent is measured per member before it is charged",
+   "lines": [
+    2966,
+    3017
+   ]
+  },
+  {
+   "index": 200,
+   "name": "product: a book-level exponent is measured per member before it is charged",
+   "lines": [
+    3026,
+    3027
+   ]
+  },
+  {
+   "index": 201,
+   "name": "product: the price of a sleeve move is measured against own and book turnover before the book is charged",
+   "lines": [
+    3029,
+    3077
+   ]
+  },
+  {
+   "index": 202,
+   "name": "product: the price of a sleeve move is measured against own and book turnover before the book is charged",
+   "lines": [
+    3087,
+    3088
+   ]
+  },
+  {
+   "index": 203,
+   "name": "product: a share-and-difference design may only settle a channel whose size the designs agree on",
+   "lines": [
+    3090,
+    3128
+   ]
+  },
+  {
+   "index": 204,
+   "name": "product: a share-and-difference design may only settle a channel whose size the designs agree on",
+   "lines": [
+    3136,
+    3137
+   ]
+  },
+  {
+   "index": 205,
+   "name": "product: the own-turnover channel is tested against information arrival before it is called an impact effect",
+   "lines": [
+    3139,
+    3183
+   ]
+  },
+  {
+   "index": 206,
+   "name": "product: the own-turnover channel is tested against information arrival before it is called an impact effect",
+   "lines": [
+    3194,
+    3195
+   ]
+  },
+  {
+   "index": 207,
+   "name": "product: the own-turnover channel is re-measured against a book that does not contain it",
+   "lines": [
+    3197,
+    3244
+   ]
+  },
+  {
+   "index": 208,
+   "name": "product: the own-turnover channel is re-measured against a book that does not contain it",
+   "lines": [
+    3250,
+    3251
+   ]
+  },
+  {
+   "index": 209,
+   "name": "product: own turnover is priced against ONE counterparty's turnover on the same footing",
+   "lines": [
+    3253,
+    3313
+   ]
+  },
+  {
+   "index": 210,
+   "name": "product: own turnover is priced against ONE counterparty's turnover on the same footing",
+   "lines": [
+    3320,
+    3321
+   ]
+  },
+  {
+   "index": 211,
+   "name": "product: the book aggregate is compared on ONE parametrisation",
+   "lines": [
+    3323,
+    3376
+   ]
+  },
+  {
+   "index": 212,
+   "name": "product: the book aggregate is compared on ONE parametrisation",
+   "lines": [
+    3384,
+    3385
+   ]
+  },
+  {
+   "index": 213,
+   "name": "product: a non-reproducing pair is traced rung by rung to the reader",
+   "lines": [
+    3387,
+    3447
+   ]
+  },
+  {
+   "index": 214,
+   "name": "product: a non-reproducing pair is traced rung by rung to the reader",
+   "lines": [
+    3455,
+    3456
+   ]
+  },
+  {
+   "index": 215,
+   "name": "product: an omission-inflated slope is re-priced against a named identified form",
+   "lines": [
+    3458,
+    3510
+   ]
+  },
+  {
+   "index": 216,
+   "name": "product: an omission-inflated slope is re-priced against a named identified form",
+   "lines": [
+    3522,
+    3523
+   ]
+  },
+  {
+   "index": 217,
+   "name": "product: a verdict survives its own out-of-sample path",
+   "lines": [
+    3525,
+    3563
+   ]
+  },
+  {
+   "index": 218,
+   "name": "product: a verdict survives its own out-of-sample path",
+   "lines": [
+    3570,
+    3571
+   ]
+  },
+  {
+   "index": 219,
+   "name": "product: the spread is attributed to a named counterparty that repeats",
+   "lines": [
+    3572,
+    3609
+   ]
+  },
+  {
+   "index": 220,
+   "name": "product: the spread is attributed to a named counterparty that repeats",
+   "lines": [
+    3616,
+    3617
+   ]
+  },
+  {
+   "index": 221,
+   "name": "product: the un-summed matrix names structure without a sum regressor",
+   "lines": [
+    3619,
+    3663
+   ]
+  },
+  {
+   "index": 222,
+   "name": "product: the un-summed matrix names structure without a sum regressor",
+   "lines": [
+    3669,
+    3670
+   ]
+  },
+  {
+   "index": 223,
+   "name": "product: star direction is decided from lag designs, not asserted",
+   "lines": [
+    3672,
+    3752
+   ]
+  },
+  {
+   "index": 224,
+   "name": "product: star direction is decided from lag designs, not asserted",
+   "lines": [
+    3758,
+    3759
+   ]
+  },
+  {
+   "index": 225,
+   "name": "product: the star lag band is re-derived from its own shuffled null",
+   "lines": [
+    3761,
+    3820
+   ]
+  },
+  {
+   "index": 226,
+   "name": "product: the star lag band is re-derived from its own shuffled null",
+   "lines": [
+    3825,
+    3826
+   ]
+  },
+  {
+   "index": 227,
+   "name": "product: the negative lead is read column by column, not off one column",
+   "lines": [
+    3828,
+    3913
+   ]
+  },
+  {
+   "index": 228,
+   "name": "product: the negative lead is read column by column, not off one column",
+   "lines": [
+    3921,
+    3922
+   ]
+  },
+  {
+   "index": 229,
+   "name": "product: the shared lead is tested against the book's own aggregate turnover",
+   "lines": [
+    3924,
+    3982
+   ]
+  },
+  {
+   "index": 230,
+   "name": "product: the shared lead is tested against the book's own aggregate turnover",
+   "lines": [
+    3987,
+    3988
+   ]
+  },
+  {
+   "index": 231,
+   "name": "product: the star's residual is decomposed and split from volatility and age",
+   "lines": [
+    3990,
+    4069
+   ]
+  },
+  {
+   "index": 232,
+   "name": "product: the star's residual is decomposed and split from volatility and age",
+   "lines": [
+    4076,
+    4077
+   ]
+  },
+  {
+   "index": 233,
+   "name": "product: the star's own row is priced against the column it carries for others",
+   "lines": [
+    4079,
+    4172
+   ]
+  },
+  {
+   "index": 234,
+   "name": "product: the star's own row is priced against the column it carries for others",
+   "lines": [
+    4179,
+    4180
+   ]
+  },
+  {
+   "index": 235,
+   "name": "product: a claimed RNG drift is decided by measurement, and the stream is pinned",
+   "lines": [
+    4182,
+    4212
+   ]
+  },
+  {
+   "index": 236,
+   "name": "product: a claimed RNG drift is decided by measurement, and the stream is pinned",
+   "lines": [
+    4218,
+    4219
+   ]
+  },
+  {
+   "index": 237,
+   "name": "product: the star's unread self row is scheduled, not excused",
+   "lines": [
+    4221,
+    4301
+   ]
+  },
+  {
+   "index": 238,
+   "name": "product: the star's unread self row is scheduled, not excused",
+   "lines": [
+    4311,
+    4312
+   ]
+  },
+  {
+   "index": 239,
+   "name": "product: the band's own ladder decides the exponent, not the assumed one",
+   "lines": [
+    4314,
+    4417
+   ]
+  },
+  {
+   "index": 240,
+   "name": "product: the band's own ladder decides the exponent, not the assumed one",
+   "lines": [
+    4426,
+    4427
+   ]
+  },
+  {
+   "index": 241,
+   "name": "product: draws move the band's LEVEL, not only its noise",
+   "lines": [
+    4429,
+    4512
+   ]
+  },
+  {
+   "index": 242,
+   "name": "product: draws move the band's LEVEL, not only its noise",
+   "lines": [
+    4524,
+    4525
+   ]
+  },
+  {
+   "index": 243,
+   "name": "product: the band endpoint is scheduled, not waited out",
+   "lines": [
+    4527,
+    4606
+   ]
+  },
+  {
+   "index": 244,
+   "name": "product: the band endpoint is scheduled, not waited out",
+   "lines": [
+    4623,
+    4624
+   ]
+  },
+  {
+   "index": 245,
+   "name": "product: the published band verdicts are re-judged at the top draw count",
+   "lines": [
+    4625,
+    4700
+   ]
+  },
+  {
+   "index": 246,
+   "name": "product: the published band verdicts are re-judged at the top draw count",
+   "lines": [
+    4712,
+    4713
+   ]
+  },
+  {
+   "index": 247,
+   "name": "product: the draw multiplier is a distribution, not a three-seed range",
+   "lines": [
+    4715,
+    4782
+   ]
+  },
+  {
+   "index": 248,
+   "name": "product: the draw multiplier is a distribution, not a three-seed range",
+   "lines": [
+    4798,
+    4799
+   ]
+  },
+  {
+   "index": 249,
+   "name": "product: the published base draw count sits below the endpoint arrival count",
+   "lines": [
+    4801,
+    4877
+   ]
+  },
+  {
+   "index": 250,
+   "name": "product: the published base draw count sits below the endpoint arrival count",
+   "lines": [
+    4890,
+    4891
+   ]
+  },
+  {
+   "index": 251,
+   "name": "product: the floor at one belongs to the attained bucket, not the stream",
+   "lines": [
+    4893,
+    4978
+   ]
+  },
+  {
+   "index": 252,
+   "name": "product: the floor at one belongs to the attained bucket, not the stream",
+   "lines": [
+    4993,
+    4994
+   ]
+  },
+  {
+   "index": 253,
+   "name": "product: a draw budget is neither a window length nor a band width",
+   "lines": [
+    4996,
+    5085
+   ]
+  },
+  {
+   "index": 254,
+   "name": "product: a draw budget is neither a window length nor a band width",
+   "lines": [
+    5102,
+    5103
+   ]
+  },
+  {
+   "index": 255,
+   "name": "product: another window's wide end is not a bound",
+   "lines": [
+    5105,
+    5228
+   ]
+  },
+  {
+   "index": 256,
+   "name": "product: another window's wide end is not a bound",
+   "lines": [
+    5240,
+    5241
+   ]
+  },
+  {
+   "index": 257,
+   "name": "product: a row's verdict is its own threshold, not a neighbour's draws",
+   "lines": [
+    5243,
+    5321
+   ]
+  },
+  {
+   "index": 258,
+   "name": "product: a row's verdict is its own threshold, not a neighbour's draws",
+   "lines": [
+    5339,
+    5340
+   ]
+  },
+  {
+   "index": 259,
+   "name": "product: a donor above the row is not yet a screen (it needs the row's own side)",
+   "lines": [
+    5342,
+    5406
+   ]
+  },
+  {
+   "index": 260,
+   "name": "product: a donor above the row is not yet a screen (it needs the row's own side)",
+   "lines": [
+    5420,
+    5421
+   ]
+  },
+  {
+   "index": 261,
+   "name": "product: a margin is not a substitute for the row's own side",
+   "lines": [
+    5423,
+    5519
+   ]
+  },
+  {
+   "index": 262,
+   "name": "product: a margin is not a substitute for the row's own side",
+   "lines": [
+    5533,
+    5534
+   ]
+  },
+  {
+   "index": 263,
+   "name": "product: a pooled end is not the row's own end until it answers the same way elsewhere",
+   "lines": [
+    5536,
+    5634
+   ]
+  },
+  {
+   "index": 264,
+   "name": "product: a pooled end is not the row's own end until it answers the same way elsewhere",
+   "lines": [
+    5648,
+    5649
+   ]
+  },
+  {
+   "index": 265,
+   "name": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "lines": [
+    5651,
+    5791
+   ]
+  },
+  {
+   "index": 266,
+   "name": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "lines": [
+    5802,
+    5803
+   ]
+  },
+  {
+   "index": 267,
+   "name": "product: two published numbers -- the flip multiplier and the range an axis offers -- reproduce every moved set the band family published",
+   "lines": [
+    5805,
+    5869
+   ]
+  },
+  {
+   "index": 268,
+   "name": "product: two published numbers -- the flip multiplier and the range an axis offers -- reproduce every moved set the band family published",
+   "lines": [
+    5879,
+    5880
+   ]
+  },
+  {
+   "index": 269,
+   "name": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "lines": [
+    5882,
+    5999
+   ]
+  },
+  {
+   "index": 270,
+   "name": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "lines": [
+    6011,
+    6012
+   ]
+  },
+  {
+   "index": 271,
+   "name": "product: a screen's reach is what the published faces carry, and presence is not agreement",
+   "lines": [
+    6013,
+    6107
+   ]
+  },
+  {
+   "index": 272,
+   "name": "product: a screen's reach is what the published faces carry, and presence is not agreement",
+   "lines": [
+    6123,
+    6124
+   ]
+  },
+  {
+   "index": 273,
+   "name": "product: each published window's draw multiplier is measured, not borrowed",
+   "lines": [
+    6125,
+    6191
+   ]
+  },
+  {
+   "index": 274,
+   "name": "product: each published window's draw multiplier is measured, not borrowed",
+   "lines": [
+    6203,
+    6204
+   ]
+  },
+  {
+   "index": 275,
+   "name": "product: a published threshold re-runs the guard, and the face says which form",
+   "lines": [
+    6206,
+    6288
+   ]
+  },
+  {
+   "index": 276,
+   "name": "product: a published threshold re-runs the guard, and the face says which form",
+   "lines": [
+    6302,
+    6303
+   ]
+  },
+  {
+   "index": 277,
+   "name": "product: the moved set is scored donor by donor, and a pivotal cell is named",
+   "lines": [
+    6305,
+    6383
+   ]
+  },
+  {
+   "index": 278,
+   "name": "product: the moved set is scored donor by donor, and a pivotal cell is named",
+   "lines": [
+    6397,
+    6398
+   ]
+  },
+  {
+   "index": 279,
+   "name": "product: a cleared row is not equally cleared -- the margin left is measured, and a zone is not a movement claim",
+   "lines": [
+    6400,
+    6483
+   ]
+  },
+  {
+   "index": 280,
+   "name": "product: a cleared row is not equally cleared -- the margin left is measured, and a zone is not a movement claim",
+   "lines": [
+    6493,
+    6494
+   ]
+  },
+  {
+   "index": 281,
+   "name": "product: the tight multiplier floor is the band build, not the windows -- a tight-pass check on this family can only return zero",
+   "lines": [
+    6495,
+    6552
+   ]
+  },
+  {
+   "index": 282,
+   "name": "product: the tight multiplier floor is the band build, not the windows -- a tight-pass check on this family can only return zero",
+   "lines": [
+    6563,
+    6564
+   ]
+  },
+  {
+   "index": 283,
+   "name": "product: the one zero-spread tail is the band floor at the thin shuffle, not an unlucky group -- the stranded rows stay unmeasured",
+   "lines": [
+    6565,
+    6625
+   ]
+  },
+  {
+   "index": 284,
+   "name": "product: the one zero-spread tail is the band floor at the thin shuffle, not an unlucky group -- the stranded rows stay unmeasured",
+   "lines": [
+    6637,
+    6638
+   ]
+  },
+  {
+   "index": 285,
+   "name": "product: reading the other tail never contradicts, but where it fires the agreement is vacuous -- substitution is an upper bound, not a reading",
+   "lines": [
+    6639,
+    6699
+   ]
+  },
+  {
+   "index": 286,
+   "name": "product: reading the other tail never contradicts, but where it fires the agreement is vacuous -- substitution is an upper bound, not a reading",
+   "lines": [
+    6715,
+    6716
+   ]
+  },
+  {
+   "index": 287,
+   "name": "product: a cannot on a stranded tail needs no withdrawal here, but it is never a reading -- and the disagreement field is keyed on the group, not the cell",
+   "lines": [
+    6717,
+    6776
+   ]
+  },
+  {
+   "index": 288,
+   "name": "product: a cannot on a stranded tail needs no withdrawal here, but it is never a reading -- and the disagreement field is keyed on the group, not the cell",
+   "lines": [
+    6787,
+    6788
+   ]
+  },
+  {
+   "index": 289,
+   "name": "product: the two disagreeing tails are a RANGE difference, not a rounding tie -- the gap field reads 0 for every interior reading, so it cannot say 'on the flip'",
+   "lines": [
+    6789,
+    6852
+   ]
+  },
+  {
+   "index": 290,
+   "name": "product: the two disagreeing tails are a RANGE difference, not a rounding tie -- the gap field reads 0 for every interior reading, so it cannot say 'on the flip'",
+   "lines": [
+    6868,
+    6869
+   ]
+  },
+  {
+   "index": 291,
+   "name": "product: a contradiction branch that needs a 63 pct tolerance is not a test -- publish the split the tolerance would produce, not only the tolerance",
+   "lines": [
+    6870,
+    6948
+   ]
+  },
+  {
+   "index": 292,
+   "name": "product: a contradiction branch that needs a 63 pct tolerance is not a test -- publish the split the tolerance would produce, not only the tolerance",
+   "lines": [
+    6962,
+    6963
+   ]
+  },
+  {
+   "index": 293,
+   "name": "product: a field that names rows while publishing group labels must be repaired at cell scope -- and the sweep must not call unjudged counts clean",
+   "lines": [
+    6964,
+    7036
+   ]
+  },
+  {
+   "index": 294,
+   "name": "product: a field that names rows while publishing group labels must be repaired at cell scope -- and the sweep must not call unjudged counts clean",
+   "lines": [
+    7049,
+    7050
+   ]
+  },
+  {
+   "index": 295,
+   "name": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "lines": [
+    7051,
+    7135
+   ]
+  },
+  {
+   "index": 296,
+   "name": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "lines": [
+    7152,
+    7153
+   ]
+  },
+  {
+   "index": 297,
+   "name": "product: a unit-named count is checkable only inside its own scope -- and the share that is checkable must be reported, not assumed whole",
+   "lines": [
+    7154,
+    7228
+   ]
+  },
+  {
+   "index": 298,
+   "name": "product: a unit-named count is checkable only inside its own scope -- and the share that is checkable must be reported, not assumed whole",
+   "lines": [
+    7244,
+    7245
+   ]
+  },
+  {
+   "index": 299,
+   "name": "product: a count is self-auditable only when its own records share its scope -- and an equal-length alternative list makes the agreement ambiguous, not clean",
+   "lines": [
+    7246,
+    7329
+   ]
+  },
+  {
+   "index": 300,
+   "name": "product: a count is self-auditable only when its own records share its scope -- and an equal-length alternative list makes the agreement ambiguous, not clean",
+   "lines": [
+    7356,
+    7357
+   ]
+  },
+  {
+   "index": 301,
+   "name": "product: an equal-length sibling is the face's shape repeating, not a coin flip -- the ambiguity flag's rate is the length base rate and its mechanism is schema and aliases",
+   "lines": [
+    7358,
+    7436
+   ]
+  },
+  {
+   "index": 302,
+   "name": "product: an equal-length sibling is the face's shape repeating, not a coin flip -- the ambiguity flag's rate is the length base rate and its mechanism is schema and aliases",
+   "lines": [
+    7460,
+    7461
+   ]
+  },
+  {
+   "index": 303,
+   "name": "product: the family's ceiling is above every supply the family already publishes -- the extrapolated rows stay extrapolated and only the gap rows are reachable",
+   "lines": [
+    7462,
+    7560
+   ]
+  },
+  {
+   "index": 304,
+   "name": "product: the family's ceiling is above every supply the family already publishes -- the extrapolated rows stay extrapolated and only the gap rows are reachable",
+   "lines": [
+    7582,
+    7583
+   ]
+  },
+  {
+   "index": 305,
+   "name": "product: a below-floor flip needs the band narrowed -- the published narrowing instrument is measured on its own polarity and its cost on the others",
+   "lines": [
+    7584,
+    7671
+   ]
+  },
+  {
+   "index": 306,
+   "name": "product: a below-floor flip needs the band narrowed -- the published narrowing instrument is measured on its own polarity and its cost on the others",
+   "lines": [
+    7692,
+    7693
+   ]
+  },
+  {
+   "index": 307,
+   "name": "product: a duplicated list is the family's shape, and no published scope counts an alias group twice -- re-derived against the universe the face published",
+   "lines": [
+    7694,
+    7762
+   ]
+  },
+  {
+   "index": 308,
+   "name": "product: a duplicated list is the family's shape, and no published scope counts an alias group twice -- re-derived against the universe the face published",
+   "lines": [
+    7780,
+    7781
+   ]
+  },
+  {
+   "index": 309,
+   "name": "product: a margin that looks one rung away is priced as one step, not as headroom -- the ladder's own step size sits beside the derived demand set, and a crossing that needs a rung the family never measured is declared a",
+   "lines": [
+    7782,
+    7860
+   ]
+  },
+  {
+   "index": 310,
+   "name": "product: a margin that looks one rung away is priced as one step, not as headroom -- the ladder's own step size sits beside the derived demand set, and a crossing that needs a rung the family never measured is declared a",
+   "lines": [
+    7880,
+    7881
+   ]
+  },
+  {
+   "index": 311,
+   "name": "product: a demand is priced against the window that owns it -- every published demand row carries its own-window margin beside the borrowed-cap margin, and a row with no window-local reference says which face it needs in",
+   "lines": [
+    7882,
+    7984
+   ]
+  },
+  {
+   "index": 312,
+   "name": "product: a demand is priced against the window that owns it -- every published demand row carries its own-window margin beside the borrowed-cap margin, and a row with no window-local reference says which face it needs in",
+   "lines": [
+    8008,
+    8009
+   ]
+  },
+  {
+   "index": 313,
+   "name": "product: every published control block is censused by which panel it re-derived on -- replays that cannot name their basis are published as unmeasurable, never as safe or broken",
+   "lines": [
+    8010,
+    8065
+   ]
+  },
+  {
+   "index": 314,
+   "name": "product: every published control block is censused by which panel it re-derived on -- replays that cannot name their basis are published as unmeasurable, never as safe or broken",
+   "lines": [
+    8077,
+    8078
+   ]
+  },
+  {
+   "index": 315,
+   "name": "product: the seven replays that publish no basis are recovered from the code that wrote them -- declared beside the block, dropped from a stale face, or live-panel by construction, with the different vintage as the witne",
+   "lines": [
+    8079,
+    8124
+   ]
+  },
+  {
+   "index": 316,
+   "name": "product: the seven replays that publish no basis are recovered from the code that wrote them -- declared beside the block, dropped from a stale face, or live-panel by construction, with the different vintage as the witne",
+   "lines": [
+    8135,
+    8136
+   ]
+  },
+  {
+   "index": 317,
+   "name": "product: the 'move the count into the scope that publishes its unit' fix plan is priced -- each of the 301 rows is scored by where a move would land, so an agreement against a one-item list in an unrelated subtree is nev",
+   "lines": [
+    8137,
+    8239
+   ]
+  },
+  {
+   "index": 318,
+   "name": "product: the 'move the count into the scope that publishes its unit' fix plan is priced -- each of the 301 rows is scored by where a move would land, so an agreement against a one-item list in an unrelated subtree is nev",
+   "lines": [
+    8254,
+    8255
+   ]
+  },
+  {
+   "index": 319,
+   "name": "product: the live-universe question under the freeze is priced -- for every study that censuses the BAND directory the published verdict is re-derived twice (frozen vintage vs the live directory), so 'the verdict moved' ",
+   "lines": [
+    8256,
+    8353
+   ]
+  },
+  {
+   "index": 320,
+   "name": "product: the live-universe question under the freeze is priced -- for every study that censuses the BAND directory the published verdict is re-derived twice (frozen vintage vs the live directory), so 'the verdict moved' ",
+   "lines": [
+    8364,
+    8365
+   ]
+  },
+  {
+   "index": 321,
+   "name": "product: a leg that compares a face value finer than the field is printed is named, and no integer key or self-quantized comparison is convicted as one",
+   "lines": [
+    8366,
+    8427
+   ]
+  },
+  {
+   "index": 322,
+   "name": "product: a leg that compares a face value finer than the field is printed is named, and no integer key or self-quantized comparison is convicted as one",
+   "lines": [
+    8438,
+    8439
+   ]
+  },
+  {
+   "index": 323,
+   "name": "product: a face-level bound is not a measurement -- every face-bound row is resolved to a reason and none is left at risk without a printed number",
+   "lines": [
+    8440,
+    8493
+   ]
+  },
+  {
+   "index": 324,
+   "name": "product: a face-level bound is not a measurement -- every face-bound row is resolved to a reason and none is left at risk without a printed number",
+   "lines": [
+    8501,
+    8502
+   ]
+  },
+  {
+   "index": 325,
+   "name": "product: the three universe-unaskable studies are switchable, each row varies a narrower universe than the live one, and the price of the switch is published",
+   "lines": [
+    8503,
+    8568
+   ]
+  },
+  {
+   "index": 326,
+   "name": "product: the three universe-unaskable studies are switchable, each row varies a narrower universe than the live one, and the price of the switch is published",
+   "lines": [
+    8580,
+    8581
+   ]
+  }
+ ],
+ "sites": [
+  {
+   "leg_index": 19,
+   "leg": "engine: exits fill at T+1 open (RW-1)",
+   "line": 116,
+   "kind": "epsilon",
+   "tolerance": 1e-06,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "date",
+    "price",
+    "symbol"
+   ],
+   "faces_named": [],
+   "expression": "abs(round(float(open_px[t['symbol']].get(t['date'], float('nan'))), 4) - t['price']) > 1e-06",
+   "key_profiles": [],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 76,
+   "leg": "product: dashboard carries the marks coverage gap",
+   "line": 703,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "coverage_pct_closed",
+    "marks_coverage_pct"
+   ],
+   "faces_named": [
+    "results/dashboard_status.json",
+    "results/marks_coverage.json",
+    "results/t35_open_fill_verify.json"
+   ],
+   "expression": "_pp.get('marks_coverage_pct') == _c2.get('coverage_pct_closed')",
+   "key_profiles": [
+    {
+     "key": "marks_coverage_pct",
+     "n_values": 1,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 1,
+     "integer_only": false,
+     "coarsest_decimals": 2,
+     "coarsest_quantum": 0.01,
+     "face": "results/dashboard_status.json"
+    },
+    {
+     "key": "coverage_pct_closed",
+     "n_values": 1,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 1,
+     "integer_only": false,
+     "coarsest_decimals": 2,
+     "coarsest_quantum": 0.01,
+     "face": "results/marks_coverage.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/dashboard_status.json",
+     "key": "marks_coverage_pct",
+     "basis": "per_key",
+     "face_quantum": 0.01,
+     "face_decimals": 2,
+     "ratio": null
+    },
+    {
+     "face": "results/marks_coverage.json",
+     "key": "coverage_pct_closed",
+     "basis": "per_key",
+     "face_quantum": 0.01,
+     "face_decimals": 2,
+     "ratio": null
+    },
+    {
+     "face": "results/t35_open_fill_verify.json",
+     "key": null,
+     "basis": "face_level",
+     "face_quantum": 0.001,
+     "face_decimals": 3,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 78,
+   "leg": "product: open-fill gate names its evidence tier and the bar tier's prices are the bars'",
+   "line": 750,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "session_open"
+   ],
+   "faces_named": [
+    "results/t35_open_fill_verify.json"
+   ],
+   "expression": "abs(_px - _r['session_open']) > 1e-09",
+   "key_profiles": [],
+   "at_risk_faces": [
+    {
+     "face": "results/t35_open_fill_verify.json",
+     "key": null,
+     "basis": "face_level",
+     "face_quantum": 0.001,
+     "face_decimals": 3,
+     "ratio": 500000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 154,
+   "leg": "product: ETF live-book cash leg is priced off the repo panel's own close",
+   "line": 1768,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "rate_date"
+   ],
+   "faces_named": [],
+   "expression": "_cy.get('rate_date') == _last[0]",
+   "key_profiles": [],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 154,
+   "leg": "product: ETF live-book cash leg is priced off the repo panel's own close",
+   "line": 1769,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "rate_pct"
+   ],
+   "faces_named": [],
+   "expression": "abs(float(_cy.get('rate_pct') or 0) - _last[1]) < 1e-09",
+   "key_profiles": [],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 160,
+   "leg": "product: futures TSMOM face is current, capped and not an order",
+   "line": 1901,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "generated_for_bar"
+   ],
+   "faces_named": [
+    "results/futures_tsmom_signal.json"
+   ],
+   "expression": "_face.get('generated_for_bar') == _panel_tail",
+   "key_profiles": [
+    {
+     "key": "generated_for_bar",
+     "n_values": 1,
+     "n_integral": 0,
+     "n_non_numeric": 1,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/futures_tsmom_signal.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 165,
+   "leg": "product: overlay breakeven is recomputable from its own ladder",
+   "line": 1956,
+   "kind": "quantized_equality",
+   "tolerance": 0.0001,
+   "note": "round(...,4) == round(...,4)",
+   "reads_a_face_value": true,
+   "keys": [
+    "weight_in_sleeve"
+   ],
+   "faces_named": [
+    "results/futures_overlay_sweep.json"
+   ],
+   "expression": "round(float(r['weight_in_sleeve']), 4) == round(float(_w), 4)",
+   "key_profiles": [
+    {
+     "key": "weight_in_sleeve",
+     "n_values": 96,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 96,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/futures_overlay_sweep.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 167,
+   "leg": "product: overlay no-trade band is priced on both sides of the trade",
+   "line": 1979,
+   "kind": "quantized_equality",
+   "tolerance": 0.0001,
+   "note": "round(...,4) == round(...,4)",
+   "reads_a_face_value": true,
+   "keys": [
+    "band"
+   ],
+   "faces_named": [
+    "results/futures_overlay_sweep.json"
+   ],
+   "expression": "round(_base['band'], 4) != 0.0",
+   "key_profiles": [
+    {
+     "key": "band",
+     "n_values": 10,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 10,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/futures_overlay_sweep.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 171,
+   "leg": "product: the flip damper is adopted or rejected by path cells, not one run",
+   "line": 2094,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "share_positive"
+   ],
+   "faces_named": [
+    "results/futures_overlay_fliprate_paths.json"
+   ],
+   "expression": "_ad.get('share_positive') != _share",
+   "key_profiles": [
+    {
+     "key": "share_positive",
+     "n_values": 4,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 4,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/futures_overlay_fliprate_paths.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/futures_overlay_fliprate_paths.json",
+     "key": "share_positive",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 175,
+   "leg": "product: the day-of-month face counts sessions, not name-days",
+   "line": 2186,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "se_bp"
+   ],
+   "faces_named": [
+    "results/dom_profile/PROFILE-*.json"
+   ],
+   "expression": "(_pub.get('se_bp') or 0) < 1e-09",
+   "key_profiles": [],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 175,
+   "leg": "product: the day-of-month face counts sessions, not name-days",
+   "line": 2183,
+   "kind": "epsilon",
+   "tolerance": 1e-06,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "diff_bp"
+   ],
+   "faces_named": [
+    "results/dom_profile/PROFILE-*.json"
+   ],
+   "expression": "abs(_pub['diff_bp'] - _want) > 1e-06",
+   "key_profiles": [],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 177,
+   "leg": "product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
+   "line": 2229,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "cost_bp_per_month",
+    "cost_side_bp"
+   ],
+   "faces_named": [
+    "results/tom_overlay/latest.json"
+   ],
+   "expression": "abs((_a.get('cost_bp_per_month') or 0) - 2 * (_spec.get('cost_side_bp') or 0)) > 1e-09",
+   "key_profiles": [
+    {
+     "key": "cost_bp_per_month",
+     "n_values": 14,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 14,
+     "integer_only": false,
+     "coarsest_decimals": 3,
+     "coarsest_quantum": 0.001,
+     "face": "results/tom_overlay/latest.json"
+    },
+    {
+     "key": "cost_side_bp",
+     "n_values": 15,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 15,
+     "integer_only": false,
+     "coarsest_decimals": 3,
+     "coarsest_quantum": 0.001,
+     "face": "results/tom_overlay/latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/tom_overlay/latest.json",
+     "key": "cost_bp_per_month",
+     "basis": "per_key",
+     "face_quantum": 0.001,
+     "face_decimals": 3,
+     "ratio": 500000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 180,
+   "leg": "product: the volatility gate separates held days from episodes",
+   "line": 2361,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "ceiling_episodes_per_year",
+    "hold_sessions"
+   ],
+   "faces_named": [
+    "results/vol_gate/latest.json"
+   ],
+   "expression": "abs((_o.get('ceiling_episodes_per_year') or 0) - 252.0 / (_o.get('hold_sessions') or 1)) > 1e-09",
+   "key_profiles": [
+    {
+     "key": "ceiling_episodes_per_year",
+     "n_values": 4,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 4,
+     "integer_only": false,
+     "coarsest_decimals": 1,
+     "coarsest_quantum": 0.1,
+     "face": "results/vol_gate/latest.json"
+    },
+    {
+     "key": "hold_sessions",
+     "n_values": 12,
+     "n_integral": 12,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/vol_gate/latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/vol_gate/latest.json",
+     "key": "ceiling_episodes_per_year",
+     "basis": "per_key",
+     "face_quantum": 0.1,
+     "face_decimals": 1,
+     "ratio": 50000000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 180,
+   "leg": "product: the volatility gate separates held days from episodes",
+   "line": 2332,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "cost_side_bp"
+   ],
+   "faces_named": [
+    "results/vol_gate/latest.json"
+   ],
+   "expression": "abs(_toll - 2 * (_spec.get('cost_side_bp') or 0)) > 1e-09",
+   "key_profiles": [
+    {
+     "key": "cost_side_bp",
+     "n_values": 1,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 1,
+     "integer_only": false,
+     "coarsest_decimals": 3,
+     "coarsest_quantum": 0.001,
+     "face": "results/vol_gate/latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/vol_gate/latest.json",
+     "key": "cost_side_bp",
+     "basis": "per_key",
+     "face_quantum": 0.001,
+     "face_decimals": 3,
+     "ratio": 500000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 183,
+   "leg": "product: the state tilt publishes its own effective sample size",
+   "line": 2411,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "n_eff_over_sessions"
+   ],
+   "faces_named": [
+    "results/state_tilt/latest.json"
+   ],
+   "expression": "abs(_a['n_eff_over_sessions'] - _ne / _n) > 1e-09",
+   "key_profiles": [
+    {
+     "key": "n_eff_over_sessions",
+     "n_values": 10,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 10,
+     "integer_only": false,
+     "coarsest_decimals": 14,
+     "coarsest_quantum": 1e-14,
+     "face": "results/state_tilt/latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 187,
+   "leg": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "line": 2556,
+   "kind": "epsilon",
+   "tolerance": 1e-06,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "mde_ann_bp_per_year",
+    "se_nw"
+   ],
+   "faces_named": [
+    "results/state_tilt/MATCHED-%s.json",
+    "results/state_tilt/matched_latest.json"
+   ],
+   "expression": "abs((_pa28.get('mde_ann_bp_per_year') or 0.0) - 2.802 * _pa28['se_nw'] * 252.0) > 1e-06",
+   "key_profiles": [
+    {
+     "key": "mde_ann_bp_per_year",
+     "n_values": 24,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 24,
+     "integer_only": false,
+     "coarsest_decimals": 13,
+     "coarsest_quantum": 1e-13,
+     "face": "results/state_tilt/matched_latest.json"
+    },
+    {
+     "key": "se_nw",
+     "n_values": 24,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 24,
+     "integer_only": false,
+     "coarsest_decimals": 15,
+     "coarsest_quantum": 1e-15,
+     "face": "results/state_tilt/matched_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 187,
+   "leg": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "line": 2564,
+   "kind": "epsilon",
+   "tolerance": 1e-06,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "attribution_minus_paired_bp",
+    "cost_bp_per_year_oos"
+   ],
+   "faces_named": [
+    "results/state_tilt/MATCHED-%s.json",
+    "results/state_tilt/matched_latest.json"
+   ],
+   "expression": "abs(_bc28['attribution_minus_paired_bp'] + (_mo28.get('cost_bp_per_year_oos') or 0.0)) > 1e-06",
+   "key_profiles": [
+    {
+     "key": "attribution_minus_paired_bp",
+     "n_values": 8,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 8,
+     "integer_only": false,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/matched_latest.json"
+    },
+    {
+     "key": "cost_bp_per_year_oos",
+     "n_values": 32,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 32,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/matched_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/matched_latest.json",
+     "key": "cost_bp_per_year_oos",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 500000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 187,
+   "leg": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "line": 2553,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "cost_bp_per_year_oos"
+   ],
+   "faces_named": [
+    "results/state_tilt/MATCHED-%s.json",
+    "results/state_tilt/matched_latest.json"
+   ],
+   "expression": "(_mo28.get('cost_bp_per_year_oos') or 0.0) != 0.0",
+   "key_profiles": [
+    {
+     "key": "cost_bp_per_year_oos",
+     "n_values": 32,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 32,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/matched_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/matched_latest.json",
+     "key": "cost_bp_per_year_oos",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 189,
+   "leg": "product: the paired timing value splits into selection, sizing and toll",
+   "line": 2623,
+   "kind": "epsilon",
+   "tolerance": 1e-06,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "identity_residual_bp"
+   ],
+   "faces_named": [
+    "results/state_tilt/TIMINGSEL-%s.json",
+    "results/state_tilt/timingsel_latest.json"
+   ],
+   "expression": "abs(_c29.get('identity_residual_bp') or 0.0) > 1e-06",
+   "key_profiles": [
+    {
+     "key": "identity_residual_bp",
+     "n_values": 10,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 10,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/timingsel_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/timingsel_latest.json",
+     "key": "identity_residual_bp",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 500000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 193,
+   "leg": "product: a band that passed on one path is path-tested before it is a finding",
+   "line": 2826,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "band_frac"
+   ],
+   "faces_named": [
+    "results/state_tilt/BANDPATH-%s.json",
+    "results/state_tilt/bandpath_latest.json",
+    "results/state_tilt/hysteresis_latest.json"
+   ],
+   "expression": "abs((_r30b.get('band_frac') or 0.0) - (_focus31.get('band_frac') or 0.0)) < 1e-12",
+   "key_profiles": [
+    {
+     "key": "band_frac",
+     "n_values": 650,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 650,
+     "integer_only": false,
+     "coarsest_decimals": 1,
+     "coarsest_quantum": 0.1,
+     "face": "results/state_tilt/bandpath_latest.json"
+    },
+    {
+     "key": "band_frac",
+     "n_values": 66,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 66,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/hysteresis_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandpath_latest.json",
+     "key": "band_frac",
+     "basis": "per_key",
+     "face_quantum": 0.1,
+     "face_decimals": 1,
+     "ratio": 50000000000.0
+    },
+    {
+     "face": "results/state_tilt/hysteresis_latest.json",
+     "key": "band_frac",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 500000000000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": [
+    {
+     "key": "band_frac",
+     "faces": [
+      "results/state_tilt/bandpath_latest.json",
+      "results/state_tilt/hysteresis_latest.json"
+     ],
+     "max_gap": 1.98
+    }
+   ]
+  },
+  {
+   "leg_index": 199,
+   "leg": "product: a book-level exponent is measured per member before it is charged",
+   "line": 3012,
+   "kind": "epsilon",
+   "tolerance": 1e-06,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "mixture_effect_bp"
+   ],
+   "faces_named": [
+    "results/state_tilt/per_member_gamma_latest.json"
+   ],
+   "expression": "abs(_mix - (_r.get('mixture_effect_bp') or 0.0)) > 1e-06",
+   "key_profiles": [
+    {
+     "key": "mixture_effect_bp",
+     "n_values": 3,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 3,
+     "integer_only": false,
+     "coarsest_decimals": 13,
+     "coarsest_quantum": 1e-13,
+     "face": "results/state_tilt/per_member_gamma_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 201,
+   "leg": "product: the price of a sleeve move is measured against own and book turnover before the book is charged",
+   "line": 3056,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "b_agg",
+    "b_own"
+   ],
+   "faces_named": [
+    "results/state_tilt/granularity_latest.json"
+   ],
+   "expression": "abs(_g - (_m['b_own'] + _m['b_agg'])) > 1e-09",
+   "key_profiles": [
+    {
+     "key": "b_agg",
+     "n_values": 17,
+     "n_integral": 0,
+     "n_non_numeric": 4,
+     "n_float": 13,
+     "integer_only": false,
+     "coarsest_decimals": 15,
+     "coarsest_quantum": 1e-15,
+     "face": "results/state_tilt/granularity_latest.json"
+    },
+    {
+     "key": "b_own",
+     "n_values": 17,
+     "n_integral": 0,
+     "n_non_numeric": 4,
+     "n_float": 13,
+     "integer_only": false,
+     "coarsest_decimals": 16,
+     "coarsest_quantum": 1e-16,
+     "face": "results/state_tilt/granularity_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 205,
+   "leg": "product: the own-turnover channel is tested against information arrival before it is called an impact effect",
+   "line": 3170,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "b_own",
+    "uncontrolled_b_own"
+   ],
+   "faces_named": [
+    "results/state_tilt/infostruct_latest.json"
+   ],
+   "expression": "abs((_sum37.get('uncontrolled_b_own') or 0.0) - (_share37.get('b_own') or 0.0)) > 1e-09",
+   "key_profiles": [
+    {
+     "key": "b_own",
+     "n_values": 6,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 6,
+     "integer_only": false,
+     "coarsest_decimals": 15,
+     "coarsest_quantum": 1e-15,
+     "face": "results/state_tilt/infostruct_latest.json"
+    },
+    {
+     "key": "uncontrolled_b_own",
+     "n_values": 7,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 7,
+     "integer_only": false,
+     "coarsest_decimals": 15,
+     "coarsest_quantum": 1e-15,
+     "face": "results/state_tilt/infostruct_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 213,
+   "leg": "product: a non-reproducing pair is traced rung by rung to the reader",
+   "line": 3441,
+   "kind": "epsilon",
+   "tolerance": 1e-06,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "aligned_gap"
+   ],
+   "faces_named": [
+    "results/state_tilt/REPRO-%s.json",
+    "results/state_tilt/repro_latest.json"
+   ],
+   "expression": "abs((_al41.get('aligned_gap') or 0.0) - _par41) > 1e-06",
+   "key_profiles": [
+    {
+     "key": "aligned_gap",
+     "n_values": 2,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 2,
+     "integer_only": false,
+     "coarsest_decimals": 17,
+     "coarsest_quantum": 1e-17,
+     "face": "results/state_tilt/repro_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 229,
+   "leg": "product: the shared lead is tested against the book's own aggregate turnover",
+   "line": 3966,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "mean_share_accounted"
+   ],
+   "faces_named": [
+    "results/state_tilt/bookecho_latest.json"
+   ],
+   "expression": "abs(_mean50 - _c50['mean_share_accounted']) > 1e-09",
+   "key_profiles": [
+    {
+     "key": "mean_share_accounted",
+     "n_values": 6,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 6,
+     "integer_only": false,
+     "coarsest_decimals": 16,
+     "coarsest_quantum": 1e-16,
+     "face": "results/state_tilt/bookecho_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 231,
+   "leg": "product: the star's residual is decomposed and split from volatility and age",
+   "line": 4028,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "share_taken_by_vol"
+   ],
+   "faces_named": [
+    "results/state_tilt/bookecho_latest.json",
+    "results/state_tilt/starown_latest.json"
+   ],
+   "expression": "abs(_sh51 - _r51['share_taken_by_vol']) > 1e-09",
+   "key_profiles": [
+    {
+     "key": "share_taken_by_vol",
+     "n_values": 31,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 31,
+     "integer_only": false,
+     "coarsest_decimals": 15,
+     "coarsest_quantum": 1e-15,
+     "face": "results/state_tilt/starown_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bookecho_latest.json",
+     "key": null,
+     "basis": "face_level",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 499999999.99999994
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 233,
+   "leg": "product: the star's own row is priced against the column it carries for others",
+   "line": 4117,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "b_cross",
+    "b_self"
+   ],
+   "faces_named": [
+    "results/state_tilt/starown_latest.json",
+    "results/state_tilt/starself_latest.json"
+   ],
+   "expression": "abs(_d52 - (_sr52['b_self'] - _cr52['b_cross'])) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "b_cross",
+     "n_values": 22,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 22,
+     "integer_only": false,
+     "coarsest_decimals": 15,
+     "coarsest_quantum": 1e-15,
+     "face": "results/state_tilt/starself_latest.json"
+    },
+    {
+     "key": "b_self",
+     "n_values": 4,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 4,
+     "integer_only": false,
+     "coarsest_decimals": 16,
+     "coarsest_quantum": 1e-16,
+     "face": "results/state_tilt/starself_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/starown_latest.json",
+     "key": null,
+     "basis": "face_level",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 500000000000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 233,
+   "leg": "product: the star's own row is priced against the column it carries for others",
+   "line": 4129,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "share_taken_by_vol"
+   ],
+   "faces_named": [
+    "results/state_tilt/starown_latest.json",
+    "results/state_tilt/starself_latest.json"
+   ],
+   "expression": "abs(_sh52 - _sr52['share_taken_by_vol']) > 1e-09",
+   "key_profiles": [
+    {
+     "key": "share_taken_by_vol",
+     "n_values": 31,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 31,
+     "integer_only": false,
+     "coarsest_decimals": 15,
+     "coarsest_quantum": 1e-15,
+     "face": "results/state_tilt/starown_latest.json"
+    },
+    {
+     "key": "share_taken_by_vol",
+     "n_values": 4,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 4,
+     "integer_only": false,
+     "coarsest_decimals": 16,
+     "coarsest_quantum": 1e-16,
+     "face": "results/state_tilt/starself_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": [
+    {
+     "key": "share_taken_by_vol",
+     "faces": [
+      "results/state_tilt/starown_latest.json",
+      "results/state_tilt/starself_latest.json"
+     ],
+     "max_gap": 0.21568615228691357
+    }
+   ]
+  },
+  {
+   "leg_index": 235,
+   "leg": "product: a claimed RNG drift is decided by measurement, and the stream is pinned",
+   "line": 4209,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "abs_diff"
+   ],
+   "faces_named": [
+    "results/state_tilt/starownrepin_latest.json"
+   ],
+   "expression": "_sp80['abs_diff'] > 1e-09",
+   "key_profiles": [
+    {
+     "key": "abs_diff",
+     "n_values": 2,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 2,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/starownrepin_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/starownrepin_latest.json",
+     "key": "abs_diff",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 499999999.99999994
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 237,
+   "leg": "product: the star's unread self row is scheduled, not excused",
+   "line": 4259,
+   "kind": "epsilon",
+   "tolerance": 1e-06,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "needed"
+   ],
+   "faces_named": [
+    "results/state_tilt/selfres_latest.json"
+   ],
+   "expression": "abs(_need53 - _sr53['needed']) > 1e-06",
+   "key_profiles": [
+    {
+     "key": "needed",
+     "n_values": 9,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 9,
+     "integer_only": false,
+     "coarsest_decimals": 12,
+     "coarsest_quantum": 1e-12,
+     "face": "results/state_tilt/selfres_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 243,
+   "leg": "product: the band endpoint is scheduled, not waited out",
+   "line": 4580,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "edge_at_largest_rung",
+    "edge_self"
+   ],
+   "faces_named": [
+    "results/state_tilt/banddraw-d1920_latest.json",
+    "results/state_tilt/banddraw-d960_latest.json"
+   ],
+   "expression": "abs(_want_edge['edge_self'] - _got['edge_at_largest_rung']) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "edge_at_largest_rung",
+     "n_values": 2,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 2,
+     "integer_only": false,
+     "coarsest_decimals": 15,
+     "coarsest_quantum": 1e-15,
+     "face": "results/state_tilt/banddraw-d1920_latest.json"
+    },
+    {
+     "key": "edge_self",
+     "n_values": 84,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 84,
+     "integer_only": false,
+     "coarsest_decimals": 14,
+     "coarsest_quantum": 1e-14,
+     "face": "results/state_tilt/banddraw-d1920_latest.json"
+    },
+    {
+     "key": "edge_at_largest_rung",
+     "n_values": 2,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 2,
+     "integer_only": false,
+     "coarsest_decimals": 16,
+     "coarsest_quantum": 1e-16,
+     "face": "results/state_tilt/banddraw-d960_latest.json"
+    },
+    {
+     "key": "edge_self",
+     "n_values": 70,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 70,
+     "integer_only": false,
+     "coarsest_decimals": 14,
+     "coarsest_quantum": 1e-14,
+     "face": "results/state_tilt/banddraw-d960_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": [
+    {
+     "key": "edge_at_largest_rung",
+     "faces": [
+      "results/state_tilt/banddraw-d1920_latest.json",
+      "results/state_tilt/banddraw-d960_latest.json"
+     ],
+     "max_gap": 0.0787182772468984
+    },
+    {
+     "key": "edge_self",
+     "faces": [
+      "results/state_tilt/banddraw-d1920_latest.json",
+      "results/state_tilt/banddraw-d960_latest.json"
+     ],
+     "max_gap": 0.4495531067532075
+    }
+   ]
+  },
+  {
+   "leg_index": 249,
+   "leg": "product: the published base draw count sits below the endpoint arrival count",
+   "line": 4874,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "rows_pre_settlement"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandarrival_latest.json"
+   ],
+   "expression": "(_s60.get('rows_pre_settlement') or 0) == 0",
+   "key_profiles": [
+    {
+     "key": "rows_pre_settlement",
+     "n_values": 1,
+     "n_integral": 1,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/bandarrival_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 249,
+   "leg": "product: the published base draw count sits below the endpoint arrival count",
+   "line": 4870,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "n_at_base"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandarrival_latest.json"
+   ],
+   "expression": "_mine != _a.get('n_at_base')",
+   "key_profiles": [
+    {
+     "key": "n_at_base",
+     "n_values": 32,
+     "n_integral": 28,
+     "n_non_numeric": 4,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/bandarrival_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 249,
+   "leg": "product: the published base draw count sits below the endpoint arrival count",
+   "line": 4848,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "arrival_median"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandarrival_latest.json"
+   ],
+   "expression": "_rec.get('arrival_median') != _med60",
+   "key_profiles": [
+    {
+     "key": "arrival_median",
+     "n_values": 8,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 8,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/bandarrival_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandarrival_latest.json",
+     "key": "arrival_median",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 251,
+   "leg": "product: the floor at one belongs to the attained bucket, not the stream",
+   "line": 4955,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "width"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandbucket_latest.json"
+   ],
+   "expression": "abs((_trim.get('width') or 0) - (_full.get('width') or 0)) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "width",
+     "n_values": 32,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 32,
+     "integer_only": false,
+     "coarsest_decimals": 15,
+     "coarsest_quantum": 1e-15,
+     "face": "results/state_tilt/bandbucket_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 253,
+   "leg": "product: a draw budget is neither a window length nor a band width",
+   "line": 5033,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "1920",
+    "share_settled"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandarrivalate_latest.json"
+   ],
+   "expression": "(_curve.get('1920') or {}).get('share_settled') != 1.0",
+   "key_profiles": [
+    {
+     "key": "share_settled",
+     "n_values": 48,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 48,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/bandarrivalate_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandarrivalate_latest.json",
+     "key": "share_settled",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 253,
+   "leg": "product: a draw budget is neither a window length nor a band width",
+   "line": 5040,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "settled_area"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandarrivalate_latest.json"
+   ],
+   "expression": "abs(_a['settled_area'] - sum(_body) / float(len(_body))) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "settled_area",
+     "n_values": 8,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 8,
+     "integer_only": false,
+     "coarsest_decimals": 1,
+     "coarsest_quantum": 0.1,
+     "face": "results/state_tilt/bandarrivalate_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandarrivalate_latest.json",
+     "key": "settled_area",
+     "basis": "per_key",
+     "face_quantum": 0.1,
+     "face_decimals": 1,
+     "ratio": 50000000000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 255,
+   "leg": "product: another window's wide end is not a bound",
+   "line": 5202,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "flat_p95"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "expression": "abs(float(_fl['flat_p95']) - max(_vals)) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "flat_p95",
+     "n_values": 4,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 4,
+     "integer_only": false,
+     "coarsest_decimals": 13,
+     "coarsest_quantum": 1e-13,
+     "face": "results/state_tilt/bandtransfer_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 255,
+   "leg": "product: another window's wide end is not a bound",
+   "line": 5204,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "flat_tight_p95"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "expression": "abs(float(_fl['flat_tight_p95']) - min(_vals)) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "flat_tight_p95",
+     "n_values": 4,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 4,
+     "integer_only": false,
+     "coarsest_decimals": 15,
+     "coarsest_quantum": 1e-15,
+     "face": "results/state_tilt/bandtransfer_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 255,
+   "leg": "product: another window's wide end is not a bound",
+   "line": 5167,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "donor_p95",
+    "p95"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "expression": "abs(float(_da['p95']) - float(_p['donor_p95'])) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "donor_p95",
+     "n_values": 48,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 48,
+     "integer_only": false,
+     "coarsest_decimals": 13,
+     "coarsest_quantum": 1e-13,
+     "face": "results/state_tilt/bandtransfer_latest.json"
+    },
+    {
+     "key": "p95",
+     "n_values": 16,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 16,
+     "integer_only": false,
+     "coarsest_decimals": 13,
+     "coarsest_quantum": 1e-13,
+     "face": "results/state_tilt/bandtransfer_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 257,
+   "leg": "product: a row's verdict is its own threshold, not a neighbour's draws",
+   "line": 5275,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "m_star"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandnear1_latest.json"
+   ],
+   "expression": "abs(float(_r64['m_star']) - abs(float(_b)) / _span) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "m_star",
+     "n_values": 29,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 29,
+     "integer_only": false,
+     "coarsest_decimals": 14,
+     "coarsest_quantum": 1e-14,
+     "face": "results/state_tilt/bandnear1_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 259,
+   "leg": "product: a donor above the row is not yet a screen (it needs the row's own side)",
+   "line": 5401,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "t_side"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandscreen_latest.json"
+   ],
+   "expression": "abs(float(_r66.get('t_side') or 0.0) - abs(float(_b66)) / abs(float(_lo66))) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "t_side",
+     "n_values": 73,
+     "n_integral": 0,
+     "n_non_numeric": 1,
+     "n_float": 72,
+     "integer_only": false,
+     "coarsest_decimals": 14,
+     "coarsest_quantum": 1e-14,
+     "face": "results/state_tilt/bandscreen_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 261,
+   "leg": "product: a margin is not a substitute for the row's own side",
+   "line": 5467,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "precision",
+    "tp"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandmargin_latest.json",
+    "results/state_tilt/bandscreen_latest.json"
+   ],
+   "expression": "abs(float(_r67.get('precision') or 0.0) - float(_r67.get('tp') or 0) / float(_pred67)) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "precision",
+     "n_values": 181,
+     "n_integral": 0,
+     "n_non_numeric": 56,
+     "n_float": 125,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/bandmargin_latest.json"
+    },
+    {
+     "key": "tp",
+     "n_values": 181,
+     "n_integral": 181,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/bandmargin_latest.json"
+    },
+    {
+     "key": "tp",
+     "n_values": 3,
+     "n_integral": 3,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/bandscreen_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandmargin_latest.json",
+     "key": "precision",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 500000000000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 261,
+   "leg": "product: a margin is not a substitute for the row's own side",
+   "line": 5474,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "b"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandmargin_latest.json",
+    "results/state_tilt/bandscreen_latest.json"
+   ],
+   "expression": "abs(float(r.get('b') or 0.0)) < 1e-12",
+   "key_profiles": [
+    {
+     "key": "b",
+     "n_values": 180,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 180,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/bandmargin_latest.json"
+    },
+    {
+     "key": "b",
+     "n_values": 36,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 36,
+     "integer_only": false,
+     "coarsest_decimals": 16,
+     "coarsest_quantum": 1e-16,
+     "face": "results/state_tilt/bandscreen_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandmargin_latest.json",
+     "key": "b",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 500000000000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": [
+    {
+     "key": "b",
+     "faces": [
+      "results/state_tilt/bandmargin_latest.json",
+      "results/state_tilt/bandscreen_latest.json"
+     ],
+     "max_gap": 1.0113353718550755
+    }
+   ]
+  },
+  {
+   "leg_index": 265,
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "line": 5753,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "rows_could_move_within_observed_p05_range"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandtight_latest.json",
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "expression": "_s69.get('rows_could_move_within_observed_p05_range') != _could69",
+   "key_profiles": [
+    {
+     "key": "rows_could_move_within_observed_p05_range",
+     "n_values": 1,
+     "n_integral": 1,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/bandtight_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandtransfer_latest.json",
+     "key": null,
+     "basis": "face_level",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 265,
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "line": 5778,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "flat_p05"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandtight_latest.json",
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "expression": "abs(_blk69f.get('flat_p05') - min(_vals69)) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "flat_p05",
+     "n_values": 4,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 4,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/bandtight_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandtight_latest.json",
+     "key": "flat_p05",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 500000000000.0
+    },
+    {
+     "face": "results/state_tilt/bandtransfer_latest.json",
+     "key": null,
+     "basis": "face_level",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 500000000000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 265,
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "line": 5781,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "flat_loose_p05"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandtight_latest.json",
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "expression": "abs(_blk69f.get('flat_loose_p05') - max(_vals69)) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "flat_loose_p05",
+     "n_values": 4,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 4,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/bandtight_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandtight_latest.json",
+     "key": "flat_loose_p05",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 500000000000.0
+    },
+    {
+     "face": "results/state_tilt/bandtransfer_latest.json",
+     "key": null,
+     "basis": "face_level",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 500000000000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 265,
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "line": 5741,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "verdict_at_max_p05",
+    "verdict_at_min_p05"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandtight_latest.json",
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "expression": "_r69c.get('verdict_at_min_p05') != _r69c.get('verdict_at_max_p05')",
+   "key_profiles": [
+    {
+     "key": "verdict_at_max_p05",
+     "n_values": 12,
+     "n_integral": 0,
+     "n_non_numeric": 12,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/bandtight_latest.json"
+    },
+    {
+     "key": "verdict_at_min_p05",
+     "n_values": 12,
+     "n_integral": 0,
+     "n_non_numeric": 12,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/bandtight_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandtransfer_latest.json",
+     "key": null,
+     "basis": "face_level",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 267,
+   "leg": "product: two published numbers -- the flip multiplier and the range an axis offers -- reproduce every moved set the band family published",
+   "line": 5866,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "moves_only_in_the_weaker_set"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandstraddlesweep_latest.json"
+   ],
+   "expression": "sorted(_weak274 - _strict274) != (_sc274.get('moves_only_in_the_weaker_set') or [])",
+   "key_profiles": [],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandstraddlesweep_latest.json",
+     "key": null,
+     "basis": "face_level",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 269,
+   "leg": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "line": 5982,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "rows_scored"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandflipbudget_latest.json"
+   ],
+   "expression": "len(_scored72) != (_s72.get('rows_scored') or 0)",
+   "key_profiles": [
+    {
+     "key": "rows_scored",
+     "n_values": 1,
+     "n_integral": 1,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/bandflipbudget_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 269,
+   "leg": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "line": 5955,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "gap_pct"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandflipbudget_latest.json"
+   ],
+   "expression": "(_b72.get('gap_pct') or 0) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "gap_pct",
+     "n_values": 25,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 25,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/bandflipbudget_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandflipbudget_latest.json",
+     "key": "gap_pct",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": 500000000000.0
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 273,
+   "leg": "product: each published window's draw multiplier is measured, not borrowed",
+   "line": 6186,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "local_multiplier"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandwinmult_latest.json"
+   ],
+   "expression": "abs(_r['local_multiplier'] - _want) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "local_multiplier",
+     "n_values": 24,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 24,
+     "integer_only": false,
+     "coarsest_decimals": 16,
+     "coarsest_quantum": 1e-16,
+     "face": "results/state_tilt/bandwinmult_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 275,
+   "leg": "product: a published threshold re-runs the guard, and the face says which form",
+   "line": 6221,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "max_abs_diff_t_max_end",
+    "rederivation"
+   ],
+   "faces_named": [
+    "results/state_tilt/BANDSCREEN-2026-10-29.json",
+    "results/state_tilt/bandthreshguard_latest.json"
+   ],
+   "expression": "(_f73 or {}).get('rederivation', {}).get('max_abs_diff_t_max_end') != 0.0",
+   "key_profiles": [
+    {
+     "key": "max_abs_diff_t_max_end",
+     "n_values": 2,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 2,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/bandthreshguard_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandthreshguard_latest.json",
+     "key": "max_abs_diff_t_max_end",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 275,
+   "leg": "product: a published threshold re-runs the guard, and the face says which form",
+   "line": 6223,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "max_abs_diff_t_side",
+    "rederivation"
+   ],
+   "faces_named": [
+    "results/state_tilt/BANDSCREEN-2026-10-29.json",
+    "results/state_tilt/bandthreshguard_latest.json"
+   ],
+   "expression": "(_f73 or {}).get('rederivation', {}).get('max_abs_diff_t_side') != 0.0",
+   "key_profiles": [
+    {
+     "key": "max_abs_diff_t_side",
+     "n_values": 2,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 2,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/bandthreshguard_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandthreshguard_latest.json",
+     "key": "max_abs_diff_t_side",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 275,
+   "leg": "product: a published threshold re-runs the guard, and the face says which form",
+   "line": 6252,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "t_max_end",
+    "t_side"
+   ],
+   "faces_named": [
+    "results/state_tilt/BANDSCREEN-2026-10-29.json",
+    "results/state_tilt/bandthreshguard_latest.json"
+   ],
+   "expression": "abs(_r73['t_side'] - _r73['t_max_end']) > 1e-12",
+   "key_profiles": [
+    {
+     "key": "t_max_end",
+     "n_values": 73,
+     "n_integral": 0,
+     "n_non_numeric": 1,
+     "n_float": 72,
+     "integer_only": false,
+     "coarsest_decimals": 14,
+     "coarsest_quantum": 1e-14,
+     "face": "results/state_tilt/BANDSCREEN-2026-10-29.json"
+    },
+    {
+     "key": "t_side",
+     "n_values": 73,
+     "n_integral": 0,
+     "n_non_numeric": 1,
+     "n_float": 72,
+     "integer_only": false,
+     "coarsest_decimals": 14,
+     "coarsest_quantum": 1e-14,
+     "face": "results/state_tilt/BANDSCREEN-2026-10-29.json"
+    },
+    {
+     "key": "t_max_end",
+     "n_values": 7,
+     "n_integral": 0,
+     "n_non_numeric": 1,
+     "n_float": 6,
+     "integer_only": false,
+     "coarsest_decimals": 16,
+     "coarsest_quantum": 1e-16,
+     "face": "results/state_tilt/bandthreshguard_latest.json"
+    },
+    {
+     "key": "t_side",
+     "n_values": 7,
+     "n_integral": 0,
+     "n_non_numeric": 1,
+     "n_float": 6,
+     "integer_only": false,
+     "coarsest_decimals": 16,
+     "coarsest_quantum": 1e-16,
+     "face": "results/state_tilt/bandthreshguard_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": [
+    {
+     "key": "t_max_end",
+     "faces": [
+      "results/state_tilt/BANDSCREEN-2026-10-29.json",
+      "results/state_tilt/bandthreshguard_latest.json"
+     ],
+     "max_gap": 1.1179523175092436
+    },
+    {
+     "key": "t_side",
+     "faces": [
+      "results/state_tilt/BANDSCREEN-2026-10-29.json",
+      "results/state_tilt/bandthreshguard_latest.json"
+     ],
+     "max_gap": 1.0578852720561298
+    }
+   ]
+  },
+  {
+   "leg_index": 281,
+   "leg": "product: the tight multiplier floor is the band build, not the windows -- a tight-pass check on this family can only return zero",
+   "line": 6522,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "band_pct"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandfloor_latest.json"
+   ],
+   "expression": "_bb77.get('band_pct') != [0.0, 100.0]",
+   "key_profiles": [
+    {
+     "key": "band_pct",
+     "n_values": 1,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 1,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/bandfloor_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandfloor_latest.json",
+     "key": "band_pct",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 289,
+   "leg": "product: the two disagreeing tails are a RANGE difference, not a rounding tie -- the gap field reads 0 for every interior reading, so it cannot say 'on the flip'",
+   "line": 6822,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "reaching_readings",
+    "reaching_readings_with_zero_gap"
+   ],
+   "faces_named": [
+    "results/state_tilt/banddisagree_latest.json"
+   ],
+   "expression": "_s82.get('reaching_readings') != _s82.get('reaching_readings_with_zero_gap')",
+   "key_profiles": [
+    {
+     "key": "reaching_readings",
+     "n_values": 2,
+     "n_integral": 2,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/banddisagree_latest.json"
+    },
+    {
+     "key": "reaching_readings_with_zero_gap",
+     "n_values": 2,
+     "n_integral": 2,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/banddisagree_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 291,
+   "leg": "product: a contradiction branch that needs a 63 pct tolerance is not a test -- publish the split the tolerance would produce, not only the tolerance",
+   "line": 6946,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "tolerance_band"
+   ],
+   "faces_named": [
+    "results/state_tilt/banddeflate_latest.json"
+   ],
+   "expression": "_fresh83.get('tolerance_band') != (_f83.get('tolerance_band') or {})",
+   "key_profiles": [],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/banddeflate_latest.json",
+     "key": null,
+     "basis": "face_level",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 295,
+   "leg": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "line": 7092,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "n_gap_rows"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandgapceiling_latest.json"
+   ],
+   "expression": "_s85.get('n_gap_rows') != len(_gap_rows85)",
+   "key_profiles": [
+    {
+     "key": "n_gap_rows",
+     "n_values": 1,
+     "n_integral": 1,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/bandgapceiling_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 295,
+   "leg": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "line": 7094,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "max_rows_any_gap_widening_could_add"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandgapceiling_latest.json"
+   ],
+   "expression": "_gap85.get('max_rows_any_gap_widening_could_add') != len(_gap_rows85)",
+   "key_profiles": [
+    {
+     "key": "max_rows_any_gap_widening_could_add",
+     "n_values": 1,
+     "n_integral": 1,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/bandgapceiling_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 295,
+   "leg": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "line": 7130,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "gap_rows",
+    "summary"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandgapceiling_latest.json"
+   ],
+   "expression": "(_fresh85.get('summary') or {}).get('gap_rows') != _s85.get('gap_rows')",
+   "key_profiles": [],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/bandgapceiling_latest.json",
+     "key": null,
+     "basis": "face_level",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 305,
+   "leg": "product: a below-floor flip needs the band narrowed -- the published narrowing instrument is measured on its own polarity and its cost on the others",
+   "line": 7631,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "note": "epsilon literal",
+   "reads_a_face_value": true,
+   "keys": [
+    "distance_below_floor"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandfloormirror_latest.json"
+   ],
+   "expression": "abs(_flip90 + _r90.get('distance_below_floor', 0) - 1.0) > 1e-09",
+   "key_profiles": [
+    {
+     "key": "distance_below_floor",
+     "n_values": 2,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 2,
+     "integer_only": false,
+     "coarsest_decimals": 11,
+     "coarsest_quantum": 1e-11,
+     "face": "results/state_tilt/bandfloormirror_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  }
+ ],
+ "at_risk": [
+  {
+   "leg": "product: dashboard carries the marks coverage gap",
+   "line": 703,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "_pp.get('marks_coverage_pct') == _c2.get('coverage_pct_closed')",
+   "faces": [
+    "results/dashboard_status.json",
+    "results/marks_coverage.json",
+    "results/t35_open_fill_verify.json"
+   ],
+   "quantum_ratio": [
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "leg": "product: open-fill gate names its evidence tier and the bar tier's prices are the bars'",
+   "line": 750,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "expression": "abs(_px - _r['session_open']) > 1e-09",
+   "faces": [
+    "results/t35_open_fill_verify.json"
+   ],
+   "quantum_ratio": [
+    500000.0
+   ]
+  },
+  {
+   "leg": "product: the flip damper is adopted or rejected by path cells, not one run",
+   "line": 2094,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "_ad.get('share_positive') != _share",
+   "faces": [
+    "results/futures_overlay_fliprate_paths.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  },
+  {
+   "leg": "product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
+   "line": 2229,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "expression": "abs((_a.get('cost_bp_per_month') or 0) - 2 * (_spec.get('cost_side_bp') or 0)) > 1e-09",
+   "faces": [
+    "results/tom_overlay/latest.json"
+   ],
+   "quantum_ratio": [
+    500000.0
+   ]
+  },
+  {
+   "leg": "product: the volatility gate separates held days from episodes",
+   "line": 2361,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "expression": "abs((_o.get('ceiling_episodes_per_year') or 0) - 252.0 / (_o.get('hold_sessions') or 1)) > 1e-09",
+   "faces": [
+    "results/vol_gate/latest.json"
+   ],
+   "quantum_ratio": [
+    50000000.0
+   ]
+  },
+  {
+   "leg": "product: the volatility gate separates held days from episodes",
+   "line": 2332,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "expression": "abs(_toll - 2 * (_spec.get('cost_side_bp') or 0)) > 1e-09",
+   "faces": [
+    "results/vol_gate/latest.json"
+   ],
+   "quantum_ratio": [
+    500000.0
+   ]
+  },
+  {
+   "leg": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "line": 2564,
+   "kind": "epsilon",
+   "tolerance": 1e-06,
+   "expression": "abs(_bc28['attribution_minus_paired_bp'] + (_mo28.get('cost_bp_per_year_oos') or 0.0)) > 1e-06",
+   "faces": [
+    "results/state_tilt/matched_latest.json"
+   ],
+   "quantum_ratio": [
+    500000.0
+   ]
+  },
+  {
+   "leg": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "line": 2553,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "(_mo28.get('cost_bp_per_year_oos') or 0.0) != 0.0",
+   "faces": [
+    "results/state_tilt/matched_latest.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  },
+  {
+   "leg": "product: the paired timing value splits into selection, sizing and toll",
+   "line": 2623,
+   "kind": "epsilon",
+   "tolerance": 1e-06,
+   "expression": "abs(_c29.get('identity_residual_bp') or 0.0) > 1e-06",
+   "faces": [
+    "results/state_tilt/timingsel_latest.json"
+   ],
+   "quantum_ratio": [
+    500000.0
+   ]
+  },
+  {
+   "leg": "product: a band that passed on one path is path-tested before it is a finding",
+   "line": 2826,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "expression": "abs((_r30b.get('band_frac') or 0.0) - (_focus31.get('band_frac') or 0.0)) < 1e-12",
+   "faces": [
+    "results/state_tilt/bandpath_latest.json",
+    "results/state_tilt/hysteresis_latest.json"
+   ],
+   "quantum_ratio": [
+    50000000000.0,
+    500000000000.0
+   ]
+  },
+  {
+   "leg": "product: the star's residual is decomposed and split from volatility and age",
+   "line": 4028,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "expression": "abs(_sh51 - _r51['share_taken_by_vol']) > 1e-09",
+   "faces": [
+    "results/state_tilt/bookecho_latest.json"
+   ],
+   "quantum_ratio": [
+    499999999.99999994
+   ]
+  },
+  {
+   "leg": "product: the star's own row is priced against the column it carries for others",
+   "line": 4117,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "expression": "abs(_d52 - (_sr52['b_self'] - _cr52['b_cross'])) > 1e-12",
+   "faces": [
+    "results/state_tilt/starown_latest.json"
+   ],
+   "quantum_ratio": [
+    500000000000.0
+   ]
+  },
+  {
+   "leg": "product: a claimed RNG drift is decided by measurement, and the stream is pinned",
+   "line": 4209,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "expression": "_sp80['abs_diff'] > 1e-09",
+   "faces": [
+    "results/state_tilt/starownrepin_latest.json"
+   ],
+   "quantum_ratio": [
+    499999999.99999994
+   ]
+  },
+  {
+   "leg": "product: the published base draw count sits below the endpoint arrival count",
+   "line": 4848,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "_rec.get('arrival_median') != _med60",
+   "faces": [
+    "results/state_tilt/bandarrival_latest.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  },
+  {
+   "leg": "product: a draw budget is neither a window length nor a band width",
+   "line": 5033,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "(_curve.get('1920') or {}).get('share_settled') != 1.0",
+   "faces": [
+    "results/state_tilt/bandarrivalate_latest.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  },
+  {
+   "leg": "product: a draw budget is neither a window length nor a band width",
+   "line": 5040,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "expression": "abs(_a['settled_area'] - sum(_body) / float(len(_body))) > 1e-12",
+   "faces": [
+    "results/state_tilt/bandarrivalate_latest.json"
+   ],
+   "quantum_ratio": [
+    50000000000.0
+   ]
+  },
+  {
+   "leg": "product: a margin is not a substitute for the row's own side",
+   "line": 5467,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "expression": "abs(float(_r67.get('precision') or 0.0) - float(_r67.get('tp') or 0) / float(_pred67)) > 1e-12",
+   "faces": [
+    "results/state_tilt/bandmargin_latest.json"
+   ],
+   "quantum_ratio": [
+    500000000000.0
+   ]
+  },
+  {
+   "leg": "product: a margin is not a substitute for the row's own side",
+   "line": 5474,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "expression": "abs(float(r.get('b') or 0.0)) < 1e-12",
+   "faces": [
+    "results/state_tilt/bandmargin_latest.json"
+   ],
+   "quantum_ratio": [
+    500000000000.0
+   ]
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "line": 5753,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "_s69.get('rows_could_move_within_observed_p05_range') != _could69",
+   "faces": [
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "line": 5778,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "expression": "abs(_blk69f.get('flat_p05') - min(_vals69)) > 1e-12",
+   "faces": [
+    "results/state_tilt/bandtight_latest.json",
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "quantum_ratio": [
+    500000000000.0,
+    500000000000.0
+   ]
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "line": 5781,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "expression": "abs(_blk69f.get('flat_loose_p05') - max(_vals69)) > 1e-12",
+   "faces": [
+    "results/state_tilt/bandtight_latest.json",
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "quantum_ratio": [
+    500000000000.0,
+    500000000000.0
+   ]
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "line": 5741,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "_r69c.get('verdict_at_min_p05') != _r69c.get('verdict_at_max_p05')",
+   "faces": [
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  },
+  {
+   "leg": "product: two published numbers -- the flip multiplier and the range an axis offers -- reproduce every moved set the band family published",
+   "line": 5866,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "sorted(_weak274 - _strict274) != (_sc274.get('moves_only_in_the_weaker_set') or [])",
+   "faces": [
+    "results/state_tilt/bandstraddlesweep_latest.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  },
+  {
+   "leg": "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "line": 5955,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "expression": "(_b72.get('gap_pct') or 0) > 1e-12",
+   "faces": [
+    "results/state_tilt/bandflipbudget_latest.json"
+   ],
+   "quantum_ratio": [
+    500000000000.0
+   ]
+  },
+  {
+   "leg": "product: a published threshold re-runs the guard, and the face says which form",
+   "line": 6221,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "(_f73 or {}).get('rederivation', {}).get('max_abs_diff_t_max_end') != 0.0",
+   "faces": [
+    "results/state_tilt/bandthreshguard_latest.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  },
+  {
+   "leg": "product: a published threshold re-runs the guard, and the face says which form",
+   "line": 6223,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "(_f73 or {}).get('rederivation', {}).get('max_abs_diff_t_side') != 0.0",
+   "faces": [
+    "results/state_tilt/bandthreshguard_latest.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  },
+  {
+   "leg": "product: the tight multiplier floor is the band build, not the windows -- a tight-pass check on this family can only return zero",
+   "line": 6522,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "_bb77.get('band_pct') != [0.0, 100.0]",
+   "faces": [
+    "results/state_tilt/bandfloor_latest.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  },
+  {
+   "leg": "product: a contradiction branch that needs a 63 pct tolerance is not a test -- publish the split the tolerance would produce, not only the tolerance",
+   "line": 6946,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "_fresh83.get('tolerance_band') != (_f83.get('tolerance_band') or {})",
+   "faces": [
+    "results/state_tilt/banddeflate_latest.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  },
+  {
+   "leg": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "line": 7130,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "(_fresh85.get('summary') or {}).get('gap_rows') != _s85.get('gap_rows')",
+   "faces": [
+    "results/state_tilt/bandgapceiling_latest.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  }
+ ],
+ "face_precision": {
+  "results/dashboard_status.json": {
+   "face": "results/dashboard_status.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 170,
+   "decimals_histogram": {
+    "0": 12,
+    "1": 29,
+    "2": 11,
+    "3": 27,
+    "4": 49,
+    "5": 1,
+    "6": 26,
+    "7": 1,
+    "8": 1,
+    "12": 1,
+    "16": 1,
+    "17": 9
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/meta/nav",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/futures_overlay_fliprate_paths.json": {
+   "face": "results/futures_overlay_fliprate_paths.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 376,
+   "decimals_histogram": {
+    "0": 26,
+    "1": 114,
+    "2": 115,
+    "3": 17,
+    "4": 104
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/adoption_rule/primary_cost_bp",
+    "value": 10.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/futures_overlay_sweep.json": {
+   "face": "results/futures_overlay_sweep.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 1717,
+   "decimals_histogram": {
+    "0": 88,
+    "1": 153,
+    "2": 420,
+    "3": 266,
+    "4": 790
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/sweeps/tsmom60/cost_ladder/0/cost_per_side_bp",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/futures_tsmom_signal.json": {
+   "face": "results/futures_tsmom_signal.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 65,
+   "decimals_histogram": {
+    "0": 3,
+    "2": 6,
+    "3": 4,
+    "4": 7,
+    "5": 3,
+    "6": 42
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/adopted_overlay/flips/cut_pct",
+    "value": 72.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/marks_coverage.json": {
+   "face": "results/marks_coverage.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 1,
+   "decimals_histogram": {
+    "2": 1
+   },
+   "coarsest_printed_decimals": 2,
+   "coarsest_printed_quantum": 0.01,
+   "coarsest_example": {
+    "path": "/counters/coverage_pct_closed",
+    "value": 84.21
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/BANDSCREEN-2026-10-29.json": {
+   "face": "results/state_tilt/BANDSCREEN-2026-10-29.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 397,
+   "decimals_histogram": {
+    "13": 3,
+    "14": 15,
+    "15": 74,
+    "16": 260,
+    "17": 45
+   },
+   "coarsest_printed_decimals": null,
+   "coarsest_printed_quantum": null,
+   "coarsest_example": null,
+   "declares_its_precision": true,
+   "declared_precision_keys": [
+    "S1_precision"
+   ]
+  },
+  "results/state_tilt/bandarrival_latest.json": {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 66,
+   "decimals_histogram": {
+    "0": 21,
+    "1": 8,
+    "2": 25,
+    "3": 12
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/rows/0/extra_draws_median",
+    "value": 1720.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bandarrivalate_latest.json": {
+   "face": "results/state_tilt/bandarrivalate_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 153,
+   "decimals_histogram": {
+    "0": 18,
+    "1": 17,
+    "2": 22,
+    "3": 20,
+    "7": 2,
+    "15": 3,
+    "16": 37,
+    "17": 32
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/arms/0/arrival_median_median",
+    "value": 1920.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bandbucket_latest.json": {
+   "face": "results/state_tilt/bandbucket_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 514,
+   "decimals_histogram": {
+    "0": 97,
+    "2": 1,
+    "13": 3,
+    "14": 8,
+    "15": 86,
+    "16": 247,
+    "17": 45
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/arms/0/attained_values/0",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/banddeflate_latest.json": {
+   "face": "results/state_tilt/banddeflate_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 29,
+   "decimals_histogram": {
+    "0": 6,
+    "1": 1,
+    "3": 1,
+    "14": 3,
+    "15": 14,
+    "16": 4
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/branch/deflatable/0/degenerate_value",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/banddisagree_latest.json": {
+   "face": "results/state_tilt/banddisagree_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 218,
+   "decimals_histogram": {
+    "0": 13,
+    "13": 3,
+    "14": 28,
+    "15": 89,
+    "16": 69,
+    "17": 2
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/census/0/tails/tight/multiplier_max",
+    "value": 1.0
+   },
+   "declares_its_precision": true,
+   "declared_precision_keys": [
+    "D6_no_false_precision"
+   ]
+  },
+  "results/state_tilt/banddraw-d1920_latest.json": {
+   "face": "results/state_tilt/banddraw-d1920_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 1245,
+   "decimals_histogram": {
+    "0": 4,
+    "1": 6,
+    "13": 5,
+    "14": 24,
+    "15": 145,
+    "16": 830,
+    "17": 221
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/frozen_spec/conv_pct",
+    "value": 2.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/banddraw-d960_latest.json": {
+   "face": "results/state_tilt/banddraw-d960_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 1043,
+   "decimals_histogram": {
+    "0": 4,
+    "1": 6,
+    "12": 2,
+    "13": 2,
+    "14": 18,
+    "15": 118,
+    "16": 696,
+    "17": 189
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/frozen_spec/conv_pct",
+    "value": 2.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bandflipbudget_latest.json": {
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 225,
+   "decimals_histogram": {
+    "0": 20,
+    "13": 4,
+    "14": 11,
+    "15": 72,
+    "16": 101,
+    "17": 17
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/summary/published_p05_floor",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bandfloor_latest.json": {
+   "face": "results/state_tilt/bandfloor_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 64,
+   "decimals_histogram": {
+    "0": 20,
+    "15": 11,
+    "16": 33
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/band_build/band_pct/1",
+    "value": 100.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bandfloormirror_latest.json": {
+   "face": "results/state_tilt/bandfloormirror_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 58,
+   "decimals_histogram": {
+    "0": 4,
+    "6": 2,
+    "11": 3,
+    "12": 5,
+    "14": 3,
+    "15": 9,
+    "16": 32
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/narrowing_instrument/band_pct",
+    "value": 5.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bandgapceiling_latest.json": {
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 149,
+   "decimals_histogram": {
+    "0": 8,
+    "1": 2,
+    "13": 1,
+    "14": 20,
+    "15": 49,
+    "16": 63,
+    "17": 6
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/arms/0/tight_interval/lo",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bandmargin_latest.json": {
+   "face": "results/state_tilt/bandmargin_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 618,
+   "decimals_histogram": {
+    "0": 96,
+    "1": 57,
+    "2": 33,
+    "3": 28,
+    "11": 13,
+    "12": 107,
+    "13": 2,
+    "14": 6,
+    "15": 46,
+    "16": 141,
+    "17": 84
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/curves/guarded_maxend/0/precision",
+    "value": 1.0
+   },
+   "declares_its_precision": true,
+   "declared_precision_keys": [
+    "best_precision",
+    "precision"
+   ]
+  },
+  "results/state_tilt/bandnear1_latest.json": {
+   "face": "results/state_tilt/bandnear1_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 237,
+   "decimals_histogram": {
+    "0": 12,
+    "14": 3,
+    "15": 33,
+    "16": 155,
+    "17": 29
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/floor_rows/0/p05",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bandpath_latest.json": {
+   "face": "results/state_tilt/bandpath_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 8123,
+   "decimals_histogram": {
+    "0": 25,
+    "1": 192,
+    "2": 494,
+    "3": 1,
+    "11": 7,
+    "12": 311,
+    "13": 1599,
+    "14": 2678,
+    "15": 1614,
+    "16": 1082,
+    "17": 111
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/cell_summary/9/frac_positive",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bandscreen_latest.json": {
+   "face": "results/state_tilt/bandscreen_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 397,
+   "decimals_histogram": {
+    "13": 3,
+    "14": 15,
+    "15": 74,
+    "16": 260,
+    "17": 45
+   },
+   "coarsest_printed_decimals": null,
+   "coarsest_printed_quantum": null,
+   "coarsest_example": null,
+   "declares_its_precision": true,
+   "declared_precision_keys": [
+    "S1_precision"
+   ]
+  },
+  "results/state_tilt/bandstraddlesweep_latest.json": {
+   "face": "results/state_tilt/bandstraddlesweep_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 148,
+   "decimals_histogram": {
+    "0": 15,
+    "11": 1,
+    "12": 2,
+    "13": 16,
+    "14": 13,
+    "15": 26,
+    "16": 75
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/axes/tight_p05/rows/0/range/0",
+    "value": 1.0
+   },
+   "declares_its_precision": true,
+   "declared_precision_keys": [
+    "precision"
+   ]
+  },
+  "results/state_tilt/bandthreshguard_latest.json": {
+   "face": "results/state_tilt/bandthreshguard_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 25,
+   "decimals_histogram": {
+    "15": 2,
+    "16": 22,
+    "17": 1
+   },
+   "coarsest_printed_decimals": null,
+   "coarsest_printed_quantum": null,
+   "coarsest_example": null,
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bandtight_latest.json": {
+   "face": "results/state_tilt/bandtight_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 298,
+   "decimals_histogram": {
+    "0": 72,
+    "13": 3,
+    "14": 6,
+    "15": 79,
+    "16": 122,
+    "17": 16
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/dominator_tight/cross:200/max",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bandtransfer_latest.json": {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 357,
+   "decimals_histogram": {
+    "0": 12,
+    "13": 11,
+    "14": 5,
+    "15": 103,
+    "16": 200,
+    "17": 26
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/arms/1/p05",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bandwinmult_latest.json": {
+   "face": "results/state_tilt/bandwinmult_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 428,
+   "decimals_histogram": {
+    "0": 32,
+    "13": 1,
+    "14": 3,
+    "15": 51,
+    "16": 277,
+    "17": 64
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/windows/all_five/by_base/60/base_draws",
+    "value": 60.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/bookecho_latest.json": {
+   "face": "results/state_tilt/bookecho_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 437,
+   "decimals_histogram": {
+    "0": 5,
+    "1": 1,
+    "13": 1,
+    "15": 28,
+    "16": 211,
+    "17": 167
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/cells/0/diagnostics/corr_dagg_lag1_dagg_now",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/granularity_latest.json": {
+   "face": "results/state_tilt/granularity_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 550,
+   "decimals_histogram": {
+    "0": 10,
+    "1": 12,
+    "2": 32,
+    "6": 10,
+    "11": 5,
+    "12": 27,
+    "13": 41,
+    "14": 60,
+    "15": 72,
+    "16": 149,
+    "17": 113
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/book/arms/0/by_charge/0/gamma",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/hysteresis_latest.json": {
+   "face": "results/state_tilt/hysteresis_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 1016,
+   "decimals_histogram": {
+    "0": 51,
+    "1": 39,
+    "2": 15,
+    "3": 1,
+    "11": 8,
+    "12": 26,
+    "13": 241,
+    "14": 399,
+    "15": 140,
+    "16": 77,
+    "17": 12
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/frozen_spec/band_grid_fracs/4",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/infostruct_latest.json": {
+   "face": "results/state_tilt/infostruct_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 465,
+   "decimals_histogram": {
+    "0": 1,
+    "13": 3,
+    "14": 15,
+    "15": 79,
+    "16": 111,
+    "17": 156
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/charges/0/gamma",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/latest.json": {
+   "face": "results/state_tilt/latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 310,
+   "decimals_histogram": {
+    "0": 8,
+    "1": 5,
+    "3": 2,
+    "11": 2,
+    "12": 15,
+    "13": 80,
+    "14": 55,
+    "15": 68,
+    "16": 68,
+    "17": 4
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/drift_split/arms/0/avg_weight_oos",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/matched_latest.json": {
+   "face": "results/state_tilt/matched_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 442,
+   "decimals_histogram": {
+    "0": 8,
+    "1": 5,
+    "3": 2,
+    "11": 1,
+    "12": 13,
+    "13": 131,
+    "14": 73,
+    "15": 67,
+    "16": 125,
+    "17": 13
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/panels/0/arms/0/gated/turnover_total",
+    "value": 154.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/per_member_gamma_latest.json": {
+   "face": "results/state_tilt/per_member_gamma_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 518,
+   "decimals_histogram": {
+    "0": 10,
+    "1": 9,
+    "2": 7,
+    "6": 71,
+    "12": 16,
+    "13": 45,
+    "14": 95,
+    "15": 60,
+    "16": 161,
+    "17": 37
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/book/arms/0/uniform/0/gamma",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/repro_latest.json": {
+   "face": "results/state_tilt/repro_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 128,
+   "decimals_histogram": {
+    "2": 7,
+    "3": 1,
+    "14": 2,
+    "15": 18,
+    "16": 70,
+    "17": 27
+   },
+   "coarsest_printed_decimals": 2,
+   "coarsest_printed_quantum": 0.01,
+   "coarsest_example": {
+    "path": "/alignment/coordinate_map_common_grid/kappa",
+    "value": 0.25
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/selfres_latest.json": {
+   "face": "results/state_tilt/selfres_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 121,
+   "decimals_histogram": {
+    "0": 1,
+    "1": 2,
+    "2": 2,
+    "12": 8,
+    "13": 11,
+    "14": 12,
+    "15": 6,
+    "16": 44,
+    "17": 35
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/frozen_spec/z_weak",
+    "value": 2.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/starown_latest.json": {
+   "face": "results/state_tilt/starown_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 393,
+   "decimals_histogram": {
+    "0": 27,
+    "1": 1,
+    "2": 2,
+    "15": 13,
+    "16": 100,
+    "17": 120
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/cells/0/columns/sh510050/age_days_at_mid",
+    "value": 6832.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/starownrepin_latest.json": {
+   "face": "results/state_tilt/starownrepin_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 15,
+   "decimals_histogram": {
+    "15": 1,
+    "16": 9,
+    "17": 4
+   },
+   "coarsest_printed_decimals": null,
+   "coarsest_printed_quantum": null,
+   "coarsest_example": null,
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/starself_latest.json": {
+   "face": "results/state_tilt/starself_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 248,
+   "decimals_histogram": {
+    "1": 3,
+    "2": 2,
+    "15": 19,
+    "16": 130,
+    "17": 77
+   },
+   "coarsest_printed_decimals": 1,
+   "coarsest_printed_quantum": 0.1,
+   "coarsest_example": {
+    "path": "/frozen_spec/ci_pct/0",
+    "value": 2.5
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/timingsel_latest.json": {
+   "face": "results/state_tilt/timingsel_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 257,
+   "decimals_histogram": {
+    "0": 6,
+    "1": 3,
+    "3": 2,
+    "12": 3,
+    "13": 61,
+    "14": 48,
+    "15": 38,
+    "16": 55,
+    "17": 24
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/frozen_spec/no_structure_bp_per_year",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/t35_open_fill_verify.json": {
+   "face": "results/t35_open_fill_verify.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 1,
+   "decimals_histogram": {
+    "3": 1
+   },
+   "coarsest_printed_decimals": 3,
+   "coarsest_printed_quantum": 0.001,
+   "coarsest_example": {
+    "path": "/rel_tol",
+    "value": 0.002
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/tom_overlay/latest.json": {
+   "face": "results/tom_overlay/latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 218,
+   "decimals_histogram": {
+    "0": 2,
+    "1": 3,
+    "3": 36,
+    "10": 2,
+    "11": 3,
+    "12": 3,
+    "13": 34,
+    "14": 58,
+    "15": 39,
+    "16": 19,
+    "17": 14
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/spec/cost_x2_mult",
+    "value": 2.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/vol_gate/latest.json": {
+   "face": "results/vol_gate/latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 161,
+   "decimals_histogram": {
+    "1": 7,
+    "3": 10,
+    "12": 5,
+    "13": 29,
+    "14": 47,
+    "15": 31,
+    "16": 27,
+    "17": 4
+   },
+   "coarsest_printed_decimals": 1,
+   "coarsest_printed_quantum": 0.1,
+   "coarsest_example": {
+    "path": "/frozen_spec/is_frac",
+    "value": 0.6
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  }
+ },
+ "measured_pairs": {},
+ "summary": {
+  "legs_in_smoke_test": 326,
+  "n_numeric_face_sites": 62,
+  "legs_with_a_numeric_face_site": 42,
+  "by_kind": {
+   "epsilon": 39,
+   "exact_equality": 21,
+   "quantized_equality": 2
+  },
+  "faces_read_by_legs": 42,
+  "names_that_are_templates_not_faces": [
+   "results/dom_profile/PROFILE-*.json",
+   "results/state_tilt/BANDPATH-%s.json",
+   "results/state_tilt/MATCHED-%s.json",
+   "results/state_tilt/REPRO-%s.json",
+   "results/state_tilt/TIMINGSEL-%s.json"
+  ],
+  "faces_unreadable_or_missing": [],
+  "faces_not_declaring_their_precision": [
+   "results/dashboard_status.json",
+   "results/futures_overlay_fliprate_paths.json",
+   "results/futures_overlay_sweep.json",
+   "results/futures_tsmom_signal.json",
+   "results/marks_coverage.json",
+   "results/state_tilt/bandarrival_latest.json",
+   "results/state_tilt/bandarrivalate_latest.json",
+   "results/state_tilt/bandbucket_latest.json",
+   "results/state_tilt/banddeflate_latest.json",
+   "results/state_tilt/banddraw-d1920_latest.json",
+   "results/state_tilt/banddraw-d960_latest.json",
+   "results/state_tilt/bandflipbudget_latest.json",
+   "results/state_tilt/bandfloor_latest.json",
+   "results/state_tilt/bandfloormirror_latest.json",
+   "results/state_tilt/bandgapceiling_latest.json",
+   "results/state_tilt/bandnear1_latest.json",
+   "results/state_tilt/bandpath_latest.json",
+   "results/state_tilt/bandthreshguard_latest.json",
+   "results/state_tilt/bandtight_latest.json",
+   "results/state_tilt/bandtransfer_latest.json",
+   "results/state_tilt/bandwinmult_latest.json",
+   "results/state_tilt/bookecho_latest.json",
+   "results/state_tilt/granularity_latest.json",
+   "results/state_tilt/hysteresis_latest.json",
+   "results/state_tilt/infostruct_latest.json",
+   "results/state_tilt/latest.json",
+   "results/state_tilt/matched_latest.json",
+   "results/state_tilt/per_member_gamma_latest.json",
+   "results/state_tilt/repro_latest.json",
+   "results/state_tilt/selfres_latest.json",
+   "results/state_tilt/starown_latest.json",
+   "results/state_tilt/starownrepin_latest.json",
+   "results/state_tilt/starself_latest.json",
+   "results/state_tilt/timingsel_latest.json",
+   "results/t35_open_fill_verify.json",
+   "results/tom_overlay/latest.json",
+   "results/vol_gate/latest.json"
+  ],
+  "n_faces_declaring_precision": 5,
+  "n_at_risk_sites": 29,
+  "n_at_risk_with_per_key_evidence": 21,
+  "n_at_risk_on_face_level_bound_only": 8,
+  "at_risk_legs": [
+   "product: a band that passed on one path is path-tested before it is a finding",
+   "product: a claimed RNG drift is decided by measurement, and the stream is pinned",
+   "product: a contradiction branch that needs a 63 pct tolerance is not a test -- publish the split the tolerance would produce, not only the tolerance",
+   "product: a draw budget is neither a window length nor a band width",
+   "product: a margin is not a substitute for the row's own side",
+   "product: a published threshold re-runs the guard, and the face says which form",
+   "product: dashboard carries the marks coverage gap",
+   "product: one ruler puts both tails of the screen's flip budget side by side -- and a tail that cannot move anything is named inert, not safe",
+   "product: open-fill gate names its evidence tier and the bar tier's prices are the bars'",
+   "product: the drift split is reproduced as a traded exposure-matched arm",
+   "product: the flip damper is adopted or rejected by path cells, not one run",
+   "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "product: the paired timing value splits into selection, sizing and toll",
+   "product: the published base draw count sits below the endpoint arrival count",
+   "product: the star's own row is priced against the column it carries for others",
+   "product: the star's residual is decomposed and split from volatility and age",
+   "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "product: the tight multiplier floor is the band build, not the windows -- a tight-pass check on this family can only return zero",
+   "product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
+   "product: the volatility gate separates held days from episodes"
+  ],
+  "n_faces_with_a_measured_pair": 0,
+  "n_sites_with_a_cross_face_gap": 5,
+  "n_cross_face_key_rows": 7,
+  "n_cross_face_rows_exceeding_tolerance": 7,
+  "cross_face_disclosure": "the same key name in two faces is not evidence of the same quantity; the gap is published as a distance so a reader can tell a copy pair from two unrelated studies that happen to share a name. A gap above the tolerance is read as 'same name, different quantity', never as a defect count.",
+  "statement": "42 leg(s) carry a numeric comparison against a published face; 29 of them compare at a tolerance finer than the quantum the field they read is printed with (21 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 42 face(s) read, 37 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects."
+ },
+ "identity_check": {
+  "kind_partition_sums_to_sites": true,
+  "at_risk_subset_of_sites": true,
+  "every_at_risk_site_names_its_face": true,
+  "every_at_risk_site_reads_a_face": true,
+  "no_site_counted_twice": true,
+  "legs_with_sites_within_leg_count": true,
+  "self_faces_excluded": true,
+  "leg_bounds_are_ordered": true,
+  "all_checks": true
+ },
+ "verdict": "legs_compare_face_values_finer_than_the_faces_print",
+ "verdict_reason": "42 leg(s) carry a numeric comparison against a published face; 29 of them compare at a tolerance finer than the quantum the field they read is printed with (21 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 42 face(s) read, 37 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects.",
+ "generated": "2026-10-31T17:22:34"
+}
