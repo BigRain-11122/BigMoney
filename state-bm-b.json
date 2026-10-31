@@ -3169,12 +3169,11 @@
  "ram_load_pct": 74.1,
  "ram_total_gb": 23.9,
  "reds_open": [
-  "cal_audit rc=1 panel_gap: data_lag_audit says the astock panel is effective 2026-10-28 with 10-29/10-30 missing while scripts/update_astock_daily.py reports cutoff 2026-10-30 and no-ops -- two faces of one panel (r1290 family), must be measured before either is believed",
-  "etf_book_forward rc=3 FROZEN: ledger drift, needs the --rebase adopt-or-not decision; adopting a re-derived history without a path test is exactly the E188 error"
+  "etf_book_forward rc=3 FROZEN: ledger drift, needs the --rebase adopt-or-not decision (independent of the panel repair; a re-derived history adopted without a path test is the E188 error)"
  ],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1338,
- "round_no": 1338,
+ "round": 1339,
+ "round_no": 1339,
  "round_no_label": "r1316",
  "round_no_note": "git log is the canvas; round number follows the highest round report row",
  "round_no_ts": "2026-10-31T20:29:10+08:00",
@@ -3192,24 +3191,51 @@
  "snapshot": {},
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
- "study": "E316_gate_print_requirements",
+ "study": "panel_coverage_wiring",
  "sync": {
   "ahead": 83,
   "behind": 187,
   "branch": "machine/bm-b-r1323",
   "peer": "origin"
  },
- "task": "E298 replay-control census",
+ "task": "data/daily panel repair + coverage leg wiring",
  "task_short": "E298 basis census",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-10-31T22:45:21+08:00",
+ "ts": "2026-10-31T23:48:27+08:00",
  "ts_utc_ms": 1793427805000,
  "updated": "2026-10-31T13:13:05+08:00",
- "updated_at": "2026-10-31T22:45:21+08:00",
+ "updated_at": "2026-10-31T23:48:27+08:00",
  "verdict": "the_reader_set_is_on_no_face_and_the_two_faces_fail_for_opposite_reasons_same_unit_decoys_on_one_a_day_without_comparisons_on_the_other",
  "vram_free_gb": 3.5,
  "vram_used_gb": 4.3,
  "watermark_red": "pool-batch-red at open (1 ready=E317, py idle) but E317 had already been burned by r1336 with the pool face stale; board then empty -> authored and burned E318 in-window",
- "watermark_verdict": "RED: pool supply gap (1 ready vs floor 3) -- the ready head E316 was burned this round, E317 seeded",
- "work": "E298 done"
+ "watermark_verdict": "RED: pool supply gap (1 ready vs floor 3) -- E320 remains the only ready head",
+ "work": "data/daily repaired via lawful lane takeover; cal_audit red closed",
+ "r1339": {
+  "round": 1339,
+  "ts": "2026-10-31T23:48:27+08:00",
+  "dept": "data+engineering",
+  "verdict": "the_cal_audit_red_named_the_astock_panel_but_the_stale_panel_is_data_daily_and_its_lane_owner_had_been_silent_for_2_6_days",
+  "finding": "the open red read 'astock panel effective 2026-10-28 with 10-29/10-30 missing while update_astock_daily reports cutoff 2026-10-30'. Measured both faces: data/astock_daily is 99.8% at 2026-10-30 (5215 of 5226 tails), so it is current and was never the lagging panel; results/data_lag_audit.json audits data/daily (1725 CSVs), where 1662 of 1725 stopped at 2026-10-28 and only 53 reached 2026-10-30. That panel belongs to update_etf_wide, whose last status write was 2026-10-29T08:41 noop_lane_guard 'lane owned by bm-c (heartbeat silent 134 min)'. bm-c's origin heartbeat is 2026-10-31T13:02, so the silence had grown to 3908.6 min and the lane's own >=120 min takeover door was open the whole time while nothing escalated. Ran the lane's sanctioned takeover: 1670 appended, panel cutoff 2026-09-04 -> 2026-10-30, coverage 3.07% -> 100.0% of 1723, 1 mismatch refused locally (159915 2026-10-26 volume_drift), 1 quote refused (sh512390 nonpositive). cal_audit now reads in_sync / missing none, and the E30 coverage census (last published 2026-10-20, eleven days old) now reports 1723 at face_max.",
+  "product": [
+   "data/daily repaired: 1723/1725 tails at 2026-10-30 (was 53/1725); results/etf_wide_update_status.json",
+   "results/data_lag_audit.json verdict panel_gap -> in_sync (missing none, effective 2026-10-30)",
+   "results/panel_coverage.json + docs/panel_coverage/COVERAGE-20261030.md refreshed (was 2026-10-20)",
+   "Tools/s6_chain_bmb.py leg panel_coverage wired after cal_audit (the E30 measure existed since r1106 and was never in the chain, which is why an 11-day-old coverage face sat beside a stopped panel)",
+   "results/state_tilt/BANDSWITCH-2026-10-30.json re-derived (E302 census tracked a moving directory)"
+  ],
+  "orders": "114 order files / 115 acks / 0 unacked at this window's scan",
+  "pit": "(1) a lane-owner guard with a takeover door is not an escalation: update_etf_wide wrote 'owner silent 134 min' at 2026-10-29T08:41 and then nothing else for 2.6 days -- the door only opens if some OTHER machine decides to walk through it, so a dead lane stays dead and the only trace is one stale status file. (2) the red in state named the wrong panel: the detector face (data_lag_audit) says 'data/daily' in its own payload while the prose said 'astock panel', and the astock panel was 99.8% current -- the two faces were never both read. (3) three smoke legs (E302/E303/E308) failed with 'summary does not re-derive' during this window: all three re-derive today (E302 needed a republish, E303/E308 match exactly), because all three census a live directory and the suite was running while the takeover was rewriting 1670 panel files -- a suite run concurrent with a panel refresh manufactures non-reproducibility in every live-directory leg. (4) E302's own numbers moved with the directory: 191 -> 195 study faces and staged-widened 3 -> 5 inside one day of publishing.",
+  "s1": "full suite re-run this window: 286/289 PASS, 3 FAIL -- all three were live-directory censuses reading the panel mid-refresh (E302 census ordered a republish; E303 and E308 re-derive byte-identically now). All three verified at their own door after the panel settled.",
+  "s6": "orphan face probe py_faces=7 orphans=0 residents=0 | dualrun ZERO-DRIFT 810 entries streak 51 | compute_audit rc=0 FLAG supply_gap,supply_floor (ready 1 / floor 3) | py_watermark rc=0 py_low_with_work_cands (pool_ready 1 = E320, refresh in flight) | attrition guard CLEAN (4 ledgers) | cal_audit rc=0 in_sync | panel_coverage rc=0 | update_daily 0 new rows, cutoff 2026-10-30 | etf_book_forward still FROZEN (rc=3, independent ledger-drift decision)",
+  "s7": "schtasks table via zero-window wrapper: Bigmoney-IterationLoop / -LoopWatchdog / -SatEngine-bm-b / -Autofill / -IntradayMarks / -ContentLoop / -E93Spread / -W21Judge* all present; IterationLoop next fire 23:47 = pin 2 on a 5-minute repetition (no drift); pre-commit and pre-push claws MATCH Tools/git-hooks (same normalised sha256)",
+  "takeover": {
+   "lane": "update_etf_wide",
+   "owner": "bm-c",
+   "owner_silent_min": 3908.57,
+   "taken_by": "bm-b",
+   "reason": "owner heartbeat 2026-10-31T13:02 (>120 min door) and the lane had not written any status since 2026-10-29T08:41"
+  },
+  "watermark_red": "pool-batch-red at open (1 ready = E320, py idle, saturation engine rc=0 idle); the red I could close was cal_audit's panel_gap, and closing it is this round's product"
+ }
 }

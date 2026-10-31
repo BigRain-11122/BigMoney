@@ -1,7 +1,57 @@
 {
- "ts": "2026-10-29T08:41:12",
- "machine": "bm-a",
+ "ts": "2026-10-31T23:38:48",
+ "machine": "bm-b",
  "lane_owner": "bm-c",
- "status": "noop_lane_guard",
- "detail": "lane owned by bm-c (heartbeat silent 134.14850279490153 min); no --takeover flag"
+ "status": "ok_with_refusals",
+ "expected": "2026-10-30",
+ "panel_cutoff_before": "2026-09-04",
+ "panel_cutoff_after": "2026-10-30",
+ "source_ended_stems": [
+  "sh512390"
+ ],
+ "universe": 1724,
+ "attempted": 1724,
+ "workers": 6,
+ "elapsed_s": 189.2,
+ "counts": {
+  "no_change": 52,
+  "mismatch": 1,
+  "appended": 1670,
+  "tail_lag": 0,
+  "quote_refused": 1
+ },
+ "ended_grace_td": 5,
+ "source_quiet_stems": [],
+ "source_quiet_ts": "2026-10-31T23:38:48",
+ "source_lagging_stems": 0,
+ "coverage_pct_pre": 3.07,
+ "coverage_floor": 0.95,
+ "coverage_post": 100.0,
+ "coverage_total": 1723,
+ "laggard_n": 0,
+ "laggard_sample": [],
+ "quote_topup_stems": 0,
+ "quote_topup_rows": 0,
+ "quote_refusal_n": 1,
+ "quote_refusal_sample": [
+  "sh512390:nonpositive_quote"
+ ],
+ "quote_face": "https://hq.sinajs.cn/list={syms}",
+ "quote_chunk": 60,
+ "mismatch_n": 1,
+ "mismatch_sample": [
+  "159915:2026-10-26:volume_drift"
+ ],
+ "fetch_fail_n": 0,
+ "fetch_fail_sample": [],
+ "invalid_n": 0,
+ "invalid_sample": [],
+ "holes_symbols": 36,
+ "holes_bars": 36178,
+ "skipped_stems": [
+  "510880_t73"
+ ],
+ "takeover_by": "bm-b",
+ "owner": "bm-c",
+ "owner_silent_min": 3908.5721087654433
 }

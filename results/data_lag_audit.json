@@ -1,61 +1,47 @@
 {
- "as_of": "2026-10-30T07:20:39",
+ "as_of": "2026-10-31T23:42:33",
  "calendar": {
   "path": "data/exchange_calendar.csv",
   "refresh": {
    "error": null,
-   "fetched": true,
-   "reason": "refreshed",
-   "rows_after": 8797,
-   "rows_before": 8797,
-   "sha256": "e393f45ff7137bddbfc670c178676df40eaf34bb494b29e44049d81a4b9305f3"
+   "fetched": false,
+   "reason": "coverage_and_ttl_ok"
   },
   "rows": 8797,
   "scope_end": "2026-12-31",
   "scope_start": "1990-12-19"
  },
  "coverage_by_day": {
-  "2026-10-16": 1.0,
   "2026-10-19": 1.0,
   "2026-10-20": 1.0,
   "2026-10-21": 1.0,
   "2026-10-22": 1.0,
   "2026-10-23": 1.0,
   "2026-10-26": 1.0,
-  "2026-10-27": 0.9994,
-  "2026-10-28": 0.9954,
-  "2026-10-29": 0.0308
+  "2026-10-27": 1.0,
+  "2026-10-28": 1.0,
+  "2026-10-29": 1.0,
+  "2026-10-30": 1.0
  },
- "detail": "the maintained panel is behind the market by 1 official day(s): 2026-10-29 -- a feed that stopped publishing, not merely a publication delay",
- "expected_last_official_day": "2026-10-29",
+ "detail": "the maintained panel covers every official trading day it should by now",
+ "expected_last_official_day": "2026-10-30",
  "forward_impact": {
-  "blocked": true,
+  "blocked": false,
   "ledger_last_bar": "2026-10-29",
   "note": "one mark per new panel bar; a lagging feed pauses accrual without any error"
  },
- "missing_official_days": [
-  "2026-10-29"
- ],
+ "missing_official_days": [],
  "note": "Descriptive face. The calendar is the independent reference; the panel is ours. source_lag is a publication delay (self-heals), panel_gap is a stopped feed (needs a human/lane owner).",
  "panel": {
-  "active_floor": "2026-10-23",
-  "cutoff_max": "2026-10-29",
+  "active_floor": "2026-10-26",
+  "cutoff_max": "2026-10-30",
   "cutoff_min": "2026-09-04",
-  "effective_cutoff": "2026-10-28",
-  "lagging_active_sample": [
-   "sh511820",
-   "sh513820",
-   "sh516720",
-   "sh560150",
-   "sh560510",
-   "sh563980",
-   "sz159332",
-   "sz159355"
-  ],
+  "effective_cutoff": "2026-10-30",
+  "lagging_active_sample": [],
   "n_active": 1723,
   "n_stale_cohort": 2,
   "n_symbols": 1725
  },
  "schema": "data-lag-audit/v1",
- "verdict": "panel_gap"
+ "verdict": "in_sync"
 }

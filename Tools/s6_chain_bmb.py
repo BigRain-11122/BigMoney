@@ -31,6 +31,12 @@ LEGS = [
     ("update_daily", ["python", "scripts/update_daily.py"]),
     # the official exchange calendar, so "no new bar" is not ambiguous
     ("cal_audit", ["python", "scripts/exchange_calendar_audit.py", "run"]),
+    # r1339: E30's standing coverage census existed since r1106 and was never in
+    # the chain -- its last published face was 11 days old while data/daily sat at
+    # 96% on 2026-10-28 with no 10-29/10-30 bars and cal_audit could only say
+    # "panel_gap" without naming the share. Counts dates already on disk, zero
+    # network, so it is cheap enough to hold the histogram current every round.
+    ("panel_coverage", ["python", "scripts/panel_coverage_report.py", "run"]),
     ("market_regime", ["python", "scripts/market_regime.py"]),
     ("market_clock", ["python", "scripts/market_clock_call.py", "run"]),
     # bm-b lanes (R31): the A-share daily panel and the five-member ETF panel
