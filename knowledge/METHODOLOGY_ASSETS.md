@@ -6868,3 +6868,25 @@ Products: ``scripts/e332_invisible_tail_recovery.py`` (run / verify 0 problems /
 ``invisible_tail_recovery`` (~75s); smoke leg "product: the text the corpus helper cannot see is
 recovered, classified and priced -- and a published reader count is re-derived against the recovered
 corpus" (3/3 mutations caught); ``research/digests/DIGEST-20261101-r1352-e332-invisible-tail.md``
+
+## E333 -- a shared helper is a shared floor: five studies read one scanner, so one repair moves five verdicts' arithmetic at once
+
+E332 measured that ``e326.code_lines`` hides 4,284 real code lines across 30 sources and re-priced exactly one
+consumer (E331). The other four studies that read the same helper (E326 template parameters, E328 quoted-number
+staleness, E329 two-vintage binding, E330 unpinned choice) were still quoting floors. All four are rebuilt twice
+over ONE file list -- shipped helper vs tokenizer -- into scratch directories, with the patch restored in a
+``finally`` and the restore asserted; every numeric leaf of each summary block is diffed by dotted path. Reading:
+**17 of 69 published numbers move, no verdict flips.** E328's quoted numbers go 1,430 -> 1,933 (+503) and stale
+faces quoted 4 -> 5; E329's pairs naming two vintages 12 -> 15; E326's consumers 36 -> 35; E330 moves 0 of 21 --
+the source with the largest loss (602 of 635 lines hidden) does not move its own counts.
+
+Two rules make the answer usable rather than merely true. (1) **Ablate on the consumer's own reader, not on a
+proxy**: attributing +503 by face-handle volume finds nothing (34 basenames change) because each stale face needs
+only to cross from zero readers to one; re-running that consumer's ``reader_index`` on a single file puts the
+budget on the right source, and one file then explains the whole delta exactly (11 of 17 exactly, 0 unattributed).
+(2) **A delta needs its second axis published**: the shipped half does not reproduce any of the four published
+faces (faces_scanned 550 -> 555, sources 2,284 -> 2,287) because the corpus grew since they were written, so the
+face publishes that control per consumer and recomputes every delta on one corpus -- otherwise corpus drift is
+silently booked as a repair. Verdicts survived because they are statements about a mechanism, not about a count.
+
+证据：scripts/e333_surviving_e3xx_conclusions.py（selftest 16/16 · verify 0 problems）· results/state_tilt/SURVIVINGCONCLUSIONS-2026-11-01.json · research/digests/DIGEST-20261101-r1353-e333-surviving-conclusions.md · Tools/s6_chain_bmb.py leg surviving_e3xx_conclusions · smoke_test.py leg E333

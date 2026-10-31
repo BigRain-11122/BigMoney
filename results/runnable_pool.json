@@ -26148,15 +26148,17 @@
    "id": "E333-WHICH-E3XX-CONCLUSIONS-SURVIVE-THE-REAL-CORPUS",
    "lane": "cpu-only",
    "priority": 3,
-   "status": "ready",
-   "owner": null,
-   "owner_since": null,
+   "status": "done",
+   "owner": "bm-b",
+   "owner_since": "2026-11-01T06:40:00+08:00",
    "entered_at": "2026-11-01T06:13:48+08:00",
    "question": "E332 re-priced exactly one consumer of the corpus helper (E331). E326 (template parameters), E328 (quoted-number staleness), E329 (two vintages) and E330 (unpinned choice) all read the same helper, so every count they published is a floor of the same shape: 4,284 lines are missing from 30 sources, 157 of them definitions. Re-run each consumer against the recovered corpus, and for each published number say whether it moved, by how much, and whether the verdict it supports survives. Where a number moves, name the source and written span that produced the difference.",
    "target": "per E3xx consumer: the published summary block recomputed over the recovered corpus, a delta for every count that moved, and a sentence on whether the verdict still holds",
    "deliverable": "results/state_tilt/<face> + scripts/e333_*.py + chain leg + smoke leg + methodology card",
    "source": "E332 INVISIBLETAIL-2026-11-01 (summary.recovered_code_lines=4284, sources_the_helper_blinds=30)",
-   "notes": "seeded by r1352 bm-b at E332 close; only E331 was re-priced by E332 itself"
+   "notes": "seeded by r1352 bm-b at E332 close; only E331 was re-priced by E332 itself",
+ "closed_at": "2026-11-01T07:05:00+08:00",
+ "result_ref": "scripts/e333_surviving_e3xx_conclusions.py + results/state_tilt/SURVIVINGCONCLUSIONS-2026-11-01.json (17 of 69 published numbers move, no verdict flips, every moved number attributed)"
   },
   {
    "id": "E334-FIX-THE-HELPER-OR-KEEP-IT",

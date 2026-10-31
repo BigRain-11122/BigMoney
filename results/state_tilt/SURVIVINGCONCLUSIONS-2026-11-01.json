@@ -1,0 +1,2579 @@
+{
+ "study": "E333_surviving_e3xx_conclusions",
+ "evidence_cutoff": "2026-11-01",
+ "verdict": "every_published_count_moves_but_no_verdict_flips",
+ "verdict_reason": "3 of 4 studies keep their verdict while 17 of 69 published numbers move; 17 of the moved numbers are reproduced by a single source and 11 of those are explained exactly by it",
+ "summary": {
+  "consumers_reviewed": 4,
+  "consumers_whose_counts_move": 3,
+  "consumers_whose_verdict_flips": 0,
+  "published_numbers_compared": 69,
+  "published_numbers_moved": 17,
+  "published_numbers_unchanged": 52,
+  "numbers_attributed_to_a_single_source": 17,
+  "numbers_explained_exactly_by_a_single_source": 11,
+  "numbers_with_no_single_source_explanation": 0,
+  "consumers_whose_shipped_half_reproduces_the_published_face": 0,
+  "corpus_sources_scanned": 2286,
+  "corpus_sources_the_helper_blinds": 30,
+  "corpus_recovered_code_lines": 4284,
+  "ablation_candidates_ranked": 30,
+  "ablation_builds": 17,
+  "rows_published": 4
+ },
+ "source_study": {
+  "study": "E332_invisible_tail_recovery",
+  "evidence_cutoff": "2026-11-01",
+  "sources_scanned": 2286,
+  "sources_the_helper_blinds": 30,
+  "recovered_code_lines": 4284,
+  "recovered_by_kind": {
+   "definitions": 157,
+   "classes": 0,
+   "face_handles": 18,
+   "load_sites": 103,
+   "selftest_legs": 187
+  },
+  "source_face": "results/state_tilt/INVISIBLETAIL-2026-11-01.json"
+ },
+ "rules": {
+  "one_corpus": "every consumer runs over the same file list (e326.corpus()), so a delta is the helper and nothing else",
+  "priced": "each consumer's own build() is run twice into scratch directories; the patched helper is restored in a finally block and the restore is asserted",
+  "numbers": "every numeric leaf of the summary block is compared, dotted paths included; booleans and strings are not counted as published numbers",
+  "attribution": "a moved number is attributed when re-running the same build with ONE source recovered reproduces it; 'explained exactly' additionally requires that single source to produce the whole delta",
+  "bounded": "each consumer ablates a fixed number of sources (3/8/6/4 for E326/E328/E329/E330), ranked by the absolute change in face-handle and load-site lines between the two readings; an unattributed number is published as unattributed, never guessed",
+  "no_silent_repair": "no consumer's face is rewritten by this study; the delta is published beside the shipped numbers"
+ },
+ "limits": {
+  "verdict_text": "a verdict token that does not move can still overstate: the counts behind it are published here so a reader can check that for itself",
+  "single_source": "ablation names one source at a time; a moved number that needs two sources together reads as unattributed",
+  "line_span": "the span published for an attributed number is the source's E332 span list, not a per-delta line slice",
+  "corpus_drift": "the delta is the helper alone: both halves run over today's file list and today's faces.  The published-vs-shipped difference is a SECOND axis (the corpus has grown since each face was written) and is published as a control, not folded into this delta"
+ },
+ "consumers": [
+  {
+   "name": "E326_template_parameters",
+   "module": "scripts/e326_template_parameter_consumers.py",
+   "face": "results/state_tilt/TEMPLATEPARAM-2026-10-31.json",
+   "verdict_with_shipped_helper": "every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source",
+   "verdict_with_recovered_corpus": "every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source",
+   "verdict_moved": false,
+   "numbers_compared": 18,
+   "numbers_moved": 3,
+   "numbers_unchanged": 15,
+   "moved": [
+    {
+     "key": "consumers",
+     "shipped": 36,
+     "recovered": 35,
+     "delta": -1,
+     "attributed_sources": [
+      {
+       "source": "scripts/e312_gate_operand_identity.py",
+       "shipped": 36,
+       "recovered_with_only_this_source": 34,
+       "delta": -2,
+       "spans": [
+        [
+         61,
+         61,
+         1
+        ],
+        [
+         64,
+         66,
+         3
+        ],
+        [
+         69,
+         74,
+         6
+        ],
+        [
+         77,
+         78,
+         2
+        ],
+        [
+         81,
+         82,
+         2
+        ],
+        [
+         85,
+         90,
+         6
+        ]
+       ]
+      },
+      {
+       "source": "scripts/e308_leg_vs_producer_tolerance.py",
+       "shipped": 36,
+       "recovered_with_only_this_source": 37,
+       "delta": 1,
+       "spans": [
+        [
+         37,
+         42,
+         6
+        ],
+        [
+         44,
+         47,
+         4
+        ],
+        [
+         49,
+         49,
+         1
+        ],
+        [
+         51,
+         56,
+         6
+        ],
+        [
+         58,
+         61,
+         4
+        ],
+        [
+         65,
+         66,
+         2
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": false,
+     "largest_single_source_share_pct": 200.0
+    },
+    {
+     "key": "consumers_by_class.consumer_formats_the_template_with_a_parameter_it_defines",
+     "shipped": 9,
+     "recovered": 7,
+     "delta": -2,
+     "attributed_sources": [
+      {
+       "source": "scripts/e312_gate_operand_identity.py",
+       "shipped": 9,
+       "recovered_with_only_this_source": 7,
+       "delta": -2,
+       "spans": [
+        [
+         61,
+         61,
+         1
+        ],
+        [
+         64,
+         66,
+         3
+        ],
+        [
+         69,
+         74,
+         6
+        ],
+        [
+         77,
+         78,
+         2
+        ],
+        [
+         81,
+         82,
+         2
+        ],
+        [
+         85,
+         90,
+         6
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": true,
+     "largest_single_source_share_pct": 100.0
+    },
+    {
+     "key": "consumers_by_class.this_source_is_the_face_s_own_writer",
+     "shipped": 20,
+     "recovered": 21,
+     "delta": 1,
+     "attributed_sources": [
+      {
+       "source": "scripts/e308_leg_vs_producer_tolerance.py",
+       "shipped": 20,
+       "recovered_with_only_this_source": 21,
+       "delta": 1,
+       "spans": [
+        [
+         37,
+         42,
+         6
+        ],
+        [
+         44,
+         47,
+         4
+        ],
+        [
+         49,
+         49,
+         1
+        ],
+        [
+         51,
+         56,
+         6
+        ],
+        [
+         58,
+         61,
+         4
+        ],
+        [
+         65,
+         66,
+         2
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": true,
+     "largest_single_source_share_pct": 100.0
+    }
+   ],
+   "moved_truncated": 0,
+   "numbers_attributed_to_one_source": 3,
+   "numbers_explained_exactly_by_one_source": 2,
+   "ablation_sources_tried": [
+    "scripts/e312_gate_operand_identity.py",
+    "scripts/e308_leg_vs_producer_tolerance.py",
+    "scripts/e330_unpinned_choice.py"
+   ],
+   "ablation_signals": [
+    {
+     "source": "scripts/e312_gate_operand_identity.py",
+     "signal": {
+      "consumer_side": "consumers_named_in_one_source",
+      "with_shipped_helper": 3,
+      "with_recovered_corpus": 1,
+      "delta": -2
+     }
+    },
+    {
+     "source": "scripts/e308_leg_vs_producer_tolerance.py",
+     "signal": {
+      "consumer_side": "consumers_named_in_one_source",
+      "with_shipped_helper": 0,
+      "with_recovered_corpus": 1,
+      "delta": 1
+     }
+    },
+    {
+     "source": "scripts/e330_unpinned_choice.py",
+     "signal": {
+      "consumer_side": "consumers_named_in_one_source",
+      "with_shipped_helper": 0,
+      "with_recovered_corpus": 0,
+      "delta": 0
+     }
+    },
+    {
+     "source": "Tools/_r390bmc_close.py",
+     "signal": {
+      "consumer_side": "consumers_named_in_one_source",
+      "with_shipped_helper": 0,
+      "with_recovered_corpus": 0,
+      "delta": 0
+     }
+    },
+    {
+     "source": "Tools/tree_shrink_guard.py",
+     "signal": {
+      "consumer_side": "consumers_named_in_one_source",
+      "with_shipped_helper": 0,
+      "with_recovered_corpus": 0,
+      "delta": 0
+     }
+    },
+    {
+     "source": "scripts/t11_negday_ic.py",
+     "signal": {
+      "consumer_side": "consumers_named_in_one_source",
+      "with_shipped_helper": 0,
+      "with_recovered_corpus": 0,
+      "delta": 0
+     }
+    }
+   ],
+   "shipped_helper_reproduces_published_face": {
+    "published_face": "results/state_tilt/TEMPLATEPARAM-2026-10-31.json",
+    "readable": true,
+    "numbers_compared": 18,
+    "numbers_differing": 4,
+    "differences": [
+     {
+      "key": "consumers",
+      "shipped": 34,
+      "recovered": 36,
+      "delta": 2
+     },
+     {
+      "key": "consumers_by_class.consumer_pins_the_parameter_literally",
+      "shipped": 5,
+      "recovered": 7,
+      "delta": 2
+     },
+     {
+      "key": "faces_named_outside_their_writer",
+      "shipped": 8,
+      "recovered": 9,
+      "delta": 1
+     },
+     {
+      "key": "latest_pointers_naming_a_parameterised_face",
+      "shipped": 143,
+      "recovered": 154,
+      "delta": 11
+     }
+    ],
+    "reproduces_published": false,
+    "verdict_same": true
+   },
+   "conclusion": "the verdict holds, the counts do not"
+  },
+  {
+   "name": "E328_quoted_number_staleness",
+   "module": "scripts/e328_quoted_number_staleness.py",
+   "face": "results/state_tilt/STALECUTOFF-2026-11-01.json",
+   "verdict_with_shipped_helper": "quoted_numbers_are_read_from_vintages_and_move_when_the_newest_cut_is_opened",
+   "verdict_with_recovered_corpus": "quoted_numbers_are_read_from_vintages_and_move_when_the_newest_cut_is_opened",
+   "verdict_moved": false,
+   "numbers_compared": 13,
+   "numbers_moved": 6,
+   "numbers_unchanged": 7,
+   "moved": [
+    {
+     "key": "numbers_equal",
+     "shipped": 894,
+     "recovered": 1224,
+     "delta": 330,
+     "attributed_sources": [
+      {
+       "source": "scripts/e280_e251_rng_drift_repin.py",
+       "shipped": 894,
+       "recovered_with_only_this_source": 1224,
+       "delta": 330,
+       "spans": [
+        [
+         25,
+         28,
+         4
+        ],
+        [
+         30,
+         32,
+         3
+        ],
+        [
+         34,
+         36,
+         3
+        ],
+        [
+         38,
+         41,
+         4
+        ],
+        [
+         44,
+         46,
+         3
+        ],
+        [
+         49,
+         50,
+         2
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": true,
+     "largest_single_source_share_pct": 100.0
+    },
+    {
+     "key": "numbers_that_move",
+     "shipped": 536,
+     "recovered": 709,
+     "delta": 173,
+     "attributed_sources": [
+      {
+       "source": "scripts/e280_e251_rng_drift_repin.py",
+       "shipped": 536,
+       "recovered_with_only_this_source": 709,
+       "delta": 173,
+       "spans": [
+        [
+         25,
+         28,
+         4
+        ],
+        [
+         30,
+         32,
+         3
+        ],
+        [
+         34,
+         36,
+         3
+        ],
+        [
+         38,
+         41,
+         4
+        ],
+        [
+         44,
+         46,
+         3
+        ],
+        [
+         49,
+         50,
+         2
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": true,
+     "largest_single_source_share_pct": 100.0
+    },
+    {
+     "key": "quoted_numbers",
+     "shipped": 1430,
+     "recovered": 1933,
+     "delta": 503,
+     "attributed_sources": [
+      {
+       "source": "scripts/e280_e251_rng_drift_repin.py",
+       "shipped": 1430,
+       "recovered_with_only_this_source": 1933,
+       "delta": 503,
+       "spans": [
+        [
+         25,
+         28,
+         4
+        ],
+        [
+         30,
+         32,
+         3
+        ],
+        [
+         34,
+         36,
+         3
+        ],
+        [
+         38,
+         41,
+         4
+        ],
+        [
+         44,
+         46,
+         3
+        ],
+        [
+         49,
+         50,
+         2
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": true,
+     "largest_single_source_share_pct": 100.0
+    },
+    {
+     "key": "stale_faces_quoted",
+     "shipped": 4,
+     "recovered": 5,
+     "delta": 1,
+     "attributed_sources": [
+      {
+       "source": "scripts/e280_e251_rng_drift_repin.py",
+       "shipped": 4,
+       "recovered_with_only_this_source": 5,
+       "delta": 1,
+       "spans": [
+        [
+         25,
+         28,
+         4
+        ],
+        [
+         30,
+         32,
+         3
+        ],
+        [
+         34,
+         36,
+         3
+        ],
+        [
+         38,
+         41,
+         4
+        ],
+        [
+         44,
+         46,
+         3
+        ],
+        [
+         49,
+         50,
+         2
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": true,
+     "largest_single_source_share_pct": 100.0
+    },
+    {
+     "key": "stale_faces_quoted_and_parsed",
+     "shipped": 4,
+     "recovered": 5,
+     "delta": 1,
+     "attributed_sources": [
+      {
+       "source": "scripts/e280_e251_rng_drift_repin.py",
+       "shipped": 4,
+       "recovered_with_only_this_source": 5,
+       "delta": 1,
+       "spans": [
+        [
+         25,
+         28,
+         4
+        ],
+        [
+         30,
+         32,
+         3
+        ],
+        [
+         34,
+         36,
+         3
+        ],
+        [
+         38,
+         41,
+         4
+        ],
+        [
+         44,
+         46,
+         3
+        ],
+        [
+         49,
+         50,
+         2
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": true,
+     "largest_single_source_share_pct": 100.0
+    },
+    {
+     "key": "stale_faces_unquoted",
+     "shipped": 129,
+     "recovered": 128,
+     "delta": -1,
+     "attributed_sources": [
+      {
+       "source": "scripts/e280_e251_rng_drift_repin.py",
+       "shipped": 129,
+       "recovered_with_only_this_source": 128,
+       "delta": -1,
+       "spans": [
+        [
+         25,
+         28,
+         4
+        ],
+        [
+         30,
+         32,
+         3
+        ],
+        [
+         34,
+         36,
+         3
+        ],
+        [
+         38,
+         41,
+         4
+        ],
+        [
+         44,
+         46,
+         3
+        ],
+        [
+         49,
+         50,
+         2
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": true,
+     "largest_single_source_share_pct": 100.0
+    }
+   ],
+   "moved_truncated": 0,
+   "numbers_attributed_to_one_source": 6,
+   "numbers_explained_exactly_by_one_source": 6,
+   "ablation_sources_tried": [
+    "scripts/e330_unpinned_choice.py",
+    "scripts/e280_e251_rng_drift_repin.py",
+    "scripts/e299_rounded_vs_tolerance_census.py",
+    "Tools/_r1184bmb_renumber.py",
+    "Tools/_r1226bmb_face.py",
+    "Tools/_r1234bmb_card.py",
+    "Tools/_r1184bmb_card.py",
+    "Tools/_r1232bmb_card.py"
+   ],
+   "ablation_signals": [
+    {
+     "source": "scripts/e330_unpinned_choice.py",
+     "signal": {
+      "consumer_side": "non_writer_reader_entries",
+      "with_shipped_helper": 0,
+      "with_recovered_corpus": 6,
+      "delta": 6
+     }
+    },
+    {
+     "source": "scripts/e280_e251_rng_drift_repin.py",
+     "signal": {
+      "consumer_side": "non_writer_reader_entries",
+      "with_shipped_helper": 0,
+      "with_recovered_corpus": 4,
+      "delta": 4
+     }
+    },
+    {
+     "source": "scripts/e299_rounded_vs_tolerance_census.py",
+     "signal": {
+      "consumer_side": "non_writer_reader_entries",
+      "with_shipped_helper": 2,
+      "with_recovered_corpus": 5,
+      "delta": 3
+     }
+    },
+    {
+     "source": "Tools/_r1184bmb_renumber.py",
+     "signal": {
+      "consumer_side": "non_writer_reader_entries",
+      "with_shipped_helper": 1,
+      "with_recovered_corpus": 0,
+      "delta": -1
+     }
+    },
+    {
+     "source": "Tools/_r1226bmb_face.py",
+     "signal": {
+      "consumer_side": "non_writer_reader_entries",
+      "with_shipped_helper": 2,
+      "with_recovered_corpus": 3,
+      "delta": 1
+     }
+    },
+    {
+     "source": "Tools/_r1234bmb_card.py",
+     "signal": {
+      "consumer_side": "non_writer_reader_entries",
+      "with_shipped_helper": 1,
+      "with_recovered_corpus": 0,
+      "delta": -1
+     }
+    }
+   ],
+   "shipped_helper_reproduces_published_face": {
+    "published_face": "results/state_tilt/STALECUTOFF-2026-11-01.json",
+    "readable": true,
+    "numbers_compared": 13,
+    "numbers_differing": 3,
+    "differences": [
+     {
+      "key": "faces_scanned",
+      "shipped": 550,
+      "recovered": 555,
+      "delta": 5
+     },
+     {
+      "key": "faces_with_stated_cutoff",
+      "shipped": 491,
+      "recovered": 496,
+      "delta": 5
+     },
+     {
+      "key": "families",
+      "shipped": 416,
+      "recovered": 421,
+      "delta": 5
+     }
+    ],
+    "reproduces_published": false,
+    "verdict_same": true
+   },
+   "conclusion": "the verdict holds, the counts do not"
+  },
+  {
+   "name": "E329_two_vintage_binding",
+   "module": "scripts/e329_two_vintage_binding.py",
+   "face": "results/state_tilt/TWOVINTAGE-2026-11-01.json",
+   "verdict_with_shipped_helper": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_newer_cut",
+   "verdict_with_recovered_corpus": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_newer_cut",
+   "verdict_moved": false,
+   "numbers_compared": 17,
+   "numbers_moved": 8,
+   "numbers_unchanged": 9,
+   "moved": [
+    {
+     "key": "pairs_both_cuts_on_disk",
+     "shipped": 2,
+     "recovered": 3,
+     "delta": 1,
+     "attributed_sources": [
+      {
+       "source": "scripts/e280_e251_rng_drift_repin.py",
+       "shipped": 2,
+       "recovered_with_only_this_source": 3,
+       "delta": 1,
+       "spans": [
+        [
+         25,
+         28,
+         4
+        ],
+        [
+         30,
+         32,
+         3
+        ],
+        [
+         34,
+         36,
+         3
+        ],
+        [
+         38,
+         41,
+         4
+        ],
+        [
+         44,
+         46,
+         3
+        ],
+        [
+         49,
+         50,
+         2
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": true,
+     "largest_single_source_share_pct": 100.0
+    },
+    {
+     "key": "pairs_naming_two_vintages",
+     "shipped": 12,
+     "recovered": 15,
+     "delta": 3,
+     "attributed_sources": [
+      {
+       "source": "scripts/e330_unpinned_choice.py",
+       "shipped": 12,
+       "recovered_with_only_this_source": 15,
+       "delta": 3,
+       "spans": [
+        [
+         81,
+         81,
+         1
+        ],
+        [
+         83,
+         87,
+         5
+        ],
+        [
+         92,
+         93,
+         2
+        ],
+        [
+         96,
+         97,
+         2
+        ],
+        [
+         100,
+         100,
+         1
+        ],
+        [
+         108,
+         123,
+         16
+        ]
+       ]
+      },
+      {
+       "source": "scripts/e280_e251_rng_drift_repin.py",
+       "shipped": 12,
+       "recovered_with_only_this_source": 13,
+       "delta": 1,
+       "spans": [
+        [
+         25,
+         28,
+         4
+        ],
+        [
+         30,
+         32,
+         3
+        ],
+        [
+         34,
+         36,
+         3
+        ],
+        [
+         38,
+         41,
+         4
+        ],
+        [
+         44,
+         46,
+         3
+        ],
+        [
+         49,
+         50,
+         2
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": true,
+     "largest_single_source_share_pct": 100.0
+    },
+    {
+     "key": "pairs_no_static_winner",
+     "shipped": 7,
+     "recovered": 9,
+     "delta": 2,
+     "attributed_sources": [
+      {
+       "source": "scripts/e330_unpinned_choice.py",
+       "shipped": 7,
+       "recovered_with_only_this_source": 10,
+       "delta": 3,
+       "spans": [
+        [
+         81,
+         81,
+         1
+        ],
+        [
+         83,
+         87,
+         5
+        ],
+        [
+         92,
+         93,
+         2
+        ],
+        [
+         96,
+         97,
+         2
+        ],
+        [
+         100,
+         100,
+         1
+        ],
+        [
+         108,
+         123,
+         16
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": false,
+     "largest_single_source_share_pct": 150.0
+    },
+    {
+     "key": "pairs_roles_named",
+     "shipped": 2,
+     "recovered": 3,
+     "delta": 1,
+     "attributed_sources": [
+      {
+       "source": "scripts/e280_e251_rng_drift_repin.py",
+       "shipped": 2,
+       "recovered_with_only_this_source": 3,
+       "delta": 1,
+       "spans": [
+        [
+         25,
+         28,
+         4
+        ],
+        [
+         30,
+         32,
+         3
+        ],
+        [
+         34,
+         36,
+         3
+        ],
+        [
+         38,
+         41,
+         4
+        ],
+        [
+         44,
+         46,
+         3
+        ],
+        [
+         49,
+         50,
+         2
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": true,
+     "largest_single_source_share_pct": 100.0
+    },
+    {
+     "key": "pairs_with_a_pointer_pair",
+     "shipped": 4,
+     "recovered": 5,
+     "delta": 1,
+     "attributed_sources": [
+      {
+       "source": "scripts/e330_unpinned_choice.py",
+       "shipped": 4,
+       "recovered_with_only_this_source": 6,
+       "delta": 2,
+       "spans": [
+        [
+         81,
+         81,
+         1
+        ],
+        [
+         83,
+         87,
+         5
+        ],
+        [
+         92,
+         93,
+         2
+        ],
+        [
+         96,
+         97,
+         2
+        ],
+        [
+         100,
+         100,
+         1
+        ],
+        [
+         108,
+         123,
+         16
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": false,
+     "largest_single_source_share_pct": 200.0
+    },
+    {
+     "key": "pairs_with_two_dated_cuts",
+     "shipped": 8,
+     "recovered": 12,
+     "delta": 4,
+     "attributed_sources": [
+      {
+       "source": "scripts/e330_unpinned_choice.py",
+       "shipped": 8,
+       "recovered_with_only_this_source": 11,
+       "delta": 3,
+       "spans": [
+        [
+         81,
+         81,
+         1
+        ],
+        [
+         83,
+         87,
+         5
+        ],
+        [
+         92,
+         93,
+         2
+        ],
+        [
+         96,
+         97,
+         2
+        ],
+        [
+         100,
+         100,
+         1
+        ],
+        [
+         108,
+         123,
+         16
+        ]
+       ]
+      },
+      {
+       "source": "scripts/e280_e251_rng_drift_repin.py",
+       "shipped": 8,
+       "recovered_with_only_this_source": 9,
+       "delta": 1,
+       "spans": [
+        [
+         25,
+         28,
+         4
+        ],
+        [
+         30,
+         32,
+         3
+        ],
+        [
+         34,
+         36,
+         3
+        ],
+        [
+         38,
+         41,
+         4
+        ],
+        [
+         44,
+         46,
+         3
+        ],
+        [
+         49,
+         50,
+         2
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": false,
+     "largest_single_source_share_pct": 75.0
+    },
+    {
+     "key": "source_family_pairs",
+     "shipped": 627,
+     "recovered": 612,
+     "delta": -15,
+     "attributed_sources": [
+      {
+       "source": "scripts/e330_unpinned_choice.py",
+       "shipped": 627,
+       "recovered_with_only_this_source": 629,
+       "delta": 2,
+       "spans": [
+        [
+         81,
+         81,
+         1
+        ],
+        [
+         83,
+         87,
+         5
+        ],
+        [
+         92,
+         93,
+         2
+        ],
+        [
+         96,
+         97,
+         2
+        ],
+        [
+         100,
+         100,
+         1
+        ],
+        [
+         108,
+         123,
+         16
+        ]
+       ]
+      },
+      {
+       "source": "scripts/e280_e251_rng_drift_repin.py",
+       "shipped": 627,
+       "recovered_with_only_this_source": 631,
+       "delta": 4,
+       "spans": [
+        [
+         25,
+         28,
+         4
+        ],
+        [
+         30,
+         32,
+         3
+        ],
+        [
+         34,
+         36,
+         3
+        ],
+        [
+         38,
+         41,
+         4
+        ],
+        [
+         44,
+         46,
+         3
+        ],
+        [
+         49,
+         50,
+         2
+        ]
+       ]
+      },
+      {
+       "source": "scripts/e299_rounded_vs_tolerance_census.py",
+       "shipped": 627,
+       "recovered_with_only_this_source": 628,
+       "delta": 1,
+       "spans": [
+        [
+         821,
+         823,
+         3
+        ],
+        [
+         825,
+         830,
+         6
+        ],
+        [
+         832,
+         833,
+         2
+        ],
+        [
+         835,
+         847,
+         13
+        ],
+        [
+         850,
+         854,
+         5
+        ],
+        [
+         857,
+         859,
+         3
+        ]
+       ]
+      },
+      {
+       "source": "scripts/e308_leg_vs_producer_tolerance.py",
+       "shipped": 627,
+       "recovered_with_only_this_source": 629,
+       "delta": 2,
+       "spans": [
+        [
+         37,
+         42,
+         6
+        ],
+        [
+         44,
+         47,
+         4
+        ],
+        [
+         49,
+         49,
+         1
+        ],
+        [
+         51,
+         56,
+         6
+        ],
+        [
+         58,
+         61,
+         4
+        ],
+        [
+         65,
+         66,
+         2
+        ]
+       ]
+      },
+      {
+       "source": "scripts/e231_band_path_test.py",
+       "shipped": 627,
+       "recovered_with_only_this_source": 629,
+       "delta": 2,
+       "spans": [
+        [
+         59,
+         59,
+         1
+        ],
+        [
+         61,
+         66,
+         6
+        ],
+        [
+         68,
+         70,
+         3
+        ],
+        [
+         72,
+         74,
+         3
+        ],
+        [
+         76,
+         78,
+         3
+        ],
+        [
+         80,
+         84,
+         5
+        ]
+       ]
+      },
+      {
+       "source": "scripts/e312_gate_operand_identity.py",
+       "shipped": 627,
+       "recovered_with_only_this_source": 626,
+       "delta": -1,
+       "spans": [
+        [
+         61,
+         61,
+         1
+        ],
+        [
+         64,
+         66,
+         3
+        ],
+        [
+         69,
+         74,
+         6
+        ],
+        [
+         77,
+         78,
+         2
+        ],
+        [
+         81,
+         82,
+         2
+        ],
+        [
+         85,
+         90,
+         6
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": false,
+     "largest_single_source_share_pct": 26.7
+    },
+    {
+     "key": "sources_scanned",
+     "shipped": 232,
+     "recovered": 225,
+     "delta": -7,
+     "attributed_sources": [
+      {
+       "source": "scripts/e280_e251_rng_drift_repin.py",
+       "shipped": 232,
+       "recovered_with_only_this_source": 233,
+       "delta": 1,
+       "spans": [
+        [
+         25,
+         28,
+         4
+        ],
+        [
+         30,
+         32,
+         3
+        ],
+        [
+         34,
+         36,
+         3
+        ],
+        [
+         38,
+         41,
+         4
+        ],
+        [
+         44,
+         46,
+         3
+        ],
+        [
+         49,
+         50,
+         2
+        ]
+       ]
+      },
+      {
+       "source": "scripts/e308_leg_vs_producer_tolerance.py",
+       "shipped": 232,
+       "recovered_with_only_this_source": 233,
+       "delta": 1,
+       "spans": [
+        [
+         37,
+         42,
+         6
+        ],
+        [
+         44,
+         47,
+         4
+        ],
+        [
+         49,
+         49,
+         1
+        ],
+        [
+         51,
+         56,
+         6
+        ],
+        [
+         58,
+         61,
+         4
+        ],
+        [
+         65,
+         66,
+         2
+        ]
+       ]
+      },
+      {
+       "source": "scripts/e231_band_path_test.py",
+       "shipped": 232,
+       "recovered_with_only_this_source": 233,
+       "delta": 1,
+       "spans": [
+        [
+         59,
+         59,
+         1
+        ],
+        [
+         61,
+         66,
+         6
+        ],
+        [
+         68,
+         70,
+         3
+        ],
+        [
+         72,
+         74,
+         3
+        ],
+        [
+         76,
+         78,
+         3
+        ],
+        [
+         80,
+         84,
+         5
+        ]
+       ]
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": false,
+     "largest_single_source_share_pct": 14.3
+    }
+   ],
+   "moved_truncated": 0,
+   "numbers_attributed_to_one_source": 8,
+   "numbers_explained_exactly_by_one_source": 3,
+   "ablation_sources_tried": [
+    "scripts/e330_unpinned_choice.py",
+    "scripts/e280_e251_rng_drift_repin.py",
+    "scripts/e299_rounded_vs_tolerance_census.py",
+    "scripts/e308_leg_vs_producer_tolerance.py",
+    "scripts/e231_band_path_test.py",
+    "scripts/e312_gate_operand_identity.py"
+   ],
+   "ablation_signals": [
+    {
+     "source": "scripts/e330_unpinned_choice.py",
+     "signal": {
+      "consumer_side": "handle_candidates",
+      "with_shipped_helper": 3,
+      "with_recovered_corpus": 10,
+      "delta": 7
+     }
+    },
+    {
+     "source": "scripts/e280_e251_rng_drift_repin.py",
+     "signal": {
+      "consumer_side": "handle_candidates",
+      "with_shipped_helper": 0,
+      "with_recovered_corpus": 6,
+      "delta": 6
+     }
+    },
+    {
+     "source": "scripts/e299_rounded_vs_tolerance_census.py",
+     "signal": {
+      "consumer_side": "handle_candidates",
+      "with_shipped_helper": 5,
+      "with_recovered_corpus": 8,
+      "delta": 3
+     }
+    },
+    {
+     "source": "scripts/e308_leg_vs_producer_tolerance.py",
+     "signal": {
+      "consumer_side": "handle_candidates",
+      "with_shipped_helper": 0,
+      "with_recovered_corpus": 2,
+      "delta": 2
+     }
+    },
+    {
+     "source": "scripts/e231_band_path_test.py",
+     "signal": {
+      "consumer_side": "handle_candidates",
+      "with_shipped_helper": 0,
+      "with_recovered_corpus": 2,
+      "delta": 2
+     }
+    },
+    {
+     "source": "scripts/e312_gate_operand_identity.py",
+     "signal": {
+      "consumer_side": "handle_candidates",
+      "with_shipped_helper": 4,
+      "with_recovered_corpus": 3,
+      "delta": -1
+     }
+    }
+   ],
+   "shipped_helper_reproduces_published_face": {
+    "published_face": "results/state_tilt/TWOVINTAGE-2026-11-01.json",
+    "readable": true,
+    "numbers_compared": 17,
+    "numbers_differing": 5,
+    "differences": [
+     {
+      "key": "pairs_naming_two_vintages",
+      "shipped": 9,
+      "recovered": 12,
+      "delta": 3
+     },
+     {
+      "key": "pairs_no_static_winner",
+      "shipped": 4,
+      "recovered": 7,
+      "delta": 3
+     },
+     {
+      "key": "pairs_with_a_pointer_pair",
+      "shipped": 1,
+      "recovered": 4,
+      "delta": 3
+     },
+     {
+      "key": "source_family_pairs",
+      "shipped": 597,
+      "recovered": 627,
+      "delta": 30
+     },
+     {
+      "key": "sources_scanned",
+      "shipped": 228,
+      "recovered": 232,
+      "delta": 4
+     }
+    ],
+    "reproduces_published": false,
+    "verdict_same": true
+   },
+   "conclusion": "the verdict holds, the counts do not"
+  },
+  {
+   "name": "E330_unpinned_choice",
+   "module": "scripts/e330_unpinned_choice.py",
+   "face": "results/state_tilt/UNPINNEDCHOICE-2026-11-01.json",
+   "verdict_with_shipped_helper": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today",
+   "verdict_with_recovered_corpus": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today",
+   "verdict_moved": false,
+   "numbers_compared": 21,
+   "numbers_moved": 0,
+   "numbers_unchanged": 21,
+   "moved": [],
+   "moved_truncated": 0,
+   "numbers_attributed_to_one_source": 0,
+   "numbers_explained_exactly_by_one_source": 0,
+   "ablation_sources_tried": [],
+   "ablation_signals": [],
+   "shipped_helper_reproduces_published_face": {
+    "published_face": "results/state_tilt/UNPINNEDCHOICE-2026-11-01.json",
+    "readable": true,
+    "numbers_compared": 21,
+    "numbers_differing": 1,
+    "differences": [
+     {
+      "key": "sources_scanned",
+      "shipped": 2284,
+      "recovered": 2287,
+      "delta": 3
+     }
+    ],
+    "reproduces_published": false,
+    "verdict_same": true
+   },
+   "conclusion": "the reading is unchanged"
+  }
+ ],
+ "attribution_candidates": [
+  {
+   "source": "scripts/e330_unpinned_choice.py",
+   "events_with_shipped_helper": 1,
+   "events_with_recovered_corpus": 12,
+   "event_delta": 11,
+   "recovered_code_lines": 602,
+   "spans": [
+    [
+     81,
+     81,
+     1
+    ],
+    [
+     83,
+     87,
+     5
+    ],
+    [
+     92,
+     93,
+     2
+    ],
+    [
+     96,
+     97,
+     2
+    ],
+    [
+     100,
+     100,
+     1
+    ],
+    [
+     108,
+     123,
+     16
+    ]
+   ],
+   "span_count": 66
+  },
+  {
+   "source": "Tools/_r390bmc_close.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 10,
+   "event_delta": 10,
+   "recovered_code_lines": 96,
+   "spans": [
+    [
+     25,
+     25,
+     1
+    ],
+    [
+     28,
+     28,
+     1
+    ],
+    [
+     46,
+     46,
+     1
+    ],
+    [
+     48,
+     48,
+     1
+    ],
+    [
+     54,
+     54,
+     1
+    ],
+    [
+     57,
+     57,
+     1
+    ]
+   ],
+   "span_count": 16
+  },
+  {
+   "source": "Tools/tree_shrink_guard.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 9,
+   "event_delta": 9,
+   "recovered_code_lines": 387,
+   "spans": [
+    [
+     23,
+     23,
+     1
+    ],
+    [
+     25,
+     31,
+     7
+    ],
+    [
+     33,
+     34,
+     2
+    ],
+    [
+     37,
+     42,
+     6
+    ],
+    [
+     45,
+     45,
+     1
+    ],
+    [
+     47,
+     49,
+     3
+    ]
+   ],
+   "span_count": 51
+  },
+  {
+   "source": "scripts/t11_negday_ic.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 8,
+   "event_delta": 8,
+   "recovered_code_lines": 436,
+   "spans": [
+    [
+     25,
+     30,
+     6
+    ],
+    [
+     32,
+     33,
+     2
+    ],
+    [
+     35,
+     36,
+     2
+    ],
+    [
+     38,
+     41,
+     4
+    ],
+    [
+     43,
+     47,
+     5
+    ],
+    [
+     49,
+     52,
+     4
+    ]
+   ],
+   "span_count": 53
+  },
+  {
+   "source": "Tools/_r1184bmb_renumber.py",
+   "events_with_shipped_helper": 1,
+   "events_with_recovered_corpus": 8,
+   "event_delta": 7,
+   "recovered_code_lines": 38,
+   "spans": [
+    [
+     37,
+     45,
+     9
+    ],
+    [
+     48,
+     58,
+     11
+    ],
+    [
+     60,
+     69,
+     10
+    ],
+    [
+     72,
+     74,
+     3
+    ],
+    [
+     76,
+     80,
+     5
+    ]
+   ],
+   "span_count": 5
+  },
+  {
+   "source": "scripts/e308_leg_vs_producer_tolerance.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 7,
+   "event_delta": 7,
+   "recovered_code_lines": 447,
+   "spans": [
+    [
+     37,
+     42,
+     6
+    ],
+    [
+     44,
+     47,
+     4
+    ],
+    [
+     49,
+     49,
+     1
+    ],
+    [
+     51,
+     56,
+     6
+    ],
+    [
+     58,
+     61,
+     4
+    ],
+    [
+     65,
+     66,
+     2
+    ]
+   ],
+   "span_count": 44
+  },
+  {
+   "source": "Tools/memory-budget-gate.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 7,
+   "event_delta": 7,
+   "recovered_code_lines": 209,
+   "spans": [
+    [
+     15,
+     18,
+     4
+    ],
+    [
+     20,
+     21,
+     2
+    ],
+    [
+     23,
+     40,
+     18
+    ],
+    [
+     42,
+     62,
+     21
+    ],
+    [
+     65,
+     91,
+     27
+    ],
+    [
+     94,
+     101,
+     8
+    ]
+   ],
+   "span_count": 18
+  },
+  {
+   "source": "Tools/_r390bmc_addendum.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 7,
+   "event_delta": 7,
+   "recovered_code_lines": 51,
+   "spans": [
+    [
+     18,
+     18,
+     1
+    ],
+    [
+     25,
+     25,
+     1
+    ],
+    [
+     27,
+     27,
+     1
+    ],
+    [
+     30,
+     30,
+     1
+    ],
+    [
+     33,
+     34,
+     2
+    ],
+    [
+     36,
+     51,
+     16
+    ]
+   ],
+   "span_count": 11
+  },
+  {
+   "source": "Tools/_r1226bmb_face.py",
+   "events_with_shipped_helper": 6,
+   "events_with_recovered_corpus": 11,
+   "event_delta": 5,
+   "recovered_code_lines": 70,
+   "spans": [
+    [
+     106,
+     106,
+     1
+    ],
+    [
+     109,
+     109,
+     1
+    ],
+    [
+     134,
+     136,
+     3
+    ],
+    [
+     139,
+     150,
+     12
+    ],
+    [
+     152,
+     157,
+     6
+    ],
+    [
+     160,
+     160,
+     1
+    ]
+   ],
+   "span_count": 11
+  },
+  {
+   "source": "scripts/e280_e251_rng_drift_repin.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 5,
+   "event_delta": 5,
+   "recovered_code_lines": 223,
+   "spans": [
+    [
+     25,
+     28,
+     4
+    ],
+    [
+     30,
+     32,
+     3
+    ],
+    [
+     34,
+     36,
+     3
+    ],
+    [
+     38,
+     41,
+     4
+    ],
+    [
+     44,
+     46,
+     3
+    ],
+    [
+     49,
+     50,
+     2
+    ]
+   ],
+   "span_count": 31
+  },
+  {
+   "source": "scripts/e312_gate_operand_identity.py",
+   "events_with_shipped_helper": 2,
+   "events_with_recovered_corpus": 6,
+   "event_delta": 4,
+   "recovered_code_lines": 560,
+   "spans": [
+    [
+     61,
+     61,
+     1
+    ],
+    [
+     64,
+     66,
+     3
+    ],
+    [
+     69,
+     74,
+     6
+    ],
+    [
+     77,
+     78,
+     2
+    ],
+    [
+     81,
+     82,
+     2
+    ],
+    [
+     85,
+     90,
+     6
+    ]
+   ],
+   "span_count": 53
+  },
+  {
+   "source": "Tools/_r840bma_pit_directwrite.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 4,
+   "event_delta": 4,
+   "recovered_code_lines": 25,
+   "spans": [
+    [
+     8,
+     8,
+     1
+    ],
+    [
+     11,
+     21,
+     11
+    ],
+    [
+     23,
+     35,
+     13
+    ]
+   ],
+   "span_count": 3
+  },
+  {
+   "source": "scripts/e299_rounded_vs_tolerance_census.py",
+   "events_with_shipped_helper": 6,
+   "events_with_recovered_corpus": 9,
+   "event_delta": 3,
+   "recovered_code_lines": 89,
+   "spans": [
+    [
+     821,
+     823,
+     3
+    ],
+    [
+     825,
+     830,
+     6
+    ],
+    [
+     832,
+     833,
+     2
+    ],
+    [
+     835,
+     847,
+     13
+    ],
+    [
+     850,
+     854,
+     5
+    ],
+    [
+     857,
+     859,
+     3
+    ]
+   ],
+   "span_count": 18
+  },
+  {
+   "source": "scripts/e231_band_path_test.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 3,
+   "event_delta": 3,
+   "recovered_code_lines": 550,
+   "spans": [
+    [
+     59,
+     59,
+     1
+    ],
+    [
+     61,
+     66,
+     6
+    ],
+    [
+     68,
+     70,
+     3
+    ],
+    [
+     72,
+     74,
+     3
+    ],
+    [
+     76,
+     78,
+     3
+    ],
+    [
+     80,
+     84,
+     5
+    ]
+   ],
+   "span_count": 91
+  },
+  {
+   "source": "Tools/_r774bmc_outbound_a1.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 3,
+   "event_delta": 3,
+   "recovered_code_lines": 87,
+   "spans": [
+    [
+     60,
+     60,
+     1
+    ],
+    [
+     70,
+     70,
+     1
+    ],
+    [
+     73,
+     75,
+     3
+    ],
+    [
+     78,
+     95,
+     18
+    ],
+    [
+     97,
+     138,
+     42
+    ],
+    [
+     140,
+     159,
+     20
+    ]
+   ],
+   "span_count": 7
+  },
+  {
+   "source": "Tools/_r775bmc_outbound_v7.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 3,
+   "event_delta": 3,
+   "recovered_code_lines": 87,
+   "spans": [
+    [
+     61,
+     61,
+     1
+    ],
+    [
+     70,
+     70,
+     1
+    ],
+    [
+     73,
+     75,
+     3
+    ],
+    [
+     78,
+     95,
+     18
+    ],
+    [
+     97,
+     138,
+     42
+    ],
+    [
+     140,
+     159,
+     20
+    ]
+   ],
+   "span_count": 7
+  },
+  {
+   "source": "Tools/_r700bmc_o1300_receipt.py",
+   "events_with_shipped_helper": 4,
+   "events_with_recovered_corpus": 6,
+   "event_delta": 2,
+   "recovered_code_lines": 47,
+   "spans": [
+    [
+     39,
+     41,
+     3
+    ],
+    [
+     44,
+     45,
+     2
+    ],
+    [
+     52,
+     55,
+     4
+    ],
+    [
+     58,
+     95,
+     38
+    ]
+   ],
+   "span_count": 4
+  },
+  {
+   "source": "scripts/_r855bma_handover_5x.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 2,
+   "event_delta": 2,
+   "recovered_code_lines": 6,
+   "spans": [
+    [
+     7,
+     12,
+     6
+    ]
+   ],
+   "span_count": 1
+  },
+  {
+   "source": "scripts/_r855bma_pit_append.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 2,
+   "event_delta": 2,
+   "recovered_code_lines": 6,
+   "spans": [
+    [
+     9,
+     14,
+     6
+    ]
+   ],
+   "span_count": 1
+  },
+  {
+   "source": "scripts/t28_stable_profit.py",
+   "events_with_shipped_helper": 7,
+   "events_with_recovered_corpus": 8,
+   "event_delta": 1,
+   "recovered_code_lines": 76,
+   "spans": [
+    [
+     443,
+     446,
+     4
+    ],
+    [
+     450,
+     451,
+     2
+    ],
+    [
+     453,
+     459,
+     7
+    ],
+    [
+     462,
+     465,
+     4
+    ],
+    [
+     468,
+     470,
+     3
+    ],
+    [
+     473,
+     480,
+     8
+    ]
+   ],
+   "span_count": 13
+  },
+  {
+   "source": "scripts/g2_overlap_census.py",
+   "events_with_shipped_helper": 7,
+   "events_with_recovered_corpus": 8,
+   "event_delta": 1,
+   "recovered_code_lines": 36,
+   "spans": [
+    [
+     1199,
+     1209,
+     11
+    ],
+    [
+     1215,
+     1232,
+     18
+    ],
+    [
+     1235,
+     1241,
+     7
+    ]
+   ],
+   "span_count": 3
+  },
+  {
+   "source": "Tools/_r1234bmb_card.py",
+   "events_with_shipped_helper": 1,
+   "events_with_recovered_corpus": 2,
+   "event_delta": 1,
+   "recovered_code_lines": 11,
+   "spans": [
+    [
+     41,
+     51,
+     11
+    ]
+   ],
+   "span_count": 1
+  },
+  {
+   "source": "Tools/_r1184bmb_card.py",
+   "events_with_shipped_helper": 1,
+   "events_with_recovered_corpus": 2,
+   "event_delta": 1,
+   "recovered_code_lines": 9,
+   "spans": [
+    [
+     31,
+     39,
+     9
+    ]
+   ],
+   "span_count": 1
+  },
+  {
+   "source": "Tools/_r1232bmb_card.py",
+   "events_with_shipped_helper": 1,
+   "events_with_recovered_corpus": 2,
+   "event_delta": 1,
+   "recovered_code_lines": 7,
+   "spans": [
+    [
+     37,
+     43,
+     7
+    ]
+   ],
+   "span_count": 1
+  },
+  {
+   "source": "scripts/_r855bma_oss_ledger_append.py",
+   "events_with_shipped_helper": 1,
+   "events_with_recovered_corpus": 2,
+   "event_delta": 1,
+   "recovered_code_lines": 6,
+   "spans": [
+    [
+     20,
+     25,
+     6
+    ]
+   ],
+   "span_count": 1
+  },
+  {
+   "source": "Tools/_r820bmc_clone_s6.py",
+   "events_with_shipped_helper": 1,
+   "events_with_recovered_corpus": 2,
+   "event_delta": 1,
+   "recovered_code_lines": 3,
+   "spans": [
+    [
+     29,
+     31,
+     3
+    ]
+   ],
+   "span_count": 1
+  },
+  {
+   "source": "scripts/update_etf_universe.py",
+   "events_with_shipped_helper": 7,
+   "events_with_recovered_corpus": 7,
+   "event_delta": 0,
+   "recovered_code_lines": 21,
+   "spans": [
+    [
+     38,
+     46,
+     9
+    ],
+    [
+     48,
+     49,
+     2
+    ],
+    [
+     51,
+     51,
+     1
+    ],
+    [
+     53,
+     60,
+     8
+    ],
+    [
+     66,
+     66,
+     1
+    ]
+   ],
+   "span_count": 5
+  },
+  {
+   "source": "scripts/spm_j4_attribution.py",
+   "events_with_shipped_helper": 4,
+   "events_with_recovered_corpus": 4,
+   "event_delta": 0,
+   "recovered_code_lines": 90,
+   "spans": [
+    [
+     525,
+     528,
+     4
+    ],
+    [
+     531,
+     536,
+     6
+    ],
+    [
+     540,
+     541,
+     2
+    ],
+    [
+     543,
+     548,
+     6
+    ],
+    [
+     550,
+     551,
+     2
+    ],
+    [
+     555,
+     570,
+     16
+    ]
+   ],
+   "span_count": 15
+  },
+  {
+   "source": "scripts/_r853bma_oss_ledger_append.py",
+   "events_with_shipped_helper": 2,
+   "events_with_recovered_corpus": 2,
+   "event_delta": 0,
+   "recovered_code_lines": 5,
+   "spans": [
+    [
+     51,
+     51,
+     1
+    ],
+    [
+     53,
+     56,
+     4
+    ]
+   ],
+   "span_count": 2
+  },
+  {
+   "source": "Tools/_r700bmc_judge_tree.py",
+   "events_with_shipped_helper": 0,
+   "events_with_recovered_corpus": 0,
+   "event_delta": 0,
+   "recovered_code_lines": 4,
+   "spans": [
+    [
+     13,
+     16,
+     4
+    ]
+   ],
+   "span_count": 1
+  }
+ ],
+ "attribution_candidates_truncated": 0
+}

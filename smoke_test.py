@@ -10010,6 +10010,122 @@ def main() -> int:
                 ((_f332 or {}).get("summary") or {}).get(
                     "pairs_reclassified_when_the_corpus_is_read")))
 
+    # E333: four other consumers read the same helper E332 measured, so their published counts are
+    # floors of the same shape. The face publishes, per consumer, the shipped and recovered summary
+    # blocks, the delta of every number that moved and the single source that reproduces it. This
+    # leg refuses: a verdict outside the frozen set, arithmetic that does not close (moved + unchanged
+    # != compared; attributed or explanation counts that disagree with the rows), a consumer whose
+    # own row count disagrees with the moved list, an attribution with no source or with a zero
+    # delta, an "explained exactly" row whose single source does not reproduce the whole delta, a
+    # missing corpus-drift control, and a script that is not on disk (D-20261101-13).
+    _name333 = ("product: every published E3xx number that moves when the corpus is read is priced "
+                "against the shipped helper and attributed to a source")
+    _bad333 = []
+    try:
+        _p333 = os.path.join("results", "state_tilt", "survivingconclusions_latest.json")
+        _f333 = json.load(open(_p333, encoding="utf-8")) if os.path.exists(_p333) else None
+        if _f333 is None:
+            _bad333.append("no published surviving-conclusions face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m333 = __import__("importlib").import_module("e333_surviving_e3xx_conclusions")
+            if not os.path.exists(os.path.join("scripts",
+                                               "e333_surviving_e3xx_conclusions.py")):
+                _bad333.append("the study script is not on disk")
+            _s333 = _f333.get("summary") or {}
+            if _f333.get("verdict") not in _m333.VERDICTS:
+                _bad333.append("verdict %r is outside the frozen set" % (_f333.get("verdict"),))
+            _cons333 = _f333.get("consumers") or []
+            if not _cons333:
+                _bad333.append("no consumer rows")
+            _cmp333 = sum(int(c.get("numbers_compared") or 0) for c in _cons333)
+            _mov333 = sum(int(c.get("numbers_moved") or 0) for c in _cons333)
+            _att333 = sum(int(c.get("numbers_attributed_to_one_source") or 0) for c in _cons333)
+            _exa333 = sum(int(c.get("numbers_explained_exactly_by_one_source") or 0)
+                          for c in _cons333)
+            if _cmp333 != _s333.get("published_numbers_compared"):
+                _bad333.append("the compared total disagrees with the rows")
+            if _mov333 != _s333.get("published_numbers_moved"):
+                _bad333.append("the moved total disagrees with the rows")
+            if _att333 != _s333.get("numbers_attributed_to_a_single_source"):
+                _bad333.append("the attributed total disagrees with the rows")
+            if _exa333 != _s333.get("numbers_explained_exactly_by_a_single_source"):
+                _bad333.append("the exactly-explained total disagrees with the rows")
+            if (_s333.get("published_numbers_moved", 0) +
+                    _s333.get("published_numbers_unchanged", 0)) != _cmp333:
+                _bad333.append("moved + unchanged does not close on the compared total")
+            if _s333.get("numbers_with_no_single_source_explanation") != _mov333 - _att333:
+                _bad333.append("the unattributed count is not moved minus attributed")
+            if _s333.get("consumers_whose_counts_move") != \
+                    len([c for c in _cons333 if c.get("numbers_moved")]):
+                _bad333.append("the moving-consumer count disagrees with the rows")
+            if _s333.get("consumers_whose_verdict_flips") != \
+                    len([c for c in _cons333 if c.get("verdict_moved")]):
+                _bad333.append("the verdict-flip count disagrees with the rows")
+            if _s333.get("consumers_whose_shipped_half_reproduces_the_published_face") != \
+                    len([c for c in _cons333
+                         if (c.get("shipped_helper_reproduces_published_face") or {}).get(
+                             "reproduces_published")]):
+                _bad333.append("the reproduction control disagrees with the rows")
+            for _c333 in _cons333:
+                if int(_c333.get("numbers_moved") or 0) != \
+                        len(_c333.get("moved") or []) + int(_c333.get("moved_truncated") or 0):
+                    _bad333.append("%s: the moved list does not match its count"
+                                   % _c333.get("name"))
+                    break
+                if int(_c333.get("numbers_compared") or 0) < int(_c333.get("numbers_moved") or 0):
+                    _bad333.append("%s: more numbers moved than were compared" % _c333.get("name"))
+                    break
+                if not (_c333.get("shipped_helper_reproduces_published_face") or {}).get("readable"):
+                    _bad333.append("%s: the published-face control was not read" % _c333.get("name"))
+                    break
+                _bud333 = {"E326_template_parameters": 3, "E328_quoted_number_staleness": 8,
+                           "E329_two_vintage_binding": 6, "E330_unpinned_choice": 4}.get(
+                               _c333.get("name"))
+                if _bud333 is not None and len(_c333.get("ablation_sources_tried") or []) > _bud333:
+                    _bad333.append("%s: the ablation spent more builds than its budget"
+                                   % _c333.get("name"))
+                    break
+                for _r333 in _c333.get("moved") or []:
+                    if _r333.get("delta") is None:
+                        _bad333.append("%s: a moved number carries no delta" % _c333.get("name"))
+                        break
+                    if _r333["delta"] != (_r333.get("recovered") or 0) - (_r333.get("shipped") or 0):
+                        _bad333.append("%s: %s delta is not recovered minus shipped"
+                                       % (_c333.get("name"), _r333.get("key")))
+                        break
+                    _src333 = _r333.get("attributed_sources") or []
+                    if _r333.get("attributed") != bool(_src333):
+                        _bad333.append("%s: %s attribution flag disagrees with its sources"
+                                       % (_c333.get("name"), _r333.get("key")))
+                        break
+                    if any((not _a.get("source")) or not (_a.get("delta") or 0) for _a in _src333):
+                        _bad333.append("%s: %s is attributed to nothing"
+                                       % (_c333.get("name"), _r333.get("key")))
+                        break
+                    if _r333.get("explained_by_one_source") and _src333 and \
+                            abs((_src333[0].get("delta") or 0) - _r333["delta"]) > 1e-9:
+                        _bad333.append("%s: %s claims one source explains it but the delta differs"
+                                       % (_c333.get("name"), _r333.get("key")))
+                        break
+            if _s333.get("published_numbers_compared", 0) <= 0:
+                _bad333.append("nothing was compared, which is a broken measurement")
+    except Exception as e:
+        check(_name333, False, repr(e)[:160])
+
+    check(_name333, not _bad333, "; ".join(_bad333)[:220]
+          or "%s | %s of %s published numbers move when the corpus is read, no verdict flips, "
+             "every moved number is attributed to a single source (%s exactly) and %s of %s "
+             "published faces still reproduce under the shipped helper"
+             % (str((_f333 or {}).get("verdict")),
+                ((_f333 or {}).get("summary") or {}).get("published_numbers_moved"),
+                ((_f333 or {}).get("summary") or {}).get("published_numbers_compared"),
+                ((_f333 or {}).get("summary") or {}).get(
+                    "numbers_explained_exactly_by_a_single_source"),
+                ((_f333 or {}).get("summary") or {}).get(
+                    "consumers_whose_shipped_half_reproduces_the_published_face"),
+                ((_f333 or {}).get("summary") or {}).get("consumers_reviewed")))
+
     return _finish()
 
 

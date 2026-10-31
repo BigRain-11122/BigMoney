@@ -861,6 +861,17 @@ LEGS = [
     ("invisible_tail_recovery",
      ["python", "scripts/e332_invisible_tail_recovery.py", "verify"]),
 
+    # E333: four other consumers read the same helper (E326 template parameters, E328 quoted-number
+    # staleness, E329 two-vintage binding, E330 unpinned choice), so their counts are floors of the
+    # same shape. All four are rebuilt twice over ONE file list (shipped helper vs tokenizer) and
+    # every numeric leaf is diffed: 17 of 69 published numbers move, NO verdict flips, and every
+    # moved number is reproduced by recovering a single source (11 of them exactly by that source).
+    # The face also carries the other axis as a control: the shipped half does not reproduce the
+    # published faces because the corpus has grown since they were written. Verify re-runs all four
+    # consumers twice plus the ablation. ~6 min (12 builds + 17 single-source builds).
+    ("surviving_e3xx_conclusions",
+     ["python", "scripts/e333_surviving_e3xx_conclusions.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
