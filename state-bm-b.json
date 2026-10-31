@@ -3291,18 +3291,19 @@
  "status": "green",
  "study": "E329_two_vintage_binding",
  "sync": {
-  "behind_origin_main": 205,
-  "branch": "machine/bm-b-r1347",
+  "ahead": 158,
+  "behind_origin_main": 206,
+  "branch": "main",
   "peer": "origin",
-  "ts": "2026-11-01T03:23:30+08:00"
+  "ts": "2026-11-01T04:35:03+08:00"
  },
  "task": "r1349 E329: 9 of 597 source-family pairs name two vintages of one stem; 1 is an order-decided fallback chain whose order no leg covers",
  "task_short": "r1349 E329 two-vintage binding",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-11-01T04:33:44+08:00",
+ "ts": "2026-11-01T04:35:03+08:00",
  "ts_utc_ms": 1793474610481,
- "updated": "2026-11-01T04:33:44+08:00",
- "updated_at": "2026-11-01T04:33:44+08:00",
+ "updated": "2026-11-01T04:35:03+08:00",
+ "updated_at": "2026-11-01T04:35:03+08:00",
  "verdict": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_newer_cut",
  "verdict_line": "watermark red at open (pool-batch-ready 1 = E323, py idle) -> authored, burned and published E323 in-round; board re-seeded with E324",
  "verify": "e327 selftest 16/16 | verify problems=[] (143 pairs / 3 real pointers / 5 consumers) | chain leg wired (verify run, not the full chain) | smoke leg wired and exec'd standalone PASS | orphan 0 | sat rc=0 idle | dualrun ZERO-DRIFT 818 streak 51 | attrition CLEAN | behind origin/main 205",
@@ -3335,6 +3336,14 @@
   "s1": "full suite not re-run this window; the new S6 leg ran verify problems=[] and the new smoke leg was exec'd standalone: PASS",
   "s6": "orphan py_faces=7 orphans=0 residents=0 | dualrun ZERO-DRIFT 820 entries streak 51 | attrition CLEAN 4 ledgers (3 historical shrinks healed) | two_vintage_binding verify rc=0 ~7s | sat engine rc=0 idle; compute_audit / py_watermark / lane collectors not re-run this window (stated plainly)",
   "s7": "schtasks table via zero-window wrapper: Bigmoney-IterationLoop / -LoopWatchdog / -SatEngine-bm-b / -Autofill all present; no drift observed",
-  "ts": "2026-11-01T04:33:44+08:00"
+  "ts": "2026-11-01T04:33:44+08:00",
+  "delivery": {
+   "branch": "machine/bm-b-r1349",
+   "pushed_sha": "3756e46c8c83dd71ef32583ef7b9a33c4bba6eb1",
+   "local_not_on_origin_main": 158,
+   "main_push_blocker": "local main has diverged from origin/main for many rounds (promisor lazy fetch wedges before negotiation, r1255 family); not attempted, no unattended rebase per r1243",
+   "ts": "2026-11-01T04:35:03+08:00",
+   "verified": "local HEAD == remote ref (git ls-remote origin refs/heads/machine/bm-b-r1349)"
+  }
  }
 }
