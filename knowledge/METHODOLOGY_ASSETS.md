@@ -6320,3 +6320,40 @@ How to apply: when grading "is this leg tighter than that gate", walk three step
 declared key → published value/constant → the operands on both sides of the producer's comparator
 (one hop down their definitions) — and publish all three with every row. Where the leg names no
 face key, record the question as unanswerable at name level instead of counting it.
+
+### E313 a gate published as one number can change form with the size of the quantity it gates -- a clamped scale (`tol * max(1.0, x)`) is two gates, and a fixed divisor is a normalisation, not a scale (r1332 bm-b)
+
+E312 left one band standing on a name match: the face publishes `rel_tol = 0.002`, the producer
+compares `rel = abs(cost - session_open) / session_open > REL_TOL`, and the leg compares an
+absolute `abs(_px - r["session_open"]) > 1e-09`. Same names, different unit. Reading all 30 rows
+at the producer's own comparison line gives three reusable rules.
+
+1. **The face's unit label is not the unit.** `gate_units` is `unspecified` on 28 of 30 rows, and
+   where it is declared it is a label. Publish the form observed in the code, and publish the label
+   separately so a contradiction is visible rather than absorbed.
+2. **A clamp makes one published tolerance into two regimes.** `abs(v - target) <= tol *
+   max(1.0, target)` is relative above 1.0 and a flat `tol` below it, so the tolerance in the
+   normalised units is `tol * 1.0` for small quantities and `tol * |v|` for large ones. A consumer
+   of the face cannot reproduce either regime from the single published number; either publish the
+   floor and the scale, or publish two numbers.
+3. **A literal divisor is normalisation, not a scale.** `abs(1.0 - pct / 100.0) > TOL` converts
+   percent to fraction by a constant and then applies an absolute tolerance: the gate is
+   `TOL * 100` in percent units, fixed. Only a divisor that varies with the data (`session_open`)
+   is a scale that has to be estimated, and only then does a breakeven exist.
+
+The deliverable is the scale at which two numbers meet, not a count of wrong rows:
+`breakeven = leg_absolute / gate_relative` (t35: `session_open = 5e-07`), plus the transformation
+in words, plus a plain statement of the classes where **no** multiplicative scale exists -- a count
+is invariant under rescaling, and an `==` leg cannot be entitled by any tolerance. Both are
+partitions, not failures.
+
+Trap that cost a rewrite: a count marker must be a whole token. The substring `n_` matched
+`session_open` and turned a price into a count; the same class of error E208 killed on the reader
+side applies to the writer side. `divider()` therefore returns `(kind, value)` -- `name` for a free
+scale, `literal` for a fixed normalisation -- and the count test is a token regex, not `in`.
+
+How to apply: before transporting any published tolerance onto another number, walk
+(1) form of the quantity the producer compares the gate against, (2) any clamp inside that
+expression, (3) any divisor -- free or fixed -- and only then (4) the arithmetic that converts one
+side to the other. Publish the conversion and the breakeven; a shared name is evidence of nothing
+on its own.

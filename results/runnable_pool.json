@@ -25695,7 +25695,7 @@
    "id": "E313-GATE-FORM-AND-SCALE",
    "title": "E312's single surviving band matches names but not form: the gate is a relative tolerance and the leg an absolute epsilon. Across the 12 gates, how many carry a unit/form that the leg's comparison cannot inherit, and what scale would make the pair comparable?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "entered_at": "2026-10-31T19:0x+08:00",
    "entered_by": "bm-b r1331",
@@ -25705,6 +25705,32 @@
    "deliverable": "results/state_tilt/GATEFORM-<cutoff>.json",
    "question": "per band row: what unit does the producer's comparison express the gate in (relative / absolute / count), what unit does the leg compare in, and at what scale would the two be comparable? Publish the scale and the transformation, never a count of wrong rows.",
    "runner": "scripts/e313_gate_form_and_scale.py",
+   "runner_args": [
+    "run"
+   ],
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "done_at": "2026-10-31T19:2x+08:00",
+   "result_ref": "results/state_tilt/GATEFORM-2026-10-31.json",
+   "outcome": "30 rows priced: the gate's form is read at the producer's own comparison site, never from the gate_units label (silent on 28 of 30). 5 relative, 4 absolute, 21 multi_site. Only 1 row needs a free scale (t35 open-fill, breakeven session_open = 5e-07); 1 is absolute after a fixed 100.0 normalisation; 7 pair a count leg (no multiplicative scale exists); 7 demand exact float equality, which no tolerance can entitle; 14 are already in one unit."
+  },
+  {
+   "id": "E314-CLAMPED-GATE-CENSUS",
+   "title": "three rows multiply a gate by max(1.0, x) and one divides by a fixed 100.0: which published gates change form with the size of the quantity they gate, and what is the tolerance in each regime?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "entered_at": "2026-10-31T19:2x+08:00",
+   "entered_by": "bm-b r1332",
+   "evidence_cutoff": "2026-10-31",
+   "source": "r1332 (E313): `abs(v - target) <= tol * max(1.0, target)` is relative above 1.0 and a flat 1e-12 below it, and `abs(1.0 - pct / 100.0) > TOL` is absolute only after a fixed division. Both shapes are published as one number on the face, so a reader cannot reproduce the gate from the face alone",
+   "target": "results/state_tilt/gateform_latest.json rows (gate_scale_floors, gate_scales, gate_form_observed)",
+   "deliverable": "results/state_tilt/GATECLAMP-<cutoff>.json",
+   "question": "per clamped gate: where does the form switch, what is the tolerance in each regime as a number in both units, and can a consumer of the face reproduce either regime without reading the producer?",
+   "runner": "scripts/e314_clamped_gate_census.py",
    "runner_args": [
     "run"
    ],
@@ -25727,6 +25753,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T19:0x+08:00",
+ "updated_at": "2026-10-31T19:2x+08:00",
  "version": 1
 }

@@ -28,11 +28,13 @@ No study is re-run, no face is rebuilt: every number is arithmetic over the publ
 the faces it names, and the producer sources under ``scripts/``.
 """
 
+import ast
 import io
 import json
 import os
 import re
 import sys
+import tokenize
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -158,6 +160,40 @@ def quantum_of(sites):
     return min(decs), 10.0 ** (-min(decs))
 
 
+def prose_or_fixture_lines(text):
+    """Lines that cannot be a producer write: comments, docstrings, and self-test fixtures.
+
+    A regex cannot tell a writer from a quote. E313 (r1332) put a docstring line and a fixture
+    mentioning `"session_open"` into the top-8 hits of the row with no face, pushing out the two
+    scripts that really write the key -- so a hit inside prose or inside a `*selftest*` function is
+    dropped here (E312's lesson, applied on the reading side).
+    """
+    skip = set()
+    try:
+        tree = ast.parse(text)
+    except SyntaxError:
+        tree = None
+    if tree is not None:
+        for node in ast.walk(tree):
+            body = getattr(node, "body", None)
+            if not isinstance(body, list) or not body:
+                continue
+            first = body[0]
+            value = getattr(first, "value", None)
+            if isinstance(first, ast.Expr) and isinstance(value, ast.Constant) \
+                    and isinstance(value.value, str):
+                skip.update(range(first.lineno, (first.end_lineno or first.lineno) + 1))
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and "selftest" in node.name:
+                skip.update(range(node.lineno, (node.end_lineno or node.lineno) + 1))
+    try:
+        for tok in tokenize.generate_tokens(io.StringIO(text).readline):
+            if tok.type == tokenize.COMMENT:
+                skip.add(tok.start[0])
+    except (tokenize.TokenError, IndentationError):
+        pass
+    return skip
+
+
 def producer_hits(key):
     """Where the producer writes this key, as text. Read-only over scripts/."""
     hits = []
@@ -170,7 +206,10 @@ def producer_hits(key):
             text = io.open(path, "r", encoding="utf-8").read()
         except Exception:
             continue
+        skip = prose_or_fixture_lines(text)
         for i, line in enumerate(text.split("\n"), 1):
+            if i in skip:
+                continue
             if pat.search(line):
                 hits.append({"script": "scripts/" + name, "line": i, "text": line.strip()[:160]})
     return hits[:8]

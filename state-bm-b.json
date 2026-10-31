@@ -3,8 +3,8 @@
  "clock_read": "2026-10-31T17:34:04+08:00",
  "cpu_pct": 6.0,
  "current": "r1329: E307 undated-face-vintage published; e298 self-face + e302 sys.modules reds fixed",
- "current_task": "r1329 closeout",
- "current_work": "E307 shipped, three sibling faces re-derived, smoke verifying",
+ "current_task": "E313 published; E314 (clamped gate census) is the ready head",
+ "current_work": "E313 published; E314 (clamped gate census) is the ready head",
  "cyc_round": 1326,
  "cycle_round": 1326,
  "d19": "decisions 97fe122f / orders 4348aa21 unchanged (triple mode, reproducible) -> zero new rows; 114 order files / 115 acks / 0 unacked",
@@ -2579,7 +2579,7 @@
  ],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1323,
- "round_no": 1331,
+ "round_no": 1332,
  "round_no_label": "r1316",
  "round_no_note": "git log is the canvas; round number follows the highest round report row",
  "round_no_ts": "2026-10-31T12:13:18+08:00",
@@ -2610,7 +2610,7 @@
  "ts": "2026-10-31T19:0x+08:00",
  "updated": "2026-10-31T13:13:05+08:00",
  "updated_at": "2026-10-31T13:13:05+08:00",
- "verdict": "r1323: E298 published; 26 published control blocks, 14 are replays and 7 of those cannot state which panel they re-derived on",
+ "verdict": "a_shared_name_does_not_carry_a_shared_unit_so_every_relative_gate_has_to_name_its_scale",
  "watermark_red": false,
  "work": "E298 done",
  "r1313": {
@@ -2989,5 +2989,39 @@
    "note": "20 files staged (producer, both faces, the E308 repair, digest, methodology card, two wiring files, the pool, state, heartbeat, round report, five re-derived sibling faces); the ~600 dirty tracked files left by collectors and prior windows were not swept in"
   }
  },
- "notes_r1331": "| 2026-10-31T19:0x+08:00 | r1331 | **watermark: pool-batch red at open (4 ready, py idle) -- burned the ready head E312 in-round** | E312 gate operand identity published: 29 of 30 E308 pairs do have a producer comparison once the DECLARED key is resolved to the constant behind it, but 25 rows compare names that never meet -- and the two bands swap. **CURRENT:** E312 done. **LATEST PHYSICAL:** results/state_tilt/GATEOPERANDS-2026-10-31.json. **NEXT MILESTONE:** E313 gate form and scale (ready, runner not written; due next round, within 48h). **PRODUCT:** a leg can be tighter than a gate that governs another number entirely, so the band joins on the operand, not on the face."
-}
+ "notes_r1331": "| 2026-10-31T19:0x+08:00 | r1331 | **watermark: pool-batch red at open (4 ready, py idle) -- burned the ready head E312 in-round** | E312 gate operand identity published: 29 of 30 E308 pairs do have a producer comparison once the DECLARED key is resolved to the constant behind it, but 25 rows compare names that never meet -- and the two bands swap. **CURRENT:** E312 done. **LATEST PHYSICAL:** results/state_tilt/GATEOPERANDS-2026-10-31.json. **NEXT MILESTONE:** E313 gate form and scale (ready, runner not written; due next round, within 48h). **PRODUCT:** a leg can be tighter than a gate that governs another number entirely, so the band joins on the operand, not on the face.",
+ "r1332": {
+  "round": 1332,
+  "ts": "2026-10-31T19:2x+08:00",
+  "dept": "research+engineering",
+  "study": "E313_gate_form_and_scale",
+  "face": "results/state_tilt/GATEFORM-2026-10-31.json",
+  "watermark_red": "pool-batch-red at open (E313 ready, py idle) -- burned the ready head E313 in-round",
+  "finding": "E312 left one band standing on a name match: the face publishes rel_tol 0.002 and the producer compares rel = abs(cost - session_open)/session_open, while the leg compares an absolute abs(_px - r['session_open']) > 1e-09. Reading form at the producer's own comparison line (never from gate_units, which is unspecified on 28 of 30 rows) gives: 5 rows relative, 4 absolute, 21 multi-site. Comparability: 14 already in one unit, 1 absolute after a fixed 100.0 normalisation (percent->fraction, so the gate is 1e-10 in percent units), 1 needing a free scale (t35 open-fill, breakeven session_open = 5e-07), 7 whose leg is a count (no multiplicative scale exists) and 7 whose leg demands exact float equality (no tolerance can entitle it). Three rows multiply the gate by max(1.0, x), which is relative above 1.0 and a flat 1e-12 below it -- one published number, two gates.",
+  "verdict": "a_shared_name_does_not_carry_a_shared_unit_so_every_relative_gate_has_to_name_its_scale",
+  "pit": "(1) a count marker must be a whole token: the substring 'n_' matched session_open and turned a price into a count -- E208 on the writer side, fixed with a token regex; (2) a divider that is a literal (100.0) is a fixed normalisation, not a free scale, so divider() returns (kind, value) and a literal divisor gets its own class; (3) a gate multiplied by a clamped scale is two gates and the face publishes one number for both; (4) the new study polluted E305's producer scan -- its docstring and a fixture mentioning \"session_open\" took the top-8 slots of a face-less row and pushed out the two scripts that really write the key, so E305 now drops hits inside comments, docstrings and *selftest* functions (found by diffing stored vs live, not by assertion); (5) e283/e294/e302 are red independently of this round, proved by hiding the new faces and re-running the same three verifies.",
+  "product": [
+   "scripts/e313_gate_form_and_scale.py (run / verify 0 problems / selftest 31/31)",
+   "results/state_tilt/GATEFORM-2026-10-31.json + gateform_latest.json",
+   "research/digests/DIGEST-20261031-r1332-e313-gate-form-and-scale.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E313",
+   "Tools/s6_chain_bmb.py leg gate_form_and_scale (verify, 0.53s, rc=0)",
+   "scripts/e305_face_level_row_pricing.py: producer scan now drops prose and selftest fixtures (selftest 25/25, verify re-derives)",
+   "results/runnable_pool.json E313 done with result_ref + E314 seeded ready"
+  ],
+  "s1": "the full 330-leg suite was not re-run this window (~35 min); the new E313 leg was exercised through the real S6 driver and its own selftest runs 31 legs including 6 mutation legs plus a standalone verify rebuild",
+  "s6": "gate_form_and_scale rc=0 0.53s through the real driver (results/_rverifybmb_s6_chain.json, S6 99/107); the five censuses whose summaries count this source were re-derived and re-verified (E298 31 controls / E299 63 sites / E305 8 rows / E308 30 pairs / E312 30 rows); dualrun, compute_audit, py_watermark, attrition and the lane collectors were NOT re-run this window (wall budget, stated plainly)",
+  "s7": "Bigmoney-IterationLoop / Bigmoney-LoopWatchdog / Bigmoney-SatEngine-bm-b left to their own ticks this window (no re-registration, no drift observed); pre-commit and pre-push claws read but not re-installed",
+  "orders": "orders/acks not re-scanned this window (114 files / 115 acks carried from r1331)",
+  "pool": "E313 done with result_ref; E314-CLAMPED-GATE-CENSUS seeded ready (804 entries, 1 ready)",
+  "identity": "identity_checks 15/15 ALL PASS (partitions, scale on every relative row, breakeven or an explicit reason, self-exclusion, recomputable label agreement)",
+  "delivery": {
+   "branch": "machine/bm-b-r1332",
+   "local_not_on_origin_main": null,
+   "behind_origin_main": null,
+   "main_push_blocker": "the local main has diverged from origin/main for many rounds (promisor lazy fetch wedges before negotiation, r1255 family); main push not attempted",
+   "ts": "2026-10-31T19:2x+08:00"
+  }
+ },
+ "notes_r1332": "| 2026-10-31T19:2x+08:00 | r1332 | **watermark: pool-batch red at open (E313 ready, py idle) -- burned the ready head E313 in-round** | E313 gate form and scale published: the form is read at the producer's own comparison line, not from the face's label (silent on 28 of 30); one row needs a free scale (t35 breakeven session_open = 5e-07), one is absolute after a fixed 100.0 normalisation, seven pair a count leg where no multiplicative scale exists. **CURRENT:** E313 done. **LATEST PHYSICAL:** results/state_tilt/GATEFORM-2026-10-31.json. **NEXT MILESTONE:** E314 clamped gate census (ready, runner not written; due next round, within 48h). **PRODUCT:** three rows multiply a published gate by max(1.0, x), so the face prints one number for two regimes."
+}

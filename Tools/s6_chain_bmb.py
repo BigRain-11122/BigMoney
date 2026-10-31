@@ -658,6 +658,16 @@ LEGS = [
     ("gate_operand_identity",
      ["python", "scripts/e312_gate_operand_identity.py", "verify"]),
 
+    # E313: a shared NAME is not a shared UNIT. E312's single surviving pair (t35 open-fill) matches
+    # rel = abs(cost - session_open)/session_open against rel_tol 0.002 while the leg compares an
+    # absolute 1e-09, so the gate can only reach the leg through the scale -- and reads them at the
+    # producer's own comparison lines: 3 of 30 rows multiply the gate by a clamped scale
+    # (tol * max(1.0, x) is relative above 1.0 and absolute below it), one normalises by a fixed 100.0
+    # (percent->fraction, so the gate is absolute in the fraction unit), and a count leg cannot be
+    # joined to any tolerance by a multiplicative scale. Verify rebuilds from source + both faces.
+    ("gate_form_and_scale",
+     ["python", "scripts/e313_gate_form_and_scale.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

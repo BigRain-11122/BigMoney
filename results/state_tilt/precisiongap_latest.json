@@ -31,21 +31,6 @@
    ],
    "producer_writers": [
     {
-     "script": "scripts/e305_face_level_row_pricing.py",
-     "line": 423,
-     "text": "payload = {\"per_trader\": {\"T1\": {\"detail\": [{\"session_open\": 3.21}]}}}"
-    },
-    {
-     "script": "scripts/e305_face_level_row_pricing.py",
-     "line": 424,
-     "text": "hits = scan_key(payload, \"session_open\")"
-    },
-    {
-     "script": "scripts/e305_face_level_row_pricing.py",
-     "line": 486,
-     "text": "r = resolve_row(row(keys=[\"session_open\"], faces_named=[\"results/zzz.json\"],"
-    },
-    {
      "script": "scripts/t35_open_fill_verify.py",
      "line": 214,
      "text": "\"session_open\": session_open,"
@@ -64,11 +49,6 @@
      "script": "scripts/update_intraday_marks.py",
      "line": 284,
      "text": "\"session_open\": (q or {}).get(\"open\"),"
-    },
-    {
-     "script": "scripts/update_intraday_marks.py",
-     "line": 526,
-     "text": "ok &= tx[\"positions\"][0][\"session_open\"] == 4.1"
     }
    ],
    "found_decimals": null,
@@ -991,5 +971,5 @@
  },
  "verdict": "none_of_the_face_level_rows_is_at_risk",
  "verdict_reason": "8 row(s) priced; 8 withdrawn as unmeasurable-or-finer, 0 still finer than the quantum of the number actually found.",
- "generated": "2026-10-31T18:47:36"
+ "generated": "2026-10-31T19:24:14"
 }
