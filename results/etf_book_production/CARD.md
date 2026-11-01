@@ -4,9 +4,12 @@ Config: 12 names of a 1504-instrument bond-free pool, rebalance every 20 bars, 1
 
 | window | CAGR | Sharpe | max drawdown | realised vol | target |
 |---|---|---|---|---|---|
-| 2020-01 onwards | 9.6% | 0.99 | -11.8% | 10.2% | 8% (1.27x) |
-| 2020-2023 | 3.8% | 0.44 | -11.8% | 10.0% | 8% (1.25x) |
-| 2024 onwards | 18.4% | 1.74 | -10.7% | 10.4% | 8% (1.30x) |
+| 2020-01 onwards -- as coded | 9.6% | 0.99 | -11.8% | 10.2% | 8% (1.27x) |
+| 2020-01 onwards -- declared fill (close t -> open t+1) | 8.5% | 0.87 | -16.6% | 10.3% | 8% (1.28x) |
+| 2020-2023 -- as coded | 3.8% | 0.44 | -11.8% | 10.0% | 8% (1.25x) |
+| 2024 onwards -- as coded | 18.4% | 1.74 | -10.7% | 10.4% | 8% (1.30x) |
+
+Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row 2 is the same rule with the score held one bar back -- the fill this card declares. Size off row 2.
 
 **Execution basis: the table above is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.46%/yr, Sharpe 0.87, max drawdown -16.6%**, i.e. 1.14pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach.
 
@@ -19,7 +22,7 @@ Config: 12 names of a 1504-instrument bond-free pool, rebalance every 20 bars, 1
 
 **Panel digest:** `a1a42aee64453839` (5270 bars x 1613 symbols, 2005-02-23->2026-10-30, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-10-30 / ticket 2026-10-30 / page 2026-10-30 (compared at 2026-11-02 00:07:31); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-10-30 / ticket 2026-10-30 / page 2026-10-30 (compared at 2026-11-02 02:01:36); this card, the executable sheet and the CEO page all priced the same closing bar.
 
 **Family coherence: ONE_WORLD** -- all 10 width arms priced `a1a42aee64453839` (cutoff 2026-10-30); the verdicts that license this card's width are measurements on one panel.
 

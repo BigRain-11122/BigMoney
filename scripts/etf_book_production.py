@@ -1235,7 +1235,7 @@ def execution_basis(runs, n_hold):
                              "lands within %.2fpp, so the fill convention does not move this "
                              "number." % (100 * a["cagr"], 100 * d["cagr"], EXEC_TOL_PP))
     return dict(base, verdict="SAME_OPEN_ARM",
-                sentence="**Execution basis: the table above is the arm this book cannot "
+                sentence="**Execution basis: the as-coded row is the arm this book cannot "
                          "actually trade.** It ranks on bar d's close and is paid bar d's "
                          "*open* -- a price set before the information it ranks on. The fill "
                          "the card itself declares (*decide at close t, fill at open t+1*) "
@@ -1261,16 +1261,36 @@ def write_card(out):
         "|---|---|---|---|---|---|",
     ]
     dv = out.get("vol_delivery") or {}
+    # r1225: the first row of this table is the number a reader sizes a position from, and it
+    # used to be the as-coded arm with nothing saying so (the caveat lived in the paragraph
+    # BELOW the table -- r1220/r1221 measured the gap, r1222 put it on the sheet, and the
+    # headline still led with the arm the desk cannot trade). The row label now names the
+    # convention, and the declared arm is a row of the same table with its own money, so the
+    # two numbers a reader can mean by "CAGR" are adjacent instead of one table apart.
+    _decl = bt.get("n%d_vt08_declared" % cfg["n_hold"]) or {}
+    _labels = {"full": "2020-01 onwards", "is": "2020-2023", "oos": "2024 onwards"}
     for lbl in ("full", "is", "oos"):
         m = b.get(lbl) or {}
         if m.get("cagr") is None:
             continue
         d = (dv.get("windows") or {}).get(lbl) or {}
-        lines.append("| %s | %.1f%% | %.2f | %.1f%% | %.1f%% | %.0f%% (%.2fx) |" % (
-            {"full": "2020-01 onwards", "is": "2020-2023", "oos": "2024 onwards"}[lbl],
+        lines.append("| %s -- as coded | %.1f%% | %.2f | %.1f%% | %.1f%% | %.0f%% (%.2fx) |" % (
+            _labels[lbl],
             m["cagr"] * 100, m["sharpe"] or 0.0, m["maxdd"] * 100,
             (m.get("vol") or 0.0) * 100, cfg["vol_target"] * 100, d.get("ratio") or 0.0))
+        dm = _decl.get(lbl) or {}
+        if lbl == "full" and dm.get("cagr") is not None:
+            ratio = ((dm.get("vol") or 0.0) / cfg["vol_target"]) if cfg["vol_target"] else 0.0
+            lines.append("| %s -- declared fill (close t -> open t+1) | %.1f%% | %.2f | %.1f%% | "
+                         "%.1f%% | %.0f%% (%.2fx) |" % (
+                             _labels[lbl], dm["cagr"] * 100, dm.get("sharpe") or 0.0,
+                             (dm.get("maxdd") or 0.0) * 100, (dm.get("vol") or 0.0) * 100,
+                             cfg["vol_target"] * 100, ratio))
     lines += [""]
+    if _decl.get("full") and (_decl["full"].get("cagr") is not None):
+        lines += ["Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); "
+                  "row 2 is the same rule with the score held one bar back -- the fill this card "
+                  "declares. Size off row 2.", ""]
     _eb = out.get("execution_basis") or {}
     if _eb.get("sentence"):
         lines += [_eb["sentence"], ""]
@@ -1715,6 +1735,24 @@ def selftest():
             "legs=%d as_of=%s" % (len(o["sheet"]["legs"]), o["sheet"]["as_of_bar"]))
         chk("card states delivered vol against the label",
             "Vol label vs delivered risk" in card and "target 8%" in card)
+        # r1225: the first ROW of the table is what a reader sizes from, and it used to print
+        # the as-coded arm with the caveat one paragraph below it. Two legs: the row says
+        # which convention it is, and the declared arm is a row with its own money (priced
+        # from the same engine, so the value is read from the payload, not hard-coded).
+        _eb2 = o.get("execution_basis") or {}
+        _nh2 = o["config"]["n_hold"]
+        _asc = (o["backtest"].get("n%d_vt08" % _nh2) or {}).get("full") or {}
+        _dcl = (o["backtest"].get("n%d_vt08_declared" % _nh2) or {}).get("full") or {}
+        chk("card table names the printed row's fill convention",
+            "2020-01 onwards -- as coded" in card)
+        chk("card table prices the declared arm as its own row",
+            _dcl.get("cagr") is not None
+            and ("2020-01 onwards -- declared fill (close t -> open t+1) | %.1f%%"
+                 % (_dcl["cagr"] * 100)) in card
+            and _eb2.get("gap_pp") is not None
+            and abs(_eb2["gap_pp"] - 100.0 * (_asc["cagr"] - _dcl["cagr"])) < 0.01,
+            "as_coded=%.4f declared=%.4f gap=%.2f"
+            % (_asc.get("cagr") or -1, _dcl.get("cagr") or -1, _eb2.get("gap_pp") or -1))
         chk("card lists every leg", all(l["symbol"] in card for l in o["sheet"]["legs"]))
         chk("output carries the vol delivery block",
             (o.get("vol_delivery") or {}).get("headline") is not None)

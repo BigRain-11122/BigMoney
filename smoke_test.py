@@ -751,11 +751,28 @@ def main() -> int:
                 _detail = "%s gap %.2fpp (%.2f vs %.2f)" % (_v, _gap, 100 * _a, 100 * _d)
             check("product: the card states which of its two arms the desk can trade",
                   _ok, _detail)
+            # r1225: the sentence was one paragraph BELOW the table it qualifies, so the first
+            # row a reader sizes from still printed the un-tradable arm. The table now names
+            # each row's fill convention and prices both arms side by side; this leg demands
+            # the declared row carry the payload's own number, so a hand-edited or stale
+            # table reads red instead of merely looking more honest.
+            if _a is not None and _d is not None:
+                _row_ok = ("| 2020-01 onwards -- as coded |" in _txt
+                           and ("| 2020-01 onwards -- declared fill (close t -> open t+1) | %.1f%%"
+                                % (100 * _d)) in _txt)
+                check("product: the card table prices both arms in the headline rows",
+                      _row_ok, "declared row %.1f%%" % (100 * _d))
+            else:
+                check("product: the card table prices both arms in the headline rows", True,
+                      "unreadable arm -- the sentence leg already owns that state")
         else:
             check("product: the card states which of its two arms the desk can trade", True,
                   "production sheet absent -- face soft-fails by design")
+            check("product: the card table prices both arms in the headline rows", True,
+                  "production sheet absent -- face soft-fails by design")
     except Exception as e:
         check("product: the card states which of its two arms the desk can trade", False, str(e))
+        check("product: the card table prices both arms in the headline rows", False, str(e))
     try:
         _legs = __import__("importlib").import_module("Tools.s6_chain_bmc").LEGS
         _names = {t[0] for t in _legs}
