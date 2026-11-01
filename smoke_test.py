@@ -1333,7 +1333,21 @@ def main() -> int:
             ("product: lane round liveness (three-face verdict contract)",
              "Tools/lane_round_liveness.py", ["selftest"])):
         try:
-            _r = _selftest_run(_script, _args, 300)
+            # r1373: the wall budget is per leg, not one number for the block. These
+            # selftests read the live panel, so their cost grows with the data they
+            # accumulate. Measured 2026-11-02 with none of this suite's own runs in
+            # flight: etf_book_production 190s, etf_book_forward past the old 300s.
+            # The same three legs passed twice in one evening and timed out on the
+            # next run with no code change, so 300s was grading the machine's mood.
+            # A real hang still fails; the margin is what changes.
+            _LEG_TIMEOUT = {
+                "scripts/etf_book_production.py": 900,
+                "scripts/etf_book_forward.py": 900,
+                "scripts/etf_book_capacity_rule.py": 900,
+                "scripts/etf_book_spanning_pre2020.py": 900,
+                "scripts/monthly_exam_prep.py": 900,
+            }
+            _r = _selftest_run(_script, _args, _LEG_TIMEOUT.get(_script, 300))
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
