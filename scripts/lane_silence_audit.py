@@ -51,6 +51,12 @@ FUZZY_ASSUMED_MIN = 5          # a fuzzy digit is read as [00,09] -> width 10
 QUIET_WINDOWS = {
     "bm-a": [(0, 9, 19)],      # weekday, 09:00-19:00 local
 }
+LANE_TASKS = {
+    "bm-a": ["Bigmoney-IterationLoop", "Bigmoney-LoopWatchdog", "HQ-Patrol-BigMoney"],
+    "bm-b": ["Bigmoney-IterationLoop", "Bigmoney-LoopWatchdog"],
+    "bm-c": ["Bigmoney-IterationLoop", "Bigmoney-LoopWatchdog"],
+}
+TASK_STATES = ("Ready", "Running", "Disabled")
 STAMP_RE = re.compile(
     r"^\|?\s*(\d{4}-\d{2}-\d{2})[T ](\d{2}):([0-9]x|\d{1,2})(?::([0-9]x|\d{2}))?"
     r"\s*(?:[+-]\d{2}:?\d{2})?")
@@ -210,6 +216,70 @@ def audit(rows, threshold_min, window_days, now=None, mid=None):
     return out
 
 
+def _query_task_states(names):
+    """Task scheduler -> {name: state}.  CASE_NO_WINDOW: a probe must not flash a console."""
+    import subprocess
+    ps = ("$ProgressPreference='SilentlyContinue';"
+          "Get-ScheduledTask -TaskName %s -ErrorAction SilentlyContinue | "
+          "ForEach-Object { $_.TaskName + '=' + $_.State }"
+          % (",".join("'%s'" % n for n in names)))
+    kw = {}
+    if os.name == "nt":
+        kw["creationflags"] = 0x08000000
+    p = subprocess.run(["powershell", "-NoProfile", "-NonInteractive", "-Command", ps],
+                       capture_output=True, text=True, timeout=120, **kw)
+    out = {}
+    for ln in (p.stdout or "").splitlines():
+        if "=" in ln:
+            k, v = ln.split("=", 1)
+            out[k.strip()] = v.strip()
+    return out
+
+
+def read_task_states(names, runner=None):
+    """Are the lane's own scheduled tasks switched on?
+
+    The scheduler is asked, never the ledger: a Disabled task and a task with nothing to
+    do write the SAME round line, which is why this had to be found by hand three times
+    in one day.  An unreadable switch is UNKNOWN -- not an enabled one, and not a dead
+    lane either (r98: unknown is not empty).
+    """
+    names = list(names or [])
+    if not names:
+        return {}
+    runner = runner or _query_task_states
+    try:
+        got = runner(names) or {}
+    except Exception:                                               # noqa: BLE001
+        got = {}
+    return {n: (got.get(n) if got.get(n) in TASK_STATES else "UNKNOWN") for n in names}
+
+
+def switch_face(states, silence_verdict, threshold_min):
+    """Does the silence have a switch behind it?  Pure, so the selftest drives this."""
+    states = states or {}
+    disabled = [n for n, s in states.items() if s == "Disabled"]
+    known = [n for n, s in states.items() if s in TASK_STATES]
+    quiet = silence_verdict in ("OPEN_SILENCE", "SILENT_GAP")
+    if disabled and quiet:
+        verdict = "LANE_SWITCHED_OFF"
+        why = ("%d of the lane's own task(s) are Disabled while the round line is silent "
+               "(%s); a switched-off lane is not a slow one, and re-enabling it is the "
+               "whole fix" % (len(disabled), ", ".join(disabled)))
+    elif disabled:
+        verdict = "LANE_SWITCHED_OFF_IDLE"
+        why = ("task(s) Disabled (%s) but no silence in this window -- the line stopped "
+               "after the last round" % ", ".join(disabled))
+    elif known and not disabled:
+        verdict = "LANE_ENABLED"
+        why = "every probeable lane task is switched on; the silence (if any) is not a switch"
+    else:
+        verdict = "UNKNOWN"
+        why = "the scheduler could not be read; an unread switch is neither on nor off"
+    return {"states": states, "disabled": disabled, "probeable": len(known),
+            "threshold_min": threshold_min, "verdict": verdict, "why": why}
+
+
 def run(days=DEFAULT_WINDOW_DAYS, threshold_min=DEFAULT_THRESHOLD_MIN, mid=None):
     mid = mid or _machine_id()
     if not mid:
@@ -228,6 +298,13 @@ def run(days=DEFAULT_WINDOW_DAYS, threshold_min=DEFAULT_THRESHOLD_MIN, mid=None)
     res["source"] = os.path.relpath(path, ROOT).replace("\\", "/")
     res["evidence_cutoff"] = rows[-1][0].strftime("%Y-%m-%d")
     res["generated"] = _dt.datetime.now().isoformat(timespec="seconds")
+    # r1216b: ask the scheduler whether the lane is off.  A measured silence verdict
+    # stays as measured; a switched-off task replaces it (the more specific cause).
+    res["silence_verdict"] = res["verdict"]
+    res["lane_tasks"] = switch_face(read_task_states(LANE_TASKS.get(mid) or []),
+                                    res["silence_verdict"], threshold_min)
+    if res["lane_tasks"]["verdict"] == "LANE_SWITCHED_OFF":
+        res["verdict"] = "LANE_SWITCHED_OFF"
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
     out = os.path.join(ROOT, "results", "lane_silence.%s.json" % mid)
     with io.open(out, "w", encoding="utf-8") as fh:
@@ -239,6 +316,12 @@ def run(days=DEFAULT_WINDOW_DAYS, threshold_min=DEFAULT_THRESHOLD_MIN, mid=None)
              long.get("gap_low_min"), long.get("gap_high_min"),
              long.get("unexplained_low_min"), long.get("unexplained_high_min"),
              res.get("gaps_over_threshold_count", 0)))
+    lt = res.get("lane_tasks") or {}
+    print("  lane tasks: %s -> %s"
+          % (", ".join("%s=%s" % (k, v) for k, v in sorted(lt.get("states", {}).items()))
+             or "(none declared for this machine)", lt.get("verdict")))
+    if str(lt.get("verdict") or "").startswith("LANE_SWITCHED_OFF"):
+        print("  WHY: %s" % lt.get("why"))
     og = res.get("open_gap") or {}
     if og:
         print("  OPEN since %s : gap %s..%s min, quiet %s min, unexplained %s..%s min"
@@ -357,12 +440,36 @@ def selftest():
     chk("L15-reader", pub["present"] is True and pub["verdict"] == "SILENT_GAP"
         and "111.0-129.0 min" in (pub["sentence"] or ""),
         str(pub.get("sentence")))
+    # L16-L21 (r1216b): the switch behind the silence.  A Disabled task while the line
+    # is silent is named as the cause; a task that cannot be read is never called
+    # either on or off, and the probe normalises whatever the scheduler prints.
+    _sw_dis = switch_face({"Bigmoney-IterationLoop": "Disabled",
+                           "Bigmoney-LoopWatchdog": "Ready"}, "OPEN_SILENCE", 90)
+    chk("L16-switched-off", _sw_dis["verdict"] == "LANE_SWITCHED_OFF"
+        and _sw_dis["disabled"] == ["Bigmoney-IterationLoop"], str(_sw_dis))
+    _sw_unk = switch_face({"Bigmoney-IterationLoop": "UNKNOWN"}, "OPEN_SILENCE", 90)
+    _sw_none = switch_face({}, "OPEN_SILENCE", 90)
+    chk("L17-unknown-never-off", _sw_unk["verdict"] == "UNKNOWN"
+        and _sw_none["verdict"] == "UNKNOWN", "%s/%s" % (_sw_unk, _sw_none))
+    _sw_on = switch_face({"Bigmoney-IterationLoop": "Ready"}, "SILENT_GAP", 90)
+    chk("L18-enabled-is-not-blamed", _sw_on["verdict"] == "LANE_ENABLED"
+        and not _sw_on["disabled"], str(_sw_on))
+    _sw_idle = switch_face({"Bigmoney-IterationLoop": "Disabled"}, "OK", 90)
+    chk("L19-off-but-no-silence", _sw_idle["verdict"] == "LANE_SWITCHED_OFF_IDLE",
+        str(_sw_idle))
+    _probe = read_task_states(["A", "B"], runner=lambda names: {"A": "Ready",
+                                                               "B": "Exploded"})
+    chk("L20-probe-normalises", _probe == {"A": "Ready", "B": "UNKNOWN"}, str(_probe))
+    def _boom(names):
+        raise RuntimeError("boom")
+    _probe2 = read_task_states(["A"], runner=_boom)
+    chk("L21-probe-failure-is-unknown", _probe2 == {"A": "UNKNOWN"}, str(_probe2))
     if fails:
-        print("selftest FAIL %d/15" % len(fails))
+        print("selftest FAIL %d/21" % len(fails))
         for f in fails:
             print("  " + f)
         return 1
-    print("selftest 15/15 PASS")
+    print("selftest 21/21 PASS")
     return 0
 
 
@@ -392,6 +499,13 @@ def sentence(res):
         bits.append("still open since %s (%s-%s min unexplained)"
                     % (og.get("since"), og.get("unexplained_low_min"),
                        og.get("unexplained_high_min")))
+    lt = res.get("lane_tasks") or {}
+    if lt.get("verdict") == "LANE_SWITCHED_OFF":
+        bits.append("the lane task itself is Disabled (%s), so the silence is a switch, "
+                    "not a slow round" % ", ".join(lt.get("disabled") or []))
+    elif lt.get("verdict") == "UNKNOWN":
+        bits.append("the scheduler could not be read, so whether the lane is switched "
+                    "off is unknown")
     return "; ".join(bits) + "."
 
 
@@ -434,6 +548,9 @@ def read_published(mid=None, root=None):
             "gaps_over_threshold": res.get("gaps_over_threshold") or [],
             "evidence_cutoff": res.get("evidence_cutoff"),
             "generated": res.get("generated"),
+            "silence_verdict": res.get("silence_verdict") or (
+                res.get("verdict") if res.get("lane_tasks") is None else None),
+            "lane_tasks": res.get("lane_tasks"),
             "sentence": sentence(res)}
 
 

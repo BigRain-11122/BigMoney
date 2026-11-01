@@ -491,6 +491,12 @@ LEGS = [
     # quotes it (r1318 ordering law). ~50s.
     ("etf_book_band_ruler", ["python", "scripts/etf_book_band_ruler.py", "check"],
      ["python", "scripts/etf_book_band_ruler.py", "run"]),
+    # r1216: the band ruler said "three rows, three rulers" in a bullet under the table,
+    # while row 1 kept printing the ticket's own 683-bar return under a 全窗 header. This
+    # leg re-derives both windows of the operator's own book from the ruler's cells and
+    # relabels that row; it runs BEFORE the page, which quotes it (r1318 ordering law). ~2s.
+    ("etf_book_window_label", ["python", "scripts/etf_book_window_label.py", "check"],
+     ["python", "scripts/etf_book_window_label.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1150: the four-tier ticket menu is the same book sold at four betas, and it
     # lived a full round with no scheduled producer -- the r1290 two-face class. bm-a

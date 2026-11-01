@@ -44,6 +44,8 @@ VOLWIN_EDGE_JSON = os.path.join(ROOT, "results", "etf_book_vol_window_edge.json"
 LOOKAHEAD_JSON = os.path.join(ROOT, "results", "etf_book_lookahead_audit.json")
 # r1213: the expectation table's rows are priced on different windows / classes / orderings.
 BAND_RULER_JSON = os.path.join(ROOT, "results", "etf_book_band_ruler.json")
+# r1216: row 1 of that table prints the ticket's own 683-bar window under a 全窗 header.
+WINDOW_LABEL_JSON = os.path.join(ROOT, "results", "etf_book_window_label.json")
 ENVELOPE_JSON = os.path.join(ROOT, "results", "etf_book_bootstrap", "latest.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
@@ -355,6 +357,74 @@ def vol_window_edge_face(path=VOLWIN_EDGE_JSON):
     except Exception as exc:                                    # noqa: BLE001
         return {"status": "unreadable", "artifact": path, "verdict": None,
                 "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def window_label_face(path=WINDOW_LABEL_JSON):
+    """Is the first row's 全窗年化 actually a full-window number? (r1216)
+
+    r1213 measured that the three rows are three rulers and said so in a bullet *under*
+    the table. The table itself kept printing the ticket's own 683-bar return under a
+    header that promises 6.3 years. This reader serves the face that puts the same book's
+    two windows side by side; its identity arm must still reproduce the ticket's own
+    published number, and a face that no longer recomputes reads as "cannot verify"."""
+    try:
+        import etf_book_window_label as _WL
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": _rel(path, ROOT),
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        return _WL.read_published(path=path)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": _rel(path, ROOT),
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def window_label_block(wl):
+    """The lines this page prints about the first row's two windows (r1216).
+
+    Factored out like `band_ruler_block` so a selftest can feed a missing / drifted / ok
+    face. It never prints a window it cannot attribute, and a missing face says so."""
+    L = []
+    add = L.append
+    add("## 表里第一行的「全窗年化」是几年")
+    add("")
+    if (wl or {}).get("status") != "ok":
+        add("这一页没有拿到「窗口标签」面的可用读数（`%s`，状态 `%s`）：%s。"
+            "所以第一行的「全窗年化」印 **—**——不拿 2.8 年那段去填 6.3 年的格子。"
+            % (_rel((wl or {}).get("artifact") or WINDOW_LABEL_JSON, ROOT).replace(os.sep, "/"),
+               (wl or {}).get("status") or "unknown",
+               (wl or {}).get("detail") or "判决不能从自己的行重算"))
+        add("")
+        return L
+    v = wl.get("verdict") or {}
+    rows = wl.get("rows") or {}
+    short = rows.get("printed_under_full_header") or {}
+    long_ = rows.get("same_book_full_window") or {}
+    if v.get("state") == "ROW_LABELED_BY_WINDOW":
+        add("- 你手上这一本（5 名·beta 0.20·8bp），同一台引擎量两个窗口："
+            "**全窗（%s bars）%.2f%%** ｜ **2024 起（%s bars）%.2f%%**——差 **%+.2f 个点/年**。"
+            % (long_.get("bars") or "—", long_.get("cagr_pp") or 0.0,
+               short.get("bars") or "—", short.get("cagr_pp") or 0.0,
+               v.get("gap_pp") or 0.0))
+        add("- 所以上表第一行现在把这两个数各放在各的列里：**全窗年化那一格不再是 2024 起的数**。"
+            "这两段不能互相比较，只能各自同列比。")
+    _trw = wl.get("table_row") or {}
+    if (_trw.get("is") or {}).get("cagr_pct") is not None:
+        add("- \u4e2d\u95f4\u6bb5\uff082020-2023\uff0c\u540c\u4e00\u628a\u5c3a\u5b50\uff09\uff1a**%.2f%%**\uff08%s bars\uff09\uff0c\u4e09\u6bb5 bars %s+%s=%s \u6070\u597d\u62fc\u6ee1\u5168\u7a97\uff08\u5bb9\u5dee\u00b11 bar\uff09\u3002"
+            % (_trw["is"]["cagr_pct"], _trw.get("middle_window_bars") or "?",
+               _trw.get("middle_window_bars"), _trw.get("short_window_bars"),
+               _trw.get("full_window_bars")))
+    elif v.get("state") == "SAME_WINDOW":
+        add("- 你手上这一本两个窗口读数是同一个数（差 %+.2f 个点/年，在容差内），"
+            "所以第一行照原样印，不存在标签问题。" % (v.get("gap_pp") or 0.0))
+    else:
+        add("- 这一节没有数：窗口标签面判决 **%s**（%s）。第一行两个格子按「未发表」处理，"
+            "不拿短窗口的数去填全窗。" % (v.get("state"), v.get("why") or "—"))
+    add("")
+    add("> 窗口面：`%s` ｜ 定价截止 %s"
+        % (str(wl.get("artifact") or "").replace(os.sep, "/"), wl.get("evidence_cutoff") or "—"))
+    add("")
+    return L
 
 
 def band_ruler_face(path=BAND_RULER_JSON):
@@ -1500,14 +1570,41 @@ def build(with_stress=False):
         }
 
     bt = (card.get("backtest") or {})
+    page_window_label = window_label_face()
     band = {}
     # the executable ticket prices its own book; quote that口径 first, from the ticket itself
     tk_book = (tk.get("metrics") or {}).get("book") or {}
+    wl = page_window_label
     if tk_book:
-        band["%d 名·可执行单口径（本单这份账）" % (tk.get("n_hold") or len(order))] = {
-            "full": {"cagr_pct": round(tk_book["cagr"] * 100, 2),
-                     "sharpe": round(tk_book["sharpe"], 2),
-                     "maxdd_pct": round(tk_book["maxdd"] * 100, 2)}}
+        label = "%d 名·可执行单口径（本单这份账）" % (tk.get("n_hold") or len(order))
+        tr = (wl or {}).get("table_row") or {} if (wl or {}).get("status") == "ok" else {}
+        if (tr.get("full") or {}).get("cagr_pct") is not None:
+            # r1216: the full column carries the FULL window; the ticket's own 683-bar
+            # return moves to the 2024+ column, where the card's 18.35% already sits.
+            band[label] = {
+                "full": {"cagr_pct": round(tr["full"]["cagr_pct"], 2),
+                         "sharpe": round(tr["full"]["sharpe"] or 0.0, 2),
+                         "maxdd_pct": round(tr["full"]["maxdd_pct"] or 0.0, 2)},
+                "oos": {"cagr_pct": round(tr["oos"]["cagr_pct"], 2),
+                        "sharpe": round(tr["oos"]["sharpe"] or 0.0, 2),
+                        "maxdd_pct": round(tr["oos"]["maxdd_pct"] or 0.0, 2)}}
+            # r1216b: the middle window rides along only when the face publishes it
+            # (the three segments tile the full window). Without it the cell is a
+            # dash, never a number borrowed from a neighbour.
+            if (tr.get("is") or {}).get("cagr_pct") is not None:
+                band[label]["is"] = {
+                    "cagr_pct": round(tr["is"]["cagr_pct"], 2),
+                    "sharpe": round(tr["is"].get("sharpe") or 0.0, 2),
+                    "maxdd_pct": round(tr["is"].get("maxdd_pct") or 0.0, 2)}
+        else:
+            # no relabelled cell: print the ticket's own numbers in the 2024+ column only,
+            # because that is the window they were measured on. "Unknown" never reads as a
+            # full-window return (E192 / E256 lineage).
+            band[label] = {
+                "full": {"cagr_pct": None, "sharpe": None, "maxdd_pct": None},
+                "oos": {"cagr_pct": round(tk_book["cagr"] * 100, 2),
+                        "sharpe": round(tk_book["sharpe"], 2),
+                        "maxdd_pct": round(tk_book["maxdd"] * 100, 2)}}
     for key, label in (("n5_base", "5 名·beta 覆盖"),
                        ("n12_vt08", "12 名·8% 波动目标（生产卡片口径）")):
         blk = bt.get(key) or {}
@@ -1593,6 +1690,7 @@ def build(with_stress=False):
     page["vol_window_edge"] = vol_window_edge_face()
     page["lookahead"] = lookahead_face()
     page["band_ruler"] = band_ruler_face()
+    page["window_label"] = page_window_label
     page["envelope"] = envelope_face()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
     return page, today
@@ -1614,12 +1712,19 @@ def render_md(p):
             "清单里份额和金额的变化是价格漂移，不是新指令。下一个动手日是 **%s**。"
             % (p["book_decided_at"], p["priced_bar"], p["next_rebalance_date"]))
         if act.get("cost_if_retraded_pct_per_year") is not None:
+            # r1216: the rate this line is compared against is the book's FULL-window
+            # number. It used to be the ticket's 683-bar return, i.e. the very number the
+            # table above had just stopped calling a full-window figure.
+            _wl_row = (p.get("window_label") or {})
+            _wl_full = (((_wl_row.get("table_row") or {}).get("full") or {})
+                        .get("cagr_pct") if _wl_row.get("status") == "ok" else None)
+            _cmp = ("这本账全窗回测的 %.2f%%/年" % _wl_full) if _wl_full is not None \
+                else "这本账回测的收益（全窗口径本期未发表）"
             add("")
             add("（照这份清单每天重下一遍的代价：单边 %s bp、进出两边、一年按 %d 个交易日、账内占比 %.1f%%，"
-                "一年约 **%.1f%% 的资本**——比这本账回测的 %.2f%%/年还高。所以「今天不动」不是懒惰，是这条纪律的一部分。）"
+                "一年约 **%.1f%% 的资本**——比%s还高。所以「今天不动」不是懒惰，是这条纪律的一部分。）"
                 % (p.get("cost_bp_per_side"), TRADING_DAYS_PER_YEAR, (p.get("k_now") or 0.0) * 100,
-                   act["cost_if_retraded_pct_per_year"],
-                   (p.get("ticket_book") or {}).get("cagr", 0.0) * 100))
+                   act["cost_if_retraded_pct_per_year"], _cmp))
     elif mode == "rebalance":
         add("**今天是换仓日。** 先卖掉不在清单里的，再按下面清单买：花 **¥%s**（占总资金 %.1f%%）买 %d 只 ETF，"
             "剩下的 **¥%s**（%.1f%%）放%s。"
@@ -1858,7 +1963,12 @@ def render_md(p):
     add("")
     add("三行是同一套选券信号，区别只在名数和杠杆规则：第一行是你要下的这份账（5 名 + beta 覆盖 + 8bp 成本）；另两行是生产卡片跑的对照口径。同一决策日，票是卡片的子集。")
     add("")
-    add("表里 \u2014 = 该口径没有拆 IS/OOS 分段，不是零。")
+    _dash_n = sum(1 for _r in p["backtest_band"].values()
+                  for _seg in ("full", "is", "oos")
+                  if ((_r.get(_seg) or {}).get("cagr_pct")) is None)
+    if _dash_n:
+        add("\u2014\u2014 = \u8be5\u53e3\u5f84\u8fd9\u4e00\u683c\u6ca1\u6709\u53d1\u5e03\uff08%d \u683c\uff09\uff0c\u4e0d\u4f5c\u6570\uff1b\u6ca1\u6709\u53d1\u5e03\u4e0d\u7b49\u4e8e 0\uff0c\u4e5f\u4e0d\u7b49\u4e8e\u62ff\u522b\u7684\u7a97\u53e3\u9876\u4e0a\u3002"
+            % _dash_n)
     # r1207/E324: the table just above is the research engine's reading. Put the timing
     # caveat where the number is read, not in a research file the reader never opens.
     for _lk_line in lookahead_block(p.get("lookahead") or {}):
@@ -1866,6 +1976,10 @@ def render_md(p):
     # r1213: the table's rows are not one ruler -- say which, where the table is read.
     for _br_line in band_ruler_block(p.get("band_ruler") or {}):
         add(_br_line)
+    # r1216: the table's first row used to print the ticket's own 683-bar return under the
+    # 全窗 header. Say, where the row is read, which window each of its two cells holds.
+    for _wl_line in window_label_block(p.get("window_label") or {}):
+        add(_wl_line)
     # r1211: a single CAGR is one path through one history. The envelope says how much of
     # it is the book and how much is which days you happened to live through -- and it
     # reads its numbers from the envelope's own reader, never from the JSON here.
@@ -3417,6 +3531,73 @@ def selftest():
     chk("L92 window grid floor: a different position prints a different sentence and stops "
         "blaming the estimator", "拐弯" in _md_ve_int and "覆盖被关掉" not in _md_ve_int, "")
 
+    # L93-L95 (r1216): the table's first row printed the ticket's own 683-bar return under a
+    # 全窗 header. The block must read the face (not the numbers), say which window each cell
+    # holds, and print "no row" -- never the short-window number -- when the face is absent
+    # or its identity arm failed.
+    _wl_ok = {"status": "ok", "artifact": WINDOW_LABEL_JSON, "evidence_cutoff": "2026-10-30",
+              "verdict": {"state": "ROW_LABELED_BY_WINDOW", "gap_pp": 5.07},
+              "rows": {"printed_under_full_header": {"cagr_pp": 12.78, "bars": 683},
+                       "same_book_full_window": {"cagr_pp": 7.71, "bars": 1525}},
+              "table_row": {"full": {"cagr_pct": 7.71, "sharpe": 1.34, "maxdd_pct": -5.78},
+                            "oos": {"cagr_pct": 12.78, "sharpe": 1.73, "maxdd_pct": -5.78},
+                            "full_window_bars": 1525, "short_window_bars": 683}}
+    _md_wl_ok = "\n".join(window_label_block(_wl_ok))
+    chk("L93 window label: the block prints both windows and their bar counts",
+        "7.71" in _md_wl_ok and "12.78" in _md_wl_ok and "1525" in _md_wl_ok
+        and "683" in _md_wl_ok and "5.07" in _md_wl_ok, "")
+    _md_wl_gone = "\n".join(window_label_block({"status": "missing", "artifact": WINDOW_LABEL_JSON}))
+    _md_wl_bad = "\n".join(window_label_block(
+        {"status": "ok", "artifact": WINDOW_LABEL_JSON,
+         "verdict": {"state": "IDENTITY_FAILED", "why": "identity arm drifted"},
+         "rows": _wl_ok["rows"], "table_row": None}))
+    chk("L94 window label: absent or identity-failed prints no window number at all",
+        "7.71" not in _md_wl_gone and "7.71" not in _md_wl_bad
+        and "12.78" not in _md_wl_gone and "12.78" not in _md_wl_bad, "")
+    _p_wl, _ = build(with_stress=False)
+    _p_wl["window_label"] = _wl_ok
+    _md_page_ok = render_md(_p_wl)
+    _first_row = [ln for ln in _md_page_ok.splitlines()
+                  if ln.startswith("| 5 名·可执行单口径")]
+    chk("L95 window label: the table row itself carries the full window in the full column",
+        bool(_first_row) and "7.71%" in _first_row[0] and "12.78%" in _first_row[0]
+        and _first_row[0].index("7.71%") < _first_row[0].index("12.78%"), _first_row[0][:80])
+
+    _wl_mid = {"status": "ok", "artifact": WINDOW_LABEL_JSON,
+               "evidence_cutoff": "2026-10-30",
+               "verdict": {"state": "ROW_LABELED_BY_WINDOW", "gap_pp": 5.07},
+               "rows": _wl_ok["rows"],
+               "table_row": dict(_wl_ok["table_row"],
+                                 **{"is": {"cagr_pct": 3.71, "sharpe": 0.90,
+                                          "maxdd_pct": -3.97},
+                                    "middle_window_bars": 842})}
+    _p_wl2, _ = build(with_stress=False)
+    _p_wl2["window_label"] = _wl_mid
+    _md_wl2 = render_md(_p_wl2)
+    _row2 = [ln for ln in _md_wl2.splitlines()
+             if ln.startswith("| 5 \u540d")]
+    chk("L96 window label: the middle window reaches the middle column when the face "
+        "publishes it", bool(_row2) and "3.71%" in _row2[0]
+        and _row2[0].index("7.71%") < _row2[0].index("3.71%")
+        and _row2[0].index("3.71%") < _row2[0].index("12.78%"), _row2[0][:80] if _row2 else "")
+    # L97: the legend is a function of the table, not of the last round. Build one page
+    # whose first row has no middle cell (a dash must appear AND be explained) and one
+    # whose row is complete (no dash -> no legend).
+    _LEGEND = "\u8be5\u53e3\u5f84\u8fd9\u4e00\u683c"
+    _p_leg, _ = build(with_stress=False)
+    _p_leg["window_label"] = _wl_mid
+    _row0 = next(iter(_p_leg["backtest_band"]))
+    _p_leg["backtest_band"][_row0].pop("is", None)
+    _md_leg_dash = render_md(_p_leg)
+    _p_leg2, _ = build(with_stress=False)
+    _p_leg2["window_label"] = _wl_mid
+    _md_leg_full = render_md(_p_leg2)
+    chk("L97 window label: a dash on the table brings its legend, and a table with no "
+        "dash carries no legend",
+        _LEGEND in _md_leg_dash and _LEGEND not in _md_leg_full, "")
+    chk("L98 window label: the block names the middle window and the bars that tile "
+        "the full one", "842" in _md_wl2 and "1525" in _md_wl2
+        and "3.71" in "\n".join(window_label_block(_wl_mid)), "")
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

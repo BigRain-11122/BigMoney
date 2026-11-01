@@ -556,7 +556,11 @@ def read_published(path=OUT_JSON):
                 "detail": "stored verdict %s, recomputed %s" % (stored, redo.get("state"))}
     return {"status": "ok", "artifact": os.path.relpath(path, ROOT).replace(os.sep, "/"),
             "verdict": redo, "dial_prices": doc.get("dial_prices"),
-            "cells": {k: {"full": v.get("full"), "ticket_window": v.get("ticket_window")}
+            # r1216b: the operator's own row needs the middle window too. The split is
+            # served through this one reader rather than re-read from the artifact by a
+            # consumer, so a face that stops recomputing still refuses every cell.
+            "cells": {k: {"full": v.get("full"), "ticket_window": v.get("ticket_window"),
+                          "is": v.get("is"), "oos": v.get("oos")}
                       for k, v in (doc.get("cells") or {}).items()},
             "identity": doc.get("identity"),
             "evidence_cutoff": ((doc.get("panels") or {}).get("card") or {}).get("last_bar"),

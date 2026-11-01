@@ -4986,6 +4986,84 @@ def main() -> int:
     except Exception as e:
         check("product: the expectation table's rows name the ruler that priced each one",
               False, repr(e)[:160])
+    # ---- r1216: the first row's 全窗 cell must be a full-window number --------------------
+    # The page's table promised 6.3 years in a column headed 全窗 and printed the ticket's
+    # own 683-bar return. This leg re-derives the two windows from the band ruler's cells
+    # (never from the sentence), requires the identity arm to still reproduce the ticket's
+    # published 12.78%, and requires the page's first row to print the FULL number in the
+    # 全窗 column with the short one in the 2024+ column -- a page that drifted back to the
+    # old layout is red here.
+    try:
+        import importlib as _il63
+        _WL63 = _il63.import_module("etf_book_window_label")
+        _p63 = os.path.join(PATHS.results_dir, "etf_book_window_label.json")
+        _bad63 = []
+        _doc63 = {}
+        if not os.path.exists(_p63):
+            _bad63.append("results/etf_book_window_label.json missing")
+        else:
+            with open(_p63, encoding="utf-8") as _fh63:
+                _doc63 = json.load(_fh63)
+            if _WL63.check() != 0:
+                _bad63.append("the stored verdict no longer recomputes")
+            for _k63, _c63 in _WL63.CRITERIA.items():
+                if (_doc63.get("criteria") or {}).get(_k63) != _c63:
+                    _bad63.append("criterion %s moved off the module constant" % (_k63,))
+            _v63 = _WL63.decide(_doc63)
+            if _v63.get("state") != (_doc63.get("verdict") or {}).get("state"):
+                _bad63.append("verdict drifted: %r vs %r"
+                              % ((_doc63.get("verdict") or {}).get("state"), _v63.get("state")))
+            _tr63 = _WL63.table_row(dict(_doc63, verdict=_v63))
+            if (_v63.get("state") == "ROW_LABELED_BY_WINDOW") and not _tr63:
+                _bad63.append("the verdict names a window gap but publishes no row")
+            # the operator page must print what the face publishes, in the right columns
+            _lb63 = os.path.join(PATHS.root, "docs", "live_book")
+            _mds63 = sorted(glob.glob(os.path.join(_lb63, "LIVE-BOOK-*.md")))
+            if not _mds63:
+                _bad63.append("no LIVE-BOOK-*.md on disk")
+            elif _tr63:
+                with open(_mds63[-1], encoding="utf-8") as _fh63b:
+                    _md63 = _fh63b.read()
+                _row63 = [ln for ln in _md63.splitlines()
+                          if ln.startswith("| 5 名·可执行单口径")]
+                if not _row63:
+                    _bad63.append("the page's first expectation row is missing")
+                else:
+                    _r63 = _row63[0]
+                    if "%.2f%%" % _tr63["full"]["cagr_pct"] not in _r63:
+                        _bad63.append("the full-window cell is not the full-window number")
+                    elif "%.2f%%" % _tr63["oos"]["cagr_pct"] in _r63 and \
+                            _r63.index("%.2f%%" % _tr63["full"]["cagr_pct"]) > \
+                            _r63.index("%.2f%%" % _tr63["oos"]["cagr_pct"]):
+                        _bad63.append("the short-window number sits in the full-window column")
+                    # r1216b: when the face publishes the operator's middle window, the
+                    # page must carry it BETWEEN the two columns it tiles; and a dash in
+                    # that row must be explained, never left to the reader's guess.
+                    _mid63 = (_tr63.get("is") or {}).get("cagr_pct")
+                    if _mid63 is not None:
+                        _m63 = "%.2f%%" % _mid63
+                        _full63 = "%.2f%%" % _tr63["full"]["cagr_pct"]
+                        _oos63 = "%.2f%%" % _tr63["oos"]["cagr_pct"]
+                        if _m63 not in _r63:
+                            _bad63.append("the middle window the face publishes is "
+                                          "missing from the operator's row")
+                        elif not (_r63.index(_full63) < _r63.index(_m63) < _r63.index(_oos63)):
+                            _bad63.append("the middle window is not in the middle "
+                                          "column")
+                    elif "\u2014" in _r63 and "\u8be5\u53e3\u5f84\u8fd9\u4e00\u683c" not in _md63:
+                        _bad63.append("the row prints a dash with no legend explaining it")
+                    if "表里第一行的" not in _md63:
+                        _bad63.append("the page carries no window-label section")
+        check("product: the row the operator reads has a full-window number in its full window column",
+              not _bad63,
+              "; ".join(_bad63)[:220] or "verdict %s, full %.2f%% / 2024+ %.2f%% (gap %+.2f pp/yr)"
+              % ((_doc63.get("verdict") or {}).get("state"),
+                 ((_tr63 or {}).get("full") or {}).get("cagr_pct") or 0.0,
+                 ((_tr63 or {}).get("oos") or {}).get("cagr_pct") or 0.0,
+                 (_doc63.get("verdict") or {}).get("gap_pp") or 0.0))
+    except Exception as e:
+        check("product: the row the operator reads has a full-window number in its full window column",
+              False, repr(e)[:160])
     # ---- r1209: the missing bar is not a fill you could have chosen ----
     # r1207 priced the one-bar gap and r1208 put it on the CEO page, but nobody had asked the
     # operator's question: is the gap lost INFORMATION, or an unachievable FILL? This leg
@@ -5612,6 +5690,41 @@ def main() -> int:
               % float(_ca.POOL_CLAIM_STALE_MIN))
     except Exception as e:
         check("product: the compute audit reads the claim face, not just the pool row",
+              False, repr(e)[:160])
+    # ---- r1216b: a quiet lane and a switched-off lane print the same round line ----
+    # The ledger can only say "no rounds". The scheduler is the only place that can say
+    # "I turned it off", so the published face must carry that answer AND must recompute
+    # it from its own states through one implementation (a second reader would drift).
+    try:
+        import importlib as _il65
+        _LSA65 = _il65.import_module("lane_silence_audit")
+        _pub65 = _LSA65.read_published()
+        _bad65 = []
+        if not _pub65.get("present"):
+            _bad65.append("the lane-silence face is not published")
+        else:
+            _lt65 = _pub65.get("lane_tasks") or {}
+            if not _lt65.get("verdict"):
+                _bad65.append("the face carries no lane-task verdict (a silent lane and "
+                              "a switched-off one would print the same line)")
+            else:
+                _redo65 = _LSA65.switch_face(_lt65.get("states") or {},
+                                            _pub65.get("silence_verdict"),
+                                            _pub65.get("threshold_min"))
+                if _redo65["verdict"] != _lt65.get("verdict"):
+                    _bad65.append("lane-task verdict does not recompute: stored %s vs %s"
+                                  % (_lt65.get("verdict"), _redo65["verdict"]))
+                for _n65, _st65 in (_lt65.get("states") or {}).items():
+                    if (_st65 == "Disabled") != (_n65 in (_lt65.get("disabled") or [])):
+                        _bad65.append("%s state and disabled list disagree" % _n65)
+        check("product: the lane-silence face names whether the lane is switched off",
+              not _bad65, "; ".join(_bad65)[:200]
+              or "lane tasks %s -> %s"
+              % (", ".join("%s=%s" % (k, v) for k, v in
+                           sorted(((_pub65.get("lane_tasks") or {}).get("states") or {}).items())),
+                 (_pub65.get("lane_tasks") or {}).get("verdict")))
+    except Exception as e:
+        check("product: the lane-silence face names whether the lane is switched off",
               False, repr(e)[:160])
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
