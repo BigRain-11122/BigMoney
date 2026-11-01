@@ -34,25 +34,25 @@
  "d19_watermark_v2": {
   "compare_order": "repo+commit_sha+blob_bytes first, then sha256; source mismatch = stale",
   "decisions": {
-   "blob_bytes": 215420,
-   "commit_sha": "778038bb4d8bee483a4242cf135e685ee63b4c91",
-   "fetch_command": "git -C <group-tree> show origin/main:docs/decisions.md",
-   "path": "docs/decisions.md",
    "repo": "git@github.com:BigRain-11122/FluxGroup.git",
-   "sha256": "97fe122f24826ba5197468df485734d4682839cc666e634d6016db0da28cb38c"
+   "commit_sha": "8a142bd41a5e03c24806c253ffb3491e8c8ef54c",
+   "blob_bytes": 76613,
+   "sha256": "3baca4a7400ecf5b52b50336b9a52637922a0624bdee9904e6ac5550977efd31",
+   "path": "docs/decisions.md",
+   "fetch_command": "git -C <group-tree> show origin/main:docs/decisions.md"
   },
   "decisions_verdict": "changed",
   "law": "D-20261025-08 watermark v2 quartet {repo, commit_sha, blob_bytes, sha256}",
   "orders": {
-   "blob_bytes": 183986,
-   "commit_sha": "778038bb4d8bee483a4242cf135e685ee63b4c91",
-   "fetch_command": "git -C <group-tree> show origin/main:docs/orders.md",
-   "path": "docs/orders.md",
    "repo": "git@github.com:BigRain-11122/FluxGroup.git",
-   "sha256": "122ab70739b6119fbb796bdb87a295cd69867bb12260985d7dd713c17424023c"
+   "commit_sha": "8a142bd41a5e03c24806c253ffb3491e8c8ef54c",
+   "blob_bytes": 193416,
+   "sha256": "97657ad79f502efe39042e6db41033b2c88bf825b36eefa72640395b6d2e8a3c",
+   "path": "docs/orders.md",
+   "fetch_command": "git -C <group-tree> show origin/main:docs/orders.md"
   },
   "orders_verdict": "changed",
-  "updated_at": "2026-10-29T19:35:38+08:00"
+  "updated_at": "2026-11-01T04:01:53+08:00"
  },
  "decisions_scan_r1105": "origin decisions.md hash advanced cf3cdeec->17c29359; decoded scan = 69 BigMoney rows, all 集团 dispatch echoes/尾行无新增 (latest rows 10-20 D-20261020-xx 派工通告板), zero rows requiring this repo to act -> watermark advanced, zero action",
  "decisions_scan_r1108": "origin decisions.md hash unchanged 17c2935984bd.. (== stored watermark); group orders.md hash unchanged 00caa345..; zero action",
@@ -101,10 +101,10 @@
  "last_action_at": "2026-10-31T20:52:14+08:00",
  "last_artifact": "docs/live_book/LIVE-BOOK-20261031.md",
  "last_artifact_at": "2026-10-31T20:52:14+08:00",
- "last_decisions_at": "2026-10-31T20:18:07+08:00",
- "last_decisions_read_at": "2026-10-31T19:14:04+08:00",
+ "last_decisions_at": "2026-11-01T04:01:53+08:00",
+ "last_decisions_read_at": "2026-11-01T04:01:53+08:00",
  "last_decisions_seen": "r1186: decisions.md origin sha 97fe122f unchanged (215,420 B) -- zero new decision rows",
- "last_decisions_sha": "8bb16a53daf7014a0550915ffab16cc9a414cec61cd273f7e69faaf5d620188f",
+ "last_decisions_sha": "3baca4a7400ecf5b@8a142bd/76613",
  "last_decisions_src": "group origin/main via C: real-path (C:/Users/sjs20/Desktop/FluxGroup) fetch + git show (python subprocess raw-bytes canonical)",
  "last_decisions_ts": "2026-10-29T23:24:57+08:00",
  "last_decisions_watermark": "97fe122f24826ba5@72e35cf/215420",
@@ -114,7 +114,7 @@
  "last_orders_at": "2026-10-31T20:18:07+08:00",
  "last_orders_read_at": "2026-10-31T19:14:04+08:00",
  "last_orders_seen": "r1186: orders.md origin sha 4348aa21 (190253 B) advanced from 1351271 -- five new CEO rows (subsidiary master @bm-m / all bans lifted except cloud-token thrift / NATS restored / MV fleet auto-dispatch / master single-writer). None scopes to this repo mechanism -> zero action, watermark advanced. O-file ack diff CLEAN 114/123/0.",
- "last_orders_sha": "97657ad79f502efe39042e6db41033b2c88bf825b36eefa72640395b6d2e8a3c",
+ "last_orders_sha": "97657ad79f502efe@8a142bd/193416",
  "last_orders_ts": "2026-10-31T09:06:11+08:00",
  "last_orders_watermark": "97657ad79f502efe@72e35cf/193416",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@72e35cf39ac05fae3bdaa75c1a1c4b96c712c364/193416#97657ad79f502efe39042e6db41033b2c88bf825b36eefa72640395b6d2e8a3c",
@@ -391,7 +391,7 @@
  "ram_load_pct": 4600.0,
  "recent_artifact": "results/etf_book_cost_tape.json",
  "round": 1200,
- "round_no": 1203,
+ "round_no": 1204,
  "round_no_label": "r1198",
  "runner_fix_r1186": "Tools/s6_chain_bma.py: record name now carries the run scope (--only -> .only-<legs>); same defect bm-c fixed at r1364",
  "s4u_regression_r1108": "P0-ish finding, NOT fixable this window: Bigmoney-IterationLoop and Bigmoney-LoopWatchdog are BOTH at LogonType=Interactive (S4U law face); register_loop_task was a pin no-op so the loop was already regressed, and the watchdog re-register's S4U XML flip failed with access denied (elevation-blocked, same family as carried C-20261016-04). No popup/no UAC prompt was raised. Lane still fires (user logged on); needs one elevated pass to flip both to S4U + SWA=false.",
