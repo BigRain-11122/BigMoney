@@ -5339,6 +5339,60 @@ def main() -> int:
     except Exception as e:
         check("product: how long a holder waits under water, re-derived from the published rows",
               False, repr(e)[:160])
+    # ---- r1231: the page must carry the wait it is about ------------------------------------
+    # The duration face exists (r1230) but a face nobody reads is not an answer. Every other
+    # number on the operator page says "how much" or "how deep"; this leg requires the page a
+    # person actually opens to print the worst wait, and to print it as the payload's own
+    # number -- re-derived here from results/etf_book_underwater.json, not from the sentence
+    # the page wrote. It also requires the censored disclosure to survive onto the page: a
+    # page that drops "still under water" turns a censored entry into an invisible one.
+    try:
+        _bad31 = []
+        _uw31 = os.path.join(PATHS.results_dir, "etf_book_underwater.json")
+        _doc31 = {}
+        if not os.path.exists(_uw31):
+            _bad31.append("results/etf_book_underwater.json missing")
+        else:
+            with open(_uw31, encoding="utf-8") as _fh31:
+                _doc31 = json.load(_fh31)
+            _mb31 = (_doc31.get("recovery") or {}).get("max_bars")
+            _pg31 = importlib.import_module("etf_book_ceo_page")
+            _ptr31 = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
+            _mdpath31 = ""
+            if os.path.exists(_ptr31):
+                with open(_ptr31, encoding="utf-8") as _fh31b:
+                    _mdpath31 = (json.load(_fh31b) or {}).get("page") or ""
+            if not _mdpath31:
+                _bad31.append("docs/live_book/latest.json names no page")
+            else:
+                with open(os.path.join(PATHS.root, _mdpath31.replace("/", os.sep)),
+                          encoding="utf-8") as _fh31c:
+                    _md31 = _fh31c.read()
+                if "这笔钱真要等多久才能回本" not in _md31:
+                    _bad31.append("the page has no duration section")
+                if _mb31 is not None and ("%d 个交易日" % int(_mb31)) not in _md31:
+                    _bad31.append("the page does not print the payload's worst wait (%s bars)"
+                                  % (_mb31,))
+                if (_doc31.get("recovery") or {}).get("censored") and "不记 0" not in _md31:
+                    _bad31.append("the page drops the censored-entry disclosure")
+                if (_doc31.get("first_bar") or "") not in _md31:
+                    _bad31.append("the page does not state the sample start beside a "
+                                  "'no losses' claim")
+                # the page's own payload must read the same face, not a copy of the sentence
+                _blk31 = _pg31.underwater_face()
+                if _blk31.get("status") != "ok":
+                    _bad31.append("the page's duration face reads %r" % (_blk31.get("status"),))
+                elif ((_blk31.get("recovery") or {}).get("max_bars")) != _mb31:
+                    _bad31.append("page face max_bars %r vs payload %r"
+                                  % (((_blk31.get("recovery") or {}).get("max_bars")), _mb31))
+        check("product: the operator page prints how long the wait is",
+              not _bad31,
+              "; ".join(_bad31)[:220] or "worst wait %s bars | censored %s | sample from %s"
+              % (_mb31, ((_doc31.get("recovery") or {}).get("censored")),
+                 _doc31.get("first_bar")))
+    except Exception as e:
+        check("product: the operator page prints how long the wait is",
+              False, repr(e)[:160])
     # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
     # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two
     # class universes and two fill orderings, under one column headed 全窗. This leg

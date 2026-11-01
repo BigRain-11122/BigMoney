@@ -19,8 +19,10 @@ Usage:
 """
 from __future__ import annotations
 
+import contextlib
 import datetime as dt
 import hashlib
+import io
 import json
 import os
 import sys
@@ -47,6 +49,9 @@ BAND_RULER_JSON = os.path.join(ROOT, "results", "etf_book_band_ruler.json")
 # r1216: row 1 of that table prints the ticket's own 683-bar window under a 全窗 header.
 WINDOW_LABEL_JSON = os.path.join(ROOT, "results", "etf_book_window_label.json")
 ENVELOPE_JSON = os.path.join(ROOT, "results", "etf_book_bootstrap", "latest.json")
+# r1231: every other number on this page answers "how much" or "how deep". Nobody answered
+# "how long do I have to wait", which is the question the person holding the book asks.
+UNDERWATER_JSON = os.path.join(ROOT, "results", "etf_book_underwater.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -634,6 +639,121 @@ def research_arc_block(rx):
         add("> 三份证据的截止日：%s；预注册件与判据都在各自的 `research/CASE_PREREG_*.md`。"
             % "、".join(str(c) for c in rx["cutoffs"]))
         add("")
+    return L
+
+
+def underwater_face(path=UNDERWATER_JSON):
+    """How long does the money sit under water before it comes back? (r1231 / E346)
+
+    Every face on this page answers "how much" (CAGR) or "how deep" (max drawdown).
+    None answered "how long", and that is the question a person holding the book asks.
+    The producer publishes it censored-aware: an entry that has not healed on the last
+    bar is reported as *still under water*, never scored as 0 bars -- counting it as 0
+    would make the record look faster than it is (r1261 lineage: an empty measurement
+    written as a good reading).
+
+    This face only reads. A payload whose verdict no longer recomputes is refused
+    rather than printed."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    if not os.path.exists(path):
+        return {"status": "absent", "artifact": _rel(path, ROOT), "verdict": None,
+                "detail": "no artifact"}
+    try:
+        import etf_book_underwater as _UW
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        # the producer's check narrates to stdout; this face must not pollute the page's run
+        with contextlib.redirect_stdout(io.StringIO()):
+            _rc = _UW.check(path)
+        if _rc != 0:
+            return {"status": "drifted", "artifact": _rel(path, ROOT),
+                    "verdict": doc.get("verdict"),
+                    "detail": "the verdict no longer recomputes from its own rows"}
+        doc["status"] = "ok"
+        doc["artifact"] = _rel(path, ROOT).replace("\\", "/")
+        return doc
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": _rel(path, ROOT), "verdict": None,
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def underwater_block(u):
+    """How long the worst start had to wait -- and what the sample can promise (r1231).
+
+    Factored out like the other blocks so a selftest can feed an absent / drifted / ok
+    face. Two rules are printed, not merely obeyed: a censored entry is named as still
+    under water (never 0 bars), and a 3-year "almost never loses" over a sample that
+    begins in 2020 is a property of that sample, not a promise about the future."""
+    L = []
+    add = L.append
+    add("## 这笔钱真要等多久才能回本")
+    add("")
+    u = u or {}
+    if u.get("status") != "ok":
+        add("这一页没拿到时长读数（`%s`，状态 `%s`）：%s。所以**这里无法回答**「最坏要等多久」"
+            "——读不出来不等于「很快就回本」。"
+            % (str(u.get("artifact") or "results/etf_book_underwater.json").replace(os.sep, "/"),
+               u.get("status") or "unknown",
+               u.get("detail") or "判决不能从自己的行重算"))
+        add("")
+        return L
+    rec = u.get("recovery") or {}
+    uw = u.get("underwater") or {}
+    fw = u.get("forward") or {}
+    add("上面所有格子说的都是「赚多少」和「跌多深」，没说过**要等多久**。同一本账，按你入场的日子"
+        "算回本要多少根 bar（%s 至 %s，共 %d 根）："
+        % (u.get("first_bar"), u.get("last_bar"), int(u.get("bars") or 0)))
+    add("")
+    add("| 读法 | 数字 |")
+    add("|---|---|")
+    we = rec.get("worst_entry") or {}
+    if we.get("recovered_bar"):
+        add("| 最坏的一笔入场（买在峰值 %s） | **%d 个交易日**后才回本（%s） |"
+            % (str(we.get("entry_bar") or "")[:10], int(we.get("bars") or 0),
+               str(we.get("recovered_bar"))[:10]))
+    elif we:
+        add("| 最坏的一笔入场（买在峰值 %s） | **仍未回本**，已在水下 %d 个交易日 |"
+            % (str(we.get("entry_bar") or "")[:10], int(we.get("bars") or 0)))
+    if rec.get("median_bars") is not None:
+        add("| 中位 | %.0f 个交易日 |" % rec["median_bars"])
+    if rec.get("p90_bars") is not None:
+        add("| 九成入场点 | %.0f 个交易日内回本 |" % rec["p90_bars"])
+    if rec.get("censored"):
+        add("| 到最后一根 bar 仍未回本 | %d 个入场点（%.2f%%）——按「仍未回本」记，**不记 0** |"
+            % (int(rec["censored"]), 100.0 * (rec.get("censored_share") or 0.0)))
+    add("")
+    lg = uw.get("longest") or {}
+    if lg.get("bars_underwater") is not None:
+        add("- 最长的一段水下：%s 见顶 → %s 见谷（%+.2f%%）→ %s 回本，水下 **%d 个交易日**；"
+            "全史 %d 段里 %d 段愈合、%d 段到末 bar 仍在水下。"
+            % (str(lg.get("peak_bar") or "")[:10], str(lg.get("trough_bar") or "")[:10],
+               100.0 * (lg.get("trough_dd") or 0.0), str(lg.get("recover_bar") or "")[:10],
+               int(lg.get("bars_underwater") or 0), int(uw.get("episodes") or 0),
+               int(uw.get("healed") or 0), int(uw.get("never_healed") or 0)))
+    horizon_rows = []
+    for h in ("1y", "2y", "3y"):
+        b = fw.get(h) or {}
+        if b.get("min") is None:
+            continue
+        horizon_rows.append("| 持有 %s | %+.2f%% | %+.2f%% | %.2f%% |"
+                            % (h, 100.0 * b["min"], 100.0 * (b.get("p50") or 0.0),
+                               100.0 * (b.get("share_negative") or 0.0)))
+    if horizon_rows:
+        add("")
+        add("| 持有期 | 最差一笔年化 | 中位年化 | 亏钱的入场点占比 |")
+        add("|---|---|---|---|")
+        L.extend(horizon_rows)
+        add("")
+        add("边界要一起读：长持有期「几乎没有亏钱的入场点」是**这段样本的性质**——样本从 %s 才开始，"
+            "此后几年以上升为主。它不是「拿满就不会亏」的承诺，也不能外推到更长的持有期。"
+            % u.get("first_bar"))
+    add("")
+    add("> 时长面：`%s` ｜ 证据截止 %s ｜ 定义：水下=严格低于历史峰值，回本日不计入；"
+        "末 bar 未愈合的入场点按「仍未回本」披露，不参与分布。"
+        % (u.get("artifact"), u.get("evidence_cutoff")))
+    add("")
     return L
 
 
@@ -1947,6 +2067,7 @@ def build(with_stress=False):
     page["lookahead"] = lookahead_face()
     page["causal_rebuild"] = causal_rebuild_face()
     page["research_arc"] = research_arc_face()
+    page["underwater"] = underwater_face()
     page["gap"] = gap_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
@@ -2850,6 +2971,11 @@ def render_md(p):
                         cells.append("—" if not r else "%+.2f%%（%s）" % (r["pct"], r.get("end_date")))
                     add("| %s | %s |" % (label, " | ".join(cells)))
                 add("")
+    # r1231: the reader now knows how much and how deep; it never knew how long. Print the
+    # wait where he reads the worst case, and print the sample boundary with it -- a
+    # 3-year "no losses" is this sample's property, not a promise.
+    for _uw_line in underwater_block(p.get("underwater") or {}):
+        add(_uw_line)
     add("## 必须记住的四条")
     add("")
     for c in p["caveats"]:
@@ -3956,6 +4082,35 @@ def selftest():
         and "还没被采纳" in _md_open, "")
     chk("L108 research arc: unreadable faces print no arithmetic, only the gap",
         "无从判断" in _md_gone and "|" not in _md_gone and "+0.07" not in _md_gone, "")
+    # L109-L111 (r1231): the page answered "how much" and "how deep" but never "how long".
+    # The wait must come from the payload (not a constant typed here), a censored entry must
+    # read as still-under-water rather than 0 bars, and an unreadable face must print the gap
+    # instead of a number.
+    _uw = underwater_face()
+    _uw_md = "\n".join(underwater_block(_uw))
+    _uw_wait = (_uw.get("recovery") or {}).get("max_bars")
+    chk("L109 underwater: the live face is read and the worst wait is the payload's own number",
+        _uw.get("status") == "ok" and _uw_wait is not None
+        and ("%d 个交易日" % int(_uw_wait)) in _uw_md
+        and "这笔钱真要等多久才能回本" in _uw_md,
+        "status=%s max_bars=%s" % (_uw.get("status"), _uw_wait))
+    _uw_cens = {"status": "ok", "artifact": "fake", "evidence_cutoff": "2026-01-01",
+                "first_bar": "2020-01-01", "last_bar": "2026-01-01", "bars": 10,
+                "recovery": {"entries": 3, "max_bars": 5.0, "median_bars": 1.0,
+                             "p90_bars": 2.0, "censored": 2, "censored_share": 0.6667,
+                             "worst_entry": {"entry_bar": "2025-01-02 00:00:00", "bars": 5,
+                                             "recovered_bar": None}},
+                "underwater": {"episodes": 1, "healed": 0, "never_healed": 1, "longest": {}},
+                "forward": {}}
+    _uw_cens_md = "\n".join(underwater_block(_uw_cens))
+    chk("L110 underwater: an entry that never healed prints 'still under water', never 0 bars",
+        "仍未回本" in _uw_cens_md and "不记 0" in _uw_cens_md
+        and "0 个交易日**后才回本" not in _uw_cens_md, "")
+    _uw_gone = "\n".join(underwater_block({"status": "absent", "artifact": UNDERWATER_JSON}))
+    _uw_drift = "\n".join(underwater_block({"status": "drifted", "artifact": UNDERWATER_JSON}))
+    chk("L111 underwater: an absent or drifted face reads 'cannot answer' and prints no table",
+        "无法回答" in _uw_gone and "无法回答" in _uw_drift
+        and "|" not in _uw_gone and "|" not in _uw_drift, "")
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 
