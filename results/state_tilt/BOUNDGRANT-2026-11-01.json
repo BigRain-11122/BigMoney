@@ -1,0 +1,479 @@
+{
+ "definition": {
+  "first_use": "the earliest Name node carrying the bound variable after the binding line, inside the same scope, wrapped by its nearest decision-shaped ancestor: Compare / if-while-assert / return / call / arithmetic / container / reassignment",
+  "inline_use": "the key is read and used on one line, so there is no name to follow -- those rows are counted but cannot be sole authority by construction",
+  "population": "E340's self_bound rows only: the producer loads the key off its own published face into a name (results/state_tilt/ALLOWANCE-2026-11-01.json -> 18 rows)",
+  "sole_authority": "nothing downstream compares the name and nothing downstream tests it: the value the producer last wrote is the only authority for whatever it feeds.  Aliases are followed (``p = permit.strip()`` counts as the permit) up to four hops, and every row publishes ``alias_names`` so a reader can see how far the study looked",
+  "write": "``face[key] = value`` is a store into the loaded dict, not a grant: those are counted in ``accesses_excluded_as_writes`` and the entries whose only access was a store are listed in ``write_only_entries``.  E340's line-shaped classifier counted them as bound reads, which is why its 18 is larger than the number of real reads here"
+ },
+ "evidence_cutoff": "2026-11-01",
+ "generated": "2026-11-01T16:05:18",
+ "reasons": [
+  "1 of 14 bound grants are sole authority and none of them has a literal in place to check against"
+ ],
+ "rows": [
+  {
+   "alias_names": [],
+   "binding_line": 409,
+   "binding_name": null,
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 0,
+   "face": "results/_r264bma_cn_verdict_matrix.json",
+   "first_use_kind": "stored",
+   "first_use_line": 409,
+   "key": "baselines",
+   "n_foreign_readers": 8,
+   "producer": "scripts/monthly_exam_prep.py",
+   "producer_has_selftest": true,
+   "selftest_pin": false,
+   "shape_source": "durable",
+   "sole_authority": false
+  },
+  {
+   "alias_names": [
+    "fields_ok",
+    "p"
+   ],
+   "binding_line": 176,
+   "binding_name": "permit",
+   "cheap_literal": false,
+   "compares_downstream": 2,
+   "conditions_downstream": 0,
+   "downstream_uses": 12,
+   "face": "results/_r705bmc_oss_pool_schema.json",
+   "first_use_kind": "passed_to_call",
+   "first_use_line": 177,
+   "key": "permit",
+   "n_foreign_readers": 0,
+   "producer": "Tools/oss_import_gate.py",
+   "producer_has_selftest": true,
+   "selftest_pin": false,
+   "shape_source": "durable",
+   "sole_authority": false
+  },
+  {
+   "alias_names": [],
+   "binding_line": null,
+   "binding_name": null,
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 0,
+   "face": "results/contest_p1/contest_table.json",
+   "first_use_kind": "inline_use",
+   "first_use_line": 118,
+   "key": "baselines",
+   "n_foreign_readers": 8,
+   "producer": "scripts/contest_ytd_legs.py",
+   "producer_has_selftest": true,
+   "selftest_pin": false,
+   "shape_source": "durable",
+   "sole_authority": false
+  },
+  {
+   "alias_names": [],
+   "binding_line": null,
+   "binding_name": null,
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 0,
+   "face": "results/contest_p1/contest_table.json",
+   "first_use_kind": "inline_use",
+   "first_use_line": 119,
+   "key": "baselines",
+   "n_foreign_readers": 8,
+   "producer": "scripts/contest_ytd_legs.py",
+   "producer_has_selftest": true,
+   "selftest_pin": false,
+   "shape_source": "durable",
+   "sole_authority": false
+  },
+  {
+   "alias_names": [],
+   "binding_line": null,
+   "binding_name": null,
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 0,
+   "face": "results/cross_start_robustness/scan.json",
+   "first_use_kind": "inline_use",
+   "first_use_line": 273,
+   "key": "baselines",
+   "n_foreign_readers": 9,
+   "producer": "scripts/cross_start_robustness.py",
+   "producer_has_selftest": true,
+   "selftest_pin": true,
+   "shape_source": "durable",
+   "sole_authority": false
+  },
+  {
+   "alias_names": [],
+   "binding_line": null,
+   "binding_name": null,
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 0,
+   "face": "results/cross_start_robustness/scan.json",
+   "first_use_kind": "inline_use",
+   "first_use_line": 1121,
+   "key": "baselines",
+   "n_foreign_readers": 9,
+   "producer": "scripts/cross_start_robustness.py",
+   "producer_has_selftest": true,
+   "selftest_pin": true,
+   "shape_source": "durable",
+   "sole_authority": false
+  },
+  {
+   "alias_names": [],
+   "binding_line": null,
+   "binding_name": null,
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 0,
+   "face": "results/cross_start_robustness/scan.json",
+   "first_use_kind": "inline_use",
+   "first_use_line": 1121,
+   "key": "baselines",
+   "n_foreign_readers": 9,
+   "producer": "scripts/cross_start_robustness.py",
+   "producer_has_selftest": true,
+   "selftest_pin": true,
+   "shape_source": "durable",
+   "sole_authority": false
+  },
+  {
+   "alias_names": [],
+   "binding_line": 909,
+   "binding_name": "bl",
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 3,
+   "face": "results/cross_start_robustness/scan.json",
+   "first_use_kind": "stored",
+   "first_use_line": 967,
+   "key": "baselines",
+   "n_foreign_readers": 9,
+   "producer": "scripts/cross_start_robustness.py",
+   "producer_has_selftest": true,
+   "selftest_pin": true,
+   "shape_source": "durable",
+   "sole_authority": true
+  },
+  {
+   "alias_names": [],
+   "binding_line": null,
+   "binding_name": null,
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 0,
+   "face": "results/dashboard_status.json",
+   "first_use_kind": "inline_use",
+   "first_use_line": 99,
+   "key": "allow_heavy_sync",
+   "n_foreign_readers": 1,
+   "producer": "monitor/build_status.py",
+   "producer_has_selftest": false,
+   "selftest_pin": false,
+   "shape_source": "durable",
+   "sole_authority": false
+  },
+  {
+   "alias_names": [],
+   "binding_line": null,
+   "binding_name": null,
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 0,
+   "face": "results/data_lag_audit.json",
+   "first_use_kind": "inline_use",
+   "first_use_line": 453,
+   "key": "expected_last_official_day",
+   "n_foreign_readers": 0,
+   "producer": "smoke_test.py",
+   "producer_has_selftest": false,
+   "selftest_pin": false,
+   "shape_source": "durable",
+   "sole_authority": false
+  },
+  {
+   "alias_names": [],
+   "binding_line": null,
+   "binding_name": null,
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 0,
+   "face": "results/data_lag_audit.json",
+   "first_use_kind": "inline_use",
+   "first_use_line": 456,
+   "key": "expected_last_official_day",
+   "n_foreign_readers": 0,
+   "producer": "smoke_test.py",
+   "producer_has_selftest": false,
+   "selftest_pin": false,
+   "shape_source": "durable",
+   "sole_authority": false
+  },
+  {
+   "alias_names": [],
+   "binding_line": 409,
+   "binding_name": null,
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 0,
+   "face": "results/multicore_verify/_serial_scan_snapshot.json",
+   "first_use_kind": "stored",
+   "first_use_line": 409,
+   "key": "baselines",
+   "n_foreign_readers": 8,
+   "producer": "scripts/monthly_exam_prep.py",
+   "producer_has_selftest": true,
+   "selftest_pin": false,
+   "shape_source": "durable",
+   "sole_authority": false
+  },
+  {
+   "alias_names": [],
+   "binding_line": null,
+   "binding_name": null,
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 0,
+   "face": "results/ytd_track_record/ytd_summary.json",
+   "first_use_kind": "inline_use",
+   "first_use_line": 118,
+   "key": "baselines",
+   "n_foreign_readers": 6,
+   "producer": "scripts/contest_ytd_legs.py",
+   "producer_has_selftest": true,
+   "selftest_pin": false,
+   "shape_source": "durable",
+   "sole_authority": false
+  },
+  {
+   "alias_names": [],
+   "binding_line": null,
+   "binding_name": null,
+   "cheap_literal": false,
+   "compares_downstream": 0,
+   "conditions_downstream": 0,
+   "downstream_uses": 0,
+   "face": "results/ytd_track_record/ytd_summary.json",
+   "first_use_kind": "inline_use",
+   "first_use_line": 119,
+   "key": "baselines",
+   "n_foreign_readers": 6,
+   "producer": "scripts/contest_ytd_legs.py",
+   "producer_has_selftest": true,
+   "selftest_pin": false,
+   "shape_source": "durable",
+   "sole_authority": false
+  }
+ ],
+ "skipped": [
+  {
+   "face": "results/_r1012bmb_s0_backup/futures_update_status.json",
+   "key": "expected_cutoff",
+   "why": "no *read* of 'expected_cutoff' on a face-holding name in scripts/update_futures.py (1 write-only accesses excluded)"
+  },
+  {
+   "face": "results/_r421bmc_mf_assist.json",
+   "key": "expected_stamp",
+   "why": "no *read* of 'expected_stamp' on a face-holding name in Tools/_r421bmc_mf_assist.py (1 write-only accesses excluded)"
+  },
+  {
+   "face": "results/etf_daily_pull_status.json",
+   "key": "expected_cutoff",
+   "why": "no *read* of 'expected_cutoff' on a face-holding name in scripts/update_etf_daily.py (1 write-only accesses excluded)"
+  },
+  {
+   "face": "results/etf_universe_pull_status.json",
+   "key": "expected_cutoff",
+   "why": "no *read* of 'expected_cutoff' on a face-holding name in scripts/update_etf_daily.py (1 write-only accesses excluded)"
+  },
+  {
+   "face": "results/futures_update_status.bm-a.json",
+   "key": "expected_cutoff",
+   "why": "no *read* of 'expected_cutoff' on a face-holding name in scripts/update_futures.py (1 write-only accesses excluded)"
+  },
+  {
+   "face": "results/futures_update_status.bm-b.json",
+   "key": "expected_cutoff",
+   "why": "no *read* of 'expected_cutoff' on a face-holding name in scripts/update_futures.py (1 write-only accesses excluded)"
+  },
+  {
+   "face": "results/futures_update_status.bm-c.json",
+   "key": "expected_cutoff",
+   "why": "no *read* of 'expected_cutoff' on a face-holding name in scripts/update_futures.py (1 write-only accesses excluded)"
+  },
+  {
+   "face": "results/futures_update_status.json",
+   "key": "expected_cutoff",
+   "why": "no *read* of 'expected_cutoff' on a face-holding name in scripts/update_futures.py (1 write-only accesses excluded)"
+  },
+  {
+   "face": "results/options_update_status.json",
+   "key": "expected_cutoff",
+   "why": "no *read* of 'expected_cutoff' on a face-holding name in scripts/update_options.py (1 write-only accesses excluded)"
+  },
+  {
+   "face": "results/repo_update_status.json",
+   "key": "expected_cutoff",
+   "why": "no *read* of 'expected_cutoff' on a face-holding name in scripts/update_repo.py (1 write-only accesses excluded)"
+  }
+ ],
+ "sole_authority_rows": [
+  {
+   "alias_names": [],
+   "binding_line": 909,
+   "binding_name": "bl",
+   "downstream_uses": 3,
+   "face": "results/cross_start_robustness/scan.json",
+   "first_use_kind": "stored",
+   "first_use_line": 967,
+   "key": "baselines",
+   "n_foreign_readers": 9,
+   "producer": "scripts/cross_start_robustness.py",
+   "selftest_pin": true,
+   "shape_source": "durable"
+  }
+ ],
+ "source": {
+  "asof_head": "c4756199a583010f8ef3d434309398606912edfa",
+  "self_bound_rows": 18,
+  "study": "E340_who_authorizes_whose_allowance",
+  "verdict": "the_tree_awards_itself_allowances_by_reading_its_own_faces_and_some_of_those_grants_are_only_customary"
+ },
+ "study": "E343_bound_grant_decisions",
+ "summary": {
+  "accesses_excluded_as_writes": 10,
+  "bound_rows": 14,
+  "by_first_use_kind": {
+   "inline_use": 10,
+   "passed_to_call": 1,
+   "stored": 3
+  },
+  "compared_first": 0,
+  "conditioned_first": 0,
+  "entries_that_were_write_only": 10,
+  "inline_use": 10,
+  "never_used": 0,
+  "rows_with_no_downstream_use": 12,
+  "sole_authority": 1,
+  "sole_authority_durable": 1,
+  "sole_authority_faces": [
+   "results/cross_start_robustness/scan.json"
+  ],
+  "sole_authority_unpinned": 0,
+  "sole_authority_with_foreign_readers": 1,
+  "sole_authority_with_frozen_literal": 0,
+  "sole_authority_with_producer_selftest": 1
+ },
+ "timing": {
+  "full_build_seconds": 1.82
+ },
+ "verdict": "some_bound_grants_are_the_only_authority_for_the_value_they_feed_and_nothing_in_the_producer_could_assert_it_today",
+ "worked_example": {
+  "alias_names": [],
+  "binding_line": 909,
+  "binding_name": "bl",
+  "cheap_literal": false,
+  "compares_downstream": 0,
+  "conditions_downstream": 0,
+  "downstream_uses": 3,
+  "face": "results/cross_start_robustness/scan.json",
+  "first_use_kind": "stored",
+  "first_use_line": 967,
+  "key": "baselines",
+  "mechanism": {
+   "assertable_from": "recomputation",
+   "asserted_by": "producer selftest",
+   "assertion": "bl must equal a value recomputed from the producer's own inputs inside its selftest, so that editing the face alone fails the test",
+   "cheap_ingredients": {
+    "frozen_literal_present": false,
+    "frozen_literals": [],
+    "producer_has_selftest": true
+   }
+  },
+  "n_foreign_readers": 9,
+  "producer": "scripts/cross_start_robustness.py",
+  "producer_has_selftest": true,
+  "selftest_pin": true,
+  "shape_source": "durable",
+  "sole_authority": true
+ },
+ "write_only_entries": [
+  {
+   "face": "results/_r1012bmb_s0_backup/futures_update_status.json",
+   "key": "expected_cutoff",
+   "producer": "scripts/update_futures.py",
+   "writes_excluded": 1
+  },
+  {
+   "face": "results/_r421bmc_mf_assist.json",
+   "key": "expected_stamp",
+   "producer": "Tools/_r421bmc_mf_assist.py",
+   "writes_excluded": 1
+  },
+  {
+   "face": "results/etf_daily_pull_status.json",
+   "key": "expected_cutoff",
+   "producer": "scripts/update_etf_daily.py",
+   "writes_excluded": 1
+  },
+  {
+   "face": "results/etf_universe_pull_status.json",
+   "key": "expected_cutoff",
+   "producer": "scripts/update_etf_daily.py",
+   "writes_excluded": 1
+  },
+  {
+   "face": "results/futures_update_status.bm-a.json",
+   "key": "expected_cutoff",
+   "producer": "scripts/update_futures.py",
+   "writes_excluded": 1
+  },
+  {
+   "face": "results/futures_update_status.bm-b.json",
+   "key": "expected_cutoff",
+   "producer": "scripts/update_futures.py",
+   "writes_excluded": 1
+  },
+  {
+   "face": "results/futures_update_status.bm-c.json",
+   "key": "expected_cutoff",
+   "producer": "scripts/update_futures.py",
+   "writes_excluded": 1
+  },
+  {
+   "face": "results/futures_update_status.json",
+   "key": "expected_cutoff",
+   "producer": "scripts/update_futures.py",
+   "writes_excluded": 1
+  },
+  {
+   "face": "results/options_update_status.json",
+   "key": "expected_cutoff",
+   "producer": "scripts/update_options.py",
+   "writes_excluded": 1
+  },
+  {
+   "face": "results/repo_update_status.json",
+   "key": "expected_cutoff",
+   "producer": "scripts/update_repo.py",
+   "writes_excluded": 1
+  }
+ ]
+}

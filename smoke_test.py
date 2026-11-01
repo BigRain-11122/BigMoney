@@ -10809,6 +10809,73 @@ def main() -> int:
                 ((_f342 or {}).get("summary") or {}).get("silent_shape"),
                 ((_f342 or {}).get("summary") or {}).get("removed_then_restored")))
 
+    # E343: E340 said 18 self-reads were "bound" with their use invisible on the access line. This
+    # leg follows each bound name to its first use and refuses: a verdict outside the frozen set, a
+    # verdict the frozen rule would not reproduce, a count that is not its own rows, a sole-authority
+    # row that names no variable (nothing to be the authority *for*) or that carries a downstream
+    # check, a use kind outside the published ladder, a summary/list disagreement, a missing
+    # worked example, and a write exclusion that its own entry list cannot pay for.
+    _name343 = ("product: every bound self-read is followed to its first downstream use, the writes "
+                "E340 counted as reads are published separately, and the row where the bound value "
+                "is the only authority is named with its mechanism")
+    _bad343 = []
+    try:
+        _p343 = os.path.join("results", "state_tilt", "boundgrant_latest.json")
+        _f343 = json.load(open(_p343, encoding="utf-8")) if os.path.exists(_p343) else None
+        if _f343 is None:
+            _bad343.append("no published bound-grant face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m343 = __import__("importlib").import_module("e343_bound_grant_decisions")
+            _sum343 = _f343.get("summary") or {}
+            _sole343 = _f343.get("sole_authority_rows") or []
+            if _f343.get("verdict") not in (getattr(_m343, "V_COMPARED"),
+                                            getattr(_m343, "V_NONE_USED"),
+                                            getattr(_m343, "V_SOLE"),
+                                            getattr(_m343, "V_SOLE_BARE")):
+                _bad343.append("verdict outside the frozen set")
+            elif _f343.get("verdict") != _m343.decide(_sum343)[0]:
+                _bad343.append("verdict is not the frozen rule's output on the published summary")
+            if int(_sum343.get("sole_authority") or -1) != len(_sole343):
+                _bad343.append("sole-authority count is not the published list")
+            _kinds343 = _sum343.get("by_first_use_kind") or {}
+            if int(_kinds343.get("inline_use") or 0) != int(_sum343.get("inline_use") or 0):
+                _bad343.append("the inline-use kind disagrees with its own total")
+            for _kind343, _n343 in _kinds343.items():
+                if _kind343 not in getattr(_m343, "USE_KINDS"):
+                    _bad343.append("use kind %r is outside the ladder" % (_kind343,))
+            for _r343 in _sole343:
+                if not _r343.get("binding_name"):
+                    _bad343.append("a sole-authority row names no variable: %s/%s"
+                                   % (_r343.get("face"), _r343.get("key")))
+                if _r343.get("first_use_kind") in ("never_used", "inline_use"):
+                    _bad343.append("a sole-authority row carries use kind %r"
+                                   % (_r343.get("first_use_kind"),))
+            _worked343 = _f343.get("worked_example") or {}
+            if _sole343 and not (_worked343.get("mechanism") or {}).get("assertion"):
+                _bad343.append("no worked mechanism beside a sole-authority row")
+            _wo343 = _sum343.get("entries_that_were_write_only")
+            _writes343 = _sum343.get("accesses_excluded_as_writes")
+            if _wo343 is None or _writes343 is None:
+                _bad343.append("the write exclusion is not published")
+            elif int(_writes343) < int(_wo343):
+                _bad343.append("fewer excluded writes than write-only entries")
+            if int(_sum343.get("bound_rows") or -1) != sum(int(_n) for _n in _kinds343.values()):
+                _bad343.append("bound_rows is not the sum of its kinds")
+    except Exception as e:
+        check(_name343, False, repr(e)[:160])
+
+    check(_name343, not _bad343, "; ".join(_bad343)[:220]
+          or "%s | %s bound rows of %s (write-only %s, %s writes excluded), %s sole authority, "
+             "first uses %s"
+             % ((_f343 or {}).get("verdict"),
+                ((_f343 or {}).get("summary") or {}).get("bound_rows"),
+                ((_f343 or {}).get("source") or {}).get("self_bound_rows"),
+                ((_f343 or {}).get("summary") or {}).get("entries_that_were_write_only"),
+                ((_f343 or {}).get("summary") or {}).get("accesses_excluded_as_writes"),
+                ((_f343 or {}).get("summary") or {}).get("sole_authority"),
+                ((_f343 or {}).get("summary") or {}).get("by_first_use_kind")))
+
     return _finish()
 
 

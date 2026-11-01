@@ -1006,6 +1006,14 @@ LEGS = [
     ("donor_choice_sensitivity",
      ["python", "scripts/e271_donor_choice_sensitivity.py", "verify"]),
 
+    # E343: E340 published 18 "bound" self-reads whose use is invisible on the access line. This
+    # leg follows each bound name to its first downstream use. Two corrections fall out of it: 10 of
+    # those 18 are stores into the loaded dict (``st["expected_cutoff"] = expected``), not reads, and
+    # of the 14 real reads only 1 has no comparison and no test anywhere downstream. Verify re-derives
+    # the face from E340's source face (~1s, no builds).
+    ("bound_grant_decisions",
+     ["python", "scripts/e343_bound_grant_decisions.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

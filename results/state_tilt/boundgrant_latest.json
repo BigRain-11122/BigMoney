@@ -1,0 +1,85 @@
+{
+ "evidence_cutoff": "2026-11-01",
+ "face": "results/state_tilt/BOUNDGRANT-2026-11-01.json",
+ "generated": "2026-11-01T16:05:18",
+ "reasons": [
+  "1 of 14 bound grants are sole authority and none of them has a literal in place to check against"
+ ],
+ "sole_authority_rows": [
+  {
+   "alias_names": [],
+   "binding_line": 909,
+   "binding_name": "bl",
+   "downstream_uses": 3,
+   "face": "results/cross_start_robustness/scan.json",
+   "first_use_kind": "stored",
+   "first_use_line": 967,
+   "key": "baselines",
+   "n_foreign_readers": 9,
+   "producer": "scripts/cross_start_robustness.py",
+   "selftest_pin": true,
+   "shape_source": "durable"
+  }
+ ],
+ "source": {
+  "asof_head": "c4756199a583010f8ef3d434309398606912edfa",
+  "self_bound_rows": 18,
+  "study": "E340_who_authorizes_whose_allowance",
+  "verdict": "the_tree_awards_itself_allowances_by_reading_its_own_faces_and_some_of_those_grants_are_only_customary"
+ },
+ "study": "E343_bound_grant_decisions",
+ "summary": {
+  "accesses_excluded_as_writes": 10,
+  "bound_rows": 14,
+  "by_first_use_kind": {
+   "inline_use": 10,
+   "passed_to_call": 1,
+   "stored": 3
+  },
+  "compared_first": 0,
+  "conditioned_first": 0,
+  "entries_that_were_write_only": 10,
+  "inline_use": 10,
+  "never_used": 0,
+  "rows_with_no_downstream_use": 12,
+  "sole_authority": 1,
+  "sole_authority_durable": 1,
+  "sole_authority_faces": [
+   "results/cross_start_robustness/scan.json"
+  ],
+  "sole_authority_unpinned": 0,
+  "sole_authority_with_foreign_readers": 1,
+  "sole_authority_with_frozen_literal": 0,
+  "sole_authority_with_producer_selftest": 1
+ },
+ "verdict": "some_bound_grants_are_the_only_authority_for_the_value_they_feed_and_nothing_in_the_producer_could_assert_it_today",
+ "worked_example": {
+  "alias_names": [],
+  "binding_line": 909,
+  "binding_name": "bl",
+  "cheap_literal": false,
+  "compares_downstream": 0,
+  "conditions_downstream": 0,
+  "downstream_uses": 3,
+  "face": "results/cross_start_robustness/scan.json",
+  "first_use_kind": "stored",
+  "first_use_line": 967,
+  "key": "baselines",
+  "mechanism": {
+   "assertable_from": "recomputation",
+   "asserted_by": "producer selftest",
+   "assertion": "bl must equal a value recomputed from the producer's own inputs inside its selftest, so that editing the face alone fails the test",
+   "cheap_ingredients": {
+    "frozen_literal_present": false,
+    "frozen_literals": [],
+    "producer_has_selftest": true
+   }
+  },
+  "n_foreign_readers": 9,
+  "producer": "scripts/cross_start_robustness.py",
+  "producer_has_selftest": true,
+  "selftest_pin": true,
+  "shape_source": "durable",
+  "sole_authority": true
+ }
+}
