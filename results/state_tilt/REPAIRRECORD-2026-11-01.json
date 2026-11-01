@@ -1,0 +1,237 @@
+{
+  "study": "E342_guard_rewrite_records",
+  "evidence_cutoff": "2026-11-01",
+  "generated": "2026-11-01T14:33:27",
+  "definition": {
+    "guarded_files": [
+      "smoke_test.py",
+      "Tools/s6_chain_bmb.py"
+    ],
+    "check": "smoke_test.py: the label printed by check(<label>, <condition>, ...); s6_chain_bmb.py: one LEGS row, named by its leg name, whose condition is the argv that runs",
+    "rewritten": "same name on both sides of the commit with a different condition, or the name gone while the file still carries the machinery",
+    "widen": "decided only where the direction is mechanical: became a constant, an and lost a term, and became or, or a comparison bound moved outward; anything else is changed_unclassified and is not counted as a loosening",
+    "record": "published_face_value (an added results/*.json line carries the new bound next to the guard's root name) | named_constant (the commit added a module-level assignment holding the new bound under a name mentioning the root) | neither",
+    "pinned_at_head": "some other check at HEAD quotes the same condition text or terms",
+    "population": "commits that delete at least one line in a guarded file -- a rewrite of an existing check needs a deletion, so a pure-addition commit cannot be one"
+  },
+  "head": {
+    "smoke_checks": 264,
+    "chain_legs": 137
+  },
+  "history": {
+    "commits_scanned": 41,
+    "commits_with_deletions": 41,
+    "skipped": [],
+    "events": [
+      {
+        "name": "engine: T+1 respected",
+        "kind": "rewritten",
+        "old": "len(same_day) == 0",
+        "new": "len(viol) == 0",
+        "widen": "changed_by_renaming_only",
+        "sha": "c169c70202024721fc0bf1e61083b40197f2afce",
+        "ts": 1790605530,
+        "file": "smoke_test.py",
+        "record": "neither",
+        "prose_mentions": false,
+        "face_or_number_moved": false,
+        "present_at_head": false,
+        "pinned_at_head": false,
+        "price": {
+          "diff_bytes_at_that_commit": 1012,
+          "files_in_commit": 3,
+          "records_in_commit": 0
+        }
+      },
+      {
+        "name": "engine: T+1 respected",
+        "kind": "rewritten",
+        "old": "len(viol) == 0",
+        "new": "len(same_day) == 0",
+        "widen": "changed_by_renaming_only",
+        "sha": "8e06e8a7d8b76e35a345db5d33bf87b788866c74",
+        "ts": 1790608953,
+        "file": "smoke_test.py",
+        "record": "neither",
+        "prose_mentions": false,
+        "face_or_number_moved": true,
+        "present_at_head": false,
+        "pinned_at_head": false,
+        "price": {
+          "diff_bytes_at_that_commit": 1319,
+          "files_in_commit": 88,
+          "records_in_commit": 68
+        }
+      },
+      {
+        "name": "engine: rows actually read <= cutoff (RW-2)",
+        "kind": "rewritten",
+        "old": "bool(eq_dates) and eq_dates[-1] <= cut_d",
+        "new": "bool(r3['equity_curve']) and len(r3['equity_curve']) <= n_read and (meta.get('last_bar_read') == str(pd.Timestamp(cut_d).date()))",
+        "widen": "changed_unclassified",
+        "sha": "06e99d798673683e4ec9b2d25f2b474da395ca03",
+        "ts": 1793089233,
+        "file": "smoke_test.py",
+        "record": "neither",
+        "prose_mentions": false,
+        "face_or_number_moved": true,
+        "present_at_head": false,
+        "pinned_at_head": false,
+        "price": {
+          "diff_bytes_at_that_commit": 3503,
+          "files_in_commit": 1836,
+          "records_in_commit": 83
+        }
+      },
+      {
+        "name": "fleet: panel carries the machine-health verdict, not a row count",
+        "kind": "rewritten",
+        "old": "_hf.get('health_face') in ('ok', 'legacy_list') and _hf.get('health_unknown') is False",
+        "new": "_face_ok",
+        "widen": "reach_moved_out_of_the_check",
+        "sha": "c0ebcb740a2b7509db2ad7c541d67687f10dcc75",
+        "ts": 1793140255,
+        "file": "smoke_test.py",
+        "record": "neither",
+        "prose_mentions": false,
+        "face_or_number_moved": true,
+        "present_at_head": false,
+        "pinned_at_head": false,
+        "price": {
+          "diff_bytes_at_that_commit": 2394,
+          "files_in_commit": 23,
+          "records_in_commit": 10
+        }
+      },
+      {
+        "name": "product: futures TSMOM face is current, capped and not an order",
+        "kind": "removed",
+        "old": "_ok",
+        "new": null,
+        "widen": "gate_gone",
+        "sha": "9f8010c78f9c2729923b243ab831449e9859ee4f",
+        "ts": 1793204390,
+        "file": "smoke_test.py",
+        "record": "neither",
+        "prose_mentions": false,
+        "face_or_number_moved": true,
+        "present_at_head": true,
+        "pinned_at_head": null,
+        "price": {
+          "diff_bytes_at_that_commit": 4595,
+          "files_in_commit": 156,
+          "records_in_commit": 97
+        }
+      },
+      {
+        "name": "product: futures TSMOM shadow face keeps its sizing rules",
+        "kind": "removed",
+        "old": "_sr.returncode == 0",
+        "new": null,
+        "widen": "gate_gone",
+        "sha": "9f8010c78f9c2729923b243ab831449e9859ee4f",
+        "ts": 1793204390,
+        "file": "smoke_test.py",
+        "record": "neither",
+        "prose_mentions": false,
+        "face_or_number_moved": true,
+        "present_at_head": true,
+        "pinned_at_head": null,
+        "price": {
+          "diff_bytes_at_that_commit": 4595,
+          "files_in_commit": 156,
+          "records_in_commit": 97
+        }
+      },
+      {
+        "name": "product: futures TSMOM shadow face keeps its sizing rules",
+        "kind": "removed",
+        "old": "False",
+        "new": null,
+        "widen": "gate_gone",
+        "sha": "9f8010c78f9c2729923b243ab831449e9859ee4f",
+        "ts": 1793204390,
+        "file": "smoke_test.py",
+        "record": "neither",
+        "prose_mentions": false,
+        "face_or_number_moved": true,
+        "present_at_head": true,
+        "pinned_at_head": null,
+        "price": {
+          "diff_bytes_at_that_commit": 4595,
+          "files_in_commit": 156,
+          "records_in_commit": 97
+        }
+      },
+      {
+        "name": "gpu_face",
+        "kind": "rewritten",
+        "old": "['python', 'Tools/gpu_face.py', 'audit']",
+        "new": "['python', 'Tools/gpu_face.py', 'apply']",
+        "widen": "reach_changed",
+        "sha": "6266c617b9bcd2ccc1531023b0b7c6f2d85703ef",
+        "ts": 1793455618,
+        "file": "Tools/s6_chain_bmb.py",
+        "record": "neither",
+        "prose_mentions": true,
+        "face_or_number_moved": true,
+        "present_at_head": false,
+        "pinned_at_head": false,
+        "price": {
+          "diff_bytes_at_that_commit": 1657,
+          "files_in_commit": 10,
+          "records_in_commit": 3
+        }
+      }
+    ],
+    "price_of_no_record": {
+      "rows": 8,
+      "diff_bytes_total": 23670,
+      "diff_bytes_median": 3503,
+      "commits_where_all_of_it_sits": 6,
+      "note": "each row is one git show of one file at one commit; the count is the number of commits a reader has to open, not the number of rows"
+    }
+  },
+  "summary": {
+    "checks_at_head": {
+      "smoke_checks": 264,
+      "chain_legs": 137
+    },
+    "events": 8,
+    "rewritten": 5,
+    "removed": 3,
+    "loosened": 0,
+    "tightened": 0,
+    "changed_unclassified": 1,
+    "changed_by_renaming_only": 2,
+    "reach_moved_out_of_the_check": 1,
+    "leg_reach_changed": 1,
+    "rewritten_by_kind": {
+      "changed_by_renaming_only": 2,
+      "changed_unclassified": 1,
+      "reach_moved_out_of_the_check": 1,
+      "reach_changed": 1
+    },
+    "record_by_kind": {
+      "neither": 8
+    },
+    "rewritten_recorded_machine_readably": 0,
+    "events_with_no_machine_record": 8,
+    "rewrites_with_no_machine_record": 5,
+    "events_pinned_at_head": 0,
+    "rewrites_pinned_at_head": 0,
+    "removed_then_restored": 3,
+    "loosened_with_no_machine_record": 0,
+    "loosened_and_unpinned": 0,
+    "prose_only": 1,
+    "silent_shape": 1
+  },
+  "verdict": "rewritten_gates_are_recorded_by_a_moving_face_more_often_than_by_any_statement_and_the_remainder_survives_on_custom",
+  "reasons": [
+    "0 of 5 rewrites are machine-readably recorded, 1 survive only as prose, 1 are silent"
+  ],
+  "self_disclosure": {
+    "this_study_adds_a_check_to_the_corpus": true,
+    "note": "landing this study adds one smoke leg and one chain leg, i.e. exactly two new named checks after the cutoff; the face states that instead of claiming the measurement stands outside its own population"
+  }
+}

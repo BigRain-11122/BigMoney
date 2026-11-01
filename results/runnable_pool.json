@@ -26312,14 +26312,25 @@
       "id": "E342-WHICH-REPAIRS-LEAVE-NO-OUTPUT",
       "lane": "cpu-only",
       "notes": "seeded by r1359 bm-b at E339 close; E339 measured the loosening, this asks what it left behind",
-      "owner": null,
-      "owner_since": null,
+      "owner": "bm-b",
+      "owner_since": "2026-11-01T14:31:00+08:00",
       "priority": 2,
       "question": "E339 found 86 literal-count guards in smoke_test.py and the S6 leg table and exactly 2 relaxations, both rewrites of the T+1 invariant: each widened the accepted set after a false positive, each explained itself in prose, and neither left a machine-readable statement of what the gate now accepts. Ask the general question across the whole guard population, not just literal counts: (a) enumerate every assertion-style check in smoke_test.py and the S6 leg table that was edited in place out of existence or widened (a check whose condition changed while its name stayed), and classify by whether the same commit recorded the new acceptance set anywhere a machine can read (a face field, a constant with a docstring, an asserted bound) or only in the commit message; (b) for the ones with no machine record, price what a reader would need to re-derive the gate's reach today; (c) propose the cheapest mechanism that would have caught the c169c702 shape -- a guard change with no published consequence at all, the only one of 41 commits in that population that touched neither a face nor a number.",
       "source": "E339 GUARDLOOSEN-2026-11-01 (verdict=touched, 2/2 relaxations by replacement, 1 of 41 commits silent)",
-      "status": "ready",
+      "status": "done",
       "target": "a named census of in-place guard rewrites, split by whether the new acceptance set is machine-readable, plus one concrete mechanism that makes a silent rewrite visible",
-      "title": "Every guard loosened in this tree was a false-positive repair, and the repair's only record is a commit message: measure what a rewritten gate leaves behind"
+      "title": "Every guard loosened in this tree was a false-positive repair, and the repair's only record is a commit message: measure what a rewritten gate leaves behind",
+      "completed_at": "2026-11-01T14:31:00+08:00",
+      "result_ref": [
+        "scripts/e342_guard_rewrite_records.py (selftest 28/28, verify 0 problems)",
+        "results/state_tilt/REPAIRRECORD-2026-11-01.json + repairrecord_latest.json",
+        "Tools/guard_reach_claw.py (selftest 8/8)",
+        "research/digests/DIGEST-20261101-r1362-e342-guard-rewrite-records.md",
+        "knowledge/METHODOLOGY_ASSETS.md card E342",
+        "Tools/s6_chain_bmb.py legs guard_rewrite_records + guard_reach_claw",
+        "smoke_test.py leg E342 + scripts/run_e342_smoke_leg.py"
+      ],
+      "outcome": "41 commits, 8 events (5 rewrites under the same name, 3 checks removed and later restored). 0 of 5 rewrites recorded the new acceptance set anywhere a machine can read; 1 lives only in a commit message (the gpu_face leg's audit -> apply) and 1 is silent -- c169c702, the shape the card named, found by a second, independent extractor. Mechanism shipped: Tools/guard_reach_claw.py, staged-tree only."
     },
     {
       "deliverable": "results/state_tilt/<face> + scripts/e343_*.py + chain leg + smoke leg + methodology card",
@@ -26347,6 +26358,22 @@
       "notes": "seeded by r1361 bm-b at E341 close; E340 found producers reading their own faces and E341 found 15 of 22 measured names are published by nobody except the census family -- the two questions meet at the consumer",
       "deliverable": "results/state_tilt/<face> + scripts/e344_*.py + chain leg + smoke leg + methodology card",
       "question": "E341 measured that at the pinned tree 15 of 22 face stems lose every writer when the 16-file census family is excluded, i.e. those names are published by the census studies themselves. E340 measured that 22 of 409 permission-shaped face fields are read back by their own producer. Together they describe a body of faces that may exist only to be read by the next study in the same family. Ask the consumer question directly: (a) for each of the 15 family-only names, list every reader in the corpus and split them into family / non-family / nobody, using an access reading (a quoted filename or a json load of the face) rather than a mere mention; (b) for the non-family readers, say what decision they take off the number -- gated, compared, or carried into another face; (c) publish the share of the family's faces that no consumer outside the family reads, and state what the family is for if the answer is 'only its own next study'. Do not re-run any census face: this is a reader census over the published faces and the sources that name them."
+    },
+    {
+      "id": "E345-HOW-LONG-A-GATE-WAS-ABSENT-AND-WHAT-STAYED-GREEN",
+      "title": "Three checks were deleted and later restored; measure the window in which each gate was absent and what the tree published while it stayed green",
+      "question": "E342 found 3 smoke checks removed in one commit (9f8010c78) whose exact (name, condition) exists again at HEAD, so between removal and restore the assertion was simply not run. Ask: (a) for each removed-then-restored check, name the removal commit, the restore commit and the number of commits / rounds in between; (b) for that window, does any published face claim the property the check asserted stayed true -- i.e. was the gate's absence covered by a different check on the same face, or by nothing; (c) read logs/smoke.log and the round reports over the window and report whether the suite was run at all in those rounds, because a gate that is deleted while the suite is not run is not a measurable gate absence, it is an unmeasured window; (d) publish the per-window verdict as one of covered_by_another_check | covered_by_a_published_face | unmeasured | nothing.",
+      "target": "a named list of gate-absence windows with their length, their coverage class, and the share of window rounds in which smoke_test.py actually ran",
+      "lane": "cpu-only",
+      "priority": 2,
+      "status": "ready",
+      "owner": null,
+      "owner_since": null,
+      "entered_at": "2026-11-01T14:31:00+08:00",
+      "entered_by": "bm-b r1362",
+      "notes": "seeded at E342 close; E342 measured that the gate came back, this asks what the tree published while it was gone -- the half of 'removed then restored' that a diff cannot answer",
+      "source": "E342 REPAIRRECORD-2026-11-01 (3 removals, all present_at_head=true)",
+      "deliverable": "results/state_tilt/<face> + scripts/e345_*.py + chain leg + smoke leg + methodology card"
     }
   ],
   "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -26361,6 +26388,6 @@
     "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
   },
-  "updated_at": "2026-11-01T14:22:00+08:00",
+  "updated_at": "2026-11-01T14:31:00+08:00",
   "version": 1
 }

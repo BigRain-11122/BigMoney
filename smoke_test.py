@@ -10908,6 +10908,92 @@ def main() -> int:
                 ((_f341 or {}).get("exclusion_cost") or {}).get("names_orphaned_count"),
                 ((_f341 or {}).get("exclusion_cost") or {}).get("stems_measured")))
 
+    # E342: E339 priced the loosening and found the pay-for reading nearly vacuous. This leg asks
+    # the general question (what does a rewritten gate leave behind) and refuses a verdict outside
+    # the frozen set, a verdict the frozen rule would not decide, an event count that is not its own
+    # rows, a record kind outside the published ladder, a removal published as pinned (a removed
+    # check cannot be pinned, only restored), a silent-shape count that its own rows do not
+    # reproduce, a price table whose row count is not the no-record rows, and a reach claw that
+    # would let a widened gate through with no record staged.
+    _name342 = ("product: every rewritten gate is split by whether the commit left the new "
+                "acceptance set where a machine can read it, and the claw that would refuse the "
+                "silent one is exercised on a fixture")
+    _bad342 = []
+    try:
+        _p342 = os.path.join("results", "state_tilt", "repairrecord_latest.json")
+        _f342 = json.load(open(_p342, encoding="utf-8")) if os.path.exists(_p342) else None
+        if _f342 is None:
+            _bad342.append("no published guard-rewrite face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m342 = __import__("importlib").import_module("e342_guard_rewrite_records")
+            _sum342 = _f342.get("summary") or {}
+            _evs342 = (_f342.get("history") or {}).get("events") or []
+            if _f342.get("verdict") not in (getattr(_m342, "V_MESSAGE"), getattr(_m342, "V_FACE"),
+                                            getattr(_m342, "V_CUSTOM"), getattr(_m342, "V_NOTHING")):
+                _bad342.append("verdict outside the frozen set")
+            elif _f342.get("verdict") != _m342.decide(_sum342)[0]:
+                _bad342.append("verdict is not the frozen rule's output on the published summary")
+            _rw342 = [e for e in _evs342 if e.get("kind") == "rewritten"]
+            _rm342 = [e for e in _evs342 if e.get("kind") == "removed"]
+            if int(_sum342.get("events") or -1) != len(_evs342):
+                _bad342.append("event count is not the event rows")
+            elif int(_sum342.get("rewritten") or -1) != len(_rw342):
+                _bad342.append("rewritten count is not the rewritten rows")
+            elif int(_sum342.get("removed") or -1) != len(_rm342):
+                _bad342.append("removed count is not the removed rows")
+            for _e342 in _evs342:
+                if _e342.get("record") not in ("published_face_value", "named_constant", "neither"):
+                    _bad342.append("record kind %r is outside the ladder" % (_e342.get("record"),))
+                    break
+                if _e342.get("kind") == "removed" and _e342.get("pinned_at_head") is not None:
+                    _bad342.append("a removed check is published as pinned")
+                    break
+                if _e342.get("kind") == "removed" and not isinstance(
+                        _e342.get("present_at_head"), bool):
+                    _bad342.append("a removed check does not say whether it came back")
+                    break
+                if _e342.get("kind") == "rewritten" and not isinstance(
+                        _e342.get("pinned_at_head"), bool):
+                    _bad342.append("a rewrite does not say whether the new set is pinned")
+                    break
+            _silent342 = sum(1 for e in _evs342
+                             if e.get("record") == "neither" and not e.get("prose_mentions")
+                             and not e.get("face_or_number_moved"))
+            if int(_sum342.get("silent_shape") or -1) != _silent342:
+                _bad342.append("silent_shape is not the rows that qualify")
+            _price342 = (_f342.get("history") or {}).get("price_of_no_record") or {}
+            if int(_price342.get("rows") or -1) != sum(1 for e in _evs342
+                                                      if e.get("record") == "neither"):
+                _bad342.append("the price table does not cover exactly the no-record rows")
+            # the mechanism: a widened gate with nothing staged must fail closed
+            sys.path.insert(0, os.path.join(os.getcwd(), "Tools"))
+            _m342c = __import__("importlib").import_module("guard_reach_claw")
+            _old342 = {getattr(_m342c, "SMOKE"): {"leg a": ["n >= 3"]},
+                       getattr(_m342c, "CHAIN"): {}}
+            _new342 = {getattr(_m342c, "SMOKE"): {"leg a": ["n >= 1"]},
+                       getattr(_m342c, "CHAIN"): {}}
+            if not _m342c.judge(_old342, _new342, ["smoke_test.py"], ""):
+                _bad342.append("the reach claw would let a widened gate through with no record")
+            if _m342c.judge(_old342, _new342, ["results/x.json"], ""):
+                _bad342.append("the reach claw refuses a change that a staged face pays for")
+            if not (_f342.get("reasons") or []):
+                _bad342.append("no reasons published")
+    except Exception as e:
+        check(_name342, False, repr(e)[:160])
+
+    check(_name342, not _bad342, "; ".join(_bad342)[:220]
+          or "%s | %s events (%s rewritten / %s removed), %s machine-readable, %s prose-only, "
+             "%s silent, %s removed-then-restored"
+             % ((_f342 or {}).get("verdict"),
+                ((_f342 or {}).get("summary") or {}).get("events"),
+                ((_f342 or {}).get("summary") or {}).get("rewritten"),
+                ((_f342 or {}).get("summary") or {}).get("removed"),
+                ((_f342 or {}).get("summary") or {}).get("rewritten_recorded_machine_readably"),
+                ((_f342 or {}).get("summary") or {}).get("prose_only"),
+                ((_f342 or {}).get("summary") or {}).get("silent_shape"),
+                ((_f342 or {}).get("summary") or {}).get("removed_then_restored")))
+
     return _finish()
 
 

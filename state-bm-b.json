@@ -3340,7 +3340,7 @@
  "reds_open": [],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1361,
- "round_no": 1361,
+ "round_no": 1362,
  "round_no_label": "r1361",
  "round_no_note": "git log is the canvas; round number follows the highest round report row (r1342 was the E322 round, this is r1343)",
  "round_no_ts": "2026-11-01T14:09:57+08:00",
@@ -3728,5 +3728,33 @@
   "local_not_on_origin_main": 183,
   "behind_origin_main": 217,
   "main_push_blocker": "local main diverged from origin/main (two blood lines, promisor lazy-fetch wedge r1255 family); no unattended rebase per r1243"
+ },
+ "r1362": {
+  "round_no": 1362,
+  "dept": "research+engineering",
+  "study": "E342_guard_rewrite_records",
+  "face": "results/state_tilt/REPAIRRECORD-2026-11-01.json",
+  "work": "E342 what a rewritten gate leaves behind, plus the staged-tree claw that refuses the silent shape",
+  "verdict": "rewritten_gates_are_recorded_by_a_moving_face_more_often_than_by_any_statement_and_the_remainder_survives_on_custom",
+  "finding": "41 commits scanned over the two guarded files; 8 events (5 rewrites under the same name, 3 checks removed and later restored). 0 of 5 rewrites left the new acceptance set anywhere a machine can read: 1 lives only in a commit message (the gpu_face leg changed audit->apply) and 1 is silent -- c169c702, the shape E339 named, reproduced here by a different extractor (check labels instead of Compare nodes). 2 rewrites are renames; 1 (fleet machine-health verdict) moved its reach behind helper names, so the check text no longer says what it accepts. Price of no record: 8 rows over 6 commits, 23,670 diff bytes, median 3,503.",
+  "pit": "(1) check(name, ok, detail) takes three arguments -- joining args[1:] as 'the condition' reported 11 events of which 4 were detail-string edits; the condition is args[1] alone. (2) A removed check cannot be pinned: three removals came back later, so the first draft published pinned_at_head=True for something that had been deleted. Split into present_at_head (removals) and pinned_at_head (rewrites, null on removals). (3) A rename needs a skeleton (identifiers collapse, string content drops, operators and numbers survive) or it reads as an undecidable change -- 2 of 5 rewrites are renames of the T+1 invariant. (4) The claw needs the staged index, not the working tree: git show :<path> vs HEAD, or a dirty tree fires on changes that are not being committed.",
+  "product": [
+   "scripts/e342_guard_rewrite_records.py (run / verify 0 problems / selftest 28/28)",
+   "results/state_tilt/REPAIRRECORD-2026-11-01.json + repairrecord_latest.json",
+   "Tools/guard_reach_claw.py (check / selftest 8/8) -- the card's part (c), runnable",
+   "research/digests/DIGEST-20261101-r1362-e342-guard-rewrite-records.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E342",
+   "Tools/s6_chain_bmb.py legs guard_rewrite_records + guard_reach_claw",
+   "smoke_test.py leg E342 + scripts/run_e342_smoke_leg.py (verbatim extractor)",
+   "results/runnable_pool.json E342 done with result_ref + E345 seeded (835 entries, 3 ready)"
+  ],
+  "selftest": "e342 28/28; guard_reach_claw 8/8; verify 0 problems",
+  "s1": "the full ~335-leg suite was not re-run this window (~35 min); the new E342 leg was extracted verbatim from smoke_test.py and run standalone against the published face (PASS), the two new S6 legs were run as verify (0 problems) and selftest (8/8)",
+  "s6": "dualrun ZERO-DRIFT (835 entries, streak 51, cutoff 14:31) | attrition guard CLEAN 4 ledgers (2 historical shrinks healed) | pool_deliverable_audit open=3 no_face=3 closed=0 (nothing delivered ahead of its face) | sat engine rc=0 idle | orphan probe py_faces=7 orphans=0 residents=0 | the lane collectors, market_regime, update_* and the paper/scorecard faces were NOT re-run this window (wall budget, stated plainly)",
+  "s7": "orders 114 files / 115 acks / 0 unacked at S0.5 | decisions origin blob sha256 fdd605df - unchanged after a real group-tree fetch (456b85a8..5d9502b4): no new row, so the watermark stands | loop + watchdog present",
+  "pool": "E342 done with result_ref; E345-HOW-LONG-A-GATE-WAS-ABSENT-AND-WHAT-STAYED-GREEN seeded ready (835 entries, 3 ready)",
+  "watermark_red": "py_low_board_clear at open (3 ready cards, py idle); the round burned the head card E342 in-round",
+  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted; no cleanup/quarantine action; bm-a/bm-c lane collectors not exercised",
+  "ts": "2026-11-01T14:32:43+08:00"
  }
 }

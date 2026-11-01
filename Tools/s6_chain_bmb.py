@@ -958,6 +958,23 @@ LEGS = [
     # 15 of 22 measured names with no writer at all. Verify re-derives the whole face (~55s).
     ("sibling_closer", ["python", "scripts/e341_sibling_closer_what_changed.py", "verify"]),
 
+    # E342: E339 priced the loosening of literal-count guards and its pay-for reading was almost
+    # vacuous (39/41 commits touch a face and move a number anyway).  This asks the general
+    # question over every *named* assertion: smoke_test.py's check(label, condition, detail) calls
+    # and the S6 LEGS table.  41 commits scanned -> 8 events (5 rewrites under the same name, 3
+    # checks that vanished and came back).  0 of 5 rewrites left the new acceptance set in a
+    # published face, 1 left a commit message, 1 left nothing at all -- c169c702, the shape the
+    # card named, reproduced independently.  2 rewrites are renames and 1 moved its reach behind a
+    # helper name, so the check's text no longer says what it accepts.  Verify re-derives the face
+    # off git history (~40s).
+    ("guard_rewrite_records",
+     ["python", "scripts/e342_guard_rewrite_records.py", "verify"]),
+
+    # E342's part (c), shipped as the mechanism itself: a staged-tree claw that refuses a commit
+    # changing a gate's reach with no results/ change staged and no GUARD-REACH: line naming the
+    # new reach.  Selftest only (it judges the index, and the chain runs while the tree is dirty).
+    ("guard_reach_claw", ["python", os.path.join("Tools", "guard_reach_claw.py"), "selftest"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
