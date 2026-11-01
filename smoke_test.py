@@ -10253,6 +10253,94 @@ def main() -> int:
                 ", ".join(b.get("study") or "?" for b in (_f334 or {}).get("evidence_erased")
                           or [])))
 
+    # E335: E334's frozen rule sends the helper repair to a sibling entry point. This leg refuses a
+    # landing that only *claims* to be inert: a missing alias or a new name that is not the
+    # tokenizer reading, a re-derivation that does not close (max diff over tolerance while rows
+    # claim reproduction), a differing-source count that disagrees with its rows (or a delta that is
+    # not tokenized minus shipped), an inertness block that reports consumers/rebinds while calling
+    # itself clean, a switched consumer, and a verdict that the frozen rule would not decide.
+    _name335 = ("product: the repaired corpus reading lands beside the shipped one and nothing moves "
+                "-- both readings coexisting, E334's delta re-derived through the new name, and no "
+                "module rebinding the legacy name or reading the new one")
+    _bad335 = []
+    try:
+        _p335 = os.path.join("results", "state_tilt", "siblingentry_latest.json")
+        _f335 = json.load(open(_p335, encoding="utf-8")) if os.path.exists(_p335) else None
+        if _f335 is None:
+            _bad335.append("no published sibling-entry face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m335 = __import__("importlib").import_module("e335_sibling_entry_point")
+            if not os.path.exists(os.path.join("scripts", "e335_sibling_entry_point.py")):
+                _bad335.append("the study script is not on disk")
+            _s335 = _f335.get("summary") or {}
+            _i335 = (_f335.get("decision") or {}).get("inputs") or {}
+            if _f335.get("verdict") not in _m335.VERDICTS:
+                _bad335.append("verdict %r is outside the frozen set" % (_f335.get("verdict"),))
+            _rule335 = _m335.decide(bool(_i335.get("delta_ok")),
+                                    [None] * int(_i335.get("rebinds") or 0),
+                                    [None] * int(_i335.get("consumers_of_the_new_name") or 0),
+                                    bool(_i335.get("coexist_ok")))
+            if _rule335[0] != _f335.get("verdict"):
+                _bad335.append("the frozen rule decides %r but the face says %r"
+                               % (_rule335[0], _f335.get("verdict")))
+            _e326m = __import__("importlib").import_module("e326_template_parameter_consumers")
+            if getattr(_e326m, _m335.LEGACY, None) is not getattr(_e326m, "code_lines", None):
+                _bad335.append("the legacy name is no longer bound to the shipped reading")
+            if not callable(getattr(_e326m, _m335.NEW, None)):
+                _bad335.append("the new name is not exported as a callable reading")
+            _rd335 = _f335.get("rederived_delta") or {}
+            if int(_rd335.get("candidates_reproduced") or 0) != \
+                    int(_rd335.get("candidates_published") or 0):
+                _bad335.append("the re-derivation does not reproduce every published candidate")
+            if float(_rd335.get("max_abs_diff") or 0.0) > float(_rd335.get("tolerance") or 0.0):
+                _bad335.append("a published number moved through the new name")
+            if int(_s335.get("e334_delta_candidates_reproduced") or 0) != \
+                    int(_rd335.get("candidates_reproduced") or 0):
+                _bad335.append("the summary count disagrees with the re-derivation block")
+            _diff335 = _f335.get("differing_sources") or []
+            _dtot335 = int(_f335.get("differing_sources_total") or 0)
+            if _dtot335 != int(_s335.get("sources_where_the_readings_differ") or 0):
+                _bad335.append("the differing-source total disagrees with the summary")
+            if int(_f335.get("differing_sources_truncated") or 0) != _dtot335 - len(_diff335):
+                _bad335.append("the truncated count is not total minus the published rows")
+            if len(_diff335) != min(_m335.MAX_EXAMPLES, _dtot335):
+                _bad335.append("the published rows are not the bounded top of the list")
+            if not _diff335:
+                _bad335.append("the two names agree everywhere, so no second reading was published")
+            for _r335 in _diff335[:20]:
+                if int(_r335.get("delta") or 0) != int(_r335.get("lines_tokenized") or 0) - \
+                        int(_r335.get("lines_shipped") or 0):
+                    _bad335.append("%s: delta is not tokenized minus shipped"
+                                   % (_r335.get("source"),))
+                    break
+            _inert335 = _f335.get("inertness") or {}
+            _nreb = len(_inert335.get("rebinds") or [])
+            _nopt = len(_inert335.get("consumers_of_the_new_name") or [])
+            if _nreb != int(_i335.get("rebinds") or 0) or \
+                    _nopt != int(_i335.get("consumers_of_the_new_name") or 0):
+                _bad335.append("the inertness rows disagree with the decision inputs")
+            if _inert335.get("clean") != (not _nreb and not _nopt):
+                _bad335.append("the inertness block calls itself clean while naming offenders")
+            if int(_s335.get("consumers_switched") or 0) != 0:
+                _bad335.append("a consumer was switched, which is not this card's decision")
+            if not _inert335.get("the_module_binding_is_still_the_shipped_function"):
+                _bad335.append("the module binding is not the shipped function at runtime")
+    except Exception as e:
+        check(_name335, False, repr(e)[:160])
+
+    check(_name335, not _bad335, "; ".join(_bad335)[:220]
+          or "%s | %s sources read both ways (%s differing), E334's delta reproduced %s/%s at max "
+             "abs diff %s, %s rebind(s) and %s consumer(s) of the new name"
+             % (str((_f335 or {}).get("verdict")),
+                ((_f335 or {}).get("summary") or {}).get("sources_read"),
+                ((_f335 or {}).get("summary") or {}).get("sources_where_the_readings_differ"),
+                ((_f335 or {}).get("summary") or {}).get("e334_delta_candidates_reproduced"),
+                ((_f335 or {}).get("summary") or {}).get("e334_delta_candidates_published"),
+                ((_f335 or {}).get("summary") or {}).get("max_abs_diff_vs_published"),
+                ((_f335 or {}).get("summary") or {}).get("modules_that_rebind_a_reading_name"),
+                ((_f335 or {}).get("summary") or {}).get("consumers_of_the_new_name")))
+
     return _finish()
 
 

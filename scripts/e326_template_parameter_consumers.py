@@ -236,6 +236,27 @@ def code_lines(src):
     return out
 
 
+def code_lines_tokenized(src):
+    """The same contract read by the tokenizer, exported as a SIBLING entry point.
+
+    E334's frozen rule sent the repair here instead of in place: E332 and E333 exist to measure
+    this helper's defect, and a silent repair makes both halves of their comparison one function
+    (their published evidence becomes a clean zero).  So ``code_lines`` keeps its exact behaviour,
+    the tokenizer reading lives under this name, and NO consumer reads it yet -- e335 proves that
+    inertness and refuses if a module rebinds the legacy name or quietly opts in.
+    """
+    # Imported lazily: e332 imports this module, and the point is to expose the *same* reading it
+    # uses as the repaired half, so the two cannot drift apart.
+    import e332_invisible_tail_recovery as _e332
+
+    return _e332.true_lines(src)
+
+
+# The shipped reading, pinned under an explicit legacy name so a future repair has something to
+# keep bound (an alias, not a copy: a copy would silently freeze against the original).
+code_lines_legacy = code_lines
+
+
 def reference_forms(face):
     """How a reader could name this face: the exact name and the family prefix it varies.
 

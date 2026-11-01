@@ -1,0 +1,785 @@
+{
+ "coexistence": {
+  "legacy_is_the_shipped_function": true,
+  "named_examples": [
+   {
+    "delta": -40622,
+    "lines_shipped": 114302,
+    "lines_tokenized": 73680,
+    "source": "scripts/perpetual_faces_n1.py"
+   },
+   {
+    "delta": -1400,
+    "lines_shipped": 26148,
+    "lines_tokenized": 24748,
+    "source": "scripts/e39_panel_census.py"
+   },
+   {
+    "delta": 595,
+    "lines_shipped": 40,
+    "lines_tokenized": 635,
+    "source": "scripts/e330_unpinned_choice.py"
+   },
+   {
+    "delta": 539,
+    "lines_shipped": 44,
+    "lines_tokenized": 583,
+    "source": "scripts/e312_gate_operand_identity.py"
+   },
+   {
+    "delta": 493,
+    "lines_shipped": 58,
+    "lines_tokenized": 551,
+    "source": "scripts/e231_band_path_test.py"
+   },
+   {
+    "delta": 419,
+    "lines_shipped": 18,
+    "lines_tokenized": 437,
+    "source": "scripts/t11_negday_ic.py"
+   },
+   {
+    "delta": -412,
+    "lines_shipped": 4503,
+    "lines_tokenized": 4091,
+    "source": "scripts/trial_labor_w14.py"
+   },
+   {
+    "delta": -409,
+    "lines_shipped": 4327,
+    "lines_tokenized": 3918,
+    "source": "scripts/trial_labor_w16.py"
+   }
+  ],
+  "names_present": {
+   "legacy": true,
+   "new": true,
+   "shipped": true
+  },
+  "new_name_is_exported": true,
+  "sources_read": 2294,
+  "sources_where_the_readings_differ": 1369
+ },
+ "decision": {
+  "inputs": {
+   "coexist_ok": true,
+   "consumers_of_the_new_name": 0,
+   "delta_ok": true,
+   "rebinds": 0
+  },
+  "rule": {
+   "inert_if": "all three axes hold",
+   "otherwise": "name every failing condition and do not claim a landing"
+  },
+  "verdict_options": [
+   "sibling_entry_point_lands_inert_legacy_pinned_new_name_unread_and_e334_delta_reproduces",
+   "sibling_entry_point_is_not_inert_because_a_name_moved_or_a_consumer_switched",
+   "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce"
+  ]
+ },
+ "differing_sources": [
+  {
+   "delta": -40622,
+   "lines_shipped": 114302,
+   "lines_tokenized": 73680,
+   "source": "scripts/perpetual_faces_n1.py"
+  },
+  {
+   "delta": -1400,
+   "lines_shipped": 26148,
+   "lines_tokenized": 24748,
+   "source": "scripts/e39_panel_census.py"
+  },
+  {
+   "delta": 595,
+   "lines_shipped": 40,
+   "lines_tokenized": 635,
+   "source": "scripts/e330_unpinned_choice.py"
+  },
+  {
+   "delta": 539,
+   "lines_shipped": 44,
+   "lines_tokenized": 583,
+   "source": "scripts/e312_gate_operand_identity.py"
+  },
+  {
+   "delta": 493,
+   "lines_shipped": 58,
+   "lines_tokenized": 551,
+   "source": "scripts/e231_band_path_test.py"
+  },
+  {
+   "delta": 419,
+   "lines_shipped": 18,
+   "lines_tokenized": 437,
+   "source": "scripts/t11_negday_ic.py"
+  },
+  {
+   "delta": -412,
+   "lines_shipped": 4503,
+   "lines_tokenized": 4091,
+   "source": "scripts/trial_labor_w14.py"
+  },
+  {
+   "delta": -409,
+   "lines_shipped": 4327,
+   "lines_tokenized": 3918,
+   "source": "scripts/trial_labor_w16.py"
+  }
+ ],
+ "differing_sources_total": 1369,
+ "differing_sources_truncated": 1361,
+ "e326_bindings": {
+  "bindings": [
+   {
+    "kind": "function",
+    "line": 219,
+    "name": "code_lines"
+   },
+   {
+    "kind": "function",
+    "line": 239,
+    "name": "code_lines_tokenized"
+   },
+   {
+    "kind": "alias",
+    "line": 257,
+    "name": "code_lines_legacy"
+   }
+  ],
+  "source": "scripts/e326_template_parameter_consumers.py"
+ },
+ "evidence_cutoff": "2026-11-01",
+ "face": "SIBLINGENTRY-2026-11-01.json",
+ "inertness": {
+  "allowed_files": [
+   "scripts/e326_template_parameter_consumers.py",
+   "scripts/e335_sibling_entry_point.py"
+  ],
+  "clean": true,
+  "consumers_of_the_new_name": [],
+  "method": "AST scan: an assignment no enclosing scope restores in a finally is a permanent rebind; the module binding is also checked at runtime, which is what a future edit in a module we never import would break",
+  "rebinds": [],
+  "scoped_patches_restored_in_a_finally": [
+   {
+    "line": 199,
+    "name": "code_lines",
+    "source": "scripts/e332_invisible_tail_recovery.py"
+   },
+   {
+    "line": 202,
+    "name": "code_lines",
+    "source": "scripts/e332_invisible_tail_recovery.py"
+   },
+   {
+    "line": 117,
+    "name": "code_lines",
+    "source": "scripts/e333_surviving_e3xx_conclusions.py"
+   },
+   {
+    "line": 114,
+    "name": "code_lines",
+    "source": "scripts/e333_surviving_e3xx_conclusions.py"
+   },
+   {
+    "line": 151,
+    "name": "code_lines",
+    "source": "scripts/e333_surviving_e3xx_conclusions.py"
+   },
+   {
+    "line": 162,
+    "name": "code_lines",
+    "source": "scripts/e333_surviving_e3xx_conclusions.py"
+   },
+   {
+    "line": 174,
+    "name": "code_lines",
+    "source": "scripts/e333_surviving_e3xx_conclusions.py"
+   },
+   {
+    "line": 155,
+    "name": "code_lines",
+    "source": "scripts/e333_surviving_e3xx_conclusions.py"
+   },
+   {
+    "line": 166,
+    "name": "code_lines",
+    "source": "scripts/e333_surviving_e3xx_conclusions.py"
+   },
+   {
+    "line": 178,
+    "name": "code_lines",
+    "source": "scripts/e333_surviving_e3xx_conclusions.py"
+   },
+   {
+    "line": 154,
+    "name": "code_lines",
+    "source": "scripts/e334_helper_repair_blast_radius.py"
+   },
+   {
+    "line": 93,
+    "name": "code_lines",
+    "source": "scripts/e334_helper_repair_blast_radius.py"
+   },
+   {
+    "line": 159,
+    "name": "code_lines",
+    "source": "scripts/e334_helper_repair_blast_radius.py"
+   },
+   {
+    "line": 90,
+    "name": "code_lines",
+    "source": "scripts/e334_helper_repair_blast_radius.py"
+   }
+  ],
+  "the_module_binding_is_still_the_shipped_function": true
+ },
+ "limits": {
+  "corpus_is_a_snapshot": "the coexist delta is a fact about this tree; the ration and re-derivation are recomputed each run",
+  "no_consumer_switched": "E334 priced the switch as a separate, larger decision (6 faces / 37 numbers); this card lands the shape only",
+  "self_exclusion": "the landing's own script and e326 are the only files allowed to name the new reading"
+ },
+ "recommendation": "the tokenizer reading is available as a sibling entry point; switching a consumer is a separate decision with its own republish cost (E334)",
+ "rederived_delta": {
+  "candidates_published": 30,
+  "candidates_reproduced": 30,
+  "e334_verdict": "repair_must_ship_beside_the_old_one_because_it_erases_the_evidence_that_measures_it",
+  "max_abs_diff": 0.0,
+  "reproduced_via": "code_lines_tokenized",
+  "tolerance": 1e-09
+ },
+ "rederived_rows": [
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 11,
+    "events_with_repaired_helper": 12,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 602
+   },
+   "recomputed": {
+    "event_delta": 11,
+    "events_with_repaired_helper": 12,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 602
+   },
+   "source": "scripts/e330_unpinned_choice.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 10,
+    "events_with_repaired_helper": 10,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 96
+   },
+   "recomputed": {
+    "event_delta": 10,
+    "events_with_repaired_helper": 10,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 96
+   },
+   "source": "Tools/_r390bmc_close.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 9,
+    "events_with_repaired_helper": 9,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 387
+   },
+   "recomputed": {
+    "event_delta": 9,
+    "events_with_repaired_helper": 9,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 387
+   },
+   "source": "Tools/tree_shrink_guard.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 8,
+    "events_with_repaired_helper": 8,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 436
+   },
+   "recomputed": {
+    "event_delta": 8,
+    "events_with_repaired_helper": 8,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 436
+   },
+   "source": "scripts/t11_negday_ic.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 7,
+    "events_with_repaired_helper": 7,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 447
+   },
+   "recomputed": {
+    "event_delta": 7,
+    "events_with_repaired_helper": 7,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 447
+   },
+   "source": "scripts/e308_leg_vs_producer_tolerance.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 7,
+    "events_with_repaired_helper": 7,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 209
+   },
+   "recomputed": {
+    "event_delta": 7,
+    "events_with_repaired_helper": 7,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 209
+   },
+   "source": "Tools/memory-budget-gate.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 7,
+    "events_with_repaired_helper": 7,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 51
+   },
+   "recomputed": {
+    "event_delta": 7,
+    "events_with_repaired_helper": 7,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 51
+   },
+   "source": "Tools/_r390bmc_addendum.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 7,
+    "events_with_repaired_helper": 8,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 38
+   },
+   "recomputed": {
+    "event_delta": 7,
+    "events_with_repaired_helper": 8,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 38
+   },
+   "source": "Tools/_r1184bmb_renumber.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 5,
+    "events_with_repaired_helper": 5,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 223
+   },
+   "recomputed": {
+    "event_delta": 5,
+    "events_with_repaired_helper": 5,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 223
+   },
+   "source": "scripts/e280_e251_rng_drift_repin.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 5,
+    "events_with_repaired_helper": 11,
+    "events_with_shipped_helper": 6,
+    "recovered_code_lines": 70
+   },
+   "recomputed": {
+    "event_delta": 5,
+    "events_with_repaired_helper": 11,
+    "events_with_shipped_helper": 6,
+    "recovered_code_lines": 70
+   },
+   "source": "Tools/_r1226bmb_face.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 4,
+    "events_with_repaired_helper": 6,
+    "events_with_shipped_helper": 2,
+    "recovered_code_lines": 560
+   },
+   "recomputed": {
+    "event_delta": 4,
+    "events_with_repaired_helper": 6,
+    "events_with_shipped_helper": 2,
+    "recovered_code_lines": 560
+   },
+   "source": "scripts/e312_gate_operand_identity.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 4,
+    "events_with_repaired_helper": 4,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 25
+   },
+   "recomputed": {
+    "event_delta": 4,
+    "events_with_repaired_helper": 4,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 25
+   },
+   "source": "Tools/_r840bma_pit_directwrite.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 3,
+    "events_with_repaired_helper": 3,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 550
+   },
+   "recomputed": {
+    "event_delta": 3,
+    "events_with_repaired_helper": 3,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 550
+   },
+   "source": "scripts/e231_band_path_test.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 3,
+    "events_with_repaired_helper": 9,
+    "events_with_shipped_helper": 6,
+    "recovered_code_lines": 89
+   },
+   "recomputed": {
+    "event_delta": 3,
+    "events_with_repaired_helper": 9,
+    "events_with_shipped_helper": 6,
+    "recovered_code_lines": 89
+   },
+   "source": "scripts/e299_rounded_vs_tolerance_census.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 3,
+    "events_with_repaired_helper": 3,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 87
+   },
+   "recomputed": {
+    "event_delta": 3,
+    "events_with_repaired_helper": 3,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 87
+   },
+   "source": "Tools/_r774bmc_outbound_a1.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 3,
+    "events_with_repaired_helper": 3,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 87
+   },
+   "recomputed": {
+    "event_delta": 3,
+    "events_with_repaired_helper": 3,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 87
+   },
+   "source": "Tools/_r775bmc_outbound_v7.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 2,
+    "events_with_repaired_helper": 6,
+    "events_with_shipped_helper": 4,
+    "recovered_code_lines": 47
+   },
+   "recomputed": {
+    "event_delta": 2,
+    "events_with_repaired_helper": 6,
+    "events_with_shipped_helper": 4,
+    "recovered_code_lines": 47
+   },
+   "source": "Tools/_r700bmc_o1300_receipt.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 2,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 6
+   },
+   "recomputed": {
+    "event_delta": 2,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 6
+   },
+   "source": "scripts/_r855bma_handover_5x.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 2,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 6
+   },
+   "recomputed": {
+    "event_delta": 2,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 6
+   },
+   "source": "scripts/_r855bma_pit_append.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 8,
+    "events_with_shipped_helper": 7,
+    "recovered_code_lines": 76
+   },
+   "recomputed": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 8,
+    "events_with_shipped_helper": 7,
+    "recovered_code_lines": 76
+   },
+   "source": "scripts/t28_stable_profit.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 8,
+    "events_with_shipped_helper": 7,
+    "recovered_code_lines": 36
+   },
+   "recomputed": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 8,
+    "events_with_shipped_helper": 7,
+    "recovered_code_lines": 36
+   },
+   "source": "scripts/g2_overlap_census.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 11
+   },
+   "recomputed": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 11
+   },
+   "source": "Tools/_r1234bmb_card.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 9
+   },
+   "recomputed": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 9
+   },
+   "source": "Tools/_r1184bmb_card.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 7
+   },
+   "recomputed": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 7
+   },
+   "source": "Tools/_r1232bmb_card.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 6
+   },
+   "recomputed": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 6
+   },
+   "source": "scripts/_r855bma_oss_ledger_append.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 3
+   },
+   "recomputed": {
+    "event_delta": 1,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 1,
+    "recovered_code_lines": 3
+   },
+   "source": "Tools/_r820bmc_clone_s6.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 0,
+    "events_with_repaired_helper": 4,
+    "events_with_shipped_helper": 4,
+    "recovered_code_lines": 90
+   },
+   "recomputed": {
+    "event_delta": 0,
+    "events_with_repaired_helper": 4,
+    "events_with_shipped_helper": 4,
+    "recovered_code_lines": 90
+   },
+   "source": "scripts/spm_j4_attribution.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 0,
+    "events_with_repaired_helper": 7,
+    "events_with_shipped_helper": 7,
+    "recovered_code_lines": 21
+   },
+   "recomputed": {
+    "event_delta": 0,
+    "events_with_repaired_helper": 7,
+    "events_with_shipped_helper": 7,
+    "recovered_code_lines": 21
+   },
+   "source": "scripts/update_etf_universe.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 0,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 2,
+    "recovered_code_lines": 5
+   },
+   "recomputed": {
+    "event_delta": 0,
+    "events_with_repaired_helper": 2,
+    "events_with_shipped_helper": 2,
+    "recovered_code_lines": 5
+   },
+   "source": "scripts/_r853bma_oss_ledger_append.py",
+   "status": "reproduced"
+  },
+  {
+   "abs_diff": 0.0,
+   "published": {
+    "event_delta": 0,
+    "events_with_repaired_helper": 0,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 4
+   },
+   "recomputed": {
+    "event_delta": 0,
+    "events_with_repaired_helper": 0,
+    "events_with_shipped_helper": 0,
+    "recovered_code_lines": 4
+   },
+   "source": "Tools/_r700bmc_judge_tree.py",
+   "status": "reproduced"
+  }
+ ],
+ "rules": {
+  "frozen_rule": "decide() is code, not prose, and names every failing condition",
+  "inertness_is_a_source_scan": "the failure mode is a future edit; a runtime probe cannot see one",
+  "new_name_is_the_repaired_half": "code_lines_tokenized delegates to e332.true_lines, the very reading E332 counts as the repaired half, so the two cannot drift",
+  "one_corpus": "every number is computed over e326.corpus(), the file list E334 priced, so a delta here is the helper and nothing else",
+  "pinned_not_copied": "code_lines_legacy is an alias, not a copy: a copy would freeze silently against the shipped function"
+ },
+ "study": "E335_sibling_entry_point",
+ "summary": {
+  "consumers_of_the_new_name": 0,
+  "consumers_switched": 0,
+  "e334_delta_candidates_published": 30,
+  "e334_delta_candidates_reproduced": 30,
+  "max_abs_diff_vs_published": 0.0,
+  "modules_that_rebind_a_reading_name": 0,
+  "reading_names_added": 2,
+  "sources_read": 2294,
+  "sources_where_the_readings_differ": 1369,
+  "studies_that_patch_and_restore_in_a_finally": 14
+ },
+ "verdict": "sibling_entry_point_lands_inert_legacy_pinned_new_name_unread_and_e334_delta_reproduces",
+ "verdict_reason": "both readings coexist and differ, E334's delta reproduces, nothing moved"
+}

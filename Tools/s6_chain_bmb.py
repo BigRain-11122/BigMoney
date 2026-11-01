@@ -884,6 +884,14 @@ LEGS = [
     ("helper_repair_blast_radius",
      ["python", "scripts/e334_helper_repair_blast_radius.py", "verify"]),
 
+    # E335: the landing E334's rule asked for. e326 exports code_lines_tokenized beside the shipped
+    # code_lines (pinned as code_lines_legacy), no consumer is switched, and the face proves it:
+    # both readings differ on 1369 of 2294 sources, E334's 30 published deltas re-derive through the
+    # new name at 1e-9, and an AST scan finds zero permanent rebinds and zero readers of the new
+    # name. Verify re-derives the face over the corpus (~10 s, no builds).
+    ("sibling_entry_point",
+     ["python", "scripts/e335_sibling_entry_point.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
