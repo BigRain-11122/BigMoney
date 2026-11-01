@@ -390,6 +390,13 @@ def main() -> int:
              "scripts/supply_candidate_face.py", ["--selftest"]),
             ("product: supply candidate verdict recomputed from its published rows",
              "scripts/supply_candidate_face.py", ["--check"]),
+            # r1205: the line's freshness faces all read the instant, so a
+            # stall followed by one heartbeat is invisible. This leg prices the
+            # history reader: fuzzy stamps widen instead of narrowing, quiet
+            # windows are subtracted per machine, and the still-open gap is its
+            # own verdict.
+            ("product: lane silence audit (gaps between rounds, quiet windows subtracted)",
+             "scripts/lane_silence_audit.py", ["selftest"]),
             ("product: etf_book_production card (exit-code contract)",
              "scripts/etf_book_production.py", ["--selftest"]),
             ("product: etf_vol_delivery_audit (exit-code contract)",

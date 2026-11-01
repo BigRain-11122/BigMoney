@@ -34,22 +34,22 @@
  "d19_watermark_v2": {
   "compare_order": "repo+commit_sha+blob_bytes first, then sha256; source mismatch = stale",
   "decisions": {
-   "repo": "git@github.com:BigRain-11122/FluxGroup.git",
-   "commit_sha": "8a142bd41a5e03c24806c253ffb3491e8c8ef54c",
    "blob_bytes": 76613,
-   "sha256": "3baca4a7400ecf5b52b50336b9a52637922a0624bdee9904e6ac5550977efd31",
+   "commit_sha": "8a142bd41a5e03c24806c253ffb3491e8c8ef54c",
+   "fetch_command": "git -C <group-tree> show origin/main:docs/decisions.md",
    "path": "docs/decisions.md",
-   "fetch_command": "git -C <group-tree> show origin/main:docs/decisions.md"
+   "repo": "git@github.com:BigRain-11122/FluxGroup.git",
+   "sha256": "3baca4a7400ecf5b52b50336b9a52637922a0624bdee9904e6ac5550977efd31"
   },
   "decisions_verdict": "changed",
   "law": "D-20261025-08 watermark v2 quartet {repo, commit_sha, blob_bytes, sha256}",
   "orders": {
-   "repo": "git@github.com:BigRain-11122/FluxGroup.git",
-   "commit_sha": "8a142bd41a5e03c24806c253ffb3491e8c8ef54c",
    "blob_bytes": 193416,
-   "sha256": "97657ad79f502efe39042e6db41033b2c88bf825b36eefa72640395b6d2e8a3c",
+   "commit_sha": "8a142bd41a5e03c24806c253ffb3491e8c8ef54c",
+   "fetch_command": "git -C <group-tree> show origin/main:docs/orders.md",
    "path": "docs/orders.md",
-   "fetch_command": "git -C <group-tree> show origin/main:docs/orders.md"
+   "repo": "git@github.com:BigRain-11122/FluxGroup.git",
+   "sha256": "97657ad79f502efe39042e6db41033b2c88bf825b36eefa72640395b6d2e8a3c"
   },
   "orders_verdict": "changed",
   "updated_at": "2026-11-01T04:01:53+08:00"
@@ -102,9 +102,37 @@
  "last_artifact": "docs/live_book/LIVE-BOOK-20261031.md",
  "last_artifact_at": "2026-10-31T20:52:14+08:00",
  "last_decisions_at": "2026-11-01T04:01:53+08:00",
- "last_decisions_read_at": "2026-11-01T04:01:53+08:00",
+ "last_decisions_consumed": [
+  {
+   "action": "no new quant obligation; watermark advanced",
+   "at": "2026-11-01T07:46:58",
+   "batch": "32/33 (2026-11-01 00:0x / 06:0x)",
+   "ids": [
+    "D-20261101-01..D-20261101-14"
+   ],
+   "touching_this_desk": [
+    "D-20261101-02/08: Bigmoney task face Disabled -> re-enabled to Ready by the decision round at 06:0x; verified locally, no action here",
+    "D-20261101-13: phantom chain leg etf_book_width_cross -> owner is bm-c (11-03); bm-a side already commented out, unchanged",
+    "D-20261101-07: BigStream promo package -> @bm-a but in the group orders face, not this repo (no quant obligation)"
+   ]
+  },
+  {
+   "action": "re-enabled own lane tasks; no new quant obligation requiring a build",
+   "at": "2026-11-01T12:53:00+08:00",
+   "batch": "34 (2026-11-01 12:00)",
+   "ids": [
+    "D-20261101-15..D-20261101-18"
+   ],
+   "touching_this_desk": [
+    "D-20261101-16/17: three lane tasks (Bigmoney-IterationLoop / Bigmoney-LoopWatchdog / HQ-Patrol-BigMoney) were Disabled; this desk re-enabled all three at 12:40 and left the machine-readable gap behind (results/lane_silence.bm-a.json: OPEN gap 277-286 min since 08:00).",
+    "D-20261101-15: bm-a judged ALIVE by the new three-state criterion (F-20261101-14 closed); no quant action.",
+    "D-20261101-16 self-heal guard + LANE-REGISTRY owners are @BigCompute / @HQ tools (group tree), not this repo -- not duplicated here."
+   ]
+  }
+ ],
+ "last_decisions_read_at": "2026-11-01T12:47:00+08:00",
  "last_decisions_seen": "r1186: decisions.md origin sha 97fe122f unchanged (215,420 B) -- zero new decision rows",
- "last_decisions_sha": "3baca4a7400ecf5b@8a142bd/76613",
+ "last_decisions_sha": "fdd605dff522da0a@e64f217/87748",
  "last_decisions_src": "group origin/main via C: real-path (C:/Users/sjs20/Desktop/FluxGroup) fetch + git show (python subprocess raw-bytes canonical)",
  "last_decisions_ts": "2026-10-29T23:24:57+08:00",
  "last_decisions_watermark": "97fe122f24826ba5@72e35cf/215420",
@@ -112,9 +140,9 @@
  "last_delivery_verified_at": "2026-10-28T23:30:34+08:00",
  "last_heartbeat_epoch_utc": 1792420245,
  "last_orders_at": "2026-10-31T20:18:07+08:00",
- "last_orders_read_at": "2026-10-31T19:14:04+08:00",
+ "last_orders_read_at": "2026-11-01T12:47:00+08:00",
  "last_orders_seen": "r1186: orders.md origin sha 4348aa21 (190253 B) advanced from 1351271 -- five new CEO rows (subsidiary master @bm-m / all bans lifted except cloud-token thrift / NATS restored / MV fleet auto-dispatch / master single-writer). None scopes to this repo mechanism -> zero action, watermark advanced. O-file ack diff CLEAN 114/123/0.",
- "last_orders_sha": "97657ad79f502efe@8a142bd/193416",
+ "last_orders_sha": "8e76c85ef68ba6bc@e64f217/194215",
  "last_orders_ts": "2026-10-31T09:06:11+08:00",
  "last_orders_watermark": "97657ad79f502efe@72e35cf/193416",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@72e35cf39ac05fae3bdaa75c1a1c4b96c712c364/193416#97657ad79f502efe39042e6db41033b2c88bf825b36eefa72640395b6d2e8a3c",
@@ -390,8 +418,8 @@
  "ram_free_pct": 53.4,
  "ram_load_pct": 4600.0,
  "recent_artifact": "results/etf_book_cost_tape.json",
- "round": 1200,
- "round_no": 1204,
+ "round": 1205,
+ "round_no": 1205,
  "round_no_label": "r1198",
  "runner_fix_r1186": "Tools/s6_chain_bma.py: record name now carries the run scope (--only -> .only-<legs>); same defect bm-c fixed at r1364",
  "s4u_regression_r1108": "P0-ish finding, NOT fixable this window: Bigmoney-IterationLoop and Bigmoney-LoopWatchdog are BOTH at LogonType=Interactive (S4U law face); register_loop_task was a pin no-op so the loop was already regressed, and the watchdog re-register's S4U XML flip failed with access denied (elevation-blocked, same family as carried C-20261016-04). No popup/no UAC prompt was raised. Lane still fires (user logged on); needs one elevated pass to flip both to S4U + SWA=false.",
@@ -448,6 +476,13 @@
  "s6_face_r1198": "dualrun ZERO-DRIFT streak 33 | compute_audit rc0 FLAG:pool_starvation,supply_floor (ready 0/floor 3) | update_daily rc0 0 new rows (Saturday, cutoff 2026-10-30) | attrition CLEAN 4 ledgers | card_ledger_guard CLEAN 315->317 | orphan 0/13 | chain now 112 legs (cost tape added ahead of the page)",
  "s6_face_r1200": "dualrun ZERO-DRIFT streak 35; compute_audit rc0 FLAG pool_starvation+supply_floor (ready 0/floor 3, supply_candidates AGENDA_DEBT shortfall 3); py_watermark insufficient_history(n=1); update_daily rc0 0 new rows cutoff 2026-10-30; attrition CLEAN 4 ledgers; orphan 0/11",
  "smoke": "288/288 PASS 0 FAIL (final tree, .codely-cli/tmp/smoke-r1198b.out)",
+ "snap_r1205": {
+  "lane_restore": "Bigmoney-IterationLoop / Bigmoney-LoopWatchdog / HQ-Patrol-BigMoney Enabled (all three were Disabled; D-20261101-16 says they were re-enabled at 06:0x and found Disabled again at 12:01)",
+  "product": "scripts/lane_silence_audit.py (selftest 12/12) + results/lane_silence.bm-a.json + research/LANE_SILENCE_AUDIT.md + card E323; S6 leg lane_silence + smoke leg",
+  "reading": "bm-a 3-day window: median gap 10.0 min, 8 unexplained >90min gaps, longest closed 501 min (10-31 19:15->11-01 03:36), one 609.8-min gap fully explained by the declared workday window, OPEN gap 277-286 min since 08:00 = today's stall.",
+  "round": 1205,
+  "why": "every freshness face reads the instant and runs inside a round, so a dead lane has no observer and the first round after the stall erases the gap. This measures the history instead."
+ },
  "status": "green",
  "sync": {
   "ahead": 0,
@@ -459,7 +494,7 @@
  "total_ram_gb": 93.6,
  "ts": "2026-11-01 03:36:03",
  "updated": "2026-11-01T07:46:25",
- "updated_at": "2026-10-31T20:52:14+08:00",
+ "updated_at": "2026-11-01T12:53:00+08:00",
  "verdict": "green|product: the page tells the reader what the cost assumption really is (5.9 bp vs the card's 10 bp) with the control arm that proves it is the same book",
  "verify": "smoke 288/288 PASS 0 FAIL on the final tree (.codely-cli/tmp/smoke-r1198b.out, one new leg: 'product: the page prices the cost assumption under every number' recomputes the whitespace-normalised verdict and refuses a page that prints the raw pipe) | etf_book_cost_tape selftest PASS (+3 reader legs: absent reads absent / clean artifact hands back the published cost / a control that misses the published CAGR reads no_control with no sentence) + --check OK | etf_book_ceo_page selftest 78/78 (L73-L75) | page regenerated 2026-10-31 20:5x (5 names / 470,208 book / 529,792 cash) | chain leg etf_book_cost_tape wired BEFORE etf_book_ceo_page in Tools/s6_chain_bmc.py; bm-a runner imports the list so both read 112 legs, zero diff | dualrun ZERO-DRIFT streak 33 | compute_audit rc0 FLAG:pool_starvation,supply_floor (ready 0 / floor 3, streak 866.5min) | update_daily rc0 0 new rows cutoff 2026-10-30 (Saturday, no bar) | attrition CLEAN 4 ledgers (1 historical shrink healed) | card_ledger_guard CLEAN max 315->317 | orphan face 0/13 | orders_ack CLEAN 114 orders / 123 acks / 0 unacked / 0 face divergence | D-19 decisions sha256 97fe122f MATCH (zero new rows), orders 97657ad7 MATCH -> zero action | loop pin=8 no-op, pre-commit/pre-push claws reinstalled LF-normalized",
  "verify_r1108": "fund_avail_asof_panel selftest 10/10; run rc0 over 200 month-ends, panel 281986 rows / 24 asofs, lookahead assert clean; smoke 55/55; S6 7 legs rc0; attrition CLEAN; orphan 0/16",
@@ -506,20 +541,5 @@
  "verify_r1196": "NEW PRODUCT: scripts/etf_book_exposure_timing.py (selftest 10/10, --check OK). Three arms differ in exactly one number (the scale applied at each decision): production 9.12% CAGR vs constant-at-own-mean-scale 10.03%, so timing = -0.91pp/yr inside a 20-path placebo band of [-1.90, +0.88] -> AVERAGE_EXPOSURE_ONLY; constant vs full = -3.18pp/yr, i.e. the overlay buys a smaller book and pays for it in return rather than earning it back by timing. Identity arm reproduces the engine nav with gap 0.00e+00. Face + research/ETF_BOOK_EXPOSURE_TIMING.md + card E315 + shared chain leg (Tools/s6_chain_bmc.py) + smoke leg.",
  "verify_r1197": "smoke 287/287 PASS 0 FAIL incl. new leg 'product: the page tells a de-levered book from a well-timed one'; etf_book_exposure_timing selftest 13/13, --check OK identity gap 0.0 pick_drift 0; etf_book_ceo_page selftest 75/75 (L70-L72)",
  "verify_r1199": "NEW PRODUCT: scripts/supply_candidate_face.py (selftest 14/14, --check OK). The compute_audit supply_floor flag had been red for 1,258 min (ready 0 / floor 3) and could not be acted on: an empty pool has two causes needing opposite responses -- work exists and nobody enqueued it (mechanism fault) vs no startable work at all (agenda debt) -- and the floor reader measured only the pool, so both printed the same word. The face counts candidates from the sources that own them, reusing the one pool/ticket reader (compute_audit.pool_ready_entries / fleet_open_tasks, no second parser), and separates startable_now from things that only look like supply (queue drafts each still need a prereg freeze; fleet/backlog.md is cross-company with the owner named in the row). Live verdict AGENDA_DEBT, startable_now 0, shortfall 3 -- i.e. the red names topic generation, not a broken pool; unreadable pool stays UNKNOWN (r98). Published results/supply_candidates.json + .md, consumed by compute_audit (new supply_candidates block beside supply_floor, never instead of it -- the floor was NOT loosened), audit selftest 62->68. Two smoke legs: exit-code plus a --check leg that re-derives the verdict from the published rows.",
- "verify_r1200": "supply_candidate_face selftest 22/22, --check OK (AGENDA_DEBT), smoke 290/290 PASS 0 FAIL at round start",
- "last_decisions_consumed": [
-  {
-   "batch": "32/33 (2026-11-01 00:0x / 06:0x)",
-   "ids": [
-    "D-20261101-01..D-20261101-14"
-   ],
-   "touching_this_desk": [
-    "D-20261101-02/08: Bigmoney task face Disabled -> re-enabled to Ready by the decision round at 06:0x; verified locally, no action here",
-    "D-20261101-13: phantom chain leg etf_book_width_cross -> owner is bm-c (11-03); bm-a side already commented out, unchanged",
-    "D-20261101-07: BigStream promo package -> @bm-a but in the group orders face, not this repo (no quant obligation)"
-   ],
-   "action": "no new quant obligation; watermark advanced",
-   "at": "2026-11-01T07:46:58"
-  }
- ]
+ "verify_r1200": "supply_candidate_face selftest 22/22, --check OK (AGENDA_DEBT), smoke 290/290 PASS 0 FAIL at round start"
 }

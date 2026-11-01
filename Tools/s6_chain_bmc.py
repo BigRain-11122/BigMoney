@@ -40,6 +40,14 @@ LEGS = [
     # envelope does not name the machine that wrote it. It must run BEFORE
     # build_status (the dashboard renders it) -- r1290 class otherwise.
     ("data_lane_freshness", ["python", "scripts/data_lane_freshness.py", "run"]),
+    # r1205: every freshness face on this line reads the INSTANT -- "is the
+    # newest heartbeat/round younger than N minutes" -- so a round that writes
+    # its heartbeat right after a four-hour stall reads green and the stall
+    # leaves no trace (2026-11-01: the lane sat dead from 08:0x to 12:5x with
+    # the loop tasks Disabled, and no face said so). This leg measures the gaps
+    # between consecutive rounds, subtracts the machine's declared quiet
+    # windows, and judges the gap that is still open.
+    ("lane_silence", ["python", "scripts/lane_silence_audit.py"]),
     ("market_regime", ["python", "scripts/market_regime.py"]),
     ("scorecard", ["python", "scripts/strategy_scorecard.py"]),
     ("market_clock", ["python", "scripts/market_clock_call.py", "run"]),

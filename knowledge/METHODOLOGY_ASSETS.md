@@ -7964,3 +7964,34 @@ two implementations, same name. Rule: **when your face re-derives a path a sibli
 publishes, compare bar-for-bar and print the diff** -- a headline-level agreement check would
 have passed this (both are ~9%) while the paths are not the same book. Until resolved, quote
 neither number without naming the face.
+
+
+### E323 — A freshness face that reads the instant cannot see the stall it reports through (r1205 bm-a)
+
+Every "is the line alive" face in this repo (automation_line_audit E1, compute_audit zombie
+flags, heartbeat age readers) asks whether the NEWEST stamp is younger than N minutes, and all
+of them run inside a round. Two consequences: while the lane is dead nothing runs the audit (a
+red flag nobody runs equals no flag), and the FIRST round after a stall stamps a fresh
+heartbeat, so the gap is erased by the act of recovering -- the outage exists only in the
+history, and nothing was reading the history. On 2026-11-01 the lane sat dead 08:0x-12:5x with
+three scheduler tasks Disabled (D-20261101-16): heartbeat froze at 08:23:20 while the state
+round number had already reached 1204.
+
+Three rules the reader (`scripts/lane_silence_audit.py`) had to obey to be usable:
+
+1. **Fuzzy stamps may widen, never narrow.** Round ledgers record `07:0x` (meaning 07:00-07:09).
+   Parse to an interval, publish the gap as a band, and fire the verdict only on the
+   PESSIMISTIC end -- an unknown digit must never manufacture an outage, and the parse
+   precision is printed beside every number.
+2. **Declared quiet windows are subtracted, per machine.** bm-a is the CEO's desktop and is
+   legitimately idle on weekday business hours. Unsubtracted, every workday reads as a 10-hour
+   outage, and a flag that is always red cannot be acted on (E318/E319). The window is a
+   declaration on the machine, not a guess: bm-c gets no such excuse (selftest L10).
+3. **The still-open gap is its own verdict.** Closed intervals only hide the outage while it is
+   happening -- measure from the last round to NOW (`OPEN_SILENCE`), else today's stall reads
+   as a normal morning.
+
+Reading on bm-a (3-day window, 90-min threshold): median gap 10.0 min (the loop's own cadence,
+so "normal" is defined), 8 unexplained gaps, longest closed silence 501 min (10-31 19:15 ->
+11-01 03:36), one 609.8-min gap fully explained by the workday window, and one OPEN gap of
+277-286 min since 08:00 -- the machine-readable record of today's stall.
