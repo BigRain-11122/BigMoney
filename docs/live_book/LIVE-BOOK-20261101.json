@@ -2990,6 +2990,276 @@
   },
   "detail": null
  },
+ "band_ruler": {
+  "status": "ok",
+  "artifact": "results/etf_book_band_ruler.json",
+  "verdict": {
+   "state": "ROWS_NOT_COMPARABLE",
+   "dials_that_move": [
+    "ordering",
+    "universe",
+    "window"
+   ],
+   "why": "the table's rows are not one ruler: window +5.04pp、universe +0.44pp、ordering -0.51pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
+   "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
+  },
+  "dial_prices": {
+   "window": {
+    "a": "2020-01-01..（表里另两行读的那一段）",
+    "b": "2024-01-02..（表里第一行读的那一段）",
+    "price_pp": 5.04,
+    "note": "同一条定价路径，只换起点。差的是**时期**不是策略——正因为如此，两行按两段时期读、却被放在同一个「全窗」表头下"
+   },
+   "universe": {
+    "a": "卡片类（equity/commodity/convertible）",
+    "b": "票类（equity/commodity/crossborder）",
+    "price_pp": 0.44,
+    "note": "同一本书、同一段、同一时点，只换能挑的品种类别"
+   },
+   "ordering": {
+    "a": "open-to-open（同 bar 信号）",
+    "b": "next-open（次开成交）",
+    "price_pp": -0.51,
+    "note": "同一本书（5 名、不挂覆盖）、同一股票池、同一段，只换信号什么时候被读到。这一格在**书层面**读，不挂 beta 覆盖：open-to-open 的净值序列比收盘口径早一个 bar（下面「为什么覆盖只挂在次开那一侧」那张表是本面的实测），拿它拟合 beta 会读到一个不是这本书的 beta，所以覆盖只挂在 next-open 那一侧"
+   },
+   "cost": {
+    "a": "8 bp/side（票的引擎）",
+    "b": "10 bp/side（卡的引擎）",
+    "price_pp": -0.15,
+    "note": "同一本书、同一段、同一股票池、同一时点，只换每边假设的成本"
+   }
+  },
+  "cells": {
+   "held/causal/card": {
+    "full": {
+     "cagr": 0.0727,
+     "sharpe": 1.314,
+     "maxdd": -0.0587,
+     "vol": 0.0568,
+     "years": 6.29,
+     "cagr_pp": 7.27,
+     "maxdd_pp": -5.87,
+     "bars": 1525
+    },
+    "ticket_window": {
+     "cagr": 0.1231,
+     "sharpe": 1.696,
+     "maxdd": -0.0587,
+     "vol": 0.0731,
+     "years": 2.83,
+     "cagr_pp": 12.31,
+     "maxdd_pp": -5.87,
+     "bars": 683
+    }
+   },
+   "held/causal/ticket": {
+    "full": {
+     "cagr": 0.0771,
+     "sharpe": 1.342,
+     "maxdd": -0.0578,
+     "vol": 0.0588,
+     "years": 6.29,
+     "cagr_pp": 7.71,
+     "maxdd_pp": -5.78,
+     "bars": 1525
+    },
+    "ticket_window": {
+     "cagr": 0.1278,
+     "sharpe": 1.737,
+     "maxdd": -0.0578,
+     "vol": 0.0739,
+     "years": 2.83,
+     "cagr_pp": 12.78,
+     "maxdd_pp": -5.78,
+     "bars": 683
+    }
+   },
+   "held/causal/card/cost10": {
+    "full": {
+     "cagr": 0.0712,
+     "sharpe": 1.289,
+     "maxdd": -0.0589,
+     "vol": 0.0567,
+     "years": 6.29,
+     "cagr_pp": 7.12,
+     "maxdd_pp": -5.89,
+     "bars": 1525
+    },
+    "ticket_window": {
+     "cagr": 0.1211,
+     "sharpe": 1.671,
+     "maxdd": -0.0589,
+     "vol": 0.073,
+     "years": 2.83,
+     "cagr_pp": 12.11,
+     "maxdd_pp": -5.89,
+     "bars": 683
+    }
+   },
+   "book/card/published": {
+    "full": {
+     "cagr": 0.1616,
+     "sharpe": 1.035,
+     "maxdd": -0.1598,
+     "vol": 0.1637,
+     "years": 6.82,
+     "cagr_pp": 16.16,
+     "maxdd_pp": -15.98,
+     "bars": 1652
+    },
+    "ticket_window": {
+     "cagr": 0.2453,
+     "sharpe": 1.537,
+     "maxdd": -0.1598,
+     "vol": 0.1571,
+     "years": 2.83,
+     "cagr_pp": 24.53,
+     "maxdd_pp": -15.98,
+     "bars": 683
+    }
+   },
+   "book/card/causal": {
+    "full": {
+     "cagr": 0.1565,
+     "sharpe": 0.996,
+     "maxdd": -0.1703,
+     "vol": 0.166,
+     "years": 6.83,
+     "cagr_pp": 15.65,
+     "maxdd_pp": -17.03,
+     "bars": 1653
+    },
+    "ticket_window": {
+     "cagr": 0.2549,
+     "sharpe": 1.548,
+     "maxdd": -0.1519,
+     "vol": 0.1617,
+     "years": 2.83,
+     "cagr_pp": 25.49,
+     "maxdd_pp": -15.19,
+     "bars": 683
+    }
+   },
+   "book/ticket/published": {
+    "full": {
+     "cagr": 0.1771,
+     "sharpe": 1.083,
+     "maxdd": -0.1598,
+     "vol": 0.1703,
+     "years": 6.82,
+     "cagr_pp": 17.71,
+     "maxdd_pp": -15.98,
+     "bars": 1652
+    },
+    "ticket_window": {
+     "cagr": 0.266,
+     "sharpe": 1.603,
+     "maxdd": -0.1598,
+     "vol": 0.1619,
+     "years": 2.83,
+     "cagr_pp": 26.6,
+     "maxdd_pp": -15.98,
+     "bars": 683
+    }
+   },
+   "book/ticket/causal": {
+    "full": {
+     "cagr": 0.1681,
+     "sharpe": 1.025,
+     "maxdd": -0.1703,
+     "vol": 0.1723,
+     "years": 6.83,
+     "cagr_pp": 16.81,
+     "maxdd_pp": -17.03,
+     "bars": 1653
+    },
+    "ticket_window": {
+     "cagr": 0.2711,
+     "sharpe": 1.594,
+     "maxdd": -0.1519,
+     "vol": 0.1658,
+     "years": 2.83,
+     "cagr_pp": 27.11,
+     "maxdd_pp": -15.19,
+     "bars": 683
+    }
+   },
+   "card/12/vol08": {
+    "full": {
+     "cagr": 0.096,
+     "sharpe": 0.99,
+     "maxdd": -0.1177,
+     "vol": 0.1017,
+     "years": 6.82,
+     "cagr_pp": 9.6,
+     "maxdd_pp": -11.77,
+     "bars": 1652
+    },
+    "ticket_window": {
+     "cagr": 0.1835,
+     "sharpe": 1.738,
+     "maxdd": -0.107,
+     "vol": 0.1044,
+     "years": 2.83,
+     "cagr_pp": 18.35,
+     "maxdd_pp": -10.7,
+     "bars": 683
+    }
+   }
+  },
+  "identity": {
+   "ticket 12.78% reproduced on its own ruler": {
+    "measured_pp": 12.78,
+    "published_pp": 12.78,
+    "delta_pp": 0.0,
+    "pass": true
+   },
+   "card 9.60% reproduced on its own ruler": {
+    "measured_pp": 9.6,
+    "published_pp": 9.6,
+    "delta_pp": 0.0,
+    "pass": true
+   },
+   "card 18.35% (2024+) reproduced on its own ruler": {
+    "measured_pp": 18.35,
+    "published_pp": 18.35,
+    "delta_pp": 0.0,
+    "pass": true
+   }
+  },
+  "evidence_cutoff": "2026-10-30",
+  "published_faces": {
+   "source": "docs/live_book/LIVE-BOOK-20261101.json",
+   "rows": [
+    {
+     "label": "5 名·可执行单口径（本单这份账）",
+     "full": 12.78,
+     "is": null,
+     "oos": null
+    },
+    {
+     "label": "5 名·beta 覆盖",
+     "full": 15.73,
+     "is": 10.22,
+     "oos": 24.03
+    },
+    {
+     "label": "12 名·8% 波动目标（生产卡片口径）",
+     "full": 9.6,
+     "is": 3.84,
+     "oos": 18.35
+    }
+   ],
+   "ticket": 12.78,
+   "card_full": 9.6,
+   "card_oos": 18.35,
+   "row_labels": [
+    "5 名·可执行单口径（本单这份账）",
+    "5 名·beta 覆盖",
+    "12 名·8% 波动目标（生产卡片口径）"
+   ]
+  }
+ },
  "envelope": {
   "status": "ok",
   "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_bootstrap\\ENVELOPE-2026-10-30.json",

@@ -42,6 +42,8 @@ COST_JSON = os.path.join(ROOT, "results", "etf_book_cost_tape.json")
 VOLWIN_JSON = os.path.join(ROOT, "results", "etf_book_vol_window_phase.json")
 VOLWIN_EDGE_JSON = os.path.join(ROOT, "results", "etf_book_vol_window_edge.json")
 LOOKAHEAD_JSON = os.path.join(ROOT, "results", "etf_book_lookahead_audit.json")
+# r1213: the expectation table's rows are priced on different windows / classes / orderings.
+BAND_RULER_JSON = os.path.join(ROOT, "results", "etf_book_band_ruler.json")
 ENVELOPE_JSON = os.path.join(ROOT, "results", "etf_book_bootstrap", "latest.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
@@ -353,6 +355,77 @@ def vol_window_edge_face(path=VOLWIN_EDGE_JSON):
     except Exception as exc:                                    # noqa: BLE001
         return {"status": "unreadable", "artifact": path, "verdict": None,
                 "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def band_ruler_face(path=BAND_RULER_JSON):
+    """Which ruler priced each row of the table above (r1213).
+
+    The expectation table mixes rows priced from 2020-01-01 with a row priced from
+    2024-01-02, over two different class universes, under one column headed 全窗. This
+    reader serves the face that priced those dials one at a time; it refuses a stored
+    verdict that no longer recomputes, and an absent face reads as "cannot verify"."""
+    try:
+        import etf_book_band_ruler as _BR
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": _rel(path, ROOT),
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        return _BR.read_published(path=path)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": _rel(path, ROOT),
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def band_ruler_block(br):
+    """The lines this page prints about who priced its own table.
+
+    Factored out (like `lookahead_block`) so a selftest can feed a missing / drifted / ok
+    face. It never prints a dial it cannot attribute, and a missing face says so."""
+    L = []
+    add = L.append
+    add("## 上面那张表的三行，是谁按什么尺子量的")
+    add("")
+    if (br or {}).get("status") != "ok":
+        add("这一页没有拿到「尺子」面的可用读数（`%s`，状态 `%s`）：%s。"
+            "请按默认口径读——上表第一行是从 2024 起算的，另两行从 2020 起算，"
+            "两者**不在同一段时期**，本页无法核验这个差有多大。"
+            % (_rel((br or {}).get("artifact") or BAND_RULER_JSON, ROOT).replace(os.sep, "/"),
+               (br or {}).get("status") or "unknown",
+               (br or {}).get("detail") or "判决不能从自己的行重算"))
+        add("")
+        return L
+    v = br.get("verdict") or {}
+    pr = br.get("dial_prices") or {}
+    zh = {"ROWS_NOT_COMPARABLE": "**三行不是一把尺子**",
+          "SAME_RULER": "**三行是同一把尺子**",
+          "IDENTITY_FAILED": "**对照臂没复现，这一节不许引用**"}.get(v.get("state"), "**%s**" % v.get("state"))
+    add("- 判决：%s。把这三行摆在一张表里比较，比的不只是策略。" % zh)
+    cells = br.get("cells") or {}
+    held = cells.get("held/causal/card") or {}
+    if (held.get("full") or {}).get("cagr_pp") is not None:
+        add("- 同一本书（你手上这本，5 名·beta 0.20）按同一把手量：全窗 %.2f%% / 2024 起 %.2f%%——"
+            "同一个策略，两段时期差 %+.2f 个点。"
+            % (held["full"]["cagr_pp"],
+               ((held.get("ticket_window") or {}).get("cagr_pp") or 0.0),
+               ((held.get("ticket_window") or {}).get("cagr_pp") or 0.0)
+               - (held["full"]["cagr_pp"] or 0.0)))
+    dials = [("window", "起点"), ("universe", "股票池"), ("ordering", "信号时点"), ("cost", "成本")]
+    bits = []
+    for k, name in dials:
+        val = (pr.get(k) or {}).get("price_pp")
+        if val is not None:
+            bits.append("%s %+.2f" % (name, val))
+    if bits:
+        add("- 四个旋钮各自值多少（pp/年，正＝后者读得更高）：%s。" % "、".join(bits))
+    add("- 所以按列读表（12.78 对 9.60）与按同一段读表（12.78 对这张表自己印的 2024 起 18.35）"
+        "会得出相反的排序。要比较，请只在同一列里比。")
+    add("")
+    add("> 尺子面：`%s` ｜ 定价截止 %s ｜ 身份门 %s"
+        % (str(br.get("artifact") or "").replace(os.sep, "/"), br.get("evidence_cutoff") or "—",
+           "全 PASS" if all((x or {}).get("pass") for x in (br.get("identity") or {}).values())
+           else "有 FAIL"))
+    add("")
+    return L
 
 
 def lookahead_face(path=LOOKAHEAD_JSON):
@@ -1519,6 +1592,7 @@ def build(with_stress=False):
     page["vol_window"] = vol_window_face()
     page["vol_window_edge"] = vol_window_edge_face()
     page["lookahead"] = lookahead_face()
+    page["band_ruler"] = band_ruler_face()
     page["envelope"] = envelope_face()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
     return page, today
@@ -1789,6 +1863,9 @@ def render_md(p):
     # caveat where the number is read, not in a research file the reader never opens.
     for _lk_line in lookahead_block(p.get("lookahead") or {}):
         add(_lk_line)
+    # r1213: the table's rows are not one ruler -- say which, where the table is read.
+    for _br_line in band_ruler_block(p.get("band_ruler") or {}):
+        add(_br_line)
     # r1211: a single CAGR is one path through one history. The envelope says how much of
     # it is the book and how much is which days you happened to live through -- and it
     # reads its numbers from the envelope's own reader, never from the JSON here.

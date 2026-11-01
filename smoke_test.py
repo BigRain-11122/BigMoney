@@ -4902,6 +4902,66 @@ def main() -> int:
     except Exception as e:
         check("product: the book's headline is priced one bar in the future, and the gap is measured",
               False, repr(e)[:160])
+    # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
+    # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two
+    # class universes and two fill orderings, under one column headed 全窗. This leg
+    # re-derives the dial prices from the published cells (never from the sentence), requires
+    # every identity arm to pass, and -- the part that makes it a page leg rather than a file
+    # leg -- requires the page to print the SAME numbers: a page whose dial table drifted from
+    # the face (the r1290 two-face class) is red here.
+    try:
+        import importlib as _il62
+        _BR62 = _il62.import_module("etf_book_band_ruler")
+        _p62 = os.path.join(PATHS.results_dir, "etf_book_band_ruler.json")
+        _bad62 = []
+        _doc62 = {}
+        if not os.path.exists(_p62):
+            _bad62.append("results/etf_book_band_ruler.json missing")
+        else:
+            with open(_p62, encoding="utf-8") as _fh62:
+                _doc62 = json.load(_fh62)
+            if _BR62.check() != 0:
+                _bad62.append("the stored verdict no longer recomputes")
+            _id62 = _doc62.get("identity") or {}
+            if not _id62 or not all((v or {}).get("pass") for v in _id62.values()):
+                _bad62.append("an identity arm failed: %r"
+                              % ({k: (v or {}).get("delta_pp") for k, v in _id62.items()},))
+            _pr62 = _BR62.dial_prices(_doc62)
+            if {k: v.get("price_pp") for k, v in _pr62.items()} != \
+                    {k: (v or {}).get("price_pp") for k, v in (_doc62.get("dial_prices") or {}).items()}:
+                _bad62.append("dial prices drifted from the recomputation")
+            _v62 = _BR62.decide(dict(_doc62, dial_prices=_pr62))
+            if _v62.get("state") != (_doc62.get("verdict") or {}).get("state"):
+                _bad62.append("verdict drifted: %r vs %r"
+                              % ((_doc62.get("verdict") or {}).get("state"), _v62.get("state")))
+            # the dial that decides the reading must be measured, not assumed
+            for _k62 in ("window", "universe", "ordering", "cost"):
+                if (_pr62.get(_k62) or {}).get("price_pp") is None:
+                    _bad62.append("dial %s priced as unknown" % (_k62,))
+            # the operator page must print the same numbers the face publishes
+            _lb62 = os.path.join(PATHS.root, "docs", "live_book")
+            _mds62 = sorted(glob.glob(os.path.join(_lb62, "LIVE-BOOK-*.md")))
+            if not _mds62:
+                _bad62.append("no LIVE-BOOK-*.md on disk")
+            else:
+                with open(_mds62[-1], encoding="utf-8") as _fh62b:
+                    _md62 = _fh62b.read()
+                if "谁按什么尺子量的" not in _md62:
+                    _bad62.append("the page carries no ruler section")
+                for _k62, _v62b in _pr62.items():
+                    _val62 = (_v62b or {}).get("price_pp")
+                    if _val62 is None:
+                        continue
+                    if ("%+.2f" % _val62) not in _md62:
+                        _bad62.append("page does not print dial %s (%+.2f)" % (_k62, _val62))
+        check("product: the expectation table's rows name the ruler that priced each one",
+              not _bad62,
+              "; ".join(_bad62)[:220] or "verdict %s, dials %s"
+              % ((_doc62.get("verdict") or {}).get("state"),
+                 {k: (v or {}).get("price_pp") for k, v in (_doc62.get("dial_prices") or {}).items()}))
+    except Exception as e:
+        check("product: the expectation table's rows name the ruler that priced each one",
+              False, repr(e)[:160])
     # ---- r1209: the missing bar is not a fill you could have chosen ----
     # r1207 priced the one-bar gap and r1208 put it on the CEO page, but nobody had asked the
     # operator's question: is the gap lost INFORMATION, or an unachievable FILL? This leg

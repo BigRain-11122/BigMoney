@@ -484,6 +484,13 @@ LEGS = [
     # which formats it (r1318 ordering law).
     ("etf_book_cost_tape", ["python", "scripts/etf_book_cost_tape.py", "--check"],
      ["python", "scripts/etf_book_cost_tape.py", "run"]),
+    # r1213: the expectation table's three rows are priced on two periods, two class
+    # universes and two fill orderings, under one column. This leg prices each dial one at
+    # a time on the book the operator holds (its own identity arms reproduce 12.78 / 9.60 /
+    # 18.35), so the page can say which ruler made each number. Runs BEFORE the page, which
+    # quotes it (r1318 ordering law). ~50s.
+    ("etf_book_band_ruler", ["python", "scripts/etf_book_band_ruler.py", "check"],
+     ["python", "scripts/etf_book_band_ruler.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1150: the four-tier ticket menu is the same book sold at four betas, and it
     # lived a full round with no scheduled producer -- the r1290 two-face class. bm-a
