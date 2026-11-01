@@ -301,6 +301,15 @@ LEGS = [
     # machine with one number replaced, and the identity arm must reproduce the engine's nav.
     ("etf_book_exposure_timing", ["python", "scripts/etf_book_exposure_timing.py", "--check"],
      ["python", "scripts/etf_book_exposure_timing.py", "run"]),
+    # r1209 (bm-a) / E325: the card's extra bar was priced at 1.14pp/yr, which leaves the
+    # operator's question unanswered -- is that lost information, or an unachievable fill?
+    # This face prices the same signal at the only two fills a real order can get (the closing
+    # auction of the decision bar, and the next open) and re-prices the close with an
+    # extra-cost grid standing in for auction impact. Engine-free gate: the verdict must
+    # recompute from the rows and the card/causal arms must reproduce the look-ahead audit to
+    # 1e-6 pp, so a face quoting a different book cannot pass as evidence.
+    ("etf_book_fill_venue", ["python", "scripts/etf_book_fill_venue.py", "--check"],
+     ["python", "scripts/etf_book_fill_venue.py", "run"]),
     # r1203 (bm-a) / E24: the window axis of the vol target was swept once and sold as
     # "LOAD-BEARING" -- but every cell was priced on the SAME 20-bar decision grid, which is
     # the r1325 single-phase champion trap one level up. This face re-prices the window

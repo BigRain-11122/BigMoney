@@ -8031,3 +8031,45 @@ which is the independent check that the two are the same book once time is respe
 Pos = `scripts/etf_book_lookahead_audit.py` (selftest 9/9, `--check` recomputes verdict and
 every delta) · `results/etf_book_lookahead_audit.json` · `research/ETF_BOOK_LOOKAHEAD_AUDIT.md` ·
 smoke leg *"the book's headline is priced one bar in the future, and the gap is measured"*.
+
+### E325 — The missing bar is not a fill an operator could have chosen (r1209 bm-a)
+
+E324 priced the card's one-bar gap at 1.14 pp/yr and the CEO page now prints it. That leaves the
+operator's question unanswered, and the two answers demand opposite actions: if the gap is lost
+*information* the rule needs redesigning; if it is an unachievable *fill* the same signal is worth
+nearly the same money and only the venue has to change.
+
+**Answer, measured on the same panel.** Same signal, same names, same 20-bar grid, same 10bp/side,
+same 8% overlay, filled at the only two places a real order can get:
+
+| fill | CAGR | Sharpe | maxDD |
+|---|---|---|---|
+| card: open[d] with the close[d] signal (not achievable) | 9.60% | 0.99 | -11.77% |
+| close[d]: the closing auction, same names | 8.43% | 0.89 | -13.08% |
+| open[d+1]: what the ledger does | 8.46% | 0.87 | -16.56% |
+
+The two achievable fills land **0.03 pp/yr apart**. Filling the close with 2/5/10/15/20/30 bp of
+extra per-side friction walks the book down 8.19 / 7.83 / 7.23 / 6.63 / 6.04 / 4.86%, so there is
+no budget at which closing execution buys the bar back. Verdict `INFORMATION_DOMINATES`, execution
+budget `NONE`.
+
+**The money ladder** (this face beside the audited conventions): card 9.60 -> causal open 8.46
+(mark basis +0.07 to the ledger's 8.53) -> +0.59 repo carry = **executable ledger 9.12%**. So of
+the 1.14 pp, 0.00 pp is a fill choice, 0.07 pp is how the book is priced, and 1.07 pp is a bar that
+does not exist for anyone who has to decide first.
+
+**How to apply**
+1. "Where would you fill it?" is answered by pricing the SAME names at the achievable prints, not
+   by shifting the whole rule in time -- a shifted score changes the picks as well as the fill, so
+   it cannot separate the two stories.
+2. An execution-convention proposal needs a budget number: the largest extra cost per side at which
+   the alternative venue still matches the incumbent. Here it is negative, so the question closes.
+3. Publish the ladder, not just the headline: a reader who sees 9.60/8.46/8.53/9.12 knows which
+   part is mark basis, which part is carry and which part is unreachable.
+4. Identity gate: the card and causal arms must reproduce `results/etf_book_lookahead_audit.json`
+   to 1e-6 pp, or the face refuses to publish (a face quoting a different book is worse than none).
+
+Pos = `scripts/etf_book_fill_venue.py` (selftest 13/13, `--check` recomputes the verdict, the share,
+the recovered pp and the budget from the published rows) · `results/etf_book_fill_venue.json` ·
+`research/ETF_BOOK_FILL_VENUE.md` · chain leg `etf_book_fill_venue` · smoke leg *"the missing bar is
+not a fill an operator could have chosen"*.

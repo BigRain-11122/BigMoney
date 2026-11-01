@@ -4778,6 +4778,67 @@ def main() -> int:
     except Exception as e:
         check("product: the book's headline is priced one bar in the future, and the gap is measured",
               False, repr(e)[:160])
+    # ---- r1209: the missing bar is not a fill you could have chosen ----
+    # r1207 priced the one-bar gap and r1208 put it on the CEO page, but nobody had asked the
+    # operator's question: is the gap lost INFORMATION, or an unachievable FILL? This leg
+    # re-reads the fill-venue face and requires the two things that make its answer evidence:
+    # the verdict recomputes from the published rows, and the two fills an operator can
+    # actually get (closing auction, next open) really are named and compared -- a face whose
+    # arms silently collapsed to one book would print a venue verdict that measured nothing.
+    try:
+        import importlib as _il61
+        _P61 = _il61.import_module("etf_book_fill_venue")
+        _p61 = os.path.join(PATHS.results_dir, "etf_book_fill_venue.json")
+        _bad61 = []
+        if not os.path.exists(_p61):
+            _bad61.append("results/etf_book_fill_venue.json missing")
+            _doc61 = {}
+        else:
+            with open(_p61, encoding="utf-8") as _fh61:
+                _doc61 = json.load(_fh61)
+            if _P61.check(_p61) != 0:
+                _bad61.append("the verdict does not recompute from the published rows")
+            _v61 = _doc61.get("verdict") or {}
+            if _v61.get("state") not in ("FILL_PRICE_DOMINATES", "INFORMATION_DOMINATES",
+                                         "MIXED", "NO_GAP_TO_EXPLAIN", "INCOMPLETE"):
+                _bad61.append("unknown verdict %r" % (_v61.get("state"),))
+            _arms61 = {a.get("arm"): a for a in (_doc61.get("arms") or [])}
+            for _need61 in ("card", "next_open", "close"):
+                if _need61 not in _arms61:
+                    _bad61.append("missing arm %r" % (_need61,))
+            _pgrid61 = sorted(a.get("extra_bp_per_side") for a in _arms61.values()
+                              if a.get("arm", "").startswith("close_i"))
+            if _pgrid61 != sorted(_P61.IMPACT_BP[1:]):
+                _bad61.append("extra-cost grid is %r" % (_pgrid61,))
+            if not _bad61:
+                _c61 = _arms61["card"]["cagr"]
+                _n61 = _arms61["next_open"]["cagr"]
+                _l61 = _arms61["close"]["cagr"]
+                # the impossible fill must be the only one that is better than both
+                # causal fills, otherwise the face is comparing two copies of one book
+                if not (_c61 > _l61 and _c61 > _n61):
+                    _bad61.append("the card fill is not above both causal fills "
+                                  "(%.4f / %.4f / %.4f)" % (_c61, _l61, _n61))
+                if abs((_doc61.get("reconciliation") or {}).get("fill_venue_pp", 0.0)
+                       - round(100.0 * (_l61 - _n61), 3)) > 1e-9:
+                    _bad61.append("the quoted fill-venue difference is not the two arms")
+            if not (_doc61.get("cross_artifact") or {}).get("agrees"):
+                _bad61.append("the face does not reproduce the look-ahead audit")
+            for _k61, _c61 in _P61.CRITERIA.items():
+                if (_doc61.get("criteria") or {}).get(_k61) != _c61:
+                    _bad61.append("criterion %s moved off the module constant" % (_k61,))
+        check("product: the missing bar is not a fill an operator could have chosen",
+              not _bad61,
+              "; ".join(_bad61)[:220] or "verdict %s, fill venue %+.2f pp/yr, recovered %+.2f "
+              "of %+.2f pp/yr, budget %s"
+              % ((_doc61.get("verdict") or {}).get("state"),
+                 (_doc61.get("reconciliation") or {}).get("fill_venue_pp") or 0.0,
+                 (_doc61.get("verdict") or {}).get("recovered_pp") or 0.0,
+                 (_doc61.get("verdict") or {}).get("gap_pp") or 0.0,
+                 (_doc61.get("verdict") or {}).get("execution_budget_bp_per_side")))
+    except Exception as e:
+        check("product: the missing bar is not a fill an operator could have chosen",
+              False, repr(e)[:160])
     # ---- r1197: the exposure-timing answer has to reach the face the CEO opens ----
     # r1196 answered "is the de-lever timing or just a smaller book?" and filed it in a
     # research note; the page -- the one face the CEO actually opens -- still told him the

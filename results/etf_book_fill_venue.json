@@ -1,0 +1,194 @@
+{
+ "generated": "2026-11-01 14:12:36",
+ "elapsed_sec": 24.2,
+ "evidence_cutoff": "2026-10-30",
+ "bars": 1653,
+ "config": {
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_bp": 10.0,
+  "vol_target": 0.08,
+  "classes": [
+   "equity",
+   "commodity",
+   "convertible"
+  ]
+ },
+ "criteria": {
+  "share_dominant": 0.6,
+  "share_information": 0.25,
+  "impact_bp_grid": [
+   0,
+   2,
+   5,
+   10,
+   15,
+   20,
+   30
+  ],
+  "tol_pp_per_year": 0.25,
+  "verdict_rule": "FILL_PRICE_DOMINATES iff filling at the close recovers >= 60% of the one-bar gap (card - next_open); INFORMATION_DOMINATES iff it recovers < 25%; MIXED otherwise. Execution budget = the largest grid cost per side at which the close book still matches or beats the next-open book; NONE if even the no-extra-cost close book does not.",
+  "arms": {
+   "card": "same signal, filled at open[d] -- the published convention (not achievable)",
+   "next_open": "same signal shifted one bar, filled at open[d+1] -- the ledger convention",
+   "close": "same signal, filled and marked at close[d] -- closing auction (MOC)",
+   "close_i<k>": "close arm with k extra bp per side (auction impact + rank/fill gap)"
+  },
+  "frozen": "thresholds written before the first run; --check refuses a face that does not reproduce them, and refuses a close arm that does not reproduce the look-ahead audit's own causal arm on the same panel"
+ },
+ "cross_artifact": {
+  "audit_artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_lookahead_audit.json",
+  "checked": true,
+  "audit_cutoff": "2026-10-30",
+  "card_vs_audit_pp": 0.0,
+  "causal_vs_audit_pp": 0.0,
+  "agrees": true
+ },
+ "arms": [
+  {
+   "arm": "card",
+   "cagr": 0.096,
+   "sharpe": 0.99,
+   "maxdd": -0.1177,
+   "vol": 0.1017,
+   "years": 6.82,
+   "turnover_per_fill": 0.934,
+   "extra_bp_per_side": 0
+  },
+  {
+   "arm": "next_open",
+   "cagr": 0.0846,
+   "sharpe": 0.874,
+   "maxdd": -0.1656,
+   "vol": 0.1028,
+   "years": 6.82,
+   "turnover_per_fill": 0.953,
+   "extra_bp_per_side": 0
+  },
+  {
+   "arm": "close",
+   "cagr": 0.0843,
+   "sharpe": 0.892,
+   "maxdd": -0.1308,
+   "vol": 0.1002,
+   "years": 6.82,
+   "turnover_per_fill": 0.923,
+   "extra_bp_per_side": 0
+  },
+  {
+   "arm": "close_i2",
+   "cagr": 0.0819,
+   "sharpe": 0.868,
+   "maxdd": -0.1327,
+   "vol": 0.1002,
+   "years": 6.82,
+   "turnover_per_fill": 0.923,
+   "extra_bp_per_side": 2
+  },
+  {
+   "arm": "close_i5",
+   "cagr": 0.0783,
+   "sharpe": 0.833,
+   "maxdd": -0.1354,
+   "vol": 0.1003,
+   "years": 6.82,
+   "turnover_per_fill": 0.923,
+   "extra_bp_per_side": 5
+  },
+  {
+   "arm": "close_i10",
+   "cagr": 0.0723,
+   "sharpe": 0.774,
+   "maxdd": -0.1401,
+   "vol": 0.1004,
+   "years": 6.82,
+   "turnover_per_fill": 0.923,
+   "extra_bp_per_side": 10
+  },
+  {
+   "arm": "close_i15",
+   "cagr": 0.0663,
+   "sharpe": 0.715,
+   "maxdd": -0.1447,
+   "vol": 0.1006,
+   "years": 6.82,
+   "turnover_per_fill": 0.923,
+   "extra_bp_per_side": 15
+  },
+  {
+   "arm": "close_i20",
+   "cagr": 0.0604,
+   "sharpe": 0.656,
+   "maxdd": -0.1493,
+   "vol": 0.1008,
+   "years": 6.82,
+   "turnover_per_fill": 0.923,
+   "extra_bp_per_side": 20
+  },
+  {
+   "arm": "close_i30",
+   "cagr": 0.0486,
+   "sharpe": 0.539,
+   "maxdd": -0.1584,
+   "vol": 0.1013,
+   "years": 6.82,
+   "turnover_per_fill": 0.923,
+   "extra_bp_per_side": 30
+  }
+ ],
+ "reconciliation": {
+  "sources": {
+   "card": "this face",
+   "close": "this face",
+   "next_open": "this face",
+   "causal": "results/etf_book_lookahead_audit.json",
+   "ledger_no_carry": "results/etf_book_lookahead_audit.json",
+   "ledger_carry": "results/etf_book_lookahead_audit.json"
+  },
+  "rows": [
+   {
+    "arm": "card",
+    "what": "fill at open[d] with the close[d] signal",
+    "cagr": 0.096
+   },
+   {
+    "arm": "close",
+    "what": "same signal, fill at close[d] (closing auction)",
+    "cagr": 0.0843
+   },
+   {
+    "arm": "next_open",
+    "what": "same rule, one bar earlier, fill at open[d]",
+    "cagr": 0.0846
+   },
+   {
+    "arm": "ledger_no_carry",
+    "what": "the executable ledger, no repo carry",
+    "cagr": 0.0853
+   },
+   {
+    "arm": "ledger_carry",
+    "what": "the executable ledger, with repo carry",
+    "cagr": 0.0912
+   }
+  ],
+  "fill_venue_pp": -0.03,
+  "mark_basis_pp": 0.07,
+  "headline_not_in_the_ledger_pp": 1.07,
+  "card_vs_executable_pp": 0.48
+ },
+ "verdict": {
+  "state": "INFORMATION_DOMINATES",
+  "gap_pp": 1.14,
+  "recovered_pp": -0.03,
+  "share": -0.0263,
+  "execution_budget_bp_per_side": "NONE",
+  "rule": "FILL_PRICE_DOMINATES iff filling at the close recovers >= 60% of the one-bar gap (card - next_open); INFORMATION_DOMINATES iff it recovers < 25%; MIXED otherwise. Execution budget = the largest grid cost per side at which the close book still matches or beats the next-open book; NONE if even the no-extra-cost close book does not."
+ },
+ "notes": [
+  "every arm holds the same names on the same grid; only the price series the book is filled and marked at changes (card/next_open: the open; close: the close)",
+  "the close arm ranks on the same close it trades -- institutionally that means the ordering is computed from last-tick data before the 14:57-15:00 auction, which is why the extra-cost grid exists instead of an assumption of free fills",
+  "the liquidity filter uses each bar's full-day turnover, which is only known at the close; that is inside the priced friction, not outside it",
+  "the toll is charged on turnover at the same 10bp/side in every arm, so a higher-turnover fill is not being flattered"
+ ]
+}
