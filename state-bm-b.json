@@ -3373,10 +3373,10 @@
  "task": "r1357 absorb: verified the killed round's E337/E335/E330 faces (18/18, 24/24, verify 0), then republished E333 and E336 over today's corpus (verify 0 problems both); pool supply floor restored 1 -> 3",
  "task_short": "r1357 verify absorbed E337 + republish E333/E336",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-11-01T10:59:00+08:00",
+ "ts": "2026-11-01T11:00:17+08:00",
  "ts_utc_ms": 1793474610481,
- "updated": "2026-11-01T10:59:00+08:00",
- "updated_at": "2026-11-01T10:59:00+08:00",
+ "updated": "2026-11-01T11:00:17+08:00",
+ "updated_at": "2026-11-01T11:00:17+08:00",
  "verdict": "an_absorbed_round_is_verified_face_by_face_and_the_corpus_drift_it_widened_is_paid_not_asserted",
  "verdict_line": "watermark red at open (pool-batch-runnable-idle-low-cpu, 1 ready = E330) -> authored, verified and published E330 in-round; board re-seeded with E331",
  "verify": "e331 selftest 24/24 | verify problems=[] (44 pairs / 24 readers / 22 blind tails) | chain leg wired (verify run, not the full chain) | smoke leg wired and exec'd standalone PASS | orphan 0 | sat rc=0 idle | dualrun ZERO-DRIFT 822 streak 51 | attrition CLEAN",
@@ -3559,7 +3559,7 @@
   "behind_origin_main": 217,
   "ts": "2026-11-01T09:15:32+08:00"
  },
- "timestamp": "2026-11-01T10:59:00+08:00",
+ "timestamp": "2026-11-01T11:00:17+08:00",
  "r1357": {
   "dept": "research+engineering",
   "absorbed_round": "the 09:17 round was silence-killed at 10:25 after landing E337 (face 09:40) and the E335 guard repair (face 10:18) but before closeout: the pool already said E337 done with future timestamps 10:35/10:40 while state and heartbeat still said r1356",
@@ -3574,5 +3574,14 @@
   "pool": "ready 3 = E338 (carried) + E339 + E340 seeded this window from E337 findings; supply floor breach cleared",
   "pit": "a pool card closed by a killed window carries a future closed_at -- the pool cannot tell a landed study from an intended one, so the absorb step has to re-derive every face the dead window touched instead of reading its status",
   "ts": "2026-11-01T10:59:00+08:00"
+ },
+ "r1357_delivery": {
+  "branch": "machine/bm-b-r1357",
+  "sha": "974f6bad64d1eb6c6d62bc1313408d34347b09f2",
+  "verified": true,
+  "local_not_on_origin_main": 174,
+  "behind_origin_main": 217,
+  "main_push_blocker": "local main diverged from origin/main for many rounds (promisor lazy-fetch wedge, r1255 family); no unattended rebase per r1243",
+  "ts": "2026-11-01T11:00:17+08:00"
  }
 }
