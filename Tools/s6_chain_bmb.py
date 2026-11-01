@@ -1070,6 +1070,13 @@ LEGS = [
     ("latest_mirror_channel",
      ["python", "scripts/e349_latest_mirror_census.py", "verify"]),
 
+    # E350: the FIELD, not the file, is what a hand edit touches. 2289 (face, field) pairs are
+    # read across 2341 sources; 230 are read by a guard and 131 of those have no writer anywhere
+    # in the corpus, so the guard can only fire on a missing value. Verify re-derives the census
+    # from the face's pin (~3 min, AST over the corpus).
+    ("field_level_branch_census",
+     ["python", "scripts/e350_field_branch_census.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

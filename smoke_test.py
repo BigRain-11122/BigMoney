@@ -11267,6 +11267,72 @@ def main() -> int:
                 ((_f349 or {}).get("summary") or {}).get("write_only_to_python"),
                 ((_f349 or {}).get("summary") or {}).get("never_named_by_any_in_repo_file")))
 
+    # E350: E346 counted 17 status fields and E347 counted zero operational gates on dated faces;
+    # both counted FILES. This leg asks that the field-level face refuse five shapes: a branch
+    # tally that does not sum to the read count, a guard field reported as unwritten while being
+    # in the written set, a blast radius that is not exactly the choice count, a verdict whose
+    # number does not re-derive from the summary, and a population published without saying how
+    # many of its face keys could not be resolved past a basename.
+    _name350 = ("product: the field-level branch census re-derives, and a blast radius is choices only")
+    _bad350 = []
+    _f350 = None
+    try:
+        _p350 = os.path.join("results", "state_tilt", "fieldbranch_latest.json")
+        _f350 = json.load(open(_p350, encoding="utf-8")) if os.path.exists(_p350) else None
+        if _f350 is None:
+            _bad350.append("no published field-branch face")
+        else:
+            _s350 = _f350.get("summary") or {}
+            _by350 = _s350.get("reads_by_branch") or {}
+            if sum(int(v or 0) for v in _by350.values()) != int(_s350.get("field_reads") or 0):
+                _bad350.append("reads_by_branch does not sum to field_reads")
+            if int(_s350.get("guard_fields_with_no_writer") or 0) > int(
+                    _s350.get("guard_fields") or 0):
+                _bad350.append("more unwritten guards than guards")
+            if int(_s350.get("fields_with_no_writer") or 0) > int(_s350.get("fields") or 0):
+                _bad350.append("more unwritten fields than fields")
+            if _s350.get("fields_with_unresolved_face") is None:
+                _bad350.append("face keys that fell back to a basename are not published")
+            if not str(_f350.get("bound") or "").strip():
+                _bad350.append("no bound published")
+            _v350 = str(_f350.get("verdict") or "")
+            _m350 = re.search(r"and_(\d+)_of_them_have_no_writer", _v350)
+            if _m350 and int(_m350.group(1)) != int(_s350.get("guard_fields_with_no_writer") or 0):
+                _bad350.append("the verdict's unwritten-guard count does not re-derive (%s vs %s)"
+                               % (_m350.group(1), _s350.get("guard_fields_with_no_writer")))
+            for _r350 in _f350.get("rows") or []:
+                if int(_r350.get("blast_radius") or 0) != int(_r350.get("choices") or 0):
+                    _bad350.append("%s :: %s blast radius is not the choice count"
+                                   % (_r350.get("face"), _r350.get("field")))
+                    break
+                if (int(_r350.get("choices") or 0) + int(_r350.get("guards") or 0)
+                        + int(_r350.get("loops") or 0) + int(_r350.get("unbranched") or 0)
+                        != int(_r350.get("reads") or 0)):
+                    _bad350.append("%s :: %s branch counts do not sum to its reads"
+                                   % (_r350.get("face"), _r350.get("field")))
+                    break
+            for _u350 in _f350.get("unwritten_guards") or []:
+                if not int(_u350.get("guards") or 0) or _u350.get("written") is not False:
+                    _bad350.append("an unwritten-guard row is not a guard or is written")
+                    break
+    except Exception as e:
+        check(_name350, False, repr(e)[:160])
+
+    check(_name350, not _bad350, "; ".join(_bad350)[:220]
+          or "%s; %s (face, field) pairs over %s sources, %s guard fields of which %s never "
+             "written, %s choice fields / %s choice sites, largest resolved blast radius %s at "
+             "%s, %s fields on a basename-only key"
+             % ((_f350 or {}).get("verdict"),
+                ((_f350 or {}).get("summary") or {}).get("fields"),
+                ((_f350 or {}).get("summary") or {}).get("corpus_sources"),
+                ((_f350 or {}).get("summary") or {}).get("guard_fields"),
+                ((_f350 or {}).get("summary") or {}).get("guard_fields_with_no_writer"),
+                ((_f350 or {}).get("summary") or {}).get("choice_fields"),
+                ((_f350 or {}).get("summary") or {}).get("choice_sites"),
+                ((_f350 or {}).get("summary") or {}).get("max_blast_radius"),
+                ((_f350 or {}).get("summary") or {}).get("max_blast_field"),
+                ((_f350 or {}).get("summary") or {}).get("fields_with_unresolved_face")))
+
     return _finish()
 
 

@@ -7267,3 +7267,51 @@ Evidence: scripts/e349_latest_mirror_census.py (selftest 15/15, verify 0 problem
 results/state_tilt/MIRROR-2026-11-01.json + mirror_latest.json; S6 leg `latest_mirror_channel`;
 smoke leg E349 (standalone runner scripts/run_e349_smoke_leg.py);
 research/digests/DIGEST-20261101-r1370-e349-mirror-channel.md
+
+
+## E350 -- the field, not the file, is what a hand edit touches
+
+E346 counted 17 status fields whose writer's own next run branches on them and E347 counted zero
+operational gates on dated faces; both counted FILES. This card counts fields -- the smallest unit
+a hand edit actually changes -- over the same corpus (2343 in-repo `.py` sources, this study's own
+source excluded per E319/E326).
+
+Readings: 1632 variables are bound by a load whose path folds to a `*.json` face, and 876 more are
+build-from-scratch dicts dumped to one, so writers are visible from both directions. Across those
+bindings there are 5398 string-key reads of 2289 distinct (face, field) pairs: 849 through an
+assert, 60 through an exit-only `if` body, 1130 through a body that works and/or an `else`, 3359
+unbranched. 230 fields are read by a guard, and 131 of them (57%) have no write anywhere in the
+corpus -- a guard on a field nothing writes can only fire on a missing value. 728 fields reach a
+choice; the largest resolved blast radius is 14 choice sites across 34 files on
+`results/gate_attrition.json :: entries` (the `state-bm-*.json` watermarks carry the same shape:
+45 guards and 11 choices on `last_orders_sha`, 43 and 11 on `last_decisions_sha`).
+
+1. **A basename is not a face.** `meta.json` appears 66 times and `attr.json` across a dozen
+   scripts; keying by basename credited `attr.json :: entries` with 21 choice sites in 12 files
+   when they are a dozen unrelated faces. Face keys now keep the path from the first known root
+   (`results/`, `data/`, ...), and the 803 fields whose path still will not fold past a basename
+   are published as `fields_with_unresolved_face` instead of being ranked.
+2. **Readers are easy, writers are not.** Following only load bindings called 2018 of 2212 fields
+   "never written" because most producers build the dict themselves and dump it. Adding the
+   `json.dump(var, ...)` sink (and its dict-literal/`update`/`setitem` keys) moved that to 1698 of
+   2289 and the unwritten-guard headline from 180 to 131 -- the same defect in the opposite
+   direction, and a reminder that a census must be symmetric or it measures its own filter.
+3. **Guard vs choice is a property of the branch body, not of the key name.** `if not d["x"]:
+   raise` stops; `if not d["x"]: d["mode"] = "blocked"` falls through and chooses. Classification
+   by body shape (`exit_only` / `assert` / has `else` / works) is publishable and testable; a word
+   list ("fresh", "ready", "stale") is not.
+4. **Blast radius is choices only.** A guard that fires and stops changes nothing downstream on
+   the happy path, so counting it inflates the number that matters. Guards are published beside it
+   (`guards`, `files`), never folded in -- and a selftest leg pins `blast_radius == choices`.
+5. **Self-inclusion bites one level up.** A study that scans `scripts/` writes its own fixtures
+   into the corpus it scans, and its smoke runner is a new source in the next rebuild: the
+   publisher has to exclude its own source AND accept that adding the runner moves
+   `corpus_sources` by one until the face is rebuilt (the face is rebuilt last, then verified).
+6. **An unresolved load binding is published, not dropped.** 3235 load calls resolve to no path
+   this folder can fold (handles opened outside a `with`, `Path.read_text()` chains). They are
+   counted so the 1632 that DO resolve are readable as a share, not as the population.
+
+Evidence: scripts/e350_field_branch_census.py (selftest 20/20, verify 0 problems) ->
+results/state_tilt/FIELDBRANCH-2026-11-01.json + fieldbranch_latest.json; S6 leg
+`field_level_branch_census`; smoke leg E350 (standalone runner scripts/run_e350_smoke_leg.py);
+research/digests/DIGEST-20261101-r1371-e350-field-branch-census.md
