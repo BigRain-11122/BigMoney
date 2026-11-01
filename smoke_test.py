@@ -5472,6 +5472,63 @@ def main() -> int:
     except Exception as e:
         check("config: the cap-vs-book producer runs before the faces that quote it",
               False, repr(e)[:160])
+    # ---- r1218: the battle report's ETF book section is the page's own payload ----
+    # The report is where the CEO reads the book every morning; before this leg it
+    # carried no book at all, so "the book is fine" and "nobody printed the book"
+    # looked the same. The numbers are re-derived from the producer payload here --
+    # a hand-written second sentence, or a report whose priced bar lags the payload,
+    # reads red.
+    try:
+        _bad33 = []
+        _info33 = ""
+        _drp33 = importlib.import_module("etf_book_ceo_page")
+        _pl33, _pmd33 = _drp33.build()
+        _dr33 = importlib.import_module("daily_report")
+        _fc33 = _dr33._etf_book_face()
+        if _fc33.get("status") != "ok":
+            _bad33.append("the report's book face reads %r (%s)"
+                          % (_fc33.get("status"), _fc33.get("detail")))
+        else:
+            for _k33 in ("priced_bar", "book_amount_cny", "cash_amount_cny",
+                         "n_hold", "next_rebalance_date"):
+                if _fc33.get(_k33) != _pl33.get(_k33):
+                    _bad33.append("%s: face %r vs producer %r"
+                                  % (_k33, _fc33.get(_k33), _pl33.get(_k33)))
+        _rp33 = sorted(glob.glob(os.path.join(
+            PATHS.root, "docs", "daily_report", "REPORT-*.md")))
+        if not _rp33:
+            _bad33.append("no battle report on disk")
+        else:
+            with open(_rp33[-1], encoding="utf-8") as _fh33:
+                _rmd33 = _fh33.read()
+            _seg33 = _rmd33[_rmd33.find("## 十二、ETF"):
+                            (_rmd33.find("## Token") if "## Token" in _rmd33
+                             else len(_rmd33))]
+            if not _seg33:
+                _bad33.append("the newest report (%s) has no ETF book section"
+                              % os.path.basename(_rp33[-1]))
+            else:
+                if str(_pl33.get("priced_bar")) not in _seg33:
+                    _bad33.append("the book section omits the priced bar")
+                _env33 = _pl33.get("envelope") or {}
+                if _env33.get("status") == "ok":
+                    _p5033 = ((_env33.get("cagr") or {}).get("50"))
+                    if _p5033 is not None and ("%.2f%%" % (float(_p5033) * 100)) not in _seg33:
+                        _bad33.append("the section does not print the envelope p50 "
+                                      "that the producer published")
+                else:
+                    # no envelope -> the section must not silently print a percentile
+                    if "运气分布" in _seg33 and "p5" in _seg33:
+                        _bad33.append("an absent envelope was printed as a distribution")
+            _info33 = ("report %s | priced %s | book %s | env %s"
+                       % (os.path.basename(_rp33[-1]), _pl33.get("priced_bar"),
+                          _pl33.get("book_amount_cny"),
+                          (_pl33.get("envelope") or {}).get("status")))
+        check("product: the battle report carries the book it is about",
+              not _bad33, "; ".join(_bad33)[:220] or _info33)
+    except Exception as e:
+        check("product: the battle report carries the book it is about",
+              False, repr(e)[:160])
     try:
         # r1355: the width floor and the buffer read-back are published verdicts, so a reader
         # must be able to re-derive each one from the numbers ON the face -- not from the script

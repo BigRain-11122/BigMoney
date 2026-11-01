@@ -759,6 +759,62 @@ def _cap_vs_book_face():
         return {"status": "unreadable", "detail": str(exc)[:160]}
 
 
+def _etf_book_face():
+    """The ETF book, carried into the report by the producer that prices it.
+
+    Single implementation (r1290/r1319 family, fourth face): every number here
+    comes out of `etf_book_ceo_page.build()` -- the same payload
+    docs/live_book/LIVE-BOOK-*.md is rendered from.  The report does not
+    re-price the book and does not re-read the bootstrap artifacts, so the two
+    faces cannot drift into two sentences about one number.  A face that is
+    absent in the payload stays absent (None), never 0 and never "fine"."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_ceo_page as _page
+    except Exception as exc:                                   # noqa: BLE001
+        return {"status": "unavailable", "detail": str(exc)[:160]}
+    try:
+        payload, _md = _page.build()
+    except Exception as exc:                                   # noqa: BLE001
+        return {"status": "unreadable", "detail": str(exc)[:160]}
+    env = payload.get("envelope") or {}
+    br = payload.get("band_ruler") or {}
+    return {
+        "status": "ok",
+        "priced_bar": payload.get("priced_bar"),
+        "book_decided_at": payload.get("book_decided_at"),
+        "next_rebalance_date": payload.get("next_rebalance_date"),
+        "capital_cny": payload.get("capital_cny"),
+        "book_amount_cny": payload.get("book_amount_cny"),
+        "cash_amount_cny": payload.get("cash_amount_cny"),
+        "n_hold": payload.get("n_hold"),
+        "k_now": payload.get("k_now"),
+        "today_action": payload.get("today_action"),
+        "forward": payload.get("forward"),
+        "vs_basket": payload.get("vs_basket"),
+        "envelope": ({
+            "status": env.get("status"),
+            "evidence_cutoff": env.get("evidence_cutoff"),
+            "bars": env.get("bars"),
+            "block": env.get("block"),
+            "n_resamples": env.get("n_resamples"),
+            "cagr": env.get("cagr"),
+            "maxdd": env.get("maxdd"),
+            "point_pctile": env.get("point_pctile"),
+            "shares": env.get("shares"),
+            "reconciliation": env.get("reconciliation"),
+        } if env else None),
+        "band_ruler": ({
+            "status": br.get("status"),
+            "verdict": br.get("verdict"),
+        } if br else None),
+        "feed_status": payload.get("feed_status"),
+        "feed_lag_days": payload.get("feed_lag_days"),
+    }
+
+
 def build_report(now):
     return {
         "report_date": now.strftime("%Y-%m-%d"),
@@ -778,6 +834,7 @@ def build_report(now):
         "lane_authority": _lane_authority_face(),
         "lane_silence": _lane_silence_face(),
         "cap_vs_book": _cap_vs_book_face(),
+        "etf_book": _etf_book_face(),
         "canon_refs": ["T-75 ticket (O-20260926-0940)", "results/paper_export/latest.json",
                        "results/market_clock/call_latest.json", "results/token_usage.json",
                        "T-105 v1.3 live-usage embedded section (docs/live_usage/)",
@@ -1090,6 +1147,63 @@ def render_md(rep):
             L.append(f"- 此刻仍开着的空档：自 {og.get('since')} 起 {og.get('unexplained_low_min')}"
                      f"–{og.get('unexplained_high_min')} 分钟未解释（含已声明静默窗的扣除）")
     L.append("")
+    L.append("## 十二、ETF 那本账（纸盘：今天该不该动、能期待什么）")
+    eb = rep.get("etf_book") or {}
+    if eb.get("status") != "ok":
+        L.append(f"- 账本面{'读不出' if eb.get('status') == 'unreadable' else '未产出'}"
+                 f"（{eb.get('detail') or '无载荷'}）——无法核验，不是「没问题」")
+    else:
+        L.append(f"- **定价日 {eb.get('priced_bar')}**（决策 {eb.get('book_decided_at')}）· "
+                 f"下一次调仓 {eb.get('next_rebalance_date')} · "
+                 f"盘面 {eb.get('feed_status')}（滞后 {eb.get('feed_lag_days')} 天）")
+        L.append(f"- **账本 {eb.get('n_hold')} 名 · 持仓 {eb.get('book_amount_cny')} CNY"
+                 f"（k={eb.get('k_now')}）· 现金 {eb.get('cash_amount_cny')} CNY · "
+                 f"本金 {eb.get('capital_cny')} CNY**")
+        ta = eb.get("today_action") or {}
+        if ta.get("mode") == "hold":
+            L.append(f"- 今天：**不动**（继续持有到 {ta.get('next_trade_date')}）；"
+                     f"现在换一次书=年化让出 {ta.get('cost_if_retraded_pct_per_year')}%")
+        elif ta.get("mode"):
+            L.append(f"- 今天：{'**换书**' if ta.get('mode') == 'trade' else ta.get('mode')}")
+        fw = eb.get("forward") or {}
+        if fw.get("as_of"):
+            L.append(f"- 前向账本 {fw.get('bars')} 根 bar（{fw.get('inception')}→{fw.get('as_of')}）："
+                     f"NAV {fw.get('nav')} · 累计 {fw.get('since_inception_pct')}%")
+        vb = eb.get("vs_basket") or {}
+        if vb.get("excess_pp") is not None:
+            hz = (vb.get("horizon") or {}).get("min_detectable_edge_pp") or {}
+            L.append(f"- 对「四只等权」{vb.get('excess_pp')} pp（bar {vb.get('bar')}）"
+                     + (f"；这个账本 6 个月能分辨的最小边际 {hz.get('6m')} pp/年"
+                        "——此数只作健康检查，不构成判决" if hz.get("6m") is not None else ""))
+        env = eb.get("envelope") or {}
+        if env.get("status") == "ok":
+            cg, md_, sh = env.get("cagr") or {}, env.get("maxdd") or {}, env.get("shares") or {}
+
+            def _pc(v):
+                return "—" if v is None else f"{float(v) * 100:.2f}%"
+
+            L.append(f"- **运气分布**（{env.get('bars')} 根 bar × {env.get('block')} 块重抽 "
+                     f"{env.get('n_resamples')} 次，截止 {env.get('evidence_cutoff')}）："
+                     f"年化 p5 **{_pc(cg.get('5'))}** / p50 **{_pc(cg.get('50'))}** / "
+                     f"p95 **{_pc(cg.get('95'))}**；"
+                     f"最大回撤 p5 **{_pc(md_.get('5'))}** / p50 **{_pc(md_.get('50'))}**")
+            if sh:
+                pp = env.get("point_pctile") or {}
+                L.append(f"  - 重抽里亏钱（年化≤0）的份额 {_pc(sh.get('cagr_le_zero'))} · "
+                         f"跌破 -20% 的份额 {_pc(sh.get('maxdd_le_line'))} · "
+                         f"点估计落在年化 {pp.get('cagr')} 分位 / 回撤 {pp.get('maxdd')} 分位")
+        elif env.get("status"):
+            L.append(f"- 运气分布面 {env.get('status')}——不印数（缺面禁读成 0）")
+        rec = env.get("reconciliation")
+        if rec:
+            L.append(f"- 分布描述的是哪本书：`{rec if isinstance(rec, str) else rec.get('verdict')}`")
+        br = eb.get("band_ruler") or {}
+        if br.get("verdict"):
+            v = br.get("verdict") or {}
+            L.append(f"- 回测表三行的尺子：`{v.get('state')}`"
+                     + (f"——动它的旋钮 {', '.join(v.get('dials_that_move') or [])}" if v.get("dials_that_move") else "")
+                     + "（跨行比较无效，只能同列比）")
+    L.append("")
     L.append("## Token 行（T-77 · L1 本地零 token/L3 云端该用就用）")
     t = rep.get("token_line") or {}
     L.append(f"- 状态面估计 {t.get('total_state_tokens_est')} · 报告面估计 {t.get('total_report_tokens_est')} · "
@@ -1117,7 +1231,7 @@ def selftest():
     global _combat_face, _rd_face, _decision_face, _queue_face, _token_face
     global _utilization_face, _live_face, _core_spread_face, _engine_wave_face
     global _attribution_face, _stage_style_face, _zt_risk_face
-    global _lane_authority_face, _lane_silence_face
+    global _lane_authority_face, _lane_silence_face, _etf_book_face
     # ---- A2/G4 helper legs (series tail delta, honest degrade paths)
     d = _series_tail_delta([{"date": "2026-09-01", "equity_cny": 100.0},
                             {"date": "2026-09-02", "equity_cny": 101.0}])
@@ -1397,6 +1511,48 @@ def selftest():
         "absent silence face was not printed"
     assert "still open since" not in _md_ls_absent, \
         "absent face leaked a stale sentence"
+    # r1218: the ETF book reaches the report through the payload the CEO page is
+    # rendered from (one price source). A face that is missing from that payload
+    # must read "cannot verify" -- never a stale number, never 0.
+    _saved_eb = _etf_book_face
+    _etf_book_face = lambda: {
+        "status": "ok", "priced_bar": "2026-10-30", "book_decided_at": "2026-10-14",
+        "next_rebalance_date": "2026-11-11", "capital_cny": 1000000.0,
+        "book_amount_cny": 470208.47, "cash_amount_cny": 529791.53, "n_hold": 5,
+        "k_now": 0.47149,
+        "today_action": {"mode": "hold", "next_trade_date": "2026-11-11",
+                         "cost_if_retraded_pct_per_year": 18.86},
+        "forward": {"bars": 6, "inception": "2026-10-23", "as_of": "2026-10-30",
+                    "nav": 1.0086, "since_inception_pct": 0.8599},
+        "vs_basket": {"bar": "2026-10-30", "excess_pp": 1.8541,
+                      "horizon": {"min_detectable_edge_pp": {"6m": 33.5}}},
+        "envelope": {"status": "ok", "bars": 1652, "block": 20, "n_resamples": 2000,
+                     "evidence_cutoff": "2026-10-30",
+                     "cagr": {"5": 0.0315, "50": 0.0956, "95": 0.1633},
+                     "maxdd": {"5": -0.2095, "50": -0.1323},
+                     "shares": {"cagr_le_zero": 0.004, "maxdd_le_line": 0.064},
+                     "point_pctile": {"cagr": 50.3, "maxdd": 66.1},
+                     "reconciliation": "same_object"},
+        "band_ruler": {"status": "ok", "verdict": {
+            "state": "ROWS_NOT_COMPARABLE",
+            "dials_that_move": ["ordering", "universe", "window"]}},
+        "feed_status": "current", "feed_lag_days": 0}
+    _md_eb = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
+    for _m in ("## 十二、ETF 那本账", "定价日 2026-10-30", "下一次调仓 2026-11-11",
+               "今天：**不动**", "470208.47", "运气分布", "9.56%", "0.40%",
+               "`ROWS_NOT_COMPARABLE`", "`same_object`"):
+        assert _m in _md_eb, _m
+    _etf_book_face = lambda: {"status": "unreadable", "detail": "boom"}
+    _md_eb_bad = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
+    _etf_book_face = _saved_eb
+    assert "无法核验" in _md_eb_bad, "an unreadable book face read as fine"
+    assert "470208.47" not in _md_eb_bad, "an unreadable book face leaked a number"
+    # the absent sub-face must not print a zero where the producer had none
+    _etf_book_face = lambda: {"status": "ok", "priced_bar": "2026-10-30"}
+    _md_eb_none = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
+    _etf_book_face = _saved_eb
+    assert "运气分布面 None" not in _md_eb_none, "absent envelope printed as a value"
+    assert "NAV None" not in _md_eb_none, "absent forward ledger printed as a value"
     assert rep["combat"]["traders"][0]["trader"] == "T1"
     assert rep["report_date"] == "2026-09-26"
     assert rep["live_usage"]["status"] == "ok"

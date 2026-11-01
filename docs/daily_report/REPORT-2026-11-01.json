@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-01",
- "generated_at": "2026-11-01 16:44:49",
+ "generated_at": "2026-11-01 21:59:19",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-01.md"
  },
  "rd": {
-  "commits_24h": 33,
-  "result_jsons_landed_24h": 82,
-  "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 15,
+  "commits_24h": 32,
+  "result_jsons_landed_24h": 80,
+  "digests_landed_24h": 1,
+  "prereg_md_touched_24h": 14,
   "compute_audit_latest": {
-   "ts": "2026-11-01 16:33:34",
-   "py_cpu_pct": 4.9,
+   "ts": "2026-11-01 21:33:32",
+   "py_cpu_pct": 1.1,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -652,7 +652,7 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2370920,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-01 04:30:26",
+   "prev_generated": "2026-11-01 07:42:26",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -665,33 +665,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-11-01 16:33:34",
-    "py_pct": 4.9,
-    "cpu_pct": 59.0,
+    "latest_ts": "2026-11-01 21:33:32",
+    "py_pct": 1.1,
+    "cpu_pct": 33.0,
     "ready": 0,
-    "streak_min": 2048.3,
+    "streak_min": 2348.3,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "04:04",
-      0.1
-     ],
-     [
-      "04:25",
-      5.0
-     ],
-     [
-      "06:51",
-      0.4
-     ],
-     [
-      "07:23",
-      5.4
-     ],
-     [
-      "08:22",
-      5.0
-     ],
      [
       "12:51",
       4.9
@@ -719,9 +699,29 @@
      [
       "16:33",
       4.9
+     ],
+     [
+      "18:48",
+      5.1
+     ],
+     [
+      "19:23",
+      0.4
+     ],
+     [
+      "19:32",
+      4.9
+     ],
+     [
+      "20:42",
+      5.4
+     ],
+     [
+      "21:33",
+      1.1
      ]
     ],
-    "today_samples": 15,
+    "today_samples": 20,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -870,7 +870,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-01 16:33:34"
+     "audit_ts": "2026-11-01 21:33:32"
     }
    },
    "bm-b": {
@@ -1750,10 +1750,10 @@
   "verdict": "SILENT_GAP",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 10.0,
-  "rounds_in_window": 87,
-  "rounds_in_ledger": 688,
-  "gaps_over_threshold_count": 9,
+  "median_gap_min": 13.1,
+  "rounds_in_window": 97,
+  "rounds_in_ledger": 703,
+  "gaps_over_threshold_count": 11,
   "longest_silence": {
    "from": "2026-10-31T19:15",
    "gap_high_min": 501.2,
@@ -1764,12 +1764,12 @@
    "unexplained_low_min": 501.2
   },
   "open_gap": {
-   "gap_high_min": 56.5,
-   "gap_low_min": 47.5,
+   "gap_high_min": 2.1,
+   "gap_low_min": 2.1,
    "quiet_window_min": 0.0,
-   "since": "2026-11-01T12:00",
-   "unexplained_high_min": 56.5,
-   "unexplained_low_min": 47.5
+   "since": "2026-11-01T21:43",
+   "unexplained_high_min": 2.1,
+   "unexplained_low_min": 2.1
   },
   "gaps_over_threshold": [
    {
@@ -1852,11 +1852,50 @@
     "to": "2026-11-01T12:00",
     "unexplained_high_min": 249.0,
     "unexplained_low_min": 231.0
+   },
+   {
+    "from": "2026-11-01T17:00",
+    "gap_high_min": 129.0,
+    "gap_low_min": 111.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-01T19:00",
+    "unexplained_high_min": 129.0,
+    "unexplained_low_min": 111.0
+   },
+   {
+    "from": "2026-11-01T19:41",
+    "gap_high_min": 122.1,
+    "gap_low_min": 122.1,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-01T21:43",
+    "unexplained_high_min": 122.1,
+    "unexplained_low_min": 122.1
    }
   ],
   "evidence_cutoff": "2026-11-01",
-  "generated": "2026-11-01T12:56:27",
-  "sentence": "bm-a: 87 rounds in 3d, median gap 10.0 min, 9 unexplained gap(s) over 90 min; longest silence 2026-10-31T19:15 -> 2026-11-01T03:36 (501.2-501.2 min, 0.0 explained by its quiet window); still open since 2026-11-01T12:00 (47.5-56.5 min unexplained)."
+  "generated": "2026-11-01T21:45:11",
+  "silence_verdict": "SILENT_GAP",
+  "lane_tasks": {
+   "absent": [],
+   "disabled": [],
+   "disabled_before_heal": [],
+   "heal": {
+    "acts": [],
+    "healed": [],
+    "readback": {}
+   },
+   "probeable": 4,
+   "states": {
+    "Bigmoney-IterationLoop": "Running",
+    "Bigmoney-LoopWatchdog": "Ready",
+    "Bigmoney-SatEngine-bm-b": "Ready",
+    "HQ-Patrol-BigMoney": "Ready"
+   },
+   "threshold_min": 90,
+   "verdict": "LANE_ENABLED",
+   "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
+  },
+  "sentence": "bm-a: 97 rounds in 3d, median gap 13.1 min, 11 unexplained gap(s) over 90 min; longest silence 2026-10-31T19:15 -> 2026-11-01T03:36 (501.2-501.2 min, 0.0 explained by its quiet window); still open since 2026-11-01T21:43 (2.1-2.1 min unexplained)."
  },
  "cap_vs_book": {
   "status": "ok",
@@ -1875,6 +1914,121 @@
   },
   "state": "RED",
   "priced_on": "2026-10-30"
+ },
+ "etf_book": {
+  "status": "ok",
+  "priced_bar": "2026-10-30",
+  "book_decided_at": "2026-10-14",
+  "next_rebalance_date": "2026-11-11",
+  "capital_cny": 1000000.0,
+  "book_amount_cny": 470208.47,
+  "cash_amount_cny": 529791.53,
+  "n_hold": 5,
+  "k_now": 0.47149,
+  "today_action": {
+   "mode": "hold",
+   "holding": true,
+   "book_decided_at": "2026-10-14",
+   "priced_bar": "2026-10-30",
+   "next_trade_date": "2026-11-11",
+   "cost_if_retraded_pct_per_year": 18.86,
+   "cost_basis": "2 sides x 8.0 bp x 250 sessions x book share 0.4715, on capital"
+  },
+  "forward": {
+   "bars": 6,
+   "inception": "2026-10-23",
+   "nav": 1.0085993056,
+   "since_inception_pct": 0.8599,
+   "as_of": "2026-10-30"
+  },
+  "vs_basket": {
+   "bar": "2026-10-30",
+   "book_nav": 1.0085993056,
+   "basket_nav": 0.9902396044,
+   "excess_pp": 1.8541,
+   "basket": {
+    "518880": "gold ETF",
+    "513100": "Nasdaq-100 QDII ETF",
+    "510300": "CSI 300 ETF",
+    "511010": "treasury bond ETF"
+   },
+   "basis": "等权 1/4、同一换仓日、次日开盘成交",
+   "horizon": {
+    "min_detectable_edge_pp": {
+     "6m": 33.505,
+     "1y": 23.692,
+     "2y": 16.752,
+     "3y": 13.678
+    },
+    "years_for_80pct_power": {
+     "pre-2020 measured alpha (single arm)": 136.2,
+     "in-window measured alpha (single arm)": 15.8
+    },
+    "candidate_sources": {
+     "pre-2020 measured alpha (single arm)": {
+      "file": "results/etf_book_spanning_pre2020.json",
+      "field": "arms.single.full.alpha_annual",
+      "edge_pp_per_year": 2.03
+     },
+     "in-window measured alpha (single arm)": {
+      "file": "results/etf_book_spanning.json",
+      "field": "arms.book.full.alpha_annual",
+      "edge_pp_per_year": 5.96
+     }
+    }
+   }
+  },
+  "envelope": {
+   "status": "ok",
+   "evidence_cutoff": "2026-10-30",
+   "bars": 1652,
+   "block": 20,
+   "n_resamples": 2000,
+   "cagr": {
+    "1": 0.012250025301939903,
+    "5": 0.03154127986022479,
+    "25": 0.07013307886443498,
+    "50": 0.09564810023137382,
+    "75": 0.1227915836310362,
+    "95": 0.16328250741227956,
+    "99": 0.1972411726426772
+   },
+   "maxdd": {
+    "1": -0.25390829116136876,
+    "5": -0.20945850572008126,
+    "25": -0.15941558416334398,
+    "50": -0.1323210157769319,
+    "75": -0.11117071409460519,
+    "95": -0.08896607771659984,
+    "99": -0.07658152847507997
+   },
+   "point_pctile": {
+    "cagr": 50.3,
+    "sharpe": 51.6,
+    "maxdd": 66.1
+   },
+   "shares": {
+    "cagr_le_zero": 0.004,
+    "maxdd_le_line": 0.064,
+    "n_resamples": 2000
+   },
+   "reconciliation": "same_object"
+  },
+  "band_ruler": {
+   "status": "ok",
+   "verdict": {
+    "state": "ROWS_NOT_COMPARABLE",
+    "dials_that_move": [
+     "ordering",
+     "universe",
+     "window"
+    ],
+    "why": "the table's rows are not one ruler: window +5.04pp、universe +0.44pp、ordering -0.51pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
+    "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
+   }
+  },
+  "feed_status": "current",
+  "feed_lag_days": 0
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",

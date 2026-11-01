@@ -8304,3 +8304,14 @@ LANE_TASKS（selftest L28 钉死三机都有引擎项）。
 验证：`scripts/lane_silence_audit.py` selftest 28/28（新增 L22-L28）+ 实弹
 （`schtasks /change /disable HQ-Patrol-BigMoney` → `--heal` → 读回 Ready，`healed` 具名）
 + S6 链腿改为 `--heal`（`Tools/s6_chain_bmc.py`）：被关掉的车道下一轮自己点亮。
+
+
+### E334 · 战报里没有那本书，"书很好"和"没人印书"长得一模一样（r1218 bm-a）
+
+**一 · 最重要的产品面漏了主角。** 每日战报（`docs/daily_report/REPORT-*.md`）是 CEO 每天读的那一页，里面有四维 paper 与市场风险面，却**没有 ETF 那本账**——它只存在于另一张页（`docs/live_book/LIVE-BOOK-*.md`）。于是"今天不应该动"与"今天根本没人算过这本书"在战报上是同一个样子（空白不是「干净」，r98/r1199 族的产品面第三现）。
+
+**二 · 补面不能另算一遍。** 新节的每个数都来自 `etf_book_ceo_page.build()` 的载荷（与一页纸同一份），战报不重定价书、不重读 bootstrap 工件——否则就是同一个数字的第二句话（E289/r1290 族第四现）。缺面三态必须分开写：未产出、读不出、静默缺省子面——子面缺就不印那一行，**绝不印 0，也绝不印 None**。
+
+**三 · 展示的词要能被读者拿去用。** 分位数与量纲必须同屏：年化 p5/p50/p95 打成百分比，同屏给出"亏钱的份额"与"跌破 -20% 的份额"（分数口径直接印 0.004 会被读成百分比，r1292/r1315 族）；且必须说明这份分布描述的是哪本书（`same_object`/`different_object`）、回测表三行是不是同一把尺子（`ROWS_NOT_COMPARABLE`）。
+
+验证：`scripts/daily_report.py::_etf_book_face` + render sec.12；selftest 新增三腿（有面→数上纸 / `unreadable`→印"无法核验"且不泄数 / 空子面→不印 None）；smoke 新腿"the battle report carries the book it is about" 从生产者载荷重推 priced_bar/book/cash/n_hold/next_rebalance 并要求 p50 逐字上纸（手写即红）。
