@@ -7428,3 +7428,32 @@ tree, and what the answer looks like: 23 of 131 raise before the guard runs.
 6. **Population checks belong in the smoke leg, not in prose.** A class tally that does not sum to
    the population, a present field called an alert, an ambiguous name carrying a resolved path, or
    a writer proposed for a face no writer can reach are all refusals a fixture can pin.
+
+## E354 -- "the reader cannot read the carrier" is not "the carrier stopped": a parse failure must be its own state (r1376)
+
+`scripts/automation_line_audit.py` graded E1 (loop-driven 24x7) on two ages: the heartbeat, and the
+newest row of the round report. The row was read as `line.split(" | ")[0]` and handed to
+`fromisoformat`. From r1332 the carrier `round_reports-bm-b.md` is a markdown table, so every row
+now starts with a pipe: field 0 became the literal `| 2026-11-02T06:30:45+08:00`, parsing raised,
+`_age_min(None)` returned `None`, `fresh` was `False`, and the verdict printed **GAP**.
+
+The measurement was not wrong about the file -- it was wrong about what it had measured. Three
+faces of the same error:
+
+1. **`None` is not `False`.** An unparseable input and a stale input both landed on the same
+   boolean. The fix publishes them separately: `round_report_last_line_parse` in
+   {ok, unparseable, no_rows} beside `round_report_age_min`, plus a named gap G6 -- "the judge
+   cannot read the carrier date, which is not the loop having stopped". A GAP that reads as a real
+   stop sends the next round to revive a loop that was never dead.
+2. **Both spellings are legitimate.** Legacy rows are `ts | round | machine | ...`; table rows are
+   `| ts | round | machine | ...`. The carrier's format is not owned by the judge, so the reader
+   strips one leading pipe, takes the first cell, and only then parses. Two selftest legs pin both
+   spellings; a third pins that garbage still returns `None`.
+3. **Latent, not live.** The artifact had not been regenerated since 10-27, so the broken verdict
+   was invisible for six days and the line-level triage only saw the file's age. A judge that is
+   never run cannot be wrong out loud -- regenerating it is what turned a dead file into a finding.
+
+How to apply: any face whose evidence is "age of something" must publish the parse outcome
+separately from the age, and the GAP text must name which of the two failed. When the reader's
+input is a human-editable carrier (round report, ledger, queue), assume its row prefix can change
+and strip the carrier's own decoration before parsing. Selftest both spellings plus the garbage case.

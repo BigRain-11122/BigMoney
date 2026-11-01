@@ -89,18 +89,59 @@ def _round_report_path(mid):
     return os.path.join(ROOT, "logs", "iteration-loop", "round_reports.md")
 
 
+def round_report_ts(line):
+    """Timestamp of one round-report row, in either carrier spelling.
+
+    Two formats are in the tree and both are legitimate:
+      legacy   `2026-11-02T06:30:45+08:00 | r1375 | bm-b | ...`
+      table    `| 2026-11-02T06:30:45+08:00 | r1375 | bm-b | ...`
+    r1375 defect: the old reader split on " | " only, so the table spelling
+    yielded the literal `| 2026-11-02T06:30:45+08:00`, `_parse_iso` failed,
+    and a live 24x7 loop was reported as GAP. Parsing returns the datetime or
+    None; the caller must publish which one happened (see E1 evidence) so a
+    format drift can never read as "the loop is late".
+    """
+    cell = str(line).strip()
+    if cell.startswith("|"):
+        cell = cell[1:]
+    first = cell.split("|")[0].strip()
+    dt = _parse_iso(first)
+    if dt is None and " " in first:
+        dt = _parse_iso(first.split(" ")[0])
+    return dt
+
+
+def _round_report_newest_ts(mid):
+    """Newest parseable row in the recent window + the raw cell of the last
+    row, so freshness and parseability are reported as separate facts."""
+    lines = _tail_lines(_round_report_path(mid), 20)
+    if not lines:
+        return None, None, 0
+    raw = str(lines[-1]).strip()
+    for line in reversed(lines):
+        dt = round_report_ts(line)
+        if dt is not None:
+            return dt, raw, len(lines)
+    return None, raw, len(lines)
+
+
 def e1_loop_driven(mid):
     hb = _read_json(os.path.join(ROOT, "fleet", "machines", "%s.json" % mid)) or {}
     hb_age = _age_min(_parse_iso(hb.get("ts")))
-    last = _tail_lines(_round_report_path(mid), 1)
-    rr_age = _age_min(_parse_iso(last[0].split(" | ")[0])) if last else None
+    rr_dt, rr_raw, rr_window = _round_report_newest_ts(mid)
+    rr_age = _age_min(rr_dt)
+    rr_parse = "ok" if rr_dt is not None else ("no_rows" if rr_raw is None
+                                              else "unparseable")
     fresh = (hb_age is not None and hb_age <= STALE_MIN
              and rr_age is not None and rr_age <= STALE_MIN + 10)
     return {
         "element": "E1_loop_driven_24x7",
         "verdict": "OK" if fresh else "GAP",
         "evidence": {"heartbeat_age_min": hb_age, "round_report_age_min": rr_age,
-                     "stale_line_min": STALE_MIN},
+                     "stale_line_min": STALE_MIN,
+                     "round_report_last_line_parse": rr_parse,
+                     "round_report_rows_scanned": rr_window,
+                     "round_report_last_line_head": (rr_raw or "")[:80]},
     }
 
 
@@ -242,6 +283,12 @@ def _gaps(elements):
     for e in elements:
         if e["verdict"] == "GAP" and e["element"].startswith("E"):
             named.append("%s 分项 GAP（证据见 JSON）" % e["element"])
+    # r1375: a GAP caused by not being able to read the carrier must not be
+    # read as "the loop stopped" -- name the parse fault separately.
+    e1 = next((e for e in elements if e["element"].startswith("E1")), None)
+    if e1 and e1["evidence"].get("round_report_last_line_parse") == "unparseable":
+        named.append("G6 轮报告行时间戳不可解析（判据读不出载体日期，"
+                     "不等于循环停摆；修读取器再判）")
     return named
 
 
@@ -308,6 +355,21 @@ def selftest():
     check("gap_names_declared",
           any(g.startswith("G1") for g in gaps) or
           elements[2]["evidence"].get("kill_line_runtime_auto_stop"))
+    # carrier-parse legs (r1375): both spellings must read, garbage must not,
+    # and the E1 evidence must always disclose which one happened.
+    check("rr_ts_table_spelling",
+          round_report_ts("| 2026-11-02T06:30:45+08:00 | r1375 | bm-b | x")
+          is not None)
+    check("rr_ts_legacy_spelling",
+          round_report_ts("2026-11-02T06:30:45+08:00 | r1375 | bm-b | x")
+          is not None)
+    check("rr_ts_garbage_is_none", round_report_ts("hello | world") is None)
+    check("e1_discloses_parse_state",
+          elements[0]["evidence"].get("round_report_last_line_parse")
+          in ("ok", "unparseable", "no_rows"))
+    check("unparseable_gap_is_named",
+          (elements[0]["evidence"].get("round_report_last_line_parse") != "unparseable")
+          or any(g.startswith("G6") for g in gaps))
     print("selftest %s" % ("PASS" if ok else "FAIL"))
     return 0 if ok else 1
 
