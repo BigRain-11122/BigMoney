@@ -26422,14 +26422,16 @@
    "target": "a clause-by-clause reconstruction over the gate-absence window, with the evaluated/violated counts and the relay length for any violation",
    "lane": "cpu-only",
    "priority": 2,
-   "status": "ready",
-   "owner": null,
-   "owner_since": null,
+   "status": "done",
+   "owner": "bm-b",
+   "owner_since": "2026-11-01T20:08:12+08:00",
    "entered_at": "2026-11-01T17:30:00+08:00",
    "entered_by": "bm-b r1366",
    "notes": "seeded by r1366 bm-b at E345 close; E345 answered 'was anything covering it' -- this asks 'was anything wrong inside it', which an absence cannot answer on its own. Cheap: the face's commits are the population, no panel rebuild",
    "source": "E345 GATEABSENCE-2026-11-01 (2 windows, verdict nothing, 10 rounds x 37 runs)",
-   "deliverable": "results/state_tilt/<face> + scripts/e348_*.py + chain leg + smoke leg + methodology card"
+   "deliverable": "results/state_tilt/<face> + scripts/e348_*.py + chain leg + smoke leg + methodology card",
+   "done_at": "2026-11-01T20:08:12+08:00",
+   "result_ref": "results/state_tilt/RESTOREDGATE-2026-11-01.json"
   },
   {
    "id": "E349-WHAT-THE-LATEST-MIRROR-DECIDES",
@@ -26462,6 +26464,22 @@
    "entered_by": "bm-b r1368",
    "notes": "seeded by r1368 bm-b; the two halves already exist (E346 latches, E347 gates) and neither crosses the field boundary, so this is a join rather than a new scan",
    "source": "E346 UNREADSTATUS-2026-11-01 + E347 DECIDEGATE-2026-11-01"
+  },
+  {
+   "id": "E351-WHICH-PRODUCT-GATES-EVER-HAD-A-SECOND-STATE",
+   "title": "E348 found one product gate that has been green for 279 commits against a byte-identical face and a panel that has not printed a new bar; count how many of the product gates can say the same, i.e. how many have ever observed more than one state",
+   "question": "E348 published that the futures-TSMOM gate is green in 279 consecutive commits because its subject never moved (1 distinct face blob, 1 distinct panel tail). That is one gate. Ask the census question, cheaply: for every smoke check whose label begins `product:` and whose body loads a file under results/, resolve the loaded face path, replay the same commit population E348 used (restore-agnostic: the last N commits of this line, pinned by a published replay_head), and count (a) distinct blob states of that face, (b) commits where the file is absent, (c) distinct values of whatever companion the check compares it to (panel tail, count, stamp) where that companion is a tracked file. Classify each gate: never_evaluated (subject absent throughout) | frozen_subject (one distinct state, so every green run is the same observation) | live_subject (>=2 states, with the held/violated split). Publish the share of green-by-freeze gates and the gate whose subject has moved most often.",
+   "target": "a per-gate state census over the product: smoke checks, with distinct-state counts, the frozen_subject share, and the name of every gate that has never had to decide anything",
+   "lane": "cpu-only",
+   "priority": 2,
+   "status": "ready",
+   "owner": null,
+   "owner_since": null,
+   "entered_at": "2026-11-01T20:08:12+08:00",
+   "entered_by": "bm-b r1369",
+   "notes": "seeded by r1369 bm-b at E348 close; E348 measured one gate's subject and found it frozen. The general question is cheap because it needs blobs only -- no evaluation, no panel rebuild -- and the same one-batch blob map answers the whole population. A gate that has never seen a second state is not evidence about anything; counting them is the difference between a green suite and a suite that has been asked something.",
+   "source": "E348 RESTOREDGATE-2026-11-01 (2 windows, 279 post-restore commits, 1 distinct face blob, 1 distinct panel tail)",
+   "deliverable": "results/state_tilt/<face> + scripts/e351_*.py + chain leg + smoke leg + methodology card"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
