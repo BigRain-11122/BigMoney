@@ -1,5 +1,23 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
 
+## 5x 幂等快照 — r1230（2026-11-02 06:1x · bm-a）
+
+**本窗产物（可核）**
+
+| 产物 | 状态 |
+|---|---|
+| `scripts/etf_book_underwater.py`（run / --selftest 14/14 / --check） | 已发布 + S6 链腿 `etf_book_underwater` + smoke 两腿 |
+| `results/etf_book_underwater.json`（cutoff 2026-10-30 · 1652 bars · 控制臂 n12_vt08 逐位复现 9.60%/−11.77%，tol 5e-5） | 已发布 |
+| `research/ETF_BOOK_UNDERWATER.md` + `research/digests/DIGEST-20261102-r1230-underwater.md` | 已发布 |
+| `knowledge/METHODOLOGY_ASSETS.md` card E346 | 已 append |
+| settled-tree 全量 smoke | **320/320 PASS 0 FAIL**（`.codely-cli/tmp/smoke-r1230-final.out`） |
+
+**一句话**：账面第一次报「等多久」——最长水下段 350 bar（2021-09-14→2023-03-02），最坏入场 351 bar 才回本；
+前向 1 年最小 −7.51%（8.0% 入场点为负）、3 年无一为负（2020+ 上升样本，禁读成承诺）。
+
+**下一手**：把 350/351 bar 与 1y min 印进 `etf_book_ceo_page` 与 `CARD.md`（两处当前都没有时长信息）；
+规则面（水下期是否继续按网格再平衡）归 `etf_book_drawdown_guard`，勿新开第二个。
+
 ## 5x 核对增量 · r1255（2026-10-29 21:1x · bm-b）
 
 > 授权口径不变：逐轮权威=logs/iteration-loop/round_reports.md 全行在册；本块只做「产物清单与完成状态」的核对与指针，不复制轮报告正文。
