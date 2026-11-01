@@ -8,6 +8,8 @@ Config: 12 names of a 1504-instrument bond-free pool, rebalance every 20 bars, 1
 | 2020-2023 | 3.8% | 0.44 | -11.8% | 10.0% | 8% (1.25x) |
 | 2024 onwards | 18.4% | 1.74 | -10.7% | 10.4% | 8% (1.30x) |
 
+**Execution basis: the table above is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.46%/yr, Sharpe 0.87, max drawdown -16.6%**, i.e. 1.14pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach.
+
 **Vol label vs delivered risk: target 8% -> delivered 10.2% over the full window (1.27x).** The overlay only de-levers, so a sleeve sized on its own backward vol can run hotter than 8%; read the risk column, not the label.
 
 
@@ -17,7 +19,7 @@ Config: 12 names of a 1504-instrument bond-free pool, rebalance every 20 bars, 1
 
 **Panel digest:** `a1a42aee64453839` (5270 bars x 1613 symbols, 2005-02-23->2026-10-30, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-10-30 / ticket 2026-10-30 / page 2026-10-30 (compared at 2026-11-01 15:06:07); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-10-30 / ticket 2026-10-30 / page 2026-10-30 (compared at 2026-11-02 00:07:31); this card, the executable sheet and the CEO page all priced the same closing bar.
 
 **Family coherence: ONE_WORLD** -- all 10 width arms priced `a1a42aee64453839` (cutoff 2026-10-30); the verdicts that license this card's width are measurements on one panel.
 
@@ -152,5 +154,6 @@ Read the card's own -11.8% as the median of that ruler, not its tail: size the p
 - 2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.
 - The vol target only de-levers; it is a drawdown tool, not an edge. Priced on the draw tail (paired bootstrap, 2000 resamples, blocks 5/20/60/120/250): the median drawdown gain is +6.04pp but only 21% of it survives at the worst 1% of histories (+1.26pp), bought with -4.61pp of median CAGR -- mostly a middle-path tool.
 - Delivered vol is not the label: target 8% -> delivered 10.2% over the full window (1.27x). The label is a per-hold risk target, so an 8% label annualises near 10% once hold-level vol dispersion is priced in -- a definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md).
+- The window table is the as-coded arm (rank on bar d, paid open bar d); the declared next-open fill is priced beside it in execution_basis -- read that one when sizing a position.
 - Order sheet is research output, not an investment recommendation.
 - The sheet is the book decided at book_decided_at, not a re-ranking of the latest bar: the engine only re-decides every 20 bars, so an off-grid ranking would trade names the book never held.

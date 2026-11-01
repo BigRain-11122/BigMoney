@@ -845,6 +845,18 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
             runs[key], _ = backtest(close, openp, amt, score, n, rebal, vol_target=vt)
             print(key, runs[key]["full"], flush=True)
 
+    # r1221: the price the book can actually get. The card's table is the engine as coded --
+    # the score is read off bar d's close and the book is paid from bar d's OPEN, a price set
+    # before the information it ranks on -- while the same card declares "decide at close t ->
+    # fill at open t+1". The arm that satisfies that declaration is the same rule with the
+    # score held one bar back (etf_book_lookahead_audit.arm_at_lag(lag=1), priced here by the
+    # card's own backtest so the two numbers come from one engine). Until r1221 the gap was
+    # measured only in research/ETF_BOOK_CAUSAL_HEADLINE.md, i.e. not on the sheet a reader
+    # sizes a position from.
+    runs["n%d_vt08_declared" % n_hold], _ = backtest(
+        close, openp, amt, score.shift(1), n_hold, rebal, vol_target=TARGET_VOL)
+    print("n%d_vt08_declared" % n_hold, runs["n%d_vt08_declared" % n_hold]["full"], flush=True)
+
     # ---- the book IN FORCE, read off the engine's own decision step.
     # The engine only re-decides every `rebal` bars, so re-ranking the panel's last bar
     # here hands a human a sheet that trades 11 of 12 names on a bar the card itself
@@ -966,6 +978,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
                    "execution": "decide at close t -> fill at open t+1 -> hold to next rebalance"},
         "backtest": runs,
         "vol_delivery": dv,
+        "execution_basis": execution_basis(runs, n_hold),
         "vol_overlay_tail": vt_tail,
         "sheet": sheet,
         "caveats": [
@@ -975,6 +988,9 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
             "Delivered vol is not the label: %s. The label is a per-hold risk target, so an "
             "8%% label annualises near 10%% once hold-level vol dispersion is priced in -- a "
             "definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md)." % (dv.get("headline") or "no history"),
+            "The window table is the as-coded arm (rank on bar d, paid open bar d); the "
+            "declared next-open fill is priced beside it in execution_basis -- read that one "
+            "when sizing a position.",
             "Order sheet is research output, not an investment recommendation.",
             "The sheet is the book decided at book_decided_at, not a re-ranking of the "
             "latest bar: the engine only re-decides every %d bars, so an off-grid ranking "
@@ -1181,6 +1197,55 @@ def sleeve_gate_paragraphs(sg):
     return lines
 
 
+EXEC_TOL_PP = 0.25
+
+
+def execution_basis(runs, n_hold):
+    """The two arms a reader can mean by the headline, priced by the same engine.
+
+    `as_coded` ranks on bar d's close and pays bar d's open -- an upper bound the desk cannot
+    reach. `declared` holds the score one bar back, which is exactly the fill the card's own
+    config.execution string promises. Both arms are read from the same `backtest` ladder, so
+    the difference is one number (how many bars of information the signal has when the book
+    is paid for) and nothing else. Wording is frozen by the verdict, and an arm that did not
+    price is CANNOT_VERIFY -- never a silent agreement.
+    """
+    a = (runs.get("n%d_vt08" % n_hold) or {}).get("full") or {}
+    d = (runs.get("n%d_vt08_declared" % n_hold) or {}).get("full") or {}
+    base = {"as_coded_cagr": a.get("cagr"), "declared_cagr": d.get("cagr"),
+            "as_coded_sharpe": a.get("sharpe"), "declared_sharpe": d.get("sharpe"),
+            "as_coded_maxdd": a.get("maxdd"), "declared_maxdd": d.get("maxdd"),
+            "tol_pp": EXEC_TOL_PP,
+            "conventions": {
+                "as_coded": "score(bar d) selects, the book earns open[d] -> open[d+1]",
+                "declared": "score(bar d-1) selects, the book earns open[d] -> open[d+1]",
+            }}
+    if a.get("cagr") is None or d.get("cagr") is None:
+        return dict(base, gap_pp=None, verdict="CANNOT_VERIFY",
+                    sentence="**Execution basis: unreadable this run.** One of the two arms "
+                             "did not price, so the fill convention behind the table cannot "
+                             "be stated -- read the numbers above as unverified, not as "
+                             "executable.")
+    gap = 100.0 * (a["cagr"] - d["cagr"])
+    base["gap_pp"] = round(gap, 3)
+    if abs(gap) < EXEC_TOL_PP:
+        return dict(base, verdict="EQUIVALENT",
+                    sentence="**Execution basis: equivalent.** Priced as coded (%.2f%%/yr) "
+                             "and under the declared next-open fill (%.2f%%/yr) the same rule "
+                             "lands within %.2fpp, so the fill convention does not move this "
+                             "number." % (100 * a["cagr"], 100 * d["cagr"], EXEC_TOL_PP))
+    return dict(base, verdict="SAME_OPEN_ARM",
+                sentence="**Execution basis: the table above is the arm this book cannot "
+                         "actually trade.** It ranks on bar d's close and is paid bar d's "
+                         "*open* -- a price set before the information it ranks on. The fill "
+                         "the card itself declares (*decide at close t, fill at open t+1*) "
+                         "earns **%.2f%%/yr, Sharpe %.2f, max drawdown %.1f%%**, i.e. "
+                         "%.2fpp/yr below the printed cell; size positions off the declared "
+                         "arm and read the printed one as an upper bound the desk cannot "
+                         "reach." % (100 * d["cagr"], d.get("sharpe") or 0.0,
+                                     100 * (d.get("maxdd") or 0.0), gap))
+
+
 def write_card(out):
     s, cfg, bt = out["sheet"], out["config"], out["backtest"]
     b = bt.get("n%d_vt08" % cfg["n_hold"], {})
@@ -1206,6 +1271,9 @@ def write_card(out):
             m["cagr"] * 100, m["sharpe"] or 0.0, m["maxdd"] * 100,
             (m.get("vol") or 0.0) * 100, cfg["vol_target"] * 100, d.get("ratio") or 0.0))
     lines += [""]
+    _eb = out.get("execution_basis") or {}
+    if _eb.get("sentence"):
+        lines += [_eb["sentence"], ""]
     if dv.get("headline"):
         lines += ["**Vol label vs delivered risk: %s.** The overlay only de-levers, so a "
                   "sleeve sized on its own backward vol can run hotter than %.0f%%; read the "

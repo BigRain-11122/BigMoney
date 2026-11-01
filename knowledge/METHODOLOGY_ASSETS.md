@@ -8365,3 +8365,29 @@ L4 声明不可读不得指控 / L6 两个臂都不匹配要单独命名 / L9 �
 execution it declares」；证据 `results/etf_book_causal_headline.json`、说明
 `research/ETF_BOOK_CAUSAL_HEADLINE.md`；ladder 与机制 pin 见
 `results/etf_book_lookahead_audit.json`。
+
+**卡 338 · 把披露写在研究面，不算披露 —— 它必须落在读者据以行动的那张纸上。**
+
+**场景**：一个缺陷已经被量出来、写进了研究件、还带判决词（`EXECUTION_CLAIM_MISMATCH`：
+单子声明「收盘决策 / 次日开盘成交」，印出来的数却来自「当日开盘就买」，差 1.14pp/年）。
+研究件的人读了都点头，可**操作者手上那张卡照旧只印 9.60%，旁边一个字都没有**。缺陷
+从「已测量」到「已披露」之间还隔着一整张纸的距离，而这张纸才是有人拿它下单的那张。
+
+**做法**：①同一个引擎、同一条梯子多跑一臂（`score.shift(1)`，其余 COST / vol_target /
+n_hold 一字不动），把两臂并排印在**收益表的下方**，而不是另开一个文件；②判决词与句子
+由代码按状态生成（`SAME_OPEN_ARM` / `EQUIVALENT` / `CANNOT_VERIFY`），**不手写结论**——
+手写的句子没人重算，代码生成的句子每一轮都在被重算；③哪一臂没跑出来就印「读不出」，
+**绝不把读不出印成一致**（这与「缺席不等于同意」同族）；④换实现做交叉验证：生产面自己
+的梯子与 `etf_book_lookahead_audit.arm_at_lag` 是两条独立代码路径，落到同一个数字
+（8.46% / 1.14pp / -16.56%）才算数；⑤披露行同时进载荷（`execution_basis`）与卡面，
+下游要引用时读同一份，禁第二次手抄。
+
+**教训**：**「已测量」≠「已披露」，而「已披露」≠「已落到行动面」**。判断一个缺陷修没
+修完，不要问研究件里有没有写，要问**读者据以行动的那张纸上，那个错的数字旁边有没有
+正确的数字**。研究面是给评审的，行动面是给操作者的；两者之间没有自动通道，得有人把
+那一行搬过去。
+
+**验证**：`scripts/etf_book_production.py::execution_basis` + 卡面「Execution basis」段
+（重生成 CARD 2026-10-30 bar）·smoke 腿「the card states which of its two arms the desk
+can trade」（从载荷两臂重推 gap 并要声明口径的数字逐字上卡，手写即红）·独立实现交叉
+`results/etf_book_causal_headline.json`（卡 337）·终版树 smoke 307/307 PASS。

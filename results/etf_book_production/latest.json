@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-01 15:06:07",
+ "ts": "2026-11-02 00:07:31",
  "evidence_cutoff": "2026-10-30",
  "feed_status": {
   "ticket_bar": "2026-10-30",
@@ -230,6 +230,33 @@
    "n_hold": 12,
    "vol_target": 0.08,
    "cost_bp": 10.0
+  },
+  "n12_vt08_declared": {
+   "full": {
+    "cagr": 0.0846,
+    "sharpe": 0.874,
+    "maxdd": -0.1656,
+    "vol": 0.1028,
+    "years": 6.82
+   },
+   "is": {
+    "cagr": 0.0256,
+    "sharpe": 0.31,
+    "maxdd": -0.1656,
+    "vol": 0.1015,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.1743,
+    "sharpe": 1.658,
+    "maxdd": -0.1162,
+    "vol": 0.1045,
+    "years": 2.83
+   },
+   "turnover_per_decision": 0.953,
+   "n_hold": 12,
+   "vol_target": 0.08,
+   "cost_bp": 10.0
   }
  },
  "vol_delivery": {
@@ -252,6 +279,22 @@
    }
   },
   "headline": "target 8% -> delivered 10.2% over the full window (1.27x)"
+ },
+ "execution_basis": {
+  "as_coded_cagr": 0.096,
+  "declared_cagr": 0.0846,
+  "as_coded_sharpe": 0.99,
+  "declared_sharpe": 0.874,
+  "as_coded_maxdd": -0.1177,
+  "declared_maxdd": -0.1656,
+  "tol_pp": 0.25,
+  "conventions": {
+   "as_coded": "score(bar d) selects, the book earns open[d] -> open[d+1]",
+   "declared": "score(bar d-1) selects, the book earns open[d] -> open[d+1]"
+  },
+  "gap_pp": 1.14,
+  "verdict": "SAME_OPEN_ARM",
+  "sentence": "**Execution basis: the table above is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.46%/yr, Sharpe 0.87, max drawdown -16.6%**, i.e. 1.14pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach."
  },
  "vol_overlay_tail": {
   "artifact": "results/etf_book_bootstrap/etf_book_voltarget_tail.json",
@@ -434,6 +477,7 @@
   "2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.",
   "The vol target only de-levers; it is a drawdown tool, not an edge. Priced on the draw tail (paired bootstrap, 2000 resamples, blocks 5/20/60/120/250): the median drawdown gain is +6.04pp but only 21% of it survives at the worst 1% of histories (+1.26pp), bought with -4.61pp of median CAGR -- mostly a middle-path tool.",
   "Delivered vol is not the label: target 8% -> delivered 10.2% over the full window (1.27x). The label is a per-hold risk target, so an 8% label annualises near 10% once hold-level vol dispersion is priced in -- a definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md).",
+  "The window table is the as-coded arm (rank on bar d, paid open bar d); the declared next-open fill is priced beside it in execution_basis -- read that one when sizing a position.",
   "Order sheet is research output, not an investment recommendation.",
   "The sheet is the book decided at book_decided_at, not a re-ranking of the latest bar: the engine only re-decides every 20 bars, so an off-grid ranking would trade names the book never held."
  ],

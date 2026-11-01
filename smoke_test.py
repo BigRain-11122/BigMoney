@@ -719,6 +719,37 @@ def main() -> int:
                   "production sheet absent -- face soft-fails by design")
     except Exception as e:
         check("product: card amount column is executable money", False, str(e))
+    # r1221: the card's table is the as-coded arm (rank on bar d, paid bar d's OPEN) while
+    # the same card declares "decide at close t -> fill at open t+1". The declared arm is now
+    # priced beside it; this leg re-derives the gap from the payload's two arms and demands
+    # the declared number appear on the card -- a card that prints one arm and declares the
+    # other is what the operator was reading until this round.
+    try:
+        _lp = os.path.join("results", "etf_book_production", "latest.json")
+        _card = os.path.join("results", "etf_book_production", "CARD.md")
+        if os.path.exists(_lp) and os.path.exists(_card):
+            _doc = json.load(open(_lp, encoding="utf-8"))
+            _eb = _doc.get("execution_basis") or {}
+            _txt = open(_card, encoding="utf-8").read()
+            _v = _eb.get("verdict")
+            _a, _d = _eb.get("as_coded_cagr"), _eb.get("declared_cagr")
+            if _v == "CANNOT_VERIFY" or _a is None or _d is None:
+                _ok = _v == "CANNOT_VERIFY" and "Execution basis: unreadable" in _txt
+                _detail = "unreadable arm -> %s" % _v
+            else:
+                _gap = round(100.0 * (_a - _d), 3)
+                _ok = (abs((_eb.get("gap_pp") or 0.0) - _gap) <= 0.01
+                       and _v == ("EQUIVALENT" if abs(_gap) < 0.25 else "SAME_OPEN_ARM"))
+                if _v == "SAME_OPEN_ARM":
+                    _ok = _ok and ("%.2f%%" % (100 * _d)) in _txt and ("%.2fpp" % _gap) in _txt
+                _detail = "%s gap %.2fpp (%.2f vs %.2f)" % (_v, _gap, 100 * _a, 100 * _d)
+            check("product: the card states which of its two arms the desk can trade",
+                  _ok, _detail)
+        else:
+            check("product: the card states which of its two arms the desk can trade", True,
+                  "production sheet absent -- face soft-fails by design")
+    except Exception as e:
+        check("product: the card states which of its two arms the desk can trade", False, str(e))
     try:
         _legs = __import__("importlib").import_module("Tools.s6_chain_bmc").LEGS
         _names = {t[0] for t in _legs}
