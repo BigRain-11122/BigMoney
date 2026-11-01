@@ -63,6 +63,14 @@ Verdict rule (evaluated from the published rows only, so `--check` can re-derive
   a rule that wins on one decision sequence is not a rule.
 - `INCOMPLETE` — a required arm failed to price.
 
+**Amendendum A1 (2026-11-02T01:5x, before the first run — label semantics only, no criterion
+moved).** `MIXED_ACROSS_PHASES` requires the **return line to be cleared first**: a recovery
+smaller than `RECOVERY_MIN_PP` is `IRRECOVERABLE` however consistently it wins, because the
+question the mixed state names ("is this a rule or one lucky ordering?") does not arise until
+the arm earns enough to matter. Found while writing the selftest fixtures: a fixture that
+recovers 0.20 pp on all four phases was landing in `MIXED`, which would have described a
+too-small gain as an unstable one.
+
 ## 5. Cost decomposition (mandatory, not optional)
 
 For the best smoothed arm and for `declared`, re-run with `cost = 0`. Publish
