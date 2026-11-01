@@ -1,0 +1,3123 @@
+{
+ "bound": "the corpus is the in-repo .py sources at c0647d1a; a consumer outside this tree (a scheduled task's own script, the dashboard's browser code) is not in it",
+ "evidence_cutoff": "2026-11-01",
+ "gates": [
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "if isinstance(st.get(\"d19_watermark_guard\"), dict):",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "truth_test",
+   "line": 158,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1029bmc_close.py",
+   "tested": "st.get(\"d19_watermark_guard\")"
+  },
+  {
+   "bound": [
+    "k"
+   ],
+   "bound_pin": [
+    {
+     "name": "k",
+     "pin": "unresolved_name"
+    }
+   ],
+   "channel": "named",
+   "code": "\"last_decisions_read_at\", \"d19_watermark_guard\") if k in st})",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "comparison",
+   "line": 172,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1029bmc_close.py",
+   "tested": "st"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(st2[\"heartbeat_epoch_utc\"], int), \"epoch not int\"",
+   "decision_class": "operational",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 196,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1029bmc_close.py",
+   "tested": "st2[\"heartbeat_epoch_utc\"]"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in st2[\"clock_read\"] and \"+\" in st2[\"clock_read\"], \"clock_read format\"",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "comparison",
+   "line": 198,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1029bmc_close.py",
+   "tested": "st2[\"clock_read\"]"
+  },
+  {
+   "bound": [
+    "1030"
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "1030"
+    }
+   ],
+   "channel": "named",
+   "code": "assert st2[\"round_no\"] == 1030 and st2[\"last_round_label\"] == \"r1029\"",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "comparison",
+   "line": 199,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1029bmc_close.py",
+   "tested": "st2[\"round_no\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(hb2[\"heartbeat_epoch_utc\"], int), \"hb epoch not int\"",
+   "decision_class": "operational",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 197,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1029bmc_close.py",
+   "tested": "hb2[\"heartbeat_epoch_utc\"]"
+  },
+  {
+   "bound": [
+    "1032"
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "1032"
+    }
+   ],
+   "channel": "named",
+   "code": "assert s2[\"round_no\"] == 1032 and s2[\"last_round\"] == \"r1031\"",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "comparison",
+   "line": 284,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1031bmc_closeout.py",
+   "tested": "s2[\"round_no\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert s2[\"last_orders_sha\"].startswith(\"cafcf953\")",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 285,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1031bmc_closeout.py",
+   "tested": "s2[\"last_orders_sha\"].startswith"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(h2[\"heartbeat_epoch_utc\"], int), \"epoch must be JSON int\"",
+   "decision_class": "operational",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 282,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1031bmc_closeout.py",
+   "tested": "h2[\"heartbeat_epoch_utc\"]"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in h2[\"clock_read\"] and \"+\" in h2[\"clock_read\"], \"clock_read T-format\"",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "comparison",
+   "line": 283,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1031bmc_closeout.py",
+   "tested": "h2[\"clock_read\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int), \"epoch must be int\"",
+   "decision_class": "operational",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 344,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1034bmc_closeout.py",
+   "tested": "back[\"heartbeat_epoch_utc\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(back[\"codely_live_count\"], int), \"live count must be int\"",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 345,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1034bmc_closeout.py",
+   "tested": "back[\"codely_live_count\"]"
+  },
+  {
+   "bound": [
+    "1069"
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "1069"
+    }
+   ],
+   "channel": "named",
+   "code": "assert st.get(\"round_no\") == 1069, \"state round_no expected 1069, got %s\" % st.get(\"round_no\")",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 156,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1069bmc_closeout.py",
+   "tested": "st.get(\"round_no\")"
+  },
+  {
+   "bound": [
+    "ORD_SHA"
+   ],
+   "bound_pin": [
+    {
+     "name": "ORD_SHA",
+     "pin": "module_constant",
+     "value": "313c8c0fe1fd4a149fbd1eb1bd230342cb881986"
+    }
+   ],
+   "channel": "named",
+   "code": "assert st.get(\"last_orders_sha\", \"\").lower() == ORD_SHA, \"ORD watermark carry mismatch: %s\" % st.get(\"last_orders_sha\")",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 157,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1069bmc_closeout.py",
+   "tested": "st.get(\"last_orders_sha\", \"\").lower()"
+  },
+  {
+   "bound": [
+    "DEC_SHA"
+   ],
+   "bound_pin": [
+    {
+     "name": "DEC_SHA",
+     "pin": "module_constant",
+     "value": "1d4741e4a0d6514519040442182b0679a423d58896a4105861e152108be441f1"
+    }
+   ],
+   "channel": "named",
+   "code": "assert st.get(\"last_decisions_sha\", \"\").lower() == DEC_SHA, \"DEC watermark carry mismatch\"",
+   "decision_class": "scientific",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 158,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1069bmc_closeout.py",
+   "tested": "st.get(\"last_decisions_sha\", \"\").lower()"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "eol = b\"\\r\\n\" if raw.endswith(b\"\\r\\n\") or raw.count(b\"\\r\\n\") > raw.count(b\"\\n\") * 0.5 else b\"\\n\"",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "conditional_expression",
+   "line": 311,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1069bmc_closeout.py",
+   "tested": "raw.endswith(b\"\\r\\n\")"
+  },
+  {
+   "bound": [
+    "raw.count(b\"\\n\") * 0.5"
+   ],
+   "bound_pin": [
+    {
+     "pin": "expression",
+     "value": "raw.count(b\"\\n\") * 0.5"
+    }
+   ],
+   "channel": "named",
+   "code": "eol = b\"\\r\\n\" if raw.endswith(b\"\\r\\n\") or raw.count(b\"\\r\\n\") > raw.count(b\"\\n\") * 0.5 else b\"\\n\"",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "comparison",
+   "line": 311,
+   "matched_by": "exact_filename",
+   "operators": [
+    ">"
+   ],
+   "source": "Tools/_r1069bmc_closeout.py",
+   "tested": "raw.count(b\"\\r\\n\")"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(st2[\"current_task_ts\"], int), \"current_task_ts must be int\"",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 324,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1069bmc_closeout.py",
+   "tested": "st2[\"current_task_ts\"]"
+  },
+  {
+   "bound": [
+    "1070"
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "1070"
+    }
+   ],
+   "channel": "named",
+   "code": "assert st2[\"round_no\"] == 1070 and st2[\"last_round\"] == \"r1069\"",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "comparison",
+   "line": 325,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1069bmc_closeout.py",
+   "tested": "st2[\"round_no\"]"
+  },
+  {
+   "bound": [
+    "ORD_SHA"
+   ],
+   "bound_pin": [
+    {
+     "name": "ORD_SHA",
+     "pin": "module_constant",
+     "value": "313c8c0fe1fd4a149fbd1eb1bd230342cb881986"
+    }
+   ],
+   "channel": "named",
+   "code": "assert st2[\"last_orders_sha\"].lower() == ORD_SHA and st2[\"last_decisions_sha\"].lower() == DEC_SHA",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "comparison",
+   "line": 326,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1069bmc_closeout.py",
+   "tested": "st2[\"last_orders_sha\"].lower()"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(hb2[\"heartbeat_epoch_utc\"], int), \"epoch must be int\"",
+   "decision_class": "operational",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 323,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1069bmc_closeout.py",
+   "tested": "hb2[\"heartbeat_epoch_utc\"]"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in hb2[\"clock_read\"], \"clock_read must be T-separated ISO8601\"",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 327,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1069bmc_closeout.py",
+   "tested": "hb2[\"clock_read\"]"
+  },
+  {
+   "bound": [
+    "1070"
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "1070"
+    }
+   ],
+   "channel": "named",
+   "code": "assert st[\"round_no\"] == 1070 and st[\"last_orders_sha\"].startswith(\"313c8c0f\")",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "comparison",
+   "line": 84,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1069bmc_resample.py",
+   "tested": "st[\"round_no\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert st[\"round_no\"] == 1070 and st[\"last_orders_sha\"].startswith(\"313c8c0f\")",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "main",
+   "kind": "assert",
+   "line": 84,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1069bmc_resample.py",
+   "tested": "st[\"last_orders_sha\"].startswith(\"313c8c0f\")"
+  },
+  {
+   "bound": [
+    "\"orders_ack\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'orders_ack'"
+    }
+   ],
+   "channel": "named",
+   "code": "if \"orders_ack\" not in h or not isinstance(h.get(\"orders_ack\"), list):",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "comparison",
+   "line": 78,
+   "matched_by": "exact_filename",
+   "operators": [
+    "not in"
+   ],
+   "source": "Tools/_r1070bmc_close.py",
+   "tested": "h"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "if \"orders_ack\" not in h or not isinstance(h.get(\"orders_ack\"), list):",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "truth_test",
+   "line": 78,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1070bmc_close.py",
+   "tested": "not isinstance(h.get(\"orders_ack\"), list)"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(h2[\"heartbeat_epoch_utc\"], int), \"epoch must be int\"",
+   "decision_class": "operational",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 84,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1070bmc_close.py",
+   "tested": "h2[\"heartbeat_epoch_utc\"]"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in h2[\"clock_read\"], \"clock_read must be T-separated\"",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 85,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1070bmc_close.py",
+   "tested": "h2[\"clock_read\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "if isinstance(s.get(\"full_load_selfproof\"), dict):",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "truth_test",
+   "line": 99,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1071bmc_close.py",
+   "tested": "s.get(\"full_load_selfproof\")"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "if isinstance(s.get(\"d19_watermark_guard\"), dict):",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "truth_test",
+   "line": 140,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1071bmc_close.py",
+   "tested": "s.get(\"d19_watermark_guard\")"
+  },
+  {
+   "bound": [
+    "\"orders_ack\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'orders_ack'"
+    }
+   ],
+   "channel": "named",
+   "code": "if \"orders_ack\" not in h or not isinstance(h.get(\"orders_ack\"), list):",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "comparison",
+   "line": 165,
+   "matched_by": "exact_filename",
+   "operators": [
+    "not in"
+   ],
+   "source": "Tools/_r1071bmc_close.py",
+   "tested": "h"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "if \"orders_ack\" not in h or not isinstance(h.get(\"orders_ack\"), list):",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "truth_test",
+   "line": 165,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1071bmc_close.py",
+   "tested": "not isinstance(h.get(\"orders_ack\"), list)"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(h2[\"heartbeat_epoch_utc\"], int), \"epoch must be int\"",
+   "decision_class": "operational",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 171,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1071bmc_close.py",
+   "tested": "h2[\"heartbeat_epoch_utc\"]"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in h2[\"clock_read\"], \"clock_read must be T-separated\"",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 172,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1071bmc_close.py",
+   "tested": "h2[\"clock_read\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(s2[\"heartbeat_epoch_utc\"], int), \"state epoch must be int\"",
+   "decision_class": "operational",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 174,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1071bmc_close.py",
+   "tested": "s2[\"heartbeat_epoch_utc\"]"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in back[\"clock_read\"]",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 81,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1073bmc_closeout.py",
+   "tested": "back[\"clock_read\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int)",
+   "decision_class": "operational",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 106,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1073bmc_closeout.py",
+   "tested": "back[\"heartbeat_epoch_utc\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int) and back[\"round_no\"] == 1074",
+   "decision_class": "operational",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 80,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1073bmc_closeout.py",
+   "tested": "isinstance(back[\"heartbeat_epoch_utc\"], int)"
+  },
+  {
+   "bound": [
+    "1074"
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "1074"
+    }
+   ],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int) and back[\"round_no\"] == 1074",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "comparison",
+   "line": 80,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1073bmc_closeout.py",
+   "tested": "back[\"round_no\"]"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in back[\"clock_read\"] and \" \" not in back[\"clock_read\"]",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "comparison",
+   "line": 107,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1073bmc_closeout.py",
+   "tested": "back[\"clock_read\"]"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in back[\"clock_read\"]",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 81,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1073bmc_closeout.py",
+   "tested": "back[\"clock_read\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int)",
+   "decision_class": "operational",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 106,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1073bmc_closeout.py",
+   "tested": "back[\"heartbeat_epoch_utc\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int) and back[\"round_no\"] == 1074",
+   "decision_class": "operational",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 80,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1073bmc_closeout.py",
+   "tested": "isinstance(back[\"heartbeat_epoch_utc\"], int)"
+  },
+  {
+   "bound": [
+    "1074"
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "1074"
+    }
+   ],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int) and back[\"round_no\"] == 1074",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "comparison",
+   "line": 80,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1073bmc_closeout.py",
+   "tested": "back[\"round_no\"]"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in back[\"clock_read\"] and \" \" not in back[\"clock_read\"]",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "comparison",
+   "line": 107,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1073bmc_closeout.py",
+   "tested": "back[\"clock_read\"]"
+  },
+  {
+   "bound": [
+    "\" | r1073 | \""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "' | r1073 | '"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \" | r1073 | \" not in txt, \"r1073 row already present\"",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 32,
+   "matched_by": "exact_filename",
+   "operators": [
+    "not in"
+   ],
+   "source": "Tools/_r1073bmc_closeout.py",
+   "tested": "txt"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in back[\"clock_read\"]",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 87,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "back[\"clock_read\"]"
+  },
+  {
+   "bound": [
+    "\"085559d2dd0faf55c881a81a3c2849bc48dafe63\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'085559d2dd0faf55c881a81a3c2849bc48dafe63'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert back[\"last_orders_sha\"] == \"085559d2dd0faf55c881a81a3c2849bc48dafe63\"",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 88,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "back[\"last_orders_sha\"]"
+  },
+  {
+   "bound": [
+    "\"1d4741e4a0d6514519040442182b0679a423d58896a4105861e152108be441f1\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'1d4741e4a0d6514519040442182b0679a423d58896a4105861e152108be441f1'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert back[\"last_decisions_sha\"] == \"1d4741e4a0d6514519040442182b0679a423d58896a4105861e152108be441f1\"",
+   "decision_class": "scientific",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 89,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "back[\"last_decisions_sha\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int)",
+   "decision_class": "operational",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 113,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "back[\"heartbeat_epoch_utc\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int) and back[\"round_no\"] == 1075",
+   "decision_class": "operational",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 86,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "isinstance(back[\"heartbeat_epoch_utc\"], int)"
+  },
+  {
+   "bound": [
+    "1075"
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "1075"
+    }
+   ],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int) and back[\"round_no\"] == 1075",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "comparison",
+   "line": 86,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "back[\"round_no\"]"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in back[\"clock_read\"] and \" \" not in back[\"clock_read\"]",
+   "decision_class": "report",
+   "face": "state-bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "comparison",
+   "line": 114,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "back[\"clock_read\"]"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in back[\"clock_read\"]",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 87,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "back[\"clock_read\"]"
+  },
+  {
+   "bound": [
+    "\"085559d2dd0faf55c881a81a3c2849bc48dafe63\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'085559d2dd0faf55c881a81a3c2849bc48dafe63'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert back[\"last_orders_sha\"] == \"085559d2dd0faf55c881a81a3c2849bc48dafe63\"",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 88,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "back[\"last_orders_sha\"]"
+  },
+  {
+   "bound": [
+    "\"1d4741e4a0d6514519040442182b0679a423d58896a4105861e152108be441f1\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'1d4741e4a0d6514519040442182b0679a423d58896a4105861e152108be441f1'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert back[\"last_decisions_sha\"] == \"1d4741e4a0d6514519040442182b0679a423d58896a4105861e152108be441f1\"",
+   "decision_class": "scientific",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 89,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "back[\"last_decisions_sha\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int)",
+   "decision_class": "operational",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 113,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "back[\"heartbeat_epoch_utc\"]"
+  },
+  {
+   "bound": [],
+   "bound_pin": [],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int) and back[\"round_no\"] == 1075",
+   "decision_class": "operational",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "assert",
+   "line": 86,
+   "matched_by": "exact_filename",
+   "operators": [],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "isinstance(back[\"heartbeat_epoch_utc\"], int)"
+  },
+  {
+   "bound": [
+    "1075"
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "1075"
+    }
+   ],
+   "channel": "named",
+   "code": "assert isinstance(back[\"heartbeat_epoch_utc\"], int) and back[\"round_no\"] == 1075",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "comparison",
+   "line": 86,
+   "matched_by": "exact_filename",
+   "operators": [
+    "=="
+   ],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "back[\"round_no\"]"
+  },
+  {
+   "bound": [
+    "\"T\""
+   ],
+   "bound_pin": [
+    {
+     "pin": "literal_in_source",
+     "value": "'T'"
+    }
+   ],
+   "channel": "named",
+   "code": "assert \"T\" in back[\"clock_read\"] and \" \" not in back[\"clock_read\"]",
+   "decision_class": "report",
+   "face": "bm-c.json",
+   "freshness": "value",
+   "function": "",
+   "kind": "comparison",
+   "line": 114,
+   "matched_by": "exact_filename",
+   "operators": [
+    "in"
+   ],
+   "source": "Tools/_r1074bmc_closeout.py",
+   "tested": "back[\"clock_read\"]"
+  }
+ ],
+ "loads": [
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 107,
+   "load_name": "load",
+   "source": "Tools/_r1029bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 108,
+   "load_name": "load",
+   "source": "Tools/_r1029bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "st2",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 194,
+   "load_name": "load",
+   "source": "Tools/_r1029bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb2",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 195,
+   "load_name": "load",
+   "source": "Tools/_r1029bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "s",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 177,
+   "load_name": "load",
+   "source": "Tools/_r1031bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "h",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 239,
+   "load_name": "load",
+   "source": "Tools/_r1031bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "s2",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 280,
+   "load_name": "load",
+   "source": "Tools/_r1031bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "h2",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 281,
+   "load_name": "load",
+   "source": "Tools/_r1031bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 169,
+   "load_name": "load",
+   "source": "Tools/_r1034bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 263,
+   "load_name": "load",
+   "source": "Tools/_r1034bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "back",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 343,
+   "load_name": "load",
+   "source": "Tools/_r1034bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 155,
+   "load_name": "load",
+   "source": "Tools/_r1069bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 233,
+   "load_name": "load",
+   "source": "Tools/_r1069bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "raw",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 309,
+   "load_name": "read",
+   "source": "Tools/_r1069bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "st2",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 320,
+   "load_name": "load",
+   "source": "Tools/_r1069bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb2",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 322,
+   "load_name": "load",
+   "source": "Tools/_r1069bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "d",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 51,
+   "load_name": "load",
+   "source": "Tools/_r1069bmc_resample.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 83,
+   "load_name": "load",
+   "source": "Tools/_r1069bmc_resample.py"
+  },
+  {
+   "admits": [],
+   "binding": "s",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 37,
+   "load_name": "load",
+   "source": "Tools/_r1070bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "h",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 62,
+   "load_name": "load",
+   "source": "Tools/_r1070bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "h2",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 83,
+   "load_name": "load",
+   "source": "Tools/_r1070bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "s",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 71,
+   "load_name": "load",
+   "source": "Tools/_r1071bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "h",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 149,
+   "load_name": "load",
+   "source": "Tools/_r1071bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "h2",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 170,
+   "load_name": "load",
+   "source": "Tools/_r1071bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "s2",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 173,
+   "load_name": "load",
+   "source": "Tools/_r1071bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 41,
+   "load_name": "load",
+   "source": "Tools/_r1073bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "back",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 79,
+   "load_name": "load",
+   "source": "Tools/_r1073bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 86,
+   "load_name": "load",
+   "source": "Tools/_r1073bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "back",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 105,
+   "load_name": "load",
+   "source": "Tools/_r1073bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "txt",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 31,
+   "load_name": "read",
+   "source": "Tools/_r1073bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 43,
+   "load_name": "load",
+   "source": "Tools/_r1074bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "back",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 85,
+   "load_name": "load",
+   "source": "Tools/_r1074bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 94,
+   "load_name": "load",
+   "source": "Tools/_r1074bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "back",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 112,
+   "load_name": "load",
+   "source": "Tools/_r1074bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "txt",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 33,
+   "load_name": "read",
+   "source": "Tools/_r1074bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "state-bm-a.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 14,
+   "load_name": "load",
+   "source": "Tools/_r190_wrap.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-a.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 37,
+   "load_name": "load",
+   "source": "Tools/_r190_wrap.py"
+  },
+  {
+   "admits": [],
+   "binding": "chk",
+   "channel": "named",
+   "files": [
+    "bm-a.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 55,
+   "load_name": "load",
+   "source": "Tools/_r190_wrap.py"
+  },
+  {
+   "admits": [],
+   "binding": "af",
+   "channel": "named",
+   "files": [
+    "autofill_state.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 49,
+   "load_name": "load",
+   "source": "Tools/_r201_wrap.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-b.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 86,
+   "load_name": "load",
+   "source": "Tools/_r201_wrap.py"
+  },
+  {
+   "admits": [],
+   "binding": "chk",
+   "channel": "named",
+   "files": [
+    "bm-b.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 105,
+   "load_name": "load",
+   "source": "Tools/_r201_wrap.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "state-bm-a.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 7,
+   "load_name": "load",
+   "source": "Tools/_r409bma_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-a.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 57,
+   "load_name": "load",
+   "source": "Tools/_r409bma_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "st2",
+   "channel": "named",
+   "files": [
+    "state-bm-a.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 78,
+   "load_name": "load",
+   "source": "Tools/_r409bma_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb2",
+   "channel": "named",
+   "files": [
+    "bm-a.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 79,
+   "load_name": "load",
+   "source": "Tools/_r409bma_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 126,
+   "load_name": "load",
+   "source": "Tools/_r415bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 152,
+   "load_name": "load",
+   "source": "Tools/_r415bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 118,
+   "load_name": "load",
+   "source": "Tools/_r416bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 144,
+   "load_name": "load",
+   "source": "Tools/_r416bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 51,
+   "load_name": "load",
+   "source": "Tools/_r421bmc_close.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 64,
+   "load_name": "load",
+   "source": "Tools/_r423bmc_bookkeep.py"
+  },
+  {
+   "admits": [],
+   "binding": "h",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 78,
+   "load_name": "load",
+   "source": "Tools/_r423bmc_bookkeep.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 20,
+   "load_name": "load",
+   "source": "Tools/_r424bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 85,
+   "load_name": "load",
+   "source": "Tools/_r424bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb2",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 123,
+   "load_name": "load",
+   "source": "Tools/_r424bmc_closeout.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 89,
+   "load_name": "load",
+   "source": "Tools/_r439bmc_closeout_writes.py"
+  },
+  {
+   "admits": [],
+   "binding": "chk",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 168,
+   "load_name": "load",
+   "source": "Tools/_r439bmc_closeout_writes.py"
+  },
+  {
+   "admits": [],
+   "binding": "hb",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 174,
+   "load_name": "load",
+   "source": "Tools/_r439bmc_closeout_writes.py"
+  },
+  {
+   "admits": [],
+   "binding": "chk",
+   "channel": "named",
+   "files": [
+    "bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 211,
+   "load_name": "load",
+   "source": "Tools/_r439bmc_closeout_writes.py"
+  },
+  {
+   "admits": [],
+   "binding": "st",
+   "channel": "named",
+   "files": [
+    "state-bm-c.json"
+   ],
+   "kinds": [
+    "state"
+   ],
+   "line": 47,
+   "load_name": "load",
+   "source": "Tools/_r440bmc_closeout_writes.py"
+  }
+ ],
+ "pin": "c0647d1af66898f6214b3fff9be3d0a91527cce8",
+ "rows": [
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "latest.json",
+   "freshness_gates": 6,
+   "gates": 7,
+   "kind": "mirror",
+   "non_fixture_gates": 7,
+   "sources": [
+    "scripts/portfolio_recommend.py",
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "operational",
+    "report"
+   ],
+   "file": "bm-a.json",
+   "freshness_gates": 2,
+   "gates": 22,
+   "kind": "state",
+   "non_fixture_gates": 22,
+   "sources": [
+    "Tools/_r190_wrap.py",
+    "Tools/_r409bma_closeout.py",
+    "Tools/_r629bma_closeout.py",
+    "Tools/_r840bma_heartbeat_close.py",
+    "Tools/_r897bma_close.py",
+    "Tools/_r897bma_pushsync.py"
+   ]
+  },
+  {
+   "decisions": [
+    "operational",
+    "report",
+    "scientific"
+   ],
+   "file": "bm-c.json",
+   "freshness_gates": 1,
+   "gates": 356,
+   "kind": "state",
+   "non_fixture_gates": 356,
+   "sources": [
+    "Tools/_r1029bmc_close.py",
+    "Tools/_r1031bmc_closeout.py",
+    "Tools/_r1034bmc_closeout.py",
+    "Tools/_r1069bmc_closeout.py",
+    "Tools/_r1070bmc_close.py",
+    "Tools/_r1071bmc_close.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "bandexp_latest.json",
+   "freshness_gates": 1,
+   "gates": 9,
+   "kind": "mirror",
+   "non_fixture_gates": 8,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "printcov_latest.json",
+   "freshness_gates": 1,
+   "gates": 5,
+   "kind": "mirror",
+   "non_fixture_gates": 4,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "selfres_latest.json",
+   "freshness_gates": 1,
+   "gates": 5,
+   "kind": "mirror",
+   "non_fixture_gates": 4,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "banddraw_latest.json",
+   "freshness_gates": 1,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 3,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "zerotolprune_latest.json",
+   "freshness_gates": 1,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 3,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "operational",
+    "report",
+    "scientific"
+   ],
+   "file": "state-bm-c.json",
+   "freshness_gates": 0,
+   "gates": 289,
+   "kind": "state",
+   "non_fixture_gates": 289,
+   "sources": [
+    "Tools/_r1029bmc_close.py",
+    "Tools/_r1031bmc_closeout.py",
+    "Tools/_r1069bmc_resample.py",
+    "Tools/_r1071bmc_close.py",
+    "Tools/_r1073bmc_closeout.py",
+    "Tools/_r1074bmc_closeout.py"
+   ]
+  },
+  {
+   "decisions": [
+    "operational",
+    "report"
+   ],
+   "file": "bm-b.json",
+   "freshness_gates": 0,
+   "gates": 7,
+   "kind": "state",
+   "non_fixture_gates": 7,
+   "sources": [
+    "Tools/_r201_wrap.py",
+    "Tools/_r488_close.py",
+    "Tools/_r811bmb_closeout.py",
+    "Tools/_r896bmb_closeout.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "precisiongap_latest.json",
+   "freshness_gates": 0,
+   "gates": 7,
+   "kind": "mirror",
+   "non_fixture_gates": 6,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "state-bm-a.json",
+   "freshness_gates": 0,
+   "gates": 6,
+   "kind": "state",
+   "non_fixture_gates": 6,
+   "sources": [
+    "Tools/_r409bma_closeout.py",
+    "Tools/_r629bma_closeout.py",
+    "Tools/_r897bma_close.py",
+    "Tools/_r897bma_pushsync.py",
+    "Tools/_r897bma_seen_fix.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "banddisagree_latest.json",
+   "freshness_gates": 0,
+   "gates": 7,
+   "kind": "mirror",
+   "non_fixture_gates": 5,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "bandthreshguard_latest.json",
+   "freshness_gates": 0,
+   "gates": 6,
+   "kind": "mirror",
+   "non_fixture_gates": 5,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "bookecho_latest.json",
+   "freshness_gates": 0,
+   "gates": 5,
+   "kind": "mirror",
+   "non_fixture_gates": 5,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "operational",
+    "report",
+    "scientific"
+   ],
+   "file": "addos_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 4,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "banddonorchoice_latest.json",
+   "freshness_gates": 0,
+   "gates": 5,
+   "kind": "mirror",
+   "non_fixture_gates": 4,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "leadcounter_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 4,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "pairhet_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 4,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "precisioncensus_latest.json",
+   "freshness_gates": 0,
+   "gates": 5,
+   "kind": "mirror",
+   "non_fixture_gates": 4,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "quantityname_latest.json",
+   "freshness_gates": 0,
+   "gates": 5,
+   "kind": "mirror",
+   "non_fixture_gates": 4,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "replaycensus_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 4,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "starown_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 4,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "starself_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 4,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "bandambient_latest.json",
+   "freshness_gates": 0,
+   "gates": 5,
+   "kind": "mirror",
+   "non_fixture_gates": 3,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "banddeflate_latest.json",
+   "freshness_gates": 0,
+   "gates": 5,
+   "kind": "mirror",
+   "non_fixture_gates": 3,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "banddraw-d1920_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 3,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "bandgapceiling_latest.json",
+   "freshness_gates": 0,
+   "gates": 5,
+   "kind": "mirror",
+   "non_fixture_gates": 3,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "bandswitch_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 3,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "gateprint_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 3,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "gatetol_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 3,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "slopematrix_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 3,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "stardir_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 3,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "starlagband_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 3,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "bandbucket_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "bandcountscope_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "banddisagreescope_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "banddupes_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "bandfields_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "bandfloormirror_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "bandpooled_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "bandselfaudit_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "bandstraddlesweep_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "bandsubstitute_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "bandsupply_latest.json",
+   "freshness_gates": 0,
+   "gates": 4,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "gateclamp_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "gateoperands_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report",
+    "scientific"
+   ],
+   "file": "legeps_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "reachwide_latest.json",
+   "freshness_gates": 0,
+   "gates": 2,
+   "kind": "mirror",
+   "non_fixture_gates": 2,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "bandarrivalate_latest.json",
+   "freshness_gates": 0,
+   "gates": 2,
+   "kind": "mirror",
+   "non_fixture_gates": 1,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "bandclosure_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 1,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "banddraw-d960_latest.json",
+   "freshness_gates": 0,
+   "gates": 1,
+   "kind": "mirror",
+   "non_fixture_gates": 1,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "bandflipbudget_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 1,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "bandmargin_latest.json",
+   "freshness_gates": 0,
+   "gates": 2,
+   "kind": "mirror",
+   "non_fixture_gates": 1,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "scientific"
+   ],
+   "file": "bandnear1_latest.json",
+   "freshness_gates": 0,
+   "gates": 2,
+   "kind": "mirror",
+   "non_fixture_gates": 1,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "bandscreen_latest.json",
+   "freshness_gates": 0,
+   "gates": 2,
+   "kind": "mirror",
+   "non_fixture_gates": 1,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "bandscreenbudget_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 1,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "bandspreadfloor_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 1,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "operational"
+   ],
+   "file": "bandsubstituteaudit_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 1,
+   "sources": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "decisions": [
+    "report"
+   ],
+   "file": "bandtight_latest.json",
+   "freshness_gates": 0,
+   "gates": 3,
+   "kind": "mirror",
+   "non_fixture_gates": 1,
+   "sources": [
+    "smoke_test.py"
+   ]
+  }
+ ],
+ "rows_truncated": 79,
+ "source": "scripts/e349_latest_mirror_census.py",
+ "study": "E349_latest_mirror_census",
+ "summary": {
+  "freshness_gates": 14,
+  "gates_by_class": {
+   "operational": 244,
+   "report": 691,
+   "scientific": 123,
+   "selftest_fixture": 12
+  },
+  "gates_by_kind": {
+   "assert": 437,
+   "comparison": 380,
+   "comprehension_filter": 65,
+   "conditional_expression": 13,
+   "freshness": 14,
+   "null_guard": 82,
+   "truth_test": 93
+  },
+  "gates_outside_fixtures": 840,
+  "gates_total": 1070,
+  "live_state_files": 11,
+  "loaded_by_name": 72,
+  "loaded_only_by_enumeration": 50,
+  "mirror_files": 128,
+  "never_loaded": 17,
+  "never_named_by_any_in_repo_file": 13,
+  "operational_gates": 235,
+  "operational_gates_that_test_freshness": 2,
+  "outside_python": {
+   "channel_files_mentioned": 10,
+   "files_scanned": 359,
+   "mirror_files_mentioned": 3,
+   "state_files_mentioned": 7
+  },
+  "scan_domain": {
+   "comparison_sites": 1070,
+   "files_reached": 122,
+   "live_state_files": 11,
+   "load_sites": 697,
+   "mirror_files": 128,
+   "prefiltered_out": 1303,
+   "scanned": 1109,
+   "source_files": 2412,
+   "sources_scanned": 1109,
+   "verdict": "contains_targets"
+  },
+  "share_of_channel_loaded": 87.77,
+  "share_of_channel_that_decides": 45.32,
+  "share_of_deciding_gates_that_test_freshness": 1.67,
+  "sweep_load_sites": 66,
+  "sweep_non_fixture_gates": 136,
+  "sweep_operational_freshness_gates": 0,
+  "sweep_operational_gates": 8,
+  "wired_non_fixture_gates": 159,
+  "wired_operational_freshness_gates": 0,
+  "wired_operational_gates": 2,
+  "wired_sources_reading_the_channel": 2,
+  "wired_sources_total": 119,
+  "with_a_freshness_check": 8,
+  "with_a_gate": 71,
+  "with_a_non_fixture_gate": 63,
+  "write_only_to_python": 17
+ },
+ "today": "2026-11-01",
+ "ts": "2026-11-01T20:50:59+08:00",
+ "verdict": "the_mirror_channel_is_opened_by_operational_branches_and_almost_never_asks_whether_what_it_opened_is_current",
+ "write_only": [
+  {
+   "file": "LIVE-latest.json",
+   "kind": "mirror",
+   "mentioned_by": [
+    "_r1065bmc_incoming.txt",
+    "_r1068bmc_bma991_files.txt",
+    "_r853bmc_paths.txt",
+    "_r904bmc_origin_files.txt"
+   ]
+  },
+  {
+   "file": "REC-latest.json",
+   "kind": "mirror",
+   "mentioned_by": []
+  },
+  {
+   "file": "autofill_state.bm-b.json",
+   "kind": "state",
+   "mentioned_by": [
+    "_r1068bmc_bma991_files.txt",
+    "_r904bmc_origin_files.txt"
+   ]
+  },
+  {
+   "file": "bench-bm-a-latest.json",
+   "kind": "mirror",
+   "mentioned_by": []
+  },
+  {
+   "file": "bench-bm-c-latest.json",
+   "kind": "mirror",
+   "mentioned_by": []
+  },
+  {
+   "file": "call_latest.json",
+   "kind": "mirror",
+   "mentioned_by": [
+    "Tools/iteration_prompt.txt"
+   ]
+  },
+  {
+   "file": "consume-latest.json",
+   "kind": "mirror",
+   "mentioned_by": []
+  },
+  {
+   "file": "docs__live_usage__LIVE-latest.json",
+   "kind": "mirror",
+   "mentioned_by": []
+  },
+  {
+   "file": "docs_live_usage_LIVE-latest.json",
+   "kind": "mirror",
+   "mentioned_by": []
+  },
+  {
+   "file": "evidence_latest.json",
+   "kind": "mirror",
+   "mentioned_by": []
+  },
+  {
+   "file": "holdbridge_latest.json",
+   "kind": "mirror",
+   "mentioned_by": []
+  },
+  {
+   "file": "probe_latest.json",
+   "kind": "mirror",
+   "mentioned_by": []
+  },
+  {
+   "file": "results__market_clock__call_latest.json",
+   "kind": "mirror",
+   "mentioned_by": []
+  },
+  {
+   "file": "results__paper_export__latest.json",
+   "kind": "mirror",
+   "mentioned_by": []
+  },
+  {
+   "file": "state-bm-b.json",
+   "kind": "state",
+   "mentioned_by": []
+  },
+  {
+   "file": "state_bm-a.json",
+   "kind": "state",
+   "mentioned_by": []
+  },
+  {
+   "file": "state_bm-b.json",
+   "kind": "state",
+   "mentioned_by": [
+    "_r1068bmc_bma991_files.txt",
+    "_r904bmc_origin_files.txt"
+   ]
+  }
+ ]
+}

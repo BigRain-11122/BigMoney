@@ -11203,6 +11203,70 @@ def main() -> int:
                 if ((((_f348 or {}).get("windows") or [{}])[0].get("after_the_restore") or {})
                     .get("one_observation_repeated")) else "distinct states"))
 
+    # E349: E347 found no dated face gates an operational decision and published its bound -- the
+    # readers it expects live on the *_latest mirrors and the live state files a round rewrites in
+    # place. This leg asks that channel what it decides, and refuses three shapes: a summary whose
+    # freshness share does not re-derive from its own counts, a directory sweep charged to each
+    # file it happens to admit (one glob over results/*.json is one reader, not fifty), and a
+    # channel population published without saying how much of it is opened or named nowhere.
+    _name349 = ("product: the mirror channel is measured for freshness, and a sweep is not charged "
+                "to each file it admits")
+    _bad349 = []
+    _f349 = None
+    try:
+        _p349 = os.path.join("results", "state_tilt", "mirror_latest.json")
+        _f349 = json.load(open(_p349, encoding="utf-8")) if os.path.exists(_p349) else None
+        if _f349 is None:
+            _bad349.append("no published mirror face")
+        else:
+            _s349 = _f349.get("summary") or {}
+            _dom349 = _s349.get("scan_domain") or {}
+            if _dom349.get("verdict") != "contains_targets":
+                _bad349.append("scan domain did not contain the channel (%s)"
+                               % _dom349.get("verdict"))
+            if _dom349.get("source_files") and _dom349.get("prefiltered_out") is None:
+                _bad349.append("a text prefilter dropped sources without publishing the count")
+            if sum((_s349.get("gates_by_class") or {}).values()) != int(
+                    _s349.get("gates_total") or 0):
+                _bad349.append("gates_by_class does not sum to gates_total")
+            _real349 = int(_s349.get("gates_outside_fixtures") or 0)
+            _fresh349 = int(_s349.get("freshness_gates") or 0)
+            _sh349 = _s349.get("share_of_deciding_gates_that_test_freshness")
+            _want349 = round(100.0 * _fresh349 / _real349, 2) if _real349 else None
+            if _sh349 != _want349:
+                _bad349.append("the freshness share does not re-derive (%s vs %s)"
+                               % (_sh349, _want349))
+            for _r349 in _f349.get("rows") or []:
+                if str(_r349.get("file") or "").startswith("<sweep"):
+                    _bad349.append("a sweep is charged to a file row")
+                    break
+                if int(_r349.get("freshness_gates") or 0) > int(
+                        _r349.get("non_fixture_gates") or 0):
+                    _bad349.append("%s reports more freshness gates than gates"
+                                   % _r349.get("file"))
+                    break
+            if _f349.get("write_only") is None:
+                _bad349.append("the channel population is published without its write-only list")
+    except Exception as e:
+        check(_name349, False, repr(e)[:160])
+
+    check(_name349, not _bad349, "; ".join(_bad349)[:220]
+          or "%s; %s comparisons outside fixtures of which %s test freshness (%s); %s operational "
+             "of which %s test freshness; %s of %s channel files opened by name; %s write-only to "
+             "Python, %s named by no in-repo file"
+             % ((_f349 or {}).get("verdict"),
+                ((_f349 or {}).get("summary") or {}).get("gates_outside_fixtures"),
+                ((_f349 or {}).get("summary") or {}).get("freshness_gates"),
+                ((_f349 or {}).get("summary") or {}).get(
+                    "share_of_deciding_gates_that_test_freshness"),
+                ((_f349 or {}).get("summary") or {}).get("operational_gates"),
+                ((_f349 or {}).get("summary") or {}).get("operational_gates_that_test_freshness"),
+                ((_f349 or {}).get("summary") or {}).get("loaded_by_name"),
+                ((((_f349 or {}).get("summary") or {}).get("mirror_files") or 0)
+                 + (((_f349 or {}).get("summary") or {}).get("live_state_files") or 0)),
+                ((_f349 or {}).get("summary") or {}).get("write_only_to_python"),
+                ((_f349 or {}).get("summary") or {}).get("never_named_by_any_in_repo_file")))
+
     return _finish()
 
 

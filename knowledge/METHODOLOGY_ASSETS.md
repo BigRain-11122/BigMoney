@@ -7227,3 +7227,43 @@ Evidence: scripts/e348_restored_gate_retrospect.py (selftest 21/21, verify 0 pro
 from git through the face's `replay_head`) -> results/state_tilt/RESTOREDGATE-2026-11-01.json +
 restoredgate_latest.json; S6 leg `restored_gate_retrospect`; smoke leg E348 (standalone runner
 scripts/run_e348_smoke_leg.py); research/digests/DIGEST-20261101-r1369-e348-restored-gate-retrospect.md
+
+## E349 -- a mirror is a pointer, and the one question it alone can ask is almost never asked
+
+E347 measured every dated face and found no operational decision reading one. Its bound said the
+live readers sit on the mirror channel (`*_latest.json`) and the live state files a round rewrites
+in place. This card measures that channel with the same machinery (E347's load/compare primitives,
+E343's store-vs-load, E319's self-inclusion).
+
+Readings (pinned corpus: 2412 sources, 1109 carrying a channel token, 139 channel files):
+87.8% of the channel is reached by an in-repo `.py` source, 45.3% reaches a non-fixture
+comparison, and 5.8% carries what only a mirror can carry -- a freshness comparison. Of 840
+non-fixture comparisons 14 test freshness (1.67%); of 235 operational ones, 2. Of the 119 sources
+the S6 chain actually names, 2 read the channel and neither operational comparison asks whether the
+pointer is current. 17 channel files are write-only to Python and 13 are named by no in-repo file
+at all; 10 are named by `.ps1/.cmd/.txt/.js`, so the true readers are outside the parsed corpus.
+
+1. **A sweep is not N readers.** `for p in glob(results/*.json)` reaches every mirror at once. The
+   first build attributed that comparison to each of the 50 files the sweep admitted, reporting 147
+   "gates" for one probe script. Attribution now belongs to `<sweep pattern>` and per-file rows
+   count named loads only; the headline moved 2039->1070 comparisons and 269->235 operational.
+2. **A liveness cut must be mechanical and published.** Historical closeout scripts that assert on
+   `heartbeat_epoch_utc` are operational-looking but ran once. Cutting by "named inside
+   Tools/s6_chain_bmb.py" leaves 2 readers, and the population number stays beside it.
+3. **A population prefilter must be published.** 1303 of 2412 sources are skipped by a text token
+   test; `prefiltered_out` is in the face so the denominator cannot silently shrink (E332).
+4. **"Nobody reads it" needs the non-Python sweep before it is said.** `watermark_red.json`,
+   `idle_trigger.<id>.json` and `autofill_state.<id>.json` are opened by no `.py` file, and 10
+   channel files are named by operational `.ps1/.txt` files -- the honest sentence is "the readers
+   are outside the parsed corpus, and 13 files are named nowhere".
+5. **The answer is not "the mirrors are wrong".** A mirror with no freshness comparison is not a
+   broken writer; it is a channel property, and 63 files decide something off it. What the census
+   can say is exactly how many branches would accept a pointer from last week as today.
+6. **Same-function memoisation is a measurement fix, not a shortcut.** `parents_of(tree)` is
+   recomputed per load binding inside E347's `gate_rows`; caching it per tree object cut 212s to
+   134s with an identical summary.
+
+Evidence: scripts/e349_latest_mirror_census.py (selftest 15/15, verify 0 problems) ->
+results/state_tilt/MIRROR-2026-11-01.json + mirror_latest.json; S6 leg `latest_mirror_channel`;
+smoke leg E349 (standalone runner scripts/run_e349_smoke_leg.py);
+research/digests/DIGEST-20261101-r1370-e349-mirror-channel.md

@@ -1060,6 +1060,16 @@ LEGS = [
     ("restored_gate_retrospect",
      ["python", "scripts/e348_restored_gate_retrospect.py", "verify"]),
 
+    # E349: E347 found no dated face gates an operational decision and published the bound -- the
+    # live readers sit on the *_latest mirrors and the live state files a round rewrites in place.
+    # This leg measures that channel: 87.8% of its 139 files are opened by an in-repo source and
+    # 45.3% reach a comparison, but the one comparison only a mirror can carry -- "is this pointer
+    # current?" -- appears in 14 of 840 non-fixture comparisons and in 2 of 235 operational ones.
+    # Of the 119 sources the chain itself names, 2 read the channel and neither asks freshness.
+    # Verify re-derives the whole census from the face's pin (~2 min, AST over 1109 sources).
+    ("latest_mirror_channel",
+     ["python", "scripts/e349_latest_mirror_census.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one
