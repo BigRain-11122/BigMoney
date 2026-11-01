@@ -10817,6 +10817,97 @@ def main() -> int:
                 (((_f340 or {}).get("summary") or {}).get("self_read_entries")),
                 (((_f340 or {}).get("summary") or {}).get("unpinned_grants"))))
 
+    # E341: E338 said the two readings coincided but not why. This leg refuses a verdict outside
+    # the frozen set, a verdict the frozen rule would not decide from the published summary, a
+    # window whose classified files do not cover everything it touched, a window that claims a
+    # composition gain without naming the file it came from, a content-move count that the rows do
+    # not reproduce, an exclusion table whose rows do not add up to its own totals, an orphaned
+    # name that still has a non-family writer in the same table, and a share of sources that
+    # disagrees with the two corpus sizes it was computed from.
+    _name341 = ("product: the census family's closing commit is split into its added half and its "
+                "wiring half, and the price of excluding the family from the corpus is published")
+    _bad341 = []
+    try:
+        _p341 = os.path.join("results", "state_tilt", "siblingcloser_latest.json")
+        _f341 = json.load(open(_p341, encoding="utf-8")) if os.path.exists(_p341) else None
+        if _f341 is None:
+            _bad341.append("no published sibling-closer face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m341 = __import__("importlib").import_module("e341_sibling_closer_what_changed")
+            _sum341 = _f341.get("summary") or {}
+            _exc341 = _f341.get("exclusion_cost") or {}
+            if _f341.get("verdict") not in (getattr(_m341, "V_NONE"), getattr(_m341, "V_TWO_IN_ONE"),
+                                            getattr(_m341, "V_MIXED"), getattr(_m341, "V_SELFONLY")):
+                _bad341.append("verdict outside the frozen set")
+            elif _f341.get("verdict") != _m341.decide(_sum341, _exc341):
+                _bad341.append("verdict is not the frozen rule's output on the published summary")
+            _wins341 = _f341.get("windows") or []
+            if len(_wins341) != int(_sum341.get("windows_closed") or -1):
+                _bad341.append("window rows %s != windows_closed %s"
+                               % (len(_wins341), _sum341.get("windows_closed")))
+            for _w341 in _wins341:
+                _hit = set(_w341.get("closing_added") or []) | set(_w341.get("closing_modified") or [])
+                _hit |= set(_w341.get("closing_removed") or [])
+                if set(_w341.get("classified") or {}) != _hit:
+                    _bad341.append("a window classifies %s files but touched %s"
+                                   % (len(_w341.get("classified") or {}), len(_hit)))
+                    break
+                if (int((_w341.get("summary") or {}).get("names_with_no_writer_before") or 0) > 0
+                        and not ((_w341.get("names") or {}).get("composition_only") or [])):
+                    _bad341.append("a window claims an introduced name but names none")
+                    break
+                if (int((_w341.get("summary") or {}).get("names_moved_by_content") or 0)
+                        != len((_w341.get("names") or {}).get("moved_by_content") or {})):
+                    _bad341.append("a window's content-move count is not its own rows")
+                    break
+            _rows341 = _exc341.get("rows") or []
+            if int(_exc341.get("writer_rows_removed") or -1) != sum(
+                    int(r.get("rows_removed") or 0) for r in _rows341) and not _exc341.get("rows_truncated"):
+                _bad341.append("writer_rows_removed is not the sum of the published rows")
+            for _r341 in _rows341:
+                if bool(_r341.get("orphaned")) and int(_r341.get("writers_without_the_family") or 0) != 0:
+                    _bad341.append("a name is called orphaned while it still has a writer")
+                    break
+                _w_all = _r341.get("writers")
+                _w_nc = _r341.get("writers_without_the_family")
+                _rm = _r341.get("rows_removed")
+                if None in (_w_all, _w_nc, _rm):
+                    _bad341.append("a row is missing one of writers/rows_removed/writers_without")
+                    break
+                if int(_w_all) - int(_rm) != int(_w_nc):
+                    _bad341.append("a row's writers - rows_removed != writers_without_the_family")
+                    break
+            _corp341 = _exc341.get("corpus") or {}
+            _w341 = _corp341.get("with_the_family") or {}
+            _k341 = _corp341.get("without_the_family") or {}
+            if int(_w341.get("sources") or 0) - int(_k341.get("sources") or 0) != int(
+                    _exc341.get("family_size") or -1):
+                _bad341.append("the corpus difference is not the family size")
+            _share341 = _corp341.get("share_of_sources")
+            if _share341 is not None and abs(
+                    float(_share341) - float(_exc341.get("family_size") or 0) / max(1, int(
+                        _w341.get("sources") or 1))) > 1e-6:
+                _bad341.append("share_of_sources is not family_size / sources")
+            if not (_f341.get("reasons") or []):
+                _bad341.append("no reasons published")
+    except Exception as e:
+        check(_name341, False, repr(e)[:160])
+
+    check(_name341, not _bad341, "; ".join(_bad341)[:220]
+          or "%s | %s closers over %s distinct commits, %s name(s) introduced, %s attach to an "
+             "existing one, %s move by content, exempting the family orphans %s of %s names"
+             % ((_f341 or {}).get("verdict"),
+                ((_f341 or {}).get("summary") or {}).get("windows_closed"),
+                ((_f341 or {}).get("summary") or {}).get("distinct_closing_commits"),
+                ((_f341 or {}).get("summary") or {}).get(
+                    "windows_where_the_new_member_introduces_a_name_nothing_named_before"),
+                ((_f341 or {}).get("summary") or {}).get(
+                    "windows_where_the_new_member_names_an_existing_face"),
+                ((_f341 or {}).get("summary") or {}).get("windows_where_content_moved_a_name"),
+                ((_f341 or {}).get("exclusion_cost") or {}).get("names_orphaned_count"),
+                ((_f341 or {}).get("exclusion_cost") or {}).get("stems_measured")))
+
     return _finish()
 
 

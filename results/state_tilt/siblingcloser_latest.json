@@ -1,0 +1,1214 @@
+{
+  "study": "E341_sibling_closer_what_changed",
+  "evidence_cutoff": "2026-11-01",
+  "definition": {
+    "population": "every .py under scripts/Tools/live/monitor/firm (e323.corpus())",
+    "landing": "the commit that first adds a census face (oldest add, not a re-add)",
+    "closing": "the next commit touching any .py in the population",
+    "family": [
+      "scripts/e322_residual_refusal_causes.py",
+      "scripts/e323_reach_under_wider_needle.py",
+      "scripts/e324_unpublished_key_causes.py",
+      "scripts/e325_orphan_gate_faces.py",
+      "scripts/e326_template_parameter_consumers.py",
+      "scripts/e327_who_reads_a_face_through_a_pointer.py",
+      "scripts/e328_quoted_number_staleness.py",
+      "scripts/e329_two_vintage_binding.py",
+      "scripts/e330_unpinned_choice.py",
+      "scripts/e331_pointer_only_readers.py",
+      "scripts/e332_invisible_tail_recovery.py",
+      "scripts/e333_surviving_e3xx_conclusions.py",
+      "scripts/e334_helper_repair_blast_radius.py",
+      "scripts/e335_sibling_entry_point.py",
+      "scripts/e336_consumer_optin_ranking.py",
+      "scripts/e337_optin_executed.py"
+    ],
+    "stem": "the uppercase token a face name is built from: before -YYYY-MM-DD.json, before -%s.json in a FACE template, or before .json in an uppercase mirror",
+    "writer": "a source that names the stem as a standalone token",
+    "composition": "the closer added a source that did not exist before",
+    "content": "the closer changed the text of a source that already existed",
+    "verdict_rule": "attach_share >= 0.9 and exclusion orphans a name -> coupled; exclusion orphans a name -> mixed; otherwise self_exclusion_is_a_definition"
+  },
+  "summary": {
+    "windows_listed": 16,
+    "windows_closed": 16,
+    "distinct_closing_commits": 15,
+    "windows_where_the_new_member_introduces_a_name_nothing_named_before": 16,
+    "windows_where_the_new_member_names_an_existing_face": 8,
+    "windows_where_content_moved_a_name": 0,
+    "windows_that_only_grew_the_corpus": 16,
+    "files_the_closers_touch_by_class": {
+      "s6_wiring": 16,
+      "census_study": 18,
+      "name_writer": 1,
+      "unrelated": 2
+    },
+    "composition_and_content_totals": {
+      "sources_added": 18,
+      "bytes_added": 508337,
+      "lines_added": 10986,
+      "bytes_delta_modified": 23863,
+      "lines_delta_modified": 360
+    }
+  },
+  "windows": [
+    {
+      "face": "scripts/e322_residual_refusal_causes.py",
+      "landing_sha": "6fb84e83bbdb9f288046123f91d294765b38538c",
+      "closing_sha": "d8bd1c57296398d57f2636d374269c5fa67c7534",
+      "closing_added": [
+        "scripts/e324_unpublished_key_causes.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e324_unpublished_key_causes.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1
+      },
+      "names": {
+        "composition_only": [
+          "UNPUBLISHEDKEY"
+        ],
+        "attached_to_an_existing_name": [
+          "REACHWIDE"
+        ],
+        "writers_before": {
+          "REACHWIDE": 1,
+          "UNPUBLISHEDKEY": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "REACHWIDE",
+          "UNPUBLISHEDKEY"
+        ]
+      },
+      "corpus_before_sources": 2205,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 29094,
+        "lines_added": 654,
+        "bytes_delta_modified": 734,
+        "lines_delta_modified": 10
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 1,
+        "names_gained_by_composition": 2,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 1,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e323_reach_under_wider_needle.py",
+      "landing_sha": "6fb84e83bbdb9f288046123f91d294765b38538c",
+      "closing_sha": "d8bd1c57296398d57f2636d374269c5fa67c7534",
+      "closing_added": [
+        "scripts/e324_unpublished_key_causes.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e324_unpublished_key_causes.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1
+      },
+      "names": {
+        "composition_only": [
+          "UNPUBLISHEDKEY"
+        ],
+        "attached_to_an_existing_name": [
+          "REACHWIDE"
+        ],
+        "writers_before": {
+          "REACHWIDE": 1,
+          "UNPUBLISHEDKEY": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "REACHWIDE",
+          "UNPUBLISHEDKEY"
+        ]
+      },
+      "corpus_before_sources": 2205,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 29094,
+        "lines_added": 654,
+        "bytes_delta_modified": 734,
+        "lines_delta_modified": 10
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 1,
+        "names_gained_by_composition": 2,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 1,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e324_unpublished_key_causes.py",
+      "landing_sha": "d8bd1c57296398d57f2636d374269c5fa67c7534",
+      "closing_sha": "1c3cbdecead723eeaf3a2cc45689b76a8ce7f440",
+      "closing_added": [
+        "scripts/e325_orphan_gate_faces.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e325_orphan_gate_faces.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1
+      },
+      "names": {
+        "composition_only": [
+          "ORPHANGATEFACE"
+        ],
+        "attached_to_an_existing_name": [
+          "PRECISIONCENSUS",
+          "REACHWIDE"
+        ],
+        "writers_before": {
+          "ORPHANGATEFACE": 0,
+          "PRECISIONCENSUS": 1,
+          "REACHWIDE": 2
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "ORPHANGATEFACE",
+          "PRECISIONCENSUS",
+          "REACHWIDE"
+        ]
+      },
+      "corpus_before_sources": 2206,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 30512,
+        "lines_added": 651,
+        "bytes_delta_modified": 478,
+        "lines_delta_modified": 7
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 1,
+        "names_gained_by_composition": 3,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 2,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e325_orphan_gate_faces.py",
+      "landing_sha": "1c3cbdecead723eeaf3a2cc45689b76a8ce7f440",
+      "closing_sha": "8d96003b0cd7b047f3daa26f00de353545164f69",
+      "closing_added": [
+        "scripts/e326_template_parameter_consumers.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e326_template_parameter_consumers.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1
+      },
+      "names": {
+        "composition_only": [
+          "TEMPLATEPARAM"
+        ],
+        "attached_to_an_existing_name": [
+          "BANDDEFLATE",
+          "ORPHANGATEFACE",
+          "REPRO"
+        ],
+        "writers_before": {
+          "BANDDEFLATE": 2,
+          "ORPHANGATEFACE": 1,
+          "REPRO": 15,
+          "TEMPLATEPARAM": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "BANDDEFLATE",
+          "ORPHANGATEFACE",
+          "REPRO",
+          "TEMPLATEPARAM"
+        ]
+      },
+      "corpus_before_sources": 2207,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 32140,
+        "lines_added": 680,
+        "bytes_delta_modified": 664,
+        "lines_delta_modified": 9
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 1,
+        "names_gained_by_composition": 4,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 3,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e326_template_parameter_consumers.py",
+      "landing_sha": "8d96003b0cd7b047f3daa26f00de353545164f69",
+      "closing_sha": "468026ac4167687ef582274b3065ba4e34930b54",
+      "closing_added": [
+        "scripts/e327_who_reads_a_face_through_a_pointer.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e327_who_reads_a_face_through_a_pointer.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1
+      },
+      "names": {
+        "composition_only": [
+          "POINTERREAD"
+        ],
+        "attached_to_an_existing_name": [
+          "BANDDEFLATE",
+          "TEMPLATEPARAM"
+        ],
+        "writers_before": {
+          "BANDDEFLATE": 3,
+          "POINTERREAD": 0,
+          "TEMPLATEPARAM": 1
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "BANDDEFLATE",
+          "POINTERREAD",
+          "TEMPLATEPARAM"
+        ]
+      },
+      "corpus_before_sources": 2208,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 25275,
+        "lines_added": 542,
+        "bytes_delta_modified": 770,
+        "lines_delta_modified": 10
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 1,
+        "names_gained_by_composition": 3,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 2,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+      "landing_sha": "468026ac4167687ef582274b3065ba4e34930b54",
+      "closing_sha": "be5b02fe53cca5150ee450108d1a9735e6241bca",
+      "closing_added": [
+        "scripts/e328_quoted_number_staleness.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e328_quoted_number_staleness.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1
+      },
+      "names": {
+        "composition_only": [
+          "STALECUTOFF"
+        ],
+        "attached_to_an_existing_name": [
+          "BANDFLOOR"
+        ],
+        "writers_before": {
+          "BANDFLOOR": 8,
+          "STALECUTOFF": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "BANDFLOOR",
+          "STALECUTOFF"
+        ]
+      },
+      "corpus_before_sources": 2209,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 24661,
+        "lines_added": 557,
+        "bytes_delta_modified": 635,
+        "lines_delta_modified": 9
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 1,
+        "names_gained_by_composition": 2,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 1,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e328_quoted_number_staleness.py",
+      "landing_sha": "be5b02fe53cca5150ee450108d1a9735e6241bca",
+      "closing_sha": "3756e46c8c83dd71ef32583ef7b9a33c4bba6eb1",
+      "closing_added": [
+        "scripts/e329_two_vintage_binding.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e329_two_vintage_binding.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1
+      },
+      "names": {
+        "composition_only": [
+          "TWOVINTAGE"
+        ],
+        "attached_to_an_existing_name": [
+          "BANDFIELDS",
+          "OWNCROSS"
+        ],
+        "writers_before": {
+          "BANDFIELDS": 2,
+          "OWNCROSS": 2,
+          "TWOVINTAGE": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "BANDFIELDS",
+          "OWNCROSS",
+          "TWOVINTAGE"
+        ]
+      },
+      "corpus_before_sources": 2210,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 33575,
+        "lines_added": 747,
+        "bytes_delta_modified": 937,
+        "lines_delta_modified": 12
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 1,
+        "names_gained_by_composition": 3,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 2,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e329_two_vintage_binding.py",
+      "landing_sha": "3756e46c8c83dd71ef32583ef7b9a33c4bba6eb1",
+      "closing_sha": "21bda513d0b1762ad5610be4c9139a1c0bfe0c9b",
+      "closing_added": [
+        "scripts/e330_unpinned_choice.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e330_unpinned_choice.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1
+      },
+      "names": {
+        "composition_only": [
+          "UNPINNEDCHOICE"
+        ],
+        "attached_to_an_existing_name": [],
+        "writers_before": {
+          "UNPINNEDCHOICE": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "UNPINNEDCHOICE"
+        ]
+      },
+      "corpus_before_sources": 2211,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 39493,
+        "lines_added": 835,
+        "bytes_delta_modified": 915,
+        "lines_delta_modified": 12
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 1,
+        "names_gained_by_composition": 1,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 0,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e330_unpinned_choice.py",
+      "landing_sha": "21bda513d0b1762ad5610be4c9139a1c0bfe0c9b",
+      "closing_sha": "ed18319b9a63d29bd5f10455d217b50d9e99994e",
+      "closing_added": [
+        "scripts/e331_pointer_only_readers.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e331_pointer_only_readers.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1
+      },
+      "names": {
+        "composition_only": [
+          "POINTERONLY"
+        ],
+        "attached_to_an_existing_name": [],
+        "writers_before": {
+          "POINTERONLY": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "POINTERONLY"
+        ]
+      },
+      "corpus_before_sources": 2212,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 47577,
+        "lines_added": 1026,
+        "bytes_delta_modified": 1134,
+        "lines_delta_modified": 14
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 1,
+        "names_gained_by_composition": 1,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 0,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e331_pointer_only_readers.py",
+      "landing_sha": "ed18319b9a63d29bd5f10455d217b50d9e99994e",
+      "closing_sha": "9f1eff4d9171e585e06dce143afc43be540cbd70",
+      "closing_added": [
+        "scripts/e332_invisible_tail_recovery.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e332_invisible_tail_recovery.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1
+      },
+      "names": {
+        "composition_only": [
+          "INVISIBLETAIL"
+        ],
+        "attached_to_an_existing_name": [],
+        "writers_before": {
+          "INVISIBLETAIL": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "INVISIBLETAIL"
+        ]
+      },
+      "corpus_before_sources": 2213,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 25431,
+        "lines_added": 573,
+        "bytes_delta_modified": 2072,
+        "lines_delta_modified": 39
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 1,
+        "names_gained_by_composition": 1,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 0,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e332_invisible_tail_recovery.py",
+      "landing_sha": "9f1eff4d9171e585e06dce143afc43be540cbd70",
+      "closing_sha": "2863a90d0e6f9f118dbac13662f7ea7e07f93b8e",
+      "closing_added": [
+        "scripts/e333_surviving_e3xx_conclusions.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e333_surviving_e3xx_conclusions.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1
+      },
+      "names": {
+        "composition_only": [
+          "SURVIVINGCONCLUSIONS"
+        ],
+        "attached_to_an_existing_name": [],
+        "writers_before": {
+          "SURVIVINGCONCLUSIONS": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "SURVIVINGCONCLUSIONS"
+        ]
+      },
+      "corpus_before_sources": 2214,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 31360,
+        "lines_added": 670,
+        "bytes_delta_modified": 889,
+        "lines_delta_modified": 11
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 1,
+        "names_gained_by_composition": 1,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 0,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e333_surviving_e3xx_conclusions.py",
+      "landing_sha": "2863a90d0e6f9f118dbac13662f7ea7e07f93b8e",
+      "closing_sha": "512ec8abd7bd819be15b5a6dd7e11f5b931c7a98",
+      "closing_added": [
+        "scripts/e334_helper_repair_blast_radius.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e334_helper_repair_blast_radius.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1
+      },
+      "names": {
+        "composition_only": [
+          "HELPERREPAIR"
+        ],
+        "attached_to_an_existing_name": [],
+        "writers_before": {
+          "HELPERREPAIR": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "HELPERREPAIR"
+        ]
+      },
+      "corpus_before_sources": 2215,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 38900,
+        "lines_added": 778,
+        "bytes_delta_modified": 924,
+        "lines_delta_modified": 12
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 1,
+        "names_gained_by_composition": 1,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 0,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e334_helper_repair_blast_radius.py",
+      "landing_sha": "512ec8abd7bd819be15b5a6dd7e11f5b931c7a98",
+      "closing_sha": "c1f05c5112eefd708cf8a58aa27dea31b34410a1",
+      "closing_added": [
+        "scripts/e335_sibling_entry_point.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py",
+        "scripts/e326_template_parameter_consumers.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e335_sibling_entry_point.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring",
+        "scripts/e326_template_parameter_consumers.py": "census_study"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 2
+      },
+      "names": {
+        "composition_only": [
+          "SIBLINGENTRY"
+        ],
+        "attached_to_an_existing_name": [],
+        "writers_before": {
+          "SIBLINGENTRY": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "SIBLINGENTRY"
+        ]
+      },
+      "corpus_before_sources": 2216,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 27270,
+        "lines_added": 590,
+        "bytes_delta_modified": 1625,
+        "lines_delta_modified": 29
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 2,
+        "names_gained_by_composition": 1,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 0,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e335_sibling_entry_point.py",
+      "landing_sha": "c1f05c5112eefd708cf8a58aa27dea31b34410a1",
+      "closing_sha": "6ebc08a6ebf2b56ebb9ee41589ab3f00a720d558",
+      "closing_added": [
+        "scripts/e336_consumer_optin_ranking.py",
+        "scripts/run_e336_smoke_leg.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e336_consumer_optin_ranking.py": "census_study",
+        "scripts/run_e336_smoke_leg.py": "unrelated",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 1,
+        "unrelated": 1
+      },
+      "names": {
+        "composition_only": [
+          "OPTINRANK"
+        ],
+        "attached_to_an_existing_name": [],
+        "writers_before": {
+          "OPTINRANK": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "OPTINRANK"
+        ]
+      },
+      "corpus_before_sources": 2217,
+      "size": {
+        "sources_added": 2,
+        "sources_removed": 0,
+        "bytes_added": 30168,
+        "lines_added": 635,
+        "bytes_delta_modified": 754,
+        "lines_delta_modified": 10
+      },
+      "summary": {
+        "added_files": 2,
+        "modified_files": 1,
+        "names_gained_by_composition": 1,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 0,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e336_consumer_optin_ranking.py",
+      "landing_sha": "6ebc08a6ebf2b56ebb9ee41589ab3f00a720d558",
+      "closing_sha": "974f6bad64d1eb6c6d62bc1313408d34347b09f2",
+      "closing_added": [
+        "scripts/e337_optin_executed.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py",
+        "scripts/e330_unpinned_choice.py",
+        "scripts/e335_sibling_entry_point.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e337_optin_executed.py": "census_study",
+        "Tools/s6_chain_bmb.py": "s6_wiring",
+        "scripts/e330_unpinned_choice.py": "census_study",
+        "scripts/e335_sibling_entry_point.py": "census_study"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "census_study": 3
+      },
+      "names": {
+        "composition_only": [
+          "OPTINSWITCH"
+        ],
+        "attached_to_an_existing_name": [
+          "UNPINNEDCHOICE"
+        ],
+        "writers_before": {
+          "OPTINSWITCH": 0,
+          "UNPINNEDCHOICE": 1
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "OPTINSWITCH",
+          "UNPINNEDCHOICE"
+        ]
+      },
+      "corpus_before_sources": 2219,
+      "size": {
+        "sources_added": 1,
+        "sources_removed": 0,
+        "bytes_added": 29536,
+        "lines_added": 625,
+        "bytes_delta_modified": 9705,
+        "lines_delta_modified": 154
+      },
+      "summary": {
+        "added_files": 1,
+        "modified_files": 3,
+        "names_gained_by_composition": 2,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 1,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    },
+    {
+      "face": "scripts/e337_optin_executed.py",
+      "landing_sha": "974f6bad64d1eb6c6d62bc1313408d34347b09f2",
+      "closing_sha": "fb572e4272bff77fb3019562f75dc07113fd676f",
+      "closing_added": [
+        "scripts/e338_census_green_window.py",
+        "scripts/run_e338_smoke_leg.py"
+      ],
+      "closing_modified": [
+        "Tools/s6_chain_bmb.py"
+      ],
+      "closing_removed": [],
+      "classified": {
+        "scripts/e338_census_green_window.py": "name_writer",
+        "scripts/run_e338_smoke_leg.py": "unrelated",
+        "Tools/s6_chain_bmb.py": "s6_wiring"
+      },
+      "by_class": {
+        "s6_wiring": 1,
+        "name_writer": 1,
+        "unrelated": 1
+      },
+      "names": {
+        "composition_only": [
+          "GREENWINDOW"
+        ],
+        "attached_to_an_existing_name": [],
+        "writers_before": {
+          "GREENWINDOW": 0
+        },
+        "moved_by_content": {},
+        "stems_in_the_closer": [
+          "GREENWINDOW"
+        ]
+      },
+      "corpus_before_sources": 2220,
+      "size": {
+        "sources_added": 2,
+        "sources_removed": 0,
+        "bytes_added": 34251,
+        "lines_added": 769,
+        "bytes_delta_modified": 893,
+        "lines_delta_modified": 12
+      },
+      "summary": {
+        "added_files": 2,
+        "modified_files": 1,
+        "names_gained_by_composition": 1,
+        "names_with_no_writer_before": 1,
+        "names_attached_to_an_existing_one": 0,
+        "names_moved_by_content": 0,
+        "content_moved_any_name": false
+      }
+    }
+  ],
+  "windows_unclosed": [],
+  "exclusion_cost": {
+    "pin_sha": "444d3be87be36a3b38cebd0ebddc2be975109f30",
+    "family_size": 16,
+    "corpus": {
+      "with_the_family": {
+        "sources": 2226,
+        "bytes": 42848814,
+        "lines": 815452
+      },
+      "without_the_family": {
+        "sources": 2210,
+        "bytes": 42353035,
+        "lines": 804778
+      },
+      "share_of_sources": 0.007188,
+      "share_of_lines": 0.01309,
+      "share_of_bytes": 0.01157
+    },
+    "stems_measured": 22,
+    "stems_with_a_writer": 22,
+    "stems_losing_a_writer": 21,
+    "writer_rows_removed": 29,
+    "names_orphaned": [
+      "REACHWIDE",
+      "ORPHANGATEFACE",
+      "TEMPLATEPARAM",
+      "UNPINNEDCHOICE",
+      "HELPERREPAIR",
+      "INVISIBLETAIL",
+      "OPTINRANK",
+      "OPTINSWITCH",
+      "POINTERONLY",
+      "POINTERREAD",
+      "SIBLINGENTRY",
+      "STALECUTOFF",
+      "SURVIVINGCONCLUSIONS",
+      "TWOVINTAGE",
+      "UNPUBLISHEDKEY"
+    ],
+    "names_orphaned_count": 15,
+    "rows": [
+      {
+        "stem": "REACHWIDE",
+        "writers": 3,
+        "writers_without_the_family": 0,
+        "rows_removed": 3,
+        "orphaned": true,
+        "lost": [
+          "scripts/e323_reach_under_wider_needle.py",
+          "scripts/e324_unpublished_key_causes.py",
+          "scripts/e325_orphan_gate_faces.py"
+        ]
+      },
+      {
+        "stem": "REPRO",
+        "writers": 16,
+        "writers_without_the_family": 13,
+        "rows_removed": 3,
+        "orphaned": false,
+        "lost": [
+          "scripts/e322_residual_refusal_causes.py",
+          "scripts/e323_reach_under_wider_needle.py",
+          "scripts/e326_template_parameter_consumers.py"
+        ]
+      },
+      {
+        "stem": "BANDDEFLATE",
+        "writers": 4,
+        "writers_without_the_family": 2,
+        "rows_removed": 2,
+        "orphaned": false,
+        "lost": [
+          "scripts/e326_template_parameter_consumers.py",
+          "scripts/e327_who_reads_a_face_through_a_pointer.py"
+        ]
+      },
+      {
+        "stem": "ORPHANGATEFACE",
+        "writers": 2,
+        "writers_without_the_family": 0,
+        "rows_removed": 2,
+        "orphaned": true,
+        "lost": [
+          "scripts/e325_orphan_gate_faces.py",
+          "scripts/e326_template_parameter_consumers.py"
+        ]
+      },
+      {
+        "stem": "TEMPLATEPARAM",
+        "writers": 2,
+        "writers_without_the_family": 0,
+        "rows_removed": 2,
+        "orphaned": true,
+        "lost": [
+          "scripts/e326_template_parameter_consumers.py",
+          "scripts/e327_who_reads_a_face_through_a_pointer.py"
+        ]
+      },
+      {
+        "stem": "UNPINNEDCHOICE",
+        "writers": 2,
+        "writers_without_the_family": 0,
+        "rows_removed": 2,
+        "orphaned": true,
+        "lost": [
+          "scripts/e330_unpinned_choice.py",
+          "scripts/e337_optin_executed.py"
+        ]
+      },
+      {
+        "stem": "BANDFIELDS",
+        "writers": 3,
+        "writers_without_the_family": 2,
+        "rows_removed": 1,
+        "orphaned": false,
+        "lost": [
+          "scripts/e329_two_vintage_binding.py"
+        ]
+      },
+      {
+        "stem": "BANDFLOOR",
+        "writers": 9,
+        "writers_without_the_family": 8,
+        "rows_removed": 1,
+        "orphaned": false,
+        "lost": [
+          "scripts/e328_quoted_number_staleness.py"
+        ]
+      },
+      {
+        "stem": "HELPERREPAIR",
+        "writers": 1,
+        "writers_without_the_family": 0,
+        "rows_removed": 1,
+        "orphaned": true,
+        "lost": [
+          "scripts/e334_helper_repair_blast_radius.py"
+        ]
+      },
+      {
+        "stem": "INVISIBLETAIL",
+        "writers": 1,
+        "writers_without_the_family": 0,
+        "rows_removed": 1,
+        "orphaned": true,
+        "lost": [
+          "scripts/e332_invisible_tail_recovery.py"
+        ]
+      },
+      {
+        "stem": "OPTINRANK",
+        "writers": 1,
+        "writers_without_the_family": 0,
+        "rows_removed": 1,
+        "orphaned": true,
+        "lost": [
+          "scripts/e336_consumer_optin_ranking.py"
+        ]
+      },
+      {
+        "stem": "OPTINSWITCH",
+        "writers": 1,
+        "writers_without_the_family": 0,
+        "rows_removed": 1,
+        "orphaned": true,
+        "lost": [
+          "scripts/e337_optin_executed.py"
+        ]
+      },
+      {
+        "stem": "OWNCROSS",
+        "writers": 3,
+        "writers_without_the_family": 2,
+        "rows_removed": 1,
+        "orphaned": false,
+        "lost": [
+          "scripts/e329_two_vintage_binding.py"
+        ]
+      },
+      {
+        "stem": "POINTERONLY",
+        "writers": 1,
+        "writers_without_the_family": 0,
+        "rows_removed": 1,
+        "orphaned": true,
+        "lost": [
+          "scripts/e331_pointer_only_readers.py"
+        ]
+      },
+      {
+        "stem": "POINTERREAD",
+        "writers": 1,
+        "writers_without_the_family": 0,
+        "rows_removed": 1,
+        "orphaned": true,
+        "lost": [
+          "scripts/e327_who_reads_a_face_through_a_pointer.py"
+        ]
+      },
+      {
+        "stem": "PRECISIONCENSUS",
+        "writers": 2,
+        "writers_without_the_family": 1,
+        "rows_removed": 1,
+        "orphaned": false,
+        "lost": [
+          "scripts/e325_orphan_gate_faces.py"
+        ]
+      },
+      {
+        "stem": "SIBLINGENTRY",
+        "writers": 1,
+        "writers_without_the_family": 0,
+        "rows_removed": 1,
+        "orphaned": true,
+        "lost": [
+          "scripts/e335_sibling_entry_point.py"
+        ]
+      },
+      {
+        "stem": "STALECUTOFF",
+        "writers": 1,
+        "writers_without_the_family": 0,
+        "rows_removed": 1,
+        "orphaned": true,
+        "lost": [
+          "scripts/e328_quoted_number_staleness.py"
+        ]
+      },
+      {
+        "stem": "SURVIVINGCONCLUSIONS",
+        "writers": 1,
+        "writers_without_the_family": 0,
+        "rows_removed": 1,
+        "orphaned": true,
+        "lost": [
+          "scripts/e333_surviving_e3xx_conclusions.py"
+        ]
+      },
+      {
+        "stem": "TWOVINTAGE",
+        "writers": 1,
+        "writers_without_the_family": 0,
+        "rows_removed": 1,
+        "orphaned": true,
+        "lost": [
+          "scripts/e329_two_vintage_binding.py"
+        ]
+      },
+      {
+        "stem": "UNPUBLISHEDKEY",
+        "writers": 1,
+        "writers_without_the_family": 0,
+        "rows_removed": 1,
+        "orphaned": true,
+        "lost": [
+          "scripts/e324_unpublished_key_causes.py"
+        ]
+      },
+      {
+        "stem": "GREENWINDOW",
+        "writers": 1,
+        "writers_without_the_family": 1,
+        "rows_removed": 0,
+        "orphaned": false,
+        "lost": []
+      }
+    ],
+    "rows_truncated": 0
+  },
+  "verdict": "the_closing_commit_is_in_two_halves_the_added_member_moves_the_name_census_and_the_wiring_edit_moves_only_counts_so_the_two_readings_could_not_separate_them_and_excluding_the_family_leaves_most_of_these_names_with_no_writer_at_all",
+  "reasons": [
+    "every closer adds a census study and edits the wiring file in the same commit: 18 census studies and 16 wiring edits over 15 distinct commits",
+    "the added member names its own face in 16/16 windows and names a stem that already had a writer in 8/16, so the corpus grows by a self-named measurement every time",
+    "the wiring half moves 0 name(s) while editing 360 lines / 23863 bytes in place, so it is visible to every counting face and invisible to the name census -- that is why E338's two readings coincided",
+    "excluding the family at the pin removes 0.7% of sources and 1.3% of lines and leaves 15 of 22 measured names with no writer at all"
+  ],
+  "limits": {
+    "name_currency_is_a_proxy": "no census face is re-run at each closing commit -- the population those faces read is not reconstructible from an old tree alone.  The mover is measured in the family's own needle currency (stems named by a source), which is the composed step of E322's needle, not a published number",
+    "pinned_commit": "the exclusion cost is read at 444d3be87; this study's own file lands after it, so the pinned corpus is one .py smaller than the tree that publishes this face",
+    "self_disclosure": "this file is itself a new .py in the population every census face reads, so it closes windows the same way its siblings did"
+  }
+}

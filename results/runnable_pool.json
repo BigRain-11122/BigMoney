@@ -26292,14 +26292,18 @@
       "id": "E341-WHAT-THE-SIBLING-CLOSER-ACTUALLY-CHANGED",
       "lane": "cpu-only",
       "notes": "seeded by r1358 bm-b at E338 close; E338 proved the two readings are vacuous on this history, and the only remaining question is whether the corpus should exclude its own family",
-      "owner": null,
-      "owner_since": null,
+      "owner": "bm-b",
+      "owner_since": "2026-11-01T14:22:00+08:00",
       "priority": 2,
       "question": "E338 measured 15/15 windows closing on a new census sibling, and the two readings (all .py touches vs touches outside the census family) picked the same commit every time -- the split could not separate research from production because the same commit both adds a census study and edits its S6 wiring. So the census chain's drift is not an external nuisance, it is the chain's own landing commit. Measure what that closing commit actually changes for a consumer: (a) for each of the 15 closing commits, list the added and modified .py files and classify each as census study, S6 chain wiring, producer module, or unrelated; (b) determine which of those files a given census face would actually read differently -- i.e. does the face's number move because the corpus grew by one member, or because a member it already read changed; (c) if the answer is mostly 'grew by one member', publish the exact cost of excluding the census family from the corpus (which numbers would change, for which faces) so the family can decide whether self-exclusion is a legitimate population definition or merely a way to keep a red leg green.",
       "source": "E338 GREENWINDOW-2026-11-01 (verdict=self_terminating, 15/15 coincide)",
-      "status": "ready",
+      "status": "done",
       "target": "one published decomposition of the sibling-closing commit into census / wiring / producer changes, with the per-face consequence of excluding the census family from the population",
-      "title": "Every census window closes on the commit that lands the next sibling, and that commit always edits a producer file too: split the closing commit into the part each census face can see and the part it cannot"
+      "title": "Every census window closes on the commit that lands the next sibling, and that commit always edits a producer file too: split the closing commit into the part each census face can see and the part it cannot",
+      "closed_at": "2026-11-01T14:22:00+08:00",
+      "card": "knowledge/METHODOLOGY_ASSETS.md E341",
+      "digest": "research/digests/DIGEST-20261101-r1361-e341-sibling-closer.md",
+      "outcome": "16/16 census windows close on a commit that both adds a study and edits Tools/s6_chain; the added member introduces its own face name in 16/16 and names an already-published stem in 8/16; the wiring half moves 0 names while editing 360 lines / 23,863 bytes in place; at the pinned tree the family is 0.72% of sources / 1.31% of lines but owns 29 writer rows and 15 of the 22 measured names outright"
     },
     {
       "deliverable": "results/state_tilt/<face> + scripts/e342_*.py + chain leg + smoke leg + methodology card",
@@ -26332,6 +26336,17 @@
       "status": "ready",
       "target": "a named list of bound grants with the shape of their first downstream decision, the subset where the bound value is the sole authority, and one worked example of the mechanism a bound grant would need",
       "title": "E340 left 18 grants whose use is invisible on the access line; follow each bound name to its first decision and name the ones where the bound value is the only authority"
+    },
+    {
+      "id": "E344-WHO-CONSUMES-THE-FAMILY-ONLY-NAMES",
+      "status": "ready",
+      "lane": "cpu-only",
+      "priority": 2,
+      "entered_at": "2026-11-01T14:20:00+08:00",
+      "entered_by": "bm-b r1361",
+      "notes": "seeded by r1361 bm-b at E341 close; E340 found producers reading their own faces and E341 found 15 of 22 measured names are published by nobody except the census family -- the two questions meet at the consumer",
+      "deliverable": "results/state_tilt/<face> + scripts/e344_*.py + chain leg + smoke leg + methodology card",
+      "question": "E341 measured that at the pinned tree 15 of 22 face stems lose every writer when the 16-file census family is excluded, i.e. those names are published by the census studies themselves. E340 measured that 22 of 409 permission-shaped face fields are read back by their own producer. Together they describe a body of faces that may exist only to be read by the next study in the same family. Ask the consumer question directly: (a) for each of the 15 family-only names, list every reader in the corpus and split them into family / non-family / nobody, using an access reading (a quoted filename or a json load of the face) rather than a mere mention; (b) for the non-family readers, say what decision they take off the number -- gated, compared, or carried into another face; (c) publish the share of the family's faces that no consumer outside the family reads, and state what the family is for if the answer is 'only its own next study'. Do not re-run any census face: this is a reader census over the published faces and the sources that name them."
     }
   ],
   "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -26346,6 +26361,6 @@
     "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
   },
-  "updated_at": "2026-11-01T13:45:00+08:00",
+  "updated_at": "2026-11-01T14:22:00+08:00",
   "version": 1
 }

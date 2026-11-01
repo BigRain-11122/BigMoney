@@ -948,6 +948,16 @@ LEGS = [
     ("permission_allowances",
      ["python", "scripts/e340_who_authorizes_whose_allowance.py", "verify"]),
 
+    # E341: E338 measured 15/15 census windows closing on the next sibling and could not split
+    # research from production because one commit lands a study and its wiring. This takes that
+    # closer apart: every one of the 16 closers adds a census study AND edits Tools/s6_chain; the
+    # added member always introduces a name nothing named before (its own face, 16/16) and names
+    # an already-published stem in 8/16; the wiring half moves 0 names while editing 360 lines in
+    # place, so it is visible to every counting face and invisible to the name census. At the
+    # pinned tree, dropping the 16 family files costs 0.7% of sources / 1.3% of lines and leaves
+    # 15 of 22 measured names with no writer at all. Verify re-derives the whole face (~55s).
+    ("sibling_closer", ["python", "scripts/e341_sibling_closer_what_changed.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
