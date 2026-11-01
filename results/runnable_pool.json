@@ -26190,20 +26190,36 @@
    "deliverable": "results/state_tilt/<face> + scripts/e335_*.py + chain leg + smoke leg + methodology card",
    "source": "E334 HELPERREPAIR-2026-11-01 (verdict=repair_must_ship_beside_the_old_one, recommendation)",
    "notes": "seeded by r1354 bm-b at E334 close; the card's whole point is that the repair lands without touching a single consumer's behaviour"
-    },
+  },
   {
    "id": "E336-WHICH-CONSUMER-OPTS-IN-FIRST",
    "lane": "cpu-only",
    "priority": 3,
-   "status": "ready",
-   "owner": null,
-   "owner_since": null,
+   "status": "done",
+   "owner": "bm-b",
+   "owner_since": "2026-11-01T09:20:00+08:00",
    "entered_at": "2026-11-01T08:45:00+08:00",
    "question": "E335 landed the tokenizer reading beside the shipped one and proved nothing moved; E334 priced a switch as 6 faces / 37 numbers but only ranked the blast radius, never the per-consumer bill. Rank the six consumers by what it would cost to move ONE of them onto code_lines_tokenized: numbers that move in its published face, faces that would need republishing, and whether its published verdict survives -- then name the cheapest first candidate and refuse to name one if the ranking is not stable across the two published readings (E334 delta vs E332 recovered corpus).",
    "target": "a published, reproducible ranking of the six consumers by switch cost, with the cheapest opt-in named and the instability disclosed instead of hidden",
    "deliverable": "results/state_tilt/<face> + scripts/e336_*.py + chain leg + smoke leg + methodology card",
    "source": "E335 SIBLINGENTRY-2026-11-01 (verdict=lands_inert) + E334 consumers[]",
-   "notes": "seeded by r1355 bm-b at E335 close; the landing is only useful if somebody can afford to move onto it, and that is a per-consumer price, not a repository-wide one"
+   "notes": "seeded by r1355 bm-b at E335 close; the landing is only useful if somebody can afford to move onto it, and that is a per-consumer price, not a repository-wide one",
+   "done_at": "2026-11-01T09:35:00+08:00",
+   "result_ref": "results/state_tilt/OPTINRANK-2026-11-01.json"
+  },
+  {
+   "id": "E337-TAKE-THE-FLOOR-AND-OPT-IN-ONE",
+   "lane": "cpu-only",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "owner_since": null,
+   "entered_at": "2026-11-01T09:35:00+08:00",
+   "question": "E336 refused to rank because the two readings disagree, but it published a floor: E330_unpinned_choice is cheapest on BOTH readings (0 delta numbers / 1 published number / verdict intact). Take it. Switch E330 onto code_lines_tokenized, republish its face, and publish a before/after diff of every number and the verdict -- and refuse the switch (reverting the source) if the republished face does not re-verify or if its published verdict changes. A recommendation that names a floor is not a measurement of the opt-in.",
+   "target": "one consumer actually moved onto the tokenized reading, with its published face republished and a before/after diff that a reader can audit",
+   "deliverable": "results/state_tilt/<face> + scripts/e337_*.py + chain leg + smoke leg + methodology card",
+   "source": "E336 OPTINRANK-2026-11-01 (verdict=refused, head stable, E330 floor)",
+   "notes": "seeded by r1356 bm-b at E336 close; the floor is the only actionable part of a refused ranking, and an unexecuted cheap opt-in is the same free lunch E336 complained about"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

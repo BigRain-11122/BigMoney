@@ -10341,6 +10341,98 @@ def main() -> int:
                 ((_f335 or {}).get("summary") or {}).get("modules_that_rebind_a_reading_name"),
                 ((_f335 or {}).get("summary") or {}).get("consumers_of_the_new_name")))
 
+    # E336: E335's landing is only useful if a consumer can afford to move onto it, and E334 only
+    # priced the repository. This leg refuses a per-consumer ranking that cannot be re-derived from
+    # its own rows: orders that disagree with the published lists, a candidate named while the
+    # verdict refuses, an "agree" flag contradicting the orders, a republish flag that disagrees
+    # with its own count, a consumer priced while its published verdict was unreadable, or a
+    # cheapest name whose published verdict does not survive the switch.
+    _name336 = ("product: the six E334 consumers are ranked by the cost of moving one onto the "
+                "landed tokenizer reading, twice (delta and publish), and nobody is named when the "
+                "two readings disagree")
+    _bad336 = []
+    try:
+        _p336 = os.path.join("results", "state_tilt", "optinrank_latest.json")
+        _f336 = json.load(open(_p336, encoding="utf-8")) if os.path.exists(_p336) else None
+        if _f336 is None:
+            _bad336.append("no published opt-in ranking face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m336 = __import__("importlib").import_module("e336_consumer_optin_ranking")
+            if not os.path.exists(os.path.join("scripts", "e336_consumer_optin_ranking.py")):
+                _bad336.append("the study script is not on disk")
+            _s336 = _f336.get("summary") or {}
+            _i336 = (_f336.get("decision") or {}).get("inputs") or {}
+            _d336 = _f336.get("decision") or {}
+            if _f336.get("verdict") not in _m336.VERDICTS:
+                _bad336.append("verdict %r is outside the frozen set" % (_f336.get("verdict"),))
+            _rule336 = _m336.decide(bool(_i336.get("consumers_that_keep_their_published_verdict")),
+                                    bool(_i336.get("orders_agree")),
+                                    bool(_i336.get("cheapest_agrees")))
+            if _rule336[0] != _f336.get("verdict"):
+                _bad336.append("the frozen rule decides %r but the face says %r"
+                               % (_rule336[0], _f336.get("verdict")))
+            _named336 = _d336.get("cheapest_opt_in")
+            if _named336 and _f336.get("verdict") != _m336.V_NAMED:
+                _bad336.append("a candidate is named under verdict %r" % (_f336.get("verdict"),))
+            _rk336 = _f336.get("rankings") or {}
+            _do336 = _rk336.get("delta_order") or []
+            _po336 = _rk336.get("publish_order") or []
+            if _do336 != _s336.get("doctrine_delta_order") or \
+                    _po336 != _s336.get("doctrine_publish_order"):
+                _bad336.append("the published orders disagree with the summary")
+            _agree336 = _do336 == _po336
+            if bool(_s336.get("orders_agree")) != _agree336:
+                _bad336.append("orders_agree contradicts the two orders")
+            _cheap336 = bool(_do336) and _do336[0] == _po336[0]
+            if bool(_s336.get("cheapest_agrees")) != _cheap336:
+                _bad336.append("cheapest_agrees contradicts the two orders' heads")
+            _same336 = [n for k, n in enumerate(_do336) if k < len(_po336) and _po336[k] == n]
+            if int(_s336.get("positions_stable_in_both_orders") or 0) != len(_same336):
+                _bad336.append("the stable-position count is not readable off the orders")
+            if _s336.get("consumers_in_the_same_place_in_both_orders") != _same336:
+                _bad336.append("the stable-position list disagrees with the orders")
+            _rows336 = _f336.get("consumers") or []
+            if len(_rows336) != int(_s336.get("consumers_reviewed") or 0):
+                _bad336.append("the row count disagrees with the summary")
+            _priced336 = [r for r in _rows336 if r.get("published_verdict_survives") is not None]
+            if len(_priced336) != len(_do336):
+                _bad336.append("a consumer was ranked whose published verdict was unreadable")
+            if int(_s336.get("consumers_with_a_readable_published_face") or 0) <= 0:
+                _bad336.append("nothing was priced, which is a broken measurement")
+            for _r336 in _rows336:
+                if bool(_r336.get("published_face_needs_republishing")) != \
+                        bool(_r336.get("numbers_in_published_face_that_move")):
+                    _bad336.append("%s: the republish flag disagrees with its own count"
+                                   % (_r336.get("name"),))
+                    break
+                if int(_r336.get("numbers_moved_by_the_delta") or 0) > \
+                        int(_r336.get("numbers_compared_delta") or 0):
+                    _bad336.append("%s: more numbers moved than were compared"
+                                   % (_r336.get("name"),))
+                    break
+            if int(_s336.get("e334_rows_reproduced") or 0) != \
+                    int(_s336.get("e334_rows_published") or 0):
+                _bad336.append("E334's published delta does not reproduce row for row")
+            if _named336:
+                _row336 = [r for r in _rows336 if r.get("name") == _named336]
+                if not _row336 or not _row336[0].get("published_verdict_survives"):
+                    _bad336.append("the named consumer does not keep its published verdict")
+    except Exception as e:
+        check(_name336, False, repr(e)[:160])
+
+    check(_name336, not _bad336, "; ".join(_bad336)[:220]
+          or "%s | %s consumers priced, %s keep their verdict, delta moves %s, a reader must "
+             "re-read %s across %s face(s); orders agree=%s, head stable=%s"
+             % (str((_f336 or {}).get("verdict")),
+                ((_f336 or {}).get("summary") or {}).get("consumers_with_a_readable_published_face"),
+                ((_f336 or {}).get("summary") or {}).get("consumers_that_keep_their_published_verdict"),
+                ((_f336 or {}).get("summary") or {}).get("numbers_moved_by_the_delta"),
+                ((_f336 or {}).get("summary") or {}).get("published_numbers_that_would_move"),
+                ((_f336 or {}).get("summary") or {}).get("faces_to_republish_if_all_six_opted_in"),
+                ((_f336 or {}).get("summary") or {}).get("orders_agree"),
+                ((_f336 or {}).get("summary") or {}).get("head_is_stable_across_readings")))
+
     return _finish()
 
 

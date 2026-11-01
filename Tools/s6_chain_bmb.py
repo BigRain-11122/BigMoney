@@ -892,6 +892,16 @@ LEGS = [
     ("sibling_entry_point",
      ["python", "scripts/e335_sibling_entry_point.py", "verify"]),
 
+    # E336: E335 landed the reading and E334 priced the repository; this prices ONE consumer at a
+    # time, twice. Reading A (delta) rebuids each of the six consumers against the landed name and
+    # counts how much of its own answer is the helper's defect; reading B (publish) compares the
+    # consumer's published face with that tokenized build and counts what a reader must re-read.
+    # The two orders agree on the head (E330, 0 delta / 1 published number) and swap E328/E329 in
+    # the middle, so the verdict refuses to name a candidate and publishes the disagreement.
+    # Verify re-prices all six consumers twice (12 builds, ~2-3 min).
+    ("consumer_optin_ranking",
+     ["python", "scripts/e336_consumer_optin_ranking.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

@@ -1,0 +1,685 @@
+{
+ "study": "E336_consumer_optin_ranking",
+ "evidence_cutoff": "2026-11-01",
+ "verdict": "no_consumer_named_because_the_two_readings_disagree_about_which_is_cheapest",
+ "verdict_reason": "the delta reading and the publish reading order the six differently, so the cheapest candidate is a property of the yardstick rather than of a consumer; the head is not the unstable part -- both readings put E330_unpinned_choice first and only 2 position(s) below it move, so the cheapest name is a floor rather than an answer",
+ "summary": {
+  "consumers_reviewed": 6,
+  "consumers_with_a_readable_published_face": 6,
+  "consumers_unreadable": 0,
+  "consumers_that_keep_their_published_verdict": 5,
+  "consumers_whose_published_face_would_need_republishing": 6,
+  "published_numbers_that_would_move": 37,
+  "numbers_moved_by_the_delta": 29,
+  "faces_to_republish_if_all_six_opted_in": 6,
+  "e334_rows_reproduced": 6,
+  "e334_rows_published": 6,
+  "orders_agree": false,
+  "cheapest_agrees": true,
+  "head_is_stable_across_readings": true,
+  "positions_stable_in_both_orders": 4,
+  "consumers_in_the_same_place_in_both_orders": [
+   "E330_unpinned_choice",
+   "E326_template_parameters",
+   "E331_pointer_only_readers",
+   "E327_pointer_readers"
+  ],
+  "doctrine_delta_order": [
+   "E330_unpinned_choice",
+   "E326_template_parameters",
+   "E328_quoted_number_staleness",
+   "E329_two_vintage_binding",
+   "E331_pointer_only_readers",
+   "E327_pointer_readers"
+  ],
+  "doctrine_publish_order": [
+   "E330_unpinned_choice",
+   "E326_template_parameters",
+   "E329_two_vintage_binding",
+   "E328_quoted_number_staleness",
+   "E331_pointer_only_readers",
+   "E327_pointer_readers"
+  ],
+  "order_positions_that_differ": 2,
+  "recovered_code_lines_in_the_corpus": 4284,
+  "own_faces_excluded_from_the_corpus": 0
+ },
+ "decision": {
+  "rule": {
+   "rank_by": "verdict survival first, then the reading's own number, then the name",
+   "cheapest_published_only_when": [
+    "at least one consumer keeps its published verdict",
+    "the delta order and the publish order are identical",
+    "both orders put the same consumer first"
+   ],
+   "otherwise": "publish the disagreement and name nobody"
+  },
+  "inputs": {
+   "consumers_that_keep_their_published_verdict": 5,
+   "orders_agree": false,
+   "cheapest_agrees": true
+  },
+  "cheapest_opt_in": null,
+  "head_is_stable_across_readings": true,
+  "positions_stable_in_both_orders": 4,
+  "named_or_refused": "refused"
+ },
+ "rankings": {
+  "delta_reading": {
+   "E326_template_parameters": {
+    "numbers_moved_by_the_delta": 3,
+    "published_verdict_survives": true
+   },
+   "E327_pointer_readers": {
+    "numbers_moved_by_the_delta": 4,
+    "published_verdict_survives": false
+   },
+   "E328_quoted_number_staleness": {
+    "numbers_moved_by_the_delta": 6,
+    "published_verdict_survives": true
+   },
+   "E329_two_vintage_binding": {
+    "numbers_moved_by_the_delta": 8,
+    "published_verdict_survives": true
+   },
+   "E330_unpinned_choice": {
+    "numbers_moved_by_the_delta": 0,
+    "published_verdict_survives": true
+   },
+   "E331_pointer_only_readers": {
+    "numbers_moved_by_the_delta": 8,
+    "published_verdict_survives": true
+   }
+  },
+  "publish_reading": {
+   "E326_template_parameters": {
+    "numbers_in_published_face_that_move": 6,
+    "published_verdict_survives": true
+   },
+   "E327_pointer_readers": {
+    "numbers_in_published_face_that_move": 4,
+    "published_verdict_survives": false
+   },
+   "E328_quoted_number_staleness": {
+    "numbers_in_published_face_that_move": 9,
+    "published_verdict_survives": true
+   },
+   "E329_two_vintage_binding": {
+    "numbers_in_published_face_that_move": 8,
+    "published_verdict_survives": true
+   },
+   "E330_unpinned_choice": {
+    "numbers_in_published_face_that_move": 1,
+    "published_verdict_survives": true
+   },
+   "E331_pointer_only_readers": {
+    "numbers_in_published_face_that_move": 9,
+    "published_verdict_survives": true
+   }
+  },
+  "delta_order": [
+   "E330_unpinned_choice",
+   "E326_template_parameters",
+   "E328_quoted_number_staleness",
+   "E329_two_vintage_binding",
+   "E331_pointer_only_readers",
+   "E327_pointer_readers"
+  ],
+  "publish_order": [
+   "E330_unpinned_choice",
+   "E326_template_parameters",
+   "E329_two_vintage_binding",
+   "E328_quoted_number_staleness",
+   "E331_pointer_only_readers",
+   "E327_pointer_readers"
+  ]
+ },
+ "consumers": [
+  {
+   "name": "E326_template_parameters",
+   "module": "scripts/e326_template_parameter_consumers.py",
+   "face": "results/state_tilt/TEMPLATEPARAM-2026-10-31.json",
+   "face_readable": true,
+   "face_unreadable_because": null,
+   "verdict_shipped_build": "every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source",
+   "verdict_tokenized_build": "every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source",
+   "verdict_published_face": "every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source",
+   "published_verdict_survives": true,
+   "numbers_compared_delta": 18,
+   "numbers_moved_by_the_delta": 3,
+   "numbers_compared_publish": 18,
+   "numbers_in_published_face_that_move": 6,
+   "published_face_needs_republishing": true,
+   "delta_examples": [
+    {
+     "key": "consumers",
+     "shipped": 36,
+     "recovered": 35,
+     "delta": -1
+    },
+    {
+     "key": "consumers_by_class.consumer_formats_the_template_with_a_parameter_it_defines",
+     "shipped": 9,
+     "recovered": 7,
+     "delta": -2
+    },
+    {
+     "key": "consumers_by_class.this_source_is_the_face_s_own_writer",
+     "shipped": 20,
+     "recovered": 21,
+     "delta": 1
+    }
+   ],
+   "publish_examples": [
+    {
+     "key": "consumers",
+     "shipped": 34,
+     "recovered": 35,
+     "delta": 1
+    },
+    {
+     "key": "consumers_by_class.consumer_formats_the_template_with_a_parameter_it_defines",
+     "shipped": 9,
+     "recovered": 7,
+     "delta": -2
+    },
+    {
+     "key": "consumers_by_class.consumer_pins_the_parameter_literally",
+     "shipped": 5,
+     "recovered": 7,
+     "delta": 2
+    },
+    {
+     "key": "consumers_by_class.this_source_is_the_face_s_own_writer",
+     "shipped": 20,
+     "recovered": 21,
+     "delta": 1
+    },
+    {
+     "key": "faces_named_outside_their_writer",
+     "shipped": 8,
+     "recovered": 9,
+     "delta": 1
+    },
+    {
+     "key": "latest_pointers_naming_a_parameterised_face",
+     "shipped": 143,
+     "recovered": 154,
+     "delta": 11
+    }
+   ],
+   "delta_rows_truncated": 0,
+   "publish_rows_truncated": 0,
+   "e334_published_delta": 3,
+   "e334_published_face_numbers_moved": 6,
+   "e334_delta_reproduced": true
+  },
+  {
+   "name": "E327_pointer_readers",
+   "module": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "face": "results/state_tilt/POINTERREAD-2026-11-01.json",
+   "face_readable": true,
+   "face_unreadable_because": null,
+   "verdict_shipped_build": "the_parameter_survives_one_indirection_in_content_but_some_reader_quotes_the_pointer_without_surfacing_the_cutoff",
+   "verdict_tokenized_build": "the_parameter_survives_one_indirection_and_every_reader_of_a_real_pointer_either_writes_it_or_reads_its_cutoff_back",
+   "verdict_published_face": "the_parameter_survives_one_indirection_in_content_but_some_reader_quotes_the_pointer_without_surfacing_the_cutoff",
+   "published_verdict_survives": false,
+   "numbers_compared_delta": 23,
+   "numbers_moved_by_the_delta": 4,
+   "numbers_compared_publish": 23,
+   "numbers_in_published_face_that_move": 4,
+   "published_face_needs_republishing": true,
+   "delta_examples": [
+    {
+     "key": "consumers",
+     "shipped": 5,
+     "recovered": 6,
+     "delta": 1
+    },
+    {
+     "key": "consumers_by_class.consumer_names_the_pointer_and_never_shows_the_parameter",
+     "shipped": 2,
+     "recovered": 0,
+     "delta": -2
+    },
+    {
+     "key": "consumers_by_class.consumer_surfaces_the_parameter_out_of_the_pointer",
+     "shipped": 2,
+     "recovered": 5,
+     "delta": 3
+    },
+    {
+     "key": "readers_that_do_not_surface_the_cutoff",
+     "shipped": 2,
+     "recovered": 0,
+     "delta": -2
+    }
+   ],
+   "publish_examples": [
+    {
+     "key": "consumers",
+     "shipped": 5,
+     "recovered": 6,
+     "delta": 1
+    },
+    {
+     "key": "consumers_by_class.consumer_names_the_pointer_and_never_shows_the_parameter",
+     "shipped": 2,
+     "recovered": 0,
+     "delta": -2
+    },
+    {
+     "key": "consumers_by_class.consumer_surfaces_the_parameter_out_of_the_pointer",
+     "shipped": 2,
+     "recovered": 5,
+     "delta": 3
+    },
+    {
+     "key": "readers_that_do_not_surface_the_cutoff",
+     "shipped": 2,
+     "recovered": 0,
+     "delta": -2
+    }
+   ],
+   "delta_rows_truncated": 0,
+   "publish_rows_truncated": 0,
+   "e334_published_delta": 4,
+   "e334_published_face_numbers_moved": 4,
+   "e334_delta_reproduced": true
+  },
+  {
+   "name": "E328_quoted_number_staleness",
+   "module": "scripts/e328_quoted_number_staleness.py",
+   "face": "results/state_tilt/STALECUTOFF-2026-11-01.json",
+   "face_readable": true,
+   "face_unreadable_because": null,
+   "verdict_shipped_build": "quoted_numbers_are_read_from_vintages_and_move_when_the_newest_cut_is_opened",
+   "verdict_tokenized_build": "quoted_numbers_are_read_from_vintages_and_move_when_the_newest_cut_is_opened",
+   "verdict_published_face": "quoted_numbers_are_read_from_vintages_and_move_when_the_newest_cut_is_opened",
+   "published_verdict_survives": true,
+   "numbers_compared_delta": 13,
+   "numbers_moved_by_the_delta": 6,
+   "numbers_compared_publish": 13,
+   "numbers_in_published_face_that_move": 9,
+   "published_face_needs_republishing": true,
+   "delta_examples": [
+    {
+     "key": "numbers_equal",
+     "shipped": 894,
+     "recovered": 1224,
+     "delta": 330
+    },
+    {
+     "key": "numbers_that_move",
+     "shipped": 536,
+     "recovered": 709,
+     "delta": 173
+    },
+    {
+     "key": "quoted_numbers",
+     "shipped": 1430,
+     "recovered": 1933,
+     "delta": 503
+    },
+    {
+     "key": "stale_faces_quoted",
+     "shipped": 4,
+     "recovered": 5,
+     "delta": 1
+    },
+    {
+     "key": "stale_faces_quoted_and_parsed",
+     "shipped": 4,
+     "recovered": 5,
+     "delta": 1
+    },
+    {
+     "key": "stale_faces_unquoted",
+     "shipped": 129,
+     "recovered": 128,
+     "delta": -1
+    }
+   ],
+   "publish_examples": [
+    {
+     "key": "faces_scanned",
+     "shipped": 555,
+     "recovered": 558,
+     "delta": 3
+    },
+    {
+     "key": "faces_with_stated_cutoff",
+     "shipped": 496,
+     "recovered": 499,
+     "delta": 3
+    },
+    {
+     "key": "families",
+     "shipped": 421,
+     "recovered": 424,
+     "delta": 3
+    },
+    {
+     "key": "numbers_equal",
+     "shipped": 894,
+     "recovered": 1224,
+     "delta": 330
+    },
+    {
+     "key": "numbers_that_move",
+     "shipped": 536,
+     "recovered": 709,
+     "delta": 173
+    },
+    {
+     "key": "quoted_numbers",
+     "shipped": 1430,
+     "recovered": 1933,
+     "delta": 503
+    },
+    {
+     "key": "stale_faces_quoted",
+     "shipped": 4,
+     "recovered": 5,
+     "delta": 1
+    },
+    {
+     "key": "stale_faces_quoted_and_parsed",
+     "shipped": 4,
+     "recovered": 5,
+     "delta": 1
+    }
+   ],
+   "delta_rows_truncated": 0,
+   "publish_rows_truncated": 1,
+   "e334_published_delta": 6,
+   "e334_published_face_numbers_moved": 9,
+   "e334_delta_reproduced": true
+  },
+  {
+   "name": "E329_two_vintage_binding",
+   "module": "scripts/e329_two_vintage_binding.py",
+   "face": "results/state_tilt/TWOVINTAGE-2026-11-01.json",
+   "face_readable": true,
+   "face_unreadable_because": null,
+   "verdict_shipped_build": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_newer_cut",
+   "verdict_tokenized_build": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_newer_cut",
+   "verdict_published_face": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_newer_cut",
+   "published_verdict_survives": true,
+   "numbers_compared_delta": 17,
+   "numbers_moved_by_the_delta": 8,
+   "numbers_compared_publish": 17,
+   "numbers_in_published_face_that_move": 8,
+   "published_face_needs_republishing": true,
+   "delta_examples": [
+    {
+     "key": "pairs_both_cuts_on_disk",
+     "shipped": 2,
+     "recovered": 3,
+     "delta": 1
+    },
+    {
+     "key": "pairs_naming_two_vintages",
+     "shipped": 12,
+     "recovered": 15,
+     "delta": 3
+    },
+    {
+     "key": "pairs_no_static_winner",
+     "shipped": 7,
+     "recovered": 9,
+     "delta": 2
+    },
+    {
+     "key": "pairs_roles_named",
+     "shipped": 2,
+     "recovered": 3,
+     "delta": 1
+    },
+    {
+     "key": "pairs_with_a_pointer_pair",
+     "shipped": 4,
+     "recovered": 5,
+     "delta": 1
+    },
+    {
+     "key": "pairs_with_two_dated_cuts",
+     "shipped": 8,
+     "recovered": 12,
+     "delta": 4
+    },
+    {
+     "key": "source_family_pairs",
+     "shipped": 643,
+     "recovered": 623,
+     "delta": -20
+    },
+    {
+     "key": "sources_scanned",
+     "shipped": 239,
+     "recovered": 230,
+     "delta": -9
+    }
+   ],
+   "publish_examples": [
+    {
+     "key": "pairs_both_cuts_on_disk",
+     "shipped": 2,
+     "recovered": 3,
+     "delta": 1
+    },
+    {
+     "key": "pairs_naming_two_vintages",
+     "shipped": 12,
+     "recovered": 15,
+     "delta": 3
+    },
+    {
+     "key": "pairs_no_static_winner",
+     "shipped": 7,
+     "recovered": 9,
+     "delta": 2
+    },
+    {
+     "key": "pairs_roles_named",
+     "shipped": 2,
+     "recovered": 3,
+     "delta": 1
+    },
+    {
+     "key": "pairs_with_a_pointer_pair",
+     "shipped": 4,
+     "recovered": 5,
+     "delta": 1
+    },
+    {
+     "key": "pairs_with_two_dated_cuts",
+     "shipped": 8,
+     "recovered": 12,
+     "delta": 4
+    },
+    {
+     "key": "source_family_pairs",
+     "shipped": 632,
+     "recovered": 623,
+     "delta": -9
+    },
+    {
+     "key": "sources_scanned",
+     "shipped": 236,
+     "recovered": 230,
+     "delta": -6
+    }
+   ],
+   "delta_rows_truncated": 0,
+   "publish_rows_truncated": 0,
+   "e334_published_delta": 8,
+   "e334_published_face_numbers_moved": 8,
+   "e334_delta_reproduced": true
+  },
+  {
+   "name": "E330_unpinned_choice",
+   "module": "scripts/e330_unpinned_choice.py",
+   "face": "results/state_tilt/UNPINNEDCHOICE-2026-11-01.json",
+   "face_readable": true,
+   "face_unreadable_because": null,
+   "verdict_shipped_build": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today",
+   "verdict_tokenized_build": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today",
+   "verdict_published_face": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today",
+   "published_verdict_survives": true,
+   "numbers_compared_delta": 21,
+   "numbers_moved_by_the_delta": 0,
+   "numbers_compared_publish": 21,
+   "numbers_in_published_face_that_move": 1,
+   "published_face_needs_republishing": true,
+   "delta_examples": [],
+   "publish_examples": [
+    {
+     "key": "sources_scanned",
+     "shipped": 2292,
+     "recovered": 2295,
+     "delta": 3
+    }
+   ],
+   "delta_rows_truncated": 0,
+   "publish_rows_truncated": 0,
+   "e334_published_delta": 0,
+   "e334_published_face_numbers_moved": 1,
+   "e334_delta_reproduced": true
+  },
+  {
+   "name": "E331_pointer_only_readers",
+   "module": "scripts/e331_pointer_only_readers.py",
+   "face": "results/state_tilt/POINTERONLY-2026-11-01.json",
+   "face_readable": true,
+   "face_unreadable_because": null,
+   "verdict_shipped_build": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+   "verdict_tokenized_build": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+   "verdict_published_face": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+   "published_verdict_survives": true,
+   "numbers_compared_delta": 30,
+   "numbers_moved_by_the_delta": 8,
+   "numbers_compared_publish": 30,
+   "numbers_in_published_face_that_move": 9,
+   "published_face_needs_republishing": true,
+   "delta_examples": [
+    {
+     "key": "families_referenced_only_through_a_pointer",
+     "shipped": 124,
+     "recovered": 129,
+     "delta": 5
+    },
+    {
+     "key": "handling_by_class.the_load_raises_at_the_file",
+     "shipped": 9,
+     "recovered": 10,
+     "delta": 1
+    },
+    {
+     "key": "pairs_by_class.pointer_only_reader",
+     "shipped": 24,
+     "recovered": 25,
+     "delta": 1
+    },
+    {
+     "key": "pairs_by_class.reference_without_a_reader",
+     "shipped": 11,
+     "recovered": 10,
+     "delta": -1
+    },
+    {
+     "key": "pointer_only_readers",
+     "shipped": 24,
+     "recovered": 25,
+     "delta": 1
+    },
+    {
+     "key": "prose_literals_rejected_as_notes",
+     "shipped": 25,
+     "recovered": 24,
+     "delta": -1
+    },
+    {
+     "key": "readers_that_raise_at_the_file",
+     "shipped": 9,
+     "recovered": 10,
+     "delta": 1
+    },
+    {
+     "key": "sources_whose_tail_the_scanner_cannot_see",
+     "shipped": 22,
+     "recovered": 0,
+     "delta": -22
+    }
+   ],
+   "publish_examples": [
+    {
+     "key": "families_referenced_only_through_a_pointer",
+     "shipped": 121,
+     "recovered": 129,
+     "delta": 8
+    },
+    {
+     "key": "handling_by_class.the_load_raises_at_the_file",
+     "shipped": 9,
+     "recovered": 10,
+     "delta": 1
+    },
+    {
+     "key": "pairs_by_class.pointer_only_reader",
+     "shipped": 24,
+     "recovered": 25,
+     "delta": 1
+    },
+    {
+     "key": "pairs_by_class.reference_without_a_reader",
+     "shipped": 11,
+     "recovered": 10,
+     "delta": -1
+    },
+    {
+     "key": "pointer_only_readers",
+     "shipped": 24,
+     "recovered": 25,
+     "delta": 1
+    },
+    {
+     "key": "prose_literals_rejected_as_notes",
+     "shipped": 25,
+     "recovered": 24,
+     "delta": -1
+    },
+    {
+     "key": "readers_that_raise_at_the_file",
+     "shipped": 9,
+     "recovered": 10,
+     "delta": 1
+    },
+    {
+     "key": "sources_scanned",
+     "shipped": 2291,
+     "recovered": 2294,
+     "delta": 3
+    }
+   ],
+   "delta_rows_truncated": 0,
+   "publish_rows_truncated": 1,
+   "e334_published_delta": 8,
+   "e334_published_face_numbers_moved": 9,
+   "e334_delta_reproduced": true
+  }
+ ],
+ "rules": {
+  "one_corpus": "every consumer runs over e326.corpus(), so a delta is the reading and nothing else",
+  "landed_name": "the tokenized builds use the name E335 landed on the helper module, not the wrapper E334 used to price the repair",
+  "two_readings": "delta = shipped build vs tokenized build (how wrong is the consumer); publish = published face vs tokenized build (what a reader must re-read); they are different quantities and may order differently",
+  "verdict_survival": "a consumer's published verdict is compared with the verdict its tokenized build reaches, never with the shipped build's -- the shipped build is the thing being replaced",
+  "frozen_rule": "decide() is code: the named candidate cannot drift from the numbers",
+  "self_inclusion": "this study's own face and latest pointer are dropped from the corpus before any build (E204/E319 class)"
+ },
+ "limits": {
+  "consumer_set": "the six consumers E334 registered; E332 and E333 are excluded there and stay excluded here",
+  "recovered_axis": "the recovered-code-line axis is read from the E332 face rather than rebuilt, because rebuilding it is E332's own measurement",
+  "builds": "12 builds (six consumers x shipped/tokenized), no ablation: a per-consumer price does not need attribution, it needs a count"
+ }
+}
