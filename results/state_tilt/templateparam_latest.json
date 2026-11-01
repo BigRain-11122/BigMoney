@@ -1,6 +1,6 @@
 {
  "corpus": {
-  "files": 2280,
+  "files": 2308,
   "self_excluded": "e326_template_parameter_consumers.py"
  },
  "evidence_cutoff": "2026-10-31",
@@ -60,6 +60,7 @@
   {
    "consumer_classes": {
     "consumer_formats_the_template_with_a_parameter_it_defines": 1,
+    "consumer_pins_the_parameter_literally": 1,
     "this_source_is_the_face_s_own_writer": 1
    },
    "consumers": [
@@ -72,6 +73,16 @@
      "source": "scripts/e322_residual_refusal_causes.py",
      "text": "src = [(\"scripts/fake_writer.py\", 'FACE = \"CASHLeg-%s.json\" % d\\n')]",
      "why": "the consumer fills the template from a name it supplies"
+    },
+    {
+     "class": "consumer_pins_the_parameter_literally",
+     "line": 448,
+     "lines_naming_the_face": 1,
+     "needle": "CASHLeg-20261027.json",
+     "shape": "name",
+     "source": "scripts/e328_quoted_number_staleness.py",
+     "text": "check(\"L2 compact face names parse\", face_name(\"CASHLeg-20261027.json\")",
+     "why": "the parameter is written out on the line"
     },
     {
      "class": "this_source_is_the_face_s_own_writer",
@@ -638,6 +649,7 @@
   },
   {
    "consumer_classes": {
+    "consumer_pins_the_parameter_literally": 1,
     "this_source_is_the_face_s_own_writer": 2
    },
    "consumers": [
@@ -654,6 +666,16 @@
      "source": "scripts/e287_supply_ceiling_axes.py",
      "text": "SRC_DEFLATE = \"BANDDEFLATE-%s.json\" % CUTOFF        # degenerate-tail restatement (demand)",
      "why": "it writes this face"
+    },
+    {
+     "class": "consumer_pins_the_parameter_literally",
+     "line": 425,
+     "lines_naming_the_face": 1,
+     "needle": "BANDDEFLATE-2026-10-29.json",
+     "shape": "name",
+     "source": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+     "text": "base = \"BANDDEFLATE-2026-10-29.json\"",
+     "why": "the parameter is written out on the line"
     }
    ],
    "face": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
@@ -673,6 +695,7 @@
     "evidence_cutoff"
    ],
    "pointer_siblings": [
+    "results/state_tilt/allowance_latest.json",
     "results/state_tilt/bandambient_latest.json",
     "results/state_tilt/bandcountscope_latest.json",
     "results/state_tilt/banddeflate_latest.json",
@@ -684,6 +707,7 @@
     "results/state_tilt/bandsupply_latest.json",
     "results/state_tilt/decoyresolve_latest.json",
     "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/pointerread_latest.json",
     "results/state_tilt/printcov_latest.json",
     "results/state_tilt/quantityname_latest.json",
     "results/state_tilt/reachwide_latest.json",
@@ -740,6 +764,7 @@
     "evidence_cutoff"
    ],
    "pointer_siblings": [
+    "results/state_tilt/allowance_latest.json",
     "results/state_tilt/bandambient_latest.json",
     "results/state_tilt/bandcountscope_latest.json",
     "results/state_tilt/banddeflate_latest.json",
@@ -752,6 +777,7 @@
     "results/state_tilt/bandundatedvintage_latest.json",
     "results/state_tilt/decoyresolve_latest.json",
     "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/pointerread_latest.json",
     "results/state_tilt/printcov_latest.json",
     "results/state_tilt/quantityname_latest.json",
     "results/state_tilt/reachwide_latest.json",
@@ -852,6 +878,7 @@
     "results/state_tilt/bandsubstituteaudit_latest.json",
     "results/state_tilt/decoyresolve_latest.json",
     "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/pointerread_latest.json",
     "results/state_tilt/printcov_latest.json",
     "results/state_tilt/quantityname_latest.json",
     "results/state_tilt/reachwide_latest.json",
@@ -912,6 +939,7 @@
     "results/state_tilt/bandsubstituteaudit_latest.json",
     "results/state_tilt/decoyresolve_latest.json",
     "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/pointerread_latest.json",
     "results/state_tilt/printcov_latest.json",
     "results/state_tilt/quantityname_latest.json",
     "results/state_tilt/reachwide_latest.json",
@@ -987,6 +1015,7 @@
     "evidence_cutoff"
    ],
    "pointer_siblings": [
+    "results/state_tilt/allowance_latest.json",
     "results/state_tilt/bandambient_latest.json",
     "results/state_tilt/bandclosure_latest.json",
     "results/state_tilt/bandcountscope_latest.json",
@@ -1004,6 +1033,7 @@
     "results/state_tilt/bandwinmult_latest.json",
     "results/state_tilt/decoyresolve_latest.json",
     "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/pointerread_latest.json",
     "results/state_tilt/printcov_latest.json",
     "results/state_tilt/quantityname_latest.json",
     "results/state_tilt/reachwide_latest.json",
@@ -1063,6 +1093,7 @@
     "results/state_tilt/decoyresolve_latest.json",
     "results/state_tilt/gateoperands_latest.json",
     "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/pointerread_latest.json",
     "results/state_tilt/printcov_latest.json",
     "results/state_tilt/quantityname_latest.json",
     "results/state_tilt/reachwide_latest.json",
@@ -1107,6 +1138,7 @@
     "results/state_tilt/decoyresolve_latest.json",
     "results/state_tilt/gatetol_latest.json",
     "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/pointerread_latest.json",
     "results/state_tilt/printcov_latest.json",
     "results/state_tilt/quantityname_latest.json",
     "results/state_tilt/reachwide_latest.json",
@@ -1155,8 +1187,10 @@
     "evidence_cutoff"
    ],
    "pointer_siblings": [
+    "results/state_tilt/allowance_latest.json",
     "results/state_tilt/decoyresolve_latest.json",
     "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/pointerread_latest.json",
     "results/state_tilt/printcov_latest.json",
     "results/state_tilt/quantityname_latest.json",
     "results/state_tilt/reachwide_latest.json",
@@ -1233,8 +1267,10 @@
     "generated"
    ],
    "pointer_siblings": [
+    "results/state_tilt/allowance_latest.json",
     "results/state_tilt/decoyresolve_latest.json",
     "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/pointerread_latest.json",
     "results/state_tilt/printcov_latest.json",
     "results/state_tilt/quantityname_latest.json",
     "results/state_tilt/reachwide_latest.json",
@@ -1305,9 +1341,11 @@
     "evidence_cutoff"
    ],
    "pointer_siblings": [
+    "results/state_tilt/allowance_latest.json",
     "results/state_tilt/basisrecovery_latest.json",
     "results/state_tilt/decoyresolve_latest.json",
     "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/pointerread_latest.json",
     "results/state_tilt/printcov_latest.json",
     "results/state_tilt/quantityname_latest.json",
     "results/state_tilt/reachwide_latest.json",
@@ -1377,10 +1415,12 @@
     "evidence_cutoff"
    ],
    "pointer_siblings": [
+    "results/state_tilt/allowance_latest.json",
     "results/state_tilt/basisrecovery_latest.json",
     "results/state_tilt/decoyresolve_latest.json",
     "results/state_tilt/gatetol_latest.json",
     "results/state_tilt/orphangateface_latest.json",
+    "results/state_tilt/pointerread_latest.json",
     "results/state_tilt/printcov_latest.json",
     "results/state_tilt/quantityname_latest.json",
     "results/state_tilt/reachwide_latest.json",
@@ -1417,17 +1457,17 @@
  },
  "study": "E326_template_parameter_consumers",
  "summary": {
-  "consumers": 34,
+  "consumers": 36,
   "consumers_by_class": {
    "consumer_formats_the_template_with_a_parameter_it_defines": 9,
    "consumer_names_the_face_with_no_parameter_in_sight": 0,
-   "consumer_pins_the_parameter_literally": 5,
+   "consumer_pins_the_parameter_literally": 7,
    "consumer_reads_the_parameter_back_out_of_the_face": 0,
    "the_mention_is_a_comment_or_docstring_not_a_dependency": 0,
    "this_source_is_the_face_s_own_writer": 20
   },
   "faces_in_population": 30,
-  "faces_named_outside_their_writer": 8,
+  "faces_named_outside_their_writer": 9,
   "faces_quoted_without_their_parameter": 0,
   "faces_reachable_through_a_latest_pointer": 11,
   "faces_that_do_not_republish_their_parameter": [
@@ -1437,7 +1477,7 @@
   "faces_whose_parameter_the_face_republishes": 18,
   "faces_with_a_parameter": 20,
   "faces_with_a_static_path": 10,
-  "latest_pointers_naming_a_parameterised_face": 143,
+  "latest_pointers_naming_a_parameterised_face": 161,
   "numbers_quoted_without_their_parameter": 0,
   "unpinned_consumers_on_faces_that_republish_the_parameter": 0,
   "unpinned_share_of_non_writer_consumers": 0.0
@@ -1446,5 +1486,5 @@
  "upstream": "ORPHANGATEFACE-2026-10-31.json",
  "upstream_study": "E325_orphan_gate_faces",
  "verdict": "every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source",
- "verdict_reason": "all 14 consumers outside the writers of 20 parameterised faces pin the parameter in their own source or supply it from a constant they define"
+ "verdict_reason": "all 16 consumers outside the writers of 20 parameterised faces pin the parameter in their own source or supply it from a constant they define"
 }

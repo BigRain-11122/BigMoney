@@ -5,15 +5,14 @@
    "faces_total": 51,
    "largest_orphan_rows": 22,
    "orphan_face_names": [
-    "results/shortline/p1e_nulls_M_arc.json",
     "results/shortline/p1e_nulls_M_close_tr.json",
     "results/shortline/turnover_derivation.json",
     "results/state_tilt/GATEOPERANDS-2026-10-31.json"
    ],
-   "orphan_faces": 4,
-   "orphan_rows": 25,
+   "orphan_faces": 3,
+   "orphan_rows": 24,
    "rows_total": 196,
-   "share_of_rows": 12.76
+   "share_of_rows": 12.24
   },
   "R2_every_auditor_kept": {
    "absent_faces": 0,
@@ -29,7 +28,6 @@
     "results/shortline/gtja191_ic.json",
     "results/shortline/p1e_nulls_M_close.json",
     "results/shortline/p1e_nulls_M_close_tr.json",
-    "results/shortline/p1e_synth.json",
     "results/shortline/p1e_synth_parts.json",
     "results/shortline/pb_synth.json",
     "results/shortline/t11_negday_ic.json",
@@ -45,10 +43,10 @@
     "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
     "results/state_tilt/PRECISIONGAP-2026-10-31.json"
    ],
-   "orphan_faces": 24,
-   "orphan_rows": 164,
+   "orphan_faces": 23,
+   "orphan_rows": 163,
    "rows_total": 196,
-   "share_of_rows": 83.67
+   "share_of_rows": 83.16
   },
   "R3_plus_format_templates": {
    "absent_faces": 0,
@@ -57,17 +55,16 @@
    "orphan_face_names": [
     "results/etf_book_voltarget_lag.json",
     "results/shortline/gtja191_ic.json",
-    "results/shortline/p1e_synth.json",
     "results/shortline/p1e_synth_parts.json",
     "results/shortline/pb_synth.json",
     "results/shortline/t11_negday_ic.json",
     "results/shortline/turnover_derivation.json",
     "results/state_tilt/PRECISIONCENSUS-2026-10-30.json"
    ],
-   "orphan_faces": 8,
-   "orphan_rows": 11,
+   "orphan_faces": 7,
+   "orphan_rows": 10,
    "rows_total": 196,
-   "share_of_rows": 5.61
+   "share_of_rows": 5.1
   },
   "R4_plus_composed_paths": {
    "absent_faces": 0,
@@ -81,7 +78,7 @@
   }
  },
  "corpus": {
-  "files": 2280,
+  "files": 2309,
   "packages": [
    "scripts",
    "Tools",
@@ -2557,7 +2554,8 @@
     "windows.2020-01-01.cash_window_by_book.wide_top9999.tolerance_bp"
    ],
    "mentions_only": [
-    "scripts/e322_residual_refusal_causes.py"
+    "scripts/e322_residual_refusal_causes.py",
+    "scripts/e328_quoted_number_staleness.py"
    ],
    "on_disk": true,
    "orphan_under": [],
@@ -3592,7 +3590,7 @@
   },
   {
    "class_by_rung": {
-    "R1_standard_needle": "no_source_in_the_corpus_names_the_face",
+    "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
     "R2_every_auditor_kept": "named_by_sources_that_never_write",
     "R3_plus_format_templates": "reproducible_through_a_format_template",
     "R4_plus_composed_paths": "reproducible_through_a_format_template"
@@ -3610,20 +3608,19 @@
     }
    ],
    "face": "results/shortline/p1e_nulls_M_arc.json",
-   "first_rung_that_finds_a_writer": "R2_every_auditor_kept",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
    "leaves": [
     "meta.equivalence.tol"
    ],
    "mentions_only": [
-    "scripts/e322_residual_refusal_causes.py"
+    "scripts/e322_residual_refusal_causes.py",
+    "scripts/e326_template_parameter_consumers.py"
    ],
    "on_disk": true,
-   "orphan_under": [
-    "R1_standard_needle"
-   ],
+   "orphan_under": [],
    "rows": 1,
    "upstream_classes": [
-    "published_as_a_constant_that_names_nothing"
+    "producer_found_but_publishes_no_such_key"
    ],
    "writers_composed": [],
    "writers_family": [
@@ -3639,7 +3636,9 @@
     }
    ],
    "writers_named": [],
-   "writers_standard": []
+   "writers_standard": [
+    "scripts/e326_template_parameter_consumers.py"
+   ]
   },
   {
    "class_by_rung": {
@@ -3776,8 +3775,8 @@
   {
    "class_by_rung": {
     "R1_standard_needle": "reproducible_by_a_source_that_names_the_file_and_writes",
-    "R2_every_auditor_kept": "no_source_in_the_corpus_names_the_face",
-    "R3_plus_format_templates": "no_source_in_the_corpus_names_the_face",
+    "R2_every_auditor_kept": "named_by_sources_that_never_write",
+    "R3_plus_format_templates": "named_by_sources_that_never_write",
     "R4_plus_composed_paths": "reproducible_through_a_path_the_source_composes"
    },
    "evidence": [
@@ -3797,12 +3796,11 @@
    "leaves": [
     "equivalence.tol"
    ],
-   "mentions_only": [],
-   "on_disk": true,
-   "orphan_under": [
-    "R2_every_auditor_kept",
-    "R3_plus_format_templates"
+   "mentions_only": [
+    "scripts/e326_template_parameter_consumers.py"
    ],
+   "on_disk": true,
+   "orphan_under": [],
    "rows": 1,
    "upstream_classes": [
     "published_as_a_constant_that_names_nothing"
@@ -3822,6 +3820,7 @@
    "writers_family": [],
    "writers_named": [],
    "writers_standard": [
+    "scripts/e326_template_parameter_consumers.py",
     "scripts/p1e_synth.py"
    ]
   },
@@ -4396,7 +4395,28 @@
     "published_as_a_constant_that_names_a_quantity",
     "published_as_a_constant_that_names_nothing"
    ],
-   "writers_composed": [],
+   "writers_composed": [
+    {
+     "evidence": {
+      "line": 578,
+      "needle": "BANDDEFLATE-2026-10-29.json",
+      "shape": "composed_path",
+      "text": "src = ('\"\"\"results/BANDDEFLATE-2026-10-29.json is a face\\n'",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e326_template_parameter_consumers.py"
+    },
+    {
+     "evidence": {
+      "line": 425,
+      "needle": "BANDDEFLATE-2026-10-29.json",
+      "shape": "composed_path",
+      "text": "base = \"BANDDEFLATE-2026-10-29.json\"",
+      "write_call": "json.dump"
+     },
+     "producer": "scripts/e327_who_reads_a_face_through_a_pointer.py"
+    }
+   ],
    "writers_family": [
     {
      "evidence": {
@@ -4422,7 +4442,9 @@
    "writers_named": [],
    "writers_standard": [
     "scripts/e283_degenerate_range_reachable.py",
-    "scripts/e287_supply_ceiling_axes.py"
+    "scripts/e287_supply_ceiling_axes.py",
+    "scripts/e326_template_parameter_consumers.py",
+    "scripts/e327_who_reads_a_face_through_a_pointer.py"
    ]
   },
   {
@@ -5171,7 +5193,8 @@
     "reproduction.tolerance"
    ],
    "mentions_only": [
-    "scripts/e312_gate_operand_identity.py"
+    "scripts/e312_gate_operand_identity.py",
+    "scripts/e326_template_parameter_consumers.py"
    ],
    "on_disk": true,
    "orphan_under": [],
@@ -5222,6 +5245,7 @@
     "scripts/e242_omission_inflation_sweep.py",
     "scripts/e294_live_universe_drift.py",
     "scripts/e302_universe_switch_backfill.py",
+    "scripts/e326_template_parameter_consumers.py",
     "scripts/g25_retro.py",
     "scripts/g2_folk.py",
     "scripts/lowamp_deep_p1.py",
@@ -5317,6 +5341,7 @@
     "scripts/e242_omission_inflation_sweep.py",
     "scripts/e294_live_universe_drift.py",
     "scripts/e302_universe_switch_backfill.py",
+    "scripts/e326_template_parameter_consumers.py",
     "scripts/g25_retro.py",
     "scripts/g2_folk.py",
     "scripts/lowamp_deep_p1.py",
@@ -5427,9 +5452,9 @@
   {
    "face": "results/shortline/p1e_nulls_M_arc.json",
    "final": "reproducible_through_a_format_template",
-   "first_rung_that_finds_a_writer": "R2_every_auditor_kept",
+   "first_rung_that_finds_a_writer": "R1_standard_needle",
    "rows": 1,
-   "standard": "no_source_in_the_corpus_names_the_face"
+   "standard": "reproducible_by_a_source_that_names_the_file_and_writes"
   },
   {
    "face": "results/shortline/p1e_nulls_M_close.json",
@@ -5588,15 +5613,10 @@
  },
  "study": "E325_orphan_gate_faces",
  "summary": {
-  "face_reading_rises_by": -4,
+  "face_reading_rises_by": -3,
   "faces": 51,
   "faces_moved": 30,
   "faces_orphan_on_one_rung_and_written_on_a_later_one": [
-   {
-    "face": "results/shortline/p1e_nulls_M_arc.json",
-    "first_rung_that_finds_a_writer": "R2_every_auditor_kept",
-    "rows": 1
-   },
    {
     "face": "results/shortline/p1e_nulls_M_close_tr.json",
     "first_rung_that_finds_a_writer": "R3_plus_format_templates",
@@ -5616,19 +5636,19 @@
   "faces_that_survive_every_rung": [],
   "ladder_is_monotone_from": "R2_every_auditor_kept",
   "orphan_faces_by_rung": {
-   "R1_standard_needle": 4,
-   "R2_every_auditor_kept": 24,
-   "R3_plus_format_templates": 8,
+   "R1_standard_needle": 3,
+   "R2_every_auditor_kept": 23,
+   "R3_plus_format_templates": 7,
    "R4_plus_composed_paths": 0
   },
   "orphan_rows_by_rung": {
-   "R1_standard_needle": 25,
-   "R2_every_auditor_kept": 164,
-   "R3_plus_format_templates": 11,
+   "R1_standard_needle": 24,
+   "R2_every_auditor_kept": 163,
+   "R3_plus_format_templates": 10,
    "R4_plus_composed_paths": 0
   },
   "row_and_face_readings_disagree": false,
-  "row_reading_falls_by": 25,
+  "row_reading_falls_by": 24,
   "rows": 196,
   "rows_on_the_largest_first_rung_orphan": 22,
   "rows_that_survive_every_rung": 0,
@@ -5641,5 +5661,5 @@
  "upstream": "REACHWIDE-2026-10-31.json",
  "upstream_study": "E323_reach_under_wider_needle",
  "verdict": "every_writer_less_face_in_the_population_is_a_lookup_artefact_under_a_later_rung",
- "verdict_reason": "the published lookup reports 25 of 196 rows (12.76 pct) and 4 of 51 faces writer-less. A rule that demands a writer rather than a mention reports 164 rows / 24 faces, format templates take that to 11 rows / 8 faces, and composed paths to 0 / 0. So the published lookup OVER-credits (its stem fallback accepts a bare mention: 139 rows are orphan under writer evidence but named under it) while the strictest rule is the one that orphans the most faces -- the ladder is monotone only from the second rung, and 'no writer' is a fact about a named rule, never about the repository."
+ "verdict_reason": "the published lookup reports 24 of 196 rows (12.24 pct) and 3 of 51 faces writer-less. A rule that demands a writer rather than a mention reports 163 rows / 23 faces, format templates take that to 10 rows / 7 faces, and composed paths to 0 / 0. So the published lookup OVER-credits (its stem fallback accepts a bare mention: 139 rows are orphan under writer evidence but named under it) while the strictest rule is the one that orphans the most faces -- the ladder is monotone only from the second rung, and 'no writer' is a fact about a named rule, never about the repository."
 }

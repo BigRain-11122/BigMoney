@@ -258,7 +258,17 @@ def build(outdir=None):
         "faces_scanned": len(faces),
         "mirror_files_excluded": mirrors,
         "self_faces_excluded": self_faces,
-        "self_face_files_on_disk": len(self_files),
+        # r1363: counting the study's OWN face files made the published number grow
+        # the moment the face was written -- run once published 3, the next build saw
+        # 4 (its own new vintage) and `verify` reported "summary does not re-derive"
+        # forever. Only vintages EARLIER than the evidence cutoff are counted, so the
+        # value is the same whether or not today's face is on disk yet. Today's own
+        # vintage is disclosed separately rather than folded into the count.
+        "self_face_files_on_disk": len([n for n in self_files
+                                        if FACE_NAME_RE.match(n)
+                                        and _max_cutoff([n]) < cutoff]),
+        "self_face_cutoff_present": any(_max_cutoff([n]) == cutoff for n in self_files
+                                        if FACE_NAME_RE.match(n)),
         "faces_with_controls": len(with_controls),
         "n_control_containers": len(controls),
         "n_leaf_witnesses": len(leaves),
@@ -456,10 +466,30 @@ def cmd_selftest():
         finally:
             fh.close()
     face = build(tmp2b)
-    leg("L11b two vintages of this census count as one self face, and both files are disclosed",
-        face["summary"]["self_faces_excluded"] == 2
-        and face["summary"]["self_face_files_on_disk"] == 3
-        and face["summary"]["faces_scanned"] == 1, face["summary"])
+    # r1363: the invariant that matters is idempotence -- publishing today's face must
+    # not change what the next build says. Counting self files did exactly that (3 -> 4
+    # and "summary does not re-derive" forever), so the leg now writes the face for the
+    # CURRENT cutoff into the directory and demands the summary be byte-identical.
+    before = dict(face["summary"])
+    fh = io.open(os.path.join(tmp2b, "REPLAYCENSUS-%s.json" % face["evidence_cutoff"]),
+                 "w", encoding="utf-8", newline="\n")
+    try:
+        fh.write(json.dumps({"replay_self": {"cell": "a"}}))
+    finally:
+        fh.close()
+    after = build(tmp2b)["summary"]
+    leg("L11b two vintages of this census count as one self face, and publishing today's"
+        " vintage does not move the summary",
+        before["self_faces_excluded"] == 2
+        and before["self_face_files_on_disk"] == 0
+        and before["faces_scanned"] == 1
+        and after["self_face_files_on_disk"] == before["self_face_files_on_disk"]
+        and after["self_faces_excluded"] == before["self_faces_excluded"]
+        and after["faces_scanned"] == before["faces_scanned"],
+        "before=%s after_count=%s cutoff_present=%s"
+        % ({k: before[k] for k in ("self_faces_excluded", "self_face_files_on_disk",
+                                   "faces_scanned")},
+           after["self_face_files_on_disk"], before["self_face_cutoff_present"]))
 
     # L12 the partitions are exhaustive on a mixed fixture
     f = {"identity_check": {"checked": 1}, "e240_replay": {"tolerance": 1e-9},

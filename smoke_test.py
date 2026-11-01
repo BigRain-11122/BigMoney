@@ -333,213 +333,13 @@ def main() -> int:
     except Exception as e:
         check("paper: pipeline selftest", False, str(e))
     import subprocess as _sp
-    for _name, _script, _args in (
-            ("daily", "scripts/update_daily.py", ["--selftest"]),
-            ("lhb", "scripts/update_lhb.py", ["selftest"]),
-            ("intraday_marks", "scripts/update_intraday_marks.py",
-             ["--selftest"]),
-            ("open_fill_verify", "scripts/t35_open_fill_verify.py",
-             ["--selftest"]),
-            ("etf_daily", "scripts/update_etf_daily.py", ["selftest"]),
-            # the wide panel is the price universe of every ETF study, and its
-            # refresh leg spent a week unwired while the panel sat frozen
-            ("etf_wide", "scripts/update_etf_wide.py", ["--selftest"]),
-            ("zt_pool", "scripts/update_zt_pool.py", ["selftest"]),
-            ("fund_statements", "scripts/update_fund_statements.py",
-             ["selftest"]),
-            ("fund_avail_pit", "scripts/fund_avail_pit_t27.py",
-             ["selftest"]),
-            ("fund_pit_avail", "scripts/fund_pit_avail.py",
-             ["selftest"]),
-            ("fund_avail_notice", "scripts/fund_avail_notice.py",
-             ["selftest"]),
-            ("fund_avail_dispersion", "scripts/fund_avail_dispersion.py",
-             ["selftest"]),
-            ("fund_avail_face_impact", "scripts/fund_avail_face_impact.py",
-             ["selftest"]),
-            ("fund_avail_asof", "scripts/fund_avail_asof_panel.py",
-             ["selftest"]),
-            ("fund_pit_factor_panel", "scripts/fund_pit_factor_panel.py",
-             ["selftest"]),
-            ("fund_pit_crossface_factor", "scripts/fund_pit_crossface_factor.py",
-             ["selftest"])):
-        _label = f"updater: update_{_name} selftest (exit-code contract)"
-        try:
-            _r = _sp.run([sys.executable, _script, *_args],
-                         capture_output=True, text=True, timeout=180)
-            _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
-            check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
-        except Exception as e:
-            check(_label, False, str(e))
-    for _label, _script, _args in (
-            ("product: etf_book_production card (exit-code contract)",
-             "scripts/etf_book_production.py", ["--selftest"]),
-            ("product: etf_vol_delivery_audit (exit-code contract)",
-             "scripts/etf_vol_delivery_audit.py", ["--selftest"]),
-            ("product: etf_vol_calibration (exit-code contract)",
-             "scripts/etf_vol_calibration.py", ["--selftest"]),
-            ("product: etf_book_forward ledger (exit-code contract)",
-             "scripts/etf_book_forward.py", ["--selftest"]),
-            ("product: etf_book_order ticket (exit-code contract)",
-             "scripts/etf_book_order.py", ["--selftest"]),
-            ("product: etf_book_width_audit (exit-code contract)",
-             "scripts/etf_book_width_audit.py", ["--selftest"]),
-            ("product: etf_book_split_audit repair value (exit-code contract)",
-             "scripts/etf_book_split_audit.py", ["selftest"]),
-            # The r1310/r1311 span regressions only ever ran on 2020+ data, i.e. inside the
-            # window the book earned its money in. This leg keeps the outside-window test
-            # callable: if its selftest rots, the "alpha is a window property" reading
-            # stands on a script nobody can re-derive.
-            ("product: etf_book_spanning_pre2020 period test (exit-code contract)",
-             "scripts/etf_book_spanning_pre2020.py", ["--selftest"]),
-            # r1233 (E205): the decomposition delta faces are silent by construction.
-            # The growth gate is the only thing that fails when one of them quietly
-            # acquires its first durable reader, so it has to be exercised, not
-            # remembered.
-            ("product: e97 sign-growth gate (crossing detection contract)",
-             "scripts/e97_routing.py", ["selftest"]),
-            # The money question ("how big can this book get before impact eats it")
-            # rests entirely on this one script: it re-derives both arms off one
-            # engine and pins k=1 to the flat path to 1e-12. A rot here would print
-            # a confident NAV ladder that no longer belongs to the delivered rule.
-            ("product: etf_book_capacity_rule impact ladder (exit-code contract)",
-             "scripts/etf_book_capacity_rule.py", ["selftest"]),
-            # r1317: the 10-31 month-exam package is assembled by one generator.
-            # Nothing in this file ever called it, so the assembly face and its
-            # freeze-fingerprint gate could rot silently before exam day.
-            ("product: monthly_exam_prep exam faces (exit-code contract)",
-             "scripts/monthly_exam_prep.py", ["selftest"]),
-            ("product: gpu_face canonical GPU face (exit-code contract)",
-             "Tools/gpu_face.py", ["--selftest"]),
-            # r1188: an autostash rebase put a 62-file revert of another machine's
-            # work into this tree, and the only thing that noticed was the pre-push
-            # ownership claw -- i.e. after the commit already existed. This leg keeps
-            # the earlier, cheaper detector callable; if its classifier rots, rounds
-            # go back to discovering reverts at push time.
-            ("product: tree poison probe selftest (exit-code contract)",
-             "Tools/tree_poison_probe.py", ["--selftest"]),
-            # r1192: bm-a's MSG-20261027-2250-bm-a.md reported group commit ceebc703
-            # -- "order-bus receipts for bm-b", two files -- whose tree held 2 entries
-            # against its parent's 3,494. A temp index seeded from nothing instead of
-            # `read-tree <parent>` produces exactly that shape. bm-a has since added a
-            # pre-push gate (MSG-20261027-2345) that blocks the push; this leg keeps
-            # the BUILDER honest, which is the half a gate cannot reach.
-            ("product: surgical commit tree-size guard (exit-code contract)",
-             "Tools/surgery_commit.py", ["selftest"]),
-            ("product: machine-health face builder (exit-code contract)",
-             "Tools/machine_health_face.py", ["selftest"]),
-            # D-20261028-04: a resident script must resolve the group root by
-            # validated toplevel + newest ledger mtime, never by a `..\..` climb or
-            # a hardcoded mirror. The selftest pins the rejection of a masquerading
-            # subdirectory, which is the failure that serves a week-old ledger.
-            ("product: group-root resolution (exit-code contract)",
-             "Tools/group_root.py", ["selftest"]),
-            # D-20261028-04, second half: the resolver only helps the files that
-            # use it. This leg keeps the CENSUS callable -- a resident script that
-            # climbs `..\..` or pastes a mirror gets named every round instead of
-            # once, by whoever happened to grep for it.
-            ("product: group-root sweep census (exit-code contract)",
-             "scripts/group_root_sweep.py", ["selftest"]),
-            # D-20261028-11 widened that rule to two more shapes: PowerShell reading
-            # .Path off a Get-Item result (empty group root that still reports OK), and
-            # freshness gates that hash WORKTREE bytes on an autocrlf checkout. The
-            # census measures both and the fixtures pin the two ways the second one
-            # lies -- a stale constant is not a dialect bug, and on an LF-on-disk
-            # fixture neither state is distinguishable at all.
-            ("product: group-root dialect census (exit-code contract)",
-             "scripts/group_root_dialect_census.py", ["--selftest"]),
-            # r1320 fixed one doubled-percent leak with a gate on that face's OUTPUT and
-            # recorded three more for "the next sweep" -- this is that sweep, and it is a
-            # census because the same token is legitimate in a shell string, in frozen
-            # evidence and in the append-only pool record. This leg keeps the classifier
-            # callable; the chain leg re-derives the census every round.
-            ("product: reader-text audit census (exit-code contract)",
-             "scripts/reader_text_audit.py", ["selftest"]),
-            # r1319: the book's standing "pure survivor pool" caveat had no number
-            # behind it, and the first run of the census showed the caveat was also
-            # pointed the wrong way -- 1,645 of 1,656 eligible symbols still print to
-            # the panel edge and a dead fund keeps its history in its own file, so the
-            # engine saw it while it traded. This leg keeps the classifier callable.
-            ("product: ETF pool survival census (exit-code contract)",
-             "scripts/etf_pool_survival.py", ["selftest"]),
-            ("product: exchange_calendar_audit lag verdict (exit-code contract)",
-             "scripts/exchange_calendar_audit.py", ["selftest"]),
-            ("product: supply_alignment four-tuple face (exit-code contract)",
-             "scripts/supply_alignment.py", ["--selftest"]),
-            # The staggered book's sleeve due dates used to be position indices only
-            # (5274/5279) -- unreadable as dates and fragile against a panel whose
-            # history window shifts. Its selftest pins the date anchor + projection.
-            ("product: etf_paper_signal sleeve schedule (exit-code contract)",
-             "scripts/etf_paper_signal.py", ["--selftest"]),
-            # The pre-2020 test decides whether the book's edge is the composite or the
-            # wider universe, and it reads entirely through window semantics: a panel
-            # truncated at `start` silently keeps the book in cash for its first
-            # MIN_HIST bars (r1305 self-caught), which reads as "the edge never existed".
-            ("product: etf_book_pre2020 window semantics (exit-code contract)",
-             "scripts/etf_book_pre2020.py", ["selftest"]),
-            # r1308: the rotation premium is now priced outside the published regime too,
-            # and the ladder reconciles it with the -8.86pp caveat on the same window. Both
-            # depend on window semantics (upper bound only) and on one verdict rule.
-            ("product: etf_book_passive_mix windows (exit-code contract)",
-             "scripts/etf_book_passive_mix.py", ["--selftest"]),
-            ("product: etf_book_window_decomp ladder (exit-code contract)",
-             "scripts/etf_book_window_decomp.py", ["--selftest"]),
-            # r1309: the ladder's rungs were all FIXED cells picked with hindsight. The
-            # deployment rule re-picks (N,R) yearly on trailing Sharpe, so the ladder cannot
-            # say whether the RULE survives the window. This leg pins that the walk-forward
-            # harness -- including the year-boundary rule that makes a chain equal its curve
-            # -- still runs.
-            ("product: etf_book_pre2020 walk-forward rule (exit-code contract)",
-             "scripts/etf_book_pre2020_wf.py", ["--selftest"]),
-            # r1310: the book is regressed on the four liquid exposures an account could
-            # hold instead of it. The legs pin the two ways this kind of face lies: an
-            # "annual" alpha that is really a daily intercept (252x), and a benchmark arm
-            # made of un-repaired prices (a split prints as a -50% day). Both are pinned.
-            ("product: etf_book_spanning vs four betas (exit-code contract)",
-             "scripts/etf_book_spanning.py", ["--selftest"]),
-            # r1308 was itself a dead window's product left uncommitted in this tree, and
-            # the hand test (git log vs round_no) agreed with the counter and saw nothing.
-            # The detector's contract is what keeps the next one from being invisible.
-            ("fleet: round-open absorb detector (exit-code contract)",
-             "scripts/round_open_absorb.py", ["--selftest"]),
-            # r1319: the book, the four-ETF basket and the futures sleeve had each been
-            # measured in its own window and nobody had put them on the axis an allocator
-            # holds -- account size. The legs pin the three ways that face can lie: a
-            # percent read as a fraction (100x), a capacity ceiling that never binds, and
-            # a missing source silently becoming zero profit.
-            ("product: capital placement by account size (exit-code contract)",
-             "scripts/capital_placement.py", ["--selftest"]),
-            # r1320: four published annualised numbers were being quoted as four views of
-            # one book. The legs pin the decomposition that makes them one bridge: each
-            # path must sum to the endpoint difference (so a term cannot be dropped), an
-            # additive grid must show ZERO interaction (so a non-zero term is real), and an
-            # incomplete path must raise rather than print a partial waterfall.
-            ("product: card-vs-ticket cagr bridge (exit-code contract)",
-             "scripts/etf_book_cagr_reconcile.py", ["--selftest"]),
-            # r1323: the tempting reading of a turnover-bound book ("it trades on noise")
-            # is refuted by its own census, so the legs pin the mechanics that let it be
-            # read at all: k=0 restoring the plain top-n, the buffer being monotone in k,
-            # the hook being bit-identical to the default path on a tie-free face (and
-            # differing only on exact ties), a bad hook raising, and the consistency gate
-            # actually going red on each of nine ways this face can lie.
-            ("product: decision margins and a hysteresis buffer (exit-code contract)",
-             "scripts/etf_book_hysteresis.py", ["--selftest"]),
-            # r1325: the buffer arm above shipped with its own refutation in a caveat ("a
-            # single better arm can be one decision sequence"). These legs pin the test that
-            # settles it: phases must be distinct CALENDARS (a decision count is not a
-            # signature -- four phases gave 83/83/82/82), delta arithmetic must keep its
-            # units, the sign test must be exact, frozen criteria may not be re-tuned
-            # silently, the published verdict must be recomputed rather than trusted, and
-            # both tables must keep their header rows.
-            ("product: incumbent-buffer adoption across books and phases (exit-code contract)",
-             "scripts/etf_book_buffer_adoption.py", ["--selftest"])):
-        try:
-            _r = _sp.run([sys.executable, _script, *_args],
-                         capture_output=True, text=True, timeout=300)
-            _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
-            check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
-        except Exception as e:
-            check(_label, False, str(e))
+    # r1363: two full registration blocks lived here -- 16 updater + 33 product
+    # legs run through an inline _sp.run, then the same 16 updaters plus 36
+    # products again through _selftest_run ~1000 lines later. Every one of those
+    # subprocess selftests ran twice per smoke, which is most of why the suite
+    # takes longer than a 10 minute cycle. The later block is the live one (it
+    # carries four legs the earlier copy never had); it was kept verbatim and the
+    # one leg that existed ONLY here (e97 sign-growth) was re-registered there.
     try:
         _card = os.path.join("results", "etf_book_production", "CARD.md")
         _dc = os.path.join("results", "etf_book_window_decomp.json")
@@ -1516,7 +1316,22 @@ def main() -> int:
             # not a discount), and the honest empty case (an era with no against-months is
             # published as such, not as a pass with a missing ratio).
             ("product: census selftest incl. the E187 churn-tie legs",
-             "scripts/e39_panel_census.py", ["selftest"])):
+             "scripts/e39_panel_census.py", ["selftest"]),
+            # r1233 (E205): the decomposition delta faces are silent by construction.
+            # The growth gate is the only thing that fails when one of them quietly
+            # acquires its first durable reader, so it has to be exercised, not
+            # remembered. It lived only inside the duplicate leg block that round
+            # 1363 deleted (see the note there), so it is re-registered here rather
+            # than assumed to still be running.
+            ("product: e97 sign-growth gate (crossing detection contract)",
+             "scripts/e97_routing.py", ["selftest"]),
+            # D-20261101-15/17 turned task acceptance three-faced (instance /
+            # result / product) after one LastTaskResult reading called a live
+            # resident agent dead. This leg keeps the collapse callable and pins
+            # the mirror guard: a peer judged off THIS lagging worktree copy reads
+            # DEAD while its origin ledger is hours ahead.
+            ("product: lane round liveness (three-face verdict contract)",
+             "Tools/lane_round_liveness.py", ["selftest"])):
         try:
             _r = _selftest_run(_script, _args, 300)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]

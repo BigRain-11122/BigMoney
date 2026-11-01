@@ -119,6 +119,53 @@ def gpu_chokepoint(fields, verdict):
     return kept
 
 
+def purge_gpu_face(hb, verdict):
+    """Make the stored heartbeat's GPU face equal one probe's face.
+
+    WHY (r1363): gpu_chokepoint only governs keys the CALLER hands in. The
+    heartbeat is merge-only, so a key written by someone else's older sample
+    survives every later write -- on 2026-11-01 bm-b carried
+    gpu_free_vram_gb=3.57 (an old sample) beside gpu_free_mib=3820 (current
+    sample, 3.73 GiB) and smoke's `GPU face self-consistent` gate went red with
+    a 164 MiB spread. Owning the namespace means deleting spellings the current
+    probe does not produce, not just overwriting the ones it does.
+    """
+    keys = [k for k in hb if GPU_KEY_RE.match(k)]
+    if not keys:
+        return
+    try:
+        gf = _gpu_face_mod()
+        face = gf.fields_from(gf.probe_live(), gf._stamp())
+    except Exception as ex:
+        verdict["warnings"].append(
+            "gpu face purge skipped, probe failed: %s" % str(ex)[:120])
+        return
+    canon = {"free": face["gpu_free_mib"], "used": face["gpu_mem_used_mib"],
+             "total": face["gpu_mem_total_mib"]}
+    purged = []
+    for k in keys:
+        if k in face:
+            continue
+        val = hb.get(k)
+        if not isinstance(val, (int, float)) or isinstance(val, bool):
+            continue  # non-numeric spellings are not a reading; leave them
+        fam = ("free" if "free" in k or "idle" in k
+               else "used" if "used" in k else "total" if "total" in k else None)
+        if fam is None:
+            continue
+        try:
+            differs = abs(gf._mb(k, val) - canon[fam]) >= gf.TOL_MIB
+        except Exception:
+            differs = True
+        if differs:
+            del hb[k]
+            purged.append(k)
+    healed = [k for k, val in face.items() if hb.get(k) != val]
+    hb.update(face)
+    verdict["gpu_purged"] = purged
+    verdict["gpu_healed"] = healed
+
+
 def write(project, fields, state_path=None, heart_path=None, heal=True):
     """Merge `fields` into the heartbeat. Returns (verdict, rc)."""
     v = {"tool": "heartbeat_write", "applied": [], "healed": [],
@@ -184,6 +231,10 @@ def write(project, fields, state_path=None, heart_path=None, heal=True):
         if hb.get(k) != val:
             hb[k] = val
             v["applied"].append(k)
+
+    # (1b) the GPU face has exactly one owner: whatever spelling is on disk that
+    # the live probe no longer produces gets dropped, not inherited
+    purge_gpu_face(hb, v)
 
     # (3) invariants
     if not isinstance(hb.get("heartbeat_epoch_utc"), int):
@@ -376,6 +427,29 @@ def selftest():
     leg("L12 failed probe: GPU keys dropped, rest written", True,
         rc == 0 and h.get("did") == "f" and h.get("gpu_free_mib") == 15259
         and bool(v.get("gpu_dropped")), "dropped=%s" % (v.get("gpu_dropped"),))
+
+    # L13 r1363: a stale spelling from another writer's older sample is not
+    #     inherited by the merge. bm-b carried gpu_free_vram_gb=3.57 (3655 MiB)
+    #     beside a current 3820 MiB face -- 164 MiB spread, smoke red -- because
+    #     only keys the CALLER supplied were ever refreshed.
+    t = os.path.join(tmp, "L13")
+    hp = _fixture(t, A, heart_ack=A,
+                  extra_heart={"gpu_free_mib": 15259, "gpu_mem_used_mib": 1125,
+                               "gpu_mem_total_mib": 16384,
+                               "gpu_free_vram_vram_gb": 3.57,
+                               "gpu_free_vram_gb": 3.57})
+    real = gf.probe_live
+    gf.probe_live = lambda smi=None: {"util_pct": 0.0, "used_mib": 1125,
+                                      "total_mib": 16384}
+    try:
+        v, rc = write(t, {"did": "p"})
+    finally:
+        gf.probe_live = real
+    h = _load(hp)
+    leg("L13 stale GPU spelling purged, not inherited", True,
+        rc == 0 and gf.audit(h) == [] and "gpu_free_vram_gb" in v.get("gpu_healed", []),
+        "purged=%s healed=%s audit=%s"
+        % (v.get("gpu_purged"), v.get("gpu_healed"), gf.audit(h) or "none"))
 
     ok = sum(1 for _, p in legs if p)
     print("\nselftest %d/%d %s" % (ok, len(legs),

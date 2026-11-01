@@ -4,13 +4,13 @@
  "verdict": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
  "verdict_reason": "all 24 pointer-only readers either branch before using the value or let the open error name the path, and no pointer they name is absent; 1 families cannot be judged because the pointer is their only published form",
  "summary": {
-  "sources_scanned": 2284,
-  "families_referenced_only_through_a_pointer": 119,
-  "pairs": 44,
+  "sources_scanned": 2307,
+  "families_referenced_only_through_a_pointer": 131,
+  "pairs": 45,
   "pairs_by_class": {
    "writer_only": 3,
    "chain_with_a_variable_first": 6,
-   "reference_without_a_reader": 11,
+   "reference_without_a_reader": 12,
    "pointer_only_reader": 24
   },
   "pointer_only_readers": 24,
@@ -34,9 +34,9 @@
   "pointers_that_state_no_cutoff": 2,
   "families_that_resolve_today": 16,
   "families_read_but_unresolvable_today": 3,
-  "prose_literals_rejected_as_notes": 22,
+  "prose_literals_rejected_as_notes": 25,
   "sources_whose_tail_the_scanner_cannot_see": 22,
-  "rows_published": 44,
+  "rows_published": 45,
   "rows_truncated": 0
  },
  "rules": {
@@ -894,6 +894,18 @@
    "bound_names": []
   },
   {
+   "source": "scripts/e335_sibling_entry_point.py",
+   "family": "optinswitch",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 61,
+   "first_text": "OPTINSWITCH_LATEST = \"optinswitch_latest.json\"",
+   "bound_names": [
+    "OPTINSWITCH_LATEST"
+   ]
+  },
+  {
    "source": "scripts/market_clock_call.py",
    "family": "call",
    "class": "reference_without_a_reader",
@@ -1101,8 +1113,8 @@
   },
   {
    "source": "scripts/e330_unpinned_choice.py",
-   "raw_lines": 835,
-   "last_visible_line": 106,
+   "raw_lines": 843,
+   "last_visible_line": 114,
    "dropped_tail_lines": 729
   },
   {

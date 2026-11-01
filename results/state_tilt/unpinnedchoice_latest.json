@@ -3,16 +3,16 @@
  "evidence_cutoff": "2026-11-01",
  "verdict": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today",
  "summary": {
-  "sources_scanned": 2297,
-  "decisions": 1,
+  "sources_scanned": 2308,
+  "decisions": 2,
   "decisions_by_class": {
    "existence_chain": 1,
    "or_fallback": 0,
    "argparse_default": 0,
-   "mutable_default": 0
+   "mutable_default": 1
   },
   "decisions_pinned": 0,
-  "decisions_unpinned": 1,
+  "decisions_unpinned": 2,
   "decisions_nameless": 0,
   "decisions_whose_swap_changes_today": 1,
   "decisions_whose_fallback_lags_the_newest_cut": 1,
@@ -20,11 +20,11 @@
   "chains": 1,
   "chains_serving_a_stale_cut_today": 0,
   "defaults_already_stale_on_disk": 0,
-  "mutable_defaults": 0,
+  "mutable_defaults": 1,
   "or_lines_offered_and_rejected_as_one_sided": 34,
   "add_argument_lines_seen": 39,
-  "defs_with_a_mutable_literal_seen": 0,
-  "rows_published": 1,
+  "defs_with_a_mutable_literal_seen": 1,
+  "rows_published": 2,
   "rows_truncated": 0
  },
  "rules": {
@@ -42,6 +42,29 @@
   "presence_not_behaviour": "swap_changes_today compares what each branch names on disk; the tool never deletes a pointer to watch a fallback fire"
  },
  "rows": [
+  {
+   "source": "scripts/e342_guard_rewrite_records.py",
+   "line": 154,
+   "class": "mutable_default",
+   "decider": "diff_bytes",
+   "decider_kind": "function",
+   "branches": [
+    {
+     "side": "default",
+     "expr": "cache={}",
+     "face": null,
+     "vintage": null,
+     "exists": false
+    }
+   ],
+   "outcome_today": "the shared object created at import",
+   "alternate_today": "a fresh object per call",
+   "swap_changes_today": false,
+   "pinned": false,
+   "pinned_by": [],
+   "pin_note": "no assertion in this source or in the chain/smoke files",
+   "nameless": false
+  },
   {
    "source": "scripts/e242_omission_inflation_sweep.py",
    "line": 288,

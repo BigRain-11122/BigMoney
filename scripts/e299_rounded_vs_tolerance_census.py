@@ -319,6 +319,11 @@ def extract_sites(legs, tree):
                 "leg_index": leg["index"],
                 "leg": leg["name"],
                 "line": getattr(node, "lineno", 0),
+                # r1363: two comparisons can share a line -- smoke L9092 reads
+                # `(x == A) != (not y)`, i.e. two exact_equality sites at one lineno.
+                # Without a column the duplicate-count identity convicted the tree for
+                # something the fixture never produced, and the census was red forever.
+                "col": getattr(node, "col_offset", 0),
                 "kind": kind,
                 "tolerance": tolerance,
                 "note": note,
@@ -704,8 +709,8 @@ def build(src=None, outdir=None, smoke_path=None):
         "at_risk_subset_of_sites": len(at_risk_rows) <= len(rows),
         "every_at_risk_site_names_its_face": all(r["at_risk_faces"] for r in at_risk_rows),
         "every_at_risk_site_reads_a_face": all(r["reads_a_face_value"] for r in at_risk_rows),
-        "no_site_counted_twice": len({(r["leg_index"], r["line"], r["kind"]) for r in rows})
-        == len(rows),
+        "no_site_counted_twice": len({(r["leg_index"], r["line"], r.get("col"), r["kind"])
+                                      for r in rows}) == len(rows),
         "legs_with_sites_within_leg_count": len(legs_with_sites) <= len(legs),
         "self_faces_excluded": all(not SELF_RE.match(os.path.basename(f)) for f in profiles),
         "leg_bounds_are_ordered": all(l["first_line"] <= l["last_line"] for l in legs),
@@ -815,6 +820,10 @@ def main():
     if round(float(_r["weight_in_sleeve"]), 4) == round(float(_w), 4):
         pass
     check("leg four: quantized equality", True, "")
+
+    if _g.get("a") == _want and _g.get("c") == _want2:
+        _bad5.append("w")
+    check("leg five: two equalities on one line", True, "")
 '''
 
 
@@ -830,9 +839,17 @@ def cmd_selftest():
             fails.append("%s (%r)" % (name, detail))
 
     legs, tree = parse_legs(FIXTURE)
-    leg("L1", len(legs) == 4 and legs[0]["name"].startswith("leg one"), legs)
+    leg("L1", len(legs) == 5 and legs[0]["name"].startswith("leg one"), legs)
 
     sites = extract_sites(legs, tree)
+    # r1363: two comparisons can land on one source line, and keying sites by
+    # (leg, line, kind) alone made the census convict the tree for double counting
+    # (smoke line 9092 held two exact equalities at one lineno -> identity red
+    # forever). Every site now carries the column the identity keys on.
+    leg("L1b", all("col" in s for s in sites)
+        and len({(s["leg_index"], s["line"], s["col"], s["kind"])
+                 for s in sites}) == len(sites),
+        [(s["line"], s.get("col")) for s in sites])
     kinds = sorted({s["kind"] for s in sites})
     leg("L2", "exact_equality" in kinds and "epsilon" in kinds, kinds)
     leg("L3", any(s["kind"] == "exact_equality" and s["reads_a_face_value"] for s in sites),

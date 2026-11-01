@@ -1,7 +1,7 @@
 {
  "study": "E298_replay_control_census",
  "title": "which published controls re-derive over a live panel, and how many of them say so?",
- "evidence_cutoff": "2026-10-31",
+ "evidence_cutoff": "2026-11-01",
  "decision_rule": "replay + pinned/live_declared basis = safe; replay + undeclared basis = unmeasurable (never defaulted); identity controls are not graded on basis at all",
  "no_bill": "measurement only: every number below is arithmetic over the published JSON under results/state_tilt/. No panel is re-read, no face is rebuilt, no engine runs, no draw stream is regenerated. A control's BASIS is read from the keys it publishes, not inferred from the code that wrote it.",
  "controls": [
@@ -788,6 +788,66 @@
    "status": null,
    "reproduced": true,
    "at_risk": true
+  },
+  {
+   "face": "SIBLINGENTRY-2026-11-01.json",
+   "path": "/rederived_delta",
+   "key": "rederived_delta",
+   "kind": "identity",
+   "basis": "undeclared",
+   "basis_evidence": [],
+   "tolerance": 1e-09,
+   "status": null,
+   "reproduced": null,
+   "at_risk": false
+  },
+  {
+   "face": "SURVIVINGCONCLUSIONS-2026-11-01.json",
+   "path": "/consumers[][]/shipped_helper_reproduces_published_face",
+   "key": "shipped_helper_reproduces_published_face",
+   "kind": "replay",
+   "basis": "undeclared",
+   "basis_evidence": [],
+   "tolerance": null,
+   "status": null,
+   "reproduced": null,
+   "at_risk": true
+  },
+  {
+   "face": "SURVIVINGCONCLUSIONS-2026-11-01.json",
+   "path": "/consumers[][]/shipped_helper_reproduces_published_face",
+   "key": "shipped_helper_reproduces_published_face",
+   "kind": "replay",
+   "basis": "undeclared",
+   "basis_evidence": [],
+   "tolerance": null,
+   "status": null,
+   "reproduced": null,
+   "at_risk": true
+  },
+  {
+   "face": "SURVIVINGCONCLUSIONS-2026-11-01.json",
+   "path": "/consumers[][]/shipped_helper_reproduces_published_face",
+   "key": "shipped_helper_reproduces_published_face",
+   "kind": "replay",
+   "basis": "undeclared",
+   "basis_evidence": [],
+   "tolerance": null,
+   "status": null,
+   "reproduced": null,
+   "at_risk": true
+  },
+  {
+   "face": "SURVIVINGCONCLUSIONS-2026-11-01.json",
+   "path": "/consumers[][]/shipped_helper_reproduces_published_face",
+   "key": "shipped_helper_reproduces_published_face",
+   "kind": "replay",
+   "basis": "undeclared",
+   "basis_evidence": [],
+   "tolerance": null,
+   "status": null,
+   "reproduced": null,
+   "at_risk": true
   }
  ],
  "at_risk": [
@@ -1084,6 +1144,34 @@
    "key": "reproduction",
    "kind": "replay",
    "basis": "undeclared"
+  },
+  {
+   "face": "SURVIVINGCONCLUSIONS-2026-11-01.json",
+   "path": "/consumers[][]/shipped_helper_reproduces_published_face",
+   "key": "shipped_helper_reproduces_published_face",
+   "kind": "replay",
+   "basis": "undeclared"
+  },
+  {
+   "face": "SURVIVINGCONCLUSIONS-2026-11-01.json",
+   "path": "/consumers[][]/shipped_helper_reproduces_published_face",
+   "key": "shipped_helper_reproduces_published_face",
+   "kind": "replay",
+   "basis": "undeclared"
+  },
+  {
+   "face": "SURVIVINGCONCLUSIONS-2026-11-01.json",
+   "path": "/consumers[][]/shipped_helper_reproduces_published_face",
+   "key": "shipped_helper_reproduces_published_face",
+   "kind": "replay",
+   "basis": "undeclared"
+  },
+  {
+   "face": "SURVIVINGCONCLUSIONS-2026-11-01.json",
+   "path": "/consumers[][]/shipped_helper_reproduces_published_face",
+   "key": "shipped_helper_reproduces_published_face",
+   "kind": "replay",
+   "basis": "undeclared"
   }
  ],
  "vintage_transitions": [
@@ -1098,26 +1186,27 @@
   }
  ],
  "summary": {
-  "faces_scanned": 106,
-  "mirror_files_excluded": 82,
+  "faces_scanned": 128,
+  "mirror_files_excluded": 104,
   "self_faces_excluded": 2,
-  "self_face_files_on_disk": 3,
-  "faces_with_controls": 27,
-  "n_control_containers": 64,
-  "n_leaf_witnesses": 400,
+  "self_face_files_on_disk": 2,
+  "self_face_cutoff_present": true,
+  "faces_with_controls": 29,
+  "n_control_containers": 69,
+  "n_leaf_witnesses": 417,
   "by_kind": {
-   "replay": 49,
-   "identity": 15
+   "replay": 53,
+   "identity": 16
   },
   "by_basis": {
-   "undeclared": 57,
+   "undeclared": 62,
    "live_declared": 1,
    "pinned_literal": 6
   },
-  "n_replay_controls": 49,
+  "n_replay_controls": 53,
   "n_replay_with_declared_basis": 7,
   "n_replay_that_rederive_on_the_live_panel_and_say_so": 1,
-  "n_at_risk": 42,
+  "n_at_risk": 46,
   "at_risk_faces": [
    "ADDOS-2026-10-29.json",
    "AGGATT-2026-10-29.json",
@@ -1127,7 +1216,8 @@
    "GATECLAMP-2026-10-31.json",
    "PRECISIONCENSUS-2026-10-30.json",
    "REPRO-2026-10-29.json",
-   "REPRO-2026-10-30.json"
+   "REPRO-2026-10-30.json",
+   "SURVIVINGCONCLUSIONS-2026-11-01.json"
   ],
   "per_face": {
    "ADDOS-2026-10-29.json": {
@@ -1237,9 +1327,17 @@
    "REPRO-2026-10-30.json": {
     "controls": 1,
     "at_risk": 1
+   },
+   "SIBLINGENTRY-2026-11-01.json": {
+    "controls": 1,
+    "at_risk": 0
+   },
+   "SURVIVINGCONCLUSIONS-2026-11-01.json": {
+    "controls": 4,
+    "at_risk": 4
    }
   },
-  "statement": "64 control block(s) across 27 published face(s); 49 of them are replays, 7 of those declare their basis and 42 cannot, so 42 replay control(s) are published as reacting-to-an-unknown-panel rather than as safe or broken."
+  "statement": "69 control block(s) across 29 published face(s); 53 of them are replays, 7 of those declare their basis and 46 cannot, so 46 replay control(s) are published as reacting-to-an-unknown-panel rather than as safe or broken."
  },
  "identity_check": {
   "face_counter_agrees": true,
@@ -1253,5 +1351,6 @@
   "all_checks": true
  },
  "verdict": "controls_that_cannot_state_their_basis_exist",
- "verdict_reason": "64 control block(s) across 27 published face(s); 49 of them are replays, 7 of those declare their basis and 42 cannot, so 42 replay control(s) are published as reacting-to-an-unknown-panel rather than as safe or broken."
+ "verdict_reason": "69 control block(s) across 29 published face(s); 53 of them are replays, 7 of those declare their basis and 46 cannot, so 46 replay control(s) are published as reacting-to-an-unknown-panel rather than as safe or broken.",
+ "generated": "2026-11-01T15:09:55"
 }

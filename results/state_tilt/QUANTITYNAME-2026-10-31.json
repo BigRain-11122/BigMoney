@@ -73,7 +73,7 @@
   },
   {
    "block": "windows.2020-01-01.cash_window_by_book.wide_top9999",
-   "class": "no_producer_names_the_face",
+   "class": "producer_found_but_publishes_no_such_key",
    "constant": null,
    "decoy_class": "unresolved",
    "face": "results/e40_cashleg_drag/CASHLeg-20261027.json",
@@ -617,7 +617,7 @@
   },
   {
    "block": "meta.equivalence",
-   "class": "no_producer_names_the_face",
+   "class": "producer_found_but_publishes_no_such_key",
    "constant": null,
    "decoy_class": "unresolved",
    "face": "results/shortline/p1e_nulls_M_arc.json",
@@ -817,16 +817,16 @@
   },
   {
    "block": "check_A_stored_vs_derived",
-   "class": "published_as_a_constant_that_names_nothing",
-   "constant": "REL_TOL",
+   "class": "no_producer_names_the_face",
+   "constant": null,
    "decoy_class": "unresolved",
    "face": "results/shortline/turnover_derivation.json",
    "gate_value": 1e-06,
    "leaf": "check_A_stored_vs_derived.tol",
-   "name_publishable": true,
-   "producer": "scripts/p1c_turnover_derive.py",
-   "publish_line": 108,
-   "published_as": "REL_TOL",
+   "name_publishable": false,
+   "producer": null,
+   "publish_line": null,
+   "published_as": null,
    "quantity_words": [],
    "residual_span": {
     "candidates": 3,
@@ -3977,11 +3977,11 @@
  "study": "E321_quantity_name_reach",
  "summary": {
   "by_class": {
-   "no_producer_names_the_face": 25,
-   "producer_found_but_publishes_no_such_key": 6,
+   "no_producer_names_the_face": 24,
+   "producer_found_but_publishes_no_such_key": 8,
    "published_as_a_bare_literal": 5,
    "published_as_a_constant_that_names_a_quantity": 21,
-   "published_as_a_constant_that_names_nothing": 139
+   "published_as_a_constant_that_names_nothing": 138
   },
   "classes": [
    "no_producer_names_the_face",
@@ -3992,7 +3992,7 @@
   ],
   "named_and_publishable": 7,
   "named_by_the_producer": 21,
-  "producer_located": 165,
+  "producer_located": 164,
   "quantity_word_vocabulary": [
    "bars",
    "count",
@@ -4027,5 +4027,5 @@
  "title": "E320 left 134 gates whose face never names the gated quantity; this reads the producer instead and asks whether the name exists there and would survive being published",
  "upstream": "DECOYRESOLVE-2026-10-31.json",
  "verdict": "the_producer_names_more_than_the_face_does_but_not_all_of_it",
- "verdict_reason": "21 of 196 unresolved-or-ambiguous gates (10.7%) have a producer that names the quantity at the line that publishes the gate; 7 of those names sit on a module-level constant, i.e. would survive being published as-is; 31 gates have no producer that publishes the key at all, so no reading of the producer can name them."
+ "verdict_reason": "21 of 196 unresolved-or-ambiguous gates (10.7%) have a producer that names the quantity at the line that publishes the gate; 7 of those names sit on a module-level constant, i.e. would survive being published as-is; 32 gates have no producer that publishes the key at all, so no reading of the producer can name them."
 }

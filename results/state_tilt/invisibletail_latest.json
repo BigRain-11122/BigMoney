@@ -4,7 +4,7 @@
  "verdict": "the_published_reader_count_is_a_floor_over_a_corpus_that_hides_its_own_code",
  "verdict_reason": "30 sources carry 4284 lines of real code the corpus helper does not show, and reading them moves E331's pointer-only reader count by +1 (pairs +0, sources +0): the published count is a floor, not a count",
  "summary": {
-  "sources_scanned": 2286,
+  "sources_scanned": 2308,
   "sources_the_helper_blinds": 30,
   "recovered_code_lines": 4284,
   "recovered_by_kind": {
@@ -50,28 +50,28 @@
  },
  "repricing": {
   "with_shipped_helper": {
-   "sources_scanned": 2285,
-   "families_referenced_only_through_a_pointer": 120,
-   "pairs": 44,
+   "sources_scanned": 2307,
+   "families_referenced_only_through_a_pointer": 131,
+   "pairs": 45,
    "pointer_only_readers": 24,
    "distinct_families_read": 19,
    "readers_guarded_before_they_use_the_value": 15,
    "readers_whose_helper_turns_a_miss_into_None": 0,
    "readers_that_raise_at_the_file": 9,
    "sources_whose_tail_the_scanner_cannot_see": 22,
-   "prose_literals_rejected_as_notes": 22
+   "prose_literals_rejected_as_notes": 25
   },
   "with_recovered_corpus": {
-   "sources_scanned": 2285,
-   "families_referenced_only_through_a_pointer": 125,
-   "pairs": 44,
+   "sources_scanned": 2307,
+   "families_referenced_only_through_a_pointer": 136,
+   "pairs": 45,
    "pointer_only_readers": 25,
    "distinct_families_read": 19,
    "readers_guarded_before_they_use_the_value": 15,
    "readers_whose_helper_turns_a_miss_into_None": 0,
    "readers_that_raise_at_the_file": 10,
    "sources_whose_tail_the_scanner_cannot_see": 0,
-   "prose_literals_rejected_as_notes": 21
+   "prose_literals_rejected_as_notes": 24
   },
   "delta": {
    "sources_scanned": 0,
@@ -115,44 +115,44 @@
  "sources": [
   {
    "source": "scripts/e330_unpinned_choice.py",
-   "raw_lines": 835,
-   "lines_the_helper_shows": 40,
-   "real_code_lines": 635,
+   "raw_lines": 843,
+   "lines_the_helper_shows": 42,
+   "real_code_lines": 637,
    "recovered_code_lines": 602,
    "spans": [
     [
-     81,
-     81,
+     89,
+     89,
      1
     ],
     [
-     83,
-     87,
+     91,
+     95,
      5
     ],
     [
-     92,
-     93,
+     100,
+     101,
      2
     ],
     [
-     96,
-     97,
+     104,
+     105,
      2
-    ],
-    [
-     100,
-     100,
-     1
     ],
     [
      108,
-     123,
+     108,
+     1
+    ],
+    [
+     116,
+     131,
      16
     ]
    ],
    "span_count": 66,
-   "first_hidden_code_line": 81,
+   "first_hidden_code_line": 89,
    "dropped_from_the_end": 729,
    "stream_ended_early": false,
    "kinds": {
@@ -164,17 +164,17 @@
    },
    "examples": [
     {
-     "line": 81,
+     "line": 89,
      "text": "\"\"\".split())",
      "kinds": []
     },
     {
-     "line": 83,
+     "line": 91,
      "text": "GLOBAL_SOURCES = (\"Tools/s6_chain_bmb.py\", \"smoke_test.py\")",
      "kinds": []
     },
     {
-     "line": 84,
+     "line": 92,
      "text": "OWN_FACES = (FACE, LATEST)",
      "kinds": []
     }

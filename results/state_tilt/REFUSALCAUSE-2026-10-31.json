@@ -4,38 +4,6 @@
   {
    "auditor_is_the_writer": false,
    "auditors_named": [],
-   "cause": "found_only_after_substituting_a_compact_date",
-   "face": "results/e40_cashleg_drag/CASHLeg-20261027.json",
-   "leaves": [
-    "windows.2020-01-01.cash_window_by_book.wide_top9999.tolerance_bp"
-   ],
-   "needle_that_reached": "CASHLeg-%s.json",
-   "rows": 1,
-   "step": "compact",
-   "writer_count": 1,
-   "writers": [
-    "scripts/e39_panel_census.py"
-   ]
-  },
-  {
-   "auditor_is_the_writer": false,
-   "auditors_named": [],
-   "cause": "found_only_after_stripping_to_a_name_prefix",
-   "face": "results/shortline/p1e_nulls_M_arc.json",
-   "leaves": [
-    "meta.equivalence.tol"
-   ],
-   "needle_that_reached": "p1e_nulls_M",
-   "rows": 1,
-   "step": "composed",
-   "writer_count": 1,
-   "writers": [
-    "scripts/p1e_ic_batch.py"
-   ]
-  },
-  {
-   "auditor_is_the_writer": false,
-   "auditors_named": [],
    "cause": "found_only_after_stripping_to_a_name_prefix",
    "face": "results/shortline/p1e_nulls_M_close_tr.json",
    "leaves": [
@@ -50,9 +18,29 @@
    ]
   },
   {
+   "auditor_is_the_writer": false,
+   "auditors_named": [
+    "e325_orphan_gate_faces.py"
+   ],
+   "cause": "the_name_is_spelled_in_the_writer",
+   "face": "results/shortline/turnover_derivation.json",
+   "leaves": [
+    "check_A_stored_vs_derived.tol"
+   ],
+   "needle_that_reached": "turnover_derivation.json",
+   "rows": 1,
+   "step": "literal",
+   "writer_count": 2,
+   "writers": [
+    "scripts/e325_orphan_gate_faces.py",
+    "scripts/p1c_turnover_derive.py"
+   ]
+  },
+  {
    "auditor_is_the_writer": true,
    "auditors_named": [
-    "e312_gate_operand_identity.py"
+    "e312_gate_operand_identity.py",
+    "e323_reach_under_wider_needle.py"
    ],
    "cause": "found_only_after_substituting_an_iso_date",
    "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
@@ -83,21 +71,21 @@
    "needle_that_reached": "GATEOPERANDS-%s.json",
    "rows": 22,
    "step": "iso",
-   "writer_count": 1,
+   "writer_count": 2,
    "writers": [
-    "scripts/e312_gate_operand_identity.py"
+    "scripts/e312_gate_operand_identity.py",
+    "scripts/e323_reach_under_wider_needle.py"
    ]
   }
  ],
  "held_fixed": "E321's rows are read, never rewritten; no gate value is recomputed, no class of E321 is changed, and no face outside this study is written",
  "no_bill": "published faces and in-repo sources only; no draws, no panel read, no engine, no network",
  "population": {
-  "faces": 4,
-  "rows": 25,
+  "faces": 3,
+  "rows": 24,
   "rows_per_face": {
-   "results/e40_cashleg_drag/CASHLeg-20261027.json": 1,
-   "results/shortline/p1e_nulls_M_arc.json": 1,
    "results/shortline/p1e_nulls_M_close_tr.json": 1,
+   "results/shortline/turnover_derivation.json": 1,
    "results/state_tilt/GATEOPERANDS-2026-10-31.json": 22
   },
   "source": "QUANTITYNAME-2026-10-31.json rows with class no_producer_names_the_face"
@@ -105,14 +93,14 @@
  "study": "E322_residual_refusal_causes",
  "summary": {
   "by_cause_faces": {
-   "found_only_after_stripping_to_a_name_prefix": 2,
-   "found_only_after_substituting_a_compact_date": 1,
-   "found_only_after_substituting_an_iso_date": 1
+   "found_only_after_stripping_to_a_name_prefix": 1,
+   "found_only_after_substituting_an_iso_date": 1,
+   "the_name_is_spelled_in_the_writer": 1
   },
   "by_cause_rows": {
-   "found_only_after_stripping_to_a_name_prefix": 2,
-   "found_only_after_substituting_a_compact_date": 1,
-   "found_only_after_substituting_an_iso_date": 22
+   "found_only_after_stripping_to_a_name_prefix": 1,
+   "found_only_after_substituting_an_iso_date": 22,
+   "the_name_is_spelled_in_the_writer": 1
   },
   "causes": [
    "the_name_is_spelled_in_the_writer",
@@ -121,18 +109,18 @@
    "found_only_after_stripping_to_a_name_prefix",
    "no_writer_in_the_source_tree"
   ],
-  "corpus_files": 2278,
+  "corpus_files": 2310,
   "corpus_keeps_the_auditor": true,
   "corpus_self_excluded": "e322_residual_refusal_causes.py",
-  "faces": 4,
+  "faces": 3,
   "faces_unowned": 0,
-  "faces_with_a_writer": 4,
-  "rows": 25,
-  "rows_with_a_writer": 25,
+  "faces_with_a_writer": 3,
+  "rows": 24,
+  "rows_with_a_writer": 24,
   "unowned_faces": []
  },
  "title": "why the producer lookup refused: are E321's unowned rows a repository fact or a needle fact?",
  "upstream": "QUANTITYNAME-2026-10-31.json",
  "verdict": "every_refused_row_has_a_writer_on_disk_so_the_needle_was_the_defect",
- "verdict_reason": "25 rows E321 classified as having no producer resolve to 4 faces; 4 of those faces (carrying 25 of the 25 rows) do have a writer in the source tree, so the refusal was the lookup and not the repository. Three mechanical steps account for every one of them: 1 faces (22 rows) are written by the census machinery's own module and lost to its source self-exclusion, 1 face(s) carry a compact date the ISO substitution never touches, 2 face(s) are composed from a format string so the published filename appears nowhere in the writer. 0 faces remain unowned."
+ "verdict_reason": "24 rows E321 classified as having no producer resolve to 3 faces; 3 of those faces (carrying 24 of the 24 rows) do have a writer in the source tree, so the refusal was the lookup and not the repository. Three mechanical steps account for every one of them: 1 faces (22 rows) are written by the census machinery's own module and lost to its source self-exclusion, 0 face(s) carry a compact date the ISO substitution never touches, 1 face(s) are composed from a format string so the published filename appears nowhere in the writer. 0 faces remain unowned."
 }
