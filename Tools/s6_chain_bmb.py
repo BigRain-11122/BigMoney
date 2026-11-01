@@ -1041,6 +1041,13 @@ LEGS = [
     ("status_writer_unread",
      ["python", "scripts/e346_status_writer_unread.py", "verify"]),
 
+    # E347: E344 measured who reads a face; this asks whether the number decides anything. Every
+    # dated face under results/ is followed from its load site (named literal or directory sweep)
+    # to the comparison that consumes it, with the decision class and where the bound is pinned.
+    # Verify re-derives the census from the pinned corpus and face listing (~40s, no builds).
+    ("published_number_gates",
+     ["python", "scripts/e347_published_number_gate_census.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

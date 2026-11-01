@@ -26406,12 +26406,14 @@
       "id": "E347-WHERE-A-PUBLISHED-NUMBER-ACTUALLY-DECIDES",
       "lane": "cpu-only",
       "notes": "seeded by r1365 bm-b at E344 close; E344 measured who *reads* the family's faces, not whether any reader decides anything with the number -- the class table (carries/measures_shape/declarations/envelope_only) is the evidence that the stronger question is open",
-      "owner": null,
-      "owner_since": null,
+      "owner": "bm-b",
+      "owner_since": "2026-11-01T20:40:00+08:00",
       "priority": 2,
       "question": "E344 published that no source outside the census family names these faces and that of the five readers exactly one carries a published value forward (a `verdict` copied into another row); the other four take leaf paths, declared lists or the `generated` stamp. That is a statement about one face family. Ask the general question, cheaply and mechanically: (a) for every published face under results/ (dated faces, latest mirrors excluded), find the sources that load it by name or through a directory enumeration and whose loaded value reaches a comparison (`Compare`, `assert`, an `if` test, or a filter predicate) -- publish the comparison and the bound it is compared to; (b) split those gates by what they gate: a scientific decision (admission, freeze, promotion), an operational decision (which lane runs, which collector retries), or only a report; (c) publish the share of published faces that no gate reads and the share whose values are read only as population members (E344's classes), so 'we publish this number' and 'this number decides something' stop being the same sentence; (d) name the single gate whose bound, if hand-edited in the face, would change an operational decision -- and say where the bound is pinned.",
-      "status": "ready",
-      "target": "a named gate census: per face, the comparison site, the bound, the decision class, and the unpinned-gate list"
+      "status": "done",
+      "target": "a named gate census: per face, the comparison site, the bound, the decision class, and the unpinned-gate list",
+      "done_at": "2026-11-01T20:40:00+08:00",
+      "result_ref": "results/state_tilt/DECIDEGATE-2026-11-01.json"
     },
     {
       "id": "E348-WHAT-A-RESTORED-GATE-DOES-NOT-PROTECT-IN-RETROSPECT",
@@ -26428,6 +26430,38 @@
       "notes": "seeded by r1366 bm-b at E345 close; E345 answered 'was anything covering it' -- this asks 'was anything wrong inside it', which an absence cannot answer on its own. Cheap: the face's commits are the population, no panel rebuild",
       "source": "E345 GATEABSENCE-2026-11-01 (2 windows, verdict nothing, 10 rounds x 37 runs)",
       "deliverable": "results/state_tilt/<face> + scripts/e348_*.py + chain leg + smoke leg + methodology card"
+    },
+    {
+      "id": "E349-WHAT-THE-LATEST-MIRROR-DECIDES",
+      "title": "E347 found no dated face gates an operational decision and published the bound: the readers it expects live on results/*_latest.json and live state files. Measure that channel with the same machinery",
+      "question": "E347 measured 191 dated faces: 15 loaded by name, 12 reaching a comparison, 0 opening an operational decision, and it named its own bound -- the *_latest mirrors and live state files (runnable_pool.json, regime_state.json, call_latest.json, futures_tsmom_signal.json) were excluded by the card, and those are where a lane's decision is expected to read. Ask: (a) for every *_latest.json and every live state file under results/, find each load site and the comparisons that consume it, publishing the same class table E347 used (scientific / operational / report / selftest_fixture); (b) for each operational gate, publish whether its bound is a literal in source, a module constant, or read back from the face itself -- a gate whose bound sits in the file it guards decides nothing; (c) publish the count of faces reachable by a hand edit with no comparison anywhere downstream, and the shortest edit path to an operational change (which field, which line, which effect); (d) reconcile with E347's number so the two populations are one sentence, not two.",
+      "target": "a live-face gate census: per face the comparison site, the bound and where it is pinned, plus the hand-edit reach of each field",
+      "deliverable": "results/state_tilt/<face> + scripts/e349_*.py + chain leg + smoke leg + methodology card",
+      "lane": "cpu-only",
+      "priority": 2,
+      "status": "ready",
+      "owner": null,
+      "owner_since": null,
+      "entered_at": "2026-11-01T20:40:00+08:00",
+      "entered_by": "bm-b r1368",
+      "notes": "seeded by r1368 bm-b at E347 close; E347's published bound names this population, and the same AST machinery applies unchanged -- no panel rebuild, no git walk",
+      "source": "E347 DECIDEGATE-2026-11-01 (191 dated faces, 0 operational gates, bound declared)"
+    },
+    {
+      "id": "E350-WHICH-FIELDS-A-HAND-EDIT-REACHES",
+      "title": "E346 published 17 status latches and E347 found no dated face gating an operation; measure the union: which individual JSON fields anywhere under results/ are read by a branch, split by whether the branch is a guard or a decision",
+      "question": "The two censuses meet: E346 found 17 status fields the writer's own next run branches on (latches, i.e. a hand edit changes the next decision), and E347 found zero operational comparisons on dated faces. This asks the field-level question neither answered: (a) enumerate every JSON field read anywhere in the corpus that reaches a branch, keyed by the file it is read from; (b) classify each branch as guard (refuses to act: presence, freshness, budget) or decision (chooses what to act on: which lane, which card, which capital); (c) publish, per field, whether a hand edit that flips its value changes a decision, a guard, or nothing -- and name the field whose edit has the largest blast radius; (d) publish the set of fields a guard reads that no writer ever writes (a guard that can only fire on a missing value).",
+      "target": "a field-level branch census with the guard/decision split and the hand-edit reach set",
+      "deliverable": "results/state_tilt/<face> + scripts/e350_*.py + chain leg + smoke leg + methodology card",
+      "lane": "cpu-only",
+      "priority": 2,
+      "status": "ready",
+      "owner": null,
+      "owner_since": null,
+      "entered_at": "2026-11-01T20:40:00+08:00",
+      "entered_by": "bm-b r1368",
+      "notes": "seeded by r1368 bm-b; the two halves already exist (E346 latches, E347 gates) and neither crosses the field boundary, so this is a join rather than a new scan",
+      "source": "E346 UNREADSTATUS-2026-11-01 + E347 DECIDEGATE-2026-11-01"
     }
   ],
   "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -26442,6 +26476,6 @@
     "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
   },
-  "updated_at": "2026-11-01T17:24:00+08:00",
+  "updated_at": "2026-11-01T20:40:00+08:00",
   "version": 1
 }

@@ -1,0 +1,6199 @@
+{
+  "study": "E347_published_number_gate_census",
+  "verdict": "every_published_dated_face_is_compared_only_by_the_study_that_produced_it_and_no_operational_decision_reads_one",
+  "pin": "90c1fa8ae59536c4646e0c5a6ff319fa1977bf67",
+  "evidence_cutoff": "2026-11-01",
+  "generated": "2026-11-01T19:51:29+08:00",
+  "summary": {
+    "scan_domain": {
+      "sources_scanned": 2232,
+      "dated_faces": 191,
+      "face_directories": 32,
+      "load_sites": 37,
+      "faces_loaded_by_name": 15,
+      "faces_reached_by_enumeration": 191,
+      "comparison_sites": 95,
+      "verdict": "contains_targets"
+    },
+    "faces_total": 191,
+    "faces_loaded_by_name": 15,
+    "faces_loaded_only_by_enumeration": 176,
+    "faces_with_a_gate": 12,
+    "faces_with_a_non_fixture_gate": 11,
+    "faces_loaded_by_name_outside_the_census_family": 12,
+    "null_guards": 10,
+    "faces_never_loaded": 0,
+    "gates_total": 95,
+    "gates_by_class": {
+      "selftest_fixture": 25,
+      "scientific": 16,
+      "report": 53,
+      "operational": 1
+    },
+    "gates_by_kind": {
+      "null_guard": 10,
+      "comparison": 55,
+      "conditional_expression": 2,
+      "comprehension_filter": 17,
+      "truth_test": 11
+    },
+    "gates_outside_fixtures": 64,
+    "operational_gates": 0,
+    "operational_gates_with_a_pinned_bound": 0,
+    "share_of_faces_that_decide_something": 0.057592,
+    "share_of_faces_read_only_as_population": 0.937173
+  },
+  "gates_by_class_detail": {
+    "operational": [
+      {
+        "face": "<dated faces in results/rev_osc_live/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/monthly_exam_prep.py",
+        "line": 1029,
+        "kind": "null_guard",
+        "function": "_owner_lane_rows",
+        "decision_class": "operational",
+        "code": "if d is None:",
+        "tested": "d",
+        "operators": [
+          "is"
+        ],
+        "bound": [
+          "None"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "None"
+          }
+        ]
+      }
+    ],
+    "report": [
+      {
+        "face": "BANDWINMULT",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e258_band_multiplier_per_window.py",
+        "line": 622,
+        "kind": "conditional_expression",
+        "function": "_fmt",
+        "decision_class": "report",
+        "code": "if (face.get(\"rows_vs_borrowed_range\") or {}).get(\"rows\") else \"n/a\"),",
+        "tested": "(face.get(\"rows_vs_borrowed_range\") or {}).get",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "BANDWINMULT",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e258_band_multiplier_per_window.py",
+        "line": 620,
+        "kind": "comprehension_filter",
+        "function": "_fmt",
+        "decision_class": "report",
+        "code": "((face.get(\"rows_vs_borrowed_range\") or {}).get(\"rows\") or [])",
+        "tested": "(face.get(\"rows_vs_borrowed_range\") or {}).get(\"rows\") or []",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "BANDBUCKET",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+        "line": 553,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "report",
+        "code": "if (got.get(\"summary\") or {}) != (fresh.get(\"summary\") or {}):",
+        "tested": "got.get(\"summary\") or {}",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "fresh.get(\"summary\") or {}"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "fresh.get(\"summary\") or {}"
+          }
+        ]
+      },
+      {
+        "face": "BANDBUCKET",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+        "line": 557,
+        "kind": "comprehension_filter",
+        "function": "verify",
+        "decision_class": "report",
+        "code": "pa = {(a.get(\"cell\"), a.get(\"arm\")): a for a in (got.get(\"arms\") or [])}",
+        "tested": "got.get(\"arms\") or []",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "BANDBUCKET",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+        "line": 568,
+        "kind": "comprehension_filter",
+        "function": "verify",
+        "decision_class": "report",
+        "code": "pr = {(r.get(\"cell\"), r.get(\"row\")): r for r in (got.get(\"rows\") or [])}",
+        "tested": "got.get(\"rows\") or []",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "BANDARRIVAL",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e263_arrival_vs_cell_size.py",
+        "line": 594,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "report",
+        "code": "if got.get(key) != fresh.get(key):",
+        "tested": "got.get(key)",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "fresh.get(key)"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "fresh.get(key)"
+          }
+        ]
+      },
+      {
+        "face": "BANDARRIVAL",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e263_arrival_vs_cell_size.py",
+        "line": 596,
+        "kind": "comprehension_filter",
+        "function": "verify",
+        "decision_class": "report",
+        "code": "pa = {(a.get(\"cell\"), a.get(\"leg\")): a for a in (got.get(\"arms\") or [])}",
+        "tested": "got.get(\"arms\") or []",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "<dated faces in results/state_tilt/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e273_guard_from_threshold.py",
+        "line": 421,
+        "kind": "truth_test",
+        "function": "verify",
+        "decision_class": "report",
+        "code": "if not face.get(\"no_bill\"):",
+        "tested": "face.get(\"no_bill\")",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "<dated faces in results/state_tilt/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e273_guard_from_threshold.py",
+        "line": 273,
+        "kind": "comparison",
+        "function": "census",
+        "decision_class": "report",
+        "code": "\"guard_complete_in_e270\": (face, path) in guard_complete,",
+        "tested": "(face, path)",
+        "operators": [
+          "in"
+        ],
+        "bound": [
+          "guard_complete"
+        ],
+        "bound_pin": [
+          {
+            "pin": "local_assignment",
+            "line": 246,
+            "value": "set()"
+          }
+        ]
+      },
+      {
+        "face": "CENSUS",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e298_replay_control_census.py",
+        "line": 361,
+        "kind": "comparison",
+        "function": "cmd_verify",
+        "decision_class": "report",
+        "code": "if stored.get(key) != live.get(key):",
+        "tested": "stored.get(key)",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "live.get(key)"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "live.get(key)"
+          }
+        ]
+      },
+      {
+        "face": "CENSUS",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e298_replay_control_census.py",
+        "line": 365,
+        "kind": "truth_test",
+        "function": "cmd_verify",
+        "decision_class": "report",
+        "code": "if not (stored.get(\"identity_check\") or {}).get(\"all_checks\"):",
+        "tested": "(stored.get(\"identity_check\") or {}).get(\"all_checks\")",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "CENSUS",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e299_rounded_vs_tolerance_census.py",
+        "line": 783,
+        "kind": "comparison",
+        "function": "cmd_verify",
+        "decision_class": "report",
+        "code": "if stored.get(key) != live.get(key):",
+        "tested": "stored.get(key)",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "live.get(key)"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "live.get(key)"
+          }
+        ]
+      },
+      {
+        "face": "CENSUS",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e299_rounded_vs_tolerance_census.py",
+        "line": 787,
+        "kind": "truth_test",
+        "function": "cmd_verify",
+        "decision_class": "report",
+        "code": "if not (stored.get(\"identity_check\") or {}).get(\"all_checks\"):",
+        "tested": "(stored.get(\"identity_check\") or {}).get(\"all_checks\")",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "PRECISIONGAP",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e305_face_level_row_pricing.py",
+        "line": 435,
+        "kind": "comparison",
+        "function": "cmd_verify",
+        "decision_class": "report",
+        "code": "if stored.get(key) != live.get(key):",
+        "tested": "stored.get(key)",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "live.get(key)"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "live.get(key)"
+          }
+        ]
+      },
+      {
+        "face": "PRECISIONGAP",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e305_face_level_row_pricing.py",
+        "line": 439,
+        "kind": "truth_test",
+        "function": "cmd_verify",
+        "decision_class": "report",
+        "code": "if not (stored.get(\"identity_check\") or {}).get(\"all_checks\"):",
+        "tested": "(stored.get(\"identity_check\") or {}).get(\"all_checks\")",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e317_print_coverage_census.py",
+        "line": 534,
+        "kind": "truth_test",
+        "function": "scan",
+        "decision_class": "report",
+        "code": "if not PRESCAN.search(blob):",
+        "tested": "PRESCAN.search(blob)",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "PRINTCOV-2026-10-31.json",
+        "matched_by": "exact_filename",
+        "channel": "named",
+        "source": "scripts/e318_count_named_gate_leaves.py",
+        "line": 352,
+        "kind": "truth_test",
+        "function": "face_provenance",
+        "decision_class": "report",
+        "code": "if not isinstance(doc, dict):",
+        "tested": "isinstance(doc, dict)",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "PRINTCOV-2026-10-31.json",
+        "matched_by": "exact_filename",
+        "channel": "named",
+        "source": "scripts/e318_count_named_gate_leaves.py",
+        "line": 372,
+        "kind": "null_guard",
+        "function": "classify_residual",
+        "decision_class": "report",
+        "code": "node = (resolve_block(doc, r.get(\"block\")) if doc is not None else None)",
+        "tested": "doc",
+        "operators": [
+          "is not"
+        ],
+        "bound": [
+          "None"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "None"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e319_census_self_inclusion_sweep.py",
+        "line": 277,
+        "kind": "comparison",
+        "function": "exclusion_rows",
+        "decision_class": "report",
+        "code": "if key in doc:",
+        "tested": "doc",
+        "operators": [
+          "in"
+        ],
+        "bound": [
+          "key"
+        ],
+        "bound_pin": [
+          {
+            "pin": "unresolved_name",
+            "name": "key"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e319_census_self_inclusion_sweep.py",
+        "line": 472,
+        "kind": "truth_test",
+        "function": "load_docs",
+        "decision_class": "report",
+        "code": "if not isinstance(doc, dict):",
+        "tested": "isinstance(doc, dict)",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "ORPHANGATEFACE-2026-10-31.json",
+        "matched_by": "exact_filename",
+        "channel": "named",
+        "source": "scripts/e326_template_parameter_consumers.py",
+        "line": 108,
+        "kind": "null_guard",
+        "function": "population",
+        "decision_class": "report",
+        "code": "doc = doc if doc is not None else read_json(INPUT)",
+        "tested": "doc",
+        "operators": [
+          "is not"
+        ],
+        "bound": [
+          "None"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "None"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e328_quoted_number_staleness.py",
+        "line": 374,
+        "kind": "comprehension_filter",
+        "function": "verify",
+        "decision_class": "report",
+        "code": "for r in disk.get(\"rows\") or []}",
+        "tested": "disk.get(\"rows\") or []",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e328_quoted_number_staleness.py",
+        "line": 371,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "report",
+        "code": "if (disk.get(\"summary\") or {}).get(key) != value:",
+        "tested": "(disk.get(\"summary\") or {}).get(key)",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "value"
+        ],
+        "bound_pin": [
+          {
+            "pin": "local_assignment",
+            "line": 95,
+            "value": "doc.get(key)"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e329_two_vintage_binding.py",
+        "line": 510,
+        "kind": "comprehension_filter",
+        "function": "verify",
+        "decision_class": "report",
+        "code": "for r in disk.get(\"rows\") or []}",
+        "tested": "disk.get(\"rows\") or []",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e329_two_vintage_binding.py",
+        "line": 507,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "report",
+        "code": "if (disk.get(\"summary\") or {}).get(key) != value:",
+        "tested": "(disk.get(\"summary\") or {}).get(key)",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "value"
+        ],
+        "bound_pin": [
+          {
+            "pin": "local_assignment",
+            "line": 219,
+            "value": "doc.get(key)"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e329_two_vintage_binding.py",
+        "line": 217,
+        "kind": "truth_test",
+        "function": "pointer_cut",
+        "decision_class": "report",
+        "code": "if isinstance(doc, dict):",
+        "tested": "doc",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e331_pointer_only_readers.py",
+        "line": 660,
+        "kind": "comprehension_filter",
+        "function": "verify",
+        "decision_class": "report",
+        "code": "disk.get(\"rows\") or []]",
+        "tested": "disk.get(\"rows\") or []",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e331_pointer_only_readers.py",
+        "line": 657,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "report",
+        "code": "if (disk.get(\"summary\") or {}).get(key) != value:",
+        "tested": "(disk.get(\"summary\") or {}).get(key)",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "value"
+        ],
+        "bound_pin": [
+          {
+            "pin": "unresolved_name",
+            "name": "value"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/rev_osc_live/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/monthly_exam_prep.py",
+        "line": 983,
+        "kind": "null_guard",
+        "function": "_assemble_deltas",
+        "decision_class": "report",
+        "code": "if base is None:",
+        "tested": "base",
+        "operators": [
+          "is"
+        ],
+        "bound": [
+          "None"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "None"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/rev_osc_live/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/monthly_exam_prep.py",
+        "line": 358,
+        "kind": "comprehension_filter",
+        "function": "collect_roster",
+        "decision_class": "report",
+        "code": "ref = [a for a in base.get(\"accounts\", []) if a.get(\"account\") == \"B_MAXDIV\"]",
+        "tested": "base.get(\"accounts\", [])",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "<dated faces in results/rev_osc_live/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/monthly_exam_prep.py",
+        "line": 794,
+        "kind": "comparison",
+        "function": "_exam_phase",
+        "decision_class": "report",
+        "code": "if d > _dt.date.fromisoformat(EXAM_DATE):",
+        "tested": "d",
+        "operators": [
+          ">"
+        ],
+        "bound": [
+          "_dt.date.fromisoformat(EXAM_DATE)"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "_dt.date.fromisoformat(EXAM_DATE)"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/rev_osc_live/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/monthly_exam_prep.py",
+        "line": 796,
+        "kind": "comparison",
+        "function": "_exam_phase",
+        "decision_class": "report",
+        "code": "if d == _dt.date.fromisoformat(EXAM_DATE):",
+        "tested": "d",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "_dt.date.fromisoformat(EXAM_DATE)"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "_dt.date.fromisoformat(EXAM_DATE)"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/rev_osc_live/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/monthly_exam_prep.py",
+        "line": 798,
+        "kind": "comparison",
+        "function": "_exam_phase",
+        "decision_class": "report",
+        "code": "if d == _dt.date.fromisoformat(\"2026-10-30\"):",
+        "tested": "d",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "_dt.date.fromisoformat(\"2026-10-30\")"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "_dt.date.fromisoformat(\"2026-10-30\")"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/rev_osc_live/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/monthly_exam_prep.py",
+        "line": 800,
+        "kind": "comparison",
+        "function": "_exam_phase",
+        "decision_class": "report",
+        "code": "if d >= _dt.date.fromisoformat(CAPTURE_CLOSE):",
+        "tested": "d",
+        "operators": [
+          ">="
+        ],
+        "bound": [
+          "_dt.date.fromisoformat(CAPTURE_CLOSE)"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "_dt.date.fromisoformat(CAPTURE_CLOSE)"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/rev_osc_live/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/monthly_exam_prep.py",
+        "line": 1014,
+        "kind": "comparison",
+        "function": "_family_summary",
+        "decision_class": "report",
+        "code": "b[\"n_up\"] += 1 if d[\"mtd_pct\"] > 0 else 0",
+        "tested": "d[\"mtd_pct\"]",
+        "operators": [
+          ">"
+        ],
+        "bound": [
+          "0"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/rev_osc_live/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/monthly_exam_prep.py",
+        "line": 1055,
+        "kind": "comparison",
+        "function": "build_assembly_payload",
+        "decision_class": "report",
+        "code": "roster = [d for d in deltas if d[\"account\"] in ROSTER_EMPLOYEES]",
+        "tested": "d[\"account\"]",
+        "operators": [
+          "in"
+        ],
+        "bound": [
+          "ROSTER_EMPLOYEES"
+        ],
+        "bound_pin": [
+          {
+            "pin": "module_constant",
+            "line": 75,
+            "value": "( \"COMPOSITE-CE-01\", \"COMPOSITE-CE-02\", \"DROUGHT-CE-01\", \"ENGULF-CE-01\", \"NEEDLE-DE-01\", \"VOLATILITY-CE-01\", )"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/rev_osc_live/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/monthly_exam_prep.py",
+        "line": 1056,
+        "kind": "comprehension_filter",
+        "function": "build_assembly_payload",
+        "decision_class": "report",
+        "code": "floor = max((d[\"asof\"] for d in deltas if d.get(\"asof\")), default=None)",
+        "tested": "d.get(\"asof\")",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "REGIME5",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime5_validation.py",
+        "line": 178,
+        "kind": "null_guard",
+        "function": "perm_nulls",
+        "decision_class": "report",
+        "code": "if d is not None:",
+        "tested": "d",
+        "operators": [
+          "is not"
+        ],
+        "bound": [
+          "None"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "None"
+          }
+        ]
+      },
+      {
+        "face": "REGIME5",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime5_validation.py",
+        "line": 241,
+        "kind": "null_guard",
+        "function": "leg_b_calibration",
+        "decision_class": "report",
+        "code": "if d is not None:",
+        "tested": "d",
+        "operators": [
+          "is not"
+        ],
+        "bound": [
+          "None"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "None"
+          }
+        ]
+      },
+      {
+        "face": "REGIME5",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime5_validation.py",
+        "line": 255,
+        "kind": "comparison",
+        "function": "extreme_day_disclosure",
+        "decision_class": "report",
+        "code": "if lo <= d <= hi:",
+        "tested": "d",
+        "operators": [
+          "<=",
+          "<="
+        ],
+        "bound": [
+          "lo",
+          "hi"
+        ],
+        "bound_pin": [
+          {
+            "pin": "local_assignment",
+            "line": 210,
+            "value": "arr[int(round(0.025 * (k - 1)))]"
+          },
+          {
+            "pin": "local_assignment",
+            "line": 211,
+            "value": "arr[int(round(0.975 * (k - 1)))]"
+          }
+        ]
+      }
+    ],
+    "scientific": [
+      {
+        "face": "BANDWINMULT",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e258_band_multiplier_per_window.py",
+        "line": 686,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if v != face.get(\"verdict\"):",
+        "tested": "face.get(\"verdict\")",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "v"
+        ],
+        "bound_pin": [
+          {
+            "pin": "module_constant",
+            "name": "v",
+            "value": "multiplier"
+          }
+        ]
+      },
+      {
+        "face": "BANDBUCKET",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+        "line": 549,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if got.get(\"verdict\") != fresh.get(\"verdict\"):",
+        "tested": "got.get(\"verdict\")",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "fresh.get(\"verdict\")"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "fresh.get(\"verdict\")"
+          }
+        ]
+      },
+      {
+        "face": "BANDBUCKET",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+        "line": 551,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if got.get(\"verdict_reason\") != fresh.get(\"verdict_reason\"):",
+        "tested": "got.get(\"verdict_reason\")",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "fresh.get(\"verdict_reason\")"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "fresh.get(\"verdict_reason\")"
+          }
+        ]
+      },
+      {
+        "face": "BANDBUCKET",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+        "line": 555,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if got.get(\"frozen_spec\") != fresh.get(\"frozen_spec\"):",
+        "tested": "got.get(\"frozen_spec\")",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "fresh.get(\"frozen_spec\")"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "fresh.get(\"frozen_spec\")"
+          }
+        ]
+      },
+      {
+        "face": "BANDBUCKET",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+        "line": 579,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if (got.get(block) or {}).get(\"verdict\") != (fresh.get(block) or {}).get(\"verdict\"):",
+        "tested": "(got.get(block) or {}).get(\"verdict\")",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "(fresh.get(block) or {}).get(\"verdict\")"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "(fresh.get(block) or {}).get(\"verdict\")"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/state_tilt/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e273_guard_from_threshold.py",
+        "line": 417,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if face.get(\"verdict\") != verdict:",
+        "tested": "face.get(\"verdict\")",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "verdict"
+        ],
+        "bound_pin": [
+          {
+            "pin": "unresolved_name",
+            "name": "verdict"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/state_tilt/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e273_guard_from_threshold.py",
+        "line": 419,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if face.get(\"verdict_reason\") != reason:",
+        "tested": "face.get(\"verdict_reason\")",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "reason"
+        ],
+        "bound_pin": [
+          {
+            "pin": "unresolved_name",
+            "name": "reason"
+          }
+        ]
+      },
+      {
+        "face": "CENSUS",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e298_replay_control_census.py",
+        "line": 363,
+        "kind": "comparison",
+        "function": "cmd_verify",
+        "decision_class": "scientific",
+        "code": "if stored.get(\"verdict\") not in VERDICT_VOCAB:",
+        "tested": "stored.get(\"verdict\")",
+        "operators": [
+          "not in"
+        ],
+        "bound": [
+          "VERDICT_VOCAB"
+        ],
+        "bound_pin": [
+          {
+            "pin": "module_constant",
+            "line": 61,
+            "value": "( \"every_published_control_declares_its_basis\", \"controls_that_cannot_state_their_basis_exist\", \"no_published_controls_found\", )"
+          }
+        ]
+      },
+      {
+        "face": "CENSUS",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e299_rounded_vs_tolerance_census.py",
+        "line": 785,
+        "kind": "comparison",
+        "function": "cmd_verify",
+        "decision_class": "scientific",
+        "code": "if stored.get(\"verdict\") not in VERDICT_VOCAB:",
+        "tested": "stored.get(\"verdict\")",
+        "operators": [
+          "not in"
+        ],
+        "bound": [
+          "VERDICT_VOCAB"
+        ],
+        "bound_pin": [
+          {
+            "pin": "module_constant",
+            "line": 78,
+            "value": "( \"no_leg_compares_a_face_value_finer_than_the_face_prints\", \"legs_compare_face_values_finer_than_the_faces_print\", \"no_numeric_face_comparisons_found\", )"
+          }
+        ]
+      },
+      {
+        "face": "PRECISIONGAP",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e305_face_level_row_pricing.py",
+        "line": 437,
+        "kind": "comparison",
+        "function": "cmd_verify",
+        "decision_class": "scientific",
+        "code": "if stored.get(\"verdict\") not in VERDICT_VOCAB:",
+        "tested": "stored.get(\"verdict\")",
+        "operators": [
+          "not in"
+        ],
+        "bound": [
+          "VERDICT_VOCAB"
+        ],
+        "bound_pin": [
+          {
+            "pin": "module_constant",
+            "line": 54,
+            "value": "( \"none_of_the_face_level_rows_is_at_risk\", \"some_face_level_rows_stay_at_risk\", \"no_face_level_rows_published\", )"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e328_quoted_number_staleness.py",
+        "line": 366,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if disk.get(\"verdict\") != fresh.get(\"verdict\"):",
+        "tested": "disk.get(\"verdict\")",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "fresh.get(\"verdict\")"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "fresh.get(\"verdict\")"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e328_quoted_number_staleness.py",
+        "line": 368,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if disk.get(\"verdict\") not in VERDICTS:",
+        "tested": "disk.get(\"verdict\")",
+        "operators": [
+          "not in"
+        ],
+        "bound": [
+          "VERDICTS"
+        ],
+        "bound_pin": [
+          {
+            "pin": "module_constant",
+            "line": 64,
+            "value": "(V_STALE_CHANGED, V_STALE_SAME, V_NO_STALE_QUOTE)"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e329_two_vintage_binding.py",
+        "line": 502,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if disk.get(\"verdict\") != fresh.get(\"verdict\"):",
+        "tested": "disk.get(\"verdict\")",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "fresh.get(\"verdict\")"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "fresh.get(\"verdict\")"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e329_two_vintage_binding.py",
+        "line": 504,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if disk.get(\"verdict\") not in VERDICTS:",
+        "tested": "disk.get(\"verdict\")",
+        "operators": [
+          "not in"
+        ],
+        "bound": [
+          "VERDICTS"
+        ],
+        "bound_pin": [
+          {
+            "pin": "module_constant",
+            "line": 77,
+            "value": "(V_SERVES_STALE, V_FALLBACK_EXPOSED, V_ALL_FRESH)"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e331_pointer_only_readers.py",
+        "line": 652,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if disk.get(\"verdict\") != fresh[\"verdict\"]:",
+        "tested": "disk.get(\"verdict\")",
+        "operators": [
+          "!="
+        ],
+        "bound": [
+          "fresh[\"verdict\"]"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "fresh[\"verdict\"]"
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e331_pointer_only_readers.py",
+        "line": 654,
+        "kind": "comparison",
+        "function": "verify",
+        "decision_class": "scientific",
+        "code": "if disk.get(\"verdict\") not in VERDICTS:",
+        "tested": "disk.get(\"verdict\")",
+        "operators": [
+          "not in"
+        ],
+        "bound": [
+          "VERDICTS"
+        ],
+        "bound_pin": [
+          {
+            "pin": "module_constant",
+            "line": 110,
+            "value": "(V_SILENT, V_EXPOSED, V_SAFE)"
+          }
+        ]
+      }
+    ],
+    "selftest_fixture": [
+      {
+        "face": "BANDWINMULT",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e258_band_multiplier_per_window.py",
+        "line": 831,
+        "kind": "null_guard",
+        "function": "selftest",
+        "decision_class": "selftest_fixture",
+        "code": "if face is not None:",
+        "tested": "face",
+        "operators": [
+          "is not"
+        ],
+        "bound": [
+          "None"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "None"
+          }
+        ]
+      },
+      {
+        "face": "BANDARRIVAL",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/e263_arrival_vs_cell_size.py",
+        "line": 700,
+        "kind": "comparison",
+        "function": "selftest",
+        "decision_class": "selftest_fixture",
+        "code": "legs.append(_leg(got == [\"2020-01-01\", \"2020-01-02\"],",
+        "tested": "got",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "[\"2020-01-01\", \"2020-01-02\"]"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "[\"2020-01-01\", \"2020-01-02\"]"
+          }
+        ]
+      },
+      {
+        "face": "PRINTCOV-2026-10-31.json",
+        "matched_by": "exact_filename",
+        "channel": "named",
+        "source": "scripts/e318_count_named_gate_leaves.py",
+        "line": 286,
+        "kind": "comparison",
+        "function": "selftest",
+        "decision_class": "selftest_fixture",
+        "code": "leg(\"L14 root label is the document\", resolve_block(doc, \"<face root>\") is doc)",
+        "tested": "doc",
+        "operators": [
+          "is"
+        ],
+        "bound": [
+          "resolve_block(doc, \"<face root>\")"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "resolve_block(doc, \"<face root>\")"
+          }
+        ]
+      },
+      {
+        "face": "PRINTCOV-2026-10-31.json",
+        "matched_by": "exact_filename",
+        "channel": "named",
+        "source": "scripts/e318_count_named_gate_leaves.py",
+        "line": 283,
+        "kind": "comparison",
+        "function": "selftest",
+        "decision_class": "selftest_fixture",
+        "code": "leg(\"L11 dotted block resolves\", resolve_block(doc, \"gates.GA\") == {\"checked\": 4})",
+        "tested": "resolve_block(doc, \"gates.GA\")",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "{\"checked\": 4}"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "{\"checked\": 4}"
+          }
+        ]
+      },
+      {
+        "face": "PRINTCOV-2026-10-31.json",
+        "matched_by": "exact_filename",
+        "channel": "named",
+        "source": "scripts/e318_count_named_gate_leaves.py",
+        "line": 284,
+        "kind": "comparison",
+        "function": "selftest",
+        "decision_class": "selftest_fixture",
+        "code": "leg(\"L12 indexed block resolves\", resolve_block(doc, \"rows[1]\") == {\"tol\": 0.0, \"a\": 1.5, \"b\": 2})",
+        "tested": "resolve_block(doc, \"rows[1]\")",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "{\"tol\": 0.0, \"a\": 1.5, \"b\": 2}"
+        ],
+        "bound_pin": [
+          {
+            "pin": "expression",
+            "value": "{\"tol\": 0.0, \"a\": 1.5, \"b\": 2}"
+          }
+        ]
+      },
+      {
+        "face": "PRINTCOV-2026-10-31.json",
+        "matched_by": "exact_filename",
+        "channel": "named",
+        "source": "scripts/e318_count_named_gate_leaves.py",
+        "line": 285,
+        "kind": "null_guard",
+        "function": "selftest",
+        "decision_class": "selftest_fixture",
+        "code": "leg(\"L13 missing block resolves to None\", resolve_block(doc, \"rows[9]\") is None)",
+        "tested": "resolve_block(doc, \"rows[9]\")",
+        "operators": [
+          "is"
+        ],
+        "bound": [
+          "None"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "None"
+          }
+        ]
+      },
+      {
+        "face": "PRINTCOV-2026-10-31.json",
+        "matched_by": "exact_filename",
+        "channel": "named",
+        "source": "scripts/e318_count_named_gate_leaves.py",
+        "line": 287,
+        "kind": "comparison",
+        "function": "selftest",
+        "decision_class": "selftest_fixture",
+        "code": "leg(\"L15 integers_only shape\", block_shape(resolve_block(doc, \"gates.GA\")) == \"integers_only\")",
+        "tested": "block_shape(resolve_block(doc, \"gates.GA\"))",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "\"integers_only\""
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "'integers_only'"
+          }
+        ]
+      },
+      {
+        "face": "PRINTCOV-2026-10-31.json",
+        "matched_by": "exact_filename",
+        "channel": "named",
+        "source": "scripts/e318_count_named_gate_leaves.py",
+        "line": 288,
+        "kind": "comparison",
+        "function": "selftest",
+        "decision_class": "selftest_fixture",
+        "code": "leg(\"L16 floats_present shape\", block_shape(resolve_block(doc, \"rows[1]\")) == \"floats_present\")",
+        "tested": "block_shape(resolve_block(doc, \"rows[1]\"))",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "\"floats_present\""
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "'floats_present'"
+          }
+        ]
+      },
+      {
+        "face": "ORPHANGATEFACE-2026-10-31.json",
+        "matched_by": "exact_filename",
+        "channel": "named",
+        "source": "scripts/e326_template_parameter_consumers.py",
+        "line": 647,
+        "kind": "comprehension_filter",
+        "function": "cmd_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "expect = [r[\"face\"] for r in e325_doc[\"faces\"]",
+        "tested": "e325_doc[\"faces\"]",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e329_two_vintage_binding.py",
+        "line": 678,
+        "kind": "comparison",
+        "function": "cmd_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "doc[\"verdict\"] == V_FALLBACK_EXPOSED, doc[\"verdict\"])",
+        "tested": "doc[\"verdict\"]",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "V_FALLBACK_EXPOSED"
+        ],
+        "bound_pin": [
+          {
+            "pin": "module_constant",
+            "name": "V_FALLBACK_EXPOSED",
+            "value": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_n..."
+          }
+        ]
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e329_two_vintage_binding.py",
+        "line": 667,
+        "kind": "comprehension_filter",
+        "function": "cmd_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "{r[\"order_class\"] for r in doc[\"rows\"]} == {O_CHAIN, O_SEPARATE, O_MENTION},",
+        "tested": "doc[\"rows\"]",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e329_two_vintage_binding.py",
+        "line": 676,
+        "kind": "comprehension_filter",
+        "function": "cmd_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "all(r[\"order_class\"] != O_REBOUND for r in doc[\"rows\"]))",
+        "tested": "doc[\"rows\"]",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e329_two_vintage_binding.py",
+        "line": 668,
+        "kind": "comprehension_filter",
+        "function": "cmd_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "str(sorted({r[\"order_class\"] for r in doc[\"rows\"]})))",
+        "tested": "doc[\"rows\"]",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "<dated faces in results/**/*.json>",
+        "matched_by": "directory_sweep",
+        "channel": "enumeration",
+        "source": "scripts/e329_two_vintage_binding.py",
+        "line": 680,
+        "kind": "comprehension_filter",
+        "function": "cmd_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "sorted(r[\"cuts_present_on_disk\"] for r in doc[\"rows\"] if r[\"family\"] == \"lit:BBB\")[0]",
+        "tested": "doc[\"rows\"]",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "REGIME5",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime5_validation.py",
+        "line": 545,
+        "kind": "null_guard",
+        "function": "cmd_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "anchor_assert(panel, doc) is None)",
+        "tested": "anchor_assert(panel, doc)",
+        "operators": [
+          "is"
+        ],
+        "bound": [
+          "None"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "None"
+          }
+        ]
+      },
+      {
+        "face": "REGIME5",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime5_validation.py",
+        "line": 552,
+        "kind": "comparison",
+        "function": "cmd_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "\"rows\" in (anchor_assert(bad_panel, doc) or \"\"))",
+        "tested": "anchor_assert(bad_panel, doc) or \"\"",
+        "operators": [
+          "in"
+        ],
+        "bound": [
+          "\"rows\""
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "'rows'"
+          }
+        ]
+      },
+      {
+        "face": "DUALARM",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime_gate_dualarm.py",
+        "line": 357,
+        "kind": "comparison",
+        "function": "_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "check(\"asof_max_of_arms\", art[\"asof\"] == \"2026-09-30\")",
+        "tested": "art[\"asof\"]",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "\"2026-09-30\""
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "'2026-09-30'"
+          }
+        ]
+      },
+      {
+        "face": "DUALARM",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime_gate_dualarm.py",
+        "line": 359,
+        "kind": "null_guard",
+        "function": "_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "art[\"asof_mismatch\"] is not None",
+        "tested": "art[\"asof_mismatch\"]",
+        "operators": [
+          "is not"
+        ],
+        "bound": [
+          "None"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "None"
+          }
+        ]
+      },
+      {
+        "face": "DUALARM",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime_gate_dualarm.py",
+        "line": 361,
+        "kind": "comparison",
+        "function": "_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "check(\"index_latest_state\", art[\"index_arm\"][\"latest_state\"] == \"BEAR\")",
+        "tested": "art[\"index_arm\"][\"latest_state\"]",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "\"BEAR\""
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "'BEAR'"
+          }
+        ]
+      },
+      {
+        "face": "DUALARM",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime_gate_dualarm.py",
+        "line": 360,
+        "kind": "comparison",
+        "function": "_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "and art[\"asof_mismatch\"][\"emotion_arm_cutoff\"] == \"2026-09-22\")",
+        "tested": "art[\"asof_mismatch\"][\"emotion_arm_cutoff\"]",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "\"2026-09-22\""
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "'2026-09-22'"
+          }
+        ]
+      },
+      {
+        "face": "DUALARM",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime_gate_dualarm.py",
+        "line": 428,
+        "kind": "comparison",
+        "function": "_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "and art[\"adaptation\"][\"n_labels_out\"] == 2",
+        "tested": "art[\"adaptation\"][\"n_labels_out\"]",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "2"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "2"
+          }
+        ]
+      },
+      {
+        "face": "DUALARM",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime_gate_dualarm.py",
+        "line": 429,
+        "kind": "comparison",
+        "function": "_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "and len(art[\"adaptation\"][\"original_sha256\"]) == 64",
+        "tested": "len(art[\"adaptation\"][\"original_sha256\"])",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "64"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "64"
+          }
+        ]
+      },
+      {
+        "face": "DUALARM",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime_gate_dualarm.py",
+        "line": 427,
+        "kind": "comparison",
+        "function": "_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "art.get(\"adaptation\", {}).get(\"n_labels_in\") == 3",
+        "tested": "art.get(\"adaptation\", {}).get(\"n_labels_in\")",
+        "operators": [
+          "=="
+        ],
+        "bound": [
+          "3"
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "face": "DUALARM",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime_gate_dualarm.py",
+        "line": 431,
+        "kind": "comprehension_filter",
+        "function": "_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "art[\"adaptation\"][\"adaptation_log\"]})",
+        "tested": "art[\"adaptation\"][\"adaptation_log\"]",
+        "operators": [],
+        "bound": [],
+        "bound_pin": []
+      },
+      {
+        "face": "DUALARM",
+        "matched_by": "stem_in_literal",
+        "channel": "named",
+        "source": "scripts/regime_gate_dualarm.py",
+        "line": 453,
+        "kind": "comparison",
+        "function": "_selftest",
+        "decision_class": "selftest_fixture",
+        "code": "check(\"e2e_clean_no_adaptation_key\", \"adaptation\" not in art3)",
+        "tested": "art3",
+        "operators": [
+          "not in"
+        ],
+        "bound": [
+          "\"adaptation\""
+        ],
+        "bound_pin": [
+          {
+            "pin": "literal_in_source",
+            "value": "'adaptation'"
+          }
+        ]
+      }
+    ]
+  },
+  "faces_with_most_gates": [
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "gates": 21
+    },
+    {
+      "face": "DUALARM",
+      "gates": 12
+    },
+    {
+      "face": "<dated faces in results/rev_osc_live/*.json>",
+      "gates": 10
+    },
+    {
+      "face": "PRINTCOV-2026-10-31.json",
+      "gates": 8
+    },
+    {
+      "face": "REGIME5",
+      "gates": 8
+    },
+    {
+      "face": "BANDBUCKET",
+      "gates": 7
+    },
+    {
+      "face": "CENSUS",
+      "gates": 6
+    },
+    {
+      "face": "<dated faces in results/state_tilt/*.json>",
+      "gates": 4
+    },
+    {
+      "face": "BANDWINMULT",
+      "gates": 4
+    },
+    {
+      "face": "REGIME5-2026-09-30.json",
+      "gates": 4
+    },
+    {
+      "face": "<dated faces in results/regime5_labels/*.json>",
+      "gates": 3
+    },
+    {
+      "face": "BANDARRIVAL",
+      "gates": 3
+    },
+    {
+      "face": "PRECISIONGAP",
+      "gates": 3
+    },
+    {
+      "face": "ORPHANGATEFACE-2026-10-31.json",
+      "gates": 2
+    }
+  ],
+  "unpinned_operational_gates": [],
+  "the_one_gate": null,
+  "no_operational_gate_note": "asked for the one gate whose hand-edited bound would change an operational decision: there is none on a dated face. The only operational comparison reached from a face directory is a null guard (`if d is None`), which tests presence, not the value; the live state files and *_latest mirrors that the lanes actually read are outside this card's population by construction.",
+  "nearest_decision": {
+    "face": "<dated faces in results/**/*.json>",
+    "matched_by": "directory_sweep",
+    "channel": "enumeration",
+    "source": "scripts/e317_print_coverage_census.py",
+    "line": 534,
+    "kind": "truth_test",
+    "function": "scan",
+    "decision_class": "report",
+    "code": "if not PRESCAN.search(blob):",
+    "tested": "PRESCAN.search(blob)",
+    "operators": [],
+    "bound": [],
+    "bound_pin": []
+  },
+  "named_faces_with_a_gate": [
+    "BANDARRIVAL",
+    "BANDBUCKET",
+    "BANDWINMULT",
+    "CENSUS",
+    "DUALARM",
+    "ORPHANGATEFACE-2026-10-31.json",
+    "PRECISIONGAP",
+    "PRINTCOV-2026-10-31.json",
+    "REGIME5",
+    "REGIME5-2026-09-30.json"
+  ],
+  "loads": [
+    {
+      "path": "scripts/e258_band_multiplier_per_window.py",
+      "binding": "face",
+      "line": 828,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "BANDWINMULT"
+      ]
+    },
+    {
+      "path": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+      "binding": "got",
+      "line": 543,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "BANDBUCKET"
+      ]
+    },
+    {
+      "path": "scripts/e263_arrival_vs_cell_size.py",
+      "binding": "got",
+      "line": 586,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "BANDARRIVAL"
+      ]
+    },
+    {
+      "path": "scripts/e273_guard_from_threshold.py",
+      "binding": "face",
+      "line": 396,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/state_tilt/*.json"
+      ],
+      "faces": [
+        "ADDOS-2026-10-29.json",
+        "ADDOS-2026-10-30.json",
+        "AGGATT-2026-10-29.json",
+        "ALLOWANCE-2026-11-01.json",
+        "BANDAMBIENT-2026-10-29.json",
+        "BANDARRIVAL-2026-10-29.json",
+        "BANDARRIVALATE-2026-10-29.json",
+        "BANDBUCKET-2026-10-29.json",
+        "BANDCLOSURE-2026-10-29.json",
+        "BANDCOUNTSCOPE-2026-10-29.json",
+        "BANDDEFLATE-2026-10-29.json",
+        "BANDDISAGREE-2026-10-29.json",
+        "BANDDISAGREESCOPE-2026-10-29.json",
+        "BANDDONORCHOICE-2026-10-29.json",
+        "BANDDRAW-2026-10-29.json",
+        "BANDDUPES-2026-10-29.json",
+        "BANDEXP-2026-10-29.json",
+        "BANDFIELDS-2026-10-29.json",
+        "BANDFLIPBUDGET-2026-10-29.json",
+        "BANDFLOOR-2026-10-29.json",
+        "BANDFLOORMIRROR-2026-10-29.json",
+        "BANDFROZEN-2026-10-29.json",
+        "BANDGAPCEILING-2026-10-29.json",
+        "BANDMARGIN-2026-10-29.json",
+        "BANDMARGINWINDOW-2026-10-29.json",
+        "BANDNEAR1-2026-10-29.json",
+        "BANDPATH-2026-10-29.json",
+        "BANDPOOLED-2026-10-29.json",
+        "BANDSCOPEFIX-2026-10-29.json",
+        "BANDSCREEN-2026-10-29.json",
+        "BANDSCREENBUDGET-2026-10-29.json",
+        "BANDSELFAUDIT-2026-10-29.json",
+        "BANDSPREADFLOOR-2026-10-29.json",
+        "BANDSTRADDLESWEEP-2026-10-29.json",
+        "BANDSUBSTITUTE-2026-10-29.json",
+        "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+        "BANDSUPPLY-2026-10-29.json",
+        "BANDSWITCH-2026-10-30.json",
+        "BANDTHRESHGUARD-2026-10-29.json",
+        "BANDTIGHT-2026-10-29.json",
+        "BANDTOPFLIP-2026-10-29.json",
+        "BANDTRANSFER-2026-10-29.json",
+        "BANDUNDATEDVINTAGE-2026-10-31.json",
+        "BANDWINDIST-2026-10-29.json",
+        "BANDWINMULT-2026-10-29.json",
+        "BASISRECOVERY-2026-10-30.json",
+        "BOOKECHO-2026-10-29.json",
+        "BOUNDGRANT-2026-11-01.json",
+        "BREAKEVEN-2026-10-28.json",
+        "BREAKEVEN-2026-10-29.json",
+        "COSTCURVE-2026-10-29.json",
+        "DECOYRESOLVE-2026-10-31.json",
+        "GATECLAMP-2026-10-31.json",
+        "GATEFORM-2026-10-31.json",
+        "GATEOPERANDS-2026-10-31.json",
+        "GATEPRINT-2026-10-31.json",
+        "GATETOL-2026-10-31.json",
+        "GRANULARITY-2026-10-29.json",
+        "GREENWINDOW-2026-11-01.json",
+        "GUARDLOOSEN-2026-11-01.json",
+        "HELPERREPAIR-2026-11-01.json",
+        "HYSTERESIS-2026-10-29.json",
+        "INFOSTRUCT-2026-10-29.json",
+        "INVISIBLETAIL-2026-11-01.json",
+        "LEADCOUNTER-2026-10-29.json",
+        "LEGEPS-2026-10-31.json",
+        "LOOBOOK-2026-10-29.json",
+        "MATCHED-2026-10-28.json",
+        "MATCHED-2026-10-29.json",
+        "OMISSION-2026-10-29.json",
+        "OPTINRANK-2026-11-01.json",
+        "OPTINSWITCH-2026-11-01.json",
+        "ORPHANGATEFACE-2026-10-31.json",
+        "OWNCROSS-2026-10-29.json",
+        "PAIRHET-2026-10-29.json",
+        "POINTERONLY-2026-11-01.json",
+        "POINTERREAD-2026-11-01.json",
+        "PRECISIONCENSUS-2026-10-29.json",
+        "PRECISIONCENSUS-2026-10-30.json",
+        "PRECISIONGAP-2026-10-31.json",
+        "PRINTCOV-2026-10-31.json",
+        "QUANTITYNAME-2026-10-31.json",
+        "REACHWIDE-2026-10-31.json",
+        "REFUSALCAUSE-2026-10-31.json",
+        "REPAIRRECORD-2026-11-01.json",
+        "REPLAYCENSUS-2026-10-30.json",
+        "REPLAYCENSUS-2026-10-31.json",
+        "REPLAYCENSUS-2026-11-01.json",
+        "REPRO-2026-10-29.json",
+        "SELFINCLUSION-2026-10-31.json",
+        "SELFRES-2026-10-29.json",
+        "SHAREDIFF-2026-10-29.json",
+        "SIBLINGCLOSER-2026-11-01.json",
+        "SIBLINGENTRY-2026-11-01.json",
+        "SLOPEMATRIX-2026-10-29.json",
+        "STALECUTOFF-2026-11-01.json",
+        "STARDIR-2026-10-29.json",
+        "STARLAGBAND-2026-10-29.json",
+        "STAROWN-2026-10-29.json",
+        "STAROWNREPIN-2026-10-30.json",
+        "STARSELF-2026-10-29.json",
+        "SURVIVINGCONCLUSIONS-2026-11-01.json",
+        "TEMPLATEPARAM-2026-10-31.json",
+        "TILT-2026-10-28.json",
+        "TILT-2026-10-29.json",
+        "TIMINGSEL-2026-10-28.json",
+        "TIMINGSEL-2026-10-29.json",
+        "TWOVINTAGE-2026-11-01.json",
+        "UNPINNEDCHOICE-2026-11-01.json",
+        "UNPUBLISHEDKEY-2026-10-31.json",
+        "ZEROTOLPRUNE-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e298_replay_control_census.py",
+      "binding": "stored",
+      "line": 356,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "CENSUS"
+      ]
+    },
+    {
+      "path": "scripts/e298_replay_control_census.py",
+      "binding": "fh",
+      "line": 474,
+      "load_name": "open",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "CENSUS"
+      ]
+    },
+    {
+      "path": "scripts/e299_rounded_vs_tolerance_census.py",
+      "binding": "stored",
+      "line": 778,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "CENSUS"
+      ]
+    },
+    {
+      "path": "scripts/e305_face_level_row_pricing.py",
+      "binding": "stored",
+      "line": 431,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "PRECISIONGAP"
+      ]
+    },
+    {
+      "path": "scripts/e317_print_coverage_census.py",
+      "binding": "blob",
+      "line": 530,
+      "load_name": "read",
+      "channel": "enumeration",
+      "scopes": [
+        "results/**/*.json"
+      ],
+      "faces": [
+        "ADDOS-2026-10-29.json",
+        "ADDOS-2026-10-30.json",
+        "AGGATT-2026-10-29.json",
+        "ALLOWANCE-2026-11-01.json",
+        "AUDIT-2026-10-23.json",
+        "BANDAMBIENT-2026-10-29.json",
+        "BANDARRIVAL-2026-10-29.json",
+        "BANDARRIVALATE-2026-10-29.json",
+        "BANDBUCKET-2026-10-29.json",
+        "BANDCLOSURE-2026-10-29.json",
+        "BANDCOUNTSCOPE-2026-10-29.json",
+        "BANDDEFLATE-2026-10-29.json",
+        "BANDDISAGREE-2026-10-29.json",
+        "BANDDISAGREESCOPE-2026-10-29.json",
+        "BANDDONORCHOICE-2026-10-29.json",
+        "BANDDRAW-2026-10-29.json",
+        "BANDDUPES-2026-10-29.json",
+        "BANDEXP-2026-10-29.json",
+        "BANDFIELDS-2026-10-29.json",
+        "BANDFLIPBUDGET-2026-10-29.json",
+        "BANDFLOOR-2026-10-29.json",
+        "BANDFLOORMIRROR-2026-10-29.json",
+        "BANDFROZEN-2026-10-29.json",
+        "BANDGAPCEILING-2026-10-29.json",
+        "BANDMARGIN-2026-10-29.json",
+        "BANDMARGINWINDOW-2026-10-29.json",
+        "BANDNEAR1-2026-10-29.json",
+        "BANDPATH-2026-10-29.json",
+        "BANDPOOLED-2026-10-29.json",
+        "BANDSCOPEFIX-2026-10-29.json",
+        "BANDSCREEN-2026-10-29.json",
+        "BANDSCREENBUDGET-2026-10-29.json",
+        "BANDSELFAUDIT-2026-10-29.json",
+        "BANDSPREADFLOOR-2026-10-29.json",
+        "BANDSTRADDLESWEEP-2026-10-29.json",
+        "BANDSUBSTITUTE-2026-10-29.json",
+        "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+        "BANDSUPPLY-2026-10-29.json",
+        "BANDSWITCH-2026-10-30.json",
+        "BANDTHRESHGUARD-2026-10-29.json",
+        "BANDTIGHT-2026-10-29.json",
+        "BANDTOPFLIP-2026-10-29.json",
+        "BANDTRANSFER-2026-10-29.json",
+        "BANDUNDATEDVINTAGE-2026-10-31.json",
+        "BANDWINDIST-2026-10-29.json",
+        "BANDWINMULT-2026-10-29.json",
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "BASISRECOVERY-2026-10-30.json",
+        "BOOK-2026-09-22.json",
+        "BOOKECHO-2026-10-29.json",
+        "BOUNDGRANT-2026-11-01.json",
+        "BREAKEVEN-2026-10-28.json",
+        "BREAKEVEN-2026-10-29.json",
+        "CENSUS-2026-10-09.json",
+        "CENSUS-2026-10-19.json",
+        "COSTCURVE-2026-10-29.json",
+        "COUNTWITNESS-2026-10-28.json",
+        "DECOMLEVELQUOTES-2026-10-27.json",
+        "DECOMLEVELQUOTES-2026-10-28.json",
+        "DECOMPLEVELQUOTES-2026-10-28.json",
+        "DECOYRESOLVE-2026-10-31.json",
+        "DELTASIGN-2026-10-27.json",
+        "DELTASTANCE-2026-10-27.json",
+        "DOCQUOTES-2026-10-29.json",
+        "DOCQUOTES-2026-10-30.json",
+        "DRILL-2026-09-22.json",
+        "DUALARM-2026-09-30.json",
+        "DUALARM-2026-10-19.json",
+        "EVIDENCE-2026-09-22.json",
+        "GATECLAMP-2026-10-31.json",
+        "GATEFORM-2026-10-31.json",
+        "GATEOPERANDS-2026-10-31.json",
+        "GATEPRINT-2026-10-31.json",
+        "GATETOL-2026-10-31.json",
+        "GRANULARITY-2026-10-29.json",
+        "GREENWINDOW-2026-11-01.json",
+        "GUARDLOOSEN-2026-11-01.json",
+        "HARVEST-2026-10-19.json",
+        "HELPERREPAIR-2026-11-01.json",
+        "HOLDBRIDGE-2026-10-19.json",
+        "HYSTERESIS-2026-10-29.json",
+        "INFOSTRUCT-2026-10-29.json",
+        "INVISIBLETAIL-2026-11-01.json",
+        "JUDGED-2026-10-09.json",
+        "LABELDUTY-2026-10-27.json",
+        "LEADCOUNTER-2026-10-29.json",
+        "LEG3-2026-10-19.json",
+        "LEGEPS-2026-10-31.json",
+        "LIVE-2026-10-23.json",
+        "LOOBOOK-2026-10-29.json",
+        "MATCHED-2026-10-28.json",
+        "MATCHED-2026-10-29.json",
+        "MATRIX-2026-09-30.json",
+        "NEARZEROSIGN-2026-10-27.json",
+        "NULLS-2026-10-19.json",
+        "OMISSION-2026-10-29.json",
+        "OPTINRANK-2026-11-01.json",
+        "OPTINSWITCH-2026-11-01.json",
+        "ORPHANGATEFACE-2026-10-31.json",
+        "OWNCROSS-2026-10-29.json",
+        "PACK-2026-10-19.json",
+        "PAGEGATE-2026-10-29.json",
+        "PAGEGATE-2026-10-30.json",
+        "PAIRHET-2026-10-29.json",
+        "PICKS-2026-10-19.json",
+        "POINTERONLY-2026-11-01.json",
+        "POINTERREAD-2026-11-01.json",
+        "PRECISIONCENSUS-2026-10-29.json",
+        "PRECISIONCENSUS-2026-10-30.json",
+        "PRECISIONGAP-2026-10-31.json",
+        "PRINTCOV-2026-10-31.json",
+        "PRODUCTION-2026-10-23.json",
+        "PRODUCTION-2026-10-26.json",
+        "PRODUCTION-2026-10-27.json",
+        "PRODUCTION-2026-10-28.json",
+        "QUANTITYNAME-2026-10-31.json",
+        "QUOTECLASSFIX-2026-10-28.json",
+        "QUOTECOUNT-2026-10-28.json",
+        "REACHWIDE-2026-10-31.json",
+        "REFUSALCAUSE-2026-10-31.json",
+        "REGIME5-2026-09-30.json",
+        "REGIME5-2026-10-19.json",
+        "REPAIRRECORD-2026-11-01.json",
+        "REPLAYCENSUS-2026-10-30.json",
+        "REPLAYCENSUS-2026-10-31.json",
+        "REPLAYCENSUS-2026-11-01.json",
+        "REPRO-2026-10-29.json",
+        "RESULT-2026-10-19.json",
+        "SCREENREACH-2026-10-27.json",
+        "SELFINCLUSION-2026-10-31.json",
+        "SELFRES-2026-10-29.json",
+        "SHAREDIFF-2026-10-29.json",
+        "SIBLINGCLOSER-2026-11-01.json",
+        "SIBLINGENTRY-2026-11-01.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json",
+        "SIGNEXPOSURE-2026-10-27.json",
+        "SIGNGROWTH-2026-10-27.json",
+        "SIGNLEAF-2026-10-27.json",
+        "SLOPEMATRIX-2026-10-29.json",
+        "STALECUTOFF-2026-11-01.json",
+        "STARDIR-2026-10-29.json",
+        "STARLAGBAND-2026-10-29.json",
+        "STAROWN-2026-10-29.json",
+        "STAROWNREPIN-2026-10-30.json",
+        "STARSELF-2026-10-29.json",
+        "SURVIVINGCONCLUSIONS-2026-11-01.json",
+        "TEMPLATEPARAM-2026-10-31.json",
+        "TICKET-2026-10-23.json",
+        "TICKET-2026-10-26.json",
+        "TICKET-2026-10-27.json",
+        "TICKET-2026-10-28.json",
+        "TILT-2026-10-28.json",
+        "TILT-2026-10-29.json",
+        "TIMINGSEL-2026-10-28.json",
+        "TIMINGSEL-2026-10-29.json",
+        "TOPK-2026-10-09.json",
+        "TWOVINTAGE-2026-11-01.json",
+        "UNPINNEDCHOICE-2026-11-01.json",
+        "UNPUBLISHEDKEY-2026-10-31.json",
+        "VOLGATE-2026-10-28.json",
+        "VOLGATE-2026-10-29.json",
+        "W19-2026-10-09.json",
+        "W20-2026-10-09.json",
+        "WATCH-2026-10-19.json",
+        "ZEROTOLPRUNE-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e318_count_named_gate_leaves.py",
+      "binding": "doc",
+      "line": 317,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "PRINTCOV-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e319_census_self_inclusion_sweep.py",
+      "binding": "doc",
+      "line": 469,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/**/*.json"
+      ],
+      "faces": [
+        "ADDOS-2026-10-29.json",
+        "ADDOS-2026-10-30.json",
+        "AGGATT-2026-10-29.json",
+        "ALLOWANCE-2026-11-01.json",
+        "AUDIT-2026-10-23.json",
+        "BANDAMBIENT-2026-10-29.json",
+        "BANDARRIVAL-2026-10-29.json",
+        "BANDARRIVALATE-2026-10-29.json",
+        "BANDBUCKET-2026-10-29.json",
+        "BANDCLOSURE-2026-10-29.json",
+        "BANDCOUNTSCOPE-2026-10-29.json",
+        "BANDDEFLATE-2026-10-29.json",
+        "BANDDISAGREE-2026-10-29.json",
+        "BANDDISAGREESCOPE-2026-10-29.json",
+        "BANDDONORCHOICE-2026-10-29.json",
+        "BANDDRAW-2026-10-29.json",
+        "BANDDUPES-2026-10-29.json",
+        "BANDEXP-2026-10-29.json",
+        "BANDFIELDS-2026-10-29.json",
+        "BANDFLIPBUDGET-2026-10-29.json",
+        "BANDFLOOR-2026-10-29.json",
+        "BANDFLOORMIRROR-2026-10-29.json",
+        "BANDFROZEN-2026-10-29.json",
+        "BANDGAPCEILING-2026-10-29.json",
+        "BANDMARGIN-2026-10-29.json",
+        "BANDMARGINWINDOW-2026-10-29.json",
+        "BANDNEAR1-2026-10-29.json",
+        "BANDPATH-2026-10-29.json",
+        "BANDPOOLED-2026-10-29.json",
+        "BANDSCOPEFIX-2026-10-29.json",
+        "BANDSCREEN-2026-10-29.json",
+        "BANDSCREENBUDGET-2026-10-29.json",
+        "BANDSELFAUDIT-2026-10-29.json",
+        "BANDSPREADFLOOR-2026-10-29.json",
+        "BANDSTRADDLESWEEP-2026-10-29.json",
+        "BANDSUBSTITUTE-2026-10-29.json",
+        "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+        "BANDSUPPLY-2026-10-29.json",
+        "BANDSWITCH-2026-10-30.json",
+        "BANDTHRESHGUARD-2026-10-29.json",
+        "BANDTIGHT-2026-10-29.json",
+        "BANDTOPFLIP-2026-10-29.json",
+        "BANDTRANSFER-2026-10-29.json",
+        "BANDUNDATEDVINTAGE-2026-10-31.json",
+        "BANDWINDIST-2026-10-29.json",
+        "BANDWINMULT-2026-10-29.json",
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "BASISRECOVERY-2026-10-30.json",
+        "BOOK-2026-09-22.json",
+        "BOOKECHO-2026-10-29.json",
+        "BOUNDGRANT-2026-11-01.json",
+        "BREAKEVEN-2026-10-28.json",
+        "BREAKEVEN-2026-10-29.json",
+        "CENSUS-2026-10-09.json",
+        "CENSUS-2026-10-19.json",
+        "COSTCURVE-2026-10-29.json",
+        "COUNTWITNESS-2026-10-28.json",
+        "DECOMLEVELQUOTES-2026-10-27.json",
+        "DECOMLEVELQUOTES-2026-10-28.json",
+        "DECOMPLEVELQUOTES-2026-10-28.json",
+        "DECOYRESOLVE-2026-10-31.json",
+        "DELTASIGN-2026-10-27.json",
+        "DELTASTANCE-2026-10-27.json",
+        "DOCQUOTES-2026-10-29.json",
+        "DOCQUOTES-2026-10-30.json",
+        "DRILL-2026-09-22.json",
+        "DUALARM-2026-09-30.json",
+        "DUALARM-2026-10-19.json",
+        "EVIDENCE-2026-09-22.json",
+        "GATECLAMP-2026-10-31.json",
+        "GATEFORM-2026-10-31.json",
+        "GATEOPERANDS-2026-10-31.json",
+        "GATEPRINT-2026-10-31.json",
+        "GATETOL-2026-10-31.json",
+        "GRANULARITY-2026-10-29.json",
+        "GREENWINDOW-2026-11-01.json",
+        "GUARDLOOSEN-2026-11-01.json",
+        "HARVEST-2026-10-19.json",
+        "HELPERREPAIR-2026-11-01.json",
+        "HOLDBRIDGE-2026-10-19.json",
+        "HYSTERESIS-2026-10-29.json",
+        "INFOSTRUCT-2026-10-29.json",
+        "INVISIBLETAIL-2026-11-01.json",
+        "JUDGED-2026-10-09.json",
+        "LABELDUTY-2026-10-27.json",
+        "LEADCOUNTER-2026-10-29.json",
+        "LEG3-2026-10-19.json",
+        "LEGEPS-2026-10-31.json",
+        "LIVE-2026-10-23.json",
+        "LOOBOOK-2026-10-29.json",
+        "MATCHED-2026-10-28.json",
+        "MATCHED-2026-10-29.json",
+        "MATRIX-2026-09-30.json",
+        "NEARZEROSIGN-2026-10-27.json",
+        "NULLS-2026-10-19.json",
+        "OMISSION-2026-10-29.json",
+        "OPTINRANK-2026-11-01.json",
+        "OPTINSWITCH-2026-11-01.json",
+        "ORPHANGATEFACE-2026-10-31.json",
+        "OWNCROSS-2026-10-29.json",
+        "PACK-2026-10-19.json",
+        "PAGEGATE-2026-10-29.json",
+        "PAGEGATE-2026-10-30.json",
+        "PAIRHET-2026-10-29.json",
+        "PICKS-2026-10-19.json",
+        "POINTERONLY-2026-11-01.json",
+        "POINTERREAD-2026-11-01.json",
+        "PRECISIONCENSUS-2026-10-29.json",
+        "PRECISIONCENSUS-2026-10-30.json",
+        "PRECISIONGAP-2026-10-31.json",
+        "PRINTCOV-2026-10-31.json",
+        "PRODUCTION-2026-10-23.json",
+        "PRODUCTION-2026-10-26.json",
+        "PRODUCTION-2026-10-27.json",
+        "PRODUCTION-2026-10-28.json",
+        "QUANTITYNAME-2026-10-31.json",
+        "QUOTECLASSFIX-2026-10-28.json",
+        "QUOTECOUNT-2026-10-28.json",
+        "REACHWIDE-2026-10-31.json",
+        "REFUSALCAUSE-2026-10-31.json",
+        "REGIME5-2026-09-30.json",
+        "REGIME5-2026-10-19.json",
+        "REPAIRRECORD-2026-11-01.json",
+        "REPLAYCENSUS-2026-10-30.json",
+        "REPLAYCENSUS-2026-10-31.json",
+        "REPLAYCENSUS-2026-11-01.json",
+        "REPRO-2026-10-29.json",
+        "RESULT-2026-10-19.json",
+        "SCREENREACH-2026-10-27.json",
+        "SELFINCLUSION-2026-10-31.json",
+        "SELFRES-2026-10-29.json",
+        "SHAREDIFF-2026-10-29.json",
+        "SIBLINGCLOSER-2026-11-01.json",
+        "SIBLINGENTRY-2026-11-01.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json",
+        "SIGNEXPOSURE-2026-10-27.json",
+        "SIGNGROWTH-2026-10-27.json",
+        "SIGNLEAF-2026-10-27.json",
+        "SLOPEMATRIX-2026-10-29.json",
+        "STALECUTOFF-2026-11-01.json",
+        "STARDIR-2026-10-29.json",
+        "STARLAGBAND-2026-10-29.json",
+        "STAROWN-2026-10-29.json",
+        "STAROWNREPIN-2026-10-30.json",
+        "STARSELF-2026-10-29.json",
+        "SURVIVINGCONCLUSIONS-2026-11-01.json",
+        "TEMPLATEPARAM-2026-10-31.json",
+        "TICKET-2026-10-23.json",
+        "TICKET-2026-10-26.json",
+        "TICKET-2026-10-27.json",
+        "TICKET-2026-10-28.json",
+        "TILT-2026-10-28.json",
+        "TILT-2026-10-29.json",
+        "TIMINGSEL-2026-10-28.json",
+        "TIMINGSEL-2026-10-29.json",
+        "TOPK-2026-10-09.json",
+        "TWOVINTAGE-2026-11-01.json",
+        "UNPINNEDCHOICE-2026-11-01.json",
+        "UNPUBLISHEDKEY-2026-10-31.json",
+        "VOLGATE-2026-10-28.json",
+        "VOLGATE-2026-10-29.json",
+        "W19-2026-10-09.json",
+        "W20-2026-10-09.json",
+        "WATCH-2026-10-19.json",
+        "ZEROTOLPRUNE-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e325_orphan_gate_faces.py",
+      "binding": "doc",
+      "line": 310,
+      "load_name": "read_json",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "REACHWIDE-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e326_template_parameter_consumers.py",
+      "binding": "doc",
+      "line": 377,
+      "load_name": "read_json",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "ORPHANGATEFACE-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e326_template_parameter_consumers.py",
+      "binding": "e325_doc",
+      "line": 646,
+      "load_name": "read_json",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "ORPHANGATEFACE-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+      "binding": "upstream",
+      "line": 238,
+      "load_name": "read_json",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "TEMPLATEPARAM-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e328_quoted_number_staleness.py",
+      "binding": "disk",
+      "line": 363,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/**/*.json"
+      ],
+      "faces": [
+        "ADDOS-2026-10-29.json",
+        "ADDOS-2026-10-30.json",
+        "AGGATT-2026-10-29.json",
+        "ALLOWANCE-2026-11-01.json",
+        "AUDIT-2026-10-23.json",
+        "BANDAMBIENT-2026-10-29.json",
+        "BANDARRIVAL-2026-10-29.json",
+        "BANDARRIVALATE-2026-10-29.json",
+        "BANDBUCKET-2026-10-29.json",
+        "BANDCLOSURE-2026-10-29.json",
+        "BANDCOUNTSCOPE-2026-10-29.json",
+        "BANDDEFLATE-2026-10-29.json",
+        "BANDDISAGREE-2026-10-29.json",
+        "BANDDISAGREESCOPE-2026-10-29.json",
+        "BANDDONORCHOICE-2026-10-29.json",
+        "BANDDRAW-2026-10-29.json",
+        "BANDDUPES-2026-10-29.json",
+        "BANDEXP-2026-10-29.json",
+        "BANDFIELDS-2026-10-29.json",
+        "BANDFLIPBUDGET-2026-10-29.json",
+        "BANDFLOOR-2026-10-29.json",
+        "BANDFLOORMIRROR-2026-10-29.json",
+        "BANDFROZEN-2026-10-29.json",
+        "BANDGAPCEILING-2026-10-29.json",
+        "BANDMARGIN-2026-10-29.json",
+        "BANDMARGINWINDOW-2026-10-29.json",
+        "BANDNEAR1-2026-10-29.json",
+        "BANDPATH-2026-10-29.json",
+        "BANDPOOLED-2026-10-29.json",
+        "BANDSCOPEFIX-2026-10-29.json",
+        "BANDSCREEN-2026-10-29.json",
+        "BANDSCREENBUDGET-2026-10-29.json",
+        "BANDSELFAUDIT-2026-10-29.json",
+        "BANDSPREADFLOOR-2026-10-29.json",
+        "BANDSTRADDLESWEEP-2026-10-29.json",
+        "BANDSUBSTITUTE-2026-10-29.json",
+        "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+        "BANDSUPPLY-2026-10-29.json",
+        "BANDSWITCH-2026-10-30.json",
+        "BANDTHRESHGUARD-2026-10-29.json",
+        "BANDTIGHT-2026-10-29.json",
+        "BANDTOPFLIP-2026-10-29.json",
+        "BANDTRANSFER-2026-10-29.json",
+        "BANDUNDATEDVINTAGE-2026-10-31.json",
+        "BANDWINDIST-2026-10-29.json",
+        "BANDWINMULT-2026-10-29.json",
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "BASISRECOVERY-2026-10-30.json",
+        "BOOK-2026-09-22.json",
+        "BOOKECHO-2026-10-29.json",
+        "BOUNDGRANT-2026-11-01.json",
+        "BREAKEVEN-2026-10-28.json",
+        "BREAKEVEN-2026-10-29.json",
+        "CENSUS-2026-10-09.json",
+        "CENSUS-2026-10-19.json",
+        "COSTCURVE-2026-10-29.json",
+        "COUNTWITNESS-2026-10-28.json",
+        "DECOMLEVELQUOTES-2026-10-27.json",
+        "DECOMLEVELQUOTES-2026-10-28.json",
+        "DECOMPLEVELQUOTES-2026-10-28.json",
+        "DECOYRESOLVE-2026-10-31.json",
+        "DELTASIGN-2026-10-27.json",
+        "DELTASTANCE-2026-10-27.json",
+        "DOCQUOTES-2026-10-29.json",
+        "DOCQUOTES-2026-10-30.json",
+        "DRILL-2026-09-22.json",
+        "DUALARM-2026-09-30.json",
+        "DUALARM-2026-10-19.json",
+        "EVIDENCE-2026-09-22.json",
+        "GATECLAMP-2026-10-31.json",
+        "GATEFORM-2026-10-31.json",
+        "GATEOPERANDS-2026-10-31.json",
+        "GATEPRINT-2026-10-31.json",
+        "GATETOL-2026-10-31.json",
+        "GRANULARITY-2026-10-29.json",
+        "GREENWINDOW-2026-11-01.json",
+        "GUARDLOOSEN-2026-11-01.json",
+        "HARVEST-2026-10-19.json",
+        "HELPERREPAIR-2026-11-01.json",
+        "HOLDBRIDGE-2026-10-19.json",
+        "HYSTERESIS-2026-10-29.json",
+        "INFOSTRUCT-2026-10-29.json",
+        "INVISIBLETAIL-2026-11-01.json",
+        "JUDGED-2026-10-09.json",
+        "LABELDUTY-2026-10-27.json",
+        "LEADCOUNTER-2026-10-29.json",
+        "LEG3-2026-10-19.json",
+        "LEGEPS-2026-10-31.json",
+        "LIVE-2026-10-23.json",
+        "LOOBOOK-2026-10-29.json",
+        "MATCHED-2026-10-28.json",
+        "MATCHED-2026-10-29.json",
+        "MATRIX-2026-09-30.json",
+        "NEARZEROSIGN-2026-10-27.json",
+        "NULLS-2026-10-19.json",
+        "OMISSION-2026-10-29.json",
+        "OPTINRANK-2026-11-01.json",
+        "OPTINSWITCH-2026-11-01.json",
+        "ORPHANGATEFACE-2026-10-31.json",
+        "OWNCROSS-2026-10-29.json",
+        "PACK-2026-10-19.json",
+        "PAGEGATE-2026-10-29.json",
+        "PAGEGATE-2026-10-30.json",
+        "PAIRHET-2026-10-29.json",
+        "PICKS-2026-10-19.json",
+        "POINTERONLY-2026-11-01.json",
+        "POINTERREAD-2026-11-01.json",
+        "PRECISIONCENSUS-2026-10-29.json",
+        "PRECISIONCENSUS-2026-10-30.json",
+        "PRECISIONGAP-2026-10-31.json",
+        "PRINTCOV-2026-10-31.json",
+        "PRODUCTION-2026-10-23.json",
+        "PRODUCTION-2026-10-26.json",
+        "PRODUCTION-2026-10-27.json",
+        "PRODUCTION-2026-10-28.json",
+        "QUANTITYNAME-2026-10-31.json",
+        "QUOTECLASSFIX-2026-10-28.json",
+        "QUOTECOUNT-2026-10-28.json",
+        "REACHWIDE-2026-10-31.json",
+        "REFUSALCAUSE-2026-10-31.json",
+        "REGIME5-2026-09-30.json",
+        "REGIME5-2026-10-19.json",
+        "REPAIRRECORD-2026-11-01.json",
+        "REPLAYCENSUS-2026-10-30.json",
+        "REPLAYCENSUS-2026-10-31.json",
+        "REPLAYCENSUS-2026-11-01.json",
+        "REPRO-2026-10-29.json",
+        "RESULT-2026-10-19.json",
+        "SCREENREACH-2026-10-27.json",
+        "SELFINCLUSION-2026-10-31.json",
+        "SELFRES-2026-10-29.json",
+        "SHAREDIFF-2026-10-29.json",
+        "SIBLINGCLOSER-2026-11-01.json",
+        "SIBLINGENTRY-2026-11-01.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json",
+        "SIGNEXPOSURE-2026-10-27.json",
+        "SIGNGROWTH-2026-10-27.json",
+        "SIGNLEAF-2026-10-27.json",
+        "SLOPEMATRIX-2026-10-29.json",
+        "STALECUTOFF-2026-11-01.json",
+        "STARDIR-2026-10-29.json",
+        "STARLAGBAND-2026-10-29.json",
+        "STAROWN-2026-10-29.json",
+        "STAROWNREPIN-2026-10-30.json",
+        "STARSELF-2026-10-29.json",
+        "SURVIVINGCONCLUSIONS-2026-11-01.json",
+        "TEMPLATEPARAM-2026-10-31.json",
+        "TICKET-2026-10-23.json",
+        "TICKET-2026-10-26.json",
+        "TICKET-2026-10-27.json",
+        "TICKET-2026-10-28.json",
+        "TILT-2026-10-28.json",
+        "TILT-2026-10-29.json",
+        "TIMINGSEL-2026-10-28.json",
+        "TIMINGSEL-2026-10-29.json",
+        "TOPK-2026-10-09.json",
+        "TWOVINTAGE-2026-11-01.json",
+        "UNPINNEDCHOICE-2026-11-01.json",
+        "UNPUBLISHEDKEY-2026-10-31.json",
+        "VOLGATE-2026-10-28.json",
+        "VOLGATE-2026-10-29.json",
+        "W19-2026-10-09.json",
+        "W20-2026-10-09.json",
+        "WATCH-2026-10-19.json",
+        "ZEROTOLPRUNE-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e329_two_vintage_binding.py",
+      "binding": "disk",
+      "line": 499,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/**/*.json"
+      ],
+      "faces": [
+        "ADDOS-2026-10-29.json",
+        "ADDOS-2026-10-30.json",
+        "AGGATT-2026-10-29.json",
+        "ALLOWANCE-2026-11-01.json",
+        "AUDIT-2026-10-23.json",
+        "BANDAMBIENT-2026-10-29.json",
+        "BANDARRIVAL-2026-10-29.json",
+        "BANDARRIVALATE-2026-10-29.json",
+        "BANDBUCKET-2026-10-29.json",
+        "BANDCLOSURE-2026-10-29.json",
+        "BANDCOUNTSCOPE-2026-10-29.json",
+        "BANDDEFLATE-2026-10-29.json",
+        "BANDDISAGREE-2026-10-29.json",
+        "BANDDISAGREESCOPE-2026-10-29.json",
+        "BANDDONORCHOICE-2026-10-29.json",
+        "BANDDRAW-2026-10-29.json",
+        "BANDDUPES-2026-10-29.json",
+        "BANDEXP-2026-10-29.json",
+        "BANDFIELDS-2026-10-29.json",
+        "BANDFLIPBUDGET-2026-10-29.json",
+        "BANDFLOOR-2026-10-29.json",
+        "BANDFLOORMIRROR-2026-10-29.json",
+        "BANDFROZEN-2026-10-29.json",
+        "BANDGAPCEILING-2026-10-29.json",
+        "BANDMARGIN-2026-10-29.json",
+        "BANDMARGINWINDOW-2026-10-29.json",
+        "BANDNEAR1-2026-10-29.json",
+        "BANDPATH-2026-10-29.json",
+        "BANDPOOLED-2026-10-29.json",
+        "BANDSCOPEFIX-2026-10-29.json",
+        "BANDSCREEN-2026-10-29.json",
+        "BANDSCREENBUDGET-2026-10-29.json",
+        "BANDSELFAUDIT-2026-10-29.json",
+        "BANDSPREADFLOOR-2026-10-29.json",
+        "BANDSTRADDLESWEEP-2026-10-29.json",
+        "BANDSUBSTITUTE-2026-10-29.json",
+        "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+        "BANDSUPPLY-2026-10-29.json",
+        "BANDSWITCH-2026-10-30.json",
+        "BANDTHRESHGUARD-2026-10-29.json",
+        "BANDTIGHT-2026-10-29.json",
+        "BANDTOPFLIP-2026-10-29.json",
+        "BANDTRANSFER-2026-10-29.json",
+        "BANDUNDATEDVINTAGE-2026-10-31.json",
+        "BANDWINDIST-2026-10-29.json",
+        "BANDWINMULT-2026-10-29.json",
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "BASISRECOVERY-2026-10-30.json",
+        "BOOK-2026-09-22.json",
+        "BOOKECHO-2026-10-29.json",
+        "BOUNDGRANT-2026-11-01.json",
+        "BREAKEVEN-2026-10-28.json",
+        "BREAKEVEN-2026-10-29.json",
+        "CENSUS-2026-10-09.json",
+        "CENSUS-2026-10-19.json",
+        "COSTCURVE-2026-10-29.json",
+        "COUNTWITNESS-2026-10-28.json",
+        "DECOMLEVELQUOTES-2026-10-27.json",
+        "DECOMLEVELQUOTES-2026-10-28.json",
+        "DECOMPLEVELQUOTES-2026-10-28.json",
+        "DECOYRESOLVE-2026-10-31.json",
+        "DELTASIGN-2026-10-27.json",
+        "DELTASTANCE-2026-10-27.json",
+        "DOCQUOTES-2026-10-29.json",
+        "DOCQUOTES-2026-10-30.json",
+        "DRILL-2026-09-22.json",
+        "DUALARM-2026-09-30.json",
+        "DUALARM-2026-10-19.json",
+        "EVIDENCE-2026-09-22.json",
+        "GATECLAMP-2026-10-31.json",
+        "GATEFORM-2026-10-31.json",
+        "GATEOPERANDS-2026-10-31.json",
+        "GATEPRINT-2026-10-31.json",
+        "GATETOL-2026-10-31.json",
+        "GRANULARITY-2026-10-29.json",
+        "GREENWINDOW-2026-11-01.json",
+        "GUARDLOOSEN-2026-11-01.json",
+        "HARVEST-2026-10-19.json",
+        "HELPERREPAIR-2026-11-01.json",
+        "HOLDBRIDGE-2026-10-19.json",
+        "HYSTERESIS-2026-10-29.json",
+        "INFOSTRUCT-2026-10-29.json",
+        "INVISIBLETAIL-2026-11-01.json",
+        "JUDGED-2026-10-09.json",
+        "LABELDUTY-2026-10-27.json",
+        "LEADCOUNTER-2026-10-29.json",
+        "LEG3-2026-10-19.json",
+        "LEGEPS-2026-10-31.json",
+        "LIVE-2026-10-23.json",
+        "LOOBOOK-2026-10-29.json",
+        "MATCHED-2026-10-28.json",
+        "MATCHED-2026-10-29.json",
+        "MATRIX-2026-09-30.json",
+        "NEARZEROSIGN-2026-10-27.json",
+        "NULLS-2026-10-19.json",
+        "OMISSION-2026-10-29.json",
+        "OPTINRANK-2026-11-01.json",
+        "OPTINSWITCH-2026-11-01.json",
+        "ORPHANGATEFACE-2026-10-31.json",
+        "OWNCROSS-2026-10-29.json",
+        "PACK-2026-10-19.json",
+        "PAGEGATE-2026-10-29.json",
+        "PAGEGATE-2026-10-30.json",
+        "PAIRHET-2026-10-29.json",
+        "PICKS-2026-10-19.json",
+        "POINTERONLY-2026-11-01.json",
+        "POINTERREAD-2026-11-01.json",
+        "PRECISIONCENSUS-2026-10-29.json",
+        "PRECISIONCENSUS-2026-10-30.json",
+        "PRECISIONGAP-2026-10-31.json",
+        "PRINTCOV-2026-10-31.json",
+        "PRODUCTION-2026-10-23.json",
+        "PRODUCTION-2026-10-26.json",
+        "PRODUCTION-2026-10-27.json",
+        "PRODUCTION-2026-10-28.json",
+        "QUANTITYNAME-2026-10-31.json",
+        "QUOTECLASSFIX-2026-10-28.json",
+        "QUOTECOUNT-2026-10-28.json",
+        "REACHWIDE-2026-10-31.json",
+        "REFUSALCAUSE-2026-10-31.json",
+        "REGIME5-2026-09-30.json",
+        "REGIME5-2026-10-19.json",
+        "REPAIRRECORD-2026-11-01.json",
+        "REPLAYCENSUS-2026-10-30.json",
+        "REPLAYCENSUS-2026-10-31.json",
+        "REPLAYCENSUS-2026-11-01.json",
+        "REPRO-2026-10-29.json",
+        "RESULT-2026-10-19.json",
+        "SCREENREACH-2026-10-27.json",
+        "SELFINCLUSION-2026-10-31.json",
+        "SELFRES-2026-10-29.json",
+        "SHAREDIFF-2026-10-29.json",
+        "SIBLINGCLOSER-2026-11-01.json",
+        "SIBLINGENTRY-2026-11-01.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json",
+        "SIGNEXPOSURE-2026-10-27.json",
+        "SIGNGROWTH-2026-10-27.json",
+        "SIGNLEAF-2026-10-27.json",
+        "SLOPEMATRIX-2026-10-29.json",
+        "STALECUTOFF-2026-11-01.json",
+        "STARDIR-2026-10-29.json",
+        "STARLAGBAND-2026-10-29.json",
+        "STAROWN-2026-10-29.json",
+        "STAROWNREPIN-2026-10-30.json",
+        "STARSELF-2026-10-29.json",
+        "SURVIVINGCONCLUSIONS-2026-11-01.json",
+        "TEMPLATEPARAM-2026-10-31.json",
+        "TICKET-2026-10-23.json",
+        "TICKET-2026-10-26.json",
+        "TICKET-2026-10-27.json",
+        "TICKET-2026-10-28.json",
+        "TILT-2026-10-28.json",
+        "TILT-2026-10-29.json",
+        "TIMINGSEL-2026-10-28.json",
+        "TIMINGSEL-2026-10-29.json",
+        "TOPK-2026-10-09.json",
+        "TWOVINTAGE-2026-11-01.json",
+        "UNPINNEDCHOICE-2026-11-01.json",
+        "UNPUBLISHEDKEY-2026-10-31.json",
+        "VOLGATE-2026-10-28.json",
+        "VOLGATE-2026-10-29.json",
+        "W19-2026-10-09.json",
+        "W20-2026-10-09.json",
+        "WATCH-2026-10-19.json",
+        "ZEROTOLPRUNE-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e329_two_vintage_binding.py",
+      "binding": "doc",
+      "line": 214,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/**/*.json"
+      ],
+      "faces": [
+        "ADDOS-2026-10-29.json",
+        "ADDOS-2026-10-30.json",
+        "AGGATT-2026-10-29.json",
+        "ALLOWANCE-2026-11-01.json",
+        "AUDIT-2026-10-23.json",
+        "BANDAMBIENT-2026-10-29.json",
+        "BANDARRIVAL-2026-10-29.json",
+        "BANDARRIVALATE-2026-10-29.json",
+        "BANDBUCKET-2026-10-29.json",
+        "BANDCLOSURE-2026-10-29.json",
+        "BANDCOUNTSCOPE-2026-10-29.json",
+        "BANDDEFLATE-2026-10-29.json",
+        "BANDDISAGREE-2026-10-29.json",
+        "BANDDISAGREESCOPE-2026-10-29.json",
+        "BANDDONORCHOICE-2026-10-29.json",
+        "BANDDRAW-2026-10-29.json",
+        "BANDDUPES-2026-10-29.json",
+        "BANDEXP-2026-10-29.json",
+        "BANDFIELDS-2026-10-29.json",
+        "BANDFLIPBUDGET-2026-10-29.json",
+        "BANDFLOOR-2026-10-29.json",
+        "BANDFLOORMIRROR-2026-10-29.json",
+        "BANDFROZEN-2026-10-29.json",
+        "BANDGAPCEILING-2026-10-29.json",
+        "BANDMARGIN-2026-10-29.json",
+        "BANDMARGINWINDOW-2026-10-29.json",
+        "BANDNEAR1-2026-10-29.json",
+        "BANDPATH-2026-10-29.json",
+        "BANDPOOLED-2026-10-29.json",
+        "BANDSCOPEFIX-2026-10-29.json",
+        "BANDSCREEN-2026-10-29.json",
+        "BANDSCREENBUDGET-2026-10-29.json",
+        "BANDSELFAUDIT-2026-10-29.json",
+        "BANDSPREADFLOOR-2026-10-29.json",
+        "BANDSTRADDLESWEEP-2026-10-29.json",
+        "BANDSUBSTITUTE-2026-10-29.json",
+        "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+        "BANDSUPPLY-2026-10-29.json",
+        "BANDSWITCH-2026-10-30.json",
+        "BANDTHRESHGUARD-2026-10-29.json",
+        "BANDTIGHT-2026-10-29.json",
+        "BANDTOPFLIP-2026-10-29.json",
+        "BANDTRANSFER-2026-10-29.json",
+        "BANDUNDATEDVINTAGE-2026-10-31.json",
+        "BANDWINDIST-2026-10-29.json",
+        "BANDWINMULT-2026-10-29.json",
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "BASISRECOVERY-2026-10-30.json",
+        "BOOK-2026-09-22.json",
+        "BOOKECHO-2026-10-29.json",
+        "BOUNDGRANT-2026-11-01.json",
+        "BREAKEVEN-2026-10-28.json",
+        "BREAKEVEN-2026-10-29.json",
+        "CENSUS-2026-10-09.json",
+        "CENSUS-2026-10-19.json",
+        "COSTCURVE-2026-10-29.json",
+        "COUNTWITNESS-2026-10-28.json",
+        "DECOMLEVELQUOTES-2026-10-27.json",
+        "DECOMLEVELQUOTES-2026-10-28.json",
+        "DECOMPLEVELQUOTES-2026-10-28.json",
+        "DECOYRESOLVE-2026-10-31.json",
+        "DELTASIGN-2026-10-27.json",
+        "DELTASTANCE-2026-10-27.json",
+        "DOCQUOTES-2026-10-29.json",
+        "DOCQUOTES-2026-10-30.json",
+        "DRILL-2026-09-22.json",
+        "DUALARM-2026-09-30.json",
+        "DUALARM-2026-10-19.json",
+        "EVIDENCE-2026-09-22.json",
+        "GATECLAMP-2026-10-31.json",
+        "GATEFORM-2026-10-31.json",
+        "GATEOPERANDS-2026-10-31.json",
+        "GATEPRINT-2026-10-31.json",
+        "GATETOL-2026-10-31.json",
+        "GRANULARITY-2026-10-29.json",
+        "GREENWINDOW-2026-11-01.json",
+        "GUARDLOOSEN-2026-11-01.json",
+        "HARVEST-2026-10-19.json",
+        "HELPERREPAIR-2026-11-01.json",
+        "HOLDBRIDGE-2026-10-19.json",
+        "HYSTERESIS-2026-10-29.json",
+        "INFOSTRUCT-2026-10-29.json",
+        "INVISIBLETAIL-2026-11-01.json",
+        "JUDGED-2026-10-09.json",
+        "LABELDUTY-2026-10-27.json",
+        "LEADCOUNTER-2026-10-29.json",
+        "LEG3-2026-10-19.json",
+        "LEGEPS-2026-10-31.json",
+        "LIVE-2026-10-23.json",
+        "LOOBOOK-2026-10-29.json",
+        "MATCHED-2026-10-28.json",
+        "MATCHED-2026-10-29.json",
+        "MATRIX-2026-09-30.json",
+        "NEARZEROSIGN-2026-10-27.json",
+        "NULLS-2026-10-19.json",
+        "OMISSION-2026-10-29.json",
+        "OPTINRANK-2026-11-01.json",
+        "OPTINSWITCH-2026-11-01.json",
+        "ORPHANGATEFACE-2026-10-31.json",
+        "OWNCROSS-2026-10-29.json",
+        "PACK-2026-10-19.json",
+        "PAGEGATE-2026-10-29.json",
+        "PAGEGATE-2026-10-30.json",
+        "PAIRHET-2026-10-29.json",
+        "PICKS-2026-10-19.json",
+        "POINTERONLY-2026-11-01.json",
+        "POINTERREAD-2026-11-01.json",
+        "PRECISIONCENSUS-2026-10-29.json",
+        "PRECISIONCENSUS-2026-10-30.json",
+        "PRECISIONGAP-2026-10-31.json",
+        "PRINTCOV-2026-10-31.json",
+        "PRODUCTION-2026-10-23.json",
+        "PRODUCTION-2026-10-26.json",
+        "PRODUCTION-2026-10-27.json",
+        "PRODUCTION-2026-10-28.json",
+        "QUANTITYNAME-2026-10-31.json",
+        "QUOTECLASSFIX-2026-10-28.json",
+        "QUOTECOUNT-2026-10-28.json",
+        "REACHWIDE-2026-10-31.json",
+        "REFUSALCAUSE-2026-10-31.json",
+        "REGIME5-2026-09-30.json",
+        "REGIME5-2026-10-19.json",
+        "REPAIRRECORD-2026-11-01.json",
+        "REPLAYCENSUS-2026-10-30.json",
+        "REPLAYCENSUS-2026-10-31.json",
+        "REPLAYCENSUS-2026-11-01.json",
+        "REPRO-2026-10-29.json",
+        "RESULT-2026-10-19.json",
+        "SCREENREACH-2026-10-27.json",
+        "SELFINCLUSION-2026-10-31.json",
+        "SELFRES-2026-10-29.json",
+        "SHAREDIFF-2026-10-29.json",
+        "SIBLINGCLOSER-2026-11-01.json",
+        "SIBLINGENTRY-2026-11-01.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json",
+        "SIGNEXPOSURE-2026-10-27.json",
+        "SIGNGROWTH-2026-10-27.json",
+        "SIGNLEAF-2026-10-27.json",
+        "SLOPEMATRIX-2026-10-29.json",
+        "STALECUTOFF-2026-11-01.json",
+        "STARDIR-2026-10-29.json",
+        "STARLAGBAND-2026-10-29.json",
+        "STAROWN-2026-10-29.json",
+        "STAROWNREPIN-2026-10-30.json",
+        "STARSELF-2026-10-29.json",
+        "SURVIVINGCONCLUSIONS-2026-11-01.json",
+        "TEMPLATEPARAM-2026-10-31.json",
+        "TICKET-2026-10-23.json",
+        "TICKET-2026-10-26.json",
+        "TICKET-2026-10-27.json",
+        "TICKET-2026-10-28.json",
+        "TILT-2026-10-28.json",
+        "TILT-2026-10-29.json",
+        "TIMINGSEL-2026-10-28.json",
+        "TIMINGSEL-2026-10-29.json",
+        "TOPK-2026-10-09.json",
+        "TWOVINTAGE-2026-11-01.json",
+        "UNPINNEDCHOICE-2026-11-01.json",
+        "UNPUBLISHEDKEY-2026-10-31.json",
+        "VOLGATE-2026-10-28.json",
+        "VOLGATE-2026-10-29.json",
+        "W19-2026-10-09.json",
+        "W20-2026-10-09.json",
+        "WATCH-2026-10-19.json",
+        "ZEROTOLPRUNE-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e331_pointer_only_readers.py",
+      "binding": "disk",
+      "line": 648,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/**/*.json"
+      ],
+      "faces": [
+        "ADDOS-2026-10-29.json",
+        "ADDOS-2026-10-30.json",
+        "AGGATT-2026-10-29.json",
+        "ALLOWANCE-2026-11-01.json",
+        "AUDIT-2026-10-23.json",
+        "BANDAMBIENT-2026-10-29.json",
+        "BANDARRIVAL-2026-10-29.json",
+        "BANDARRIVALATE-2026-10-29.json",
+        "BANDBUCKET-2026-10-29.json",
+        "BANDCLOSURE-2026-10-29.json",
+        "BANDCOUNTSCOPE-2026-10-29.json",
+        "BANDDEFLATE-2026-10-29.json",
+        "BANDDISAGREE-2026-10-29.json",
+        "BANDDISAGREESCOPE-2026-10-29.json",
+        "BANDDONORCHOICE-2026-10-29.json",
+        "BANDDRAW-2026-10-29.json",
+        "BANDDUPES-2026-10-29.json",
+        "BANDEXP-2026-10-29.json",
+        "BANDFIELDS-2026-10-29.json",
+        "BANDFLIPBUDGET-2026-10-29.json",
+        "BANDFLOOR-2026-10-29.json",
+        "BANDFLOORMIRROR-2026-10-29.json",
+        "BANDFROZEN-2026-10-29.json",
+        "BANDGAPCEILING-2026-10-29.json",
+        "BANDMARGIN-2026-10-29.json",
+        "BANDMARGINWINDOW-2026-10-29.json",
+        "BANDNEAR1-2026-10-29.json",
+        "BANDPATH-2026-10-29.json",
+        "BANDPOOLED-2026-10-29.json",
+        "BANDSCOPEFIX-2026-10-29.json",
+        "BANDSCREEN-2026-10-29.json",
+        "BANDSCREENBUDGET-2026-10-29.json",
+        "BANDSELFAUDIT-2026-10-29.json",
+        "BANDSPREADFLOOR-2026-10-29.json",
+        "BANDSTRADDLESWEEP-2026-10-29.json",
+        "BANDSUBSTITUTE-2026-10-29.json",
+        "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+        "BANDSUPPLY-2026-10-29.json",
+        "BANDSWITCH-2026-10-30.json",
+        "BANDTHRESHGUARD-2026-10-29.json",
+        "BANDTIGHT-2026-10-29.json",
+        "BANDTOPFLIP-2026-10-29.json",
+        "BANDTRANSFER-2026-10-29.json",
+        "BANDUNDATEDVINTAGE-2026-10-31.json",
+        "BANDWINDIST-2026-10-29.json",
+        "BANDWINMULT-2026-10-29.json",
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "BASISRECOVERY-2026-10-30.json",
+        "BOOK-2026-09-22.json",
+        "BOOKECHO-2026-10-29.json",
+        "BOUNDGRANT-2026-11-01.json",
+        "BREAKEVEN-2026-10-28.json",
+        "BREAKEVEN-2026-10-29.json",
+        "CENSUS-2026-10-09.json",
+        "CENSUS-2026-10-19.json",
+        "COSTCURVE-2026-10-29.json",
+        "COUNTWITNESS-2026-10-28.json",
+        "DECOMLEVELQUOTES-2026-10-27.json",
+        "DECOMLEVELQUOTES-2026-10-28.json",
+        "DECOMPLEVELQUOTES-2026-10-28.json",
+        "DECOYRESOLVE-2026-10-31.json",
+        "DELTASIGN-2026-10-27.json",
+        "DELTASTANCE-2026-10-27.json",
+        "DOCQUOTES-2026-10-29.json",
+        "DOCQUOTES-2026-10-30.json",
+        "DRILL-2026-09-22.json",
+        "DUALARM-2026-09-30.json",
+        "DUALARM-2026-10-19.json",
+        "EVIDENCE-2026-09-22.json",
+        "GATECLAMP-2026-10-31.json",
+        "GATEFORM-2026-10-31.json",
+        "GATEOPERANDS-2026-10-31.json",
+        "GATEPRINT-2026-10-31.json",
+        "GATETOL-2026-10-31.json",
+        "GRANULARITY-2026-10-29.json",
+        "GREENWINDOW-2026-11-01.json",
+        "GUARDLOOSEN-2026-11-01.json",
+        "HARVEST-2026-10-19.json",
+        "HELPERREPAIR-2026-11-01.json",
+        "HOLDBRIDGE-2026-10-19.json",
+        "HYSTERESIS-2026-10-29.json",
+        "INFOSTRUCT-2026-10-29.json",
+        "INVISIBLETAIL-2026-11-01.json",
+        "JUDGED-2026-10-09.json",
+        "LABELDUTY-2026-10-27.json",
+        "LEADCOUNTER-2026-10-29.json",
+        "LEG3-2026-10-19.json",
+        "LEGEPS-2026-10-31.json",
+        "LIVE-2026-10-23.json",
+        "LOOBOOK-2026-10-29.json",
+        "MATCHED-2026-10-28.json",
+        "MATCHED-2026-10-29.json",
+        "MATRIX-2026-09-30.json",
+        "NEARZEROSIGN-2026-10-27.json",
+        "NULLS-2026-10-19.json",
+        "OMISSION-2026-10-29.json",
+        "OPTINRANK-2026-11-01.json",
+        "OPTINSWITCH-2026-11-01.json",
+        "ORPHANGATEFACE-2026-10-31.json",
+        "OWNCROSS-2026-10-29.json",
+        "PACK-2026-10-19.json",
+        "PAGEGATE-2026-10-29.json",
+        "PAGEGATE-2026-10-30.json",
+        "PAIRHET-2026-10-29.json",
+        "PICKS-2026-10-19.json",
+        "POINTERONLY-2026-11-01.json",
+        "POINTERREAD-2026-11-01.json",
+        "PRECISIONCENSUS-2026-10-29.json",
+        "PRECISIONCENSUS-2026-10-30.json",
+        "PRECISIONGAP-2026-10-31.json",
+        "PRINTCOV-2026-10-31.json",
+        "PRODUCTION-2026-10-23.json",
+        "PRODUCTION-2026-10-26.json",
+        "PRODUCTION-2026-10-27.json",
+        "PRODUCTION-2026-10-28.json",
+        "QUANTITYNAME-2026-10-31.json",
+        "QUOTECLASSFIX-2026-10-28.json",
+        "QUOTECOUNT-2026-10-28.json",
+        "REACHWIDE-2026-10-31.json",
+        "REFUSALCAUSE-2026-10-31.json",
+        "REGIME5-2026-09-30.json",
+        "REGIME5-2026-10-19.json",
+        "REPAIRRECORD-2026-11-01.json",
+        "REPLAYCENSUS-2026-10-30.json",
+        "REPLAYCENSUS-2026-10-31.json",
+        "REPLAYCENSUS-2026-11-01.json",
+        "REPRO-2026-10-29.json",
+        "RESULT-2026-10-19.json",
+        "SCREENREACH-2026-10-27.json",
+        "SELFINCLUSION-2026-10-31.json",
+        "SELFRES-2026-10-29.json",
+        "SHAREDIFF-2026-10-29.json",
+        "SIBLINGCLOSER-2026-11-01.json",
+        "SIBLINGENTRY-2026-11-01.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json",
+        "SIGNEXPOSURE-2026-10-27.json",
+        "SIGNGROWTH-2026-10-27.json",
+        "SIGNLEAF-2026-10-27.json",
+        "SLOPEMATRIX-2026-10-29.json",
+        "STALECUTOFF-2026-11-01.json",
+        "STARDIR-2026-10-29.json",
+        "STARLAGBAND-2026-10-29.json",
+        "STAROWN-2026-10-29.json",
+        "STAROWNREPIN-2026-10-30.json",
+        "STARSELF-2026-10-29.json",
+        "SURVIVINGCONCLUSIONS-2026-11-01.json",
+        "TEMPLATEPARAM-2026-10-31.json",
+        "TICKET-2026-10-23.json",
+        "TICKET-2026-10-26.json",
+        "TICKET-2026-10-27.json",
+        "TICKET-2026-10-28.json",
+        "TILT-2026-10-28.json",
+        "TILT-2026-10-29.json",
+        "TIMINGSEL-2026-10-28.json",
+        "TIMINGSEL-2026-10-29.json",
+        "TOPK-2026-10-09.json",
+        "TWOVINTAGE-2026-11-01.json",
+        "UNPINNEDCHOICE-2026-11-01.json",
+        "UNPUBLISHEDKEY-2026-10-31.json",
+        "VOLGATE-2026-10-28.json",
+        "VOLGATE-2026-10-29.json",
+        "W19-2026-10-09.json",
+        "W20-2026-10-09.json",
+        "WATCH-2026-10-19.json",
+        "ZEROTOLPRUNE-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e340_who_authorizes_whose_allowance.py",
+      "binding": "disk",
+      "line": 582,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/**/*.json"
+      ],
+      "faces": [
+        "ADDOS-2026-10-29.json",
+        "ADDOS-2026-10-30.json",
+        "AGGATT-2026-10-29.json",
+        "ALLOWANCE-2026-11-01.json",
+        "AUDIT-2026-10-23.json",
+        "BANDAMBIENT-2026-10-29.json",
+        "BANDARRIVAL-2026-10-29.json",
+        "BANDARRIVALATE-2026-10-29.json",
+        "BANDBUCKET-2026-10-29.json",
+        "BANDCLOSURE-2026-10-29.json",
+        "BANDCOUNTSCOPE-2026-10-29.json",
+        "BANDDEFLATE-2026-10-29.json",
+        "BANDDISAGREE-2026-10-29.json",
+        "BANDDISAGREESCOPE-2026-10-29.json",
+        "BANDDONORCHOICE-2026-10-29.json",
+        "BANDDRAW-2026-10-29.json",
+        "BANDDUPES-2026-10-29.json",
+        "BANDEXP-2026-10-29.json",
+        "BANDFIELDS-2026-10-29.json",
+        "BANDFLIPBUDGET-2026-10-29.json",
+        "BANDFLOOR-2026-10-29.json",
+        "BANDFLOORMIRROR-2026-10-29.json",
+        "BANDFROZEN-2026-10-29.json",
+        "BANDGAPCEILING-2026-10-29.json",
+        "BANDMARGIN-2026-10-29.json",
+        "BANDMARGINWINDOW-2026-10-29.json",
+        "BANDNEAR1-2026-10-29.json",
+        "BANDPATH-2026-10-29.json",
+        "BANDPOOLED-2026-10-29.json",
+        "BANDSCOPEFIX-2026-10-29.json",
+        "BANDSCREEN-2026-10-29.json",
+        "BANDSCREENBUDGET-2026-10-29.json",
+        "BANDSELFAUDIT-2026-10-29.json",
+        "BANDSPREADFLOOR-2026-10-29.json",
+        "BANDSTRADDLESWEEP-2026-10-29.json",
+        "BANDSUBSTITUTE-2026-10-29.json",
+        "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+        "BANDSUPPLY-2026-10-29.json",
+        "BANDSWITCH-2026-10-30.json",
+        "BANDTHRESHGUARD-2026-10-29.json",
+        "BANDTIGHT-2026-10-29.json",
+        "BANDTOPFLIP-2026-10-29.json",
+        "BANDTRANSFER-2026-10-29.json",
+        "BANDUNDATEDVINTAGE-2026-10-31.json",
+        "BANDWINDIST-2026-10-29.json",
+        "BANDWINMULT-2026-10-29.json",
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "BASISRECOVERY-2026-10-30.json",
+        "BOOK-2026-09-22.json",
+        "BOOKECHO-2026-10-29.json",
+        "BOUNDGRANT-2026-11-01.json",
+        "BREAKEVEN-2026-10-28.json",
+        "BREAKEVEN-2026-10-29.json",
+        "CENSUS-2026-10-09.json",
+        "CENSUS-2026-10-19.json",
+        "COSTCURVE-2026-10-29.json",
+        "COUNTWITNESS-2026-10-28.json",
+        "DECOMLEVELQUOTES-2026-10-27.json",
+        "DECOMLEVELQUOTES-2026-10-28.json",
+        "DECOMPLEVELQUOTES-2026-10-28.json",
+        "DECOYRESOLVE-2026-10-31.json",
+        "DELTASIGN-2026-10-27.json",
+        "DELTASTANCE-2026-10-27.json",
+        "DOCQUOTES-2026-10-29.json",
+        "DOCQUOTES-2026-10-30.json",
+        "DRILL-2026-09-22.json",
+        "DUALARM-2026-09-30.json",
+        "DUALARM-2026-10-19.json",
+        "EVIDENCE-2026-09-22.json",
+        "GATECLAMP-2026-10-31.json",
+        "GATEFORM-2026-10-31.json",
+        "GATEOPERANDS-2026-10-31.json",
+        "GATEPRINT-2026-10-31.json",
+        "GATETOL-2026-10-31.json",
+        "GRANULARITY-2026-10-29.json",
+        "GREENWINDOW-2026-11-01.json",
+        "GUARDLOOSEN-2026-11-01.json",
+        "HARVEST-2026-10-19.json",
+        "HELPERREPAIR-2026-11-01.json",
+        "HOLDBRIDGE-2026-10-19.json",
+        "HYSTERESIS-2026-10-29.json",
+        "INFOSTRUCT-2026-10-29.json",
+        "INVISIBLETAIL-2026-11-01.json",
+        "JUDGED-2026-10-09.json",
+        "LABELDUTY-2026-10-27.json",
+        "LEADCOUNTER-2026-10-29.json",
+        "LEG3-2026-10-19.json",
+        "LEGEPS-2026-10-31.json",
+        "LIVE-2026-10-23.json",
+        "LOOBOOK-2026-10-29.json",
+        "MATCHED-2026-10-28.json",
+        "MATCHED-2026-10-29.json",
+        "MATRIX-2026-09-30.json",
+        "NEARZEROSIGN-2026-10-27.json",
+        "NULLS-2026-10-19.json",
+        "OMISSION-2026-10-29.json",
+        "OPTINRANK-2026-11-01.json",
+        "OPTINSWITCH-2026-11-01.json",
+        "ORPHANGATEFACE-2026-10-31.json",
+        "OWNCROSS-2026-10-29.json",
+        "PACK-2026-10-19.json",
+        "PAGEGATE-2026-10-29.json",
+        "PAGEGATE-2026-10-30.json",
+        "PAIRHET-2026-10-29.json",
+        "PICKS-2026-10-19.json",
+        "POINTERONLY-2026-11-01.json",
+        "POINTERREAD-2026-11-01.json",
+        "PRECISIONCENSUS-2026-10-29.json",
+        "PRECISIONCENSUS-2026-10-30.json",
+        "PRECISIONGAP-2026-10-31.json",
+        "PRINTCOV-2026-10-31.json",
+        "PRODUCTION-2026-10-23.json",
+        "PRODUCTION-2026-10-26.json",
+        "PRODUCTION-2026-10-27.json",
+        "PRODUCTION-2026-10-28.json",
+        "QUANTITYNAME-2026-10-31.json",
+        "QUOTECLASSFIX-2026-10-28.json",
+        "QUOTECOUNT-2026-10-28.json",
+        "REACHWIDE-2026-10-31.json",
+        "REFUSALCAUSE-2026-10-31.json",
+        "REGIME5-2026-09-30.json",
+        "REGIME5-2026-10-19.json",
+        "REPAIRRECORD-2026-11-01.json",
+        "REPLAYCENSUS-2026-10-30.json",
+        "REPLAYCENSUS-2026-10-31.json",
+        "REPLAYCENSUS-2026-11-01.json",
+        "REPRO-2026-10-29.json",
+        "RESULT-2026-10-19.json",
+        "SCREENREACH-2026-10-27.json",
+        "SELFINCLUSION-2026-10-31.json",
+        "SELFRES-2026-10-29.json",
+        "SHAREDIFF-2026-10-29.json",
+        "SIBLINGCLOSER-2026-11-01.json",
+        "SIBLINGENTRY-2026-11-01.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json",
+        "SIGNEXPOSURE-2026-10-27.json",
+        "SIGNGROWTH-2026-10-27.json",
+        "SIGNLEAF-2026-10-27.json",
+        "SLOPEMATRIX-2026-10-29.json",
+        "STALECUTOFF-2026-11-01.json",
+        "STARDIR-2026-10-29.json",
+        "STARLAGBAND-2026-10-29.json",
+        "STAROWN-2026-10-29.json",
+        "STAROWNREPIN-2026-10-30.json",
+        "STARSELF-2026-10-29.json",
+        "SURVIVINGCONCLUSIONS-2026-11-01.json",
+        "TEMPLATEPARAM-2026-10-31.json",
+        "TICKET-2026-10-23.json",
+        "TICKET-2026-10-26.json",
+        "TICKET-2026-10-27.json",
+        "TICKET-2026-10-28.json",
+        "TILT-2026-10-28.json",
+        "TILT-2026-10-29.json",
+        "TIMINGSEL-2026-10-28.json",
+        "TIMINGSEL-2026-10-29.json",
+        "TOPK-2026-10-09.json",
+        "TWOVINTAGE-2026-11-01.json",
+        "UNPINNEDCHOICE-2026-11-01.json",
+        "UNPUBLISHEDKEY-2026-10-31.json",
+        "VOLGATE-2026-10-28.json",
+        "VOLGATE-2026-10-29.json",
+        "W19-2026-10-09.json",
+        "W20-2026-10-09.json",
+        "WATCH-2026-10-19.json",
+        "ZEROTOLPRUNE-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/e340_who_authorizes_whose_allowance.py",
+      "binding": "doc",
+      "line": 185,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/**/*.json"
+      ],
+      "faces": [
+        "ADDOS-2026-10-29.json",
+        "ADDOS-2026-10-30.json",
+        "AGGATT-2026-10-29.json",
+        "ALLOWANCE-2026-11-01.json",
+        "AUDIT-2026-10-23.json",
+        "BANDAMBIENT-2026-10-29.json",
+        "BANDARRIVAL-2026-10-29.json",
+        "BANDARRIVALATE-2026-10-29.json",
+        "BANDBUCKET-2026-10-29.json",
+        "BANDCLOSURE-2026-10-29.json",
+        "BANDCOUNTSCOPE-2026-10-29.json",
+        "BANDDEFLATE-2026-10-29.json",
+        "BANDDISAGREE-2026-10-29.json",
+        "BANDDISAGREESCOPE-2026-10-29.json",
+        "BANDDONORCHOICE-2026-10-29.json",
+        "BANDDRAW-2026-10-29.json",
+        "BANDDUPES-2026-10-29.json",
+        "BANDEXP-2026-10-29.json",
+        "BANDFIELDS-2026-10-29.json",
+        "BANDFLIPBUDGET-2026-10-29.json",
+        "BANDFLOOR-2026-10-29.json",
+        "BANDFLOORMIRROR-2026-10-29.json",
+        "BANDFROZEN-2026-10-29.json",
+        "BANDGAPCEILING-2026-10-29.json",
+        "BANDMARGIN-2026-10-29.json",
+        "BANDMARGINWINDOW-2026-10-29.json",
+        "BANDNEAR1-2026-10-29.json",
+        "BANDPATH-2026-10-29.json",
+        "BANDPOOLED-2026-10-29.json",
+        "BANDSCOPEFIX-2026-10-29.json",
+        "BANDSCREEN-2026-10-29.json",
+        "BANDSCREENBUDGET-2026-10-29.json",
+        "BANDSELFAUDIT-2026-10-29.json",
+        "BANDSPREADFLOOR-2026-10-29.json",
+        "BANDSTRADDLESWEEP-2026-10-29.json",
+        "BANDSUBSTITUTE-2026-10-29.json",
+        "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+        "BANDSUPPLY-2026-10-29.json",
+        "BANDSWITCH-2026-10-30.json",
+        "BANDTHRESHGUARD-2026-10-29.json",
+        "BANDTIGHT-2026-10-29.json",
+        "BANDTOPFLIP-2026-10-29.json",
+        "BANDTRANSFER-2026-10-29.json",
+        "BANDUNDATEDVINTAGE-2026-10-31.json",
+        "BANDWINDIST-2026-10-29.json",
+        "BANDWINMULT-2026-10-29.json",
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "BASISRECOVERY-2026-10-30.json",
+        "BOOK-2026-09-22.json",
+        "BOOKECHO-2026-10-29.json",
+        "BOUNDGRANT-2026-11-01.json",
+        "BREAKEVEN-2026-10-28.json",
+        "BREAKEVEN-2026-10-29.json",
+        "CENSUS-2026-10-09.json",
+        "CENSUS-2026-10-19.json",
+        "COSTCURVE-2026-10-29.json",
+        "COUNTWITNESS-2026-10-28.json",
+        "DECOMLEVELQUOTES-2026-10-27.json",
+        "DECOMLEVELQUOTES-2026-10-28.json",
+        "DECOMPLEVELQUOTES-2026-10-28.json",
+        "DECOYRESOLVE-2026-10-31.json",
+        "DELTASIGN-2026-10-27.json",
+        "DELTASTANCE-2026-10-27.json",
+        "DOCQUOTES-2026-10-29.json",
+        "DOCQUOTES-2026-10-30.json",
+        "DRILL-2026-09-22.json",
+        "DUALARM-2026-09-30.json",
+        "DUALARM-2026-10-19.json",
+        "EVIDENCE-2026-09-22.json",
+        "GATECLAMP-2026-10-31.json",
+        "GATEFORM-2026-10-31.json",
+        "GATEOPERANDS-2026-10-31.json",
+        "GATEPRINT-2026-10-31.json",
+        "GATETOL-2026-10-31.json",
+        "GRANULARITY-2026-10-29.json",
+        "GREENWINDOW-2026-11-01.json",
+        "GUARDLOOSEN-2026-11-01.json",
+        "HARVEST-2026-10-19.json",
+        "HELPERREPAIR-2026-11-01.json",
+        "HOLDBRIDGE-2026-10-19.json",
+        "HYSTERESIS-2026-10-29.json",
+        "INFOSTRUCT-2026-10-29.json",
+        "INVISIBLETAIL-2026-11-01.json",
+        "JUDGED-2026-10-09.json",
+        "LABELDUTY-2026-10-27.json",
+        "LEADCOUNTER-2026-10-29.json",
+        "LEG3-2026-10-19.json",
+        "LEGEPS-2026-10-31.json",
+        "LIVE-2026-10-23.json",
+        "LOOBOOK-2026-10-29.json",
+        "MATCHED-2026-10-28.json",
+        "MATCHED-2026-10-29.json",
+        "MATRIX-2026-09-30.json",
+        "NEARZEROSIGN-2026-10-27.json",
+        "NULLS-2026-10-19.json",
+        "OMISSION-2026-10-29.json",
+        "OPTINRANK-2026-11-01.json",
+        "OPTINSWITCH-2026-11-01.json",
+        "ORPHANGATEFACE-2026-10-31.json",
+        "OWNCROSS-2026-10-29.json",
+        "PACK-2026-10-19.json",
+        "PAGEGATE-2026-10-29.json",
+        "PAGEGATE-2026-10-30.json",
+        "PAIRHET-2026-10-29.json",
+        "PICKS-2026-10-19.json",
+        "POINTERONLY-2026-11-01.json",
+        "POINTERREAD-2026-11-01.json",
+        "PRECISIONCENSUS-2026-10-29.json",
+        "PRECISIONCENSUS-2026-10-30.json",
+        "PRECISIONGAP-2026-10-31.json",
+        "PRINTCOV-2026-10-31.json",
+        "PRODUCTION-2026-10-23.json",
+        "PRODUCTION-2026-10-26.json",
+        "PRODUCTION-2026-10-27.json",
+        "PRODUCTION-2026-10-28.json",
+        "QUANTITYNAME-2026-10-31.json",
+        "QUOTECLASSFIX-2026-10-28.json",
+        "QUOTECOUNT-2026-10-28.json",
+        "REACHWIDE-2026-10-31.json",
+        "REFUSALCAUSE-2026-10-31.json",
+        "REGIME5-2026-09-30.json",
+        "REGIME5-2026-10-19.json",
+        "REPAIRRECORD-2026-11-01.json",
+        "REPLAYCENSUS-2026-10-30.json",
+        "REPLAYCENSUS-2026-10-31.json",
+        "REPLAYCENSUS-2026-11-01.json",
+        "REPRO-2026-10-29.json",
+        "RESULT-2026-10-19.json",
+        "SCREENREACH-2026-10-27.json",
+        "SELFINCLUSION-2026-10-31.json",
+        "SELFRES-2026-10-29.json",
+        "SHAREDIFF-2026-10-29.json",
+        "SIBLINGCLOSER-2026-11-01.json",
+        "SIBLINGENTRY-2026-11-01.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json",
+        "SIGNEXPOSURE-2026-10-27.json",
+        "SIGNGROWTH-2026-10-27.json",
+        "SIGNLEAF-2026-10-27.json",
+        "SLOPEMATRIX-2026-10-29.json",
+        "STALECUTOFF-2026-11-01.json",
+        "STARDIR-2026-10-29.json",
+        "STARLAGBAND-2026-10-29.json",
+        "STAROWN-2026-10-29.json",
+        "STAROWNREPIN-2026-10-30.json",
+        "STARSELF-2026-10-29.json",
+        "SURVIVINGCONCLUSIONS-2026-11-01.json",
+        "TEMPLATEPARAM-2026-10-31.json",
+        "TICKET-2026-10-23.json",
+        "TICKET-2026-10-26.json",
+        "TICKET-2026-10-27.json",
+        "TICKET-2026-10-28.json",
+        "TILT-2026-10-28.json",
+        "TILT-2026-10-29.json",
+        "TIMINGSEL-2026-10-28.json",
+        "TIMINGSEL-2026-10-29.json",
+        "TOPK-2026-10-09.json",
+        "TWOVINTAGE-2026-11-01.json",
+        "UNPINNEDCHOICE-2026-11-01.json",
+        "UNPUBLISHEDKEY-2026-10-31.json",
+        "VOLGATE-2026-10-28.json",
+        "VOLGATE-2026-10-29.json",
+        "W19-2026-10-09.json",
+        "W20-2026-10-09.json",
+        "WATCH-2026-10-19.json",
+        "ZEROTOLPRUNE-2026-10-31.json"
+      ]
+    },
+    {
+      "path": "scripts/monthly_exam_prep.py",
+      "binding": "base",
+      "line": 357,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/rev_osc_live/*.json"
+      ],
+      "faces": [
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json"
+      ]
+    },
+    {
+      "path": "scripts/monthly_exam_prep.py",
+      "binding": "ytd",
+      "line": 396,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/rev_osc_live/*.json"
+      ],
+      "faces": [
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json"
+      ]
+    },
+    {
+      "path": "scripts/monthly_exam_prep.py",
+      "binding": "rb",
+      "line": 617,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/rev_osc_live/*.json"
+      ],
+      "faces": [
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json"
+      ]
+    },
+    {
+      "path": "scripts/monthly_exam_prep.py",
+      "binding": "baseline",
+      "line": 1116,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/rev_osc_live/*.json"
+      ],
+      "faces": [
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json"
+      ]
+    },
+    {
+      "path": "scripts/monthly_exam_prep.py",
+      "binding": "d",
+      "line": 339,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/rev_osc_live/*.json"
+      ],
+      "faces": [
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json"
+      ]
+    },
+    {
+      "path": "scripts/monthly_exam_prep.py",
+      "binding": "d",
+      "line": 147,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/rev_osc_live/*.json"
+      ],
+      "faces": [
+        "BARS-2026-09-24.json",
+        "BARS-2026-09-28.json",
+        "BARS-2026-09-29.json",
+        "BARS-2026-09-30.json",
+        "BARS-2026-10-09.json",
+        "BARS-2026-10-13.json",
+        "BARS-2026-10-15.json",
+        "BARS-2026-10-16.json",
+        "BARS-2026-10-19.json",
+        "BARS-2026-10-20.json",
+        "BARS-2026-10-26.json",
+        "BARS-2026-10-27.json",
+        "BARS-2026-10-28.json",
+        "BARS-2026-10-29.json",
+        "SIG-2026-09-24.json",
+        "SIG-2026-09-28.json",
+        "SIG-2026-09-29.json",
+        "SIG-2026-09-30.json",
+        "SIG-2026-10-09.json",
+        "SIG-2026-10-13.json",
+        "SIG-2026-10-15.json",
+        "SIG-2026-10-16.json",
+        "SIG-2026-10-19.json",
+        "SIG-2026-10-20.json",
+        "SIG-2026-10-26.json",
+        "SIG-2026-10-27.json",
+        "SIG-2026-10-28.json",
+        "SIG-2026-10-29.json"
+      ]
+    },
+    {
+      "path": "scripts/portfolio_recommend.py",
+      "binding": "nulls",
+      "line": 97,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "NULLS"
+      ]
+    },
+    {
+      "path": "scripts/regime5_validation.py",
+      "binding": "d",
+      "line": 286,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "REGIME5"
+      ]
+    },
+    {
+      "path": "scripts/regime5_validation.py",
+      "binding": "doc",
+      "line": 412,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "REGIME5"
+      ]
+    },
+    {
+      "path": "scripts/regime5_validation.py",
+      "binding": "old",
+      "line": 272,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "REGIME5"
+      ]
+    },
+    {
+      "path": "scripts/regime_gate_dualarm.py",
+      "binding": "doc",
+      "line": 100,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "DUALARM"
+      ]
+    },
+    {
+      "path": "scripts/regime_gate_dualarm.py",
+      "binding": "art",
+      "line": 425,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "DUALARM"
+      ]
+    },
+    {
+      "path": "scripts/regime_gate_dualarm.py",
+      "binding": "art3",
+      "line": 452,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "DUALARM"
+      ]
+    },
+    {
+      "path": "scripts/regime_gate_evidence.py",
+      "binding": "d",
+      "line": 62,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/regime5_labels/*.json",
+        "results/regime5_labels/*.json"
+      ],
+      "faces": [
+        "REGIME5-2026-09-30.json",
+        "REGIME5-2026-10-19.json"
+      ]
+    },
+    {
+      "path": "scripts/regime_p0_slice.py",
+      "binding": "d",
+      "line": 74,
+      "load_name": "load",
+      "channel": "named",
+      "scopes": [],
+      "faces": [
+        "REGIME5-2026-09-30.json"
+      ]
+    },
+    {
+      "path": "scripts/regime_style_matrix.py",
+      "binding": "doc",
+      "line": 173,
+      "load_name": "load",
+      "channel": "enumeration",
+      "scopes": [
+        "results/regime5_labels/*.json"
+      ],
+      "faces": [
+        "REGIME5-2026-09-30.json",
+        "REGIME5-2026-10-19.json"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "face": "BANDWINMULT",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e258_band_multiplier_per_window.py",
+      "line": 831,
+      "kind": "null_guard",
+      "function": "selftest",
+      "decision_class": "selftest_fixture",
+      "code": "if face is not None:",
+      "tested": "face",
+      "operators": [
+        "is not"
+      ],
+      "bound": [
+        "None"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "None"
+        }
+      ]
+    },
+    {
+      "face": "BANDWINMULT",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e258_band_multiplier_per_window.py",
+      "line": 686,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if v != face.get(\"verdict\"):",
+      "tested": "face.get(\"verdict\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "v"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "name": "v",
+          "value": "multiplier"
+        }
+      ]
+    },
+    {
+      "face": "BANDWINMULT",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e258_band_multiplier_per_window.py",
+      "line": 622,
+      "kind": "conditional_expression",
+      "function": "_fmt",
+      "decision_class": "report",
+      "code": "if (face.get(\"rows_vs_borrowed_range\") or {}).get(\"rows\") else \"n/a\"),",
+      "tested": "(face.get(\"rows_vs_borrowed_range\") or {}).get",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "BANDWINMULT",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e258_band_multiplier_per_window.py",
+      "line": 620,
+      "kind": "comprehension_filter",
+      "function": "_fmt",
+      "decision_class": "report",
+      "code": "((face.get(\"rows_vs_borrowed_range\") or {}).get(\"rows\") or [])",
+      "tested": "(face.get(\"rows_vs_borrowed_range\") or {}).get(\"rows\") or []",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "BANDBUCKET",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+      "line": 549,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if got.get(\"verdict\") != fresh.get(\"verdict\"):",
+      "tested": "got.get(\"verdict\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "fresh.get(\"verdict\")"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "fresh.get(\"verdict\")"
+        }
+      ]
+    },
+    {
+      "face": "BANDBUCKET",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+      "line": 551,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if got.get(\"verdict_reason\") != fresh.get(\"verdict_reason\"):",
+      "tested": "got.get(\"verdict_reason\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "fresh.get(\"verdict_reason\")"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "fresh.get(\"verdict_reason\")"
+        }
+      ]
+    },
+    {
+      "face": "BANDBUCKET",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+      "line": 555,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if got.get(\"frozen_spec\") != fresh.get(\"frozen_spec\"):",
+      "tested": "got.get(\"frozen_spec\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "fresh.get(\"frozen_spec\")"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "fresh.get(\"frozen_spec\")"
+        }
+      ]
+    },
+    {
+      "face": "BANDBUCKET",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+      "line": 553,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "report",
+      "code": "if (got.get(\"summary\") or {}) != (fresh.get(\"summary\") or {}):",
+      "tested": "got.get(\"summary\") or {}",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "fresh.get(\"summary\") or {}"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "fresh.get(\"summary\") or {}"
+        }
+      ]
+    },
+    {
+      "face": "BANDBUCKET",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+      "line": 557,
+      "kind": "comprehension_filter",
+      "function": "verify",
+      "decision_class": "report",
+      "code": "pa = {(a.get(\"cell\"), a.get(\"arm\")): a for a in (got.get(\"arms\") or [])}",
+      "tested": "got.get(\"arms\") or []",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "BANDBUCKET",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+      "line": 568,
+      "kind": "comprehension_filter",
+      "function": "verify",
+      "decision_class": "report",
+      "code": "pr = {(r.get(\"cell\"), r.get(\"row\")): r for r in (got.get(\"rows\") or [])}",
+      "tested": "got.get(\"rows\") or []",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "BANDBUCKET",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+      "line": 579,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if (got.get(block) or {}).get(\"verdict\") != (fresh.get(block) or {}).get(\"verdict\"):",
+      "tested": "(got.get(block) or {}).get(\"verdict\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "(fresh.get(block) or {}).get(\"verdict\")"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "(fresh.get(block) or {}).get(\"verdict\")"
+        }
+      ]
+    },
+    {
+      "face": "BANDARRIVAL",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e263_arrival_vs_cell_size.py",
+      "line": 700,
+      "kind": "comparison",
+      "function": "selftest",
+      "decision_class": "selftest_fixture",
+      "code": "legs.append(_leg(got == [\"2020-01-01\", \"2020-01-02\"],",
+      "tested": "got",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "[\"2020-01-01\", \"2020-01-02\"]"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "[\"2020-01-01\", \"2020-01-02\"]"
+        }
+      ]
+    },
+    {
+      "face": "BANDARRIVAL",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e263_arrival_vs_cell_size.py",
+      "line": 594,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "report",
+      "code": "if got.get(key) != fresh.get(key):",
+      "tested": "got.get(key)",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "fresh.get(key)"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "fresh.get(key)"
+        }
+      ]
+    },
+    {
+      "face": "BANDARRIVAL",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e263_arrival_vs_cell_size.py",
+      "line": 596,
+      "kind": "comprehension_filter",
+      "function": "verify",
+      "decision_class": "report",
+      "code": "pa = {(a.get(\"cell\"), a.get(\"leg\")): a for a in (got.get(\"arms\") or [])}",
+      "tested": "got.get(\"arms\") or []",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/state_tilt/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e273_guard_from_threshold.py",
+      "line": 417,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if face.get(\"verdict\") != verdict:",
+      "tested": "face.get(\"verdict\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "verdict"
+      ],
+      "bound_pin": [
+        {
+          "pin": "unresolved_name",
+          "name": "verdict"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/state_tilt/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e273_guard_from_threshold.py",
+      "line": 419,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if face.get(\"verdict_reason\") != reason:",
+      "tested": "face.get(\"verdict_reason\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "reason"
+      ],
+      "bound_pin": [
+        {
+          "pin": "unresolved_name",
+          "name": "reason"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/state_tilt/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e273_guard_from_threshold.py",
+      "line": 421,
+      "kind": "truth_test",
+      "function": "verify",
+      "decision_class": "report",
+      "code": "if not face.get(\"no_bill\"):",
+      "tested": "face.get(\"no_bill\")",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/state_tilt/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e273_guard_from_threshold.py",
+      "line": 273,
+      "kind": "comparison",
+      "function": "census",
+      "decision_class": "report",
+      "code": "\"guard_complete_in_e270\": (face, path) in guard_complete,",
+      "tested": "(face, path)",
+      "operators": [
+        "in"
+      ],
+      "bound": [
+        "guard_complete"
+      ],
+      "bound_pin": [
+        {
+          "pin": "local_assignment",
+          "line": 246,
+          "value": "set()"
+        }
+      ]
+    },
+    {
+      "face": "CENSUS",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e298_replay_control_census.py",
+      "line": 363,
+      "kind": "comparison",
+      "function": "cmd_verify",
+      "decision_class": "scientific",
+      "code": "if stored.get(\"verdict\") not in VERDICT_VOCAB:",
+      "tested": "stored.get(\"verdict\")",
+      "operators": [
+        "not in"
+      ],
+      "bound": [
+        "VERDICT_VOCAB"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "line": 61,
+          "value": "( \"every_published_control_declares_its_basis\", \"controls_that_cannot_state_their_basis_exist\", \"no_published_controls_found\", )"
+        }
+      ]
+    },
+    {
+      "face": "CENSUS",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e298_replay_control_census.py",
+      "line": 361,
+      "kind": "comparison",
+      "function": "cmd_verify",
+      "decision_class": "report",
+      "code": "if stored.get(key) != live.get(key):",
+      "tested": "stored.get(key)",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "live.get(key)"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "live.get(key)"
+        }
+      ]
+    },
+    {
+      "face": "CENSUS",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e298_replay_control_census.py",
+      "line": 365,
+      "kind": "truth_test",
+      "function": "cmd_verify",
+      "decision_class": "report",
+      "code": "if not (stored.get(\"identity_check\") or {}).get(\"all_checks\"):",
+      "tested": "(stored.get(\"identity_check\") or {}).get(\"all_checks\")",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "CENSUS",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e299_rounded_vs_tolerance_census.py",
+      "line": 785,
+      "kind": "comparison",
+      "function": "cmd_verify",
+      "decision_class": "scientific",
+      "code": "if stored.get(\"verdict\") not in VERDICT_VOCAB:",
+      "tested": "stored.get(\"verdict\")",
+      "operators": [
+        "not in"
+      ],
+      "bound": [
+        "VERDICT_VOCAB"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "line": 78,
+          "value": "( \"no_leg_compares_a_face_value_finer_than_the_face_prints\", \"legs_compare_face_values_finer_than_the_faces_print\", \"no_numeric_face_comparisons_found\", )"
+        }
+      ]
+    },
+    {
+      "face": "CENSUS",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e299_rounded_vs_tolerance_census.py",
+      "line": 783,
+      "kind": "comparison",
+      "function": "cmd_verify",
+      "decision_class": "report",
+      "code": "if stored.get(key) != live.get(key):",
+      "tested": "stored.get(key)",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "live.get(key)"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "live.get(key)"
+        }
+      ]
+    },
+    {
+      "face": "CENSUS",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e299_rounded_vs_tolerance_census.py",
+      "line": 787,
+      "kind": "truth_test",
+      "function": "cmd_verify",
+      "decision_class": "report",
+      "code": "if not (stored.get(\"identity_check\") or {}).get(\"all_checks\"):",
+      "tested": "(stored.get(\"identity_check\") or {}).get(\"all_checks\")",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "PRECISIONGAP",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e305_face_level_row_pricing.py",
+      "line": 437,
+      "kind": "comparison",
+      "function": "cmd_verify",
+      "decision_class": "scientific",
+      "code": "if stored.get(\"verdict\") not in VERDICT_VOCAB:",
+      "tested": "stored.get(\"verdict\")",
+      "operators": [
+        "not in"
+      ],
+      "bound": [
+        "VERDICT_VOCAB"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "line": 54,
+          "value": "( \"none_of_the_face_level_rows_is_at_risk\", \"some_face_level_rows_stay_at_risk\", \"no_face_level_rows_published\", )"
+        }
+      ]
+    },
+    {
+      "face": "PRECISIONGAP",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e305_face_level_row_pricing.py",
+      "line": 435,
+      "kind": "comparison",
+      "function": "cmd_verify",
+      "decision_class": "report",
+      "code": "if stored.get(key) != live.get(key):",
+      "tested": "stored.get(key)",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "live.get(key)"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "live.get(key)"
+        }
+      ]
+    },
+    {
+      "face": "PRECISIONGAP",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/e305_face_level_row_pricing.py",
+      "line": 439,
+      "kind": "truth_test",
+      "function": "cmd_verify",
+      "decision_class": "report",
+      "code": "if not (stored.get(\"identity_check\") or {}).get(\"all_checks\"):",
+      "tested": "(stored.get(\"identity_check\") or {}).get(\"all_checks\")",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e317_print_coverage_census.py",
+      "line": 534,
+      "kind": "truth_test",
+      "function": "scan",
+      "decision_class": "report",
+      "code": "if not PRESCAN.search(blob):",
+      "tested": "PRESCAN.search(blob)",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "PRINTCOV-2026-10-31.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/e318_count_named_gate_leaves.py",
+      "line": 286,
+      "kind": "comparison",
+      "function": "selftest",
+      "decision_class": "selftest_fixture",
+      "code": "leg(\"L14 root label is the document\", resolve_block(doc, \"<face root>\") is doc)",
+      "tested": "doc",
+      "operators": [
+        "is"
+      ],
+      "bound": [
+        "resolve_block(doc, \"<face root>\")"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "resolve_block(doc, \"<face root>\")"
+        }
+      ]
+    },
+    {
+      "face": "PRINTCOV-2026-10-31.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/e318_count_named_gate_leaves.py",
+      "line": 352,
+      "kind": "truth_test",
+      "function": "face_provenance",
+      "decision_class": "report",
+      "code": "if not isinstance(doc, dict):",
+      "tested": "isinstance(doc, dict)",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "PRINTCOV-2026-10-31.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/e318_count_named_gate_leaves.py",
+      "line": 283,
+      "kind": "comparison",
+      "function": "selftest",
+      "decision_class": "selftest_fixture",
+      "code": "leg(\"L11 dotted block resolves\", resolve_block(doc, \"gates.GA\") == {\"checked\": 4})",
+      "tested": "resolve_block(doc, \"gates.GA\")",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "{\"checked\": 4}"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "{\"checked\": 4}"
+        }
+      ]
+    },
+    {
+      "face": "PRINTCOV-2026-10-31.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/e318_count_named_gate_leaves.py",
+      "line": 284,
+      "kind": "comparison",
+      "function": "selftest",
+      "decision_class": "selftest_fixture",
+      "code": "leg(\"L12 indexed block resolves\", resolve_block(doc, \"rows[1]\") == {\"tol\": 0.0, \"a\": 1.5, \"b\": 2})",
+      "tested": "resolve_block(doc, \"rows[1]\")",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "{\"tol\": 0.0, \"a\": 1.5, \"b\": 2}"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "{\"tol\": 0.0, \"a\": 1.5, \"b\": 2}"
+        }
+      ]
+    },
+    {
+      "face": "PRINTCOV-2026-10-31.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/e318_count_named_gate_leaves.py",
+      "line": 285,
+      "kind": "null_guard",
+      "function": "selftest",
+      "decision_class": "selftest_fixture",
+      "code": "leg(\"L13 missing block resolves to None\", resolve_block(doc, \"rows[9]\") is None)",
+      "tested": "resolve_block(doc, \"rows[9]\")",
+      "operators": [
+        "is"
+      ],
+      "bound": [
+        "None"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "None"
+        }
+      ]
+    },
+    {
+      "face": "PRINTCOV-2026-10-31.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/e318_count_named_gate_leaves.py",
+      "line": 372,
+      "kind": "null_guard",
+      "function": "classify_residual",
+      "decision_class": "report",
+      "code": "node = (resolve_block(doc, r.get(\"block\")) if doc is not None else None)",
+      "tested": "doc",
+      "operators": [
+        "is not"
+      ],
+      "bound": [
+        "None"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "None"
+        }
+      ]
+    },
+    {
+      "face": "PRINTCOV-2026-10-31.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/e318_count_named_gate_leaves.py",
+      "line": 287,
+      "kind": "comparison",
+      "function": "selftest",
+      "decision_class": "selftest_fixture",
+      "code": "leg(\"L15 integers_only shape\", block_shape(resolve_block(doc, \"gates.GA\")) == \"integers_only\")",
+      "tested": "block_shape(resolve_block(doc, \"gates.GA\"))",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "\"integers_only\""
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "'integers_only'"
+        }
+      ]
+    },
+    {
+      "face": "PRINTCOV-2026-10-31.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/e318_count_named_gate_leaves.py",
+      "line": 288,
+      "kind": "comparison",
+      "function": "selftest",
+      "decision_class": "selftest_fixture",
+      "code": "leg(\"L16 floats_present shape\", block_shape(resolve_block(doc, \"rows[1]\")) == \"floats_present\")",
+      "tested": "block_shape(resolve_block(doc, \"rows[1]\"))",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "\"floats_present\""
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "'floats_present'"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e319_census_self_inclusion_sweep.py",
+      "line": 277,
+      "kind": "comparison",
+      "function": "exclusion_rows",
+      "decision_class": "report",
+      "code": "if key in doc:",
+      "tested": "doc",
+      "operators": [
+        "in"
+      ],
+      "bound": [
+        "key"
+      ],
+      "bound_pin": [
+        {
+          "pin": "unresolved_name",
+          "name": "key"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e319_census_self_inclusion_sweep.py",
+      "line": 472,
+      "kind": "truth_test",
+      "function": "load_docs",
+      "decision_class": "report",
+      "code": "if not isinstance(doc, dict):",
+      "tested": "isinstance(doc, dict)",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "ORPHANGATEFACE-2026-10-31.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/e326_template_parameter_consumers.py",
+      "line": 108,
+      "kind": "null_guard",
+      "function": "population",
+      "decision_class": "report",
+      "code": "doc = doc if doc is not None else read_json(INPUT)",
+      "tested": "doc",
+      "operators": [
+        "is not"
+      ],
+      "bound": [
+        "None"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "None"
+        }
+      ]
+    },
+    {
+      "face": "ORPHANGATEFACE-2026-10-31.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/e326_template_parameter_consumers.py",
+      "line": 647,
+      "kind": "comprehension_filter",
+      "function": "cmd_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "expect = [r[\"face\"] for r in e325_doc[\"faces\"]",
+      "tested": "e325_doc[\"faces\"]",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e328_quoted_number_staleness.py",
+      "line": 366,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if disk.get(\"verdict\") != fresh.get(\"verdict\"):",
+      "tested": "disk.get(\"verdict\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "fresh.get(\"verdict\")"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "fresh.get(\"verdict\")"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e328_quoted_number_staleness.py",
+      "line": 368,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if disk.get(\"verdict\") not in VERDICTS:",
+      "tested": "disk.get(\"verdict\")",
+      "operators": [
+        "not in"
+      ],
+      "bound": [
+        "VERDICTS"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "line": 64,
+          "value": "(V_STALE_CHANGED, V_STALE_SAME, V_NO_STALE_QUOTE)"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e328_quoted_number_staleness.py",
+      "line": 374,
+      "kind": "comprehension_filter",
+      "function": "verify",
+      "decision_class": "report",
+      "code": "for r in disk.get(\"rows\") or []}",
+      "tested": "disk.get(\"rows\") or []",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e328_quoted_number_staleness.py",
+      "line": 371,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "report",
+      "code": "if (disk.get(\"summary\") or {}).get(key) != value:",
+      "tested": "(disk.get(\"summary\") or {}).get(key)",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "value"
+      ],
+      "bound_pin": [
+        {
+          "pin": "local_assignment",
+          "line": 95,
+          "value": "doc.get(key)"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e329_two_vintage_binding.py",
+      "line": 502,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if disk.get(\"verdict\") != fresh.get(\"verdict\"):",
+      "tested": "disk.get(\"verdict\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "fresh.get(\"verdict\")"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "fresh.get(\"verdict\")"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e329_two_vintage_binding.py",
+      "line": 504,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if disk.get(\"verdict\") not in VERDICTS:",
+      "tested": "disk.get(\"verdict\")",
+      "operators": [
+        "not in"
+      ],
+      "bound": [
+        "VERDICTS"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "line": 77,
+          "value": "(V_SERVES_STALE, V_FALLBACK_EXPOSED, V_ALL_FRESH)"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e329_two_vintage_binding.py",
+      "line": 510,
+      "kind": "comprehension_filter",
+      "function": "verify",
+      "decision_class": "report",
+      "code": "for r in disk.get(\"rows\") or []}",
+      "tested": "disk.get(\"rows\") or []",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e329_two_vintage_binding.py",
+      "line": 507,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "report",
+      "code": "if (disk.get(\"summary\") or {}).get(key) != value:",
+      "tested": "(disk.get(\"summary\") or {}).get(key)",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "value"
+      ],
+      "bound_pin": [
+        {
+          "pin": "local_assignment",
+          "line": 219,
+          "value": "doc.get(key)"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e329_two_vintage_binding.py",
+      "line": 217,
+      "kind": "truth_test",
+      "function": "pointer_cut",
+      "decision_class": "report",
+      "code": "if isinstance(doc, dict):",
+      "tested": "doc",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e329_two_vintage_binding.py",
+      "line": 678,
+      "kind": "comparison",
+      "function": "cmd_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "doc[\"verdict\"] == V_FALLBACK_EXPOSED, doc[\"verdict\"])",
+      "tested": "doc[\"verdict\"]",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "V_FALLBACK_EXPOSED"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "name": "V_FALLBACK_EXPOSED",
+          "value": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_n..."
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e329_two_vintage_binding.py",
+      "line": 667,
+      "kind": "comprehension_filter",
+      "function": "cmd_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "{r[\"order_class\"] for r in doc[\"rows\"]} == {O_CHAIN, O_SEPARATE, O_MENTION},",
+      "tested": "doc[\"rows\"]",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e329_two_vintage_binding.py",
+      "line": 676,
+      "kind": "comprehension_filter",
+      "function": "cmd_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "all(r[\"order_class\"] != O_REBOUND for r in doc[\"rows\"]))",
+      "tested": "doc[\"rows\"]",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e329_two_vintage_binding.py",
+      "line": 668,
+      "kind": "comprehension_filter",
+      "function": "cmd_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "str(sorted({r[\"order_class\"] for r in doc[\"rows\"]})))",
+      "tested": "doc[\"rows\"]",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e329_two_vintage_binding.py",
+      "line": 680,
+      "kind": "comprehension_filter",
+      "function": "cmd_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "sorted(r[\"cuts_present_on_disk\"] for r in doc[\"rows\"] if r[\"family\"] == \"lit:BBB\")[0]",
+      "tested": "doc[\"rows\"]",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e331_pointer_only_readers.py",
+      "line": 652,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if disk.get(\"verdict\") != fresh[\"verdict\"]:",
+      "tested": "disk.get(\"verdict\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "fresh[\"verdict\"]"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "fresh[\"verdict\"]"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e331_pointer_only_readers.py",
+      "line": 654,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "scientific",
+      "code": "if disk.get(\"verdict\") not in VERDICTS:",
+      "tested": "disk.get(\"verdict\")",
+      "operators": [
+        "not in"
+      ],
+      "bound": [
+        "VERDICTS"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "line": 110,
+          "value": "(V_SILENT, V_EXPOSED, V_SAFE)"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e331_pointer_only_readers.py",
+      "line": 660,
+      "kind": "comprehension_filter",
+      "function": "verify",
+      "decision_class": "report",
+      "code": "disk.get(\"rows\") or []]",
+      "tested": "disk.get(\"rows\") or []",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/**/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/e331_pointer_only_readers.py",
+      "line": 657,
+      "kind": "comparison",
+      "function": "verify",
+      "decision_class": "report",
+      "code": "if (disk.get(\"summary\") or {}).get(key) != value:",
+      "tested": "(disk.get(\"summary\") or {}).get(key)",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "value"
+      ],
+      "bound_pin": [
+        {
+          "pin": "unresolved_name",
+          "name": "value"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/rev_osc_live/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/monthly_exam_prep.py",
+      "line": 983,
+      "kind": "null_guard",
+      "function": "_assemble_deltas",
+      "decision_class": "report",
+      "code": "if base is None:",
+      "tested": "base",
+      "operators": [
+        "is"
+      ],
+      "bound": [
+        "None"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "None"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/rev_osc_live/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/monthly_exam_prep.py",
+      "line": 358,
+      "kind": "comprehension_filter",
+      "function": "collect_roster",
+      "decision_class": "report",
+      "code": "ref = [a for a in base.get(\"accounts\", []) if a.get(\"account\") == \"B_MAXDIV\"]",
+      "tested": "base.get(\"accounts\", [])",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/rev_osc_live/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/monthly_exam_prep.py",
+      "line": 794,
+      "kind": "comparison",
+      "function": "_exam_phase",
+      "decision_class": "report",
+      "code": "if d > _dt.date.fromisoformat(EXAM_DATE):",
+      "tested": "d",
+      "operators": [
+        ">"
+      ],
+      "bound": [
+        "_dt.date.fromisoformat(EXAM_DATE)"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "_dt.date.fromisoformat(EXAM_DATE)"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/rev_osc_live/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/monthly_exam_prep.py",
+      "line": 796,
+      "kind": "comparison",
+      "function": "_exam_phase",
+      "decision_class": "report",
+      "code": "if d == _dt.date.fromisoformat(EXAM_DATE):",
+      "tested": "d",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "_dt.date.fromisoformat(EXAM_DATE)"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "_dt.date.fromisoformat(EXAM_DATE)"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/rev_osc_live/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/monthly_exam_prep.py",
+      "line": 798,
+      "kind": "comparison",
+      "function": "_exam_phase",
+      "decision_class": "report",
+      "code": "if d == _dt.date.fromisoformat(\"2026-10-30\"):",
+      "tested": "d",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "_dt.date.fromisoformat(\"2026-10-30\")"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "_dt.date.fromisoformat(\"2026-10-30\")"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/rev_osc_live/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/monthly_exam_prep.py",
+      "line": 800,
+      "kind": "comparison",
+      "function": "_exam_phase",
+      "decision_class": "report",
+      "code": "if d >= _dt.date.fromisoformat(CAPTURE_CLOSE):",
+      "tested": "d",
+      "operators": [
+        ">="
+      ],
+      "bound": [
+        "_dt.date.fromisoformat(CAPTURE_CLOSE)"
+      ],
+      "bound_pin": [
+        {
+          "pin": "expression",
+          "value": "_dt.date.fromisoformat(CAPTURE_CLOSE)"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/rev_osc_live/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/monthly_exam_prep.py",
+      "line": 1029,
+      "kind": "null_guard",
+      "function": "_owner_lane_rows",
+      "decision_class": "operational",
+      "code": "if d is None:",
+      "tested": "d",
+      "operators": [
+        "is"
+      ],
+      "bound": [
+        "None"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "None"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/rev_osc_live/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/monthly_exam_prep.py",
+      "line": 1014,
+      "kind": "comparison",
+      "function": "_family_summary",
+      "decision_class": "report",
+      "code": "b[\"n_up\"] += 1 if d[\"mtd_pct\"] > 0 else 0",
+      "tested": "d[\"mtd_pct\"]",
+      "operators": [
+        ">"
+      ],
+      "bound": [
+        "0"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/rev_osc_live/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/monthly_exam_prep.py",
+      "line": 1055,
+      "kind": "comparison",
+      "function": "build_assembly_payload",
+      "decision_class": "report",
+      "code": "roster = [d for d in deltas if d[\"account\"] in ROSTER_EMPLOYEES]",
+      "tested": "d[\"account\"]",
+      "operators": [
+        "in"
+      ],
+      "bound": [
+        "ROSTER_EMPLOYEES"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "line": 75,
+          "value": "( \"COMPOSITE-CE-01\", \"COMPOSITE-CE-02\", \"DROUGHT-CE-01\", \"ENGULF-CE-01\", \"NEEDLE-DE-01\", \"VOLATILITY-CE-01\", )"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/rev_osc_live/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/monthly_exam_prep.py",
+      "line": 1056,
+      "kind": "comprehension_filter",
+      "function": "build_assembly_payload",
+      "decision_class": "report",
+      "code": "floor = max((d[\"asof\"] for d in deltas if d.get(\"asof\")), default=None)",
+      "tested": "d.get(\"asof\")",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "REGIME5",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime5_validation.py",
+      "line": 178,
+      "kind": "null_guard",
+      "function": "perm_nulls",
+      "decision_class": "report",
+      "code": "if d is not None:",
+      "tested": "d",
+      "operators": [
+        "is not"
+      ],
+      "bound": [
+        "None"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "None"
+        }
+      ]
+    },
+    {
+      "face": "REGIME5",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime5_validation.py",
+      "line": 241,
+      "kind": "null_guard",
+      "function": "leg_b_calibration",
+      "decision_class": "report",
+      "code": "if d is not None:",
+      "tested": "d",
+      "operators": [
+        "is not"
+      ],
+      "bound": [
+        "None"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "None"
+        }
+      ]
+    },
+    {
+      "face": "REGIME5",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime5_validation.py",
+      "line": 255,
+      "kind": "comparison",
+      "function": "extreme_day_disclosure",
+      "decision_class": "report",
+      "code": "if lo <= d <= hi:",
+      "tested": "d",
+      "operators": [
+        "<=",
+        "<="
+      ],
+      "bound": [
+        "lo",
+        "hi"
+      ],
+      "bound_pin": [
+        {
+          "pin": "local_assignment",
+          "line": 210,
+          "value": "arr[int(round(0.025 * (k - 1)))]"
+        },
+        {
+          "pin": "local_assignment",
+          "line": 211,
+          "value": "arr[int(round(0.975 * (k - 1)))]"
+        }
+      ]
+    },
+    {
+      "face": "REGIME5",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime5_validation.py",
+      "line": 311,
+      "kind": "comparison",
+      "function": "_compute",
+      "decision_class": "report",
+      "code": "win_pos = [j for j, d in enumerate(dates) if d >= MAIN_START]",
+      "tested": "d",
+      "operators": [
+        ">="
+      ],
+      "bound": [
+        "MAIN_START"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "name": "MAIN_START",
+          "value": "2020-01-02"
+        }
+      ]
+    },
+    {
+      "face": "REGIME5",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime5_validation.py",
+      "line": 351,
+      "kind": "comparison",
+      "function": "_compute",
+      "decision_class": "report",
+      "code": "direction_ok = (d > 0) if s == \"BULL\" else (d < 0) if d is not None else False",
+      "tested": "d",
+      "operators": [
+        ">"
+      ],
+      "bound": [
+        "0"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "face": "REGIME5",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime5_validation.py",
+      "line": 105,
+      "kind": "comparison",
+      "function": "anchor_assert",
+      "decision_class": "report",
+      "code": "if doc.get(\"cutoff\") != ANCHOR_CUTOFF:",
+      "tested": "doc.get(\"cutoff\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "ANCHOR_CUTOFF"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "name": "ANCHOR_CUTOFF",
+          "value": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "face": "REGIME5",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime5_validation.py",
+      "line": 545,
+      "kind": "null_guard",
+      "function": "cmd_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "anchor_assert(panel, doc) is None)",
+      "tested": "anchor_assert(panel, doc)",
+      "operators": [
+        "is"
+      ],
+      "bound": [
+        "None"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "None"
+        }
+      ]
+    },
+    {
+      "face": "REGIME5",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime5_validation.py",
+      "line": 552,
+      "kind": "comparison",
+      "function": "cmd_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "\"rows\" in (anchor_assert(bad_panel, doc) or \"\"))",
+      "tested": "anchor_assert(bad_panel, doc) or \"\"",
+      "operators": [
+        "in"
+      ],
+      "bound": [
+        "\"rows\""
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "'rows'"
+        }
+      ]
+    },
+    {
+      "face": "DUALARM",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime_gate_dualarm.py",
+      "line": 120,
+      "kind": "conditional_expression",
+      "function": "validate_contract",
+      "decision_class": "report",
+      "code": "labels = doc.get(\"labels\") if isinstance(doc, dict) else None",
+      "tested": "doc",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "DUALARM",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime_gate_dualarm.py",
+      "line": 117,
+      "kind": "comparison",
+      "function": "validate_contract",
+      "decision_class": "report",
+      "code": "and isinstance(doc.get(\"cutoff\"), str) and doc.get(\"cutoff\") != \"\"",
+      "tested": "doc.get(\"cutoff\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "\"\""
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "''"
+        }
+      ]
+    },
+    {
+      "face": "DUALARM",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime_gate_dualarm.py",
+      "line": 118,
+      "kind": "comparison",
+      "function": "validate_contract",
+      "decision_class": "report",
+      "code": "and isinstance(doc.get(\"source\"), str) and doc.get(\"source\") != \"\"",
+      "tested": "doc.get(\"source\")",
+      "operators": [
+        "!="
+      ],
+      "bound": [
+        "\"\""
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "''"
+        }
+      ]
+    },
+    {
+      "face": "DUALARM",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime_gate_dualarm.py",
+      "line": 357,
+      "kind": "comparison",
+      "function": "_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "check(\"asof_max_of_arms\", art[\"asof\"] == \"2026-09-30\")",
+      "tested": "art[\"asof\"]",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "\"2026-09-30\""
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "'2026-09-30'"
+        }
+      ]
+    },
+    {
+      "face": "DUALARM",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime_gate_dualarm.py",
+      "line": 359,
+      "kind": "null_guard",
+      "function": "_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "art[\"asof_mismatch\"] is not None",
+      "tested": "art[\"asof_mismatch\"]",
+      "operators": [
+        "is not"
+      ],
+      "bound": [
+        "None"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "None"
+        }
+      ]
+    },
+    {
+      "face": "DUALARM",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime_gate_dualarm.py",
+      "line": 361,
+      "kind": "comparison",
+      "function": "_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "check(\"index_latest_state\", art[\"index_arm\"][\"latest_state\"] == \"BEAR\")",
+      "tested": "art[\"index_arm\"][\"latest_state\"]",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "\"BEAR\""
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "'BEAR'"
+        }
+      ]
+    },
+    {
+      "face": "DUALARM",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime_gate_dualarm.py",
+      "line": 360,
+      "kind": "comparison",
+      "function": "_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "and art[\"asof_mismatch\"][\"emotion_arm_cutoff\"] == \"2026-09-22\")",
+      "tested": "art[\"asof_mismatch\"][\"emotion_arm_cutoff\"]",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "\"2026-09-22\""
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "'2026-09-22'"
+        }
+      ]
+    },
+    {
+      "face": "DUALARM",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime_gate_dualarm.py",
+      "line": 428,
+      "kind": "comparison",
+      "function": "_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "and art[\"adaptation\"][\"n_labels_out\"] == 2",
+      "tested": "art[\"adaptation\"][\"n_labels_out\"]",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "2"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "face": "DUALARM",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime_gate_dualarm.py",
+      "line": 429,
+      "kind": "comparison",
+      "function": "_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "and len(art[\"adaptation\"][\"original_sha256\"]) == 64",
+      "tested": "len(art[\"adaptation\"][\"original_sha256\"])",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "64"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "64"
+        }
+      ]
+    },
+    {
+      "face": "DUALARM",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime_gate_dualarm.py",
+      "line": 427,
+      "kind": "comparison",
+      "function": "_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "art.get(\"adaptation\", {}).get(\"n_labels_in\") == 3",
+      "tested": "art.get(\"adaptation\", {}).get(\"n_labels_in\")",
+      "operators": [
+        "=="
+      ],
+      "bound": [
+        "3"
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "face": "DUALARM",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime_gate_dualarm.py",
+      "line": 431,
+      "kind": "comprehension_filter",
+      "function": "_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "art[\"adaptation\"][\"adaptation_log\"]})",
+      "tested": "art[\"adaptation\"][\"adaptation_log\"]",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "DUALARM",
+      "matched_by": "stem_in_literal",
+      "channel": "named",
+      "source": "scripts/regime_gate_dualarm.py",
+      "line": 453,
+      "kind": "comparison",
+      "function": "_selftest",
+      "decision_class": "selftest_fixture",
+      "code": "check(\"e2e_clean_no_adaptation_key\", \"adaptation\" not in art3)",
+      "tested": "art3",
+      "operators": [
+        "not in"
+      ],
+      "bound": [
+        "\"adaptation\""
+      ],
+      "bound_pin": [
+        {
+          "pin": "literal_in_source",
+          "value": "'adaptation'"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/regime5_labels/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/regime_gate_evidence.py",
+      "line": 66,
+      "kind": "truth_test",
+      "function": "load_index_arm",
+      "decision_class": "report",
+      "code": "if not isinstance(d.get(\"cutoff\"), str) or not d.get(\"cutoff\"):",
+      "tested": "not d.get(\"cutoff\")",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "<dated faces in results/regime5_labels/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/regime_gate_evidence.py",
+      "line": 68,
+      "kind": "truth_test",
+      "function": "load_index_arm",
+      "decision_class": "report",
+      "code": "if not isinstance(d.get(\"source\"), str) or not d.get(\"source\"):",
+      "tested": "not d.get(\"source\")",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "REGIME5-2026-09-30.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/regime_p0_slice.py",
+      "line": 75,
+      "kind": "comprehension_filter",
+      "function": "load_labels",
+      "decision_class": "report",
+      "code": "return {l[\"date\"]: str(l[\"state\"]).upper() for l in d[\"labels\"]}",
+      "tested": "d[\"labels\"]",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "REGIME5-2026-09-30.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/regime_p0_slice.py",
+      "line": 80,
+      "kind": "comprehension_filter",
+      "function": "load_panic_days",
+      "decision_class": "report",
+      "code": "return {x[\"date\"] for x in d[\"days\"]}",
+      "tested": "d[\"days\"]",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    },
+    {
+      "face": "REGIME5-2026-09-30.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/regime_p0_slice.py",
+      "line": 233,
+      "kind": "comparison",
+      "function": "run",
+      "decision_class": "report",
+      "code": "lab_dates = [d for d in labels if LABEL_FIRST <= d <= EVIDENCE_CUTOFF]",
+      "tested": "d",
+      "operators": [
+        "<=",
+        "<="
+      ],
+      "bound": [
+        "LABEL_FIRST",
+        "EVIDENCE_CUTOFF"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "name": "LABEL_FIRST",
+          "value": "2013-03-21"
+        },
+        {
+          "pin": "module_constant",
+          "name": "EVIDENCE_CUTOFF",
+          "value": "2026-09-22"
+        }
+      ]
+    },
+    {
+      "face": "REGIME5-2026-09-30.json",
+      "matched_by": "exact_filename",
+      "channel": "named",
+      "source": "scripts/regime_p0_slice.py",
+      "line": 234,
+      "kind": "comparison",
+      "function": "run",
+      "decision_class": "report",
+      "code": "cal_dates = [d for d in dates if d >= LABEL_FIRST]",
+      "tested": "d",
+      "operators": [
+        ">="
+      ],
+      "bound": [
+        "LABEL_FIRST"
+      ],
+      "bound_pin": [
+        {
+          "pin": "module_constant",
+          "name": "LABEL_FIRST",
+          "value": "2013-03-21"
+        }
+      ]
+    },
+    {
+      "face": "<dated faces in results/regime5_labels/*.json>",
+      "matched_by": "directory_sweep",
+      "channel": "enumeration",
+      "source": "scripts/regime_style_matrix.py",
+      "line": 147,
+      "kind": "truth_test",
+      "function": "validate_contract",
+      "decision_class": "report",
+      "code": "if not isinstance(doc, dict) or not isinstance(doc.get(\"labels\"), list) \\",
+      "tested": "not isinstance(doc, dict)",
+      "operators": [],
+      "bound": [],
+      "bound_pin": []
+    }
+  ],
+  "generated_by": "scripts/e347_published_number_gate_census.py",
+  "note": "comparison sites only: a literal that is printed, compared as a string, or used as a fixture is a citation, and a comparison inside a selftest gates the study rather than the firm"
+}

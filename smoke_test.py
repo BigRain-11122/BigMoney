@@ -11061,6 +11061,75 @@ def main() -> int:
                 [p.get("producer") for p in ((_f346 or {}).get("producers") or [])
                  if p.get("extraction_empty")]))
 
+    # E347: E344 measured who reads a face; this leg asks whether the published number decides
+    # anything.  The verdict must re-derive from the published summary, the class and kind tallies
+    # must sum, a null guard must never be counted as a decision, and "there is no operational
+    # gate" must be stated in words rather than left as a silent null.
+    _name347 = ("product: every published dated face is compared only by the study that produced "
+                "it, no operational decision reads one, and the negative is stated")
+    _bad347 = []
+    _f347 = None
+    try:
+        _p347 = os.path.join("results", "state_tilt", "decidegate_latest.json")
+        _f347 = json.load(open(_p347, encoding="utf-8")) if os.path.exists(_p347) else None
+        if _f347 is None:
+            _bad347.append("no published decide-gate face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m347 = __import__("importlib").import_module("e347_published_number_gate_census")
+            _s347 = _f347.get("summary") or {}
+            if _m347.decide(_s347) != _f347.get("verdict"):
+                _bad347.append("the verdict no longer follows its own summary")
+            _dom347 = _s347.get("scan_domain") or {}
+            # D-20261101-20: an all-green conclusion carries its target hit counts, and an empty
+            # domain may never read as "nothing is unpinned".
+            for _k347 in ("sources_scanned", "dated_faces", "load_sites", "comparison_sites"):
+                if not _dom347.get(_k347):
+                    _bad347.append("scan domain does not carry %s" % _k347)
+            if _dom347.get("verdict") != "contains_targets":
+                _bad347.append("scan domain is not stated as containing targets")
+            _cls347 = _s347.get("gates_by_class") or {}
+            if sum(_cls347.values()) != int(_s347.get("gates_total") or 0):
+                _bad347.append("class tally does not sum to the gate count")
+            if set(_cls347) - {"scientific", "operational", "report", "selftest_fixture"}:
+                _bad347.append("class outside the frozen vocabulary")
+            if set(_s347.get("gates_by_kind") or {}) - {
+                    "comparison", "assert", "truth_test", "conditional_expression",
+                    "comprehension_filter", "null_guard"}:
+                _bad347.append("kind outside the frozen vocabulary")
+            _decide347 = [r for r in (_f347.get("gates") or [])
+                          if r.get("decision_class") != "selftest_fixture"
+                          and r.get("kind") != "null_guard"]
+            if len(_decide347) != int(_s347.get("gates_outside_fixtures") or 0):
+                _bad347.append("the non-fixture count includes a null guard")
+            if int(_s347.get("operational_gates") or 0) == 0:
+                if _f347.get("the_one_gate"):
+                    _bad347.append("no operational gate but one is named")
+                if not _f347.get("no_operational_gate_note"):
+                    _bad347.append("the absence of an operational gate is left as a silent null")
+            for _g347 in _f347.get("gates") or []:
+                for _k347 in ("face", "source", "line", "kind", "decision_class"):
+                    if _g347.get(_k347) in (None, ""):
+                        _bad347.append("a gate row is missing %s" % _k347)
+                        break
+    except Exception as e:
+        check(_name347, False, repr(e)[:160])
+
+    check(_name347, not _bad347, "; ".join(_bad347)[:220]
+          or "%s dated faces, %s loaded by name (%s outside the census family), %s reaching a "
+             "comparison, %s opening an operational decision; %s gates (%s fixtures, %s null "
+             "guards); the verdict re-derives from its own summary"
+             % (((_f347 or {}).get("summary") or {}).get("faces_total"),
+                ((_f347 or {}).get("summary") or {}).get("faces_loaded_by_name"),
+                ((_f347 or {}).get("summary") or {}).get(
+                    "faces_loaded_by_name_outside_the_census_family"),
+                ((_f347 or {}).get("summary") or {}).get("faces_with_a_gate"),
+                ((_f347 or {}).get("summary") or {}).get("operational_gates"),
+                ((_f347 or {}).get("summary") or {}).get("gates_total"),
+                (((_f347 or {}).get("summary") or {}).get("gates_by_class") or {}).get(
+                    "selftest_fixture"),
+                ((_f347 or {}).get("summary") or {}).get("null_guards")))
+
     return _finish()
 
 
