@@ -9066,6 +9066,7 @@ def main() -> int:
     _name307 = ("product: the rows a producer lookup refuses are a statement about the writer "
                 "search, not about the repository")
     _bad307 = []
+    _drift307 = (None, None)
     try:
         _p307 = os.path.join("results", "state_tilt", "refusalcause_latest.json")
         _f307 = json.load(open(_p307, encoding="utf-8")) if os.path.exists(_p307) else None
@@ -9081,7 +9082,16 @@ def main() -> int:
                 _bad307.append("verdict %r is outside the frozen set" % (_f307.get("verdict"),))
             _s307 = _f307.get("summary") or {}
             _faces307 = _f307.get("faces") or []
-            if _s307 != _fresh307.get("summary"):
+            # r1373: `corpus_files` counts the .py files this study scans, which includes
+            # every script the round writes -- it read 2337 at publication and 2340 at grade
+            # time because the same round had written three helper scripts. A count that
+            # moves because the corpus grew is not a broken summary; the rest of the
+            # summary still is. Compare without it and publish the drift.
+            _fresh307s = _fresh307.get("summary") or {}
+            _drift307 = (_s307.get("corpus_files"), _fresh307s.get("corpus_files"))
+            _ok307 = {k: v for k, v in _fresh307s.items() if k != "corpus_files"}
+            _os307 = {k: v for k, v in _s307.items() if k != "corpus_files"}
+            if _os307 != _ok307:
                 _bad307.append("the summary does not re-derive")
             if sum(f.get("rows") or 0 for f in _faces307) != _s307.get("rows"):
                 _bad307.append("the row counts do not sum to the population")
@@ -9106,14 +9116,15 @@ def main() -> int:
                     _bad307.append("the population is not E321's refused set (%d vs %d)"
                                    % (_s307.get("rows"), len(_up301)))
         check(_name307, not _bad307, "; ".join(_bad307)[:220]
-              or "%s | %d rows over %d faces, %d faces have a writer on disk (%d rows), by cause %s"
+              or "%s | %d rows over %d faces, %d faces have a writer on disk (%d rows), by cause %s; corpus_files %s->%s"
                  % (str((_f307 or {}).get("verdict")),
                     ((_f307 or {}).get("summary") or {}).get("rows") or 0,
                     ((_f307 or {}).get("summary") or {}).get("faces") or 0,
                     ((_f307 or {}).get("summary") or {}).get("faces_with_a_writer") or 0,
                     ((_f307 or {}).get("summary") or {}).get("rows_with_a_writer") or 0,
                     json.dumps(((_f307 or {}).get("summary") or {}).get("by_cause_faces") or {},
-                               ensure_ascii=False)))
+                               ensure_ascii=False),
+                    _drift307[0], _drift307[1]))
     except Exception as e:
         check(_name307, False, repr(e)[:160])
 

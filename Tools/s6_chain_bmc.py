@@ -343,6 +343,18 @@ LEGS = [
     # CSVs and never loads a panel.
     ("reviewwindowfloor", ["python", "scripts/e39_panel_census.py",
                            "reviewwindowfloor"]),
+    # r1373: three censuses that smoke grades by "is the published face equal to a
+    # fresh build over results/ today" were on no chain at all, so every round that
+    # published a face invalidated them -- r1373 opened with three red legs whose
+    # only difference from the published face was faces_scanned 132->138 (+6 faces
+    # written by earlier rounds). They belong at the END, after every leg that
+    # publishes a face, or they are stale the moment the chain finishes.
+    ("replaycensus", ["python", "scripts/e298_replay_control_census.py", "run"]),
+    ("refusalcause", ["python", "scripts/e322_residual_refusal_causes.py", "run"]),
+    # ~55s: it re-scans every face for a fine-vs-printed comparison, which is the
+    # price of the leg that reads it. Kept last so nothing publishes past it.
+    ("precisioncensus", ["python", "scripts/e299_rounded_vs_tolerance_census.py",
+                         "run"]),
 ]
 
 

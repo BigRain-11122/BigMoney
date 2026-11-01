@@ -89,6 +89,28 @@ def _gpu_face_mod():
     return gpu_face
 
 
+def _is_gpu_key(k):
+    """Is this spelling owned by Tools/gpu_face? Union of both ownership rules.
+
+    WHY (r1373): the local regex keys on a 'gpu' prefix, but gpu_face's table also
+    owns the un-prefixed spellings it restates -- free_vram_gb / free_vram_mb /
+    vram_free_gb / vram_used_gb (r1169/r1299: "a GPU-memory key is owned by this
+    tool whatever its prefix"). Those four therefore passed the chokepoint, so a
+    closeout script could still set one and leave the face half-owned with a
+    two-decimal number beside a one-decimal one -- which is exactly how bm-b read
+    gpu_free_vram_gb=3.49 beside gpu_free_mib=3819 for two rounds.
+
+    The union is deliberate: gpu_mem_key() covers memory but not gpu_util_pct, so
+    keeping the prefix rule is what stops a caller hand-setting utilisation.
+    """
+    if GPU_KEY_RE.match(k):
+        return True
+    try:
+        return bool(_gpu_face_mod().gpu_mem_key(k))
+    except Exception:
+        return False
+
+
 def gpu_chokepoint(fields, verdict):
     """Replace every caller-supplied GPU spelling with one probe's whole face.
 
@@ -100,10 +122,10 @@ def gpu_chokepoint(fields, verdict):
     again. This is the chokepoint: GPU numbers are not a caller's to set.
     A failed probe drops them (warning) rather than inventing a number.
     """
-    gpu_keys = [k for k in (fields or {}) if GPU_KEY_RE.match(k)]
+    gpu_keys = [k for k in (fields or {}) if _is_gpu_key(k)]
     if not gpu_keys:
         return fields
-    kept = {k: val for k, val in fields.items() if not GPU_KEY_RE.match(k)}
+    kept = {k: val for k, val in fields.items() if not _is_gpu_key(k)}
     try:
         gf = _gpu_face_mod()
         probe = gf.probe_live()
@@ -130,7 +152,7 @@ def purge_gpu_face(hb, verdict):
     a 164 MiB spread. Owning the namespace means deleting spellings the current
     probe does not produce, not just overwriting the ones it does.
     """
-    keys = [k for k in hb if GPU_KEY_RE.match(k)]
+    keys = [k for k in hb if _is_gpu_key(k)]
     if not keys:
         return
     try:
@@ -450,6 +472,32 @@ def selftest():
         rc == 0 and gf.audit(h) == [] and "gpu_free_vram_gb" in v.get("gpu_healed", []),
         "purged=%s healed=%s audit=%s"
         % (v.get("gpu_purged"), v.get("gpu_healed"), gf.audit(h) or "none"))
+
+    # L14 r1373: the un-prefixed spellings are owned too. bm-b carried
+    #     gpu_free_vram_gb=3.49 beside gpu_free_mib=3819 (3.73 GiB) because the
+    #     guard keyed on a 'gpu' prefix while gpu_face's table also owns
+    #     free_vram_gb / free_vram_mb / vram_free_gb / vram_used_gb. A caller
+    #     handing one in must be overruled by the probe, not merged.
+    t = os.path.join(tmp, "L14")
+    hp = _fixture(t, A, heart_ack=A,
+                  extra_heart={"gpu_free_mib": 15259, "gpu_mem_used_mib": 1125,
+                               "gpu_mem_total_mib": 16384,
+                               "free_vram_gb": 3.49, "vram_free_gb": 3.49})
+    real = gf.probe_live
+    gf.probe_live = lambda smi=None: {"util_pct": 0.0, "used_mib": 1125,
+                                      "total_mib": 16384}
+    try:
+        v, rc = write(t, {"did": "u", "free_vram_gb": 3.49,
+                          "vram_free_gb": 3.49, "free_vram_mb": 3574})
+    finally:
+        gf.probe_live = real
+    h = _load(hp)
+    leg("L14 un-prefixed GPU spelling overruled by the probe", True,
+        rc == 0 and gf.audit(h) == [] and h.get("free_vram_gb") == 14.9
+        and h.get("vram_free_gb") == 14.9 and h.get("free_vram_mb") == 15259
+        and "free_vram_gb" in v.get("gpu_replaced", []),
+        "free_vram_gb=%s replaced=%s audit=%s"
+        % (h.get("free_vram_gb"), v.get("gpu_replaced"), gf.audit(h) or "none"))
 
     ok = sum(1 for _, p in legs if p)
     print("\nselftest %d/%d %s" % (ok, len(legs),

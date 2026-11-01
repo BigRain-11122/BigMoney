@@ -766,6 +766,18 @@
    "at_risk": false
   },
   {
+   "face": "PRECISIONGAP-2026-11-01.json",
+   "path": "/identity_check",
+   "key": "identity_check",
+   "kind": "identity",
+   "basis": "undeclared",
+   "basis_evidence": [],
+   "tolerance": null,
+   "status": null,
+   "reproduced": null,
+   "at_risk": false
+  },
+  {
    "face": "REPRO-2026-10-29.json",
    "path": "/reproduction",
    "key": "reproduction",
@@ -1186,20 +1198,20 @@
   }
  ],
  "summary": {
-  "faces_scanned": 128,
-  "mirror_files_excluded": 104,
+  "faces_scanned": 138,
+  "mirror_files_excluded": 113,
   "self_faces_excluded": 2,
   "self_face_files_on_disk": 2,
   "self_face_cutoff_present": true,
-  "faces_with_controls": 29,
-  "n_control_containers": 69,
-  "n_leaf_witnesses": 417,
+  "faces_with_controls": 30,
+  "n_control_containers": 70,
+  "n_leaf_witnesses": 427,
   "by_kind": {
    "replay": 53,
-   "identity": 16
+   "identity": 17
   },
   "by_basis": {
-   "undeclared": 62,
+   "undeclared": 63,
    "live_declared": 1,
    "pinned_literal": 6
   },
@@ -1320,6 +1332,10 @@
     "controls": 1,
     "at_risk": 0
    },
+   "PRECISIONGAP-2026-11-01.json": {
+    "controls": 1,
+    "at_risk": 0
+   },
    "REPRO-2026-10-29.json": {
     "controls": 1,
     "at_risk": 1
@@ -1337,7 +1353,7 @@
     "at_risk": 4
    }
   },
-  "statement": "69 control block(s) across 29 published face(s); 53 of them are replays, 7 of those declare their basis and 46 cannot, so 46 replay control(s) are published as reacting-to-an-unknown-panel rather than as safe or broken."
+  "statement": "70 control block(s) across 30 published face(s); 53 of them are replays, 7 of those declare their basis and 46 cannot, so 46 replay control(s) are published as reacting-to-an-unknown-panel rather than as safe or broken."
  },
  "identity_check": {
   "face_counter_agrees": true,
@@ -1351,6 +1367,6 @@
   "all_checks": true
  },
  "verdict": "controls_that_cannot_state_their_basis_exist",
- "verdict_reason": "69 control block(s) across 29 published face(s); 53 of them are replays, 7 of those declare their basis and 46 cannot, so 46 replay control(s) are published as reacting-to-an-unknown-panel rather than as safe or broken.",
- "generated": "2026-11-01T15:09:55"
+ "verdict_reason": "70 control block(s) across 30 published face(s); 53 of them are replays, 7 of those declare their basis and 46 cannot, so 46 replay control(s) are published as reacting-to-an-unknown-panel rather than as safe or broken.",
+ "generated": "2026-11-02T00:35:36"
 }

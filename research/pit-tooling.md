@@ -58,3 +58,50 @@
 - Rule: a count key must name its SOURCE face, not the concept. Publish `backlog_claimable_lines` + `pool_ready_unclaimed`, keep the old key only as a documented alias, and add a note string stating what each counts.
 - Second rule: an unreadable face returns None, never 0 -- 0 asserts "no work" from a face you never read. Pin it with a selftest leg (fixture: unreadable -> None).
 - [2026-10-28 08:0x r1208 bm-b] **A refactored shared guard leaves a silent caller.** update_etf_daily takeover_decision was reduced to a 2-arg pure function (allow, stale_min) while update_etf_wide kept calling the 4-arg form: the leg then died with TypeError on EVERY non-owner machine and surfaced in the S6 chain only as c=1 + zero output + 0.1s\ -- the same face as the E112 silent-new-mode family, and easy to read as a fast no-op. How to apply: (a) a chain leg that is red with no output is a crash, never a no-op -- reproduce it directly before writing anything off; (b) when the shared helper changes arity, grep every caller the same window; (c) pin the contract in the caller selftest (inspect.signature + the three behaviour asserts), so the next refactor goes red in selftest instead of quiet in the chain.
+
+## r1373 bm-b: a chokepoint whose guard owns a narrower namespace than the tool it guards
+- Shape: `Tools/heartbeat_write.py` protected the heartbeat's GPU face with
+  `GPU_KEY_RE = ^gpu.*(free|used|idle|mem|vram|util)`, while `Tools/gpu_face.py` also
+  restates four un-prefixed spellings (`free_vram_gb` / `free_vram_mb` /
+  `vram_free_gb` / `vram_used_gb`) and says so in its own comment ("a GPU-memory key is
+  owned by this tool whatever its prefix"). A caller could therefore set the un-prefixed
+  ones and the chokepoint passed them straight through. bm-b carried
+  `gpu_free_vram_gb=3.49` beside `gpu_free_mib=3819` for two rounds (245 MiB spread,
+  smoke red on `fleet: GPU face self-consistent`).
+- Rule: a guard must import the ownership predicate of the tool it guards, never restate
+  it. Fixed as `_is_gpu_key()` = prefix regex **OR** `gpu_face.gpu_mem_key()`, and the
+  union is deliberate -- `gpu_mem_key()` covers memory but not `gpu_util_pct`, so keeping
+  the prefix rule is what still stops a caller hand-setting utilisation.
+- Rule: prove the new leg is not vacuous. `L14` passes now and FAILS (`replaced=None`)
+  when `_is_gpu_key` is monkeypatched back to the prefix-only rule -- a leg that only
+  ever passes is not evidence that the hole closed.
+- Root cause of the half-owned face: `scripts/_r1372_closeout.py` writes
+  `fleet/machines/bm-b.json` with `json.dump` instead of `heartbeat_write.write()`, so
+  every per-round closeout is free to bypass merge + chokepoint + invariants. r1373's own
+  closeout goes through the tool on purpose.
+
+## r1373 bm-b: a gate graded by fresh re-derivation is invalidated by every writer that runs after it
+- Shape: three `product:` legs compare a published census face against `build()` over
+  `results/` *today*. e298 read 132 faces at publication and 138 at grade time (+6 faces
+  written by earlier rounds); e299 and e322 the same way. All three censuses were on NO
+  chain leg, so nothing ever republished them -- any round that publishes a face turns
+  them red and they stay red until someone remembers to re-run them by hand.
+- Rule: a census that scans a live directory must be the LAST thing on the chain, after
+  every leg that publishes into it (appended `replaycensus` 0.4s / `refusalcause` 0.9s /
+  `precisioncensus` 55s to the `Tools/s6_chain_bmc.py` tail). Publication order is part of
+  the measurement, not housekeeping.
+- Rule: the re-derive gate's message ("summary does not re-derive") is not self-explaining
+  -- the diff was `faces_scanned 132->138`, i.e. pure growth. Before treating it as a data
+  fault, publish the delta; a count that moved because the directory grew is not a broken
+  summary.
+- Known residual: e299 costs ~55s per round. Accepted so the leg that reads its face stops
+  being graded against a stale publication; if the chain budget bites, cut there first and
+  say so, do not silently drop the census.
+- Second face, found one run later: e322 publishes `corpus_files` (the .py files it scans)
+  inside the same `summary` the smoke leg compares for equality. The headline was stable and
+  every cause count was stable; the whole failure was 2337 -> 2340 because **the round that
+  graded it had written three helper scripts**. A census that counts the corpus it lives in
+  can never match between publication and grade time. Fix: compare the summary minus the
+  self-counting key and print the drift (`corpus_files 2337->2340`) in the check detail, so
+  the number is still on the face and still visible, it just stops being an assertion the
+  round cannot satisfy.
