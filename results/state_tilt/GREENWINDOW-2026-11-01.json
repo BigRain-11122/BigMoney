@@ -1,0 +1,1130 @@
+{
+  "study": "E338_census_green_window",
+  "evidence_cutoff": "2026-11-01",
+  "generated": "2026-11-01T11:22:24",
+  "definition": {
+    "population": "every .py under scripts/Tools/live/monitor/firm (e323.corpus())",
+    "window_start": "the commit that first added the census face",
+    "window_end": "the next commit that touches a .py in the population",
+    "one_round_seconds": 600,
+    "two_readings": [
+      "all .py touches",
+      "touches outside the census family"
+    ]
+  },
+  "population": {
+    "commits_touching_py": 2284,
+    "disk_py_files": 2301,
+    "disk_py_bytes": 43098033,
+    "census_family_size": 16
+  },
+  "faces": [
+    {
+      "face": "scripts/e322_residual_refusal_causes.py",
+      "landing": {
+        "sha": "6fb84e83bbdb9f288046123f91d294765b38538c",
+        "ts": 1793469349
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "d8bd1c57296398d57f2636d374269c5fa67c7534",
+        "closing_ts": 1793471363,
+        "seconds": 2014,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e324_unpublished_key_causes.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e324_unpublished_key_causes.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "d8bd1c57296398d57f2636d374269c5fa67c7534",
+        "closing_ts": 1793471363,
+        "seconds": 2014,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e324_unpublished_key_causes.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e324_unpublished_key_causes.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e323_reach_under_wider_needle.py",
+      "landing": {
+        "sha": "6fb84e83bbdb9f288046123f91d294765b38538c",
+        "ts": 1793469349
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "d8bd1c57296398d57f2636d374269c5fa67c7534",
+        "closing_ts": 1793471363,
+        "seconds": 2014,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e324_unpublished_key_causes.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e324_unpublished_key_causes.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "d8bd1c57296398d57f2636d374269c5fa67c7534",
+        "closing_ts": 1793471363,
+        "seconds": 2014,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e324_unpublished_key_causes.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e324_unpublished_key_causes.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e324_unpublished_key_causes.py",
+      "landing": {
+        "sha": "d8bd1c57296398d57f2636d374269c5fa67c7534",
+        "ts": 1793471363
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "1c3cbdecead723eeaf3a2cc45689b76a8ce7f440",
+        "closing_ts": 1793472659,
+        "seconds": 1296,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e325_orphan_gate_faces.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e325_orphan_gate_faces.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "1c3cbdecead723eeaf3a2cc45689b76a8ce7f440",
+        "closing_ts": 1793472659,
+        "seconds": 1296,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e325_orphan_gate_faces.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e325_orphan_gate_faces.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e325_orphan_gate_faces.py",
+      "landing": {
+        "sha": "1c3cbdecead723eeaf3a2cc45689b76a8ce7f440",
+        "ts": 1793472659
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "8d96003b0cd7b047f3daa26f00de353545164f69",
+        "closing_ts": 1793473859,
+        "seconds": 1200,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e326_template_parameter_consumers.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e326_template_parameter_consumers.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "8d96003b0cd7b047f3daa26f00de353545164f69",
+        "closing_ts": 1793473859,
+        "seconds": 1200,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e326_template_parameter_consumers.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e326_template_parameter_consumers.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e326_template_parameter_consumers.py",
+      "landing": {
+        "sha": "8d96003b0cd7b047f3daa26f00de353545164f69",
+        "ts": 1793473859
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "468026ac4167687ef582274b3065ba4e34930b54",
+        "closing_ts": 1793474653,
+        "seconds": 794,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e327_who_reads_a_face_through_a_pointer.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e327_who_reads_a_face_through_a_pointer.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "468026ac4167687ef582274b3065ba4e34930b54",
+        "closing_ts": 1793474653,
+        "seconds": 794,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e327_who_reads_a_face_through_a_pointer.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e327_who_reads_a_face_through_a_pointer.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+      "landing": {
+        "sha": "468026ac4167687ef582274b3065ba4e34930b54",
+        "ts": 1793474653
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "be5b02fe53cca5150ee450108d1a9735e6241bca",
+        "closing_ts": 1793477238,
+        "seconds": 2585,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e328_quoted_number_staleness.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e328_quoted_number_staleness.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "be5b02fe53cca5150ee450108d1a9735e6241bca",
+        "closing_ts": 1793477238,
+        "seconds": 2585,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e328_quoted_number_staleness.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e328_quoted_number_staleness.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e328_quoted_number_staleness.py",
+      "landing": {
+        "sha": "be5b02fe53cca5150ee450108d1a9735e6241bca",
+        "ts": 1793477238
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "3756e46c8c83dd71ef32583ef7b9a33c4bba6eb1",
+        "closing_ts": 1793478870,
+        "seconds": 1632,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e329_two_vintage_binding.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e329_two_vintage_binding.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "3756e46c8c83dd71ef32583ef7b9a33c4bba6eb1",
+        "closing_ts": 1793478870,
+        "seconds": 1632,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e329_two_vintage_binding.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e329_two_vintage_binding.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e329_two_vintage_binding.py",
+      "landing": {
+        "sha": "3756e46c8c83dd71ef32583ef7b9a33c4bba6eb1",
+        "ts": 1793478870
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "21bda513d0b1762ad5610be4c9139a1c0bfe0c9b",
+        "closing_ts": 1793480285,
+        "seconds": 1415,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e330_unpinned_choice.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e330_unpinned_choice.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "21bda513d0b1762ad5610be4c9139a1c0bfe0c9b",
+        "closing_ts": 1793480285,
+        "seconds": 1415,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e330_unpinned_choice.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e330_unpinned_choice.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e330_unpinned_choice.py",
+      "landing": {
+        "sha": "21bda513d0b1762ad5610be4c9139a1c0bfe0c9b",
+        "ts": 1793480285
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "ed18319b9a63d29bd5f10455d217b50d9e99994e",
+        "closing_ts": 1793482559,
+        "seconds": 2274,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e331_pointer_only_readers.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e331_pointer_only_readers.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "ed18319b9a63d29bd5f10455d217b50d9e99994e",
+        "closing_ts": 1793482559,
+        "seconds": 2274,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e331_pointer_only_readers.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e331_pointer_only_readers.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e331_pointer_only_readers.py",
+      "landing": {
+        "sha": "ed18319b9a63d29bd5f10455d217b50d9e99994e",
+        "ts": 1793482559
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "9f1eff4d9171e585e06dce143afc43be540cbd70",
+        "closing_ts": 1793485110,
+        "seconds": 2551,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e332_invisible_tail_recovery.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e332_invisible_tail_recovery.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "9f1eff4d9171e585e06dce143afc43be540cbd70",
+        "closing_ts": 1793485110,
+        "seconds": 2551,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e332_invisible_tail_recovery.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e332_invisible_tail_recovery.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e332_invisible_tail_recovery.py",
+      "landing": {
+        "sha": "9f1eff4d9171e585e06dce143afc43be540cbd70",
+        "ts": 1793485110
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "2863a90d0e6f9f118dbac13662f7ea7e07f93b8e",
+        "closing_ts": 1793488948,
+        "seconds": 3838,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e333_surviving_e3xx_conclusions.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e333_surviving_e3xx_conclusions.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "2863a90d0e6f9f118dbac13662f7ea7e07f93b8e",
+        "closing_ts": 1793488948,
+        "seconds": 3838,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e333_surviving_e3xx_conclusions.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e333_surviving_e3xx_conclusions.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e333_surviving_e3xx_conclusions.py",
+      "landing": {
+        "sha": "2863a90d0e6f9f118dbac13662f7ea7e07f93b8e",
+        "ts": 1793488948
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "512ec8abd7bd819be15b5a6dd7e11f5b931c7a98",
+        "closing_ts": 1793491837,
+        "seconds": 2889,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e334_helper_repair_blast_radius.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e334_helper_repair_blast_radius.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "512ec8abd7bd819be15b5a6dd7e11f5b931c7a98",
+        "closing_ts": 1793491837,
+        "seconds": 2889,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e334_helper_repair_blast_radius.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e334_helper_repair_blast_radius.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e334_helper_repair_blast_radius.py",
+      "landing": {
+        "sha": "512ec8abd7bd819be15b5a6dd7e11f5b931c7a98",
+        "ts": 1793491837
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "c1f05c5112eefd708cf8a58aa27dea31b34410a1",
+        "closing_ts": 1793494260,
+        "seconds": 2423,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e335_sibling_entry_point.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e335_sibling_entry_point.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py",
+            "scripts/e326_template_parameter_consumers.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 2
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "c1f05c5112eefd708cf8a58aa27dea31b34410a1",
+        "closing_ts": 1793494260,
+        "seconds": 2423,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e335_sibling_entry_point.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e335_sibling_entry_point.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py",
+            "scripts/e326_template_parameter_consumers.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 2
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e335_sibling_entry_point.py",
+      "landing": {
+        "sha": "c1f05c5112eefd708cf8a58aa27dea31b34410a1",
+        "ts": 1793494260
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "6ebc08a6ebf2b56ebb9ee41589ab3f00a720d558",
+        "closing_ts": 1793495698,
+        "seconds": 1438,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e336_consumer_optin_ranking.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e336_consumer_optin_ranking.py",
+            "scripts/run_e336_smoke_leg.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 2,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "6ebc08a6ebf2b56ebb9ee41589ab3f00a720d558",
+        "closing_ts": 1793495698,
+        "seconds": 1438,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e336_consumer_optin_ranking.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e336_consumer_optin_ranking.py",
+            "scripts/run_e336_smoke_leg.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 2,
+          "removed": 0,
+          "modified": 1
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e336_consumer_optin_ranking.py",
+      "landing": {
+        "sha": "6ebc08a6ebf2b56ebb9ee41589ab3f00a720d558",
+        "ts": 1793495698
+      },
+      "window_all": {
+        "closed": true,
+        "closing_sha": "974f6bad64d1eb6c6d62bc1313408d34347b09f2",
+        "closing_ts": 1793501984,
+        "seconds": 6286,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e337_optin_executed.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e337_optin_executed.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py",
+            "scripts/e330_unpinned_choice.py",
+            "scripts/e335_sibling_entry_point.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 3
+        }
+      },
+      "window_non_census": {
+        "closed": true,
+        "closing_sha": "974f6bad64d1eb6c6d62bc1313408d34347b09f2",
+        "closing_ts": 1793501984,
+        "seconds": 6286,
+        "kind": "new_py",
+        "commits_between": 0,
+        "added_census": [
+          "scripts/e337_optin_executed.py"
+        ],
+        "touched": {
+          "added": [
+            "scripts/e337_optin_executed.py"
+          ],
+          "removed": [],
+          "modified": [
+            "Tools/s6_chain_bmb.py",
+            "scripts/e330_unpinned_choice.py",
+            "scripts/e335_sibling_entry_point.py"
+          ]
+        },
+        "touched_counts": {
+          "added": 1,
+          "removed": 0,
+          "modified": 3
+        }
+      },
+      "note": null
+    },
+    {
+      "face": "scripts/e337_optin_executed.py",
+      "landing": {
+        "sha": "974f6bad64d1eb6c6d62bc1313408d34347b09f2",
+        "ts": 1793501984
+      },
+      "window_all": {
+        "closed": false,
+        "closing_sha": null,
+        "closing_ts": null,
+        "seconds": null,
+        "kind": null,
+        "commits_between": 0,
+        "added_census": [],
+        "touched": {
+          "added": [],
+          "removed": [],
+          "modified": []
+        },
+        "touched_counts": {
+          "added": 0,
+          "removed": 0,
+          "modified": 0
+        }
+      },
+      "window_non_census": {
+        "closed": false,
+        "closing_sha": null,
+        "closing_ts": null,
+        "seconds": null,
+        "kind": null,
+        "commits_between": 0,
+        "added_census": [],
+        "touched": {
+          "added": [],
+          "removed": [],
+          "modified": []
+        },
+        "touched_counts": {
+          "added": 0,
+          "removed": 0,
+          "modified": 0
+        }
+      },
+      "note": null
+    }
+  ],
+  "summary_all": {
+    "n": 16,
+    "closed": 15,
+    "open": 1,
+    "median_seconds": 2014,
+    "min_seconds": 794,
+    "max_seconds": 6286,
+    "inside_one_round": 0,
+    "share_inside_one_round": 0.0
+  },
+  "summary_non_census": {
+    "n": 16,
+    "closed": 15,
+    "open": 1,
+    "median_seconds": 2014,
+    "min_seconds": 794,
+    "max_seconds": 6286,
+    "inside_one_round": 0,
+    "share_inside_one_round": 0.0
+  },
+  "readings_coincide": {
+    "compared": 15,
+    "same_closing_commit": 15
+  },
+  "windows_closed_by": {
+    "closed": 15,
+    "closed_by_a_census_sibling": 15
+  },
+  "pin": {
+    "sha": "6fb84e83bbdb9f288046123f91d294765b38538c",
+    "why_this_commit": "the oldest census landing in the family (e322)",
+    "files": 2205,
+    "bytes": 42275502,
+    "disk_files": 2301,
+    "disk_bytes": 43098033,
+    "file_delta": 96,
+    "byte_delta": 822531,
+    "dependency": "a pinned population is only reproducible while this commit's blobs survive and git is available; the measured read is cheap, so the price of pinning is an object dependency, not CPU"
+  },
+  "per_face_pin": [
+    {
+      "face": "scripts/e322_residual_refusal_causes.py",
+      "landing_sha": "6fb84e83bbdb9f288046123f91d294765b38538c",
+      "pinned_files": 2205,
+      "pinned_bytes": 42275502,
+      "files_vs_today": 96,
+      "bytes_vs_today": 822531
+    },
+    {
+      "face": "scripts/e323_reach_under_wider_needle.py",
+      "landing_sha": "6fb84e83bbdb9f288046123f91d294765b38538c",
+      "pinned_files": 2205,
+      "pinned_bytes": 42275502,
+      "files_vs_today": 96,
+      "bytes_vs_today": 822531
+    },
+    {
+      "face": "scripts/e324_unpublished_key_causes.py",
+      "landing_sha": "d8bd1c57296398d57f2636d374269c5fa67c7534",
+      "pinned_files": 2206,
+      "pinned_bytes": 42305330,
+      "files_vs_today": 95,
+      "bytes_vs_today": 792703
+    },
+    {
+      "face": "scripts/e325_orphan_gate_faces.py",
+      "landing_sha": "1c3cbdecead723eeaf3a2cc45689b76a8ce7f440",
+      "pinned_files": 2207,
+      "pinned_bytes": 42336320,
+      "files_vs_today": 94,
+      "bytes_vs_today": 761713
+    },
+    {
+      "face": "scripts/e326_template_parameter_consumers.py",
+      "landing_sha": "8d96003b0cd7b047f3daa26f00de353545164f69",
+      "pinned_files": 2208,
+      "pinned_bytes": 42369124,
+      "files_vs_today": 93,
+      "bytes_vs_today": 728909
+    },
+    {
+      "face": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+      "landing_sha": "468026ac4167687ef582274b3065ba4e34930b54",
+      "pinned_files": 2209,
+      "pinned_bytes": 42395169,
+      "files_vs_today": 92,
+      "bytes_vs_today": 702864
+    },
+    {
+      "face": "scripts/e328_quoted_number_staleness.py",
+      "landing_sha": "be5b02fe53cca5150ee450108d1a9735e6241bca",
+      "pinned_files": 2210,
+      "pinned_bytes": 42420465,
+      "files_vs_today": 91,
+      "bytes_vs_today": 677568
+    },
+    {
+      "face": "scripts/e329_two_vintage_binding.py",
+      "landing_sha": "3756e46c8c83dd71ef32583ef7b9a33c4bba6eb1",
+      "pinned_files": 2211,
+      "pinned_bytes": 42454977,
+      "files_vs_today": 90,
+      "bytes_vs_today": 643056
+    },
+    {
+      "face": "scripts/e330_unpinned_choice.py",
+      "landing_sha": "21bda513d0b1762ad5610be4c9139a1c0bfe0c9b",
+      "pinned_files": 2212,
+      "pinned_bytes": 42495385,
+      "files_vs_today": 89,
+      "bytes_vs_today": 602648
+    },
+    {
+      "face": "scripts/e331_pointer_only_readers.py",
+      "landing_sha": "ed18319b9a63d29bd5f10455d217b50d9e99994e",
+      "pinned_files": 2213,
+      "pinned_bytes": 42544096,
+      "files_vs_today": 88,
+      "bytes_vs_today": 553937
+    },
+    {
+      "face": "scripts/e332_invisible_tail_recovery.py",
+      "landing_sha": "9f1eff4d9171e585e06dce143afc43be540cbd70",
+      "pinned_files": 2214,
+      "pinned_bytes": 42571599,
+      "files_vs_today": 87,
+      "bytes_vs_today": 526434
+    },
+    {
+      "face": "scripts/e333_surviving_e3xx_conclusions.py",
+      "landing_sha": "2863a90d0e6f9f118dbac13662f7ea7e07f93b8e",
+      "pinned_files": 2215,
+      "pinned_bytes": 42603848,
+      "files_vs_today": 86,
+      "bytes_vs_today": 494185
+    },
+    {
+      "face": "scripts/e334_helper_repair_blast_radius.py",
+      "landing_sha": "512ec8abd7bd819be15b5a6dd7e11f5b931c7a98",
+      "pinned_files": 2216,
+      "pinned_bytes": 42643672,
+      "files_vs_today": 85,
+      "bytes_vs_today": 454361
+    },
+    {
+      "face": "scripts/e335_sibling_entry_point.py",
+      "landing_sha": "c1f05c5112eefd708cf8a58aa27dea31b34410a1",
+      "pinned_files": 2217,
+      "pinned_bytes": 42672567,
+      "files_vs_today": 84,
+      "bytes_vs_today": 425466
+    },
+    {
+      "face": "scripts/e336_consumer_optin_ranking.py",
+      "landing_sha": "6ebc08a6ebf2b56ebb9ee41589ab3f00a720d558",
+      "pinned_files": 2219,
+      "pinned_bytes": 42703489,
+      "files_vs_today": 82,
+      "bytes_vs_today": 394544
+    },
+    {
+      "face": "scripts/e337_optin_executed.py",
+      "landing_sha": "974f6bad64d1eb6c6d62bc1313408d34347b09f2",
+      "pinned_files": 2220,
+      "pinned_bytes": 42742730,
+      "files_vs_today": 81,
+      "bytes_vs_today": 355303
+    }
+  ],
+  "timings": {
+    "pinned_read_seconds": 0.3843,
+    "disk_read_seconds": 0.1356,
+    "note": "wall-clock metadata, excluded from re-derivation: a face that carried a stopwatch could not reproduce itself (first verify died on 0.4188 vs 0.4169 with nothing else different)"
+  },
+  "verdict": "every_window_is_closed_by_the_next_census_sibling_and_the_two_readings_coincide_because_research_ships_its_wiring_in_the_same_commit",
+  "reasons": [
+    "15/15 windows close on a new census sibling and the two readings pick the same commit 15/15 times -- the split measures nothing",
+    "median window 2014s, inside one round 0 of 15"
+  ],
+  "self_disclosure": {
+    "this_study_is_a_population_member": true,
+    "note": "this file lands after the measurement and is therefore one more new .py in the population every census face reads; the window it publishes is true of a tree that no longer exists, which is the finding rather than a caveat"
+  }
+}

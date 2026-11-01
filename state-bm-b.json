@@ -1,12 +1,12 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-11-01T08:46:20+08:00",
+ "clock_read": "2026-11-01T11:26:08+08:00",
  "cpu_pct": 10.5,
- "current": "r1355: E335 the repaired corpus reading lands beside the shipped one -- 1,369/2,294 sources differ, E334 delta reproduces 30/30 at 0.0, zero rebinds, zero consumers switched",
- "current_task": "r1355: E335 the repaired corpus reading lands beside the shipped one -- 1,369/2,294 sources differ, E334 delta reproduces 30/30 at 0.0, zero rebinds, zero consumers switched",
- "current_work": "r1355: E335 the repaired corpus reading lands beside the shipped one -- 1,369/2,294 sources differ, E334 delta reproduces 30/30 at 0.0, zero rebinds, zero consumers switched",
- "cyc_round": 1355,
- "cycle_round": 1355,
+ "current": "r1358 E338: 15/15 of the census faces' green windows close on the commit that lands the next census sibling (median 2014s), and both readings meant to separate research from production pick the same commit 15/15 -- the split is vacuous because research ships its S6 wiring in the same commit; pinning the oldest landing reads 2,205 files in 0.42s vs 0.14s off disk, so the price is an object dependency, not CPU",
+ "current_task": "r1358 E338: 15/15 of the census faces' green windows close on the commit that lands the next census sibling (median 2014s), and both readings meant to separate research from production pick the same commit 15/15 -- the split is vacuous because research ships its S6 wiring in the same commit; pinning the oldest landing reads 2,205 files in 0.42s vs 0.14s off disk, so the price is an object dependency, not CPU",
+ "current_work": "r1358 E338: 15/15 of the census faces' green windows close on the commit that lands the next census sibling (median 2014s), and both readings meant to separate research from production pick the same commit 15/15 -- the split is vacuous because research ships its S6 wiring in the same commit; pinning the oldest landing reads 2,205 files in 0.42s vs 0.14s off disk, so the price is an object dependency, not CPU",
+ "cyc_round": 1358,
+ "cycle_round": 1358,
  "d19": {
   "decisions_changed": false,
   "decisions_sha": "97fe122f",
@@ -3340,7 +3340,7 @@
  "reds_open": [],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1357,
- "round_no": 1357,
+ "round_no": 1358,
  "round_no_label": "r1357",
  "round_no_note": "git log is the canvas; round number follows the highest round report row (r1342 was the E322 round, this is r1343)",
  "round_no_ts": "2026-11-01T10:59:00+08:00",
@@ -3559,7 +3559,7 @@
   "behind_origin_main": 217,
   "ts": "2026-11-01T09:15:32+08:00"
  },
- "timestamp": "2026-11-01T11:00:17+08:00",
+ "timestamp": "2026-11-01T11:26:08+08:00",
  "r1357": {
   "dept": "research+engineering",
   "absorbed_round": "the 09:17 round was silence-killed at 10:25 after landing E337 (face 09:40) and the E335 guard repair (face 10:18) but before closeout: the pool already said E337 done with future timestamps 10:35/10:40 while state and heartbeat still said r1356",
@@ -3583,5 +3583,32 @@
   "behind_origin_main": 217,
   "main_push_blocker": "local main diverged from origin/main for many rounds (promisor lazy-fetch wedge, r1255 family); no unattended rebase per r1243",
   "ts": "2026-11-01T11:00:17+08:00"
+ },
+ "r1358": {
+  "round_no": 1358,
+  "dept": "research+engineering",
+  "work": "E338 census green window + commit-pinned population price",
+  "study": "E338_census_green_window",
+  "face": "results/state_tilt/GREENWINDOW-2026-11-01.json",
+  "verdict": "every_window_is_closed_by_the_next_census_sibling_and_the_two_readings_coincide_because_research_ships_its_wiring_in_the_same_commit",
+  "finding": "E337 showed the opt-in was free and the only number a reader would have billed to it was the corpus -- a claim about the population. Measured on this repo's 2,284 py-touch commits: 16 census faces, 15 closed windows / 1 open, median 2014s (33.6 min), min 794s, max 6286s, 0 of 15 inside one 10-minute round. Every closed window closes on a commit that ADDS the next census sibling (15/15) and every one of those commits also modifies a producer file (mostly Tools/s6_chain_bmb.py), so the two readings designed to separate research noise from production movement select the same commit 15/15 times: the split carries no information and is published as such. Pinning the oldest census landing: 2,205 files / 42.3 MB vs today's 2,301 / 43.1 MB, git cat-file --batch 0.42s vs disk 0.14s -- cheap in CPU, expensive in an object dependency.",
+  "pit": "(1) `git log` is newest-first: the first burn published median 0.0s over 16/16 closed windows because every window computed older-minus-newer clamped at zero -- the loudest symptom was a headline nobody would have questioned. (2) A stopwatch in a deterministic face: the first verify failed on pinned_read_seconds 0.4188 vs 0.4169 with nothing else different, so timings now live in a block excluded from re-derivation and pinned by a selftest leg. (3) A fixture that disagreed with the frozen rule (inside_one_round expected 1 when both fixture windows were inside the round) was re-read, not silenced (E336 pit 3 family).",
+  "product": [
+   "scripts/e338_census_green_window.py (run / verify 0 problems / selftest 36/36)",
+   "results/state_tilt/GREENWINDOW-2026-11-01.json + greenwindow_latest.json",
+   "research/digests/DIGEST-20261101-r1358-e338-census-green-window.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E338",
+   "Tools/s6_chain_bmb.py leg census_green_window",
+   "smoke_test.py leg E338 + scripts/run_e338_smoke_leg.py (extractor)",
+   "results/runnable_pool.json E338 done with result_ref + E341 seeded (831 entries, 3 ready)"
+  ],
+  "selftest": "e338_census_green_window 36/36; verify 0 problems (whole face re-derived over git history, ~5.5s)",
+  "s1": "the full ~332-leg suite was not re-run this window (~35 min); the new E338 leg was extracted verbatim from smoke_test.py and run standalone (PASS), then re-run against a doctored face (one window's seconds +7, coincidence zeroed) which was caught with two named problems, and the published bytes were restored identically (sha256 equal)",
+  "s6": "dualrun ZERO-DRIFT (831 entries, streak 51) | compute_audit CLEAN (supply_floor 3/3, no breach) | py_watermark insufficient_history (1 sample, 3 pool-ready) | attrition guard CLEAN 4 ledgers (3 historical shrinks healed) | sat engine rc=0 idle | orphan probe py_faces=7 orphans=0 residents=0 | the lane collectors, market_regime, update_* and the paper/scorecard faces were NOT re-run this window (wall budget, stated plainly)",
+  "s7": "orders 114 files / 115 acks / 0 unacked at S0.5 (1 stale ack name for a non-order file) | decisions watermark not re-probed this window (last read fd99c571 at r1354, no new row expected) | Bigmoney-IterationLoop and Bigmoney-LoopWatchdog present in schtasks (last runs 11:27 / 11:26) | pre-commit and pre-push claws both MATCH their sources | note: logs/iteration-loop/round_reports.md carries a pre-existing unformatted '| %s | r1356 |' row from an earlier window -- left alone, not this round's",
+  "pool": "E338 done with result_ref; E341-WHAT-THE-SIBLING-CLOSER-ACTUALLY-CHANGED seeded ready (831 entries, 3 ready)",
+  "watermark_red": "RED pool-batch-runnable-idle-low-cpu at open (3 ready cards, py idle); the round burned the head card E338 in-round",
+  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted; no cleanup/quarantine action; bm-a/bm-c lane collectors not exercised",
+  "ts": "2026-11-01T11:26:08+08:00"
  }
 }

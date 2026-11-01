@@ -914,6 +914,18 @@ LEGS = [
     ("optin_executed",
      ["python", "scripts/e337_optin_executed.py", "verify"]),
 
+    # E338: E337 showed the opt-in itself was free and the only cost the diff carried was the
+    # corpus -- a population-definition claim.  Every census face counts its population off the
+    # disk, so it re-derives only while no .py moves.  This measures that on the repo's own
+    # history: landing commit -> the next commit touching any .py, two readings (all touches /
+    # touches outside the census family), and pinning priced on size + a measured read + the
+    # object dependency it creates.  On today's history 15/15 windows close on the next census
+    # sibling and both readings pick the same commit, so the split is published as vacuous:
+    # research ships its own S6 wiring in the same commit as the face.  Verify re-derives the
+    # face over git history (~5s, no builds).
+    ("census_green_window",
+     ["python", "scripts/e338_census_green_window.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

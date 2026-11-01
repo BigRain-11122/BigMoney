@@ -7016,3 +7016,36 @@ the guard will report phantom consumers (E208's doctrine, one layer down). (3) *
 the faces that consume the executed one**; count that debt explicitly rather than discovering it as red legs.
 
 Evidence: scripts/e337_optin_executed.py (selftest 18/18, verify 0 problems) -> results/state_tilt/OPTINSWITCH-2026-11-01.json (+ archived before-face) -> scripts/e335_sibling_entry_point.py (selftest 24/24, V_OPTIN) -> research/digests/DIGEST-20261101-r1357-e337-optin-executed.md -> Tools/s6_chain_bmb.py leg optin_executed -> smoke_test.py leg E337
+
+## E338 -- a census face's "green window" is a duration, not a correctness property; and a two-reading split that coincides measures nothing
+
+E337 proved the opt-in was free and that the only number a reader would have billed to it was the corpus. That is
+a claim about the **population**, not the reading, so this study priced the population on the repository's own
+history. Every census face in the E32x..E33x chain counts its population with `e326.corpus()` -- every `.py` under
+scripts/Tools/live/monitor/firm, read off the disk -- so it re-derives only while no source moves. The window is
+measured from each face's landing commit (`git --diff-filter=A`) to the next commit touching any `.py` in those
+five packages:
+
+- 16 faces measured, 15 closed / 1 open; **median 2014s (33.6 min)**, min 794s, max 6286s;
+- **0 of 15** close inside one 10-minute round, so the window outlives a round but not a work session;
+- **15 of 15** windows close on a commit that **adds the next census sibling** -- and 15 of 15 of those commits
+  also modify a producer file (mostly `Tools/s6_chain_bmb.py`), so the two readings that were designed to separate
+  "research noise" from "production moved" select the *same commit every time*. The split is vacuous on this
+  history, and the face publishes `readings_coincide 15/15` rather than two numbers that agree.
+
+Pinning is priced on three axes instead of the usual CPU-only one: the oldest census landing's manifest is 2,205
+files / 42.3 MB against today's 2,301 / 43.1 MB, and a measured `git cat-file --batch` over the pinned population
+takes 0.42s versus 0.14s off the disk. So the price of a commit-pinned population is **not CPU** -- it is an object
+dependency (the pin cannot be rebuilt offline or without those blobs surviving), which is why the verdict names the
+dependency rather than claiming a win.
+
+Four reusable rules. (1) **A face that reads the disk has a window, not a guarantee** -- publish the duration and
+the closing condition, or a green leg becomes a claim that a future edit cannot refute. (2) **A separation design
+must be tested, not assumed**: if both readings pick the same event, the split carries no information and saying
+"they agree" hides that; publish the coincidence count. (3) **A stopwatch does not belong in a deterministic
+face** -- the first verify failed on `pinned_read_seconds 0.4188 vs 0.4169` with nothing else different; wall-clock
+timings go in a `timings` block excluded from re-derivation. (4) **`git log` is newest-first** and a window built on
+that order computes `older - newer` clamped at zero, which published median 0.0s over 16/16 closed windows before
+the ordering guard caught it -- assert the direction, do not trust the reader.
+
+Evidence: scripts/e338_census_green_window.py (selftest 36/36, verify 0 problems) -> results/state_tilt/GREENWINDOW-2026-11-01.json -> research/digests/DIGEST-20261101-r1358-e338-census-green-window.md -> Tools/s6_chain_bmb.py leg census_green_window -> smoke_test.py leg E338 + scripts/run_e338_smoke_leg.py

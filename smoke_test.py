@@ -10549,6 +10549,105 @@ def main() -> int:
                 ((_f337 or {}).get("summary") or {}).get("numbers_moved_before_to_republished"),
                 ((_f337 or {}).get("summary") or {}).get("downstream_studies_that_rebuild_this_face")))
 
+    # E338: E337 showed the opt-in was free and the only cost the diff carried was the corpus -- a
+    # claim about the population, not the reading. This leg refuses a green-window face whose
+    # verdict the frozen rule would not decide, a window whose seconds disagree with its own two
+    # timestamps, an open window published as zero, a coincidence or sibling count that the face's
+    # own rows do not reproduce, and pin arithmetic that does not add up against the disk.
+    _name338 = ("product: the census green window is measured on the repo's own history, and the "
+                "two readings that were meant to separate research noise from production are "
+                "published as coincident because research ships its wiring in the same commit")
+    _bad338 = []
+    try:
+        _p338 = os.path.join("results", "state_tilt", "greenwindow_latest.json")
+        _f338 = json.load(open(_p338, encoding="utf-8")) if os.path.exists(_p338) else None
+        if _f338 is None:
+            _bad338.append("no published census green-window face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m338 = __import__("importlib").import_module("e338_census_green_window")
+            _verdicts338 = (getattr(_m338, "V_ROUND"), getattr(_m338, "V_DEPENDENT"),
+                            getattr(_m338, "V_AFFORDABLE"), getattr(_m338, "V_SELF_TERMINATING"))
+            if _f338.get("verdict") not in _verdicts338:
+                _bad338.append("verdict %r is outside the frozen set" % (_f338.get("verdict"),))
+            _rows338 = _f338.get("faces") or []
+            _usable338 = [r for r in _rows338 if r.get("window_all")]
+            if len(_usable338) < 10:
+                _bad338.append("too few measurable faces (%s)" % len(_usable338))
+            # every closed window must equal its own timestamps; an open window must not read 0
+            for _r338 in _usable338:
+                _w338 = _r338["window_all"]
+                if _w338.get("closed"):
+                    _sec338 = _w338.get("closing_ts") - _r338["landing"]["ts"]
+                    if _w338.get("seconds") != _sec338:
+                        _bad338.append("%s: seconds %r is not closing minus landing %r"
+                                       % (_r338["face"], _w338.get("seconds"), _sec338))
+                    if (_w338.get("seconds") or 0) < 0:
+                        _bad338.append("%s: a negative window" % _r338["face"])
+                elif _w338.get("seconds") is not None:
+                    _bad338.append("%s: an open window published %r seconds"
+                                   % (_r338["face"], _w338.get("seconds")))
+            # the published readings/coincidence must be reproduced from the rows themselves
+            _exp338 = _m338.coincides(_usable338)
+            if _exp338 != (_f338.get("readings_coincide") or {}):
+                _bad338.append("readings_coincide %r does not re-derive (%r)"
+                               % (_f338.get("readings_coincide"), _exp338))
+            _exp338b = _m338.sibling_closed(_usable338)
+            if _exp338b != (_f338.get("windows_closed_by") or {}):
+                _bad338.append("windows_closed_by %r does not re-derive (%r)"
+                               % (_f338.get("windows_closed_by"), _exp338b))
+            # the frozen rule must decide the published verdict from the published summaries
+            _pin338 = (_f338.get("timings") or {}).get("pinned_read_seconds")
+            _rule338, _why338 = _m338.decide(_f338.get("summary_all") or {},
+                                             _f338.get("summary_non_census") or {},
+                                             {"pinned_read_seconds": _pin338},
+                                             _f338.get("readings_coincide"),
+                                             _f338.get("windows_closed_by"))
+            if _rule338 != _f338.get("verdict"):
+                _bad338.append("the frozen rule decides %r but the face says %r"
+                               % (_rule338, _f338.get("verdict")))
+            # pin arithmetic against the disk it claims to price
+            _pinrow338 = _f338.get("pin") or {}
+            if int(_pinrow338.get("file_delta") or 0) != (int(_pinrow338.get("disk_files") or 0)
+                                                          - int(_pinrow338.get("files") or 0)):
+                _bad338.append("pin file_delta is not disk minus pinned")
+            if int(_pinrow338.get("byte_delta") or 0) != (int(_pinrow338.get("disk_bytes") or 0)
+                                                          - int(_pinrow338.get("bytes") or 0)):
+                _bad338.append("pin byte_delta is not disk minus pinned")
+            for _pf338 in _f338.get("per_face_pin") or []:
+                if int(_pf338.get("pinned_files") or 0) <= 0:
+                    _bad338.append("a per-face pin priced zero files")
+                    break
+                if int(_pf338.get("files_vs_today") or 0) != (
+                        int(_pinrow338.get("disk_files") or 0) - int(_pf338.get("pinned_files") or 0)):
+                    _bad338.append("a per-face pin does not tie to today's disk count")
+                    break
+            if len(_f338.get("per_face_pin") or []) < len(_usable338) - 1:
+                _bad338.append("per-face pins do not cover the measurable faces")
+            if "timings" not in _f338:
+                _bad338.append("the wall-clock timings block is missing (a stopwatch must be marked)")
+    except Exception as e:
+        check(_name338, False, repr(e)[:160])
+
+    check(_name338, not _bad338, "; ".join(_bad338)[:220]
+          or "%s | all median %ss, non-census median %ss, %s/%s windows closed inside one round, "
+             "readings coincide %s/%s, closed by a new census sibling %s/%s, pin %s files vs disk "
+             "%s (%s files newer), pinned read %ss vs disk %ss"
+             % ((_f338 or {}).get("verdict"),
+                ((_f338 or {}).get("summary_all") or {}).get("median_seconds"),
+                ((_f338 or {}).get("summary_non_census") or {}).get("median_seconds"),
+                ((_f338 or {}).get("summary_all") or {}).get("inside_one_round"),
+                ((_f338 or {}).get("summary_all") or {}).get("closed"),
+                ((_f338 or {}).get("readings_coincide") or {}).get("same_closing_commit"),
+                ((_f338 or {}).get("readings_coincide") or {}).get("compared"),
+                ((_f338 or {}).get("windows_closed_by") or {}).get("closed_by_a_census_sibling"),
+                ((_f338 or {}).get("windows_closed_by") or {}).get("closed"),
+                (((_f338 or {}).get("pin") or {}).get("files")),
+                (((_f338 or {}).get("pin") or {}).get("disk_files")),
+                (((_f338 or {}).get("pin") or {}).get("file_delta")),
+                (((_f338 or {}).get("timings") or {}).get("pinned_read_seconds")),
+                (((_f338 or {}).get("timings") or {}).get("disk_read_seconds"))))
+
     return _finish()
 
 
