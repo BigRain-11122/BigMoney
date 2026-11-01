@@ -8110,3 +8110,31 @@ Evidence: `scripts/etf_book_nav_envelope.py` (`series_lag_bars` / `book_reconcil
 unknown; +L32 reconciliation prices the gap and refuses an absent cell) - fresh faces
 `results/etf_book_series/NAV-2026-10-30.json`, `results/etf_book_bootstrap/ENVELOPE-2026-10-30*.json`
 (8 arms), `BLOCKS-2026-10-30.json` - smoke leg *"the book envelope says whose book it describes"*.
+
+### E327 — A point estimate printed without its own resampling spread reads as a promise (r1211 bm-a)
+
+The page the CEO opens quoted 9.60% and a −11.77% drawdown with no statement of how much of either
+belongs to the book rather than to which 1652 days we happened to live through. The envelope that
+answers this (E246/E251, block bootstrap over the book's own daily path) existed but lived in a
+research file, so the one number that drives the decision was the only number on the page with no
+interval. Same wound as E311/E314, third time: a measured *assumption* that never reaches the face
+the decision is made on is indistinguishable from an unmeasured one.
+
+**Rule 1 — put the distribution where the number is read.** The sector now sits directly under the
+backtest table: CAGR p5/p50/p95 3.15/9.56/16.33%, maxDD p5/p50/p95 −20.95/−13.23/−8.90%, and the two
+shares an operator actually sizes against — 0.4% of resamples lose money, 6.4% break −20%. The point
+estimate is reported as sitting at the 50.3rd percentile, i.e. "a typical path", because a point
+estimate is a sample, not a property.
+
+**Rule 2 — the consumer reads the owner's reader, never the artifact.** `read_published()` in
+`scripts/etf_book_nav_envelope.py` recomputes every percentile from the stored resample rows and
+returns `ok` / `drift` / `missing` / `unreadable`; the page prints numbers only for `ok` and prints
+"cannot verify" plus the artifact path otherwise. It also refuses to average arms from different
+cutoffs (`blocks --check` now reds a mixed set), because arms from two windows are two books.
+
+Verification: envelope selftest 31 -> 34 (L33 rows reproduce -> ok; L34 one edited percentile ->
+`drift` naming the cell; L35 absent -> `missing`), `--check` OK over 2000 rows, `blocks --check` OK
+over 8 arms, page selftest 87 -> 91 (L85-L88: numbers reach the page, the table is well-formed, a
+drifted face prints no percentile, a foreign book is flagged before its numbers), smoke leg *"the
+page shows the book's own luck distribution, not just a point"* re-derives the percentiles from the
+rows and requires them verbatim on `docs/live_book/LIVE-BOOK-20261101.md`.

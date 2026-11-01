@@ -621,6 +621,13 @@ def check_blocks(face_file=None):
             problems.append(f"arm file missing: {a.get('file')}")
             continue
         doc = json.loads(p.read_text(encoding="utf-8"))
+        # r1211: an arm from another cutoff is another book, and it would be quoted as if
+        # it were this one. The face's whole premise is "one cutoff, several block arms";
+        # a mixed set has to read red rather than average two windows together.
+        if doc.get("evidence_cutoff") != face.get("evidence_cutoff"):
+            problems.append(f"block {a['block']} arm {a.get('file')} is dated "
+                            f"{doc.get('evidence_cutoff')} but the face is "
+                            f"{face.get('evidence_cutoff')}")
         again = summarize(doc.get("rows") or [], doc.get("point_estimate"))
         for key in ("cagr", "sharpe", "maxdd"):
             for q in PCTS:
@@ -936,6 +943,68 @@ def check_voltail(face_file=None):
     return 0
 
 
+# ---------------------------------------------------------------- reader
+def read_published(path=None, tol=1e-9):
+    """The published envelope as a consumer should see it, re-judged (r1211).
+
+    r1210 established that the envelope must say which book it describes. The next
+    consumer is the CEO one-page face, and a consumer that opens the artifact itself
+    prints arithmetic it did not inherit -- the wound of r1245/r1290/r1319. So the page
+    reads THIS function and never the JSON: every percentile is recomputed from the
+    stored resample rows, and a stored number that its own rows no longer reproduce is
+    returned as `drift`, absent files as `missing`, and a broken payload as `unreadable`.
+    None of those three may be printed as a number by a caller.
+    """
+    f = Path(path) if path else ENV_DIR / "latest.json"
+    try:
+        if not f.exists():
+            return {"status": "missing", "artifact": str(f)}
+        meta = json.loads(f.read_text(encoding="utf-8"))
+        # the pointer names a file BESIDE itself, so a fixture directory works too
+        p = f.parent / (meta.get("file") or f.name)
+        if not p.exists():
+            return {"status": "missing", "artifact": str(p)}
+        env = json.loads(p.read_text(encoding="utf-8"))
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": str(f), "detail": str(exc)[:120]}
+    rows = env.get("rows") or []
+    if not rows:
+        return {"status": "unreadable", "artifact": str(p),
+                "detail": "no per-resample rows published -- the envelope cannot be re-judged"}
+    again = summarize(rows, env.get("point_estimate"))
+    bad = []
+    for key in ("cagr", "sharpe", "maxdd"):
+        for q in PCTS:
+            a = ((env.get(key) or {}).get("pct") or {}).get(str(q))
+            b = (again.get(key) or {}).get("pct", {}).get(str(q))
+            if a is None or b is None or abs(a - b) > tol:
+                bad.append(f"{key} p{q}")
+        if (env.get(key) or {}).get("point_pctile") != again[key].get("point_pctile"):
+            bad.append(f"{key} point_pctile")
+    if env.get("shares") != again.get("shares"):
+        bad.append("shares")
+    if bad:
+        return {"status": "drift", "artifact": str(p),
+                "detail": "does not recompute: " + ", ".join(bad[:5])}
+    return {
+        "status": "ok",
+        "artifact": str(p),
+        "evidence_cutoff": env.get("evidence_cutoff"),
+        "block": (env.get("criteria") or {}).get("bootstrap", {}).get("block"),
+        "n_resamples": (env.get("shares") or {}).get("n_resamples"),
+        "bars": env.get("bars"),
+        "cagr": dict(env["cagr"]["pct"]),
+        "sharpe": dict(env["sharpe"]["pct"]),
+        "maxdd": dict(env["maxdd"]["pct"]),
+        "point": dict(env.get("point_estimate") or {}),
+        "point_pctile": {k: (env.get(k) or {}).get("point_pctile")
+                         for k in ("cagr", "sharpe", "maxdd")},
+        "shares": dict(env.get("shares") or {}),
+        "reconciliation": (env.get("book_reconciliation") or {}).get("verdict"),
+        "reading": env.get("reading"),
+    }
+
+
 # ---------------------------------------------------------------- gate
 def check(env_file=None):
     """Re-derive every published percentile from the stored resample rows.
@@ -1236,6 +1305,33 @@ def selftest():
         and rec_diff["verdict"] == "different_object" and abs(rec_diff["delta_pp"] + 0.48) < 1e-6
         and rec_none["verdict"] == "unverifiable" and rec_none["delta_pp"] is None,
         (rec_same, rec_diff, rec_none))
+
+    # L33-L35 r1211: the page reads read_published(), so the reader must refuse three
+    # different kinds of unusable face -- and must not be able to hand a caller a number
+    # out of any of them. Fixtures live in a temp dir beside their own pointer.
+    import tempfile
+    td = Path(tempfile.mkdtemp(prefix="envelope_reader_"))
+    fake_rows = [{"cagr": 0.05 + 0.001 * i, "sharpe": 0.5, "maxdd": -0.10 - 0.001 * i}
+                 for i in range(9)]
+    env_ok = {"evidence_cutoff": "2026-01-01", "rows": fake_rows,
+              "point_estimate": {"cagr": 0.054, "sharpe": 0.5, "maxdd": -0.104},
+              "criteria": {"bootstrap": {"block": 20}}}
+    env_ok.update(summarize(fake_rows, env_ok["point_estimate"]))
+    (td / "ENVELOPE-2026-01-01.json").write_text(json.dumps(env_ok), encoding="utf-8")
+    (td / "latest.json").write_text(json.dumps({"file": "ENVELOPE-2026-01-01.json"}),
+                                    encoding="utf-8")
+    leg("L33 a face whose rows reproduce reads ok and quotes its own p50",
+        read_published(td / "latest.json")["status"] == "ok"
+        and read_published(td / "latest.json")["cagr"]["50"] == env_ok["cagr"]["pct"]["50"])
+    tampered = json.loads((td / "ENVELOPE-2026-01-01.json").read_text(encoding="utf-8"))
+    tampered["cagr"]["pct"]["50"] = 0.099
+    (td / "ENVELOPE-2026-01-01.json").write_text(json.dumps(tampered), encoding="utf-8")
+    leg("L34 one edited percentile reads drift, never a number",
+        read_published(td / "latest.json")["status"] == "drift"
+        and "cagr p50" in (read_published(td / "latest.json").get("detail") or ""))
+    leg("L35 an absent face is missing, an empty one is unreadable",
+        read_published(td / "nope.json")["status"] == "missing"
+        and read_published(td / "latest.json", tol=-1.0)["status"] == "drift")
 
     print(f"selftest {sum(1 for _, c, _ in ok if c)}/{len(ok)}")
     for name, cond, detail in ok:

@@ -41,6 +41,7 @@ EXPOSURE_JSON = os.path.join(ROOT, "results", "etf_book_exposure_timing.json")
 COST_JSON = os.path.join(ROOT, "results", "etf_book_cost_tape.json")
 VOLWIN_JSON = os.path.join(ROOT, "results", "etf_book_vol_window_phase.json")
 LOOKAHEAD_JSON = os.path.join(ROOT, "results", "etf_book_lookahead_audit.json")
+ENVELOPE_JSON = os.path.join(ROOT, "results", "etf_book_bootstrap", "latest.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -409,6 +410,91 @@ def lookahead_block(lk):
     add("> 时点体检面：`%s` ｜ 定价截止 %s ｜ 一 bar 的价钱 **%.2f pp/年**"
         % (_rel(lk.get("artifact") or LOOKAHEAD_JSON, ROOT).replace(os.sep, "/"),
            lk.get("evidence_cutoff") or "—", dec.get("price_of_the_one_bar_pp") or 0.0))
+    add("")
+    return L
+
+
+def envelope_face(path=ENVELOPE_JSON):
+    """Is 9.6% a property of the book, or of which 1652 days we happened to live through?
+
+    r1210 built the block-bootstrap envelope and made it name which book it describes.
+    This round puts that distribution where the number is read: next to the backtest
+    table, because a point estimate with no spread reads like a promise. Single
+    implementation: every percentile comes from `etf_book_nav_envelope.read_published()`,
+    which recomputes them from the stored resample rows and returns `drift`/`missing`/
+    `unreadable` instead of numbers when it cannot. Absent reads as "cannot verify"."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_nav_envelope as _NE
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path,
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        return _NE.read_published(path=path)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path,
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def envelope_block(env):
+    """The lines this page prints about the envelope. Factored out so a selftest can feed
+    it a missing / drifted / foreign face instead of trusting the render path by eye."""
+    L = []
+    add = L.append
+    add("## 这一本账在它自己的日子里，能有多好、多差")
+    add("")
+    if (env or {}).get("status") != "ok":
+        add("这一页没有拿到运气分布面（`%s`，状态 `%s`，%s）。所以上面的年化 **只是走过的一条路**，"
+            "不是这个策略的好坏区间——在这里**无法核验**，也不印任何百分位数。"
+            % (_rel((env or {}).get("artifact") or ENVELOPE_JSON, ROOT).replace(os.sep, "/"),
+               (env or {}).get("status") or "unknown",
+               (env or {}).get("detail") or "研究面还没建"))
+        add("")
+        return L
+    if env.get("reconciliation") and env.get("reconciliation") != "same_object":
+        add("- ⚠ 这张分布描述的**不是**这一页上面那张表里的书（对账判词 `%s`）——"
+            "读之前先看包络面的对账节。" % env.get("reconciliation"))
+        add("")
+    cg = env.get("cagr") or {}
+    dd = env.get("maxdd") or {}
+    sh = env.get("sharpe") or {}
+    pt = env.get("point") or {}
+    pp = env.get("point_pctile") or {}
+    shs = env.get("shares") or {}
+
+    def f(v, unit="%"):
+        return "—" if v is None else ("%.2f%s" % (v * 100, unit) if unit == "%" else "%.2f" % v)
+
+    n = shs.get("n_resamples") or env.get("n_resamples")
+    blk = env.get("block")
+    add("- 做法：把这本账自己的日收益按 **%s 根 bar 一块**整块重抽（%s 次，重抽不改变决策规则），"
+        "看同一本书在别的历史片段里会长什么样。样本 %s 根 bar，截至 %s。"
+        % (blk if blk is not None else "?", n if n is not None else "?",
+           env.get("bars") or "?", env.get("evidence_cutoff") or "—"))
+    add("")
+    add("| 在这 %s 条重抽历史里的位置 | 年化 | 最大回撤 |" % (n if n is not None else "?"))
+    add("|---|---|---|")
+    for lbl, q in (("**最差 5%**（运气很差）", "5"), ("中位（一半比它好）", "50"),
+                   ("最好 5%（运气很好）", "95")):
+        add("| %s | %s | %s |" % (lbl, f(cg.get(q)), f(dd.get(q))))
+    add("")
+    if pt.get("cagr") is not None:
+        add("- 上面那张表的 **%.2f%%** 落在这条分布的第 **%s** 分位（夏普 %.2f 在第 %s 分位）。"
+            "换句话说：它既不是好运气，也不是坏运气，是一个**典型**结果。"
+            % (pt["cagr"] * 100, pp.get("cagr") if pp.get("cagr") is not None else "—",
+               pt.get("sharpe") if pt.get("sharpe") is not None else float("nan"),
+               pp.get("sharpe") if pp.get("sharpe") is not None else "—"))
+        add("")
+    loz, ddl = shs.get("cagr_le_zero"), shs.get("maxdd_le_line")
+    if loz is not None and ddl is not None:
+        add("- **会亏钱的份额 %.1f%%**（年化 ≤ 0）；**回撤跌破 -20%% 的份额 %.1f%%**。"
+            "这两个数就是「最坏能坏到哪」——比任何单点回测都诚实，也是配仓位时该用的数。"
+            % (loz * 100, ddl * 100))
+        add("")
+    add("> 运气分布面：`%s` ｜ 块长 %s（另有 1/5/10/20/40/60/120/250 臂的敏感度面）"
+        % (_rel(env.get("artifact") or ENVELOPE_JSON, ROOT).replace(os.sep, "/"), blk))
     add("")
     return L
 
@@ -1342,6 +1428,7 @@ def build(with_stress=False):
     page["cost_tape"] = cost_tape_face()
     page["vol_window"] = vol_window_face()
     page["lookahead"] = lookahead_face()
+    page["envelope"] = envelope_face()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
     return page, today
 
@@ -1611,6 +1698,11 @@ def render_md(p):
     # caveat where the number is read, not in a research file the reader never opens.
     for _lk_line in lookahead_block(p.get("lookahead") or {}):
         add(_lk_line)
+    # r1211: a single CAGR is one path through one history. The envelope says how much of
+    # it is the book and how much is which days you happened to live through -- and it
+    # reads its numbers from the envelope's own reader, never from the JSON here.
+    for _env_line in envelope_block(p.get("envelope") or {}):
+        add(_env_line)
     if p.get("excess_pp") is not None and p.get("same_beta_benchmark") and p.get("ticket_book"):
         b = p["same_beta_benchmark"]
         bk = p["ticket_book"]
@@ -3078,6 +3170,44 @@ def selftest():
     chk("L84 look-ahead: a different verdict prints a different sentence",
         "时点差在容差内" in _render_lk(_lk_within)
         and "含一根 bar 的未来" not in _render_lk(_lk_within), "")
+
+    # r1211: a point CAGR is one path through one history ------------------------------
+    def _render_env(env):
+        _p, _ = build(with_stress=False)
+        _p["envelope"] = env
+        return render_md(_p)
+    _env_ok = {"status": "ok", "artifact": ENVELOPE_JSON, "evidence_cutoff": "2026-10-30",
+               "block": 20, "n_resamples": 2000, "bars": 1652,
+               "cagr": {"5": 0.0315, "50": 0.0956, "95": 0.1633},
+               "maxdd": {"5": -0.2095, "50": -0.1323, "95": -0.0890},
+               "sharpe": {"5": 0.364, "50": 0.974, "95": 1.589},
+               "point": {"cagr": 0.096, "sharpe": 0.99, "maxdd": -0.1177},
+               "point_pctile": {"cagr": 50.3, "sharpe": 51.6, "maxdd": 66.1},
+               "shares": {"cagr_le_zero": 0.004, "maxdd_le_line": 0.064, "n_resamples": 2000},
+               "reconciliation": "same_object"}
+    _md_env = _render_env(_env_ok)
+    chk("L85 envelope: the spread, the losing share and the drawdown-break share reach "
+        "the page beside the point estimate",
+        all(_x in _md_env for _x in ("3.15%", "9.56%", "16.33%", "-20.95%",
+                                     "0.4%", "6.4%", "50.3")), "")
+    _env_lines = "\n".join(envelope_block(_env_ok))
+    _tbl = [ln for ln in envelope_block(_env_ok) if ln.startswith("|")]
+    chk("L86 envelope: the page says the point estimate is a TYPICAL path, and its table "
+        "is a well-formed header + separator + three rows",
+        "典型" in _env_lines and "块长 20" in _env_lines and len(_tbl) == 5
+        and all(ln.count("|") == 4 for ln in _tbl), str(len(_tbl)))
+    _md_env_gone = _render_env({"status": "missing", "artifact": ENVELOPE_JSON})
+    _md_env_drift = _render_env({"status": "drift", "artifact": ENVELOPE_JSON})
+    chk("L87 envelope: absent or a face whose rows no longer recompute reads 'cannot "
+        "verify' and prints no percentiles",
+        "无法核验" in _md_env_gone and "无法核验" in _md_env_drift
+        and "3.15%" not in _md_env_gone and "3.15%" not in _md_env_drift
+        and "16.33%" not in _md_env_drift, "")
+    _env_foreign = dict(_env_ok)
+    _env_foreign["reconciliation"] = "different_object"
+    chk("L88 envelope: a face describing another book is flagged BEFORE its numbers",
+        "不是" in "\n".join(envelope_block(_env_foreign))
+        and "different_object" in "\n".join(envelope_block(_env_foreign)), "")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

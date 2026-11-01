@@ -1976,6 +1976,58 @@
   },
   "detail": null
  },
+ "envelope": {
+  "status": "ok",
+  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_bootstrap\\ENVELOPE-2026-10-30.json",
+  "evidence_cutoff": "2026-10-30",
+  "block": 20,
+  "n_resamples": 2000,
+  "bars": 1652,
+  "cagr": {
+   "1": 0.012250025301939903,
+   "5": 0.03154127986022479,
+   "25": 0.07013307886443498,
+   "50": 0.09564810023137382,
+   "75": 0.1227915836310362,
+   "95": 0.16328250741227956,
+   "99": 0.1972411726426772
+  },
+  "sharpe": {
+   "1": 0.1662430281769558,
+   "5": 0.3640375711051537,
+   "25": 0.7388605628249005,
+   "50": 0.9739697645156649,
+   "75": 1.219419561267884,
+   "95": 1.5890582285738681,
+   "99": 1.8383778796377839
+  },
+  "maxdd": {
+   "1": -0.25390829116136876,
+   "5": -0.20945850572008126,
+   "25": -0.15941558416334398,
+   "50": -0.1323210157769319,
+   "75": -0.11117071409460519,
+   "95": -0.08896607771659984,
+   "99": -0.07658152847507997
+  },
+  "point": {
+   "cagr": 0.096,
+   "sharpe": 0.99,
+   "maxdd": -0.1177
+  },
+  "point_pctile": {
+   "cagr": 50.3,
+   "sharpe": 51.6,
+   "maxdd": 66.1
+  },
+  "shares": {
+   "cagr_le_zero": 0.004,
+   "maxdd_le_line": 0.064,
+   "n_resamples": 2000
+  },
+  "reconciliation": "same_object",
+  "reading": "block bootstrap (2000 resamples, block=20 bars): CAGR p5/p50/p95 = 3.15%/9.56%/16.33% per year, Sharpe 0.36/0.97/1.59, maxDD -20.95%/-13.23%/-8.90%; the published point estimate 9.60% sits at the 50.3 pctile; 0.4% of resamples lose money and 6.4% break a -20% drawdown | these are the published book's own numbers: this series reads 9.60% against the production cell n12_vt08 at 9.60%"
+ },
  "stress": {
   "n_days": 5270,
   "first": "2005-02-23",

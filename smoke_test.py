@@ -637,6 +637,40 @@ def main() -> int:
     except Exception as _e2:
         check("product: the book envelope says whose book it describes", False, str(_e2))
 
+    # r1211: the distribution reached the CEO page. Two ways to break this and only one of
+    # them is visible by eye: (a) the section disappears, (b) the page prints a percentile
+    # that its own resample rows do not produce. The leg re-derives from the rows.
+    try:
+        from scripts import etf_book_nav_envelope as _NE
+        from scripts import etf_book_ceo_page as _PG
+        _env = _NE.read_published()
+        _md = open(os.path.join("docs", "live_book", "LIVE-BOOK-%s.md"
+                               % __import__("time").strftime("%Y%m%d")),
+                   encoding="utf-8").read()
+        _bad = []
+        if _env.get("status") != "ok":
+            _bad.append("reader status %s (%s)" % (_env.get("status"), _env.get("detail")))
+        else:
+            if "这一本账在它自己的日子里" not in _md:
+                _bad.append("the luck section is gone from the page")
+            for _q in ("5", "50", "95"):
+                _tok = "%.2f%%" % (_env["cagr"][_q] * 100)
+                if _tok not in _md:
+                    _bad.append("CAGR p%s (%s) is not on the page" % (_q, _tok))
+            _sh = _env["shares"]
+            if "%.1f%%" % (_sh["cagr_le_zero"] * 100) not in _md:
+                _bad.append("the losing share is not on the page")
+            _block = "\n".join(_PG.envelope_block(_env))
+            if "典型" not in _block:
+                _bad.append("the page does not say the point estimate is a typical path")
+        check("product: the page shows the book's own luck distribution, not just a point",
+              not _bad, "; ".join(_bad[:3]) or "p50 %.2f%% / p5 %.2f%%"
+              % ((_env.get("cagr") or {}).get("50", 0) * 100,
+                 (_env.get("cagr") or {}).get("5", 0) * 100))
+    except Exception as _e3:
+        check("product: the page shows the book's own luck distribution, not just a point",
+              False, str(_e3))
+
     try:
         _card = os.path.join("results", "etf_book_production", "CARD.md")
         _dc = os.path.join("results", "etf_book_window_decomp.json")
