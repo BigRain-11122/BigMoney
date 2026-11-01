@@ -7995,3 +7995,39 @@ Reading on bm-a (3-day window, 90-min threshold): median gap 10.0 min (the loop'
 so "normal" is defined), 8 unexplained gaps, longest closed silence 501 min (10-31 19:15 ->
 11-01 03:36), one 609.8-min gap fully explained by the workday window, and one OPEN gap of
 277-286 min since 08:00 -- the machine-readable record of today's stall.
+
+
+### E324 — The published headline buys at a price set before the information it ranks on (r1207 bm-a)
+
+Two engines priced "the same book" (N12 / R20 / 8% vol target / 10bp): the research engine on
+the card (9.60% / 0.99 / -11.77%) and the executable engine behind the ledger (8.53% before the
+repo carry it credits). r1204 measured the disagreement and left the cause open; r1207 prices it.
+
+**The mechanism is a source pin, not a statistic.** `etf_robust_pf.open_to_open_equity` takes
+`s = score.loc[d]` — and `build_score` builds row d from bar d's own close and amount — then
+pays the book from `op.at[d]` to `op.at[nxt]`. So the weights chosen with bar d's close are
+bought at bar d's open. The ledger engine (`etf_book_forward`) is causal (decide at close d →
+fill at open d+1 → mark to close), so the live book is *not* affected; the claims about it are.
+
+**Price of the one bar, measured on a lag ladder** (same rule, score moved in time, nothing
+else changed): lag −2 **+15.98%** → −1 **+12.46%** → 0 **+9.60%** → +1 **+8.46%** → +5 **+7.39%**
+→ +20 **+5.09%**. Monotone over 22 bars of delay. Two bars of future information are worth
+6.4 pp/yr; one bar is worth 1.14 pp. The causal arm lands on the ledger engine's own 8.53%,
+which is the independent check that the two are the same book once time is respected.
+
+**How to apply**
+1. A `score.loc[d]` used to earn `open[d] → …` is look-ahead even when every function in the
+   chain is "correct" — the defect lives in the *pairing* of a signal row with a price row, so
+   it cannot be caught by testing either in isolation.
+2. When two of your own engines disagree, the lag ladder is the cheapest arbiter: it needs no
+   new data, only the same rule moved in time, and it separates information from noise because
+   noise does not decay monotonically.
+3. Never quote the research headline as achievable until the causal re-run is priced. 33
+   scripts in `scripts/` price through this ordering (`affected_faces` in the face).
+4. A gap alone is not a verdict: r1207's own noise fixture produced a 4.4 pp gap between two
+   arbitrary orderings, which is why the verdict here rests on the source pin *plus* the
+   monotone ladder, not on the gap.
+
+Pos = `scripts/etf_book_lookahead_audit.py` (selftest 9/9, `--check` recomputes verdict and
+every delta) · `results/etf_book_lookahead_audit.json` · `research/ETF_BOOK_LOOKAHEAD_AUDIT.md` ·
+smoke leg *"the book's headline is priced one bar in the future, and the gap is measured"*.

@@ -4735,6 +4735,49 @@ def main() -> int:
     except Exception as e:
         check("product: the vol window is judged on more than one decision calendar",
               False, repr(e)[:160])
+    # ---- r1207: the book's headline is priced one bar in the future ----
+    # The face the CEO opens quotes the research engine, which ranks on bar d's own close and
+    # then earns open[d]->open[d+1]. This leg re-reads the published audit and requires: the
+    # verdict recomputes, the whole lag ladder is present, the source pin still holds, and the
+    # causal arm IS the lag+1 rung (otherwise the face is quoting two different rules).
+    try:
+        import importlib as _il60
+        _P60 = _il60.import_module("etf_book_lookahead_audit")
+        _p60 = os.path.join(PATHS.results_dir, "etf_book_lookahead_audit.json")
+        _bad60 = []
+        if not os.path.exists(_p60):
+            _bad60.append("results/etf_book_lookahead_audit.json missing")
+            _doc60 = {}
+        else:
+            with open(_p60, encoding="utf-8") as _fh60:
+                _doc60 = json.load(_fh60)
+            if _P60.check(_p60) != 0:
+                _bad60.append("the verdict does not recompute from the published rows")
+            _v60 = _doc60.get("verdict") or {}
+            if _v60.get("state") not in ("LOOKAHEAD_PRESENT", "WITHIN_TOL", "MECHANISM_ABSENT"):
+                _bad60.append("unknown verdict %r" % (_v60.get("state"),))
+            _lad60 = _doc60.get("lag_ladder") or []
+            if sorted(r.get("lag") for r in _lad60) != sorted(_P60.LAGS):
+                _bad60.append("lag ladder is %r" % ([r.get("lag") for r in _lad60],))
+            _by60 = {r.get("lag"): r.get("cagr") for r in _lad60}
+            _arm60 = (_doc60.get("arms") or {}).get("causal") or {}
+            if _arm60.get("cagr") is None or _by60.get(1) is None or \
+                    abs(_arm60["cagr"] - _by60[1]) > 1e-12:
+                _bad60.append("the causal arm is not the lag+1 rung")
+            if (_doc60.get("mechanism") or {}).get("score_reads_same_bar_close") is None:
+                _bad60.append("the source pin did not run")
+            for _k60, _c60 in _P60.CRITERIA.items():
+                if (_doc60.get("criteria") or {}).get(_k60) != _c60:
+                    _bad60.append("criterion %s moved off the module constant" % (_k60,))
+        check("product: the book's headline is priced one bar in the future, and the gap is measured",
+              not _bad60,
+              "; ".join(_bad60)[:220] or "verdict %s, one-bar price %.2f pp/yr, ladder %s"
+              % ((_doc60.get("verdict") or {}).get("state"),
+                 (_doc60.get("verdict") or {}).get("gap_pp_per_year") or 0.0,
+                 (_doc60.get("verdict") or {}).get("ladder_pp")))
+    except Exception as e:
+        check("product: the book's headline is priced one bar in the future, and the gap is measured",
+              False, repr(e)[:160])
     # ---- r1197: the exposure-timing answer has to reach the face the CEO opens ----
     # r1196 answered "is the de-lever timing or just a smaller book?" and filed it in a
     # research note; the page -- the one face the CEO actually opens -- still told him the

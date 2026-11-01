@@ -1,0 +1,222 @@
+{
+ "generated": "2026-11-01T13:20:18+0800",
+ "script": "scripts/etf_book_lookahead_audit.py",
+ "criteria": {
+  "tol_pp_per_year": 0.25,
+  "lags": [
+   -2,
+   -1,
+   0,
+   1,
+   5,
+   20
+  ],
+  "monotone_tol_pp": 0.05,
+  "verdict_rule": "LOOKAHEAD_PRESENT iff the published engine still takes its signal from bar d (`score.loc[d]`) while paying the book from bar d's open to the next bar's open -- a source pin read at run time -- AND pricing the same rule one bar later costs >= tol_pp_per_year; MECHANISM_ABSENT if the engine no longer reads its own bar (the pin flips, the claim must be re-derived); WITHIN_TOL if the pin holds but the one-bar price is under the line",
+  "arms": {
+   "published": "open_to_open_equity(score)  -- card convention, signal seen at bar d close, weights earn open[d]->open[d+1]",
+   "causal": "open_to_open_equity(score.shift(1)) -- same rule on data available at open[d]",
+   "ledger": "etf_book_forward engine (decide at close d, fill at open d+1, mark to close)"
+  },
+  "frozen": "threshold and rules written before the first run; --check refuses a face that does not reproduce them"
+ },
+ "panel": {
+  "symbols": 1504,
+  "bars": 5270,
+  "flips_repaired": 168,
+  "first_bar": "2005-02-23",
+  "last_bar": "2026-10-30"
+ },
+ "arms": {
+  "published": {
+   "cagr": 0.096,
+   "sharpe": 0.99,
+   "maxdd": -0.1177,
+   "vol": 0.1017,
+   "years": 6.82,
+   "cagr_pp": 9.6,
+   "maxdd_pp": -11.77,
+   "bars": 1652
+  },
+  "causal": {
+   "cagr": 0.0846,
+   "sharpe": 0.874,
+   "maxdd": -0.1656,
+   "vol": 0.1028,
+   "years": 6.82,
+   "cagr_pp": 8.46,
+   "maxdd_pp": -16.56,
+   "bars": 1652
+  },
+  "ledger_no_carry": {
+   "cagr": 0.0853,
+   "sharpe": 0.898,
+   "maxdd": -0.1357,
+   "vol": 0.1005,
+   "years": 6.83,
+   "cagr_pp": 8.53,
+   "maxdd_pp": -13.57,
+   "bars": 1653
+  },
+  "ledger_carry": {
+   "cagr": 0.0912,
+   "sharpe": 0.955,
+   "maxdd": -0.1326,
+   "vol": 0.1005,
+   "years": 6.83,
+   "cagr_pp": 9.12,
+   "maxdd_pp": -13.26,
+   "bars": 1653
+  }
+ },
+ "mechanism": {
+  "score_reads_same_bar_close": true,
+  "detail": {
+   "same_bar_signal": true,
+   "marks_open_to_open": true,
+   "reads_same_bar_close": true
+  },
+  "test": "source pin on etf_robust_pf.open_to_open_equity: the signal is taken from `score.loc[d]` while the book is paid from `op.at[d] -> op.at[nxt]`"
+ },
+ "lag_ladder": [
+  {
+   "lag": -2,
+   "cagr": 0.1598,
+   "sharpe": 1.532,
+   "maxdd": -0.1335,
+   "vol": 0.1043,
+   "cagr_pp": 15.98,
+   "maxdd_pp": -13.35,
+   "bars": 1652
+  },
+  {
+   "lag": -1,
+   "cagr": 0.1246,
+   "sharpe": 1.275,
+   "maxdd": -0.1102,
+   "vol": 0.0999,
+   "cagr_pp": 12.46,
+   "maxdd_pp": -11.02,
+   "bars": 1652
+  },
+  {
+   "lag": 0,
+   "cagr": 0.096,
+   "sharpe": 0.99,
+   "maxdd": -0.1177,
+   "vol": 0.1017,
+   "cagr_pp": 9.6,
+   "maxdd_pp": -11.77,
+   "bars": 1652
+  },
+  {
+   "lag": 1,
+   "cagr": 0.0846,
+   "sharpe": 0.874,
+   "maxdd": -0.1656,
+   "vol": 0.1028,
+   "cagr_pp": 8.46,
+   "maxdd_pp": -16.56,
+   "bars": 1652
+  },
+  {
+   "lag": 5,
+   "cagr": 0.0739,
+   "sharpe": 0.766,
+   "maxdd": -0.1666,
+   "vol": 0.104,
+   "cagr_pp": 7.39,
+   "maxdd_pp": -16.66,
+   "bars": 1652
+  },
+  {
+   "lag": 20,
+   "cagr": 0.0509,
+   "sharpe": 0.544,
+   "maxdd": -0.1764,
+   "vol": 0.1051,
+   "cagr_pp": 5.09,
+   "maxdd_pp": -17.64,
+   "bars": 1652
+  }
+ ],
+ "carry": {
+  "note": "ladder3 (GC007/GC014/GC028) commission charged",
+  "credited": true
+ },
+ "decomposition": {
+  "price_of_the_one_bar_pp": 1.14,
+  "mark_basis_pp": -0.07,
+  "carry_pp": 0.59,
+  "note": "the three components are priced on separate arms: the first is information ordering, the second is open-to-open vs close-to-close marking around an open fill, the third is the repo ladder the ledger credits and the card does not"
+ },
+ "bar_level": {
+  "published_vs_causal": {
+   "overlap_bars": 1651,
+   "max_abs_daily_diff": 0.016734,
+   "max_abs_daily_diff_bar": "2025-08-25",
+   "mean_abs_daily_diff": 0.00136,
+   "identical": false
+  },
+  "published_vs_ledger": {
+   "overlap_bars": 1651,
+   "max_abs_daily_diff": 0.043099,
+   "max_abs_daily_diff_bar": "2025-09-05",
+   "mean_abs_daily_diff": 0.004958,
+   "identical": false
+  }
+ },
+ "affected_faces": [
+  "scripts/etf_book_bakeoff.py",
+  "scripts/etf_book_bridge.py",
+  "scripts/etf_book_buffer_adoption.py",
+  "scripts/etf_book_cagr_reconcile.py",
+  "scripts/etf_book_concentration.py",
+  "scripts/etf_book_cost_tape.py",
+  "scripts/etf_book_forward.py",
+  "scripts/etf_book_hysteresis.py",
+  "scripts/etf_book_lookahead_audit.py",
+  "scripts/etf_book_nav_envelope.py",
+  "scripts/etf_book_pair.py",
+  "scripts/etf_book_passive_mix.py",
+  "scripts/etf_book_phase_atlas.py",
+  "scripts/etf_book_pre2020_wf.py",
+  "scripts/etf_book_production.py",
+  "scripts/etf_book_sleeve_gate.py",
+  "scripts/etf_book_sleeve_paths.py",
+  "scripts/etf_book_spanning.py",
+  "scripts/etf_book_spanning_pre2020.py",
+  "scripts/etf_book_split_audit.py",
+  "scripts/etf_book_stagger_publish.py",
+  "scripts/etf_book_tsmom.py",
+  "scripts/etf_book_vol_window_phase.py",
+  "scripts/etf_book_voltarget_lag.py",
+  "scripts/etf_book_width_cross.py",
+  "scripts/etf_book_width_null_production.py",
+  "scripts/etf_book_window_decomp.py",
+  "scripts/etf_nobond_vt.py",
+  "scripts/etf_robust_pf.py",
+  "scripts/etf_vol_calibration.py",
+  "scripts/etf_vol_delivery_audit.py",
+  "scripts/etf_vol_target_sweep.py",
+  "scripts/futures_tsmom_probe.py"
+ ],
+ "verdict": {
+  "state": "LOOKAHEAD_PRESENT",
+  "gap_pp_per_year": 1.14,
+  "score_reads_same_bar_close": true,
+  "ladder_pp": {
+   "-2": 15.98,
+   "-1": 12.46,
+   "0": 9.6,
+   "1": 8.46,
+   "5": 7.39,
+   "20": 5.09
+  },
+  "ladder_spread_pp": 10.89,
+  "ladder_monotone": true,
+  "rule": "LOOKAHEAD_PRESENT iff the published engine still takes its signal from bar d (`score.loc[d]`) while paying the book from bar d's open to the next bar's open -- a source pin read at run time -- AND pricing the same rule one bar later costs >= tol_pp_per_year; MECHANISM_ABSENT if the engine no longer reads its own bar (the pin flips, the claim must be re-derived); WITHIN_TOL if the pin holds but the one-bar price is under the line",
+  "why": "the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 1.14 pp/yr, and the whole ladder is monotone in delay (-2:+15.98, -1:+12.46, +0:+9.60, +1:+8.46, +5:+7.39, +20:+5.09)"
+ },
+ "elapsed_sec": 31.7
+}
