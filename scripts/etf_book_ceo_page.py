@@ -565,6 +565,78 @@ def causal_rebuild_face(path=CAUSAL_REBUILD_JSON):
                 "detail": "reading failed (%s)" % str(exc)[:120]}
 
 
+def research_arc_face():
+    """这三个问题已经问过几遍、每遍花掉多少（r1228 / E25+E26+E27 合订）
+
+    Single implementation: `etf_book_production.research_exhaustion()` owns the roll-up, so
+    the card and this page cannot drift into two opinions about whether the book has been
+    interrogated. The page printed E25 and E26 in their own sections but never E27, and never
+    said the three add up to "no lever" -- which left the reader free to ask a fourth time.
+    A face that does not read makes the whole answer CANNOT_VERIFY: an absence is not a no."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_production as _P
+        return _P.research_exhaustion()
+    except Exception as exc:                                    # noqa: BLE001
+        return {"verdict": "CANNOT_VERIFY", "rows": [], "missing": ["reader"],
+                "levers": [], "cutoffs": [],
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+
+
+def research_arc_block(rx):
+    """What each of the three asks cost, and what the three together authorize (r1228).
+
+    Factored out so a selftest can feed it a closed / open / unreadable face. The case
+    labels are presentation only; every number and every state is read from the payloads."""
+    L = []
+    add = L.append
+    add("## 这三个数字已经被问过三遍，答案都是「不值」")
+    add("")
+    rx = rx or {}
+    rows = [r for r in (rx.get("rows") or []) if r.get("readable")]
+    _zh = {"E25": "收盘后多出来那一 bar 的信息，能不能用因果规则赚回来",
+           "E26": "决策收盘到成交开盘之间的隔夜跳空，值不值那 1.14pp",
+           "E27": "把同一笔调仓摊到 k 个连续开盘上买，能不能省钱或多赚"}
+    _state = {"IRRECOVERABLE": "捡不回来", "NO_GAP_EDGE": "不够线",
+              "MIXED_ACROSS_PHASES": "全窗有、四个相位只部分赢",
+              "NO_SLICING_EDGE": "没有边际"}
+    if not rows:
+        add("这一页读不到那三份研究面，所以**无从判断**它们问过没有——读不出来不是「没问过」，"
+            "也不是「问了没用」。缺：%s。"
+            % ", ".join((rx.get("missing") or ["未知"]) if isinstance(rx.get("missing"), list)
+                        else [str(rx.get("missing"))]))
+        add("")
+        return L
+    add("| 案例 | 问的是什么 | 判词 | 最好的臂 | 最多赚回 | 可采纳臂 |")
+    add("|---|---|---|---|---|---|")
+    for r in rows:
+        add("| %s | %s | %s（`%s`） | `%s` | %+.2f pp/年 | %d |"
+            % (r.get("case"), _zh.get(r.get("case")) or r.get("question"),
+               (_state.get(r.get("state")) or "未命名判词"), r.get("state"),
+               r.get("best_arm"), r.get("best_pp") or 0.0,
+               len(r.get("admissible") or [])))
+    add("")
+    if rx.get("verdict") == "CLOSED":
+        add("- **三问皆负**：三个都跑过、三个都没出可采纳的臂。所以说清一件事——印出来的数"
+            "和真能下单的数之间的那道缝，**不是**靠平滑打分、不靠隔夜跳空、也不靠把成交摊薄能补回来的。")
+        add("- 这句话的边界也要说清：它**不是**「这本书没有别的招」，而是「这三条不赚钱」。"
+            "下一条线索得从别处来，不能从这个规则自己的机械里再挖第四遍。")
+    elif rx.get("verdict") == "OPEN_LEVER":
+        add("- **有一条臂过了自己的预注册门槛**：%s。它**还没被采纳**——这一页的数字仍按声明口径印，"
+            "要不要换由另一张决策件定。" % "、".join("`%s`" % a for a in (rx.get("levers") or [])))
+    else:
+        add("- **不能称为「问完了」**：有 %d 个案例这一次没读到，那几问在这里仍是悬的。"
+            % len(rx.get("missing") or []))
+    add("")
+    if rx.get("cutoffs"):
+        add("> 三份证据的截止日：%s；预注册件与判据都在各自的 `research/CASE_PREREG_*.md`。"
+            % "、".join(str(c) for c in rx["cutoffs"]))
+        add("")
+    return L
+
+
 def lookahead_face(path=LOOKAHEAD_JSON):
     """Is the headline achievable at the price the book is actually bought at? (r1207)
 
@@ -1874,6 +1946,7 @@ def build(with_stress=False):
     page["vol_window_edge"] = vol_window_edge_face()
     page["lookahead"] = lookahead_face()
     page["causal_rebuild"] = causal_rebuild_face()
+    page["research_arc"] = research_arc_face()
     page["gap"] = gap_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
@@ -2167,6 +2240,11 @@ def render_md(p):
     # visible at the fill is worth the gap. Answer it where the rebuild answer is read.
     for _gp_line in gap_block(p.get("gap") or {}):
         add(_gp_line)
+    # r1228: E25/E26/E27 each answered in their own section, and the three together were
+    # never stated -- so the reader was invited to ask a fourth time. Say it where he reads
+    # the answers, and say what the statement does NOT cover.
+    for _ra_line in research_arc_block(p.get("research_arc") or {}):
+        add(_ra_line)
     # r1213: the table's rows are not one ruler -- say which, where the table is read.
     for _br_line in band_ruler_block(p.get("band_ruler") or {}):
         add(_br_line)
@@ -3857,6 +3935,27 @@ def selftest():
     chk("L105 gap: an absent or drifted face reads 'cannot verify' and prints no arithmetic",
         "无法核验" in _gp_gone and "无法核验" in _gp_drift
         and "+0.81" not in _gp_gone and "+0.81" not in _gp_drift and "|" not in _gp_gone, "")
+    # L106-L108 (r1228): E25 and E26 each had their own section; E27 never appeared and the
+    # three were never added up, so the page kept inviting a fourth question. The block reads
+    # the roll-up from production (one implementation) and the three states must read apart --
+    # and an unreadable face must not print arithmetic at all.
+    _rx_closed = research_arc_face()
+    _md_closed = "\n".join(research_arc_block(_rx_closed))
+    _md_open = "\n".join(research_arc_block(
+        {"verdict": "OPEN_LEVER", "rows": _rx_closed.get("rows") or [],
+         "levers": ["E27:k2"], "missing": [], "cutoffs": ["2026-10-30"]}))
+    _md_gone = "\n".join(research_arc_block({"verdict": "CANNOT_VERIFY", "rows": [],
+                                             "missing": ["E25", "E26", "E27"]}))
+    chk("L106 research arc: the live faces read three-for-three and print E27",
+        _rx_closed.get("verdict") in ("CLOSED", "OPEN_LEVER")
+        and _rx_closed.get("faces_read") == 3
+        and "NO_SLICING_EDGE" in _md_closed and "E27" in _md_closed,
+        str(_rx_closed.get("verdict")))
+    chk("L107 research arc: a lever is named and never printed as 'three noes'",
+        "E27:k2" in _md_open and "三问皆负" not in _md_open
+        and "还没被采纳" in _md_open, "")
+    chk("L108 research arc: unreadable faces print no arithmetic, only the gap",
+        "无从判断" in _md_gone and "|" not in _md_gone and "+0.07" not in _md_gone, "")
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

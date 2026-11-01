@@ -3548,6 +3548,61 @@
   "status": "ok",
   "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_causal_rebuild.json"
  },
+ "research_arc": {
+  "artifact": "results/etf_book_production/latest.json",
+  "rows": [
+   {
+    "case": "E25",
+    "question": "can the one-bar price be earned back by a causal rule",
+    "artifact": "results/etf_book_causal_rebuild.json",
+    "prereg": "research/CASE_PREREG_E25_CAUSAL_REBUILD.md",
+    "state": "IRRECOVERABLE",
+    "best_arm": "smooth_k2",
+    "best_pp": 0.07,
+    "admissible": [],
+    "evidence_cutoff": "2026-10-30",
+    "readable": true
+   },
+   {
+    "case": "E26",
+    "question": "is anything visible between the close and the fill worth that price",
+    "artifact": "results/etf_book_overnight_gap.json",
+    "prereg": "research/CASE_PREREG_E26_OVERNIGHT_GAP.md",
+    "state": "MIXED_ACROSS_PHASES",
+    "best_arm": "excl_upgap_q80",
+    "best_pp": 0.81,
+    "admissible": [],
+    "evidence_cutoff": "2026-10-30",
+    "readable": true
+   },
+   {
+    "case": "E27",
+    "question": "does slicing the rebalance over k opens buy anything",
+    "artifact": "results/etf_book_open_slicing.json",
+    "prereg": "research/CASE_PREREG_E27_OPEN_SLICING.md",
+    "state": "NO_SLICING_EDGE",
+    "best_arm": "k5",
+    "best_pp": -0.01,
+    "admissible": [],
+    "evidence_cutoff": "2026-10-30",
+    "readable": true
+   }
+  ],
+  "cases": [
+   "E25",
+   "E26",
+   "E27"
+  ],
+  "missing": [],
+  "levers": [],
+  "cutoffs": [
+   "2026-10-30"
+  ],
+  "faces_read": 3,
+  "faces_total": 3,
+  "verdict": "CLOSED",
+  "sentence": "**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.07pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.81pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (-0.01pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics."
+ },
  "gap": {
   "audits": {
    "A6_fill_time_causality": {

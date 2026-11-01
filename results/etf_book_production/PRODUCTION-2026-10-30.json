@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-02 02:01:36",
+ "ts": "2026-11-02 03:42:44",
  "evidence_cutoff": "2026-10-30",
  "feed_status": {
   "ticket_bar": "2026-10-30",
@@ -294,7 +294,62 @@
   },
   "gap_pp": 1.14,
   "verdict": "SAME_OPEN_ARM",
-  "sentence": "**Execution basis: the table above is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.46%/yr, Sharpe 0.87, max drawdown -16.6%**, i.e. 1.14pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach."
+  "sentence": "**Execution basis: the as-coded row is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.46%/yr, Sharpe 0.87, max drawdown -16.6%**, i.e. 1.14pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach."
+ },
+ "research_exhaustion": {
+  "artifact": "results/etf_book_production/latest.json",
+  "rows": [
+   {
+    "case": "E25",
+    "question": "can the one-bar price be earned back by a causal rule",
+    "artifact": "results/etf_book_causal_rebuild.json",
+    "prereg": "research/CASE_PREREG_E25_CAUSAL_REBUILD.md",
+    "state": "IRRECOVERABLE",
+    "best_arm": "smooth_k2",
+    "best_pp": 0.07,
+    "admissible": [],
+    "evidence_cutoff": "2026-10-30",
+    "readable": true
+   },
+   {
+    "case": "E26",
+    "question": "is anything visible between the close and the fill worth that price",
+    "artifact": "results/etf_book_overnight_gap.json",
+    "prereg": "research/CASE_PREREG_E26_OVERNIGHT_GAP.md",
+    "state": "MIXED_ACROSS_PHASES",
+    "best_arm": "excl_upgap_q80",
+    "best_pp": 0.81,
+    "admissible": [],
+    "evidence_cutoff": "2026-10-30",
+    "readable": true
+   },
+   {
+    "case": "E27",
+    "question": "does slicing the rebalance over k opens buy anything",
+    "artifact": "results/etf_book_open_slicing.json",
+    "prereg": "research/CASE_PREREG_E27_OPEN_SLICING.md",
+    "state": "NO_SLICING_EDGE",
+    "best_arm": "k5",
+    "best_pp": -0.01,
+    "admissible": [],
+    "evidence_cutoff": "2026-10-30",
+    "readable": true
+   }
+  ],
+  "cases": [
+   "E25",
+   "E26",
+   "E27"
+  ],
+  "missing": [],
+  "levers": [],
+  "cutoffs": [
+   "2026-10-30"
+  ],
+  "faces_read": 3,
+  "faces_total": 3,
+  "verdict": "CLOSED",
+  "sentence": "**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.07pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.81pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (-0.01pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics."
  },
  "vol_overlay_tail": {
   "artifact": "results/etf_book_bootstrap/etf_book_voltarget_tail.json",

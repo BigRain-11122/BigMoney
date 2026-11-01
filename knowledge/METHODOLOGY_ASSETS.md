@@ -8542,3 +8542,34 @@ CEO 一页纸新增节（page selftest 108/108，L103-L105）、smoke 两腿。
 prereg `research/CASE_PREREG_E27_OPEN_SLICING.md`（跑前冻结）；链腿 `etf_book_open_slicing`
 （排在 `etf_book_overnight_gap` 之后）；smoke 两腿（退出码 + 从已发布行重推判决，并要求
 A9/A10/控制臂三条同时成立）。
+
+
+## E344 · 一张脸拒绝回答第四遍：把「已经问过什么」从载荷派生，缺一面即悬置（r1228 bm-a）
+
+**一 · 病址。** 卡上并排印出两行之后（as coded 9.6% / 声明口径 8.5%），读的人会按顺序问三件事：
+这 1.14pp 能不能捡回来（E25）· 决策收盘到成交开盘之间有没有信息（E26）· 把同一笔调仓摊到 k 个
+开盘上买值不值（E27）。三轮各答一件，答在各自的研究件里；**卡与 CEO 页只印数字，从不把三答
+合起来说一句「都问过、都不值」**——于是读者有权问第四遍，而操作者分不清「没问过」与「问了没用」。
+这不是数字错，是**缺少一句只有把三份证据放在一起才说得出的结论**。
+
+**二 · 正法（合订必须派生，不能手写）。** 单一实现
+`etf_book_production.research_exhaustion()`，CEO 页只包一层中文措辞（`research_arc_face`）：
+- 每格从载荷读 `state` / `best_arm` / `best_gained_pp|best_recovered_pp` / `admissible_arms`；
+- **是否存在可用的钱只看 `admissible_arms` 是否为空**，`state` 名字只作展示——判词名字将来会变，
+  「有没有过门槛的臂」不会；
+- 三态：`CLOSED`（三面全读且全无臂）/ `OPEN_LEVER`（点名 `案例:臂`，并明说「尚未被采纳」）/
+  `CANNOT_VERIFY`（**任一面读不出来即点名缺哪个**——读不出来既不是「没问过」也不是「问了没用」）；
+- `CLOSED` 的句子自带边界：**「这三条不赚钱」≠「这本书没有别的招」**，第四问得从别处来。
+
+**三 · 验证。** production selftest 新增 4 腿（三面全缺→CANNOT_VERIFY 且点名 / 三面空臂→CLOSED 且
+pp 从各面读 / 一面带臂→OPEN_LEVER 且句子里不许出现 closed / 撤掉一面→重新悬置）+ 卡渲染腿；
+ceo_page selftest 111/111（新增 L106-L108，含「读不出来的面不许印任何算术」）；smoke **317/317
+PASS 0 FAIL**，新腿从三份已发布件重推判决并要求卡上逐字出现各自 state（手改或陈旧即红）。
+实测：CLOSED·3/3 面·0 臂（E25 IRRECOVERABLE +0.07 / E26 MIXED_ACROSS_PHASES +0.81 /
+E27 NO_SLICING_EDGE −0.01，证据截止 2026-10-30）。
+
+**四 · 证据。** `scripts/etf_book_production.py`（`research_exhaustion` + 卡节）·
+`scripts/etf_book_ceo_page.py`（`research_arc_face` / `research_arc_block`，首次引用 E27）·
+`results/etf_book_production/CARD.md`·`docs/live_book/LIVE-BOOK-20261102.md`·
+`research/digests/DIGEST-20261102-r1228-research-arc-rollup.md`·smoke 腿
+「product: the card says which research questions its numbers already answered」。

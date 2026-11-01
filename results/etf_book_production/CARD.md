@@ -11,7 +11,7 @@ Config: 12 names of a 1504-instrument bond-free pool, rebalance every 20 bars, 1
 
 Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row 2 is the same rule with the score held one bar back -- the fill this card declares. Size off row 2.
 
-**Execution basis: the table above is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.46%/yr, Sharpe 0.87, max drawdown -16.6%**, i.e. 1.14pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach.
+**Execution basis: the as-coded row is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.46%/yr, Sharpe 0.87, max drawdown -16.6%**, i.e. 1.14pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach.
 
 **Vol label vs delivered risk: target 8% -> delivered 10.2% over the full window (1.27x).** The overlay only de-levers, so a sleeve sized on its own backward vol can run hotter than 8%; read the risk column, not the label.
 
@@ -22,7 +22,7 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `a1a42aee64453839` (5270 bars x 1613 symbols, 2005-02-23->2026-10-30, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-10-30 / ticket 2026-10-30 / page 2026-10-30 (compared at 2026-11-02 02:01:36); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-10-30 / ticket 2026-10-30 / page 2026-10-30 (compared at 2026-11-02 03:42:44); this card, the executable sheet and the CEO page all priced the same closing bar.
 
 **Family coherence: ONE_WORLD** -- all 10 width arms priced `a1a42aee64453839` (cutoff 2026-10-30); the verdicts that license this card's width are measurements on one panel.
 
@@ -127,6 +127,18 @@ k=0.05 is the only arm that lowers turnover (0.934 -> 0.901), keeps the return (
 
 - exploratory: no preregistration, no verdict, no ledger booking
 - MEASURED (results/etf_book_buffer_adoption.json): that path-dependence test was run on 60 cells -- verdict REJECT. Read the arms above as one decision sequence, not an edge.
+
+## What has already been asked about these numbers
+
+| case | question we already asked | state | best arm | best pp/yr | admissible arms |
+|---|---|---|---|---|---|
+| E25 | can the one-bar price be earned back by a causal rule | IRRECOVERABLE | `smooth_k2` | +0.07 | 0 |
+| E26 | is anything visible between the close and the fill worth that price | MIXED_ACROSS_PHASES | `excl_upgap_q80` | +0.81 | 0 |
+| E27 | does slicing the rebalance over k opens buy anything | NO_SLICING_EDGE | `k5` | -0.01 | 0 |
+
+**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.07pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.81pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (-0.01pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics.
+
+All three were priced on evidence cutoff 2026-10-30; the preregs are the files named in the table above, frozen before each run.
 
 ## How bad can the drawdown be?
 

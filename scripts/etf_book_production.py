@@ -979,6 +979,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "backtest": runs,
         "vol_delivery": dv,
         "execution_basis": execution_basis(runs, n_hold),
+        "research_exhaustion": research_exhaustion(),
         "vol_overlay_tail": vt_tail,
         "sheet": sheet,
         "caveats": [
@@ -1246,6 +1247,112 @@ def execution_basis(runs, n_hold):
                                      100 * (d.get("maxdd") or 0.0), gap))
 
 
+# r1228: the three questions this card's own numbers already raised, in the order a reader
+# asks them. Each is a face on disk with its own frozen prereg; the roll-up derives every
+# word it prints from those payloads, so a missing face reads CANNOT_VERIFY and a face with
+# an admissible arm reads OPEN_LEVER -- the card cannot claim "exhausted" on its own.
+RESEARCH_CASES = (
+    ("E25", "can the one-bar price be earned back by a causal rule",
+     "etf_book_causal_rebuild.json", "research/CASE_PREREG_E25_CAUSAL_REBUILD.md",
+     "best_recovered_pp"),
+    ("E26", "is anything visible between the close and the fill worth that price",
+     "etf_book_overnight_gap.json", "research/CASE_PREREG_E26_OVERNIGHT_GAP.md",
+     "best_gained_pp"),
+    ("E27", "does slicing the rebalance over k opens buy anything",
+     "etf_book_open_slicing.json", "research/CASE_PREREG_E27_OPEN_SLICING.md",
+     "best_gained_pp"),
+)
+
+
+def research_exhaustion(results_dir=None):
+    """What the printed numbers were already asked, and what each answer cost.
+
+    A reader who has just seen 9.6%/yr beside 8.5%/yr asks the same three things in the same
+    order: can the gap be rebuilt, is anything visible at the fill worth it, does slicing the
+    fill help. r1224/r1226/r1227 priced all three and each came back without an admissible
+    arm -- but every answer lived in its own research file, so the card kept inviting the
+    fourth question. The roll-up is derived: state, best arm and pp are read from each
+    payload, `admissible_arms` alone decides whether a lever exists, and a face that does not
+    read makes the whole verdict CANNOT_VERIFY. "Three asks, no lever" is a statement about
+    these three questions, not about the book.
+    """
+    d = E.PATHS.results_dir if results_dir is None else results_dir
+    rows, missing, levers = [], [], []
+    for cid, question, fname, prereg, field in RESEARCH_CASES:
+        row = {"case": cid, "question": question, "artifact": "results/" + fname,
+               "prereg": prereg}
+        try:
+            with open(os.path.join(d, fname), "r", encoding="utf-8") as fh:
+                doc = json.load(fh) or {}
+            v = doc.get("verdict") or {}
+        except Exception:                                       # noqa: BLE001
+            missing.append(cid)
+            rows.append(dict(row, state=None, best_arm=None, best_pp=None,
+                             admissible=[], evidence_cutoff=None, readable=False))
+            continue
+        arms = [str(a) for a in (v.get("admissible_arms") or [])]
+        levers += ["%s:%s" % (cid, a) for a in arms]
+        rows.append(dict(row, state=v.get("state"), best_arm=v.get("best_arm"),
+                         best_pp=v.get(field), admissible=arms,
+                         evidence_cutoff=doc.get("evidence_cutoff"), readable=True))
+    cutoffs = sorted({r["evidence_cutoff"] for r in rows if r.get("evidence_cutoff")})
+    base = {"artifact": "results/etf_book_production/latest.json", "rows": rows,
+            "cases": [c[0] for c in RESEARCH_CASES], "missing": missing, "levers": levers,
+            "cutoffs": cutoffs, "faces_read": sum(1 for r in rows if r["readable"]),
+            "faces_total": len(RESEARCH_CASES)}
+    measured = ", ".join("%s %s (%+.2fpp best arm `%s`)"
+                         % (r["case"], r.get("state"), r.get("best_pp") or 0.0,
+                            r.get("best_arm")) for r in rows if r["readable"])
+    if levers:
+        return dict(base, verdict="OPEN_LEVER",
+                    sentence="**Research arc: one of the three asks has an admissible arm "
+                             "(`%s`).** That arm cleared its prereg and is not adopted here; "
+                             "read it as a candidate, and this card's numbers stay on the "
+                             "declared fill until a separate decision changes them."
+                             % "`, `".join(levers))
+    if missing:
+        return dict(base, verdict="CANNOT_VERIFY",
+                    sentence="**Research arc: not callable closed.** %d of %d asks did not "
+                             "read this run (%s), so those questions are unanswered here -- "
+                             "a face that is absent is not a negative. What did read: %s."
+                             % (len(missing), len(RESEARCH_CASES), ", ".join(missing),
+                                measured or "nothing"))
+    return dict(base, verdict="CLOSED",
+                sentence="**Research arc: all three asks were priced and none paid.** %s. "
+                         "So the gap between the printed number and the tradable one is not "
+                         "recoverable by smoothing the score, not visible in the overnight "
+                         "gap, and not saved by slicing the fill over k opens. This is not a "
+                         "claim that no lever exists -- it is the narrower, earned claim that "
+                         "these three do not pay, and that a fourth question has to come from "
+                         "somewhere other than this rule's own mechanics."
+                         % measured)
+
+
+def research_exhaustion_paragraphs(rx):
+    """The card section: each ask, its measured state, and what the states add up to."""
+    if not (rx and rx.get("rows")):
+        return ["Not measured: the three research faces this card's numbers raised are not "
+                "readable, so nothing here says whether their questions were answered.", ""]
+    out = ["| case | question we already asked | state | best arm | best pp/yr | admissible "
+           "arms |", "|---|---|---|---|---|---|"]
+    for r in rx["rows"]:
+        if not r.get("readable"):
+            out.append("| %s | %s | not readable | - | - | - |"
+                       % (r["case"], r["question"]))
+            continue
+        out.append("| %s | %s | %s | `%s` | %+.2f | %d |"
+                   % (r["case"], r["question"], r.get("state"), r.get("best_arm"),
+                      r.get("best_pp") or 0.0, len(r.get("admissible") or [])))
+    out += [""]
+    if rx.get("sentence"):
+        out += [rx["sentence"], ""]
+    if rx.get("cutoffs"):
+        out += ["All three were priced on evidence cutoff %s; the preregs are the files "
+                "named in the table above, frozen before each run."
+                % ", ".join(str(c) for c in rx["cutoffs"]), ""]
+    return out
+
+
 def write_card(out):
     s, cfg, bt = out["sheet"], out["config"], out["backtest"]
     b = bt.get("n%d_vt08" % cfg["n_hold"], {})
@@ -1391,6 +1498,8 @@ def write_card(out):
     lines += spanning_pre2020_paragraphs(out.get("spanning_pre2020"))
     lines += ["## Does the book trade on noise?", ""]
     lines += hysteresis_paragraphs(out.get("hysteresis"))
+    lines += ["## What has already been asked about these numbers", ""]
+    lines += research_exhaustion_paragraphs(out.get("research_exhaustion"))
     full = b.get("full") or {}
     if full.get("maxdd") is not None:
         lines += ["## How bad can the drawdown be?", ""]
@@ -2188,6 +2297,65 @@ def selftest():
     finally:
         E.PATHS.results_dir = _keep_res3
         shutil.rmtree(_pf_dir, ignore_errors=True)
+
+    # 10j. the card says which questions its own numbers already answered (r1228). The roll-up
+    #      may only say "closed" when every case face read AND none carried an admissible arm;
+    #      an absent face is an open question, and a lever is a lever even if two neighbours
+    #      came back empty.
+    _keep_res4 = E.PATHS.results_dir
+    _rx_dir = tempfile.mkdtemp(prefix="etf_book_prod_rx_")
+    try:
+        E.PATHS.results_dir = _rx_dir
+        _rx_absent = research_exhaustion()
+        chk("no research faces -> arc CANNOT be called closed", 
+            _rx_absent["verdict"] == "CANNOT_VERIFY"
+            and len(_rx_absent["missing"]) == 3 and _rx_absent["faces_read"] == 0,
+            _rx_absent["sentence"][:60])
+
+        def _write_case(fname, state, arms, best_pp=0.07):
+            with open(os.path.join(_rx_dir, fname), "w", encoding="utf-8") as fh:
+                json.dump({"verdict": {"state": state, "best_arm": "best", 
+                                       "best_recovered_pp": best_pp,
+                                       "best_gained_pp": best_pp,
+                                       "admissible_arms": arms},
+                           "evidence_cutoff": "2026-10-30"}, fh)
+
+        for _cid, _q, _f, _pr, _fl in RESEARCH_CASES:
+            _write_case(_f, "IRRECOVERABLE", [])
+        _rx_closed = research_exhaustion()
+        chk("three empty asks -> CLOSED with the pp read off each face",
+            _rx_closed["verdict"] == "CLOSED" and _rx_closed["faces_read"] == 3
+            and "+0.07pp" in _rx_closed["sentence"]
+            and _rx_closed["cutoffs"] == ["2026-10-30"], _rx_closed["sentence"][:60])
+        _write_case(RESEARCH_CASES[2][2], "ADOPT_SLICE", ["k2"], best_pp=0.61)
+        _rx_open = research_exhaustion()
+        chk("one admissible arm -> OPEN_LEVER named, and the word closed never printed",
+            _rx_open["verdict"] == "OPEN_LEVER" and _rx_open["levers"] == ["E27:k2"]
+            and "closed" not in _rx_open["sentence"].lower(),
+            _rx_open["sentence"][:70])
+        for _cid, _q, _f, _pr, _fl in RESEARCH_CASES:
+            _write_case(_f, "IRRECOVERABLE", [])
+        os.remove(os.path.join(_rx_dir, RESEARCH_CASES[0][2]))
+        _rx_gap = research_exhaustion()
+        chk("a dropped face reopens the question instead of leaving it closed",
+            _rx_gap["verdict"] == "CANNOT_VERIFY" and _rx_gap["missing"] == ["E25"],
+            _rx_gap["sentence"][:60])
+        _rx_txt_dir = tempfile.mkdtemp(prefix="etf_book_prod_rx_render_")
+        _keep_out3 = OUT_DIR
+        try:
+            OUT_DIR = _rx_txt_dir
+            write_card(dict(_pb_out, research_exhaustion=_rx_gap))
+            _rx_txt = open(os.path.join(_rx_txt_dir, "CARD.md"), encoding="utf-8").read()
+        finally:
+            OUT_DIR = _keep_out3
+            shutil.rmtree(_rx_txt_dir, ignore_errors=True)
+        chk("the card prints the asks it answered and the one it could not",
+            "What has already been asked about these numbers" in _rx_txt
+            and "not callable closed" in _rx_txt and "| E26 |" in _rx_txt,
+            "%d chars" % len(_rx_txt))
+    finally:
+        E.PATHS.results_dir = _keep_res4
+        shutil.rmtree(_rx_dir, ignore_errors=True)
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1

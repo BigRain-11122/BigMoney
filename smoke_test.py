@@ -765,6 +765,34 @@ def main() -> int:
             else:
                 check("product: the card table prices both arms in the headline rows", True,
                       "unreadable arm -- the sentence leg already owns that state")
+            # r1228: three research cases (E25/E26/E27) each answered in their own file, and
+            # the card never said the three add up to "no lever" -- so a reader was invited to
+            # ask a fourth time. Re-derive the roll-up from each published face's own rows,
+            # then demand the card print the same states: a hand-written or stale "closed"
+            # reads red.
+            _rx = _doc.get("research_exhaustion") or {}
+            _rows = [r for r in (_rx.get("rows") or []) if r.get("readable")]
+            _recomputed = []
+            for _r in _rows:
+                _p = os.path.join("results", os.path.basename(_r.get("artifact") or ""))
+                try:
+                    _face = json.load(open(_p, encoding="utf-8"))
+                except Exception:
+                    _recomputed.append(None)
+                    continue
+                _fv = _face.get("verdict") or {}
+                _recomputed.append((_fv.get("state"), len(_fv.get("admissible_arms") or [])))
+            _levers = sum(1 for _t in _recomputed if _t and _t[1])
+            _want = ("OPEN_LEVER" if _levers else
+                     ("CANNOT_VERIFY" if len(_rows) != 3 else "CLOSED"))
+            _rx_ok = (_rx.get("verdict") == _want
+                      and all(_t is not None and _t[0] == _r.get("state")
+                              for _t, _r in zip(_recomputed, _rows))
+                      and "What has already been asked about these numbers" in _txt
+                      and all(_r.get("state") in _txt for _r in _rows))
+            check("product: the card says which research questions its numbers already answered",
+                  _rx_ok, "%s from %d faces (%d levers)"
+                  % (_rx.get("verdict"), len(_rows), _levers))
         else:
             check("product: the card states which of its two arms the desk can trade", True,
                   "production sheet absent -- face soft-fails by design")

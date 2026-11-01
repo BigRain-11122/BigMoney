@@ -1,34 +1,17 @@
 {
- "ts": "2026-11-02T03:18:01",
+ "ts": "2026-11-02T03:49:18",
  "mode": "probe",
- "py_faces_seen": 14,
+ "py_faces_seen": 13,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 30860,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\sjs20\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe C:\\Users\\sjs20\\.local\\bin\\duckduckg",
-   "age_min": 4.4,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "python.exe",
-    "duckduckgo-mcp-server.exe",
-    "codely.exe",
-    "powershell.exe",
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 31952,
+   "pid": 27156,
    "name": "python.exe",
    "cmd": "C:\\Users\\sjs20\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\sjs20\\.local\\bin\\mcp-for-unity.exe",
-   "age_min": 4.4,
+   "age_min": 11.8,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -41,11 +24,11 @@
    ]
   },
   {
-   "pid": 36180,
+   "pid": 39148,
    "name": "python.exe",
-   "cmd": "C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -u Tools\\orphan_face_probe.py",
+   "cmd": "C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.5,
-   "cpu_delta_20s": 0.25,
+   "cpu_delta_20s": 0.312,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -57,27 +40,24 @@
    ]
   },
   {
-   "pid": 42228,
+   "pid": 49496,
    "name": "python.exe",
-   "cmd": "C:\\Users\\sjs20\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe C:\\Users\\sjs20\\.local\\bin\\mcp-for-u",
-   "age_min": 4.4,
-   "cpu_delta_20s": 0.0,
+   "cmd": "C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe scripts/etf_vol_calibration.py --selftest",
+   "age_min": 0.0,
+   "cpu_delta_20s": 999.0,
    "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
+   "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
     "python.exe",
-    "mcp-for-unity.exe",
-    "codely.exe",
-    "powershell.exe",
-    "wscript.exe"
+    "DEAD"
    ]
   },
   {
-   "pid": 47316,
+   "pid": 50212,
    "name": "python.exe",
    "cmd": "C:\\Users\\sjs20\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\sjs20\\.local\\bin\\mcp-for-unity.exe",
-   "age_min": 10.5,
+   "age_min": 9.8,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -90,10 +70,10 @@
    ]
   },
   {
-   "pid": 48092,
+   "pid": 51684,
    "name": "python.exe",
    "cmd": "C:\\Users\\sjs20\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe C:\\Users\\sjs20\\.local\\bin\\duckduckg",
-   "age_min": 10.5,
+   "age_min": 11.8,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -107,33 +87,46 @@
    ]
   },
   {
-   "pid": 53104,
+   "pid": 54296,
    "name": "python.exe",
-   "cmd": "C:\\Users\\sjs20\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe C:\\Users\\sjs20\\.local\\bin\\mcp-for-u",
-   "age_min": 10.5,
+   "cmd": "C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -u -m smoke_test",
+   "age_min": 0.8,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 55580,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\sjs20\\AppData\\Roaming\\uv\\tools\\duckduckgo-mcp-server\\Scripts\\python.exe C:\\Users\\sjs20\\.local\\bin\\duckduckgo-mc",
+   "age_min": 9.8,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "python.exe",
-    "mcp-for-unity.exe",
+    "duckduckgo-mcp-server.exe",
     "codely.exe",
     "powershell.exe",
     "wscript.exe"
    ]
   },
   {
-   "pid": 53816,
+   "pid": 55652,
    "name": "python.exe",
-   "cmd": "C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe src/os/battery_stream.py --evidence qa/reconcile-all-R",
-   "age_min": 3.4,
+   "cmd": "C:\\Users\\sjs20\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe C:\\Users\\sjs20\\.local\\bin\\duckduckg",
+   "age_min": 9.8,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "powershell.exe",
+    "python.exe",
+    "duckduckgo-mcp-server.exe",
     "codely.exe",
     "powershell.exe",
     "wscript.exe"
@@ -143,29 +136,12 @@
    "pid": 56704,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\pythonw.exe C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\fleet\\fleet_ag",
-   "age_min": 3720.4,
-   "cpu_delta_20s": 0.203,
+   "age_min": 3751.7,
+   "cpu_delta_20s": 0.234,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 58328,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -u C:\\Users\\sjs20\\Desktop\\FluxGroup\\domain\\BigDomain\\s",
-   "age_min": 3.4,
-   "cpu_delta_20s": 0.562,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "python.exe",
-    "powershell.exe",
-    "codely.exe",
-    "powershell.exe",
     "wscript.exe"
    ]
   },
@@ -173,7 +149,7 @@
    "pid": 58388,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\pythonw.exe C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\T",
-   "age_min": 1965.4,
+   "age_min": 1996.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -183,10 +159,27 @@
    ]
   },
   {
-   "pid": 72000,
+   "pid": 62076,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\sjs20\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe C:\\Users\\sjs20\\.local\\bin\\mcp-for-u",
+   "age_min": 9.8,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "mcp-for-unity.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 67912,
    "name": "python.exe",
    "cmd": "C:\\Users\\sjs20\\AppData\\Roaming\\uv\\tools\\duckduckgo-mcp-server\\Scripts\\python.exe C:\\Users\\sjs20\\.local\\bin\\duckduckgo-mc",
-   "age_min": 10.5,
+   "age_min": 11.8,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -199,29 +192,17 @@
    ]
   },
   {
-   "pid": 72660,
+   "pid": 75744,
    "name": "python.exe",
-   "cmd": "C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\",
-   "age_min": 0.5,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 73724,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\sjs20\\AppData\\Roaming\\uv\\tools\\duckduckgo-mcp-server\\Scripts\\python.exe C:\\Users\\sjs20\\.local\\bin\\duckduckgo-mc",
-   "age_min": 4.4,
+   "cmd": "C:\\Users\\sjs20\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe C:\\Users\\sjs20\\.local\\bin\\mcp-for-u",
+   "age_min": 11.8,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "duckduckgo-mcp-server.exe",
+    "python.exe",
+    "mcp-for-unity.exe",
     "codely.exe",
     "powershell.exe",
     "wscript.exe"
