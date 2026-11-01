@@ -1,0 +1,2041 @@
+{
+ "study": "E348 what a restored gate does not protect in retrospect",
+ "evidence_cutoff": "2026-11-01T20:06:46+08:00",
+ "generated": "2026-11-01T20:06:46+08:00",
+ "definition": {
+  "source": "results/state_tilt/GATEABSENCE-2026-11-01.json (E345 windows that have a restore)",
+  "clauses": {
+   "actionable_is_false": "face.actionable is False",
+   "shadow_is_true": "face.shadow is True",
+   "gross_within_cap": "face.book.gross is a number and <= 3.0 (1e-9 tolerance)",
+   "bar_matches_panel_tail": "face.generated_for_bar equals the newest bar date across data/futures_daily/*.csv in that same commit",
+   "not_stale": "face.staleness.stale is False"
+  },
+  "clauses_frozen_from": "smoke_test.py at HEAD: check('product: futures TSMOM face is current, capped and not an order', _ok, ...)",
+  "population": "every commit in (removal, restore) on this line, replayed from its own tree; the face and the futures panel are read as blobs at that commit, and panel tails are resolved per distinct blob so cost tracks blob count, not commit count",
+  "states": "held | violated | not_evaluable; an unevaluable clause is never counted as held, and a commit with no evaluable clause does not count as clean",
+  "not_measured": "the suite's own verdicts inside the window (that is E345); this face only asks what a correct gate would have said"
+ },
+ "head": "b45cb4ae6f3",
+ "replay_head": "b45cb4ae6f353efb07c84c6cc93a030535e9228c",
+ "panel_paths": [
+  "data/futures_daily/AU.csv",
+  "data/futures_daily/IC.csv",
+  "data/futures_daily/IF.csv",
+  "data/futures_daily/IH.csv",
+  "data/futures_daily/IM.csv",
+  "data/futures_daily/RB.csv",
+  "data/futures_daily/SC.csv",
+  "data/futures_daily/T.csv",
+  "data/futures_daily/TF.csv",
+  "data/futures_daily/TS.csv"
+ ],
+ "windows": [
+  {
+   "name": "product: futures TSMOM face is current, capped and not an order",
+   "removal_sha": "9f8010c78f9",
+   "restore_sha": "b768f21763d",
+   "commits_replayed": 28,
+   "wall_hours": 9.26,
+   "rounds_in_window": 10,
+   "face_present_commits": 0,
+   "face_absent_commits": 28,
+   "assertion_and_subject_arrived_together": true,
+   "clause_counts": {
+    "actionable_is_false": {
+     "held": 0,
+     "violated": 0,
+     "not_evaluable": 28
+    },
+    "shadow_is_true": {
+     "held": 0,
+     "violated": 0,
+     "not_evaluable": 28
+    },
+    "gross_within_cap": {
+     "held": 0,
+     "violated": 0,
+     "not_evaluable": 28
+    },
+    "bar_matches_panel_tail": {
+     "held": 0,
+     "violated": 0,
+     "not_evaluable": 28
+    },
+    "not_stale": {
+     "held": 0,
+     "violated": 0,
+     "not_evaluable": 28
+    }
+   },
+   "first_violation": null,
+   "shipped_by_round": null,
+   "restore_round": 1239,
+   "relay_rounds": null,
+   "clauses_at_restore_commit": {
+    "actionable_is_false": "held",
+    "shadow_is_true": "held",
+    "gross_within_cap": "held",
+    "bar_matches_panel_tail": "held",
+    "not_stale": "held"
+   },
+   "clauses_at_head": {
+    "actionable_is_false": "held",
+    "shadow_is_true": "held",
+    "gross_within_cap": "held",
+    "bar_matches_panel_tail": "held",
+    "not_stale": "held"
+   },
+   "after_the_restore": {
+    "population": "commits in (restore, replay_head] on this line",
+    "replay_head": "b45cb4ae6f3",
+    "commits": 279,
+    "face_present_commits": 279,
+    "clause_counts": {
+     "actionable_is_false": {
+      "held": 279,
+      "violated": 0,
+      "not_evaluable": 0
+     },
+     "shadow_is_true": {
+      "held": 279,
+      "violated": 0,
+      "not_evaluable": 0
+     },
+     "gross_within_cap": {
+      "held": 279,
+      "violated": 0,
+      "not_evaluable": 0
+     },
+     "bar_matches_panel_tail": {
+      "held": 279,
+      "violated": 0,
+      "not_evaluable": 0
+     },
+     "not_stale": {
+      "held": 279,
+      "violated": 0,
+      "not_evaluable": 0
+     }
+    },
+    "commits_with_a_violation": 0,
+    "first_violation": null,
+    "panel_tail_at_head": "2026-10-28",
+    "distinct_face_blobs": 1,
+    "distinct_panel_tails": 1,
+    "one_observation_repeated": true
+   },
+   "verdict": "nothing_to_evaluate",
+   "why": "no clause was evaluable at any commit inside the window: the face was not in this line's tree for the whole window; the gate and its subject first appear in the SAME commit (the merge that restored the check), so the window was empty rather than clean",
+   "commits": [
+    {
+     "sha": "00b911b98dc",
+     "ts": "2026-10-29T00:50:35+08:00",
+     "subject": "round 1228: the printed sign is a rounding fact wherever the level is a hair against its g",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "4e0f4cc038c",
+     "ts": "2026-10-29T01:03:04+08:00",
+     "subject": "round 1228 receipt: push of machine/bm-b-r1228 rejected on a missing promisor object; fail",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "70f61c17e5f",
+     "ts": "2026-10-29T01:10:20+08:00",
+     "subject": "round 1228 receipt: D-19 delta consumed (93fa41e1), orders clean, NATS back, GPU occupant ",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "864c3f3d55c",
+     "ts": "2026-10-29T01:11:13+08:00",
+     "subject": "round 1228 heartbeat: fresh bm-b face (round 1228, E196 shipped, delivery blocked on promi",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "83494524b68",
+     "ts": "2026-10-29T01:30:10+08:00",
+     "subject": "round 1229: delivery unblocked - fetch then push --no-thin lands the 5 backlogged commits",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "b11b56b4aa1",
+     "ts": "2026-10-29T02:02:39+08:00",
+     "subject": "round 1230: edge depth does not monotonically kill the reversal (3 of 4 pairs revive); 14/",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "fc65793f3a1",
+     "ts": "2026-10-29T02:03:21+08:00",
+     "subject": "round 1230 delivery receipt: machine/bm-b-r1230 lands b11b56b4a (ls-remote verified); main",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "0ae4948367a",
+     "ts": "2026-10-29T02:25:43+08:00",
+     "subject": "round 1231: the drop rule's edge months are read against a removal-count-matched random re",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "c0b7c95a457",
+     "ts": "2026-10-29T02:26:25+08:00",
+     "subject": "round 1231 receipt: push of machine/bm-b-r1231 verified by ls-remote (tip==HEAD); main mer",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "a0bcae1b8b7",
+     "ts": "2026-10-29T02:55:49+08:00",
+     "subject": "round 1232: a silent delta face is only a trap if someone else reads it - all 14 are produ",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "3f9e809c6ef",
+     "ts": "2026-10-29T02:57:34+08:00",
+     "subject": "round 1232 delivery receipt: machine/bm-b-r1232 = a0bcae1b8 (ls-remote verified); main pus",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "4c139ac496a",
+     "ts": "2026-10-29T03:24:51+08:00",
+     "subject": "round 1233: a reader map is a snapshot, so ratchet it - the first durable reader of a sile",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "9ff79a287eb",
+     "ts": "2026-10-29T03:25:36+08:00",
+     "subject": "round 1233 delivery receipt: machine/bm-b-r1233 = 4c139ac49 (ls-remote verified); main pus",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "2e0f7656e71",
+     "ts": "2026-10-29T03:53:55+08:00",
+     "subject": "round 1234: a silent face may not grow a delta number until it teaches its sign",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "a9907afe8ce",
+     "ts": "2026-10-29T03:55:01+08:00",
+     "subject": "round 1234 delivery receipt: machine/bm-b-r1234 verified by ls-remote; main push deferred ",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "db2d4ce5747",
+     "ts": "2026-10-29T04:42:52+08:00",
+     "subject": "round 1235: the classifier's blind spot has a volume -- 37,817 published cells a name read",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "3c3d0bd560b",
+     "ts": "2026-10-29T04:47:52+08:00",
+     "subject": "round 1235 postscript: name-as-measurement pit (a classifier's blind spot has a volume; ev",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "b007624bc7f",
+     "ts": "2026-10-29T04:48:06+08:00",
+     "subject": "round 1235 receipt: estate db2d4ce57 + postscript 3c3d0bd56 delivered on machine/bm-b-r123",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "f439ef514bb",
+     "ts": "2026-10-29T04:48:52+08:00",
+     "subject": "round 1235: 5-round handover list check -- current products are the sign/level audit line ",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "6b0ae12e2bb",
+     "ts": "2026-10-29T05:25:27+08:00",
+     "subject": "round 1236: E208 count-word guard on level_class, measured against the legacy table (3,109",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "f75951e517d",
+     "ts": "2026-10-29T05:26:56+08:00",
+     "subject": "round 1236 receipt: orphan face = 0, watchdog present, estate delivered on machine/bm-b-r1",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "c603eb225dc",
+     "ts": "2026-10-29T06:04:56+08:00",
+     "subject": "round 1237: audit the pages the CEO reads (E210) and let counts prove themselves by siblin",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "e3e84a9e2ae",
+     "ts": "2026-10-29T06:38:09+08:00",
+     "subject": "﻿round 1238: the CEO-page quote audit becomes a gate, ratcheted on a digit-masked signatur",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "47f5ccba842",
+     "ts": "2026-10-29T06:42:12+08:00",
+     "subject": "round 1238 receipt: estate delivered on machine/bm-b-r1238",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "1d0747af353",
+     "ts": "2026-10-29T07:51:00+08:00",
+     "subject": "round 1239: the mid-sweep's flat 2017_2020 column is a burn-in cash block, not calendar ro",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "6e4f9ea8e81",
+     "ts": "2026-10-29T08:14:08+08:00",
+     "subject": "round 1240: the off-book bucket is a thick-name effect, not a calendar reading (E213)",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "132a37a58e7",
+     "ts": "2026-10-29T08:38:43+08:00",
+     "subject": "round 1241: a two-era sign disagreement is not a flip until the span is widened (E214)",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "ce15e32083c",
+     "ts": "2026-10-29T09:09:17+08:00",
+     "subject": "round 1242: the mid-month calendar gap is a timing gain and a selection loss, not one numb",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    }
+   ]
+  },
+  {
+   "name": "product: futures TSMOM shadow face keeps its sizing rules",
+   "removal_sha": "9f8010c78f9",
+   "restore_sha": "b768f21763d",
+   "commits_replayed": 28,
+   "wall_hours": 9.26,
+   "rounds_in_window": 10,
+   "face_present_commits": 0,
+   "face_absent_commits": 28,
+   "assertion_and_subject_arrived_together": true,
+   "clause_counts": {
+    "actionable_is_false": {
+     "held": 0,
+     "violated": 0,
+     "not_evaluable": 28
+    },
+    "shadow_is_true": {
+     "held": 0,
+     "violated": 0,
+     "not_evaluable": 28
+    },
+    "gross_within_cap": {
+     "held": 0,
+     "violated": 0,
+     "not_evaluable": 28
+    },
+    "bar_matches_panel_tail": {
+     "held": 0,
+     "violated": 0,
+     "not_evaluable": 28
+    },
+    "not_stale": {
+     "held": 0,
+     "violated": 0,
+     "not_evaluable": 28
+    }
+   },
+   "first_violation": null,
+   "shipped_by_round": null,
+   "restore_round": 1239,
+   "relay_rounds": null,
+   "clauses_at_restore_commit": {
+    "actionable_is_false": "held",
+    "shadow_is_true": "held",
+    "gross_within_cap": "held",
+    "bar_matches_panel_tail": "held",
+    "not_stale": "held"
+   },
+   "clauses_at_head": {
+    "actionable_is_false": "held",
+    "shadow_is_true": "held",
+    "gross_within_cap": "held",
+    "bar_matches_panel_tail": "held",
+    "not_stale": "held"
+   },
+   "after_the_restore": {
+    "population": "commits in (restore, replay_head] on this line",
+    "replay_head": "b45cb4ae6f3",
+    "commits": 279,
+    "face_present_commits": 279,
+    "clause_counts": {
+     "actionable_is_false": {
+      "held": 279,
+      "violated": 0,
+      "not_evaluable": 0
+     },
+     "shadow_is_true": {
+      "held": 279,
+      "violated": 0,
+      "not_evaluable": 0
+     },
+     "gross_within_cap": {
+      "held": 279,
+      "violated": 0,
+      "not_evaluable": 0
+     },
+     "bar_matches_panel_tail": {
+      "held": 279,
+      "violated": 0,
+      "not_evaluable": 0
+     },
+     "not_stale": {
+      "held": 279,
+      "violated": 0,
+      "not_evaluable": 0
+     }
+    },
+    "commits_with_a_violation": 0,
+    "first_violation": null,
+    "panel_tail_at_head": "2026-10-28",
+    "distinct_face_blobs": 1,
+    "distinct_panel_tails": 1,
+    "one_observation_repeated": true
+   },
+   "verdict": "nothing_to_evaluate",
+   "why": "no clause was evaluable at any commit inside the window: the face was not in this line's tree for the whole window; the gate and its subject first appear in the SAME commit (the merge that restored the check), so the window was empty rather than clean",
+   "commits": [
+    {
+     "sha": "00b911b98dc",
+     "ts": "2026-10-29T00:50:35+08:00",
+     "subject": "round 1228: the printed sign is a rounding fact wherever the level is a hair against its g",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "4e0f4cc038c",
+     "ts": "2026-10-29T01:03:04+08:00",
+     "subject": "round 1228 receipt: push of machine/bm-b-r1228 rejected on a missing promisor object; fail",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "70f61c17e5f",
+     "ts": "2026-10-29T01:10:20+08:00",
+     "subject": "round 1228 receipt: D-19 delta consumed (93fa41e1), orders clean, NATS back, GPU occupant ",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "864c3f3d55c",
+     "ts": "2026-10-29T01:11:13+08:00",
+     "subject": "round 1228 heartbeat: fresh bm-b face (round 1228, E196 shipped, delivery blocked on promi",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "83494524b68",
+     "ts": "2026-10-29T01:30:10+08:00",
+     "subject": "round 1229: delivery unblocked - fetch then push --no-thin lands the 5 backlogged commits",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "b11b56b4aa1",
+     "ts": "2026-10-29T02:02:39+08:00",
+     "subject": "round 1230: edge depth does not monotonically kill the reversal (3 of 4 pairs revive); 14/",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "fc65793f3a1",
+     "ts": "2026-10-29T02:03:21+08:00",
+     "subject": "round 1230 delivery receipt: machine/bm-b-r1230 lands b11b56b4a (ls-remote verified); main",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "0ae4948367a",
+     "ts": "2026-10-29T02:25:43+08:00",
+     "subject": "round 1231: the drop rule's edge months are read against a removal-count-matched random re",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "c0b7c95a457",
+     "ts": "2026-10-29T02:26:25+08:00",
+     "subject": "round 1231 receipt: push of machine/bm-b-r1231 verified by ls-remote (tip==HEAD); main mer",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "a0bcae1b8b7",
+     "ts": "2026-10-29T02:55:49+08:00",
+     "subject": "round 1232: a silent delta face is only a trap if someone else reads it - all 14 are produ",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "3f9e809c6ef",
+     "ts": "2026-10-29T02:57:34+08:00",
+     "subject": "round 1232 delivery receipt: machine/bm-b-r1232 = a0bcae1b8 (ls-remote verified); main pus",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "4c139ac496a",
+     "ts": "2026-10-29T03:24:51+08:00",
+     "subject": "round 1233: a reader map is a snapshot, so ratchet it - the first durable reader of a sile",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "9ff79a287eb",
+     "ts": "2026-10-29T03:25:36+08:00",
+     "subject": "round 1233 delivery receipt: machine/bm-b-r1233 = 4c139ac49 (ls-remote verified); main pus",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "2e0f7656e71",
+     "ts": "2026-10-29T03:53:55+08:00",
+     "subject": "round 1234: a silent face may not grow a delta number until it teaches its sign",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "a9907afe8ce",
+     "ts": "2026-10-29T03:55:01+08:00",
+     "subject": "round 1234 delivery receipt: machine/bm-b-r1234 verified by ls-remote; main push deferred ",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "db2d4ce5747",
+     "ts": "2026-10-29T04:42:52+08:00",
+     "subject": "round 1235: the classifier's blind spot has a volume -- 37,817 published cells a name read",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "3c3d0bd560b",
+     "ts": "2026-10-29T04:47:52+08:00",
+     "subject": "round 1235 postscript: name-as-measurement pit (a classifier's blind spot has a volume; ev",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "b007624bc7f",
+     "ts": "2026-10-29T04:48:06+08:00",
+     "subject": "round 1235 receipt: estate db2d4ce57 + postscript 3c3d0bd56 delivered on machine/bm-b-r123",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "f439ef514bb",
+     "ts": "2026-10-29T04:48:52+08:00",
+     "subject": "round 1235: 5-round handover list check -- current products are the sign/level audit line ",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "6b0ae12e2bb",
+     "ts": "2026-10-29T05:25:27+08:00",
+     "subject": "round 1236: E208 count-word guard on level_class, measured against the legacy table (3,109",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "f75951e517d",
+     "ts": "2026-10-29T05:26:56+08:00",
+     "subject": "round 1236 receipt: orphan face = 0, watchdog present, estate delivered on machine/bm-b-r1",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "c603eb225dc",
+     "ts": "2026-10-29T06:04:56+08:00",
+     "subject": "round 1237: audit the pages the CEO reads (E210) and let counts prove themselves by siblin",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "e3e84a9e2ae",
+     "ts": "2026-10-29T06:38:09+08:00",
+     "subject": "﻿round 1238: the CEO-page quote audit becomes a gate, ratcheted on a digit-masked signatur",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "47f5ccba842",
+     "ts": "2026-10-29T06:42:12+08:00",
+     "subject": "round 1238 receipt: estate delivered on machine/bm-b-r1238",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "1d0747af353",
+     "ts": "2026-10-29T07:51:00+08:00",
+     "subject": "round 1239: the mid-sweep's flat 2017_2020 column is a burn-in cash block, not calendar ro",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "6e4f9ea8e81",
+     "ts": "2026-10-29T08:14:08+08:00",
+     "subject": "round 1240: the off-book bucket is a thick-name effect, not a calendar reading (E213)",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "132a37a58e7",
+     "ts": "2026-10-29T08:38:43+08:00",
+     "subject": "round 1241: a two-era sign disagreement is not a flip until the span is widened (E214)",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    },
+    {
+     "sha": "ce15e32083c",
+     "ts": "2026-10-29T09:09:17+08:00",
+     "subject": "round 1242: the mid-month calendar gap is a timing gain and a selection loss, not one numb",
+     "face_present": false,
+     "panel_tail": "2026-10-28",
+     "clauses": {
+      "actionable_is_false": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "shadow_is_true": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "gross_within_cap": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "bar_matches_panel_tail": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      },
+      "not_stale": {
+       "state": "not_evaluable",
+       "detail": "the face is not in this commit's tree"
+      }
+     },
+     "clauses_evaluable": 0,
+     "clauses_held": 0,
+     "clauses_violated": 0
+    }
+   ]
+  }
+ ],
+ "summary": {
+  "windows": 2,
+  "by_verdict": {
+   "nothing_to_evaluate": 2
+  },
+  "commits_replayed": 56,
+  "commits_where_the_face_existed": 0,
+  "clauses_never_evaluable": 10,
+  "clauses_violated_at_any_commit": 0,
+  "windows_where_the_gate_arrived_with_its_subject": 2,
+  "post_restore_commits": 279,
+  "post_restore_commits_with_the_face": 279,
+  "post_restore_commits_with_a_violation": 0,
+  "post_restore_replays_that_are_one_observation_repeated": 1
+ },
+ "verdict": "nothing_to_evaluate"
+}

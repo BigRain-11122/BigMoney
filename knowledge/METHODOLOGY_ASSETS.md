@@ -7189,3 +7189,41 @@ E344 measured who *reads* a face. This study follows each dated face under `resu
 6. **93.7% of dated faces are read only as population.** That is correct behaviour for a census family, and it is why a dated face is a record rather than a control surface: the firm's live decisions read `runnable_pool.json`, `regime_state.json`, `call_latest.json` and the `*_latest` mirrors, all excluded from this card by construction. The exclusion is the published bound, and measuring that channel is E349.
 
 Evidence: scripts/e347_published_number_gate_census.py (selftest 17/17, verify 0 problems) -> results/state_tilt/DECIDEGATE-2026-11-01.json + decidegate_latest.json; S6 leg `published_number_gates`; smoke leg E347 (standalone runner scripts/run_e347_smoke_leg.py); research/digests/DIGEST-20261101-r1368-e347-where-a-number-decides.md
+
+## E348 -- a restored gate protects nothing in retrospect: the window had no subject, and the 279 green commits after it are one observation repeated
+
+E345 measured that the futures-TSMOM smoke check was absent for 9.26 h / 10 rounds and asked
+whether anything else covered it. This replays every commit of that window from its own tree and
+evaluates the five clauses the restored check literally compares, at pin `b45cb4ae6`.
+
+1. **An empty window is not a clean window.** 0 of the 28 window commits carry the face, so all
+   5 x 28 clause-states are `not_evaluable` and the verdict is `nothing_to_evaluate` -- never
+   `window_was_clean`. Folding the two together would let an absence certify the period it failed
+   to cover, which is the exact failure E345 was written about.
+2. **The gate and its subject arrived in the same commit.** The face is absent at the restore's
+   parent and present at the restore (`b768f21763d`, the union merge), and its five clauses all
+   hold there: the merge imported an assertion together with a value that already satisfied it.
+   This is a one-line check (`git rev-parse <restore>^:<face>`) and it upgrades the finding from
+   "nothing happened" to "nothing could have happened".
+3. **N green runs are not N observations.** After the restore the gate is green in 279 commits --
+   against **1 distinct face blob and 1 distinct panel tail** (`data/futures_daily/*.csv`
+   byte-identical from the restore to HEAD, last bar 2026-10-28). Publish distinct states beside
+   the run count, or a green streak reads as 279 checks when it is one check repeated.
+4. **A lookup miss is not `not_evaluable`.** The first build asked the face at the boundary
+   commits but not the panel, and published `bar_matches_panel_tail: not_evaluable` at the restore
+   for a panel that was in that tree throughout. Boundary commits belong in the same single
+   `cat-file --batch-check` as the range.
+5. **The condition is computed before the check call.** A selftest leg that sliced forward from the
+   check label reported `actionable` missing from the gate that compares it; the `_ok` expression
+   sits ~15 lines above the label. Read backwards from the call.
+6. **The clause model must be exactly as loose as the gate.** `isinstance(gross,(int,float))`
+   admits `True`, and the gate tolerates `1e-9`. Reproducing the gate's own expression -- not a
+   tidier one -- is what makes the replay a measurement of the gate rather than of the author.
+7. **A measurement that grows every round must pin its own head.** The post-restore population is
+   time-scoped by the face's `replay_head` and verify re-derives at that sha, so new commits are
+   not read as drift in a face that is correct by construction.
+
+Evidence: scripts/e348_restored_gate_retrospect.py (selftest 21/21, verify 0 problems, re-derived
+from git through the face's `replay_head`) -> results/state_tilt/RESTOREDGATE-2026-11-01.json +
+restoredgate_latest.json; S6 leg `restored_gate_retrospect`; smoke leg E348 (standalone runner
+scripts/run_e348_smoke_leg.py); research/digests/DIGEST-20261101-r1369-e348-restored-gate-retrospect.md

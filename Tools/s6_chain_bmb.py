@@ -1048,6 +1048,18 @@ LEGS = [
     ("published_number_gates",
      ["python", "scripts/e347_published_number_gate_census.py", "verify"]),
 
+    # E348: E345 measured that the futures-TSMOM check was gone for 9.26h and asked whether
+    # anything else covered it. This leg asks whether there was anything to be wrong about: it
+    # replays every commit of the window from its own tree and evaluates the five clauses the
+    # restored check literally compares. Reading: the face is absent for all 28 window commits,
+    # and it first appears in the SAME merge that restores the check -- so the window was empty,
+    # not clean. After the restore the gate is green in all 279 commits for a reason worth
+    # keeping: one distinct face blob and one panel tail (2026-10-28, unchanged since), i.e. 279
+    # green runs are one observation repeated. Verify re-derives from git through the face's own
+    # replay_head (~2s, no builds).
+    ("restored_gate_retrospect",
+     ["python", "scripts/e348_restored_gate_retrospect.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

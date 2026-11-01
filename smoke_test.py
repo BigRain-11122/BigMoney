@@ -11130,6 +11130,79 @@ def main() -> int:
                     "selftest_fixture"),
                 ((_f347 or {}).get("summary") or {}).get("null_guards")))
 
+    # E348: E345 measured that a gate was absent for 9.26h and asked whether anything covered it.
+    # This leg asks the question an absence cannot answer -- was there a value to be wrong about --
+    # by re-deriving each clause's state over the replayed commits. It refuses three shapes: a
+    # face that calls a no-subject window clean (an empty window is not a clean one), a 'violation'
+    # verdict with no violating commit behind it, and a post-restore green stretch reported without
+    # the number of DISTINCT states it actually observed (279 green runs against one frozen face
+    # blob is one observation repeated, not 279 checks).
+    _name348 = ("product: a restored gate is judged against the states it actually observed, and a "
+                "window with no subject is not called clean")
+    _bad348 = []
+    _f348 = None
+    try:
+        _p348 = os.path.join("results", "state_tilt", "restoredgate_latest.json")
+        _f348 = json.load(open(_p348, encoding="utf-8")) if os.path.exists(_p348) else None
+        if _f348 is None:
+            _bad348.append("no published restored-gate face")
+        else:
+            _win348 = _f348.get("windows") or []
+            if not _win348:
+                _bad348.append("no windows published")
+            for _w348 in _win348:
+                _v348 = _w348.get("verdict")
+                if _v348 not in ("nothing_to_evaluate", "window_was_clean",
+                                 "violation_was_relayed"):
+                    _bad348.append("verdict outside the frozen vocabulary")
+                _cc348 = _w348.get("clause_counts") or {}
+                _n348 = int(_w348.get("commits_replayed") or 0)
+                for _k348, _c348 in _cc348.items():
+                    if sum(int(x) for x in _c348.values()) != _n348:
+                        _bad348.append("%s counts do not sum to the replayed commits" % _k348)
+                        break
+                # an empty window must never be published as clean
+                _eval348 = sum(int(c.get("held") or 0) + int(c.get("violated") or 0)
+                               for c in _cc348.values())
+                if _eval348 == 0 and _v348 != "nothing_to_evaluate":
+                    _bad348.append("a window with no evaluable clause is not called "
+                                   "nothing_to_evaluate")
+                if _v348 == "violation_was_relayed" and not _w348.get("first_violation"):
+                    _bad348.append("a violation verdict with no violating commit")
+                if _v348 == "window_was_clean" and _w348.get("face_present_commits") == 0:
+                    _bad348.append("'clean' beside zero commits carrying the face")
+                _af348 = _w348.get("after_the_restore") or {}
+                if int(_af348.get("face_present_commits") or 0) > 0:
+                    if _af348.get("distinct_face_blobs") is None or \
+                            _af348.get("distinct_panel_tails") is None:
+                        _bad348.append("the post-restore green stretch has no distinct-state count")
+                    _one348 = (int(_af348.get("distinct_face_blobs") or 0) == 1
+                               and int(_af348.get("distinct_panel_tails") or 0) == 1
+                               and int(_af348.get("commits") or 0) > 1)
+                    if bool(_af348.get("one_observation_repeated")) != _one348:
+                        _bad348.append("one_observation_repeated does not re-derive from its "
+                                       "own distinct counts")
+    except Exception as e:
+        check(_name348, False, repr(e)[:160])
+
+    check(_name348, not _bad348, "; ".join(_bad348)[:220]
+          or "%s; %s window(s) replayed over %s commits, %s of them carrying the face, %s "
+             "violated clause(s); after the restore %s commits hold %s distinct face state(s) "
+             "and %s panel tail(s) (%s)"
+             % ((_f348 or {}).get("verdict"),
+                len((_f348 or {}).get("windows") or []),
+                ((_f348 or {}).get("summary") or {}).get("commits_replayed"),
+                ((_f348 or {}).get("summary") or {}).get("commits_where_the_face_existed"),
+                ((_f348 or {}).get("summary") or {}).get("clauses_violated_at_any_commit"),
+                ((_f348 or {}).get("summary") or {}).get("post_restore_commits"),
+                ((((_f348 or {}).get("windows") or [{}])[0].get("after_the_restore") or {})
+                 .get("distinct_face_blobs")),
+                ((((_f348 or {}).get("windows") or [{}])[0].get("after_the_restore") or {})
+                 .get("distinct_panel_tails")),
+                "one observation repeated"
+                if ((((_f348 or {}).get("windows") or [{}])[0].get("after_the_restore") or {})
+                    .get("one_observation_repeated")) else "distinct states"))
+
     return _finish()
 
 
