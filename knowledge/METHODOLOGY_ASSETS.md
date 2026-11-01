@@ -8326,3 +8326,42 @@ LANE_TASKS（selftest L28 钉死三机都有引擎项）。
 **三 · 闸要能被夹具打红，否则它只是一行字。** `check_voltail` 原先把行件路径钉在 `ENV_DIR`，任何夹具都只能读到真实面板的行——改成**先认脸旁边的行件、再回退到目录**，于是「声明五臂只带两臂」的夹具能真跑出 rc1 并点名 `b60`（L41）；真面负测：把 `b250` 从真实脸里摘掉重跑，`FAIL: voltarget block arm(s) missing from the family: b250` 加 `the face claims blocks b5/.../b250 but ships arms b5/b20/b60/b120`，rc=1。
 
 验证：`scripts/etf_book_nav_envelope.py` selftest 37→40/40（L39 注册集恰为 VT_BLOCKS / L40 丢臂点名 / L41 夹具脸 rc1 且点名缺臂与声明矛盾）；真面 `voltail --check` OK 5 臂、`blocks --check` OK 8 臂；smoke 新腿「the voltail family is complete, not merely self-consistent」从已发布脸重推注册集并从列表中删一臂证明闸会响。
+
+### E336 · 闸按「脸有什么」推路径，就永远看不见盘子上的孤儿（r1220 bm-a）
+
+**一 · 同一个缺陷的第三次点名：这次它藏在路径推导里。** E335 把 voltail 的受检集合改成冻结常量 VT_BLOCKS，check_voltail 会逐个臂去找 PAIRROWS-<cutoff>-b<N>.json。但这些路径是**从它已经相信的臂推导出来的**——所以两个方向都看不见：一块早先块网格留下的 PAIRROWS-<cutoff>-b999.json 躺在族旁边无人过问；而一块声明了却从未写出行件的块，只有在某个臂还指着它的时候才会被抓到。
+
+**二 · 正法：行件目录本身也是一族，按名字数。** pairrow_files_problems(cutoff, wanted=VT_BLOCKS, env_dir) 把目录里 PAIRROWS-<cutoff>-b*.json 的块号读成集合，与冻结常量比对，缺件与孤儿分别按名点名；check_voltail 在臂循环之前先跑它，所以在真脸与夹具上都同样生效。闸不许从盘上反推「应该有几份」——那是它要抓的东西。
+
+**三 · 可复用的一句：** 一个「按已知成员去推路径」的闸，只能证明成员自洽，证明不了它的**目录**干净。凡是一族文件（行件、分片、镜像）与一族记录（臂、席位、分块）分开存放，就要各有一把数它们的尺子。
+
+验证：scripts/etf_book_nav_envelope.py selftest 40/40→43/43（L42 注册族恰好 VT_BLOCKS / L43 孤儿行件按名报红 b999 / L44 缺行件按名报红 b250）；真面 `voltail --check` OK 5 臂、`blocks --check` OK 8 臂；真面负测：把真实脸与五行件复制到临时目录后加一份 PAIRROWS-2026-10-29-b999.json，check_voltail rc=1 且印 unregistered paired-rows file(s) on the face: b999；smoke 新腿「the paired-rows family on disk is complete and stray-proof」同时验实盘目录洁净与闸会响。
+
+**卡 337 · 一张单子可以印两个数，不能印一个数却声明另一个执行。**
+
+**如果**一份给操作者的单子写了「按 t 日收盘决策 → t+1 开盘成交」，而它印的那个收益来自
+「t 日收盘决策 → t 日开盘就买」，**那么**这两个数差多少不重要，重要的是**操作者会按差异
+去下单**——他以为自己买到的是声明的那条执行，实际上报给他的年化比那高。市场不会因为单子
+写明了就给你那条执行。
+
+**本轮的三个数**（同一面板 2026-10-30、同一引擎、只改「信号站在第几根 bar 上」）：
+as coded（score(bar d) → 赚 open[d]→open[d+1]）**9.60%**；declared（信号退一根，
+即单子声明的 t+1 开盘成交）**8.46%**；live paper（`etf_book_forward`，确实 t+1 开盘成交
+且吃到回购梯）**9.12%**。单子印的是 9.60，声明的是 8.46 —— 差 **1.14pp/年**。
+
+**判据必须冻结在跑之前**，否则「差一点」会被读成「差不多」：tol=0.25pp，四态
+`CONSISTENT` / `EXECUTION_CLAIM_MISMATCH` / `PRINTED_MATCHES_NEITHER_ARM` /
+`CANNOT_VERIFY`。**声明读不出来 ≠ 指控成立**——claim 不可读时一律 `CANNOT_VERIFY`，
+不许用「印的数恰好等于 as-coded」去反推它违反了哪条声明（本窗实弹：这条分支第一版就是
+错的，selftest L4 抓出来）。
+
+**可复用的一句：** 凡「文件里写着一个执行假设、而数字由另一条路径算出来」的面，都要有
+一个面去**读声明 + 读印出来的数 + 用同一条实现把两者对应的臂都算一遍**；只比数字不比声明，
+永远不会红。
+
+验证：`scripts/etf_book_causal_headline.py` selftest 10/10（L3 不可读=cannot-verify /
+L4 声明不可读不得指控 / L6 两个臂都不匹配要单独命名 / L9 动容差改变判决）、`--check` OK
+（从已发布行重推判决 + 拒收被改过的 criteria）、smoke 腿「the order sheet prices the
+execution it declares」；证据 `results/etf_book_causal_headline.json`、说明
+`research/ETF_BOOK_CAUSAL_HEADLINE.md`；ladder 与机制 pin 见
+`results/etf_book_lookahead_audit.json`。

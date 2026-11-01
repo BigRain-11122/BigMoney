@@ -970,6 +970,35 @@ def main() -> int:
                   "no voltail face -- soft-fails by design")
     except Exception as e:
         check("product: the voltail family is complete, not merely self-consistent", False, str(e))
+    # r1220: the stored paired rows are a family too. The arm-level leg above derives every
+    # row path from an arm it already trusts, so nothing counted the directory -- a stray
+    # PAIRROWS file (an older block grid left behind) sat beside the family unnoticed. This
+    # leg requires the published face's blocks to have exactly their row files on disk and
+    # proves the directory gate fires rather than merely existing.
+    try:
+        import tempfile as _tf
+        from scripts import etf_book_nav_envelope as _NE4
+        _vp4 = os.path.join("results", "etf_book_bootstrap", "etf_book_voltarget_tail.json")
+        if os.path.exists(_vp4):
+            _vt4 = json.load(open(_vp4, encoding="utf-8"))
+            _cut4 = _vt4.get("evidence_cutoff")
+            _row4 = _NE4.pairrow_files_problems(_cut4, _NE4.VT_BLOCKS,
+                                                os.path.join("results", "etf_book_bootstrap"))
+            _td4 = _tf.mkdtemp(prefix="smoke_pairrows_")
+            for _b4 in _NE4.VT_BLOCKS:
+                open(os.path.join(_td4, "PAIRROWS-X-b%d.json" % _b4), "w").close()
+            _ok4 = not _NE4.pairrow_files_problems("X", _NE4.VT_BLOCKS, _td4)
+            open(os.path.join(_td4, "PAIRROWS-X-b999.json"), "w").close()
+            _fire4 = _NE4.pairrow_files_problems("X", _NE4.VT_BLOCKS, _td4)
+            check("product: the paired-rows family on disk is complete and stray-proof",
+                  not _row4 and _ok4 and len(_fire4) == 1 and "b999" in _fire4[0],
+                  "cutoff=%s problems=%s fires_on_stray=%s"
+                  % (_cut4, _row4 or "none", _fire4 or "none"))
+        else:
+            check("product: the paired-rows family on disk is complete and stray-proof", True,
+                  "no voltail face -- soft-fails by design")
+    except Exception as e:
+        check("product: the paired-rows family on disk is complete and stray-proof", False, str(e))
     # r1350 / E253: the card calls the 8% overlay "a drawdown tool". The face now answers it
     # with a PAIRED bootstrap -- same draw, both books -- so this leg recomputes the two
     # numbers the sentence rests on from the paired rows on disk: the median delta and the
@@ -2474,6 +2503,12 @@ def main() -> int:
             # every percentile from the published resample rows.
             ("product: book envelope by block bootstrap (exit-code contract)",
              "scripts/etf_book_nav_envelope.py", ["--selftest"]),
+            # r1220: the order sheet declares "decide at close t -> fill at open t+1" but the
+            # arm it prints buys at open t (the lookahead audit's lag-0 point). This leg
+            # re-derives the comparison from the published rows, so a card that stops
+            # pricing what it claims is red rather than merely different.
+            ("product: the order sheet prices the execution it declares",
+             "scripts/etf_book_causal_headline.py", ["check"]),
             # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
             # of selection premium over the book's own static class mix). The legs pin the
             # two ways this face can lie in either direction: a premium under the frozen

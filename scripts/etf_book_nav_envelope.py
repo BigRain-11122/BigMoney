@@ -605,7 +605,7 @@ def blocks_face(cutoff=None, out_file=None):
     return face, out
 
 
-def family_problems(labels, wanted, kind="block"):
+def family_problems(labels, wanted, kind="block", noun="arm"):
     """The registered family must be present EXACTLY: no missing arm, no orphan arm.
 
     Pure, so the gate can be tested without a panel. A missing arm is the dangerous case
@@ -624,15 +624,37 @@ def family_problems(labels, wanted, kind="block"):
         missing = sorted(want - got)
         extra = sorted(got - want)
         if missing:
-            out.append("%s arm(s) missing from the family: " % kind
+            out.append("%s %s(s) missing from the family: " % (kind, noun)
                        + ", ".join("b%d" % b for b in missing)
                        + " (registered set %s; a smaller family is not this face)"
                        % "/".join(str(b) for b in sorted(want)))
         if extra:
-            out.append("unregistered %s arm(s) on the face: " % kind
+            out.append("unregistered %s %s(s) on the face: " % (kind, noun)
                        + ", ".join("b%d" % b for b in extra)
                        + " (add them to the registered set with a freeze note, or drop them)")
     return out
+
+
+def pairrow_files_problems(cutoff, wanted=None, env_dir=None):
+    """The stored paired rows are their own family, and it is checked by NAME on disk.
+
+    r1220: the arm-level gate proves the FACE lists the registered blocks, but it derives
+    every row path from an arm it already trusts -- so it can never notice a file that no
+    arm points at. A PAIRROWS-<cutoff>-b<N>.json left behind by an older block grid sits
+    beside the family in silence, and a block whose rows were never written is only caught
+    while an arm still claims it. Counting the directory closes both directions with the
+    frozen VT_BLOCKS as the invariant, never the files that happen to be there.
+    """
+    d = Path(env_dir) if env_dir else ENV_DIR
+    want = VT_BLOCKS if wanted is None else wanted
+    got = []
+    for p in sorted(d.glob("PAIRROWS-%s-b*.json" % cutoff)):
+        tail = p.stem.rsplit("-b", 1)[-1]
+        try:
+            got.append(int(tail))
+        except ValueError:
+            continue
+    return family_problems(got, want, kind="paired-rows", noun="file")
 
 
 def arm_set_problems(blocks, wanted=ARM_SET):
@@ -972,6 +994,10 @@ def check_voltail(face_file=None):
             problems.append("the face claims blocks %s but ships arms %s"
                             % ("/".join("b%d" % b for b in sorted(d_set)),
                                "/".join("b%d" % b for b in sorted(x for x in a_set if x is not None))))
+    # r1220: and the row files themselves are a family -- an unregistered one beside the
+    # family is named rather than ignored, and a declared block whose rows were never
+    # written is named even when no arm points at it any more.
+    problems.extend(pairrow_files_problems(face.get("evidence_cutoff"), VT_BLOCKS, f.parent))
     for a in face.get("arms") or []:
         p = f.parent / f"PAIRROWS-{face.get('evidence_cutoff')}-b{a.get('block')}.json"
         if not p.exists():
@@ -1444,6 +1470,24 @@ def selftest():
     leg("L41 a face that declares the family but ships two arms reads red on check",
         _rc_vt == 1 and ("b%d" % VT_BLOCKS[2]) in _said and "claims blocks" in _said,
         (_rc_vt, _said.strip().splitlines()[:2]))
+
+    # L42-L44 (r1220): the stored paired rows are a family of their own. The arm-level gate
+    # derives every row path from an arm it already trusts, so it cannot see a file no arm
+    # points at; these three legs prove the directory-level gate fires in both directions.
+    td3 = Path(tempfile.mkdtemp(prefix="pairrows_family_"))
+    for _b in VT_BLOCKS:
+        (td3 / f"PAIRROWS-2026-01-01-b{_b}.json").write_text("{}", encoding="utf-8")
+    leg("L42 the registered paired-rows family is exactly VT_BLOCKS",
+        pairrow_files_problems("2026-01-01", VT_BLOCKS, td3) == [], VT_BLOCKS)
+    (td3 / "PAIRROWS-2026-01-01-b999.json").write_text("{}", encoding="utf-8")
+    _stray = pairrow_files_problems("2026-01-01", VT_BLOCKS, td3)
+    leg("L43 a stray paired-rows file is named, not ignored",
+        len(_stray) == 1 and "b999" in _stray[0], _stray)
+    (td3 / "PAIRROWS-2026-01-01-b999.json").unlink()
+    (td3 / ("PAIRROWS-2026-01-01-b%d.json" % VT_BLOCKS[-1])).unlink()
+    _miss = pairrow_files_problems("2026-01-01", VT_BLOCKS, td3)
+    leg("L44 a registered block with no rows file is named",
+        len(_miss) == 1 and ("b%d" % VT_BLOCKS[-1]) in _miss[0], _miss)
 
     print(f"selftest {sum(1 for _, c, _ in ok if c)}/{len(ok)}")
     for name, cond, detail in ok:
