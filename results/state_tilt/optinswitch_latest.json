@@ -1,0 +1,205 @@
+{
+ "before_face": {
+  "face": "results/state_tilt/OPTINSWITCH-before-UNPINNEDCHOICE-2026-11-01.json",
+  "summary": {
+   "add_argument_lines_seen": 39,
+   "chains": 1,
+   "chains_serving_a_stale_cut_today": 0,
+   "decisions": 1,
+   "decisions_by_class": {
+    "argparse_default": 0,
+    "existence_chain": 1,
+    "mutable_default": 0,
+    "or_fallback": 0
+   },
+   "decisions_nameless": 0,
+   "decisions_pinned": 0,
+   "decisions_unpinned": 1,
+   "decisions_whose_fallback_lags_the_newest_cut": 1,
+   "decisions_whose_swap_changes_today": 1,
+   "defaults_already_stale_on_disk": 0,
+   "defs_with_a_mutable_literal_seen": 0,
+   "mutable_defaults": 0,
+   "or_lines_offered_and_rejected_as_one_sided": 34,
+   "rows_published": 1,
+   "rows_truncated": 0,
+   "sources_scanned": 2292,
+   "unpinned_decisions_whose_branches_disagree_today": 1
+  },
+  "verdict": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today"
+ },
+ "control_face": {
+  "reading": "e329._code_lines (shipped)",
+  "summary": {
+   "add_argument_lines_seen": 39,
+   "chains": 1,
+   "chains_serving_a_stale_cut_today": 0,
+   "decisions": 1,
+   "decisions_by_class": {
+    "argparse_default": 0,
+    "existence_chain": 1,
+    "mutable_default": 0,
+    "or_fallback": 0
+   },
+   "decisions_nameless": 0,
+   "decisions_pinned": 0,
+   "decisions_unpinned": 1,
+   "decisions_whose_fallback_lags_the_newest_cut": 1,
+   "decisions_whose_swap_changes_today": 1,
+   "defaults_already_stale_on_disk": 0,
+   "defs_with_a_mutable_literal_seen": 0,
+   "mutable_defaults": 0,
+   "or_lines_offered_and_rejected_as_one_sided": 34,
+   "rows_published": 1,
+   "rows_truncated": 0,
+   "sources_scanned": 2297,
+   "unpinned_decisions_whose_branches_disagree_today": 1
+  }
+ },
+ "decision": {
+  "inputs": {
+   "switched": true,
+   "verdict_changed": false,
+   "verify_problems": 0
+  },
+  "rule": {
+   "adopt_if": [
+    "the republished face re-verifies with zero problems",
+    "the consumer's published verdict is unchanged"
+   ],
+   "otherwise": "restore the source bytes and the archived face; the tree is as found",
+   "why_two_arms": "a bare before/after diff bills corpus growth to the reading, so the shipped reading is rebuilt over TODAY's corpus as a control"
+  },
+  "verdict_options": [
+   "one_consumer_moved_onto_the_tokenized_reading_and_its_republished_face_re_derives_with_the_verdict_intact",
+   "the_switch_was_reverted_because_the_consumers_published_verdict_moved",
+   "the_switch_was_reverted_because_the_republished_face_does_not_re_verify"
+  ]
+ },
+ "diff": {
+  "drift_before_to_control": {
+   "compared": 21,
+   "moved": 1,
+   "rows": [
+    {
+     "after": 2297,
+     "before": 2292,
+     "delta": 5.0,
+     "key": "sources_scanned"
+    }
+   ],
+   "truncated": 0
+  },
+  "switch_control_to_republished": {
+   "compared": 21,
+   "moved": 0,
+   "rows": [],
+   "truncated": 0
+  },
+  "total_before_to_republished": {
+   "compared": 21,
+   "moved": 1,
+   "rows": [
+    {
+     "after": 2297,
+     "before": 2292,
+     "delta": 5.0,
+     "key": "sources_scanned"
+    }
+   ],
+   "truncated": 0
+  }
+ },
+ "downstream_studies": {
+  "direct": [
+   "scripts/e333_surviving_e3xx_conclusions.py",
+   "scripts/e334_helper_repair_blast_radius.py"
+  ],
+  "one_hop_further": [
+   "scripts/e335_sibling_entry_point.py",
+   "scripts/e336_consumer_optin_ranking.py"
+  ]
+ },
+ "evidence_cutoff": "2026-11-01",
+ "face": "OPTINSWITCH-2026-11-01.json",
+ "limits": {
+  "cascade_is_disclosed_not_repaired": "the studies in downstream_studies.direct rebuild this face from its published numbers, and the ones in one_hop_further reach it through another study's registry; republishing them is a separate batch and is counted rather than claimed",
+  "green_window": "this face re-derives only while scripts/Tools/live/monitor/firm hold exactly 2297 python sources: the population is the corpus, so the next landed script moves sources_scanned by one and every census face published today must be rebuilt",
+  "one_consumer": "only E330 moves; the other five E336 priced are untouched",
+  "rows_not_numbers": "decision rows are compared structurally (source/line/class/decider/pinned/swap flag), not as numbers"
+ },
+ "optin_allowlist": [
+  {
+   "adopted": true,
+   "consumer": "scripts/e330_unpinned_choice.py",
+   "face": "results/state_tilt/OPTINSWITCH-2026-11-01.json",
+   "study": "scripts/e337_optin_executed.py"
+  }
+ ],
+ "republished_face": {
+  "face": "results/state_tilt/UNPINNEDCHOICE-2026-11-01.json",
+  "summary": {
+   "add_argument_lines_seen": 39,
+   "chains": 1,
+   "chains_serving_a_stale_cut_today": 0,
+   "decisions": 1,
+   "decisions_by_class": {
+    "argparse_default": 0,
+    "existence_chain": 1,
+    "mutable_default": 0,
+    "or_fallback": 0
+   },
+   "decisions_nameless": 0,
+   "decisions_pinned": 0,
+   "decisions_unpinned": 1,
+   "decisions_whose_fallback_lags_the_newest_cut": 1,
+   "decisions_whose_swap_changes_today": 1,
+   "defaults_already_stale_on_disk": 0,
+   "defs_with_a_mutable_literal_seen": 0,
+   "mutable_defaults": 0,
+   "or_lines_offered_and_rejected_as_one_sided": 34,
+   "rows_published": 1,
+   "rows_truncated": 0,
+   "sources_scanned": 2297,
+   "unpinned_decisions_whose_branches_disagree_today": 1
+  },
+  "verdict": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today"
+ },
+ "rules": {
+  "diff_is_three_arms": "drift (corpus), total (reader's cost), switch (the opt-in)",
+  "frozen_rule": "decide() is code: a moved verdict outranks a failed re-derivation",
+  "local_accessor": "the switch is one accessor in the consumer's own file; e329's binding and every other reader of it stay on the shipped reading",
+  "one_corpus": "control and treatment differ by the accessor only, both over today's e326.corpus()",
+  "one_hop_is_a_graph_edge": "a study that imports a direct reader is listed one hop further; an import is an edge, not proof that the face is read (E335 imports E334 for its own reasons), so the list is a superset to inspect rather than a count of work",
+  "refusal_is_atomic": "a refused switch restores the source bytes and the archived face"
+ },
+ "study": "E337_optin_executed",
+ "summary": {
+  "before_face_archived_this_run": false,
+  "consumer": "E330_unpinned_choice",
+  "consumer_source": "scripts/e330_unpinned_choice.py",
+  "decision_rows_changed_by_the_reading": 0,
+  "downstream_studies_one_hop_further": 2,
+  "downstream_studies_that_rebuild_this_face": 2,
+  "drift_is_the_corpus_not_the_reading": true,
+  "numbers_compared_drift": 21,
+  "numbers_compared_switch": 21,
+  "numbers_compared_total": 21,
+  "numbers_moved_before_to_republished": 1,
+  "numbers_moved_by_corpus_drift": 1,
+  "numbers_moved_by_the_opt_in": 0,
+  "reading_switched_to": "code_lines_tokenized",
+  "reverted": false,
+  "rows_compared": 1,
+  "sources_scanned_before": 2292,
+  "sources_scanned_control": 2297,
+  "sources_scanned_republished": 2297,
+  "switched_source_entries": 0,
+  "verdict_before": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today",
+  "verdict_republished": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today",
+  "verdict_unchanged": true,
+  "verify_problems": 0
+ },
+ "verdict": "one_consumer_moved_onto_the_tokenized_reading_and_its_republished_face_re_derives_with_the_verdict_intact",
+ "verdict_reason": "the republished face re-derives over today's corpus with its verdict intact, so the switch is in and the diff below is what a reader pays"
+}

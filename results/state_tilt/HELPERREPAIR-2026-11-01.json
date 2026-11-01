@@ -3,7 +3,7 @@
  "evidence_cutoff": "2026-11-01",
  "verdict": "repair_must_ship_beside_the_old_one_because_it_erases_the_evidence_that_measures_it",
  "verdict_reason": "2 published measurement(s) would be erased by the repair, so a silent in-place fix would leave the studies that found the defect reporting a clean zero; 1 consumer verdict(s) flip, so the repair is a new reading and not a repair; 27 moved published number(s) are not attributed to a single source, so the blast radius is not bounded",
- "recommendation": "ship the tokenizer reading beside the shipped one (sibling entry point), keep the shipped reading pinned under an explicit legacy name for the studies that measure the defect, and republish the 6 face(s) whose numbers move only in the window where their readers opt in",
+ "recommendation": "ship the tokenizer reading beside the shipped one (sibling entry point), keep the shipped reading pinned under an explicit legacy name for the studies that measure the defect, and republish the 5 face(s) whose numbers move only in the window where their readers opt in",
  "summary": {
   "consumers_reviewed": 6,
   "consumers_whose_counts_move": 5,
@@ -13,8 +13,8 @@
   "numbers_attributed_to_a_single_source": 2,
   "numbers_explained_exactly_by_a_single_source": 1,
   "numbers_with_no_single_source_explanation": 27,
-  "published_faces_that_would_need_republishing": 6,
-  "published_faces_that_no_longer_reproduce_from_corpus_drift": 5,
+  "published_faces_that_would_need_republishing": 5,
+  "published_faces_that_no_longer_reproduce_from_corpus_drift": 4,
   "studies_whose_published_evidence_is_erased": 2,
   "ablation_builds": 6,
   "rows_published": 6,
@@ -37,13 +37,12 @@
    "studies_whose_published_evidence_is_erased": 2
   },
   "blast_radius_if_fixed_in_place": {
-   "published_faces_whose_numbers_change": 6,
+   "published_faces_whose_numbers_change": 5,
    "published_faces_to_republish": [
     "E326_template_parameters",
     "E327_pointer_readers",
     "E328_quoted_number_staleness",
     "E329_two_vintage_binding",
-    "E330_unpinned_choice",
     "E331_pointer_only_readers"
    ],
    "published_numbers_that_move": 37,
@@ -203,12 +202,19 @@
     "readable": true,
     "module": "e326_template_parameter_consumers.py",
     "source": "scripts/e326_template_parameter_consumers.py",
-    "occurrences": 3,
+    "occurrences": 6,
     "sites": [
-     "call_site"
+     "call_site",
+     "capture_at_import"
     ],
     "defines": true,
-    "captures": [],
+    "captures": [
+     {
+      "line": 257,
+      "text": "code_lines_legacy = code_lines",
+      "site": "capture_at_import"
+     }
+    ],
     "blind_immediately_under_a_runtime_repair": true,
     "blind_after_a_source_repair": true
    }
@@ -393,20 +399,20 @@
      {
       "key": "faces_scanned",
       "shipped": 555,
-      "recovered": 556,
-      "delta": 1
+      "recovered": 560,
+      "delta": 5
      },
      {
       "key": "faces_with_stated_cutoff",
       "shipped": 496,
-      "recovered": 497,
-      "delta": 1
+      "recovered": 501,
+      "delta": 5
      },
      {
       "key": "families",
       "shipped": 421,
-      "recovered": 422,
-      "delta": 1
+      "recovered": 426,
+      "delta": 5
      },
      {
       "key": "numbers_equal",
@@ -447,20 +453,20 @@
      {
       "key": "faces_scanned",
       "shipped": 555,
-      "recovered": 556,
-      "delta": 1
+      "recovered": 560,
+      "delta": 5
      },
      {
       "key": "faces_with_stated_cutoff",
       "shipped": 496,
-      "recovered": 497,
-      "delta": 1
+      "recovered": 501,
+      "delta": 5
      },
      {
       "key": "families",
       "shipped": 421,
-      "recovered": 422,
-      "delta": 1
+      "recovered": 426,
+      "delta": 5
      }
     ]
    },
@@ -548,17 +554,17 @@
     },
     {
      "key": "source_family_pairs",
-     "shipped": 637,
-     "recovered": 618,
-     "delta": -19,
+     "shipped": 647,
+     "recovered": 627,
+     "delta": -20,
      "attributed_sources": [],
      "attributed": false,
      "explained_by_one_source": false
     },
     {
      "key": "sources_scanned",
-     "shipped": 237,
-     "recovered": 228,
+     "shipped": 240,
+     "recovered": 231,
      "delta": -9,
      "attributed_sources": [],
      "attributed": false,
@@ -610,14 +616,14 @@
      {
       "key": "source_family_pairs",
       "shipped": 632,
-      "recovered": 618,
-      "delta": -14
+      "recovered": 627,
+      "delta": -5
      },
      {
       "key": "sources_scanned",
       "shipped": 236,
-      "recovered": 228,
-      "delta": -8
+      "recovered": 231,
+      "delta": -5
      }
     ]
    },
@@ -628,14 +634,14 @@
      {
       "key": "source_family_pairs",
       "shipped": 632,
-      "recovered": 637,
-      "delta": 5
+      "recovered": 647,
+      "delta": 15
      },
      {
       "key": "sources_scanned",
       "shipped": 236,
-      "recovered": 237,
-      "delta": 1
+      "recovered": 240,
+      "delta": 4
      }
     ]
    },
@@ -671,33 +677,19 @@
    "ablation_sources_tried": [],
    "published_face_vs_repaired_build": {
     "numbers_compared": 21,
-    "numbers_differing": 1,
-    "differences": [
-     {
-      "key": "sources_scanned",
-      "shipped": 2292,
-      "recovered": 2293,
-      "delta": 1
-     }
-    ]
+    "numbers_differing": 0,
+    "differences": []
    },
    "published_face_vs_shipped_build": {
     "numbers_compared": 21,
-    "numbers_differing": 1,
-    "differences": [
-     {
-      "key": "sources_scanned",
-      "shipped": 2292,
-      "recovered": 2293,
-      "delta": 1
-     }
-    ]
+    "numbers_differing": 0,
+    "differences": []
    },
    "reading_site": {
     "readable": true,
     "module": "e330_unpinned_choice.py",
     "source": "scripts/e330_unpinned_choice.py",
-    "occurrences": 4,
+    "occurrences": 2,
     "sites": [
      "call_site"
     ],
@@ -723,8 +715,8 @@
    "moved": [
     {
      "key": "families_referenced_only_through_a_pointer",
-     "shipped": 122,
-     "recovered": 127,
+     "shipped": 126,
+     "recovered": 131,
      "delta": 5,
      "attributed_sources": [],
      "attributed": false,
@@ -750,8 +742,8 @@
     },
     {
      "key": "pairs_by_class.reference_without_a_reader",
-     "shipped": 11,
-     "recovered": 10,
+     "shipped": 12,
+     "recovered": 11,
      "delta": -1,
      "attributed_sources": [],
      "attributed": false,
@@ -798,13 +790,13 @@
    "ablation_sources_tried": [],
    "published_face_vs_repaired_build": {
     "numbers_compared": 30,
-    "numbers_differing": 9,
+    "numbers_differing": 10,
     "differences": [
      {
       "key": "families_referenced_only_through_a_pointer",
       "shipped": 121,
-      "recovered": 127,
-      "delta": 6
+      "recovered": 131,
+      "delta": 10
      },
      {
       "key": "handling_by_class.the_load_raises_at_the_file",
@@ -813,16 +805,16 @@
       "delta": 1
      },
      {
+      "key": "pairs",
+      "shipped": 44,
+      "recovered": 45,
+      "delta": 1
+     },
+     {
       "key": "pairs_by_class.pointer_only_reader",
       "shipped": 24,
       "recovered": 25,
       "delta": 1
-     },
-     {
-      "key": "pairs_by_class.reference_without_a_reader",
-      "shipped": 11,
-      "recovered": 10,
-      "delta": -1
      },
      {
       "key": "pointer_only_readers",
@@ -843,28 +835,46 @@
       "delta": 1
      },
      {
-      "key": "sources_scanned",
-      "shipped": 2291,
-      "recovered": 2292,
+      "key": "rows_published",
+      "shipped": 44,
+      "recovered": 45,
       "delta": 1
      }
     ]
    },
    "published_face_vs_shipped_build": {
     "numbers_compared": 30,
-    "numbers_differing": 2,
+    "numbers_differing": 5,
     "differences": [
      {
       "key": "families_referenced_only_through_a_pointer",
       "shipped": 121,
-      "recovered": 122,
+      "recovered": 126,
+      "delta": 5
+     },
+     {
+      "key": "pairs",
+      "shipped": 44,
+      "recovered": 45,
+      "delta": 1
+     },
+     {
+      "key": "pairs_by_class.reference_without_a_reader",
+      "shipped": 11,
+      "recovered": 12,
+      "delta": 1
+     },
+     {
+      "key": "rows_published",
+      "shipped": 44,
+      "recovered": 45,
       "delta": 1
      },
      {
       "key": "sources_scanned",
       "shipped": 2291,
-      "recovered": 2292,
-      "delta": 1
+      "recovered": 2296,
+      "delta": 5
      }
     ]
    },

@@ -8,10 +8,10 @@
   "consumers_with_a_readable_published_face": 6,
   "consumers_unreadable": 0,
   "consumers_that_keep_their_published_verdict": 5,
-  "consumers_whose_published_face_would_need_republishing": 6,
+  "consumers_whose_published_face_would_need_republishing": 5,
   "published_numbers_that_would_move": 37,
   "numbers_moved_by_the_delta": 29,
-  "faces_to_republish_if_all_six_opted_in": 6,
+  "faces_to_republish_if_all_six_opted_in": 5,
   "e334_rows_reproduced": 6,
   "e334_rows_published": 6,
   "orders_agree": false,
@@ -109,11 +109,11 @@
     "published_verdict_survives": true
    },
    "E330_unpinned_choice": {
-    "numbers_in_published_face_that_move": 1,
+    "numbers_in_published_face_that_move": 0,
     "published_verdict_survives": true
    },
    "E331_pointer_only_readers": {
-    "numbers_in_published_face_that_move": 9,
+    "numbers_in_published_face_that_move": 10,
     "published_verdict_survives": true
    }
   },
@@ -344,20 +344,20 @@
     {
      "key": "faces_scanned",
      "shipped": 555,
-     "recovered": 558,
-     "delta": 3
+     "recovered": 560,
+     "delta": 5
     },
     {
      "key": "faces_with_stated_cutoff",
      "shipped": 496,
-     "recovered": 499,
-     "delta": 3
+     "recovered": 501,
+     "delta": 5
     },
     {
      "key": "families",
      "shipped": 421,
-     "recovered": 424,
-     "delta": 3
+     "recovered": 426,
+     "delta": 5
     },
     {
      "key": "numbers_equal",
@@ -450,14 +450,14 @@
     },
     {
      "key": "source_family_pairs",
-     "shipped": 643,
-     "recovered": 623,
+     "shipped": 647,
+     "recovered": 627,
      "delta": -20
     },
     {
      "key": "sources_scanned",
-     "shipped": 239,
-     "recovered": 230,
+     "shipped": 240,
+     "recovered": 231,
      "delta": -9
     }
    ],
@@ -501,14 +501,14 @@
     {
      "key": "source_family_pairs",
      "shipped": 632,
-     "recovered": 623,
-     "delta": -9
+     "recovered": 627,
+     "delta": -5
     },
     {
      "key": "sources_scanned",
      "shipped": 236,
-     "recovered": 230,
-     "delta": -6
+     "recovered": 231,
+     "delta": -5
     }
    ],
    "delta_rows_truncated": 0,
@@ -530,21 +530,14 @@
    "numbers_compared_delta": 21,
    "numbers_moved_by_the_delta": 0,
    "numbers_compared_publish": 21,
-   "numbers_in_published_face_that_move": 1,
-   "published_face_needs_republishing": true,
+   "numbers_in_published_face_that_move": 0,
+   "published_face_needs_republishing": false,
    "delta_examples": [],
-   "publish_examples": [
-    {
-     "key": "sources_scanned",
-     "shipped": 2292,
-     "recovered": 2295,
-     "delta": 3
-    }
-   ],
+   "publish_examples": [],
    "delta_rows_truncated": 0,
    "publish_rows_truncated": 0,
    "e334_published_delta": 0,
-   "e334_published_face_numbers_moved": 1,
+   "e334_published_face_numbers_moved": 0,
    "e334_delta_reproduced": true
   },
   {
@@ -560,13 +553,13 @@
    "numbers_compared_delta": 30,
    "numbers_moved_by_the_delta": 8,
    "numbers_compared_publish": 30,
-   "numbers_in_published_face_that_move": 9,
+   "numbers_in_published_face_that_move": 10,
    "published_face_needs_republishing": true,
    "delta_examples": [
     {
      "key": "families_referenced_only_through_a_pointer",
-     "shipped": 124,
-     "recovered": 129,
+     "shipped": 126,
+     "recovered": 131,
      "delta": 5
     },
     {
@@ -583,8 +576,8 @@
     },
     {
      "key": "pairs_by_class.reference_without_a_reader",
-     "shipped": 11,
-     "recovered": 10,
+     "shipped": 12,
+     "recovered": 11,
      "delta": -1
     },
     {
@@ -616,8 +609,8 @@
     {
      "key": "families_referenced_only_through_a_pointer",
      "shipped": 121,
-     "recovered": 129,
-     "delta": 8
+     "recovered": 131,
+     "delta": 10
     },
     {
      "key": "handling_by_class.the_load_raises_at_the_file",
@@ -626,16 +619,16 @@
      "delta": 1
     },
     {
+     "key": "pairs",
+     "shipped": 44,
+     "recovered": 45,
+     "delta": 1
+    },
+    {
      "key": "pairs_by_class.pointer_only_reader",
      "shipped": 24,
      "recovered": 25,
      "delta": 1
-    },
-    {
-     "key": "pairs_by_class.reference_without_a_reader",
-     "shipped": 11,
-     "recovered": 10,
-     "delta": -1
     },
     {
      "key": "pointer_only_readers",
@@ -656,16 +649,16 @@
      "delta": 1
     },
     {
-     "key": "sources_scanned",
-     "shipped": 2291,
-     "recovered": 2294,
-     "delta": 3
+     "key": "rows_published",
+     "shipped": 44,
+     "recovered": 45,
+     "delta": 1
     }
    ],
    "delta_rows_truncated": 0,
-   "publish_rows_truncated": 1,
+   "publish_rows_truncated": 2,
    "e334_published_delta": 8,
-   "e334_published_face_numbers_moved": 9,
+   "e334_published_face_numbers_moved": 10,
    "e334_delta_reproduced": true
   }
  ],

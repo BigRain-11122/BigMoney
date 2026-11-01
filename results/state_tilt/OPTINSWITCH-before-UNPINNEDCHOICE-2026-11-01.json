@@ -1,0 +1,135 @@
+{
+ "study": "E330_unpinned_choice",
+ "evidence_cutoff": "2026-11-01",
+ "verdict": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today",
+ "summary": {
+  "sources_scanned": 2292,
+  "decisions": 1,
+  "decisions_by_class": {
+   "existence_chain": 1,
+   "or_fallback": 0,
+   "argparse_default": 0,
+   "mutable_default": 0
+  },
+  "decisions_pinned": 0,
+  "decisions_unpinned": 1,
+  "decisions_nameless": 0,
+  "decisions_whose_swap_changes_today": 1,
+  "decisions_whose_fallback_lags_the_newest_cut": 1,
+  "unpinned_decisions_whose_branches_disagree_today": 1,
+  "chains": 1,
+  "chains_serving_a_stale_cut_today": 0,
+  "defaults_already_stale_on_disk": 0,
+  "mutable_defaults": 0,
+  "or_lines_offered_and_rejected_as_one_sided": 34,
+  "add_argument_lines_seen": 39,
+  "defs_with_a_mutable_literal_seen": 0,
+  "rows_published": 1,
+  "rows_truncated": 0
+ },
+ "rules": {
+  "decision": "a construct that picks between two references to one family, where a two-line edit would change the answer",
+  "pinned": "an assertion names the decider inside the same source's selftest region, or inside Tools/s6_chain_bmb.py / smoke_test.py",
+  "nameless": "the decider is absent or is a shared verb ('run', 'load', 'data'), so no assertion could name the decision specifically",
+  "swap_changes_today": "the two branches resolve to different vintages on today's disk",
+  "declaration_scope": "a construct inside a selftest region is a fixture, not a decision the tree makes"
+ },
+ "limits": {
+  "faces_on_both_sides": "an `or` row needs a face on each side; a fallback to a null literal or to a bare name is an acceptable default, not a choice between two vintages, and the count of rejected one-sided lines is published rather than dropped silently",
+  "single_line": "an argument default or a function signature split across lines is not read; an `or` whose two faces sit on different lines (e260's _try_load(...) or _try_load(...)) is out of population for the same reason, and the order of a multi-line chain stays E329's mention_only",
+  "quoted_text": "a container or an operator that sits inside a quoted string is text being written, not a decision the tree makes -- a scanner's own test input is the case that proves the rule",
+  "pin_scope": "a copy of the decider's name inside some other study's fixture asserts nothing about this source and is not counted",
+  "presence_not_behaviour": "swap_changes_today compares what each branch names on disk; the tool never deletes a pointer to watch a fallback fire"
+ },
+ "rows": [
+  {
+   "source": "scripts/e242_omission_inflation_sweep.py",
+   "line": 288,
+   "class": "existence_chain",
+   "decider": "_face_file",
+   "decider_kind": "function",
+   "branches": [
+    {
+     "side": "primary",
+     "expr": "latest",
+     "face": {
+      "kind": "latest",
+      "stem": null,
+      "date": null
+     },
+     "vintage": null,
+     "exists": false
+    },
+    {
+     "side": "fallback",
+     "expr": "dated",
+     "face": {
+      "kind": "dated",
+      "stem": null,
+      "date": "2026-10-29"
+     },
+     "vintage": "2026-10-29",
+     "exists": false
+    }
+   ],
+   "call_site_stems": [
+    "AGGATT",
+    "owncross",
+    "per_member_gamma",
+    "sharediff"
+   ],
+   "outcome_today": "2026-10-30",
+   "alternate_today": "2026-10-29",
+   "swap_changes_today": true,
+   "fallback_lags_newest_cut": true,
+   "serves_stale_today": 0,
+   "fallback_shadowed_on": [
+    "owncross",
+    "sharediff"
+   ],
+   "per_stem": [
+    {
+     "stem": "AGGATT",
+     "pointer_present": true,
+     "pointer_vintage": "2026-10-29",
+     "pinned_fallback": "2026-10-29",
+     "newest_cut_on_disk": "2026-10-29",
+     "swap_changes_today": false,
+     "fallback_lags_newest_cut": false
+    },
+    {
+     "stem": "owncross",
+     "pointer_present": true,
+     "pointer_vintage": "2026-10-30",
+     "pinned_fallback": "2026-10-29",
+     "newest_cut_on_disk": "2026-10-30",
+     "swap_changes_today": true,
+     "fallback_lags_newest_cut": true
+    },
+    {
+     "stem": "per_member_gamma",
+     "pointer_present": true,
+     "pointer_vintage": "2026-10-30",
+     "pinned_fallback": null,
+     "newest_cut_on_disk": null,
+     "swap_changes_today": false,
+     "fallback_lags_newest_cut": false
+    },
+    {
+     "stem": "sharediff",
+     "pointer_present": true,
+     "pointer_vintage": "2026-10-30",
+     "pinned_fallback": "2026-10-29",
+     "newest_cut_on_disk": "2026-10-30",
+     "swap_changes_today": true,
+     "fallback_lags_newest_cut": true
+    }
+   ],
+   "stem_where_the_branches_disagree": "owncross",
+   "pinned": false,
+   "pinned_by": [],
+   "pin_note": "no assertion in this source or in the chain/smoke files",
+   "nameless": false
+  }
+ ]
+}

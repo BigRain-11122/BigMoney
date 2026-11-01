@@ -6972,3 +6972,47 @@ E330 as a *ranking* when only its *floor* is stable. Both flags (`orders_agree`,
 beside the orders so a reader can see which one failed.
 
 Evidence: scripts/e336_consumer_optin_ranking.py (selftest 20/20, verify 0 problems) -> results/state_tilt/OPTINRANK-2026-11-01.json -> research/digests/DIGEST-20261101-r1356-e336-consumer-optin-ranking.md -> Tools/s6_chain_bmb.py leg consumer_optin_ranking -> smoke_test.py leg E336
+
+## E337 -- executing a named floor: a before/after diff over a corpus-derived face bills corpus growth to the change, so rebuild the old arm as a control over today's corpus
+
+E336 published a floor instead of a ranking: `E330_unpinned_choice` was cheapest on both readings (0 delta
+numbers, 1 published number) with its verdict intact. A recommendation that names a floor is not a measurement of
+the opt-in, so this study executed it. One consumer -- E330 -- now reads `e326.code_lines_tokenized` through a
+single **local** accessor (`_lines`), so `e329._code_lines` and every other reader of it stay on the shipped
+reading; the switch is one file wide by construction, and a moved verdict or a failed re-derivation restores the
+source bytes and the archived face (the tree is left as found).
+
+**The diff a reader would have accepted is wrong.** A bare before/after comparison shows one number moving:
+`sources_scanned` 2292 -> 2297. That is not the opt-in. E330 counts its population over `e326.corpus()` (every
+`.py` under scripts/Tools/live/monitor/firm), so every script that lands after a face was written moves that
+number by one -- including the study that does the work. Three arms over ONE file list separate the two causes:
+
+- **drift** = published-before -> shipped control on today's corpus: 1 of 21 numbers (`sources_scanned` +5);
+- **total** = published-before -> republished: the same 1 of 21;
+- **switch** = control -> republished: **0 of 21 numbers, 0 of 1 decision row.**
+
+So the opt-in costs nothing measurable, and every number a reader would have billed to it was the corpus. The
+E336 "1 published number" was already the same artifact: it is why reading B looked non-zero for the cheapest
+consumer in the set.
+
+**Two guards had to be repaired, not relaxed.** (a) E335's inertness scan counted *mentions* as *consumers* --
+E336 holds the name in a string constant, so the landing had been red before this study touched anything.
+Masking quoted spans on tokenized code lines (E330's own `code_mask` over `e332.true_lines`) turns "2 consumers"
+into **1 reader (allowlisted) + 1 mention**, and a real opt-in is now published as `V_OPTIN` with the consumer
+named in an allowlist read from this study's face -- a study cannot award itself an allowance. (b) "Inert" is a
+state, not a property: a guard that hard-codes "nothing moved" either goes red when something legitimately moves
+or gets quietly loosened. Publishing the state transition is the third option and the only honest one.
+
+**A republish is a cascade.** E330's published face is an input to 2 direct studies (E333, E334) and 2 more one
+hop away through the import graph (E335, E336 reaches it via E334's registry). E336's per-consumer reading could
+not see this by construction: it compared one face at a time. The measured price of an opt-in is therefore the
+transitive set of faces that rebuild it, plus the corpus-inflation of landing the `.py` that does the work --
+which is why the face publishes a `green_window` instead of claiming permanence.
+
+Three reusable rules. (1) **A change measured against a corpus-derived face must be measured against a control
+arm rebuilt on today's corpus**; otherwise drift, total and the change under test are one number. (2) **A
+name-based guard cannot tell a mention from a read** -- mask literals on tokenized code lines before counting, or
+the guard will report phantom consumers (E208's doctrine, one layer down). (3) **Executing a recommendation debts
+the faces that consume the executed one**; count that debt explicitly rather than discovering it as red legs.
+
+Evidence: scripts/e337_optin_executed.py (selftest 18/18, verify 0 problems) -> results/state_tilt/OPTINSWITCH-2026-11-01.json (+ archived before-face) -> scripts/e335_sibling_entry_point.py (selftest 24/24, V_OPTIN) -> research/digests/DIGEST-20261101-r1357-e337-optin-executed.md -> Tools/s6_chain_bmb.py leg optin_executed -> smoke_test.py leg E337

@@ -902,6 +902,18 @@ LEGS = [
     ("consumer_optin_ranking",
      ["python", "scripts/e336_consumer_optin_ranking.py", "verify"]),
 
+    # E337: E336 refused to rank but published a floor -- E330 is cheapest on both readings -- and a
+    # recommendation that names a floor is not a measurement of the opt-in.  This leg executes that
+    # opt-in: E330 reads the tokenized name through one local accessor, its face is republished, and
+    # the diff is published in three arms so corpus drift cannot be billed to the reading (drift =
+    # before -> shipped control, total = before -> republished, switch = control -> republished).
+    # On today's tree the opt-in moves 0 of 21 numbers and no decision row; the one number a bare
+    # diff shows (sources_scanned 2292 -> 2297) is the corpus.  A moved verdict or a failed
+    # re-derivation reverts the source and the face, so verify also asserts that the consumer file
+    # is in the state the published verdict claims.  Verify rebuilds all three arms (~75s).
+    ("optin_executed",
+     ["python", "scripts/e337_optin_executed.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

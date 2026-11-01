@@ -12,13 +12,23 @@ worth anything if it can be shown that nothing moved:
   (b) RE-DERIVE  -- every source E334 published a delta for is recomputed *through the new name*
                     and compared to the published numbers at 1e-9.  This is the check that the new
                     entry point is the reading E334 priced and not a lookalike.
-  (c) INERT      -- no module rebinds the legacy name, and no consumer reads the new one.  Both are
-                    source scans, because the failure this card guards against is a future edit,
-                    not today's state, and a runtime probe cannot see a future edit.
+  (c) INERT      -- no module rebinds the legacy name, and no module *reads* the new one outside
+                    the landing and the consumers a published opt-in study named.  Both are source
+                    scans, because the failure this card guards against is a future edit, not
+                    today's state, and a runtime probe cannot see a future edit.
 
-Decision rule (frozen, see ``decide``): the landing is inert only if all three hold.  Any failure is
-named, not summarised -- a rule that reports only its first failing condition reads as if the other
-inputs were absent (E334 pit 1).
+Naming the new reading is not reading it: E336 carries ``code_lines_tokenized`` inside a string
+constant, and a scan that cannot tell a mention from a call reported two phantom opt-ins on this
+tree (measured 2026-11-01).  So an occurrence counts as a *read* only when it survives on a line the
+tokenizer calls code AND outside every quoted span; the rest are published as mentions.  A real
+opt-in is neither a failure nor invisible: when ONE consumer moves onto the reading under a published
+opt-in face (E337), this study publishes it by name and reports ``V_OPTIN`` instead of pretending the
+landing is still inert.
+
+Decision rule (frozen, see ``decide``): the landing is inert only if all three hold; it is opted-in
+when the only readers are the ones a published opt-in face names; anything else is dirty.  Any
+failure is named, not summarised -- a rule that reports only its first failing condition reads as if
+the other inputs were absent (E334 pit 1).
 
     python scripts/e335_sibling_entry_point.py run|verify|selftest
 """
@@ -47,17 +57,20 @@ TOL = 1e-9
 
 E326_REL = "scripts/e326_template_parameter_consumers.py"
 SELF_REL = "scripts/e335_sibling_entry_point.py"
+OPTIN_STUDY_REL = "scripts/e337_optin_executed.py"
+OPTINSWITCH_LATEST = "optinswitch_latest.json"
 LEGACY = "code_lines_legacy"
 NEW = "code_lines_tokenized"
 
-# A rebind is a NAME being pointed somewhere else; a use is the new name appearing at all.
+# A rebind is a NAME being pointed somewhere else; a read is the name used as code, not quoted.
 SETATTR = re.compile(r"setattr\s*\(\s*e326[\w.]*\s*,\s*[\"']code_lines")
 USE_NEW = re.compile(r"\bcode_lines_tokenized\b")
 
 V_INERT = "sibling_entry_point_lands_inert_legacy_pinned_new_name_unread_and_e334_delta_reproduces"
+V_OPTIN = "sibling_entry_point_is_read_by_only_the_consumers_a_published_opt_in_face_names"
 V_DIRTY = "sibling_entry_point_is_not_inert_because_a_name_moved_or_a_consumer_switched"
 V_LOOKALIKE = "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce"
-VERDICTS = (V_INERT, V_DIRTY, V_LOOKALIKE)
+VERDICTS = (V_INERT, V_OPTIN, V_DIRTY, V_LOOKALIKE)
 
 MAX_EXAMPLES = 8
 
@@ -213,36 +226,96 @@ def _reading_rebinds(rel, src):
     return scoped, permanent
 
 
-def inertness(texts, allowed=(E326_REL, SELF_REL)):
-    """(c) No permanent rebind of a reading name, no consumer of the new one, outside the landing."""
-    rebinds, scoped, optins = [], [], []
+def optin_allowlist():
+    """Consumers a published opt-in face names, and the verdict of the face that named them.
+
+    Read from the pointer, never recomputed: an allowance that a study can award itself is not an
+    allowance, and the face it comes from is the one a reader can audit the diff on.
+    """
+    path = os.path.join(OUTDIR, OPTINSWITCH_LATEST)
+    try:
+        with io.open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except Exception as exc:  # noqa: BLE001 - absent is the normal pre-opt-in state
+        return [], None, repr(exc)
+    rows = [r for r in (doc.get("optin_allowlist") or []) if r.get("adopted")]
+    return [r.get("consumer") for r in rows if r.get("consumer")], doc.get("verdict"), None
+
+
+def _read_or_mention(src):
+    """Split occurrences of the new name into reads (in code, outside quotes) and mentions.
+
+    Naming a reading is not reading it: the tokenizer decides which lines are code at all (the
+    helper's docstring rule hides tails, so this is the repaired reading and the reading under test
+    cannot be hidden from the guard by it), and every quoted span on those lines is blanked at
+    unchanged length before the name is looked for.
+    """
+    import e330_unpinned_choice as e330  # local: the mask lives with the scanner that needed it
+
+    reads, mentions = [], []
+    for lineno, text in e332.true_lines(src):
+        if not USE_NEW.search(text):
+            continue
+        row = {"source": None, "line": lineno, "text": text[:200]}
+        if USE_NEW.search(e330.code_mask(text)):
+            reads.append(row)
+        else:
+            mentions.append(row)
+    return reads, mentions
+
+
+def inertness(texts, allowed=None, published=None):
+    """(c) No permanent rebind of a reading name, no unlisted reader of the new one.
+
+    ``allowed`` is the set of files that are never scanned -- the landing and the opt-in study --
+    and ``published`` is the set of consumers a published opt-in face names.  They are different
+    things: an allowlisted consumer is still *scanned*, because its read is the evidence the
+    allowance is about; only a reader outside ``published`` is the shape this card refuses.
+    """
+    if published is None:
+        published, optin_verdict, optin_why = optin_allowlist()
+    else:
+        published, optin_verdict, optin_why = tuple(published), None, None
+    skip = (E326_REL, SELF_REL, OPTIN_STUDY_REL) if allowed is None else tuple(allowed)
+    rebinds, scoped, reads, mentions = [], [], [], []
     for rel in sorted(texts):
-        if not rel.endswith(".py") or rel in allowed:
+        if not rel.endswith(".py") or rel in skip:
             continue
         hits_scoped, hits_permanent = _reading_rebinds(rel, texts[rel])
         scoped.extend(hits_scoped)
         rebinds.extend(hits_permanent)
+        file_reads, file_mentions = _read_or_mention(texts[rel])
+        for row in file_reads + file_mentions:
+            row["source"] = rel
+        reads.extend(file_reads)
+        mentions.extend(file_mentions)
         for lineno, line in enumerate((texts[rel] or "").splitlines(), 1):
-            text = line.strip()
-            if not text or text.startswith("#"):
-                continue
-            if SETATTR.search(text):
+            if SETATTR.search(line):
                 rebinds.append({"source": rel, "line": lineno, "name": "setattr"})
-            if USE_NEW.search(text):
-                optins.append({"source": rel, "line": lineno, "text": text[:200]})
+    allowlisted = [r for r in reads if r["source"] in published]
+    unlisted = [r for r in reads if r["source"] not in published]
     live = getattr(e326, LEGACY) is getattr(e326, "code_lines")
-    return {"allowed_files": list(allowed),
+    return {"allowed_files": sorted(set(skip) | set(published)),
+            "files_never_scanned": list(skip),
+            "allowlist_published_by": OPTIN_STUDY_REL,
+            "allowlist_face": OPTINSWITCH_LATEST,
+            "allowlist_face_verdict": optin_verdict,
+            "allowlist_face_unreadable_because": optin_why,
             "rebinds": rebinds,
             "scoped_patches_restored_in_a_finally": scoped,
-            "consumers_of_the_new_name": optins,
+            "consumers_of_the_new_name": reads,
+            "allowlisted_consumers": allowlisted,
+            "unlisted_consumers": unlisted,
+            "mentions_of_the_new_name": mentions,
+            "sources_where_the_name_is_only_mentioned": sorted({r["source"] for r in mentions}),
             "the_module_binding_is_still_the_shipped_function": live,
-            "clean": not rebinds and not optins and live,
-            "method": "AST scan: an assignment no enclosing scope restores in a finally is a "
-                      "permanent rebind; the module binding is also checked at runtime, which is "
-                      "what a future edit in a module we never import would break"}
+            "clean": not rebinds and not unlisted and live,
+            "method": "AST scan for permanent rebinds (an assignment no enclosing scope restores in "
+                      "a finally); tokenized code lines with quoted spans blanked for reads, so a "
+                      "docstring or a string constant is published as a mention, not a consumer"}
 
 
-def decide(delta_ok, rebinds, optins, coexist_ok):
+def decide(delta_ok, rebinds, unlisted, coexist_ok, allowlisted=0):
     """Frozen rule: every failing condition is named, never just the first (E334 pit 1)."""
     failed = []
     if not coexist_ok:
@@ -251,11 +324,15 @@ def decide(delta_ok, rebinds, optins, coexist_ok):
         failed.append("the_published_delta_does_not_reproduce_through_the_new_name")
     if rebinds:
         failed.append("%d_module(s)_rebind_a_reading_name" % len(rebinds))
-    if optins:
-        failed.append("%d_consumer(s)_read_the_new_name" % len(optins))
+    if unlisted:
+        failed.append("%d_consumer(s)_read_the_new_name" % len(unlisted))
     if not failed:
+        if allowlisted:
+            return V_OPTIN, ("both readings coexist, E334's delta reproduces, and the only readers "
+                             "of the new name are the %d consumer(s) a published opt-in face names"
+                             % allowlisted)
         return V_INERT, "both readings coexist and differ, E334's delta reproduces, nothing moved"
-    verdict = V_DIRTY if (rebinds or optins or not coexist_ok) else V_LOOKALIKE
+    verdict = V_DIRTY if (rebinds or unlisted or not coexist_ok) else V_LOOKALIKE
     return verdict, "; ".join(failed)
 
 
@@ -295,8 +372,8 @@ def build(outdir=None):
     delta_ok = (delta["candidates_published"] > 0
                 and delta["candidates_reproduced"] == delta["candidates_published"]
                 and delta["max_abs_diff"] <= TOL)
-    verdict, reason = decide(delta_ok, inert["rebinds"], inert["consumers_of_the_new_name"],
-                             coexist_ok)
+    verdict, reason = decide(delta_ok, inert["rebinds"], inert["unlisted_consumers"], coexist_ok,
+                             allowlisted=len(inert["allowlisted_consumers"]))
     doc = {
         "study": STUDY,
         "evidence_cutoff": TODAY,
@@ -315,12 +392,18 @@ def build(outdir=None):
             "modules_that_rebind_a_reading_name": len(inert["rebinds"]),
             "studies_that_patch_and_restore_in_a_finally": len(inert["scoped_patches_restored_in_a_finally"]),
             "consumers_of_the_new_name": len(inert["consumers_of_the_new_name"]),
+            "consumers_named_by_a_published_opt_in": len(inert["allowlisted_consumers"]),
+            "unlisted_consumers_of_the_new_name": len(inert["unlisted_consumers"]),
+            "mentions_of_the_new_name_that_are_not_reads": len(inert["mentions_of_the_new_name"]),
         },
-        "decision": {"rule": {"inert_if": "all three axes hold",
+        "decision": {"rule": {"inert_if": "all three axes hold and no unlisted reader exists",
+                              "optin_if": "the only readers are the ones a published opt-in face names",
                               "otherwise": "name every failing condition and do not claim a landing"},
                      "inputs": {"coexist_ok": coexist_ok, "delta_ok": delta_ok,
                                 "rebinds": len(inert["rebinds"]),
-                                "consumers_of_the_new_name": len(inert["consumers_of_the_new_name"])},
+                                "consumers_of_the_new_name": len(inert["consumers_of_the_new_name"]),
+                                "unlisted_consumers": len(inert["unlisted_consumers"]),
+                                "allowlisted_consumers": len(inert["allowlisted_consumers"])},
                      "verdict_options": list(VERDICTS)},
         "coexistence": {k: v for k, v in coex.items() if k != "differing"},
         "differing_sources": coex["differing"][:MAX_EXAMPLES],
@@ -341,6 +424,12 @@ def build(outdir=None):
                                              "two cannot drift",
             "inertness_is_a_source_scan": "the failure mode is a future edit; a runtime probe cannot "
                                           "see one",
+            "mention_is_not_a_read": "an occurrence counts only on a tokenized code line with every "
+                                     "quoted span blanked, so a string constant or a docstring is "
+                                     "published as a mention instead of a phantom consumer",
+            "opt_in_is_published_not_inferred": "an allowance is read from the published opt-in "
+                                                "face (optinswitch_latest.json); a study cannot "
+                                                "award itself one",
             "frozen_rule": "decide() is code, not prose, and names every failing condition",
         },
         "limits": {
@@ -348,8 +437,9 @@ def build(outdir=None):
                                     "37 numbers); this card lands the shape only",
             "corpus_is_a_snapshot": "the coexist delta is a fact about this tree; the ration and "
                                     "re-derivation are recomputed each run",
-            "self_exclusion": "the landing's own script and e326 are the only files allowed to name "
-                              "the new reading",
+            "self_exclusion": "the landing's own script, the opt-in study and e326 are the only files allowed "
+                              "to name the new reading unprompted; a consumer needs a published "
+                              "opt-in face",
         },
     }
     target = outdir or OUTDIR
@@ -379,9 +469,11 @@ def cmd_run():
           % (s["sources_where_the_readings_differ"], s["sources_read"],
              s["e334_delta_candidates_reproduced"], s["e334_delta_candidates_published"],
              s["max_abs_diff_vs_published"]))
-    print("rebinds %d | consumers of the new name %d"
-          % (s["modules_that_rebind_a_reading_name"], s["consumers_of_the_new_name"]))
-    return 0 if doc["verdict"] == V_INERT else 1
+    print("rebinds %d | readers of the new name %d (allowlisted %d, unlisted %d) | mentions %d"
+          % (s["modules_that_rebind_a_reading_name"], s["consumers_of_the_new_name"],
+             s["consumers_named_by_a_published_opt_in"], s["unlisted_consumers_of_the_new_name"],
+             s["mentions_of_the_new_name_that_are_not_reads"]))
+    return 0 if doc["verdict"] in (V_INERT, V_OPTIN) else 1
 
 
 def cmd_verify():
@@ -544,6 +636,41 @@ def cmd_selftest():
         assert len(got["rebinds"]) == 1, got
         assert not got["clean"]
 
+    def l21_a_string_constant_is_a_mention_not_a_consumer():
+        # E336's exact shape: the name in a constant and in prose used to read as two opt-ins.
+        src = ('"""Docstring naming code_lines_tokenized as prose."""\n'
+               'NEW = "code_lines_tokenized"\n')
+        got = inertness({"scripts/m.py": src})
+        assert got["consumers_of_the_new_name"] == [], got["consumers_of_the_new_name"]
+        assert [r["line"] for r in got["mentions_of_the_new_name"]] == [2], got["mentions_of_the_new_name"]
+        assert got["clean"], got
+
+    def l22_an_allowlisted_reader_is_published_as_an_opt_in():
+        allow = {"scripts/opt.py"}
+        got = inertness({"scripts/opt.py": "x = e326.code_lines_tokenized(s)\n"}, published=allow)
+        assert len(got["allowlisted_consumers"]) == 1, got
+        assert got["unlisted_consumers"] == [], got
+        verdict, reason = decide(True, [], got["unlisted_consumers"], True,
+                                 allowlisted=len(got["allowlisted_consumers"]))
+        assert verdict == V_OPTIN and "opt-in" in reason, reason
+
+    def l23_a_reader_outside_the_allowlist_still_fails():
+        got = inertness({"scripts/opt.py": "x = e326.code_lines_tokenized(s)\n",
+                         "scripts/sneak.py": "y = e326.code_lines_tokenized(t)\n"},
+                        published={"scripts/opt.py"})
+        assert [r["source"] for r in got["unlisted_consumers"]] == ["scripts/sneak.py"], got
+        verdict, reason = decide(True, [], got["unlisted_consumers"], True,
+                                 allowlisted=len(got["allowlisted_consumers"]))
+        assert verdict == V_DIRTY and "1_consumer(s)" in reason, reason
+
+    def l24_the_allowlist_comes_from_a_published_face():
+        # An allowance a study awards itself is not an allowance: with no opt-in face, an
+        # otherwise-identical reader is unlisted.
+        got = inertness({"scripts/opt.py": "x = e326.code_lines_tokenized(s)\n"})
+        named, _verdict, _why = optin_allowlist()
+        assert got["unlisted_consumers"] or "scripts/opt.py" in named, got
+        assert OPTIN_STUDY_REL in got["files_never_scanned"], got["files_never_scanned"]
+
     for name, fn in (
         ("L1 both readings exist and the legacy name is the shipped function", l1_both_readings_exist),
         ("L2 the new name is the tokenizer reading", l2_new_name_is_the_tokenizer_reading),
@@ -565,6 +692,13 @@ def cmd_selftest():
         ("L18 bindings come from the module source", l18_bindings_read_from_the_module_source),
         ("L19 a finally-restored patch is not a rebind", l19_a_scoped_patch_is_not_a_rebind),
         ("L20 an unrestored patch is a rebind", l20_an_unrestored_patch_is_a_rebind),
+        ("L21 a string constant is a mention, not a consumer",
+         l21_a_string_constant_is_a_mention_not_a_consumer),
+        ("L22 an allowlisted reader is published as an opt-in",
+         l22_an_allowlisted_reader_is_published_as_an_opt_in),
+        ("L23 a reader outside the allowlist still fails", l23_a_reader_outside_the_allowlist_still_fails),
+        ("L24 the allowlist comes from a published face, not from the study",
+         l24_the_allowlist_comes_from_a_published_face),
     ):
         leg(name, fn)
     passed = sum(1 for _n, ok, _w in checks if ok)

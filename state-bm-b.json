@@ -3339,18 +3339,18 @@
  "ram_total_gb": 23.9,
  "reds_open": [],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1356,
- "round_no": 1356,
- "round_no_label": "r1354",
+ "round": 1357,
+ "round_no": 1357,
+ "round_no_label": "r1357",
  "round_no_note": "git log is the canvas; round number follows the highest round report row (r1342 was the E322 round, this is r1343)",
- "round_no_ts": "2026-11-01T08:10:06+08:00",
+ "round_no_ts": "2026-11-01T10:59:00+08:00",
  "round_no_ts_note": "r1295 closeout",
  "round_pit": "(1) the degeneracy cross-check summed n_at_base over the 16 PUBLISHED ROWS and read 29 against E259 52 -- the published rows and E259 distribution arms are two different 16s, so the \"reproduction failure\" was my lookup, not a broken upstream; the pin is now per arm (base count AND leg in the key) and a selftest leg pins that the row sum is NOT the arm total. (2) my first selftest assertion on extra_draws_median said 280 while the code (correctly) returns the median of [280,1720]=1000 -- the assertion was wrong, not the code (r1281 shape). (3) two fixture counts in the new arm-level leg were written as if the cross arm had 1 degenerate seed when its own fixture implies 2; the leg caught it, which is what a pin is for. (4) a self-contained smoke leg cannot be run by the suite in-round (~35 min) so it is executed by exec-ing its own text out of smoke_test.py -- a re-implementation would prove the copy.",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
- "s1": "the full ~330-leg smoke suite was not re-run this window (~35 min); the new E332 leg was extracted verbatim from smoke_test.py and executed standalone (PASS) and then re-run under 3 mutations (zeroed recovery count, a source row stripped of its spans, an inflated re-pricing delta) -- 3/3 caught and the face bytes restored identically.",
- "s6": "chain leg invisible_tail_recovery rc=0 69.8s through the real driver (results/_r1352bmb_s6_chain.json, S6 1/1) | orphan probe py_faces=7 orphans=0 residents=0 | dualrun, compute_audit, py_watermark, attrition guard and the lane collectors were NOT re-run this window (wall budget, stated plainly)",
+ "s1": "the full ~331-leg smoke suite was not re-run this window; the faces under this round were re-derived by their own verify (E337 0 problems / E335 0 problems / E330 0 problems / E336 0 problems) and E333 by build 296s + verify 341s 0 problems. E334 verify exceeded a 5-minute cap and was cancelled -- not claimed.",
+ "s6": "orphan py_faces=11 orphans=0 residents=0 | dualrun ZERO-DRIFT 830 entries streak 51 | compute_audit CLEAN (supply_floor ready 3 / floor 3 breach cleared) | py_watermark insufficient_history | attrition CLEAN 4 ledgers (3 historical shrinks healed) | sat engine rc=0 idle | lane collectors, market_regime, update_* and paper/scorecard faces NOT re-run this window (stated plainly)",
  "s6_note": "chain leg rc=0 and smoke leg executed standalone rather than re-running either suite",
- "s7": "orders 114 files / 115 acks / 0 unacked at S0.5 | schtasks (full CSV table parsed through Tools/Invoke-SilentExe.ps1 -Exe/-ArgString): Bigmoney-IterationLoop running next 06:17, Bigmoney-LoopWatchdog 06:16, Bigmoney-Autofill 06:16, Bigmoney-IntradayMarks 06:16, Bigmoney-ContentLoop 06:32, Bigmoney-SatEngine-bm-b 06:15 -- all present, none re-registered | pre-commit and pre-push claws untouched",
+ "s7": "orders 114 files / 115 acks / 0 unacked | loop and watchdog tasks present and running | pre-commit and pre-push claws in place",
  "sat_engine": {
   "checked_at": "2026-11-01T06:17:58",
   "status": "alive (Bigmoney-SatEngine-bm-b ready, next 06:15)"
@@ -3362,7 +3362,7 @@
  "snapshot": {},
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "ok",
- "study": "E334_helper_repair_blast_radius",
+ "study": "E337_optin_executed + republish_cascade",
  "sync": {
   "ahead": 160,
   "behind_origin_main": 206,
@@ -3370,14 +3370,14 @@
   "peer": "origin",
   "ts": "2026-11-01T05:16:00+08:00"
  },
- "task": "helper repair blast radius",
- "task_short": "E334 helper repair",
+ "task": "r1357 absorb: verified the killed round's E337/E335/E330 faces (18/18, 24/24, verify 0), then republished E333 and E336 over today's corpus (verify 0 problems both); pool supply floor restored 1 -> 3",
+ "task_short": "r1357 verify absorbed E337 + republish E333/E336",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-11-01T08:10:06+08:00",
+ "ts": "2026-11-01T10:59:00+08:00",
  "ts_utc_ms": 1793474610481,
- "updated": "2026-11-01T08:10:06+08:00",
- "updated_at": "2026-11-01T08:10:06+08:00",
- "verdict": "repair_must_ship_beside_the_old_one_because_it_erases_the_evidence_that_measures_it",
+ "updated": "2026-11-01T10:59:00+08:00",
+ "updated_at": "2026-11-01T10:59:00+08:00",
+ "verdict": "an_absorbed_round_is_verified_face_by_face_and_the_corpus_drift_it_widened_is_paid_not_asserted",
  "verdict_line": "watermark red at open (pool-batch-runnable-idle-low-cpu, 1 ready = E330) -> authored, verified and published E330 in-round; board re-seeded with E331",
  "verify": "e331 selftest 24/24 | verify problems=[] (44 pairs / 24 readers / 22 blind tails) | chain leg wired (verify run, not the full chain) | smoke leg wired and exec'd standalone PASS | orphan 0 | sat rc=0 idle | dualrun ZERO-DRIFT 822 streak 51 | attrition CLEAN",
  "vram_free_gb": 3.6,
@@ -3385,7 +3385,7 @@
  "watermark_note": "orphan py_faces=7 orphans=0 residents=0 | dualrun ZERO-DRIFT 821 entries streak 51 | attrition CLEAN 4 ledgers (3 historical shrinks healed) | unpinned_choice verify rc=0 ~40s | sat engine rc=0 idle; compute_audit / py_watermark / lane collectors not re-run this window (stated plainly)",
  "watermark_red": "pool had exactly one ready card at open (E334) and py idle -- burned it in-round; no watermark file read",
  "watermark_verdict": "RED: pool supply (1 ready card = E334, py idle) -- the ready head was burned in-round",
- "work": "E334 helper-repair blast radius",
+ "work": "r1357 absorb: verified the killed round's E337/E335/E330 faces (18/18, 24/24, verify 0), then republished E333 and E336 over today's corpus (verify 0 problems both); pool supply floor restored 1 -> 3",
  "r1351": {
   "round": 1351,
   "ts": "2026-11-01T06:15:00+08:00",
@@ -3558,5 +3558,21 @@
   "local_not_on_origin_main": 172,
   "behind_origin_main": 217,
   "ts": "2026-11-01T09:15:32+08:00"
+ },
+ "timestamp": "2026-11-01T10:59:00+08:00",
+ "r1357": {
+  "dept": "research+engineering",
+  "absorbed_round": "the 09:17 round was silence-killed at 10:25 after landing E337 (face 09:40) and the E335 guard repair (face 10:18) but before closeout: the pool already said E337 done with future timestamps 10:35/10:40 while state and heartbeat still said r1356",
+  "verified": {
+   "e337": "selftest 18/18, verify 0 problems",
+   "e335": "selftest 24/24, verify 0 problems (V_OPTIN allowlist read from the published face)",
+   "e330": "verify 0 problems (opt-in present on disk)",
+   "e336": "build 189s, verify 0 problems",
+   "e333": "build 296s, verify 0 problems"
+  },
+  "not_verified": "E334 (corpus-heavy verify exceeded a 5-minute cap; its face was regenerated 10:18 by the killed round)",
+  "pool": "ready 3 = E338 (carried) + E339 + E340 seeded this window from E337 findings; supply floor breach cleared",
+  "pit": "a pool card closed by a killed window carries a future closed_at -- the pool cannot tell a landed study from an intended one, so the absorb step has to re-derive every face the dead window touched instead of reading its status",
+  "ts": "2026-11-01T10:59:00+08:00"
  }
 }

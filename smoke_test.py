@@ -10277,10 +10277,15 @@ def main() -> int:
             _i335 = (_f335.get("decision") or {}).get("inputs") or {}
             if _f335.get("verdict") not in _m335.VERDICTS:
                 _bad335.append("verdict %r is outside the frozen set" % (_f335.get("verdict"),))
+            _nun335 = int(_i335.get("unlisted_consumers") or 0)
+            _nallow335 = int(_i335.get("allowlisted_consumers") or 0)
+            if _nun335 + _nallow335 != int(_i335.get("consumers_of_the_new_name") or 0):
+                _bad335.append("the reader split does not add up to the reader count")
             _rule335 = _m335.decide(bool(_i335.get("delta_ok")),
                                     [None] * int(_i335.get("rebinds") or 0),
-                                    [None] * int(_i335.get("consumers_of_the_new_name") or 0),
-                                    bool(_i335.get("coexist_ok")))
+                                    [None] * _nun335,
+                                    bool(_i335.get("coexist_ok")),
+                                    allowlisted=_nallow335)
             if _rule335[0] != _f335.get("verdict"):
                 _bad335.append("the frozen rule decides %r but the face says %r"
                                % (_rule335[0], _f335.get("verdict")))
@@ -10317,11 +10322,26 @@ def main() -> int:
             _inert335 = _f335.get("inertness") or {}
             _nreb = len(_inert335.get("rebinds") or [])
             _nopt = len(_inert335.get("consumers_of_the_new_name") or [])
+            _nunl335 = len(_inert335.get("unlisted_consumers") or [])
             if _nreb != int(_i335.get("rebinds") or 0) or \
                     _nopt != int(_i335.get("consumers_of_the_new_name") or 0):
                 _bad335.append("the inertness rows disagree with the decision inputs")
-            if _inert335.get("clean") != (not _nreb and not _nopt):
+            if _nunl335 != _nun335:
+                _bad335.append("the unlisted readers disagree with the decision inputs")
+            if _inert335.get("clean") != (not _nreb and not _nunl335):
                 _bad335.append("the inertness block calls itself clean while naming offenders")
+            _allowface335, _whyallow335 = _m335.optin_allowlist()
+            for _r335x in _inert335.get("allowlisted_consumers") or []:
+                if _r335x.get("source") not in _allowface335:
+                    _bad335.append("%s reads the new name without a published opt-in (%s)"
+                                   % (_r335x.get("source"), str(_whyallow335)[:60]))
+                    break
+            if int(_s335.get("consumers_named_by_a_published_opt_in") or 0) != \
+                    len(_inert335.get("allowlisted_consumers") or []):
+                _bad335.append("the allowlisted count disagrees with the published face")
+            if int(_s335.get("mentions_of_the_new_name_that_are_not_reads") or 0) != \
+                    len(_inert335.get("mentions_of_the_new_name") or []):
+                _bad335.append("the mention count disagrees with the published face")
             if int(_s335.get("consumers_switched") or 0) != 0:
                 _bad335.append("a consumer was switched, which is not this card's decision")
             if not _inert335.get("the_module_binding_is_still_the_shipped_function"):
@@ -10432,6 +10452,102 @@ def main() -> int:
                 ((_f336 or {}).get("summary") or {}).get("faces_to_republish_if_all_six_opted_in"),
                 ((_f336 or {}).get("summary") or {}).get("orders_agree"),
                 ((_f336 or {}).get("summary") or {}).get("head_is_stable_across_readings")))
+
+    # E337: E336 refused to rank the six consumers but published a floor, and a recommendation that
+    # names a floor is not a measurement of the opt-in. This leg refuses a switch face whose verdict
+    # the frozen rule would not decide, a consumer source that is not in the state the verdict
+    # claims, a three-arm diff whose rows do not add up (moved = rows + truncated, delta = after
+    # minus before), an allowlist that disagrees with the verdict or names a file without the
+    # switch, a before-arm that is not the archived pre-switch face, and an adopted switch that
+    # published verify problems.
+    _name337 = ("product: one consumer is actually moved onto the tokenized reading, its face is "
+                "republished, and the diff separates what the corpus did from what the opt-in did")
+    _bad337 = []
+    try:
+        _p337 = os.path.join("results", "state_tilt", "optinswitch_latest.json")
+        _f337 = json.load(open(_p337, encoding="utf-8")) if os.path.exists(_p337) else None
+        if _f337 is None:
+            _bad337.append("no published opt-in switch face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m337 = __import__("importlib").import_module("e337_optin_executed")
+            _s337 = _f337.get("summary") or {}
+            _i337 = (_f337.get("decision") or {}).get("inputs") or {}
+            if _f337.get("verdict") not in _m337.VERDICTS:
+                _bad337.append("verdict %r is outside the frozen set" % (_f337.get("verdict"),))
+            _rule337 = _m337.decide([None] * int(_i337.get("verify_problems") or 0),
+                                    _s337.get("verdict_before"), _s337.get("verdict_republished"))
+            if _rule337[0] != _f337.get("verdict"):
+                _bad337.append("the frozen rule decides %r but the face says %r"
+                               % (_rule337[0], _f337.get("verdict")))
+            _consumer337 = os.path.join("scripts", "e330_unpinned_choice.py")
+            _src337 = open(_consumer337, encoding="utf-8").read() if os.path.exists(_consumer337) else ""
+            _switched337 = _m337.MARKER in _src337
+            if _switched337 != (_f337.get("verdict") == _m337.V_ADOPT):
+                _bad337.append("the consumer source is not in the state the verdict claims")
+            if bool(_i337.get("switched")) != _switched337:
+                _bad337.append("the decision input disagrees with the consumer source")
+            for _arm337, _key337 in (("drift_before_to_control", "numbers_moved_by_corpus_drift"),
+                                     ("total_before_to_republished",
+                                      "numbers_moved_before_to_republished"),
+                                     ("switch_control_to_republished",
+                                      "numbers_moved_by_the_opt_in")):
+                _a337 = (_f337.get("diff") or {}).get(_arm337) or {}
+                _rows337 = _a337.get("rows") or []
+                if int(_a337.get("moved") or 0) != int(_s337.get(_key337) or 0):
+                    _bad337.append("%s: the arm disagrees with the summary" % _arm337)
+                if int(_a337.get("truncated") or 0) != int(_a337.get("moved") or 0) - len(_rows337):
+                    _bad337.append("%s: moved is not rows plus truncated" % _arm337)
+                for _r337 in _rows337:
+                    if abs(float(_r337.get("delta") or 0.0) -
+                           (float(_r337.get("after") or 0.0) -
+                            float(_r337.get("before") or 0.0))) > 1e-9:
+                        _bad337.append("%s: %s delta is not after minus before"
+                                       % (_arm337, _r337.get("key")))
+                        break
+                if int(_a337.get("compared") or 0) <= 0:
+                    _bad337.append("%s: nothing was compared" % _arm337)
+            _allow337 = _f337.get("optin_allowlist") or []
+            if bool(_allow337) != (_f337.get("verdict") == _m337.V_ADOPT):
+                _bad337.append("the allowlist disagrees with the verdict")
+            for _row337 in _allow337:
+                _cp337 = _row337.get("consumer") or ""
+                if not _cp337 or not os.path.exists(_cp337):
+                    _bad337.append("an allowlisted consumer does not exist")
+                    break
+                if _m337.MARKER not in open(_cp337, encoding="utf-8").read():
+                    _bad337.append("an allowlisted consumer does not carry the switch")
+                    break
+            _arch337 = os.path.join("results", "state_tilt", _m337.ARCHIVE)
+            if not os.path.exists(_arch337):
+                _bad337.append("the pre-switch face was not archived")
+            else:
+                _fa337 = json.load(open(_arch337, encoding="utf-8"))
+                if _fa337.get("verdict") != _s337.get("verdict_before"):
+                    _bad337.append("the archived before-face disagrees with the before verdict")
+                if _fa337.get("summary") != (_f337.get("before_face") or {}).get("summary"):
+                    _bad337.append("the before arm is not the archived face")
+            if _f337.get("verdict") == _m337.V_ADOPT:
+                if int(_s337.get("verify_problems") or 0):
+                    _bad337.append("an adopted switch published verify problems")
+                if _s337.get("verdict_unchanged") is not True:
+                    _bad337.append("an adopted switch did not publish an unchanged verdict")
+    except Exception as e:
+        check(_name337, False, repr(e)[:160])
+
+    check(_name337, not _bad337, "; ".join(_bad337)[:220]
+          or "%s | %s moved onto the tokenized reading, verdict %s; the opt-in moves %s of %s "
+             "numbers and %s decision row(s); corpus drift %s, total %s; %s downstream study(ies) "
+             "rebuild this face"
+             % (str((_f337 or {}).get("verdict")),
+                ((_f337 or {}).get("summary") or {}).get("consumer"),
+                ((_f337 or {}).get("summary") or {}).get("verdict_republished"),
+                ((_f337 or {}).get("summary") or {}).get("numbers_moved_by_the_opt_in"),
+                ((_f337 or {}).get("summary") or {}).get("numbers_compared_switch"),
+                ((_f337 or {}).get("summary") or {}).get("decision_rows_changed_by_the_reading"),
+                ((_f337 or {}).get("summary") or {}).get("numbers_moved_by_corpus_drift"),
+                ((_f337 or {}).get("summary") or {}).get("numbers_moved_before_to_republished"),
+                ((_f337 or {}).get("summary") or {}).get("downstream_studies_that_rebuild_this_face")))
 
     return _finish()
 

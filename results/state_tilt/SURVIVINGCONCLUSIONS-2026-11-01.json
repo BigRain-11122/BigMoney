@@ -13,8 +13,8 @@
   "numbers_attributed_to_a_single_source": 17,
   "numbers_explained_exactly_by_a_single_source": 11,
   "numbers_with_no_single_source_explanation": 0,
-  "consumers_whose_shipped_half_reproduces_the_published_face": 0,
-  "corpus_sources_scanned": 2286,
+  "consumers_whose_shipped_half_reproduces_the_published_face": 1,
+  "corpus_sources_scanned": 2292,
   "corpus_sources_the_helper_blinds": 30,
   "corpus_recovered_code_lines": 4284,
   "ablation_candidates_ranked": 30,
@@ -24,7 +24,7 @@
  "source_study": {
   "study": "E332_invisible_tail_recovery",
   "evidence_cutoff": "2026-11-01",
-  "sources_scanned": 2286,
+  "sources_scanned": 2292,
   "sources_the_helper_blinds": 30,
   "recovered_code_lines": 4284,
   "recovered_by_kind": {
@@ -731,20 +731,20 @@
     "differences": [
      {
       "key": "faces_scanned",
-      "shipped": 550,
-      "recovered": 555,
+      "shipped": 555,
+      "recovered": 560,
       "delta": 5
      },
      {
       "key": "faces_with_stated_cutoff",
-      "shipped": 491,
-      "recovered": 496,
+      "shipped": 496,
+      "recovered": 501,
       "delta": 5
      },
      {
       "key": "families",
-      "shipped": 416,
-      "recovered": 421,
+      "shipped": 421,
+      "recovered": 426,
       "delta": 5
      }
     ],
@@ -1136,14 +1136,14 @@
     },
     {
      "key": "source_family_pairs",
-     "shipped": 627,
-     "recovered": 612,
-     "delta": -15,
+     "shipped": 647,
+     "recovered": 627,
+     "delta": -20,
      "attributed_sources": [
       {
        "source": "scripts/e330_unpinned_choice.py",
-       "shipped": 627,
-       "recovered_with_only_this_source": 629,
+       "shipped": 647,
+       "recovered_with_only_this_source": 649,
        "delta": 2,
        "spans": [
         [
@@ -1180,8 +1180,8 @@
       },
       {
        "source": "scripts/e280_e251_rng_drift_repin.py",
-       "shipped": 627,
-       "recovered_with_only_this_source": 631,
+       "shipped": 647,
+       "recovered_with_only_this_source": 651,
        "delta": 4,
        "spans": [
         [
@@ -1218,8 +1218,8 @@
       },
       {
        "source": "scripts/e299_rounded_vs_tolerance_census.py",
-       "shipped": 627,
-       "recovered_with_only_this_source": 628,
+       "shipped": 647,
+       "recovered_with_only_this_source": 648,
        "delta": 1,
        "spans": [
         [
@@ -1256,8 +1256,8 @@
       },
       {
        "source": "scripts/e308_leg_vs_producer_tolerance.py",
-       "shipped": 627,
-       "recovered_with_only_this_source": 629,
+       "shipped": 647,
+       "recovered_with_only_this_source": 649,
        "delta": 2,
        "spans": [
         [
@@ -1294,8 +1294,8 @@
       },
       {
        "source": "scripts/e231_band_path_test.py",
-       "shipped": 627,
-       "recovered_with_only_this_source": 629,
+       "shipped": 647,
+       "recovered_with_only_this_source": 649,
        "delta": 2,
        "spans": [
         [
@@ -1332,8 +1332,8 @@
       },
       {
        "source": "scripts/e312_gate_operand_identity.py",
-       "shipped": 627,
-       "recovered_with_only_this_source": 626,
+       "shipped": 647,
+       "recovered_with_only_this_source": 646,
        "delta": -1,
        "spans": [
         [
@@ -1371,18 +1371,18 @@
      ],
      "attributed": true,
      "explained_by_one_source": false,
-     "largest_single_source_share_pct": 26.7
+     "largest_single_source_share_pct": 20.0
     },
     {
      "key": "sources_scanned",
-     "shipped": 232,
-     "recovered": 225,
-     "delta": -7,
+     "shipped": 240,
+     "recovered": 231,
+     "delta": -9,
      "attributed_sources": [
       {
        "source": "scripts/e280_e251_rng_drift_repin.py",
-       "shipped": 232,
-       "recovered_with_only_this_source": 233,
+       "shipped": 240,
+       "recovered_with_only_this_source": 241,
        "delta": 1,
        "spans": [
         [
@@ -1419,8 +1419,8 @@
       },
       {
        "source": "scripts/e308_leg_vs_producer_tolerance.py",
-       "shipped": 232,
-       "recovered_with_only_this_source": 233,
+       "shipped": 240,
+       "recovered_with_only_this_source": 241,
        "delta": 1,
        "spans": [
         [
@@ -1457,8 +1457,8 @@
       },
       {
        "source": "scripts/e231_band_path_test.py",
-       "shipped": 232,
-       "recovered_with_only_this_source": 233,
+       "shipped": 240,
+       "recovered_with_only_this_source": 241,
        "delta": 1,
        "spans": [
         [
@@ -1496,7 +1496,7 @@
      ],
      "attributed": true,
      "explained_by_one_source": false,
-     "largest_single_source_share_pct": 14.3
+     "largest_single_source_share_pct": 11.1
     }
    ],
    "moved_truncated": 0,
@@ -1570,36 +1570,18 @@
     "published_face": "results/state_tilt/TWOVINTAGE-2026-11-01.json",
     "readable": true,
     "numbers_compared": 17,
-    "numbers_differing": 5,
+    "numbers_differing": 2,
     "differences": [
      {
-      "key": "pairs_naming_two_vintages",
-      "shipped": 9,
-      "recovered": 12,
-      "delta": 3
-     },
-     {
-      "key": "pairs_no_static_winner",
-      "shipped": 4,
-      "recovered": 7,
-      "delta": 3
-     },
-     {
-      "key": "pairs_with_a_pointer_pair",
-      "shipped": 1,
-      "recovered": 4,
-      "delta": 3
-     },
-     {
       "key": "source_family_pairs",
-      "shipped": 597,
-      "recovered": 627,
-      "delta": 30
+      "shipped": 632,
+      "recovered": 647,
+      "delta": 15
      },
      {
       "key": "sources_scanned",
-      "shipped": 228,
-      "recovered": 232,
+      "shipped": 236,
+      "recovered": 240,
       "delta": 4
      }
     ],
@@ -1628,16 +1610,9 @@
     "published_face": "results/state_tilt/UNPINNEDCHOICE-2026-11-01.json",
     "readable": true,
     "numbers_compared": 21,
-    "numbers_differing": 1,
-    "differences": [
-     {
-      "key": "sources_scanned",
-      "shipped": 2284,
-      "recovered": 2287,
-      "delta": 3
-     }
-    ],
-    "reproduces_published": false,
+    "numbers_differing": 0,
+    "differences": [],
+    "reproduces_published": true,
     "verdict_same": true
    },
    "conclusion": "the reading is unchanged"

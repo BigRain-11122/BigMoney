@@ -47,6 +47,14 @@ import e326_template_parameter_consumers as e326  # noqa: E402  (path set above)
 import e329_two_vintage_binding as e329  # noqa: E402
 
 ROOT = e326.ROOT
+
+def _lines(src):
+    """E337 opt-in: this study reads the tokenized corpus (E335's landed sibling name).
+
+    The accessor is local on purpose: e329._code_lines keeps the shipped reading, so moving
+    this consumer cannot move anyone else by accident.
+    """
+    return e326.code_lines_tokenized(src)
 OUTDIR = os.path.join(ROOT, "results", "state_tilt")
 TODAY = "2026-11-01"
 FACE = "UNPINNEDCHOICE-%s.json" % TODAY
@@ -187,7 +195,7 @@ def decisions(files, cuts, pointers, paths, payloads):
         rel = e326.relp(path)
         if os.path.basename(rel) in OWN_SOURCES:
             continue
-        lines = e329._code_lines(src)
+        lines = _lines(src)
         st = e329.selftest_start(lines)
         consts = const_faces(lines, cuts, pointers, paths, payloads)
         for index, (lineno, text) in enumerate(lines):
@@ -316,7 +324,7 @@ def chains(files, root=None):
     payloads = {}
     text_at = {}
     for path, src in files:
-        text_at[e326.relp(path)] = {n: t for n, t in e329._code_lines(src)}
+        text_at[e326.relp(path)] = {n: t for n, t in _lines(src)}
     out = []
     for _key, row in e329.collect(files).items():
         if e329.classify(row)["order_class"] != e329.O_CHAIN:
@@ -395,7 +403,7 @@ def _global_pin_index(root):
                 src = fh.read()
         except Exception:
             continue
-        for lineno, text in e329._code_lines(src):
+        for lineno, text in _lines(src):
             body = _clean(text)
             if not body.strip():
                 continue  # a mention inside a comment asserts nothing
@@ -409,7 +417,7 @@ def _own_pin_index(files):
     index = {}
     for path, src in files:
         rel = e326.relp(path)
-        lines = e329._code_lines(src)
+        lines = _lines(src)
         st = e329.selftest_start(lines)
         if st >= len(lines):
             continue

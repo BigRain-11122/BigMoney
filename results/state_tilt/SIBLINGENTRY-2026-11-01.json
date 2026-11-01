@@ -16,8 +16,8 @@
    },
    {
     "delta": 595,
-    "lines_shipped": 40,
-    "lines_tokenized": 635,
+    "lines_shipped": 42,
+    "lines_tokenized": 637,
     "source": "scripts/e330_unpinned_choice.py"
    },
    {
@@ -57,22 +57,26 @@
    "shipped": true
   },
   "new_name_is_exported": true,
-  "sources_read": 2294,
-  "sources_where_the_readings_differ": 1369
+  "sources_read": 2297,
+  "sources_where_the_readings_differ": 1371
  },
  "decision": {
   "inputs": {
+   "allowlisted_consumers": 1,
    "coexist_ok": true,
-   "consumers_of_the_new_name": 0,
+   "consumers_of_the_new_name": 1,
    "delta_ok": true,
-   "rebinds": 0
+   "rebinds": 0,
+   "unlisted_consumers": 0
   },
   "rule": {
-   "inert_if": "all three axes hold",
+   "inert_if": "all three axes hold and no unlisted reader exists",
+   "optin_if": "the only readers are the ones a published opt-in face names",
    "otherwise": "name every failing condition and do not claim a landing"
   },
   "verdict_options": [
    "sibling_entry_point_lands_inert_legacy_pinned_new_name_unread_and_e334_delta_reproduces",
+   "sibling_entry_point_is_read_by_only_the_consumers_a_published_opt_in_face_names",
    "sibling_entry_point_is_not_inert_because_a_name_moved_or_a_consumer_switched",
    "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce"
   ]
@@ -92,8 +96,8 @@
   },
   {
    "delta": 595,
-   "lines_shipped": 40,
-   "lines_tokenized": 635,
+   "lines_shipped": 42,
+   "lines_tokenized": 637,
    "source": "scripts/e330_unpinned_choice.py"
   },
   {
@@ -127,8 +131,8 @@
    "source": "scripts/trial_labor_w16.py"
   }
  ],
- "differing_sources_total": 1369,
- "differing_sources_truncated": 1361,
+ "differing_sources_total": 1371,
+ "differing_sources_truncated": 1363,
  "e326_bindings": {
   "bindings": [
    {
@@ -153,11 +157,42 @@
  "inertness": {
   "allowed_files": [
    "scripts/e326_template_parameter_consumers.py",
-   "scripts/e335_sibling_entry_point.py"
+   "scripts/e330_unpinned_choice.py",
+   "scripts/e335_sibling_entry_point.py",
+   "scripts/e337_optin_executed.py"
+  ],
+  "allowlist_face": "optinswitch_latest.json",
+  "allowlist_face_unreadable_because": null,
+  "allowlist_face_verdict": "one_consumer_moved_onto_the_tokenized_reading_and_its_republished_face_re_derives_with_the_verdict_intact",
+  "allowlist_published_by": "scripts/e337_optin_executed.py",
+  "allowlisted_consumers": [
+   {
+    "line": 57,
+    "source": "scripts/e330_unpinned_choice.py",
+    "text": "return e326.code_lines_tokenized(src)"
+   }
   ],
   "clean": true,
-  "consumers_of_the_new_name": [],
-  "method": "AST scan: an assignment no enclosing scope restores in a finally is a permanent rebind; the module binding is also checked at runtime, which is what a future edit in a module we never import would break",
+  "consumers_of_the_new_name": [
+   {
+    "line": 57,
+    "source": "scripts/e330_unpinned_choice.py",
+    "text": "return e326.code_lines_tokenized(src)"
+   }
+  ],
+  "files_never_scanned": [
+   "scripts/e326_template_parameter_consumers.py",
+   "scripts/e335_sibling_entry_point.py",
+   "scripts/e337_optin_executed.py"
+  ],
+  "mentions_of_the_new_name": [
+   {
+    "line": 52,
+    "source": "scripts/e336_consumer_optin_ranking.py",
+    "text": "NEW = \"code_lines_tokenized\""
+   }
+  ],
+  "method": "AST scan for permanent rebinds (an assignment no enclosing scope restores in a finally); tokenized code lines with quoted spans blanked for reads, so a docstring or a string constant is published as a mention, not a consumer",
   "rebinds": [],
   "scoped_patches_restored_in_a_finally": [
    {
@@ -229,14 +264,28 @@
     "line": 90,
     "name": "code_lines",
     "source": "scripts/e334_helper_repair_blast_radius.py"
+   },
+   {
+    "line": 89,
+    "name": "code_lines",
+    "source": "scripts/e336_consumer_optin_ranking.py"
+   },
+   {
+    "line": 86,
+    "name": "code_lines",
+    "source": "scripts/e336_consumer_optin_ranking.py"
    }
   ],
-  "the_module_binding_is_still_the_shipped_function": true
+  "sources_where_the_name_is_only_mentioned": [
+   "scripts/e336_consumer_optin_ranking.py"
+  ],
+  "the_module_binding_is_still_the_shipped_function": true,
+  "unlisted_consumers": []
  },
  "limits": {
   "corpus_is_a_snapshot": "the coexist delta is a fact about this tree; the ration and re-derivation are recomputed each run",
   "no_consumer_switched": "E334 priced the switch as a separate, larger decision (6 faces / 37 numbers); this card lands the shape only",
-  "self_exclusion": "the landing's own script and e326 are the only files allowed to name the new reading"
+  "self_exclusion": "the landing's own script, the opt-in study and e326 are the only files allowed to name the new reading unprompted; a consumer needs a published opt-in face"
  },
  "recommendation": "the tokenizer reading is available as a sibling entry point; switching a consumer is a separate decision with its own republish cost (E334)",
  "rederived_delta": {
@@ -762,23 +811,28 @@
  "rules": {
   "frozen_rule": "decide() is code, not prose, and names every failing condition",
   "inertness_is_a_source_scan": "the failure mode is a future edit; a runtime probe cannot see one",
+  "mention_is_not_a_read": "an occurrence counts only on a tokenized code line with every quoted span blanked, so a string constant or a docstring is published as a mention instead of a phantom consumer",
   "new_name_is_the_repaired_half": "code_lines_tokenized delegates to e332.true_lines, the very reading E332 counts as the repaired half, so the two cannot drift",
   "one_corpus": "every number is computed over e326.corpus(), the file list E334 priced, so a delta here is the helper and nothing else",
+  "opt_in_is_published_not_inferred": "an allowance is read from the published opt-in face (optinswitch_latest.json); a study cannot award itself one",
   "pinned_not_copied": "code_lines_legacy is an alias, not a copy: a copy would freeze silently against the shipped function"
  },
  "study": "E335_sibling_entry_point",
  "summary": {
-  "consumers_of_the_new_name": 0,
+  "consumers_named_by_a_published_opt_in": 1,
+  "consumers_of_the_new_name": 1,
   "consumers_switched": 0,
   "e334_delta_candidates_published": 30,
   "e334_delta_candidates_reproduced": 30,
   "max_abs_diff_vs_published": 0.0,
+  "mentions_of_the_new_name_that_are_not_reads": 1,
   "modules_that_rebind_a_reading_name": 0,
   "reading_names_added": 2,
-  "sources_read": 2294,
-  "sources_where_the_readings_differ": 1369,
-  "studies_that_patch_and_restore_in_a_finally": 14
+  "sources_read": 2297,
+  "sources_where_the_readings_differ": 1371,
+  "studies_that_patch_and_restore_in_a_finally": 16,
+  "unlisted_consumers_of_the_new_name": 0
  },
- "verdict": "sibling_entry_point_lands_inert_legacy_pinned_new_name_unread_and_e334_delta_reproduces",
- "verdict_reason": "both readings coexist and differ, E334's delta reproduces, nothing moved"
+ "verdict": "sibling_entry_point_is_read_by_only_the_consumers_a_published_opt_in_face_names",
+ "verdict_reason": "both readings coexist, E334's delta reproduces, and the only readers of the new name are the 1 consumer(s) a published opt-in face names"
 }
