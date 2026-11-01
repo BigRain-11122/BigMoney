@@ -63,6 +63,7 @@ from scripts import etf_book_production as P
 SCRIPT = "scripts/etf_book_nav_envelope.py"
 SERIES_DIR = ROOT / "results" / "etf_book_series"
 ENV_DIR = ROOT / "results" / "etf_book_bootstrap"
+PRODUCTION_FACE = ROOT / "results" / "etf_book_production" / "latest.json"
 
 # ---------------------------------------------------------------- frozen criteria
 # Written before the first run. The gate refuses a face whose echo differs from these.
@@ -224,6 +225,54 @@ def summarize(rows, point=None):
 
 
 # ---------------------------------------------------------------- series
+# r1210: the series face had NO producer on the chain -- `derive` was run by hand, so the
+# envelope kept bootstrapping a one-bar-stale book (series 2026-10-29 -> 9.70% while the
+# published cell on the same config read 9.60% at 2026-10-30). A face whose producer is not
+# scheduled is indistinguishable from one that agrees, and here the two published percentiles
+# described different objects. The gate now measures the lag and the writer heals it.
+def production_cutoff():
+    """The cutoff of the book the operator actually holds (single reader, no second derive)."""
+    try:
+        doc = json.loads(PRODUCTION_FACE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return doc.get("evidence_cutoff")
+
+
+def series_lag_bars(series_cutoff, prod_cutoff):
+    """None when either side is unknown (absent input is never 'no lag')."""
+    if not series_cutoff or not prod_cutoff:
+        return None
+    if str(series_cutoff) >= str(prod_cutoff):
+        return 0
+    return 1
+
+
+def book_reconciliation(series_point, prod_bt, n_hold=None, vol_target=None):
+    """Which object do these percentiles describe? Compare the series' own backtest headline
+    against the production face's cell for the SAME config, and price the difference."""
+    key = None
+    if isinstance(prod_bt, dict):
+        want = (f"n{n_hold}_vt{int(round((vol_target or 0) * 100)):02d}"
+                if vol_target else f"n{n_hold}_base")
+        key = want if want in prod_bt else None
+    cell = (prod_bt or {}).get(key, {}).get("full") if key else None
+    out = {"production_cell": key, "series_cagr": None, "cell_cagr": None,
+           "delta_pp": None, "verdict": "unverifiable"}
+    if not isinstance(series_point, dict) or not isinstance(cell, dict):
+        return out
+    a, b = series_point.get("cagr"), cell.get("cagr")
+    out["series_cagr"], out["cell_cagr"] = a, b
+    if a is None or b is None:
+        return out
+    out["delta_pp"] = round((a - b) * 100.0, 4)
+    # a one-bar refresh moves the headline by ~0.1pp; a different object (the causal/carry
+    # ledger path) moves it by ~0.5pp. 0.25pp sits between them and is stated, not assumed.
+    out["tolerance_pp"] = 0.25
+    out["verdict"] = "same_object" if abs(out["delta_pp"]) <= 0.25 else "different_object"
+    return out
+
+
 def derive_series():
     close, openp, amt, score, cls, n_flip = P.prep_panel()
     bt, ser = P.backtest(close, openp, amt, score, BOOK["n_hold"], BOOK["rebal"],
@@ -272,6 +321,15 @@ def run(boot=N_BOOT, block=BLOCK, procs=4, shard=None, series_file=None):
     meta = json.loads(sf.read_text(encoding="utf-8"))
     path = SERIES_DIR / meta.get("file", sf.name)
     doc = json.loads(path.read_text(encoding="utf-8"))
+    refreshed = None
+    lag = series_lag_bars(doc.get("evidence_cutoff"), production_cutoff())
+    if lag:
+        # the producer was never on the chain: heal it here rather than bootstrap a stale book
+        stale_from = doc.get("evidence_cutoff")
+        doc, path = derive_series()
+        refreshed = {"from": stale_from, "to": doc.get("evidence_cutoff")}
+        print(f"series was {lag} bar(s) behind the published book "
+              f"({stale_from} -> {doc.get('evidence_cutoff')}); re-derived")
     r = returns_from(doc)
     bpy = doc.get("bars_per_year") or bars_per_year([doc["dates"][0], doc["dates"][-1]])
     point = {"cagr": doc["backtest"]["full"]["cagr"], "sharpe": doc["backtest"]["full"]["sharpe"],
@@ -321,6 +379,12 @@ def run(boot=N_BOOT, block=BLOCK, procs=4, shard=None, series_file=None):
         "bars": doc["bars"],
         "bars_per_year": round(bpy, 3),
         "point_estimate": point,
+        "series_refreshed": refreshed,
+        "book_reconciliation": book_reconciliation(
+            point,
+            (json.loads(PRODUCTION_FACE.read_text(encoding="utf-8")).get("backtest")
+             if PRODUCTION_FACE.exists() else None),
+            n_hold=BOOK["n_hold"], vol_target=BOOK["vol_target"]),
         "rows": rows,
     })
     # r1349: the reading names its own block length, so it has to be built AFTER the criteria
@@ -341,17 +405,31 @@ def _reading(env, point):
     c = env["cagr"]["pct"]
     sh = env["sharpe"]["pct"]
     dd = env["maxdd"]["pct"]
-    return ("block bootstrap (%d resamples, block=%d bars): CAGR p5/p50/p95 = "
-            "%.2f%%/%.2f%%/%.2f%% per year, Sharpe %.2f/%.2f/%.2f, maxDD %.2f%%/%.2f%%/%.2f%%; "
-            "the published point estimate %.2f%% sits at the %.1f pctile; %.1f%% of resamples "
-            "lose money and %.1f%% break a -20%% drawdown"
-            % (env["shares"]["n_resamples"],
-               (env.get("criteria") or {}).get("bootstrap", {}).get("block", BLOCK),
-               c["5"] * 100, c["50"] * 100, c["95"] * 100,
-               sh["5"], sh["50"], sh["95"],
-               dd["5"] * 100, dd["50"] * 100, dd["95"] * 100,
-               (point["cagr"] or 0.0) * 100, env["cagr"].get("point_pctile") or 0.0,
-               env["shares"]["cagr_le_zero"] * 100, env["shares"]["maxdd_le_line"] * 100))
+    s = ("block bootstrap (%d resamples, block=%d bars): CAGR p5/p50/p95 = "
+         "%.2f%%/%.2f%%/%.2f%% per year, Sharpe %.2f/%.2f/%.2f, maxDD %.2f%%/%.2f%%/%.2f%%; "
+         "the published point estimate %.2f%% sits at the %.1f pctile; %.1f%% of resamples "
+         "lose money and %.1f%% break a -20%% drawdown"
+         % (env["shares"]["n_resamples"],
+            (env.get("criteria") or {}).get("bootstrap", {}).get("block", BLOCK),
+            c["5"] * 100, c["50"] * 100, c["95"] * 100,
+            sh["5"], sh["50"], sh["95"],
+            dd["5"] * 100, dd["50"] * 100, dd["95"] * 100,
+            (point["cagr"] or 0.0) * 100, env["cagr"].get("point_pctile") or 0.0,
+            env["shares"]["cagr_le_zero"] * 100, env["shares"]["maxdd_le_line"] * 100))
+    # r1210: the reading names the object it describes, and refuses to imply it is the book
+    # when the two headlines differ -- percentiles of another object are not a risk statement.
+    rec = env.get("book_reconciliation") or {}
+    if rec.get("verdict") == "same_object":
+        s += (f" | these are the published book's own numbers: this series reads "
+              f"{rec['series_cagr'] * 100:.2f}% against the production cell "
+              f"{rec['production_cell']} at {rec['cell_cagr'] * 100:.2f}%")
+    elif rec.get("verdict") == "different_object":
+        s += (f" | WARNING these percentiles describe a different object: series "
+              f"{rec['series_cagr'] * 100:.2f}% vs production cell {rec['production_cell']} "
+              f"{rec['cell_cagr'] * 100:.2f}% ({rec['delta_pp']:+.2f}pp)")
+    else:
+        s += " | cannot verify which book these percentiles describe (production face absent)"
+    return s
 
 
 def _arm_summary(env):
@@ -433,6 +511,20 @@ def blocks_face(cutoff=None, out_file=None):
         raise SystemExit("no latest.json; run `derive` + `run` first")
     latest = json.loads(latest_p.read_text(encoding="utf-8"))
     cutoff = cutoff or latest["evidence_cutoff"]
+    # r1210: the arms were hand-built for each cutoff, so a series refresh orphaned them and
+    # the face died with "only one block arm on disk". The arm set is now owned by the face:
+    # whatever arm set is published is the set this cutoff must carry, so heal it here.
+    _wanted = {BLOCK}
+    for f in ENV_DIR.glob("ENVELOPE-*.json"):
+        tag = f.stem.rsplit("-b", 1)[-1] if "-b" in f.stem else ""
+        if tag.isdigit():
+            _wanted.add(int(tag))
+    _missing = sorted(b for b in _wanted
+                      if not (ENV_DIR / (f"ENVELOPE-{cutoff}.json" if b == BLOCK
+                                         else f"ENVELOPE-{cutoff}-b{b}.json")).exists())
+    for b in _missing:
+        print(f"block arm b{b} missing for {cutoff}; deriving")
+        run(block=b)
     files = sorted(ENV_DIR.glob(f"ENVELOPE-{cutoff}*.json"))
     arms = []
     refreshed = []
@@ -906,6 +998,12 @@ def check(env_file=None):
                 problems.append(f"series face missing ({sf.name}) -- draws cannot be re-judged")
             else:
                 doc = json.loads(sf.read_text(encoding="utf-8"))
+                lag = series_lag_bars(doc.get("evidence_cutoff"), production_cutoff())
+                if lag:
+                    problems.append(
+                        f"series face is stale: it ends {doc.get('evidence_cutoff')} while the "
+                        f"published book ends {production_cutoff()} -- these percentiles "
+                        f"describe a stale object (the run's refresh re-derives it)")
                 rr = returns_from(doc)
                 bpy = env.get("bars_per_year") or doc.get("bars_per_year")
                 block = int((crit.get("bootstrap") or {}).get("block", BLOCK))
@@ -1119,6 +1217,25 @@ def selftest():
     leg("L29 a tail that keeps 80% of the middle does not",
         _tail_verdict([_arm(0.060, 0.048, -0.046)])["tail_is_mostly_a_middle_effect"] is False
         and _tail_verdict([_arm(0.060, 0.013, -0.046)])["tail_is_mostly_a_middle_effect"] is True)
+
+    # L30/L31 r1210: the envelope's input series had no scheduled producer, so the percentiles
+    # could describe a book that stops one bar early. Lag reads both ways and absent is unknown.
+    leg("L30 a series ending before the book is stale, one ending with it is not",
+        series_lag_bars("2026-10-29", "2026-10-30") == 1
+        and series_lag_bars("2026-10-30", "2026-10-30") == 0
+        and series_lag_bars("2026-10-31", "2026-10-30") == 0
+        and series_lag_bars(None, "2026-10-30") is None
+        and series_lag_bars("2026-10-30", None) is None)
+
+    # L32 the headline gap is priced and classified, and a missing cell is unverifiable
+    rec_same = book_reconciliation({"cagr": 0.096}, {"n12_vt08": {"full": {"cagr": 0.096}}}, 12, 0.08)
+    rec_diff = book_reconciliation({"cagr": 0.0912}, {"n12_vt08": {"full": {"cagr": 0.096}}}, 12, 0.08)
+    rec_none = book_reconciliation({"cagr": 0.0912}, {}, 12, 0.08)
+    leg("L32 reconciliation prices the gap, names the cell, and refuses an absent one",
+        rec_same["verdict"] == "same_object" and rec_same["production_cell"] == "n12_vt08"
+        and rec_diff["verdict"] == "different_object" and abs(rec_diff["delta_pp"] + 0.48) < 1e-6
+        and rec_none["verdict"] == "unverifiable" and rec_none["delta_pp"] is None,
+        (rec_same, rec_diff, rec_none))
 
     print(f"selftest {sum(1 for _, c, _ in ok if c)}/{len(ok)}")
     for name, cond, detail in ok:

@@ -606,6 +606,37 @@ def main() -> int:
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
+    # r1210: the envelope's input series had no producer on the chain, so it quietly
+    # bootstrapped a one-bar-stale book (series 9.70% vs the published cell 9.60%). A
+    # percentile of another object is not a risk statement, so this leg re-derives which
+    # object the published face describes and refuses a series older than the book.
+    try:
+        import json as _json
+        _env = os.path.join("results", "etf_book_bootstrap", "latest.json")
+        _prod = os.path.join("results", "etf_book_production", "latest.json")
+        if os.path.exists(_env) and os.path.exists(_prod):
+            _e = _json.load(open(_env, encoding="utf-8"))
+            _p = _json.load(open(_prod, encoding="utf-8"))
+            _ser = _json.load(open(os.path.join("results", "etf_book_series",
+                                                _e.get("series_file") or "latest.json"),
+                                   encoding="utf-8"))
+            _rec = _e.get("book_reconciliation") or {}
+            _cfg = (_p.get("config") or {})
+            _key = ("n%s_vt%02d" % (_cfg.get("n_hold"),
+                                    int(round((_cfg.get("vol_target") or 0) * 100)))
+                    if _cfg.get("vol_target") else "n%s_base" % _cfg.get("n_hold"))
+            _cell = ((_p.get("backtest") or {}).get(_key) or {}).get("full") or {}
+            check("product: the book envelope says whose book it describes",
+                  _ser.get("evidence_cutoff") == _p.get("evidence_cutoff")
+                  and _rec.get("verdict") == "same_object"
+                  and _rec.get("production_cell") == _key
+                  and _rec.get("series_cagr") == _cell.get("cagr"),
+                  "series %s vs book %s | %s %s vs %s" % (
+                      _ser.get("evidence_cutoff"), _p.get("evidence_cutoff"),
+                      _rec.get("verdict"), _rec.get("series_cagr"), _cell.get("cagr")))
+    except Exception as _e2:
+        check("product: the book envelope says whose book it describes", False, str(_e2))
+
     try:
         _card = os.path.join("results", "etf_book_production", "CARD.md")
         _dc = os.path.join("results", "etf_book_window_decomp.json")

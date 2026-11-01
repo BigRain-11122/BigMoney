@@ -8073,3 +8073,40 @@ Pos = `scripts/etf_book_fill_venue.py` (selftest 13/13, `--check` recomputes the
 the recovered pp and the budget from the published rows) · `results/etf_book_fill_venue.json` ·
 `research/ETF_BOOK_FILL_VENUE.md` · chain leg `etf_book_fill_venue` · smoke leg *"the missing bar is
 not a fill an operator could have chosen"*.
+
+### E326 · An input face with no scheduled producer freezes at an old cutoff, and its consumer keeps publishing percentiles of a different object (r1210 bm-a)
+
+The book's bootstrap envelope read its daily path from `results/etf_book_series/latest.json`, but
+only `run` was on the S6 chain: `derive` -- the producer of that path -- was a hand-run. So the
+series stopped at 2026-10-29 while the published book advanced to 2026-10-30, and the envelope kept
+publishing a full distribution over a book that was one bar shorter. Nothing errored, and every
+gate passed, because each face agreed with itself.
+
+**The two numbers that were being quoted as one.** Envelope point estimate 9.70% vs the production
+cell with the identical config (`n12_vt08`: 12 names / 20-bar grid / 8% overlay / 10bp) at 9.60%.
+One bar of data, 0.10 pp -- enough to move the p50 you size against (9.69% -> 9.56% after the heal),
+and exactly the shape that reads as "two faces disagree about the book" rather than "one face is old".
+
+**Rule 1 -- a consumer measures its input's lag against the owner face, and heals it.** Absent input
+is *unknown*, never *fresh* (r98). `series_lag_bars()` returns None when either side is unknown and
+`run()` re-derives the series before bootstrapping when it is behind. The envelope now carries
+`book_reconciliation` (series CAGR vs the production cell's, tolerance 0.25 pp stated in the
+payload), and its reading ends by naming the object it describes: `same_object`, or a WARNING with
+the gap in pp, or "cannot verify" when the production face is absent.
+
+**Rule 2 -- refreshing a keyed face orphans its satellite arms, so the face owns the arm set.**
+The block-length face is keyed by cutoff; after the refresh it died with "only one block arm on
+disk" and the whole tail-dependence conclusion had no producer. Rebuilding a third of an arm family
+is worse than rebuilding none (r1179), so `blocks_face` now derives whatever arms the published set
+says it must carry, for the current cutoff, before reading them.
+
+How to apply: for any face that ingests another face's artifact, ask two questions before trusting
+it -- *who produces that artifact on the chain*, and *what happens to the keyed satellite faces
+when its cutoff moves*. If the answer to the first is "I do", the second is your problem in the
+same window.
+
+Evidence: `scripts/etf_book_nav_envelope.py` (`series_lag_bars` / `book_reconciliation` /
+`production_cutoff` / arm healing in `blocks_face`), selftest 31/31 (+L30 lag both ways and
+unknown; +L32 reconciliation prices the gap and refuses an absent cell) - fresh faces
+`results/etf_book_series/NAV-2026-10-30.json`, `results/etf_book_bootstrap/ENVELOPE-2026-10-30*.json`
+(8 arms), `BLOCKS-2026-10-30.json` - smoke leg *"the book envelope says whose book it describes"*.

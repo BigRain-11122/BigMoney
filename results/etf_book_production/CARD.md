@@ -17,7 +17,7 @@ Config: 12 names of a 1504-instrument bond-free pool, rebalance every 20 bars, 1
 
 **Panel digest:** `a1a42aee64453839` (5270 bars x 1613 symbols, 2005-02-23->2026-10-30, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-10-30 / ticket 2026-10-30 / page 2026-10-30 (compared at 2026-11-01 07:33:48); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-10-30 / ticket 2026-10-30 / page 2026-10-30 (compared at 2026-11-01 15:06:07); this card, the executable sheet and the CEO page all priced the same closing bar.
 
 **Family coherence: ONE_WORLD** -- all 10 width arms priced `a1a42aee64453839` (cutoff 2026-10-30); the verdicts that license this card's width are measurements on one panel.
 
@@ -125,26 +125,26 @@ k=0.05 is the only arm that lowers turnover (0.934 -> 0.901), keeps the return (
 
 ## How bad can the drawdown be?
 
-The drawdown column above is one ordering of the trading days. Bootstrapping the book's own return path (blocks 1/5/10/20/40/60/120/250 bars, 2000 resamples) puts the 5th-percentile drawdown between **-25.0% and -17.1%** and the median between -14.6% and -12.1% -- a spread of 7.9pp produced by the block length alone, i.e. by how long the ruler remembers dependence.
+The drawdown column above is one ordering of the trading days. Bootstrapping the book's own return path (blocks 1/5/10/20/40/60/120/250 bars, 2000 resamples) puts the 5th-percentile drawdown between **-24.6% and -17.5%** and the median between -14.6% and -12.4% -- a spread of 7.0pp produced by the block length alone, i.e. by how long the ruler remembers dependence.
 
 | block (bars) | maxDD p5 | maxDD p50 | share worse than -20% | point maxDD pctile |
 |---|---|---|---|---|
-| 1 | -24.72% | -14.45% | 15.3% | 76.2 |
-| 5 | -25.02% | -14.59% | 16.1% | 77.0 |
-| 10 | -23.16% | -13.97% | 11.8% | 73.2 |
-| 20 | -20.58% | -13.18% | 6.4% | 66.8 |
-| 40 | -20.54% | -13.05% | 6.1% | 65.6 |
-| 60 | -21.36% | -13.09% | 7.5% | 65.0 |
-| 120 | -19.44% | -12.94% | 4.2% | 64.8 |
-| 250 | -17.08% | -12.14% | 1.1% | 55.4 |
+| 1 | -24.47% | -14.53% | 14.7% | 77.7 |
+| 5 | -24.56% | -14.59% | 15.9% | 77.7 |
+| 10 | -23.25% | -13.98% | 12.9% | 73.7 |
+| 20 | -20.95% | -13.23% | 6.4% | 66.1 |
+| 40 | -21.09% | -13.22% | 6.9% | 66.6 |
+| 60 | -22.03% | -13.44% | 8.5% | 66.8 |
+| 120 | -20.41% | -13.22% | 5.8% | 67.5 |
+| 250 | -17.52% | -12.42% | 1.5% | 59.9 |
 
-Read the card's own -11.8% as the median of that ruler, not its tail: size the position against the p5 column, which is 13.2pp worse than the headline at the widest block.
+Read the card's own -11.8% as the median of that ruler, not its tail: size the position against the p5 column, which is 12.8pp worse than the headline at the widest block.
 
-> Band priced on the **2026-10-29** bar from results/etf_book_bootstrap/BLOCKS-2026-10-29.json. A tail quoted without its block is a sentence without its parameter (E248).
+> Band priced on the **2026-10-30** bar from results/etf_book_bootstrap/BLOCKS-2026-10-30.json. A tail quoted without its block is a sentence without its parameter (E248).
 
 ## Caveats
 
-- THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.0% and -17.1% and the share of resamples worse than -20% between 1.1% and 16.1%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-10-29.json (band priced on the 2026-10-29 bar, not this card's 2026-10-30 -- stale).
+- THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -24.6% and -17.5% and the share of resamples worse than -20% between 1.5% and 15.9%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-10-30.json.
 - THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.85%/yr (Sharpe -0.41) against +6.07%/yr (+0.64) for the fixed signs -- and reversing the trailing sign does not recover it (-1.60%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.
 - ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.
 - THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.

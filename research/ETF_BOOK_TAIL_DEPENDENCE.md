@@ -1,6 +1,6 @@
 # Does the book earn it on many days, or on a handful?
 
-Generated 2026-11-01 08:21:03 · evidence cutoff 2026-10-30 · 1652 bars · payload `results/etf_book_tail_dependence.json`
+Generated 2026-11-01 15:34:45 · evidence cutoff 2026-10-30 · 1652 bars · payload `results/etf_book_tail_dependence.json`
 
 ## Verdict
 
@@ -12,7 +12,7 @@ Generated 2026-11-01 08:21:03 · evidence cutoff 2026-10-30 · 1652 bars · payl
 | --- | --- | --- | --- | --- |
 | 9.12% | 0.955 | -13.26% | 10.05% | 6.83 |
 
-Top 10 bars carry **6.3%** of all log growth.
+Top 10 bars carry **6.3%** of the gross up-move.
 
 ## Drop-best arms vs random-drop placebo
 
@@ -26,7 +26,7 @@ Best month (2025-08) removed: cagr 8.10% (-1.02 pp).
 
 ## The book next door does not match bar for bar
 
-`NAV-2026-10-29.json` publishes the same production book (1650 bars to 2026-10-29). Over 1650 overlapping bars the daily returns differ by up to **0.0431**, so these are not the same path: that face quotes **9.70%** cagr / 1.000 sharpe / -11.77% maxdd and this one quotes **9.12%** / 0.955 / -13.26% (**-0.58 pp**).
+`NAV-2026-10-30.json` publishes the same production book (1651 bars to 2026-10-30). Over 1651 overlapping bars the daily returns differ by up to **0.0431**, so these are not the same path: that face quotes **9.60%** cagr / 0.990 sharpe / -11.77% maxdd and this one quotes **9.12%** / 0.955 / -13.26% (**-0.48 pp**).
 
 Both numbers are honest about their own path; the divergence is a second implementation of the same book, not a tail effect. Until it is resolved, quote neither as *the* production number without naming the face it came from.
 
