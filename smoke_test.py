@@ -10126,6 +10126,133 @@ def main() -> int:
                     "consumers_whose_shipped_half_reproduces_the_published_face"),
                 ((_f333 or {}).get("summary") or {}).get("consumers_reviewed")))
 
+    # E334: E333 says the conclusions survive; it does not say whether the helper may be repaired
+    # in place. The face publishes three axes (the delta, the published faces, the evidence a repair
+    # erases) and a decision whose inputs are the numbers and whose rule is code. This leg refuses:
+    # a verdict outside the frozen set, a verdict that disagrees with decide() on the face's own
+    # inputs, arithmetic that does not close, a moved list that does not match its count, a consumer
+    # row with no reading-site classification, an evidence row with no measured flag, a scenario
+    # whose number contradicts the rows, and a recommendation that does not follow the verdict.
+    _name334 = ("product: a repair of the shared corpus helper is decided by its measured blast "
+                "radius -- moved numbers, faces to republish, and evidence the repair erases")
+    _bad334 = []
+    try:
+        _p334 = os.path.join("results", "state_tilt", "helperrepair_latest.json")
+        _f334 = json.load(open(_p334, encoding="utf-8")) if os.path.exists(_p334) else None
+        if _f334 is None:
+            _bad334.append("no published helper-repair face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m334 = __import__("importlib").import_module("e334_helper_repair_blast_radius")
+            if not os.path.exists(os.path.join("scripts",
+                                               "e334_helper_repair_blast_radius.py")):
+                _bad334.append("the study script is not on disk")
+            _s334 = _f334.get("summary") or {}
+            _d334 = _f334.get("decision") or {}
+            _i334 = _d334.get("inputs") or {}
+            if _f334.get("verdict") not in _m334.VERDICTS:
+                _bad334.append("verdict %r is outside the frozen set" % (_f334.get("verdict"),))
+            _rule334 = _m334.decide(int(_i334.get("verdict_flips") or 0),
+                                    int(_i334.get("numbers_with_no_single_source_explanation")
+                                        or 0),
+                                    int(_i334.get("studies_whose_published_evidence_is_erased")
+                                        or 0))
+            if _rule334[0] != _f334.get("verdict"):
+                _bad334.append("the frozen rule decides %r but the face says %r"
+                               % (_rule334[0], _f334.get("verdict")))
+            _cons334 = _f334.get("consumers") or []
+            if not _cons334:
+                _bad334.append("no consumer rows")
+            _cmp334 = sum(int(c.get("numbers_compared") or 0) for c in _cons334)
+            _mov334 = sum(int(c.get("numbers_moved_by_the_repair") or 0) for c in _cons334)
+            _att334 = sum(int(c.get("numbers_moved_by_either_side") or 0) for c in _cons334)
+            _exa334 = sum(int(c.get("numbers_explained_exactly_by_one_source") or 0)
+                          for c in _cons334)
+            if _cmp334 != _s334.get("published_numbers_compared"):
+                _bad334.append("the compared total disagrees with the rows")
+            if _mov334 != _s334.get("published_numbers_moved_by_the_repair"):
+                _bad334.append("the moved total disagrees with the rows")
+            if _att334 != _s334.get("numbers_attributed_to_a_single_source"):
+                _bad334.append("the attributed total disagrees with the rows")
+            if _exa334 != _s334.get("numbers_explained_exactly_by_a_single_source"):
+                _bad334.append("the exactly-explained total disagrees with the rows")
+            if _s334.get("numbers_with_no_single_source_explanation") != _mov334 - _att334:
+                _bad334.append("the unattributed count is not moved minus attributed")
+            if _i334.get("verdict_flips") != _s334.get("consumers_whose_verdict_flips"):
+                _bad334.append("the decision input disagrees with the published flip count")
+            _erased334 = _f334.get("evidence_erased") or []
+            if int(_i334.get("studies_whose_published_evidence_is_erased") or 0) != \
+                    len([b for b in _erased334 if b.get("repaired_helper") in (0, None)]):
+                _bad334.append("the erased-evidence input disagrees with the evidence rows")
+            if not _erased334:
+                _bad334.append("no evidence row: a repair with no evidence axis was not measured")
+            for _b334 in _erased334:
+                if "measured" not in _b334:
+                    _bad334.append("%s: the evidence row does not say whether it was measured"
+                                   % _b334.get("study"))
+                    break
+            _ip334 = _d334.get("blast_radius_if_fixed_in_place") or {}
+            _sib334 = _d334.get("blast_radius_if_published_beside_the_old_one") or {}
+            _pub334 = sum((c.get("published_face_vs_repaired_build") or {}).get(
+                "numbers_differing", 0) for c in _cons334)
+            if _ip334.get("published_numbers_that_move") != _pub334:
+                _bad334.append("the in-place scenario disagrees with the published-face rows")
+            if _sib334.get("published_numbers_that_move") != 0:
+                _bad334.append("a sibling entry point claims to move published numbers")
+            if _ip334.get("studies_whose_published_evidence_is_erased") != \
+                    int(_i334.get("studies_whose_published_evidence_is_erased") or 0):
+                _bad334.append("the two scenario blocks disagree about erased evidence")
+            for _c334 in _cons334:
+                if int(_c334.get("numbers_moved_by_the_repair") or 0) != \
+                        len(_c334.get("moved") or []) + int(_c334.get("moved_truncated") or 0):
+                    _bad334.append("%s: the moved list does not match its count"
+                                   % _c334.get("name"))
+                    break
+                if not ((_c334.get("reading_site") or {}).get("sites")):
+                    _bad334.append("%s: no reading-site classification" % _c334.get("name"))
+                    break
+                if _c334.get("numbers_moved_by_either_side", 0) > \
+                        _c334.get("numbers_moved_by_the_repair", 0):
+                    _bad334.append("%s: more numbers attributed than moved" % _c334.get("name"))
+                    break
+                for _r334 in _c334.get("moved") or []:
+                    if _r334.get("delta") is None:
+                        _bad334.append("%s: a moved number carries no delta" % _c334.get("name"))
+                        break
+                    if _r334["delta"] != (_r334.get("recovered") or 0) - \
+                            (_r334.get("shipped") or 0):
+                        _bad334.append("%s: %s delta is not recovered minus shipped"
+                                       % (_c334.get("name"), _r334.get("key")))
+                        break
+                    if _r334.get("attributed") != bool(_r334.get("attributed_sources") or []):
+                        _bad334.append("%s: %s attribution flag disagrees with its sources"
+                                       % (_c334.get("name"), _r334.get("key")))
+                        break
+            _rec334 = str(_f334.get("recommendation") or "")
+            if not _rec334:
+                _bad334.append("no recommendation")
+            elif _f334.get("verdict") == _m334.V_EVIDENCE and "sibling" not in _rec334:
+                _bad334.append("the evidence verdict recommends nothing that avoids the erasure")
+            if _s334.get("published_numbers_compared", 0) <= 0:
+                _bad334.append("nothing was compared, which is a broken measurement")
+    except Exception as e:
+        check(_name334, False, repr(e)[:160])
+
+    check(_name334, not _bad334, "; ".join(_bad334)[:220]
+          or "%s | %s of %s published numbers move today and %s face(s) would need republishing, "
+             "but the repair erases %s published measurement(s) (%s), so the frozen rule sends it "
+             "to a sibling entry point"
+             % (str((_f334 or {}).get("verdict")),
+                ((_f334 or {}).get("summary") or {}).get(
+                    "published_numbers_moved_by_the_repair"),
+                ((_f334 or {}).get("summary") or {}).get("published_numbers_compared"),
+                ((_f334 or {}).get("summary") or {}).get(
+                    "published_faces_that_would_need_republishing"),
+                ((_f334 or {}).get("summary") or {}).get(
+                    "studies_whose_published_evidence_is_erased"),
+                ", ".join(b.get("study") or "?" for b in (_f334 or {}).get("evidence_erased")
+                          or [])))
+
     return _finish()
 
 

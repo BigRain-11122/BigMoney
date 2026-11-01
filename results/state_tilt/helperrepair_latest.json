@@ -1,0 +1,1820 @@
+{
+ "study": "E334_helper_repair_blast_radius",
+ "evidence_cutoff": "2026-11-01",
+ "verdict": "repair_must_ship_beside_the_old_one_because_it_erases_the_evidence_that_measures_it",
+ "verdict_reason": "2 published measurement(s) would be erased by the repair, so a silent in-place fix would leave the studies that found the defect reporting a clean zero; 1 consumer verdict(s) flip, so the repair is a new reading and not a repair; 27 moved published number(s) are not attributed to a single source, so the blast radius is not bounded",
+ "recommendation": "ship the tokenizer reading beside the shipped one (sibling entry point), keep the shipped reading pinned under an explicit legacy name for the studies that measure the defect, and republish the 6 face(s) whose numbers move only in the window where their readers opt in",
+ "summary": {
+  "consumers_reviewed": 6,
+  "consumers_whose_counts_move": 5,
+  "consumers_whose_verdict_flips": 1,
+  "published_numbers_compared": 122,
+  "published_numbers_moved_by_the_repair": 29,
+  "numbers_attributed_to_a_single_source": 2,
+  "numbers_explained_exactly_by_a_single_source": 1,
+  "numbers_with_no_single_source_explanation": 27,
+  "published_faces_that_would_need_republishing": 6,
+  "published_faces_that_no_longer_reproduce_from_corpus_drift": 5,
+  "studies_whose_published_evidence_is_erased": 2,
+  "ablation_builds": 6,
+  "rows_published": 6,
+  "own_faces_excluded_from_the_corpus": 0,
+  "scenario_in_place_numbers_moved": 37,
+  "scenario_sibling_numbers_moved": 0
+ },
+ "decision": {
+  "rule": {
+   "in_place_allowed_when": [
+    "verdict_flips == 0",
+    "published_numbers_with_no_single_source_explanation == 0",
+    "studies_whose_published_evidence_is_erased == 0"
+   ],
+   "otherwise": "ship the repair as a sibling entry point and pin the measuring studies to legacy"
+  },
+  "inputs": {
+   "verdict_flips": 1,
+   "numbers_with_no_single_source_explanation": 27,
+   "studies_whose_published_evidence_is_erased": 2
+  },
+  "blast_radius_if_fixed_in_place": {
+   "published_faces_whose_numbers_change": 6,
+   "published_faces_to_republish": [
+    "E326_template_parameters",
+    "E327_pointer_readers",
+    "E328_quoted_number_staleness",
+    "E329_two_vintage_binding",
+    "E330_unpinned_choice",
+    "E331_pointer_only_readers"
+   ],
+   "published_numbers_that_move": 37,
+   "consumers_whose_verdict_flips": 1,
+   "studies_whose_published_evidence_is_erased": 2,
+   "source_files_to_edit": 1,
+   "consumers_that_keep_reading_the_helper": 6
+  },
+  "blast_radius_if_published_beside_the_old_one": {
+   "published_faces_whose_numbers_change": 0,
+   "published_numbers_that_move": 0,
+   "consumers_whose_verdict_flips": 0,
+   "studies_whose_published_evidence_is_erased": 0,
+   "source_files_to_edit": 2,
+   "consumers_that_must_opt_in_for_the_delta_to_reach": 8
+  }
+ },
+ "consumers": [
+  {
+   "name": "E326_template_parameters",
+   "module": "scripts/e326_template_parameter_consumers.py",
+   "face": "results/state_tilt/TEMPLATEPARAM-2026-10-31.json",
+   "face_readable": true,
+   "face_unreadable_because": null,
+   "verdict_with_shipped_helper": "every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source",
+   "verdict_with_repaired_helper": "every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source",
+   "verdict_moved": false,
+   "numbers_compared": 18,
+   "numbers_moved_by_the_repair": 3,
+   "numbers_moved_by_either_side": 2,
+   "numbers_explained_exactly_by_one_source": 1,
+   "moved": [
+    {
+     "key": "consumers",
+     "shipped": 36,
+     "recovered": 35,
+     "delta": -1,
+     "attributed_sources": [
+      {
+       "source": "scripts/e308_leg_vs_producer_tolerance.py",
+       "shipped": 36,
+       "recovered_with_only_this_source": 37,
+       "delta": 1
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "consumers_by_class.consumer_formats_the_template_with_a_parameter_it_defines",
+     "shipped": 9,
+     "recovered": 7,
+     "delta": -2,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "consumers_by_class.this_source_is_the_face_s_own_writer",
+     "shipped": 20,
+     "recovered": 21,
+     "delta": 1,
+     "attributed_sources": [
+      {
+       "source": "scripts/e308_leg_vs_producer_tolerance.py",
+       "shipped": 20,
+       "recovered_with_only_this_source": 21,
+       "delta": 1
+      }
+     ],
+     "attributed": true,
+     "explained_by_one_source": true
+    }
+   ],
+   "moved_truncated": 0,
+   "ablation_sources_tried": [
+    "scripts/e330_unpinned_choice.py",
+    "Tools/_r390bmc_close.py",
+    "Tools/tree_shrink_guard.py",
+    "scripts/t11_negday_ic.py",
+    "scripts/e308_leg_vs_producer_tolerance.py",
+    "Tools/memory-budget-gate.py"
+   ],
+   "published_face_vs_repaired_build": {
+    "numbers_compared": 18,
+    "numbers_differing": 6,
+    "differences": [
+     {
+      "key": "consumers",
+      "shipped": 34,
+      "recovered": 35,
+      "delta": 1
+     },
+     {
+      "key": "consumers_by_class.consumer_formats_the_template_with_a_parameter_it_defines",
+      "shipped": 9,
+      "recovered": 7,
+      "delta": -2
+     },
+     {
+      "key": "consumers_by_class.consumer_pins_the_parameter_literally",
+      "shipped": 5,
+      "recovered": 7,
+      "delta": 2
+     },
+     {
+      "key": "consumers_by_class.this_source_is_the_face_s_own_writer",
+      "shipped": 20,
+      "recovered": 21,
+      "delta": 1
+     },
+     {
+      "key": "faces_named_outside_their_writer",
+      "shipped": 8,
+      "recovered": 9,
+      "delta": 1
+     },
+     {
+      "key": "latest_pointers_naming_a_parameterised_face",
+      "shipped": 143,
+      "recovered": 154,
+      "delta": 11
+     }
+    ]
+   },
+   "published_face_vs_shipped_build": {
+    "numbers_compared": 18,
+    "numbers_differing": 4,
+    "differences": [
+     {
+      "key": "consumers",
+      "shipped": 34,
+      "recovered": 36,
+      "delta": 2
+     },
+     {
+      "key": "consumers_by_class.consumer_pins_the_parameter_literally",
+      "shipped": 5,
+      "recovered": 7,
+      "delta": 2
+     },
+     {
+      "key": "faces_named_outside_their_writer",
+      "shipped": 8,
+      "recovered": 9,
+      "delta": 1
+     },
+     {
+      "key": "latest_pointers_naming_a_parameterised_face",
+      "shipped": 143,
+      "recovered": 154,
+      "delta": 11
+     }
+    ]
+   },
+   "reading_site": {
+    "readable": true,
+    "module": "e326_template_parameter_consumers.py",
+    "source": "scripts/e326_template_parameter_consumers.py",
+    "occurrences": 3,
+    "sites": [
+     "call_site"
+    ],
+    "defines": true,
+    "captures": [],
+    "blind_immediately_under_a_runtime_repair": true,
+    "blind_after_a_source_repair": true
+   }
+  },
+  {
+   "name": "E327_pointer_readers",
+   "module": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "face": "results/state_tilt/POINTERREAD-2026-11-01.json",
+   "face_readable": true,
+   "face_unreadable_because": null,
+   "verdict_with_shipped_helper": "the_parameter_survives_one_indirection_in_content_but_some_reader_quotes_the_pointer_without_surfacing_the_cutoff",
+   "verdict_with_repaired_helper": "the_parameter_survives_one_indirection_and_every_reader_of_a_real_pointer_either_writes_it_or_reads_its_cutoff_back",
+   "verdict_moved": true,
+   "numbers_compared": 23,
+   "numbers_moved_by_the_repair": 4,
+   "numbers_moved_by_either_side": 0,
+   "numbers_explained_exactly_by_one_source": 0,
+   "moved": [
+    {
+     "key": "consumers",
+     "shipped": 5,
+     "recovered": 6,
+     "delta": 1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "consumers_by_class.consumer_names_the_pointer_and_never_shows_the_parameter",
+     "shipped": 2,
+     "recovered": 0,
+     "delta": -2,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "consumers_by_class.consumer_surfaces_the_parameter_out_of_the_pointer",
+     "shipped": 2,
+     "recovered": 5,
+     "delta": 3,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "readers_that_do_not_surface_the_cutoff",
+     "shipped": 2,
+     "recovered": 0,
+     "delta": -2,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    }
+   ],
+   "moved_truncated": 0,
+   "ablation_sources_tried": [],
+   "published_face_vs_repaired_build": {
+    "numbers_compared": 23,
+    "numbers_differing": 4,
+    "differences": [
+     {
+      "key": "consumers",
+      "shipped": 5,
+      "recovered": 6,
+      "delta": 1
+     },
+     {
+      "key": "consumers_by_class.consumer_names_the_pointer_and_never_shows_the_parameter",
+      "shipped": 2,
+      "recovered": 0,
+      "delta": -2
+     },
+     {
+      "key": "consumers_by_class.consumer_surfaces_the_parameter_out_of_the_pointer",
+      "shipped": 2,
+      "recovered": 5,
+      "delta": 3
+     },
+     {
+      "key": "readers_that_do_not_surface_the_cutoff",
+      "shipped": 2,
+      "recovered": 0,
+      "delta": -2
+     }
+    ]
+   },
+   "published_face_vs_shipped_build": {
+    "numbers_compared": 23,
+    "numbers_differing": 0,
+    "differences": []
+   },
+   "reading_site": {
+    "readable": true,
+    "module": "e327_who_reads_a_face_through_a_pointer.py",
+    "source": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+    "occurrences": 2,
+    "sites": [
+     "call_site"
+    ],
+    "defines": false,
+    "captures": [],
+    "blind_immediately_under_a_runtime_repair": true,
+    "blind_after_a_source_repair": true
+   }
+  },
+  {
+   "name": "E328_quoted_number_staleness",
+   "module": "scripts/e328_quoted_number_staleness.py",
+   "face": "results/state_tilt/STALECUTOFF-2026-11-01.json",
+   "face_readable": true,
+   "face_unreadable_because": null,
+   "verdict_with_shipped_helper": "quoted_numbers_are_read_from_vintages_and_move_when_the_newest_cut_is_opened",
+   "verdict_with_repaired_helper": "quoted_numbers_are_read_from_vintages_and_move_when_the_newest_cut_is_opened",
+   "verdict_moved": false,
+   "numbers_compared": 13,
+   "numbers_moved_by_the_repair": 6,
+   "numbers_moved_by_either_side": 0,
+   "numbers_explained_exactly_by_one_source": 0,
+   "moved": [
+    {
+     "key": "numbers_equal",
+     "shipped": 894,
+     "recovered": 1224,
+     "delta": 330,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "numbers_that_move",
+     "shipped": 536,
+     "recovered": 709,
+     "delta": 173,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "quoted_numbers",
+     "shipped": 1430,
+     "recovered": 1933,
+     "delta": 503,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "stale_faces_quoted",
+     "shipped": 4,
+     "recovered": 5,
+     "delta": 1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "stale_faces_quoted_and_parsed",
+     "shipped": 4,
+     "recovered": 5,
+     "delta": 1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "stale_faces_unquoted",
+     "shipped": 129,
+     "recovered": 128,
+     "delta": -1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    }
+   ],
+   "moved_truncated": 0,
+   "ablation_sources_tried": [],
+   "published_face_vs_repaired_build": {
+    "numbers_compared": 13,
+    "numbers_differing": 9,
+    "differences": [
+     {
+      "key": "faces_scanned",
+      "shipped": 555,
+      "recovered": 556,
+      "delta": 1
+     },
+     {
+      "key": "faces_with_stated_cutoff",
+      "shipped": 496,
+      "recovered": 497,
+      "delta": 1
+     },
+     {
+      "key": "families",
+      "shipped": 421,
+      "recovered": 422,
+      "delta": 1
+     },
+     {
+      "key": "numbers_equal",
+      "shipped": 894,
+      "recovered": 1224,
+      "delta": 330
+     },
+     {
+      "key": "numbers_that_move",
+      "shipped": 536,
+      "recovered": 709,
+      "delta": 173
+     },
+     {
+      "key": "quoted_numbers",
+      "shipped": 1430,
+      "recovered": 1933,
+      "delta": 503
+     },
+     {
+      "key": "stale_faces_quoted",
+      "shipped": 4,
+      "recovered": 5,
+      "delta": 1
+     },
+     {
+      "key": "stale_faces_quoted_and_parsed",
+      "shipped": 4,
+      "recovered": 5,
+      "delta": 1
+     }
+    ]
+   },
+   "published_face_vs_shipped_build": {
+    "numbers_compared": 13,
+    "numbers_differing": 3,
+    "differences": [
+     {
+      "key": "faces_scanned",
+      "shipped": 555,
+      "recovered": 556,
+      "delta": 1
+     },
+     {
+      "key": "faces_with_stated_cutoff",
+      "shipped": 496,
+      "recovered": 497,
+      "delta": 1
+     },
+     {
+      "key": "families",
+      "shipped": 421,
+      "recovered": 422,
+      "delta": 1
+     }
+    ]
+   },
+   "reading_site": {
+    "readable": true,
+    "module": "e328_quoted_number_staleness.py",
+    "source": "scripts/e328_quoted_number_staleness.py",
+    "occurrences": 3,
+    "sites": [
+     "call_site"
+    ],
+    "defines": false,
+    "captures": [],
+    "blind_immediately_under_a_runtime_repair": true,
+    "blind_after_a_source_repair": true
+   }
+  },
+  {
+   "name": "E329_two_vintage_binding",
+   "module": "scripts/e329_two_vintage_binding.py",
+   "face": "results/state_tilt/TWOVINTAGE-2026-11-01.json",
+   "face_readable": true,
+   "face_unreadable_because": null,
+   "verdict_with_shipped_helper": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_newer_cut",
+   "verdict_with_repaired_helper": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_newer_cut",
+   "verdict_moved": false,
+   "numbers_compared": 17,
+   "numbers_moved_by_the_repair": 8,
+   "numbers_moved_by_either_side": 0,
+   "numbers_explained_exactly_by_one_source": 0,
+   "moved": [
+    {
+     "key": "pairs_both_cuts_on_disk",
+     "shipped": 2,
+     "recovered": 3,
+     "delta": 1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "pairs_naming_two_vintages",
+     "shipped": 12,
+     "recovered": 15,
+     "delta": 3,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "pairs_no_static_winner",
+     "shipped": 7,
+     "recovered": 9,
+     "delta": 2,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "pairs_roles_named",
+     "shipped": 2,
+     "recovered": 3,
+     "delta": 1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "pairs_with_a_pointer_pair",
+     "shipped": 4,
+     "recovered": 5,
+     "delta": 1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "pairs_with_two_dated_cuts",
+     "shipped": 8,
+     "recovered": 12,
+     "delta": 4,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "source_family_pairs",
+     "shipped": 637,
+     "recovered": 618,
+     "delta": -19,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "sources_scanned",
+     "shipped": 237,
+     "recovered": 228,
+     "delta": -9,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    }
+   ],
+   "moved_truncated": 0,
+   "ablation_sources_tried": [],
+   "published_face_vs_repaired_build": {
+    "numbers_compared": 17,
+    "numbers_differing": 8,
+    "differences": [
+     {
+      "key": "pairs_both_cuts_on_disk",
+      "shipped": 2,
+      "recovered": 3,
+      "delta": 1
+     },
+     {
+      "key": "pairs_naming_two_vintages",
+      "shipped": 12,
+      "recovered": 15,
+      "delta": 3
+     },
+     {
+      "key": "pairs_no_static_winner",
+      "shipped": 7,
+      "recovered": 9,
+      "delta": 2
+     },
+     {
+      "key": "pairs_roles_named",
+      "shipped": 2,
+      "recovered": 3,
+      "delta": 1
+     },
+     {
+      "key": "pairs_with_a_pointer_pair",
+      "shipped": 4,
+      "recovered": 5,
+      "delta": 1
+     },
+     {
+      "key": "pairs_with_two_dated_cuts",
+      "shipped": 8,
+      "recovered": 12,
+      "delta": 4
+     },
+     {
+      "key": "source_family_pairs",
+      "shipped": 632,
+      "recovered": 618,
+      "delta": -14
+     },
+     {
+      "key": "sources_scanned",
+      "shipped": 236,
+      "recovered": 228,
+      "delta": -8
+     }
+    ]
+   },
+   "published_face_vs_shipped_build": {
+    "numbers_compared": 17,
+    "numbers_differing": 2,
+    "differences": [
+     {
+      "key": "source_family_pairs",
+      "shipped": 632,
+      "recovered": 637,
+      "delta": 5
+     },
+     {
+      "key": "sources_scanned",
+      "shipped": 236,
+      "recovered": 237,
+      "delta": 1
+     }
+    ]
+   },
+   "reading_site": {
+    "readable": true,
+    "module": "e329_two_vintage_binding.py",
+    "source": "scripts/e329_two_vintage_binding.py",
+    "occurrences": 4,
+    "sites": [
+     "call_site"
+    ],
+    "defines": false,
+    "captures": [],
+    "blind_immediately_under_a_runtime_repair": true,
+    "blind_after_a_source_repair": true
+   }
+  },
+  {
+   "name": "E330_unpinned_choice",
+   "module": "scripts/e330_unpinned_choice.py",
+   "face": "results/state_tilt/UNPINNEDCHOICE-2026-11-01.json",
+   "face_readable": true,
+   "face_unreadable_because": null,
+   "verdict_with_shipped_helper": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today",
+   "verdict_with_repaired_helper": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today",
+   "verdict_moved": false,
+   "numbers_compared": 21,
+   "numbers_moved_by_the_repair": 0,
+   "numbers_moved_by_either_side": 0,
+   "numbers_explained_exactly_by_one_source": 0,
+   "moved": [],
+   "moved_truncated": 0,
+   "ablation_sources_tried": [],
+   "published_face_vs_repaired_build": {
+    "numbers_compared": 21,
+    "numbers_differing": 1,
+    "differences": [
+     {
+      "key": "sources_scanned",
+      "shipped": 2292,
+      "recovered": 2293,
+      "delta": 1
+     }
+    ]
+   },
+   "published_face_vs_shipped_build": {
+    "numbers_compared": 21,
+    "numbers_differing": 1,
+    "differences": [
+     {
+      "key": "sources_scanned",
+      "shipped": 2292,
+      "recovered": 2293,
+      "delta": 1
+     }
+    ]
+   },
+   "reading_site": {
+    "readable": true,
+    "module": "e330_unpinned_choice.py",
+    "source": "scripts/e330_unpinned_choice.py",
+    "occurrences": 4,
+    "sites": [
+     "call_site"
+    ],
+    "defines": false,
+    "captures": [],
+    "blind_immediately_under_a_runtime_repair": true,
+    "blind_after_a_source_repair": true
+   }
+  },
+  {
+   "name": "E331_pointer_only_readers",
+   "module": "scripts/e331_pointer_only_readers.py",
+   "face": "results/state_tilt/POINTERONLY-2026-11-01.json",
+   "face_readable": true,
+   "face_unreadable_because": null,
+   "verdict_with_shipped_helper": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+   "verdict_with_repaired_helper": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+   "verdict_moved": false,
+   "numbers_compared": 30,
+   "numbers_moved_by_the_repair": 8,
+   "numbers_moved_by_either_side": 0,
+   "numbers_explained_exactly_by_one_source": 0,
+   "moved": [
+    {
+     "key": "families_referenced_only_through_a_pointer",
+     "shipped": 122,
+     "recovered": 127,
+     "delta": 5,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "handling_by_class.the_load_raises_at_the_file",
+     "shipped": 9,
+     "recovered": 10,
+     "delta": 1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "pairs_by_class.pointer_only_reader",
+     "shipped": 24,
+     "recovered": 25,
+     "delta": 1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "pairs_by_class.reference_without_a_reader",
+     "shipped": 11,
+     "recovered": 10,
+     "delta": -1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "pointer_only_readers",
+     "shipped": 24,
+     "recovered": 25,
+     "delta": 1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "prose_literals_rejected_as_notes",
+     "shipped": 25,
+     "recovered": 24,
+     "delta": -1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "readers_that_raise_at_the_file",
+     "shipped": 9,
+     "recovered": 10,
+     "delta": 1,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    },
+    {
+     "key": "sources_whose_tail_the_scanner_cannot_see",
+     "shipped": 22,
+     "recovered": 0,
+     "delta": -22,
+     "attributed_sources": [],
+     "attributed": false,
+     "explained_by_one_source": false
+    }
+   ],
+   "moved_truncated": 0,
+   "ablation_sources_tried": [],
+   "published_face_vs_repaired_build": {
+    "numbers_compared": 30,
+    "numbers_differing": 9,
+    "differences": [
+     {
+      "key": "families_referenced_only_through_a_pointer",
+      "shipped": 121,
+      "recovered": 127,
+      "delta": 6
+     },
+     {
+      "key": "handling_by_class.the_load_raises_at_the_file",
+      "shipped": 9,
+      "recovered": 10,
+      "delta": 1
+     },
+     {
+      "key": "pairs_by_class.pointer_only_reader",
+      "shipped": 24,
+      "recovered": 25,
+      "delta": 1
+     },
+     {
+      "key": "pairs_by_class.reference_without_a_reader",
+      "shipped": 11,
+      "recovered": 10,
+      "delta": -1
+     },
+     {
+      "key": "pointer_only_readers",
+      "shipped": 24,
+      "recovered": 25,
+      "delta": 1
+     },
+     {
+      "key": "prose_literals_rejected_as_notes",
+      "shipped": 25,
+      "recovered": 24,
+      "delta": -1
+     },
+     {
+      "key": "readers_that_raise_at_the_file",
+      "shipped": 9,
+      "recovered": 10,
+      "delta": 1
+     },
+     {
+      "key": "sources_scanned",
+      "shipped": 2291,
+      "recovered": 2292,
+      "delta": 1
+     }
+    ]
+   },
+   "published_face_vs_shipped_build": {
+    "numbers_compared": 30,
+    "numbers_differing": 2,
+    "differences": [
+     {
+      "key": "families_referenced_only_through_a_pointer",
+      "shipped": 121,
+      "recovered": 122,
+      "delta": 1
+     },
+     {
+      "key": "sources_scanned",
+      "shipped": 2291,
+      "recovered": 2292,
+      "delta": 1
+     }
+    ]
+   },
+   "reading_site": {
+    "readable": true,
+    "module": "e331_pointer_only_readers.py",
+    "source": "scripts/e331_pointer_only_readers.py",
+    "occurrences": 4,
+    "sites": [
+     "call_site"
+    ],
+    "defines": false,
+    "captures": [],
+    "blind_immediately_under_a_runtime_repair": true,
+    "blind_after_a_source_repair": true
+   }
+  }
+ ],
+ "evidence_erased": [
+  {
+   "study": "E332_invisible_tail_recovery",
+   "number": "summary.recovered_code_lines",
+   "shipped_helper": 4284,
+   "repaired_helper": 0,
+   "measured": true
+  },
+  {
+   "study": "E333_surviving_e3xx_conclusions",
+   "number": "summary.published_numbers_moved",
+   "shipped_helper": ">0 (re-priced at r1353: 17 of 69)",
+   "repaired_helper": 0,
+   "measured": false,
+   "why": "both halves of its comparison are the same function once the repair lands, so the movement it publishes is zero by construction",
+   "both_halves_are_one_function": true,
+   "captured_copy_survives_a_runtime_patch": true
+  }
+ ],
+ "rules": {
+  "one_corpus": "every consumer runs over the same file list (e326.corpus()), so a delta is the helper and nothing else",
+  "priced": "each consumer's own build() is run twice into scratch directories; the patched helper is restored in a finally block and the restore is asserted",
+  "published": "published-vs-shipped is the corpus-drift control; published-vs-repaired is what a reader of today's face would have to re-read",
+  "evidence": "a study whose published number exists to state the defect's size is erased, not moved, by the repair -- it is measured (E332) or decided structurally (E333 compares two functions that become one)",
+  "frozen_rule": "decide() is code, not prose: the recommendation cannot drift from the numbers it is derived from",
+  "self_inclusion": "this study's own dated face and latest pointer are dropped from the corpus before any build; E327 and E331 read every face on disk, so without it the second run measures a corpus that contains the first run's answer"
+ },
+ "limits": {
+  "consumer_set": "six consumers are rebuilt; E332 and E333 are handled by the evidence axis instead because rebuilding them under the repair is the very thing being measured",
+  "ablation_budget": "single-source ablation is shared and bounded (6 builds), so an unattributed number is published as unattributed, never guessed",
+  "runtime_vs_source": "a runtime patch blinds a call-site reader immediately and a capture-at-import reader only at the next import; a source repair blinds both, which is what the recommendation assumes"
+ },
+ "attribution_candidates": [
+  {
+   "source": "scripts/e330_unpinned_choice.py",
+   "events_with_shipped_helper": 1,
+   "events_with_repaired_helper": 12,
+   "event_delta": 11,
+   "recovered_code_lines": 602,
+   "spans": [
+    [
+     81,
+     81,
+     1
+    ],
+    [
+     83,
+     87,
+     5
+    ],
+    [
+     92,
+     93,
+     2
+    ],
+    [
+     96,
+     97,
+     2
+    ],
+    [
+     100,
+     100,
+     1
+    ],
+    [
+     108,
+     123,
+     16
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r390bmc_close.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 10,
+   "event_delta": 10,
+   "recovered_code_lines": 96,
+   "spans": [
+    [
+     25,
+     25,
+     1
+    ],
+    [
+     28,
+     28,
+     1
+    ],
+    [
+     46,
+     46,
+     1
+    ],
+    [
+     48,
+     48,
+     1
+    ],
+    [
+     54,
+     54,
+     1
+    ],
+    [
+     57,
+     57,
+     1
+    ]
+   ]
+  },
+  {
+   "source": "Tools/tree_shrink_guard.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 9,
+   "event_delta": 9,
+   "recovered_code_lines": 387,
+   "spans": [
+    [
+     23,
+     23,
+     1
+    ],
+    [
+     25,
+     31,
+     7
+    ],
+    [
+     33,
+     34,
+     2
+    ],
+    [
+     37,
+     42,
+     6
+    ],
+    [
+     45,
+     45,
+     1
+    ],
+    [
+     47,
+     49,
+     3
+    ]
+   ]
+  },
+  {
+   "source": "scripts/t11_negday_ic.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 8,
+   "event_delta": 8,
+   "recovered_code_lines": 436,
+   "spans": [
+    [
+     25,
+     30,
+     6
+    ],
+    [
+     32,
+     33,
+     2
+    ],
+    [
+     35,
+     36,
+     2
+    ],
+    [
+     38,
+     41,
+     4
+    ],
+    [
+     43,
+     47,
+     5
+    ],
+    [
+     49,
+     52,
+     4
+    ]
+   ]
+  },
+  {
+   "source": "scripts/e308_leg_vs_producer_tolerance.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 7,
+   "event_delta": 7,
+   "recovered_code_lines": 447,
+   "spans": [
+    [
+     37,
+     42,
+     6
+    ],
+    [
+     44,
+     47,
+     4
+    ],
+    [
+     49,
+     49,
+     1
+    ],
+    [
+     51,
+     56,
+     6
+    ],
+    [
+     58,
+     61,
+     4
+    ],
+    [
+     65,
+     66,
+     2
+    ]
+   ]
+  },
+  {
+   "source": "Tools/memory-budget-gate.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 7,
+   "event_delta": 7,
+   "recovered_code_lines": 209,
+   "spans": [
+    [
+     15,
+     18,
+     4
+    ],
+    [
+     20,
+     21,
+     2
+    ],
+    [
+     23,
+     40,
+     18
+    ],
+    [
+     42,
+     62,
+     21
+    ],
+    [
+     65,
+     91,
+     27
+    ],
+    [
+     94,
+     101,
+     8
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r390bmc_addendum.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 7,
+   "event_delta": 7,
+   "recovered_code_lines": 51,
+   "spans": [
+    [
+     18,
+     18,
+     1
+    ],
+    [
+     25,
+     25,
+     1
+    ],
+    [
+     27,
+     27,
+     1
+    ],
+    [
+     30,
+     30,
+     1
+    ],
+    [
+     33,
+     34,
+     2
+    ],
+    [
+     36,
+     51,
+     16
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r1184bmb_renumber.py",
+   "events_with_shipped_helper": 1,
+   "events_with_repaired_helper": 8,
+   "event_delta": 7,
+   "recovered_code_lines": 38,
+   "spans": [
+    [
+     37,
+     45,
+     9
+    ],
+    [
+     48,
+     58,
+     11
+    ],
+    [
+     60,
+     69,
+     10
+    ],
+    [
+     72,
+     74,
+     3
+    ],
+    [
+     76,
+     80,
+     5
+    ]
+   ]
+  },
+  {
+   "source": "scripts/e280_e251_rng_drift_repin.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 5,
+   "event_delta": 5,
+   "recovered_code_lines": 223,
+   "spans": [
+    [
+     25,
+     28,
+     4
+    ],
+    [
+     30,
+     32,
+     3
+    ],
+    [
+     34,
+     36,
+     3
+    ],
+    [
+     38,
+     41,
+     4
+    ],
+    [
+     44,
+     46,
+     3
+    ],
+    [
+     49,
+     50,
+     2
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r1226bmb_face.py",
+   "events_with_shipped_helper": 6,
+   "events_with_repaired_helper": 11,
+   "event_delta": 5,
+   "recovered_code_lines": 70,
+   "spans": [
+    [
+     106,
+     106,
+     1
+    ],
+    [
+     109,
+     109,
+     1
+    ],
+    [
+     134,
+     136,
+     3
+    ],
+    [
+     139,
+     150,
+     12
+    ],
+    [
+     152,
+     157,
+     6
+    ],
+    [
+     160,
+     160,
+     1
+    ]
+   ]
+  },
+  {
+   "source": "scripts/e312_gate_operand_identity.py",
+   "events_with_shipped_helper": 2,
+   "events_with_repaired_helper": 6,
+   "event_delta": 4,
+   "recovered_code_lines": 560,
+   "spans": [
+    [
+     61,
+     61,
+     1
+    ],
+    [
+     64,
+     66,
+     3
+    ],
+    [
+     69,
+     74,
+     6
+    ],
+    [
+     77,
+     78,
+     2
+    ],
+    [
+     81,
+     82,
+     2
+    ],
+    [
+     85,
+     90,
+     6
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r840bma_pit_directwrite.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 4,
+   "event_delta": 4,
+   "recovered_code_lines": 25,
+   "spans": [
+    [
+     8,
+     8,
+     1
+    ],
+    [
+     11,
+     21,
+     11
+    ],
+    [
+     23,
+     35,
+     13
+    ]
+   ]
+  },
+  {
+   "source": "scripts/e231_band_path_test.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 3,
+   "event_delta": 3,
+   "recovered_code_lines": 550,
+   "spans": [
+    [
+     59,
+     59,
+     1
+    ],
+    [
+     61,
+     66,
+     6
+    ],
+    [
+     68,
+     70,
+     3
+    ],
+    [
+     72,
+     74,
+     3
+    ],
+    [
+     76,
+     78,
+     3
+    ],
+    [
+     80,
+     84,
+     5
+    ]
+   ]
+  },
+  {
+   "source": "scripts/e299_rounded_vs_tolerance_census.py",
+   "events_with_shipped_helper": 6,
+   "events_with_repaired_helper": 9,
+   "event_delta": 3,
+   "recovered_code_lines": 89,
+   "spans": [
+    [
+     821,
+     823,
+     3
+    ],
+    [
+     825,
+     830,
+     6
+    ],
+    [
+     832,
+     833,
+     2
+    ],
+    [
+     835,
+     847,
+     13
+    ],
+    [
+     850,
+     854,
+     5
+    ],
+    [
+     857,
+     859,
+     3
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r774bmc_outbound_a1.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 3,
+   "event_delta": 3,
+   "recovered_code_lines": 87,
+   "spans": [
+    [
+     60,
+     60,
+     1
+    ],
+    [
+     70,
+     70,
+     1
+    ],
+    [
+     73,
+     75,
+     3
+    ],
+    [
+     78,
+     95,
+     18
+    ],
+    [
+     97,
+     138,
+     42
+    ],
+    [
+     140,
+     159,
+     20
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r775bmc_outbound_v7.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 3,
+   "event_delta": 3,
+   "recovered_code_lines": 87,
+   "spans": [
+    [
+     61,
+     61,
+     1
+    ],
+    [
+     70,
+     70,
+     1
+    ],
+    [
+     73,
+     75,
+     3
+    ],
+    [
+     78,
+     95,
+     18
+    ],
+    [
+     97,
+     138,
+     42
+    ],
+    [
+     140,
+     159,
+     20
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r700bmc_o1300_receipt.py",
+   "events_with_shipped_helper": 4,
+   "events_with_repaired_helper": 6,
+   "event_delta": 2,
+   "recovered_code_lines": 47,
+   "spans": [
+    [
+     39,
+     41,
+     3
+    ],
+    [
+     44,
+     45,
+     2
+    ],
+    [
+     52,
+     55,
+     4
+    ],
+    [
+     58,
+     95,
+     38
+    ]
+   ]
+  },
+  {
+   "source": "scripts/_r855bma_handover_5x.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 2,
+   "event_delta": 2,
+   "recovered_code_lines": 6,
+   "spans": [
+    [
+     7,
+     12,
+     6
+    ]
+   ]
+  },
+  {
+   "source": "scripts/_r855bma_pit_append.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 2,
+   "event_delta": 2,
+   "recovered_code_lines": 6,
+   "spans": [
+    [
+     9,
+     14,
+     6
+    ]
+   ]
+  },
+  {
+   "source": "scripts/t28_stable_profit.py",
+   "events_with_shipped_helper": 7,
+   "events_with_repaired_helper": 8,
+   "event_delta": 1,
+   "recovered_code_lines": 76,
+   "spans": [
+    [
+     443,
+     446,
+     4
+    ],
+    [
+     450,
+     451,
+     2
+    ],
+    [
+     453,
+     459,
+     7
+    ],
+    [
+     462,
+     465,
+     4
+    ],
+    [
+     468,
+     470,
+     3
+    ],
+    [
+     473,
+     480,
+     8
+    ]
+   ]
+  },
+  {
+   "source": "scripts/g2_overlap_census.py",
+   "events_with_shipped_helper": 7,
+   "events_with_repaired_helper": 8,
+   "event_delta": 1,
+   "recovered_code_lines": 36,
+   "spans": [
+    [
+     1199,
+     1209,
+     11
+    ],
+    [
+     1215,
+     1232,
+     18
+    ],
+    [
+     1235,
+     1241,
+     7
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r1234bmb_card.py",
+   "events_with_shipped_helper": 1,
+   "events_with_repaired_helper": 2,
+   "event_delta": 1,
+   "recovered_code_lines": 11,
+   "spans": [
+    [
+     41,
+     51,
+     11
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r1184bmb_card.py",
+   "events_with_shipped_helper": 1,
+   "events_with_repaired_helper": 2,
+   "event_delta": 1,
+   "recovered_code_lines": 9,
+   "spans": [
+    [
+     31,
+     39,
+     9
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r1232bmb_card.py",
+   "events_with_shipped_helper": 1,
+   "events_with_repaired_helper": 2,
+   "event_delta": 1,
+   "recovered_code_lines": 7,
+   "spans": [
+    [
+     37,
+     43,
+     7
+    ]
+   ]
+  },
+  {
+   "source": "scripts/_r855bma_oss_ledger_append.py",
+   "events_with_shipped_helper": 1,
+   "events_with_repaired_helper": 2,
+   "event_delta": 1,
+   "recovered_code_lines": 6,
+   "spans": [
+    [
+     20,
+     25,
+     6
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r820bmc_clone_s6.py",
+   "events_with_shipped_helper": 1,
+   "events_with_repaired_helper": 2,
+   "event_delta": 1,
+   "recovered_code_lines": 3,
+   "spans": [
+    [
+     29,
+     31,
+     3
+    ]
+   ]
+  },
+  {
+   "source": "scripts/spm_j4_attribution.py",
+   "events_with_shipped_helper": 4,
+   "events_with_repaired_helper": 4,
+   "event_delta": 0,
+   "recovered_code_lines": 90,
+   "spans": [
+    [
+     525,
+     528,
+     4
+    ],
+    [
+     531,
+     536,
+     6
+    ],
+    [
+     540,
+     541,
+     2
+    ],
+    [
+     543,
+     548,
+     6
+    ],
+    [
+     550,
+     551,
+     2
+    ],
+    [
+     555,
+     570,
+     16
+    ]
+   ]
+  },
+  {
+   "source": "scripts/update_etf_universe.py",
+   "events_with_shipped_helper": 7,
+   "events_with_repaired_helper": 7,
+   "event_delta": 0,
+   "recovered_code_lines": 21,
+   "spans": [
+    [
+     38,
+     46,
+     9
+    ],
+    [
+     48,
+     49,
+     2
+    ],
+    [
+     51,
+     51,
+     1
+    ],
+    [
+     53,
+     60,
+     8
+    ],
+    [
+     66,
+     66,
+     1
+    ]
+   ]
+  },
+  {
+   "source": "scripts/_r853bma_oss_ledger_append.py",
+   "events_with_shipped_helper": 2,
+   "events_with_repaired_helper": 2,
+   "event_delta": 0,
+   "recovered_code_lines": 5,
+   "spans": [
+    [
+     51,
+     51,
+     1
+    ],
+    [
+     53,
+     56,
+     4
+    ]
+   ]
+  },
+  {
+   "source": "Tools/_r700bmc_judge_tree.py",
+   "events_with_shipped_helper": 0,
+   "events_with_repaired_helper": 0,
+   "event_delta": 0,
+   "recovered_code_lines": 4,
+   "spans": [
+    [
+     13,
+     16,
+     4
+    ]
+   ]
+  }
+ ]
+}

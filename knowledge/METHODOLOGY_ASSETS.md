@@ -6890,3 +6890,25 @@ face publishes that control per consumer and recomputes every delta on one corpu
 silently booked as a repair. Verdicts survived because they are statements about a mechanism, not about a count.
 
 证据：scripts/e333_surviving_e3xx_conclusions.py（selftest 16/16 · verify 0 problems）· results/state_tilt/SURVIVINGCONCLUSIONS-2026-11-01.json · research/digests/DIGEST-20261101-r1353-e333-surviving-conclusions.md · Tools/s6_chain_bmb.py leg surviving_e3xx_conclusions · smoke_test.py leg E333
+
+
+## E334 -- a repair is a decision with a blast radius, and the studies that measure a defect are erased by fixing it
+
+E332 measured the defect and E333 priced four consumers. Neither answers *may the helper be fixed in place*.
+Six consumers (E333 four plus E327 and E331) are rebuilt twice over one corpus, and the radius is measured on
+three axes: the delta (numbers that move), the published face (what a reader would have to re-read, split from a
+corpus-drift control), and the evidence (a study whose published number states the defect's size collapses to zero
+instead of moving). Reading: **29 of 122 numbers move, one verdict flips** -- E327's published defect claim
+("some reader quotes the pointer without surfacing the cutoff") is an artifact of the helper, because both silent
+readers are real code inside a hidden span. **E332 4,284 -> 0 and E333 17 -> 0**: the two studies that found the
+defect would publish a clean zero after a silent repair.
+
+Three rules. (1) **Blast radius, not opinion**: a frozen ``decide(flips, unattributed, erased)`` is code, so the
+recommendation cannot drift from the numbers, and a smoke leg recomputes it from the face's own inputs.
+(2) **Name every failing condition** -- a rule that returns its first failure reads as if the others were absent
+(the first version dropped the E327 flip from the reason string while the input still carried it). (3) **Publish
+the budget you actually spent**: an empty candidate list made six ablations print as run while nothing ran, so
+27 of 29 numbers read as unattributed for free; the tried-count and the attributed split are published beside the
+numbers, and the evidence axis alone carries the decision.
+
+证据：scripts/e334_helper_repair_blast_radius.py（selftest 19/19 · verify 0 problems）· results/state_tilt/HELPERREPAIR-2026-11-01.json · research/digests/DIGEST-20261101-r1354-e334-helper-repair-blast-radius.md · Tools/s6_chain_bmb.py leg helper_repair_blast_radius · smoke_test.py leg E334

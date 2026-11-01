@@ -26157,22 +26157,38 @@
    "deliverable": "results/state_tilt/<face> + scripts/e333_*.py + chain leg + smoke leg + methodology card",
    "source": "E332 INVISIBLETAIL-2026-11-01 (summary.recovered_code_lines=4284, sources_the_helper_blinds=30)",
    "notes": "seeded by r1352 bm-b at E332 close; only E331 was re-priced by E332 itself",
- "closed_at": "2026-11-01T07:05:00+08:00",
- "result_ref": "scripts/e333_surviving_e3xx_conclusions.py + results/state_tilt/SURVIVINGCONCLUSIONS-2026-11-01.json (17 of 69 published numbers move, no verdict flips, every moved number attributed)"
+   "closed_at": "2026-11-01T07:05:00+08:00",
+   "result_ref": "scripts/e333_surviving_e3xx_conclusions.py + results/state_tilt/SURVIVINGCONCLUSIONS-2026-11-01.json (17 of 69 published numbers move, no verdict flips, every moved number attributed)"
   },
   {
    "id": "E334-FIX-THE-HELPER-OR-KEEP-IT",
    "lane": "cpu-only",
    "priority": 3,
-   "status": "ready",
-   "owner": null,
-   "owner_since": null,
+   "status": "done",
+   "owner": "bm-b",
+   "owner_since": "2026-11-01T08:20:00+08:00",
    "entered_at": "2026-11-01T06:13:48+08:00",
    "question": "The corpus helper hides 4,284 lines and keeps prose in place of them, but 40+ published faces were derived through it and a silent repair would move numbers nobody re-read. Decide the repair path with a measurement, not an opinion: implement a tokenizer-backed replacement behind its existing name, then diff the published faces it feeds. Report how many published numbers move, whether any verdict flips, and what the blast radius is if the helper is fixed in place today versus published as a second entry point. Do not change any consumer's behaviour inside this card -- the deliverable is the diff, the decision rule and the recommendation.",
    "target": "a tokenizer-backed code_lines behind the same name, the full set of published faces whose numbers move, a verdict-flip count, and one recommendation with its blast radius",
    "deliverable": "results/state_tilt/<face> + scripts/e334_*.py + methodology card",
    "source": "E332 INVISIBLETAIL-2026-11-01 (limits.single_consumer, repricing delta)",
-   "notes": "seeded by r1352 bm-b; a repair that changes 40 faces must not land inside a census card"
+   "notes": "seeded by r1352 bm-b; a repair that changes 40 faces must not land inside a census card",
+   "closed_at": "2026-11-01T09:05:00+08:00",
+   "result_ref": "scripts/e334_helper_repair_blast_radius.py + results/state_tilt/HELPERREPAIR-2026-11-01.json (29 of 122 numbers move, 1 verdict flips, 6 faces would need republishing, 2 published measurements erased; rule sends the repair to a sibling entry point)"
+  },
+  {
+   "id": "E335-EXECUTE-THE-SIBLING-ENTRY-POINT",
+   "lane": "cpu-only",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "owner_since": null,
+   "entered_at": "2026-11-01T09:05:00+08:00",
+   "question": "E334 measured the blast radius of repairing e326.code_lines and the frozen rule sent the repair to a sibling entry point: the shipped reading is pinned under an explicit legacy name so E332/E333 keep measuring the defect, and the tokenizer reading is exported under a new name that no consumer reads yet. Land that shape and prove it is inert: add the two names to e326, keep the shipped name bound to the shipped reading, switch NO consumer, and publish a face that (a) asserts both readings coexist and differ on a named source, (b) re-derives E334's delta through the new name to 1e-9, and (c) refuses if any module rebinds the legacy name or if a consumer silently starts using the new one.",
+   "target": "a legacy alias with the shipped reading, a new exported tokenizer reading, zero consumers switched, and a face proving both readings coexist and still differ by exactly E334's delta",
+   "deliverable": "results/state_tilt/<face> + scripts/e335_*.py + chain leg + smoke leg + methodology card",
+   "source": "E334 HELPERREPAIR-2026-11-01 (verdict=repair_must_ship_beside_the_old_one, recommendation)",
+   "notes": "seeded by r1354 bm-b at E334 close; the card's whole point is that the repair lands without touching a single consumer's behaviour"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -26187,6 +26203,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-01T06:13:48+08:00",
+ "updated_at": "2026-11-01T09:05:00+08:00",
  "version": 1
 }

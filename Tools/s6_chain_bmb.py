@@ -872,6 +872,18 @@ LEGS = [
     ("surviving_e3xx_conclusions",
      ["python", "scripts/e333_surviving_e3xx_conclusions.py", "verify"]),
 
+    # E334: E333 answers "do the conclusions survive" for four consumers; it does not answer
+    # "should the helper be fixed today". That is a blast-radius question, so six consumers
+    # (E326/E327/E328/E329/E330/E331) are rebuilt twice over ONE corpus and the radius is measured
+    # on three axes: the delta (numbers the repair moves), the published faces (what a reader of
+    # today's face would have to re-read), and the evidence (what the repair erases). The last axis
+    # is the decisive one: E332 exists to state the defect's size and collapses to zero under the
+    # repair, and E333 compares two functions that become one. The decision rule is code
+    # (decide()), so the recommendation cannot drift from the numbers. Verify re-runs six consumers
+    # twice plus the shared ablation. ~5 min.
+    ("helper_repair_blast_radius",
+     ["python", "scripts/e334_helper_repair_blast_radius.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
