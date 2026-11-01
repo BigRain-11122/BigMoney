@@ -8573,3 +8573,37 @@ E27 NO_SLICING_EDGE −0.01，证据截止 2026-10-30）。
 `results/etf_book_production/CARD.md`·`docs/live_book/LIVE-BOOK-20261102.md`·
 `research/digests/DIGEST-20261102-r1228-research-arc-rollup.md`·smoke 腿
 「product: the card says which research questions its numbers already answered」。
+
+
+## E345 — 权重来自决策 bar，价格必须来自你下单那天的 bar：一张「可执行」单子的参考价，是它唯一能被执行的字段（r1229 bm-a）
+
+**问题：** 订单纸头写着「本单定价 bar=2026-10-30｜判定 current｜落后 0 个交易日」，可它表里
+每一行的参考价取的是**决策 bar（2026-10-14）的收盘**。权重用决策 bar 是对的（网格日之间不
+重排，拿面板最后一根 bar 排名会把引擎没持有的书交给操作者），**价格不是**：10-30 下单付的是
+10-30 的价。实测五员全偏：159501 报 2.229 而当日收 2.158（+3.3%）、513100 −6.67%、159577
+−5.03%、513690 −1.23%、159263 −1.66%；于是「整手取整后欠投 0.13% NAV」这句话是那套十几天前
+价目表的产物，不是整手取整的产物。
+
+**方法：** 同一条 `build_ticket` 跑两臂——`legacy`（价格=决策 bar，即旧口径）与 `ticket`
+（价格=定价 bar），权重一律来自决策 bar。判决从两臂派生：`REPRICED_TO_THE_BAR_YOU_PAY`
+（n 名漂移 + 最差漂移 + 整册 CNY/手数差）/ `SAME_PRICES_ON_BOTH_BARS`（两 bar 同价，明说
+金额两种读法一样）/ `PRICE_MISSING_ON_PRICED_BAR`（**定价 bar 无报价的行留空并点名，绝不
+拿决策 bar 的价回填**）。逐名印「决策 bar 收 / 定价 bar 收 / 漂移 / 手数旧→新 / 金额旧→新」。
+
+**为什么这是产品面而不是研究面：** 手数就是操作者实际要下的单。旧纸在 2026-10-30 让操作者
+买 423 手 159501，按当日价同样的预算能买 436 手——13 手、约 2,800 元的下单量差，而单子上没有
+一个字提示它用的是哪一天的价格。
+
+**三 · 验证。** `scripts/etf_book_order.py` selftest 80→85（leg47a-e：定价 bar 的价进表 /
+未动的名不算重定价 / 同 bar 明说无漂移 / 缺价不回填且点名 / 页面印两 bar+判定+逐名漂移且
+缺块时不印）。实弹重生成：`results/etf_book_order/ORDER-2026-10-30.md` +
+`TICKET-2026-10-30.json`（reprice 块），五员全部改价，整册 +522 元 / +72 手，欠投从 0.13%
+变为 0.08%；smoke 新腿「the order sheet prices the bar it says it is priced on」从载荷重推
+每行价=票面价、漂移算术自洽、priced_bar=evidence_cutoff、判决属四态之一。
+
+**四 · 边界。** 这条只钉「参考价用哪天」；成交价仍不等于收盘（滑点/限价未建模，单子自己的
+caveats 已写明）。姊妹面：`etf_book_production` 的卡在同一个 bar 上早已用当日价——两个面在此
+之前不是同一张价目表，而两边互相引用时都说自己「current」。
+
+**证据：** `scripts/etf_book_order.py::reprice_block` · `results/etf_book_order/TICKET-2026-10-30.json`
+（`reprice` 键） · `smoke_test.py`（r1229 腿） · `research/digests/DIGEST-20261102-r1229-order-reprice.md`

@@ -46,59 +46,59 @@
    {
     "symbol": "159501",
     "weight": 0.094298,
-    "price": 2.229,
-    "lots": 423,
-    "shares": 42300,
-    "amount": 94286.7,
+    "price": 2.158,
+    "lots": 436,
+    "shares": 43600,
+    "amount": 94088.8,
     "class": "crossborder",
     "note": ""
    },
    {
     "symbol": "513100",
     "weight": 0.094298,
-    "price": 12.2715,
-    "lots": 76,
-    "shares": 7600,
-    "amount": 93263.67,
+    "price": 11.4531,
+    "lots": 82,
+    "shares": 8200,
+    "amount": 93915.35,
     "class": "crossborder",
     "note": ""
    },
    {
     "symbol": "513690",
     "weight": 0.094298,
-    "price": 1.137,
-    "lots": 829,
-    "shares": 82900,
-    "amount": 94257.3,
+    "price": 1.123,
+    "lots": 839,
+    "shares": 83900,
+    "amount": 94219.7,
     "class": "crossborder",
     "note": ""
    },
    {
     "symbol": "159577",
     "weight": 0.094298,
-    "price": 1.75,
-    "lots": 538,
-    "shares": 53800,
-    "amount": 94150.0,
+    "price": 1.662,
+    "lots": 567,
+    "shares": 56700,
+    "amount": 94235.4,
     "class": "crossborder",
     "note": ""
    },
    {
     "symbol": "159263",
     "weight": 0.094298,
-    "price": 1.148,
-    "lots": 821,
-    "shares": 82100,
-    "amount": 94250.8,
+    "price": 1.129,
+    "lots": 835,
+    "shares": 83500,
+    "amount": 94271.5,
     "class": "equity",
     "note": ""
    }
   ],
-  "book_amount": 470208.47,
-  "cash_amount": 529791.53,
+  "book_amount": 470730.75,
+  "cash_amount": 529269.25,
   "cash_leg": "GC001 (1-day repo, observed close)",
   "basket_drift": [],
-  "underspend_pct": 0.1282
+  "underspend_pct": 0.076
  },
  "metrics": {
   "book": {
@@ -116,6 +116,71 @@
    "bars": 683
   },
   "excess_pp": 10.0
+ },
+ "reprice": {
+  "status": "ok",
+  "verdict": "REPRICED_TO_THE_BAR_YOU_PAY",
+  "decision_bar": "2026-10-14 00:00:00",
+  "priced_bar": "2026-10-30",
+  "n_names": 5,
+  "n_repriced": 5,
+  "worst_drift_pct": 6.6691,
+  "amount_delta_cny": 522.28,
+  "lots_delta": 72,
+  "missing": [],
+  "names": [
+   {
+    "symbol": "159501",
+    "decision_price": 2.229,
+    "priced_price": 2.158,
+    "drift_pct": -3.1853,
+    "lots_at_decision": 423,
+    "lots_at_priced": 436,
+    "amount_at_decision": 94286.7,
+    "amount_at_priced": 94088.8
+   },
+   {
+    "symbol": "513100",
+    "decision_price": 12.2715,
+    "priced_price": 11.4531,
+    "drift_pct": -6.6691,
+    "lots_at_decision": 76,
+    "lots_at_priced": 82,
+    "amount_at_decision": 93263.67,
+    "amount_at_priced": 93915.35
+   },
+   {
+    "symbol": "513690",
+    "decision_price": 1.137,
+    "priced_price": 1.123,
+    "drift_pct": -1.2313,
+    "lots_at_decision": 829,
+    "lots_at_priced": 839,
+    "amount_at_decision": 94257.3,
+    "amount_at_priced": 94219.7
+   },
+   {
+    "symbol": "159577",
+    "decision_price": 1.75,
+    "priced_price": 1.662,
+    "drift_pct": -5.0286,
+    "lots_at_decision": 538,
+    "lots_at_priced": 567,
+    "amount_at_decision": 94150.0,
+    "amount_at_priced": 94235.4
+   },
+   {
+    "symbol": "159263",
+    "decision_price": 1.148,
+    "priced_price": 1.129,
+    "drift_pct": -1.6551,
+    "lots_at_decision": 821,
+    "lots_at_priced": 835,
+    "amount_at_decision": 94250.8,
+    "amount_at_priced": 94271.5
+   }
+  ],
+  "sentence": "5 of 5 names moved between the decision bar (2026-10-14 00:00:00) and the priced bar (2026-10-30); worst drift 6.67%, whole book +522 CNY and +72 lots versus the same weights priced on the decision bar"
  },
  "book_leg": {
   "turnover_per_rebal": 1.5301,
@@ -155,15 +220,15 @@
    "vol": 0.0879
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1119,
-    "card_width_cagr": 0.0966,
-    "pp": -1.53
-   },
    "vol": {
     "ticket_width_cagr": 0.1197,
     "card_width_cagr": 0.1221,
     "pp": 0.24
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1119,
+    "card_width_cagr": 0.0966,
+    "pp": -1.53
    }
   },
   "rules_differ": true,

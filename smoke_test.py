@@ -2327,6 +2327,47 @@ def main() -> int:
                   "face missing but the ticket did not say so")
     except Exception as e:
         check("product: the order ticket discloses how many bets the sleeve holds", False, str(e))
+    # r1229: the sheet used to quote the DECISION bar's close as its reference price while
+    # its header claimed the priced bar -- so every lot count was a twelve-day-old
+    # arithmetic (2026-10-30: 159501 quoted 2.229 against a 2.158 close). Re-derived from
+    # the published payload: the block must exist, its priced_bar must be the bar the sheet
+    # says it is priced on, and each row's priced price must be the price the ticket prints.
+    try:
+        import json as _j2
+        _lp2 = os.path.join("results", "etf_book_order", "latest.json")
+        _tk2, _rp2, _pay = None, None, None
+        if os.path.exists(_lp2):
+            _ptr2 = _j2.load(open(_lp2, encoding="utf-8"))
+            _p2 = os.path.join("results", "etf_book_order", _ptr2.get("file") or "")
+            if os.path.exists(_p2):
+                _pay = _j2.load(open(_p2, encoding="utf-8"))
+                _tk2, _rp2 = _pay.get("ticket"), _pay.get("reprice")
+        if not _tk2 or not _rp2:
+            check("product: the order sheet prices the bar it says it is priced on", False,
+                  "no reprice block on the published ticket")
+        else:
+            _rows = {r["symbol"]: r for r in _tk2.get("order") or []}
+            _pair_ok = all(
+                r.get("priced_price") is None
+                or r.get("priced_price") == (_rows.get(r["symbol"]) or {}).get("price")
+                for r in (_rp2.get("names") or []))
+            _drift_ok = all(
+                # drift_pct is published rounded to 4 decimals, so re-deriving it at 1e-6
+                # reads red on rounding alone (caught by this leg's first run, r1229).
+                (r.get("drift_pct") is None or r.get("decision_price") in (None, 0)
+                 or abs(100.0 * (r["priced_price"] - r["decision_price"])
+                        / r["decision_price"] - r["drift_pct"]) < 1e-3)
+                for r in (_rp2.get("names") or []))
+            check("product: the order sheet prices the bar it says it is priced on",
+                  _rp2.get("status") == "ok"
+                  and _rp2.get("priced_bar") == _pay.get("evidence_cutoff")
+                  and bool(_rp2.get("names")) and _pair_ok and _drift_ok
+                  and _rp2.get("verdict") in ("REPRICED_TO_THE_BAR_YOU_PAY",
+                                              "SAME_PRICES_ON_BOTH_BARS",
+                                              "PRICE_MISSING_ON_PRICED_BAR"),
+                  "reprice block disagrees with the ticket it describes (%s)" % _rp2.get("verdict"))
+    except Exception as e:
+        check("product: the order sheet prices the bar it says it is priced on", False, str(e))
     for _label, _script, _args in (
             # r1172: the bet count has two readings that must not be collapsed -- five
             # copies of one series share their variance five ways while spanning a single

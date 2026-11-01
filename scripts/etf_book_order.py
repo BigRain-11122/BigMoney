@@ -148,6 +148,76 @@ def build_ticket(score_last, close_last, k, nav, n_hold=N_HOLD, lot=LOT, classes
             "underspend_pct": round(100.0 * cash_amt / float(nav) - 100.0 * (1.0 - k), 4)}
 
 
+def reprice_block(legacy, ticket, dec_bar, asof):
+    """What this sheet used to say, and what it says now that it prices the bar you pay.
+
+    The weights must come from the DECISION bar -- the book is not re-ranked between grid
+    dates, and ranking the panel's last bar hands the operator a book the engine never
+    held. The *prices* are a different question: an order placed on `asof` pays the
+    `asof` print, so quoting the decision bar's close made every lot count and amount a
+    twelve-day-old arithmetic while the header claimed "priced bar = asof / current".
+    Measured on the 2026-10-30 sheet: 159501 was quoted 2.229 against a bar that closed
+    2.158 (+3.3%), the four other names drifted 1.3%-5.3%, and the "unspent" line was an
+    artefact of that stale price rather than of lot granularity.
+
+    One measurement, two arms: `legacy` is the same ticket priced on the decision bar,
+    `ticket` the same ticket priced on the priced bar. A name with no price on the priced
+    bar is REPORTED (priced_price None) and never back-filled from the decision bar.
+    """
+    if not legacy or not ticket:
+        return {"status": "unavailable",
+                "sentence": "one of the two price bases could not be built, so this sheet "
+                            "cannot say what changed since the decision bar"}
+    a = {r["symbol"]: r for r in legacy["order"]}
+    rows, n_rep = [], 0
+    worst, amt_delta, lot_delta = 0.0, 0.0, 0
+    missing = []
+    for r in ticket["order"]:
+        sym = r["symbol"]
+        old = a.get(sym) or {}
+        p_old, p_new = old.get("price"), r.get("price")
+        if p_new is None or p_old is None:
+            missing.append(sym)
+            rows.append({"symbol": sym, "decision_price": p_old, "priced_price": p_new,
+                         "drift_pct": None, "lots_at_decision": old.get("lots"),
+                         "lots_at_priced": r.get("lots"),
+                         "amount_at_decision": old.get("amount"),
+                         "amount_at_priced": r.get("amount")})
+            continue
+        drift = 100.0 * (float(p_new) - float(p_old)) / float(p_old)
+        if abs(float(p_new) - float(p_old)) > 1e-9:
+            n_rep += 1
+        worst = max(worst, abs(drift))
+        amt_delta += float(r["amount"]) - float(old.get("amount") or 0.0)
+        lot_delta += int(r["lots"]) - int(old.get("lots") or 0)
+        rows.append({"symbol": sym, "decision_price": p_old, "priced_price": p_new,
+                     "drift_pct": round(drift, 4),
+                     "lots_at_decision": old.get("lots"), "lots_at_priced": r["lots"],
+                     "amount_at_decision": old.get("amount"),
+                     "amount_at_priced": r["amount"]})
+    if missing:
+        verdict = "PRICE_MISSING_ON_PRICED_BAR"
+        sentence = ("%d of %d names have no print on the priced bar (%s); those rows are "
+                    "left unfilled rather than priced off the decision bar"
+                    % (len(missing), len(ticket["order"]), ", ".join(missing)))
+    elif n_rep == 0:
+        verdict = "SAME_PRICES_ON_BOTH_BARS"
+        sentence = ("the decision bar and the priced bar carry the same close for all %d "
+                    "names, so this sheet's amounts are the same under either reading"
+                    % len(ticket["order"]))
+    else:
+        verdict = "REPRICED_TO_THE_BAR_YOU_PAY"
+        sentence = ("%d of %d names moved between the decision bar (%s) and the priced bar "
+                    "(%s); worst drift %.2f%%, whole book %+.0f CNY and %+d lots versus the "
+                    "same weights priced on the decision bar"
+                    % (n_rep, len(ticket["order"]), dec_bar, asof, worst, amt_delta, lot_delta))
+    return {"status": "ok", "verdict": verdict, "decision_bar": str(dec_bar),
+            "priced_bar": str(asof), "n_names": len(ticket["order"]),
+            "n_repriced": n_rep, "worst_drift_pct": round(worst, 4),
+            "amount_delta_cny": round(amt_delta, 2), "lots_delta": lot_delta,
+            "missing": missing, "names": rows, "sentence": sentence}
+
+
 # ----------------------------------------------------------------------------- ledger
 def accrue(state, dates, rp, rm, fees_k, rf, sched_k, cost_bp=COST_BP):
     """Name it forward: one row per bar, the k changes charge |delta k| * cost.
@@ -345,6 +415,33 @@ def card(ticket, mk, sched, asof, beta, extra):
                         r["shares"] if r["shares"] is not None else "-",
                         format(int(r["amount"]), ",") if r["amount"] else "-"))
         L += ["", "整手取整后欠投 %.2f%% NAV（留在现金腿，不重分配）。" % ticket["underspend_pct"]]
+        rp = extra.get("reprice")
+        if rp and rp.get("status") == "ok":
+            L += ["", "## 参考价用的是哪一天（这会改变手数）",
+                  "- 权重来自决策 bar **%s**（网格日之间不重排），价格来自定价 bar **%s**"
+                  % (rp["decision_bar"], rp["priced_bar"]),
+                  "- 判定：**%s**｜%s" % (rp["verdict"], rp["sentence"]), ""]
+            if rp["verdict"] == "REPRICED_TO_THE_BAR_YOU_PAY":
+                L += ["| 代码 | 决策 bar 收 | 定价 bar 收 | 漂移 | 手数(旧→新) | 金额(旧→新) |",
+                      "|---|---|---|---|---|---|"]
+                for r in rp["names"]:
+                    if r.get("drift_pct") is None:
+                        L.append("| %s | %s | - | 无定价 bar 报价 | %s | %s |"
+                                 % (r["symbol"], r.get("decision_price") or "-",
+                                    r.get("lots_at_priced") if r.get("lots_at_priced") is not None else "-",
+                                    r.get("amount_at_priced") if r.get("amount_at_priced") else "-"))
+                        continue
+                    L.append("| %s | %.3f | %.3f | %+.2f%% | %s→%s | %s→%s |"
+                             % (r["symbol"], r["decision_price"], r["priced_price"],
+                                r["drift_pct"],
+                                r["lots_at_decision"], r["lots_at_priced"],
+                                format(int(r["amount_at_decision"]), ","),
+                                format(int(r["amount_at_priced"]), ",")))
+                L += ["", "读法：手数是按「今天要付的价」算的；旧口径把 %s 的收盘当成今天的参考价，"
+                      "所以那一版的手数/欠投是按十几天前的一张价目表算出来的。" % rp["decision_bar"]]
+        elif rp:
+            L += ["", "## 参考价用的是哪一天",
+                  "- 两套价格基准里有一套没能建起来，本单**不能**说明自决策 bar 以来价格变了多少。"]
     else:
         L += ["## 今日目标", "当日无有效信号（可选池不足），不下单。"]
     if sched:
@@ -752,11 +849,18 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     if k_now is None:
         k_now = 1.0
     cls_map = dict(zip(close.columns, classes))
-    ticket = build_ticket(score.loc[dec_bar], close.loc[dec_bar],
+    # r1229: the weights come from the decision bar (above), the PRICES come from the bar
+    # this sheet says it is priced on. Both arms are kept so the difference is measured
+    # instead of asserted -- `legacy` is what this sheet printed before the fix.
+    ticket = build_ticket(score.loc[dec_bar], close.loc[asof],
+                          k_now, nav, classes=cls_map) if dec_bar is not None else None
+    legacy = build_ticket(score.loc[dec_bar], close.loc[dec_bar],
                           k_now, nav, classes=cls_map) if dec_bar is not None else None
     if ticket is None:
         print("FATAL: no decision bar on the grid -- panel too short")
         return 2
+    rp_block = reprice_block(legacy, ticket, dec_bar, asof)
+    print("reprice: %s -- %s" % (rp_block.get("verdict"), rp_block.get("sentence")), flush=True)
     ticket_picks = [r["symbol"] for r in ticket["order"]]
     cb = card_book()
     agreement = None
@@ -823,7 +927,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "book_decided_at": str(dec_bar.date()),
                "card_agreement": agreement,
                "next_decision_bars": _next_decision(close.index, slip.index[-1]),
-               "ticket": ticket, "metrics": mk,
+               "ticket": ticket, "metrics": mk, "reprice": rp_block,
                "book_leg": {"turnover_per_rebal": round(float(turnover), 4),
                             "open_gapfill": int(gapfill)},
                "cash_leg": {"source": "data/repo_daily/GC001.csv",
@@ -870,7 +974,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "conc_line": conc_line,
                       "family_coherence": fam,
                       "priced_faces": _priced_faces,
-                      "price_basis": payload["price_basis"]}))
+                      "price_basis": payload["price_basis"],
+                      "reprice": rp_block}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
           % (asof, beta, k_now, state["nav"], len(merged), drift))
@@ -2691,6 +2796,43 @@ def selftest():
         "这笔钱是从哪赚来的" in _md_cq and _cq["sentence"] in _md_cq
         and "这笔钱是从哪赚来的" in _md_cq_miss and "unpublished" in _md_cq_miss
         and "22.1%" not in _md_cq_miss, "")
+
+    # 47a-e. the reference price must be the bar the operator pays (r1229). Same weights on
+    # both arms, only the price row changes -- and a name with no print on the priced bar is
+    # reported, never back-filled from the decision bar.
+    _rp_score = pd.Series({"A": 2.0, "B": 1.0})
+    _rp_dec = pd.Series({"A": 10.0, "B": 20.0})
+    _rp_pay = pd.Series({"A": 11.0, "B": 20.0})
+    _rp_tk = build_ticket(_rp_score, _rp_pay, 0.5, 100000.0, n_hold=2)
+    _rp_lg = build_ticket(_rp_score, _rp_dec, 0.5, 100000.0, n_hold=2)
+    _rp = reprice_block(_rp_lg, _rp_tk, pd.Timestamp("2026-10-14"), "2026-10-30")
+    chk("leg47a reprice: the sheet prices the bar it is priced on (A at 11.0, not 10.0)",
+        [r for r in _rp_tk["order"] if r["symbol"] == "A"][0]["price"] == 11.0
+        and _rp["n_repriced"] == 1 and _rp["verdict"] == "REPRICED_TO_THE_BAR_YOU_PAY",
+        _rp["sentence"][:70])
+    chk("leg47b reprice: an unmoved name is not counted as a repricing, and the delta is "
+        "the money difference under the same weights",
+        abs(_rp["amount_delta_cny"]) > 0
+        and [r for r in _rp["names"] if r["symbol"] == "B"][0]["drift_pct"] == 0.0, "")
+    _rp_same = reprice_block(_rp_lg, _rp_lg, pd.Timestamp("2026-10-14"), "2026-10-14")
+    chk("leg47c reprice: identical bars say so instead of inventing a drift",
+        _rp_same["verdict"] == "SAME_PRICES_ON_BOTH_BARS" and _rp_same["n_repriced"] == 0
+        and _rp_same["amount_delta_cny"] == 0.0, "")
+    _rp_pay_missing = pd.Series({"A": 11.0})
+    _rp_tk_miss = build_ticket(_rp_score, _rp_pay_missing, 0.5, 100000.0, n_hold=2)
+    _rp_miss = reprice_block(_rp_lg, _rp_tk_miss, pd.Timestamp("2026-10-14"), "2026-10-30")
+    chk("leg47d reprice: a missing print on the priced bar is reported and NOT filled from "
+        "the decision bar (B stays unfilled)",
+        _rp_miss["verdict"] == "PRICE_MISSING_ON_PRICED_BAR" and _rp_miss["missing"] == ["B"]
+        and [r for r in _rp_tk_miss["order"] if r["symbol"] == "B"][0]["price"] is None, "")
+    _rp_md = card(_rp_tk, None, None, "2026-10-30", 0.2,
+                  {"inception": "2024-01-01", "reprice": _rp})
+    chk("leg47e reprice: the sheet prints the two price bars, the verdict and the per-name "
+        "drift (and says nothing when the block is absent)",
+        "参考价用的是哪一天" in _rp_md and "2026-10-14" in _rp_md
+        and "REPRICED_TO_THE_BAR_YOU_PAY" in _rp_md and "+10.00%" in _rp_md
+        and "参考价用的是哪一天" not in card(_rp_tk, None, None, "2026-10-30", 0.2,
+                                            {"inception": "2024-01-01"}), "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1
