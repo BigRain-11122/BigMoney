@@ -1,12 +1,12 @@
 # Does the order sheet price the execution it declares?
 
-Generated 2026-11-01T23:40:12+0800 from `scripts/etf_book_causal_headline.py` (panel 2005-02-23 -> 2026-10-30, 1504 symbols, cutoff `2026-10-30`).
+Generated 2026-11-02T00:37:30+0800 from `scripts/etf_book_causal_headline.py` (panel 2005-02-23 -> 2026-10-30, 1504 symbols, cutoff `2026-10-30`).
 
 ## Verdict
 
-**EXECUTION_CLAIM_MISMATCH** -- the card prints +1.14pp against the execution it declares (9.60 vs 8.46%/yr); the printed number reproduces the same-open arm within 0.25pp
+**DISCLOSED** -- the card prints +1.14pp against the execution it declares (9.60 vs 8.46%/yr); the printed number reproduces the same-open arm within 0.25pp; the card also prints the declared arm (8.46%/yr) and it is this face's own declared arm (0.00pp); the operator can size off it
 
-Recommendation: The order sheet should carry the declared-execution number (8.46%/yr) beside the as-coded one, or fix the engine to fill at open t+1 -- until then the headline is -1.14pp/yr above the execution the sheet itself claims; the live paper, which does fill next open and earns the repo ladder, reads 9.12%/yr.
+Recommendation: No further change is called for on this face: the headline is still the same-open arm, but the card prints the declared arm (8.46%/yr) beside it and that number is this face's own measurement, so the operator can size off the tradeable arm.
 
 ## The three numbers, each with its own convention
 
@@ -20,6 +20,7 @@ Recommendation: The order sheet should carry the declared-execution number (8.46
 
 - the card prints **9.60%/yr** (results\etf_book_production\CARD.md)
 - the card claims execution **decide at close t -> fill at open t+1 -> hold to next rebalance** (results\etf_book_production\latest.json)
+- the card discloses beside it **8.46%/yr declared vs 9.60%/yr as-coded, verdict SAME_OPEN_ARM** (results\etf_book_production\latest.json)
 
 
 ## Why this is a defect and not a preference

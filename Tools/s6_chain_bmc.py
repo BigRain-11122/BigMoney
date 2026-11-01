@@ -167,6 +167,10 @@ LEGS = [
     # were reachable live. ~150s, offline, deterministic (one panel load, 64 engine calls/cell).
     ("etf_sign_pit_combo", ["python", "scripts/etf_sign_pit_combo.py", "run"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
+    # must run AFTER production (it reads the card + payload production writes) and before
+    # the page that quotes the book: a face with no producer freezes on the card it was
+    # written against, which is exactly how the r1220 mismatch verdict survived r1221's fix.
+    ("etf_book_causal_headline", ["python", "scripts/etf_book_causal_headline.py", "run"]),
     # r1366: the carry split answers "how much of the quoted return is repo interest",
     # and it must be priced on the same bar as the ticket it explains. Hand-run only
     # until now -- r1366 found it frozen on 2026-10-29 (base cell 11.33%) while that

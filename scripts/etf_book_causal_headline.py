@@ -13,7 +13,13 @@ re-prices the ledger the live paper actually runs, and reads what the card PRINT
 the card CLAIMS. The frozen rule then names one of:
 
   CONSISTENT              -- the printed headline is the declared-execution arm, within tol
-  EXECUTION_CLAIM_MISMATCH-- the card claims fill-at-next-open but prints the same-open arm
+  DISCLOSED               -- the headline is still the same-open arm, but the card prints the
+                             declared arm beside it and that number agrees with this face's
+                             own independently priced declared arm
+  EXECUTION_CLAIM_MISMATCH-- the card claims fill-at-next-open and prints the same-open arm
+                             with no declared number beside it
+  DISCLOSURE_DISAGREES    -- the card publishes a declared number, but it is not this face's
+                             declared arm: two faces of one book are measuring different books
   CANNOT_VERIFY           -- the card has no readable headline or no readable claim
 
 No arm here invents a number: both price faces come from
@@ -56,14 +62,15 @@ CRITERIA = {
                     "-- the same lattice point as 'decide at close d, fill at open d+1', "
                     "which is what the card's config.execution string claims",
     },
-    "verdict_rule": ("CONSISTENT iff |printed_cagr - declared_cagr| <= tol_pp AND "
-                     "|printed_cagr - as_coded_cagr| > tol_pp is NOT required; "
-                     "EXECUTION_CLAIM_MISMATCH iff the card's declared execution is a "
-                     "next-open fill AND the printed number reproduces the as-coded arm "
-                     "(|printed - as_coded| <= tol_pp) while the declared arm differs from "
-                     "it by >= tol_pp; PRINTED_MATCHES_NEITHER_ARM when both sides are "
-                     "readable but the printed number reproduces neither arm; CANNOT_VERIFY "
-                     "when a side is unreadable"),
+    "verdict_rule": ("CONSISTENT iff |printed_cagr - declared_cagr| <= tol_pp; else, iff "
+                     "the printed number reproduces the as-coded arm (|printed - as_coded| "
+                     "<= tol_pp): DISCLOSED when the card also publishes a declared arm that "
+                     "agrees with this face's declared arm to within tol_pp on BOTH arms, "
+                     "DISCLOSURE_DISAGREES when it publishes one that does not, and "
+                     "EXECUTION_CLAIM_MISMATCH when the card publishes no declared arm at "
+                     "all; PRINTED_MATCHES_NEITHER_ARM when both sides are readable but the "
+                     "printed number reproduces neither arm; CANNOT_VERIFY when a side is "
+                     "unreadable (an unreadable disclosure is not evidence of a breach)"),
     "frozen": "thresholds and the reading rule were written before the first run; --check "
               "re-derives the verdict from the published rows and refuses a face whose "
               "criteria moved",
@@ -116,6 +123,31 @@ def read_printed_cagr(card_path=CARD):
             "source": os.path.relpath(card_path, ROOT)}
 
 
+def read_disclosure(payload_path=CARD_PAYLOAD):
+    """The declared arm the card publishes BESIDE its headline, if it publishes one.
+
+    Missing is a normal state (the r1220 card had none), so absence is reported as
+    `present: False` and never as an error -- an unreadable disclosure must not be
+    mistaken for a card that discloses a different number.
+    """
+    try:
+        with open(payload_path, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception as exc:  # noqa: BLE001 - unreadable is a verdict, not a crash
+        return {"present": None, "error": "%s: %s" % (type(exc).__name__, exc),
+                "source": os.path.relpath(payload_path, ROOT)}
+    eb = d.get("execution_basis")
+    src = os.path.relpath(payload_path, ROOT)
+    if not isinstance(eb, dict) or not eb:
+        return {"present": False, "source": src,
+                "note": "the payload carries no execution_basis block"}
+    return {"present": True, "source": src,
+            "as_coded_cagr": eb.get("as_coded_cagr"),
+            "declared_cagr": eb.get("declared_cagr"),
+            "gap_pp": eb.get("gap_pp"),
+            "verdict": eb.get("verdict")}
+
+
 def _is_next_open(exe):
     """Does the declared execution say the fill happens at the NEXT bar's open?"""
     if not isinstance(exe, str):
@@ -154,9 +186,42 @@ def decide(doc, tol=None):
                 "as_coded_cagr_pp": _pp(as_coded)}
     if claim_next_open and abs(gap_as_coded) <= tol and abs(gap_declared) >= tol:
         why.append("the printed number reproduces the same-open arm within %.2fpp" % tol)
+        disc = doc.get("disclosure") or {}
+        if disc.get("present"):
+            d_decl, d_code = disc.get("declared_cagr"), disc.get("as_coded_cagr")
+            if d_decl is None or d_code is None:
+                why.append("the card publishes an execution_basis block this face cannot "
+                           "read, so it is neither an accusation nor a clean disclosure")
+                return {"state": "EXECUTION_CLAIM_MISMATCH", "why": "; ".join(why),
+                        "printed_vs_declared_pp": round(gap_declared, 3),
+                        "printed_vs_as_coded_pp": round(gap_as_coded, 3),
+                        "disclosure_readable": False}
+            off_decl = 100.0 * (float(d_decl) - declared)
+            off_code = 100.0 * (float(d_code) - as_coded)
+            if abs(off_decl) <= tol and abs(off_code) <= tol:
+                why.append("the card also prints the declared arm (%.2f%%/yr) and it is this "
+                           "face's own declared arm (%.2fpp); the operator can size off it"
+                           % (100.0 * d_decl, off_decl))
+                return {"state": "DISCLOSED", "why": "; ".join(why),
+                        "printed_vs_declared_pp": round(gap_declared, 3),
+                        "printed_vs_as_coded_pp": round(gap_as_coded, 3),
+                        "disclosure_vs_face_declared_pp": round(off_decl, 3),
+                        "disclosure_vs_face_as_coded_pp": round(off_code, 3)}
+            why.append("the card prints a declared arm of %.2f%%/yr, which is %+.2fpp off this "
+                       "face's declared arm (%.2f%%/yr, as-coded %+.2fpp) -- the two faces of "
+                       "one book are pricing different books"
+                       % (100.0 * d_decl, off_decl, declared * 100.0, off_code))
+            return {"state": "DISCLOSURE_DISAGREES", "why": "; ".join(why),
+                    "printed_vs_declared_pp": round(gap_declared, 3),
+                    "printed_vs_as_coded_pp": round(gap_as_coded, 3),
+                    "disclosure_vs_face_declared_pp": round(off_decl, 3),
+                    "disclosure_vs_face_as_coded_pp": round(off_code, 3)}
+        why.append("the card prints no declared arm beside the headline, so nothing on the "
+                   "operator's sheet says which number is tradeable")
         return {"state": "EXECUTION_CLAIM_MISMATCH", "why": "; ".join(why),
                 "printed_vs_declared_pp": round(gap_declared, 3),
-                "printed_vs_as_coded_pp": round(gap_as_coded, 3)}
+                "printed_vs_as_coded_pp": round(gap_as_coded, 3),
+                "disclosure_readable": False}
     if abs(gap_declared) <= tol:
         why.append("the printed number is the declared arm within %.2fpp" % tol)
         return {"state": "CONSISTENT", "why": "; ".join(why),
@@ -209,6 +274,7 @@ def run():
     doc["arms"] = arms
     doc["claim"] = read_claim()
     doc["printed"] = read_printed_cagr()
+    doc["disclosure"] = read_disclosure()
     doc["claim"]["reads_as_next_open_fill"] = _is_next_open(doc["claim"].get("execution"))
     doc["verdict"] = decide(doc)
     doc["recommendation"] = _recommend(doc)
@@ -227,6 +293,17 @@ def _recommend(doc):
                 % (v.get("printed_vs_declared_pp") or 0.0,
                    v.get("printed_vs_as_coded_pp") or 0.0))
     if v.get("state") != "EXECUTION_CLAIM_MISMATCH":
+        if v.get("state") == "DISCLOSURE_DISAGREES":
+            return ("The card's declared arm and this face's declared arm are %.2fpp apart: "
+                    "before anyone sizes a position, the two faces must be re-priced off one "
+                    "panel -- this is not a tolerance question, it is two books using one name."
+                    % (v.get("disclosure_vs_face_declared_pp") or 0.0))
+        if v.get("state") == "DISCLOSED":
+            return ("No further change is called for on this face: the headline is still the "
+                    "same-open arm, but the card prints the declared arm (%.2f%%/yr) beside it "
+                    "and that number is this face's own measurement, so the operator can size "
+                    "off the tradeable arm."
+                    % (100.0 * ((doc.get("disclosure") or {}).get("declared_cagr") or 0.0)))
         return ("No headline change is called for: the sheet already prices the execution it "
                 "declares%s." % ("" if v.get("state") == "CONSISTENT" else
                                  " -- but the comparison is unreadable, so the sheet should "
@@ -260,13 +337,22 @@ def write_md(doc):
             "unreadable" if a.get("cagr") is None else "%.2f%%" % (a["cagr"] * 100.0),
             "unreadable" if a.get("sharpe") is None else "%.2f" % a["sharpe"],
             "unreadable" if a.get("maxdd") is None else "%.1f%%" % (a["maxdd"] * 100.0)))
-    pr, cl = doc["printed"], doc["claim"]
+    pr, cl, ds = doc["printed"], doc["claim"], (doc.get("disclosure") or {})
     lines += ["", "## What the operator's files say", "",
               "- the card prints **%s** (%s)" % (
                   "unreadable" if pr.get("cagr") is None else "%.2f%%/yr" % (pr["cagr"] * 100.0),
                   pr.get("error") or pr.get("source")),
               "- the card claims execution **%s** (%s)" % (
-                  cl.get("execution") or "unreadable", cl.get("error") or cl.get("source")), ""]
+                  cl.get("execution") or "unreadable", cl.get("error") or cl.get("source")),
+              "- the card discloses beside it **%s** (%s)" % (
+                  "no declared arm" if not ds.get("present") else
+                  "%s%%/yr declared vs %s%%/yr as-coded, verdict %s" % (
+                      "unreadable" if ds.get("declared_cagr") is None
+                      else "%.2f" % (100.0 * ds["declared_cagr"]),
+                      "unreadable" if ds.get("as_coded_cagr") is None
+                      else "%.2f" % (100.0 * ds["as_coded_cagr"]),
+                      ds.get("verdict") or "unstated"),
+                  ds.get("error") or ds.get("note") or ds.get("source") or "unreadable"), ""]
     lines += ["", "## Why this is a defect and not a preference", "",
               "The two arms differ in exactly one number -- how many bars of information the "
               "signal has when the book is paid for. `as coded` ranks on bar d's own close and "
@@ -312,7 +398,7 @@ def check(path=None, quiet=False):
 
 # ---------------------------------------------------------------- selftest fixtures
 
-def _fixture(kind="mismatch", printed=None, tol=None):
+def _fixture(kind="mismatch", printed=None, tol=None, disclosure=None):
     """A face shaped like the real one, with numbers chosen so the rule must name them."""
     as_coded, declared = 0.0960, 0.0846
     if kind == "consistent":
@@ -323,9 +409,27 @@ def _fixture(kind="mismatch", printed=None, tol=None):
         printed = None
     elif kind == "unreadable_claim":
         printed = 0.0960
+    elif kind in ("disclosed", "disagrees", "half_disclosed", "unreadable_disclosure"):
+        printed = 0.0960
+    if disclosure is None:
+        if kind == "disclosed":
+            disclosure = {"present": True, "as_coded_cagr": as_coded,
+                          "declared_cagr": declared, "verdict": "SAME_OPEN_ARM"}
+        elif kind == "disagrees":
+            disclosure = {"present": True, "as_coded_cagr": as_coded,
+                          "declared_cagr": 0.0800, "verdict": "SAME_OPEN_ARM"}
+        elif kind == "half_disclosed":
+            disclosure = {"present": True, "as_coded_cagr": 0.0900,
+                          "declared_cagr": declared, "verdict": "SAME_OPEN_ARM"}
+        elif kind == "unreadable_disclosure":
+            disclosure = {"present": True, "as_coded_cagr": None,
+                          "declared_cagr": declared, "verdict": "SAME_OPEN_ARM"}
+        else:
+            disclosure = {"present": False}
     doc = {"arms": {"as_coded": {"cagr": as_coded}, "declared": {"cagr": declared},
                     "ledger_live": {"cagr": 0.0912}},
            "printed": {"cagr": printed},
+           "disclosure": disclosure,
            "claim": {"execution": ("decide at close t -> fill at open t+1 -> hold to next "
                                    "rebalance") if kind != "unreadable_claim" else None}}
     return doc
@@ -376,6 +480,25 @@ def selftest():
                                         "ledger_live": {"cagr": 0.0912}},
                                "verdict": {"state": "EXECUTION_CLAIM_MISMATCH",
                                            "printed_vs_declared_pp": 1.14}})))
+    leg("L11 a card that prints the untradeable arm AND its declared arm is DISCLOSED, "
+        "not accused",
+        decide(_fixture("disclosed"))["state"] == "DISCLOSED", decide(_fixture("disclosed")))
+    leg("L12 a card whose declared number is NOT this face's declared arm reads "
+        "DISCLOSURE_DISAGREES, with both distances named",
+        decide(_fixture("disagrees"))["state"] == "DISCLOSURE_DISAGREES"
+        and abs(decide(_fixture("disagrees")).get("disclosure_vs_face_declared_pp") or 0)
+        > tol, decide(_fixture("disagrees")))
+    leg("L13 a half-readable disclosure is neither an accusation nor a clean disclosure",
+        decide(_fixture("unreadable_disclosure"))["state"] == "EXECUTION_CLAIM_MISMATCH",
+        decide(_fixture("unreadable_disclosure")))
+    leg("L14 the disclosure must match on BOTH arms -- same declared, wrong as-coded reads "
+        "DISCLOSURE_DISAGREES",
+        decide(_fixture("half_disclosed"))["state"] == "DISCLOSURE_DISAGREES",
+        decide(_fixture("half_disclosed")))
+    leg("L15 a DISCLOSED face says the operator can size off it, and names the number",
+        "8.46" in _recommend({"arms": {"declared": {"cagr": 0.0846}},
+                              "disclosure": {"present": True, "declared_cagr": 0.0846},
+                              "verdict": {"state": "DISCLOSED"}}))
     print("\n%d/%d legs PASS" % (sum(ok), len(ok)))
     return 0 if all(ok) else 1
 

@@ -50,12 +50,20 @@
   },
   "frozen": "thresholds and the reading rule were written before the first run; --check re-derives the verdict from the published rows and refuses a face whose criteria moved",
   "tol_pp": 0.25,
-  "verdict_rule": "CONSISTENT iff |printed_cagr - declared_cagr| <= tol_pp AND |printed_cagr - as_coded_cagr| > tol_pp is NOT required; EXECUTION_CLAIM_MISMATCH iff the card's declared execution is a next-open fill AND the printed number reproduces the as-coded arm (|printed - as_coded| <= tol_pp) while the declared arm differs from it by >= tol_pp; PRINTED_MATCHES_NEITHER_ARM when both sides are readable but the printed number reproduces neither arm; CANNOT_VERIFY when a side is unreadable"
+  "verdict_rule": "CONSISTENT iff |printed_cagr - declared_cagr| <= tol_pp; else, iff the printed number reproduces the as-coded arm (|printed - as_coded| <= tol_pp): DISCLOSED when the card also publishes a declared arm that agrees with this face's declared arm to within tol_pp on BOTH arms, DISCLOSURE_DISAGREES when it publishes one that does not, and EXECUTION_CLAIM_MISMATCH when the card publishes no declared arm at all; PRINTED_MATCHES_NEITHER_ARM when both sides are readable but the printed number reproduces neither arm; CANNOT_VERIFY when a side is unreadable (an unreadable disclosure is not evidence of a breach)"
  },
- "criteria_digest": "{\"conventions\": {\"as_coded\": \"lag 0: score(bar d) selects, the book earns open[d] -> open[d+1]\", \"declared\": \"lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the same lattice point as 'decide at close d, fill at open d+1', which is what the card's config.execution string claims\"}, \"frozen\": \"thresholds and the reading rule were written before the first run; --check re-derives the verdict from the published rows and refuses a face whose criteria moved\", \"tol_pp\": 0.25, \"verdict_rule\": \"CONSISTENT iff |printed_cagr - declared_cagr| <= tol_pp AND |printed_cagr - as_coded_cagr| > tol_pp is NOT required; EXECUTION_CLAIM_MISMATCH iff the card's declared execution is a next-open fill AND the printed number reproduces the as-coded arm (|printed - as_coded| <= tol_pp) while the declared arm differs from it by >= tol_pp; PRINTED_MATCHES_NEITHER_ARM when both sides are readable but the printed number reproduces neither arm; CANNOT_VERIFY when a side is unreadable\"}",
- "elapsed_sec": 31.3,
+ "criteria_digest": "{\"conventions\": {\"as_coded\": \"lag 0: score(bar d) selects, the book earns open[d] -> open[d+1]\", \"declared\": \"lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the same lattice point as 'decide at close d, fill at open d+1', which is what the card's config.execution string claims\"}, \"frozen\": \"thresholds and the reading rule were written before the first run; --check re-derives the verdict from the published rows and refuses a face whose criteria moved\", \"tol_pp\": 0.25, \"verdict_rule\": \"CONSISTENT iff |printed_cagr - declared_cagr| <= tol_pp; else, iff the printed number reproduces the as-coded arm (|printed - as_coded| <= tol_pp): DISCLOSED when the card also publishes a declared arm that agrees with this face's declared arm to within tol_pp on BOTH arms, DISCLOSURE_DISAGREES when it publishes one that does not, and EXECUTION_CLAIM_MISMATCH when the card publishes no declared arm at all; PRINTED_MATCHES_NEITHER_ARM when both sides are readable but the printed number reproduces neither arm; CANNOT_VERIFY when a side is unreadable (an unreadable disclosure is not evidence of a breach)\"}",
+ "disclosure": {
+  "as_coded_cagr": 0.096,
+  "declared_cagr": 0.0846,
+  "gap_pp": 1.14,
+  "present": true,
+  "source": "results\\etf_book_production\\latest.json",
+  "verdict": "SAME_OPEN_ARM"
+ },
+ "elapsed_sec": 25.8,
  "evidence_cutoff": "2026-10-30",
- "generated": "2026-11-01T23:40:12+0800",
+ "generated": "2026-11-02T00:37:30+0800",
  "panel": {
   "bars": 5270,
   "first_bar": "2005-02-23",
@@ -68,12 +76,14 @@
   "raw": "| 2020-01 onwards | 9.6% | 0.99 | -11.8% | 10.2% | 8% (1.27x) |",
   "source": "results\\etf_book_production\\CARD.md"
  },
- "recommendation": "The order sheet should carry the declared-execution number (8.46%/yr) beside the as-coded one, or fix the engine to fill at open t+1 -- until then the headline is -1.14pp/yr above the execution the sheet itself claims; the live paper, which does fill next open and earns the repo ladder, reads 9.12%/yr.",
+ "recommendation": "No further change is called for on this face: the headline is still the same-open arm, but the card prints the declared arm (8.46%/yr) beside it and that number is this face's own measurement, so the operator can size off the tradeable arm.",
  "script": "scripts/etf_book_causal_headline.py",
  "verdict": {
+  "disclosure_vs_face_as_coded_pp": 0.0,
+  "disclosure_vs_face_declared_pp": 0.0,
   "printed_vs_as_coded_pp": 0.0,
   "printed_vs_declared_pp": -1.14,
-  "state": "EXECUTION_CLAIM_MISMATCH",
-  "why": "the card prints +1.14pp against the execution it declares (9.60 vs 8.46%/yr); the printed number reproduces the same-open arm within 0.25pp"
+  "state": "DISCLOSED",
+  "why": "the card prints +1.14pp against the execution it declares (9.60 vs 8.46%/yr); the printed number reproduces the same-open arm within 0.25pp; the card also prints the declared arm (8.46%/yr) and it is this face's own declared arm (0.00pp); the operator can size off it"
  }
 }

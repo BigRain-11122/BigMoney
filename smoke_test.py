@@ -2737,12 +2737,32 @@ def main() -> int:
                  "etf_book_order_card", "etf_sign_pit", "etf_sign_enum", "etf_sign_stability",
                  "etf_sign_cells", "etf_sign_pit_combo",
                  "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
-                 "etf_book_card_track", "etf_paper_signal", "cal_audit"}
+                 "etf_book_card_track", "etf_paper_signal", "cal_audit",
+                 # r1222: a face that judges the card has to run every round, or it keeps
+                 # publishing the card it was written against -- this one accused the card of
+                 # an undisclosed execution for a full round after the card started
+                 # disclosing it, because nothing on the chain ever re-ran it.
+                 "etf_book_causal_headline"}
         _miss = sorted(_want - _names)
         check("product: ETF book legs wired into the S6 chain",
               not _miss, f"legs={len(_names)} missing={_miss or 'none'}")
     except Exception as e:
         check("product: ETF book legs wired into the S6 chain", False, str(e))
+    try:
+        # r1222: the causal face reads the card's payload and the card's printed table, so it
+        # must sit between them: after production (its input) and before the page (which
+        # quotes the book it judged). A consumer that runs ahead of its producer prints
+        # yesterday's disagreement with today's date (r1318 / r1290 family).
+        _order = [t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        _ci = _order.index("etf_book_causal_headline")
+        check("product: the execution-claim face runs on the card it reads, not ahead of it",
+              _order.index("etf_book_production") < _ci < _order.index("etf_book_ceo_page"),
+              "production=%d causal=%d page=%d" % (
+                  _order.index("etf_book_production"), _ci,
+                  _order.index("etf_book_ceo_page")))
+    except Exception as e:
+        check("product: the execution-claim face runs on the card it reads, not ahead of it",
+              False, str(e))
     try:
         _order = [t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
         _ri = _order.index("etf_book_registry")
