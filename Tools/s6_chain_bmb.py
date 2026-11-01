@@ -1084,6 +1084,24 @@ LEGS = [
     ("gate_state_census",
      ["python", "scripts/e351_gate_state_census.py", "verify"]),
 
+    # E352: E349 priced the channel as a population and found 14 of 840 comparisons ask whether
+    # what they read is current; this prices the window instead, in the repository's own clock.
+    # 60 deciding channel files, 59 measurable: median file lag 80 commits / p90 111, worst
+    # state-bm-c.json at 216 commits (59.3 h), 54 with a decide-time stale instance, 7 gated.
+    # Verify re-derives the summary at the face's own pin (~40 s of first-parent git walks).
+    ("staleness_window",
+     ["python", "scripts/e352_staleness_window.py", "verify"]),
+
+    # E353: E350 published 131 guard fields no source writes and could only say "the guard can
+    # fire on a missing value". Against the tree today: 23 raise before the guard runs (16 name a
+    # file that is nowhere, 7 a basename several files share, each refused rather than
+    # first-matched), 5 read a field that is absent or null, 103 read a value of which 34 read
+    # falsy -- so 4 faces of one writer each close the whole alert class, and a fifth of the
+    # population cannot be fixed by any writer because its face name is not one file. Verify
+    # re-reads the disk for the published pairs (~4 s, no AST).
+    ("unwritten_guard_presence",
+     ["python", "scripts/e353_unwritten_guard_presence.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one
@@ -1116,6 +1134,14 @@ LEGS = [
     ("attrition_guard", ["python", "scripts/attrition_ledger_guard.py", "scan"]),
     ("pool_audit", ["python", os.path.join("scripts", "pool_audit.py")]),
     ("token_meter", ["python", "scripts/token_meter.py"]),
+
+    # E352: E349 counted the channel and left the window unsized -- 14 of 840 comparisons ask
+    # whether what was read is current. Verify re-walks the first-parent history over 240 commits
+    # and re-derives, per deciding file, the blob a reader would take at each boundary plus the
+    # boundaries where gate code ran newer than the artifact it read. Contents come from the
+    # working tree only (this clone is blob:none; `git show` / `git grep` start a lazy fetch and
+    # hang the round) and only `git log` / `ls-tree` metadata is asked of git. ~4-6 min.
+    ("staleness_window", ["python", "scripts/e352_staleness_window.py", "verify"]),
 ]
 
 

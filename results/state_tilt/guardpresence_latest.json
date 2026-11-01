@@ -1,0 +1,1876 @@
+{
+ "bound": "population = E350's unwritten-guard pairs rebuilt from the corpus, not re-read from the published face (that face truncates its list to 40 rows); a face key without a path is E350's basename fallback, so an ambiguous bare name is published as unreachable with every file it could mean rather than resolved by taking the first; field presence is a top-level key test on the face as it sits on disk today, and nested_hit only says a one-level dict carries the name; a present falsy value is published as its own state under guard_never_fires because a not-shaped guard would fire on it while an is None-shaped guard would pass, and the field alone cannot tell the two forms apart, so the count that reads a value is not a count of guards that cannot fire; no source is executed -- only stat and json.load",
+ "evidence_cutoff": "2026-11-02",
+ "path_fixes": [
+  {
+   "alternatives": [],
+   "face": "FZ.json",
+   "fields": [
+    "HUGE",
+    "MID",
+    "MISS",
+    "THIN"
+   ],
+   "n_alternatives": 0,
+   "pairs": 4,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "face": "json",
+   "fields": [
+    "exit_overrides",
+    "members",
+    "params",
+    "source_commit"
+   ],
+   "n_alternatives": 0,
+   "pairs": 4,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [
+    "results/census_fusion_s2/probe.json",
+    "results/fund_divlowvol_p1/probe.json",
+    "results/fund_quality_p1/probe.json",
+    "results/fund_quality_p2/probe.json",
+    "results/fund_value_p1/probe.json"
+   ],
+   "face": "probe.json",
+   "fields": [
+    "panel",
+    "universe_n",
+    "universe_skipped"
+   ],
+   "n_alternatives": 14,
+   "pairs": 3,
+   "reason": "name_not_one_file",
+   "state": "face_name_shared_by_several_files"
+  },
+  {
+   "alternatives": [],
+   "face": "_chunk_.json",
+   "fields": [
+    "digest",
+    "ks"
+   ],
+   "n_alternatives": 0,
+   "pairs": 2,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "face": "idle_trigger.bm-c.json",
+   "fields": [
+    "clock_read",
+    "heartbeat_epoch_utc"
+   ],
+   "n_alternatives": 0,
+   "pairs": 2,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [
+    "Money0923/MoneyViz/Packages/manifest.json",
+    "content/drama/voice_bank/manifest.json",
+    "results/_quarantine/20261003-221448/manifest.json",
+    "results/_quarantine/20261004-061625_r447bmc_codely_mojibake/manifest.json",
+    "results/_quarantine/20261004-160832_r685bma_w3_bogus_summary/manifest.json"
+   ],
+   "face": "manifest.json",
+   "fields": [
+    "gates",
+    "w2b"
+   ],
+   "n_alternatives": 20,
+   "pairs": 2,
+   "reason": "name_not_one_file",
+   "state": "face_name_shared_by_several_files"
+  },
+  {
+   "alternatives": [
+    "Money02/data/cache/t18_deep_panel/meta.json",
+    "data/cache/p1c_local/meta.json"
+   ],
+   "face": "meta.json",
+   "fields": [
+    "generated",
+    "shape"
+   ],
+   "n_alternatives": 2,
+   "pairs": 2,
+   "reason": "name_not_one_file",
+   "state": "face_name_shared_by_several_files"
+  },
+  {
+   "alternatives": [],
+   "face": "xcc.json",
+   "fields": [
+    "bars_files",
+    "cache_last_date"
+   ],
+   "n_alternatives": 0,
+   "pairs": 2,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "face": "bm-x.json",
+   "fields": [
+    "outcome"
+   ],
+   "n_alternatives": 0,
+   "pairs": 1,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "face": "census.json",
+   "fields": [
+    "next_day_associations"
+   ],
+   "n_alternatives": 0,
+   "pairs": 1,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  }
+ ],
+ "pin": "e847e0997d7cfa1901586a8842f12d19143a2e7b",
+ "reconcile_346": {
+  "available": true,
+  "identity_matches": [],
+  "latch_keys": [
+   "catchup_attempts",
+   "exit_code",
+   "hook_exit",
+   "last_spawn_attempt",
+   "last_success_ts",
+   "mismatch",
+   "mismatch_col",
+   "overlap_mismatch",
+   "panel",
+   "parity_audit",
+   "per_symbol",
+   "rank",
+   "source_used"
+  ],
+  "latches": 17,
+  "name_matches_in_unwritten_population": [
+   "panel"
+  ],
+  "name_matches_that_e346_calls_written": [],
+  "sentence": "E346's 17 latches are fields a producer writes and then branches on itself; 1 of their names also occur among the 131 unwritten guard pairs and 0 of those are the same face-and-field, so the two counts are one population only where a name happens to coincide"
+ },
+ "rows": [
+  {
+   "alternatives": [
+    "results/p2_calibration_v2_ext.json"
+   ],
+   "class": "guard_is_the_alert",
+   "face": "p2_calibration_v2_ext.json",
+   "field": "nshards",
+   "key_kind": "basename",
+   "n_alternatives": 1,
+   "nested_hit": false,
+   "path": "results/p2_calibration_v2_ext.json",
+   "reason": "",
+   "state": "field_absent"
+  },
+  {
+   "alternatives": [
+    "results/p2_calibration_v2_ext.json"
+   ],
+   "class": "guard_is_the_alert",
+   "face": "p2_calibration_v2_ext.json",
+   "field": "shard",
+   "key_kind": "basename",
+   "n_alternatives": 1,
+   "nested_hit": false,
+   "path": "results/p2_calibration_v2_ext.json",
+   "reason": "",
+   "state": "field_absent"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_is_the_alert",
+   "face": "results/_r899bma_f1_bull_cond_selftest.json",
+   "field": "cutoff",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r899bma_f1_bull_cond_selftest.json",
+   "reason": "",
+   "state": "field_absent"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_is_the_alert",
+   "face": "results/futures_tsmom_probe.json",
+   "field": "overall_verdict",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/futures_tsmom_probe.json",
+   "reason": "",
+   "state": "field_absent"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_is_the_alert",
+   "face": "results/regime5_validation/REGIME5-VALIDATION-2026-09-30.json",
+   "field": "cutoff",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/regime5_validation/REGIME5-VALIDATION-2026-09-30.json",
+   "reason": "",
+   "state": "field_absent"
+  },
+  {
+   "alternatives": [
+    "results/_r798bmc_s0_facts.json"
+   ],
+   "class": "guard_never_fires",
+   "face": "_r798bmc_s0_facts.json",
+   "field": "ord_delta",
+   "key_kind": "basename",
+   "n_alternatives": 1,
+   "nested_hit": false,
+   "path": "results/_r798bmc_s0_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [
+    "results/_r798bmc_s0_facts.json"
+   ],
+   "class": "guard_never_fires",
+   "face": "_r798bmc_s0_facts.json",
+   "field": "shape_assert",
+   "key_kind": "basename",
+   "n_alternatives": 1,
+   "nested_hit": false,
+   "path": "results/_r798bmc_s0_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [
+    "fleet/machines/bm-b.json"
+   ],
+   "class": "guard_never_fires",
+   "face": "bm-b.json",
+   "field": "heartbeat_epoch_utc",
+   "key_kind": "basename",
+   "n_alternatives": 1,
+   "nested_hit": false,
+   "path": "fleet/machines/bm-b.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [
+    "fleet/machines/bm-b.json"
+   ],
+   "class": "guard_never_fires",
+   "face": "bm-b.json",
+   "field": "round",
+   "key_kind": "basename",
+   "n_alternatives": 1,
+   "nested_hit": false,
+   "path": "fleet/machines/bm-b.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "fleet/tasks/T-2026-09-28-101-P1.json",
+   "field": "claimed_by",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "fleet/tasks/T-2026-09-28-101-P1.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "fleet/tasks/T-2026-09-28-101-P1.json",
+   "field": "status",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "fleet/tasks/T-2026-09-28-101-P1.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "fleet/tasks/T-2026-09-30-134-P1.json",
+   "field": "claimed_by",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "fleet/tasks/T-2026-09-30-134-P1.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "fleet/tasks/T-2026-10-10-180-P1.json",
+   "field": "claimed_by",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "fleet/tasks/T-2026-10-10-180-P1.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [
+    "results/fusion_p1/navs_summary.json"
+   ],
+   "class": "guard_never_fires",
+   "face": "navs_summary.json",
+   "field": "anchor_all_ok",
+   "key_kind": "basename",
+   "n_alternatives": 1,
+   "nested_hit": false,
+   "path": "results/fusion_p1/navs_summary.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [
+    "results/p2_calibration_v2_ext.json"
+   ],
+   "class": "guard_never_fires",
+   "face": "p2_calibration_v2_ext.json",
+   "field": "batch",
+   "key_kind": "basename",
+   "n_alternatives": 1,
+   "nested_hit": false,
+   "path": "results/p2_calibration_v2_ext.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r645bmc_s05_facts.json",
+   "field": "dec_match_prev",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r645bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r645bmc_s05_facts.json",
+   "field": "ord_match_prev",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r645bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r645bmc_s05_facts.json",
+   "field": "unacked_count",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r645bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r646bmc_s05_facts.json",
+   "field": "dec_match_prev",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r646bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r646bmc_s05_facts.json",
+   "field": "ord_match_prev",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r646bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r646bmc_s05_facts.json",
+   "field": "unacked_count",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r646bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r647bmc_s05_facts.json",
+   "field": "dec_match_prev",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r647bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r647bmc_s05_facts.json",
+   "field": "ord_match_prev",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r647bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r647bmc_s05_facts.json",
+   "field": "sweep",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r647bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r647bmc_s05_facts.json",
+   "field": "unacked_count",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r647bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r648bmc_s05_facts.json",
+   "field": "dec_match_prev",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r648bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r648bmc_s05_facts.json",
+   "field": "ord_match_prev",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r648bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r648bmc_s05_facts.json",
+   "field": "sweep",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r648bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r648bmc_s05_facts.json",
+   "field": "unacked_count",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r648bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r649bmc_s05_facts.json",
+   "field": "dec_match_prev",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r649bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r649bmc_s05_facts.json",
+   "field": "ord_match_prev",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r649bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r649bmc_s05_facts.json",
+   "field": "sweep",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r649bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r649bmc_s05_facts.json",
+   "field": "unacked_count",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r649bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r650bmc_s05_facts.json",
+   "field": "dec_match_prev",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r650bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r650bmc_s05_facts.json",
+   "field": "ord_match_prev",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r650bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r650bmc_s05_facts.json",
+   "field": "sweep",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r650bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r650bmc_s05_facts.json",
+   "field": "unacked_count",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r650bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r654bmc_s05_facts.json",
+   "field": "dec_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r654bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r654bmc_s05_facts.json",
+   "field": "fleet_orders_total",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r654bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r654bmc_s05_facts.json",
+   "field": "inbox_unread",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r654bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r654bmc_s05_facts.json",
+   "field": "ord_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r654bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r654bmc_s05_facts.json",
+   "field": "round",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r654bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r654bmc_s05_facts.json",
+   "field": "shape_assert",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r654bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r654bmc_s05_facts.json",
+   "field": "unacked",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r654bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r655bmc_s05_facts.json",
+   "field": "dec_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r655bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r655bmc_s05_facts.json",
+   "field": "fleet_orders_total",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r655bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r655bmc_s05_facts.json",
+   "field": "inbox_unread",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r655bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r655bmc_s05_facts.json",
+   "field": "ord_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r655bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r655bmc_s05_facts.json",
+   "field": "round",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r655bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r655bmc_s05_facts.json",
+   "field": "shape_assert",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r655bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r655bmc_s05_facts.json",
+   "field": "unacked",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r655bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r660bmc_s05_facts.json",
+   "field": "dec_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r660bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r660bmc_s05_facts.json",
+   "field": "fleet_orders_total",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r660bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r660bmc_s05_facts.json",
+   "field": "inbox_unread",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r660bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r660bmc_s05_facts.json",
+   "field": "ord_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r660bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r660bmc_s05_facts.json",
+   "field": "round",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r660bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r660bmc_s05_facts.json",
+   "field": "shape_assert",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r660bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r660bmc_s05_facts.json",
+   "field": "unacked",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r660bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r661bmc_s05_facts.json",
+   "field": "dec_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r661bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r661bmc_s05_facts.json",
+   "field": "fleet_orders_total",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r661bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r661bmc_s05_facts.json",
+   "field": "inbox_unread",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r661bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r661bmc_s05_facts.json",
+   "field": "ord_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r661bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r661bmc_s05_facts.json",
+   "field": "round",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r661bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r661bmc_s05_facts.json",
+   "field": "shape_assert",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r661bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r661bmc_s05_facts.json",
+   "field": "unacked",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r661bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r662bmc_s05_facts.json",
+   "field": "dec_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r662bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r662bmc_s05_facts.json",
+   "field": "fleet_orders_total",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r662bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r662bmc_s05_facts.json",
+   "field": "inbox_unread",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r662bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r662bmc_s05_facts.json",
+   "field": "ord_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r662bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r662bmc_s05_facts.json",
+   "field": "round",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r662bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r662bmc_s05_facts.json",
+   "field": "shape_assert",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r662bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r662bmc_s05_facts.json",
+   "field": "unacked",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r662bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r663bmc_s05_facts.json",
+   "field": "dec_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r663bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r663bmc_s05_facts.json",
+   "field": "fleet_orders_total",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r663bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r663bmc_s05_facts.json",
+   "field": "inbox_unread",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r663bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r663bmc_s05_facts.json",
+   "field": "ord_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r663bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r663bmc_s05_facts.json",
+   "field": "round",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r663bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r663bmc_s05_facts.json",
+   "field": "shape_assert",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r663bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r663bmc_s05_facts.json",
+   "field": "unacked",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r663bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r664bmc_s05_facts.json",
+   "field": "dec_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r664bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r664bmc_s05_facts.json",
+   "field": "fleet_orders_total",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r664bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r664bmc_s05_facts.json",
+   "field": "inbox_unread",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r664bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r664bmc_s05_facts.json",
+   "field": "ord_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r664bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r664bmc_s05_facts.json",
+   "field": "round",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r664bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r664bmc_s05_facts.json",
+   "field": "shape_assert",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r664bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r664bmc_s05_facts.json",
+   "field": "unacked",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r664bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r665bmc_s05_facts.json",
+   "field": "dec_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r665bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r665bmc_s05_facts.json",
+   "field": "fleet_orders_total",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r665bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r665bmc_s05_facts.json",
+   "field": "inbox_unread",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r665bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r665bmc_s05_facts.json",
+   "field": "ord_delta",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r665bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r665bmc_s05_facts.json",
+   "field": "round",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r665bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r665bmc_s05_facts.json",
+   "field": "shape_assert",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r665bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r665bmc_s05_facts.json",
+   "field": "unacked",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r665bmc_s05_facts.json",
+   "reason": "",
+   "state": "field_present_falsy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r720bma_maxrank_w16_probe_facts.json",
+   "field": "rows",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r720bma_maxrank_w16_probe_facts.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r787bmc_w192_probe_receipt.json",
+   "field": "legs",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r787bmc_w192_probe_receipt.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/_r787bmc_w192_probe_receipt.json",
+   "field": "verdict",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/_r787bmc_w192_probe_receipt.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/bond_carry_w3a.json",
+   "field": "d6",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/bond_carry_w3a.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/bond_carry_w3a.json",
+   "field": "trials_ledger",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/bond_carry_w3a.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/bond_carry_w3a.json",
+   "field": "verdicts_g1",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/bond_carry_w3a.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/bond_w3a/candidates.json",
+   "field": "n_candidates",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/bond_w3a/candidates.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/mem_pressure.bm-c.json",
+   "field": "committed_gb",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/mem_pressure.bm-c.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/panel_coverage.json",
+   "field": "evidence_cutoff",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/panel_coverage.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/shortline/p1c_nulls.json",
+   "field": "h10",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/shortline/p1c_nulls.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/shortline/t18_deep_manifest.json",
+   "field": "verdict",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/shortline/t18_deep_manifest.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/token_usage.json",
+   "field": "generated",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/token_usage.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/trial_labor_w5/w5_candidates.json",
+   "field": "grammar_sha256",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/trial_labor_w5/w5_candidates.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_never_fires",
+   "face": "results/trial_labor_w5/w5_candidates.json",
+   "field": "n",
+   "key_kind": "named",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": "results/trial_labor_w5/w5_candidates.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [
+    "state-bm-b.json"
+   ],
+   "class": "guard_never_fires",
+   "face": "state-bm-b.json",
+   "field": "r1334",
+   "key_kind": "basename",
+   "n_alternatives": 1,
+   "nested_hit": false,
+   "path": "state-bm-b.json",
+   "reason": "",
+   "state": "field_present_truthy"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "FZ.json",
+   "field": "HUGE",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "FZ.json",
+   "field": "MID",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "FZ.json",
+   "field": "MISS",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "FZ.json",
+   "field": "THIN",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "_chunk_.json",
+   "field": "digest",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "_chunk_.json",
+   "field": "ks",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "bm-x.json",
+   "field": "outcome",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "census.json",
+   "field": "next_day_associations",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "idle_trigger.bm-c.json",
+   "field": "clock_read",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "idle_trigger.bm-c.json",
+   "field": "heartbeat_epoch_utc",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "json",
+   "field": "exit_overrides",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "json",
+   "field": "members",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "json",
+   "field": "params",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "json",
+   "field": "source_commit",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [
+    "Money0923/MoneyViz/Packages/manifest.json",
+    "content/drama/voice_bank/manifest.json",
+    "results/_quarantine/20261003-221448/manifest.json",
+    "results/_quarantine/20261004-061625_r447bmc_codely_mojibake/manifest.json",
+    "results/_quarantine/20261004-160832_r685bma_w3_bogus_summary/manifest.json"
+   ],
+   "class": "guard_unreachable",
+   "face": "manifest.json",
+   "field": "gates",
+   "key_kind": "ambiguous",
+   "n_alternatives": 20,
+   "nested_hit": false,
+   "path": null,
+   "reason": "name_not_one_file",
+   "state": "face_name_shared_by_several_files"
+  },
+  {
+   "alternatives": [
+    "Money0923/MoneyViz/Packages/manifest.json",
+    "content/drama/voice_bank/manifest.json",
+    "results/_quarantine/20261003-221448/manifest.json",
+    "results/_quarantine/20261004-061625_r447bmc_codely_mojibake/manifest.json",
+    "results/_quarantine/20261004-160832_r685bma_w3_bogus_summary/manifest.json"
+   ],
+   "class": "guard_unreachable",
+   "face": "manifest.json",
+   "field": "w2b",
+   "key_kind": "ambiguous",
+   "n_alternatives": 20,
+   "nested_hit": false,
+   "path": null,
+   "reason": "name_not_one_file",
+   "state": "face_name_shared_by_several_files"
+  },
+  {
+   "alternatives": [
+    "Money02/data/cache/t18_deep_panel/meta.json",
+    "data/cache/p1c_local/meta.json"
+   ],
+   "class": "guard_unreachable",
+   "face": "meta.json",
+   "field": "generated",
+   "key_kind": "ambiguous",
+   "n_alternatives": 2,
+   "nested_hit": false,
+   "path": null,
+   "reason": "name_not_one_file",
+   "state": "face_name_shared_by_several_files"
+  },
+  {
+   "alternatives": [
+    "Money02/data/cache/t18_deep_panel/meta.json",
+    "data/cache/p1c_local/meta.json"
+   ],
+   "class": "guard_unreachable",
+   "face": "meta.json",
+   "field": "shape",
+   "key_kind": "ambiguous",
+   "n_alternatives": 2,
+   "nested_hit": false,
+   "path": null,
+   "reason": "name_not_one_file",
+   "state": "face_name_shared_by_several_files"
+  },
+  {
+   "alternatives": [
+    "results/census_fusion_s2/probe.json",
+    "results/fund_divlowvol_p1/probe.json",
+    "results/fund_quality_p1/probe.json",
+    "results/fund_quality_p2/probe.json",
+    "results/fund_value_p1/probe.json"
+   ],
+   "class": "guard_unreachable",
+   "face": "probe.json",
+   "field": "panel",
+   "key_kind": "ambiguous",
+   "n_alternatives": 14,
+   "nested_hit": false,
+   "path": null,
+   "reason": "name_not_one_file",
+   "state": "face_name_shared_by_several_files"
+  },
+  {
+   "alternatives": [
+    "results/census_fusion_s2/probe.json",
+    "results/fund_divlowvol_p1/probe.json",
+    "results/fund_quality_p1/probe.json",
+    "results/fund_quality_p2/probe.json",
+    "results/fund_value_p1/probe.json"
+   ],
+   "class": "guard_unreachable",
+   "face": "probe.json",
+   "field": "universe_n",
+   "key_kind": "ambiguous",
+   "n_alternatives": 14,
+   "nested_hit": false,
+   "path": null,
+   "reason": "name_not_one_file",
+   "state": "face_name_shared_by_several_files"
+  },
+  {
+   "alternatives": [
+    "results/census_fusion_s2/probe.json",
+    "results/fund_divlowvol_p1/probe.json",
+    "results/fund_quality_p1/probe.json",
+    "results/fund_quality_p2/probe.json",
+    "results/fund_value_p1/probe.json"
+   ],
+   "class": "guard_unreachable",
+   "face": "probe.json",
+   "field": "universe_skipped",
+   "key_kind": "ambiguous",
+   "n_alternatives": 14,
+   "nested_hit": false,
+   "path": null,
+   "reason": "name_not_one_file",
+   "state": "face_name_shared_by_several_files"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "xcc.json",
+   "field": "bars_files",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  },
+  {
+   "alternatives": [],
+   "class": "guard_unreachable",
+   "face": "xcc.json",
+   "field": "cache_last_date",
+   "key_kind": "missing",
+   "n_alternatives": 0,
+   "nested_hit": false,
+   "path": null,
+   "reason": "no_file_named",
+   "state": "face_absent_no_file_anywhere"
+  }
+ ],
+ "source": "scripts/e353_unwritten_guard_presence.py",
+ "study": "E353_unwritten_guard_presence",
+ "summary": {
+  "by_class": {
+   "guard_is_the_alert": 5,
+   "guard_never_fires": 103,
+   "guard_unreachable": 23
+  },
+  "by_key_kind": {
+   "ambiguous": 7,
+   "basename": 9,
+   "missing": 16,
+   "named": 99
+  },
+  "by_state": {
+   "face_absent_no_file_anywhere": 16,
+   "face_name_shared_by_several_files": 7,
+   "field_absent": 5,
+   "field_present_falsy": 34,
+   "field_present_truthy": 69
+  },
+  "classes_sum_to_pairs": true,
+  "distinct_faces": 45,
+  "faces_with_a_bare_key": 15,
+  "guard_never_fires_on_a_falsy_value": 34,
+  "minimal_writers": 4,
+  "nested_only_fields": 0,
+  "pairs": 131,
+  "pairs_a_writer_would_fix": 5,
+  "pairs_no_writer_can_fix": 23,
+  "path_fixes": 10,
+  "reconcile_e346_latches": 17,
+  "reconcile_identity_matches": 0,
+  "reconcile_name_matches": 1,
+  "upstream_pairs": 131
+ },
+ "today": "2026-11-02",
+ "ts": "2026-11-02T06:20:20+08:00",
+ "verdict": "of_131_guards_on_a_field_no_source_writes_23_raise_before_the_guard_runs_5_read_a_missing_or_null_field_and_103_read_a_value_of_which_34_read_falsy",
+ "writers_needed": [
+  {
+   "face": "p2_calibration_v2_ext.json",
+   "key_kind": "basename",
+   "missing_fields": [
+    "nshards",
+    "shard"
+   ],
+   "pairs": 2,
+   "path": "results/p2_calibration_v2_ext.json"
+  },
+  {
+   "face": "results/_r899bma_f1_bull_cond_selftest.json",
+   "key_kind": "named",
+   "missing_fields": [
+    "cutoff"
+   ],
+   "pairs": 1,
+   "path": "results/_r899bma_f1_bull_cond_selftest.json"
+  },
+  {
+   "face": "results/futures_tsmom_probe.json",
+   "key_kind": "named",
+   "missing_fields": [
+    "overall_verdict"
+   ],
+   "pairs": 1,
+   "path": "results/futures_tsmom_probe.json"
+  },
+  {
+   "face": "results/regime5_validation/REGIME5-VALIDATION-2026-09-30.json",
+   "key_kind": "named",
+   "missing_fields": [
+    "cutoff"
+   ],
+   "pairs": 1,
+   "path": "results/regime5_validation/REGIME5-VALIDATION-2026-09-30.json"
+  }
+ ]
+}

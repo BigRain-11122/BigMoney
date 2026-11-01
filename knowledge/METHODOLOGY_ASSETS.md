@@ -7350,3 +7350,81 @@ Evidence: scripts/e351_gate_state_census.py (selftest 25/25, verify 0 problems) 
 results/state_tilt/GATESTATE-2026-11-01.json + gatestate_latest.json; S6 leg `gate_state_census`
 (9.7s); smoke leg E351 (scripts/run_e351_smoke_leg.py, standalone PASS);
 research/digests/DIGEST-20261101-r1372-e351-gate-state-census.md
+
+## E352 -- a stale window is measured in the repository's own clock, not in mtime
+
+E349 counted the channel (139 live pointers, 840 non-fixture comparisons, 14 freshness checks).
+That is a rate. The cost is the window between the last write of a deciding file and the boundary
+at which a reader opens it. This card is how to price it with no argument about clocks.
+
+1. **Read the population, do not re-derive it.** The deciding rows come from E349's published
+   face; its own truncation (60 of 63) is republished as a bound. A second census here would give
+   a second population and the two numbers would never be one sentence.
+2. **The clock is `git log --first-parent`.** A boundary is a commit; the copy a reader takes is
+   the blob as of that commit; the lag is `boundary - last write` in commits and in hours. Two
+   clocks because they answer different questions: commits = "how many rounds behind", hours =
+   "how old is what it read".
+3. **Never read contents through git on a `blob:none` clone.** `git show` / `git grep` on an
+   unmaterialised blob starts a lazy fetch and hangs the round (r1255 family; the first draft of
+   this study blocked with zero CPU for ten minutes because `git grep` inherited a stdin pipe).
+   Contents come from the working tree; only `log` / `ls-tree` metadata is asked of git.
+4. **A silent writer is censored, not zero.** A file never touched inside the window has no
+   measurable last write on this line; it is published with a floor (`i + 1`) and a `censored`
+   state. Publishing it as zero would call a cross-machine face fresh because this line never
+   writes it. And a floor in the headline must be defended: dropping the 4 censored rows moves the
+   median of medians 80 -> 76, so the headline is not made of floors.
+5. **A stale fence is a boundary, not a file.** The unit is (file, boundary) where the gate's own
+   source changed at or after the boundary while the artifact it reads was last written before it:
+   the first run of new code grades an old copy. Deepest = 1 commit is the expected reading.
+6. **"Rewritten every round" is a one-commit fence.** A copy written at boundary k is one commit
+   old at k+1, so the class is `median lag <= 1`, and the interesting number is that only 1 of 59
+   deciding files qualifies.
+7. **One unfiltered walk beats N path-limited ones.** `git log -- <path>` diffs trees commit by
+   commit: 60 files x two walks (the second a `--diff-filter=A`) ran ~16 minutes here and blew the
+   chain's 900 s wall -- a gate that cannot run is not a gate. A single `git log --name-only -z`
+   over the same window, grouped into `{path: [boundary]}`, reproduces the identical table in 2.4 s
+   (`problems: []` against the unchanged face is the proof the rewrite preserved the measurement).
+   The add index needs no walk at all: for a path absent at the window's first boundary the first
+   touch IS the add.
+8. **Anchor the window at the face's own pin.** Anchored at HEAD, the very commit that publishes
+   the face shifts the window and the leg goes red the next round (r1373 family).
+
+Readings: 59 of 60 deciding files resolved (1 `latest.json` shared by 28 files), **1** rewritten
+every round (`fleet/machines/bm-b.json`, 150 writes), **58** lagging, median of file medians
+**80 commits** (p90 111; measured-only 76/107), **54** files carry a stale fence, worst
+`state-bm-c.json` p90 216 commits / 59.3 h, verdict `stale_window_unmeasured`. 46 of 59 files were
+touched exactly once in a 240-commit window: a `*_latest.json` mirror is a snapshot of its own
+study, not a pointer kept current.
+
+Evidence: scripts/e352_staleness_window.py (selftest 17/17, verify 0 problems) ->
+results/state_tilt/STALEWIN-2026-11-02.json + stalewin_latest.json; S6 leg `staleness_window`;
+smoke leg E352 (scripts/run_e352_smoke_leg.py, standalone PASS);
+research/digests/DIGEST-20261102-r1374-e352-staleness-window.md
+## E353 -- a guard on a field nobody writes is not automatically dead: ask the disk before calling it a defence
+
+E350 counted 230 guard fields, 131 with no writer in the corpus, and could only say *the guard can
+only fire on a missing value*. That is a claim about code. This card is how to price it against the
+tree, and what the answer looks like: 23 of 131 raise before the guard runs.
+
+1. **Import the producer, never read its truncated artifact.** E350's published face caps its list
+   at 40 rows (`rows_truncated: 2249`); a study that reads the face measures a third of the
+   population. `build` pays the upstream scan, `verify` does not -- presence re-derivation is
+   disk-only (~4 s), and population drift is caught by comparing the upstream's own published
+   count instead of re-running 100 s.
+2. **A basename is not an identity: resolve or refuse.** A key with a path is looked up there; a
+   bare key is looked up in a whole-tree index and must match exactly one file. Ambiguity is a
+   published class (`name_shared_by_N_files`), never a first-match: this tree has 20 files called
+   `manifest.json` and 14 called `probe.json`.
+3. **Presence is four states, not two.** absent / null / present-falsy / present-truthy. Folding
+   falsy into "never fires" is the tempting simplification and it is wrong in both directions: a
+   `not`-shaped guard fires on a falsy value, an `is None`-shaped guard never does, and the field
+   alone cannot tell the forms apart. Publish falsy as its own state and say so in the bound.
+4. **Convert the class into the shortest work list.** One writer per face covers every missing
+   field of that face, so group by face (4 faces closed 5 pairs here) -- and keep the second class
+   apart: a guard whose name does not resolve needs a path fix, which no writer can supply.
+5. **Reconcile on identity, not on names.** E346's 17 latches (a field its own writer re-reads) and
+   E350's 131 unwritten guards share 1 name and 0 face-and-field pairs; publishing both numbers
+   makes the two censuses one sentence instead of two rival counts.
+6. **Population checks belong in the smoke leg, not in prose.** A class tally that does not sum to
+   the population, a present field called an alert, an ambiguous name carrying a resolved path, or
+   a writer proposed for a face no writer can reach are all refusals a fixture can pin.

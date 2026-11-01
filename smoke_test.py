@@ -11433,6 +11433,175 @@ def main() -> int:
                 ((_f351 or {}).get("summary") or {}).get("replay_commits"),
                 (((_f351 or {}).get("summary") or {}).get("replay_head") or "")[:8]))
 
+    # E352: E349 priced the channel and found 14 freshness comparisons in 840; this leg asks the
+    # window itself. It refuses six shapes: a verdict outside the card's three words or a face
+    # with no pin/bound, the two lag classes not summing to the measured files, an
+    # "every round" file whose own median lag is longer than the one-commit fence, a censored
+    # writer published with zero lag, a verdict of fresh_by_construction while stale fences were
+    # counted, and a per-file stale-fence count larger than the boundaries it counted over.
+    _name352 = ("product: the staleness-window census re-derives, and a stale fence is never "
+                "published as fresh_by_construction")
+    _bad352 = []
+    _f352 = None
+    try:
+        _p352 = os.path.join("results", "state_tilt", "stalewin_latest.json")
+        _f352 = json.load(open(_p352, encoding="utf-8")) if os.path.exists(_p352) else None
+        if _f352 is None:
+            _bad352.append("no published staleness-window face")
+        else:
+            _s352 = _f352.get("summary") or {}
+            _v352 = str(_f352.get("verdict") or "")
+            if _v352 not in ("fresh_by_construction", "fresh_by_luck",
+                             "stale_window_unmeasured"):
+                _bad352.append("verdict %r is outside the card's vocabulary" % (_v352,))
+            if not (_f352.get("pin") or "").strip():
+                _bad352.append("the face carries no pin")
+            if not (_f352.get("bound") or "").strip():
+                _bad352.append("no bound published")
+            _meas352 = int(_s352.get("measured_files") or 0)
+            if int(_s352.get("files_rewritten_every_round") or 0) + int(
+                    _s352.get("files_lagging") or 0) != _meas352:
+                _bad352.append("the two lag classes do not sum to the measured files")
+            for _r352 in _f352.get("rows") or []:
+                _st352 = _r352.get("stats") or {}
+                _med352 = _st352.get("lag_median_commits")
+                if _r352.get("class") == "rewritten_every_round" and (
+                        _med352 is None or int(_med352) > 1):
+                    _bad352.append("%s :: called every-round at median lag %s"
+                                   % (_r352.get("file"), _med352))
+                    break
+                if _r352.get("class") == "lagging" and (_med352 is None or int(_med352) <= 1):
+                    _bad352.append("%s :: called lagging at median %s"
+                                   % (_r352.get("file"), _med352))
+                    break
+                if int((_st352.get("states") or {}).get("censored") or 0) and int(
+                        _st352.get("zero_lag_boundaries") or 0) > 0:
+                    _bad352.append("%s :: a censored writer shows zero lag" % (_r352.get("file"),))
+                    break
+                if int(_r352.get("decide_stale_instances") or 0) > int(
+                        _st352.get("measured_boundaries") or 0):
+                    _bad352.append("%s :: more stale fences than boundaries"
+                                   % (_r352.get("file"),))
+                    break
+            if _v352 == "fresh_by_construction" and int(
+                    _s352.get("decide_stale_instances_total") or 0):
+                _bad352.append("fresh_by_construction with %s stale fence(s) counted"
+                               % _s352.get("decide_stale_instances_total"))
+            if _v352 == "fresh_by_luck" and not int(
+                    _s352.get("decide_stale_instances_total") or 0):
+                _bad352.append("fresh_by_luck with no stale fence counted")
+    except Exception as e:
+        check(_name352, False, repr(e)[:160])
+
+    _s352f = (_f352 or {}).get("summary") or {}
+    check(_name352, not _bad352, "; ".join(_bad352)[:220]
+          or "%s; %s of %s deciding files measured over %s commits / %s h, %s rewritten every "
+             "round vs %s lagging (median of file medians %s commits, p90 %s), %s files carry a "
+             "stale fence (%s instances, deepest %s commit), worst %s at p90 %s commits / %s h"
+             % ((_f352 or {}).get("verdict"),
+                _s352f.get("measured_files"),
+                _s352f.get("deciding_rows"),
+                _s352f.get("window_commits"),
+                _s352f.get("window_hours"),
+                _s352f.get("files_rewritten_every_round"),
+                _s352f.get("files_lagging"),
+                _s352f.get("median_of_file_medians_commits"),
+                _s352f.get("p90_of_file_medians_commits"),
+                _s352f.get("files_with_a_decide_stale_instance"),
+                _s352f.get("decide_stale_instances_total"),
+                _s352f.get("decide_stale_deepest_commits"),
+                _s352f.get("worst_file"),
+                _s352f.get("worst_file_p90_commits"),
+                _s352f.get("worst_file_p90_hours")))
+
+    # E353: E350 counted 131 guard fields no source writes; this leg asks that the presence face
+    # refuse five shapes: a class tally that does not sum to its pairs, a pair whose class is not
+    # the one its state implies (a present field is never called an alert, an unresolvable face is
+    # never called a reader), a writer proposed for a face no writer can reach, a verdict whose
+    # numbers do not re-derive from the summary, and a pair list longer than the upstream count.
+    _name353 = ("product: the unwritten-guard presence face re-derives, and an unresolvable face "
+                "is never called a readable one")
+    _bad353 = []
+    _f353 = None
+    try:
+        _p353 = os.path.join("results", "state_tilt", "guardpresence_latest.json")
+        _f353 = json.load(open(_p353, encoding="utf-8")) if os.path.exists(_p353) else None
+        if _f353 is None:
+            _bad353.append("no published guard-presence face")
+        else:
+            _s353 = _f353.get("summary") or {}
+            _c353 = _s353.get("by_class") or {}
+            if sum(int(v or 0) for v in _c353.values()) != int(_s353.get("pairs") or 0):
+                _bad353.append("class tally does not sum to the pair count")
+            _implies = {"field_present_truthy": "guard_never_fires",
+                        "field_present_falsy": "guard_never_fires",
+                        "field_null": "guard_is_the_alert",
+                        "field_absent": "guard_is_the_alert"}
+            for _r353 in _f353.get("rows") or []:
+                _want = _implies.get(_r353.get("state"))
+                if _want and _r353.get("class") != _want:
+                    _bad353.append("%s :: %s state %s carries class %s"
+                                   % (_r353.get("face"), _r353.get("field"),
+                                      _r353.get("state"), _r353.get("class")))
+                    break
+                if str(_r353.get("state") or "").startswith("face_") and \
+                        _r353.get("class") != "guard_unreachable":
+                    _bad353.append("%s :: %s named a face that does not resolve but is not "
+                                   "unreachable" % (_r353.get("face"), _r353.get("field")))
+                    break
+                if _r353.get("key_kind") == "ambiguous" and _r353.get("path"):
+                    _bad353.append("%s resolved an ambiguous basename to one file"
+                                   % _r353.get("face"))
+                    break
+            _fixed = {w.get("face") for w in _f353.get("path_fixes") or []}
+            for _w353 in _f353.get("writers_needed") or []:
+                if _w353.get("face") in _fixed:
+                    _bad353.append("a writer was proposed for %s, which no writer can reach"
+                                   % _w353.get("face"))
+                    break
+                if not _w353.get("missing_fields"):
+                    _bad353.append("a writer covers no field")
+                    break
+            _m353 = re.search(r"_(\d+)_raise_before_the_guard_runs_(\d+)_read_a_missing_or_"
+                              r"null_field_and_(\d+)_read_a_value_of_which_(\d+)_read_falsy",
+                              str(_f353.get("verdict") or ""))
+            if not _m353:
+                _bad353.append("the verdict does not state the three classes")
+            else:
+                _got = [int(_m353.group(i)) for i in (1, 2, 3)]
+                _want = [int(_c353.get("guard_unreachable") or 0),
+                         int(_c353.get("guard_is_the_alert") or 0),
+                         int(_c353.get("guard_never_fires") or 0)]
+                if _got != _want:
+                    _bad353.append("the verdict's class counts do not re-derive (%s vs %s)"
+                                   % (_got, _want))
+                if int(_m353.group(4)) != int(_s353.get(
+                        "guard_never_fires_on_a_falsy_value") or 0):
+                    _bad353.append("the verdict's falsy sub-count does not re-derive")
+            if int(_s353.get("pairs") or 0) > int(_s353.get("upstream_pairs") or 0):
+                _bad353.append("more classified pairs than the upstream population")
+            if not str(_f353.get("bound") or "").strip():
+                _bad353.append("no bound published")
+    except Exception as e:
+        check(_name353, False, repr(e)[:160])
+
+    _s353f = (_f353 or {}).get("summary") or {}
+    check(_name353, not _bad353, "; ".join(_bad353)[:220]
+          or "%s; %s pairs over %s faces: %s raise before the guard runs, %s read a missing or "
+             "null field, %s read a value (%s of them falsy); %s writer(s) would close the alert "
+             "class and %s face(s) no writer can reach, %s of %s latch names coincide"
+             % ((_f353 or {}).get("verdict"),
+                _s353f.get("pairs"),
+                _s353f.get("distinct_faces"),
+                (_s353f.get("by_class") or {}).get("guard_unreachable"),
+                (_s353f.get("by_class") or {}).get("guard_is_the_alert"),
+                (_s353f.get("by_class") or {}).get("guard_never_fires"),
+                _s353f.get("guard_never_fires_on_a_falsy_value"),
+                _s353f.get("minimal_writers"),
+                _s353f.get("path_fixes"),
+                _s353f.get("reconcile_name_matches"),
+                _s353f.get("reconcile_e346_latches")))
+
     return _finish()
 
 
