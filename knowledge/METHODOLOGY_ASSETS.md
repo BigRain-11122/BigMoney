@@ -7457,3 +7457,18 @@ How to apply: any face whose evidence is "age of something" must publish the par
 separately from the age, and the GAP text must name which of the two failed. When the reader's
 input is a human-editable carrier (round report, ledger, queue), assume its row prefix can change
 and strip the carrier's own decoration before parsing. Selftest both spellings plus the garbage case.
+
+## E355 -- a runner that supplies its own imports is not proof the suite can run the leg (r1377)
+
+Two legs shipped in consecutive rounds (E350 at r1371, E353 at r1375) passed their standalone
+runners and both raised `NameError: name 're' is not defined` inside the smoke suite. The runners
+each start with `import re` and lift the leg's statement block out of `smoke_test.py` by AST; the
+suite itself never imported `re`. So the runner's namespace was the thing under test, and it was
+the one namespace guaranteed to have the name.
+
+How to apply: an extracted-leg runner proves compilation and values, never suite reachability.
+Rebuild the suite's own module head (module-level imports, helpers, constants -- excluding `main()`
+body) and execute the leg against exactly that namespace plus the `check`/`RESULTS` stubs. Anything
+a runner injects but the suite lacks surfaces immediately as NameError.
+`scripts/prove_smoke_leg_isolation.py` does this for every runner-backed leg and is itself wired
+into the suite (leg E355), so a future leg cannot be delivered on runner-only evidence.

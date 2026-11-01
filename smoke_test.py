@@ -10,6 +10,7 @@ import sys
 import os
 import io
 import json
+import re
 import datetime as dt
 import importlib
 import subprocess
@@ -11601,6 +11602,32 @@ def main() -> int:
                 _s353f.get("path_fixes"),
                 _s353f.get("reconcile_name_matches"),
                 _s353f.get("reconcile_e346_latches")))
+
+    # E355: a standalone leg runner is not a proof that the suite can run the leg. r1377: the E350
+    # and E353 runners each `import re` and lift the leg source by AST, so both legs passed
+    # standalone while the suite raised NameError('re') -- smoke_test.py itself never imported re.
+    # This leg executes every runner-backed leg against the suite's own module head and refuses a
+    # leg that reaches a name only its runner defines.
+    _name355 = ("product: every runner-backed leg executes against the suite's own module head, "
+                "not only inside the runner that lifts it")
+    _bad355 = []
+    try:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _p355 = __import__("importlib").import_module("prove_smoke_leg_isolation")
+        _rows355 = _p355.prove(_p355.LEG_ANCHORS)
+        for _r355 in _rows355:
+            if not _r355.get("ok"):
+                _bad355.append("%s: %s" % (_r355.get("leg"), _r355.get("detail")))
+        if not _rows355:
+            _bad355.append("the prover admitted no legs at all")
+        if not hasattr(_p355, "LEG_ANCHORS") or len(_p355.LEG_ANCHORS) < 8:
+            _bad355.append("the leg list shrank below the eight known runner legs")
+    except Exception as e:
+        _bad355.append(repr(e)[:160])
+    check(_name355, not _bad355, "; ".join(_bad355)[:220]
+          or "%d runner-backed legs (%s) each executed against the suite's own module head; "
+             "a leg that needs a name the suite never imports fails here instead of passing in its "
+             "runner" % (len(_p355.LEG_ANCHORS), ",".join(_p355.LEG_ANCHORS)))
 
     return _finish()
 
