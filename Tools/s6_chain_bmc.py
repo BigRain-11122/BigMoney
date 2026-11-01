@@ -176,6 +176,11 @@ LEGS = [
     # card's two arms as controls, so it belongs after production; ~60s, offline, deterministic
     # (one panel load, 24 engine calls).
     ("etf_book_causal_rebuild", ["python", "scripts/etf_book_causal_rebuild.py", "run"]),
+    # r1226 / E26: the rebuild closed the question of earning that price back, so the only
+    # channel left is the one that exists between the decision close and the fill open -- the
+    # overnight gap. Priced here, before the page that quotes the book reads it; ~150s,
+    # offline, deterministic (one panel load, 24 engine calls).
+    ("etf_book_overnight_gap", ["python", "scripts/etf_book_overnight_gap.py", "run"]),
     # r1366: the carry split answers "how much of the quoted return is repo interest",
     # and it must be priced on the same bar as the ticket it explains. Hand-run only
     # until now -- r1366 found it frozen on 2026-10-29 (base cell 11.33%) while that

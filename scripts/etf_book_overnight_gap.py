@@ -205,17 +205,25 @@ def audit_declared_lag(score, declared, bars):
 
 def audit_mask_not_rescale(reference, arm, gap, q, bars):
     """A8: an exclusion arm changes the selection set only -- a name that survives keeps the
-    reference score bit-for-bit. Passing the arm twice would compare it with itself and could
-    never fire, so the reference and the arm are two separate arguments."""
+    reference score bit-for-bit, and the names that disappear are exactly the masked ones.
+    Passing the arm twice would compare it with itself and could never fire, so the reference
+    and the arm are two separate arguments."""
     bad = []
     for d in bars:
-        m = excl_mask(gap, q, False).loc[d].reindex(reference.columns).fillna(False)
-        keep = reference.loc[d][~m]
+        ref_row = reference.loc[d].dropna()
+        m = excl_mask(gap, q, False).loc[d].reindex(ref_row.index).fillna(False)
+        expect = ref_row[~m]
         got = arm.loc[d].dropna()
-        if len(keep) != len(got) or not np.allclose(np.nan_to_num(keep.values, nan=-999.0),
-                                                    np.nan_to_num(got.values, nan=-999.0),
-                                                    rtol=0.0, atol=0.0):
-            bad.append({"bar": str(getattr(d, "date", lambda: d)())})
+        name = str(getattr(d, "date", lambda: d)())
+        if set(got.index) != set(expect.index):
+            extra = sorted(set(got.index) - set(expect.index))[:5]
+            missing = sorted(set(expect.index) - set(got.index))[:5]
+            bad.append({"bar": name, "why": "selection set differs", "extra": extra,
+                        "missing": missing})
+            continue
+        a = expect.reindex(got.index)
+        if not np.allclose(a.values, got.values, rtol=0.0, atol=0.0):
+            bad.append({"bar": name, "why": "a surviving name's score moved"})
     return {"ok": not bad, "checked": len(bars), "violations": bad}
 
 

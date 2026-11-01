@@ -500,6 +500,37 @@ def band_ruler_block(br):
 
 
 CAUSAL_REBUILD_JSON = os.path.join(ROOT, "results", "etf_book_causal_rebuild.json")
+GAP_JSON = os.path.join(ROOT, "results", "etf_book_overnight_gap.json")
+
+
+def gap_face(path=GAP_JSON):
+    """Is anything visible at the fill worth the one-bar price? (r1226 / E26)
+
+    Single implementation: verdict and arms come from `etf_book_overnight_gap`, which refuses
+    to serve a stored sentence whose rows no longer recompute. An absent or drifted face reads
+    as "cannot verify here" -- never as a clean negative."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_overnight_gap as _GP
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        doc = _GP.read_published(path) if os.path.exists(path) else None
+        if doc is None:
+            return {"status": "absent", "artifact": path, "verdict": None,
+                    "detail": "no artifact"}
+        if _GP.check(path) != 0:
+            return {"status": "drifted", "artifact": path, "verdict": doc.get("verdict"),
+                    "detail": "the verdict no longer recomputes from its own rows"}
+        doc["status"] = "ok"
+        doc["artifact"] = path
+        return doc
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "reading failed (%s)" % str(exc)[:120]}
 
 
 def causal_rebuild_face(path=CAUSAL_REBUILD_JSON):
@@ -673,6 +704,69 @@ def causal_rebuild_block(cr):
     add("")
     add("> 证据：`%s`"
         % _rel((cr or {}).get("artifact") or CAUSAL_REBUILD_JSON, ROOT).replace(os.sep, "/"))
+    add("")
+    return L
+
+
+def gap_block(gp):
+    """The lines this page prints about the overnight gap (r1226 / E26).
+
+    The rebuild answer is "no". A reader's next question is whether anything else visible at
+    the fill could be worth the 1.14pp -- the gap between the decision close and the fill open
+    is the only channel there. This block prints what it was worth, including when the answer
+    is "not enough, and not everywhere", because a tested negative is worth more than a
+    silence. Factored out so a selftest feeds it a missing / drifted / ok face."""
+    L = []
+    add = L.append
+    add("## 收盘到开盘之间只剩一个通道：隔夜跳空，量了也不够")
+    add("")
+    if (gp or {}).get("status") != "ok":
+        add("这一页没能读到跳空面的产物（`%s`，状态 `%s`：%s），所以「跳空值不值钱」在本页"
+            "**无法核验**——它不是零，也不是没有这回事。"
+            % (_rel((gp or {}).get("artifact") or GAP_JSON, ROOT).replace(os.sep, "/"),
+               (gp or {}).get("status") or "unknown",
+               (gp or {}).get("detail") or "原因未报"))
+        add("")
+        return L
+    v = gp.get("verdict") or {}
+    g = gp.get("gap_stats") or {}
+    st = v.get("state")
+    _zh = {"NO_GAP_EDGE": "**跳空不值钱**——结算出来的钱不是信息",
+           "ADOPT_GAP": "**有一条跳空规则够格**",
+           "MIXED_ACROSS_PHASES": "**全窗够线、四个相位里只有一半跑赢**——不是一条规则",
+           "INCOMPLETE": "**没有算完**"}.get(st, "**%s**" % st)
+    add("- 判决：%s。卡上可交易口径 **%.2f%%/年**；最好的一臂是 `%s`，**%+.2f pp/年**，"
+        "判据线 %.2f pp/年。"
+        % (_zh, 100.0 * (v.get("declared_cagr") or 0.0), v.get("best_arm"),
+           v.get("best_gained_pp") or 0.0, (gp.get("criteria") or {}).get("gap_min_pp") or 0.0))
+    add("")
+    arms = v.get("arms") or []
+    if arms:
+        add("- 逐臂：%s。" % "，".join("`%s` %+.2f pp（%d/4 相位跑赢%s）"
+                                     % (a.get("arm"), a.get("gained_pp") or 0.0,
+                                        a.get("phase_wins") or 0,
+                                        "，全窗三关过" if a.get("full_span_tests_pass")
+                                        else "，全窗三关未过") for a in arms))
+        add("")
+    if g.get("median_abs_gap_bp") is not None:
+        add("- 这个通道有多大：入场那根 bar 的跳空中位数 **%s bp**（均值 %s bp，90 分位 %s bp），"
+            "入场 %s 次；剔除臂每次决策会扔掉 %s 个名字。跳空本身不是小量，"
+            "但它作为排序信号是**负**的——按「跳得高就买」做是 %+.2f pp。"
+            % (g.get("median_abs_gap_bp"), g.get("mean_abs_gap_bp"), g.get("p90_abs_gap_bp"),
+               g.get("entry_bars"),
+               (g.get("excluded_names_per_decision") or {}).get("excl_upgap_q80"),
+               next((a.get("gained_pp") or 0.0 for a in arms if a.get("arm") == "gap_rank_up"),
+                    0.0)))
+        add("")
+    au = gp.get("audits") or {}
+    _ok = all((au.get(k) or {}).get("ok") for k in
+              ("A6_fill_time_causality", "A7_declared_lag", "A8_mask_not_rescale"))
+    add("- 机制审计：%s（跳空只用开盘价与前一根收盘 / 控制臂是滞后一根 / "
+        "剔除只改选股集合不改分数）。第一条不过，这整节就是未来函数。"
+        % ("三条全过" if _ok else "**有不过项**"))
+    add("")
+    add("> 证据：`%s`"
+        % _rel((gp or {}).get("artifact") or GAP_JSON, ROOT).replace(os.sep, "/"))
     add("")
     return L
 
@@ -1780,6 +1874,7 @@ def build(with_stress=False):
     page["vol_window_edge"] = vol_window_edge_face()
     page["lookahead"] = lookahead_face()
     page["causal_rebuild"] = causal_rebuild_face()
+    page["gap"] = gap_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
     page["envelope"] = envelope_face()
@@ -2068,6 +2163,10 @@ def render_md(p):
     # gap was tested and what it cost to test it, where he reads the arm.
     for _cr_line in causal_rebuild_block(p.get("causal_rebuild") or {}):
         add(_cr_line)
+    # r1226/E26: the rebuild answer is "no", so the reader's next question is whether anything
+    # visible at the fill is worth the gap. Answer it where the rebuild answer is read.
+    for _gp_line in gap_block(p.get("gap") or {}):
+        add(_gp_line)
     # r1213: the table's rows are not one ruler -- say which, where the table is read.
     for _br_line in band_ruler_block(p.get("band_ruler") or {}):
         add(_br_line)
@@ -3729,6 +3828,35 @@ def selftest():
     _cr_lines = "\n".join(causal_rebuild_block(_cr_ok))
     chk("L102 causal rebuild: the block itself prints no table-breaking pipe",
         "|" not in _cr_lines and "捡不回来" in _cr_lines, "")
+    # r1226 / E26: the gap channel is priced and printed where the rebuild answer is read ----
+    _gp_ok = {"status": "ok", "artifact": GAP_JSON, "evidence_cutoff": "2026-10-30",
+              "criteria": {"gap_min_pp": 0.57},
+              "verdict": {"state": "MIXED_ACROSS_PHASES", "declared_cagr": 0.0846,
+                          "best_arm": "excl_upgap_q80", "best_gained_pp": 0.81,
+                          "arms": [{"arm": "excl_upgap_q80", "gained_pp": 0.81,
+                                    "phase_wins": 2, "full_span_tests_pass": True},
+                                   {"arm": "gap_rank_up", "gained_pp": -10.86,
+                                    "phase_wins": 0, "full_span_tests_pass": False}]},
+              "gap_stats": {"median_abs_gap_bp": 23.98, "mean_abs_gap_bp": 41.48,
+                            "p90_abs_gap_bp": 97.45, "entry_bars": 83,
+                            "excluded_names_per_decision": {"excl_upgap_q80": 145.1}},
+              "audits": {"A6_fill_time_causality": {"ok": True},
+                         "A7_declared_lag": {"ok": True},
+                         "A8_mask_not_rescale": {"ok": True}}}
+    _gp_lines = "\n".join(gap_block(_gp_ok))
+    chk("L103 gap: the block names the tested arm, its gain, the line, the phase share and "
+        "how big the channel actually is",
+        all(_x in _gp_lines for _x in ("8.46", "+0.81", "0.57", "2/4", "23.98", "83")), "")
+    _gp_bad = dict(_gp_ok)
+    _gp_bad["audits"] = {"A6_fill_time_causality": {"ok": False},
+                         "A7_declared_lag": {"ok": True}, "A8_mask_not_rescale": {"ok": True}}
+    chk("L104 gap: a failed fill-time audit is printed as a failure, never as a clean negative",
+        "有不过项" in "\n".join(gap_block(_gp_bad)), "")
+    _gp_gone = "\n".join(gap_block({"status": "absent", "artifact": GAP_JSON}))
+    _gp_drift = "\n".join(gap_block({"status": "drifted", "artifact": GAP_JSON}))
+    chk("L105 gap: an absent or drifted face reads 'cannot verify' and prints no arithmetic",
+        "无法核验" in _gp_gone and "无法核验" in _gp_drift
+        and "+0.81" not in _gp_gone and "+0.81" not in _gp_drift and "|" not in _gp_gone, "")
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

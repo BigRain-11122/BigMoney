@@ -2569,6 +2569,11 @@ def main() -> int:
             # desk never had and no further smoothing of this score is worth burning.
             ("product: the one-bar price is not recoverable by smoothing (exit-code contract)",
              "scripts/etf_book_causal_rebuild.py", ["--selftest"]),
+            # r1226 / E26: with the rebuild closed, the only channel left is the overnight gap
+            # between the decision close and the fill open. It prices as neither a ranking
+            # signal (strongly negative) nor a usable exclusion (+0.81pp full span, 2/4 phases).
+            ("product: the overnight gap is priced against the declared arm (exit-code contract)",
+             "scripts/etf_book_overnight_gap.py", ["--selftest"]),
             # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
             # of selection premium over the book's own static class mix). The legs pin the
             # two ways this face can lie in either direction: a premium under the frozen
@@ -5112,6 +5117,52 @@ def main() -> int:
                  (_doc61.get("decomposition") or {}).get("cost_pp") or 0.0))
     except Exception as e:
         check("product: the one-bar price is not recoverable by smoothing the causal score",
+              False, repr(e)[:160])
+    # ---- r1226 / E26: the last information channel is priced too, and priced honestly ------
+    # The rebuild answer is "no", so the reader's next question is whether anything visible at
+    # the fill is worth the gap. This leg re-derives the verdict from the published rows, pins
+    # the criterion echo, refuses a verdict whose recommended arm was never priced, and
+    # demands the fill-time causality audit pass -- without it the whole face is look-ahead.
+    try:
+        import importlib as _il63
+        _G63 = _il63.import_module("etf_book_overnight_gap")
+        _g63 = os.path.join(PATHS.results_dir, "etf_book_overnight_gap.json")
+        _bad63 = []
+        if not os.path.exists(_g63):
+            _bad63.append("results/etf_book_overnight_gap.json missing")
+            _doc63 = {}
+        else:
+            with open(_g63, encoding="utf-8") as _fh63:
+                _doc63 = json.load(_fh63)
+            if _G63.check(_g63) != 0:
+                _bad63.append("the verdict does not recompute from the published rows")
+            _v63 = _doc63.get("verdict") or {}
+            if _v63.get("state") not in ("ADOPT_GAP", "NO_GAP_EDGE",
+                                         "MIXED_ACROSS_PHASES", "INCOMPLETE"):
+                _bad63.append("unknown verdict %r" % (_v63.get("state"),))
+            for _k63, _c63 in _G63.CRITERIA.items():
+                if (_doc63.get("criteria") or {}).get(_k63) != _c63:
+                    _bad63.append("criterion %s moved off the module constant" % (_k63,))
+            _arms63 = {r.get("arm") for r in (_doc63.get("rows") or [])}
+            if _v63.get("recommended_card_arm") not in _arms63:
+                _bad63.append("recommends an arm it never priced")
+            _au63 = _doc63.get("audits") or {}
+            for _a63 in ("A6_fill_time_causality", "A7_declared_lag", "A8_mask_not_rescale"):
+                if not ((_au63.get(_a63) or {}).get("ok")):
+                    _bad63.append("mechanism audit %s failed" % _a63)
+            # the control must reproduce the card it is measured against, or the pp is fiction
+            for _c63 in (_doc63.get("controls") or []):
+                if not _c63.get("ok"):
+                    _bad63.append("the declared control misses the published card")
+        check("product: the overnight gap is priced as the last channel between decide and fill",
+              not _bad63,
+              "; ".join(_bad63)[:220] or "verdict %s, best %+.2f pp of %.2f, median gap %s bp"
+              % ((_doc63.get("verdict") or {}).get("state"),
+                 (_doc63.get("verdict") or {}).get("best_gained_pp") or 0.0,
+                 (_doc63.get("criteria") or {}).get("gap_min_pp") or 0.0,
+                 (_doc63.get("gap_stats") or {}).get("median_abs_gap_bp")))
+    except Exception as e:
+        check("product: the overnight gap is priced as the last channel between decide and fill",
               False, repr(e)[:160])
     # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
     # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two
