@@ -26,7 +26,8 @@ TARGET_VOL = 0.08
 
 def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                         vol_target=None, start=START, vol_window=60,
-                        vol_cap=1.0, diag=None, ratio_hook=None, select_hook=None):
+                        vol_cap=1.0, diag=None, ratio_hook=None, select_hook=None,
+                        weight_hook=None):
     """vol_cap caps the sizing scale (1.0 = de-lever only, the published behaviour).
     diag, if a list, collects one {date, est_vol, scale, ratio} row per decision.
 
@@ -41,7 +42,14 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
     needs to see the incumbent book). It is called at the decision, so it may only use
     that bar's score row plus the names already held -- never future data. `None`
     (default) is the plain top-n rule and is bit-identical to the published behaviour; a
-    hook that returns the wrong shape raises instead of silently falling back."""
+    hook that returns the wrong shape raises instead of silently falling back.
+
+    weight_hook(picks, d) -> dict name -> weight optionally replaces the plain equal
+    weighting of the selected names (the published `1/n_hold`). It is called at the
+    decision, so it may only use data up to that bar. The returned weights must cover
+    exactly `picks` and sum to 1.0 (the sizing overlay reads the book's own vol, so a
+    book that is not fully invested would be silently re-levered). `None` (default) is
+    bit-identical to the published behaviour."""
     hist = close.notna().cumsum()
     elig = (amt >= E.MIN_AMT) & (hist >= E.MIN_HIST)
     score = score.where(elig)
@@ -76,6 +84,16 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                         raise ValueError("select_hook returned %d names (%d unique), expected %d"
                                          % (len(picks), len(set(picks)), n_hold))
                 w = {p: 1.0 / n_hold for p in picks}
+                if weight_hook is not None:
+                    w = dict(weight_hook(picks, d))
+                    if set(w) != set(picks):
+                        raise ValueError("weight_hook returned %d names, expected the %d picks"
+                                         % (len(w), len(picks)))
+                    tot = sum(w.values())
+                    if not np.isfinite(tot) or abs(tot - 1.0) > 1e-6:
+                        raise ValueError("weight_hook weights sum to %r, expected 1.0" % (tot,))
+                    if any((not np.isfinite(v)) or v < 0 for v in w.values()):
+                        raise ValueError("weight_hook returned a non-finite/negative weight")
                 scale = 1.0
                 est = None
                 ratio = 1.0

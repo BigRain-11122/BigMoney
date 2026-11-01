@@ -586,6 +586,15 @@ def main() -> int:
             # both tables must keep their header rows.
             ("product: incumbent-buffer adoption across books and phases (exit-code contract)",
              "scripts/etf_book_buffer_adoption.py", ["--selftest"]),
+            # r1232: every face above asks WHICH names and WHEN; the engine's `w = 1/n_hold`
+            # line was never priced. These legs pin the three things that would make a risk
+            # weighting look better than it is: a hook that is a second engine (the equal
+            # scheme must be bit-identical to the default), a rule that peeks past the
+            # decision bar, and an ERC solve that goes short on a sampled covariance.
+            ("product: picks-to-weights rule priced across books and phases (exit-code contract)",
+             "scripts/etf_book_weight_scheme.py", ["--selftest"]),
+            ("product: published weight-scheme verdict recomputes from its summary",
+             "scripts/etf_book_weight_scheme.py", ["--check"]),
             # r1347: adoption tested one arm; the hysteresis face still publishes four more
             # priced on a single sequence. These legs pin the breakeven-cost conversion and
             # the family verdict reading its arms, and keep "behind the card" a third state
@@ -2606,6 +2615,15 @@ def main() -> int:
             # both tables must keep their header rows.
             ("product: incumbent-buffer adoption across books and phases (exit-code contract)",
              "scripts/etf_book_buffer_adoption.py", ["--selftest"]),
+            # r1232: every face above asks WHICH names and WHEN; the engine's `w = 1/n_hold`
+            # line was never priced. These legs pin the three things that would make a risk
+            # weighting look better than it is: a hook that is a second engine (the equal
+            # scheme must be bit-identical to the default), a rule that peeks past the
+            # decision bar, and an ERC solve that goes short on a sampled covariance.
+            ("product: picks-to-weights rule priced across books and phases (exit-code contract)",
+             "scripts/etf_book_weight_scheme.py", ["--selftest"]),
+            ("product: published weight-scheme verdict recomputes from its summary",
+             "scripts/etf_book_weight_scheme.py", ["--check"]),
             # r1347: adoption tested one arm; the hysteresis face still publishes four more
             # priced on a single sequence. These legs pin the breakeven-cost conversion
             # (a return-losing arm needs a positive cost to break even, a return-gaining one
