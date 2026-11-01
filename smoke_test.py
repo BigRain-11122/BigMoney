@@ -2546,6 +2546,12 @@ def main() -> int:
             # pricing what it claims is red rather than merely different.
             ("product: the order sheet prices the execution it declares",
              "scripts/etf_book_causal_headline.py", ["check"]),
+            # r1224 / E341: the card carries the causal number; this leg pins that the
+            # rebuild question was actually asked and answered -- smoothing the causal score
+            # earns back 0.07pp of the 1.14pp one-bar price, so the gap is information the
+            # desk never had and no further smoothing of this score is worth burning.
+            ("product: the one-bar price is not recoverable by smoothing (exit-code contract)",
+             "scripts/etf_book_causal_rebuild.py", ["--selftest"]),
             # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
             # of selection premium over the book's own static class mix). The legs pin the
             # two ways this face can lie in either direction: a premium under the frozen
@@ -5040,6 +5046,55 @@ def main() -> int:
                  (_doc60.get("verdict") or {}).get("ladder_pp")))
     except Exception as e:
         check("product: the book's headline is priced one bar in the future, and the gap is measured",
+              False, repr(e)[:160])
+    # ---- r1224 / E341: is the one-bar price recoverable by rebuilding the signal causally? --
+    # The card carries 8.46%/yr (the declared arm). This face asked whether averaging the last
+    # k causal scores earns part of the missing 1.14pp back, and priced the answer: it does not
+    # (best +0.07pp, and the turnover barely moves, so the gap was not commission either). The
+    # leg re-derives the verdict from the published rows and refuses a face whose criterion
+    # echo has drifted -- a negative result is a result, and it must not be quietly reversed
+    # by a later "small adjustment".
+    try:
+        import importlib as _il61
+        _P61 = _il61.import_module("etf_book_causal_rebuild")
+        _p61 = os.path.join(PATHS.results_dir, "etf_book_causal_rebuild.json")
+        _bad61 = []
+        if not os.path.exists(_p61):
+            _bad61.append("results/etf_book_causal_rebuild.json missing")
+            _doc61 = {}
+        else:
+            with open(_p61, encoding="utf-8") as _fh61:
+                _doc61 = json.load(_fh61)
+            if _P61.check(_p61) != 0:
+                _bad61.append("the verdict does not recompute from the published rows")
+            _v61 = _doc61.get("verdict") or {}
+            if _v61.get("state") not in ("RECOVERABLE", "IRRECOVERABLE",
+                                         "MIXED_ACROSS_PHASES", "INCOMPLETE"):
+                _bad61.append("unknown verdict %r" % (_v61.get("state"),))
+            for _k61, _c61 in _P61.CRITERIA.items():
+                if (_doc61.get("criteria") or {}).get(_k61) != _c61:
+                    _bad61.append("criterion %s moved off the module constant" % (_k61,))
+            _arms61 = {r.get("arm") for r in (_doc61.get("rows") or [])}
+            if _v61.get("recommended_card_arm") not in _arms61:
+                _bad61.append("recommends an arm it never priced")
+            _au61 = _doc61.get("audits") or {}
+            for _a61 in ("A3_rank_causality", "A4_factor_source", "A5_lags"):
+                if not ((_au61.get(_a61) or {}).get("ok")):
+                    _bad61.append("mechanism audit %s failed" % _a61)
+            _dec61 = _doc61.get("decomposition") or {}
+            for _k61 in ("total_pp", "signal_pp", "cost_pp"):
+                if _dec61.get(_k61) is None:
+                    _bad61.append("cost decomposition missing %s" % _k61)
+        check("product: the one-bar price is not recoverable by smoothing the causal score",
+              not _bad61,
+              "; ".join(_bad61)[:220] or "verdict %s, best %+.2f pp of %.2f, signal %+.2f / cost %+.2f"
+              % ((_doc61.get("verdict") or {}).get("state"),
+                 (_doc61.get("verdict") or {}).get("best_recovered_pp") or 0.0,
+                 (_doc61.get("criteria") or {}).get("recovery_min_pp") or 0.0,
+                 (_doc61.get("decomposition") or {}).get("signal_pp") or 0.0,
+                 (_doc61.get("decomposition") or {}).get("cost_pp") or 0.0))
+    except Exception as e:
+        check("product: the one-bar price is not recoverable by smoothing the causal score",
               False, repr(e)[:160])
     # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
     # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two

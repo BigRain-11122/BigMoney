@@ -171,6 +171,11 @@ LEGS = [
     # the page that quotes the book: a face with no producer freezes on the card it was
     # written against, which is exactly how the r1220 mismatch verdict survived r1221's fix.
     ("etf_book_causal_headline", ["python", "scripts/etf_book_causal_headline.py", "run"]),
+    # r1224 / E341: the rebuild face answers the question the card's reader actually has --
+    # whether the 1.14pp one-bar price can be earned back by a causal rule. It reads the
+    # card's two arms as controls, so it belongs after production; ~60s, offline, deterministic
+    # (one panel load, 24 engine calls).
+    ("etf_book_causal_rebuild", ["python", "scripts/etf_book_causal_rebuild.py", "run"]),
     # r1366: the carry split answers "how much of the quoted return is repo interest",
     # and it must be priced on the same bar as the ticket it explains. Hand-run only
     # until now -- r1366 found it frozen on 2026-10-29 (base cell 11.33%) while that

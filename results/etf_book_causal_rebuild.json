@@ -1,0 +1,546 @@
+{
+ "audits": {
+  "A3_rank_causality": {
+   "checked": 3,
+   "ok": true,
+   "sample": [
+    {
+     "bar": "2020-01-02",
+     "max_abs_diff": 0.0
+    },
+    {
+     "bar": "2020-01-16",
+     "max_abs_diff": 0.0
+    },
+    {
+     "bar": "2020-01-23",
+     "max_abs_diff": 0.0
+    }
+   ],
+   "violations": []
+  },
+  "A4_factor_source": {
+   "ok": true,
+   "path": "engine\\factors.py",
+   "violations": []
+  },
+  "A5_lags": {
+   "lags_used": {
+    "declared": [
+     1
+    ],
+    "smooth_k2": [
+     1,
+     2
+    ],
+    "smooth_k3": [
+     1,
+     2,
+     3
+    ],
+    "smooth_k4": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "smooth_k6": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ]
+   },
+   "ok": true
+  }
+ },
+ "config": {
+  "cost_per_side": 0.001,
+  "n_hold": 12,
+  "phases": [
+   "2020-01-02",
+   "2020-01-09",
+   "2020-01-16",
+   "2020-01-23"
+  ],
+  "rebal": 20,
+  "vol_target": 0.08
+ },
+ "controls": [
+  {
+   "arm": "as_coded",
+   "gap_pp": 0.0,
+   "got_cagr": 0.096,
+   "ok": true,
+   "published_cagr": 0.096
+  },
+  {
+   "arm": "declared",
+   "gap_pp": 0.0,
+   "got_cagr": 0.0846,
+   "ok": true,
+   "published_cagr": 0.0846
+  }
+ ],
+ "criteria": {
+  "arms": {
+   "as_coded": "score (control; not causal, must reproduce the card)",
+   "declared": "score.shift(1) -- the number the card carries",
+   "smooth_kN": "mean(score.shift(1..N)) for N in smooth_ks -- every lag >= 1"
+  },
+  "dd_tol_pp": 2.0,
+  "ident_tol_pp": 0.05,
+  "n_phases": 4,
+  "oos_from": "2023-12-31",
+  "phase_share_min": 0.75,
+  "recovery_min_pp": 0.57,
+  "smooth_ks": [
+   2,
+   3,
+   4,
+   6
+  ],
+  "verdict_rule": "RECOVERABLE iff some smoothed causal arm beats `declared` on CAGR by >= recovery_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; IRRECOVERABLE if no arm passes; MIXED_ACROSS_PHASES if the full-span tests pass but the phase share does not (or the reverse) -- a rule that wins on one decision sequence is not a rule"
+ },
+ "decomposition": {
+  "arm": "smooth_k2",
+  "cost_pp": 0.01,
+  "rule": "signal_pp = the same two rules priced with zero commission; cost_pp = the rest. A recovery that is entirely cost must be printed as cost, not edge.",
+  "signal_pp": 0.06,
+  "total_pp": 0.07,
+  "turnover_arm": 0.9422,
+  "turnover_declared": 0.9529
+ },
+ "elapsed_sec": 43.4,
+ "evidence_cutoff": "2026-10-30",
+ "gross_rows": [
+  {
+   "arm": "declared__gross",
+   "bars": 1652,
+   "cagr": 0.0971,
+   "cost_per_side": 0.0,
+   "maxdd": -0.1547,
+   "oos_cagr": 0.1902,
+   "oos_sharpe": 1.791,
+   "phase": 0,
+   "sharpe": 0.99,
+   "turnover": 0.9529,
+   "vol": 0.1028,
+   "years": 6.82
+  },
+  {
+   "arm": "smooth_k2__gross",
+   "bars": 1652,
+   "cagr": 0.0977,
+   "cost_per_side": 0.0,
+   "maxdd": -0.1529,
+   "oos_cagr": 0.1882,
+   "oos_sharpe": 1.732,
+   "phase": 0,
+   "sharpe": 0.984,
+   "turnover": 0.9422,
+   "vol": 0.1042,
+   "years": 6.82
+  }
+ ],
+ "prereg": "research/CASE_PREREG_E25_CAUSAL_REBUILD.md",
+ "published": {
+  "as_coded_cagr": 0.096,
+  "declared_cagr": 0.0846,
+  "source": "results/etf_book_production/latest.json::execution_basis"
+ },
+ "rows": [
+  {
+   "arm": "as_coded",
+   "bars": 1652,
+   "cagr": 0.096,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1177,
+   "oos_cagr": 0.1835,
+   "oos_sharpe": 1.738,
+   "phase": 0,
+   "sharpe": 0.99,
+   "turnover": 0.9343,
+   "vol": 0.1017,
+   "years": 6.82
+  },
+  {
+   "arm": "declared",
+   "bars": 1652,
+   "cagr": 0.0846,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1656,
+   "oos_cagr": 0.1743,
+   "oos_sharpe": 1.658,
+   "phase": 0,
+   "sharpe": 0.874,
+   "turnover": 0.9529,
+   "vol": 0.1028,
+   "years": 6.82
+  },
+  {
+   "arm": "smooth_k2",
+   "bars": 1652,
+   "cagr": 0.0853,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1631,
+   "oos_cagr": 0.1722,
+   "oos_sharpe": 1.603,
+   "phase": 0,
+   "sharpe": 0.871,
+   "turnover": 0.9422,
+   "vol": 0.1042,
+   "years": 6.82
+  },
+  {
+   "arm": "smooth_k3",
+   "bars": 1652,
+   "cagr": 0.0814,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1647,
+   "oos_cagr": 0.1713,
+   "oos_sharpe": 1.598,
+   "phase": 0,
+   "sharpe": 0.834,
+   "turnover": 0.945,
+   "vol": 0.1042,
+   "years": 6.82
+  },
+  {
+   "arm": "smooth_k4",
+   "bars": 1652,
+   "cagr": 0.0775,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1556,
+   "oos_cagr": 0.1684,
+   "oos_sharpe": 1.58,
+   "phase": 0,
+   "sharpe": 0.807,
+   "turnover": 0.9485,
+   "vol": 0.1029,
+   "years": 6.82
+  },
+  {
+   "arm": "smooth_k6",
+   "bars": 1652,
+   "cagr": 0.0801,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1495,
+   "oos_cagr": 0.1497,
+   "oos_sharpe": 1.382,
+   "phase": 0,
+   "sharpe": 0.819,
+   "turnover": 0.9436,
+   "vol": 0.1047,
+   "years": 6.82
+  },
+  {
+   "arm": "as_coded",
+   "bars": 1647,
+   "cagr": 0.0958,
+   "cost_per_side": 0.001,
+   "maxdd": -0.154,
+   "oos_cagr": 0.1696,
+   "oos_sharpe": 1.439,
+   "phase": 1,
+   "sharpe": 0.939,
+   "turnover": 0.9613,
+   "vol": 0.1077,
+   "years": 6.8
+  },
+  {
+   "arm": "declared",
+   "bars": 1647,
+   "cagr": 0.0794,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1658,
+   "oos_cagr": 0.159,
+   "oos_sharpe": 1.397,
+   "phase": 1,
+   "sharpe": 0.808,
+   "turnover": 0.9515,
+   "vol": 0.1054,
+   "years": 6.8
+  },
+  {
+   "arm": "smooth_k2",
+   "bars": 1647,
+   "cagr": 0.085,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1563,
+   "oos_cagr": 0.1737,
+   "oos_sharpe": 1.474,
+   "phase": 1,
+   "sharpe": 0.839,
+   "turnover": 0.9529,
+   "vol": 0.1083,
+   "years": 6.8
+  },
+  {
+   "arm": "smooth_k3",
+   "bars": 1647,
+   "cagr": 0.0871,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1679,
+   "oos_cagr": 0.1739,
+   "oos_sharpe": 1.465,
+   "phase": 1,
+   "sharpe": 0.855,
+   "turnover": 0.9223,
+   "vol": 0.1088,
+   "years": 6.8
+  },
+  {
+   "arm": "smooth_k4",
+   "bars": 1647,
+   "cagr": 0.0879,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1806,
+   "oos_cagr": 0.1751,
+   "oos_sharpe": 1.477,
+   "phase": 1,
+   "sharpe": 0.862,
+   "turnover": 0.9136,
+   "vol": 0.1087,
+   "years": 6.8
+  },
+  {
+   "arm": "smooth_k6",
+   "bars": 1647,
+   "cagr": 0.0851,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1697,
+   "oos_cagr": 0.1681,
+   "oos_sharpe": 1.514,
+   "phase": 1,
+   "sharpe": 0.855,
+   "turnover": 0.9187,
+   "vol": 0.1061,
+   "years": 6.8
+  },
+  {
+   "arm": "as_coded",
+   "bars": 1642,
+   "cagr": 0.0897,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1415,
+   "oos_cagr": 0.1736,
+   "oos_sharpe": 1.531,
+   "phase": 2,
+   "sharpe": 0.902,
+   "turnover": 0.9956,
+   "vol": 0.1054,
+   "years": 6.78
+  },
+  {
+   "arm": "declared",
+   "bars": 1642,
+   "cagr": 0.0809,
+   "cost_per_side": 0.001,
+   "maxdd": -0.2026,
+   "oos_cagr": 0.1766,
+   "oos_sharpe": 1.455,
+   "phase": 2,
+   "sharpe": 0.794,
+   "turnover": 0.9647,
+   "vol": 0.1098,
+   "years": 6.78
+  },
+  {
+   "arm": "smooth_k2",
+   "bars": 1642,
+   "cagr": 0.0857,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1801,
+   "oos_cagr": 0.167,
+   "oos_sharpe": 1.416,
+   "phase": 2,
+   "sharpe": 0.845,
+   "turnover": 0.9434,
+   "vol": 0.1084,
+   "years": 6.78
+  },
+  {
+   "arm": "smooth_k3",
+   "bars": 1642,
+   "cagr": 0.0883,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1786,
+   "oos_cagr": 0.1747,
+   "oos_sharpe": 1.461,
+   "phase": 2,
+   "sharpe": 0.862,
+   "turnover": 0.9332,
+   "vol": 0.1092,
+   "years": 6.78
+  },
+  {
+   "arm": "smooth_k4",
+   "bars": 1642,
+   "cagr": 0.085,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1869,
+   "oos_cagr": 0.1794,
+   "oos_sharpe": 1.527,
+   "phase": 2,
+   "sharpe": 0.841,
+   "turnover": 0.9271,
+   "vol": 0.108,
+   "years": 6.78
+  },
+  {
+   "arm": "smooth_k6",
+   "bars": 1642,
+   "cagr": 0.0781,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1635,
+   "oos_cagr": 0.1508,
+   "oos_sharpe": 1.306,
+   "phase": 2,
+   "sharpe": 0.781,
+   "turnover": 0.9077,
+   "vol": 0.1078,
+   "years": 6.78
+  },
+  {
+   "arm": "as_coded",
+   "bars": 1637,
+   "cagr": 0.1087,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1448,
+   "oos_cagr": 0.14,
+   "oos_sharpe": 1.332,
+   "phase": 3,
+   "sharpe": 1.132,
+   "turnover": 0.964,
+   "vol": 0.0989,
+   "years": 6.74
+  },
+  {
+   "arm": "declared",
+   "bars": 1637,
+   "cagr": 0.0593,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1417,
+   "oos_cagr": 0.0291,
+   "oos_sharpe": 0.339,
+   "phase": 3,
+   "sharpe": 0.646,
+   "turnover": 0.9961,
+   "vol": 0.1005,
+   "years": 6.74
+  },
+  {
+   "arm": "smooth_k2",
+   "bars": 1637,
+   "cagr": 0.057,
+   "cost_per_side": 0.001,
+   "maxdd": -0.142,
+   "oos_cagr": 0.0179,
+   "oos_sharpe": 0.232,
+   "phase": 3,
+   "sharpe": 0.625,
+   "turnover": 0.9872,
+   "vol": 0.0999,
+   "years": 6.74
+  },
+  {
+   "arm": "smooth_k3",
+   "bars": 1637,
+   "cagr": 0.0513,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1541,
+   "oos_cagr": 0.0229,
+   "oos_sharpe": 0.282,
+   "phase": 3,
+   "sharpe": 0.573,
+   "turnover": 0.9664,
+   "vol": 0.0991,
+   "years": 6.74
+  },
+  {
+   "arm": "smooth_k4",
+   "bars": 1637,
+   "cagr": 0.0457,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1664,
+   "oos_cagr": 0.0179,
+   "oos_sharpe": 0.231,
+   "phase": 3,
+   "sharpe": 0.517,
+   "turnover": 0.9583,
+   "vol": 0.0993,
+   "years": 6.74
+  },
+  {
+   "arm": "smooth_k6",
+   "bars": 1637,
+   "cagr": 0.0545,
+   "cost_per_side": 0.001,
+   "maxdd": -0.1674,
+   "oos_cagr": 0.0496,
+   "oos_sharpe": 0.538,
+   "phase": 3,
+   "sharpe": 0.607,
+   "turnover": 0.9465,
+   "vol": 0.0989,
+   "years": 6.74
+  }
+ ],
+ "script": "scripts\\etf_book_causal_rebuild.py",
+ "ts": "2026-11-02T01:40:45+0800",
+ "verdict": {
+  "admissible_arms": [],
+  "arms": [
+   {
+    "admissible": false,
+    "arm": "smooth_k2",
+    "full_span_tests_pass": false,
+    "phase_share": 0.75,
+    "phase_share_pass": true,
+    "phase_wins": 3,
+    "recovered_pp": 0.07
+   },
+   {
+    "admissible": false,
+    "arm": "smooth_k3",
+    "full_span_tests_pass": false,
+    "phase_share": 0.5,
+    "phase_share_pass": false,
+    "phase_wins": 2,
+    "recovered_pp": -0.32
+   },
+   {
+    "admissible": false,
+    "arm": "smooth_k4",
+    "full_span_tests_pass": false,
+    "phase_share": 0.5,
+    "phase_share_pass": false,
+    "phase_wins": 2,
+    "recovered_pp": -0.71
+   },
+   {
+    "admissible": false,
+    "arm": "smooth_k6",
+    "full_span_tests_pass": false,
+    "phase_share": 0.25,
+    "phase_share_pass": false,
+    "phase_wins": 1,
+    "recovered_pp": -0.45
+   }
+  ],
+  "best_arm": "smooth_k2",
+  "best_recovered_pp": 0.07,
+  "chosen_arm": null,
+  "dd_floor": -0.1856,
+  "declared_cagr": 0.0846,
+  "declared_maxdd": -0.1656,
+  "declared_sharpe": 0.874,
+  "phases": 4,
+  "recommended_card_arm": "declared",
+  "state": "IRRECOVERABLE",
+  "state_rule_detail": "MIXED_ACROSS_PHASES requires the return line to be cleared first; a recovery smaller than recovery_min_pp is IRRECOVERABLE however consistently it wins"
+ }
+}

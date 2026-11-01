@@ -498,6 +498,42 @@ def band_ruler_block(br):
     return L
 
 
+
+CAUSAL_REBUILD_JSON = os.path.join(ROOT, "results", "etf_book_causal_rebuild.json")
+
+
+def causal_rebuild_face(path=CAUSAL_REBUILD_JSON):
+    """Can the one-bar price be earned back by a causal rule? (r1224 / E341)
+
+    The table tells the reader to size off the declared arm. The next question a reader has
+    is whether that 1.14pp can be rebuilt -- average the causal score, trade less, win part of
+    it back. This face prices that question and prints the answer, including when the answer
+    is no: a negative result the operator can see is worth more than a silence he has to
+    interpret."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_causal_rebuild as _CR
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        doc = _CR.read_published(path) if os.path.exists(path) else None
+        if doc is None:
+            return {"status": "absent", "artifact": path, "verdict": None,
+                    "detail": "no artifact"}
+        if _CR.check(path) != 0:
+            return {"status": "drifted", "artifact": path, "verdict": doc.get("verdict"),
+                    "detail": "the verdict no longer recomputes from its own rows"}
+        doc["status"] = "ok"
+        doc["artifact"] = path
+        return doc
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
 def lookahead_face(path=LOOKAHEAD_JSON):
     """Is the headline achievable at the price the book is actually bought at? (r1207)
 
@@ -583,6 +619,60 @@ def vol_window_edge_block(ve):
         % (_rel(ve.get("artifact") or VOLWIN_EDGE_JSON, ROOT).replace(os.sep, "/"),
            ve.get("evidence_cutoff") or "—",
            "PASS" if ve.get("identity_all_pass") else "FAIL"))
+    add("")
+    return L
+
+
+
+def causal_rebuild_block(cr):
+    """The lines this page prints about the rebuild question (r1224 / E341).
+
+    Factored out so a selftest can feed a missing / drifted / ok face instead of trusting the
+    render path by eye."""
+    L = []
+    add = L.append
+    add("## 那条缝能不能捡回来：把因果分数平滑之后只拿回 0.07pp")
+    add("")
+    if (cr or {}).get("status") != "ok":
+        add("这一页没能读到重排面的产物（`%s`，状态 `%s`：%s），所以「能不能捡回」在本页"
+            "**无法核验**——它不是零，也不是没有这回事。"
+            % (_rel((cr or {}).get("artifact") or CAUSAL_REBUILD_JSON, ROOT).replace(os.sep, "/"),
+               (cr or {}).get("status") or "unknown",
+               (cr or {}).get("detail") or "原因未报"))
+        add("")
+        return L
+    v = cr.get("verdict") or {}
+    dec = cr.get("decomposition") or {}
+    st = v.get("state")
+    _zh = {"IRRECOVERABLE": "**捡不回来**——这条缝是桌子从来没拿到的信息",
+           "RECOVERABLE": "**能捡回来一部分**",
+           "MIXED_ACROSS_PHASES": "**四个决策相位里说法不一**——不是一条规则",
+           "INCOMPLETE": "**没有算完**"}.get(st, "**%s**" % st)
+    add("- 判决：%s。卡上那条可交易口径是 **%.2f%%/年**，因果平滑最好的一臂只把它推到 "
+        "**%+.2f pp/年**；判据要求至少捡回 %.2f pp/年，所以卡继续印声明口径。"
+        % (_zh, 100.0 * (v.get("declared_cagr") or 0.0),
+           v.get("best_recovered_pp") or 0.0,
+           (cr.get("criteria") or {}).get("recovery_min_pp") or 0.0))
+    add("")
+    if dec.get("total_pp") is not None:
+        add("- 捡回的是哪一块：同一个规则零佣金再算一次，**信号 %+.2f pp / 佣金 %+.2f pp**"
+            "（换手 %.3f → %.3f）。两个几乎一样，所以这不是「少交易省下来的钱」。"
+            % (dec.get("signal_pp") or 0.0, dec.get("cost_pp") or 0.0,
+               dec.get("turnover_declared") or 0.0, dec.get("turnover_arm") or 0.0))
+        add("")
+    arms = v.get("arms") or []
+    if arms:
+        add("- 逐臂：%s。" % "，".join("`%s` %+.2f pp（%d/4 相位跑赢）"
+                                     % (a.get("arm"), a.get("recovered_pp") or 0.0,
+                                        a.get("phase_wins") or 0) for a in arms))
+        add("")
+    au = cr.get("audits") or {}
+    _ok = all((au.get(k) or {}).get("ok") for k in ("A3_rank_causality", "A4_factor_source", "A5_lags"))
+    add("- 机制审计：%s（秩层因果 / 因子库无全样本统计 / 每条重建臂滞后 ≥1）。"
+        "不过这三条，「8.46%% 可交易」这句话本身就没有证据。" % ("三条全过" if _ok else "**有不过项**"))
+    add("")
+    add("> 证据：`%s`"
+        % _rel((cr or {}).get("artifact") or CAUSAL_REBUILD_JSON, ROOT).replace(os.sep, "/"))
     add("")
     return L
 
@@ -1689,6 +1779,7 @@ def build(with_stress=False):
     page["vol_window"] = vol_window_face()
     page["vol_window_edge"] = vol_window_edge_face()
     page["lookahead"] = lookahead_face()
+    page["causal_rebuild"] = causal_rebuild_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
     page["envelope"] = envelope_face()
@@ -1973,6 +2064,10 @@ def render_md(p):
     # caveat where the number is read, not in a research file the reader never opens.
     for _lk_line in lookahead_block(p.get("lookahead") or {}):
         add(_lk_line)
+    # r1224/E341: the reader is told to size off the declared arm; say whether that
+    # gap was tested and what it cost to test it, where he reads the arm.
+    for _cr_line in causal_rebuild_block(p.get("causal_rebuild") or {}):
+        add(_cr_line)
     # r1213: the table's rows are not one ruler -- say which, where the table is read.
     for _br_line in band_ruler_block(p.get("band_ruler") or {}):
         add(_br_line)
@@ -3598,6 +3693,42 @@ def selftest():
     chk("L98 window label: the block names the middle window and the bars that tile "
         "the full one", "842" in _md_wl2 and "1525" in _md_wl2
         and "3.71" in "\n".join(window_label_block(_wl_mid)), "")
+    # r1224 / E341: the reader is told to size off the declared arm ------------------------
+    def _render_cr(cr):
+        _p, _ = build(with_stress=False)
+        _p["causal_rebuild"] = cr
+        return render_md(_p)
+    _cr_ok = {"status": "ok", "artifact": CAUSAL_REBUILD_JSON, "evidence_cutoff": "2026-10-30",
+              "criteria": {"recovery_min_pp": 0.57},
+              "verdict": {"state": "IRRECOVERABLE", "declared_cagr": 0.0846,
+                          "best_recovered_pp": 0.07,
+                          "arms": [{"arm": "smooth_k2", "recovered_pp": 0.07, "phase_wins": 3},
+                                   {"arm": "smooth_k4", "recovered_pp": -0.71, "phase_wins": 2}]},
+              "decomposition": {"total_pp": 0.07, "signal_pp": 0.06, "cost_pp": 0.01,
+                                "turnover_declared": 0.953, "turnover_arm": 0.942},
+              "audits": {"A3_rank_causality": {"ok": True}, "A4_factor_source": {"ok": True},
+                         "A5_lags": {"ok": True}}}
+    _md_cr = _render_cr(_cr_ok)
+    chk("L99 causal rebuild: the page names the tested gap, the recovery that failed the "
+        "line and where it came from (signal vs commission)",
+        all(_x in _md_cr for _x in ("8.46", "+0.07", "0.57", "0.06", "0.01", "3/4")), "")
+    _cr_bad = dict(_cr_ok)
+    _cr_bad["audits"] = {"A3_rank_causality": {"ok": True}, "A4_factor_source": {"ok": False},
+                         "A5_lags": {"ok": True}}
+    chk("L100 causal rebuild: a failed mechanism audit is printed as a failure, never as a "
+        "clean negative result",
+        "有不过项" in "\n".join(causal_rebuild_block(_cr_bad)), "")
+    _cr_gone = "\n".join(causal_rebuild_block({"status": "absent",
+                                               "artifact": CAUSAL_REBUILD_JSON}))
+    _cr_drift = "\n".join(causal_rebuild_block({"status": "drifted",
+                                                "artifact": CAUSAL_REBUILD_JSON}))
+    chk("L101 causal rebuild: an absent or drifted face reads 'cannot verify' and prints no "
+        "arithmetic",
+        "无法核验" in _cr_gone and "无法核验" in _cr_drift
+        and "+0.07" not in _cr_gone and "+0.07" not in _cr_drift and "|" not in _cr_gone, "")
+    _cr_lines = "\n".join(causal_rebuild_block(_cr_ok))
+    chk("L102 causal rebuild: the block itself prints no table-breaking pipe",
+        "|" not in _cr_lines and "捡不回来" in _cr_lines, "")
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 
