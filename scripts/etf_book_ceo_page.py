@@ -40,6 +40,7 @@ PATHS_JSON = os.path.join(ROOT, "results", "etf_book_sleeve_paths.json")
 EXPOSURE_JSON = os.path.join(ROOT, "results", "etf_book_exposure_timing.json")
 COST_JSON = os.path.join(ROOT, "results", "etf_book_cost_tape.json")
 VOLWIN_JSON = os.path.join(ROOT, "results", "etf_book_vol_window_phase.json")
+VOLWIN_EDGE_JSON = os.path.join(ROOT, "results", "etf_book_vol_window_edge.json")
 LOOKAHEAD_JSON = os.path.join(ROOT, "results", "etf_book_lookahead_audit.json")
 ENVELOPE_JSON = os.path.join(ROOT, "results", "etf_book_bootstrap", "latest.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
@@ -328,6 +329,32 @@ def vol_window_face(path=VOLWIN_JSON):
                 "detail": "reading failed (%s)" % str(exc)[:120]}
 
 
+def vol_window_edge_face(path=VOLWIN_EDGE_JSON):
+    """The grid that had to be pushed further down: did the ladder turn, or keep falling? (r1212)
+
+    The window face above ends on a promise -- "the champion sits on the edge of the grid, so
+    pushing further is the next frozen face's job". This reader serves that face: the same
+    question carried one grid lower, with the engine's own minimum estimation history
+    measured from its per-decision diag rather than assumed.
+
+    Single implementation: rows, verdict and position come from
+    `etf_book_vol_window_edge.read_published()`. Absent, unreadable or drifted reads as
+    "cannot verify here", never as "the window is fine"."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_vol_window_edge as _VWE
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        return _VWE.read_published(path=path)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
 def lookahead_face(path=LOOKAHEAD_JSON):
     """Is the headline achievable at the price the book is actually bought at? (r1207)
 
@@ -352,6 +379,69 @@ def lookahead_face(path=LOOKAHEAD_JSON):
     except Exception as exc:                                    # noqa: BLE001
         return {"status": "unreadable", "artifact": path, "verdict": None,
                 "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def vol_window_edge_block(ve):
+    """The lines this page prints about pushing the window grid below its old floor.
+
+    Factored out (like `lookahead_block`) so a selftest can feed it a missing / drifted / ok
+    face instead of trusting the render path by eye. The block never prints a winner it
+    cannot attribute: every number comes from the reader, and a face that cannot be verified
+    says so and stops."""
+    L = []
+    add = L.append
+    add("### 那根「还得往下推」的网格——推到底了吗")
+    add("")
+    if (ve or {}).get("status") != "ok":
+        add("这一页没有拿到「网格往下推」那张面的可用读数（`%s`，状态 `%s`）：%s。"
+            "所以上一节末尾那句「往下推是下一张面的活」，本页还没法回答。"
+            % (_rel(ve.get("artifact") or VOLWIN_EDGE_JSON, ROOT).replace(os.sep, "/"),
+               (ve or {}).get("status") or "unknown",
+               (ve or {}).get("detail") or "判决不能从自己的行重算"))
+        add("")
+        return L
+    e = ve.get("edge") or {}
+    v = ve.get("verdict") or {}
+    st = e.get("state")
+    zh = {"EDGE_AT_FLOOR": "**还在最边上**（是方向，不是水平）",
+          "INTERIOR": "**阶梯在网格内部拐弯了**（有候选值）",
+          "SHIPPED_IS_HIGHEST": "**在册窗口就是最高点**",
+          "EDGE_AT_CEILING": "**顶边上**（异常）"}.get(st, "**%s**" % st)
+    add("上一节的冠军落在它自己网格的最小格（30 日）上，那句话只能当方向读。把网格再往下延"
+        "（%s 日），这一节回答它到底会不会拐弯。"
+        % "、".join("%s" % w for w in (ve.get("criteria") or {}).get("windows") or []))
+    add("")
+    add("- 判决：%s。最高平均夏普的窗口 = **%s 日**（%.4f），在册 60 日 = %.4f。"
+        % (zh, e.get("best_window"), e.get("best_mean_sharpe") or 0.0,
+           (e.get("shipped") or {}).get("mean_sharpe") or 0.0))
+    if e.get("inactive_windows"):
+        add("- 关键一条：**%s 这三个窗口一个估计都出不来**。发动机自己要求至少 %s 根 bar 才肯"
+            "算协方差，低于这条线它就按满仓走——那不是在测「更短的估计」，而是在测"
+            "**把覆盖关掉**。三格数字一模一样（同一个臂），所以它们被并成一个臂、踢出曲线，"
+            "否则「最优点」会因为重复格被读低。"
+            % ("、".join("%sd" % w for w in e["inactive_windows"]), e.get("floor_window")))
+    add("- 也就是说：**真正能跑的窗口地板就是 %s 日**，冠军正压在这条地板上。"
+        "要再往下测，得先改「估计器最少用多少根 bar」——那是另一个决定（样本够不够统计），"
+        "不是把窗口数字调小。" % e.get("floor_window"))
+    pv = ve.get("paired") or {}
+    if (pv.get("rows") or []):
+        add("- 配对裁决（最好窗口 vs 在册 60 日，同一相位内的收益差自己做块自助）：**%s**。"
+            % ((pv.get("verdict") or {}).get("state") or "—"))
+    add("- 在册窗口留不留：**%s**。" % ("留" if ve.get("published_window_stays") else "可换"))
+    add("")
+    add("| 窗口 | 平均夏普（跨 4 相位） | 跑得动吗 |")
+    add("|---|---|---|")
+    for c in e.get("curve") or []:
+        add("| %sd | %.4f | 是 |" % (c["window"], c["mean_sharpe"]))
+    for w in e.get("inactive_windows") or []:
+        add("| %sd | —（覆盖被关掉） | **否** |" % w)
+    add("")
+    add("> 网格底面：`%s` ｜ 定价截止 %s ｜ 在册窗口复现生产卡 = **%s**"
+        % (_rel(ve.get("artifact") or VOLWIN_EDGE_JSON, ROOT).replace(os.sep, "/"),
+           ve.get("evidence_cutoff") or "—",
+           "PASS" if ve.get("identity_all_pass") else "FAIL"))
+    add("")
+    return L
 
 
 def lookahead_block(lk):
@@ -1427,6 +1517,7 @@ def build(with_stress=False):
     page["exposure_timing"] = exposure_timing_face()
     page["cost_tape"] = cost_tape_face()
     page["vol_window"] = vol_window_face()
+    page["vol_window_edge"] = vol_window_edge_face()
     page["lookahead"] = lookahead_face()
     page["envelope"] = envelope_face()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
@@ -2233,6 +2324,7 @@ def render_md(p):
                len({r.get("window") for r in rows}) or "—",
                "PASS" if vw.get("identity_all_pass") else "FAIL"))
         add("")
+    L.extend(vol_window_edge_block(p.get("vol_window_edge") or {}))
     add("## 换成年内能赚多少钱（按本单资金 ¥%s）" % format(p["money_cny"]["capital_cny"], ",.0f"))
     add("")
     add("同一批数字再换一把尺子，只做单位换算，不叠加任何新假设：")
@@ -3208,6 +3300,45 @@ def selftest():
     chk("L88 envelope: a face describing another book is flagged BEFORE its numbers",
         "不是" in "\n".join(envelope_block(_env_foreign))
         and "different_object" in "\n".join(envelope_block(_env_foreign)), "")
+
+    # r1212 / E328: the grid pushed below its old floor ----------------------------------
+    _ve_ok = {"status": "ok", "artifact": VOLWIN_EDGE_JSON, "evidence_cutoff": "2026-10-30",
+              "identity_all_pass": True, "published_window_stays": True,
+              "criteria": {"windows": [5, 10, 15, 20, 25, 30, 60]},
+              "edge": {"state": "EDGE_AT_FLOOR", "best_window": 20,
+                       "best_mean_sharpe": 1.1113, "floor_window": 20,
+                       "inactive_windows": [5, 10, 15],
+                       "shipped": {"window": 60, "mean_sharpe": 0.9908},
+                       "curve": [{"window": 20, "mean_sharpe": 1.1113},
+                                 {"window": 25, "mean_sharpe": 1.1082},
+                                 {"window": 30, "mean_sharpe": 1.0815},
+                                 {"window": 60, "mean_sharpe": 0.9908}]},
+              "verdict": {"state": "ADOPT_WINDOW"}, "paired": {"rows": [
+                  {"phase": 0, "status": "ok", "mean_pp": 1.56,
+                   "ci_p05_p95_pp": [0.4, 3.06], "share_positive": 0.987}],
+                  "verdict": {"state": "MIXED_ACROSS_PHASES"}}}
+    _md_ve = "\n".join(vol_window_edge_block(_ve_ok))
+    chk("L89 window grid floor: the winner, the floor and the switched-off windows reach "
+        "the page", all(_x in _md_ve for _x in ("20 日", "1.1113", "0.9908",
+                                               "5d", "15d",
+                                               "覆盖被关掉", "还在最边上")), "")
+    chk("L90 window grid floor: the page says how many bars the engine needs before it "
+        "will estimate at all, rather than calling the floor a tuned value",
+        "最少" in _md_ve or "至少" in _md_ve, "")
+    _ve_gone = {"status": "missing", "artifact": VOLWIN_EDGE_JSON}
+    _ve_drift = {"status": "drift", "artifact": VOLWIN_EDGE_JSON,
+                 "edge": {"state": "INTERIOR", "best_window": 20,
+                          "best_mean_sharpe": 1.1113}}
+    _md_ve_gone = "\n".join(vol_window_edge_block(_ve_gone))
+    _md_ve_drift = "\n".join(vol_window_edge_block(_ve_drift))
+    chk("L91 window grid floor: absent or drifted reads 'cannot verify' and prints no "
+        "winner", "没法回答" in _md_ve_gone and "没法回答" in _md_ve_drift
+        and "1.1113" not in _md_ve_gone and "1.1113" not in _md_ve_drift, "")
+    _ve_interior = dict(_ve_ok)
+    _ve_interior["edge"] = dict(_ve_ok["edge"], state="INTERIOR", inactive_windows=[])
+    _md_ve_int = "\n".join(vol_window_edge_block(_ve_interior))
+    chk("L92 window grid floor: a different position prints a different sentence and stops "
+        "blaming the estimator", "拐弯" in _md_ve_int and "覆盖被关掉" not in _md_ve_int, "")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

@@ -4800,6 +4800,65 @@ def main() -> int:
     except Exception as e:
         check("product: the vol window is judged on more than one decision calendar",
               False, repr(e)[:160])
+
+    # ---- r1212 / E328: the grid pushed BELOW its old floor ----------------------------
+    # The window face above ends with "the champion sits on the edge, pushing further is the
+    # next face's job". The next face pushed, and found that the three shortest windows
+    # never produce a vol estimate at all (the engine's own minimum history), i.e. they test
+    # "overlay off", not "a shorter estimate". The leg therefore re-derives BOTH reads from
+    # the rows: the position of the winner inside the LIVE range, and the fact that the dead
+    # arms are excluded and reported. A face that silently starts counting them again --
+    # which would move the "floor" to whichever duplicate was numbered last -- is red here.
+    try:
+        import importlib as _il60
+        _P60 = _il60.import_module("etf_book_vol_window_edge")
+        _p60 = os.path.join(PATHS.results_dir, "etf_book_vol_window_edge.json")
+        _bad60 = []
+        if not os.path.exists(_p60):
+            _bad60.append("results/etf_book_vol_window_edge.json missing")
+        else:
+            with open(_p60, encoding="utf-8") as _fh60:
+                _doc60 = json.load(_fh60)
+            if _P60.check(_p60) != 0:
+                _bad60.append("the verdict/position do not recompute from the published rows")
+            _rows60 = _doc60.get("phase_rows") or []
+            _e60 = _doc60.get("edge") or {}
+            _re60 = _P60.edge_read(_rows60)
+            if _e60.get("state") != _re60.get("state"):
+                _bad60.append("edge state drifted: %r vs recomputed %r"
+                              % (_e60.get("state"), _re60.get("state")))
+            # the inherited rule must still be the previous face's rule
+            if not (_doc60.get("rule_inherited") or {}).get("ok"):
+                _bad60.append("the adoption rule stopped being inherited from the window face")
+            if sorted((_doc60.get("criteria") or {}).get("windows") or []) != \
+                    sorted(_P60.WINDOWS):
+                _bad60.append("the grid moved off the module constant")
+            if min(_P60.WINDOWS) >= _P60.PREV_FLOOR:
+                _bad60.append("the grid does not reach below the previous floor")
+            # dead arms: every phase must show zero estimates, and they must be grouped
+            _dead = set(_e60.get("inactive_windows") or [])
+            for _w60 in _dead:
+                _rs = [r for r in _rows60 if r.get("window") == _w60]
+                if not _rs or any((r.get("est_missing") or 0) != (r.get("decisions") or -1)
+                                  for r in _rs):
+                    _bad60.append("window %sd is called dead but did produce estimates" % _w60)
+            _live = [c["window"] for c in (_e60.get("curve") or [])]
+            if _dead & set(_live):
+                _bad60.append("a dead arm is still in the live curve")
+            if len(_dead) > 1:
+                _grp = [g for g in (_e60.get("duplicate_groups") or []) if g.get("size") == len(_dead)]
+                if not _grp:
+                    _bad60.append("dead arms are not reported as ONE duplicate arm")
+            if _doc60.get("admissible"):
+                _bad60.append("a config change was declared admissible without review")
+        check("product: the window grid's floor is the engine's, measured not assumed",
+              not _bad60,
+              "; ".join(_bad60)[:220] or "position %s, best %sd, dead arms %s"
+              % (_e60.get("state"), _e60.get("best_window"),
+                 _e60.get("inactive_windows")))
+    except Exception as e:
+        check("product: the window grid's floor is the engine's, measured not assumed",
+              False, repr(e)[:160])
     # ---- r1207: the book's headline is priced one bar in the future ----
     # The face the CEO opens quotes the research engine, which ranks on bar d's own close and
     # then earns open[d]->open[d+1]. This leg re-reads the published audit and requires: the

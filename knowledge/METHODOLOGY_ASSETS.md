@@ -8138,3 +8138,43 @@ over 8 arms, page selftest 87 -> 91 (L85-L88: numbers reach the page, the table 
 drifted face prints no percentile, a foreign book is flagged before its numbers), smoke leg *"the
 page shows the book's own luck distribution, not just a point"* re-derives the percentiles from the
 rows and requires them verbatim on `docs/live_book/LIVE-BOOK-20261101.md`.
+
+### E328 — A grid pushed past the engine's own floor prices the feature SWITCHED OFF, not the feature at a smaller value (r1212 bm-a)
+
+The window face (E24 / r1203) ended on a promise: "the champion sits on the EDGE of the grid, so
+pushing further is the next frozen face's job". That face pushed (5/10/15/20/25 alongside the old 30
+and the shipped 60) and the three shortest windows came back **numerically identical** to each other
+— mean Sharpe 0.9735 with the same min/max in all four phases and the same per-phase deltas to three
+decimals. They are not three grid points: the engine refuses to estimate a book covariance from fewer
+bars than its own minimum history (20, inside its `book_vol` closure) and then sizes at full
+exposure. A window below that line tests **the overlay switched off**, not "a shorter estimate".
+Without noticing, the same rows read `INTERIOR` and the report would have said "the ladder turns, a
+candidate value exists at 20d" — where 20 is simply the first point at which the feature exists at
+all. The false finding is one line away from the true one.
+
+**Rule 1 — measure which arms actually run the feature, from the engine's own diag, and de-duplicate
+them.** Coverage per cell is `est_missing == decisions` on the engine's per-decision rows, never an
+assumed threshold read off the source; dead arms are excluded from the curve and grouped by their
+published row signature ("three windows, one arm"). Identical published rows are the detector, which
+is why the duplicate is reported and not just the exclusion — a later face that silently starts
+counting them again moves the "floor" to whichever duplicate was numbered last. The achievable floor
+is then reported as the engine's, so the sentence "shorter is better down to 20" becomes "20 is the
+smallest window the overlay can price", and going lower is a decision about the ESTIMATOR's minimum
+sample, not about the window number.
+
+**Rule 2 — a monotone ladder is a direction, and a direction is not a config value.** The face
+therefore prints the whole curve plus its noise-band plateau (20-25d, 0.011 Sharpe apart), and
+adoption needs all three conditions at once: the inherited frozen rule (`ADOPT_WINDOW`, 4/4 phases),
+an interior winner *above the live floor*, and a paired band that excludes zero in every phase. The
+paired ruler came back `MIXED_ACROSS_PHASES` (+1.56 [+0.40,+3.06] / +2.61 [+1.21,+4.36] / +1.33
+[-0.02,+2.82] / +0.53 [-0.65,+1.81] pp/yr), so the shipped 60 stays and no config is rewritten by a
+research face. The rule and the paired thresholds are **imported** from the previous face and an
+assertion aborts the run if they drift — inheriting a rule by retyping it is how two faces start
+disagreeing.
+
+Verification: `scripts/etf_book_vol_window_edge.py` selftest 20/20 (floor-vs-interior read, dead-arm
+exclusion, duplicate grouping, "without the coverage columns the same curve reads INTERIOR", shipped
+branch surviving the filter), `--check` OK, page selftest 95/95 (L89-L92: the winner, the floor, the
+switched-off windows and the "cannot verify" path reach the CEO one-page), chain leg
+`etf_book_vol_window_edge` (engine-free gate) and a smoke leg that re-derives both reads from the
+published rows and reds a dead arm left in the live curve.

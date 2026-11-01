@@ -1,0 +1,1493 @@
+{
+ "generated": "2026-11-01 16:30:07",
+ "elapsed_sec": 44.4,
+ "evidence_cutoff": "2026-10-30",
+ "production_evidence_cutoff": "2026-10-30",
+ "bars": 1652,
+ "panel_bars": 5270,
+ "priced_from": "2020-01-01",
+ "question": "the shipped 60-day realised-vol window won on the EDGE of the previous grid (its floor was 30d); does a grid that reaches below 30d turn the ladder, or does it keep falling?",
+ "criteria": {
+  "windows": [
+   5,
+   10,
+   15,
+   20,
+   25,
+   30,
+   60
+  ],
+  "published_window": 60,
+  "previous_face_floor": 30,
+  "n_phases": 4,
+  "sharpe_gain": 0.02,
+  "cagr_tol_pp": 0.15,
+  "dd_tol_pp": 0.5,
+  "share_min": 0.75,
+  "oos_from": "2023-12-31",
+  "identity_tol": 0.0001,
+  "rule_source": "results/etf_book_vol_window_phase.json::criteria (inherited)"
+ },
+ "rule_inherited": {
+  "ok": true,
+  "drift": {},
+  "overlap_windows": [
+   30,
+   60
+  ],
+  "note": "the two faces must share at least one priced window so their ladders can be joined without re-pricing; drift here means this face stopped applying the rule it inherited"
+ },
+ "identity": [
+  {
+   "phase": 0,
+   "start": "2020-01-02",
+   "asserted": true,
+   "measured": {
+    "cagr": 0.096,
+    "sharpe": 0.99,
+    "maxdd": -0.1177,
+    "vol": 0.1017
+   },
+   "published": {
+    "cagr": 0.096,
+    "sharpe": 0.99,
+    "maxdd": -0.1177,
+    "vol": 0.1017
+   },
+   "gaps": {
+    "cagr": 0.0,
+    "sharpe": 0.0,
+    "maxdd": 0.0,
+    "vol": 0.0
+   },
+   "worst_gap": 0.0,
+   "tol": 0.0001,
+   "passes": true,
+   "note": null
+  },
+  {
+   "phase": 1,
+   "start": "2020-01-09",
+   "asserted": false,
+   "measured": {
+    "cagr": 0.0958,
+    "sharpe": 0.939,
+    "maxdd": -0.154,
+    "vol": 0.1077
+   },
+   "published": {
+    "cagr": 0.096,
+    "sharpe": 0.99,
+    "maxdd": -0.1177,
+    "vol": 0.1017
+   },
+   "gaps": {
+    "cagr": 0.00020000000000000573,
+    "sharpe": 0.051000000000000045,
+    "maxdd": 0.0363,
+    "vol": 0.006000000000000005
+   },
+   "worst_gap": 0.051000000000000045,
+   "tol": 0.0001,
+   "passes": true,
+   "note": "shifted phase -- a different priced span, not asserted"
+  },
+  {
+   "phase": 2,
+   "start": "2020-01-16",
+   "asserted": false,
+   "measured": {
+    "cagr": 0.0897,
+    "sharpe": 0.902,
+    "maxdd": -0.1415,
+    "vol": 0.1054
+   },
+   "published": {
+    "cagr": 0.096,
+    "sharpe": 0.99,
+    "maxdd": -0.1177,
+    "vol": 0.1017
+   },
+   "gaps": {
+    "cagr": 0.0063,
+    "sharpe": 0.08799999999999997,
+    "maxdd": 0.023799999999999988,
+    "vol": 0.003699999999999995
+   },
+   "worst_gap": 0.08799999999999997,
+   "tol": 0.0001,
+   "passes": true,
+   "note": "shifted phase -- a different priced span, not asserted"
+  },
+  {
+   "phase": 3,
+   "start": "2020-01-23",
+   "asserted": false,
+   "measured": {
+    "cagr": 0.1087,
+    "sharpe": 1.132,
+    "maxdd": -0.1448,
+    "vol": 0.0989
+   },
+   "published": {
+    "cagr": 0.096,
+    "sharpe": 0.99,
+    "maxdd": -0.1177,
+    "vol": 0.1017
+   },
+   "gaps": {
+    "cagr": 0.012700000000000003,
+    "sharpe": 0.1419999999999999,
+    "maxdd": 0.027100000000000013,
+    "vol": 0.002799999999999997
+   },
+   "worst_gap": 0.1419999999999999,
+   "tol": 0.0001,
+   "passes": true,
+   "note": "shifted phase -- a different priced span, not asserted"
+  }
+ ],
+ "identity_all_pass": true,
+ "config": {
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_bp": 10.0,
+  "vol_target": 0.08,
+  "windows": [
+   5,
+   10,
+   15,
+   20,
+   25,
+   30,
+   60
+  ]
+ },
+ "phase_rows": [
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "window": 5,
+   "cagr": 0.1421,
+   "sharpe": 0.982,
+   "maxdd": -0.1588,
+   "vol": 0.153,
+   "oos_cagr": 0.2419,
+   "oos_sharpe": 1.604,
+   "oos_maxdd": -0.1289,
+   "turnover_per_decision": 1.277,
+   "mean_scale": 1.0,
+   "decisions": 83,
+   "est_missing": 83,
+   "est_covered": 0,
+   "overlay_active": false
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "window": 10,
+   "cagr": 0.1421,
+   "sharpe": 0.982,
+   "maxdd": -0.1588,
+   "vol": 0.153,
+   "oos_cagr": 0.2419,
+   "oos_sharpe": 1.604,
+   "oos_maxdd": -0.1289,
+   "turnover_per_decision": 1.277,
+   "mean_scale": 1.0,
+   "decisions": 83,
+   "est_missing": 83,
+   "est_covered": 0,
+   "overlay_active": false
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "window": 15,
+   "cagr": 0.1421,
+   "sharpe": 0.982,
+   "maxdd": -0.1588,
+   "vol": 0.153,
+   "oos_cagr": 0.2419,
+   "oos_sharpe": 1.604,
+   "oos_maxdd": -0.1289,
+   "turnover_per_decision": 1.277,
+   "mean_scale": 1.0,
+   "decisions": 83,
+   "est_missing": 83,
+   "est_covered": 0,
+   "overlay_active": false
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "window": 20,
+   "cagr": 0.1119,
+   "sharpe": 1.084,
+   "maxdd": -0.1187,
+   "vol": 0.1073,
+   "oos_cagr": 0.2023,
+   "oos_sharpe": 1.803,
+   "oos_maxdd": -0.1187,
+   "turnover_per_decision": 1.029,
+   "mean_scale": 0.7459,
+   "decisions": 83,
+   "est_missing": 0,
+   "est_covered": 83,
+   "overlay_active": true
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "window": 25,
+   "cagr": 0.113,
+   "sharpe": 1.105,
+   "maxdd": -0.1192,
+   "vol": 0.106,
+   "oos_cagr": 0.2099,
+   "oos_sharpe": 1.869,
+   "oos_maxdd": -0.1192,
+   "turnover_per_decision": 1.008,
+   "mean_scale": 0.739,
+   "decisions": 83,
+   "est_missing": 0,
+   "est_covered": 83,
+   "overlay_active": true
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "window": 30,
+   "cagr": 0.1046,
+   "sharpe": 1.057,
+   "maxdd": -0.119,
+   "vol": 0.1031,
+   "oos_cagr": 0.1953,
+   "oos_sharpe": 1.808,
+   "oos_maxdd": -0.119,
+   "turnover_per_decision": 0.974,
+   "mean_scale": 0.7237,
+   "decisions": 83,
+   "est_missing": 0,
+   "est_covered": 83,
+   "overlay_active": true
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "window": 60,
+   "cagr": 0.096,
+   "sharpe": 0.99,
+   "maxdd": -0.1177,
+   "vol": 0.1017,
+   "oos_cagr": 0.1835,
+   "oos_sharpe": 1.738,
+   "oos_maxdd": -0.107,
+   "turnover_per_decision": 0.934,
+   "mean_scale": 0.7077,
+   "decisions": 83,
+   "est_missing": 0,
+   "est_covered": 83,
+   "overlay_active": true
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "window": 5,
+   "cagr": 0.1407,
+   "sharpe": 0.912,
+   "maxdd": -0.2596,
+   "vol": 0.1655,
+   "oos_cagr": 0.2092,
+   "oos_sharpe": 1.2,
+   "oos_maxdd": -0.2596,
+   "turnover_per_decision": 1.313,
+   "mean_scale": 1.0,
+   "decisions": 83,
+   "est_missing": 83,
+   "est_covered": 0,
+   "overlay_active": false
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "window": 10,
+   "cagr": 0.1407,
+   "sharpe": 0.912,
+   "maxdd": -0.2596,
+   "vol": 0.1655,
+   "oos_cagr": 0.2092,
+   "oos_sharpe": 1.2,
+   "oos_maxdd": -0.2596,
+   "turnover_per_decision": 1.313,
+   "mean_scale": 1.0,
+   "decisions": 83,
+   "est_missing": 83,
+   "est_covered": 0,
+   "overlay_active": false
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "window": 15,
+   "cagr": 0.1407,
+   "sharpe": 0.912,
+   "maxdd": -0.2596,
+   "vol": 0.1655,
+   "oos_cagr": 0.2092,
+   "oos_sharpe": 1.2,
+   "oos_maxdd": -0.2596,
+   "turnover_per_decision": 1.313,
+   "mean_scale": 1.0,
+   "decisions": 83,
+   "est_missing": 83,
+   "est_covered": 0,
+   "overlay_active": false
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "window": 20,
+   "cagr": 0.1233,
+   "sharpe": 1.157,
+   "maxdd": -0.1462,
+   "vol": 0.11,
+   "oos_cagr": 0.2095,
+   "oos_sharpe": 1.683,
+   "oos_maxdd": -0.1349,
+   "turnover_per_decision": 1.014,
+   "mean_scale": 0.7375,
+   "decisions": 83,
+   "est_missing": 0,
+   "est_covered": 83,
+   "overlay_active": true
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "window": 25,
+   "cagr": 0.1201,
+   "sharpe": 1.123,
+   "maxdd": -0.1529,
+   "vol": 0.1106,
+   "oos_cagr": 0.207,
+   "oos_sharpe": 1.666,
+   "oos_maxdd": -0.13,
+   "turnover_per_decision": 1.006,
+   "mean_scale": 0.7351,
+   "decisions": 83,
+   "est_missing": 0,
+   "est_covered": 83,
+   "overlay_active": true
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "window": 30,
+   "cagr": 0.1148,
+   "sharpe": 1.082,
+   "maxdd": -0.1502,
+   "vol": 0.1102,
+   "oos_cagr": 0.1994,
+   "oos_sharpe": 1.612,
+   "oos_maxdd": -0.1304,
+   "turnover_per_decision": 0.998,
+   "mean_scale": 0.7298,
+   "decisions": 83,
+   "est_missing": 0,
+   "est_covered": 83,
+   "overlay_active": true
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "window": 60,
+   "cagr": 0.0958,
+   "sharpe": 0.939,
+   "maxdd": -0.154,
+   "vol": 0.1077,
+   "oos_cagr": 0.1696,
+   "oos_sharpe": 1.439,
+   "oos_maxdd": -0.1335,
+   "turnover_per_decision": 0.961,
+   "mean_scale": 0.7126,
+   "decisions": 83,
+   "est_missing": 0,
+   "est_covered": 83,
+   "overlay_active": true
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "window": 5,
+   "cagr": 0.1385,
+   "sharpe": 0.886,
+   "maxdd": -0.209,
+   "vol": 0.1685,
+   "oos_cagr": 0.2279,
+   "oos_sharpe": 1.234,
+   "oos_maxdd": -0.209,
+   "turnover_per_decision": 1.365,
+   "mean_scale": 1.0,
+   "decisions": 83,
+   "est_missing": 83,
+   "est_covered": 0,
+   "overlay_active": false
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "window": 10,
+   "cagr": 0.1385,
+   "sharpe": 0.886,
+   "maxdd": -0.209,
+   "vol": 0.1685,
+   "oos_cagr": 0.2279,
+   "oos_sharpe": 1.234,
+   "oos_maxdd": -0.209,
+   "turnover_per_decision": 1.365,
+   "mean_scale": 1.0,
+   "decisions": 83,
+   "est_missing": 83,
+   "est_covered": 0,
+   "overlay_active": false
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "window": 15,
+   "cagr": 0.1385,
+   "sharpe": 0.886,
+   "maxdd": -0.209,
+   "vol": 0.1685,
+   "oos_cagr": 0.2279,
+   "oos_sharpe": 1.234,
+   "oos_maxdd": -0.209,
+   "turnover_per_decision": 1.365,
+   "mean_scale": 1.0,
+   "decisions": 83,
+   "est_missing": 83,
+   "est_covered": 0,
+   "overlay_active": false
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "window": 20,
+   "cagr": 0.1039,
+   "sharpe": 1.051,
+   "maxdd": -0.1315,
+   "vol": 0.103,
+   "oos_cagr": 0.1993,
+   "oos_sharpe": 1.792,
+   "oos_maxdd": -0.1202,
+   "turnover_per_decision": 1.021,
+   "mean_scale": 0.73,
+   "decisions": 83,
+   "est_missing": 0,
+   "est_covered": 83,
+   "overlay_active": true
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "window": 25,
+   "cagr": 0.1057,
+   "sharpe": 1.043,
+   "maxdd": -0.134,
+   "vol": 0.1058,
+   "oos_cagr": 0.1998,
+   "oos_sharpe": 1.728,
+   "oos_maxdd": -0.1264,
+   "turnover_per_decision": 1.04,
+   "mean_scale": 0.739,
+   "decisions": 83,
+   "est_missing": 0,
+   "est_covered": 83,
+   "overlay_active": true
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "window": 30,
+   "cagr": 0.102,
+   "sharpe": 1.005,
+   "maxdd": -0.1408,
+   "vol": 0.1064,
+   "oos_cagr": 0.1943,
+   "oos_sharpe": 1.685,
+   "oos_maxdd": -0.1269,
+   "turnover_per_decision": 1.037,
+   "mean_scale": 0.7387,
+   "decisions": 83,
+   "est_missing": 0,
+   "est_covered": 83,
+   "overlay_active": true
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "window": 60,
+   "cagr": 0.0897,
+   "sharpe": 0.902,
+   "maxdd": -0.1415,
+   "vol": 0.1054,
+   "oos_cagr": 0.1736,
+   "oos_sharpe": 1.531,
+   "oos_maxdd": -0.1415,
+   "turnover_per_decision": 0.996,
+   "mean_scale": 0.7226,
+   "decisions": 83,
+   "est_missing": 0,
+   "est_covered": 83,
+   "overlay_active": true
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "window": 5,
+   "cagr": 0.157,
+   "sharpe": 1.114,
+   "maxdd": -0.1719,
+   "vol": 0.1454,
+   "oos_cagr": 0.1868,
+   "oos_sharpe": 1.255,
+   "oos_maxdd": -0.1719,
+   "turnover_per_decision": 1.283,
+   "mean_scale": 1.0,
+   "decisions": 82,
+   "est_missing": 82,
+   "est_covered": 0,
+   "overlay_active": false
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "window": 10,
+   "cagr": 0.157,
+   "sharpe": 1.114,
+   "maxdd": -0.1719,
+   "vol": 0.1454,
+   "oos_cagr": 0.1868,
+   "oos_sharpe": 1.255,
+   "oos_maxdd": -0.1719,
+   "turnover_per_decision": 1.283,
+   "mean_scale": 1.0,
+   "decisions": 82,
+   "est_missing": 82,
+   "est_covered": 0,
+   "overlay_active": false
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "window": 15,
+   "cagr": 0.157,
+   "sharpe": 1.114,
+   "maxdd": -0.1719,
+   "vol": 0.1454,
+   "oos_cagr": 0.1868,
+   "oos_sharpe": 1.255,
+   "oos_maxdd": -0.1719,
+   "turnover_per_decision": 1.283,
+   "mean_scale": 1.0,
+   "decisions": 82,
+   "est_missing": 82,
+   "est_covered": 0,
+   "overlay_active": false
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "window": 20,
+   "cagr": 0.114,
+   "sharpe": 1.153,
+   "maxdd": -0.1444,
+   "vol": 0.1017,
+   "oos_cagr": 0.1474,
+   "oos_sharpe": 1.328,
+   "oos_maxdd": -0.1345,
+   "turnover_per_decision": 1.02,
+   "mean_scale": 0.7572,
+   "decisions": 82,
+   "est_missing": 0,
+   "est_covered": 82,
+   "overlay_active": true
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "window": 25,
+   "cagr": 0.1117,
+   "sharpe": 1.162,
+   "maxdd": -0.1386,
+   "vol": 0.0988,
+   "oos_cagr": 0.1409,
+   "oos_sharpe": 1.329,
+   "oos_maxdd": -0.1298,
+   "turnover_per_decision": 0.987,
+   "mean_scale": 0.7438,
+   "decisions": 82,
+   "est_missing": 0,
+   "est_covered": 82,
+   "overlay_active": true
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "window": 30,
+   "cagr": 0.1132,
+   "sharpe": 1.182,
+   "maxdd": -0.1376,
+   "vol": 0.0982,
+   "oos_cagr": 0.1425,
+   "oos_sharpe": 1.364,
+   "oos_maxdd": -0.1256,
+   "turnover_per_decision": 0.977,
+   "mean_scale": 0.7396,
+   "decisions": 82,
+   "est_missing": 0,
+   "est_covered": 82,
+   "overlay_active": true
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "window": 60,
+   "cagr": 0.1087,
+   "sharpe": 1.132,
+   "maxdd": -0.1448,
+   "vol": 0.0989,
+   "oos_cagr": 0.14,
+   "oos_sharpe": 1.332,
+   "oos_maxdd": -0.1193,
+   "turnover_per_decision": 0.964,
+   "mean_scale": 0.7351,
+   "decisions": 82,
+   "est_missing": 0,
+   "est_covered": 82,
+   "overlay_active": true
+  }
+ ],
+ "verdict": {
+  "state": "ADOPT_WINDOW",
+  "best_window": 30,
+  "best_phases_earned": 4,
+  "best_phases_oos_not_worse": 4,
+  "phases_needed": 3,
+  "phases_tested": 4,
+  "largest_sharpe_gap_vs_shipped": 0.297,
+  "windows": [
+   {
+    "window": 5,
+    "phases_earned": 0,
+    "phases_oos_not_worse": 0,
+    "phases_tested": 4,
+    "sharpe_delta_by_phase": [
+     -0.008,
+     -0.027,
+     -0.016,
+     -0.018
+    ],
+    "oos_sharpe_delta_by_phase": [
+     -0.134,
+     -0.239,
+     -0.297,
+     -0.077
+    ],
+    "sharpe_delta_min": -0.027,
+    "sharpe_delta_max": -0.008
+   },
+   {
+    "window": 10,
+    "phases_earned": 0,
+    "phases_oos_not_worse": 0,
+    "phases_tested": 4,
+    "sharpe_delta_by_phase": [
+     -0.008,
+     -0.027,
+     -0.016,
+     -0.018
+    ],
+    "oos_sharpe_delta_by_phase": [
+     -0.134,
+     -0.239,
+     -0.297,
+     -0.077
+    ],
+    "sharpe_delta_min": -0.027,
+    "sharpe_delta_max": -0.008
+   },
+   {
+    "window": 15,
+    "phases_earned": 0,
+    "phases_oos_not_worse": 0,
+    "phases_tested": 4,
+    "sharpe_delta_by_phase": [
+     -0.008,
+     -0.027,
+     -0.016,
+     -0.018
+    ],
+    "oos_sharpe_delta_by_phase": [
+     -0.134,
+     -0.239,
+     -0.297,
+     -0.077
+    ],
+    "sharpe_delta_min": -0.027,
+    "sharpe_delta_max": -0.008
+   },
+   {
+    "window": 20,
+    "phases_earned": 4,
+    "phases_oos_not_worse": 4,
+    "phases_tested": 4,
+    "sharpe_delta_by_phase": [
+     0.094,
+     0.218,
+     0.149,
+     0.021
+    ],
+    "oos_sharpe_delta_by_phase": [
+     0.065,
+     0.244,
+     0.261,
+     -0.004
+    ],
+    "sharpe_delta_min": 0.021,
+    "sharpe_delta_max": 0.218
+   },
+   {
+    "window": 25,
+    "phases_earned": 4,
+    "phases_oos_not_worse": 4,
+    "phases_tested": 4,
+    "sharpe_delta_by_phase": [
+     0.115,
+     0.184,
+     0.141,
+     0.03
+    ],
+    "oos_sharpe_delta_by_phase": [
+     0.131,
+     0.227,
+     0.197,
+     -0.003
+    ],
+    "sharpe_delta_min": 0.03,
+    "sharpe_delta_max": 0.184
+   },
+   {
+    "window": 30,
+    "phases_earned": 4,
+    "phases_oos_not_worse": 4,
+    "phases_tested": 4,
+    "sharpe_delta_by_phase": [
+     0.067,
+     0.143,
+     0.103,
+     0.05
+    ],
+    "oos_sharpe_delta_by_phase": [
+     0.07,
+     0.173,
+     0.154,
+     0.032
+    ],
+    "sharpe_delta_min": 0.05,
+    "sharpe_delta_max": 0.143
+   }
+  ],
+  "published_window_stays": true,
+  "stays_because": "a second published face on this axis calls the same gain 'within noise'; the ruler question is answered by this face's paired block, not by silently rewriting the shipped config",
+  "rule": "ADOPT_WINDOW iff some window earns >= sharpe_gain over the shipped window on the full calendar AND is no worse out of sample in >= share_min of the phases; PHASE_DEPENDENT iff the best window earns the bar on at least one phase but fewer than share_min (the answer is a property of where the cycle starts); WINDOW_INERT iff no window earns the bar on any phase and every window sits within sharpe_gain of the shipped one everywhere (the axis carries no result, the shipped value is safe); REJECT_WINDOW_CHANGE otherwise (no window earns the bar, but some is further than sharpe_gain away on at least one phase)"
+ },
+ "edge": {
+  "state": "EDGE_AT_FLOOR",
+  "best_window": 20,
+  "best_mean_sharpe": 1.1113,
+  "floor_window": 20,
+  "top_window": 60,
+  "curve": [
+   {
+    "window": 20,
+    "mean_sharpe": 1.1113,
+    "min_sharpe": 1.051,
+    "max_sharpe": 1.157
+   },
+   {
+    "window": 25,
+    "mean_sharpe": 1.1082,
+    "min_sharpe": 1.043,
+    "max_sharpe": 1.162
+   },
+   {
+    "window": 30,
+    "mean_sharpe": 1.0815,
+    "min_sharpe": 1.005,
+    "max_sharpe": 1.182
+   },
+   {
+    "window": 60,
+    "mean_sharpe": 0.9908,
+    "min_sharpe": 0.902,
+    "max_sharpe": 1.132
+   }
+  ],
+  "inactive_windows": [
+   5,
+   10,
+   15
+  ],
+  "active_windows": [
+   20,
+   25,
+   30,
+   60
+  ],
+  "duplicate_groups": [
+   {
+    "windows": [
+     5,
+     10,
+     15
+    ],
+    "size": 3
+   }
+  ],
+  "floor_note": "真正能跑的窗口地板是 20d（发动机自己的最小估计史决定的）；低于它的 5d、10d、15d 跑的是「把覆盖关掉」，是同一个臂，不是 3 个网格点",
+  "plateau_within_bar": [
+   20,
+   25
+  ],
+  "plateau_width": 2,
+  "already_priced_upstream": [
+   30,
+   60
+  ],
+  "shipped": {
+   "window": 60,
+   "mean_sharpe": 0.9908,
+   "min_sharpe": 0.902,
+   "max_sharpe": 1.132
+  },
+  "gain_of_best_over_shipped": 0.1205,
+  "rule": "EDGE_AT_FLOOR iff the smallest window the overlay can actually price has the highest mean Sharpe across phases (the ladder is a direction, not a level -- do NOT extrapolate it into a config change); SHIPPED_IS_HIGHEST iff the shipped window tops the curve; EDGE_AT_CEILING iff the largest does; INTERIOR otherwise (the ladder turned inside the live range, so a candidate value exists). Windows whose diag shows no vol estimate never tested a shorter estimate and are excluded from the curve"
+ },
+ "paired": {
+  "arm": 20,
+  "control": 60,
+  "rows": [
+   {
+    "phase": 0,
+    "status": "ok",
+    "bars": 1651,
+    "mean_pp": 1.564,
+    "ci_p05_p95_pp": [
+     0.399,
+     3.061
+    ],
+    "share_positive": 0.987,
+    "block": 20,
+    "draws": 1000
+   },
+   {
+    "phase": 1,
+    "status": "ok",
+    "bars": 1646,
+    "mean_pp": 2.612,
+    "ci_p05_p95_pp": [
+     1.213,
+     4.356
+    ],
+    "share_positive": 1.0,
+    "block": 20,
+    "draws": 1000
+   },
+   {
+    "phase": 2,
+    "status": "ok",
+    "bars": 1641,
+    "mean_pp": 1.326,
+    "ci_p05_p95_pp": [
+     -0.022,
+     2.82
+    ],
+    "share_positive": 0.944,
+    "block": 20,
+    "draws": 1000
+   },
+   {
+    "phase": 3,
+    "status": "ok",
+    "bars": 1636,
+    "mean_pp": 0.527,
+    "ci_p05_p95_pp": [
+     -0.652,
+     1.809
+    ],
+    "share_positive": 0.762,
+    "block": 20,
+    "draws": 1000
+   }
+  ],
+  "verdict": {
+   "state": "MIXED_ACROSS_PHASES",
+   "phases_ok": 4,
+   "min_share_positive": 0.762,
+   "min_ci_low_pp": -0.652,
+   "rule": "DIFFERENCE_IS_SEPARABLE_IN_EVERY_PHASE iff the paired difference's 5th percentile is above zero in every phase; NOT_SEPARABLE iff no phase clears a 95% positive share; otherwise mixed"
+  }
+ },
+ "admissible": false,
+ "published_window_stays": true,
+ "stays_because": "冠军还是「覆盖真正能跑到的最小窗口」：这是方向、不是水平，方向不能直接外推成配置改动。真正能跑的窗口地板是 20d（发动机自己的最小估计史决定的）；低于它的 5d、10d、15d 跑的是「把覆盖关掉」，是同一个臂，不是 3 个网格点",
+ "upstream": {
+  "status": "ok",
+  "verdict": {
+   "state": "ADOPT_WINDOW",
+   "best_window": 30,
+   "best_phases_earned": 4,
+   "best_phases_oos_not_worse": 4,
+   "phases_needed": 3,
+   "phases_tested": 4,
+   "largest_sharpe_gap_vs_shipped": 0.261,
+   "windows": [
+    {
+     "window": 30,
+     "phases_earned": 4,
+     "phases_oos_not_worse": 4,
+     "phases_tested": 4,
+     "sharpe_delta_by_phase": [
+      0.067,
+      0.143,
+      0.103,
+      0.05
+     ],
+     "oos_sharpe_delta_by_phase": [
+      0.07,
+      0.173,
+      0.154,
+      0.032
+     ],
+     "sharpe_delta_min": 0.05,
+     "sharpe_delta_max": 0.143
+    },
+    {
+     "window": 45,
+     "phases_earned": 3,
+     "phases_oos_not_worse": 3,
+     "phases_tested": 4,
+     "sharpe_delta_by_phase": [
+      0.062,
+      0.04,
+      0.059,
+      -0.037
+     ],
+     "oos_sharpe_delta_by_phase": [
+      0.046,
+      0.004,
+      0.097,
+      -0.126
+     ],
+     "sharpe_delta_min": -0.037,
+     "sharpe_delta_max": 0.062
+    },
+    {
+     "window": 90,
+     "phases_earned": 0,
+     "phases_oos_not_worse": 0,
+     "phases_tested": 4,
+     "sharpe_delta_by_phase": [
+      -0.139,
+      -0.053,
+      -0.111,
+      -0.104
+     ],
+     "oos_sharpe_delta_by_phase": [
+      -0.225,
+      0.001,
+      -0.088,
+      -0.142
+     ],
+     "sharpe_delta_min": -0.139,
+     "sharpe_delta_max": -0.053
+    },
+    {
+     "window": 120,
+     "phases_earned": 0,
+     "phases_oos_not_worse": 0,
+     "phases_tested": 4,
+     "sharpe_delta_by_phase": [
+      -0.161,
+      -0.066,
+      -0.138,
+      -0.129
+     ],
+     "oos_sharpe_delta_by_phase": [
+      -0.261,
+      -0.094,
+      -0.136,
+      -0.146
+     ],
+     "sharpe_delta_min": -0.161,
+     "sharpe_delta_max": -0.066
+    }
+   ],
+   "published_window_stays": true,
+   "stays_because": "the frozen Sharpe bar says adopt, but the paired band still contains zero in 2 of 4 phases (MIXED_ACROSS_PHASES) -- a production change needs the paired ruler to clear too, so the shipped window stays and the whole ladder is published",
+   "rule": "ADOPT_WINDOW iff some window earns >= sharpe_gain over the shipped window on the full calendar AND is no worse out of sample in >= share_min of the phases; PHASE_DEPENDENT iff the best window earns the bar on at least one phase but fewer than share_min (the answer is a property of where the cycle starts); WINDOW_INERT iff no window earns the bar on any phase and every window sits within sharpe_gain of the shipped one everywhere (the axis carries no result, the shipped value is safe); REJECT_WINDOW_CHANGE otherwise (no window earns the bar, but some is further than sharpe_gain away on at least one phase)"
+  },
+  "recomputed": {
+   "state": "ADOPT_WINDOW",
+   "best_window": 30,
+   "best_phases_earned": 4,
+   "best_phases_oos_not_worse": 4,
+   "phases_needed": 3,
+   "phases_tested": 4,
+   "largest_sharpe_gap_vs_shipped": 0.261,
+   "windows": [
+    {
+     "window": 30,
+     "phases_earned": 4,
+     "phases_oos_not_worse": 4,
+     "phases_tested": 4,
+     "sharpe_delta_by_phase": [
+      0.067,
+      0.143,
+      0.103,
+      0.05
+     ],
+     "oos_sharpe_delta_by_phase": [
+      0.07,
+      0.173,
+      0.154,
+      0.032
+     ],
+     "sharpe_delta_min": 0.05,
+     "sharpe_delta_max": 0.143
+    },
+    {
+     "window": 45,
+     "phases_earned": 3,
+     "phases_oos_not_worse": 3,
+     "phases_tested": 4,
+     "sharpe_delta_by_phase": [
+      0.062,
+      0.04,
+      0.059,
+      -0.037
+     ],
+     "oos_sharpe_delta_by_phase": [
+      0.046,
+      0.004,
+      0.097,
+      -0.126
+     ],
+     "sharpe_delta_min": -0.037,
+     "sharpe_delta_max": 0.062
+    },
+    {
+     "window": 90,
+     "phases_earned": 0,
+     "phases_oos_not_worse": 0,
+     "phases_tested": 4,
+     "sharpe_delta_by_phase": [
+      -0.139,
+      -0.053,
+      -0.111,
+      -0.104
+     ],
+     "oos_sharpe_delta_by_phase": [
+      -0.225,
+      0.001,
+      -0.088,
+      -0.142
+     ],
+     "sharpe_delta_min": -0.139,
+     "sharpe_delta_max": -0.053
+    },
+    {
+     "window": 120,
+     "phases_earned": 0,
+     "phases_oos_not_worse": 0,
+     "phases_tested": 4,
+     "sharpe_delta_by_phase": [
+      -0.161,
+      -0.066,
+      -0.138,
+      -0.129
+     ],
+     "oos_sharpe_delta_by_phase": [
+      -0.261,
+      -0.094,
+      -0.136,
+      -0.146
+     ],
+     "sharpe_delta_min": -0.161,
+     "sharpe_delta_max": -0.066
+    }
+   ],
+   "published_window_stays": true,
+   "stays_because": "a second published face on this axis calls the same gain 'within noise'; the ruler question is answered by this face's paired block, not by silently rewriting the shipped config",
+   "rule": "ADOPT_WINDOW iff some window earns >= sharpe_gain over the shipped window on the full calendar AND is no worse out of sample in >= share_min of the phases; PHASE_DEPENDENT iff the best window earns the bar on at least one phase but fewer than share_min (the answer is a property of where the cycle starts); WINDOW_INERT iff no window earns the bar on any phase and every window sits within sharpe_gain of the shipped one everywhere (the axis carries no result, the shipped value is safe); REJECT_WINDOW_CHANGE otherwise (no window earns the bar, but some is further than sharpe_gain away on at least one phase)"
+  },
+  "paired": {
+   "arm": 30,
+   "control": 60,
+   "rows": [
+    {
+     "phase": 0,
+     "status": "ok",
+     "bars": 1651,
+     "mean_pp": 0.832,
+     "ci_p05_p95_pp": [
+      -0.105,
+      1.923
+     ],
+     "share_positive": 0.925,
+     "block": 20,
+     "draws": 1000
+    },
+    {
+     "phase": 1,
+     "status": "ok",
+     "bars": 1646,
+     "mean_pp": 1.818,
+     "ci_p05_p95_pp": [
+      0.751,
+      3.117
+     ],
+     "share_positive": 0.999,
+     "block": 20,
+     "draws": 1000
+    },
+    {
+     "phase": 2,
+     "status": "ok",
+     "bars": 1641,
+     "mean_pp": 1.187,
+     "ci_p05_p95_pp": [
+      0.096,
+      2.454
+     ],
+     "share_positive": 0.963,
+     "block": 20,
+     "draws": 1000
+    },
+    {
+     "phase": 3,
+     "status": "ok",
+     "bars": 1636,
+     "mean_pp": 0.416,
+     "ci_p05_p95_pp": [
+      -0.33,
+      1.213
+     ],
+     "share_positive": 0.831,
+     "block": 20,
+     "draws": 1000
+    }
+   ],
+   "verdict": {
+    "state": "MIXED_ACROSS_PHASES",
+    "phases_ok": 4,
+    "min_share_positive": 0.831,
+    "min_ci_low_pp": -0.33,
+    "rule": "DIFFERENCE_IS_SEPARABLE_IN_EVERY_PHASE iff the paired difference's 5th percentile is above zero in every phase; NOT_SEPARABLE iff no phase clears a 95% positive share; otherwise mixed"
+   }
+  },
+  "paired_ok": true,
+  "evidence_cutoff": "2026-10-30",
+  "identity_all_pass": true,
+  "phase_rows": [
+   {
+    "phase": 0,
+    "phase_start": "2020-01-02",
+    "window": 30,
+    "cagr": 0.1046,
+    "sharpe": 1.057,
+    "maxdd": -0.119,
+    "vol": 0.1031,
+    "oos_cagr": 0.1953,
+    "oos_sharpe": 1.808,
+    "oos_maxdd": -0.119,
+    "turnover_per_decision": 0.974,
+    "mean_scale": 0.7237
+   },
+   {
+    "phase": 0,
+    "phase_start": "2020-01-02",
+    "window": 45,
+    "cagr": 0.1021,
+    "sharpe": 1.052,
+    "maxdd": -0.1119,
+    "vol": 0.1012,
+    "oos_cagr": 0.1889,
+    "oos_sharpe": 1.784,
+    "oos_maxdd": -0.1089,
+    "turnover_per_decision": 0.952,
+    "mean_scale": 0.7133
+   },
+   {
+    "phase": 0,
+    "phase_start": "2020-01-02",
+    "window": 60,
+    "cagr": 0.096,
+    "sharpe": 0.99,
+    "maxdd": -0.1177,
+    "vol": 0.1017,
+    "oos_cagr": 0.1835,
+    "oos_sharpe": 1.738,
+    "oos_maxdd": -0.107,
+    "turnover_per_decision": 0.934,
+    "mean_scale": 0.7077
+   },
+   {
+    "phase": 0,
+    "phase_start": "2020-01-02",
+    "window": 90,
+    "cagr": 0.0772,
+    "sharpe": 0.851,
+    "maxdd": -0.1243,
+    "vol": 0.0965,
+    "oos_cagr": 0.1411,
+    "oos_sharpe": 1.513,
+    "oos_maxdd": -0.1055,
+    "turnover_per_decision": 0.907,
+    "mean_scale": 0.6863
+   },
+   {
+    "phase": 0,
+    "phase_start": "2020-01-02",
+    "window": 120,
+    "cagr": 0.0723,
+    "sharpe": 0.829,
+    "maxdd": -0.1219,
+    "vol": 0.093,
+    "oos_cagr": 0.1329,
+    "oos_sharpe": 1.477,
+    "oos_maxdd": -0.1037,
+    "turnover_per_decision": 0.894,
+    "mean_scale": 0.681
+   },
+   {
+    "phase": 1,
+    "phase_start": "2020-01-09",
+    "window": 30,
+    "cagr": 0.1148,
+    "sharpe": 1.082,
+    "maxdd": -0.1502,
+    "vol": 0.1102,
+    "oos_cagr": 0.1994,
+    "oos_sharpe": 1.612,
+    "oos_maxdd": -0.1304,
+    "turnover_per_decision": 0.998,
+    "mean_scale": 0.7298
+   },
+   {
+    "phase": 1,
+    "phase_start": "2020-01-09",
+    "window": 45,
+    "cagr": 0.1006,
+    "sharpe": 0.979,
+    "maxdd": -0.1521,
+    "vol": 0.1079,
+    "oos_cagr": 0.1699,
+    "oos_sharpe": 1.443,
+    "oos_maxdd": -0.1387,
+    "turnover_per_decision": 0.968,
+    "mean_scale": 0.7172
+   },
+   {
+    "phase": 1,
+    "phase_start": "2020-01-09",
+    "window": 60,
+    "cagr": 0.0958,
+    "sharpe": 0.939,
+    "maxdd": -0.154,
+    "vol": 0.1077,
+    "oos_cagr": 0.1696,
+    "oos_sharpe": 1.439,
+    "oos_maxdd": -0.1335,
+    "turnover_per_decision": 0.961,
+    "mean_scale": 0.7126
+   },
+   {
+    "phase": 1,
+    "phase_start": "2020-01-09",
+    "window": 90,
+    "cagr": 0.0862,
+    "sharpe": 0.886,
+    "maxdd": -0.1564,
+    "vol": 0.1033,
+    "oos_cagr": 0.1587,
+    "oos_sharpe": 1.44,
+    "oos_maxdd": -0.1187,
+    "turnover_per_decision": 0.932,
+    "mean_scale": 0.6931
+   },
+   {
+    "phase": 1,
+    "phase_start": "2020-01-09",
+    "window": 120,
+    "cagr": 0.0815,
+    "sharpe": 0.873,
+    "maxdd": -0.1536,
+    "vol": 0.0992,
+    "oos_cagr": 0.1414,
+    "oos_sharpe": 1.345,
+    "oos_maxdd": -0.1214,
+    "turnover_per_decision": 0.903,
+    "mean_scale": 0.6717
+   },
+   {
+    "phase": 2,
+    "phase_start": "2020-01-16",
+    "window": 30,
+    "cagr": 0.102,
+    "sharpe": 1.005,
+    "maxdd": -0.1408,
+    "vol": 0.1064,
+    "oos_cagr": 0.1943,
+    "oos_sharpe": 1.685,
+    "oos_maxdd": -0.1269,
+    "turnover_per_decision": 1.037,
+    "mean_scale": 0.7387
+   },
+   {
+    "phase": 2,
+    "phase_start": "2020-01-16",
+    "window": 45,
+    "cagr": 0.0968,
+    "sharpe": 0.961,
+    "maxdd": -0.1337,
+    "vol": 0.1061,
+    "oos_cagr": 0.1836,
+    "oos_sharpe": 1.628,
+    "oos_maxdd": -0.1235,
+    "turnover_per_decision": 1.019,
+    "mean_scale": 0.7352
+   },
+   {
+    "phase": 2,
+    "phase_start": "2020-01-16",
+    "window": 60,
+    "cagr": 0.0897,
+    "sharpe": 0.902,
+    "maxdd": -0.1415,
+    "vol": 0.1054,
+    "oos_cagr": 0.1736,
+    "oos_sharpe": 1.531,
+    "oos_maxdd": -0.1415,
+    "turnover_per_decision": 0.996,
+    "mean_scale": 0.7226
+   },
+   {
+    "phase": 2,
+    "phase_start": "2020-01-16",
+    "window": 90,
+    "cagr": 0.0755,
+    "sharpe": 0.791,
+    "maxdd": -0.1366,
+    "vol": 0.1025,
+    "oos_cagr": 0.1567,
+    "oos_sharpe": 1.443,
+    "oos_maxdd": -0.1196,
+    "turnover_per_decision": 0.965,
+    "mean_scale": 0.7043
+   },
+   {
+    "phase": 2,
+    "phase_start": "2020-01-16",
+    "window": 120,
+    "cagr": 0.0693,
+    "sharpe": 0.764,
+    "maxdd": -0.1311,
+    "vol": 0.0977,
+    "oos_cagr": 0.1442,
+    "oos_sharpe": 1.395,
+    "oos_maxdd": -0.1132,
+    "turnover_per_decision": 0.949,
+    "mean_scale": 0.686
+   },
+   {
+    "phase": 3,
+    "phase_start": "2020-01-23",
+    "window": 30,
+    "cagr": 0.1132,
+    "sharpe": 1.182,
+    "maxdd": -0.1376,
+    "vol": 0.0982,
+    "oos_cagr": 0.1425,
+    "oos_sharpe": 1.364,
+    "oos_maxdd": -0.1256,
+    "turnover_per_decision": 0.977,
+    "mean_scale": 0.7396
+   },
+   {
+    "phase": 3,
+    "phase_start": "2020-01-23",
+    "window": 45,
+    "cagr": 0.1063,
+    "sharpe": 1.095,
+    "maxdd": -0.1425,
+    "vol": 0.1004,
+    "oos_cagr": 0.1284,
+    "oos_sharpe": 1.206,
+    "oos_maxdd": -0.1266,
+    "turnover_per_decision": 0.974,
+    "mean_scale": 0.7384
+   },
+   {
+    "phase": 3,
+    "phase_start": "2020-01-23",
+    "window": 60,
+    "cagr": 0.1087,
+    "sharpe": 1.132,
+    "maxdd": -0.1448,
+    "vol": 0.0989,
+    "oos_cagr": 0.14,
+    "oos_sharpe": 1.332,
+    "oos_maxdd": -0.1193,
+    "turnover_per_decision": 0.964,
+    "mean_scale": 0.7351
+   },
+   {
+    "phase": 3,
+    "phase_start": "2020-01-23",
+    "window": 90,
+    "cagr": 0.0945,
+    "sharpe": 1.028,
+    "maxdd": -0.1474,
+    "vol": 0.0957,
+    "oos_cagr": 0.1172,
+    "oos_sharpe": 1.19,
+    "oos_maxdd": -0.1183,
+    "turnover_per_decision": 0.929,
+    "mean_scale": 0.7112
+   },
+   {
+    "phase": 3,
+    "phase_start": "2020-01-23",
+    "window": 120,
+    "cagr": 0.0892,
+    "sharpe": 1.003,
+    "maxdd": -0.1408,
+    "vol": 0.0927,
+    "oos_cagr": 0.1121,
+    "oos_sharpe": 1.186,
+    "oos_maxdd": -0.1193,
+    "turnover_per_decision": 0.916,
+    "mean_scale": 0.6979
+   }
+  ]
+ },
+ "notes": [
+  "one engine call per cell (etf_robust_pf.open_to_open_equity); vol_window is the only argument that changes between cells",
+  "the grid overlaps the previous face at 30/60, so the two ladders join without re-pricing those two columns",
+  "the adoption rule and the paired ruler are imported from etf_book_vol_window_phase, not re-implemented; drift in the inherited constants aborts the run",
+  "an interior winner is necessary for a config change but not sufficient: the paired band must also exclude zero in every phase"
+ ]
+}

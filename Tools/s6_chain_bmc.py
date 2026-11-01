@@ -318,6 +318,16 @@ LEGS = [
     # whose criteria echo has drifted. Engine-free (one engine call per cell at run time).
     ("etf_book_vol_window_phase", ["python", "scripts/etf_book_vol_window_phase.py", "--check"],
      ["python", "scripts/etf_book_vol_window_phase.py", "run"]),
+    # r1212 (bm-a) / E328: the face above ends on "the champion sits on the EDGE of the grid,
+    # pushing further is the next face's job". This is that face: the same question carried
+    # one grid lower (5/10/15/20/25 alongside the old 30 and the shipped 60), with the
+    # adoption rule imported from the previous face rather than retyped. It also measures
+    # which arms actually run the overlay, from the engine's own per-decision diag, because
+    # windows below its minimum estimation history do not test a shorter estimate -- they
+    # test the overlay switched off, and three of them would otherwise count as three grid
+    # points. Engine-free at gate time (verdict and position recompute from the rows).
+    ("etf_book_vol_window_edge", ["python", "scripts/etf_book_vol_window_edge.py", "--check"],
+     ["python", "scripts/etf_book_vol_window_edge.py", "run"]),
     # r1348: every published number is one point estimate on ONE ordering of 1,651 days, and
     # the face that publishes the distribution (block bootstrap of the book's own return
     # path) can be re-judged from its stored resample rows without re-running the 2000
