@@ -3340,7 +3340,7 @@
  "reds_open": [],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1357,
- "round_no": 1358,
+ "round_no": 1360,
  "round_no_label": "r1357",
  "round_no_note": "git log is the canvas; round number follows the highest round report row (r1342 was the E322 round, this is r1343)",
  "round_no_ts": "2026-11-01T10:59:00+08:00",
@@ -3662,5 +3662,34 @@
   "behind_origin_main": 217,
   "main_push_blocker": "local main diverged from origin/main for many rounds (promisor lazy-fetch wedge, r1255 family); no unattended rebase per r1243",
   "ts": "2026-11-01T12:20:00+08:00"
+ },
+ "r1360": {
+  "round_no": 1360,
+  "dept": "research+engineering",
+  "work": "E340 who authorizes whose allowance (absorbed the 12:20 dead-window draft, repaired two defects)",
+  "study": "E340_who_authorizes_whose_allowance",
+  "face": "results/state_tilt/ALLOWANCE-2026-11-01.json",
+  "verdict": "the_tree_awards_itself_allowances_by_reading_its_own_faces_and_some_of_those_grants_are_only_customary",
+  "finding": "12,519 faces parsed, 316 carry a permission key, 409 entries over 98 keys. 22 entries over 22 faces are read back by the script that publishes them: 4 compare the disk value against a freshly computed one, 0 assert, 0 gate, 18 merely bind it to a name whose use is downstream. 17 of the 18 bound/gated grants have no selftest leg quoting the key, so they survive by custom, not machinery. The card's six word families are not six permissions: expected 121 / tolerance 124 / baseline 73 dominate the permissive ones (allow 20, whitelist 36, permit 28, exempt 15, optin 8), so counting quantities as grants would inflate the self-authorization headline by an order of magnitude.",
+  "pit": "(1) The census read its own output: the face publishes by_family={'permit': 28,...}, so an unexcluded face is itself a face that publishes a permit key -- 16 self rows across two rebuilds, 425 entries before the exclusion, 409 after. (2) asof_head inside a deterministic face names the commit the corpus was read at, so it moves on every commit and the S6 leg would have gone red the moment the study landed (E338 family): excluded from re-derivation, still published, shape pinned by a selftest leg. (3) The smoke leg was wrong, not the face -- reading_producer lives in per_producer (the file seen on the write path), not in the name/path-match producer list.",
+  "absorbed": "the 12:20:52 draft (scripts/e340_who_authorizes_whose_allowance.py, 33KB, untracked, no face, no wiring) was written after r1359's report by a dead window tail; this round adopted it instead of writing a second E340, patched the two defects below and wired it",
+  "product": [
+   "scripts/e340_who_authorizes_whose_allowance.py (adopted + patched; selftest 35/35, verify 0 problems)",
+   "results/state_tilt/ALLOWANCE-2026-11-01.json + allowance_latest.json",
+   "research/digests/DIGEST-20261101-r1360-e340-permission-allowances.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E340",
+   "Tools/s6_chain_bmb.py leg permission_allowances",
+   "smoke_test.py leg E340 + scripts/run_e340_smoke_leg.py (verbatim extractor)",
+   "results/runnable_pool.json E340 done with result_ref + E343 seeded (833 entries, 3 ready)"
+  ],
+  "selftest": "e340 35/35 (incl. 2 new legs for the two repairs); verify 0 problems (~90s whole-face re-derive)",
+  "s1": "the full ~334-leg suite was not re-run this window (~35 min); the new E340 leg was extracted verbatim and run standalone (PASS), then run against a doctored face (unpinned_grants 99, verdict swapped) which was caught with two named problems, and the published bytes were restored identically (sha256 equal)",
+  "s6": "dualrun ZERO-DRIFT (833 entries, streak 51) | orphan probe py_faces=7 orphans=0 residents=0 | attrition guard CLEAN 4 ledgers (2 historical shrinks healed) | sat engine rc=0 | py_watermark insufficient_history (1 sample, 3 pool-ready) | the lane collectors, market_regime, update_* and the paper/scorecard faces were NOT re-run this window (wall budget, stated plainly)",
+  "s7": "orders 114 files / 115 acks / 0 unacked at S0.5 | decisions origin blob advanced 3baca4a7 -> fdd605df (batch 34: D-20261101-15..18) consumed, no row requires a code change here; D-16's claim that Bigmoney-IterationLoop/LoopWatchdog are Disabled is contradicted by this machine's live reading (both State=Ready, next run 13:27) | pre-commit and pre-push claws both MATCH | loop + watchdog present",
+  "pool": "E340 done with result_ref; E343-WHERE-A-BOUND-GRANT-ACTUALLY-DECIDES seeded ready (833 entries, 3 ready)",
+  "watermark_red": "py_low_board_clear at open (3 ready cards, py idle); the round burned the head card E340 in-round",
+  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted, no quarantine action; bm-a/bm-c lane collectors not exercised",
+  "ts": "2026-11-01T13:31:04+08:00",
+  "discarded": "scripts/e340_permission_fields.py (this session's own first attempt, 30 selftest legs) was deleted the moment the 12:20 draft was adopted; its face family PERMFIELDS-* never shipped"
  }
 }

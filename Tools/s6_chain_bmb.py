@@ -938,6 +938,16 @@ LEGS = [
     ("literal_count_guards",
      ["python", "scripts/e339_literal_count_guards.py", "verify"]),
 
+    # E340: E337's repair read a study's own published allowlist back out of its face, one hop from
+    # self-authorization.  This walks every published face (12,519 parsed) and keeps the 409 entries
+    # whose key carries a permission word over 98 keys, classifying each by access shape: does the
+    # script that publishes the face read the key back, and is the value compared against a fresh
+    # one, asserted, gated, or merely bound (use invisible downstream)?  22 entries over 22 faces
+    # are read back by their own producer, and 17 of the 18 gated/bound grants have no selftest leg
+    # quoting the key -- customary, not pinned.  Verify re-derives the face off disk (~90s).
+    ("permission_allowances",
+     ["python", "scripts/e340_who_authorizes_whose_allowance.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

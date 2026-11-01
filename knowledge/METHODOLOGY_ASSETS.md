@@ -7076,3 +7076,24 @@ Three reusable rules:
 Engineering: 82 `git show` spawns cost 98 s; one `git cat-file --batch` over the same versions costs 6.8 s.
 
 Evidence: scripts/e339_literal_count_guards.py (selftest 28/28, verify 0 problems) -> results/state_tilt/GUARDLOOSEN-2026-11-01.json -> research/digests/DIGEST-20261101-r1359-e339-literal-count-guards.md -> Tools/s6_chain_bmb.py leg literal_count_guards -> smoke_test.py leg E339 + scripts/run_e339_smoke_leg.py
+
+## E340 -- a permission-shaped name is not a mechanism: count the access shape, and a bound grant with no pin is only customary
+
+E337's repair read a study's own published allowlist back out of its face, one hop from self-authorization. This
+walks every published face (12,519 parsed) and keeps the 409 entries whose key carries a permission word over 98
+keys, then classifies each by *access shape*: does the script that publishes the face read the key back, and is
+the value compared against a freshly computed one, asserted, gated, or merely bound to a name (use invisible)?
+
+1. **Separate quantity words from permission words before counting.** The card named six families; expected 121 /
+   tolerance 124 / baseline 73 dwarf the genuinely permissive ones (allow 20, whitelist 36, permit 28, exempt 15,
+   optin 8). Counting tolerances as allowances inflates the headline by an order of magnitude.
+2. **"Bound" is not a check.** 22 entries (over 22 faces) are read back by their own producer: 4 compare the disk
+   value against a fresh one, 0 assert, 0 gate, **18 merely bind**. A bound value's decision lives where the face
+   cannot show it, so the pin is the only remaining mechanism -- and **17 of 18 have no selftest leg quoting the
+   key**, i.e. the grant survives by custom.
+3. **A census of faces must exclude its own face.** This face publishes `by_family = {"permit": 28, ...}`, so an
+   unexcluded output is itself "a face that publishes a permit key": 16 self rows over two rebuilds (425 -> 409).
+4. **Provenance in a deterministic face turns the chain red.** `asof_head` names the commit the corpus was read
+   at, so it moves on every commit: exclude it from re-derivation, keep it published, and pin its *shape*.
+
+Evidence: scripts/e340_who_authorizes_whose_allowance.py (selftest 35/35, verify 0 problems) -> results/state_tilt/ALLOWANCE-2026-11-01.json -> research/digests/DIGEST-20261101-r1360-e340-permission-allowances.md -> Tools/s6_chain_bmb.py leg permission_allowances -> smoke_test.py leg E340 + scripts/run_e340_smoke_leg.py

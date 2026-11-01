@@ -10740,6 +10740,83 @@ def main() -> int:
                 (((_f339 or {}).get("history") or {}).get("pay_for_base_rate") or {}).get("numbers_moved"),
                 (((_f339 or {}).get("history") or {}).get("pay_for_base_rate") or {}).get("commits_priced")))
 
+    # E340: E337 read a study's own published allowlist back out of its face, one hop from
+    # self-authorization. This leg refuses a verdict outside the frozen set, a verdict the frozen
+    # rule would not decide from the published summary, a class histogram that does not add up to
+    # the published entry list, a self-read count that its own rows do not reproduce, an unpinned
+    # grant count that the self rows do not reproduce, a self entry whose reading producer is not
+    # among its producers, and a corpus count that disagrees with the summary above it.
+    _name340 = ("product: every permission-shaped field in the tree is counted with its access shape, "
+                "and the grants a producer reads back out of its own face are named as customary or "
+                "pinned")
+    _bad340 = []
+    try:
+        _p340 = os.path.join("results", "state_tilt", "allowance_latest.json")
+        _f340 = json.load(open(_p340, encoding="utf-8")) if os.path.exists(_p340) else None
+        if _f340 is None:
+            _bad340.append("no published permission-field face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m340 = __import__("importlib").import_module("e340_who_authorizes_whose_allowance")
+            if _f340.get("verdict") not in (getattr(_m340, "V_SELF"), getattr(_m340, "V_COMPARED"),
+                                            getattr(_m340, "V_FOREIGN"), getattr(_m340, "V_NONE")):
+                _bad340.append("verdict %r is outside the frozen set" % (_f340.get("verdict"),))
+            _sum340 = _f340.get("summary") or {}
+            _rows340 = _f340.get("entries") or []
+            _self340 = _f340.get("self_read_entries") or []
+            _byc340 = _sum340.get("by_class") or {}
+            if sum(int(v) for v in _byc340.values()) != int(_sum340.get("entries") or -1):
+                _bad340.append("the class histogram does not add up to the entry count")
+            if len(_rows340) != int(_sum340.get("entries") or -1):
+                _bad340.append("entries %r is not the published row count (%s)"
+                               % (_sum340.get("entries"), len(_rows340)))
+            _selfsum340 = sum(int(_byc340.get(k) or 0) for k in
+                              ("self_gated", "self_asserted", "self_compared", "self_bound"))
+            if _selfsum340 != int(_sum340.get("self_read_entries") or -1):
+                _bad340.append("self_read_entries %r is not the self classes' own sum (%s)"
+                               % (_sum340.get("self_read_entries"), _selfsum340))
+            if len(_self340) != int(_sum340.get("self_read_entries") or -1):
+                _bad340.append("the self_read_entries list does not carry that many rows")
+            for _k340 in ("self_gated", "self_asserted", "self_compared", "self_bound"):
+                if int(_sum340.get(_k340) or 0) != int(_byc340.get(_k340) or 0):
+                    _bad340.append("%s disagrees with the class histogram" % _k340)
+                    break
+            _unpin340 = [e for e in _self340
+                         if e.get("class") in ("self_gated", "self_bound")
+                         and not e.get("selftest_pin")]
+            if len(_unpin340) != int(_sum340.get("unpinned_grants") or -1):
+                _bad340.append("unpinned_grants %r is not the self rows' own count (%s)"
+                               % (_sum340.get("unpinned_grants"), len(_unpin340)))
+            for _e340 in _self340:
+                if _e340.get("class") not in ("self_gated", "self_asserted",
+                                              "self_compared", "self_bound"):
+                    _bad340.append("a self row carries a non-self class %r" % (_e340.get("class"),))
+                    break
+                if _e340.get("reading_producer") and _e340.get("reading_producer") not in (
+                        (_e340.get("per_producer") or {}).keys() | set(_e340.get("producer") or [])):
+                    _bad340.append("a self row's reading producer is not among its producers")
+                    break
+            if int((_f340.get("corpus") or {}).get("faces_parsed") or 0) != int(
+                    _sum340.get("faces_parsed") or 0):
+                _bad340.append("corpus.faces_parsed disagrees with summary.faces_parsed")
+            if (_f340.get("corpus") or {}).get("self_excluded") != getattr(_m340, "SELF_REL"):
+                _bad340.append("the face does not declare which study it excluded from the corpus")
+            _rule340, _why340 = _m340.decide(_sum340)
+            if _rule340 != _f340.get("verdict"):
+                _bad340.append("the frozen rule decides %r but the face says %r"
+                               % (_rule340, _f340.get("verdict")))
+    except Exception as e:
+        check(_name340, False, repr(e)[:160])
+
+    check(_name340, not _bad340, "; ".join(_bad340)[:220]
+          or "%s | %s entries over %s keys / %s faces, %s self reads (%s unpinned)"
+             % ((_f340 or {}).get("verdict"),
+                (((_f340 or {}).get("summary") or {}).get("entries")),
+                (((_f340 or {}).get("summary") or {}).get("distinct_keys")),
+                (((_f340 or {}).get("summary") or {}).get("faces_parsed")),
+                (((_f340 or {}).get("summary") or {}).get("self_read_entries")),
+                (((_f340 or {}).get("summary") or {}).get("unpinned_grants"))))
+
     return _finish()
 
 
