@@ -10648,6 +10648,98 @@ def main() -> int:
                 (((_f338 or {}).get("timings") or {}).get("pinned_read_seconds")),
                 (((_f338 or {}).get("timings") or {}).get("disk_read_seconds"))))
 
+    # E339: E337 repaired one hard-coded inertness guard, and its digest named the branch nobody
+    # sees -- a guard that hard-codes a count either breaks on the next landing or gets quietly
+    # loosened. This leg refuses a loosening face whose verdict the frozen rule would not decide, a
+    # relaxation that was not priced by both readings, a replacement pair that does not tie back to
+    # the deleted guard's own (op, literal), and a headline count that the face's own rows or its
+    # guard list do not reproduce.
+    _name339 = ("product: literal-count guards are counted at head and their relaxations read out of "
+                "git history, and the 'was it paid for by a face' reading is measured against the "
+                "base rate every commit in that population already satisfies")
+    _bad339 = []
+    try:
+        _p339 = os.path.join("results", "state_tilt", "guardloosen_latest.json")
+        _f339 = json.load(open(_p339, encoding="utf-8")) if os.path.exists(_p339) else None
+        if _f339 is None:
+            _bad339.append("no published literal-count-guard face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m339 = __import__("importlib").import_module("e339_literal_count_guards")
+            _verdicts339 = (getattr(_m339, "V_SILENT"), getattr(_m339, "V_TOUCHED"),
+                            getattr(_m339, "V_PAID"), getattr(_m339, "V_NONE"))
+            if _f339.get("verdict") not in _verdicts339:
+                _bad339.append("verdict %r is outside the frozen set" % (_f339.get("verdict"),))
+            _sum339 = _f339.get("summary") or {}
+            _head339 = _f339.get("head") or {}
+            _hist339 = _f339.get("history") or {}
+            # the summary must be re-derivable from the face's own rows and guard list
+            if int(_sum339.get("guards_at_head") or 0) != sum(
+                    int(v) for v in (_head339.get("by_op") or {}).values()):
+                _bad339.append("guards_at_head does not equal the by_op histogram")
+            _relax339 = [e for e in (_hist339.get("events") or [])
+                         if e.get("kind") in ("literal_up", "deleted", "op_changed")]
+            if len(_relax339) != int(_sum339.get("relaxed") or 0):
+                _bad339.append("relaxed %r is not the event rows' own count (%s)"
+                               % (_sum339.get("relaxed"), len(_relax339)))
+            for _e339 in _relax339:
+                if "face_touched" not in _e339 or "numbers_moved" not in _e339:
+                    _bad339.append("a relaxation was not priced by both readings")
+                    break
+                if _e339.get("kind") == "deleted" and _e339.get("relaxed_by") not in (
+                        "replacement", "removal"):
+                    _bad339.append("a deletion does not say whether it was replaced or removed")
+                    break
+                if _e339.get("relaxed_by") == "replacement":
+                    _partner339 = [a for a in (_hist339.get("events") or [])
+                                   if a.get("sha") == _e339.get("sha")
+                                   and a.get("file") == _e339.get("file")
+                                   and a.get("kind") == "added"]
+                    if not _partner339:
+                        _bad339.append("a replacement claims a partner the event list does not hold")
+                        break
+                    if (_partner339[0].get("new") or {}).get("literal") != (
+                            _e339.get("old") or {}).get("literal"):
+                        _bad339.append("a replacement partner does not carry the deleted literal")
+                        break
+            # the frozen rule must decide the published verdict from the published summary
+            _rule339, _why339 = _m339.decide(_sum339)
+            if _rule339 != _f339.get("verdict"):
+                _bad339.append("the frozen rule decides %r but the face says %r"
+                               % (_rule339, _f339.get("verdict")))
+            # the base rate must reproduce from its own counters
+            _base339 = _hist339.get("pay_for_base_rate") or {}
+            if int(_base339.get("commits_priced") or 0) <= 0:
+                _bad339.append("the pay-for base rate priced no commits")
+            elif abs(float(_base339.get("share_numbers_moved") or 0.0)
+                     - float(_base339.get("numbers_moved") or 0)
+                     / float(_base339.get("commits_priced"))) > 1e-4:
+                _bad339.append("share_numbers_moved is not numbers_moved / commits_priced")
+            # the landing-fragility headline must be counted over the published exact-count list
+            _exact339 = _head339.get("exact_count_guards") or []
+            if int(_sum339.get("guards_exact_count") or 0) != len(_exact339):
+                _bad339.append("guards_exact_count does not equal the published list length")
+            if int(_sum339.get("guards_exact_count_over_a_corpus") or 0) > len(_exact339):
+                _bad339.append("more corpus-shaped exact counts than exact counts")
+    except Exception as e:
+        check(_name339, False, repr(e)[:160])
+
+    check(_name339, not _bad339, "; ".join(_bad339)[:220]
+          or "%s | %s guards at head (%s exact-count, %s counting a corpus), %s commits scanned, "
+             "%s relaxations (%s literal_up / %s deleted), %s unpaid by a number, base rate %s of %s "
+             "commits move a results number anyway"
+             % ((_f339 or {}).get("verdict"),
+                ((_f339 or {}).get("summary") or {}).get("guards_at_head"),
+                ((_f339 or {}).get("summary") or {}).get("guards_exact_count"),
+                ((_f339 or {}).get("summary") or {}).get("guards_exact_count_over_a_corpus"),
+                ((_f339 or {}).get("history") or {}).get("commits_scanned"),
+                ((_f339 or {}).get("summary") or {}).get("relaxed"),
+                ((_f339 or {}).get("summary") or {}).get("literal_up"),
+                ((_f339 or {}).get("summary") or {}).get("deleted"),
+                ((_f339 or {}).get("summary") or {}).get("relaxed_without_a_number_moving"),
+                (((_f339 or {}).get("history") or {}).get("pay_for_base_rate") or {}).get("numbers_moved"),
+                (((_f339 or {}).get("history") or {}).get("pay_for_base_rate") or {}).get("commits_priced")))
+
     return _finish()
 
 

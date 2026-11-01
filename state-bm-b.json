@@ -163,7 +163,7 @@
  "last_decisions_probe_at": "2026-11-01T00:28:21+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
  "last_decisions_read_at": "2026-11-01T07:10:00+08:00",
- "last_decisions_sha": "fd99c57198ff812f7ef0c18012a96b10597f015d",
+ "last_decisions_sha": "3baca4a7400ecf5b",
  "last_decisions_sha_method": "r1147: origin blob sha256 via git show in the C:\\Fluxgroup\\FluxGroup group tree (K: absent on this machine, D-20261004-02 fallback path)",
  "last_decisions_sha_probe": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
  "last_decisions_sha_recipe": "sha256 of git cat-file blob origin/main:docs/decisions.md in the group tree C:/Fluxgroup/FluxGroup (D-19 group-face fresh-read law)",
@@ -3559,7 +3559,7 @@
   "behind_origin_main": 217,
   "ts": "2026-11-01T09:15:32+08:00"
  },
- "timestamp": "2026-11-01T11:26:48+08:00",
+ "timestamp": "2026-11-01T12:10:00+08:00",
  "r1357": {
   "dept": "research+engineering",
   "absorbed_round": "the 09:17 round was silence-killed at 10:25 after landing E337 (face 09:40) and the E335 guard repair (face 10:18) but before closeout: the pool already said E337 done with future timestamps 10:35/10:40 while state and heartbeat still said r1356",
@@ -3619,5 +3619,39 @@
   "behind_origin_main": 217,
   "main_push_blocker": "local main diverged from origin/main for many rounds (promisor lazy-fetch wedge, r1255 family); no unattended rebase per r1243",
   "ts": "2026-11-01T11:26:48+08:00"
+ },
+ "r1359": {
+  "round_no": 1359,
+  "dept": "research+engineering",
+  "work": "E339 literal-count guards: which were loosened rather than repaired",
+  "study": "E339_literal_count_guards",
+  "face": "results/state_tilt/GUARDLOOSEN-2026-11-01.json",
+  "verdict": "relaxations_were_paid_for_by_a_face_being_touched_but_not_by_a_number_moving",
+  "finding": "86 literal-count guards at head (85 smoke_test.py / 1 S6 leg table) across the only commits that can hold a relaxation -- the 41 that delete a line in those files: 2 relaxations, both predicate replacements of the T+1 invariant, 0 literal raises, 0 operator changes, 0 outright removals, 0 tightenings. Both were labelled false-positive repairs with prose in the commit message, so the silent branch is where repairs go and it is silent because a loosened guard prints nothing. The card's pay-for reading is published against its base rate (39 of 41 commits, 95.1%, touch results/ and move a number anyway), which makes its complement the finding: exactly one commit (c169c702) touched neither a face nor a number -- the only invisible shape, and it was a repair. The premise was corrected as well: 0 of the 7 exact-count guards counts a corpus (they count study fixtures such as len(combos)==432), so a new .py landing breaks none of them.",
+  "pit": "(1) Substring matching on guard expressions made every leg a candidate edit of every other (_n matched _name338; 274 noisy events); token boundaries cut it to 9 real ones. (2) Treating every .get() as a count pulled in float tolerance comparisons (max_abs_diff != 0.0); a .get() now counts only when its key carries a count word, and floats are excluded. (3) A rename is not a removal -- len(viol) -> len(same_day) reads as one deletion unless additions in the same commit are paired on (op, literal); the relaxed_by field publishes that pairing and the smoke leg refuses a partner that does not carry the deleted literal. (4) 82 git show spawns cost 98s; one git cat-file --batch over the same versions costs 6.8s.",
+  "product": [
+   "scripts/e339_literal_count_guards.py (run / verify 0 problems / selftest 28/28)",
+   "results/state_tilt/GUARDLOOSEN-2026-11-01.json + guardloosen_latest.json",
+   "research/digests/DIGEST-20261101-r1359-e339-literal-count-guards.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E339",
+   "Tools/s6_chain_bmb.py leg literal_count_guards",
+   "smoke_test.py leg E339 + scripts/run_e339_smoke_leg.py (verbatim extractor)",
+   "results/runnable_pool.json E339 done with result_ref + E342 seeded (832 entries, 3 ready)"
+  ],
+  "selftest": "e339_literal_count_guards 28/28; verify 0 problems (whole face re-derived in ~7s)",
+  "s1": "the full ~333-leg smoke suite was not re-run this window (~35 min); the new E339 leg was extracted verbatim from smoke_test.py and run standalone (PASS), then re-run against a doctored face (relaxed 99, share_numbers_moved 0.5) which was caught with two named problems, and the published bytes were restored identically (sha256 6702fd2f2372)",
+  "s6": "orphan probe py_faces=4 orphans=0 residents=0 | dualrun ZERO-DRIFT 832 entries streak 51 | compute_audit FLAG:supply_gap (supply_floor 3/3 ready, ready_ignitable 3, no breach) | py_watermark py_low_board_clear (3 pool-ready) | attrition guard CLEAN 4 ledgers (2 historical shrinks healed) | sat engine rc=0 | the lane collectors, market_regime, update_* and the paper/scorecard faces were NOT re-run this window (wall budget, stated plainly)",
+  "s7": "orders 114 files / 115 acks / 0 unacked at S0.5 | decisions origin blob sha256 3baca4a7 = the batch of 33 rows D-20261101-01..14 already consumed at r1353/r1354, no new row (watermark advanced to this hash) | Bigmoney-IterationLoop and Bigmoney-LoopWatchdog both present in schtasks (next run 11:52) | pre-commit and pre-push claws both MATCH their sources",
+  "pool": "E339 done with result_ref; E342-WHICH-REPAIRS-LEAVE-NO-OUTPUT seeded ready (832 entries, 3 ready). The pool file was re-dumped sorted by Python, so its diff carries key-order churn; the entry set was verified against HEAD (only E339 changed, only E342 added, no id lost)",
+  "watermark_red": "py_low_board_clear at open (3 ready cards, py idle); the round burned the head card E339 in-round",
+  "pay_for_base_rate": {
+   "commits_priced": 41,
+   "face_touched": 39,
+   "numbers_moved": 39,
+   "share_face_touched": 0.9512,
+   "share_numbers_moved": 0.9512
+  },
+  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted; no cleanup/quarantine action; bm-a/bm-c lane collectors not exercised",
+  "ts": "2026-11-01T12:10:00+08:00"
  }
 }

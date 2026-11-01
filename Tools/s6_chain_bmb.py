@@ -926,6 +926,18 @@ LEGS = [
     ("census_green_window",
      ["python", "scripts/e338_census_green_window.py", "verify"]),
 
+    # E339: E337 repaired one hard-coded inertness guard and its digest named the silent branch --
+    # a guard that hard-codes a count gets quietly loosened rather than repaired.  This counts the
+    # literal-count guards in smoke_test.py and the S6 leg table (86 at head) and reads git history
+    # for every commit that *deletes* a line in those files (41 commits, the only place a relaxation
+    # can happen): 2 relaxations, both predicate replacements of the T+1 invariant, 0 literal raises,
+    # and none of the 7 exact-count guards counts a corpus.  The "was it paid for by a republished
+    # face" reading is priced against a base rate -- 39 of 41 such commits move a results/ number
+    # anyway -- so it is published as uninformative rather than as evidence.  Verify re-derives the
+    # whole face (~7s).
+    ("literal_count_guards",
+     ["python", "scripts/e339_literal_count_guards.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

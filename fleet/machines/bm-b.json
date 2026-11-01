@@ -9,7 +9,7 @@
  "clock_offset_age_s": 0,
  "clock_offset_ms": 152.9,
  "clock_offset_trusted": false,
- "clock_read": "2026-11-01T11:26:08+08:00",
+ "clock_read": "2026-11-01T11:52:17+08:00",
  "clock_rtt_ms": 264.6,
  "clock_source": "NATS KV FLEET_STATE state.bm-b (FluxGroup-NatsHB v2, 1/min)",
  "codely_live_count": 2,
@@ -23,7 +23,7 @@
  "cpu_pct": 7.0,
  "cpu_util_pct": 7.0,
  "current": "r1358 E338: 15/15 of the census faces' green windows close on the commit that lands the next census sibling (median 2014s), and both readings meant to separate research from production pick the same commit 15/15 -- the split is vacuous because research ships its S6 wiring in the same commit; pinning the oldest landing reads 2,205 files in 0.42s vs 0.14s off disk, so the price is an object dependency, not CPU",
- "current_task": "r1358 E338: 15/15 of the census faces' green windows close on the commit that lands the next census sibling (median 2014s), and both readings meant to separate research from production pick the same commit 15/15 -- the split is vacuous because research ships its S6 wiring in the same commit; pinning the oldest landing reads 2,205 files in 0.42s vs 0.14s off disk, so the price is an object dependency, not CPU",
+ "current_task": "r1359 E339 literal-count guard census (done) / idle, next card E342 ready",
  "current_work": "r1358 E338: 15/15 of the census faces' green windows close on the commit that lands the next census sibling (median 2014s), and both readings meant to separate research from production pick the same commit 15/15 -- the split is vacuous because research ships its S6 wiring in the same commit; pinning the oldest landing reads 2,205 files in 0.42s vs 0.14s off disk, so the price is an object dependency, not CPU",
  "cyc_round": 1358,
  "cycle_round": 1358,
@@ -81,7 +81,7 @@
  "gpu_vram_free_mib": 3820,
  "gpu_vram_used_mb": 4372,
  "gpu_vram_used_mib": 4372,
- "heartbeat_epoch_utc": 1793503568,
+ "heartbeat_epoch_utc": 1793505137,
  "heartbeat_epoch_utc_face": "int",
  "heartbeat_note": "E312 published off E308's 30 band rows; new S6 leg gate_operand_identity + smoke leg wired; pool E312 closed, E313 seeded",
  "host": "bm-b",
@@ -91,7 +91,8 @@
  "idle_rounds_note": "cleared by real work (E312 face + chain leg), not by declaration",
  "last_action": "published E319 SELFINCLUSION face; wired S6 leg + smoke leg; pool E319 done",
  "last_action_at": "2026-10-31T23:16:55+08:00",
- "last_artifact": "results/state_tilt/GREENWINDOW-2026-11-01.json",
+ "last_artifact": "results/state_tilt/GUARDLOOSEN-2026-11-01.json",
+ "last_artifact_ts": "2026-11-01T12:10:00+08:00",
  "last_decisions_at": "2026-11-01T07:06:03+08:00",
  "last_decisions_read_at": "2026-11-01T07:06:03+08:00",
  "last_decisions_sha": "3baca4a7400ecf5b52b50336b9a52637922a0624bdee9904e6ac5550977efd31",
@@ -112,7 +113,7 @@
  "last_round_at": "2026-11-01T11:26:08+08:00",
  "last_round_ts": "2026-11-01T11:26:08+08:00",
  "last_run": "2026-10-31T08:02:00+08:00",
- "last_seen": "2026-11-01T11:26:08+08:00",
+ "last_seen": "2026-11-01T12:10:00+08:00",
  "latest_artifact": "results/state_tilt/GREENWINDOW-2026-11-01.json",
  "local_not_on_origin": 176,
  "local_not_on_origin_commits": 141,
@@ -886,6 +887,76 @@
   "ts": "2026-11-01T04:33:44+08:00",
   "verdict": "the_stale_cut_loses_while_the_pointer_exists_and_no_fallback_rechecks_for_a_newer_cut"
  },
+ "r1355": {
+  "dept": "research+engineering",
+  "face": "results/state_tilt/SIBLINGENTRY-2026-11-01.json",
+  "finding": "e326 exports code_lines_tokenized beside the shipped code_lines, pinned by the alias code_lines_legacy; no consumer switched. Both readings differ on 1,369 of 2,294 sources; all 30 of E334's published deltas re-derive through the new name at max abs diff 0.0 (tol 1e-9); an AST scan finds 0 permanent rebinds and 0 consumers of the new name.",
+  "pool": "E335 done with result_ref; E336-WHICH-CONSUMER-OPTS-IN-FIRST seeded ready (826 entries, 1 ready)",
+  "product": [
+   "scripts/e335_sibling_entry_point.py (run / verify problems=[] / selftest 20/20)",
+   "results/state_tilt/SIBLINGENTRY-2026-11-01.json + siblingentry_latest.json",
+   "scripts/e326_template_parameter_consumers.py: code_lines_tokenized + code_lines_legacy",
+   "research/digests/DIGEST-20261101-r1355-e335-sibling-entry-point.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E335",
+   "Tools/s6_chain_bmb.py leg sibling_entry_point",
+   "smoke_test.py leg E335"
+  ],
+  "study": "E335_sibling_entry_point",
+  "ts": "2026-11-01T08:47:30+08:00",
+  "verdict": "sibling_entry_point_lands_inert_legacy_pinned_new_name_unread_and_e334_delta_reproduces"
+ },
+ "r1355_delivery": {
+  "behind_origin_main": 217,
+  "branch": "machine/bm-b-r1355",
+  "local_not_on_origin_main": 170,
+  "main_push_blocker": "local main has diverged from origin/main for many rounds (two blood lines, promisor lazy-fetch wedge r1255 family); not attempted, no unattended rebase per r1243",
+  "sha": "c1f05c5112eefd708cf8a58aa27dea31b34410a1",
+  "ts": "2026-11-01T08:56:00+08:00",
+  "verified": true
+ },
+ "r1356": {
+  "dept": "research+engineering",
+  "face": "results/state_tilt/OPTINRANK-2026-11-01.json",
+  "finding": "E334 priced the repository (6 faces / 37 numbers); a reader cannot act on that, so each of the six consumers is priced twice. Reading A (delta: shipped build vs tokenized build) = how much of the consumer's own answer IS the helper's defect: E331 8/30, E329 8/17, E328 6/13, E327 4/23, E326 3/18, E330 0/21. Reading B (publish: published face vs tokenized build) = what a reader must re-read today: E328 9/13, E331 9/30, E329 8/17, E326 6/18, E327 4/23, E330 1/21. E334's published delta re-derives 6 of 6 rows; totals agree with it (29 delta / 37 published). Both readings put E330_unpinned_choice first but swap E328 and E329 at positions 3/4, so orders_agree=false and the frozen rule names nobody: the cheapest name is a property of the yardstick, not of a consumer. 4 of 6 positions are stable, the head among them, so the face publishes E330 + E326 as a FLOOR rather than a ranking. E327 sorts last on both readings for the only reason that outranks a count: its published verdict does not survive the switch.",
+  "pool": "E336 done with result_ref; E337-TAKE-THE-FLOOR-AND-OPT-IN-ONE seeded ready (827 entries, 1 ready)",
+  "product": [
+   "scripts/e336_consumer_optin_ranking.py (run / verify 0 problems / selftest 20/20)",
+   "results/state_tilt/OPTINRANK-2026-11-01.json + optinrank_latest.json",
+   "research/digests/DIGEST-20261101-r1356-e336-consumer-optin-ranking.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E336",
+   "Tools/s6_chain_bmb.py leg consumer_optin_ranking",
+   "smoke_test.py leg E336 + scripts/run_e336_smoke_leg.py (verbatim extractor)",
+   "results/runnable_pool.json E336 done with result_ref + E337 seeded (827 entries, 1 ready)"
+  ],
+  "selftest": "e336_consumer_optin_ranking 20/20; verify 0 problems (12 builds re-derived)",
+  "study": "E336_consumer_optin_ranking",
+  "ts": "2026-11-01T09:14:26+08:00",
+  "verdict": "no_consumer_named_because_the_two_readings_disagree_about_which_is_cheapest"
+ },
+ "r1356_delivery": {
+  "behind_origin_main": 217,
+  "branch": "machine/bm-b-r1356",
+  "local_not_on_origin_main": 172,
+  "sha": "6ebc08a6ebf2b56ebb9ee41589ab3f00a720d558",
+  "ts": "2026-11-01T09:15:32+08:00",
+  "verified": true
+ },
+ "r1358": {
+  "face": "results/state_tilt/GREENWINDOW-2026-11-01.json",
+  "median_window_seconds": 2014,
+  "pin_files": 2205,
+  "pin_read_seconds": 0.42,
+  "readings_coincide": "15/15",
+  "selftest": "36/36",
+  "study": "E338_census_green_window",
+  "windows_closed_by_a_census_sibling": "15/15"
+ },
+ "r1358_delivery": {
+  "behind_origin_main": 217,
+  "branch": "machine/bm-b-r1358",
+  "local_not_on_origin_main": 176,
+  "sha": "fb572e4272bff77fb3019562f75dc07113fd676f"
+ },
  "ram_free_gb": 11.2,
  "ram_free_mb": 12392,
  "ram_free_pct": 46.7,
@@ -894,7 +965,7 @@
  "role": "compute-node",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1358,
- "round_no": 1358,
+ "round_no": 1359,
  "round_no_label": "r1357",
  "round_no_ts": "2026-11-01T10:59:00+08:00",
  "s1": "the full ~331-leg smoke suite was not re-run this window (~35 min); the new E336 leg was extracted verbatim from smoke_test.py and executed standalone (PASS), then re-run against a doctored face (stable-position count zeroed, list emptied, a candidate named under a refusing verdict) -- caught with three named problems and the published bytes restored",
@@ -916,86 +987,16 @@
  "task": "r1357 absorb: verified the killed round's E337/E335/E330 faces (18/18, 24/24, verify 0), then republished E333 and E336 over today's corpus (verify 0 problems both); pool supply floor restored 1 -> 3",
  "task_short": "r1357 verify absorbed E337 + republish E333/E336",
  "timestamp": "2026-11-01T11:26:08+08:00",
- "ts": "2026-11-01T11:26:08+08:00",
+ "ts": "2026-11-01T12:10:00+08:00",
  "ts_utc_ms": 1793495666082,
  "updated": "2026-11-01T09:14:26+08:00",
  "updated_at": "2026-11-01T09:14:26+08:00",
- "verdict": "census_green_window_closes_on_the_next_sibling_and_the_two_reading_split_is_vacuous",
+ "verdict": "E339 done: 2 of 86 literal-count guards were relaxed, both predicate replacements of the T+1 invariant, both paid for by prose rather than a face; the pay-for reading holds for 39 of 41 commits in its own population so it is published with its base rate; 0 of 7 exact-count guards counts a corpus",
  "vram_free_gb": 3.57,
  "vram_probe": "nvidia-smi",
  "vram_total_gb": 8.0,
  "vram_used_gb": 4.3,
  "watermark_note": "orphan py_faces=11 orphans=0 residents=0 | dualrun ZERO-DRIFT 830 entries streak 51 | compute_audit CLEAN (supply_floor ready 3 / floor 3 breach cleared) | py_watermark insufficient_history | attrition CLEAN 4 ledgers (3 historical shrinks healed) | sat engine rc=0 idle | lane collectors, market_regime, update_* and paper/scorecard faces NOT re-run this window (stated plainly)",
  "watermark_red": "RED pool-batch-runnable-idle-low-cpu at open (3 ready cards, py idle); burned the head card E338 in-round",
- "work": "r1357 absorb: verified the killed round's E337/E335/E330 faces (18/18, 24/24, verify 0), then republished E333 and E336 over today's corpus (verify 0 problems both); pool supply floor restored 1 -> 3",
- "r1355": {
-  "dept": "research+engineering",
-  "face": "results/state_tilt/SIBLINGENTRY-2026-11-01.json",
-  "study": "E335_sibling_entry_point",
-  "verdict": "sibling_entry_point_lands_inert_legacy_pinned_new_name_unread_and_e334_delta_reproduces",
-  "finding": "e326 exports code_lines_tokenized beside the shipped code_lines, pinned by the alias code_lines_legacy; no consumer switched. Both readings differ on 1,369 of 2,294 sources; all 30 of E334's published deltas re-derive through the new name at max abs diff 0.0 (tol 1e-9); an AST scan finds 0 permanent rebinds and 0 consumers of the new name.",
-  "product": [
-   "scripts/e335_sibling_entry_point.py (run / verify problems=[] / selftest 20/20)",
-   "results/state_tilt/SIBLINGENTRY-2026-11-01.json + siblingentry_latest.json",
-   "scripts/e326_template_parameter_consumers.py: code_lines_tokenized + code_lines_legacy",
-   "research/digests/DIGEST-20261101-r1355-e335-sibling-entry-point.md",
-   "knowledge/METHODOLOGY_ASSETS.md card E335",
-   "Tools/s6_chain_bmb.py leg sibling_entry_point",
-   "smoke_test.py leg E335"
-  ],
-  "pool": "E335 done with result_ref; E336-WHICH-CONSUMER-OPTS-IN-FIRST seeded ready (826 entries, 1 ready)",
-  "ts": "2026-11-01T08:47:30+08:00"
- },
- "r1355_delivery": {
-  "branch": "machine/bm-b-r1355",
-  "sha": "c1f05c5112eefd708cf8a58aa27dea31b34410a1",
-  "verified": true,
-  "local_not_on_origin_main": 170,
-  "behind_origin_main": 217,
-  "main_push_blocker": "local main has diverged from origin/main for many rounds (two blood lines, promisor lazy-fetch wedge r1255 family); not attempted, no unattended rebase per r1243",
-  "ts": "2026-11-01T08:56:00+08:00"
- },
- "r1356": {
-  "dept": "research+engineering",
-  "face": "results/state_tilt/OPTINRANK-2026-11-01.json",
-  "study": "E336_consumer_optin_ranking",
-  "verdict": "no_consumer_named_because_the_two_readings_disagree_about_which_is_cheapest",
-  "finding": "E334 priced the repository (6 faces / 37 numbers); a reader cannot act on that, so each of the six consumers is priced twice. Reading A (delta: shipped build vs tokenized build) = how much of the consumer's own answer IS the helper's defect: E331 8/30, E329 8/17, E328 6/13, E327 4/23, E326 3/18, E330 0/21. Reading B (publish: published face vs tokenized build) = what a reader must re-read today: E328 9/13, E331 9/30, E329 8/17, E326 6/18, E327 4/23, E330 1/21. E334's published delta re-derives 6 of 6 rows; totals agree with it (29 delta / 37 published). Both readings put E330_unpinned_choice first but swap E328 and E329 at positions 3/4, so orders_agree=false and the frozen rule names nobody: the cheapest name is a property of the yardstick, not of a consumer. 4 of 6 positions are stable, the head among them, so the face publishes E330 + E326 as a FLOOR rather than a ranking. E327 sorts last on both readings for the only reason that outranks a count: its published verdict does not survive the switch.",
-  "product": [
-   "scripts/e336_consumer_optin_ranking.py (run / verify 0 problems / selftest 20/20)",
-   "results/state_tilt/OPTINRANK-2026-11-01.json + optinrank_latest.json",
-   "research/digests/DIGEST-20261101-r1356-e336-consumer-optin-ranking.md",
-   "knowledge/METHODOLOGY_ASSETS.md card E336",
-   "Tools/s6_chain_bmb.py leg consumer_optin_ranking",
-   "smoke_test.py leg E336 + scripts/run_e336_smoke_leg.py (verbatim extractor)",
-   "results/runnable_pool.json E336 done with result_ref + E337 seeded (827 entries, 1 ready)"
-  ],
-  "pool": "E336 done with result_ref; E337-TAKE-THE-FLOOR-AND-OPT-IN-ONE seeded ready (827 entries, 1 ready)",
-  "ts": "2026-11-01T09:14:26+08:00",
-  "selftest": "e336_consumer_optin_ranking 20/20; verify 0 problems (12 builds re-derived)"
- },
- "r1356_delivery": {
-  "branch": "machine/bm-b-r1356",
-  "sha": "6ebc08a6ebf2b56ebb9ee41589ab3f00a720d558",
-  "verified": true,
-  "local_not_on_origin_main": 172,
-  "behind_origin_main": 217,
-  "ts": "2026-11-01T09:15:32+08:00"
- },
- "r1358": {
-  "study": "E338_census_green_window",
-  "face": "results/state_tilt/GREENWINDOW-2026-11-01.json",
-  "median_window_seconds": 2014,
-  "windows_closed_by_a_census_sibling": "15/15",
-  "readings_coincide": "15/15",
-  "pin_files": 2205,
-  "pin_read_seconds": 0.42,
-  "selftest": "36/36"
- },
- "r1358_delivery": {
-  "branch": "machine/bm-b-r1358",
-  "sha": "fb572e4272bff77fb3019562f75dc07113fd676f",
-  "local_not_on_origin_main": 176,
-  "behind_origin_main": 217
- }
+ "work": "r1357 absorb: verified the killed round's E337/E335/E330 faces (18/18, 24/24, verify 0), then republished E333 and E336 over today's corpus (verify 0 problems both); pool supply floor restored 1 -> 3"
 }

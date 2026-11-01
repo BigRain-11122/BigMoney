@@ -1,0 +1,310 @@
+{
+  "study": "E339_literal_count_guards",
+  "evidence_cutoff": "2026-11-01",
+  "generated": "2026-11-01T11:47:50",
+  "definition": {
+    "guarded_files": [
+      "smoke_test.py",
+      "Tools/s6_chain_bmb.py"
+    ],
+    "guard": "one comparison between a count-shaped expression and an integer literal; only the top-level comparison operator of a Compare node with a single op",
+    "relaxed": "the card's frozen wording: literal_up (literal raised) or deleted (the assertion removed); op_changed is published separately rather than folded in, because an operator change has no single direction",
+    "population_of_possible_relaxations": "commits that delete at least one line in a guarded file -- loosening an existing guard requires a deletion, so a commit that only adds lines cannot relax one",
+    "R1_face_touched": "the same commit touched anything under results/",
+    "R2_a_number_moved": "the same commit's diff to results/*.json has a +/- line carrying a digit (a re-stamped face moves no number)",
+    "pay_for_base_rate": "R1/R2 are priced on every commit that deleted a line in a guarded file, not only on the relaxation commits, because a reading that almost every commit satisfies is not evidence"
+  },
+  "head": {
+    "guards": 86,
+    "by_file": {
+      "smoke_test.py": 85,
+      "Tools/s6_chain_bmb.py": 1
+    },
+    "by_op": {
+      "<": 41,
+      "==": 10,
+      ">=": 12,
+      "<=": 7,
+      ">": 6,
+      "!=": 10
+    },
+    "exact_count_guards": [
+      {
+        "file": "smoke_test.py",
+        "line": 46,
+        "text": "len(combos) == 432",
+        "literal": 432
+      },
+      {
+        "file": "smoke_test.py",
+        "line": 5134,
+        "text": "len(_arms62) != 16",
+        "literal": 16
+      },
+      {
+        "file": "smoke_test.py",
+        "line": 49,
+        "text": "len(h1) == 8",
+        "literal": 8
+      },
+      {
+        "file": "smoke_test.py",
+        "line": 8754,
+        "text": "len(_clamp101) != 3",
+        "literal": 3
+      },
+      {
+        "file": "smoke_test.py",
+        "line": 3497,
+        "text": "len(_gw42) != 2",
+        "literal": 2
+      },
+      {
+        "file": "smoke_test.py",
+        "line": 4944,
+        "text": "len(_trim.get('interval') or []) != 2",
+        "literal": 2
+      },
+      {
+        "file": "smoke_test.py",
+        "line": 9813,
+        "text": "len(_r330['branches']) != 2",
+        "literal": 2
+      }
+    ]
+  },
+  "history": {
+    "commits_scanned": 41,
+    "commits_with_deletions": 41,
+    "skipped": [],
+    "events": [
+      {
+        "expr": "len(same_day)",
+        "file": "smoke_test.py",
+        "kind": "deleted",
+        "old": {
+          "op": "==",
+          "literal": 0,
+          "line": 126
+        },
+        "new": null,
+        "sha": "c169c70202024721fc0bf1e61083b40197f2afce",
+        "ts": 1790605530,
+        "replacement_expr": "len(viol)",
+        "relaxed_by": "replacement",
+        "face_touched": false,
+        "results_files": 0,
+        "numeric_lines_in_results": 0,
+        "numbers_moved": false
+      },
+      {
+        "expr": "len(viol)",
+        "file": "smoke_test.py",
+        "kind": "added",
+        "old": null,
+        "new": {
+          "op": "==",
+          "literal": 0,
+          "line": 127
+        },
+        "sha": "c169c70202024721fc0bf1e61083b40197f2afce",
+        "ts": 1790605530,
+        "face_touched": false,
+        "results_files": 0,
+        "numeric_lines_in_results": 0,
+        "numbers_moved": false
+      },
+      {
+        "expr": "len(same_day)",
+        "file": "smoke_test.py",
+        "kind": "added",
+        "old": null,
+        "new": {
+          "op": "==",
+          "literal": 0,
+          "line": 130
+        },
+        "sha": "8e06e8a7d8b76e35a345db5d33bf87b788866c74",
+        "ts": 1790608953,
+        "face_touched": true,
+        "results_files": 68,
+        "numeric_lines_in_results": 481,
+        "numbers_moved": true
+      },
+      {
+        "expr": "len(viol)",
+        "file": "smoke_test.py",
+        "kind": "deleted",
+        "old": {
+          "op": "==",
+          "literal": 0,
+          "line": 127
+        },
+        "new": null,
+        "sha": "8e06e8a7d8b76e35a345db5d33bf87b788866c74",
+        "ts": 1790608953,
+        "replacement_expr": "len(same_day)",
+        "relaxed_by": "replacement",
+        "face_touched": true,
+        "results_files": 68,
+        "numeric_lines_in_results": 481,
+        "numbers_moved": true
+      },
+      {
+        "expr": "_rg.get('n_faces', 0)",
+        "file": "smoke_test.py",
+        "kind": "added",
+        "old": null,
+        "new": {
+          "op": ">=",
+          "literal": 4,
+          "line": 524
+        },
+        "sha": "ffe4cbb1afd85d458b0cd4476e6f63dbd706243b",
+        "ts": 1793036438,
+        "face_touched": true,
+        "results_files": 2,
+        "numeric_lines_in_results": 137,
+        "numbers_moved": true
+      },
+      {
+        "expr": "len(_turn)",
+        "file": "smoke_test.py",
+        "kind": "added",
+        "old": null,
+        "new": {
+          "op": ">=",
+          "literal": 2,
+          "line": 552
+        },
+        "sha": "1c663e868ea02bad888d5f2a481d9a013f78020e",
+        "ts": 1793060597,
+        "face_touched": true,
+        "results_files": 15,
+        "numeric_lines_in_results": 217,
+        "numbers_moved": true
+      },
+      {
+        "expr": "_n",
+        "file": "smoke_test.py",
+        "kind": "added",
+        "old": null,
+        "new": {
+          "op": "==",
+          "literal": 0,
+          "line": 745
+        },
+        "sha": "a9b5ad833b5bf28ff405108514f0b636eae3b9dd",
+        "ts": 1793108651,
+        "face_touched": true,
+        "results_files": 30,
+        "numeric_lines_in_results": 13866,
+        "numbers_moved": true
+      },
+      {
+        "expr": "len(_sig.get('bars_needed_for_edge') or {})",
+        "file": "smoke_test.py",
+        "kind": "added",
+        "old": null,
+        "new": {
+          "op": ">=",
+          "literal": 2,
+          "line": 639
+        },
+        "sha": "24ae7bc678df034d8aab82019872183b3430331a",
+        "ts": 1793122693,
+        "face_touched": true,
+        "results_files": 62,
+        "numeric_lines_in_results": 6303,
+        "numbers_moved": true
+      },
+      {
+        "expr": "len(_sig.get('min_detectable_edge_pp') or {})",
+        "file": "smoke_test.py",
+        "kind": "added",
+        "old": null,
+        "new": {
+          "op": ">=",
+          "literal": 2,
+          "line": 640
+        },
+        "sha": "24ae7bc678df034d8aab82019872183b3430331a",
+        "ts": 1793122693,
+        "face_touched": true,
+        "results_files": 62,
+        "numeric_lines_in_results": 6303,
+        "numbers_moved": true
+      }
+    ],
+    "relaxations": [
+      {
+        "expr": "len(same_day)",
+        "file": "smoke_test.py",
+        "kind": "deleted",
+        "old": {
+          "op": "==",
+          "literal": 0,
+          "line": 126
+        },
+        "new": null,
+        "sha": "c169c70202024721fc0bf1e61083b40197f2afce",
+        "ts": 1790605530,
+        "replacement_expr": "len(viol)",
+        "relaxed_by": "replacement",
+        "face_touched": false,
+        "results_files": 0,
+        "numeric_lines_in_results": 0,
+        "numbers_moved": false
+      },
+      {
+        "expr": "len(viol)",
+        "file": "smoke_test.py",
+        "kind": "deleted",
+        "old": {
+          "op": "==",
+          "literal": 0,
+          "line": 127
+        },
+        "new": null,
+        "sha": "8e06e8a7d8b76e35a345db5d33bf87b788866c74",
+        "ts": 1790608953,
+        "replacement_expr": "len(same_day)",
+        "relaxed_by": "replacement",
+        "face_touched": true,
+        "results_files": 68,
+        "numeric_lines_in_results": 481,
+        "numbers_moved": true
+      }
+    ],
+    "pay_for_base_rate": {
+      "commits_priced": 41,
+      "face_touched": 39,
+      "numbers_moved": 39,
+      "share_face_touched": 0.9512,
+      "share_numbers_moved": 0.9512
+    }
+  },
+  "summary": {
+    "guards_at_head": 86,
+    "guards_exact_count": 7,
+    "guards_exact_count_over_a_corpus": 0,
+    "relaxed": 2,
+    "literal_up": 0,
+    "deleted": 2,
+    "relaxed_by_replacement": 2,
+    "relaxed_by_removal": 0,
+    "op_changed": 0,
+    "tightened": 0,
+    "relaxed_without_face_touched": 1,
+    "relaxed_without_a_number_moving": 1,
+    "relaxed_with_published_number": 1
+  },
+  "verdict": "relaxations_were_paid_for_by_a_face_being_touched_but_not_by_a_number_moving",
+  "reasons": [
+    "1 of 2 relaxations moved a published number in the same commit"
+  ],
+  "self_disclosure": {
+    "this_study_adds_a_script_to_the_corpus": true,
+    "note": "smoke_test.py grows by one leg when this study lands, which is exactly the population movement that makes an exact-count guard break; the face states that rather than pretending the measurement is outside it"
+  }
+}

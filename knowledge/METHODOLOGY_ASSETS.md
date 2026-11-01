@@ -7049,3 +7049,30 @@ that order computes `older - newer` clamped at zero, which published median 0.0s
 the ordering guard caught it -- assert the direction, do not trust the reader.
 
 Evidence: scripts/e338_census_green_window.py (selftest 36/36, verify 0 problems) -> results/state_tilt/GREENWINDOW-2026-11-01.json -> research/digests/DIGEST-20261101-r1358-e338-census-green-window.md -> Tools/s6_chain_bmb.py leg census_green_window -> smoke_test.py leg E338 + scripts/run_e338_smoke_leg.py
+
+## E339 -- a silently loosened guard leaves no output at all, so the loosening has to be read out of git history; and a "was it paid for" test must be priced against the base rate
+
+E337 repaired one hard-coded inertness guard and named the branch nobody sees: a guard that hard-codes a count
+either breaks on the next landing or gets quietly loosened. This counts that branch instead of fearing it. Guards
+are comparisons between a count-shaped expression (`len(...)`, a `.get('n_...')` key, a name carrying a count
+word) and an integer literal in `smoke_test.py` and the S6 leg table: **86 at head**. Relaxations are read from
+the only commits that can contain one -- the 41 commits that delete a line in those files (the file otherwise only
+grows): **2 relaxations, both predicate replacements of the T+1 invariant, 0 literal raises, 0 outright removals.**
+
+Three reusable rules:
+
+1. **A rename is not a deletion.** `len(viol)` -> `len(same_day)` is one deletion plus one addition in the same
+   commit; pairing them on (op, literal) is what separates "the gate is gone" from "the gate says something else
+   now". Publish the pairing, and let the smoke leg refuse a partner that does not carry the deleted literal.
+2. **A test that almost every commit satisfies is not evidence.** "Did the same commit republish a face whose count
+   moved" is true for **39 of 41** commits in this population (95.1%) -- a round here republishes a dozen status
+   faces unconditionally. Price the reading against its base rate, and read the complement: exactly **one** commit
+   touched neither a face nor a number, and that is the only shape of loosening nobody would ever see.
+3. **Separate a corpus count from a fixture count before claiming landing fragility.** All 7 exact-count guards
+   count study-internal structures (`len(combos) == 432`, `len(_arms62) != 16`), none counts a corpus, so **0**
+   break when a new `.py` lands. The correct headline ("7 exact counts, 0 landing-fragile") is only reachable by
+   splitting the population; the naive one would have been right arithmetic and a wrong claim.
+
+Engineering: 82 `git show` spawns cost 98 s; one `git cat-file --batch` over the same versions costs 6.8 s.
+
+Evidence: scripts/e339_literal_count_guards.py (selftest 28/28, verify 0 problems) -> results/state_tilt/GUARDLOOSEN-2026-11-01.json -> research/digests/DIGEST-20261101-r1359-e339-literal-count-guards.md -> Tools/s6_chain_bmb.py leg literal_count_guards -> smoke_test.py leg E339 + scripts/run_e339_smoke_leg.py
