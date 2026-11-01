@@ -45,6 +45,8 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import contextlib
+import io
 import json
 import math
 import os
@@ -603,29 +605,38 @@ def blocks_face(cutoff=None, out_file=None):
     return face, out
 
 
-def arm_set_problems(blocks, wanted=ARM_SET):
+def family_problems(labels, wanted, kind="block"):
     """The registered family must be present EXACTLY: no missing arm, no orphan arm.
 
     Pure, so the gate can be tested without a panel. A missing arm is the dangerous case
     (the face still re-derives its spread from the arms it has and prints a narrower
     range with no error), so it is reported by name rather than as a count.
+
+    r1219: parameterised, because the same defect (the wanted set read off the disk) sat on
+    every family in this file, not just ARM_SET. A caller must pass the FROZEN constant --
+    deriving `wanted` from what is on disk makes the gate satisfiable by absence, which is
+    the whole failure it exists to catch.
     """
-    got = {b for b in blocks if b is not None}
+    got = {b for b in labels if b is not None}
     want = set(int(b) for b in wanted)
     out = []
     if got != want:
         missing = sorted(want - got)
         extra = sorted(got - want)
         if missing:
-            out.append("block arm(s) missing from the family: "
+            out.append("%s arm(s) missing from the family: " % kind
                        + ", ".join("b%d" % b for b in missing)
                        + " (registered set %s; a smaller family is not this face)"
                        % "/".join(str(b) for b in sorted(want)))
         if extra:
-            out.append("unregistered block arm(s) on the face: "
+            out.append("unregistered %s arm(s) on the face: " % kind
                        + ", ".join("b%d" % b for b in extra)
-                       + " (add them to ARM_SET with a freeze note, or drop them)")
+                       + " (add them to the registered set with a freeze note, or drop them)")
     return out
+
+
+def arm_set_problems(blocks, wanted=ARM_SET):
+    return family_problems(blocks, wanted, kind="block")
 
 
 def check_blocks(face_file=None):
@@ -886,7 +897,8 @@ def voltail_face(boot=N_BOOT, procs=4, out_file=None):
                    "daily returns and prices BOTH arms on it, so a row's delta is the overlay's "
                    "effect on the same bootstrapped history rather than the difference of two "
                    "independent bands (r1349 seed law: seed_i = SEED + 7919*i)"),
-        "blocks": list(VT_BLOCKS), "n_resamples": boot, "seed": SEED,
+        "blocks": list(VT_BLOCKS), "arm_set": sorted(VT_BLOCKS),
+        "n_resamples": boot, "seed": SEED,
         "bars": int(r_on.size), "bars_per_year": round(bpy, 3),
         "universe_symbols": n_sym, "flips_repaired": n_flip,
         "point_estimate": {"on": arms_series["on"]["bt"]["full"],
@@ -947,8 +959,23 @@ def check_voltail(face_file=None):
         problems.append("the 'off' arm carries a vol target -- it is not the control")
     if len(face.get("arms") or []) < 2:
         problems.append("fewer than two block arms -- the block parameter is not priced")
+    # r1219: the r1214 invariant, applied here too. Everything below re-judges the arms the
+    # face HAPPENS to carry, so a voltail face that lost an arm re-derives its verdict from
+    # a smaller family and reads green. The invariant is the frozen VT_BLOCKS, never the
+    # set on disk, and the face's own `blocks` claim must agree with the arms it ships.
+    problems.extend(family_problems([a.get("block") for a in face.get("arms") or []],
+                                    VT_BLOCKS, kind="voltarget block"))
+    declared = face.get("blocks")
+    if declared is not None:
+        d_set, a_set = set(int(b) for b in declared), {a.get("block") for a in face.get("arms") or []}
+        if d_set != a_set:
+            problems.append("the face claims blocks %s but ships arms %s"
+                            % ("/".join("b%d" % b for b in sorted(d_set)),
+                               "/".join("b%d" % b for b in sorted(x for x in a_set if x is not None))))
     for a in face.get("arms") or []:
-        p = ENV_DIR / f"PAIRROWS-{face.get('evidence_cutoff')}-b{a.get('block')}.json"
+        p = f.parent / f"PAIRROWS-{face.get('evidence_cutoff')}-b{a.get('block')}.json"
+        if not p.exists():
+            p = ENV_DIR / p.name
         rows = None
         if p.exists():
             rows = json.loads(p.read_text(encoding="utf-8")).get("rows")
@@ -1381,6 +1408,42 @@ def selftest():
         len(arm_set_problems(list(ARM_SET) + [7])) == 1
         and "b7" in arm_set_problems(list(ARM_SET) + [7])[0],
         arm_set_problems(list(ARM_SET) + [7]))
+
+    # L39-L41 (r1219): the same "wanted set read off the disk" defect sat on the voltail
+    # family as well. The gate below re-judges the arms the face HAPPENS to carry, so the
+    # invariant has to come from VT_BLOCKS -- and check_voltail must resolve paired rows
+    # beside the face it is handed, otherwise no fixture can prove the gate ever fires.
+    leg("L39 the registered voltail family is exactly VT_BLOCKS",
+        family_problems(list(VT_BLOCKS), VT_BLOCKS, kind="voltarget block") == []
+        and len(set(VT_BLOCKS)) == len(VT_BLOCKS) >= 2, VT_BLOCKS)
+    _vt_short = [b for b in VT_BLOCKS if b != VT_BLOCKS[-1]]
+    _vt_prob = family_problems(_vt_short, VT_BLOCKS, kind="voltarget block")
+    leg("L40 a lost voltail arm is named, not counted",
+        len(_vt_prob) == 1 and ("b%d" % VT_BLOCKS[-1]) in _vt_prob[0], _vt_prob)
+    td2 = Path(tempfile.mkdtemp(prefix="voltail_family_"))
+    _rows = [{"i": i, "on": {"cagr": 0.09 + 0.001 * i, "sharpe": 0.9, "maxdd": -0.12 - 0.002 * i},
+              "off": {"cagr": 0.08 + 0.001 * i, "sharpe": 0.8, "maxdd": -0.14 - 0.002 * i}}
+             for i in range(7)]
+    _pf = paired_face(_rows)
+    _arms = []
+    for _b in VT_BLOCKS[:2]:
+        _rf = f"PAIRROWS-2026-01-01-b{_b}.json"
+        (td2 / _rf).write_text(json.dumps({"evidence_cutoff": "2026-01-01", "block": _b,
+                                           "rows": _rows}), encoding="utf-8")
+        _one = {"block": _b, "rows_file": _rf}
+        _one.update(_pf)
+        _arms.append(_one)
+    (td2 / "VT.json").write_text(json.dumps({
+        "evidence_cutoff": "2026-01-01", "blocks": list(VT_BLOCKS), "arms": _arms,
+        "arms_definition": {"on": {"vol_target": 0.08}, "off": {"vol_target": None}},
+    }), encoding="utf-8")
+    _buf = io.StringIO()
+    with contextlib.redirect_stdout(_buf):
+        _rc_vt = check_voltail(td2 / "VT.json")
+    _said = _buf.getvalue()
+    leg("L41 a face that declares the family but ships two arms reads red on check",
+        _rc_vt == 1 and ("b%d" % VT_BLOCKS[2]) in _said and "claims blocks" in _said,
+        (_rc_vt, _said.strip().splitlines()[:2]))
 
     print(f"selftest {sum(1 for _, c, _ in ok if c)}/{len(ok)}")
     for name, cond, detail in ok:

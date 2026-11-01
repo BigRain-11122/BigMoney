@@ -947,6 +947,29 @@ def main() -> int:
                   "no BLOCKS face -- soft-fails by design")
     except Exception as e:
         check("product: the block family is complete, not merely self-consistent", False, str(e))
+    # r1219: the same invariant on the voltail family. `voltail --check` re-judges the arms
+    # the face carries, so a face that lost one block re-derives a verdict from a smaller
+    # family and reads green -- here the registered set (VT_BLOCKS) is the criterion, and the
+    # leg also proves the gate fires by deleting one arm from the published list.
+    try:
+        from scripts import etf_book_nav_envelope as _NE3
+        _vtp = os.path.join("results", "etf_book_bootstrap", "etf_book_voltarget_tail.json")
+        if os.path.exists(_vtp):
+            _vt3 = json.load(open(_vtp, encoding="utf-8"))
+            _on3 = [a.get("block") for a in _vt3.get("arms") or []]
+            _p3 = _NE3.family_problems(_on3, _NE3.VT_BLOCKS, kind="voltarget block")
+            _f3 = _NE3.family_problems([b for b in _on3 if b != _NE3.VT_BLOCKS[-1]],
+                                       _NE3.VT_BLOCKS, kind="voltarget block")
+            check("product: the voltail family is complete, not merely self-consistent",
+                  not _p3 and len(_f3) == 1 and str(_NE3.VT_BLOCKS[-1]) in _f3[0]
+                  and _vt3.get("blocks") == sorted(_NE3.VT_BLOCKS),
+                  "on_face=%s registered=%s problems=%s fires_when_short=%s"
+                  % (_on3, list(_NE3.VT_BLOCKS), _p3 or "none", _f3 or "none"))
+        else:
+            check("product: the voltail family is complete, not merely self-consistent", True,
+                  "no voltail face -- soft-fails by design")
+    except Exception as e:
+        check("product: the voltail family is complete, not merely self-consistent", False, str(e))
     # r1350 / E253: the card calls the 8% overlay "a drawdown tool". The face now answers it
     # with a PAIRED bootstrap -- same draw, both books -- so this leg recomputes the two
     # numbers the sentence rests on from the paired rows on disk: the median delta and the

@@ -8315,3 +8315,14 @@ LANE_TASKS（selftest L28 钉死三机都有引擎项）。
 **三 · 展示的词要能被读者拿去用。** 分位数与量纲必须同屏：年化 p5/p50/p95 打成百分比，同屏给出"亏钱的份额"与"跌破 -20% 的份额"（分数口径直接印 0.004 会被读成百分比，r1292/r1315 族）；且必须说明这份分布描述的是哪本书（`same_object`/`different_object`）、回测表三行是不是同一把尺子（`ROWS_NOT_COMPARABLE`）。
 
 验证：`scripts/daily_report.py::_etf_book_face` + render sec.12；selftest 新增三腿（有面→数上纸 / `unreadable`→印"无法核验"且不泄数 / 空子面→不印 None）；smoke 新腿"the battle report carries the book it is about" 从生产者载荷重推 priced_bar/book/cash/n_hold/next_rebalance 并要求 p50 逐字上纸（手写即红）。
+
+
+### E335 · 一家人少了两个成员，判词照绿：受检集合是从盘上读的（r1219 bm-a）
+
+**一 · 缺陷同族第二次被点名，但只修了第一处。** r1214 给块族装了「注册集合即判据」的闸（`arm_set_problems`，缺臂按名报红）；同一个文件里另外两族（voltail 配对臂、PAIRROWS 行件族）仍把**受检集合从脸上有什么反推**——`check_voltail` 遍历 `face["arms"]` 逐个重判，于是少了 `b250` 的脸用四个臂重算出一个更窄的判词，**全程不报错、照绿**。一条闸只保护它写进去的那一类，等于把同一种病留在隔壁。
+
+**二 · 正法：判据来自冻结常量，参差两个方向都报。** 把闸参数化成 `family_problems(labels, wanted, kind)`，调用方**必须传常量**（`ARM_SET` / `VT_BLOCKS`）——传「盘上有什么」就把闸变回可被缺席满足的断言。缺臂与未注册臂分别报，且按名字点名（不是数个数）。另加一条**自述面一致性**：脸自己声明 `blocks = 5/20/60/120/250` 而只带四个臂时，声明与行囊的矛盾本身就要红——这两个数由同一次运行写出，不一致说明有人只改了一面。
+
+**三 · 闸要能被夹具打红，否则它只是一行字。** `check_voltail` 原先把行件路径钉在 `ENV_DIR`，任何夹具都只能读到真实面板的行——改成**先认脸旁边的行件、再回退到目录**，于是「声明五臂只带两臂」的夹具能真跑出 rc1 并点名 `b60`（L41）；真面负测：把 `b250` 从真实脸里摘掉重跑，`FAIL: voltarget block arm(s) missing from the family: b250` 加 `the face claims blocks b5/.../b250 but ships arms b5/b20/b60/b120`，rc=1。
+
+验证：`scripts/etf_book_nav_envelope.py` selftest 37→40/40（L39 注册集恰为 VT_BLOCKS / L40 丢臂点名 / L41 夹具脸 rc1 且点名缺臂与声明矛盾）；真面 `voltail --check` OK 5 臂、`blocks --check` OK 8 臂；smoke 新腿「the voltail family is complete, not merely self-consistent」从已发布脸重推注册集并从列表中删一臂证明闸会响。
