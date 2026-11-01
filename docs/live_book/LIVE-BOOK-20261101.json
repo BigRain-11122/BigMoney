@@ -1831,6 +1831,151 @@
    }
   ]
  },
+ "lookahead": {
+  "status": "ok",
+  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_lookahead_audit.json",
+  "evidence_cutoff": "2026-10-30",
+  "verdict": {
+   "state": "LOOKAHEAD_PRESENT",
+   "gap_pp_per_year": 1.14,
+   "score_reads_same_bar_close": true,
+   "ladder_pp": {
+    "-2": 15.98,
+    "-1": 12.46,
+    "0": 9.6,
+    "1": 8.46,
+    "5": 7.39,
+    "20": 5.09
+   },
+   "ladder_spread_pp": 10.89,
+   "ladder_monotone": true,
+   "rule": "LOOKAHEAD_PRESENT iff the published engine still takes its signal from bar d (`score.loc[d]`) while paying the book from bar d's open to the next bar's open -- a source pin read at run time -- AND pricing the same rule one bar later costs >= tol_pp_per_year; MECHANISM_ABSENT if the engine no longer reads its own bar (the pin flips, the claim must be re-derived); WITHIN_TOL if the pin holds but the one-bar price is under the line",
+   "why": "the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 1.14 pp/yr, and the whole ladder is monotone in delay (-2:+15.98, -1:+12.46, +0:+9.60, +1:+8.46, +5:+7.39, +20:+5.09)"
+  },
+  "arms": {
+   "published": {
+    "cagr": 0.096,
+    "sharpe": 0.99,
+    "maxdd": -0.1177,
+    "cagr_pp": 9.6,
+    "maxdd_pp": -11.77,
+    "bars": 1652
+   },
+   "causal": {
+    "cagr": 0.0846,
+    "sharpe": 0.874,
+    "maxdd": -0.1656,
+    "cagr_pp": 8.46,
+    "maxdd_pp": -16.56,
+    "bars": 1652
+   },
+   "ledger_no_carry": {
+    "cagr": 0.0853,
+    "sharpe": 0.898,
+    "maxdd": -0.1357,
+    "cagr_pp": 8.53,
+    "maxdd_pp": -13.57,
+    "bars": 1653
+   },
+   "ledger_carry": {
+    "cagr": 0.0912,
+    "sharpe": 0.955,
+    "maxdd": -0.1326,
+    "cagr_pp": 9.12,
+    "maxdd_pp": -13.26,
+    "bars": 1653
+   }
+  },
+  "lag_ladder": [
+   {
+    "lag": -2,
+    "cagr": 0.1598,
+    "sharpe": 1.532,
+    "maxdd": -0.1335,
+    "vol": 0.1043,
+    "cagr_pp": 15.98,
+    "maxdd_pp": -13.35,
+    "bars": 1652
+   },
+   {
+    "lag": -1,
+    "cagr": 0.1246,
+    "sharpe": 1.275,
+    "maxdd": -0.1102,
+    "vol": 0.0999,
+    "cagr_pp": 12.46,
+    "maxdd_pp": -11.02,
+    "bars": 1652
+   },
+   {
+    "lag": 0,
+    "cagr": 0.096,
+    "sharpe": 0.99,
+    "maxdd": -0.1177,
+    "vol": 0.1017,
+    "cagr_pp": 9.6,
+    "maxdd_pp": -11.77,
+    "bars": 1652
+   },
+   {
+    "lag": 1,
+    "cagr": 0.0846,
+    "sharpe": 0.874,
+    "maxdd": -0.1656,
+    "vol": 0.1028,
+    "cagr_pp": 8.46,
+    "maxdd_pp": -16.56,
+    "bars": 1652
+   },
+   {
+    "lag": 5,
+    "cagr": 0.0739,
+    "sharpe": 0.766,
+    "maxdd": -0.1666,
+    "vol": 0.104,
+    "cagr_pp": 7.39,
+    "maxdd_pp": -16.66,
+    "bars": 1652
+   },
+   {
+    "lag": 20,
+    "cagr": 0.0509,
+    "sharpe": 0.544,
+    "maxdd": -0.1764,
+    "vol": 0.1051,
+    "cagr_pp": 5.09,
+    "maxdd_pp": -17.64,
+    "bars": 1652
+   }
+  ],
+  "decomposition": {
+   "price_of_the_one_bar_pp": 1.14,
+   "mark_basis_pp": -0.07,
+   "carry_pp": 0.59,
+   "note": "the three components are priced on separate arms: the first is information ordering, the second is open-to-open vs close-to-close marking around an open fill, the third is the repo ladder the ledger credits and the card does not"
+  },
+  "affected_faces": 33,
+  "criteria": {
+   "tol_pp_per_year": 0.25,
+   "lags": [
+    -2,
+    -1,
+    0,
+    1,
+    5,
+    20
+   ],
+   "monotone_tol_pp": 0.05,
+   "verdict_rule": "LOOKAHEAD_PRESENT iff the published engine still takes its signal from bar d (`score.loc[d]`) while paying the book from bar d's open to the next bar's open -- a source pin read at run time -- AND pricing the same rule one bar later costs >= tol_pp_per_year; MECHANISM_ABSENT if the engine no longer reads its own bar (the pin flips, the claim must be re-derived); WITHIN_TOL if the pin holds but the one-bar price is under the line",
+   "arms": {
+    "published": "open_to_open_equity(score)  -- card convention, signal seen at bar d close, weights earn open[d]->open[d+1]",
+    "causal": "open_to_open_equity(score.shift(1)) -- same rule on data available at open[d]",
+    "ledger": "etf_book_forward engine (decide at close d, fill at open d+1, mark to close)"
+   },
+   "frozen": "threshold and rules written before the first run; --check refuses a face that does not reproduce them"
+  },
+  "detail": null
+ },
  "stress": {
   "n_days": 5270,
   "first": "2005-02-23",

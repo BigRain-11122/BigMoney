@@ -40,6 +40,7 @@ PATHS_JSON = os.path.join(ROOT, "results", "etf_book_sleeve_paths.json")
 EXPOSURE_JSON = os.path.join(ROOT, "results", "etf_book_exposure_timing.json")
 COST_JSON = os.path.join(ROOT, "results", "etf_book_cost_tape.json")
 VOLWIN_JSON = os.path.join(ROOT, "results", "etf_book_vol_window_phase.json")
+LOOKAHEAD_JSON = os.path.join(ROOT, "results", "etf_book_lookahead_audit.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -324,6 +325,92 @@ def vol_window_face(path=VOLWIN_JSON):
     except Exception as exc:                                    # noqa: BLE001
         return {"status": "unreadable", "artifact": path, "verdict": None,
                 "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def lookahead_face(path=LOOKAHEAD_JSON):
+    """Is the headline achievable at the price the book is actually bought at? (r1207)
+
+    The table on this page quotes the research engine. r1207 found that engine ranks on bar
+    d's own close and then earns open[d]->open[d+1], i.e. it buys at a price set before the
+    information it ranks on; the ledger that prints orders is causal. Until this section the
+    page told the reader what the book *would have* made if a bar of the future were free.
+
+    Single implementation: verdict, arms and ladder come from
+    `etf_book_lookahead_audit.read_published()`, which refuses to serve a stored sentence
+    whose rows no longer recompute. Absent or drifted reads as "cannot verify here"."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_lookahead_audit as _LA
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        return _LA.read_published(path=path)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def lookahead_block(lk):
+    """The lines this page prints about the audit. Factored out so a selftest can feed it
+    a missing / drifted / ok face instead of trusting the render path by eye."""
+    L = []
+    add = L.append
+    add("## 上面那张表的口径，是在用今天的收盘价买今天的开盘")
+    add("")
+    if (lk or {}).get("status") != "ok":
+        add("这一页没有拿到时点体检面的可用读数（`%s`，状态 `%s`）：%s。"
+            "按默认口径读——上面那张表是**研究引擎**的读数，它的信号取自第 d 根 bar 自己的"
+            "收盘与成交额，却在第 d 根开盘成交；这个差在本页**无法核验**，别把表里的年化当成可得。"
+            % (_rel((lk or {}).get("artifact") or LOOKAHEAD_JSON, ROOT).replace(os.sep, "/"),
+               (lk or {}).get("status") or "unknown",
+               (lk or {}).get("detail") or "判决不能从自己的行重算"))
+        add("")
+        return L
+    v = lk.get("verdict") or {}
+    arms = lk.get("arms") or {}
+    dec = lk.get("decomposition") or {}
+    st = v.get("state")
+    pub = (arms.get("published") or {})
+    cau = (arms.get("causal") or {})
+    led0 = (arms.get("ledger_no_carry") or {})
+    led1 = (arms.get("ledger_carry") or {})
+    _zh = {"LOOKAHEAD_PRESENT": "**这张表的年化含一根 bar 的未来**",
+           "WITHIN_TOL": "**时点差在容差内**（这张表的口径站得住）",
+           "MECHANISM_ABSENT": "**引擎已经不再读自己那根 bar**（结论须重导出）"}.get(st, "**%s**" % st)
+    add("- 判据：%s。研究引擎用第 d 根收盘选出的权重，从第 d 根开盘就赚起；"
+        "而**真正下单的那本账**是收盘决定、次日开盘成交、按收盘计价。" % _zh)
+    add("")
+    if pub.get("cagr_pp") is not None and cau.get("cagr_pp") is not None:
+        add("- 同一个规则只把信号推迟一根 bar：全窗年化 **%.2f%% → %.2f%%**，"
+            "差 **%.2f pp/年**；回撤 **%.2f%% → %.2f%%**。"
+            % (pub["cagr_pp"], cau["cagr_pp"], dec.get("price_of_the_one_bar_pp") or 0.0,
+               pub.get("maxdd_pp") or 0.0, cau.get("maxdd_pp") or 0.0))
+        add("")
+    lad = lk.get("lag_ladder") or []
+    if lad:
+        add("- 阶梯（负 lag = 给它几根 bar 的未来，正 lag = 让它用更旧的信息，其余全不动）：%s。"
+            % " → ".join("%+d:%+.2f%%" % (r.get("lag"), r.get("cagr_pp") or 0.0) for r in lad))
+        add("")
+    if led0.get("cagr_pp") is not None:
+        add("- 账本引擎（因果、不计回购）**%.2f%%**，与上面「+1 根」那一格对得上，"
+            "等于独立验证了两者是同一本书；账本再计 ladder3 回购 **%.2f%%**"
+            "（+%.2f pp，是钱的来源之一，不是技能）。"
+            % (led0["cagr_pp"],
+               (led1 or {}).get("cagr_pp") if (led1 or {}).get("cagr_pp") is not None else float("nan"),
+               dec.get("carry_pp") or 0.0))
+        add("")
+    n = lk.get("affected_faces") or 0
+    add("- 影响面：机械扫出 **%d** 个脚本走同一个排序（含本页引用的多数生产面）。"
+        "研究结论与账本都没有造假，差别只在**时点**：报价时要说清是哪一本。" % n)
+    add("")
+    add("> 时点体检面：`%s` ｜ 定价截止 %s ｜ 一 bar 的价钱 **%.2f pp/年**"
+        % (_rel(lk.get("artifact") or LOOKAHEAD_JSON, ROOT).replace(os.sep, "/"),
+           lk.get("evidence_cutoff") or "—", dec.get("price_of_the_one_bar_pp") or 0.0))
+    add("")
+    return L
 
 
 def cost_tape_face(path=COST_JSON):
@@ -1254,6 +1341,7 @@ def build(with_stress=False):
     page["exposure_timing"] = exposure_timing_face()
     page["cost_tape"] = cost_tape_face()
     page["vol_window"] = vol_window_face()
+    page["lookahead"] = lookahead_face()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
     return page, today
 
@@ -1519,6 +1607,10 @@ def render_md(p):
     add("三行是同一套选券信号，区别只在名数和杠杆规则：第一行是你要下的这份账（5 名 + beta 覆盖 + 8bp 成本）；另两行是生产卡片跑的对照口径。同一决策日，票是卡片的子集。")
     add("")
     add("表里 \u2014 = 该口径没有拆 IS/OOS 分段，不是零。")
+    # r1207/E324: the table just above is the research engine's reading. Put the timing
+    # caveat where the number is read, not in a research file the reader never opens.
+    for _lk_line in lookahead_block(p.get("lookahead") or {}):
+        add(_lk_line)
     if p.get("excess_pp") is not None and p.get("same_beta_benchmark") and p.get("ticket_book"):
         b = p["same_beta_benchmark"]
         bk = p["ticket_book"]
@@ -2854,7 +2946,7 @@ def selftest():
     chk("L72 exposure timing: absent or a failed identity gate reads 'cannot verify' "
         "and prints no arithmetic",
         "无法核验" in _md_et_gone and "无法核验" in _md_et_broken
-        and "9.12%" not in _md_et_gone and "9.12%" not in _md_et_broken
+        and "-3.18pp" not in _md_et_gone and "-3.18pp" not in _md_et_broken
         and "AVERAGE_EXPOSURE_ONLY" not in _md_et_gone
         and "AVERAGE_EXPOSURE_ONLY" not in _md_et_broken, "")
 
@@ -2948,6 +3040,44 @@ def selftest():
         "无法核验" in _md_vw_gone and "无法核验" in _md_vw_drift
         and "1.057" not in _md_vw_gone and "1.057" not in _md_vw_drift
         and "有窗口赢过在册值" not in _md_vw_drift, "")
+
+    # r1207 / E324: the headline table is priced one bar in the future ------------------
+    def _render_lk(lk):
+        _p, _ = build(with_stress=False)
+        _p["lookahead"] = lk
+        return render_md(_p)
+    _lk_ok = {"status": "ok", "artifact": LOOKAHEAD_JSON, "evidence_cutoff": "2026-10-30",
+              "verdict": {"state": "LOOKAHEAD_PRESENT", "gap_pp_per_year": 1.14},
+              "arms": {"published": {"cagr_pp": 9.60, "maxdd_pp": -11.77},
+                       "causal": {"cagr_pp": 8.46, "maxdd_pp": -16.56},
+                       "ledger_no_carry": {"cagr_pp": 8.53},
+                       "ledger_carry": {"cagr_pp": 9.12}},
+              "decomposition": {"price_of_the_one_bar_pp": 1.14, "mark_basis_pp": -0.07,
+                                "carry_pp": 0.59},
+              "lag_ladder": [{"lag": -2, "cagr_pp": 15.98}, {"lag": -1, "cagr_pp": 12.46},
+                             {"lag": 0, "cagr_pp": 9.60}, {"lag": 1, "cagr_pp": 8.46},
+                             {"lag": 5, "cagr_pp": 7.39}, {"lag": 20, "cagr_pp": 5.09}],
+              "affected_faces": 33}
+    _md_lk = _render_lk(_lk_ok)
+    chk("L81 look-ahead: both numbers, the one-bar price and the ladder reach the page",
+        all(_x in _md_lk for _x in ("9.60%", "8.46%", "1.14 pp", "-16.56%",
+                                    "-2:+15.98", "+20:+5.09", "8.53%", "9.12%")), "")
+    _lk_lines = "\n".join(lookahead_block(_lk_ok))
+    chk("L82 look-ahead: the page names the causal ledger as the cross-check and "
+        "the affected face count, and its own lines print no table-breaking pipe",
+        "同一本书" in _lk_lines and "33" in _lk_lines and "|" not in _lk_lines, "")
+    _md_lk_gone = _render_lk({"status": "missing", "artifact": LOOKAHEAD_JSON})
+    _md_lk_drift = _render_lk({"status": "drift", "artifact": LOOKAHEAD_JSON})
+    chk("L83 look-ahead: absent or a face whose rows no longer recompute reads 'cannot "
+        "verify' and prints no arithmetic",
+        "无法核验" in _md_lk_gone and "无法核验" in _md_lk_drift
+        and "1.14 pp" not in _md_lk_gone and "1.14 pp" not in _md_lk_drift
+        and "含一根 bar 的未来" not in _md_lk_drift, "")
+    _lk_within = dict(_lk_ok)
+    _lk_within["verdict"] = {"state": "WITHIN_TOL", "gap_pp_per_year": 0.05}
+    chk("L84 look-ahead: a different verdict prints a different sentence",
+        "时点差在容差内" in _render_lk(_lk_within)
+        and "含一根 bar 的未来" not in _render_lk(_lk_within), "")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

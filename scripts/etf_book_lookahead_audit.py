@@ -357,8 +357,46 @@ def write_md(doc):
         fh.write("\n".join(L))
 
 
+def read_published(path=None):
+    """What any other face may quote from this one (single implementation, r1290).
+
+    A reader gets the verdict, the arms and the ladder only when this face's own `check`
+    still recomputes them from the published rows; otherwise the status is `drift` and the
+    caller must print "cannot verify here" rather than quoting the stored sentence.
+    """
+    path = path or OUT_JSON
+    if not os.path.exists(path):
+        return {"status": "missing", "artifact": path, "verdict": None, "detail": "no published face"}
+    try:
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except Exception as exc:                                     # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "unreadable (%s)" % str(exc)[:120]}
+    try:
+        rc = check(path, quiet=True)
+    except Exception as exc:                                     # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "check failed (%s)" % str(exc)[:120]}
+    v = doc.get("verdict") or {}
+    keep = ("cagr", "sharpe", "maxdd", "cagr_pp", "maxdd_pp", "bars")
+    return {
+        "status": "ok" if (rc == 0 and v.get("state")) else "drift",
+        "artifact": path,
+        "evidence_cutoff": (doc.get("panel") or {}).get("last_bar"),
+        "verdict": v,
+        "arms": {k: {kk: vv for kk, vv in (r or {}).items() if kk in keep}
+                 for k, r in (doc.get("arms") or {}).items()},
+        "lag_ladder": doc.get("lag_ladder") or [],
+        "decomposition": doc.get("decomposition") or {},
+        "affected_faces": len(doc.get("affected_faces") or []),
+        "criteria": doc.get("criteria") or {},
+        "detail": None if rc == 0 else "the verdict does not recompute from its own rows",
+    }
+
+
 # ---------------------------------------------------------------- check
-def check(path=None):
+def check(path=None, quiet=False):
     path = path or OUT_JSON
     with open(path, encoding="utf-8") as fh:
         doc = json.load(fh)
@@ -382,13 +420,15 @@ def check(path=None):
     if not doc.get("affected_faces"):
         problems.append("affected_faces is empty -- the scan found no caller, which cannot be true")
     if problems:
-        print("CHECK FAILED")
-        for p in problems:
-            print(" -", p)
+        if not quiet:
+            print("CHECK FAILED")
+            for p in problems:
+                print(" -", p)
         return 1
-    print("CHECK OK: %s · one-bar price %.2f pp/yr · mark basis %.2f pp/yr · %d faces inherit it"
-          % (fresh["state"], d["price_of_the_one_bar_pp"], d["mark_basis_pp"],
-             len(doc["affected_faces"])))
+    if not quiet:
+        print("CHECK OK: %s · one-bar price %.2f pp/yr · mark basis %.2f pp/yr · %d faces inherit it"
+              % (fresh["state"], d["price_of_the_one_bar_pp"], d["mark_basis_pp"],
+                 len(doc["affected_faces"])))
     return 0
 
 
