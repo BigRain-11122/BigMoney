@@ -52,11 +52,18 @@ QUIET_WINDOWS = {
     "bm-a": [(0, 9, 19)],      # weekday, 09:00-19:00 local
 }
 LANE_TASKS = {
-    "bm-a": ["Bigmoney-IterationLoop", "Bigmoney-LoopWatchdog", "HQ-Patrol-BigMoney"],
-    "bm-b": ["Bigmoney-IterationLoop", "Bigmoney-LoopWatchdog"],
-    "bm-c": ["Bigmoney-IterationLoop", "Bigmoney-LoopWatchdog"],
+    "bm-a": ["Bigmoney-IterationLoop", "Bigmoney-LoopWatchdog", "HQ-Patrol-BigMoney",
+             "Bigmoney-SatEngine-bm-b"],
+    "bm-b": ["Bigmoney-IterationLoop", "Bigmoney-LoopWatchdog", "Bigmoney-SatEngine-bm-b"],
+    "bm-c": ["Bigmoney-IterationLoop", "Bigmoney-LoopWatchdog", "Bigmoney-SatEngine-bm-b"],
 }
-TASK_STATES = ("Ready", "Running", "Disabled")
+# "Absent" (r1217): a task the machine DECLARES but the scheduler has never heard of.
+# Before this it collapsed into UNKNOWN -- the face said "I could not read the switch"
+# about a switch that does not exist.  And the saturation engine (the ignition face of
+# the compute lane) was outside LANE_TASKS entirely: on 2026-11-01 the engine was dead
+# 49 min (heartbeat 2924s, task Disabled) while this leg still printed LANE_ENABLED.
+TASK_STATES = ("Ready", "Running", "Disabled", "Absent")
+ABSENT = "Absent"
 STAMP_RE = re.compile(
     r"^\|?\s*(\d{4}-\d{2}-\d{2})[T ](\d{2}):([0-9]x|\d{1,2})(?::([0-9]x|\d{2}))?"
     r"\s*(?:[+-]\d{2}:?\d{2})?")
@@ -216,20 +223,32 @@ def audit(rows, threshold_min, window_days, now=None, mid=None):
     return out
 
 
+PROBE_OK = "PROBE_OK"          # sentinel: proves the scheduler answered at all
+
+
 def _query_task_states(names):
-    """Task scheduler -> {name: state}.  CASE_NO_WINDOW: a probe must not flash a console."""
+    """Task scheduler -> {name: state}.  CASE_NO_WINDOW: a probe must not flash a console.
+
+    The sentinel line separates "these tasks are not registered" from "the scheduler
+    never answered": both give an empty list of tasks, and reading the second as the
+    first would turn a broken probe into a report of missing lane tasks.
+    """
     import subprocess
     ps = ("$ProgressPreference='SilentlyContinue';"
           "Get-ScheduledTask -TaskName %s -ErrorAction SilentlyContinue | "
-          "ForEach-Object { $_.TaskName + '=' + $_.State }"
-          % (",".join("'%s'" % n for n in names)))
+          "ForEach-Object { $_.TaskName + '=' + $_.State }; "
+          "Write-Output '%s'"
+          % (",".join("'%s'" % n for n in names), PROBE_OK))
     kw = {}
     if os.name == "nt":
         kw["creationflags"] = 0x08000000
     p = subprocess.run(["powershell", "-NoProfile", "-NonInteractive", "-Command", ps],
                        capture_output=True, text=True, timeout=120, **kw)
+    lines = [ln.strip() for ln in (p.stdout or "").splitlines()]
+    if p.returncode != 0 or PROBE_OK not in lines:
+        raise RuntimeError("scheduler probe did not answer (rc=%s)" % p.returncode)
     out = {}
-    for ln in (p.stdout or "").splitlines():
+    for ln in lines:
         if "=" in ln:
             k, v = ln.split("=", 1)
             out[k.strip()] = v.strip()
@@ -241,8 +260,12 @@ def read_task_states(names, runner=None):
 
     The scheduler is asked, never the ledger: a Disabled task and a task with nothing to
     do write the SAME round line, which is why this had to be found by hand three times
-    in one day.  An unreadable switch is UNKNOWN -- not an enabled one, and not a dead
-    lane either (r98: unknown is not empty).
+    in one day.  Three states, three different actions:
+      Absent   -- the machine declares this task but it is not registered at all
+                  (register it; nothing else can heal it)
+      Disabled -- registered but switched off (enabling it is the whole fix)
+      UNKNOWN  -- the scheduler did not answer; an unread switch is neither on nor off
+                  (r98: unknown is not empty)
     """
     names = list(names or [])
     if not names:
@@ -250,15 +273,25 @@ def read_task_states(names, runner=None):
     runner = runner or _query_task_states
     try:
         got = runner(names) or {}
+        answered = True
     except Exception:                                               # noqa: BLE001
-        got = {}
-    return {n: (got.get(n) if got.get(n) in TASK_STATES else "UNKNOWN") for n in names}
+        got, answered = {}, False
+    out = {}
+    for n in names:
+        if got.get(n) in TASK_STATES:
+            out[n] = got[n]
+        elif answered and n not in got:
+            out[n] = ABSENT
+        else:
+            out[n] = "UNKNOWN"
+    return out
 
 
 def switch_face(states, silence_verdict, threshold_min):
     """Does the silence have a switch behind it?  Pure, so the selftest drives this."""
     states = states or {}
     disabled = [n for n, s in states.items() if s == "Disabled"]
+    absent = [n for n, s in states.items() if s == ABSENT]
     known = [n for n, s in states.items() if s in TASK_STATES]
     quiet = silence_verdict in ("OPEN_SILENCE", "SILENT_GAP")
     if disabled and quiet:
@@ -270,17 +303,93 @@ def switch_face(states, silence_verdict, threshold_min):
         verdict = "LANE_SWITCHED_OFF_IDLE"
         why = ("task(s) Disabled (%s) but no silence in this window -- the line stopped "
                "after the last round" % ", ".join(disabled))
-    elif known and not disabled:
+    elif absent:
+        # r1217: a declared ignition face that does not exist is red whether or not the
+        # line happens to be quiet -- an absent task can never ring, so the next quiet
+        # window is not idle, it is a dead lane that has not been noticed yet.
+        verdict = "LANE_TASK_MISSING"
+        why = ("%d declared lane task(s) are not registered at all (%s); an absent "
+               "ignition face cannot be quiet, it can only be dead"
+               % (len(absent), ", ".join(absent)))
+    elif known:
         verdict = "LANE_ENABLED"
         why = "every probeable lane task is switched on; the silence (if any) is not a switch"
     else:
         verdict = "UNKNOWN"
         why = "the scheduler could not be read; an unread switch is neither on nor off"
-    return {"states": states, "disabled": disabled, "probeable": len(known),
-            "threshold_min": threshold_min, "verdict": verdict, "why": why}
+    return {"states": states, "disabled": disabled, "absent": absent,
+            "probeable": len(known), "threshold_min": threshold_min,
+            "verdict": verdict, "why": why}
 
 
-def run(days=DEFAULT_WINDOW_DAYS, threshold_min=DEFAULT_THRESHOLD_MIN, mid=None):
+def _enable_task(name):
+    """schtasks /change /enable -> (ok, detail).  Zero window: no console may flash."""
+    import subprocess
+    kw = {}
+    if os.name == "nt":
+        kw["creationflags"] = 0x08000000
+    try:
+        p = subprocess.run(["schtasks", "/change", "/tn", name, "/enable"],
+                           capture_output=True, text=True, timeout=60, **kw)
+    except Exception as e:                                          # noqa: BLE001
+        return False, "enable raised: %s" % e
+    if p.returncode != 0:
+        return False, ("schtasks rc=%d: %s" % (p.returncode,
+                                               (p.stderr or p.stdout or "").strip()[:200]))
+    return True, ""
+
+
+REGISTER_HINT = "Tools/register_satengine_task.ps1"   # absent engine task: re-register
+
+
+def heal_lane_tasks(states, names=None, enabler=None, rechecker=None):
+    """Turn the lane's switches back on, then READ THEM BACK.
+
+    Only Disabled tasks are healed: re-enabling is a state change with no definition
+    written.  An Absent task is never fabricated here (a task definition is an owner
+    decision -- the register script does that), and an UNKNOWN state is not touched.
+    Write-then-readback law: a heal is only reported as healed if the second probe
+    agrees, otherwise it is reported as attempted-failed with the reason.
+    """
+    enabler = enabler or _enable_task
+    states = states or {}
+    acts = []
+    for n, st in sorted(states.items()):
+        if st == "Disabled":
+            ok, detail = enabler(n)
+            acts.append({"task": n, "action": "enabled" if ok else "enable_failed",
+                         "detail": detail})
+        elif st == ABSENT:
+            acts.append({"task": n, "action": "absent_not_fabricated",
+                         "detail": "register it explicitly: %s" % REGISTER_HINT})
+        elif st == "UNKNOWN":
+            acts.append({"task": n, "action": "unread_not_touched",
+                         "detail": "the scheduler did not answer; not a switch we may flip"})
+    healed = [a["task"] for a in acts if a["action"] == "enabled"]
+    after = {}
+    if healed:
+        probe = rechecker or read_task_states
+        try:
+            after = probe(healed) or {}
+        except Exception:                                           # noqa: BLE001
+            after = {}
+        for a in acts:
+            if a["action"] != "enabled":
+                continue
+            now = after.get(a["task"])
+            if now in ("Ready", "Running"):
+                a["verified"] = True
+            else:
+                a["verified"] = False
+                a["action"] = "enable_unverified"
+                a["detail"] = "readback says %s, not Ready/Running" % (now or "no answer")
+    return {"acts": acts, "healed": [a["task"] for a in acts
+                                     if a.get("verified") is True],
+            "readback": after}
+
+
+def run(days=DEFAULT_WINDOW_DAYS, threshold_min=DEFAULT_THRESHOLD_MIN, mid=None,
+        heal=False):
     mid = mid or _machine_id()
     if not mid:
         print("FAULT: machine identity unreadable (fleet/machine.json)")
@@ -301,8 +410,18 @@ def run(days=DEFAULT_WINDOW_DAYS, threshold_min=DEFAULT_THRESHOLD_MIN, mid=None)
     # r1216b: ask the scheduler whether the lane is off.  A measured silence verdict
     # stays as measured; a switched-off task replaces it (the more specific cause).
     res["silence_verdict"] = res["verdict"]
-    res["lane_tasks"] = switch_face(read_task_states(LANE_TASKS.get(mid) or []),
+    names = LANE_TASKS.get(mid) or []
+    res["lane_tasks"] = switch_face(read_task_states(names),
                                     res["silence_verdict"], threshold_min)
+    # r1217: --heal flips only Disabled switches, then reads them back.  The switch face
+    # is rebuilt from the readback, so a "healed" line can never be printed from intent.
+    if heal:
+        before = list(res["lane_tasks"].get("disabled") or [])
+        heal_block = heal_lane_tasks(res["lane_tasks"]["states"], names)
+        res["lane_tasks"] = switch_face(read_task_states(names),
+                                        res["silence_verdict"], threshold_min)
+        res["lane_tasks"]["heal"] = heal_block
+        res["lane_tasks"]["disabled_before_heal"] = before
     if res["lane_tasks"]["verdict"] == "LANE_SWITCHED_OFF":
         res["verdict"] = "LANE_SWITCHED_OFF"
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
@@ -322,6 +441,16 @@ def run(days=DEFAULT_WINDOW_DAYS, threshold_min=DEFAULT_THRESHOLD_MIN, mid=None)
              or "(none declared for this machine)", lt.get("verdict")))
     if str(lt.get("verdict") or "").startswith("LANE_SWITCHED_OFF"):
         print("  WHY: %s" % lt.get("why"))
+    elif lt.get("verdict") == "LANE_TASK_MISSING":
+        print("  WHY: %s" % lt.get("why"))
+    hb = lt.get("heal") or {}
+    if hb:
+        for a in hb.get("acts") or []:
+            print("  HEAL %s: %s%s"
+                  % (a.get("task"), a.get("action"),
+                     ("" if not a.get("detail") else " (%s)" % a.get("detail"))))
+        print("  HEAL readback: healed=%s"
+              % (", ".join(hb.get("healed") or []) or "(none)"))
     og = res.get("open_gap") or {}
     if og:
         print("  OPEN since %s : gap %s..%s min, quiet %s min, unexplained %s..%s min"
@@ -464,12 +593,44 @@ def selftest():
         raise RuntimeError("boom")
     _probe2 = read_task_states(["A"], runner=_boom)
     chk("L21-probe-failure-is-unknown", _probe2 == {"A": "UNKNOWN"}, str(_probe2))
+    # L22-L27 (r1217): absence is not "on" and not "unreadable"; a heal must be read back.
+    _probe3 = read_task_states(["A", "B"], runner=lambda names: {"A": "Ready"})
+    chk("L22-absent-named", _probe3 == {"A": "Ready", "B": ABSENT}, str(_probe3))
+    _sw_miss = switch_face({"Bigmoney-SatEngine-bm-b": ABSENT,
+                            "Bigmoney-IterationLoop": "Ready"}, "OK", 90)
+    chk("L23-absent-is-red-even-when-quiet",
+        _sw_miss["verdict"] == "LANE_TASK_MISSING"
+        and _sw_miss["absent"] == ["Bigmoney-SatEngine-bm-b"], str(_sw_miss))
+    _sw_dis_miss = switch_face({"A": "Disabled", "B": ABSENT}, "OPEN_SILENCE", 90)
+    chk("L24-switched-off-outranks-missing",
+        _sw_dis_miss["verdict"] == "LANE_SWITCHED_OFF", str(_sw_dis_miss))
+    _sw_unk_absent = switch_face({"A": "UNKNOWN", "B": ABSENT}, "OK", 90)
+    chk("L25-one-absent-still-named", _sw_unk_absent["verdict"] == "LANE_TASK_MISSING",
+        str(_sw_unk_absent))
+    _calls = []
+    _heal = heal_lane_tasks(
+        {"A": "Disabled", "B": ABSENT, "C": "UNKNOWN"},
+        enabler=lambda n: (_calls.append(n), (True, ""))[1],
+        rechecker=lambda names: {"A": "Ready"})
+    chk("L26-heal-touches-only-disabled",
+        _calls == ["A"] and _heal["healed"] == ["A"]
+        and [a["action"] for a in _heal["acts"] if a["task"] == "B"] == ["absent_not_fabricated"]
+        and [a["action"] for a in _heal["acts"] if a["task"] == "C"] == ["unread_not_touched"],
+        "%s / %s" % (_calls, _heal["acts"]))
+    _heal2 = heal_lane_tasks({"A": "Disabled"}, enabler=lambda n: (True, ""),
+                             rechecker=lambda names: {"A": "Disabled"})
+    chk("L27-heal-needs-its-readback",
+        _heal2["healed"] == [] and _heal2["acts"][0]["action"] == "enable_unverified",
+        str(_heal2))
+    chk("L28-engine-in-every-lane-registry",
+        all("Bigmoney-SatEngine-bm-b" in (LANE_TASKS.get(m) or [])
+            for m in ("bm-a", "bm-b", "bm-c")), str(LANE_TASKS))
     if fails:
-        print("selftest FAIL %d/21" % len(fails))
+        print("selftest FAIL %d/28" % len(fails))
         for f in fails:
             print("  " + f)
         return 1
-    print("selftest 21/21 PASS")
+    print("selftest 28/28 PASS")
     return 0
 
 
@@ -559,6 +720,7 @@ def main(argv):
     if len(argv) > 1 and argv[1] in ("selftest", "--selftest"):
         return selftest()
     days, thr, mid = DEFAULT_WINDOW_DAYS, DEFAULT_THRESHOLD_MIN, None
+    heal = False
     it = iter(argv[1:])
     for a in it:
         if a == "--days":
@@ -567,7 +729,9 @@ def main(argv):
             thr = int(next(it))
         elif a == "--machine":
             mid = next(it)
-    return run(days, thr, mid)
+        elif a == "--heal":
+            heal = True
+    return run(days, thr, mid, heal)
 
 
 if __name__ == "__main__":

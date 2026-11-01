@@ -8283,3 +8283,24 @@ full.bars`（容差 ±1 bar），过了才发，不过就**扣住**（页面印�
 验证：`scripts/lane_silence_audit.py` selftest 21/21（L16-L21）、实跑输出
 `lane tasks: Bigmoney-IterationLoop=Ready, Bigmoney-LoopWatchdog=Ready, HQ-Patrol-BigMoney=Ready -> LANE_ENABLED`、
 smoke 腿重算并核对 `disabled` 名单与状态逐条一致。
+
+### E333 · 点火面不在花名册里，闸就只能量它自己（r1217 bm-a）
+
+**一 · 漏登记一个面 = 这个面不存在。** 2026-11-01 21:25 本机饱和引擎心跳陈旧 2924s、
+任务 `Bigmoney-SatEngine-bm-b` 处于 Disabled，而同一刻 `lane_silence_audit` 照印
+LANE_ENABLED——因为 `LANE_TASKS["bm-a"]` 里根本没有引擎任务。车道闸量的是它自己的花名册，
+不是车道：名单少一个点火面，这个面死了就是「绿灯」。正法=引擎/循环/看门狗三条点火链一律进
+LANE_TASKS（selftest L28 钉死三机都有引擎项）。
+
+**二 · 缺席 ≠ 读不着。** 声明了却根本没注册的任务是第三态 `Absent`（动作=去注册），不能塌进
+`UNKNOWN`（动作=等一等）：两者动作相反，印同一个词就等于没人能动。探针还必须带哨兵行
+（`PROBE_OK`）证明调度器真的答了——否则「没答」会被读成「没这个任务」，把坏探针变成一份任务
+缺失报告。
+
+**三 · 会 heal 的闸必须读回。** `--heal` 只翻 Disabled（重启用是状态改动、不写任务定义），
+翻完**再探一次**，读不回 Ready/Running 就记 `enable_unverified`（write-then-readback 律）；
+`Absent` 绝不代造任务定义（定义是属主决定，只指路注册脚本）。
+
+验证：`scripts/lane_silence_audit.py` selftest 28/28（新增 L22-L28）+ 实弹
+（`schtasks /change /disable HQ-Patrol-BigMoney` → `--heal` → 读回 Ready，`healed` 具名）
++ S6 链腿改为 `--heal`（`Tools/s6_chain_bmc.py`）：被关掉的车道下一轮自己点亮。

@@ -47,7 +47,12 @@ LEGS = [
     # the loop tasks Disabled, and no face said so). This leg measures the gaps
     # between consecutive rounds, subtracts the machine's declared quiet
     # windows, and judges the gap that is still open.
-    ("lane_silence", ["python", "scripts/lane_silence_audit.py"]),
+    # --heal (r1217 bm-a): the leg must not merely say the lane is switched off.
+    # On 2026-11-01 the saturation engine (the compute lane's ignition face) was
+    # missing from LANE_TASKS entirely, so a dead engine read as LANE_ENABLED; and a
+    # Disabled task costs the whole lane while a re-enable costs nothing. The leg now
+    # flips Disabled tasks back on and records the readback in the same face.
+    ("lane_silence", ["python", "scripts/lane_silence_audit.py", "--heal"]),
     ("market_regime", ["python", "scripts/market_regime.py"]),
     ("scorecard", ["python", "scripts/strategy_scorecard.py"]),
     ("market_clock", ["python", "scripts/market_clock_call.py", "run"]),

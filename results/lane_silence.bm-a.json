@@ -104,13 +104,21 @@
   }
  ],
  "gaps_over_threshold_count": 10,
- "generated": "2026-11-01T20:55:18",
+ "generated": "2026-11-01T21:29:18",
  "lane_tasks": {
+  "absent": [],
   "disabled": [],
-  "probeable": 3,
+  "disabled_before_heal": [],
+  "heal": {
+   "acts": [],
+   "healed": [],
+   "readback": {}
+  },
+  "probeable": 4,
   "states": {
-   "Bigmoney-IterationLoop": "Ready",
+   "Bigmoney-IterationLoop": "Running",
    "Bigmoney-LoopWatchdog": "Ready",
+   "Bigmoney-SatEngine-bm-b": "Ready",
    "HQ-Patrol-BigMoney": "Ready"
   },
   "threshold_min": 90,
@@ -129,12 +137,12 @@
  "machine": "bm-a",
  "median_gap_min": 13.0,
  "open_gap": {
-  "gap_high_min": 74.3,
-  "gap_low_min": 74.3,
+  "gap_high_min": 108.3,
+  "gap_low_min": 108.3,
   "quiet_window_min": 0.0,
   "since": "2026-11-01T19:41",
-  "unexplained_high_min": 74.3,
-  "unexplained_low_min": 74.3
+  "unexplained_high_min": 108.3,
+  "unexplained_low_min": 108.3
  },
  "parse_precision_note": "stamps recorded with an 'x' digit are read as a 9-minute interval; a gap is only called when its pessimistic end clears the threshold",
  "quiet_windows": [
@@ -145,10 +153,10 @@
   ]
  ],
  "rounds_in_ledger": 702,
- "rounds_in_window": 98,
- "silence_verdict": "SILENT_GAP",
+ "rounds_in_window": 96,
+ "silence_verdict": "OPEN_SILENCE",
  "source": "round_reports-bm-a.md",
  "threshold_min": 90,
- "verdict": "SILENT_GAP",
+ "verdict": "OPEN_SILENCE",
  "window_days": 3
 }
