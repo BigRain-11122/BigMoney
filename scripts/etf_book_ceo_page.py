@@ -39,6 +39,7 @@ SLEEVE_JSON = os.path.join(ROOT, "results", "etf_book_sleeve_gate.json")
 PATHS_JSON = os.path.join(ROOT, "results", "etf_book_sleeve_paths.json")
 EXPOSURE_JSON = os.path.join(ROOT, "results", "etf_book_exposure_timing.json")
 COST_JSON = os.path.join(ROOT, "results", "etf_book_cost_tape.json")
+VOLWIN_JSON = os.path.join(ROOT, "results", "etf_book_vol_window_phase.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -297,6 +298,31 @@ def exposure_timing_face(path=EXPOSURE_JSON):
         return _ET.read_published(path=path)
     except Exception as exc:                                    # noqa: BLE001
         return {"status": "unreadable", "artifact": path, "sentence": None,
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def vol_window_face(path=VOLWIN_JSON):
+    """The 8% overlay's 60-day window: load-bearing, or a champion on one calendar? (r1203)
+
+    The page tells the reader the book is sized on a 60-day realised vol and that the
+    overlay is a drawdown tool. The number nobody had tested across calendars is the 60
+    itself -- the sweep behind it priced every cell on one decision grid (E321). Single
+    implementation: the rows, the frozen criteria and the verdict come from
+    `etf_book_vol_window_phase.read_published()`. Absent, unreadable or a face whose
+    verdict does not recompute from its own rows reads as "cannot verify here", never as
+    "the window is fine"."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_vol_window_phase as _VW
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        return _VW.read_published(path=path)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
                 "detail": "reading failed (%s)" % str(exc)[:120]}
 
 
@@ -1227,6 +1253,7 @@ def build(with_stress=False):
     page["sleeve_paths"] = sleeve_paths_face()
     page["exposure_timing"] = exposure_timing_face()
     page["cost_tape"] = cost_tape_face()
+    page["vol_window"] = vol_window_face()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
     return page, today
 
@@ -1926,6 +1953,101 @@ def render_md(p):
         add("> 盘口面：`%s`（计价截止 %s）。"
             % (_rel(ct.get("artifact") or COST_JSON, ROOT).replace(os.sep, "/"),
                ct.get("evidence_cutoff") or "—"))
+        add("")
+    vw = p.get("vol_window") or {}
+    add("## 8% 那条闸用的 60 日窗口——是这本书的一部分，还是恰好量在一条决策日历上？")
+    add("")
+    if vw.get("status") != "ok":
+        add("这一页没有拿到窗口面的可用读数（`%s`，状态 `%s`）：%s。"
+            "按默认口径读——窗口被扫过，但扫在**一条**决策日历上，所以「60 日是稳的」在这里无法核验。"
+            % (_rel(vw.get("artifact") or VOLWIN_JSON, ROOT).replace(os.sep, "/"),
+               vw.get("status") or "unknown", vw.get("detail") or "判决不能从自己的行重算"))
+        add("")
+    else:
+        v = vw.get("verdict") or {}
+        rows = vw.get("phase_rows") or []
+        st_v = v.get("state")
+        best = v.get("best_window")
+        picks = sorted({r.get("phase") for r in rows})
+        _zh_v = {"ADOPT_WINDOW": "**有窗口赢过在册值**（不是靠一条日历）",
+                 "PHASE_DEPENDENT": "**相位决定**（换一条日历结论会变）",
+                 "WINDOW_INERT": "**这条轴不承重**（在册值安全）",
+                 "REJECT_WINDOW_CHANGE": "**在册值站得住**（没有窗口赢）",
+                 "INCOMPLETE": "**读数不完整**，不判"}.get(st_v, "**%s**" % st_v)
+        add("这本书每次调仓都按最近 **60 个交易日**的实测波动决定敢用多少钱。这个 60 从没在"
+            "**多条日历**上验过：此前那次窗口×目标的扫描，所有格子都跑在同一条 20 日调仓日"
+            "网格上——就是「一个相位上的冠军」那个老毛病（E321）。这一节把它放到 %d 条相位上重跑。"
+            % len(picks))
+        add("")
+        add("- 判决：%s。在册 60 日 vs 最好窗口 **%s 日**：后者在 **%d/%d** 条相位上把这 +%.2f 夏普"
+            "的门槛真赢下来，样本外不差于在册的有 **%d/%d** 条。"
+            % (_zh_v, best if best is not None else "—",
+               v.get("best_phases_earned") or 0, v.get("phases_tested") or 0,
+               (vw.get("criteria") or {}).get("sharpe_gain") or 0.0,
+               v.get("best_phases_oos_not_worse") or 0, v.get("phases_tested") or 0))
+        pv_v = vw.get("paired") or {}
+        pr_v = pv_v.get("rows") or []
+        pst_v = (pv_v.get("verdict") or {}).get("state")
+        if pr_v:
+            add("- 配对裁决（把两本书在同一相位上的收益差自己做块自助，1,000 次，块长=一个调仓周期）："
+                "**%s**。逐相位：%s。"
+                % (pst_v or "—",
+                   "；".join("%s → %+.2fpp [%+.2f, %+.2f]" %
+                            ((r.get("phase") if isinstance(r.get("phase"), str)
+                              else "相位%s" % r.get("phase")),
+                             r.get("mean_pp") or 0.0,
+                             (r.get("ci_p05_p95_pp") or [0, 0])[0],
+                             (r.get("ci_p05_p95_pp") or [0, 0])[1])
+                            for r in pr_v if r.get("status") == "ok")))
+            add("")
+        _of_v = vw.get("older_face") or {}
+        if _of_v.get("status") == "ok":
+            add("- 同一根轴上还有一张早先的面（读它、不重算）：窗口 %s 日 vs %s 日对照，"
+                "中位 **%+.2fpp**、中位夏普 %+.2f、%d/%d 相位向上，它自己的噪声底 **%.2fpp**"
+                "（=对照自己在相位之间的跨度）→ 判它 **within noise**。两张面方向一致、"
+                "只有「尺子」不同：那张把配对效应比给了跨组跨度，这张把配对效应比给了配对的带。"
+                % (_of_v.get("w_test"), _of_v.get("control_window"),
+                   _of_v.get("median_delta_pp") or 0.0, _of_v.get("median_delta_sharpe") or 0.0,
+                   int(round(100 * (_of_v.get("share_up") or 0.0))), 4,
+                   _of_v.get("noise_pp") or 0.0))
+            add("")
+        if st_v == "ADOPT_WINDOW":
+            add("- 也就是说：**出货的 60 日不是任何一条日历上的最优**，而且梯度朝更短的窗口单调"
+                "（越短越稳）。但最好的那一格正好落在网格边缘，所以本页**只把选择定价，不改出货配置**——"
+                "往外推是下一张冻结面的活，不是这一格能替它答的。")
+        elif st_v == "WINDOW_INERT":
+            add("- 也就是说：窗口换一换，风险调整后的差别在噪声带里——这条轴不承重，在册的 60 日"
+                "放心用，别把它当精心调过的参数。")
+        elif st_v == "REJECT_WINDOW_CHANGE":
+            add("- 也就是说：没有哪条窗口能真赢下在册的 60 日——这个数站得住，不用动。")
+        elif st_v == "PHASE_DEPENDENT":
+            add("- 也就是说：换个调仓起点，答案会变——所以在册值**既不该被夸成最优，也不该被换掉**，"
+                "这属于相位噪声，不是可交易的改进。")
+        add("")
+        add("| 相位（调仓起点） | 在册 60 日夏普 | 最好窗口 %s 日夏普 | 差 |"
+            % (best if best is not None else "—"))
+        add("|---|---|---|---|")
+        _by = {(r.get("phase"), r.get("window")): r for r in rows}
+        for _i in picks:
+            _a = _by.get((_i, 60)) or {}
+            _b = _by.get((_i, best)) or {}
+            _sa, _sb = _a.get("sharpe"), _b.get("sharpe")
+            add("| %s | %s | %s | %s |"
+                % ((_a.get("phase_start") or _i),
+                   "—" if _sa is None else "%.3f" % _sa,
+                   "—" if _sb is None else "%.3f" % _sb,
+                   "—" if (_sa is None or _sb is None) else "%+.3f" % (_sb - _sa)))
+        add("")
+        add("- 别忘了这一面同时说明的代价：更短的估计反应更快，也**多拿**了这本书"
+            "（平均仓位与交付波动都往上走）——所以夏普那一列才是「不只是多冒风险」的部分。")
+        add("")
+        add("> 窗口面：`%s` ｜ 定价截止 %s ｜ %s 条相位 × %s 个窗口 ｜ 在册窗口在出货跨度上"
+            "复现生产卡 = **%s**"
+            % (_rel(vw.get("artifact") or VOLWIN_JSON, ROOT).replace(os.sep, "/"),
+               vw.get("evidence_cutoff") or "—",
+               v.get("phases_tested") or "—",
+               len({r.get("window") for r in rows}) or "—",
+               "PASS" if vw.get("identity_all_pass") else "FAIL"))
         add("")
     add("## 换成年内能赚多少钱（按本单资金 ¥%s）" % format(p["money_cny"]["capital_cny"], ",.0f"))
     add("")
@@ -2768,6 +2890,64 @@ def selftest():
         "无法核验" in _md_ct_gone and "无法核验" in _md_ct_bad
         and "5.9 bp" not in _md_ct_gone and "5.9 bp" not in _md_ct_bad
         and "CONSERVATIVE" not in _md_ct_gone and "CONSERVATIVE" not in _md_ct_bad, "")
+
+    # r1203 / E321: the 60-day vol window was never tested across decision calendars ----
+    def _render_vw(vw):
+        _p, _ = build(with_stress=False)
+        _p["vol_window"] = vw
+        return render_md(_p)
+    _crit = {"sharpe_gain": 0.02, "n_phases": 4, "windows": [30, 45, 60, 90, 120],
+             "share_min": 0.75}
+    _vw_ok = {"status": "ok", "artifact": VOLWIN_JSON, "evidence_cutoff": "2026-10-30",
+              "identity_all_pass": True, "criteria": _crit,
+              "verdict": {"state": "ADOPT_WINDOW", "best_window": 30,
+                          "best_phases_earned": 4, "best_phases_oos_not_worse": 4,
+                          "phases_tested": 4, "windows": []},
+              "phase_rows": [{"phase": 0, "phase_start": "2020-01-02", "window": 60,
+                              "sharpe": 0.990},
+                             {"phase": 0, "phase_start": "2020-01-02", "window": 30,
+                              "sharpe": 1.057},
+                             {"phase": 1, "phase_start": "2020-01-09", "window": 60,
+                              "sharpe": 0.939},
+                             {"phase": 1, "phase_start": "2020-01-09", "window": 30,
+                              "sharpe": 1.082}]}
+    _md_vw = _render_vw(_vw_ok)
+    _vw_pair = dict(_vw_ok)
+    _vw_pair["paired"] = {"arm": 30, "control": 60,
+                          "verdict": {"state": "MIXED_ACROSS_PHASES"},
+                          "rows": [{"phase": 0, "status": "ok", "mean_pp": 0.83,
+                                    "ci_p05_p95_pp": [-0.10, 1.92], "share_positive": 0.925},
+                                   {"phase": 1, "status": "ok", "mean_pp": 1.82,
+                                    "ci_p05_p95_pp": [0.75, 3.12], "share_positive": 0.999}]}
+    _vw_pair["older_face"] = {"status": "ok", "w_test": 20, "control_window": 60,
+                              "median_delta_pp": 1.5, "median_delta_sharpe": 0.12,
+                              "share_up": 1.0, "noise_pp": 1.81, "within_noise": True}
+    _md_vwp = _render_vw(_vw_pair)
+    chk("L76 vol window: the reader's own numbers reach the page",
+        all(_x in _md_vw for _x in ("30 日", "4/4", "0.990", "1.057", "+0.067",
+                                    "有窗口赢过在册值")),
+        "")
+    chk("L80 vol window: the paired band and the older face's own ruler reach the page",
+        all(_x in _md_vwp for _x in ("MIXED_ACROSS_PHASES", "+0.83pp", "[-0.10, +1.92]",
+                                     "within noise", "1.81pp", "+1.50pp"))
+        and "0.83pp" not in _md_vw, "")
+    chk("L77 vol window: the adoption names the grid edge and the exposure cost, and it "
+        "does not silently rewrite the shipped config",
+        "网格边缘" in _md_vw and "多拿" in _md_vw and "不改出货配置" in _md_vw, "")
+    _vw_inert = dict(_vw_ok)
+    _vw_inert["verdict"] = {"state": "WINDOW_INERT", "best_window": 45,
+                            "best_phases_earned": 0, "best_phases_oos_not_worse": 4,
+                            "phases_tested": 4, "windows": []}
+    chk("L78 vol window: a different verdict prints a different sentence",
+        "这条轴不承重" in _render_vw(_vw_inert)
+        and "有窗口赢过在册值" not in _render_vw(_vw_inert), "")
+    _md_vw_gone = _render_vw({"status": "missing", "artifact": VOLWIN_JSON})
+    _md_vw_drift = _render_vw({"status": "drift", "artifact": VOLWIN_JSON})
+    chk("L79 vol window: absent or a verdict that will not recompute reads 'cannot "
+        "verify' and prints no arithmetic",
+        "无法核验" in _md_vw_gone and "无法核验" in _md_vw_drift
+        and "1.057" not in _md_vw_gone and "1.057" not in _md_vw_drift
+        and "有窗口赢过在册值" not in _md_vw_drift, "")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

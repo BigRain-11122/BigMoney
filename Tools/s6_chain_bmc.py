@@ -293,6 +293,14 @@ LEGS = [
     # machine with one number replaced, and the identity arm must reproduce the engine's nav.
     ("etf_book_exposure_timing", ["python", "scripts/etf_book_exposure_timing.py", "--check"],
      ["python", "scripts/etf_book_exposure_timing.py", "run"]),
+    # r1203 (bm-a) / E24: the window axis of the vol target was swept once and sold as
+    # "LOAD-BEARING" -- but every cell was priced on the SAME 20-bar decision grid, which is
+    # the r1325 single-phase champion trap one level up. This face re-prices the window
+    # ladder on four phases and asserts the shipped window against the production card's own
+    # metrics; the gate recomputes the verdict from the published rows and refuses a face
+    # whose criteria echo has drifted. Engine-free (one engine call per cell at run time).
+    ("etf_book_vol_window_phase", ["python", "scripts/etf_book_vol_window_phase.py", "--check"],
+     ["python", "scripts/etf_book_vol_window_phase.py", "run"]),
     # r1348: every published number is one point estimate on ONE ordering of 1,651 days, and
     # the face that publishes the distribution (block bootstrap of the book's own return
     # path) can be re-judged from its stored resample rows without re-running the 2000

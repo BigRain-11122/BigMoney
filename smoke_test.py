@@ -4679,6 +4679,55 @@ def main() -> int:
     except Exception as e:
         check("product: a fixed fraction is only an adoption if it survives out of sample",
               False, repr(e)[:160])
+    # ---- r1203 / E24: a window axis priced on ONE decision calendar is not a result ----
+    # r1270's sweep wrote "window=LOAD-BEARING" after pricing every cell on the same 20-bar
+    # grid; r1325 then showed a rule that wins on one phase can lose on the phase a week
+    # later. This face re-prices the window ladder on four phases, so the leg has to check
+    # that the phases really moved, that every window is on every phase, that the shipped
+    # window still reproduces the production card, and that the verdict recomputes.
+    try:
+        import importlib as _il59
+        _P59 = _il59.import_module("etf_book_vol_window_phase")
+        _p59 = os.path.join(PATHS.results_dir, "etf_book_vol_window_phase.json")
+        _bad59 = []
+        if not os.path.exists(_p59):
+            _bad59.append("results/etf_book_vol_window_phase.json missing")
+        else:
+            with open(_p59, encoding="utf-8") as _fh59:
+                _doc59 = json.load(_fh59)
+            if _P59.check(_p59) != 0:
+                _bad59.append("the verdict does not recompute from the published rows")
+            _v59 = _doc59.get("verdict") or {}
+            if _v59.get("state") not in ("ADOPT_WINDOW", "PHASE_DEPENDENT", "WINDOW_INERT",
+                                         "REJECT_WINDOW_CHANGE", "INCOMPLETE"):
+                _bad59.append("unknown verdict %r" % (_v59.get("state"),))
+            if not _doc59.get("identity_all_pass"):
+                _bad59.append("the shipped window does not reproduce the production card")
+            _rows59 = _doc59.get("phase_rows") or []
+            _ph59 = sorted({r.get("phase") for r in _rows59})
+            if len(_ph59) != _P59.N_PHASES:
+                _bad59.append("%d phases, expected %d" % (len(_ph59), _P59.N_PHASES))
+            if len({r.get("phase_start") for r in _rows59}) != len(_ph59):
+                _bad59.append("two phases share a decision start -- the phase did not move")
+            _wins59 = sorted({r.get("window") for r in _rows59})
+            if _wins59 != sorted(_P59.WINDOWS):
+                _bad59.append("windows are %r" % (_wins59,))
+            for _p59_i in _ph59:
+                for _w59 in _P59.WINDOWS:
+                    if not any(r.get("phase") == _p59_i and r.get("window") == _w59
+                               for r in _rows59):
+                        _bad59.append("phase %r is missing window %rd" % (_p59_i, _w59))
+            for _k59, _c59 in _P59.CRITERIA.items():
+                if (_doc59.get("criteria") or {}).get(_k59) != _c59:
+                    _bad59.append("criterion %s moved off the module constant" % (_k59,))
+        check("product: the vol window is judged on more than one decision calendar",
+              not _bad59,
+              "; ".join(_bad59)[:220] or "verdict %s, best %sd, %d phases, identity PASS"
+              % ((_doc59.get("verdict") or {}).get("state"),
+                 (_doc59.get("verdict") or {}).get("best_window"), _P59.N_PHASES))
+    except Exception as e:
+        check("product: the vol window is judged on more than one decision calendar",
+              False, repr(e)[:160])
     # ---- r1197: the exposure-timing answer has to reach the face the CEO opens ----
     # r1196 answered "is the de-lever timing or just a smaller book?" and filed it in a
     # research note; the page -- the one face the CEO actually opens -- still told him the

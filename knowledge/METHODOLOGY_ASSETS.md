@@ -7849,3 +7849,83 @@ Two reusable rules.
 Read across: any "constant / matched / average" control arm (matched exposure, matched turnover,
 matched risk), and any face whose verdict block was frozen before the run -- ask whether its own
 notes contain a test that the first run already failed.
+
+### E321 · A window axis priced on one decision calendar is not a result (r1203 bm-a)
+
+`results/etf_vol_target_sweep.json` swept window (30..120) × target and printed
+"window=LOAD-BEARING" off a Sharpe spread -- with every cell priced on the **same** 20-bar
+decision grid. r1325 had already shown what that costs: a buffer rule that won on one phase
+lost 0.24 pp/yr on the phase one week later. The window axis therefore had never been tested;
+the face that said it was load-bearing had measured one calendar.
+
+`etf_book_vol_window_phase` re-prices the ladder on four decision phases (shift the panel
+start inside one 20-bar cycle) and keeps the shipped-window arm honest by reproducing the
+production card's own n12_vt08 metrics (0.096 / 0.99 / -0.1177 / 0.1017) to its printing
+precision in the phase that prices the shipped span.
+
+| window | shipped-window-relative Sharpe, by phase | phases earning +0.02 | OOS not worse |
+|---|---|---|---|
+| 30d | +0.067 / +0.143 / +0.103 / +0.050 | 4/4 | 4/4 |
+| 45d | +0.062 / +0.040 / +0.059 / -0.037 | 3/4 | 3/4 |
+| 90d | -0.139 / -0.053 / -0.111 / -0.104 | 0/4 | 0/4 |
+| 120d | -0.161 / -0.066 / -0.138 / -0.129 | 0/4 | 0/4 |
+
+So the earlier "LOAD-BEARING" word was right about the axis and wrong about the direction:
+the gradient is monotone toward the **shortest** tested window in every phase and out of
+sample, and the shipped 60d is nobody's optimum on any of the four calendars. The exposure
+column keeps it honest -- a faster estimate also holds more of the book (mean scale
+0.708→0.724 .. 0.735→0.740, delivered vol 10.2%→10.3%), so part of the return is just more
+risk; the Sharpe column is the part that is not.
+
+Three reusable rules.
+
+1. **Any axis already sold as "swept" must be re-read for how many calendars it was swept
+   on.** A sweep that varies one knob across a single decision grid confounds the knob with
+   the grid's phase; publish the phase dimension or the sweep is a single observation with a
+   table drawn around it.
+2. **A monotone gradient is not an adoption at its edge.** The best cell here is the last
+   cell tested, so the correct deliverable is "the shipped value is not load-bearing, and
+   shorter deserves its own frozen test", not "set it to 30". Extrapolating past the edge of
+   a frozen grid is how the next round fits the sample it just measured.
+3. **The identity leg must claim only the span it can prove.** A shifted phase prices a
+   different set of bars, so asserting the published card on every phase would have failed
+   for the right reason and taught the wrong lesson; assert the shipped span, and label the
+   rest "different priced span, not asserted". (A gate that fails on a definitional
+   difference gets loosened, and then it stops working.)
+
+Read across: any knob whose published value came from a one-grid sweep (vol target, vol
+window, hysteresis buffer, momentum lookback), and any verdict block of the form "X is
+load-bearing" -- ask which calendars, and whether the gradient points at the edge of the grid.
+#### E321 addendum (same round, r1203 bm-a): two frozen rulers on one axis, and the one that matches the comparison
+
+The first run of the face above passed its own frozen bar (a +0.02 Sharpe gain in 4 of 4
+phases, no worse out of sample in 4 of 4) and printed `ADOPT_WINDOW`. Then it was read
+against the older face on the same axis (`results/etf_book_voltarget_phase.json`), which
+calls the same shorter-window win *within noise* -- because it compares a **paired** gain of
++1.50pp to the **control's own CAGR spread across phases** of 1.81pp. That is a
+between-phase variance applied to a paired effect: inside a phase the two books hold the
+same names on the same grid, so the calendar cancels.
+
+So the difference of the two books' own return paths was bootstrapped (circular blocks of
+one rebalance cycle, 1,000 draws, seeded by draw index):
+
+| phase | paired mean | 5%-95% band | share > 0 |
+|---|---|---|---|
+| 0 | +0.83 pp/yr | [-0.10, +1.92] | 92.5% |
+| 1 | +1.82 pp/yr | [+0.75, +3.12] | 99.9% |
+| 2 | +1.19 pp/yr | [+0.10, +2.45] | 96.3% |
+| 3 | +0.42 pp/yr | [-0.33, +1.21] | 83.1% |
+
+`MIXED_ACROSS_PHASES`: positive everywhere, but the band still contains zero in two of four
+phases. The direction is robust; the size is not separable, on either ruler. The shipped 60d
+window therefore **stays**, and the face now says so in its own block instead of implying a
+change it cannot prove.
+
+Rule 4: **when two published faces answer the same question with different rulers, do not
+delete either and do not let the friendlier one act.** Print both, name the ruler each one
+uses, and settle the action on the ruler that matches the comparison being made (a paired
+effect needs a paired band, not a cross-group spread). Rule 5, the corollary that matters
+here: **a face may pass its own frozen bar and still not be allowed to change production.**
+Frozen criteria protect against retuning after the fact; they do not make the criterion the
+right measurement. Adoption takes both -- the pre-stated bar *and* a band that clears zero --
+and a face that reports only the first is a wish with a checksum.
