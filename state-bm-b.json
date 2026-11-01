@@ -202,8 +202,8 @@
  "last_orders_watermark": "4348aa21bc8f",
  "last_product": "scripts/e345_gate_absence_windows.py + results/state_tilt/GATEABSENCE-2026-11-01.json + gateabsence_latest.json + S6 leg gate_absence_windows + smoke leg E345 + card E345 + digest",
  "last_push": true,
- "last_push_at": "2026-11-01T04:16:00+08:00",
- "last_push_sha": "be5b02fe53cca5150ee450108d1a9735e6241bca",
+ "last_push_at": "2026-11-01T20:13:07+08:00",
+ "last_push_sha": "4a6bced28f7c27f91964bdc67a11dc5993fd389c",
  "last_round": 1366,
  "last_round_at": "2026-11-01T17:30:00+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md",
@@ -400,6 +400,7 @@
   "sha": "a9dd8e61c4",
   "verified_at": "2026-10-20T04:34:36+08:00"
  },
+ "push_sha": "4a6bced28f7c27f91964bdc67a11dc5993fd389c",
  "py_watermark_note": "dualrun ZERO-DRIFT (838 entries, streak 2) -> compute_audit FLAG:supply_gap (supply_floor 3/3 no breach) -> py_watermark py_low_with_work_cands (3 ready cards; the round burned the ready head E345) -> attrition CLEAN 4 ledgers",
  "r1003_collision_note": "r1003 number taken by the 08:22 firing killed at 08:47:02 by v1 25-min wall (O-20261018-0948 census most recent); zero closeout; estate (drama 3-layer receipt + MSG-0845 + s6 log) absorbed by r1004 per r992 yield law",
  "r1008_push_saga": "r1008 push saga: attempt-1 hung 5min zero-output (auto-cancel, O-0948-window promisor family); ls-remote probe = origin advanced 9f480646f->44f39a0b8 (bm-c r1094 continuation window raced mid-flight, W270 seat+prereg); attempt-2 rebase replay hit 9 shared regen faces (REPORT-2026-10-18 x2 / _attrition / _r686bmb_d19_check / compute_audit / fundamental_b_layer / regime_state / token_usage / update_status -- bm-c dead-window S6-light 16:08 vs my chain 16:29-16:33); resolution = newer-wins whole-file for 8 + token_usage.json per-machine UNION (origin-side rows kept for non-bm-b machines, machines keys have no ts field -- union not newer-wins, whole-file would delete bm-c rows and trip pre-push claw); mid-rebase stash pop poisoned the index ('could not write index') -> git rebase --continue entered GHOST-REFUSAL deadloop ('You must edit all merge conflicts' with ZERO unmerged entries, ls-files --unmerged empty); recovery = r1032-family tree surgery straight-through: write-tree on fully-resolved index -> commit-tree -p 44f39a0b8 -F msgfile -> rebase --quit -> update-ref main -> reset --mixed (reflog guard first: local main had zero foreign commits, zero orphan risk); attempt-3 delivered 44f39a0b8..c80a274bf5, fetch+rev-parse+behind/ahead+ls-tree four-way verified, claw zero blocks.",
@@ -3720,6 +3721,15 @@
   "verdict": "a_gate_whose_subject_arrived_in_the_same_commit_has_never_been_asked_anything_and_279_green_runs_are_one_observation",
   "verify": "0 problems"
  },
+ "r1369_delivery": {
+  "behind_origin_main": 226,
+  "branch": "machine/bm-b-r1369",
+  "local_not_on_origin_main": 200,
+  "main_push_blocker": "local main diverged from origin/main (two blood lines, promisor lazy-fetch wedge r1255 family); no unattended rebase per r1243, so delivery goes to the machine branch",
+  "sha": "4a6bced28f7c27f91964bdc67a11dc5993fd389c",
+  "ts": "2026-11-01T20:13:07+08:00",
+  "verified": true
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -3770,7 +3780,7 @@
  "task_short": "r1369 E348 restored gate retrospect",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
  "timestamp": "2026-11-01T14:09:57+08:00",
- "ts": "2026-11-01T20:09:39+08:00",
+ "ts": "2026-11-01T20:13:07+08:00",
  "ts_utc_ms": 1793520515308,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-01T20:09:39+08:00",
