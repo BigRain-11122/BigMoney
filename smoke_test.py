@@ -2648,6 +2648,12 @@ def main() -> int:
             # absolute delta, so commission cannot be what moves: only the price path can.
             ("product: the fill is sliced over k opens and priced (exit-code contract)",
              "scripts/etf_book_open_slicing.py", ["--selftest"]),
+            # r1230: depth and duration are different risks. The book published how deep it
+            # falls and never how long a holder waits, so this face prices the wait: the
+            # underwater episodes, the recovery horizon of EVERY entry (censored entries
+            # reported, never scored as zero), and forward 1/2/3 calendar-year returns.
+            ("product: how long a holder waits under water (exit-code contract)",
+             "scripts/etf_book_underwater.py", ["--selftest"]),
             # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
             # of selection premium over the book's own static class mix). The legs pin the
             # two ways this face can lie in either direction: a premium under the frozen
@@ -5283,6 +5289,55 @@ def main() -> int:
                  ((_doc93.get("verdict") or {}).get("control_cagr"))))
     except Exception as e:
         check("product: the fill is sliced over k opens and priced against the declared arm",
+              False, repr(e)[:160])
+    # ---- r1230: how long a holder waits under water ---------------------------------------
+    # Re-derives the verdict from the published rows and demands the three properties that
+    # make a duration number trustworthy: the curve under test must be the published cell
+    # (control reproduced, never "close enough"), a censored entry must stay censored (a face
+    # that quietly scores "never recovered" as 0 makes the book look faster than it is), and
+    # the horizon must be calendar time rather than an assumed 252 bars/year.
+    try:
+        import importlib as _il30
+        _U30 = _il30.import_module("etf_book_underwater")
+        _u30 = os.path.join(PATHS.results_dir, "etf_book_underwater.json")
+        _bad30 = []
+        _doc30 = {}
+        if not os.path.exists(_u30):
+            _bad30.append("results/etf_book_underwater.json missing")
+        else:
+            with open(_u30, encoding="utf-8") as _fh30:
+                _doc30 = json.load(_fh30)
+            if _U30.check(_u30) != 0:
+                _bad30.append("the verdict does not recompute from the published rows")
+            _c30 = _doc30.get("control") or {}
+            if _c30.get("verdict") != "CONTROL_REPRODUCED":
+                _bad30.append("control is %r, not the published cell" % (_c30.get("verdict"),))
+            if (_c30.get("delta_cagr") or 0) > _U30.CONTROL_TOL or \
+                    (_c30.get("delta_maxdd") or 0) > _U30.CONTROL_TOL:
+                _bad30.append("control deltas exceed the frozen tolerance")
+            _r30 = _doc30.get("recovery") or {}
+            if _r30.get("entries") and _r30.get("censored") is None:
+                _bad30.append("censored entries are not reported")
+            if (_r30.get("censored") or 0) > 0 and (_r30.get("censored_share") or 0) == 0:
+                _bad30.append("censored entries were silently scored as recovered at 0 bars")
+            _f30 = _doc30.get("forward") or {}
+            for _h30 in ("1y", "2y", "3y"):
+                _row30 = _f30.get(_h30) or {}
+                if _row30.get("entries") and _row30.get("skipped_no_full_horizon") is None:
+                    _bad30.append("%s does not disclose the skipped tail" % (_h30,))
+                if _row30.get("entries") and _row30.get("min") is None:
+                    _bad30.append("%s publishes no minimum" % (_h30,))
+            if (_doc30.get("bars") or 0) < 500:
+                _bad30.append("curve too short to price a duration")
+        check("product: how long a holder waits under water, re-derived from the published rows",
+              not _bad30,
+              "; ".join(_bad30)[:220] or "longest %s bars, worst entry %s bars, 1y min %s, censored %s"
+              % (((_doc30.get("underwater") or {}).get("longest") or {}).get("bars_underwater"),
+                 ((_doc30.get("recovery") or {}).get("worst_entry") or {}).get("bars"),
+                 ((_doc30.get("forward") or {}).get("1y") or {}).get("min"),
+                 ((_doc30.get("recovery") or {}).get("censored"))))
+    except Exception as e:
+        check("product: how long a holder waits under water, re-derived from the published rows",
               False, repr(e)[:160])
     # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
     # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two

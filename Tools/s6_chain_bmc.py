@@ -184,6 +184,11 @@ LEGS = [
     # r1227 / E27: information is exhausted (E25 rebuild, E26 gap), so the last candidate is
     # the fill mechanic -- the same delta through k consecutive opens. Deterministic, ~50s.
     ("etf_book_open_slicing", ["python", "scripts/etf_book_open_slicing.py", "run"]),
+    # r1230 bm-a: depth and duration are different risks. Every other face prices the fall;
+    # this one prices the wait (underwater episodes, per-entry recovery horizon with censored
+    # entries kept, forward 1/2/3 calendar-year returns). ~80s, offline, deterministic -- it
+    # runs the production cell through the production engine and must reproduce it to 5e-5.
+    ("etf_book_underwater", ["python", "scripts/etf_book_underwater.py", "run"]),
     # r1366: the carry split answers "how much of the quoted return is repo interest",
     # and it must be priced on the same bar as the ticket it explains. Hand-run only
     # until now -- r1366 found it frozen on 2026-10-29 (base cell 11.33%) while that
