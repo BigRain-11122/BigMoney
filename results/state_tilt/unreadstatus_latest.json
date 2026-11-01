@@ -1,0 +1,1954 @@
+{
+  "corpus_files": 2326,
+  "evidence_cutoff": "2026-11-01",
+  "producers": [
+    {
+      "base_origins": {
+        "STATUS": "named",
+        "st": "call"
+      },
+      "classes": {
+        "no_reader": 3,
+        "read_by_someone": 3
+      },
+      "extraction_empty": false,
+      "face_readers": [
+        "Tools/_r193_rebase_resolve.py",
+        "Tools/_r195_rebase_resolve.py",
+        "Tools/_r212_rebase_resolve.py",
+        "Tools/_r291_rebase_resolve.py",
+        "Tools/_r306bmc_s6_resolve.py",
+        "Tools/_r421bmc_close2.py",
+        "Tools/_r505bmc_merge_resolve.py",
+        "Tools/_r506bmc_rebase_resolve.py",
+        "Tools/_r507bmc_rebase_resolve.py",
+        "Tools/_r509bmc_merge_resolve.py",
+        "Tools/_r511bmc_rebase_resolve.py",
+        "Tools/_r512bmc_merge_resolve.py",
+        "Tools/_r515bmc_merge_resolve.py",
+        "Tools/_r515bmc_merge_resolve2.py",
+        "Tools/_r517bmc_rebase_resolve.py",
+        "Tools/_r518bmc_rebase_resolve.py",
+        "Tools/_r544bmc_merge_resolve.py",
+        "Tools/_r549bmc_merge_resolve.py",
+        "Tools/_r551bmc_merge_resolve.py",
+        "Tools/_r552bmc_merge_resolve.py",
+        "Tools/_r554bmc_close.py",
+        "Tools/_r554bmc_merge_resolve.py",
+        "Tools/_r555bmc_close.py",
+        "Tools/_r556bmc_merge_resolve.py",
+        "Tools/_r654bmc_rebase_resolve.py",
+        "Tools/_r666bmc_race_resolve.py",
+        "Tools/_r668bmc_uu_probe.py",
+        "Tools/_r668bmc_uu_resolve.py",
+        "Tools/_r668bmc_uu_resolve2.py",
+        "Tools/_r669bmc_pushrace_resolver.py",
+        "Tools/_r675bmc_merge_resolve.py",
+        "Tools/_r701bmc_uu_resolve.py",
+        "Tools/_r739bmc_commit.py",
+        "Tools/_r740bmc_commit.py",
+        "Tools/_r741bmc_commit.py",
+        "Tools/_r742bmc_commit.py",
+        "Tools/_r742bmc_merge_gates2.py",
+        "Tools/_r742bmc_merge_resolve.py",
+        "Tools/_r743bmc_merge_gates2.py",
+        "Tools/_r743bmc_merge_resolve.py",
+        "Tools/_r746bmc_addendum.py",
+        "Tools/_r789bmc_adopt.py",
+        "Tools/_r789bmc_rebase_resolver.py",
+        "Tools/_r840bma_rebase_resolve.py",
+        "Tools/_r844bmc_rebase_resolver.py",
+        "monitor/build_status.py",
+        "scripts/_r855bma_conflict_resolve.py",
+        "scripts/update_fund_statements.py"
+      ],
+      "faces": [
+        "futures_update_status.json"
+      ],
+      "keys": 6,
+      "present": true,
+      "producer": "scripts/update_futures.py",
+      "rows": [
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "data_cutoff",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "expected_cutoff",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "last_attempt",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 1,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "mode",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "no_op_reason",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "varieties_planned",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        }
+      ]
+    },
+    {
+      "base_origins": {
+        "STATUS": "named",
+        "code": "param",
+        "st": "call"
+      },
+      "classes": {
+        "no_reader": 4,
+        "read_by_someone": 3
+      },
+      "extraction_empty": false,
+      "face_readers": [
+        "monitor/build_status.py"
+      ],
+      "faces": [
+        "etf_daily_pull_status.json"
+      ],
+      "keys": 7,
+      "present": true,
+      "producer": "scripts/update_etf_daily.py",
+      "rows": [
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "data_cutoff",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "expected_cutoff",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "last_attempt",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 1,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "members_planned",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "mode",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "no_op_reason",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "takeover",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        }
+      ]
+    },
+    {
+      "base_origins": {
+        "STATUS": "named",
+        "st": "call"
+      },
+      "classes": {
+        "no_reader": 3,
+        "read_by_someone": 2,
+        "self_fed_only": 2
+      },
+      "extraction_empty": false,
+      "face_readers": [
+        "Tools/_r518bmc_rebase_resolve.py",
+        "monitor/build_status.py",
+        "scripts/options_iv_freeze_counter.py"
+      ],
+      "faces": [
+        "options_update_status.json"
+      ],
+      "keys": 7,
+      "present": true,
+      "producer": "scripts/update_options.py",
+      "rows": [
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "expected_cutoff",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": {
+            "bound_line": 564,
+            "constant": "MIN_SPAWN_S",
+            "context": "If",
+            "seconds": 1800.0,
+            "shape": "carried",
+            "test_lines": [
+              564
+            ],
+            "unit_assumed": false,
+            "value": 1800.0
+          },
+          "class": "self_fed_only",
+          "key": "last_spawn_attempt",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 0,
+          "self_reads": 1,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "mismatch",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 4,
+          "self_reads": 4,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "mode",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 3
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "no_op_reason",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "spawn_reason",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "ts",
+          "latch": false,
+          "reader_tier": "live",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 3
+        }
+      ]
+    },
+    {
+      "base_origins": {
+        "STATUS": "named",
+        "st": "call"
+      },
+      "classes": {
+        "no_reader": 4,
+        "read_by_someone": 3
+      },
+      "extraction_empty": false,
+      "face_readers": [
+        "Tools/_r518bmc_rebase_resolve.py",
+        "monitor/build_status.py"
+      ],
+      "faces": [
+        "repo_update_status.json"
+      ],
+      "keys": 7,
+      "present": true,
+      "producer": "scripts/update_repo.py",
+      "rows": [
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "data_cutoff",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "expected_cutoff",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "last_attempt",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 1,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "mode",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "no_op_reason",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "takeover",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "terms_planned",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        }
+      ]
+    },
+    {
+      "base_origins": {
+        "STATUS": "named",
+        "argv": "param",
+        "limit": "param",
+        "repull": "param",
+        "st": "call"
+      },
+      "classes": {
+        "no_reader": 6,
+        "read_by_someone": 2,
+        "self_fed_only": 2
+      },
+      "extraction_empty": false,
+      "face_readers": [
+        "Tools/_r1232bmb_fixrow.py",
+        "monitor/build_status.py",
+        "scripts/census_w2_roster.py",
+        "scripts/exclusion_marginal_scan.py",
+        "scripts/rev_osc_signal_export.py",
+        "scripts/sscombo_freeze_probe.py",
+        "scripts/stock_face_furnace.py",
+        "scripts/system_v1_paper.py",
+        "smoke_test.py"
+      ],
+      "faces": [
+        "astock_daily_update_status.json"
+      ],
+      "keys": 10,
+      "present": true,
+      "producer": "scripts/update_astock_daily.py",
+      "rows": [
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "disk_truth_override",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": {
+            "bound_line": 965,
+            "constant": "MIN_SPAWN_S",
+            "context": "If",
+            "seconds": 1800.0,
+            "shape": "carried",
+            "test_lines": [
+              965
+            ],
+            "unit_assumed": false,
+            "value": 1800.0
+          },
+          "class": "self_fed_only",
+          "key": "last_spawn_attempt",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 0,
+          "self_reads": 1,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "mode",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 3
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "no_op_reason",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "panel",
+          "latch": false,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 0,
+          "self_reads": 2,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "per_files_on_disk",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "spawn_mode",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "spawn_reason",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "takeover",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "ts",
+          "latch": false,
+          "reader_tier": "live",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 2
+        }
+      ]
+    },
+    {
+      "base_origins": {
+        "STATUS": "named",
+        "argv": "param",
+        "limit": "param",
+        "repull": "param",
+        "st": "call"
+      },
+      "classes": {
+        "no_reader": 3,
+        "read_by_someone": 2,
+        "self_fed_only": 2
+      },
+      "extraction_empty": false,
+      "face_readers": [
+        "Tools/_r518bmc_rebase_resolve.py",
+        "monitor/build_status.py",
+        "scripts/census_w2b_d8_export.py",
+        "scripts/census_w2b_roster.py",
+        "scripts/sina_construct_ic.py"
+      ],
+      "faces": [
+        "sina_mf_update_status.json"
+      ],
+      "keys": 7,
+      "present": true,
+      "producer": "scripts/update_sina_mf.py",
+      "rows": [
+        {
+          "bound": {
+            "bound_line": 776,
+            "constant": "MIN_SPAWN_S",
+            "context": "If",
+            "seconds": 1800.0,
+            "shape": "carried",
+            "test_lines": [
+              776
+            ],
+            "unit_assumed": false,
+            "value": 1800.0
+          },
+          "class": "self_fed_only",
+          "key": "last_spawn_attempt",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 0,
+          "self_reads": 1,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "mode",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 3
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "no_op_reason",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "panel",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 2,
+          "self_reads": 2,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "spawn_mode",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "spawn_reason",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "ts",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 2
+        }
+      ]
+    },
+    {
+      "base_origins": {
+        "STATUS": "named",
+        "after": "call",
+        "before": "call",
+        "dates": "param",
+        "fetch_page": "param",
+        "limit": "param",
+        "now": "param",
+        "repull": "param",
+        "st": "call",
+        "status": "param"
+      },
+      "classes": {
+        "no_reader": 3,
+        "read_by_someone": 2,
+        "self_fed_only": 3
+      },
+      "extraction_empty": false,
+      "face_readers": [
+        "Tools/_r518bmc_rebase_resolve.py",
+        "monitor/build_status.py",
+        "scripts/mf_ic_p1.py",
+        "scripts/open_market_readiness.py",
+        "scripts/self_review.py"
+      ],
+      "faces": [
+        "mf_status.json",
+        "moneyflow_update_status.json"
+      ],
+      "keys": 8,
+      "present": true,
+      "producer": "scripts/update_moneyflow.py",
+      "rows": [
+        {
+          "bound": {
+            "bound_line": 986,
+            "constant": "MIN_SPAWN_S",
+            "context": "If",
+            "seconds": 1800.0,
+            "shape": "carried",
+            "test_lines": [
+              986,
+              1029
+            ],
+            "unit_assumed": false,
+            "value": 1800.0
+          },
+          "class": "self_fed_only",
+          "key": "last_spawn_attempt",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 1,
+          "self_reads": 2,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "mode",
+          "latch": false,
+          "reader_tier": "live",
+          "self_decision_reads": 1,
+          "self_reads": 1,
+          "writes": 3
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "no_op_reason",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "panel",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 2,
+          "self_reads": 2,
+          "writes": 1
+        },
+        {
+          "bound": {
+            "bound_line": 986,
+            "constant": "MIN_SPAWN_S",
+            "context": "If",
+            "seconds": 1800.0,
+            "shape": "carried",
+            "test_lines": [
+              986,
+              1029
+            ],
+            "unit_assumed": false,
+            "value": 1800.0
+          },
+          "class": "self_fed_only",
+          "key": "rank",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 7,
+          "self_reads": 7,
+          "writes": 5
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "spawn_mode",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "spawn_reason",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "ts",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 3
+        }
+      ]
+    },
+    {
+      "base_origins": {
+        "STATUS_JSON": "named",
+        "force": "param",
+        "last": "call",
+        "last_success_ts": "call",
+        "mid": "passed",
+        "payload": "passed",
+        "status": "named"
+      },
+      "classes": {
+        "no_reader": 13,
+        "read_by_someone": 2,
+        "self_fed_only": 2
+      },
+      "extraction_empty": false,
+      "face_readers": [
+        "monitor/build_status.py"
+      ],
+      "faces": [
+        "minute_feed_status.json"
+      ],
+      "keys": 17,
+      "present": true,
+      "producer": "scripts/update_minute_feed.py",
+      "rows": [
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "archive_dir",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "calendar_source",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "calendar_tail",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "face",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "full_day_expected_bars",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "kind",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "lane_machine",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": {
+            "bound_line": 302,
+            "constant": "THROTTLE_MIN",
+            "context": "If",
+            "seconds": 1200.0,
+            "shape": "carried",
+            "test_lines": [
+              302
+            ],
+            "unit_assumed": false,
+            "value": 20.0
+          },
+          "class": "self_fed_only",
+          "key": "last_success_ts",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 1,
+          "self_reads": 2,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "repairs",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "rows_new_total",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "session_grid_bars",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "source_absent_labels",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "source_absent_law",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "spec",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "summary",
+          "latch": false,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 0,
+          "self_reads": 1,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "symbols",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "ts",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        }
+      ]
+    },
+    {
+      "base_origins": {
+        "SIM_STATUS_PATH": "named",
+        "STATUS_PATH": "named",
+        "argv": "param",
+        "emergency": "passed",
+        "hist": "call",
+        "s1": "call",
+        "s2": "call",
+        "s3": "call",
+        "sm": "passed",
+        "st": "call",
+        "st_path": "call",
+        "status": "named",
+        "status_out": "named",
+        "status_path": "named",
+        "summary": "passed"
+      },
+      "classes": {
+        "no_reader": 5,
+        "read_by_someone": 11,
+        "self_fed_only": 8
+      },
+      "extraction_empty": false,
+      "face_readers": [
+        "Tools/_r1030bmc_rebase_resolve.py",
+        "Tools/_r1232bmb_fixrow.py",
+        "Tools/_r193_rebase_resolve.py",
+        "Tools/_r195_rebase_resolve.py",
+        "Tools/_r212_rebase_resolve.py",
+        "Tools/_r291_rebase_resolve.py",
+        "Tools/_r306bmc_s6_resolve.py",
+        "Tools/_r421bmc_close2.py",
+        "Tools/_r505bmc_merge_resolve.py",
+        "Tools/_r506bmc_rebase_resolve.py",
+        "Tools/_r507bmc_rebase_resolve.py",
+        "Tools/_r508bmc_merge_resolve.py",
+        "Tools/_r509bmc_merge_resolve.py",
+        "Tools/_r511bmc_rebase_resolve.py",
+        "Tools/_r512bmc_merge_resolve.py",
+        "Tools/_r515bmc_merge_resolve.py",
+        "Tools/_r515bmc_merge_resolve2.py",
+        "Tools/_r517bmc_rebase_resolve.py",
+        "Tools/_r518bmc_rebase_resolve.py",
+        "Tools/_r544bmc_merge_resolve.py",
+        "Tools/_r549bmc_merge_resolve.py",
+        "Tools/_r551bmc_merge_resolve.py",
+        "Tools/_r552bmc_merge_resolve.py",
+        "Tools/_r554bmc_close.py",
+        "Tools/_r554bmc_merge_resolve.py",
+        "Tools/_r555bmc_close.py",
+        "Tools/_r556bmc_merge_resolve.py",
+        "Tools/_r648bmc_close.py",
+        "Tools/_r654bmc_rebase_resolve.py",
+        "Tools/_r666bmc_race_resolve.py",
+        "Tools/_r668bmc_uu_probe.py",
+        "Tools/_r668bmc_uu_resolve.py",
+        "Tools/_r668bmc_uu_resolve2.py",
+        "Tools/_r669bmc_pushrace_resolver.py",
+        "Tools/_r675bmc_merge_resolve.py",
+        "Tools/_r688bmc_rebase_resolve.py",
+        "Tools/_r690bmc_rebase_resolve.py",
+        "Tools/_r690bmc_uu_probe.py",
+        "Tools/_r693bmc_rebase_resolve.py",
+        "Tools/_r701bmc_uu_resolve.py",
+        "Tools/_r739bmc_commit.py",
+        "Tools/_r740bmc_commit.py",
+        "Tools/_r741bmc_commit.py",
+        "Tools/_r742bmc_commit.py",
+        "Tools/_r742bmc_merge_gates2.py",
+        "Tools/_r742bmc_merge_resolve.py",
+        "Tools/_r743bmc_merge_gates2.py",
+        "Tools/_r743bmc_merge_resolve.py",
+        "Tools/_r746bmc_addendum.py",
+        "Tools/_r777bmc_close.py",
+        "Tools/_r778bmc_close.py",
+        "Tools/_r779bmc_close.py",
+        "Tools/_r779bmc_uu_resolve.py",
+        "Tools/_r789bmc_adopt.py",
+        "Tools/_r789bmc_rebase_resolver.py",
+        "Tools/_r796bmc_merge_resolver.py",
+        "Tools/_r805bmc_resolver.py",
+        "Tools/_r813bmc_gitclose2.py",
+        "Tools/_r840bma_rebase_resolve.py",
+        "Tools/_r844bmc_rebase_resolver.py",
+        "monitor/build_status.py",
+        "scripts/_r855bma_conflict_resolve.py",
+        "scripts/census_w2_roster.py",
+        "scripts/census_w2b_d8_export.py",
+        "scripts/census_w2b_roster.py",
+        "scripts/daily_source_probe.py",
+        "scripts/exclusion_marginal_scan.py",
+        "scripts/mf_ic_p1.py",
+        "scripts/open_market_readiness.py",
+        "scripts/options_iv_freeze_counter.py",
+        "scripts/reader_text_audit.py",
+        "scripts/rev_osc_signal_export.py",
+        "scripts/science_audit.py",
+        "scripts/self_review.py",
+        "scripts/sina_construct_ic.py",
+        "scripts/sscombo_freeze_probe.py",
+        "scripts/stock_face_furnace.py",
+        "scripts/system_v1_paper.py",
+        "scripts/update_astock_daily.py",
+        "scripts/update_etf_wide.py",
+        "scripts/update_fund_statements.py",
+        "scripts/update_futures.py",
+        "scripts/update_heat.py",
+        "scripts/update_lhb.py",
+        "scripts/update_moneyflow.py",
+        "scripts/update_options.py",
+        "scripts/update_repo.py",
+        "scripts/update_sina_mf.py",
+        "scripts/update_zt_pool.py",
+        "smoke_test.py"
+      ],
+      "faces": [
+        "update_status.json",
+        "update_status_sim.json"
+      ],
+      "keys": 24,
+      "present": true,
+      "producer": "scripts/update_daily.py",
+      "rows": [
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "appended",
+          "latch": false,
+          "reader_tier": "live",
+          "self_decision_reads": 6,
+          "self_reads": 8,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "catchup",
+          "latch": false,
+          "reader_tier": "merge_only",
+          "self_decision_reads": 7,
+          "self_reads": 7,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "catchup_attempts",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 1,
+          "self_reads": 3,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "close_accept_time",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "data_cutoff",
+          "latch": false,
+          "reader_tier": "live",
+          "self_decision_reads": 0,
+          "self_reads": 2,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "error",
+          "latch": false,
+          "reader_tier": "live",
+          "self_decision_reads": 1,
+          "self_reads": 2,
+          "writes": 3
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "exit_code",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 2,
+          "self_reads": 2,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "failures",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 3,
+          "self_reads": 4,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "first_new",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "hook_exit",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 1,
+          "self_reads": 1,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "hook_ok",
+          "latch": false,
+          "reader_tier": "merge_only",
+          "self_decision_reads": 2,
+          "self_reads": 2,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "last_new",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "mismatch_col",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 3,
+          "self_reads": 3,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "now",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "overlap_mismatch",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 2,
+          "self_reads": 3,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "overlap_mismatches",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 2,
+          "self_reads": 3,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "parity_audit",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 1,
+          "self_reads": 1,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "per_symbol",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 1,
+          "self_reads": 1,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "no_reader",
+          "key": "run_error",
+          "latch": false,
+          "reader_tier": "no_reader",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "self_fed_only",
+          "key": "source_used",
+          "latch": true,
+          "reader_tier": "self_fed_only",
+          "self_decision_reads": 3,
+          "self_reads": 3,
+          "writes": 2
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "symbol",
+          "latch": false,
+          "reader_tier": "live",
+          "self_decision_reads": 1,
+          "self_reads": 4,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "symbols",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 1,
+          "self_reads": 1,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "total_new_rows",
+          "latch": false,
+          "reader_tier": "display_only",
+          "self_decision_reads": 4,
+          "self_reads": 5,
+          "writes": 1
+        },
+        {
+          "bound": null,
+          "class": "read_by_someone",
+          "key": "updated",
+          "latch": false,
+          "reader_tier": "live",
+          "self_decision_reads": 0,
+          "self_reads": 0,
+          "writes": 1
+        }
+      ]
+    },
+    {
+      "base_origins": {
+        "judged": "call",
+        "lhb": "call",
+        "n_gated": "call",
+        "n_open": "call",
+        "out_js": "call",
+        "out_json": "call",
+        "pull": "call",
+        "status": "named"
+      },
+      "classes": {},
+      "extraction_empty": true,
+      "face_readers": [
+        "Tools/_r1030bmc_rebase_resolve.py",
+        "Tools/_r1232bmb_fixrow.py",
+        "Tools/_r193_rebase_resolve.py",
+        "Tools/_r195_rebase_resolve.py",
+        "Tools/_r212_rebase_resolve.py",
+        "Tools/_r291_rebase_resolve.py",
+        "Tools/_r306bmc_s6_resolve.py",
+        "Tools/_r421bmc_close2.py",
+        "Tools/_r505bmc_merge_resolve.py",
+        "Tools/_r506bmc_rebase_resolve.py",
+        "Tools/_r507bmc_rebase_resolve.py",
+        "Tools/_r508bmc_merge_resolve.py",
+        "Tools/_r509bmc_merge_resolve.py",
+        "Tools/_r511bmc_rebase_resolve.py",
+        "Tools/_r512bmc_merge_resolve.py",
+        "Tools/_r515bmc_merge_resolve.py",
+        "Tools/_r515bmc_merge_resolve2.py",
+        "Tools/_r517bmc_rebase_resolve.py",
+        "Tools/_r518bmc_rebase_resolve.py",
+        "Tools/_r544bmc_merge_resolve.py",
+        "Tools/_r549bmc_merge_resolve.py",
+        "Tools/_r551bmc_merge_resolve.py",
+        "Tools/_r552bmc_merge_resolve.py",
+        "Tools/_r554bmc_close.py",
+        "Tools/_r554bmc_merge_resolve.py",
+        "Tools/_r555bmc_close.py",
+        "Tools/_r555bmc_close2.py",
+        "Tools/_r556bmc_merge_resolve.py",
+        "Tools/_r579bmb_s0_surgery.py",
+        "Tools/_r630bma_resolve.py",
+        "Tools/_r648bmc_close.py",
+        "Tools/_r654bmc_rebase_resolve.py",
+        "Tools/_r666bmc_race_resolve.py",
+        "Tools/_r668bmc_uu_probe.py",
+        "Tools/_r668bmc_uu_resolve.py",
+        "Tools/_r668bmc_uu_resolve2.py",
+        "Tools/_r669bmc_pushrace_resolver.py",
+        "Tools/_r671bmc_addendum.py",
+        "Tools/_r671bmc_rebase_resolve.py",
+        "Tools/_r675bmc_merge_resolve.py",
+        "Tools/_r688bmc_rebase_resolve.py",
+        "Tools/_r690bmc_rebase_resolve.py",
+        "Tools/_r690bmc_uu_probe.py",
+        "Tools/_r693bmc_rebase_resolve.py",
+        "Tools/_r701bmc_uu_resolve.py",
+        "Tools/_r739bmc_commit.py",
+        "Tools/_r740bmc_commit.py",
+        "Tools/_r741bmc_commit.py",
+        "Tools/_r742bmc_commit.py",
+        "Tools/_r742bmc_merge_gates2.py",
+        "Tools/_r742bmc_merge_resolve.py",
+        "Tools/_r743bmc_merge_gates2.py",
+        "Tools/_r743bmc_merge_resolve.py",
+        "Tools/_r746bmc_addendum.py",
+        "Tools/_r777bmc_close.py",
+        "Tools/_r778bmc_close.py",
+        "Tools/_r779bmc_close.py",
+        "Tools/_r779bmc_uu_resolve.py",
+        "Tools/_r789bmc_adopt.py",
+        "Tools/_r789bmc_rebase_resolver.py",
+        "Tools/_r796bmc_merge_resolver.py",
+        "Tools/_r803bmc_close.py",
+        "Tools/_r805bmc_resolver.py",
+        "Tools/_r813bmc_gitclose2.py",
+        "Tools/_r840bma_rebase_resolve.py",
+        "Tools/_r844bmc_rebase_resolver.py",
+        "Tools/content_loop_step.py",
+        "Tools/idle_trigger.py",
+        "Tools/skills/bigmoney-conflict-resolve/scripts/classify_conflicts.py",
+        "content/drama/runner_assets/first_synth_smoke.py",
+        "content/drama/runner_assets/gpt_sovits_env_driver.py",
+        "firm/risk/b_layer_filter.py",
+        "scripts/_r855bma_conflict_resolve.py",
+        "scripts/ah_meanrev_probe.py",
+        "scripts/ah_panel_puller.py",
+        "scripts/backfill_ext_slots.py",
+        "scripts/backfill_heat_history.py",
+        "scripts/census_w2_roster.py",
+        "scripts/census_w2b_d8_export.py",
+        "scripts/census_w2b_roster.py",
+        "scripts/daily_source_probe.py",
+        "scripts/daily_validate.py",
+        "scripts/e346_status_writer_unread.py",
+        "scripts/exclusion_marginal_scan.py",
+        "scripts/fund_avail_notice.py",
+        "scripts/fund_h_unlock_eval.py",
+        "scripts/fund_pit_audit.py",
+        "scripts/lhb_seat_pull.py",
+        "scripts/llm_assist.py",
+        "scripts/merge_lane_views.py",
+        "scripts/mf_ic_p1.py",
+        "scripts/monthly_briefing.py",
+        "scripts/o2115_acceptance_pack.py",
+        "scripts/open_market_readiness.py",
+        "scripts/options_iv_freeze_counter.py",
+        "scripts/p1d_ext_slots_ic.py",
+        "scripts/pilot_c_batch.py",
+        "scripts/reader_text_audit.py",
+        "scripts/rev_osc_signal_export.py",
+        "scripts/science_audit.py",
+        "scripts/self_review.py",
+        "scripts/sina_construct_ic.py",
+        "scripts/sina_mf_accept.py",
+        "scripts/sscombo_freeze_probe.py",
+        "scripts/stock_face_furnace.py",
+        "scripts/system_v1_paper.py",
+        "scripts/update_astock_daily.py",
+        "scripts/update_daily.py",
+        "scripts/update_etf_daily.py",
+        "scripts/update_etf_universe.py",
+        "scripts/update_etf_wide.py",
+        "scripts/update_fund_history.py",
+        "scripts/update_fund_premium.py",
+        "scripts/update_fund_statements.py",
+        "scripts/update_fundamental.py",
+        "scripts/update_futures.py",
+        "scripts/update_heat.py",
+        "scripts/update_lhb.py",
+        "scripts/update_minute_feed.py",
+        "scripts/update_moneyflow.py",
+        "scripts/update_options.py",
+        "scripts/update_repo.py",
+        "scripts/update_sina_mf.py",
+        "scripts/update_ths_panel.py",
+        "scripts/update_zt_pool.py",
+        "smoke_test.py"
+      ],
+      "faces": [
+        "ah_panel_status.json",
+        "astock_daily_update_status.json",
+        "dashboard_status.json",
+        "etf_daily_pull_status.json",
+        "ext_slots_pull_status.json",
+        "fund_history_status.json",
+        "fund_premium_status.json",
+        "fund_statement_update_status.json",
+        "fundamental_status.json",
+        "futures_update_status.json",
+        "heat_backfill_status.json",
+        "heat_update_status.json",
+        "lhb_update_status.json",
+        "minute_feed_status.json",
+        "moneyflow_update_status.json",
+        "network_status.json",
+        "options_update_status.json",
+        "repo_update_status.json",
+        "sina_mf_update_status.json",
+        "status.json",
+        "update_status.json",
+        "zt_pool_update_status.json"
+      ],
+      "keys": 0,
+      "present": true,
+      "producer": "monitor/build_status.py",
+      "rows": []
+    }
+  ],
+  "summary": {
+    "by_class": {
+      "no_reader": 44,
+      "read_by_someone": 30,
+      "self_fed_only": 19
+    },
+    "by_reader_tier": {
+      "display_only": 20,
+      "live": 8,
+      "merge_only": 2,
+      "no_reader": 44,
+      "self_fed_only": 19
+    },
+    "display_only_keys": [
+      "data_cutoff",
+      "failures",
+      "last_attempt",
+      "mode",
+      "overlap_mismatches",
+      "symbols",
+      "total_new_rows",
+      "ts"
+    ],
+    "face_sizes": {
+      "monitor/build_status.py": 0,
+      "scripts/update_astock_daily.py": 10,
+      "scripts/update_daily.py": 24,
+      "scripts/update_etf_daily.py": 7,
+      "scripts/update_futures.py": 6,
+      "scripts/update_minute_feed.py": 17,
+      "scripts/update_moneyflow.py": 8,
+      "scripts/update_options.py": 7,
+      "scripts/update_repo.py": 7,
+      "scripts/update_sina_mf.py": 7
+    },
+    "faces_with_no_external_reader": [],
+    "keys": 93,
+    "latch_bounds": [
+      {
+        "bound_line": 564,
+        "constant": "MIN_SPAWN_S",
+        "context": "If",
+        "external_readers": [],
+        "faces": [
+          "options_update_status.json"
+        ],
+        "key": "last_spawn_attempt",
+        "producer": "scripts/update_options.py",
+        "seconds": 1800.0,
+        "shape": "carried",
+        "test_lines": [
+          564
+        ],
+        "unit_assumed": false,
+        "value": 1800.0
+      },
+      {
+        "bound_line": 965,
+        "constant": "MIN_SPAWN_S",
+        "context": "If",
+        "external_readers": [],
+        "faces": [
+          "astock_daily_update_status.json"
+        ],
+        "key": "last_spawn_attempt",
+        "producer": "scripts/update_astock_daily.py",
+        "seconds": 1800.0,
+        "shape": "carried",
+        "test_lines": [
+          965
+        ],
+        "unit_assumed": false,
+        "value": 1800.0
+      },
+      {
+        "bound_line": 776,
+        "constant": "MIN_SPAWN_S",
+        "context": "If",
+        "external_readers": [],
+        "faces": [
+          "sina_mf_update_status.json"
+        ],
+        "key": "last_spawn_attempt",
+        "producer": "scripts/update_sina_mf.py",
+        "seconds": 1800.0,
+        "shape": "carried",
+        "test_lines": [
+          776
+        ],
+        "unit_assumed": false,
+        "value": 1800.0
+      },
+      {
+        "bound_line": 986,
+        "constant": "MIN_SPAWN_S",
+        "context": "If",
+        "external_readers": [],
+        "faces": [
+          "mf_status.json",
+          "moneyflow_update_status.json"
+        ],
+        "key": "last_spawn_attempt",
+        "producer": "scripts/update_moneyflow.py",
+        "seconds": 1800.0,
+        "shape": "carried",
+        "test_lines": [
+          986,
+          1029
+        ],
+        "unit_assumed": false,
+        "value": 1800.0
+      },
+      {
+        "bound_line": 986,
+        "constant": "MIN_SPAWN_S",
+        "context": "If",
+        "external_readers": [],
+        "faces": [
+          "mf_status.json",
+          "moneyflow_update_status.json"
+        ],
+        "key": "rank",
+        "producer": "scripts/update_moneyflow.py",
+        "seconds": 1800.0,
+        "shape": "carried",
+        "test_lines": [
+          986,
+          1029
+        ],
+        "unit_assumed": false,
+        "value": 1800.0
+      },
+      {
+        "bound_line": 302,
+        "constant": "THROTTLE_MIN",
+        "context": "If",
+        "external_readers": [],
+        "faces": [
+          "minute_feed_status.json"
+        ],
+        "key": "last_success_ts",
+        "producer": "scripts/update_minute_feed.py",
+        "seconds": 1200.0,
+        "shape": "carried",
+        "test_lines": [
+          302
+        ],
+        "unit_assumed": false,
+        "value": 20.0
+      }
+    ],
+    "latch_bounds_unit_assumed": [],
+    "latches": [
+      {
+        "contexts": [
+          "If"
+        ],
+        "key": "last_spawn_attempt",
+        "producer": "scripts/update_options.py"
+      },
+      {
+        "contexts": [
+          "BoolOp",
+          "If"
+        ],
+        "key": "mismatch",
+        "producer": "scripts/update_options.py"
+      },
+      {
+        "contexts": [
+          "If"
+        ],
+        "key": "last_spawn_attempt",
+        "producer": "scripts/update_astock_daily.py"
+      },
+      {
+        "contexts": [
+          "If"
+        ],
+        "key": "last_spawn_attempt",
+        "producer": "scripts/update_sina_mf.py"
+      },
+      {
+        "contexts": [
+          "BoolOp"
+        ],
+        "key": "panel",
+        "producer": "scripts/update_sina_mf.py"
+      },
+      {
+        "contexts": [
+          "If"
+        ],
+        "key": "last_spawn_attempt",
+        "producer": "scripts/update_moneyflow.py"
+      },
+      {
+        "contexts": [
+          "BoolOp"
+        ],
+        "key": "panel",
+        "producer": "scripts/update_moneyflow.py"
+      },
+      {
+        "contexts": [
+          "BoolOp",
+          "If"
+        ],
+        "key": "rank",
+        "producer": "scripts/update_moneyflow.py"
+      },
+      {
+        "contexts": [
+          "If"
+        ],
+        "key": "last_success_ts",
+        "producer": "scripts/update_minute_feed.py"
+      },
+      {
+        "contexts": [
+          "BoolOp"
+        ],
+        "key": "catchup_attempts",
+        "producer": "scripts/update_daily.py"
+      },
+      {
+        "contexts": [
+          "BoolOp"
+        ],
+        "key": "exit_code",
+        "producer": "scripts/update_daily.py"
+      },
+      {
+        "contexts": [
+          "BoolOp"
+        ],
+        "key": "hook_exit",
+        "producer": "scripts/update_daily.py"
+      },
+      {
+        "contexts": [
+          "BoolOp",
+          "If"
+        ],
+        "key": "mismatch_col",
+        "producer": "scripts/update_daily.py"
+      },
+      {
+        "contexts": [
+          "BoolOp"
+        ],
+        "key": "overlap_mismatch",
+        "producer": "scripts/update_daily.py"
+      },
+      {
+        "contexts": [
+          "BoolOp"
+        ],
+        "key": "parity_audit",
+        "producer": "scripts/update_daily.py"
+      },
+      {
+        "contexts": [
+          "If"
+        ],
+        "key": "per_symbol",
+        "producer": "scripts/update_daily.py"
+      },
+      {
+        "contexts": [
+          "BoolOp"
+        ],
+        "key": "source_used",
+        "producer": "scripts/update_daily.py"
+      }
+    ],
+    "live_consumer_keys": [
+      "appended",
+      "data_cutoff",
+      "error",
+      "mode",
+      "symbol",
+      "ts",
+      "updated"
+    ],
+    "merge_only_keys": [
+      "catchup",
+      "hook_ok"
+    ],
+    "named_operational_row": {
+      "bound_line": 965,
+      "constant": "MIN_SPAWN_S",
+      "context": "If",
+      "external_readers": [],
+      "faces": [
+        "astock_daily_update_status.json"
+      ],
+      "key": "last_spawn_attempt",
+      "producer": "scripts/update_astock_daily.py",
+      "seconds": 1800.0,
+      "shape": "carried",
+      "test_lines": [
+        965
+      ],
+      "tied_count": 5,
+      "tied_rows": [
+        {
+          "faces": [
+            "astock_daily_update_status.json"
+          ],
+          "key": "last_spawn_attempt",
+          "producer": "scripts/update_astock_daily.py"
+        },
+        {
+          "faces": [
+            "mf_status.json",
+            "moneyflow_update_status.json"
+          ],
+          "key": "last_spawn_attempt",
+          "producer": "scripts/update_moneyflow.py"
+        },
+        {
+          "faces": [
+            "mf_status.json",
+            "moneyflow_update_status.json"
+          ],
+          "key": "rank",
+          "producer": "scripts/update_moneyflow.py"
+        },
+        {
+          "faces": [
+            "options_update_status.json"
+          ],
+          "key": "last_spawn_attempt",
+          "producer": "scripts/update_options.py"
+        },
+        {
+          "faces": [
+            "sina_mf_update_status.json"
+          ],
+          "key": "last_spawn_attempt",
+          "producer": "scripts/update_sina_mf.py"
+        }
+      ],
+      "unit_assumed": false,
+      "value": 1800.0,
+      "why": "a single hand-edited last_spawn_attempt would silence scripts/update_astock_daily.py for 1800s and nothing outside the writer reads the field, so nothing can catch it -- and the same field with the same bound exists in 5 collectors, so the edit is available in each of them"
+    },
+    "producers": 10,
+    "tier_rule": {
+      "display_only": "every reader is monitor/build_status.py",
+      "live": "at least one reader that is neither the dashboard nor a one-off _r<N> resolver",
+      "merge_only": "every reader is a one-off Tools/_r<N>* merge/rebase/close script",
+      "precedence": "live > display_only > merge_only"
+    },
+    "unread_keys": [
+      "archive_dir",
+      "calendar_source",
+      "calendar_tail",
+      "close_accept_time",
+      "disk_truth_override",
+      "expected_cutoff",
+      "face",
+      "first_new",
+      "full_day_expected_bars",
+      "kind",
+      "lane_machine",
+      "last_new",
+      "members_planned",
+      "no_op_reason",
+      "now",
+      "per_files_on_disk",
+      "repairs",
+      "rows_new_total",
+      "run_error",
+      "session_grid_bars",
+      "source_absent_labels",
+      "source_absent_law",
+      "spawn_mode",
+      "spawn_reason",
+      "spec",
+      "takeover",
+      "terms_planned",
+      "varieties_planned"
+    ]
+  }
+}

@@ -1023,6 +1023,24 @@ LEGS = [
     ("face_consumer_census",
      ["python", "scripts/e344_face_consumer_census.py", "verify"]),
 
+    # E345: E342 measured that three deleted smoke checks came back. This leg measures the window
+    # they were gone: the 29-mainline-commit / 67-commit, 9.26-hour gap between r1227's removal and
+    # r1243's union-merge restore spans 10 rounds in which the suite ran 37 times and in which NO
+    # other check on the futures-TSMOM face asserted the property. Verify re-derives the windows
+    # from git and logs/ (never from the face it is checking) -- a rewritten restore or a gate that
+    # reappears earlier turns it red (~3s, no builds).
+    ("gate_absence_windows",
+     ["python", "scripts/e345_gate_absence_windows.py", "verify"]),
+
+    # E346: E343 excluded ten `st['key'] = value` stores from its bound-read count because they
+    # write into the dict that was just loaded. Those stores are still statements a reader may
+    # trust, so this leg asks the other half: of everything the status writers file, which keys
+    # does NO consumer read, which are fed only by the writer's own next run, and which of those
+    # a branch actually tests (a latch: a hand-edited status file changes the next decision).
+    # Verify re-derives the census from the producers' ASTs and the reader corpus (~5s, no builds).
+    ("status_writer_unread",
+     ["python", "scripts/e346_status_writer_unread.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

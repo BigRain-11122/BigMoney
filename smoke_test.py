@@ -10936,6 +10936,131 @@ def main() -> int:
                 ((_f344 or {}).get("summary") or {}).get("recursive_sweepers_listed"),
                 ((_f344 or {}).get("summary") or {}).get("readers_that_carry")))
 
+    # E345: E342 showed three deleted smoke checks came back. What the tree published while they
+    # were gone is a different question, and the cheap answer is 'the suite kept running': this
+    # leg re-derives the window's round x run share out of logs/ and refuses a face that calls a
+    # gate absent while the suite never ran (that is unmeasured, not absent), or that promotes a
+    # self-reported value to a cover.
+    _name345 = ("product: a deleted gate's absence is measured against the rounds in which the "
+                "suite actually ran, and a face carrying the value is not a check asserting it")
+    _bad345 = []
+    _f345 = None
+    try:
+        _p345 = os.path.join("results", "state_tilt", "gateabsence_latest.json")
+        _f345 = json.load(open(_p345, encoding="utf-8")) if os.path.exists(_p345) else None
+        if _f345 is None:
+            _bad345.append("no published gate-absence face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m345 = __import__("importlib").import_module("e345_gate_absence_windows")
+            _win345 = _f345.get("windows") or []
+            if not _win345:
+                _bad345.append("no windows published")
+            _runs345 = _m345.parse_smoke_log()
+            _rounds345 = _m345.parse_rounds()
+            for _w345 in _win345:
+                if _w345.get("verdict") not in ("covered_by_another_check",
+                                                "covered_by_a_published_face",
+                                                "unmeasured", "nothing"):
+                    _bad345.append("verdict outside the frozen vocabulary")
+                if _w345.get("rounds_in_window") and not _w345.get("smoke_runs_in_window"):
+                    if _w345.get("verdict") != "unmeasured":
+                        _bad345.append("a window with zero runs is not called unmeasured")
+                if _w345.get("verdict") == "nothing" and _w345.get("surviving_checks_on_the_face"):
+                    _bad345.append("'nothing' beside a surviving check on the same face")
+                if _w345.get("verdict") == "covered_by_another_check" and not _w345.get(
+                        "property_tokens_covered"):
+                    _bad345.append("a cover with no property token")
+                if _w345.get("restore_sha") and _w345.get("gate_absent_at_window_tip") is not True:
+                    _bad345.append("the gate is present at the window tip")
+                # the share is re-derived from logs/, not trusted from the face
+                if _w345.get("round_numbers") and _w345.get("smoke_runs_in_window"):
+                    _lo345 = min(int(_r) for _r in _w345["round_numbers"])
+                    _st345 = [r["epoch"] for r in _rounds345
+                              if r["round"] == _lo345 and not r["postscript"]]
+                    if _st345:
+                        _n345 = len([x for x in _runs345
+                                     if _st345[0] <= x["epoch"] <= _st345[0] + 86400])
+                        if not _n345:
+                            _bad345.append("no run exists in the window but the face says some do")
+            if len({w.get("removal_sha") for w in _win345}) != 1:
+                _bad345.append("the windows do not share one removal commit")
+            _sum345 = _f345.get("summary") or {}
+            if int(_sum345.get("removal_sites") or 0) != sum(int(w.get("sites") or 0)
+                                                            for w in _win345):
+                _bad345.append("the site count is not the per-window site sum")
+    except Exception as e:
+        check(_name345, False, repr(e)[:160])
+
+    check(_name345, not _bad345, "; ".join(_bad345)[:220]
+          or "%s | %s windows / %s sites, %s rounds and %s smoke runs inside them, share of "
+             "rounds with a run %s, %s window(s) where no check asserted the property"
+             % ((_f345 or {}).get("verdict"),
+                ((_f345 or {}).get("summary") or {}).get("windows"),
+                ((_f345 or {}).get("summary") or {}).get("removal_sites"),
+                ((_f345 or {}).get("summary") or {}).get("total_rounds_in_windows"),
+                ((_f345 or {}).get("summary") or {}).get("total_smoke_runs_in_windows"),
+                ((_f345 or {}).get("summary") or {}).get("share_of_window_rounds_with_a_run"),
+                ((_f345 or {}).get("summary") or {}).get(
+                    "windows_with_no_check_asserting_the_property")))
+
+    # E346: E343 excluded ten status stores from its bound-read count because `st['key'] = v`
+    # writes into the dict it just loaded.  Those stores are still statements a reader may
+    # trust, so this leg asks whether anyone reads them at all, and whether a key the writer
+    # itself branches on would let a hand-edited status file change an operational decision.
+    _name346 = ("product: a status key nobody reads is published as unread, a self-fed key a "
+                "branch tests is called a latch, and an empty extraction is disclosed")
+    _bad346 = []
+    _f346 = None
+    try:
+        _p346 = os.path.join("results", "state_tilt", "unreadstatus_latest.json")
+        _f346 = json.load(open(_p346, encoding="utf-8")) if os.path.exists(_p346) else None
+        if _f346 is None:
+            _bad346.append("no published unread-status face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m346 = __import__("importlib").import_module("e346_status_writer_unread")
+            _fresh346 = _m346._summary_block(_m346.census())
+            _s346 = _f346.get("summary") or {}
+            if _fresh346.get("summary") != _s346:
+                _bad346.append("the published summary does not re-derive")
+            _cls346 = _s346.get("by_class") or {}
+            if sum(_cls346.values()) != int(_s346.get("keys") or 0):
+                _bad346.append("class tally does not sum to the key count")
+            if set(_cls346) - {"no_reader", "self_fed_only", "read_by_someone"}:
+                _bad346.append("class outside the frozen vocabulary")
+            for _l346 in _s346.get("latches") or []:
+                if not _l346.get("contexts"):
+                    _bad346.append("a latch with no decision context")
+            # An empty extraction is a measurement gap, not a clean producer: it must be
+            # disclosed by name rather than read as "this writer publishes nothing unread".
+            for _p346f in _f346.get("producers") or []:
+                if _p346f.get("keys") == 0 and not _p346f.get("extraction_empty"):
+                    _bad346.append("a producer with zero keys is not marked empty")
+                if _p346f.get("keys") and _p346f.get("extraction_empty"):
+                    _bad346.append("a producer with keys is marked empty")
+                for _r346 in _p346f.get("rows") or []:
+                    if _r346.get("latch") and _r346.get("class") != "self_fed_only":
+                        _bad346.append("a latch outside self_fed_only")
+                    if _r346.get("class") == "no_reader" and _r346.get("self_reads"):
+                        _bad346.append("a no_reader key with a self read")
+    except Exception as e:
+        check(_name346, False, repr(e)[:160])
+
+    check(_name346, not _bad346, "; ".join(_bad346)[:220]
+          or "%s status keys over %s producers: %s unread / %s self-fed-only / %s read by "
+             "someone, %s latches (%s), empty extractions disclosed %s"
+             % (((_f346 or {}).get("summary") or {}).get("keys"),
+                ((_f346 or {}).get("summary") or {}).get("producers"),
+                (((_f346 or {}).get("summary") or {}).get("by_class") or {}).get("no_reader"),
+                (((_f346 or {}).get("summary") or {}).get("by_class") or {}).get("self_fed_only"),
+                (((_f346 or {}).get("summary") or {}).get("by_class") or {}).get("read_by_someone"),
+                len(((_f346 or {}).get("summary") or {}).get("latches") or []),
+                ", ".join(sorted({l.get("key") for l in
+                                  ((_f346 or {}).get("summary") or {}).get("latches") or []}))[:120],
+                [p.get("producer") for p in ((_f346 or {}).get("producers") or [])
+                 if p.get("extraction_empty")]))
+
     return _finish()
 
 
