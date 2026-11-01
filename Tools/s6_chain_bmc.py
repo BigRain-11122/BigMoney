@@ -308,6 +308,14 @@ LEGS = [
     # percentile and share, so a hand-edited p50 is contradicted by the rows.
     ("etf_book_nav_envelope", ["python", "scripts/etf_book_nav_envelope.py", "--check"],
      ["python", "scripts/etf_book_nav_envelope.py", "run"]),
+    # r1204 (bm-a) / E322: every published headline is a CAGR over all bars, which is
+    # identical whether the growth is spread evenly or carried by ten days. This face prices
+    # the tail on the book's own bars (drop-best 1/5/10 against a seeded random-drop placebo,
+    # best month out) and, because two faces now publish the same book, measures the sibling
+    # path bar-for-bar instead of assuming it is the same. Engine-free recompute of the
+    # verdict from the stored bar returns (--check), so a hand-edited sentence is contradicted.
+    ("etf_book_tail_dependence", ["python", "scripts/etf_book_tail_dependence.py", "--check"],
+     ["python", "scripts/etf_book_tail_dependence.py", "run"]),
     # r1349: the block length was the one free parameter the envelope had to admit, so three
     # arms (week 5 / quarter 60 / year 250) were run against it. The comparison face quotes
     # numbers read off each arm, so the chain re-derives every quoted number from that arm's

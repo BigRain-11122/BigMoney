@@ -7929,3 +7929,38 @@ here: **a face may pass its own frozen bar and still not be allowed to change pr
 Frozen criteria protect against retuning after the fact; they do not make the criterion the
 right measurement. Adoption takes both -- the pre-stated bar *and* a band that clears zero --
 and a face that reports only the first is a wish with a checksum.
+
+---
+
+### E322 · A CAGR cannot tell a book from a jackpot, and two faces can publish different books
+
+**Anchor**: `scripts/etf_book_tail_dependence.py` (selftest 10/10, `--check` recomputes the
+verdict from the stored bar returns) · `results/etf_book_tail_dependence.json` ·
+`research/ETF_BOOK_TAIL_DEPENDENCE.md` · chain leg `etf_book_tail_dependence` (r1204 bm-a).
+
+**Reading 1 -- spread vs jackpot.** The production book (1,652 bars to 2026-10-30, 9.12%
+cagr / 0.955 sharpe / -13.26% maxdd) has its 10 best bars carry only **6.3%** of the gross
+up-move; removing them leaves **5.20%** cagr (57% of the headline), removing the best 5
+leaves 6.86%. Against a seeded random-drop placebo the same k=10 removal typically costs
+0.19pp (p50 9.45%), i.e. the best-ten cost 3.92pp -- real, but nowhere near wiping the book.
+Best month (2025-08) out: 8.10% (-1.02pp). Verdict `ROBUST_TO_TAILS`.
+
+**Three traps this face had to walk through, all of which had produced a wrong reading first:**
+1. **Share of NET log growth is meaningless** -- a driftless random walk puts essentially all
+   of its net growth in a handful of bars by construction, so the first fixture (and any
+   ordinary book) reads "dependent". Divide by the **gross up-move** instead.
+2. **Drop-best is always the worst drop**, so "dropping the best k sits at the 0th percentile
+   of random drops" is arithmetic, not evidence. The placebo is there to price the magnitude
+   ("best-ten cost 3.92pp, a typical ten cost 0.19pp"), never as a pass/fail band for the
+   drop-best arm. Judge drop-best on **what remains** (still compounds? keeps >= 50% of cagr?).
+3. **A drop rule calibrated on a short window means something else** -- 10 bars are 0.6% of
+   1,650 bars and 3.3% of 300; the same thresholds fail a dense fixture at the short length.
+   Fixtures must match the panel length before any threshold can be called wrong.
+
+**Reading 2 -- the sibling path.** `etf_book_nav_envelope` publishes the *same* production
+book as a standalone NAV artifact; over 1,650 overlapping bars the daily returns differ by up
+to **0.0431** and the headlines differ by **0.58pp** (9.70%/1.000 vs 9.12%/0.955). Two faces,
+two implementations, same name. Rule: **when your face re-derives a path a sibling already
+publishes, compare bar-for-bar and print the diff** -- a headline-level agreement check would
+have passed this (both are ~9%) while the paths are not the same book. Until resolved, quote
+neither number without naming the face.
