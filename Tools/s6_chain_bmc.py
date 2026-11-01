@@ -181,6 +181,9 @@ LEGS = [
     # overnight gap. Priced here, before the page that quotes the book reads it; ~150s,
     # offline, deterministic (one panel load, 24 engine calls).
     ("etf_book_overnight_gap", ["python", "scripts/etf_book_overnight_gap.py", "run"]),
+    # r1227 / E27: information is exhausted (E25 rebuild, E26 gap), so the last candidate is
+    # the fill mechanic -- the same delta through k consecutive opens. Deterministic, ~50s.
+    ("etf_book_open_slicing", ["python", "scripts/etf_book_open_slicing.py", "run"]),
     # r1366: the carry split answers "how much of the quoted return is repo interest",
     # and it must be priced on the same bar as the ticket it explains. Hand-run only
     # until now -- r1366 found it frozen on 2026-10-29 (base cell 11.33%) while that

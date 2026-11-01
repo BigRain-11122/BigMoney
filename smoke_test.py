@@ -2574,6 +2574,11 @@ def main() -> int:
             # signal (strongly negative) nor a usable exclusion (+0.81pp full span, 2/4 phases).
             ("product: the overnight gap is priced against the declared arm (exit-code contract)",
              "scripts/etf_book_overnight_gap.py", ["--selftest"]),
+            # r1227 / E27: information is exhausted, so the last candidate is the fill itself --
+            # spread the same delta over k consecutive opens. Equal slices sum to the same
+            # absolute delta, so commission cannot be what moves: only the price path can.
+            ("product: the fill is sliced over k opens and priced (exit-code contract)",
+             "scripts/etf_book_open_slicing.py", ["--selftest"]),
             # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
             # of selection premium over the book's own static class mix). The legs pin the
             # two ways this face can lie in either direction: a premium under the frozen
@@ -5163,6 +5168,52 @@ def main() -> int:
                  (_doc63.get("gap_stats") or {}).get("median_abs_gap_bp")))
     except Exception as e:
         check("product: the overnight gap is priced as the last channel between decide and fill",
+              False, repr(e)[:160])
+    # ---- r1227 / E27: the fill is sliced over k opens, and the answer is a mechanism -----
+    # Re-derives the verdict from the published rows, pins the criterion echo, and demands
+    # three things a naive implementation gets wrong: k=1 must reproduce the engine exactly
+    # (otherwise the wrapper is a new engine), every k must charge exactly the single-open
+    # turnover (equal slices cannot buy commission -- a sliced arm that also shrinks the book
+    # is a different experiment, E197), and the control must be the DECLARED arm the desk can
+    # trade, not the as-coded one it cannot.
+    try:
+        import importlib as _il93
+        _G93 = _il93.import_module("etf_book_open_slicing")
+        _g93 = os.path.join(PATHS.results_dir, "etf_book_open_slicing.json")
+        _bad93 = []
+        if not os.path.exists(_g93):
+            _bad93.append("results/etf_book_open_slicing.json missing")
+            _doc93 = {}
+        else:
+            with open(_g93, encoding="utf-8") as _fh93:
+                _doc93 = json.load(_fh93)
+            if _G93.check(_g93) != 0:
+                _bad93.append("the verdict does not recompute from the published rows")
+            _v93 = _doc93.get("verdict") or {}
+            if _v93.get("state") not in ("ADOPT_SLICED", "MIXED_ACROSS_PHASES",
+                                         "NO_SLICING_EDGE", "INCOMPLETE"):
+                _bad93.append("unknown verdict %r" % (_v93.get("state"),))
+            for _k93, _c93 in _G93.CRITERIA.items():
+                if (_doc93.get("criteria") or {}).get(_k93) != _c93:
+                    _bad93.append("criterion %s moved off the module constant" % (_k93,))
+            _au93 = _doc93.get("audits") or {}
+            if not ((_au93.get("A9_engine_identity") or {}).get("ok")):
+                _bad93.append("k=1 does not reproduce the engine")
+            for _a93 in _au93.get("A10_participation_not_rescaled") or []:
+                if not _a93.get("ok"):
+                    _bad93.append("k=%s does not pay the single-open turnover"
+                                  % (_a93.get("k"),))
+            for _c93 in _doc93.get("controls") or []:
+                if not _c93.get("ok"):
+                    _bad93.append("the control arm misses the published declared CAGR")
+        check("product: the fill is sliced over k opens and priced against the declared arm",
+              not _bad93,
+              "; ".join(_bad93)[:220] or "verdict %s, best %+.2f pp, control %s"
+              % ((_doc93.get("verdict") or {}).get("state"),
+                 (_doc93.get("verdict") or {}).get("best_gained_pp") or 0.0,
+                 ((_doc93.get("verdict") or {}).get("control_cagr"))))
+    except Exception as e:
+        check("product: the fill is sliced over k opens and priced against the declared arm",
               False, repr(e)[:160])
     # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
     # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two
