@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-01",
- "generated_at": "2026-11-01 07:45:28",
+ "generated_at": "2026-11-01 12:56:27",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,20 +294,20 @@
   "md_link": "../live_usage/LIVE-2026-11-01.md"
  },
  "rd": {
-  "commits_24h": 48,
-  "result_jsons_landed_24h": 94,
-  "digests_landed_24h": 9,
-  "prereg_md_touched_24h": 12,
+  "commits_24h": 32,
+  "result_jsons_landed_24h": 86,
+  "digests_landed_24h": 2,
+  "prereg_md_touched_24h": 13,
   "compute_audit_latest": {
-   "ts": "2026-11-01 07:23:33",
-   "py_cpu_pct": 5.4,
+   "ts": "2026-11-01 12:51:51",
+   "py_cpu_pct": 4.9,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -665,21 +665,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-11-01 07:23:33",
-    "py_pct": 5.4,
-    "cpu_pct": 51.0,
+    "latest_ts": "2026-11-01 12:51:51",
+    "py_pct": 4.9,
+    "cpu_pct": 8.0,
     "ready": 0,
-    "streak_min": 1498.3,
+    "streak_min": 1826.6,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "15:25",
-      0.1
-     ],
-     [
-      "18:04",
-      0.3
-     ],
      [
       "19:13",
       5.0
@@ -719,9 +711,17 @@
      [
       "07:23",
       5.4
+     ],
+     [
+      "08:22",
+      5.0
+     ],
+     [
+      "12:51",
+      4.9
      ]
     ],
-    "today_samples": 7,
+    "today_samples": 9,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -870,7 +870,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-01 07:23:33"
+     "audit_ts": "2026-11-01 12:51:51"
     }
    },
    "bm-b": {
@@ -1743,6 +1743,120 @@
    "futures": "宿主自己写的封套",
    "lhb": "宿主自己写的封套"
   }
+ },
+ "lane_silence": {
+  "present": true,
+  "machine": "bm-a",
+  "verdict": "SILENT_GAP",
+  "threshold_min": 90,
+  "window_days": 3,
+  "median_gap_min": 10.0,
+  "rounds_in_window": 87,
+  "rounds_in_ledger": 688,
+  "gaps_over_threshold_count": 9,
+  "longest_silence": {
+   "from": "2026-10-31T19:15",
+   "gap_high_min": 501.2,
+   "gap_low_min": 501.2,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-01T03:36",
+   "unexplained_high_min": 501.2,
+   "unexplained_low_min": 501.2
+  },
+  "open_gap": {
+   "gap_high_min": 56.5,
+   "gap_low_min": 47.5,
+   "quiet_window_min": 0.0,
+   "since": "2026-11-01T12:00",
+   "unexplained_high_min": 56.5,
+   "unexplained_low_min": 47.5
+  },
+  "gaps_over_threshold": [
+   {
+    "from": "2026-10-30T01:37",
+    "gap_high_min": 152.0,
+    "gap_low_min": 143.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-10-30T04:00",
+    "unexplained_high_min": 152.0,
+    "unexplained_low_min": 143.0
+   },
+   {
+    "from": "2026-10-31T01:00",
+    "gap_high_min": 129.0,
+    "gap_low_min": 111.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-10-31T03:00",
+    "unexplained_high_min": 129.0,
+    "unexplained_low_min": 111.0
+   },
+   {
+    "from": "2026-10-31T04:36",
+    "gap_high_min": 154.7,
+    "gap_low_min": 154.7,
+    "quiet_window_min": 0.0,
+    "to": "2026-10-31T07:11",
+    "unexplained_high_min": 154.7,
+    "unexplained_low_min": 154.7
+   },
+   {
+    "from": "2026-10-31T07:11",
+    "gap_high_min": 158.1,
+    "gap_low_min": 158.1,
+    "quiet_window_min": 0.0,
+    "to": "2026-10-31T09:49",
+    "unexplained_high_min": 158.1,
+    "unexplained_low_min": 158.1
+   },
+   {
+    "from": "2026-10-31T12:42",
+    "gap_high_min": 146.6,
+    "gap_low_min": 137.6,
+    "quiet_window_min": 0.0,
+    "to": "2026-10-31T15:00",
+    "unexplained_high_min": 146.6,
+    "unexplained_low_min": 137.6
+   },
+   {
+    "from": "2026-10-31T15:00",
+    "gap_high_min": 249.0,
+    "gap_low_min": 231.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-10-31T19:00",
+    "unexplained_high_min": 249.0,
+    "unexplained_low_min": 231.0
+   },
+   {
+    "from": "2026-10-31T19:15",
+    "gap_high_min": 501.2,
+    "gap_low_min": 501.2,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-01T03:36",
+    "unexplained_high_min": 501.2,
+    "unexplained_low_min": 501.2
+   },
+   {
+    "from": "2026-11-01T04:35",
+    "gap_high_min": 154.0,
+    "gap_low_min": 145.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-01T07:00",
+    "unexplained_high_min": 154.0,
+    "unexplained_low_min": 145.0
+   },
+   {
+    "from": "2026-11-01T08:00",
+    "gap_high_min": 249.0,
+    "gap_low_min": 231.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-01T12:00",
+    "unexplained_high_min": 249.0,
+    "unexplained_low_min": 231.0
+   }
+  ],
+  "evidence_cutoff": "2026-11-01",
+  "generated": "2026-11-01T12:56:27",
+  "sentence": "bm-a: 87 rounds in 3d, median gap 10.0 min, 9 unexplained gap(s) over 90 min; longest silence 2026-10-31T19:15 -> 2026-11-01T03:36 (501.2-501.2 min, 0.0 explained by its quiet window); still open since 2026-11-01T12:00 (47.5-56.5 min unexplained)."
  },
  "cap_vs_book": {
   "status": "ok",

@@ -327,13 +327,115 @@ def selftest():
     res = audit(rows, 90, 3, now=_dt.datetime(2026, 11, 2, 14, 0), mid="bm-a")
     chk("L12-open-quiet", res["verdict"] == "OK" and res["open_gap"]["unexplained_high_min"] <= 10.0,
         "%s %s" % (res["verdict"], res.get("open_gap")))
+    # L13 the sentence is generated from the numbers and names the open gap
+    res = audit([(_dt.datetime(2026, 11, 1, 7, 0),) * 2 + (0,),
+                 (_dt.datetime(2026, 11, 1, 7, 10),) * 2 + (0,)],
+                90, 3, now=_dt.datetime(2026, 11, 1, 11, 40), mid="bm-a")
+    res["machine"] = "bm-a"
+    s = sentence(res)
+    chk("L13-sentence", isinstance(s, str) and s.endswith(".")
+        and "OPEN_SILENCE" not in s and "still open since 2026-11-01T07:10" in s,
+        str(s))
+    # L14 a face without a verdict has no sentence, and the reader refuses it
+    chk("L14-no-verdict", sentence({"machine": "bm-a"}) is None
+        and read_published("bm-a", root="/nonexistent")["present"] is False,
+        "verdict-less face produced a sentence")
+    # L15 the reader quotes the published artifact (never a fresh derivation)
+    import tempfile
+    tmp = tempfile.mkdtemp()
+    os.makedirs(os.path.join(tmp, "results"))
+    doc = {"machine": "bm-a", "verdict": "SILENT_GAP", "threshold_min": 90,
+           "window_days": 3, "median_gap_min": 10.0, "rounds_in_window": 5,
+           "gaps_over_threshold_count": 1,
+           "longest_silence": {"from": "2026-11-01T01:00", "to": "2026-11-01T03:00",
+                               "gap_low_min": 111.0, "gap_high_min": 129.0,
+                               "quiet_window_min": 0.0}}
+    with io.open(os.path.join(tmp, "results", "lane_silence.bm-a.json"), "w",
+                 encoding="utf-8") as fh:
+        json.dump(doc, fh)
+    pub = read_published("bm-a", root=tmp)
+    chk("L15-reader", pub["present"] is True and pub["verdict"] == "SILENT_GAP"
+        and "111.0-129.0 min" in (pub["sentence"] or ""),
+        str(pub.get("sentence")))
     if fails:
-        print("selftest FAIL %d/12" % len(fails))
+        print("selftest FAIL %d/15" % len(fails))
         for f in fails:
             print("  " + f)
         return 1
-    print("selftest 12/12 PASS")
+    print("selftest 15/15 PASS")
     return 0
+
+
+# --------------------------------- reader (r1206 bm-a)
+def sentence(res):
+    """One sentence, generated from the numbers, never hand-written.
+
+    Consumers print THIS so a report and a page cannot drift into two
+    statements about the same ledger (r1290).  A face without a verdict
+    yields None -- the caller must say "unreadable", not print a blank.
+    """
+    if not isinstance(res, dict) or not res.get("verdict"):
+        return None
+    bits = ["%s: %d rounds in %sd, median gap %s min, %d unexplained gap(s) "
+            "over %s min"
+            % (res.get("machine"), res.get("rounds_in_window") or 0,
+               res.get("window_days"), res.get("median_gap_min"),
+               res.get("gaps_over_threshold_count") or 0, res.get("threshold_min"))]
+    long = res.get("longest_silence") or {}
+    if long:
+        bits.append("longest silence %s -> %s (%s-%s min, %s explained by its "
+                    "quiet window)"
+                    % (long.get("from"), long.get("to"), long.get("gap_low_min"),
+                       long.get("gap_high_min"), long.get("quiet_window_min")))
+    og = res.get("open_gap") or {}
+    if og:
+        bits.append("still open since %s (%s-%s min unexplained)"
+                    % (og.get("since"), og.get("unexplained_low_min"),
+                       og.get("unexplained_high_min")))
+    return "; ".join(bits) + "."
+
+
+def read_published(mid=None, root=None):
+    """Single reader for every consumer (daily_report, the CEO page).
+
+    Reads the published artifact only.  Absent / unreadable / verdict-less all
+    come back as present=False with a note -- a missing face must never read
+    as "the line was fine".
+    """
+    root = root or ROOT
+    mid = mid or _machine_id()
+    if not mid:
+        return {"present": False, "note": "machine identity unreadable "
+                                          "(fleet/machine.json)"}
+    path = os.path.join(root, "results", "lane_silence.%s.json" % mid)
+    try:
+        with io.open(path, encoding="utf-8") as fh:
+            res = json.load(fh)
+    except FileNotFoundError:
+        return {"present": False, "machine": mid,
+                "note": "no lane_silence face for %s yet" % mid}
+    except Exception as exc:                                        # noqa: BLE001
+        return {"present": False, "machine": mid,
+                "note": "lane_silence face unreadable: %s" % str(exc)[:120]}
+    if not isinstance(res, dict) or not res.get("verdict"):
+        return {"present": False, "machine": mid,
+                "note": "lane_silence face carries no verdict"}
+    return {"present": True,
+            "machine": res.get("machine"),
+            "verdict": res.get("verdict"),
+            "threshold_min": res.get("threshold_min"),
+            "window_days": res.get("window_days"),
+            "median_gap_min": res.get("median_gap_min"),
+            "rounds_in_window": res.get("rounds_in_window"),
+            "rounds_in_ledger": res.get("rounds_in_ledger"),
+            "gaps_over_threshold_count": res.get("gaps_over_threshold_count"),
+            "longest_silence": res.get("longest_silence"),
+            "open_gap": res.get("open_gap"),
+            "gaps_over_threshold": res.get("gaps_over_threshold") or [],
+            "evidence_cutoff": res.get("evidence_cutoff"),
+            "generated": res.get("generated"),
+            "sentence": sentence(res)}
+
 
 
 def main(argv):

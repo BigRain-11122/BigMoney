@@ -718,6 +718,27 @@ def _lane_authority_face(root=None):
             "labels": disk.get("labels") or {}}
 
 
+def _lane_silence_face():
+    """How long was this machine's round line silent, and when (r1205/r1206).
+
+    Every other freshness face here reads the INSTANT, so a stall followed by
+    one heartbeat reads green and the stall leaves no trace.  Single reader
+    (`lane_silence_audit.read_published`): the sentence is generated once by
+    the producer, and an absent artifact reads absent -- never 'the line was
+    fine'."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import lane_silence_audit as _lsa
+    except Exception as exc:                                       # noqa: BLE001
+        return {"present": False, "note": "静默史面不可用：%s" % str(exc)[:120]}
+    try:
+        return dict(_lsa.read_published())
+    except Exception as exc:                                       # noqa: BLE001
+        return {"present": False, "note": "静默史面不可读：%s" % str(exc)[:120]}
+
+
 def _cap_vs_book_face():
     """The cap sec.1 prints and the paper money sec.1 also prints, now compared.
 
@@ -755,6 +776,7 @@ def build_report(now):
         "stage_style": _stage_style_face(),
         "market_risk": _zt_risk_face(now.strftime("%Y-%m-%d")),
         "lane_authority": _lane_authority_face(),
+        "lane_silence": _lane_silence_face(),
         "cap_vs_book": _cap_vs_book_face(),
         "canon_refs": ["T-75 ticket (O-20260926-0940)", "results/paper_export/latest.json",
                        "results/market_clock/call_latest.json", "results/token_usage.json",
@@ -1054,6 +1076,20 @@ def render_md(rep):
                  f"他机副本/申报接管/无主）· 板面 {la.get('as_of')} · "
                  f"verdict `{la.get('verdict')}` · 本行零重判")
     L.append("")
+    L.append("## 十一、车道的静默史（线停了多久、什么时候停的）")
+    ls = rep.get("lane_silence") or {}
+    if not ls.get("present"):
+        L.append(f"- {ls.get('note') or '静默史面未产出——如实标注'}")
+    else:
+        L.append(f"- **{ls.get('sentence')}**")
+        L.append(f"- 判据=本机轮账本相邻两轮的空档（模糊时间戳按区间放宽，只在悲观端越阈才判）"
+                 f"· 扣除本机申报的静默窗 · 阈值 {ls.get('threshold_min')} 分钟 · "
+                 f"面 {ls.get('generated')} · verdict `{ls.get('verdict')}` · 本行零重判")
+        if (ls.get("open_gap") or {}).get("since"):
+            og = ls["open_gap"]
+            L.append(f"- 此刻仍开着的空档：自 {og.get('since')} 起 {og.get('unexplained_low_min')}"
+                     f"–{og.get('unexplained_high_min')} 分钟未解释（含已声明静默窗的扣除）")
+    L.append("")
     L.append("## Token 行（T-77 · L1 本地零 token/L3 云端该用就用）")
     t = rep.get("token_line") or {}
     L.append(f"- 状态面估计 {t.get('total_state_tokens_est')} · 报告面估计 {t.get('total_report_tokens_est')} · "
@@ -1081,7 +1117,7 @@ def selftest():
     global _combat_face, _rd_face, _decision_face, _queue_face, _token_face
     global _utilization_face, _live_face, _core_spread_face, _engine_wave_face
     global _attribution_face, _stage_style_face, _zt_risk_face
-    global _lane_authority_face
+    global _lane_authority_face, _lane_silence_face
     # ---- A2/G4 helper legs (series tail delta, honest degrade paths)
     d = _series_tail_delta([{"date": "2026-09-01", "equity_cny": 100.0},
                             {"date": "2026-09-02", "equity_cny": 101.0}])
@@ -1339,6 +1375,28 @@ def selftest():
     _lane_authority_face = _saved_la
     assert "车道归属面未产出（fixture）" in _md_absent, "absent authorship not printed"
     assert "6 条在 bm-b" not in _md_absent, "absent board leaked a stale sentence"
+    # r1206: the silence section prints the producer's OWN sentence, and an
+    # absent face reads absent -- a missing history must not read as "no stall"
+    _saved_ls = _lane_silence_face
+    _lane_silence_face = lambda: {
+        "present": True, "verdict": "OPEN_SILENCE", "threshold_min": 90,
+        "generated": "2026-11-01T12:48:00",
+        "sentence": "bm-a: 86 rounds in 3d, median gap 10.0 min, 8 unexplained "
+                    "gap(s) over 90 min; still open since 2026-11-01T08:00.",
+        "open_gap": {"since": "2026-11-01T08:00", "unexplained_low_min": 279.0,
+                     "unexplained_high_min": 288.0}}
+    _md_ls = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
+    _lane_silence_face = lambda: {
+        "present": False, "note": "静默史面未产出（fixture）——如实标注"}
+    _md_ls_absent = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
+    _lane_silence_face = _saved_ls
+    assert "still open since 2026-11-01T08:00" in _md_ls, \
+        "present silence face did not reach the report"
+    assert "279.0–288.0" in _md_ls, "the open gap was not priced in the report"
+    assert "静默史面未产出（fixture）" in _md_ls_absent, \
+        "absent silence face was not printed"
+    assert "still open since" not in _md_ls_absent, \
+        "absent face leaked a stale sentence"
     assert rep["combat"]["traders"][0]["trader"] == "T1"
     assert rep["report_date"] == "2026-09-26"
     assert rep["live_usage"]["status"] == "ok"
