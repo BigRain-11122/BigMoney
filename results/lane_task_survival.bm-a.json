@@ -1,0 +1,276 @@
+{
+ "artifact": "results/lane_task_survival.bm-a.json",
+ "face": "lane_task_survival v1.0",
+ "machine_id": "bm-a",
+ "started_at": "2026-11-02T01:02:18",
+ "evidence_cutoff": "2026-11-02",
+ "window_s": 180.7,
+ "interval_s": 15.0,
+ "criteria": {
+  "min_window_s": 120.0,
+  "guard_cadence_s": 60.0,
+  "verdicts": [
+   "STAYED_ON",
+   "SWITCHED_OFF",
+   "NO_CHANGE",
+   "INCONCLUSIVE"
+  ],
+  "rule": "SWITCHED_OFF iff a task that was on at t0 is off at t1; INCONCLUSIVE if any tick was unreadable or the window is shorter than min_window_s"
+ },
+ "verdict": "STAYED_ON",
+ "detail": {
+  "enabled_at_t0": [
+   "Bigmoney-IterationLoop",
+   "Bigmoney-LoopWatchdog",
+   "Bigmoney-Autofill",
+   "Bigmoney-PoolWorker",
+   "Bigmoney-ResidentDispatcher",
+   "Bigmoney-IntradayMarks",
+   "Bigmoney-SatEngine-bm-b",
+   "HQ-Patrol-BigMoney"
+  ]
+ },
+ "tasks": {
+  "Bigmoney-IterationLoop": {
+   "first": "on",
+   "last": "on",
+   "transitions": [],
+   "off_latency_s": null,
+   "unreadable_ticks": 0
+  },
+  "Bigmoney-LoopWatchdog": {
+   "first": "on",
+   "last": "on",
+   "transitions": [],
+   "off_latency_s": null,
+   "unreadable_ticks": 0
+  },
+  "Bigmoney-Autofill": {
+   "first": "on",
+   "last": "on",
+   "transitions": [],
+   "off_latency_s": null,
+   "unreadable_ticks": 0
+  },
+  "Bigmoney-PoolWorker": {
+   "first": "on",
+   "last": "on",
+   "transitions": [],
+   "off_latency_s": null,
+   "unreadable_ticks": 0
+  },
+  "Bigmoney-ResidentDispatcher": {
+   "first": "on",
+   "last": "on",
+   "transitions": [],
+   "off_latency_s": null,
+   "unreadable_ticks": 0
+  },
+  "Bigmoney-IntradayMarks": {
+   "first": "on",
+   "last": "on",
+   "transitions": [],
+   "off_latency_s": null,
+   "unreadable_ticks": 0
+  },
+  "Bigmoney-SatEngine-bm-b": {
+   "first": "on",
+   "last": "on",
+   "transitions": [],
+   "off_latency_s": null,
+   "unreadable_ticks": 0
+  },
+  "HQ-Patrol-BigMoney": {
+   "first": "on",
+   "last": "on",
+   "transitions": [],
+   "off_latency_s": null,
+   "unreadable_ticks": 0
+  }
+ },
+ "ticks": [
+  {
+   "t_s": 0.0,
+   "at": "2026-11-02T01:02:18",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  },
+  {
+   "t_s": 15.7,
+   "at": "2026-11-02T01:02:33",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  },
+  {
+   "t_s": 31.2,
+   "at": "2026-11-02T01:02:49",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  },
+  {
+   "t_s": 46.7,
+   "at": "2026-11-02T01:03:04",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  },
+  {
+   "t_s": 62.2,
+   "at": "2026-11-02T01:03:20",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  },
+  {
+   "t_s": 78.0,
+   "at": "2026-11-02T01:03:36",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  },
+  {
+   "t_s": 93.7,
+   "at": "2026-11-02T01:03:51",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  },
+  {
+   "t_s": 110.0,
+   "at": "2026-11-02T01:04:08",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  },
+  {
+   "t_s": 125.7,
+   "at": "2026-11-02T01:04:23",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  },
+  {
+   "t_s": 141.3,
+   "at": "2026-11-02T01:04:39",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  },
+  {
+   "t_s": 157.3,
+   "at": "2026-11-02T01:04:55",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  },
+  {
+   "t_s": 172.7,
+   "at": "2026-11-02T01:05:10",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  },
+  {
+   "t_s": 180.7,
+   "at": "2026-11-02T01:05:18",
+   "states": {
+    "Bigmoney-IterationLoop": "on",
+    "Bigmoney-LoopWatchdog": "on",
+    "Bigmoney-Autofill": "on",
+    "Bigmoney-PoolWorker": "on",
+    "Bigmoney-ResidentDispatcher": "on",
+    "Bigmoney-IntradayMarks": "on",
+    "Bigmoney-SatEngine-bm-b": "on",
+    "HQ-Patrol-BigMoney": "on"
+   }
+  }
+ ],
+ "reading": "the re-enable held for the whole window"
+}

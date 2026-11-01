@@ -8423,3 +8423,22 @@ L12 声明数与本面不符＝DISCLOSURE_DISAGREES 并报两个距离 / L13 半
 `etf_book_causal_headline` rc0 26.5s（`--only` 记录 `results/_r1385bmc_s6_chain.only-etf_book_causal_headline.json`）；
 smoke 两条新腿（「ETF 书各腿在链上」集合加入本面 + 「判词面跑在它读的那张卡之后、引用它的
 页之前」）。
+
+## E340 — 「重开任务」不是证据：一条车道要声称修好，必须先量出它在窗口末尾还开着（r1223 bm-a）
+
+**一 病址。** 连续三轮轮报告都写「lane restored」，动作都是
+`schtasks /change /enable`。但静默闸会把控制台任务改写成隐链，改写抛异常即回退
+`Disable-ScheduledTask`（本库 `Tools/silence-enforce.ps1` 头注已记一天内两次 Ready→Disabled）——
+所以「我开过」与「它开着」是两句不同的话，只有第二句是修好。
+
+**二 正法。** 按窗口采样 OS 任务状态（窗口 ≥ 闸门周期 60s），记下每次翻转的时刻，
+`SWITCHED_OFF` 必附失效延迟；**读不到的一拍作废整个窗口**（never read "still on" out of
+"could not ask"），窗口短于闸门周期不许自称 `STAYED_ON`。
+
+**三 两个副产品。** ①「池在挨饿」要拆成两种病：喂池器被关（机制故障）vs
+议程没料（AGENDA_DEBT）——本轮实测喂池器已跑而 ready=0 ⇒ 议程债，重开喂池器治不了它；
+②任务被关是**离散事件而非恒定闸**：`STAYED_ON` 181s（8 任务全在）证明当前没有闸在反复关它，
+前几次的关停另有来源——别再把「重开」写成解法。
+
+**四 验证。** `scripts/lane_task_survival.py` selftest 11/11（L5 短窗口不许自称修好 / L6 读不到≠还在 /
+L8 弹回仍算关过）+ 实测 `STAYED_ON` 181s / 8 任务 + 冒烟腿（product: lane task survival）。
