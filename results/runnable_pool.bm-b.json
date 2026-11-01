@@ -26441,13 +26441,17 @@
    "deliverable": "results/state_tilt/<face> + scripts/e349_*.py + chain leg + smoke leg + methodology card",
    "lane": "cpu-only",
    "priority": 2,
-   "status": "ready",
-   "owner": null,
-   "owner_since": null,
+   "status": "done",
+   "owner": "bm-b",
+   "owner_since": "2026-11-01T21:15:00+08:00",
    "entered_at": "2026-11-01T20:40:00+08:00",
    "entered_by": "bm-b r1368",
    "notes": "seeded by r1368 bm-b at E347 close; E347's published bound names this population, and the same AST machinery applies unchanged -- no panel rebuild, no git walk",
-   "source": "E347 DECIDEGATE-2026-11-01 (191 dated faces, 0 operational gates, bound declared)"
+   "source": "E347 DECIDEGATE-2026-11-01 (191 dated faces, 0 operational gates, bound declared)",
+   "done_at": "2026-11-01T21:15:00+08:00",
+   "result": "the mirror channel is opened by operational branches and almost never asks whether what it opened is current",
+   "result_ref": "results/state_tilt/MIRROR-2026-11-01.json",
+   "evidence": "scripts/e349_latest_mirror_census.py (selftest 15/15, verify 0 problems); S6 leg latest_mirror_channel; smoke leg E349; research/digests/DIGEST-20261101-r1370-e349-mirror-channel.md; knowledge/METHODOLOGY_ASSETS.md E349"
   },
   {
    "id": "E350-WHICH-FIELDS-A-HAND-EDIT-REACHES",
@@ -26457,13 +26461,17 @@
    "deliverable": "results/state_tilt/<face> + scripts/e350_*.py + chain leg + smoke leg + methodology card",
    "lane": "cpu-only",
    "priority": 2,
-   "status": "ready",
-   "owner": null,
-   "owner_since": null,
+   "status": "done",
+   "owner": "bm-b",
+   "owner_since": "2026-11-01T21:58:00+08:00",
    "entered_at": "2026-11-01T20:40:00+08:00",
    "entered_by": "bm-b r1368",
    "notes": "seeded by r1368 bm-b; the two halves already exist (E346 latches, E347 gates) and neither crosses the field boundary, so this is a join rather than a new scan",
-   "source": "E346 UNREADSTATUS-2026-11-01 + E347 DECIDEGATE-2026-11-01"
+   "source": "E346 UNREADSTATUS-2026-11-01 + E347 DECIDEGATE-2026-11-01",
+   "done_at": "2026-11-01T21:58:00+08:00",
+   "result": "the fields that stop an operation are read by guards and 131 of them have no writer in the corpus, so the guard can only fire on a missing value",
+   "result_ref": "results/state_tilt/FIELDBRANCH-2026-11-01.json",
+   "evidence": "scripts/e350_field_branch_census.py (selftest 20/20, verify 0 problems); S6 leg field_level_branch_census; smoke leg E350 + scripts/run_e350_smoke_leg.py; knowledge/METHODOLOGY_ASSETS.md E350; research/digests/DIGEST-20261101-r1371-e350-field-branch-census.md"
   },
   {
    "id": "E351-WHICH-PRODUCT-GATES-EVER-HAD-A-SECOND-STATE",
@@ -26480,6 +26488,35 @@
    "notes": "seeded by r1369 bm-b at E348 close; E348 measured one gate's subject and found it frozen. The general question is cheap because it needs blobs only -- no evaluation, no panel rebuild -- and the same one-batch blob map answers the whole population. A gate that has never seen a second state is not evidence about anything; counting them is the difference between a green suite and a suite that has been asked something.",
    "source": "E348 RESTOREDGATE-2026-11-01 (2 windows, 279 post-restore commits, 1 distinct face blob, 1 distinct panel tail)",
    "deliverable": "results/state_tilt/<face> + scripts/e351_*.py + chain leg + smoke leg + methodology card"
+  },
+  {
+   "id": "E352-WHAT-THE-STALENESS-WINDOW-COSTS-WHEN-NOBODY-ASKS",
+   "title": "E349 showed 63 of 139 channel files reach a comparison and only 14 comparisons test freshness; measure the window those comparisons leave open -- for each deciding channel file, how far behind its newest writer is the copy a reader would take",
+   "question": "E349 published that a mirror is a pointer and that the one question it alone can ask ('is this current?') is asked 14 times out of 840 comparisons. Ask what a reader actually sees: for each channel file that reaches a non-fixture comparison, reconstruct from this line's git history the sequence of (commit, blob) states of the file, then sample round boundaries and compute the lag in commits and hours between the blob a reader would take and the newest blob. Publish (a) per-file lag median/p90/max, (b) the subset that is zero because a writer rewrites it every round, (c) the subset where a reader could have seen a state older than the last change of what it decides, (d) the verdict as fresh_by_construction | fresh_by_luck | stale_window_unmeasured.",
+   "target": "a per-file staleness-window table over the deciding half of the channel, computed from git blob states rather than from mtimes",
+   "lane": "cpu-only",
+   "priority": 2,
+   "status": "ready",
+   "owner": null,
+   "entered_at": "2026-11-01T21:15:00+08:00",
+   "entered_by": "bm-b r1370",
+   "notes": "seeded at E349 close. Bound to keep: lag is measured on this line's own history; a file whose writer lives outside the repo cannot be timed and must be published as unmeasurable rather than as zero",
+   "source": "E349 MIRROR-2026-11-01 (operational_gates_that_test_freshness=2 of 235)"
+  },
+  {
+   "id": "E353-WHICH-UNWRITTEN-GUARD-IS-THE-ONLY-THING-THAT-WOULD-CATCH-IT",
+   "title": "E350 found 131 (face, field) pairs read by a guard and written nowhere in the corpus; ask what each of those guards would do today against the face on disk",
+   "question": "E350 published 230 guard fields and 131 with no writer anywhere in 2343 sources. A guard on a field nobody writes is not automatically dead -- it can be the only thing that would catch a face that went missing. Ask, per (face, field): (a) does the face exist on disk right now, and if so does the field appear in it; (b) split into guard_is_the_alert (face absent or field absent, so the guard is the last line of defence and has never fired as far as the tree can show), guard_never_fires (field present and non-null in the published file, so the read always succeeds), and guard_unreachable (the face name resolves to no file anywhere on disk, so the read would raise before the guard runs); (c) publish the shortest list of writers that would turn the first class into a written field, and (d) reconcile against E346's 17 latches so the two counts are one sentence.",
+   "target": "a presence table over the unwritten-guard population: face on disk, field in the file, and the three-way class each guard falls into today",
+   "deliverable": "results/state_tilt/<face> + scripts/e353_*.py + chain leg + smoke leg + methodology card",
+   "lane": "cpu-only",
+   "priority": 2,
+   "status": "ready",
+   "owner": null,
+   "entered_at": "2026-11-01T21:58:00+08:00",
+   "entered_by": "bm-b r1371",
+   "notes": "seeded by r1371 bm-b at E350 close; E350's unwritten-guard list is the input and the faces are on disk, so this is a file-presence pass, no git walk",
+   "source": "E350 FIELDBRANCH-2026-11-01 (230 guard fields, 131 with no writer, 1698 of 2289 fields unwritten)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -26494,7 +26531,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-01T20:40:00+08:00",
+ "updated_at": "2026-11-01T21:58:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

@@ -1077,6 +1077,13 @@ LEGS = [
     ("field_level_branch_census",
      ["python", "scripts/e350_field_branch_census.py", "verify"]),
 
+    # E351: of the 92 `product:` smoke gates, 37 read a literal subject face and 6 of those have
+    # never seen their subject change -- but all 6 subjects are younger than 50 commits, so no
+    # gate here has been green against a subject that stopped moving long ago. Verify replays the
+    # blob history at the face's own pin (~10 s of git object reads, no evaluation).
+    ("gate_state_census",
+     ["python", "scripts/e351_gate_state_census.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

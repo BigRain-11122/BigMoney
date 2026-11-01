@@ -1,0 +1,2153 @@
+{
+ "bounds": {
+  "companions": "data/ companions are tracked by blob state, so a rewrite that keeps bytes identical does not register",
+  "execution": "nothing is executed: a gate with >=2 states is live as a *subject*, not proven to have failed",
+  "glob_subjects": "a wildcard literal is published, never expanded -- a glob is not a subject",
+  "window": "the replay window is the last 300 non-merge commits of this line; older states are out of scope"
+ },
+ "evidence_cutoff": "2026-11-01",
+ "gate": "frozen_share_of_evaluated",
+ "generated": "2026-11-01T22:14:09+08:00",
+ "generated_by": "bm-b r1372",
+ "headline": {
+  "commits": 300,
+  "frozen": 6,
+  "frozen_share_of_evaluated": 16.2,
+  "gates": 92,
+  "live": 31,
+  "never": 0,
+  "unresolved": 55
+ },
+ "method": "per `product:` smoke gate: subject = path literals in the check's enclosing try body; history = one git log --raw over the union of subjects, pinned at replay_head; state at commit k = subject blobs as of k (absent if unwritten)",
+ "rows": [
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: E196 carrier verdict is recomputable from its own gate",
+   "resolved": [],
+   "sites": 3,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: E198 cross-panel verdict is recomputable from its own gate",
+   "resolved": [],
+   "sites": 3,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: E199 detection floor is recomputable from its own gate",
+   "resolved": [],
+   "sites": 3,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: ETF book legs wired into the S6 chain",
+   "resolved": [],
+   "sites": 4,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 179,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 10,
+   "faces": [
+    "results/etf_book_registry.json"
+   ],
+   "label": "product: ETF book registry published",
+   "present_commits": 121,
+   "resolved": [
+    "results/etf_book_registry.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "2c623370e92e66de65a78213bc5f912796a72444"
+    ],
+    [
+     "7b11a03f57091b5224e26ed70b932a459a588e38"
+    ],
+    [
+     "4ec1396dd2655a060386d863ae7c6a238ccda1b3"
+    ],
+    [
+     "cf24267bd55be7da980b2df52f7c43cc46f15cb1"
+    ],
+    [
+     "44d0c705b8c8cef5c3729a8c8cb1e7bdbe88b3f8"
+    ],
+    [
+     "2b47c82019c22fe270e74974edd555fa92d22f87"
+    ],
+    [
+     "43bbb24ec4642c0d0e4ff7abfbcaa79ad5bd05de"
+    ],
+    [
+     "41c726373896eb99098a850b449a675a04e73170"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 150,
+   "class": "live_subject",
+   "companions": [
+    "data/exchange_calendar.csv",
+    "docs/live_book/latest.json"
+   ],
+   "distinct_states": 8,
+   "faces": [
+    "results/etf_book_order/latest.json"
+   ],
+   "label": "product: ETF live-book cash leg is priced off the repo panel's own close",
+   "present_commits": 150,
+   "resolved": [
+    "results/etf_book_order/latest.json",
+    "data/exchange_calendar.csv",
+    "docs/live_book/latest.json"
+   ],
+   "sites": 1,
+   "states": [
+    [
+     "93d1feb1d8b2f22fc0698d0d8aa3925fc2f6b65e",
+     "ABSENT",
+     "ABSENT"
+    ],
+    [
+     "93d1feb1d8b2f22fc0698d0d8aa3925fc2f6b65e",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ABSENT"
+    ],
+    [
+     "d58df6670c3086a0e78512f5d061f66be9c8af00",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ABSENT"
+    ],
+    [
+     "d58df6670c3086a0e78512f5d061f66be9c8af00",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "ee22da3cb5d2be64b36b56b7008f47b2bbf2bb42",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "21ea68bad2804d608bbf2d02d009397e983610bd",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "cce6da98dfbf66f8ecebd830906b0b972d2e6b06",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "cce6da98dfbf66f8ecebd830906b0b972d2e6b06",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "54368c4781837084bffba7ec959247a03c0b14c0"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 150,
+   "class": "live_subject",
+   "companions": [
+    "data/exchange_calendar.csv",
+    "docs/live_book/latest.json"
+   ],
+   "distinct_states": 8,
+   "faces": [
+    "results/etf_book_order/latest.json"
+   ],
+   "label": "product: ETF live-book page current and its money closes",
+   "present_commits": 150,
+   "resolved": [
+    "results/etf_book_order/latest.json",
+    "data/exchange_calendar.csv",
+    "docs/live_book/latest.json"
+   ],
+   "sites": 4,
+   "states": [
+    [
+     "93d1feb1d8b2f22fc0698d0d8aa3925fc2f6b65e",
+     "ABSENT",
+     "ABSENT"
+    ],
+    [
+     "93d1feb1d8b2f22fc0698d0d8aa3925fc2f6b65e",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ABSENT"
+    ],
+    [
+     "d58df6670c3086a0e78512f5d061f66be9c8af00",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ABSENT"
+    ],
+    [
+     "d58df6670c3086a0e78512f5d061f66be9c8af00",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "ee22da3cb5d2be64b36b56b7008f47b2bbf2bb42",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "21ea68bad2804d608bbf2d02d009397e983610bd",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "cce6da98dfbf66f8ecebd830906b0b972d2e6b06",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "cce6da98dfbf66f8ecebd830906b0b972d2e6b06",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "54368c4781837084bffba7ec959247a03c0b14c0"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 150,
+   "class": "live_subject",
+   "companions": [
+    "data/exchange_calendar.csv",
+    "docs/live_book/latest.json"
+   ],
+   "distinct_states": 8,
+   "faces": [
+    "results/etf_book_order/latest.json"
+   ],
+   "label": "product: ETF live-book page says whether to trade today",
+   "present_commits": 150,
+   "resolved": [
+    "results/etf_book_order/latest.json",
+    "data/exchange_calendar.csv",
+    "docs/live_book/latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "93d1feb1d8b2f22fc0698d0d8aa3925fc2f6b65e",
+     "ABSENT",
+     "ABSENT"
+    ],
+    [
+     "93d1feb1d8b2f22fc0698d0d8aa3925fc2f6b65e",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ABSENT"
+    ],
+    [
+     "d58df6670c3086a0e78512f5d061f66be9c8af00",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ABSENT"
+    ],
+    [
+     "d58df6670c3086a0e78512f5d061f66be9c8af00",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "ee22da3cb5d2be64b36b56b7008f47b2bbf2bb42",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "21ea68bad2804d608bbf2d02d009397e983610bd",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "cce6da98dfbf66f8ecebd830906b0b972d2e6b06",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "cce6da98dfbf66f8ecebd830906b0b972d2e6b06",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "54368c4781837084bffba7ec959247a03c0b14c0"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 150,
+   "class": "live_subject",
+   "companions": [
+    "data/exchange_calendar.csv",
+    "docs/live_book/latest.json"
+   ],
+   "distinct_states": 8,
+   "faces": [
+    "results/etf_book_order/latest.json"
+   ],
+   "label": "product: ETF live-book stress rows are their own percentages x capital",
+   "present_commits": 150,
+   "resolved": [
+    "results/etf_book_order/latest.json",
+    "data/exchange_calendar.csv",
+    "docs/live_book/latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "93d1feb1d8b2f22fc0698d0d8aa3925fc2f6b65e",
+     "ABSENT",
+     "ABSENT"
+    ],
+    [
+     "93d1feb1d8b2f22fc0698d0d8aa3925fc2f6b65e",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ABSENT"
+    ],
+    [
+     "d58df6670c3086a0e78512f5d061f66be9c8af00",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ABSENT"
+    ],
+    [
+     "d58df6670c3086a0e78512f5d061f66be9c8af00",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "ee22da3cb5d2be64b36b56b7008f47b2bbf2bb42",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "21ea68bad2804d608bbf2d02d009397e983610bd",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "cce6da98dfbf66f8ecebd830906b0b972d2e6b06",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "cce6da98dfbf66f8ecebd830906b0b972d2e6b06",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "54368c4781837084bffba7ec959247a03c0b14c0"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 150,
+   "class": "live_subject",
+   "companions": [
+    "data/exchange_calendar.csv",
+    "docs/live_book/latest.json"
+   ],
+   "distinct_states": 8,
+   "faces": [
+    "results/etf_book_order/latest.json"
+   ],
+   "label": "product: ETF live-book yuan figures are its own percentages x its own capital",
+   "present_commits": 150,
+   "resolved": [
+    "results/etf_book_order/latest.json",
+    "data/exchange_calendar.csv",
+    "docs/live_book/latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "93d1feb1d8b2f22fc0698d0d8aa3925fc2f6b65e",
+     "ABSENT",
+     "ABSENT"
+    ],
+    [
+     "93d1feb1d8b2f22fc0698d0d8aa3925fc2f6b65e",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ABSENT"
+    ],
+    [
+     "d58df6670c3086a0e78512f5d061f66be9c8af00",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ABSENT"
+    ],
+    [
+     "d58df6670c3086a0e78512f5d061f66be9c8af00",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "ee22da3cb5d2be64b36b56b7008f47b2bbf2bb42",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "21ea68bad2804d608bbf2d02d009397e983610bd",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "cce6da98dfbf66f8ecebd830906b0b972d2e6b06",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "cce6da98dfbf66f8ecebd830906b0b972d2e6b06",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "54368c4781837084bffba7ec959247a03c0b14c0"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: ETF registry runs after every face it summarises",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: ETF registry says when the staggered book turns",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 280,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 2,
+   "faces": [
+    "results/state_tilt/bandpath_latest.json",
+    "results/state_tilt/hysteresis_latest.json"
+   ],
+   "label": "product: a band that passed on one path is path-tested before it is a finding",
+   "present_commits": 20,
+   "resolved": [
+    "results/state_tilt/bandpath_latest.json",
+    "results/state_tilt/hysteresis_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "01b7756153a28bcf1e8d670fa9e63f1bfef88e1b",
+     "ABSENT"
+    ],
+    [
+     "c2fd9ee516d54a91222ed3988056785c18a886ea",
+     "dc564b0c8af7ea8470ee75c87749fdcfac475382"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 283,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 2,
+   "faces": [
+    "results/state_tilt/per_member_gamma_latest.json"
+   ],
+   "label": "product: a book-level exponent is measured per member before it is charged",
+   "present_commits": 17,
+   "resolved": [
+    "results/state_tilt/per_member_gamma_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "52d3bcdb3f4325e211a05f7ad56e258be261f851"
+    ],
+    [
+     "e607e665e06cb7fe0113721628c2251ba0161835"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: a claimed RNG drift is decided by measurement, and the stream is pinned",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: a donor above the row is not yet a screen (it needs the row's own side)",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: a draw budget is neither a window length nor a band width",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 291,
+   "class": "frozen_subject",
+   "companions": [],
+   "distinct_states": 1,
+   "faces": [
+    "results/state_tilt/hysteresis_latest.json"
+   ],
+   "label": "product: a hysteresis band's toll saving is judged against its selection loss",
+   "present_commits": 9,
+   "resolved": [
+    "results/state_tilt/hysteresis_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "dc564b0c8af7ea8470ee75c87749fdcfac475382"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: a margin is not a substitute for the row's own side",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 290,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 2,
+   "faces": [
+    "results/state_tilt/repro_latest.json"
+   ],
+   "label": "product: a non-reproducing pair is traced rung by rung to the reader",
+   "present_commits": 10,
+   "resolved": [
+    "results/state_tilt/repro_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "c33f9c97cc33f17af44912ea30e2f231550a5200"
+    ],
+    [
+     "e9f065fc45f4e038409746d847caf89f1fb4c52d"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: a pooled end is not the row's own end until it answers the same way elsewhere",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: a published threshold re-runs the guard, and the face says which form",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: a row's verdict is its own threshold, not a neighbour's draws",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 285,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 2,
+   "faces": [
+    "results/state_tilt/sharediff_latest.json"
+   ],
+   "label": "product: a share-and-difference design may only settle a channel whose size the designs agree on",
+   "present_commits": 15,
+   "resolved": [
+    "results/state_tilt/sharediff_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "76fc35a12ba883056b41eb452a165cb735772996"
+    ],
+    [
+     "5cef40849e6cd6d64ee44c839460f4472f22ce47"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 292,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 3,
+   "faces": [
+    "results/state_tilt/addos_latest.json"
+   ],
+   "label": "product: a verdict survives its own out-of-sample path",
+   "present_commits": 8,
+   "resolved": [
+    "results/state_tilt/addos_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "e19edb3da014c079f670846f310b528b176dc78a"
+    ],
+    [
+     "d10c4121910ea205661d2898ea7ebf857ed113a4"
+    ],
+    [
+     "89c750f47a41cc78b0eaa70cb3a7e0ef96ca4881"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 291,
+   "class": "frozen_subject",
+   "companions": [],
+   "distinct_states": 1,
+   "faces": [
+    "results/state_tilt/omission_latest.json"
+   ],
+   "label": "product: an omission-inflated slope is re-priced against a named identified form",
+   "present_commits": 9,
+   "resolved": [
+    "results/state_tilt/omission_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "810f5966bb56fb9a873dfa01df1c5efe18dc5dc8"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: another window's wide end is not a bound",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 2,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 99,
+   "faces": [
+    "results/astock_daily_update_status.json"
+   ],
+   "label": "product: astock panel states its coverage, not just its date",
+   "present_commits": 298,
+   "resolved": [
+    "results/astock_daily_update_status.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "2de34de42f7092bb5d4bcdd622d683de96bbebbc"
+    ],
+    [
+     "be59c288b165c0fd77612f29a3f223cf1354ced2"
+    ],
+    [
+     "9cbe1d133a4c5e78ad59c57216c4c9fa43045056"
+    ],
+    [
+     "fe21c5939521760569c334d792fffc907883f6ae"
+    ],
+    [
+     "5dd54e03818c48412307e17dc4843cc51cfec3bf"
+    ],
+    [
+     "f3a97bb7db74cc2fad9352282c1b758158338ccb"
+    ],
+    [
+     "69a168f1933615388306db61cebf4a7621b79e78"
+    ],
+    [
+     "767503df4ade05b43bc84949d70e4a1c2d2e1b49"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: card reconciles its two 2015-2019 readings",
+   "resolved": [],
+   "sites": 3,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 150,
+   "class": "live_subject",
+   "companions": [
+    "data/exchange_calendar.csv",
+    "docs/live_book/latest.json"
+   ],
+   "distinct_states": 8,
+   "faces": [
+    "results/etf_book_order/latest.json"
+   ],
+   "label": "product: cash-leg ladder verdict is the panels' own rolls, not a typed-in answer",
+   "present_commits": 150,
+   "resolved": [
+    "results/etf_book_order/latest.json",
+    "data/exchange_calendar.csv",
+    "docs/live_book/latest.json"
+   ],
+   "sites": 1,
+   "states": [
+    [
+     "93d1feb1d8b2f22fc0698d0d8aa3925fc2f6b65e",
+     "ABSENT",
+     "ABSENT"
+    ],
+    [
+     "93d1feb1d8b2f22fc0698d0d8aa3925fc2f6b65e",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ABSENT"
+    ],
+    [
+     "d58df6670c3086a0e78512f5d061f66be9c8af00",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ABSENT"
+    ],
+    [
+     "d58df6670c3086a0e78512f5d061f66be9c8af00",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "ee22da3cb5d2be64b36b56b7008f47b2bbf2bb42",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "21ea68bad2804d608bbf2d02d009397e983610bd",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "cce6da98dfbf66f8ecebd830906b0b972d2e6b06",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "ea0fc733ac889524bccf6b0fa8793d6b886b15b6"
+    ],
+    [
+     "cce6da98dfbf66f8ecebd830906b0b972d2e6b06",
+     "c0c8fc899f38241adb01883a64197ec68a81213a",
+     "54368c4781837084bffba7ec959247a03c0b14c0"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 221,
+   "faces": [
+    "results/dashboard_status.json",
+    "results/marks_coverage.json",
+    "results/t35_open_fill_verify.json"
+   ],
+   "label": "product: dashboard carries the marks coverage gap",
+   "present_commits": 300,
+   "resolved": [
+    "results/dashboard_status.json",
+    "results/marks_coverage.json",
+    "results/t35_open_fill_verify.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "ee93e8bf59c3d920f0a24f6fd069b366740a5867",
+     "ABSENT",
+     "331248d68b0988ae80fc8a33c7422ebc7d4e51a9"
+    ],
+    [
+     "1a88a1650050b882b4910c83e447d8405be6f6cf",
+     "ABSENT",
+     "e45f389b4af10d0742eb8d4c9af3f029a81fb947"
+    ],
+    [
+     "cc7688aef5f4353a6fb56e13f68b1b2ce2806942",
+     "ABSENT",
+     "7f16c467077707af183a006ba5c40baea3c41d46"
+    ],
+    [
+     "aa44494fe800b87c2fd0b5ac1dee41568299b22b",
+     "ABSENT",
+     "dce90ac0b7ba75187c5af7e8c929c0bb797169ea"
+    ],
+    [
+     "41c67b500cd49a376561f9f4cf469b70b973594e",
+     "ABSENT",
+     "788b69f45dacc447985ce2dda6f1cf059e233fe2"
+    ],
+    [
+     "ddefedd81534b74d6cda2271978b08218ff5e4e5",
+     "ABSENT",
+     "6c7e34035a4dc4f04316cf25093a4de2b37791c9"
+    ],
+    [
+     "1e47b8061c09928aa4b25f8e6d126bd2a1b01586",
+     "ABSENT",
+     "6c7e34035a4dc4f04316cf25093a4de2b37791c9"
+    ],
+    [
+     "723853633489d9648a14c6ccfd9d9e4c13bf8815",
+     "ABSENT",
+     "65afd661a894e10b43c1748204c5759443f1c8a0"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 171,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 59,
+   "faces": [
+    "results/data_lag_audit.json"
+   ],
+   "label": "product: data lag audit face published",
+   "present_commits": 129,
+   "resolved": [
+    "results/data_lag_audit.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "b91fe825c32e2e176d23d137f3023167a0e378e8"
+    ],
+    [
+     "78aa06035f6eacf8c3da3e6633a2d04e08d1548a"
+    ],
+    [
+     "8a2142582ccf9996ba256f008b0e819d4346d744"
+    ],
+    [
+     "4ff4481bf39c6c9a51c3e2d249094603a87aa28f"
+    ],
+    [
+     "98d6046fdcae1bfc80b5f9f9a2e93bd16b58309f"
+    ],
+    [
+     "48ed56e0b74787415640dbf7daa6727742bc545b"
+    ],
+    [
+     "d94081f7dd5e92cbdc70ee1ae64d85f083330d4f"
+    ],
+    [
+     "195f9829201b0761760f1a0fc78f3e54469e2730"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: draws move the band's LEVEL, not only its noise",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: each published window's draw multiplier is measured, not borrowed",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: every candidate edge states the file it was read from",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 213,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 23,
+   "faces": [
+    "results/marks_coverage.json"
+   ],
+   "label": "product: every marks hole carries a cause from the lane's own ownership contract",
+   "present_commits": 87,
+   "resolved": [
+    "results/marks_coverage.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "94d5cb0675b0e12600488df67de925c09dfa1f28"
+    ],
+    [
+     "db53d7769a080a433c36c63f04888519bf7e5a62"
+    ],
+    [
+     "85156a5de4c20cd5776d0175340c5767689b6adb"
+    ],
+    [
+     "671b1da9a5e3766f43b0cab5cbe196622fc9dedd"
+    ],
+    [
+     "5a8799c6bde04f6de56eb2123d17a79b34bc7fcb"
+    ],
+    [
+     "757ded5c3c4301937b811d1eb2efebf13f58c4b3"
+    ],
+    [
+     "f30122a6a4fb9967e990d257defa3f8ec2093e59"
+    ],
+    [
+     "d64a95fd930edc8d015231a21ccc16784cc57e70"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 258,
+   "class": "frozen_subject",
+   "companions": [],
+   "distinct_states": 1,
+   "faces": [
+    "results/futures_overlay_fliprate.json"
+   ],
+   "label": "product: flip-rate arms cut flips, not exposure, and the cut is priced",
+   "present_commits": 42,
+   "resolved": [
+    "results/futures_overlay_fliprate.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "1220e3e1f7cff29d9133599a1deac6c54dd6d906"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: futures TSMOM face is current, capped and not an order",
+   "resolved": [],
+   "sites": 1,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: futures TSMOM shadow face keeps its sizing rules",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: futures overlay sweep keeps its blend arithmetic",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 45,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 8,
+   "faces": [
+    "results/system_v1_paper/SYSTEM-V1_paper.json"
+   ],
+   "label": "product: live paper book states its price lag",
+   "present_commits": 255,
+   "resolved": [
+    "results/system_v1_paper/SYSTEM-V1_paper.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "33980a17f287b78bf253c21bee166ee9ae525f6b"
+    ],
+    [
+     "2d3d122ad86df22f7210e4e8725f738ee1b4b236"
+    ],
+    [
+     "c691b67a177823587af6d9b233b219ea9b0d8e5e"
+    ],
+    [
+     "39a27cbe891c7f43c8f2380edab0a27f199389a9"
+    ],
+    [
+     "5c134601ff3a49ad4602924b35605a182f97fe34"
+    ],
+    [
+     "1d1aa3af2bc78e4cf1df75f9bb0136a6f1c97b52"
+    ],
+    [
+     "64e6bcdc787e6880e9e973a60b64e810592c2b76"
+    ],
+    [
+     "41a94cc280182d77b6f4a2e15b080009457d5175"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 213,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 23,
+   "faces": [
+    "results/marks_coverage.json"
+   ],
+   "label": "product: marks coverage face names its holes",
+   "present_commits": 87,
+   "resolved": [
+    "results/marks_coverage.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "94d5cb0675b0e12600488df67de925c09dfa1f28"
+    ],
+    [
+     "db53d7769a080a433c36c63f04888519bf7e5a62"
+    ],
+    [
+     "85156a5de4c20cd5776d0175340c5767689b6adb"
+    ],
+    [
+     "671b1da9a5e3766f43b0cab5cbe196622fc9dedd"
+    ],
+    [
+     "5a8799c6bde04f6de56eb2123d17a79b34bc7fcb"
+    ],
+    [
+     "757ded5c3c4301937b811d1eb2efebf13f58c4b3"
+    ],
+    [
+     "f30122a6a4fb9967e990d257defa3f8ec2093e59"
+    ],
+    [
+     "d64a95fd930edc8d015231a21ccc16784cc57e70"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 73,
+   "faces": [
+    "results/t35_open_fill_verify.json"
+   ],
+   "label": "product: open-fill gate names its evidence tier and the bar tier's prices are the bars'",
+   "present_commits": 300,
+   "resolved": [
+    "results/t35_open_fill_verify.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "331248d68b0988ae80fc8a33c7422ebc7d4e51a9"
+    ],
+    [
+     "e45f389b4af10d0742eb8d4c9af3f029a81fb947"
+    ],
+    [
+     "7f16c467077707af183a006ba5c40baea3c41d46"
+    ],
+    [
+     "dce90ac0b7ba75187c5af7e8c929c0bb797169ea"
+    ],
+    [
+     "788b69f45dacc447985ce2dda6f1cf059e233fe2"
+    ],
+    [
+     "6c7e34035a4dc4f04316cf25093a4de2b37791c9"
+    ],
+    [
+     "65afd661a894e10b43c1748204c5759443f1c8a0"
+    ],
+    [
+     "87adcc80cd9ea14230a63b95311f81923d2a5e1a"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: overlay breakeven is recomputable from its own ladder",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: overlay no-trade band is priced on both sides of the trade",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: overlay sweep sells risk and publishes the equal-risk reading",
+   "resolved": [],
+   "sites": 1,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 288,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 2,
+   "faces": [
+    "results/state_tilt/owncross_latest.json"
+   ],
+   "label": "product: own turnover is priced against ONE counterparty's turnover on the same footing",
+   "present_commits": 12,
+   "resolved": [
+    "results/state_tilt/owncross_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "59a0a84d0e89a24ae4975001360753cb41e46449"
+    ],
+    [
+     "ccf78f06c2305b944cfe0e272b4e27050f946a83"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 163,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 7,
+   "faces": [
+    "results/etf_paper/ledger.jsonl"
+   ],
+   "label": "product: staggered book states when each sleeve next turns",
+   "present_commits": 137,
+   "resolved": [
+    "results/etf_paper/ledger.jsonl"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "da056120ba65c9715171b3dcacead8385ad4457f"
+    ],
+    [
+     "77cfb4eb691924d74dd3ef8d2a1a8df14c02d3e0"
+    ],
+    [
+     "7513e53b270355647039017c8a0ab30289df1793"
+    ],
+    [
+     "b24177a1851d9ce8975643dde7ad04129a8d6759"
+    ],
+    [
+     "9be7322d87cef894355fe7531103fd9d64e2c95b"
+    ],
+    [
+     "dc8e3b55ecb97c7da422a1a3461bc553e6bca5fa"
+    ],
+    [
+     "a8264981ed02748eb57f43da8e7438b4c1d83a77"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: star direction is decided from lag designs, not asserted",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the CEO-page quote audit runs after the pages it audits",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the CEO-page quote gate runs after the sweep and owns a baseline",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the adopted flip damper reaches the live shadow book",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the band endpoint is scheduled, not waited out",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the band's own ladder decides the exponent, not the assumed one",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 289,
+   "class": "frozen_subject",
+   "companions": [],
+   "distinct_states": 1,
+   "faces": [
+    "results/state_tilt/aggatt_latest.json"
+   ],
+   "label": "product: the book aggregate is compared on ONE parametrisation",
+   "present_commits": 11,
+   "resolved": [
+    "results/state_tilt/aggatt_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "8da962b59bb176f9e4eeedb52f57cfd296fb35e9"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the calendar split is re-read at matched candidate width, as a distribution rather than a point",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 282,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 3,
+   "faces": [
+    "results/state_tilt/empirical_gamma_latest.json"
+   ],
+   "label": "product: the charge curvature is measured, not assumed, before verdicts ride it",
+   "present_commits": 18,
+   "resolved": [
+    "results/state_tilt/empirical_gamma_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "b6372357ffce4eec3d5b44386034ae9dc5d49329"
+    ],
+    [
+     "b6d32f1bb79bb3cbe8cab758cfe6a846ada8ca41"
+    ],
+    [
+     "abd8a9905948f1c1aff6d9a61e5764cdc1dfe3e7"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the day-of-month face counts sessions, not name-days",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the draw multiplier is a distribution, not a three-seed range",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 278,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 2,
+   "faces": [
+    "results/state_tilt/matched_latest.json"
+   ],
+   "label": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "present_commits": 22,
+   "resolved": [
+    "results/state_tilt/matched_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "bcb153d793507c8a24924ff6220e642488c01463"
+    ],
+    [
+     "0b5674f70b00f5a5004e161dc3675f4e5143de84"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 281,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 2,
+   "faces": [
+    "results/state_tilt/costcurve_latest.json"
+   ],
+   "label": "product: the family's toll conclusion is re-read under a non-linear charge",
+   "present_commits": 19,
+   "resolved": [
+    "results/state_tilt/costcurve_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "275052fe78bb078c0addbbb6b4744f6f7241e8db"
+    ],
+    [
+     "6239ac7270ec1ca1da0979f178c8f70009aee5f6"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 261,
+   "class": "frozen_subject",
+   "companions": [],
+   "distinct_states": 1,
+   "faces": [
+    "results/futures_overlay_fliprate_paths.json"
+   ],
+   "label": "product: the flip damper is adopted or rejected by path cells, not one run",
+   "present_commits": 39,
+   "resolved": [
+    "results/futures_overlay_fliprate_paths.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "665581ac9819ea91ebf17dc254fbffa64d62c565"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the floor at one belongs to the attained bucket, not the stream",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the forward face prices what its horizon can resolve, not only bars",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 155,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 22,
+   "faces": [
+    "results/etf_book_forward/LEDGER.json"
+   ],
+   "label": "product: the forward ledger publishes its own noise floor",
+   "present_commits": 145,
+   "resolved": [
+    "results/etf_book_forward/LEDGER.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "35f92a3f71c425c97851a0ca091fdc4dbebe793d"
+    ],
+    [
+     "2f48792e3e034d36644a86b4978984d70d3c4ae6"
+    ],
+    [
+     "aef08ce3e5d83bd976546b498c8e376c08739cd6"
+    ],
+    [
+     "277a2945da6e1fbc3914907fd401f88abcc2a42e"
+    ],
+    [
+     "19e3f8099b90e2a578037296c986d0a8e3a0445c"
+    ],
+    [
+     "896e63f608445cb3c5e92302dfb3167c612fc3e9"
+    ],
+    [
+     "a1771dd99bc637648ebcb6563fce14640d6e8635"
+    ],
+    [
+     "0311faa5f427046897ba2d0a908494bf0ee721ca"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the matched-width control is laddered across book widths, with the invariance of the gap published beside it",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the mid-month gap arrives split into timing and selection",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the moved set is scored donor by donor, and a pivotal cell is named",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the negative lead is read column by column, not off one column",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the observation-rate ladder prices its own resolution",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the off-book era leg is on the chain and publishes a cross-era verdict",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 287,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 2,
+   "faces": [
+    "results/state_tilt/loobook_latest.json"
+   ],
+   "label": "product: the own-turnover channel is re-measured against a book that does not contain it",
+   "present_commits": 13,
+   "resolved": [
+    "results/state_tilt/loobook_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "d1eb1c5a487df2d0f9c97e793c9757b51e68da7b"
+    ],
+    [
+     "e31f72cf60287a0665f52feb8f32c2e0b4e5fe8d"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 286,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 2,
+   "faces": [
+    "results/state_tilt/infostruct_latest.json"
+   ],
+   "label": "product: the own-turnover channel is tested against information arrival before it is called an impact effect",
+   "present_commits": 14,
+   "resolved": [
+    "results/state_tilt/infostruct_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "2f8fada53315fe5d78c1b56611b3b9a79d755d53"
+    ],
+    [
+     "e818289c884d83eec7ca4318ca87c0ed172e1a31"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 279,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 2,
+   "faces": [
+    "results/state_tilt/timingsel_latest.json"
+   ],
+   "label": "product: the paired timing value splits into selection, sizing and toll",
+   "present_commits": 21,
+   "resolved": [
+    "results/state_tilt/timingsel_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "693fad73f8a583a44c15b3338b61a4e78bd87816"
+    ],
+    [
+     "31c80fb21210ec791de6323abd20766a942ba7e1"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 222,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 20,
+   "faces": [
+    "results/etf_book_card_track.json"
+   ],
+   "label": "product: the paper book owns the book the card sells",
+   "present_commits": 78,
+   "resolved": [
+    "results/etf_book_card_track.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "349a49af4b99df93aedaf0cd7a6647104f181891"
+    ],
+    [
+     "c9d8be4d4a43c2a36b0b90c1dbac3638c8ac015c"
+    ],
+    [
+     "977b32fbe7e9bbc98dd61d06eec87b5df7f8403f"
+    ],
+    [
+     "6f302cf05933f48b96559b13857863ee95d1942d"
+    ],
+    [
+     "62330006eddffac9f42967aa562c364500ed6a93"
+    ],
+    [
+     "631b6d9e60d075423296f5c81ac218eb63a15fe4"
+    ],
+    [
+     "8c5ba8e195e501ebd2957b0003d345f111f1f8fc"
+    ],
+    [
+     "a50e4cd5bac4b1af52bded92cc0ae924d6485fc3"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 284,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 2,
+   "faces": [
+    "results/state_tilt/granularity_latest.json"
+   ],
+   "label": "product: the price of a sleeve move is measured against own and book turnover before the book is charged",
+   "present_commits": 16,
+   "resolved": [
+    "results/state_tilt/granularity_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "51282b71d597f73d8840f4dd7ec7a795905bf455"
+    ],
+    [
+     "580b6a638e33ade0f44fb1eb8e1c1bbf89996095"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the published band verdicts are re-judged at the top draw count",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the published base draw count sits below the endpoint arrival count",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the shared lead is tested against the book's own aggregate turnover",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 294,
+   "class": "frozen_subject",
+   "companions": [],
+   "distinct_states": 1,
+   "faces": [
+    "results/state_tilt/pairhet_latest.json"
+   ],
+   "label": "product: the spread is attributed to a named counterparty that repeats",
+   "present_commits": 6,
+   "resolved": [
+    "results/state_tilt/pairhet_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "69048af2187ff21c1e58921f224db7cb65d6dfa3"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the star lag band is re-derived from its own shuffled null",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the star's own row is priced against the column it carries for others",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the star's residual is decomposed and split from volatility and age",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the star's unread self row is scheduled, not excused",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 277,
+   "class": "live_subject",
+   "companions": [],
+   "distinct_states": 3,
+   "faces": [
+    "results/state_tilt/breakeven_latest.json"
+   ],
+   "label": "product: the state tilt prices the toll it would need",
+   "present_commits": 23,
+   "resolved": [
+    "results/state_tilt/breakeven_latest.json"
+   ],
+   "sites": 2,
+   "states": [
+    [
+     "c72a4ec3b913285785a7b760bb66728cf3ea2301"
+    ],
+    [
+     "f718e5c6665524bbfba43d3840f79728154ebe21"
+    ],
+    [
+     "3f2721c819866ba46329915253c121405fb9d4cb"
+    ]
+   ],
+   "wildcards": [],
+   "window_commits": 300
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the state tilt publishes its own effective sample size",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the un-summed matrix names structure without a sum regressor",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the volatility gate separates held days from episodes",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: the width ladder is split into timing and selection, so its movement is attributed to a named part",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  },
+  {
+   "absent_commits": 0,
+   "class": "unresolved_subject",
+   "companions": [],
+   "distinct_states": 0,
+   "faces": [],
+   "label": "product: two published numbers -- the flip multiplier and the range an axis offers -- reproduce every moved set the band family published",
+   "resolved": [],
+   "sites": 2,
+   "states": [],
+   "wildcards": [],
+   "window_commits": 0
+  }
+ ],
+ "schema": "gate-state-census/v1",
+ "source_rel": "scripts/e351_gate_state_census.py",
+ "study": "E351_gate_state_census",
+ "summary": {
+  "class_counts": {
+   "frozen_subject": 6,
+   "live_subject": 31,
+   "unresolved_subject": 55
+  },
+  "distinct_subject_paths": 33,
+  "frozen_mature": [],
+  "frozen_present_commits": {
+   "product: a hysteresis band's toll saving is judged against its selection loss": 9,
+   "product: an omission-inflated slope is re-priced against a named identified form": 9,
+   "product: flip-rate arms cut flips, not exposure, and the cut is priced": 42,
+   "product: the book aggregate is compared on ONE parametrisation": 11,
+   "product: the flip damper is adopted or rejected by path cells, not one run": 39,
+   "product: the spread is attributed to a named counterparty that repeats": 6
+  },
+  "frozen_subject_gates": 6,
+  "frozen_young": [
+   "product: a hysteresis band's toll saving is judged against its selection loss",
+   "product: an omission-inflated slope is re-priced against a named identified form",
+   "product: flip-rate arms cut flips, not exposure, and the cut is priced",
+   "product: the book aggregate is compared on ONE parametrisation",
+   "product: the flip damper is adopted or rejected by path cells, not one run",
+   "product: the spread is attributed to a named counterparty that repeats"
+  ],
+  "gates_unresolved_subject": 55,
+  "gates_with_subject": 37,
+  "green_by_freeze_share_pct": 16.2,
+  "live_subject_gates": 31,
+  "mature_commits_threshold": 50,
+  "most_moved_gate": "product: dashboard carries the marks coverage gap",
+  "most_moved_states": 221,
+  "never_evaluated_gates": 0,
+  "product_gates": 92,
+  "replay_commits": 300,
+  "replay_commits_requested": 300,
+  "replay_head": "47e9996f46dcb998c47cbc87dd6672270831db13",
+  "self_legs_excluded": [],
+  "smoke_source": "smoke_test.py",
+  "wildcard_literals_published_unexpanded": []
+ },
+ "verdict": "6_of_37_product_gates_that_resolve_a_subject_never_saw_it_change_but_all_6_are_younger_than_50_commits_so_no_gate_has_been_green_against_a_long_still_subject"
+}

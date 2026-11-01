@@ -11333,6 +11333,81 @@ def main() -> int:
                 ((_f350 or {}).get("summary") or {}).get("max_blast_field"),
                 ((_f350 or {}).get("summary") or {}).get("fields_with_unresolved_face")))
 
+    # E351: E348 measured one gate that stayed green for 279 commits against an unmoving subject.
+    # This leg asks that the `product:` state census refuse five shapes: a class tally that does
+    # not sum to the gate population, a frozen gate whose subject is not a resolved face, a share
+    # that is not frozen/(frozen+live), a verdict that claims green-by-freeze while every frozen
+    # subject is younger than the maturity threshold, and a face published with no bound.
+    _name351 = ("product: the product-gate state census re-derives, and a young subject is never "
+                "called green-by-freeze")
+    _bad351 = []
+    _f351 = None
+    try:
+        _p351 = os.path.join("results", "state_tilt", "gatestate_latest.json")
+        _f351 = json.load(open(_p351, encoding="utf-8")) if os.path.exists(_p351) else None
+        if _f351 is None:
+            _bad351.append("no published gate-state face")
+        else:
+            _s351 = _f351.get("summary") or {}
+            _c351 = _s351.get("class_counts") or {}
+            _n351 = int(_s351.get("product_gates") or 0)
+            if sum(int(v or 0) for v in _c351.values()) != _n351:
+                _bad351.append("class counts do not sum to the gate count")
+            _fz351 = int(_s351.get("frozen_subject_gates") or 0)
+            _lv351 = int(_s351.get("live_subject_gates") or 0)
+            if int(_c351.get("frozen_subject") or 0) != _fz351:
+                _bad351.append("the frozen gate is not the frozen class count")
+            _ev351 = _fz351 + _lv351
+            _share351 = float(_s351.get("green_by_freeze_share_pct") or 0.0)
+            if _ev351 and abs(_share351 - round(100.0 * _fz351 / _ev351, 1)) > 0.05:
+                _bad351.append("the share is not frozen/(frozen+live)")
+            if not _ev351 and _share351:
+                _bad351.append("a share was published over an empty evaluated set")
+            if not (_s351.get("replay_head") or "").strip():
+                _bad351.append("the replay window is not pinned")
+            if not isinstance(_f351.get("bounds"), dict) or not _f351.get("bounds"):
+                _bad351.append("no bound published")
+            _v351 = str(_f351.get("verdict") or "")
+            if not _s351.get("frozen_mature") and "younger_than" not in _v351:
+                _bad351.append("a young-only freeze is not stated in the verdict")
+            if _s351.get("frozen_mature") and "younger_than" in _v351:
+                _bad351.append("a mature freeze is reported as young")
+            for _r351 in _f351.get("rows") or []:
+                if _r351.get("class") == "frozen_subject" and not (_r351.get("resolved") or []):
+                    _bad351.append("%s :: frozen with no resolved subject" % (_r351.get("label"),))
+                    break
+                if _r351.get("class") == "frozen_subject" and int(
+                        _r351.get("distinct_states") or 0) != 1:
+                    _bad351.append("%s :: frozen but not exactly one state" % (_r351.get("label"),))
+                    break
+                if _r351.get("class") == "live_subject" and int(
+                        _r351.get("distinct_states") or 0) < 2:
+                    _bad351.append("%s :: live with fewer than two states" % (_r351.get("label"),))
+                    break
+                if _r351.get("class") in ("frozen_subject", "live_subject"):
+                    if int(_r351.get("present_commits") or 0) + int(
+                            _r351.get("absent_commits") or 0) != int(_r351.get("window_commits") or 0):
+                        _bad351.append("%s :: present+absent is not the window" % (_r351.get("label"),))
+                        break
+    except Exception as e:
+        check(_name351, False, repr(e)[:160])
+
+    check(_name351, not _bad351, "; ".join(_bad351)[:220]
+          or "%s; %s product: gates, %s resolve a subject, %s frozen / %s live of which %s frozen "
+             "at maturity, %s unresolved literal subjects, most-moved %s states at %s, window %s "
+             "commits @ %s"
+             % ((_f351 or {}).get("verdict"),
+                ((_f351 or {}).get("summary") or {}).get("product_gates"),
+                ((_f351 or {}).get("summary") or {}).get("gates_with_subject"),
+                ((_f351 or {}).get("summary") or {}).get("frozen_subject_gates"),
+                ((_f351 or {}).get("summary") or {}).get("live_subject_gates"),
+                len(((_f351 or {}).get("summary") or {}).get("frozen_mature") or []),
+                ((_f351 or {}).get("summary") or {}).get("gates_unresolved_subject"),
+                ((_f351 or {}).get("summary") or {}).get("most_moved_states"),
+                ((_f351 or {}).get("summary") or {}).get("most_moved_gate"),
+                ((_f351 or {}).get("summary") or {}).get("replay_commits"),
+                (((_f351 or {}).get("summary") or {}).get("replay_head") or "")[:8]))
+
     return _finish()
 
 

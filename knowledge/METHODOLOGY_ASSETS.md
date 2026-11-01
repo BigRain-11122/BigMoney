@@ -7315,3 +7315,38 @@ Evidence: scripts/e350_field_branch_census.py (selftest 20/20, verify 0 problems
 results/state_tilt/FIELDBRANCH-2026-11-01.json + fieldbranch_latest.json; S6 leg
 `field_level_branch_census`; smoke leg E350 (standalone runner scripts/run_e350_smoke_leg.py);
 research/digests/DIGEST-20261101-r1371-e350-field-branch-census.md
+
+## E351 -- a green suite and a suite that has been asked something are different objects
+
+E348 published one `product:` gate that stayed green for 279 commits against a face that never
+changed.  The census question is cheap because a gate's subject is a file, and a file has blobs:
+
+1. **The subject is the try-body's literals, not the function's.**  A `product:` check loads its
+   face inside the `try` that wraps it; taking the enclosing function instead collected a literal
+   that another statement happened to read (selftest leg).  92 gates, 37 resolve at least one
+   literal face, 55 resolve none -- those read through `os.path.join`/f-strings and are published
+   as `unresolved_subject` rather than counted as frozen.
+2. **A glob is not a subject.**  `results/b/*.json` is published in `wildcard_literals_published_
+   unexpanded` and never expanded: the number of states behind a glob is a fact about the disk,
+   not about the commit the gate ran at.
+3. **The state is per commit, not per write.**  One `git log --raw --no-abbrev` over the union of
+   subject paths gives every blob transition; the state at commit k is the blob as of k (absent
+   before the first write), so `distinct_states` counts observations, not edits.
+4. **A young subject is not a freeze.**  All 6 frozen gates had been present for 6-42 commits
+   (threshold 50), so the honest verdict is "no gate has been green against a long still
+   subject", not "16.2% of greens are the same observation".  The headline number and the
+   maturity split are published together; the verdict changes shape when `frozen_mature` is empty.
+5. **`--no-abbrev` is load-bearing.**  `git log --raw` abbreviates blob ids by default, so a
+   strict 40-hex parse silently matched nothing and first reported 0 evaluated gates.  A parse
+   that fails closed on its own regex looks exactly like a population with no states.
+6. **A study that reads `smoke_test.py` must exclude the leg it adds to it.**  The E351 leg is a
+   `product:` gate whose subject is this face; counting it would make the census a function of its
+   own publication (E319/E207 family).  `self_legs_excluded` publishes the omission.
+
+Readings: 92 gates, 37 evaluated (6 frozen / 31 live), 55 unresolved, most-moved subject
+`product: dashboard carries the marks coverage gap` at 221 distinct states of 300 commits.
+
+Evidence: scripts/e351_gate_state_census.py (selftest 25/25, verify 0 problems) ->
+results/state_tilt/GATESTATE-2026-11-01.json + gatestate_latest.json; S6 leg `gate_state_census`
+(9.7s); smoke leg E351 (scripts/run_e351_smoke_leg.py, standalone PASS);
+research/digests/DIGEST-20261101-r1372-e351-gate-state-census.md
