@@ -10876,6 +10876,66 @@ def main() -> int:
                 ((_f343 or {}).get("summary") or {}).get("sole_authority"),
                 ((_f343 or {}).get("summary") or {}).get("by_first_use_kind")))
 
+    # E344: E341's claim was about writers, and "nobody writes this name" was read as "nobody reads
+    # this face". The consumer census says otherwise: five directory censuses read every published
+    # face without naming it. This leg re-checks the published counts against their own row lists,
+    # the frozen verdict rule, and the cited reader evidence at the pin (five git shows, no build).
+    _name344 = ("product: every family-only name is followed to its readers on both channels, the "
+                "unnamed readers are cited to code that must still exist at the pin, and no reader "
+                "is published without a class")
+    _bad344 = []
+    try:
+        _p344 = os.path.join("results", "state_tilt", "consumercensus_latest.json")
+        _f344 = json.load(open(_p344, encoding="utf-8")) if os.path.exists(_p344) else None
+        if _f344 is None:
+            _bad344.append("no published consumer-census face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m344 = __import__("importlib").import_module("e344_face_consumer_census")
+            _sum344 = _f344.get("summary") or {}
+            if _f344.get("verdict") not in (getattr(_m344, "V_NAMED"), getattr(_m344, "V_CARRIED"),
+                                            getattr(_m344, "V_SHAPE"), getattr(_m344, "V_NOBODY"),
+                                            getattr(_m344, "V_UNATTRIBUTED")):
+                _bad344.append("verdict outside the frozen set")
+            elif _f344.get("verdict") != _m344.decide(_sum344):
+                _bad344.append("verdict is not the frozen rule's output on the published summary")
+            _rows344 = _f344.get("scan_readers") or []
+            if int(_sum344.get("admitting_scan_readers") or 0) != len(
+                    [r for r in _rows344 if r.get("faces_admitted")]):
+                _bad344.append("the reader count is not the published rows")
+            for _r344 in _rows344:
+                if _r344.get("takes") not in getattr(_m344, "READ_CLASSES"):
+                    _bad344.append("reader class %r is outside the vocabulary" % (_r344.get("takes"),))
+            if int(_sum344.get("readers_that_carry") or 0) != int(
+                    (_sum344.get("readers_by_class") or {}).get("carries") or 0):
+                _bad344.append("the carrier count disagrees with the class table")
+            if _sum344.get("stems_with_a_named_outside_loader"):
+                _bad344.append("a named outside loader is claimed but not re-derived here")
+            for _reader344, _row344 in sorted(_m344.DECLARED_READERS.items()):
+                _text344 = _m344.e338._git("show", "%s:%s" % (_m344.PIN_SHA, _reader344))
+                if not _text344:
+                    _bad344.append("cited reader missing at the pin: %s" % _reader344)
+                    continue
+                for _snip344 in _row344["snippets"]:
+                    if _snip344 not in _text344:
+                        _bad344.append("cited code gone from %s: %r"
+                                       % (_reader344, _snip344[:40]))
+            if not isinstance(_f344.get("recursive_sweepers"), list):
+                _bad344.append("the recursive sweepers are not published")
+    except Exception as e:
+        check(_name344, False, repr(e)[:160])
+
+    check(_name344, not _bad344, "; ".join(_bad344)[:220]
+          or "%s | %s family-only names, %s named outside loaders, %s unnamed readers (%s), "
+             "%s recursive sweepers, %s carry a value"
+             % ((_f344 or {}).get("verdict"),
+                ((_f344 or {}).get("summary") or {}).get("stems_total"),
+                ((_f344 or {}).get("summary") or {}).get("named_outside_loaders"),
+                ((_f344 or {}).get("summary") or {}).get("admitting_scan_readers"),
+                ((_f344 or {}).get("summary") or {}).get("readers_by_class"),
+                ((_f344 or {}).get("summary") or {}).get("recursive_sweepers_listed"),
+                ((_f344 or {}).get("summary") or {}).get("readers_that_carry")))
+
     return _finish()
 
 

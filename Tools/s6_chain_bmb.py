@@ -1014,6 +1014,15 @@ LEGS = [
     ("bound_grant_decisions",
      ["python", "scripts/e343_bound_grant_decisions.py", "verify"]),
 
+    # E344: E341 measured that fifteen names lose every *writer* outside the census family, which
+    # is a statement about producers. The consumer question is a different one and it is answered
+    # here: no source outside the family loads one of these faces by name, five directory censuses
+    # read every published face without naming it, and exactly one carries a published `verdict`
+    # forward. The leg re-checks each cited reader's evidence at the pin, so a rewritten reader
+    # turns this red instead of leaving a stale claim behind (~4s, no builds).
+    ("face_consumer_census",
+     ["python", "scripts/e344_face_consumer_census.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one
