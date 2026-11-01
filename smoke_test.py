@@ -923,6 +923,30 @@ def main() -> int:
                   "no BLOCKS face -- soft-fails by design")
     except Exception as e:
         check("product: the worst 1% is published on the block arms", False, str(e))
+    # r1214: completeness of the block family. `blocks --check` re-judges the arms it is
+    # GIVEN, so a family that silently lost one arm re-derives a narrower spread from what
+    # is left and reads green -- an invariant satisfiable by absence. The registered set
+    # (ARM_SET) is now the invariant, and this leg recomputes it from the published face so
+    # a deleted arm, a partial re-derive or a checkout that dropped a file reads red.
+    try:
+        from scripts import etf_book_nav_envelope as _NE2
+        _bl2 = sorted(__import__("glob").glob(os.path.join(
+            "results", "etf_book_bootstrap", "BLOCKS-*.json")))
+        if _bl2:
+            _b2 = json.load(open(_bl2[-1], encoding="utf-8"))
+            _on_face = [a.get("block") for a in _b2.get("arms") or []]
+            _probs = _NE2.arm_set_problems(_on_face)
+            _fires = _NE2.arm_set_problems([b for b in _on_face if b != _NE2.ARM_SET[-1]])
+            check("product: the block family is complete, not merely self-consistent",
+                  not _probs and len(_fires) == 1 and str(_NE2.ARM_SET[-1]) in _fires[0]
+                  and _b2.get("arm_set") == sorted(_NE2.ARM_SET),
+                  "on_face=%s registered=%s problems=%s fires_when_short=%s"
+                  % (_on_face, list(_NE2.ARM_SET), _probs or "none", _fires or "none"))
+        else:
+            check("product: the block family is complete, not merely self-consistent", True,
+                  "no BLOCKS face -- soft-fails by design")
+    except Exception as e:
+        check("product: the block family is complete, not merely self-consistent", False, str(e))
     # r1350 / E253: the card calls the 8% overlay "a drawdown tool". The face now answers it
     # with a PAIRED bootstrap -- same draw, both books -- so this leg recomputes the two
     # numbers the sentence rests on from the paired rows on disk: the median delta and the

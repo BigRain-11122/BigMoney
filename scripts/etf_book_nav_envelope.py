@@ -72,6 +72,12 @@ N_BOOT = 2000
 BLOCK = 20                    # one rebalance cycle: keeps the decision-cycle structure intact
 SEED = 20261029
 PCTS = (1, 5, 25, 50, 75, 95, 99)
+# r1214: the block family is REGISTERED here, not discovered on disk. The arm set used to
+# be read off whatever ENVELOPE-*-b<N>.json files happened to exist, so deleting one arm
+# (a partial re-derive, a cleanup, a checkout that lost it) silently shrank the family and
+# every gate still read green: the set certified itself. An invariant that can be satisfied
+# by absence is not an invariant.
+ARM_SET = (1, 5, 10, 20, 40, 60, 120, 250)   # 20 == BLOCK (the default-tagged file)
 # r1156/E251: p5 answered "the deepest 5% of resamples", which is not the
 # question an operator asks ("how bad can it get"). p1/p99 now ride on the
 # same arms so the blocks face can say whether the ultra tail is bounded or
@@ -514,11 +520,10 @@ def blocks_face(cutoff=None, out_file=None):
     # r1210: the arms were hand-built for each cutoff, so a series refresh orphaned them and
     # the face died with "only one block arm on disk". The arm set is now owned by the face:
     # whatever arm set is published is the set this cutoff must carry, so heal it here.
-    _wanted = {BLOCK}
-    for f in ENV_DIR.glob("ENVELOPE-*.json"):
-        tag = f.stem.rsplit("-b", 1)[-1] if "-b" in f.stem else ""
-        if tag.isdigit():
-            _wanted.add(int(tag))
+    # r1214: ...and the set itself is owned by ARM_SET, not by the disk. Reading the wanted
+    # set off the glob made a lost arm invisible: it left the wanted set and the family
+    # quietly became smaller while every gate stayed green.
+    _wanted = set(ARM_SET)
     _missing = sorted(b for b in _wanted
                       if not (ENV_DIR / (f"ENVELOPE-{cutoff}.json" if b == BLOCK
                                          else f"ENVELOPE-{cutoff}-b{b}.json")).exists())
@@ -559,6 +564,7 @@ def blocks_face(cutoff=None, out_file=None):
         "evidence_cutoff": cutoff,
         "script": SCRIPT,
         "question": "how much of the published envelope is the block length rather than the book?",
+        "arm_set": sorted(ARM_SET),
         "arms": arms,
         "arm_pcts_refreshed": refreshed,
         "spread": blocks_spread(arms),
@@ -597,6 +603,31 @@ def blocks_face(cutoff=None, out_file=None):
     return face, out
 
 
+def arm_set_problems(blocks, wanted=ARM_SET):
+    """The registered family must be present EXACTLY: no missing arm, no orphan arm.
+
+    Pure, so the gate can be tested without a panel. A missing arm is the dangerous case
+    (the face still re-derives its spread from the arms it has and prints a narrower
+    range with no error), so it is reported by name rather than as a count.
+    """
+    got = {b for b in blocks if b is not None}
+    want = set(int(b) for b in wanted)
+    out = []
+    if got != want:
+        missing = sorted(want - got)
+        extra = sorted(got - want)
+        if missing:
+            out.append("block arm(s) missing from the family: "
+                       + ", ".join("b%d" % b for b in missing)
+                       + " (registered set %s; a smaller family is not this face)"
+                       % "/".join(str(b) for b in sorted(want)))
+        if extra:
+            out.append("unregistered block arm(s) on the face: "
+                       + ", ".join("b%d" % b for b in extra)
+                       + " (add them to ARM_SET with a freeze note, or drop them)")
+    return out
+
+
 def check_blocks(face_file=None):
     """Every quoted arm number must be re-derivable from that arm's own published rows."""
     f = Path(face_file) if face_file else None
@@ -615,6 +646,9 @@ def check_blocks(face_file=None):
     arms = face.get("arms") or []
     if len(arms) < 2:
         problems.append("fewer than two block arms -- the parameter is not priced")
+    # r1214: completeness, not just consistency. Everything below judges the arms that are
+    # HERE; without this line a family that lost an arm passes cleanly by being smaller.
+    problems.extend(arm_set_problems([a.get("block") for a in arms]))
     for a in arms:
         p = ENV_DIR / str(a.get("file"))
         if not p.exists():
@@ -1332,6 +1366,21 @@ def selftest():
     leg("L35 an absent face is missing, an empty one is unreadable",
         read_published(td / "nope.json")["status"] == "missing"
         and read_published(td / "latest.json", tol=-1.0)["status"] == "drift")
+
+    # L36-L38 (r1214): completeness of the block FAMILY. The gate above judges the arms it
+    # is given, so a family that lost one arm used to pass by being smaller -- the invariant
+    # is now the registered set, and both directions (missing / unregistered) are named.
+    leg("L36 the registered family is exactly the eight arms",
+        arm_set_problems(list(ARM_SET)) == [] and len(set(ARM_SET)) == 8,
+        ARM_SET)
+    _short = [b for b in ARM_SET if b != 40]
+    leg("L37 a lost arm is named, not counted",
+        len(arm_set_problems(_short)) == 1 and "b40" in arm_set_problems(_short)[0],
+        arm_set_problems(_short))
+    leg("L38 an unregistered arm is refused too",
+        len(arm_set_problems(list(ARM_SET) + [7])) == 1
+        and "b7" in arm_set_problems(list(ARM_SET) + [7])[0],
+        arm_set_problems(list(ARM_SET) + [7]))
 
     print(f"selftest {sum(1 for _, c, _ in ok if c)}/{len(ok)}")
     for name, cond, detail in ok:
