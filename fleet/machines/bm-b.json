@@ -31,9 +31,15 @@
  "d19_note": "decisions 97fe122f / orders 2e5b6165 == stored watermark (repro@e2d59df) -> zero new rows; 114 order files / 115 acks / 0 unacked",
  "decisions_delta_pending": false,
  "delivery": {
-  "branch": "machine/bm-b-r1361",
+  "branch": "machine/bm-b-r1367",
   "sha": "cb6f3b46953a1a5bf01cf8a6a07f313bebab345e",
-  "verified": true
+  "verified": true,
+  "pushed_sha": "2a0867454728d0f56e1ea9dd40479a1a6a2d8449",
+  "remote_ref_sha": "2a0867454728d0f56e1ea9dd40479a1a6a2d8449",
+  "verified_by": "git ls-remote origin refs/heads/machine/bm-b-r1367",
+  "files": 14,
+  "ts": "2026-11-01T19:22:00+08:00",
+  "note": "targeted add only; the ~700 dirty tracked files left by collectors and prior windows were not swept in"
  },
  "delivery_note": "main stays diverged from origin (r1243: no unattended rebase); delivery goes to machine/bm-b-r1363",
  "dept": "research+engineering",
