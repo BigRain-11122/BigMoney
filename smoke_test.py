@@ -5698,6 +5698,79 @@ def main() -> int:
     except Exception as e:
         check("product: the operator page says how much money this book needs",
               False, repr(e)[:160])
+    # ---- r1244: the page must price the basket the reader is actually holding -----------
+    # The card configures 12 names and the ladder is priced on 12, but the executable ticket
+    # the reader can place today holds 5. This leg reads the ticket's own width, finds that
+    # width in the published width sweep, and requires the page to print THAT break-even next
+    # to the ticket -- derived from the rows, not from a sentence. It also fails if the page
+    # keeps quoting the card's basket at a reader holding another one.
+    try:
+        import importlib as _il73
+        _PG73 = _il73.import_module("etf_book_ceo_page")
+        _bad73 = []
+        _ptr73 = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
+        _tk73 = {}
+        if not os.path.exists(_ptr73):
+            _bad73.append("results/etf_book_order/latest.json missing")
+        else:
+            with open(_ptr73, encoding="utf-8") as _fh73:
+                _ptr_doc73 = json.load(_fh73)
+            _rel73 = _ptr_doc73.get("file") or _ptr_doc73.get("path")
+            _cand73 = [os.path.join(os.path.dirname(_ptr73), _rel73 or ""),
+                       os.path.join(PATHS.root, _rel73 or "")]
+            _path73 = next((p for p in _cand73 if os.path.exists(p)), None)
+            if not _path73:
+                _bad73.append("ticket body %r not resolvable" % (_rel73,))
+            else:
+                with open(_path73, encoding="utf-8") as _fh73b:
+                    _tk73 = json.load(_fh73b)
+        _n73 = _tk73.get("n_hold")
+        if _n73 is None:
+            _n73 = len((_tk73.get("ticket") or {}).get("order") or []) or None
+        with open(os.path.join(PATHS.results_dir, "etf_book_min_capital.json"),
+                  encoding="utf-8") as _fh73c:
+            _mc73 = json.load(_fh73c)
+        _rows73 = (_mc73.get("width") or {}).get("rows") or []
+        _row73 = next((r for r in _rows73 if r.get("n_hold") == _n73), {})
+        _want73 = _row73.get("fee_neutral_vs_model_nav")
+        _face73 = _PG73.capital_face()
+        if _face73.get("status") != "ok":
+            _bad73.append("capital face reads %r" % (_face73.get("status"),))
+        if _n73 is None:
+            _bad73.append("the ticket carries no held-name count")
+        elif _face73.get("ticket_n_hold") != _n73:
+            _bad73.append("page names the ticket at %r names, the ticket holds %r"
+                          % (_face73.get("ticket_n_hold"), _n73))
+        elif _want73 is None:
+            _bad73.append("the ticket's width %r is not in the published width sweep" % (_n73,))
+        elif abs((_face73.get("ticket_model_nav") or 0) - _want73) > 0.02:
+            _bad73.append("ticket-width break-even %r != the published row's %r"
+                          % (_face73.get("ticket_model_nav"), _want73))
+        _lb73 = sorted(glob.glob(os.path.join(PATHS.root, "docs", "live_book",
+                                              "LIVE-BOOK-*.md")))
+        if not _lb73:
+            _bad73.append("no live-book page on disk")
+        else:
+            with open(_lb73[-1], encoding="utf-8") as _fh73d:
+                _md73 = _fh73d.read()
+            _tk_lines73 = [l for l in _PG73.capital_block(_face73) if "可执行单" in l]
+            if not _tk_lines73:
+                _bad73.append("the page never mentions the ticket's own width")
+            elif any(l not in _md73 for l in _tk_lines73):
+                _bad73.append("the ticket-width line never reaches the page")
+            _pw73 = _face73.get("published_path_width")
+            if _n73 is not None and _pw73 is not None and _n73 != _pw73:
+                if _want73 is not None and ("%.0f" % _want73) not in _md73.replace(",", ""):
+                    _bad73.append("the page prices the card's basket (%s names) at a reader "
+                                  "holding %s and never prints their own %s CNY"
+                                  % (_pw73, _n73, "%.0f" % _want73))
+        check("product: the operator page prices the basket the ticket actually holds",
+              not _bad73,
+              "; ".join(_bad73)[:220] or "ticket %s names -> %s CNY (card path %s)"
+              % (_n73, _want73, (_face73.get("published_path_width"),)))
+    except Exception as e:
+        check("product: the operator page prices the basket the ticket actually holds",
+              False, repr(e)[:160])
     # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
     # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two
     # class universes and two fill orderings, under one column headed 全窗. This leg

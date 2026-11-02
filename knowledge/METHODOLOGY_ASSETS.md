@@ -8982,3 +8982,39 @@ ways」而断言只实现一边，改判据时必须连注释一起读；③「�
 
 **边界**：本卡不管「宽表由谁接管」（bm-c 车道，物理/车道决定），只管「面板被拒的那一根如何在
 每个读者面上被诚实记账」。
+
+### E361 · 两面各站一根 bar 时，印两个日期不算披露：方向决定谁是「stale」那一半（r1244 bm-a）
+
+**缺陷（本班实测）**：`etf_book_production` 的卡片表（CAGR/回撤）定价在 ETF 面板最后一根
+（2026-10-30），而回撤带读的是 `BLOCKS-2026-11-02.json`（走宽面板，更新那根）。旧渲染只在
+Caveats 里塞半句「band priced on the X bar, not this card's Y -- stale」，读者看数字的那一节
+什么都不说；旧自检腿 `(band_cutoff == card_cutoff) == ("stale" not in head)` 更把方向写死——
+任何不相等都必须出现 "stale"，于是带比表格**新**时也只能判红（正是没人需要 warning 的那一侧），
+而两边相等时它判绿却什么也没验证。
+
+**正法三条**：
+1. **方向先判**：`band < card` = 带旧（尾部只会更窄，"stale" 成立）；`band > card` = **表格才是旧的那一半**（不许把带叫 stale）；相等 = 静默。三种各一句。
+2. **披露落在读到数字的地方**：`drawdown_band_paragraphs(band, card_maxdd, card_bar)` 把方向句印在「How bad can the drawdown be?」段内；Caveats 半句同步按方向改写。
+3. **自检腿钉住差异**：除活体腿外，用三份夹具（旧/新/同）断言三种措辞，让「方向」在磁盘状态变化时仍然被测到。
+
+**可复用**：任何「A 面按 X bar 算、B 面按 Y bar 算」的并列读数，光印两个日期不是披露——该做什么
+取决于谁更新；把方向写成词，并且写在那两个数旁边。
+**证据**：`scripts/etf_book_production.py`（`drawdown_band_paragraphs` / `write_card` / 三条 selftest 腿）、
+`results/etf_book_production/CARD.md`（「⚠ 这根回撤带比表格新：带 2026-11-02 / 表 2026-10-30」）。
+
+### E362 · 门槛有第三种宽度：卡片配置、梯子定价、今日票据（r1244 bm-a）
+
+**缺陷**：CEO 页的「至少多少钱才撑得起 8bp」先前只对齐了两个宽度——卡片配置（12 名）与梯子定价
+（r1241 起也是 12 名）；而**读者手上那张可执行单今天只持 5 名**（权重各 9.43%、现金 52.85%）。
+12 名那一档的平衡点是 **203,007 元**，5 名的同一闭式是 **67,737 元**——差 3 倍。两个都真，但页面
+只印前一个，等于拿一本比读者宽 2.4 倍的书的门槛去吓他。
+
+**正法**：`_ticket_width()` 从票据自己读 `n_hold`（缺则数 order 条数；都读不到就 `None`），
+`capital_face()` 把它与该宽度在已发布扫描行里的平衡点一起刊出，`capital_block()` 单列一句：
+不同则点名「这才是你手上这张单的那一本」+ 自己的数，相同则说一致，**读不到则明说读不到**
+（不许退回卡片宽度冒充）。
+**可复用**：一条闭式的分母可以有三个来源（配置/研究/执行），任何一个没对齐，数字就属于另一本书；
+「读不到」必须与「就是卡片那个宽度」在文本上不同（E256/E270 同族）。
+**证据**：`scripts/etf_book_ceo_page.py`（`_ticket_width` / `capital_face` 三字段 / 段内三态句 /
+selftest 135/135 含 L131-L132）、`docs/live_book/LIVE-BOOK-20261103.md`、`smoke_test.py`
+（新腿「the operator page prices the basket the ticket actually holds」）。

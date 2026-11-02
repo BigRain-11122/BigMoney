@@ -1,12 +1,12 @@
 {
- "ts": "2026-11-02 23:13:41",
+ "ts": "2026-11-03 00:19:54",
  "evidence_cutoff": "2026-10-30",
  "feed_status": {
   "ticket_bar": "2026-10-30",
   "expected_bar": "2026-11-02",
   "lag_days": 1,
-  "status": "stale_feed",
-  "detail": "the bar this ticket is priced on is 1 official day(s) behind the market; the signal is that old"
+  "status": "feed_broken",
+  "detail": "the maintained panel is missing an official trading day that should already be published -- a stopped feed, not a delay"
  },
  "price_basis": {
   "panel": "repaired (flip prints neutralised before any measurement)",
@@ -524,7 +524,7 @@
   ]
  },
  "caveats": [
-  "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -24.8% and -17.5% and the share of resamples worse than -20% between 1.5% and 15.7%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-02.json (band priced on the 2026-11-02 bar, not this card's 2026-10-30 -- stale).",
+  "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -24.8% and -17.5% and the share of resamples worse than -20% between 1.5% and 15.7%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-02.json (band priced on the 2026-11-02 bar, NEWER than this card's 2026-10-30 -- the table is the stale half here, not the tail).",
   "THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.84%/yr (Sharpe -0.41) against +6.06%/yr (+0.64) for the fixed signs -- and reversing the trailing sign does not recover it (-1.59%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.",
   "FEED IS BEHIND: this card is priced on the 2026-10-30 bar, 1 official trading day(s) short of the 2026-11-02 bar the market has already published. The names are that old, not a fresh call.",
   "ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.",

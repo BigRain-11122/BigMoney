@@ -479,7 +479,7 @@ def drawdown_band_support():
         return None
 
 
-def drawdown_band_paragraphs(band, card_maxdd):
+def drawdown_band_paragraphs(band, card_maxdd, card_bar=None):
     if not band:
         return ["No bootstrap band on disk: the drawdown above is a single-path number and "
                 "its tail is unpublished. Run scripts/etf_book_nav_envelope.py.", ""]
@@ -513,6 +513,22 @@ def drawdown_band_paragraphs(band, card_maxdd):
         lines += ["> Band priced on the **%s** bar from %s. A tail quoted without its block is "
                   "a sentence without its parameter (E248)." % (band["evidence_cutoff"],
                                                                 band["artifact"]), ""]
+    # (r1244) the band and the table are two faces and they can stand on two bars. Printing
+    # both dates side by side is not a disclosure -- the reader has to compare two strings to
+    # notice, and the word that tells them what to DO depends on the direction: a band older
+    # than the table has not seen the recent history (its tail can only be too narrow), while
+    # a band newer than the table means the table is the stale half. Say which one this is.
+    _bb = (band.get("evidence_cutoff") or "")
+    _cb = str(card_bar or "")
+    if _bb and _cb and _bb != _cb:
+        if _bb < _cb:
+            lines += ["**⚠ 这根回撤带比表格旧（stale）：带站在 %s，表格站在 %s。** 带宽没有吃到"
+                      "最近这段行情，所以 p5 那一列只会比真实更窄——不要把窄当成安全。"
+                      % (_bb, _cb), ""]
+        else:
+            lines += ["**⚠ 这根回撤带比表格新：带站在 %s，表格站在 %s。** 两张面各站一根 bar，"
+                      "这一节的宽度属于更新那根，表里的收益/回撤属于更旧那根——合起来读会把两本"
+                      "书当成一本。" % (_bb, _cb), ""]
     return lines
 
 
@@ -1078,8 +1094,13 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
                                  band["dd_break_band"]["min"] * 100,
                                  band["dd_break_band"]["max"] * 100, band["artifact"],
                                  "" if not stale else
-                                 " (band priced on the %s bar, not this card's %s -- stale)"
-                                 % (band["evidence_cutoff"], last.date())))
+                                 ((" (band priced on the %s bar, older than this card's %s "
+                                   "-- stale, its tail can only be too narrow)"
+                                   % (band["evidence_cutoff"], last.date()))
+                                  if str(band["evidence_cutoff"]) < str(last.date()) else
+                                  (" (band priced on the %s bar, NEWER than this card's %s -- "
+                                   "the table is the stale half here, not the tail)"
+                                   % (band["evidence_cutoff"], last.date())))))
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, "PRODUCTION-%s.json" % last.date()), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
@@ -1503,7 +1524,8 @@ def write_card(out):
     full = b.get("full") or {}
     if full.get("maxdd") is not None:
         lines += ["## How bad can the drawdown be?", ""]
-        lines += drawdown_band_paragraphs(out.get("drawdown_band"), full["maxdd"])
+        lines += drawdown_band_paragraphs(out.get("drawdown_band"), full["maxdd"],
+                                          s.get("as_of_bar"))
     lines += ["## Caveats", ""] + ["- " + c for c in out["caveats"]] + [""]
     with open(os.path.join(OUT_DIR, "CARD.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
@@ -1875,9 +1897,41 @@ def selftest():
                 band.get("block_set") and str(band.get("block_set")))
             chk("band quotes its block set, not a bare tail",
                 all(str(b) in card for b in band["block_set"]))
-            chk("band is not silently stale",
-                (band["evidence_cutoff"] == o["evidence_cutoff"])
-                == ("stale" not in card.split("## Caveats")[0]))
+            # r1244: "both dates are printed" is not a disclosure. When the band and the
+            # table stand on different bars, the head must say WHICH half is stale -- and a
+            # band that is AHEAD of the table is not stale at all, so the old leg (which
+            # demanded the word "stale" for any mismatch) could only pass when the band was
+            # not behind, i.e. exactly when nobody needed the warning.
+            _head = card.split("## Caveats")[0]
+            _bb = str(band["evidence_cutoff"] or "")
+            _cb = str(o.get("evidence_cutoff") or "")
+            if _bb == _cb:
+                _ok_band = ("比表格旧" not in _head) and ("比表格新" not in _head)
+                _why = "same bar %s" % _cb
+            elif _bb < _cb:
+                _ok_band = ("比表格旧" in _head) and ("stale" in _head)
+                _why = "band older %s < %s" % (_bb, _cb)
+            else:
+                _ok_band = ("比表格新" in _head) and ("stale" not in _head)
+                _why = "band newer %s > %s" % (_bb, _cb)
+            chk("band on another bar says which face is the stale one", _ok_band, _why)
+            _fx = {"block_set": [5], "n_resamples": 10, "band_pp": 1.0,
+                   "arm_rows": [], "artifact": "fixture",
+                   "maxdd_p5_band": {"min": -0.25, "max": -0.17},
+                   "maxdd_p50_band": {"min": -0.18, "max": -0.12},
+                   "dd_break_band": {"min": 0.1, "max": 0.3}}
+            _old = dict(_fx, evidence_cutoff="2026-10-01")
+            _new = dict(_fx, evidence_cutoff="2026-11-02")
+            _t_old = "\n".join(drawdown_band_paragraphs(_old, -0.125, "2026-10-30"))
+            _t_new = "\n".join(drawdown_band_paragraphs(_new, -0.125, "2026-10-30"))
+            _t_same = "\n".join(drawdown_band_paragraphs(_old, -0.125, "2026-10-01"))
+            chk("band disclosure follows the direction (older=stale, newer=table is the "
+                "stale half, same=silent)",
+                ("比表格旧" in _t_old and "stale" in _t_old)
+                and ("比表格新" in _t_new and "stale" not in _t_new)
+                and ("比表格旧" not in _t_same and "比表格新" not in _t_same),
+                "old=%r new=%r same=%r" % ("比表格旧" in _t_old, "比表格新" in _t_new,
+                                           "比表格旧" in _t_same))
             chk("band carried as a caveat on the operator page",
                 any("MEDIAN, NOT A TAIL" in c for c in o["caveats"]))
         else:

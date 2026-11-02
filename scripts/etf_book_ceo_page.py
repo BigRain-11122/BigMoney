@@ -1263,6 +1263,7 @@ def capital_face(path=MIN_CAPITAL_JSON):
                     "published": win.get("verdict"), "recomputed": want_wv}
         small = min(primary, key=lambda r: r.get("capital") or 0) if primary else {}
         big = max(primary, key=lambda r: r.get("capital") or 0) if primary else {}
+        _tk_w, _tk_bar = _ticket_width()
         wid = d.get("width") or {}
         xrows = wid.get("rows") or []
         if xrows:
@@ -1334,6 +1335,13 @@ def capital_face(path=MIN_CAPITAL_JSON):
                         "cagr_8bp": r.get("cagr_8bp")}
                        for r in xrows],
             "delivered_n_hold": _delivered_names(),
+            "ticket_n_hold": _tk_w,
+            "ticket_bar": _tk_bar,
+            "ticket_model_nav": (next((r.get("fee_neutral_vs_model_nav") for r in xrows
+                                       if r.get("n_hold") == _tk_w), None)
+                                 if _tk_w is not None else None),
+            "ticket_narrower_than_path": (None if (_tk_w is None or not wid.get("published_path_width"))
+                                          else (_tk_w != wid.get("published_path_width"))),
             "width_mismatch": (None if (_delivered_names() is None
                                         or not wid.get("published_path_width"))
                                else (_delivered_names() != wid.get("published_path_width"))),
@@ -1357,6 +1365,30 @@ def _delivered_names(path=None):
         return int(n) if n is not None else None
     except Exception:                                           # noqa: BLE001
         return None
+
+
+def _ticket_width():
+    """How many names TODAY's executable ticket holds (r1244).
+
+    The card configures a basket and the ladder is priced on that basket; the ticket a
+    reader can actually place this session is a third number (5 names today, ~53% cash).
+    The closed form is the same, the denominator is not -- so the page must be able to
+    name the basket that is on the table instead of quoting the card's width at a reader
+    holding another book.
+    """
+    try:
+        _ptr, tk, _path = _load_ticket()
+    except Exception:                                           # noqa: BLE001
+        return None, None
+    t = tk.get("ticket") or {}
+    n = tk.get("n_hold")
+    if n is None:
+        n = len(t.get("order") or []) or None
+    try:
+        n = int(n) if n is not None else None
+    except (TypeError, ValueError):
+        n = None
+    return n, tk.get("evidence_cutoff")
 
 
 def capital_block(cf):
@@ -1486,6 +1518,25 @@ def capital_block(cf):
                         ("%.0f 元" % w["model_nav"]) if w.get("model_nav") is not None else "-",
                         ("%.2f%%" % (100.0 * w["cagr_8bp"])) if w.get("cagr_8bp") is not None else "-"))
         L.append("")
+    # (r1244) a third basket: the card configures one, the ladder is priced on it, and the
+    # ticket a reader can place this session holds a third width. Saying it in prose was the
+    # r1240 gap; naming it with its own break-even is the same rule applied to the sheet the
+    # reader actually has.
+    _tw = cf.get("ticket_n_hold")
+    _pw2 = cf.get("published_path_width")
+    if _tw is not None and _tw != _pw2:
+        _th = cf.get("ticket_model_nav")
+        L.append("**今天这张可执行单实际持 %d 名**（bar %s），而这一节的门槛是按 **%s 名**算的。"
+                 "同一闭式在 %d 名上重算，平衡点是 **%s**——这才是你手上这张单的那一本。"
+                 % (_tw, cf.get("ticket_bar") or "？", _pw2, _tw,
+                    ("%.0f 元" % _th) if _th is not None else "（宽度扫描里没有这一档，未量）"))
+    elif _tw is not None:
+        L.append("**今天这张可执行单持有 %d 名**（bar %s），与这一节定价的篮子宽度一致。"
+                 % (_tw, cf.get("ticket_bar") or "？"))
+    elif wid_rows:
+        L.append("**今天这张可执行单的持名数读不出来**（票据缺席或没有 `n_hold`）——"
+                 "所以上面那个门槛是在量哪一本，本页答不了，别按它下单。")
+    L.append("")
     L.append("> 口径：只算佣金与既有的冲击项。买卖价差已经在那 8bp 里，**没有再叠加一次**。"
              "资本在每一档内保持恒定，所以「小账户差多少」只归因于费率、不掺第二个变量。"
              "没有 5 元地板的券商（`wan%g+0`）在 1 万元上也不会被咬。"
@@ -5057,6 +5108,32 @@ def selftest():
         len(_fake_on) == 1 and not _fake_off
         and "300000" in _fake_on[0].replace(",", ""),
         "on=%d off=%d" % (len(_fake_on), len(_fake_off)))
+    # L131-L132 (r1244): the card configures 12 names, the ladder is priced on 12, and the
+    # ticket a reader can place today holds 5. Prose that says "another book" is not enough:
+    # the section must name the ticket's width and its OWN break-even, and when the ticket
+    # cannot be read it must say so instead of quietly quoting the card's basket at a reader
+    # holding another one.
+    _tk_fake = dict(_fake_off_cf)
+    _tk_fake.update({"ticket_n_hold": 5, "ticket_bar": "2026-10-30",
+                     "ticket_model_nav": 100000.0, "published_path_width": 12})
+    _tk_lines = [l for l in capital_block(_tk_fake) if "可执行单" in l]
+    _tk_on = _tk_lines and ("5" in _tk_lines[0]) and ("100000" in _tk_lines[0].replace(",", ""))
+    _tk_same = dict(_tk_fake)
+    _tk_same.update({"ticket_n_hold": 12})
+    _tk_same_lines = [l for l in capital_block(_tk_same) if "可执行单" in l]
+    chk("L131 capital: the ticket's own width and its own break-even are printed, derived "
+        "from the width rows (never re-typed)",
+        bool(_tk_on) and bool(_tk_same_lines)
+        and ("12" in _tk_same_lines[0]) and ("一致" in _tk_same_lines[0])
+        and not any("\u26a0" in l for l in _tk_lines),
+        "different=%r same=%r" % (_tk_lines[:1], _tk_same_lines[:1]))
+    _tk_none = dict(_tk_fake)
+    _tk_none.update({"ticket_n_hold": None, "ticket_model_nav": None})
+    _tk_none_lines = [l for l in capital_block(_tk_none) if "可执行单" in l]
+    chk("L132 capital: an unreadable ticket is printed as unmeasured, not as the card's basket",
+        bool(_tk_none_lines) and "读不出来" in _tk_none_lines[0]
+        and "203007" not in _tk_none_lines[0],
+        "lines=%r" % (_tk_none_lines[:1],))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 
