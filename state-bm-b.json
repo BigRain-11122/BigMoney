@@ -4133,11 +4133,11 @@
  "task_short": "r1385 E363 corpus stamp",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
  "timestamp": "2026-11-02T16:41:44+08:00",
- "ts": "2026-11-02T16:41:44+08:00",
+ "ts": "2026-11-02T16:43:48+08:00",
  "ts_utc_ms": 1793574929181,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-02T16:41:44+08:00",
- "updated_at": "2026-11-02T16:41:44+08:00",
+ "updated_at": "2026-11-02T16:43:48+08:00",
  "verdict": "a_published_population_is_reproducible_only_from_the_working_tree_that_ran_it (before the stamp) -> every_published_population_is_reproducible_from_the_pin_the_face_names (after republishing both faces over CORPUSPIN-2026-11-02)",
  "verdict_line": "8 census legs pass verbatim with 8 drift lines; no checker writes its subject",
  "verify": "each leg's own text exec'd with a stub check: 95/298/308/311/327/328/329/332 PASS; published faces byte-identical after two verification passes",
@@ -4193,5 +4193,15 @@
   "pit": "(1) the first draft of the study gave the named-pin class the publishing commit's verdict string, so a row printed 'reproducible from the commit' while its history vintage read 2227 against 2365 -- a label is not a measurement, and it is now its own constant with a leg. (2) three selftest legs failed on their own assertions, not the code (r1281 shape): rel paths sort as bytes so 'Tools/' precedes the lower-case roots, and a 'skills/a.py' input tested a case the rule never sees. (3) the no-address counter summed only rows WITH classes, so 'no classic reproduced' counted as zero no-address rows -- an empty list is the finding, not the absence of one. (4) the corpus grew 2365 -> 2369 inside the round (other lanes writing), which is the finding stated as a hazard for the leg.",
   "pool": "E363 done with result_ref; E364 seeded ready (848 entries, 1 ready)",
   "not_run": "full 277-leg suite, S6 chain, compute_audit, py_watermark, lane collectors, market_regime, update_*, paper/scorecard faces; GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted, no quarantine action"
+ },
+ "r1385_delivery": {
+  "branch": "machine/bm-b-r1385",
+  "sha": "59e9501be6522ef135614160151ac177c9cde25d",
+  "verified": "ls-remote equals local HEAD",
+  "files": 19,
+  "ahead_of_origin_main": 232,
+  "behind_origin_main": 274,
+  "main_push_blocker": "local main diverged from origin/main (two blood lines, promisor lazy-fetch wedge r1255 family); no unattended rebase per r1243, so the machine branch is the delivery channel",
+  "ts": "2026-11-02T16:43:48+08:00"
  }
 }
