@@ -318,15 +318,19 @@ def _head():
         return ""
 
 
-def _population():
-    """E350's unwritten-guard population, rebuilt from the corpus (the expensive part)."""
-    reads, writes, _stats = e350.measure(e350._sources())
+def _population(files=None):
+    """E350's unwritten-guard population, rebuilt from the corpus (the expensive part).
+
+    ``files`` is passed through E350's seam: the population is whatever member list E350 walked,
+    so a replay over a pinned list asks about the same population, not about today's tree.
+    """
+    reads, writes, _stats = e350.measure(e350._sources(files))
     rows = e350._rows(reads, writes)
     return [r for r in rows if r["guards"] and not r["written"]], rows
 
 
-def build(pin=None, index=None):
-    population, all_rows = _population()
+def build(pin=None, index=None, files=None):
+    population, all_rows = _population(files)
     index = index if index is not None else build_index()
     rows = [classify(r["face"], r["field"], index) for r in population]
     rows.sort(key=lambda r: (r["class"], r["face"], r["field"]))
@@ -334,6 +338,7 @@ def build(pin=None, index=None):
     summary = summarize(rows, len(population), block)
     return {
         "study": STUDY,
+        "population_source": e350._population_source(files),
         "ts": datetime.now().astimezone().isoformat(timespec="seconds"),
         "today": TODAY,
         "source": SELF_REL,
@@ -364,7 +369,7 @@ def write(face):
     dated = os.path.join(OUTDIR, FACE)
     latest = os.path.join(OUTDIR, LATEST)
     for target in (dated, latest):
-        with open(target, "w", encoding="utf-8") as fh:
+        with open(target, "w", encoding="utf-8", newline="\n") as fh:
             json.dump(face, fh, ensure_ascii=False, indent=1, sort_keys=True)
             fh.write("\n")
     return dated, latest
@@ -431,7 +436,7 @@ def _fixture(root, files):
     for rel, doc in files.items():
         full = os.path.join(root, rel.replace("/", os.sep))
         os.makedirs(os.path.dirname(full), exist_ok=True)
-        with open(full, "w", encoding="utf-8") as fh:
+        with open(full, "w", encoding="utf-8", newline="\n") as fh:
             if isinstance(doc, str):
                 fh.write(doc)
             else:
@@ -553,8 +558,13 @@ def selftest():
 
 def main(argv):
     cmd = (argv[1] if len(argv) > 1 else "verify").lower()
+    files = None
+    if "--files" in argv:
+        pin_path = argv[argv.index("--files") + 1]
+        files = e350.pin_members(pin_path)
+        say("replaying over %d pinned members from %s" % (len(files), pin_path))
     if cmd == "build":
-        face = build()
+        face = build(files=files)
         dated, latest = write(face)
         say("wrote %s and %s" % (dated, latest))
         say("verdict: %s" % face["verdict"])
@@ -563,7 +573,7 @@ def main(argv):
         return verify()
     if cmd == "selftest":
         return selftest()
-    say("usage: build | verify | selftest")
+    say("usage: build [--files <pin.json>] | verify | selftest")
     return 2
 
 

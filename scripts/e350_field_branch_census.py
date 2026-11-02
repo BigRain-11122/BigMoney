@@ -352,10 +352,33 @@ def decide(summary):
 
 # --------------------------------------------------------------------------- build / verify
 
-def _sources():
-    corpus = [p for p in e346._corpus() if p != SELF_REL]
+def _sources(files=None):
+    """``[(relpath, text)]`` of the corpus -- or exactly ``files`` when a pinned member list is
+    handed in.  ``files`` is the replay seam: a walk re-derives whatever the tree holds today, so a
+    number replayed over the walk answers a different question than the number it is compared to.
+
+    A member may be given as ``relpath`` (read from disk now) or as ``(relpath, text)`` (already
+    resolved bytes, e.g. from the pin's commit) -- the pinned population and the pinned bytes are
+    two different seams, and a replay that only pins the list still reads today's files.
+    """
+    if files is None:
+        corpus = [p for p in e346._corpus() if p != SELF_REL]
+        supplied = {}
+    else:
+        corpus = []
+        supplied = {}
+        for item in files:
+            if isinstance(item, (tuple, list)) and len(item) == 2:
+                supplied[item[0]] = item[1]
+                corpus.append(item[0])
+            else:
+                corpus.append(item)
+        corpus = [p for p in corpus if p != SELF_REL]
     out = []
     for rel in corpus:
+        if rel in supplied:
+            out.append((rel, supplied[rel]))
+            continue
         try:
             with open(os.path.join(ROOT, rel), "r", encoding="utf-8", errors="replace") as fh:
                 out.append((rel, fh.read()))
@@ -364,13 +387,22 @@ def _sources():
     return out
 
 
-def build(pin=None):
-    sources = _sources()
+def _population_source(files):
+    """Name the population a build walked -- a replay must publish which of the three it used."""
+    if files is None:
+        return "live_walk"
+    carries_bytes = any(isinstance(i, (tuple, list)) and len(i) == 2 for i in files)
+    return "%s:%d" % ("pinned_bytes" if carries_bytes else "pinned_list", len(files))
+
+
+def build(pin=None, files=None):
+    sources = _sources(files)
     reads, writes, stats = measure(sources)
     summary = summarize(reads, writes, stats)
     table = _rows(reads, writes)
     face = {
         "study": STUDY,
+        "population_source": _population_source(files),
         "ts": datetime.now().astimezone().isoformat(timespec="seconds"),
         "today": TODAY,
         "source": SELF_REL,
@@ -435,7 +467,7 @@ def write(face):
     dated = os.path.join(OUTDIR, FACE)
     latest = os.path.join(OUTDIR, LATEST)
     for target in (dated, latest):
-        with open(target, "w", encoding="utf-8") as fh:
+        with open(target, "w", encoding="utf-8", newline="\n") as fh:
             json.dump(face, fh, ensure_ascii=False, indent=1, sort_keys=True)
             fh.write("\n")
     return dated, latest
@@ -593,6 +625,19 @@ def selftest():
     leg("blast radius is choices only", bool(rows7) and rows7[0]["blast_radius"] == rows7[0]["choices"],
         str(rows7))
 
+    # the replay seam: an explicit member list replaces the walk, and supplied bytes are verbatim
+    seam = _sources([("scripts/_fixture_seam.py", FIXTURE_GUARD)])
+    leg("an explicit member list is measured instead of the corpus",
+        len(seam) == 1 and seam[0][0] == "scripts/_fixture_seam.py", str(seam)[:120])
+    seam_face = build(files=[])
+    leg("build(files=[]) measures nothing, so the walk is genuinely bypassed",
+        seam_face["summary"]["corpus_sources"] == 0, str(seam_face["summary"]["corpus_sources"]))
+    leg("a replay publishes which population it walked",
+        (seam_face["population_source"] == "pinned_list:0"
+         and _population_source(None) == "live_walk"
+         and _population_source([("a.py", "x")]) == "pinned_bytes:1"),
+        "%s | %s" % (seam_face["population_source"], _population_source(None)))
+
     # decide() branches
     empty = summarize([], set(), {"sources": 0, "parsed": 0, "json_bindings": 0,
                                   "unresolved_load_bindings": 0, "faces_named": set(),
@@ -618,10 +663,29 @@ def selftest():
     return 0 if not failed else 1
 
 
+def pin_members(path):
+    """The member paths of a corpus pin file (E361/E365 shape: ``{"sources": [{"path": ...}]}``).
+
+    Kept beside the seam so a replay does not have to re-invent the pin's shape; a pin without a
+    ``sources`` list is refused rather than treated as an empty population.
+    """
+    with open(path, "r", encoding="utf-8") as fh:
+        pin = json.load(fh)
+    rows = pin.get("sources")
+    if not isinstance(rows, list):
+        raise ValueError("%s carries no 'sources' list" % path)
+    return [r["path"] for r in rows if isinstance(r, dict) and r.get("path")]
+
+
 def main(argv):
     cmd = (argv[1] if len(argv) > 1 else "verify").lower()
+    files = None
+    if "--files" in argv:
+        pin_path = argv[argv.index("--files") + 1]
+        files = pin_members(pin_path)
+        say("replaying over %d pinned members from %s" % (len(files), pin_path))
     if cmd == "build":
-        face = build()
+        face = build(files=files)
         dated, latest = write(face)
         say("wrote %s and %s" % (dated, latest))
         say("verdict: %s" % face["verdict"])
@@ -630,7 +694,7 @@ def main(argv):
         return verify()
     if cmd == "selftest":
         return selftest()
-    say("usage: build | verify | selftest")
+    say("usage: build [--files <pin.json>] | verify | selftest")
     return 2
 
 

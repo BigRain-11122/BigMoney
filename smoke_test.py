@@ -12292,6 +12292,119 @@ def _r39(face, key):
                 str(((_f366 or {}).get("store_bill") or {}).get("published_faces", {}).get("need_store"))))
 
 
+# E368: E366 called ten studies NEEDS_SEAM, which says a replay cannot pin the population -- not
+    # that pinning it makes the number come back.  E368 repaired one seam (E350's walker and E353
+    # that imports it) and then measured four populations per study.  This leg grades the repair and
+    # the accounting: each named file must really take a files parameter (a seam is code, not the
+    # word), every arm must publish which population it walked, the provenance must add up to the
+    # pin, and every arm claimed to reproduce the published number must carry a zero delta in the
+    # same face -- a stored verdict that does not re-derive is refused.
+    _name368 = ("product: a pinned replay reproduces the published number, and the arm that did it "
+                "is the arm whose measured delta is zero")
+    _bad368 = []
+    try:
+        _p368 = os.path.join("results", "state_tilt", "seamreplay_latest.json")
+        _f368 = json.load(open(_p368, encoding="utf-8")) if os.path.exists(_p368) else None
+        if _f368 is None:
+            _bad368.append("no published seam-replay face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m368 = __import__("importlib").import_module("e368_seam_replay")
+            _seam = _f368.get("seam") or {}
+            _files368 = _seam.get("repaired_in") or []
+            if not _files368:
+                _bad368.append("the face names no repaired file")
+            for _rel in _files368:
+                if not os.path.exists(_rel):
+                    _bad368.append("%s is named as repaired and is not on disk" % (_rel,))
+                    continue
+                with open(_rel, encoding="utf-8") as _fh:
+                    _src = _fh.read()
+                if "def build(pin=None, files=" not in _src and "files=None" not in _src:
+                    _bad368.append("%s is named as repaired but takes no files parameter" % (_rel,))
+            if len(_files368) < 2:
+                _bad368.append("only one file was repaired, so the inherited seam is untested")
+            _prov368 = _f368.get("bytes_provenance") or {}
+            _sum368 = (sum(int(_prov368.get(k) or 0) for k in ("disk", "git", "store_needed",
+                                                              "unreadable")))
+            if _sum368 != int(_f368.get("pin_members") or -1):
+                _bad368.append("bytes provenance sums to %d, not the pin's %s members"
+                               % (_sum368, _f368.get("pin_members")))
+            _pin368 = None
+            try:
+                _pin368 = _m368.load_pin()
+            except Exception as _e:
+                _bad368.append("the pin file does not load: %r" % (_e,))
+            if _pin368 is not None:
+                if (_f368.get("pin_id") or "") != (_pin368.get("pin_id") or ""):
+                    _bad368.append("the face pin_id is not the pin file's")
+                if (_f368.get("pin") or "") != (_pin368.get("git_commit") or ""):
+                    _bad368.append("the face pin commit is not the pin file's")
+                if int(_f368.get("pin_members") or -1) != len(_pin368.get("sources") or []):
+                    _bad368.append("the face pin_members is not the pin file's member count")
+            _studies368 = _f368.get("studies") or {}
+            if not _studies368:
+                _bad368.append("the face replays no study")
+            for _st, _blk in _studies368.items():
+                _arms = _blk.get("arms") or {}
+                if set(_arms) != {"live", "pinned_list", "pinned_bytes"}:
+                    _bad368.append("%s: the arms are not the three named populations" % (_st,))
+                for _arm, _ab in _arms.items():
+                    if not _ab.get("population_source"):
+                        _bad368.append("%s/%s: the arm does not name its population" % (_st, _arm))
+                if (_arms.get("pinned_list") or {}).get("population_source", "").startswith(
+                        "pinned_bytes"):
+                    _bad368.append("%s: the list arm is not distinguishable from the bytes arm" % (_st,))
+                _cmp = _blk.get("compare") or {}
+                _key = _cmp.get("key")
+                if not _key:
+                    _bad368.append("%s: no key was chosen to compare" % (_st,))
+                    continue
+                _claimed = _cmp.get("reproduced_by") or []
+                for _arm in _claimed:
+                    _row = ((_cmp.get("rows") or {}).get(_arm) or {}).get(_key) or {}
+                    if _row.get("delta_vs_published") not in (0,):
+                        _bad368.append("%s/%s: claimed to reproduce with delta %r"
+                                       % (_st, _arm, _row.get("delta_vs_published")))
+                for _arm, _rows in (_cmp.get("rows") or {}).items():
+                    if _arm in _claimed:
+                        continue
+                    _row = (_rows or {}).get(_key) or {}
+                    if _row.get("delta_vs_published") == 0:
+                        _bad368.append("%s/%s: reproduces with a zero delta but is not claimed"
+                                       % (_st, _arm))
+            _redecide = _m368.decide({k: {"compare": v.get("compare"), "vintage": v.get("vintage")}
+                                      for k, v in _studies368.items()})
+            if _f368.get("verdict") != _redecide:
+                _bad368.append("the verdict does not re-derive: %r != %r"
+                               % (_f368.get("verdict"), _redecide))
+            for _st, _blk in _studies368.items():
+                _vint = _blk.get("vintage") or {}
+                if not _vint.get("pin_commit") or not _vint.get("published_pin"):
+                    _bad368.append("%s: the vintage block does not name both commits" % (_st,))
+                if _vint.get("same_commit") and _vint.get("pin_commit") != _vint.get("published_pin"):
+                    _bad368.append("%s: same_commit is claimed for two different commits" % (_st,))
+            if any(not (b.get("vintage") or {}).get("same_commit") for b in _studies368.values()) \
+                    and _f368.get("verdict") == _m368.V_REPRODUCED:
+                _bad368.append("a replay over another vintage is reported as a plain reproduction")
+            for _st, _blk in _studies368.items():
+                _pub = (_blk.get("published") or {}).get("face")
+                if not _pub:
+                    _bad368.append("%s: the published face it compares to is not named" % (_st,))
+    except Exception as e:
+        _bad368.append(repr(e)[:160])
+    check(_name368, not _bad368, "; ".join(_bad368)[:220]
+          or "%s | %s studies, %s pin members (%s disk / %s git / %s store), reproduced by %s"
+             % (str((_f368 or {}).get("verdict")),
+                str(len(((_f368 or {}).get("studies") or {}))),
+                str((_f368 or {}).get("pin_members")),
+                str(((_f368 or {}).get("bytes_provenance") or {}).get("disk")),
+                str(((_f368 or {}).get("bytes_provenance") or {}).get("git")),
+                str(((_f368 or {}).get("bytes_provenance") or {}).get("store_needed")),
+                str(sorted({a for b in ((_f368 or {}).get("studies") or {}).values()
+                            for a in ((b.get("compare") or {}).get("reproduced_by") or [])}))))
+
+
 # E358: E351 called 55 gate subjects unresolved because the subject was written as
     # os.path.join(...) -- three literals, none of which looks like a path on its own.  This leg
     # grades the ACCOUNTING, not the numbers: the classes must partition the population, a

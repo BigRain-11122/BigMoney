@@ -7922,3 +7922,34 @@ How to apply: price a queue in populations, not rows; take the population list f
 own enumerator and compare *sets*, because equal counts hide a self-exclusion; count the members
 git cannot supply, since that is what a store costs; and when grading a seam, grade the parameter,
 not the token -- a local name and a format string both spell "files".
+
+
+## E368 -- a repaired seam pins who was in the room; the number the verdict rests on may not care (r1390)
+
+E366 called ten studies NEEDS_SEAM, which says a replay cannot pin the population. It does not say
+that pinning it makes the published number come back. Repairing one seam (E350's _sources(), and
+E353 which imports that walker) and then measuring four populations per study separates the two
+questions.
+
+1. **A seam has two halves, and the cheap half is the one people mean.** uild(files=[...]) pins
+   the *member list*; a member may also be (relpath, text) to pin the *bytes*. The pin used here
+   (2,368 members) resolved 2,361 from disk, 6 from the pin's commit, and 1 as store_needed
+   (untracked at pin time) -- so a list-only replay is today's contents of yesterday's membership.
+2. **The number a verdict rests on can be insensitive to both.** E350's headline
+   guard_fields_with_no_writer returned 131 on all four populations (published, live 2,392
+   sources, pinned list 2,367, pinned bytes), and E353's pairs/class split (131 = 5 + 103 + 23,
+   34 falsy) did too. The seam is therefore insurance, not a repair: the number was stable against
+   the very drift the seam excludes.
+3. **The number next to it is not.** ields_with_no_writer moved 1,698 published -> 1,356 pinned
+   -> 1,717 live, and corpus_sources 2,343 -> 2,367 -> 2,392. Two counts in the same face, one
+   stable and one moving 20%, is the reason a face must publish *which* population each number came
+   from -- a live walk and a pin are different questions and both were 'the corpus'.
+4. **A number that reproduces over another vintage is stable, not pinned.** The pin's commit is
+   1,244ee23 while E350's published face was built at daf9a897, so the reproduction is evidence of
+   stability and *not* that the pin covers the face. A pin has to be taken at the face it serves;
+   the bill E366 priced becomes a bill of pins-per-vintage once this is honoured.
+
+How to apply: when you repair a seam, measure the arm you claim it repairs (published vs list vs
+bytes vs live) rather than the seam's existence; publish population_source on every arm, because
+a replay without it is indistinguishable from a walk; and check the pin's commit against the
+face's own pin field before the word 'reproduced' means provenance.

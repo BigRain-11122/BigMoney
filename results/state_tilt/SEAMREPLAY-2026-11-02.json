@@ -1,0 +1,247 @@
+{
+ "bound": "the seam pins the member list and can pin the bytes; a member the pin recorded but git cannot supply at the pin commit is store_needed and is replayed from today's disk with that drift named, so those members are the only place a 'reproduction' could be borrowed from the tree rather than from the pin; the E353 arm re-pays E350's scan because its population is E350's rows, not a re-implementation of them",
+ "bytes_provenance": {
+  "disk": 2361,
+  "git": 6,
+  "store_needed": 1,
+  "unreadable": 0
+ },
+ "evidence_cutoff": "2026-11-02",
+ "pin": "1244ee231290e6ed13979acf474feb14dddd0dd0",
+ "pin_file": "results/state_tilt/CORPUSPIN-2026-11-02.json",
+ "pin_id": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f",
+ "pin_members": 2368,
+ "seam": {
+  "population_source_published": true,
+  "repaired_in": [
+   "scripts/e350_field_branch_census.py",
+   "scripts/e353_unwritten_guard_presence.py"
+  ],
+  "shape": "build(files=[relpath | (relpath, text)])"
+ },
+ "source": "scripts/e368_seam_replay.py",
+ "store_needed_paths": [
+  "Tools/s6_chain_bmb.py"
+ ],
+ "studies": {
+  "E350": {
+   "arms": {
+    "live": {
+     "numbers": {
+      "corpus_sources": 2392,
+      "fields_with_no_writer": 1717,
+      "guard_fields": 230,
+      "guard_fields_with_no_writer": 131
+     },
+     "population_source": "live_walk"
+    },
+    "pinned_bytes": {
+     "numbers": {
+      "corpus_sources": 2367,
+      "fields_with_no_writer": 1356,
+      "guard_fields": 230,
+      "guard_fields_with_no_writer": 131
+     },
+     "population_source": "pinned_bytes:2368"
+    },
+    "pinned_list": {
+     "numbers": {
+      "corpus_sources": 2367,
+      "fields_with_no_writer": 1356,
+      "guard_fields": 230,
+      "guard_fields_with_no_writer": 131
+     },
+     "population_source": "pinned_list:2368"
+    }
+   },
+   "compare": {
+    "key": "guard_fields_with_no_writer",
+    "published": 131,
+    "reproduced_by": [
+     "pinned_list",
+     "pinned_bytes",
+     "live"
+    ],
+    "rows": {
+     "live": {
+      "corpus_sources": {
+       "delta_vs_published": 49,
+       "value": 2392
+      },
+      "fields_with_no_writer": {
+       "delta_vs_published": 19,
+       "value": 1717
+      },
+      "guard_fields": {
+       "delta_vs_published": 0,
+       "value": 230
+      },
+      "guard_fields_with_no_writer": {
+       "delta_vs_published": 0,
+       "value": 131
+      }
+     },
+     "pinned_bytes": {
+      "corpus_sources": {
+       "delta_vs_published": 24,
+       "value": 2367
+      },
+      "fields_with_no_writer": {
+       "delta_vs_published": -342,
+       "value": 1356
+      },
+      "guard_fields": {
+       "delta_vs_published": 0,
+       "value": 230
+      },
+      "guard_fields_with_no_writer": {
+       "delta_vs_published": 0,
+       "value": 131
+      }
+     },
+     "pinned_list": {
+      "corpus_sources": {
+       "delta_vs_published": 24,
+       "value": 2367
+      },
+      "fields_with_no_writer": {
+       "delta_vs_published": -342,
+       "value": 1356
+      },
+      "guard_fields": {
+       "delta_vs_published": 0,
+       "value": 230
+      },
+      "guard_fields_with_no_writer": {
+       "delta_vs_published": 0,
+       "value": 131
+      }
+     }
+    }
+   },
+   "published": {
+    "evidence_cutoff": "2026-11-01",
+    "face": "results/state_tilt/fieldbranch_latest.json",
+    "numbers": {
+     "corpus_sources": 2343,
+     "fields_with_no_writer": 1698,
+     "guard_fields": 230,
+     "guard_fields_with_no_writer": 131
+    },
+    "pin": "daf9a897fda167987d85aa27ea17beadb48de24f"
+   },
+   "vintage": {
+    "pin_commit": "1244ee231290e6ed13979acf474feb14dddd0dd0",
+    "pin_cutoff": "2026-11-02",
+    "published_cutoff": "2026-11-01",
+    "published_pin": "daf9a897fda167987d85aa27ea17beadb48de24f",
+    "same_commit": false
+   }
+  },
+  "E353": {
+   "arms": {
+    "live": {
+     "numbers": {
+      "by_class": {
+       "guard_is_the_alert": 5,
+       "guard_never_fires": 103,
+       "guard_unreachable": 23
+      },
+      "guard_never_fires_on_a_falsy_value": 34,
+      "pairs": 131
+     },
+     "population_source": "live_walk"
+    },
+    "pinned_bytes": {
+     "numbers": {
+      "by_class": {
+       "guard_is_the_alert": 5,
+       "guard_never_fires": 103,
+       "guard_unreachable": 23
+      },
+      "guard_never_fires_on_a_falsy_value": 34,
+      "pairs": 131
+     },
+     "population_source": "pinned_bytes:2368"
+    },
+    "pinned_list": {
+     "numbers": {
+      "by_class": {
+       "guard_is_the_alert": 5,
+       "guard_never_fires": 103,
+       "guard_unreachable": 23
+      },
+      "guard_never_fires_on_a_falsy_value": 34,
+      "pairs": 131
+     },
+     "population_source": "pinned_list:2368"
+    }
+   },
+   "compare": {
+    "key": "pairs",
+    "published": 131,
+    "reproduced_by": [
+     "pinned_list",
+     "pinned_bytes",
+     "live"
+    ],
+    "rows": {
+     "live": {
+      "guard_never_fires_on_a_falsy_value": {
+       "delta_vs_published": 0,
+       "value": 34
+      },
+      "pairs": {
+       "delta_vs_published": 0,
+       "value": 131
+      }
+     },
+     "pinned_bytes": {
+      "guard_never_fires_on_a_falsy_value": {
+       "delta_vs_published": 0,
+       "value": 34
+      },
+      "pairs": {
+       "delta_vs_published": 0,
+       "value": 131
+      }
+     },
+     "pinned_list": {
+      "guard_never_fires_on_a_falsy_value": {
+       "delta_vs_published": 0,
+       "value": 34
+      },
+      "pairs": {
+       "delta_vs_published": 0,
+       "value": 131
+      }
+     }
+    }
+   },
+   "published": {
+    "evidence_cutoff": "2026-11-02",
+    "face": "results/state_tilt/guardpresence_latest.json",
+    "numbers": {
+     "by_class": {
+      "guard_is_the_alert": 5,
+      "guard_never_fires": 103,
+      "guard_unreachable": 23
+     },
+     "guard_never_fires_on_a_falsy_value": 34,
+     "pairs": 131
+    },
+    "pin": "e847e0997d7cfa1901586a8842f12d19143a2e7b"
+   },
+   "vintage": {
+    "pin_commit": "1244ee231290e6ed13979acf474feb14dddd0dd0",
+    "pin_cutoff": "2026-11-02",
+    "published_cutoff": "2026-11-02",
+    "published_pin": "e847e0997d7cfa1901586a8842f12d19143a2e7b",
+    "same_commit": false
+   }
+  }
+ },
+ "study": "E368_seam_replay",
+ "ts": "2026-11-02T21:16:05+08:00",
+ "verdict": "a_pinned_replay_reproduces_the_published_number_yet_the_pin_is_not_the_publishing_commit_so_the_reproduction_is_stability_not_provenance_and_a_pin_must_be_taken_at_the_face_it_serves"
+}
