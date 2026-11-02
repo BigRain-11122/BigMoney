@@ -45,7 +45,14 @@
  "d19_note": "D-13's ghost leg lives in Tools/s6_chain_bmc.py (bm-c's chain), not this machine's s6_chain_bmb.py, so no bm-b action; D-02(3) loop tasks are never an auto-pause target -- verified on this machine; D-20 (an all-green conclusion must publish the target hit count) is adopted in E348's smoke leg, which now counts distinct states and refuses a green stretch without them",
  "decisions_delta_pending": false,
  "decisions_sha": "4094e529",
- "delivery": "machine/bm-b-r1385 @ 59e9501be6 (verified)",
+ "delivery": {
+  "branch": "machine/bm-b-r1390",
+  "files": 14,
+  "main_push_blocker": "local main has diverged from origin/main for many rounds (two blood lines, promisor lazy-fetch wedge r1255 family); not attempted, no unattended rebase per r1243, so the machine branch is the delivery channel",
+  "sha": "d5e0738db3687ed79d895a66dd03c1f6204e57dc",
+  "ts": "2026-11-02T21:25:00+08:00",
+  "verified": "ls-remote equals local HEAD"
+ },
  "delivery_note": "main stays diverged from origin (r1243: no unattended rebase); delivery goes to machine/bm-b-r1363",
  "dept": "engineering",
  "did": [
@@ -123,10 +130,10 @@
  "last_orders_watermark": "8e76c85ef68ba6bc@9513e4c/194215",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@9513e4c77a73f8a75a5a10b36d1a52e7b82b74cc/194215#8e76c85ef68ba6bc8539333efd051a7fa67373838e8ec67495495843f1184b8a",
  "last_product": "scripts/e348_restored_gate_retrospect.py + RESTOREDGATE face + card E348 + smoke leg",
- "last_push": "machine/bm-b-r1387",
+ "last_push": "d5e0738db3687ed79d895a66dd03c1f6204e57dc",
  "last_push_at": "2026-11-02T18:3x+08:00",
- "last_push_sha": "ed422c433c8afd92fd08ec3c259e5252b19ee09e",
- "last_push_ts": "2026-11-01T14:16:00+08:00",
+ "last_push_sha": "d5e0738db3687ed79d895a66dd03c1f6204e57dc",
+ "last_push_ts": "2026-11-02T21:25:00+08:00",
  "last_round": 1390,
  "last_round_at": "2026-11-02T21:07:07+08:00",
  "last_round_summary": "E366: thirteen queued studies walk two populations (2,387 sources / 593 faces) -> 2 pins; 10 seam repairs; 5 studies need both pins",
@@ -137,6 +144,14 @@
  "local_not_on_origin": 199,
  "local_not_on_origin_commits": 237,
  "machine_id": "bm-b",
+ "memory": {
+  "cold": "research/memory-archive/202610.md",
+  "hot_bytes_after": 33719,
+  "law": "D-20260925-01(4) 50KB trigger, same-window",
+  "lingering_in_hot": 0,
+  "lost_lines": 0,
+  "moved_to_cold": 17
+ },
  "next": "E369: pin one face at its own publishing commit and re-run the comparison (<=48h)",
  "next_milestone": "E366 seeded -- which of the face-population studies can be pinned today with this mechanism and which need a seam repaired first",
  "next_note": "runner scripts/e317_print_coverage_census.py not written yet",
@@ -1004,6 +1019,14 @@
   "study": "E367_a_cause_naming_verdict_must_measure_its_cause",
   "ts": "2026-11-02T19:16:21+08:00",
   "verdict": "the_lag_verdict_named_the_source_for_a_year_of_runs_without_ever_asking_it_and_the_two_states_it_conflated_need_opposite_responses"
+ },
+ "r1390_delivery": {
+  "branch": "machine/bm-b-r1390",
+  "files": 14,
+  "main_push_blocker": "local main has diverged from origin/main for many rounds (two blood lines, promisor lazy-fetch wedge r1255 family); not attempted, no unattended rebase per r1243, so the machine branch is the delivery channel",
+  "sha": "d5e0738db3687ed79d895a66dd03c1f6204e57dc",
+  "ts": "2026-11-02T21:25:00+08:00",
+  "verified": "ls-remote equals local HEAD"
  },
  "ram_free_gb": 4.78,
  "ram_free_mb": 4898,
