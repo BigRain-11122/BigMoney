@@ -5631,6 +5631,73 @@ def main() -> int:
     except Exception as e:
         check("product: the operator page says whether this book was runnable in 2020",
               False, repr(e)[:160])
+    # ---- r1239: the operator page must say how much money the book needs -----------------
+    # Every cost number on the page is a RATE per side, and a rate has no floor while a real
+    # commission does. The page can now be read as "8bp applies to me" at any account size,
+    # which is false below the 5-yuan break-even. This leg re-derives that break-even from the
+    # published traded-leg median with its own arithmetic (1e4*floor/(bp*dw)), requires the
+    # page face to carry the same number, requires the window token to reach the page in the
+    # right shape, and fails if a token saying the threshold MOVES is printed as a constant.
+    try:
+        import importlib as _il72
+        _MC72 = _il72.import_module("etf_book_min_capital")
+        _PG72 = _il72.import_module("etf_book_ceo_page")
+        _p72 = os.path.join(PATHS.results_dir, "etf_book_min_capital.json")
+        _bad72 = []
+        _doc72 = {}
+        if not os.path.exists(_p72):
+            _bad72.append("results/etf_book_min_capital.json missing")
+        else:
+            with open(_p72, encoding="utf-8") as _fh72:
+                _doc72 = json.load(_fh72)
+            if _MC72.check() != 0:
+                _bad72.append("the stored neutral points no longer recompute")
+            _cfg72 = _doc72.get("config") or {}
+            _dw72 = _cfg72.get("dw_median_all_legs")
+            _sched72 = (_cfg72.get("schedules") or [{}])[0]
+            _want72 = (1e4 * float(_sched72.get("min_fee_cny") or 0.0)
+                       / (float(_cfg72.get("base_bp_published")) * _dw72)) if _dw72 else None
+            if _want72 is None or abs(_want72 - (_doc72.get("fee_neutral_vs_model_nav") or 0)) > 0.02:
+                _bad72.append("break-even %r != re-derived %r"
+                              % (_doc72.get("fee_neutral_vs_model_nav"), _want72))
+            _face72 = _PG72.capital_face()
+            if _face72.get("status") != "ok":
+                _bad72.append("the page's capital face reads %r" % (_face72.get("status"),))
+            elif _want72 is not None and abs((_face72.get("model_nav") or 0) - _want72) > 0.02:
+                _bad72.append("page face break-even %r != %r"
+                              % (_face72.get("model_nav"), _want72))
+            _lb72 = sorted(glob.glob(os.path.join(PATHS.root, "docs", "live_book",
+                                                  "LIVE-BOOK-*.md")))
+            if not _lb72:
+                _bad72.append("no live-book page on disk")
+            else:
+                with open(_lb72[-1], encoding="utf-8") as _fh72b:
+                    _md72 = _fh72b.read()
+                _lines72 = [l for l in _PG72.capital_block(_face72) if l.strip()]
+                _off72 = [l for l in _lines72 if l not in _md72]
+                if _off72:
+                    _bad72.append("%d of the section's lines never reach the page"
+                                  % len(_off72))
+                _wv72 = _face72.get("window_verdict")
+                if str(_wv72).startswith("BREAKEVEN_WINDOW_MOVES"):
+                    if "不是一个常数" not in _md72:
+                        _bad72.append("the threshold moves across samples but the page "
+                                      "does not say so")
+                    if "这个门槛是稳的" in _md72:
+                        _bad72.append("the page prints a moving threshold as a constant")
+                elif _wv72 == "BREAKEVEN_WINDOW_STABLE":
+                    if "这个门槛是稳的" not in _md72:
+                        _bad72.append("a stable threshold is not printed as stable")
+                else:
+                    _bad72.append("window token %r makes no claim" % (_wv72,))
+        check("product: the operator page says how much money this book needs",
+              not _bad72,
+              "; ".join(_bad72)[:220] or "break-even %s CNY | window %s"
+              % (_doc72.get("fee_neutral_vs_model_nav"),
+                 (_doc72.get("window") or {}).get("verdict")))
+    except Exception as e:
+        check("product: the operator page says how much money this book needs",
+              False, repr(e)[:160])
     # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
     # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two
     # class universes and two fill orderings, under one column headed 全窗. This leg

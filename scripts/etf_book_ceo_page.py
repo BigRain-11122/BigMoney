@@ -61,6 +61,7 @@ PRE2020_JSON = os.path.join(ROOT, "results", "etf_book_pre2020.json")
 UNIVERSE_LOCK_JSON = os.path.join(ROOT, "results", "etf_book_universe_lock.json")
 EXIT_LIQ_JSON = os.path.join(ROOT, "results", "etf_book_exit_liquidity.json")
 FORCED_HOLD_JSON = os.path.join(ROOT, "results", "etf_book_forced_hold.json")
+MIN_CAPITAL_JSON = os.path.join(ROOT, "results", "etf_book_min_capital.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -1208,6 +1209,150 @@ def sellability_block(sf):
              "证据件：`%s` 与 `%s` ｜ 证据截止 %s。"
              % (str(sf.get("sibling_artifact") or "").replace(os.sep, "/"),
                 str(sf.get("artifact") or "").replace(os.sep, "/"), sf.get("evidence_cutoff")))
+    L.append("")
+    return L
+
+
+def capital_face(path=MIN_CAPITAL_JSON):
+    """How much money does this book need before 8bp is even the right cost? (r1239)
+
+    The page quoted 8bp per side everywhere and never said the assumption carries a cash
+    floor: retail commission has a 5-CNY minimum, so on a small account the traded leg pays
+    more than 8bp and the headline is unreachable. `etf_book_min_capital` priced that; this
+    face only carries its numbers -- and its *window* block, because the neutral NAV is a
+    closed form in the median traded leg, i.e. a property of the sample, not of the strategy.
+    Both verdicts are re-derived through the single implementation (imported, never a copy);
+    a payload whose stored token disagrees with its own rows is refused, not printed.
+    """
+    if not os.path.exists(path):
+        return {"status": "absent", "artifact": _rel(path, ROOT), "detail": "no artifact"}
+    try:
+        with open(path, encoding="utf-8") as fh:
+            d = json.load(fh)
+        cfg = d.get("config") or {}
+        dw = cfg.get("dw_median_all_legs")
+        ladder = d.get("ladder") or []
+        sched = (cfg.get("schedules") or [{}])[0]
+        if dw is None or not ladder or not sched:
+            return {"status": "unreadable", "artifact": _rel(path, ROOT),
+                    "detail": "no traded-leg median or no ladder"}
+        import etf_book_min_capital as MC
+        model = MC.neutral_nav(dw, cfg.get("base_bp_published"), sched.get("min_fee_cny"))
+        real = MC.neutral_nav(dw, sched.get("prop_bp"), sched.get("min_fee_cny"))
+        for got, want, tag in ((d.get("fee_neutral_vs_model_nav"), model, "model"),
+                               (d.get("fee_neutral_vs_real_nav"), real, "real")):
+            if got is None or abs(got - want) > 0.02:
+                return {"status": "drifted", "artifact": _rel(path, ROOT),
+                        "detail": "the %s neutral NAV disagrees with its own traded-leg median" % tag,
+                        "published": got, "recomputed": round(want, 2)}
+        primary = [r for r in ladder if r.get("schedule") == sched.get("name")]
+        want_v = MC._verdict(primary, model, real,
+                             (min(cfg.get("capital_grid") or [0]),
+                              max(cfg.get("capital_grid") or [0])))
+        if want_v != d.get("verdict"):
+            return {"status": "drifted", "artifact": _rel(path, ROOT),
+                    "detail": "the ladder verdict disagrees with its own rows",
+                    "published": d.get("verdict"), "recomputed": want_v}
+        win = d.get("window") or {}
+        wrows = win.get("rows") or []
+        want_wv, want_ws = (MC._window_verdict(wrows, model) if wrows
+                            else ("WINDOW_UNMEASURED", None))
+        if wrows and win.get("verdict") != want_wv:
+            return {"status": "drifted", "artifact": _rel(path, ROOT),
+                    "detail": "the window token disagrees with its own rows",
+                    "published": win.get("verdict"), "recomputed": want_wv}
+        small = min(primary, key=lambda r: r.get("capital") or 0) if primary else {}
+        big = max(primary, key=lambda r: r.get("capital") or 0) if primary else {}
+        return {
+            "status": "ok",
+            "artifact": _rel(path, ROOT),
+            "evidence_cutoff": d.get("evidence_cutoff"),
+            "dw_median": dw,
+            "model_nav": d.get("fee_neutral_vs_model_nav"),
+            "real_nav": d.get("fee_neutral_vs_real_nav"),
+            "base_bp": cfg.get("base_bp_published"),
+            "prop_bp": sched.get("prop_bp"),
+            "min_fee_cny": sched.get("min_fee_cny"),
+            "schedule": sched.get("name"),
+            "verdict": want_v,
+            "small_capital": small.get("capital"),
+            "small_cagr": small.get("cagr"),
+            "small_ref_cagr": small.get("ref_cagr"),
+            "small_delta_pp": small.get("delta_vs_8bp_pp"),
+            "small_fee_cny": small.get("fee_cny_total"),
+            "big_capital": big.get("capital"),
+            "big_delta_pp": big.get("delta_vs_8bp_pp"),
+            "window_verdict": want_wv,
+            "window_spread_pct": win.get("spread_pct_of_published"),
+            "window_tol_pct": win.get("stability_tol_pct"),
+            "windows": [{"window": r.get("window"), "first_bar": r.get("first_bar"),
+                         "last_bar": r.get("last_bar"),
+                         "dw_median": r.get("dw_median"),
+                         "model_nav": r.get("fee_neutral_vs_model_nav"),
+                         "real_nav": r.get("fee_neutral_vs_real_nav")}
+                        for r in wrows],
+        }
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": _rel(path, ROOT), "detail": repr(exc)}
+
+
+def capital_block(cf):
+    L = []
+    L.append("## 要用多少钱，才谈得上「8bp 每边」？")
+    L.append("")
+    if cf.get("status") != "ok":
+        L.append("**这一问现在答不了。** 证据件缺席，或者它已经对不上自己的行（%s）。"
+                 % (cf.get("detail") or cf.get("status")))
+        L.append("")
+        return L
+    model_nav = cf.get("model_nav") or 0.0
+    real_nav = cf.get("real_nav") or 0.0
+    L.append("这本书的每一处成本都按 **%g bp 每边**算（外加冲击项）。费率是一个比例，没有地板；"
+             "真实券商的佣金有 **每笔最少 %g 元**。一次换手里每个名字只动账户的 **%.2f%%**，"
+             "所以账户越小，那 5 元越像一张固定门票。"
+             % (cf.get("base_bp") or 0.0, cf.get("min_fee_cny") or 0.0,
+                100.0 * (cf.get("dw_median") or 0.0)))
+    L.append("")
+    L.append("- **低于约 %.0f 元**：5 元地板压过 %g bp，模型比真实便宜——"
+             "%.0f 元账户的年化只剩 **%.2f%%**（同一路径、同一冲击项，按 8bp 算是 **%.2f%%**），"
+             "全窗佣金 **%.0f 元**，相当于把起始本金吃掉一大块。"
+             % (model_nav, cf.get("base_bp") or 0.0, cf.get("small_capital") or 0.0,
+                100.0 * (cf.get("small_cagr") or 0.0),
+                100.0 * (cf.get("small_ref_cagr") or 0.0), cf.get("small_fee_cny") or 0.0))
+    L.append("- **高于约 %.0f 元**：地板不再咬人，而万 %g 只有 %g bp——"
+             "这时是 **8bp 假设自己在多收钱**，同一个算术反向成立（%.0f 元账户 **%+.2f pp/年** 之差）。"
+             % (real_nav, cf.get("prop_bp") or 0.0, cf.get("prop_bp") or 0.0,
+                cf.get("big_capital") or 0.0, cf.get("big_delta_pp") or 0.0))
+    L.append("")
+    spread = cf.get("window_spread_pct")
+    if cf.get("window_verdict") == "BREAKEVEN_WINDOW_STABLE":
+        L.append("**这个门槛是稳的**：换样本只动了 %.1f%%（冻结容差 %g%%），可以当常数用。"
+                 % (spread or 0.0, cf.get("window_tol_pct") or 0.0))
+    elif spread is not None:
+        L.append("**不过它不是一个常数。** 门槛是「平均每个仓位动多少」的闭式解，而那个数由样本决定："
+                 "同一套规则在三个样本上分别是 %s，极差 **%.1f%%**（冻结容差 %g%%）——"
+                 "所以「至少要 %.0f 元」是**这段行情**的说法，不是这条策略的常数。"
+                 % ("、".join("%.0f 元（%s）" % (w.get("model_nav") or 0.0,
+                                                str(w.get("window") or "").replace("_", " "))
+                              for w in cf.get("windows") or [] if w.get("model_nav") is not None),
+                    spread, cf.get("window_tol_pct") or 0.0, model_nav))
+    L.append("")
+    L.append("| 样本 | 起 | 止 | 平均每仓位换手 | 8bp 与券商费率的平衡点 | 8bp 与万%g 的平衡点 |"
+             % (cf.get("prop_bp") or 0.0))
+    L.append("|---|---|---|---|---|---|")
+    for w in cf.get("windows") or []:
+        L.append("| %s | %s | %s | %.2f%% | %s | %s |"
+                 % (str(w.get("window") or "").replace("_", " "), w.get("first_bar"),
+                    w.get("last_bar"), 100.0 * (w.get("dw_median") or 0.0),
+                    ("%.0f 元" % w["model_nav"]) if w.get("model_nav") is not None else "-",
+                    ("%.0f 元" % w["real_nav"]) if w.get("real_nav") is not None else "-"))
+    L.append("")
+    L.append("> 口径：只算佣金与既有的冲击项。买卖价差已经在那 8bp 里，**没有再叠加一次**。"
+             "资本在每一档内保持恒定，所以「小账户差多少」只归因于费率、不掺第二个变量。"
+             "没有 5 元地板的券商（`wan%g+0`）在 1 万元上也不会被咬。"
+             "证据件：`%s` ｜ 证据截止 %s。"
+             % (cf.get("prop_bp") or 0.0,
+                str(cf.get("artifact") or "").replace(os.sep, "/"), cf.get("evidence_cutoff")))
     L.append("")
     return L
 
@@ -2526,6 +2671,7 @@ def build(with_stress=False):
     page["sample_window"] = sample_window_face()
     page["universe_lock"] = universe_lock_face()
     page["sellability"] = sellability_face()
+    page["capital"] = capital_face()
     page["gap"] = gap_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
@@ -3445,6 +3591,9 @@ def render_md(p):
     # r1238: the gate is on the way in only -- can the desk get out of what it holds?
     for _sf_line in sellability_block(p.get("sellability") or {}):
         add(_sf_line)
+    # r1239: 8bp per side is an assumption with a cash floor at the bottom end.
+    for _cf_line in capital_block(p.get("capital") or {}):
+        add(_cf_line)
     add("## 必须记住的四条")
     add("")
     for c in p["caveats"]:
@@ -4704,6 +4853,36 @@ def selftest():
         _sum_pp is not None and _sum_pp == _sf.get("combined_pp") and _sum_txt in md,
         "wait=%s tail=%s sum=%s printed=%s"
         % (_w_pp, _t_pp, _sum_pp, _sum_txt in md))
+    # L125-L128 (r1239): the capital section. Same three ways to lie as the sections above --
+    # an absent face printed as a number, a token that no longer follows from its own rows,
+    # and lines that never reach the page -- plus the one this section exists for: a threshold
+    # quoted as a constant of the strategy when its own window block says it moves.
+    _cf_absent = "\n".join(capital_block({"status": "absent", "artifact": MIN_CAPITAL_JSON}))
+    chk("L125 capital: an absent or drifted face is not printed as a number",
+        ("答不了" in _cf_absent)
+        and ("答不了" in "\n".join(capital_block({"status": "drifted", "detail": "ladder"}))),
+        "absent=%r" % _cf_absent[:40])
+    _cf = capital_face()
+    chk("L126 capital: the two neutral points are re-derived from the published traded-leg "
+        "median, not read back from the file",
+        _cf.get("status") == "ok" and (_cf.get("model_nav") or 0) > 0
+        and (_cf.get("real_nav") or 0) > (_cf.get("model_nav") or 0),
+        "status=%s model=%s real=%s dw=%s"
+        % (_cf.get("status"), _cf.get("model_nav"), _cf.get("real_nav"), _cf.get("dw_median")))
+    _cf_lines = [l for l in capital_block(_cf) if l.strip()]
+    _cf_off = [l for l in _cf_lines if l not in md]
+    chk("L127 capital: the block itself reaches the rendered page",
+        bool(_cf_lines) and not _cf_off,
+        "status=%s, %d/%d line(s) on the page"
+        % (_cf.get("status"), len(_cf_lines) - len(_cf_off), len(_cf_lines)))
+    _cf_wv = _cf.get("window_verdict")
+    _cf_published_txt = "**这个门槛是稳的**"
+    _cf_moves_txt = "**不过它不是一个常数。**"
+    chk("L128 capital: a break-even that moves across samples is not printed as a constant",
+        (_cf_wv == "BREAKEVEN_WINDOW_STABLE" and _cf_published_txt in md)
+        or (str(_cf_wv).startswith("BREAKEVEN_WINDOW_MOVES") and _cf_moves_txt in md
+            and _cf_published_txt not in md),
+        "window_verdict=%s printed_as_constant=%s" % (_cf_wv, _cf_published_txt in md))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

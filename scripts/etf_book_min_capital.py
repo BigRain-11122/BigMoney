@@ -74,6 +74,17 @@ SCHEDULES = (
 CAPITALS = (1e4, 2e4, 5e4, 1e5, 2e5, 4e5, 1e6, 1.5e6, 3e6, 1e7)
 BASE_BP = C.BASE_BP            # the published flat assumption (imported, not retyped)
 
+# The neutral point is a closed form in the median traded leg, and that leg is a property
+# of the SAMPLE, not of the fee schedule: a window that churns harder trades bigger pieces,
+# so the same 8bp model stops being optimistic sooner. Each entry is (name, face start,
+# inclusive cutoff or None). The path slice reuses `curve`, so there is no second leg-scan.
+WINDOWS = (
+    ("published_2020", "2020-01-01", None),
+    ("full_2015", "2015-01-01", None),
+    ("pre_2020", "2015-01-01", "2019-12-31"),
+)
+WINDOW_STABLE_PCT = 10.0       # frozen before the run: a >10% move is not a constant
+
 
 def fee_bp(prop_bp, min_fee_cny, notional):
     """Per-side commission in bp: the proportional rate with a cash floor."""
@@ -175,6 +186,62 @@ def _verdict(rows, fee_neutral_model, fee_neutral_real, ladder_bounds):
     return token
 
 
+def window_dependence():
+    """Is the fee-neutral NAV a property of the book, or of the years it was priced on?
+
+    One arm, one engine, three samples. The traded-leg median is read off the SAME
+    `curve` the ladder uses (no second leg scan), once per window, at a capital that is
+    large enough to leave the floor out of the way -- `dw` does not depend on capital
+    at all, so the rung only serves to make the call comparable to the published rows.
+    """
+    rows = []
+    for name, start, cutoff in WINDOWS:
+        face = R.build_face(start=start)
+        path = R.weight_path(face)
+        if cutoff:
+            _cut = pd.Timestamp(cutoff)
+            path = [(d, w, c) for (d, w, c) in path if pd.Timestamp(d) <= _cut]
+        if not path:
+            rows.append({"window": name, "start": start, "cutoff": cutoff,
+                         "dw_median": None, "fee_neutral_vs_model_nav": None,
+                         "fee_neutral_vs_real_nav": None, "legs": 0,
+                         "first_bar": None, "last_bar": None})
+            continue
+        ser, _r, cnt = curve(face, 1e6, BASE_BP, 0.0, path=path)
+        dw = cnt["dw_median"]
+        rows.append({
+            "window": name,
+            "start": start,
+            "cutoff": cutoff,
+            "first_bar": str(pd.Timestamp(path[0][0]).date()),
+            "last_bar": str(pd.Timestamp(path[-1][0]).date()),
+            "bars": len(ser),
+            "legs": cnt["legs"],
+            "dw_median": None if dw is None else round(dw, 8),
+            "fee_neutral_vs_model_nav": (None if dw is None else
+                                         round(neutral_nav(dw, BASE_BP, MIN_FEE_CNY), 2)),
+            "fee_neutral_vs_real_nav": (None if dw is None else
+                                        round(neutral_nav(dw, SCHEDULES[0]["prop_bp"],
+                                                          MIN_FEE_CNY), 2)),
+        })
+    return rows
+
+
+def _window_verdict(rows, reference=None, tol_pct=WINDOW_STABLE_PCT):
+    """Frozen reading rule: how far the neutral point travels across samples (%)."""
+    vals = [r["fee_neutral_vs_model_nav"] for r in rows
+            if r.get("fee_neutral_vs_model_nav") is not None]
+    if len(vals) < 2:
+        return "WINDOW_UNMEASURED", None
+    ref = reference if reference is not None else vals[0]
+    spread = 100.0 * (max(vals) - min(vals)) / ref if ref else None
+    if spread is None:
+        return "WINDOW_UNMEASURED", None
+    token = ("BREAKEVEN_WINDOW_MOVES_%dPCT" % int(round(spread))
+             if spread > tol_pct else "BREAKEVEN_WINDOW_STABLE")
+    return token, round(spread, 2)
+
+
 def run(start=R.START):
     face = R.build_face(start=start)
     path = R.weight_path(face)
@@ -216,6 +283,9 @@ def run(start=R.START):
     verdict = _verdict(primary_rows, fee_neutral_model, fee_neutral_real,
                        (min(CAPITALS), max(CAPITALS)))
 
+    window_rows = window_dependence()
+    window_verdict, window_spread_pct = _window_verdict(window_rows, fee_neutral_model)
+
     out = {
         "ts": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
         "evidence_cutoff": str(pd.Timestamp(face["idx"][-1]).date()),
@@ -233,6 +303,15 @@ def run(start=R.START):
                                     else round(fee_neutral_real, 2)),
         "verdict": verdict,
         "ladder": ladder,
+        "window": {
+            "verdict": window_verdict,
+            "spread_pct_of_published": window_spread_pct,
+            "stability_tol_pct": WINDOW_STABLE_PCT,
+            "rows": window_rows,
+            "note": ("the traded-leg median is measured on three samples with the same "
+                     "engine; the reported neutral NAV is the published 2020-2026 one, "
+                     "and the window rows say how far it travels when the sample changes"),
+        },
         "method_note": ("one engine, one weight path, one window; only the base "
                         "per-side rate is replaced by max(prop, 5 CNY / notional), "
                         "impact term identical. Capital held constant per rung so each "
@@ -273,6 +352,26 @@ def check():
     want = _verdict(rows, model, real, (min(cfg["capital_grid"]), max(cfg["capital_grid"])))
     if want != d["verdict"]:
         problems.append("verdict %s != recomputed %s" % (d["verdict"], want))
+    # the window rows must satisfy their own arithmetic, and the token must come from them
+    w = d.get("window") or {}
+    for r in w.get("rows") or []:
+        dw_w = r.get("dw_median")
+        if dw_w is None or r.get("fee_neutral_vs_model_nav") is None:
+            continue
+        want_w = neutral_nav(dw_w, cfg["base_bp_published"], primary["min_fee_cny"])
+        if abs(want_w - r["fee_neutral_vs_model_nav"]) > 0.02:
+            problems.append("window %s: neutral %.2f != %.2f"
+                            % (r.get("window"), r["fee_neutral_vs_model_nav"], want_w))
+    if w.get("rows"):
+        want_wv, want_ws = _window_verdict(w["rows"],
+                                           d.get("fee_neutral_vs_model_nav"))
+        if want_wv != w.get("verdict"):
+            problems.append("window verdict %s != recomputed %s"
+                            % (w.get("verdict"), want_wv))
+        if (want_ws is not None and w.get("spread_pct_of_published") is not None
+                and abs(want_ws - w["spread_pct_of_published"]) > 0.02):
+            problems.append("window spread %.2f != %.2f"
+                            % (w["spread_pct_of_published"], want_ws))
     if problems:
         for p in problems:
             print("DRIFT: " + p)
@@ -346,6 +445,29 @@ def selftest():
     chk("L13 a small rung that matches the 8bp arm reports no floor effect",
         _verdict([{"cagr": 0.06, "ref_cagr": 0.06}], 1e5, 1e6, (1e4, 1e7))
         == "NO_FLOOR_EFFECT")
+
+    # L14-L17: the window face. The point of these legs is that the neutral NAV is not a
+    # constant of the strategy -- it is a function of the traded-leg median, which is what
+    # the sample decides. Fixtures, so the arithmetic is pinned without touching a panel.
+    _w_same = [{"window": "a", "fee_neutral_vs_model_nav": 67737.42},
+               {"window": "b", "fee_neutral_vs_model_nav": 68000.0}]
+    tok, spread = _window_verdict(_w_same, 67737.42)
+    chk("L14 a 0.4% spread across samples reads as a constant",
+        tok == "BREAKEVEN_WINDOW_STABLE", (tok, spread))
+    _w_move = [{"window": "a", "fee_neutral_vs_model_nav": 67737.42},
+               {"window": "b", "fee_neutral_vs_model_nav": 49849.0}]
+    tok2, spread2 = _window_verdict(_w_move, 67737.42)
+    chk("L15 a 26% spread reads as movement, not as a constant",
+        tok2.startswith("BREAKEVEN_WINDOW_MOVES_") and spread2 > 25.0, (tok2, spread2))
+    chk("L16 one window (or none) makes no claim at all",
+        _window_verdict([{"window": "a", "fee_neutral_vs_model_nav": 1.0}], 1.0)[0]
+        == "WINDOW_UNMEASURED")
+    # the two readings must move in the SAME direction as dw: bigger legs -> cheaper floor
+    dw_big = 0.20
+    dw_small = 0.05
+    chk("L17 a harder-churning sample needs less capital for the same 8bp (dw 20% vs 5%)",
+        neutral_nav(dw_big, BASE_BP, 5.0) < neutral_nav(dw_small, BASE_BP, 5.0),
+        (neutral_nav(dw_big, BASE_BP, 5.0), neutral_nav(dw_small, BASE_BP, 5.0)))
 
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
