@@ -8302,3 +8302,46 @@ no known root appears, so two same-named files can merge.
 
 Wiring: `scripts/e379_unkeyed_face_reader.py` (run / verify problems=[] / selftest 17/17);
 face `results/state_tilt/UNKEYEDREADER-2026-11-03.json` + `unkeyedreader_latest.json`.
+
+## E380 -- an unwritten-field counter has two terms, and "the store adds keys" is not "the store is useful" (r1399 bm-b)
+
+E378 priced the 128-member store by how many members move E350's three headline numbers, and found 17
+that move only the field count by adding new keys. This study asks the next question of those keys:
+does anything read them? Population = the keys that are new on the pin-plus-store arm and absent from
+the pin-only arm (42 cells from 19 members), classified on two axes that are published side by side:
+how many store members read the key, and whether any census write site writes it.
+
+| class | keys |
+|---|---|
+| read by two or more members, no writer | 3 |
+| read by two or more members, has a writer | 2 |
+| read by one member, no writer | 23 |
+| read by one member, has a writer | 14 |
+
+So 5 of 42 are a contract between store members and 37 are single-member evidence, and 3 of the 16
+written keys are written by a *pin* source that never reads them (a writer is not a reader).
+
+Three rules:
+1. **Two terms, not one.** The unwritten-field count is `new unwritten keys - old unwritten cells a
+   store member now writes`. Measured: 25 = 26 - 1. The one closing write is the store's own
+   `Tools/_r1234bmb_pool.py` writing `results/runnable_pool.json::entries` -- a member the store was
+   recovered for is also a writer of a face nobody wrote on the pin arm. A draft carrying only the
+   first term published "1 key(s) unaccounted"; the fix is a subtraction, not a caveat.
+2. **A key that moves a count is not a key that is used.** 37 of the 42 added cells are read by
+   exactly the member that adds them: the store's own generator chain. The five shared keys are the
+   closeout scripts reading each other's `bm-b.json` / `state-bm-b.json` fields, i.e. the channel this
+   study's verdict names is the round-closeout machinery, not a payload contract.
+3. **A replayed headline has to be re-derived before it is published.** The same face's first draft
+   printed E378's guard headline as 230 against a published 131 and marked the arm unequal; the code
+   on disk already produced 131, the face had simply been written before the fix. Every headline this
+   face quotes from E378 is now recomputed here and published with `equal` beside it.
+
+Bound published, not claimed: static name test over the two populations; a key read through a dynamic
+key, an f-string, or a loop variable is invisible; "no writer" means no census write site, not "no
+producer anywhere"; the reader count is over store members only (a key outside the pin's key set cannot
+have a pin reader by construction, so the zero non-adder reader count is a tautology this face states
+rather than a finding).
+
+Wiring: `scripts/e380_ballast_keys_and_readers.py` (run / verify problems=[] / selftest 13/13); smoke
+leg E380 (`scripts/run_e380_smoke_leg.py` execs it verbatim, 1/1); face
+`results/state_tilt/BALLASTKEYS-2026-11-03.json` + `ballastkeys_latest.json`.

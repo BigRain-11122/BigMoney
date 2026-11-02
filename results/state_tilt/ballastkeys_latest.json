@@ -1,0 +1,581 @@
+{
+ "study": "E380_ballast_keys_and_readers",
+ "ts": "2026-11-03T06:17:56+08:00",
+ "evidence_cutoff": "2026-11-03",
+ "source": "scripts/e380_ballast_keys_and_readers.py",
+ "pin": "daf9a897fda167987d85aa27ea17beadb48de24f",
+ "pin_id": "7aacd4d5a13d423740432aac1117f121fd765314969d23e94769390de8295c79",
+ "pin_members": 2251,
+ "store_file": "research/corpus_store/PINSTORE-daf9a897.json",
+ "store_id": "43204da804098f101ea58366fcd58503fa49809bd1c9b741e12a4139db7972d1",
+ "store_count": 128,
+ "headline_fields": [
+  "fields",
+  "fields_with_no_writer",
+  "guard_fields_with_no_writer"
+ ],
+ "arms": {
+  "pin_only": {
+   "fields": 2264,
+   "fields_with_no_writer": 1687
+  },
+  "pin_plus_store": {
+   "fields": 2306,
+   "fields_with_no_writer": 1712
+  }
+ },
+ "e378_reference": {
+  "file": "results/state_tilt/E350ARM-2026-11-03.json",
+  "published": {
+   "fields": 2306,
+   "fields_with_no_writer": 1712,
+   "guard_fields_with_no_writer": 131
+  },
+  "replay_here": {
+   "fields": 2306,
+   "fields_with_no_writer": 1712,
+   "guard_fields_with_no_writer": 131
+  },
+  "equal": true
+ },
+ "new_keys": {
+  "count": 42,
+  "members_that_add_keys": 19,
+  "with_a_writer": 16,
+  "without_a_writer": 26,
+  "read_by_two_or_more_members": 5,
+  "read_by_one_member": 37,
+  "classes": {
+   "read_by_one_member_with_no_writer": 23,
+   "read_by_two_or_more_members_with_no_writer": 3,
+   "written_and_read_by_one_member": 14,
+   "written_and_read_by_two_or_more_members": 2
+  },
+  "rows": [
+   {
+    "face": "bm-b.json",
+    "field": "clock_read",
+    "adders": [
+     "scripts/_r1383_heartbeat.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "bm-b.json",
+    "field": "heartbeat_epoch_utc",
+    "adders": [
+     "Tools/_r1334bmb_closeout.py",
+     "scripts/_r1383_heartbeat.py"
+    ],
+    "readers": 2,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_two_or_more_members_with_no_writer"
+   },
+   {
+    "face": "bm-b.json",
+    "field": "orders_ack",
+    "adders": [
+     "scripts/_r1383_heartbeat.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "bm-b.json",
+    "field": "round",
+    "adders": [
+     "Tools/_r1334bmb_closeout.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "bm-b.json",
+    "field": "round_no",
+    "adders": [
+     "Tools/_r1334bmb_closeout.py",
+     "scripts/_r1383_heartbeat.py"
+    ],
+    "readers": 2,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_two_or_more_members_with_no_writer"
+   },
+   {
+    "face": "fleet/machines/bm-b.json",
+    "field": "d19",
+    "adders": [
+     "scripts/_r1370_postscript.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "fleet/machines/bm-b.json",
+    "field": "gpu_face",
+    "adders": [
+     "scripts/_r1369_close.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "fleet/machines/bm-b.json",
+    "field": "last_seen",
+    "adders": [
+     "scripts/_r1369_close.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "pin"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "fleet/machines/bm-b.json",
+    "field": "r1100_push",
+    "adders": [
+     "Tools/_r1101_close.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "fleet/machines/bm-b.json",
+    "field": "round",
+    "adders": [
+     "Tools/_r1176bmb_closeout.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "pin"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "results/_r1334bmb_s6_chain.json",
+    "field": "legs",
+    "adders": [
+     "Tools/_r1334bmb_closeout.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/GATEABSENCE-2026-11-01.json",
+    "field": "verdict",
+    "adders": [
+     "scripts/e345_gate_absence_windows.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/LEGEPS-2026-10-31.json",
+    "field": "census",
+    "adders": [
+     "Tools/_r1334bmb_closeout.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/LEGEPS-2026-10-31.json",
+    "field": "identity_checks",
+    "adders": [
+     "Tools/_r1334bmb_closeout.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/LEGEPS-2026-10-31.json",
+    "field": "verdict",
+    "adders": [
+     "Tools/_r1334bmb_closeout.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/MIRROR-2026-11-01.json",
+    "field": "pin",
+    "adders": [
+     "scripts/e352_staleness_window.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/MIRROR-2026-11-01.json",
+    "field": "rows",
+    "adders": [
+     "scripts/e352_staleness_window.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/MIRROR-2026-11-01.json",
+    "field": "rows_truncated",
+    "adders": [
+     "scripts/e352_staleness_window.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/MIRROR-2026-11-01.json",
+    "field": "summary",
+    "adders": [
+     "scripts/e352_staleness_window.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/MIRROR-2026-11-01.json",
+    "field": "verdict",
+    "adders": [
+     "scripts/e352_staleness_window.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/REPAIRRECORD-2026-11-01.json",
+    "field": "history",
+    "adders": [
+     "scripts/e345_gate_absence_windows.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/leg_isolation_latest.json",
+    "field": "asof",
+    "adders": [
+     "scripts/prove_smoke_leg_isolation.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/leg_isolation_latest.json",
+    "field": "rows",
+    "adders": [
+     "scripts/prove_smoke_leg_isolation.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/stalewin_latest.json",
+    "field": "pin",
+    "adders": [
+     "scripts/e352_staleness_window.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/stalewin_latest.json",
+    "field": "rows",
+    "adders": [
+     "scripts/e352_staleness_window.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/stalewin_latest.json",
+    "field": "rows_truncated",
+    "adders": [
+     "scripts/e352_staleness_window.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/stalewin_latest.json",
+    "field": "summary",
+    "adders": [
+     "scripts/e352_staleness_window.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/stalewin_latest.json",
+    "field": "verdict",
+    "adders": [
+     "scripts/e352_staleness_window.py"
+    ],
+    "readers": 1,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_one_member_with_no_writer"
+   },
+   {
+    "face": "results/state_tilt/subjres_latest.json",
+    "field": "rows",
+    "adders": [
+     "scripts/e358_subject_resolution.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "results/state_tilt/subjres_latest.json",
+    "field": "summary",
+    "adders": [
+     "scripts/e358_subject_resolution.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "results/state_tilt/subjres_latest.json",
+    "field": "verdict",
+    "adders": [
+     "scripts/e358_subject_resolution.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "state-bm-b.json",
+    "field": "current",
+    "adders": [
+     "Tools/_r1101_close.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "state-bm-b.json",
+    "field": "current_task",
+    "adders": [
+     "Tools/_r1101_close.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "state-bm-b.json",
+    "field": "last_decisions_sha",
+    "adders": [
+     "Tools/_r1101_close.py",
+     "scripts/_r1370_postscript.py",
+     "scripts/_r1383_report.py"
+    ],
+    "readers": 3,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_two_or_more_members"
+   },
+   {
+    "face": "state-bm-b.json",
+    "field": "r1334",
+    "adders": [
+     "Tools/_r1334bmb_delivery.py",
+     "Tools/_r1334bmb_s7fix.py"
+    ],
+    "readers": 2,
+    "written": false,
+    "writer_origin": [],
+    "class": "read_by_two_or_more_members_with_no_writer"
+   },
+   {
+    "face": "state-bm-b.json",
+    "field": "round",
+    "adders": [
+     "Tools/_r1234bmb_state.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "state-bm-b.json",
+    "field": "round_no",
+    "adders": [
+     "Tools/_r1101_close.py",
+     "Tools/_r1234bmb_state.py",
+     "Tools/_r1334bmb_closeout.py",
+     "scripts/_r1369_state.py",
+     "scripts/_r1374bmb_closeout.py",
+     "scripts/_r1384_closeout.py"
+    ],
+    "readers": 6,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_two_or_more_members"
+   },
+   {
+    "face": "state-bm-b.json",
+    "field": "sync",
+    "adders": [
+     "Tools/_r1096_receipt.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "state-bm-b.json",
+    "field": "task_short",
+    "adders": [
+     "Tools/_r1176bmb_closeout.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "state-bm-b.json",
+    "field": "ts",
+    "adders": [
+     "Tools/_r1234bmb_state.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "state-bm-b.json",
+    "field": "work",
+    "adders": [
+     "scripts/_r1369_state.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "store"
+    ],
+    "class": "written_and_read_by_one_member"
+   },
+   {
+    "face": "state.json",
+    "field": "verdict",
+    "adders": [
+     "Tools/_r1164bmb_closeout.py"
+    ],
+    "readers": 1,
+    "written": true,
+    "writer_origin": [
+     "pin"
+    ],
+    "class": "written_and_read_by_one_member"
+   }
+  ]
+ },
+ "reconciliation": {
+  "delta_fields_measured": 42,
+  "new_keys_counted": 42,
+  "delta_fields_matches_new_keys": true,
+  "delta_fields_with_no_writer_measured": 25,
+  "new_keys_without_a_writer": 26,
+  "new_keys_written_by_a_pin_source_that_never_reads_them": 3,
+  "old_unwritten_cells_closed_by_a_store_writer": 1,
+  "old_unwritten_cells_closed": [
+   {
+    "face": "results/runnable_pool.json",
+    "field": "entries"
+   }
+  ],
+  "arithmetic": "25 = 26 - 1",
+  "matches": true,
+  "gaps": []
+ },
+ "verdict": "five_keys_are_read_by_more_than_one_store_member_so_the_store_is_a_channel_between_files_no_commit_holds",
+ "bound": "static name test on the E350 instrument's own read rows: a key read through a dynamic key, an f-string, or a loop variable is invisible here, so 'one reader' means one NAMED reader; 'no writer' means no census write site, not 'no producer anywhere'; the reader count is over store members only, because a key outside the pin's key set cannot have a pin reader by construction (that is what 'new' means), so the zero non-adder reader count is a tautology this face states rather than a finding; the store is 128 members of which 108 are ballast on E378's arm, so this population is exactly the subset that moved a number"
+}

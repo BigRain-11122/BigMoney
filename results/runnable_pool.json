@@ -26884,10 +26884,17 @@
    "id": "E380-WHICH-OF-THE-TWO-INSTRUMENTS-NAMES-THE-SAME-BALLAST",
    "lane": "cpu-only",
    "notes": "static only, zero network; reuse e377 resolved-sink universe; exclude this study own face from its own population (E319/E328 family)",
-   "owner": null,
+   "owner": "bm-b",
    "priority": 3,
    "question": "E378 measured 108 store members that move neither E353 pairs nor any E350 headline number, and 17 that move only the field count by adding new keys. Decide whether those 17 keys are read anywhere (a static name test over the same corpus, no execution): rows that no reader names are dead weight in a face, rows that a reader names are why the store had to exist. Publish reader/unread per new key.",
-   "status": "ready"
+   "status": "done",
+   "owner_since": "2026-11-03T05:20:00+08:00",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-03T05:20:00+08:00",
+   "done_at": "2026-11-03T06:22:02+08:00",
+   "result_ref": "results/state_tilt/BALLASTKEYS-2026-11-03.json",
+   "verdict": "five_keys_are_read_by_more_than_one_store_member_so_the_store_is_a_channel_between_files_no_commit_holds",
+   "closed_by": "bm-b r1399"
   },
   {
    "entered_at": "2026-11-03T05:00:00+08:00",
@@ -26913,6 +26920,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-03T05:00:00+08:00",
+ "updated_at": "2026-11-03T06:22:02+08:00",
  "version": 1
 }

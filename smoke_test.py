@@ -13019,6 +13019,73 @@ check(_name379, not _bad379, "; ".join(_bad379)[:220]
             (_f379 or {}).get("summary", {}).get("faces_read_within_the_census_universe", 0)))
 
 
+# E380: "a key with no writer" and "dead weight in a face" are different claims, and the counter that
+# measures the first one has two terms.  This leg refuses the shapes that would let either be
+# asserted instead of measured: a verdict outside the frozen vocabulary, a row with no adding member,
+# classes that do not cover the population, a reader bucket that does not re-add, a reconciliation
+# whose arithmetic is not "new unwritten keys minus old cells closed by a store writer", a
+# closed-cell list that does not match its own count, an arm whose headline no longer re-derives from
+# E378's published one, and a verdict that does not come back out of the rows.
+_name380 = ("product: the keys a store adds are split by reader span and writer presence, and the "
+            "unwritten counter is reconciled as two terms instead of an unexplained difference")
+_bad380 = []
+try:
+    _p380 = os.path.join("results", "state_tilt", "ballastkeys_latest.json")
+    _f380 = json.load(open(_p380, encoding="utf-8")) if os.path.exists(_p380) else None
+    if _f380 is None:
+        _bad380.append("no published ballast-keys face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m380 = __import__("importlib").import_module("e380_ballast_keys_and_readers")
+        _vocab380 = {_m380.V_CHANNEL, _m380.V_SOLITARY}
+        if _f380.get("verdict") not in _vocab380:
+            _bad380.append("verdict %r is outside the frozen vocabulary"
+                           % str(_f380.get("verdict"))[:60])
+        _nk380 = _f380.get("new_keys") or {}
+        _rows380 = _nk380.get("rows") or []
+        if _nk380.get("count") != len(_rows380):
+            _bad380.append("the key count does not equal the published rows")
+        if _nk380.get("with_a_writer", 0) + _nk380.get("without_a_writer", 0) != _nk380.get("count"):
+            _bad380.append("written/unwritten do not cover the population")
+        if sum((_nk380.get("classes") or {}).values()) != _nk380.get("count"):
+            _bad380.append("the classes do not cover the population")
+        if _nk380.get("read_by_one_member", 0) + _nk380.get("read_by_two_or_more_members", 0) != \
+                _nk380.get("count"):
+            _bad380.append("the reader-span buckets do not cover the population")
+        for _r380 in _rows380:
+            if not _r380.get("adders"):
+                _bad380.append("a new key has no adding member: %s::%s"
+                               % (_r380.get("face"), _r380.get("field")))
+                break
+        _rc380 = _f380.get("reconciliation") or {}
+        _want380 = _m380.close_delta(_rc380.get("new_keys_without_a_writer", 0),
+                                     _rc380.get("old_unwritten_cells_closed_by_a_store_writer", 0))
+        if _rc380.get("delta_fields_with_no_writer_measured") != _want380:
+            _bad380.append("the unwritten delta is not the two-term arithmetic (%d)" % _want380)
+        if bool(_rc380.get("matches")) != (_rc380.get("delta_fields_with_no_writer_measured")
+                                          == _want380):
+            _bad380.append("matches does not re-derive from the arithmetic")
+        if len(_rc380.get("old_unwritten_cells_closed") or []) != \
+                _rc380.get("old_unwritten_cells_closed_by_a_store_writer"):
+            _bad380.append("the closed-cell list does not match its own count")
+        _ref380 = _f380.get("e378_reference") or {}
+        if _ref380 and not _ref380.get("equal"):
+            _bad380.append("this arm does not reproduce E378's published headline")
+        if _f380.get("verdict") != _m380.decide(_rows380):
+            _bad380.append("the verdict does not re-derive from the rows")
+        if _m380.verify() != 0:
+            _bad380.append("the study's own verify does not come back clean")
+except Exception as e:
+    _bad380.append(repr(e)[:160])
+check(_name380, not _bad380, "; ".join(_bad380)[:220]
+      or "%d added keys: %d read by two or more, %d with no writer, delta %s; verdict %s"
+         % ((_f380 or {}).get("new_keys", {}).get("count", 0),
+            (_f380 or {}).get("new_keys", {}).get("read_by_two_or_more_members", 0),
+            (_f380 or {}).get("new_keys", {}).get("without_a_writer", 0),
+            str((_f380 or {}).get("reconciliation", {}).get("arithmetic")),
+            str((_f380 or {}).get("verdict"))[:40]))
+
+
 # E374: E372 charged the corpus for 128 recovered members to buy two pairs.  This leg grades the
 # ACCOUNTING of the load-bearing claim and never the pair numbers: every arm's published pair
 # count must equal the size of its own pair set, the moved split must re-derive from the two
