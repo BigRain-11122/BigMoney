@@ -5771,6 +5771,77 @@ def main() -> int:
     except Exception as e:
         check("product: the operator page prices the basket the ticket actually holds",
               False, repr(e)[:160])
+    # ---- r1245: the sheet prices the cash half it asks the reader to hold -----------------
+    # The ticket printed "cash 53%" and the cash amount and stopped there; the only yield it
+    # ever quoted was a multi-year mean, which is a history rather than a forecast. This leg
+    # re-derives the annual CNY from the published spot rate x the published cash amount,
+    # demands the sheet print that number, and demands the spread sentence appear when the
+    # face itself says the rate has fallen -- so a re-derived face that disagrees with the
+    # sheet, or a sheet that quietly drops the section, both read red.
+    try:
+        _bad74 = []
+        _ptr74 = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
+        _tk74 = {}
+        if not os.path.exists(_ptr74):
+            _bad74.append("results/etf_book_order/latest.json missing")
+        else:
+            with open(_ptr74, encoding="utf-8") as _fh74:
+                _ptr_doc74 = json.load(_fh74)
+            _rel74 = _ptr_doc74.get("file") or _ptr_doc74.get("path") or ""
+            _cand74 = [os.path.join(os.path.dirname(_ptr74), _rel74),
+                       os.path.join(PATHS.root, _rel74)]
+            _path74 = next((p for p in _cand74 if p and os.path.exists(p)), None)
+            if not _path74:
+                _bad74.append("ticket body %r not resolvable" % (_rel74,))
+            else:
+                with open(_path74, encoding="utf-8") as _fh74b:
+                    _tk74 = json.load(_fh74b)
+        _cm74 = ((_tk74.get("cash_leg") or {}).get("money") or {})
+        if _cm74.get("verdict") in (None, "CANNOT_PRICE"):
+            _bad74.append("the ticket prices no cash money (%r)" % (_cm74.get("verdict"),))
+        else:
+            _cash74 = _cm74.get("cash_amount_cny")
+            _spot74 = _cm74.get("spot") or {}
+            _re74 = round(_cash74 * (_spot74.get("pct") or 0.0) / 100.0, 0)
+            if abs(_re74 - (_spot74.get("annual_cny") or -1)) > 1.0:
+                _bad74.append("spot annual %r != cash x rate %r"
+                              % (_spot74.get("annual_cny"), _re74))
+            _tail74 = _cm74.get("mean_tail") or {}
+            if abs(round(_cash74 * (_tail74.get("pct") or 0.0) / 100.0, 0)
+                   - (_tail74.get("annual_cny") or -1)) > 1.0:
+                _bad74.append("trailing-mean annual does not follow from its own rate")
+            _md74 = os.path.join(os.path.dirname(_path74),
+                                 "ORDER-%s.md" % (_tk74.get("evidence_cutoff") or ""))
+            if not os.path.exists(_md74):
+                _bad74.append("ORDER-%s.md missing" % (_tk74.get("evidence_cutoff"),))
+            else:
+                with open(_md74, encoding="utf-8") as _fh74c:
+                    _txt74 = _fh74c.read()
+                if "现金那一半今天赚多少钱" not in _txt74:
+                    _bad74.append("the sheet never prices the cash half")
+                if ("%s" % format(int(_re74), ",")) not in _txt74:
+                    _bad74.append("the spot annual (%s CNY) is not printed"
+                                  % format(int(_re74), ","))
+                if _cm74.get("verdict") == "RATES_FELL":
+                    if "利率掉了" not in _txt74:
+                        _bad74.append("the face says rates fell but the sheet does not")
+                    if format(int(abs(_cm74.get("spread_vs_tail_cny") or 0)), ",") not in _txt74:
+                        _bad74.append("the money the fall costs is not printed")
+                elif "RATES_FELL" in _txt74:
+                    _bad74.append("the sheet calls it a fall while the face does not")
+        check("product: the order sheet prices the cash half in CNY at today's rate",
+              not _bad74,
+              "; ".join(_bad74)[:220] or
+              "cash %s CNY at %.2f%% -> %s CNY/yr vs trailing %.2f%% -> %s (%s)"
+              % (format(int(_cm74.get("cash_amount_cny") or 0), ","),
+                 (_cm74.get("spot") or {}).get("pct") or 0.0,
+                 format(int((_cm74.get("spot") or {}).get("annual_cny") or 0), ","),
+                 (_cm74.get("mean_tail") or {}).get("pct") or 0.0,
+                 format(int((_cm74.get("mean_tail") or {}).get("annual_cny") or 0), ","),
+                 _cm74.get("verdict")))
+    except Exception as e:
+        check("product: the order sheet prices the cash half in CNY at today's rate",
+              False, repr(e)[:160])
     # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
     # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two
     # class universes and two fill orderings, under one column headed 全窗. This leg
@@ -6633,6 +6704,58 @@ def main() -> int:
                  (_pub65.get("lane_tasks") or {}).get("verdict")))
     except Exception as e:
         check("product: the lane-silence face names whether the lane is switched off",
+              False, repr(e)[:160])
+    try:
+        # O-20261102-2015 sec.2: the CPU-hours line must be recomputable from the
+        # sampler rows AND each batch must name a file that is actually on disk.
+        _day = dt.date.today().isoformat()
+        _stem = _day.replace("-", "")
+        _root66 = os.path.dirname(os.path.abspath(__file__))
+        _rep = os.path.join(_root66, "docs", "daily_report", "REPORT-%s.json" % _day)
+        _md = os.path.join(_root66, "docs", "daily_report", "REPORT-%s.md" % _day)
+        _cs = (json.load(open(_rep, encoding="utf-8")).get("core_spread") or {})
+        _rows, _secs = 0, 0.0
+        try:
+            with open(os.path.join(_root66, "results", "pool_core_samples.jsonl"),
+                      encoding="utf-8") as _f:
+                for _ln in _f:
+                    _ln = _ln.strip()
+                    if not _ln:
+                        continue
+                    try:
+                        _r = json.loads(_ln)
+                    except Exception:
+                        continue
+                    if not isinstance(_r, dict):
+                        continue
+                    if not str(_r.get("ts", "")).startswith(_day):
+                        continue
+                    if _r.get("verdict") not in ("multicore_burn", "single_core_burn"):
+                        continue
+                    _rows += 1
+                    _secs += float(_r.get("cpu_s") or 0.0)
+        except FileNotFoundError:
+            _rows, _secs = 0, 0.0
+        _fleet = _cs.get("fleet") or {}
+        _bad66 = []
+        if int(_fleet.get("batches_judged") or 0) != _rows:
+            _bad66.append("batches %s != sampler %d" % (_fleet.get("batches_judged"), _rows))
+        if abs(float(_fleet.get("core_hours") or 0.0) - _secs / 3600.0) > 5e-4:
+            _bad66.append("core_hours %s != recomputed %.4f"
+                          % (_fleet.get("core_hours"), _secs / 3600.0))
+        for _mid66, _m66 in (_cs.get("machines") or {}).items():
+            for _b66 in _m66.get("batches") or []:
+                if "deliverable" not in _b66:
+                    _bad66.append("%s/%s has no deliverable key" % (_mid66, _b66.get("entry")))
+                elif _b66.get("deliverable") and not _b66.get("deliverable_exists"):
+                    _bad66.append("%s/%s names a file not on disk" % (_mid66, _b66.get("entry")))
+        if not os.path.exists(_md) or "CPU 有效工时" not in open(_md, encoding="utf-8").read():
+            _bad66.append("report does not print the CPU work-hours line")
+        check("product: CPU work-hours are recomputable and every batch names a file",
+              not _bad66, "; ".join(_bad66)[:200]
+              or "%d batch(es), %s core-hours on %s" % (_rows, _fleet.get("core_hours"), _day))
+    except Exception as e:
+        check("product: CPU work-hours are recomputable and every batch names a file",
               False, repr(e)[:160])
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))

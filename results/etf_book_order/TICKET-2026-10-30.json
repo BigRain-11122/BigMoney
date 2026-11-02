@@ -20,8 +20,8 @@
   "ticket_bar": "2026-10-30",
   "expected_bar": "2026-11-02",
   "lag_days": 1,
-  "status": "stale_feed",
-  "detail": "the bar this ticket is priced on is 1 official day(s) behind the market; the signal is that old"
+  "status": "feed_broken",
+  "detail": "the maintained panel is missing an official trading day that should already be published -- a stopped feed, not a delay"
  },
  "k_now": 0.47149,
  "book_decided_at": "2026-10-14",
@@ -34,7 +34,7 @@
   "card_priced_bar": "2026-10-30",
   "ticket_priced_bar": "2026-10-30",
   "same_priced_bar": true,
-  "card_feed_status": "stale_feed"
+  "card_feed_status": "feed_broken"
  },
  "next_decision_bars": 8,
  "ticket": {
@@ -194,7 +194,30 @@
    "last": "2026-10-30",
    "years": 6.83
   },
-  "missing_bar_steps": 2
+  "missing_bar_steps": 2,
+  "money": {
+   "cash_amount_cny": 529269.25,
+   "spot": {
+    "pct": 1.09,
+    "date": "2026-10-27",
+    "annual_cny": 5769.0,
+    "quotes": 250
+   },
+   "mean_tail": {
+    "pct": 1.3559,
+    "annual_cny": 7176.0
+   },
+   "window": {
+    "pct": 2.0858,
+    "annual_cny": 11039.0
+   },
+   "tail": 250,
+   "fall_bp": 25.0,
+   "verdict": "RATES_FELL",
+   "sentence": "现金 ¥529,269 按 2026-10-27 报价 1.09% 一年赚 ¥5,769；按自己近 250 个报价的均值 1.36% 是 ¥7,176；按账本自己走过的全窗均值 2.09% 是 ¥11,039。差出来的 ¥1,407 是利率掉了，不是这个月选错了票。",
+   "spread_vs_tail_cny": -1407.0,
+   "spread_vs_window_cny": -5270.0
+  }
  },
  "ledger": {
   "bars": 683,

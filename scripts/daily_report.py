@@ -256,7 +256,8 @@ def _core_spread_face(day):
     a bare N/A that reads like a data gap."""
     per = {mid: {"batches_judged": 0, "core_seconds": 0.0, "wall_seconds": 0.0,
                  "effective_cores": None, "single_core_burn": 0,
-                 "multicore_burn": 0, "too_short": 0, "last_ts": None}
+                 "multicore_burn": 0, "too_short": 0, "last_ts": None,
+                 "batches": []}
            for mid in ("bm-a", "bm-b", "bm-c")}
     path = os.path.join(ROOT, "results", "pool_core_samples.jsonl")
     try:
@@ -291,11 +292,69 @@ def _core_spread_face(day):
             d[v] += 1
             d["core_seconds"] += float(r.get("cpu_s") or 0.0)
             d["wall_seconds"] += float(r.get("wall_s") or 0.0)
+            d["batches"].append({
+                "entry": r.get("entry"), "shard": r.get("shard"),
+                "core_s": round(float(r.get("cpu_s") or 0.0), 1),
+                "ts": str(r.get("ts")), "verdict": v})
     for d in per.values():
+        d["core_hours"] = round(d["core_seconds"] / 3600.0, 3)
         if d["wall_seconds"] > 0:
             d["effective_cores"] = round(d["core_seconds"] / d["wall_seconds"], 2)
         d["core_seconds"] = round(d["core_seconds"], 1)
         d["wall_seconds"] = round(d["wall_seconds"], 1)
+    # O-20261102-2015 §2 acceptance: every CPU-hour line must be traceable to
+    # a file. The sampler row carries the pool entry id; the pool carries the
+    # deliverable path. Missing on either side prints an honest reason -- never
+    # an empty string that reads as "nothing to show".
+    deliverable = {}
+    pool = _read_json(os.path.join(ROOT, "results", "runnable_pool.json")) or {}
+    for e in pool.get("entries") or []:
+        if isinstance(e, dict) and e.get("id"):
+            deliverable[str(e["id"])] = e.get("deliverable")
+    fleet = {"core_hours": 0.0, "batches_judged": 0}
+    for mid, d in per.items():
+        for b in d["batches"]:
+            path = deliverable.get(str(b.get("entry")))
+            b["deliverable"] = path
+            b["deliverable_exists"] = (
+                bool(path) and os.path.exists(os.path.join(ROOT, str(path)))
+                if path else None)
+            b["core_hours"] = round(b["core_s"] / 3600.0, 3)
+        fleet["core_hours"] = round(fleet["core_hours"] + d["core_hours"], 3)
+        fleet["batches_judged"] += d["batches_judged"]
+    # trailing 7-day rollup on the same rows face, so a reader opening the
+    # report minutes after midnight sees a week rather than an empty day.
+    try:
+        since = (datetime.strptime(day, "%Y-%m-%d")
+                 - timedelta(days=6)).strftime("%Y-%m-%d")
+    except Exception:
+        since = day
+    week = {"since": since, "until": day, "core_hours": 0.0, "batches": 0,
+            "traced": 0, "unresolved": 0}
+    for ln in lines:
+        ln = ln.strip()
+        if not ln:
+            continue
+        try:
+            r = json.loads(ln)
+        except Exception:
+            continue
+        if not isinstance(r, dict):
+            continue
+        ts = str(r.get("ts", ""))
+        if not (since <= ts[:10] <= day):
+            continue
+        if r.get("verdict") not in ("multicore_burn", "single_core_burn"):
+            continue
+        week["batches"] += 1
+        week["core_hours"] += float(r.get("cpu_s") or 0.0) / 3600.0
+        p = deliverable.get(str(r.get("entry")))
+        if p:
+            week["traced"] += 1
+        else:
+            week["unresolved"] += 1
+    week["core_hours"] = round(week["core_hours"], 3)
+    fleet["week"] = week
     for mid, d in per.items():
         aud = _read_json(os.path.join(ROOT, "results",
                                       f"compute_audit.{mid}.json")) or {}
@@ -307,10 +366,12 @@ def _core_spread_face(day):
             "audit_batches": pe.get("batches_judged"),
             "audit_ts": latest_aud.get("ts"),
         }
-    return {"day": day, "machines": per,
+    return {"day": day, "machines": per, "fleet": fleet,
             "canon": "T-134 s4 (O-2026-09-30-2355) -- law-2 sampler rows "
                      "results/pool_core_samples.jsonl + per-machine "
-                     "compute_audit parallel_efficiency window merge (r503)"}
+                     "compute_audit parallel_efficiency window merge (r503); "
+                     "core-hours + per-batch file trace joined from "
+                     "results/runnable_pool.json (O-20261102-2015 §2)"}
 
 
 # --------------------------------------- PnL attribution face (A2 / G4)
@@ -951,6 +1012,30 @@ def render_md(rep):
         L.append(f"- **核分布/并行效率三机对照（T-134 s4 · {cs.get('day')}）**：" + "；".join(parts))
     if cs.get("note"):
         L.append(f"  - {cs.get('note')}")
+    # O-20261102-2015 sec.2 acceptance face: CPU effective work-hours, one row
+    # per judged batch, each row naming the file it produced.
+    fl = cs.get("fleet") or {}
+    if fl.get("batches_judged"):
+        L.append(f"- **CPU 有效工时（可逐条追到文件）**：机队 {fl.get('core_hours')} 核时"
+                 f" / {fl.get('batches_judged')} 判定批（{cs.get('day')}）")
+        for mid, m in (cs.get("machines") or {}).items():
+            for b in m.get("batches") or []:
+                path = b.get("deliverable")
+                if not path:
+                    where = "产物未在池台账声明（entry 无对应 runnable_pool 条目）"
+                elif b.get("deliverable_exists"):
+                    where = f"`{path}`"
+                else:
+                    where = f"`{path}` **文件不在盘**"
+                L.append(f"  - {mid} · {b.get('entry')} · {b.get('shard')}"
+                         f" · {b.get('core_hours')} 核时 · {where}")
+    else:
+        L.append(f"- **CPU 有效工时（{cs.get('day')}）**：当日零判定批——如实标注，禁编数")
+    wk = fl.get("week") or {}
+    if wk.get("batches"):
+        L.append(f"- **近 7 日 CPU 有效工时**（{wk.get('since')}..{wk.get('until')}）："
+                 f"{wk.get('core_hours')} 核时 / {wk.get('batches')} 批"
+                 f" · 追到产物 {wk.get('traced')} 批 · 池台账无产物声明 {wk.get('unresolved')} 批")
     # ---- section 7: PnL attribution daily ledger (A2 / G4)
     at = rep.get("pnl_attribution") or {}
 

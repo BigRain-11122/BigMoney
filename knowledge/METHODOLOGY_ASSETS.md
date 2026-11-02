@@ -9018,3 +9018,47 @@ Caveats 里塞半句「band priced on the X bar, not this card's Y -- stale」�
 **证据**：`scripts/etf_book_ceo_page.py`（`_ticket_width` / `capital_face` 三字段 / 段内三态句 /
 selftest 135/135 含 L131-L132）、`docs/live_book/LIVE-BOOK-20261103.md`、`smoke_test.py`
 （新腿「the operator page prices the basket the ticket actually holds」）。
+
+### E363 · 「可逐条追到文件」要先有逐条行，再谈追（r1245 bm-a）
+
+**背景**：CEO 令 O-20261102-2015（CPU 满负荷调动令）的验收写的是「日报『CPU 有效工时』可逐条
+追到文件」。日报早有核分布面（`_core_spread_face`：有效核 = 核秒/墙秒、单核红牌计数、短跑不计），
+但它只印**聚合**：读者看得到「bm-c 有效核 1.83、判 3 批」，看不到这 3 批各是多少核时、各产出哪个
+文件——于是「可逐条追到文件」在报告面上结构性不可满足，而不是数字不准。
+
+**正法**：
+1. 采样行本来就带 `entry`（池条目 id）与 `shard`，池台账带 `deliverable`——两表用 entry 一 join，
+   逐批行就有了「批 → 核时 → 产物文件」三段链；缺任一侧显式打印原因（「entry 无对应池条目」
+   /「文件不在盘」），不许印空串冒充追到了。
+2. 机队合计与逐批行必须同源：`core_hours` 由 `cpu_s/3600` 汇总，自检腿从**原始采样行**重算一遍
+   比对已发布值（5e-4 容差），所以「合计」不是另一个人维护的第二份数。
+3. 零点边界不足以支撑读数：报告常在半页跨日时生成，当日零批是常态。故同一张面加「近 7 日」
+   滚动行（同源行、不同窗口），并在追踪列上给 traced / unresolved 两数——读者一眼看出是
+   「没干活」还是「干了但没记产物」。
+
+**可复用**：一条验收语里出现「逐条」二字时，先问报告面有没有**逐条行**；聚合数再加一句
+「可追溯」是承诺不是证据。追踪列必须能同时说「追到」与「追不到」，否则缺产物永远读不出来。
+**证据**：`scripts/daily_report.py`（`_core_spread_face` 增 `batches`/`core_hours`/`fleet.week`
++ `render_md` 的「CPU 有效工时（可逐条追到文件）」段）、`docs/daily_report/REPORT-20261103.md`、
+`smoke_test.py`（新腿「CPU work-hours are recomputable and every batch names a file」：从原始
+采样行重算核时并逐批断言产物文件在盘）。
+
+### E364 · 报了「现金 53%」不等于报了这笔钱能赚多少；一个均值既是历史，也可能只是好看的那一段（r1245 bm-a）
+
+**现象**：可执行单只印现金权重与现金金额，唯一引用过的收益率是一段多年均值（本单 2.09% / 6.8 年）。
+均值不是预测：GC001 今天的报价 1.09%，它自己近 250 个报价的均值 1.36%。同一笔 ¥529,269，三个窗口
+给出 ¥5,769 / ¥7,176 / ¥11,039 的年收益 —— 差 ¥1,407~5,270，而单子上一个数都不印，读者只能自己挑
+好看的那个。
+
+**做法**：`cash_money(cash_amount, rates, asof, accrual_pct)` 用同一块 repo 面板、同一笔现金算三档
+（最新报价 / 自己近 250 报价的均值 / 账本走过的全窗均值），差额按钱印出来，判定三态
+RATES_FELL / RATES_STEADY / RATES_ROSE（阈值 25bp，跑前冻结）；读不到就 CANNOT_PRICE 并印原因，
+绝不印 0（r1261 族）。票据 md 与 TICKET json 同源，一条读者面一条机读面。
+
+**可复用**：一个数字如果只有「某一段历史」的版本，它就还不是一个读数 —— 把同一笔钱在多个窗口上
+定价，并把差额标注成「利率掉了，不是选错了票」，读者的动作才明确：这不是换票的问题，是这笔钱该
+停在哪里。
+
+**证据**：`scripts/etf_book_order.py::cash_money`（selftest leg4c/4d/4e）、
+`results/etf_book_order/ORDER-2026-10-30.md`（「现金那一半今天赚多少钱」节）、
+`smoke_test.py`（腿：the order sheet prices the cash half in CNY at today's rate）。

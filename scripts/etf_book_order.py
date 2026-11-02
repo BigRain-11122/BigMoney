@@ -380,6 +380,80 @@ def carry_split(beta=None, path=None):
         return None
 
 
+CASH_MONEY_BP = 25.0        # frozen before the run: spot must clear this far below its own
+                            # trailing mean before this face calls it a fall rather than noise
+
+
+def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CASH_MONEY_BP):
+    """What the idle half of THIS ticket earns, in CNY, at the rates this book actually parks in.
+
+    The sheet printed the cash weight and the cash amount and stopped there: the only yield it
+    quoted was a multi-year mean (the accrual window), which is a history that includes the
+    quarters when GC001 traded several times today's quote (r1167 caught the three windows
+    disagreeing and nobody pricing them). A mean is not a forecast, so the same cash is priced
+    here at three rates read off the one repo panel -- the last quote, its own trailing mean and
+    the window mean the ledger accrued -- and the difference is printed in CNY instead of being
+    left for the reader to pick the flattering one. Unreadable inputs stay None, never 0.
+    """
+    out = {"cash_amount_cny": None, "spot": None, "mean_tail": None, "window": None,
+           "tail": int(tail), "fall_bp": float(fall_bp), "verdict": "CANNOT_PRICE",
+           "sentence": None, "spread_vs_tail_cny": None, "spread_vs_window_cny": None}
+    try:
+        cash = None if cash_amount is None else float(cash_amount)
+    except (TypeError, ValueError):
+        cash = None
+    if cash is None or cash <= 0:
+        out["sentence"] = "现金腿金额不可读，这一半今天赚多少钱本单不报。"
+        return out
+    out["cash_amount_cny"] = round(cash, 2)
+    if rates is None or len(rates) == 0:
+        out["sentence"] = "repo 面板缺席，现金腿今天赚多少钱本单不报（不是 0）。"
+        return out
+    seen = rates[rates.index <= pd.Timestamp(asof)] if asof else rates
+    if len(seen) == 0:
+        out["sentence"] = "repo 面板没有 %s 当日或更早的报价，现金腿今天赚多少钱本单不报。" % asof
+        return out
+    spot_pct = float(seen.iloc[-1])
+    spot_date = str(seen.index[-1].date())
+    tail_pct = float(seen.tail(int(tail)).mean())
+    out["spot"] = {"pct": round(spot_pct, 4), "date": spot_date,
+                   "annual_cny": round(cash * spot_pct / 100.0, 0),
+                   "quotes": int(min(len(seen), int(tail)))}
+    out["mean_tail"] = {"pct": round(tail_pct, 4),
+                        "annual_cny": round(cash * tail_pct / 100.0, 0)}
+    if accrual_pct is not None and np.isfinite(float(accrual_pct)):
+        out["window"] = {"pct": round(float(accrual_pct), 4),
+                         "annual_cny": round(cash * float(accrual_pct) / 100.0, 0)}
+    out["spread_vs_tail_cny"] = round(cash * (spot_pct - tail_pct) / 100.0, 0)
+    if out["window"] is not None:
+        out["spread_vs_window_cny"] = round(
+            cash * (spot_pct - out["window"]["pct"]) / 100.0, 0)
+    if spot_pct <= tail_pct - float(fall_bp) / 100.0:
+        out["verdict"] = "RATES_FELL"
+    elif spot_pct >= tail_pct + float(fall_bp) / 100.0:
+        out["verdict"] = "RATES_ROSE"
+    else:
+        out["verdict"] = "RATES_STEADY"
+    sent = ("现金 ¥%s 按 %s 报价 %.2f%% 一年赚 ¥%s；按自己近 %d 个报价的均值 %.2f%% 是 ¥%s"
+            % (format(int(cash), ","), spot_date, spot_pct,
+               format(int(out["spot"]["annual_cny"]), ","),
+               out["spot"]["quotes"], tail_pct,
+               format(int(out["mean_tail"]["annual_cny"]), ",")))
+    if out["window"] is not None:
+        sent += "；按账本自己走过的全窗均值 %.2f%% 是 ¥%s" % (
+            out["window"]["pct"], format(int(out["window"]["annual_cny"]), ","))
+    if out["verdict"] == "RATES_FELL":
+        sent += ("。差出来的 ¥%s 是利率掉了，不是这个月选错了票。"
+                 % format(int(abs(out["spread_vs_tail_cny"])), ","))
+    elif out["verdict"] == "RATES_ROSE":
+        sent += "。今天的报价高于它自己的均值 ¥%s，别把这个差当成常常有。" % format(
+            int(out["spread_vs_tail_cny"]), ",")
+    else:
+        sent += "。今天的报价就在它自己的均值上，这一半该怎么算就怎么算。"
+    out["sentence"] = sent
+    return out
+
+
 def card(ticket, mk, sched, asof, beta, extra):
     L = ["# ETF 复合书 · 可执行订单单（%s）" % asof, "",
          "当前活：β 目标 %.2f 的单本 R%d N%d + GC001 现金腿，每 %d 个交易日重算一次 k。"
@@ -415,6 +489,19 @@ def card(ticket, mk, sched, asof, beta, extra):
                         r["shares"] if r["shares"] is not None else "-",
                         format(int(r["amount"]), ",") if r["amount"] else "-"))
         L += ["", "整手取整后欠投 %.2f%% NAV（留在现金腿，不重分配）。" % ticket["underspend_pct"]]
+        cm = extra.get("cash_money")
+        if cm:
+            L += ["", "## 现金那一半今天赚多少钱（r1245）"]
+            if cm.get("verdict") == "CANNOT_PRICE":
+                L += ["- %s" % (cm.get("sentence") or "现金腿收益不可读。")]
+            else:
+                L += ["- %s。" % cm["sentence"],
+                      "- 读法：现金占比 %.0f%% 不是「没仓位」，它是一笔按天计息的停车位；"
+                      "上面三个数用同一块 repo 面板、同一笔 ¥%s 算出来，差别只来自取哪一段利率。"
+                      % (ticket["cash_weight"] * 100,
+                         format(int(cm["cash_amount_cny"]), ",")),
+                      "- 出处：%s（同一块面板，%d 个报价的尾窗；判定 **%s**）。"
+                      % ("data/repo_daily/GC001.csv", cm["spot"]["quotes"], cm["verdict"])]
         rp = extra.get("reprice")
         if rp and rp.get("status") == "ok":
             L += ["", "## 参考价用的是哪一天（这会改变手数）",
@@ -946,7 +1033,10 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "cash_leg": {"source": "data/repo_daily/GC001.csv",
                             "mean_accrual_ann_pct": round(float(cash_rf.mean() * 252.0) * 100, 3),
                             "accrual_window": accrual_window(idx),
-                            "missing_bar_steps": int(cash_missing)},
+                            "missing_bar_steps": int(cash_missing),
+                            "money": cash_money(
+                                (ticket or {}).get("cash_amount"), rates, asof,
+                                accrual_pct=float(cash_rf.mean() * 252.0) * 100.0)},
                "ledger": {"bars": int(state.get("rows", 0)), "nav": round(float(state["nav"]), 8),
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift},
                "width_disclosure": wd,
@@ -983,6 +1073,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                      {"inception": payload["inception"], "stale": stale, "width": wd,
                       "feed": feed, "agreement": agreement, "ruler": ruler,
                       "carry": carry, "restatements": payload["restatements"],
+                      "cash_money": payload["cash_leg"]["money"],
                       "bets_line": bets_line,
                       "conc_line": conc_line,
                       "family_coherence": fam,
@@ -1015,6 +1106,15 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                  carry["zero_pct"], carry["flat_today_pct"]))
     else:
         print("carry split: unavailable -- the sheet says the headline is not decomposed")
+    _cm = (payload.get("cash_leg") or {}).get("money") or {}
+    if _cm.get("verdict") and _cm["verdict"] != "CANNOT_PRICE":
+        print("cash money: %s %.2f%% -> %s CNY/yr | mean %.2f%% -> %s CNY/yr | %s"
+              % (_cm["spot"]["date"], _cm["spot"]["pct"],
+                 format(int(_cm["spot"]["annual_cny"]), ","),
+                 _cm["mean_tail"]["pct"], format(int(_cm["mean_tail"]["annual_cny"]), ","),
+                 _cm["verdict"]))
+    else:
+        print("cash money: %s" % (_cm.get("sentence") or "unreadable"))
     print("wrote", os.path.join(OUT_DIR, "TICKET-%s.json" % asof))
     return 0
 
@@ -2001,6 +2101,40 @@ def selftest():
         == {"first": "2021-01-04", "last": "2021-01-07", "years": 0.01}
         and accrual_window(pd.DatetimeIndex([])) is None,
         str(accrual_window(d2)))
+
+    # leg4c-e: the cash half is priced in CNY at the rates the book really parks in. Three
+    # windows of the SAME panel, one amount -- a multi-year mean quoted alone is a history,
+    # not a forecast, and at 1.09% today vs a 1.4%+ trailing mean the difference is real money
+    # on the ticket. Unreadable inputs must stay None instead of printing 0 (the r1261 class).
+    _cm_idx = pd.bdate_range("2024-01-01", periods=40)
+    _cm_fell = pd.Series([2.10] * 30 + [1.05] * 10, index=_cm_idx)
+    _cm_a = cash_money(500000.0, _cm_fell, "2024-02-23", accrual_pct=2.10)
+    chk("leg4c the cash half is priced in CNY at three rates off one panel",
+        _cm_a["verdict"] == "RATES_FELL"
+        and abs(_cm_a["spot"]["annual_cny"] - 500000.0 * 1.05 / 100.0) < 0.5
+        and abs(_cm_a["mean_tail"]["annual_cny"] - 500000.0
+                * float(_cm_fell.mean()) / 100.0) <= 1.0
+        and abs(_cm_a["window"]["annual_cny"] - 500000.0 * 2.10 / 100.0) < 0.5,
+        "%s spot=%.2f%% -> %s CNY" % (_cm_a["verdict"], _cm_a["spot"]["pct"],
+                                      format(int(_cm_a["spot"]["annual_cny"]), ",")))
+    _cm_flat = cash_money(500000.0, pd.Series([1.50] * 40, index=_cm_idx), "2024-02-23",
+                          accrual_pct=1.50)
+    chk("leg4d a steady quote is called steady and prices no spread",
+        _cm_flat["verdict"] == "RATES_STEADY"
+        and _cm_flat["spread_vs_tail_cny"] == 0
+        and "别把这个差当成常常有" not in (_cm_flat["sentence"] or ""),
+        "%s spread=%s" % (_cm_flat["verdict"], _cm_flat["spread_vs_tail_cny"]))
+    _cm_none = cash_money(None, _cm_fell, "2024-02-23")
+    _cm_absent = cash_money(500000.0, pd.Series(dtype=float), "2024-02-23")
+    _cm_late = cash_money(500000.0, _cm_fell, "2019-01-01")
+    chk("leg4e unreadable cash is None, never 0",
+        _cm_none["verdict"] == "CANNOT_PRICE" and _cm_none["cash_amount_cny"] is None
+        and _cm_none["spot"] is None
+        and _cm_absent["verdict"] == "CANNOT_PRICE" and _cm_absent["spot"] is None
+        and _cm_absent["cash_amount_cny"] == 500000.0
+        and _cm_late["verdict"] == "CANNOT_PRICE" and _cm_late["spot"] is None
+        and all(_x["sentence"] for _x in (_cm_none, _cm_absent, _cm_late)),
+        "none/absent/late all CANNOT_PRICE with a sentence")
 
     # leg5: the incremental ledger reproduces the engine on a hand-built path
     d2 = pd.DatetimeIndex(["2021-01-04", "2021-01-05", "2021-01-06", "2021-01-07"])
