@@ -1130,6 +1130,13 @@ LEGS = [
     ("pinable_queue_size",
      ["python", "scripts/e366_pinable_queue_size.py", "check"]),
 
+    # E370: E368 compared four keys and found one stable, one moving 20% -- a result about four
+    # keys, not a rule.  This leg re-derives the whole per-key table from the published arms
+    # (no scan: verify re-classifies the stored summaries and re-counts the classes, ~1 s) so an
+    # edited summary, rule or class cannot leave the face claiming a shape the numbers lost.
+    ("key_sensitivity",
+     ["python", "scripts/e370_key_sensitivity.py", "verify"]),
+
     # E352: E349 priced the channel as a population and found 14 of 840 comparisons ask whether
     # what they read is current; this prices the window instead, in the repository's own clock.
     # 60 deciding channel files, 59 measurable: median file lag 80 commits / p90 111, worst

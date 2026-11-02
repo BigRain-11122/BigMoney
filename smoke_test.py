@@ -12790,6 +12790,65 @@ def _r39(face, key):
                       .get("pairs", {})).get("published"))),
                 str((_f373 or {}).get("verdict"))[:60]))
 
+    # E370: E368 compared four keys, so "which number can I still quote after the corpus grew" had
+    # no answer for the other fifty.  This leg grades the RULE, not the numbers: every leaf must
+    # carry a class from the frozen vocabulary, the class counts must re-count, a count/filtered
+    # row must actually have moved somewhere (a "moved" class on an unchanged row is a label with
+    # no measurement), a ratio row must hold in every arm whose population moved, and the whole
+    # face must re-derive from its own stored arms.
+    _name370 = ("product: every published summary key is classified by how it answers a grown "
+                "corpus, and the classification re-derives from the stored arms")
+    _bad370 = []
+    try:
+        _p370 = os.path.join("results", "state_tilt", "keysens_latest.json")
+        _f370 = json.load(open(_p370, encoding="utf-8")) if os.path.exists(_p370) else None
+        if _f370 is None:
+            _bad370.append("no published key-sensitivity face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m370 = __import__("importlib").import_module("e370_key_sensitivity")
+            _rows370 = _f370.get("keys") or []
+            if not _rows370:
+                _bad370.append("the face publishes no keys")
+            _vocab = set(_m370.CLASSES)
+            for _row370 in _rows370:
+                if _row370.get("class") not in _vocab:
+                    _bad370.append("%s/%s: class %r is outside the frozen vocabulary"
+                                   % (_row370.get("study"), _row370.get("key"),
+                                      _row370.get("class")))
+                    break
+            _recount370 = {c: sum(1 for r in _rows370 if r.get("class") == c) for c in _vocab}
+            if _recount370 != (_f370.get("class_counts") or {}):
+                _bad370.append("class_counts do not re-count: %r != %r"
+                               % (_f370.get("class_counts"), _recount370))
+            for _row370 in _rows370:
+                _vals = [_row370.get(a) for a in _m370.ARMS]
+                _moved = any(v != _row370.get("published") for v in _vals)
+                if _row370.get("class") in (_m370.C_COUNT, _m370.C_FILTERED) and not _moved:
+                    _bad370.append("%s/%s is classified %s but never left the published value"
+                                   % (_row370.get("study"), _row370.get("key"),
+                                      _row370.get("class")))
+                    break
+                if _row370.get("class") == _m370.C_RATIO and _moved:
+                    _bad370.append("%s/%s is classified ratio but an arm moved it"
+                                   % (_row370.get("study"), _row370.get("key")))
+                    break
+            _arms370 = {a: {s: (_f370["arms"][a])[s] for s in ("E350", "E353")}
+                        for a in _m370.ARMS}
+            _table370, _ = _m370.table(_m370.published_summaries(), _arms370)
+            if _table370 != _rows370:
+                _bad370.append("the per-key table does not re-derive from the stored arms")
+            if _m370.verify() != 0:
+                _bad370.append("the study's own verify does not come back clean")
+    except Exception as e:
+        _bad370.append(repr(e)[:160])
+    check(_name370, not _bad370, "; ".join(_bad370)[:220]
+          or "classes %s; E350 population %s published vs %s live; verdict %s"
+             % (str((_f370 or {}).get("class_counts")),
+                str((_f370 or {}).get("published_populations", {}).get("E350")),
+                str((_f370 or {}).get("arm_populations", {}).get("live", {}).get("E350")),
+                str((_f370 or {}).get("verdict"))[:60]))
+
 
 def _r39ci(face, key):
     v = (face.get("summary") or {}).get(key)

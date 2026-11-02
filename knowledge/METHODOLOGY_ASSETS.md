@@ -8087,3 +8087,44 @@ How to apply: before quoting a replay as provenance, ask which vintage each stud
 whether its arithmetic can fail; when the answer is "different vintages", count a pin AND a store per
 vintage and publish the bills side by side, because a single number that comes back is a stability
 reading, not a reconstruction.
+
+## E375 -- which published number can still be quoted after the corpus grew? The guard family is invariant, the field family is not (r1394 bm-b)
+
+E368 compared four keys and found one stable and one moving 20%, so the question a reader actually
+has -- "I want to quote this number, is it still the same number?" -- had an answer for four of
+fifty. E370 stores the WHOLE summary of both studies over four arms and classifies every leaf by how
+it answers the population it was built on: published (the face on disk), live (a fresh walk, 2.774%
+more sources), pinned_list (the pin's 2,368 members, today's bytes, 1.024% more), pinned_bytes (the
+same members with the pin commit's bytes where the disk no longer hashes to it). Rules frozen before
+any number was read: **ratio** = bit-identical in every arm whose population moved; **count** = moved
+and matched published x population growth within 2%; **filtered** = moved otherwise; **unmoved** = no
+arm moved that study's population, so nothing is claimed.
+
+Readings, 49 numeric leaves (E350 22, E353 27): 6 ratio, 4 count, 11 filtered, 1 flag, 1 other, 25
+unmoved.
+
+1. **The guard family is the invariant, and it is a family, not a lucky key.** Six leaves hold exactly
+   across both drifts: guard_fields 230, guard_fields_with_no_writer 131, guard_sites 909,
+   max_blast_radius 14, reads_by_branch.assert_guard 849, reads_by_branch.exit_guard 60. The 131 that
+   E368 used as its stable control is one member of that family -- so its stability was never a
+   property of that number, it is a property of everything that is counted on a guard.
+2. **The field family moves and does not move proportionally.** fields 2289 published -> 2318 live ->
+   1947 pinned; field_reads 5398 -> 5491 -> 4914; fields_with_no_writer 1698 -> 1717 -> 1356;
+   choice_sites 1130 -> 1166 -> 769. No drift explains a 15% drop, and the membership arithmetic says
+   it cannot be membership: the pin is a subset of the live walk (common 2,368, only_live 41,
+   only_pin 0) and a shared member contributes the same disk bytes in both arms, so the gap is a
+   vintage/content effect (or a different reader vintage). Published, not attributed.
+3. **Counts that are counts:** corpus_sources 2343 -> 2408 (2.774%), sources_parsed 2329 -> 2392,
+   dump_sinks 876 -> 889, unresolved_load_bindings 3237 -> 3321 -- each within 2% of published x
+   growth. These are the numbers a reader may carry forward with a one-line correction.
+4. **A study whose population never moved was never asked.** E353's population is its guard-pair count
+   and every arm reproduces 131 (cross-checked against its own face), so its 25 leaves are published
+   as *unmoved* rather than *ratio*: calling them stable would assert a robustness the instrument
+   never exercised.
+
+How to apply: before quoting a number from a census family after the corpus changed, look at its
+class and its tolerated_drift_pct. A **ratio** at 2.77% is quotable through that much growth; a
+**count** may be quoted once corrected by the population change; a **filtered** number must be
+re-run; an **unmoved** key is not evidence of stability, it is a question this arm set never asked.
+And do not read a class as a property of the key's NAME -- the word "fields" hides both an invariant
+guard count and a 15%-moving field count.
