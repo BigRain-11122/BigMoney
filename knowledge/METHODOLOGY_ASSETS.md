@@ -7587,3 +7587,74 @@ parser gap.
 How to apply: before calling a subject "uncomputable", fold the expressions the parser can fold and
 publish the folding depth; classify an unfolded *path attempt* separately from a message string; and
 seed any replay series with the tree the window starts from.
+
+
+## E359 -- a census that counts readers must know which population the reader lives in (r1381)
+
+E353 recorded, as a caveat, that part of E350's 131 unwritten guards names files only a
+selftest writes. Measured with E350's own instrument plus one new question ("which function
+owns this read site?"): scaffolding is 3.73 pct of 5,444 read sites and 7.19 pct of the
+unwritten-guard population, so E350's headline reproduces at 129 of 131 on the production
+arm -- the suspicion is real and small, not the population. Two readings are published
+(name rule 188 sites / caller-closure rule 203) and the wider one decides.
+
+1. **A fixture-only face is not a reader.** 24 faces have no production reader at all:
+   fixture trees (`trial_labor_w*`, `autofill_state.json.tmp/`, `_quarantine/*/manifest.json`)
+   and short-name copies of real status faces (`update_status.json`, `runnable_pool.bm-*.json`,
+   `heat_update_status.json`). Counting the second group as production is a type error --
+   the selftest invented the name, no production code writes it.
+2. **The three names the caveat guessed were not scaffolding.** `FZ.json`, `_chunk_.json`
+   and the bare face `json` stay production under both rules: their reads sit in
+   ordinarily-named helpers. Two mechanisms were measured instead of argued about: a
+   `selftest()` that dispatches `ck("F8", f8)` never calls `f8` by name (closure cannot
+   promote it -- one-directional under-detection, 845 helpers were promoted), and E350's
+   resolver is **file-scoped**, so a reused variable name inherits another function's face.
+3. **That leak is a number, not a story.** 1,277 of 5,444 reads (23.46 pct) report a face
+   written neither inside their own function nor at module level; 146 faces have every read
+   leaked. Any per-file binding resolver owes its readers this share.
+4. **Additivity must be published per key.** Read-site counts partition exactly; distinct
+   `(face, field)` counts do not (sum 2,328 against a union of 2,322, because a pair read in
+   both populations appears twice). Every delta row carries production / scaffolding / sum /
+   union / additive.
+5. **A caller token is not a function.** Building the caller closure from every callee name
+   promoted `open`, `load`, `json` and inflated promoted helpers to 4,177; restricting to
+   names the file defines gives 845. A pruning re-measure was the wrong instrument (the
+   build stalled past five minutes) and was replaced by a tagged write walker whose pair set
+   is asserted equal to E350's on the same tree.
+6. **An equivalence leg with no activity passes.** The first write-site leg compared two
+   empty sets and printed PASS; it now asserts a non-empty production arm first.
+
+How to apply: before quoting a count of readers, publish the population the readers live in;
+make any name-based classifier ship beside a wider rule and let the wider one decide; and when
+a resolver folds bindings per file, publish the share of its population that is name-leaked --
+otherwise a fixture path reads as a production dependency.
+
+## E360 -- a checker that rebuilds its subject is the subject's writer (r1382)
+
+Eight census legs asked `published_summary == rebuild()` and all eight failed with one
+sentence. Two independent defects were behind it.
+
+1. **An equality between a census and its rebuild is not a reproduction test unless both
+   counted the same corpus.** The census subject here is the working tree itself, which other
+   lanes write all day; a *date* cutoff cannot pin it (seven of eight faces carried today's
+   date and a different population: 2340->2356, 566->587). Measured on leg 298: verdict and
+   all 70 control rows identical, only `faces_scanned` 138->145, `mirror_files_excluded`
+   113->120. The leg was unsatisfiable by construction and convicted the corpus for moving.
+   Repair: read the population size out of both documents; same corpus -> every equality stays
+   strict; different corpus -> publish a DRIFT line carrying both sizes and keep every
+   population-independent assertion (partitions close, classes in the frozen set, rows agree
+   with counts). A corpus that *shrank* is still a conviction -- growth is a fact, deletion
+   is not.
+2. **`build(outdir=None)` resolving to the live OUTDIR makes the checker the writer.** e328,
+   e329 and e332 write whenever `outdir` is None, so `m.build()` inside a leg republished the
+   face and then compared against its own bytes: three legs passed for the wrong reason. Proof
+   by negative: the three published faces were restored from HEAD and two later verification
+   passes left them byte-identical. Repair: rebuild into a tempdir and delete it.
+3. **A slice of a 12k-line `main()` must be cut by balancing the `check(...)` call.** A first
+   extractor ended the slice at the first `except Exception as e:`, which truncated two legs
+   that carry an inner try/except, and reported "NO CHECK RAN" rather than a failure.
+
+How to apply: before writing any "the published X re-derives", ask (a) is the subject a live
+directory, (b) does my rebuild write, (c) what is the population key I can compare to know
+whether the two builds are about the same population. Publish DRIFT with both populations
+rather than convicting, and never let a checker's own write land in the checked face.

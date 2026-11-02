@@ -24,6 +24,58 @@ def _lan_ok(lag, st) -> bool:
     if lag == 0:
         return st.get("stale") is False and "NOT current" not in str(st.get("reason"))
     return st.get("stale") is True and "NOT current" in str(st.get("reason"))
+CENSUS_DRIFT = []
+
+
+def _census_corpus_moved(face, fresh):
+    """Did the two builds census the same corpus?
+
+    An equality between a published census and a rebuild is a reproduction test only if
+    both counted the same corpus.  A date cutoff cannot pin that -- the corpus is a live
+    directory other lanes write all day, so 7 faces here carry today's cutoff and a
+    different population.  The population size can say which of the two happened, and
+    "the corpus moved" is a fact about the corpus, not a defect in the face.
+    """
+    def size(d):
+        c = (d or {}).get("corpus") or {}
+        for k in ("files", "sources", "faces"):
+            if isinstance(c.get(k), int):
+                return c[k]
+        s = (d or {}).get("summary") or {}
+        for k in ("faces_scanned", "sources_scanned", "corpus_files", "n_leaf_witnesses",
+                  "source_family_pairs", "legs_in_smoke_test", "sites", "faces"):
+            if isinstance(s.get(k), int):
+                return s[k]
+        return None
+    a, b = size(face), size(fresh)
+    return (a is not None and b is not None and a != b), a, b
+
+
+def _census_shrank(bad, then, now):
+    """A corpus that grew is a fact about the corpus; one that lost files is not."""
+    if isinstance(then, int) and isinstance(now, int) and now < then:
+        bad.append("the corpus shrank since publication (%s -> %s), so the published "
+                   "population cannot be explained by growth" % (then, now))
+    return bad
+
+
+def _census_rebuild_scratch(mod, **kw):
+    """Rebuild a census face into a scratch directory.
+
+    e328/e329/e332 resolve `outdir or OUTDIR` and write, so a plain build() inside a leg
+    republishes the very face the leg is about to compare -- the checker becomes the
+    writer and the numbers are compared against its own output (r1261 family).  A checker
+    must not mutate its subject, so the rebuild lands beside the corpus, not in it.
+    """
+    import shutil
+    import tempfile
+    out = tempfile.mkdtemp(prefix="smoke_census_")
+    try:
+        return mod.build(outdir=out, **kw)
+    finally:
+        shutil.rmtree(out, ignore_errors=True)
+
+
 def main() -> int:
     print(f"== Bigmoney smoke test {dt.datetime.now():%Y-%m-%d %H:%M:%S} ==")
     try:
@@ -7889,9 +7941,19 @@ def main() -> int:
             if not any("live_panel" in f or "sessions_past" in f for f in _c["basis_evidence"]):
                 _bad298.append("a live_declared block does not name the live panel")
         _fresh298 = _m298.build()
-        for _k in ("verdict", "summary", "identity_check", "at_risk", "vintage_transitions"):
-            if _fresh298.get(_k) != _f298.get(_k):
-                _bad298.append("%s does not re-derive" % _k)
+        # the equality against a rebuild is a reproduction test only on the same corpus;
+        # this face was published on one that other lanes have since written into
+        _moved298, _then298, _now298 = _census_corpus_moved(_f298, _fresh298)
+        if _moved298:
+            CENSUS_DRIFT.append("leg 298: published on %s file(s), corpus now %s -- the "
+                                "summary and controls are pinned to the older population"
+                                % (_then298, _now298))
+            _bad298 = _census_shrank(_bad298, _then298, _now298)
+        else:
+            for _k in ("verdict", "summary", "identity_check", "at_risk",
+                       "vintage_transitions"):
+                if _fresh298.get(_k) != _f298.get(_k):
+                    _bad298.append("%s does not re-derive" % _k)
         check(_name298, not _bad298,
               "; ".join(_bad298)[:220]
               or "verdict %r | %d control block(s) in %d face(s): %d identity / %d replay; %d "
@@ -8252,7 +8314,12 @@ def main() -> int:
                 if "*" not in _t95 and "%" not in _t95:
                     _bad95.append("a real face is excused as a template")
                     break
-            if _f95.get("summary") != _fresh95.get("summary"):
+            _moved95, _then95, _now95 = _census_corpus_moved(_f95, _fresh95)
+            if _moved95:
+                CENSUS_DRIFT.append("leg 95: published with %s leg(s) in the suite, now %s -- "
+                                    "the summary is pinned to the older suite" % (_then95, _now95))
+                _bad95 = _census_shrank(_bad95, _then95, _now95)
+            elif _f95.get("summary") != _fresh95.get("summary"):
                 _bad95.append("the summary does not re-derive")
         check(_name95, not _bad95, "; ".join(_bad95)[:220]
               or "verdict %s | %d of %d numeric face sites at risk (%d per-key, %d face-bound); "
@@ -9165,7 +9232,13 @@ def main() -> int:
             if _f308.get("verdict") not in _m308.VERDICTS:
                 _bad308.append("verdict %r is outside the frozen set" % (_f308.get("verdict"),))
             _s308 = _f308.get("summary") or {}
-            if _s308 != _fresh308.get("summary"):
+            _moved308, _then308, _now308 = _census_corpus_moved(_f308, _fresh308)
+            if _moved308:
+                CENSUS_DRIFT.append("leg 308: published on %s file(s), corpus now %s -- the "
+                                    "summary is pinned to the older population"
+                                    % (_then308, _now308))
+                _bad308 = _census_shrank(_bad308, _then308, _now308)
+            elif _s308 != _fresh308.get("summary"):
                 _bad308.append("the summary does not re-derive")
             _rows308 = _f308.get("rows") or []
             if _s308.get("rows") != len(_rows308):
@@ -9298,10 +9371,17 @@ def main() -> int:
             if _f312.get("verdict") not in (_m312.VERDICT_NONE, _m312.VERDICT_SOME,
                                             _m312.VERDICT_EMPTY):
                 _bad311.append("verdict %r is outside the frozen set" % (_f312.get("verdict"),))
-            if _f312.get("verdict_reason") != _fresh312.get("verdict_reason"):
-                _bad311.append("the reason does not re-derive")
-            if _f312.get("by_rung") != _fresh312.get("by_rung"):
-                _bad311.append("a rung's counts do not re-derive")
+            _moved311, _then311, _now311 = _census_corpus_moved(_f312, _fresh312)
+            if _moved311:
+                CENSUS_DRIFT.append("leg 311: published on %s file(s), corpus now %s -- the "
+                                    "rung counts and reason are pinned to the older population"
+                                    % (_then311, _now311))
+                _bad311 = _census_shrank(_bad311, _then311, _now311)
+            else:
+                if _f312.get("verdict_reason") != _fresh312.get("verdict_reason"):
+                    _bad311.append("the reason does not re-derive")
+                if _f312.get("by_rung") != _fresh312.get("by_rung"):
+                    _bad311.append("a rung's counts do not re-derive")
             _s312 = _f312.get("summary") or {}
             if _s312.get("ladder_is_monotone_from") != _m312.RUNG_FULL:
                 _bad311.append("the published lookup is not disclosed as an instrument")
@@ -9424,15 +9504,22 @@ def main() -> int:
             if _f327.get("verdict") not in (_m327.VERDICT_SURVIVES, _m327.VERDICT_READ_ONLY,
                                             _m327.VERDICT_LOST, _m327.VERDICT_NO_POINTER):
                 _bad327.append("verdict %r is outside the frozen set" % (_f327.get("verdict"),))
-            for _k327 in ("pairs", "real_pointers", "distinct_pointer_files",
-                          "faces_with_a_real_pointer", "pairs_that_are_not_pointers",
-                          "consumers"):
-                if _s327.get(_k327) != (_fresh327.get("summary") or {}).get(_k327):
-                    _bad327.append("summary.%s does not re-derive" % _k327)
-            _disk327 = {(p["pointer"], p["target"]): p["kind"] for p in _f327.get("pairs") or []}
-            if _disk327 != {(p["pointer"], p["target"]): p["kind"]
-                            for p in _fresh327["pairs"]}:
-                _bad327.append("a pair's class does not re-derive")
+            _moved327, _then327, _now327 = _census_corpus_moved(_f327, _fresh327)
+            if _moved327:
+                CENSUS_DRIFT.append("leg 327: published on %s file(s), corpus now %s -- pairs "
+                                    "and counts are pinned to the older population"
+                                    % (_then327, _now327))
+                _bad327 = _census_shrank(_bad327, _then327, _now327)
+            else:
+                for _k327 in ("pairs", "real_pointers", "distinct_pointer_files",
+                              "faces_with_a_real_pointer", "pairs_that_are_not_pointers",
+                              "consumers"):
+                    if _s327.get(_k327) != (_fresh327.get("summary") or {}).get(_k327):
+                        _bad327.append("summary.%s does not re-derive" % _k327)
+                _disk327 = {(p["pointer"], p["target"]): p["kind"] for p in _f327.get("pairs") or []}
+                if _disk327 != {(p["pointer"], p["target"]): p["kind"]
+                                for p in _fresh327["pairs"]}:
+                    _bad327.append("a pair's class does not re-derive")
             for _pr327 in _f327.get("pairs") or []:
                 if _pr327["kind"] not in _m327.PAIR_CLASSES:
                     _bad327.append("pair class %r is outside the frozen set"
@@ -9479,21 +9566,28 @@ def main() -> int:
         else:
             sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
             _m328 = __import__("importlib").import_module("e328_quoted_number_staleness")
-            _fresh328 = _m328.build()
+            _fresh328 = _census_rebuild_scratch(_m328)
             _s328 = _f328.get("summary") or {}
             if _f328.get("verdict") != _fresh328.get("verdict"):
                 _bad328.append("the verdict does not re-derive")
             if _f328.get("verdict") not in _m328.VERDICTS:
                 _bad328.append("verdict %r is outside the frozen set" % (_f328.get("verdict"),))
-            for _k328 in ("faces_scanned", "families", "stale_faces", "stale_faces_quoted",
-                          "quoted_numbers", "numbers_that_move",
-                          "numbers_absent_from_newest_cut"):
-                if _s328.get(_k328) != (_fresh328.get("summary") or {}).get(_k328):
-                    _bad328.append("summary.%s does not re-derive" % _k328)
-            _disk328 = {r["face"]: (r["cutoff"], r["changed"]) for r in _f328.get("rows") or []}
-            if _disk328 != {r["face"]: (r["cutoff"], r["changed"])
-                            for r in _fresh328["rows"]}:
-                _bad328.append("a quoted stale face does not re-derive")
+            _moved328, _then328, _now328 = _census_corpus_moved(_f328, _fresh328)
+            if _moved328:
+                CENSUS_DRIFT.append("leg 328: published on %s file(s), corpus now %s -- the "
+                                    "stale-cut counts are pinned to the older population"
+                                    % (_then328, _now328))
+                _bad328 = _census_shrank(_bad328, _then328, _now328)
+            else:
+                for _k328 in ("faces_scanned", "families", "stale_faces", "stale_faces_quoted",
+                              "quoted_numbers", "numbers_that_move",
+                              "numbers_absent_from_newest_cut"):
+                    if _s328.get(_k328) != (_fresh328.get("summary") or {}).get(_k328):
+                        _bad328.append("summary.%s does not re-derive" % _k328)
+                _disk328 = {r["face"]: (r["cutoff"], r["changed"]) for r in _f328.get("rows") or []}
+                if _disk328 != {r["face"]: (r["cutoff"], r["changed"])
+                                for r in _fresh328["rows"]}:
+                    _bad328.append("a quoted stale face does not re-derive")
             for _r328 in _f328.get("rows") or []:
                 if _r328["cutoff"] >= _r328["family_newest_cutoff"]:
                     _bad328.append("a row is not older than its family's newest cut")
@@ -9538,18 +9632,25 @@ def main() -> int:
         else:
             sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
             _m329 = __import__("importlib").import_module("e329_two_vintage_binding")
-            _fresh329 = _m329.build()
+            _fresh329 = _census_rebuild_scratch(_m329)
             _s329 = _f329.get("summary") or {}
             if _f329.get("verdict") != _fresh329.get("verdict"):
                 _bad329.append("the verdict does not re-derive")
             if _f329.get("verdict") not in _m329.VERDICTS:
                 _bad329.append("verdict %r is outside the frozen set" % (_f329.get("verdict"),))
-            for _k329 in ("source_family_pairs", "pairs_naming_two_vintages",
-                          "pairs_order_decided", "pairs_roles_named", "call_site_stems",
-                          "stems_serving_a_stale_cut_today",
-                          "stems_where_the_pinned_fallback_is_already_stale"):
-                if _s329.get(_k329) != (_fresh329.get("summary") or {}).get(_k329):
-                    _bad329.append("summary.%s does not re-derive" % _k329)
+            _moved329, _then329, _now329 = _census_corpus_moved(_f329, _fresh329)
+            if _moved329:
+                CENSUS_DRIFT.append("leg 329: published on %s file(s), corpus now %s -- the "
+                                    "two-vintage counts are pinned to the older population"
+                                    % (_then329, _now329))
+                _bad329 = _census_shrank(_bad329, _then329, _now329)
+            else:
+                for _k329 in ("source_family_pairs", "pairs_naming_two_vintages",
+                              "pairs_order_decided", "pairs_roles_named", "call_site_stems",
+                              "stems_serving_a_stale_cut_today",
+                              "stems_where_the_pinned_fallback_is_already_stale"):
+                    if _s329.get(_k329) != (_fresh329.get("summary") or {}).get(_k329):
+                        _bad329.append("summary.%s does not re-derive" % _k329)
             _classes = {_m329.O_CHAIN, _m329.O_REBOUND, _m329.O_SEPARATE, _m329.O_MENTION,
                         _m329.O_LIST}
             for _r329 in _f329.get("rows") or []:
@@ -9771,19 +9872,27 @@ def main() -> int:
         else:
             sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
             _m332 = __import__("importlib").import_module("e332_invisible_tail_recovery")
-            _fresh332 = _m332.build()
+            _fresh332 = _census_rebuild_scratch(_m332)
             _s332 = _f332.get("summary") or {}
             _s332f = _fresh332.get("summary") or {}
             if _f332.get("verdict") != _fresh332.get("verdict"):
                 _bad332.append("the verdict does not re-derive")
             if _f332.get("verdict") not in _m332.VERDICTS:
                 _bad332.append("verdict %r is outside the frozen set" % (_f332.get("verdict"),))
-            for _k332 in ("sources_scanned", "sources_the_helper_blinds", "recovered_code_lines",
-                          "recovered_by_kind", "sources_whose_tail_is_invisible",
-                          "sources_blinded_before_their_last_line",
-                          "sources_with_more_than_one_span", "repricing_delta"):
-                if _s332.get(_k332) != _s332f.get(_k332):
-                    _bad332.append("summary.%s does not re-derive" % _k332)
+            _moved332, _then332, _now332 = _census_corpus_moved(_f332, _fresh332)
+            if _moved332:
+                CENSUS_DRIFT.append("leg 332: published on %s source(s), corpus now %s -- the "
+                                    "recovery counts are pinned to the older population"
+                                    % (_then332, _now332))
+                _bad332 = _census_shrank(_bad332, _then332, _now332)
+            else:
+                for _k332 in ("sources_scanned", "sources_the_helper_blinds",
+                              "recovered_code_lines", "recovered_by_kind",
+                              "sources_whose_tail_is_invisible",
+                              "sources_blinded_before_their_last_line",
+                              "sources_with_more_than_one_span", "repricing_delta"):
+                    if _s332.get(_k332) != _s332f.get(_k332):
+                        _bad332.append("summary.%s does not re-derive" % _k332)
             if int(_s332.get("recovered_code_lines") or 0) <= 0:
                 _bad332.append("the recovery found nothing, which is a broken measurement")
             _kinds332 = _s332.get("recovered_by_kind") or {}
@@ -9824,7 +9933,7 @@ def main() -> int:
                     if _v332 != _now332 - _was332:
                         _bad332.append("delta.%s is not the difference of the two runs" % _k332)
                         break
-            if _rep332 != _fresh332.get("repricing"):
+            if not _moved332 and _rep332 != _fresh332.get("repricing"):
                 _bad332.append("the published re-pricing does not re-derive")
             for _pair332 in _rep332.get("pairs_reclassified_when_the_corpus_is_read") or []:
                 if _pair332.get("with_helper") == _pair332.get("recovered"):
@@ -11896,6 +12005,8 @@ def _r37(face, key):
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass
+    for _d in CENSUS_DRIFT:
+        print(f"[DRIFT] {_d}")
     print(f"\nSummary: {n_pass}/{len(RESULTS)} PASS, {n_fail} FAIL")
     try:
         os.makedirs("logs", exist_ok=True)

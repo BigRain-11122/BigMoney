@@ -6,9 +6,9 @@
  "current": "r1378 E356 census-red triage",
  "current_task": "r1378 E356 census-red triage",
  "current_work": "E356 triage of the seven census-corpus red legs",
- "cyc_round": 1379,
+ "cyc_round": 1382,
  "cycl_round": 1378,
- "cycle_round": 1379,
+ "cycle_round": 1382,
  "d19": {
   "decisions_changed": false,
   "decisions_sha": "fdd605df",
@@ -141,7 +141,7 @@
  "delivery_note": "main-branch push is not attempted: a bounded attempt has hung in promisor lazy-fetch for thirteen consecutive rounds (r1255..r1295 family), so the machine branch is the delivery channel until it clears",
  "dept": "research+engineering",
  "did": "r1366 E345: a deleted gate's absence is measured against the rounds in which the suite ran -- the three smoke checks r1227 removed and r1243's union merge restored were absent for 9.26h / 29 mainline commits / 10 rounds in which smoke ran 37 times, and NOTHING on the futures-TSMOM face asserted the property (both its checks died together); the face was not even in this line's tree at the window tip, so the machine was green about a face it neither held nor checked",
- "did_round": 1379,
+ "did_round": 1382,
  "face": "smoke_test.py (E335 leg)",
  "finding": "E328's quoted numbers 1,430 -> 1,933 (+503), stale faces quoted 4 -> 5; E329's pairs naming two vintages 12 -> 15; E326's consumers 36 -> 35 with the class split flipping one row; E330 moves 0 of 21 even though 602 of its 635 code lines were hidden. All six E328 movers are explained exactly by scripts/e280_e251_rng_drift_repin.py, and E329's positive movers by scripts/e330_unpinned_choice.py. The shipped half reproduces NONE of the four published faces because the corpus grew since they were written (faces_scanned 550 -> 555, sources 2,284 -> 2,287): the delta is the helper, the reproduction gap is corpus drift, and the face publishes both as separate axes.",
  "free_vram_gb": 3.5,
@@ -218,7 +218,7 @@
  "last_push": true,
  "last_push_at": "2026-11-01T20:13:07+08:00",
  "last_push_sha": "4a6bced28f7c27f91964bdc67a11dc5993fd389c",
- "last_round": 1379,
+ "last_round": 1382,
  "last_round_at": "2026-11-01T17:30:00+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md",
  "last_round_ts": "2026-11-01T07:04:05+08:00",
@@ -3999,6 +3999,90 @@
   "verification": "ls-remote equals local HEAD",
   "verified": true
  },
+ "r1381": {
+  "dept": "engineering",
+  "face": "smoke_test.py (E335 leg)",
+  "not_run": "lane collectors, market_regime, update_*, paper/scorecard faces; sat engine not probed; 6 other census reds ('summary does not re-derive' / 'pairs does not re-derive') stand published and were NOT claimed fixed; GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted",
+  "pit": "(1) the failing leg and the frozen verdict set disagreed: E335's VERDICTS include a non-reproducing rung, so demanding candidates_reproduced==candidates_published convicted the face for telling the truth (r1261 family). (2) the leg's sibling ValueError ('too many values to unpack') in the r1378 log was already healed on disk; confirmed by import rather than assumed, so the round did not re-fix a fixed thing.",
+  "product": [
+   "smoke_test.py E335 leg: reproduction assertions now keyed on the face's own delta_ok input (true -> every candidate reproduced and no moved number; false -> at least one row must have moved)",
+   "leg text executed verbatim out of the suite in a captured-check namespace: PASS with the honest detail line (29/30 reproduced, max abs diff 4.0, non-reproducing verdict)",
+   "full suite launched detached results/_smoke_r1381.out pid 29896 (verdict owed to next round)"
+  ],
+  "round_no": 1381,
+  "study": "S1_red_fix_e335_leg_polarity",
+  "ts": "2026-11-02T12:45:00+08:00",
+  "verdict": "a_leg_that_demands_reproduction_convicts_a_face_for_publishing_the_verdict_its_own_frozen_set_permits"
+ },
+ "r1382": {
+  "dept": "engineering",
+  "face": "smoke_test.py (eight census legs)",
+  "measured": {
+   "corpus_sizes_moved": {
+    "308": [
+     2341,
+     2357
+    ],
+    "311": [
+     2340,
+     2356
+    ],
+    "327": [
+     2338,
+     2354
+    ],
+    "328": [
+     566,
+     587
+    ],
+    "329": [
+     246,
+     272
+    ],
+    "332": [
+     2308,
+     2355
+    ],
+    "95": [
+     402,
+     407
+    ]
+   },
+   "faces_rewritten_by_the_checker_after_the_fix": 0,
+   "faces_rewritten_by_the_checker_before_the_fix": [
+    "stalecutoff_latest.json",
+    "twovintage_latest.json",
+    "invisibletail_latest.json"
+   ],
+   "leg298_published_vs_rebuild": {
+    "controls": [
+     70,
+     70
+    ],
+    "faces_scanned": [
+     138,
+     145
+    ],
+    "mirror_files_excluded": [
+     113,
+     120
+    ],
+    "verdict_equal": true
+   }
+  },
+  "not_run": "full suite (330+ legs, ~35min), S6 chain, dualrun/compute_audit/py_watermark, lane collectors, update_*, paper/scorecard faces; GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted",
+  "pit": "(1) the eight reds had two distinct causes behind one sentence; only measurement separated them. (2) e328/e329/e332 write when outdir is None, so the legs made themselves pass -- discovered by face mtimes moving to the minute my verifier reached them. (3) my first slice extractor ended at the first 'except Exception', truncating two legs that carry an inner try/except, and printed NO CHECK RAN. (4) redirected python buffers stdout, so a detached run looks dead for minutes; -u and per-leg flush are what made progress visible.",
+  "product": [
+   "smoke_test.py: _census_corpus_moved / _census_shrank / _census_rebuild_scratch + the eight census legs gated on corpus identity, drift published as [DRIFT] lines",
+   "the eight legs executed verbatim with a stub check(): 8 PASS, 8 drift lines",
+   "published faces stalecutoff/twovintage/invisibletail restored from HEAD and proven untouched by two later verification passes",
+   "knowledge/METHODOLOGY_ASSETS.md card E360 + digest DIGEST-20261102-r1382-census-legs-corpus-pin.md"
+  ],
+  "round_no": 1382,
+  "study": "S1_red_fix_census_corpus_pin",
+  "ts": "2026-11-02T13:54:22+08:00",
+  "verdict": "a_census_leg_that_compares_a_published_population_to_a_live_rebuild_convicts_the_tree_for_having_grown_and_three_of_them_republished_the_face_they_checked"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -4009,35 +4093,35 @@
  "ram_total_gb": 23.92,
  "reds_open": [],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1381,
- "round_no": 1381,
- "round_no_label": "r1381",
+ "round": 1382,
+ "round_no": 1382,
+ "round_no_label": "r1382",
  "round_no_note": "r1373 healed a 6-round split: round/round_no said 1372 while cyc_round/cycle_round/last_round/did_round still said 1366 and the label said r1370. Pre-fix faces: {\"cyc_round\": 1366, \"cycle_round\": 1366, \"did_round\": 1366, \"last_round\": 1366, \"round\": 1372, \"round_no\": 1372, \"round_no_label\": \"r1370\"}",
- "round_no_ts": "2026-11-02T12:45:00+08:00",
- "round_no_ts_note": "r1381 closeout",
+ "round_no_ts": "2026-11-02T13:54:22+08:00",
+ "round_no_ts_note": "r1382 closeout",
  "round_pit": "(1) the degeneracy cross-check summed n_at_base over the 16 PUBLISHED ROWS and read 29 against E259 52 -- the published rows and E259 distribution arms are two different 16s, so the \"reproduction failure\" was my lookup, not a broken upstream; the pin is now per arm (base count AND leg in the key) and a selftest leg pins that the row sum is NOT the arm total. (2) my first selftest assertion on extra_draws_median said 280 while the code (correctly) returns the median of [280,1720]=1000 -- the assertion was wrong, not the code (r1281 shape). (3) two fixture counts in the new arm-level leg were written as if the cross arm had 1 degenerate seed when its own fixture implies 2; the leg caught it, which is what a pin is for. (4) a self-contained smoke leg cannot be run by the suite in-round (~35 min) so it is executed by exec-ing its own text out of smoke_test.py -- a re-implementation would prove the copy.",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
- "s1": "suite launched detached 12:33 (results/_smoke_r1381.out, pid 29896); new verdict owed next round",
- "s6": "orphan py_faces=15 orphans=0 residents=0 | attrition CLEAN 4 ledgers | sat engine rc=0 | the rest of the S6 chain was NOT re-run this window",
+ "s1": "8 red legs executed standalone and green; full suite not re-run",
+ "s6": "orphan py_faces=15 orphans=0 residents=0; the S6 chain was not re-run this window",
  "s6_leg": "subject_resolution verify rc=0 2.30s (through Tools/s6_chain_bmb.py 1380 --only)",
  "s6_note": "the S6 maintenance chain was NOT re-run this window",
- "s7": "orders 8 most recent files all acked, 0 unacked; loop/watchdog not re-registered (no red); no cleanup action",
+ "s7": "orders: 114 files, 0 unacked; loop/watchdog not re-registered (no red); no cleanup",
  "sat_engine": "rc=0 idle",
  "selftest": "16/16",
- "seq": 1381,
+ "seq": 1382,
  "smoke": {
-  "fail": 12,
-  "note": "figures are the r1376 log the round opened on",
-  "pass": 0,
-  "reds": "2 NameError('re') legs repaired in-window (verified by isolation prover); 10 r1364 census-corpus reds stand published; r1377 suite launched detached",
-  "total": 279,
-  "ts": "2026-11-02T06:56:44"
+  "fail": 8,
+  "note": "verdict of the r1381 detached suite; all 8 reds being census summary differences",
+  "pass": 269,
+  "reds": "8 census legs (95/298/308/311/327/328/329/332) repaired and verified standalone; the suite was not re-run this window",
+  "total": 277,
+  "ts": "2026-11-02T12:47:51"
  },
- "smoke_note": "full suite verdict for r1381 is pending (detached run); the E335 leg itself was executed verbatim and passes",
+ "smoke_note": "8 repaired legs verified verbatim out of the suite; full suite verdict owed to the next window",
  "snapshot": {},
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "ok",
- "study": "S1_red_fix_e335_leg_polarity",
+ "study": "S1_red_fix_census_corpus_pin",
  "sync": {
   "ahead": 204,
   "behind_origin_main": 235,
@@ -4045,38 +4129,23 @@
   "peer": "origin",
   "ts": "2026-11-01T22:03:07+08:00"
  },
- "task": "r1381 red fix: the E335 leg demanded reproduction from a face whose frozen verdict set permits non-reproduction; both polarities are now measured",
- "task_short": "r1381 E335 leg polarity fix",
- "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "timestamp": "2026-11-02T12:45:00+08:00",
- "ts": "2026-11-02T12:45:00+08:00",
+ "task": "r1382 red fix: the eight census legs demanded reproduction from a corpus that had moved, and three of them republished the face they were checking",
+ "task_short": "r1382 census legs corpus pin",
+ "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
+ "timestamp": "2026-11-02T13:54:22+08:00",
+ "ts": "2026-11-02T13:54:22+08:00",
  "ts_utc_ms": 1793574929181,
  "ts_utc_offset": "+08:00",
- "updated": "2026-11-02T12:45:00+08:00",
+ "updated": "2026-11-02T13:54:22+08:00",
  "updated_at": "2026-11-01T22:16:53+08:00",
  "verdict": "ok",
- "verdict_line": "E335 leg no longer convicts a legal verdict; 6 census reds remain published",
- "verify": "build/verify problems=[] | S6 leg subject_resolution re-derives | smoke leg E358 executed standalone in the suite namespace",
+ "verdict_line": "8 census legs pass verbatim with 8 drift lines; no checker writes its subject",
+ "verify": "each leg's own text exec'd with a stub check: 95/298/308/311/327/328/329/332 PASS; published faces byte-identical after two verification passes",
  "vram_free_gb": 0.23,
  "vram_total_gb": 8.0,
  "vram_used_gb": 4.27,
  "watermark_note": "pool card E354 taken and burned this round; no py_watermark probe run",
- "watermark_red": false,
- "watermark_verdict": "green at open (1 ready card, taken and closed); no probe run",
- "work": "r1381 red fix: the E335 leg demanded reproduction from a face whose frozen verdict set permits non-reproduction; both polarities are now measured",
- "r1381": {
-  "round_no": 1381,
-  "ts": "2026-11-02T12:45:00+08:00",
-  "dept": "engineering",
-  "face": "smoke_test.py (E335 leg)",
-  "study": "S1_red_fix_e335_leg_polarity",
-  "verdict": "a_leg_that_demands_reproduction_convicts_a_face_for_publishing_the_verdict_its_own_frozen_set_permits",
-  "product": [
-   "smoke_test.py E335 leg: reproduction assertions now keyed on the face's own delta_ok input (true -> every candidate reproduced and no moved number; false -> at least one row must have moved)",
-   "leg text executed verbatim out of the suite in a captured-check namespace: PASS with the honest detail line (29/30 reproduced, max abs diff 4.0, non-reproducing verdict)",
-   "full suite launched detached results/_smoke_r1381.out pid 29896 (verdict owed to next round)"
-  ],
-  "not_run": "lane collectors, market_regime, update_*, paper/scorecard faces; sat engine not probed; 6 other census reds ('summary does not re-derive' / 'pairs does not re-derive') stand published and were NOT claimed fixed; GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted",
-  "pit": "(1) the failing leg and the frozen verdict set disagreed: E335's VERDICTS include a non-reproducing rung, so demanding candidates_reproduced==candidates_published convicted the face for telling the truth (r1261 family). (2) the leg's sibling ValueError ('too many values to unpack') in the r1378 log was already healed on disk; confirmed by import rather than assumed, so the round did not re-fix a fixed thing."
- }
+ "watermark_red": true,
+ "watermark_verdict": "red at open: py_low_with_work_cands (pool ready ids E353/E354/E355); taken as the S1 red-first mandate, no pool card burned this round",
+ "work": "r1382 red fix: eight census legs gated on corpus identity, three of them no longer write the face they check"
 }
