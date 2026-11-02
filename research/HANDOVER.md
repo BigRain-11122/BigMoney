@@ -1,22 +1,27 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
 
-## 5x 幂等快照 — r1230（2026-11-02 06:1x · bm-a）
+## 5x 幂等快照 · r1235（2026-11-02 11:2x · bm-a）
+> 授权口径不变：逐轮权威=`round_reports-bm-a.md` 全行在册；本块只做「产物清单与完成状态」核对与指针，不复制轮报告正文。
+> 本块覆盖 r1231→r1235（上次刷新停在 r1230；r1231/1233/1234 三轮的产物在此补登，正文见对应轮行）。
 
-**本窗产物（可核）**
+**本线产物（可核）**
 
 | 产物 | 状态 |
 |---|---|
-| `scripts/etf_book_underwater.py`（run / --selftest 14/14 / --check） | 已发布 + S6 链腿 `etf_book_underwater` + smoke 两腿 |
-| `results/etf_book_underwater.json`（cutoff 2026-10-30 · 1652 bars · 控制臂 n12_vt08 逐位复现 9.60%/−11.77%，tol 5e-5） | 已发布 |
-| `research/ETF_BOOK_UNDERWATER.md` + `research/digests/DIGEST-20261102-r1230-underwater.md` | 已发布 |
-| `knowledge/METHODOLOGY_ASSETS.md` card E346 | 已 append |
-| settled-tree 全量 smoke | **320/320 PASS 0 FAIL**（`.codely-cli/tmp/smoke-r1230-final.out`） |
+| `scripts/etf_book_universe_lock.py`（run ~58s / `--selftest` 19/19 / `--check` OK·MIXED_ACROSS_PHASES） | 已发布 + smoke 腿「verdict recomputed, control reproduced」 |
+| `results/etf_book_universe_lock.json`（控制臂复现 as coded 9.60% / declared 8.46% 各 0.00pp） | 已发布 |
+| `research/ETF_BOOK_UNIVERSE_LOCK.md` + `research/digests/DIGEST-20261102-r1235-universe-lock.md` | 已发布 |
+| `scripts/etf_book_ceo_page.py`（universe_lock_face/block，selftest 118→123，L120 钉「块要到达渲染后的页面」） | 已发布，页面节「2020 年能不能真的跑这本书？」 |
+| `knowledge/METHODOLOGY_ASSETS.md` card E350（同批还带入 E348/E349 上下文） | 已 append |
+| settled-tree 全量 smoke | **330/330 PASS 0 FAIL**（`.codely-cli/tmp/smoke-r1235.out`） |
+| r1234 `scripts/etf_book_pre2020_voltarget.py`（selftest 24/24）·`results/etf_book_pre2020_voltarget.json`·卡 E349 | 已发布（前 2020 段 5.12% 拆开＝80% 的时间在降仓，裸跑 0.73%/年） |
+| r1233 `etf_book_ceo_page.sample_window_face`（selftest 114→118）·卡？见 digest r1233 | 已发布（页面自述窗口 2020-01-01..2026-10-26；窗外 5.12%/0.70，alpha t=1.04） |
+| r1231 `etf_book_ceo_page.underwater_face`（selftest 111→114）·卡 E346 | 已发布（最长水下段 350 bar，最坏入场 351 bar） |
 
-**一句话**：账面第一次报「等多久」——最长水下段 350 bar（2021-09-14→2023-03-02），最坏入场 351 bar 才回本；
-前向 1 年最小 −7.51%（8.0% 入场点为负）、3 年无一为负（2020+ 上升样本，禁读成承诺）。
+**一句话**：这本书的 8.46% 长在今天的 1504 只基金上——12 个在手名字里 11 个是 2020 后才上市，37.5% 的决策位落在窗口内新上市的票上；
+把票池冻结在窗口第一天只让相位均值动 −0.01pp，**命门是票池宽度**（2014 年 61 只 → 5.35%，2019 年 193 只 → 7.96%，2022 年 663 只 → 8.98%）。
 
-**下一手**：把 350/351 bar 与 1y min 印进 `etf_book_ceo_page` 与 `CARD.md`（两处当前都没有时长信息）；
-规则面（水下期是否继续按网格再平衡）归 `etf_book_drawdown_guard`，勿新开第二个。
+**下一口**：锁定臂仍是**上界**（退市基金不在面板里＝幸存者偏差未定价）；规则层八问已问完（七不值一近失），样本层只剩这一个口子。
 
 ## 5x 核对增量 · r1255（2026-10-29 21:1x · bm-b）
 
