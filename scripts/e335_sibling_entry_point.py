@@ -45,6 +45,7 @@ sys.path.insert(0, HERE)
 import e326_template_parameter_consumers as e326  # noqa: E402  (path set above)
 import e332_invisible_tail_recovery as e332  # noqa: E402
 import e334_helper_repair_blast_radius as e334  # noqa: E402
+import e361_census_corpus_pin as e361  # noqa: E402  (E363: the face carries its own corpus address)
 
 ROOT = e326.ROOT
 OUTDIR = os.path.join(ROOT, "results", "state_tilt")
@@ -360,8 +361,8 @@ def e326_face_state():
     return {"source": E326_REL, "bindings": rows}
 
 
-def build(outdir=None):
-    texts = corpus_texts()
+def build(outdir=None, files=None):
+    texts = corpus_texts(files)
     coex = coexist(texts)
     delta = redelta(texts)
     inert = inertness(texts)
@@ -379,6 +380,8 @@ def build(outdir=None):
         "evidence_cutoff": TODAY,
         "verdict": verdict,
         "verdict_reason": reason,
+        "corpus": e361.stamp(files if files is not None else
+                             [(p, t) for p, t in e326.corpus()], root=ROOT),
         "recommendation": "the tokenizer reading is available as a sibling entry point; switching a "
                           "consumer is a separate decision with its own republish cost (E334)",
         "summary": {

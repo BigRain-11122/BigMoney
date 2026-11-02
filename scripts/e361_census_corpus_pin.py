@@ -71,6 +71,18 @@ def pin_id(sources) -> str:
     return hashlib.sha256(("\n".join(lines) + "\n").encode("utf-8")).hexdigest()
 
 
+def stamp(files, root: str = None) -> dict:
+    """A study's own corpus address: the population it scanned, by content, not by path count.
+
+    E363: a face that quotes a population size but not its address cannot be re-checked by anyone
+    -- not from the newest pin (taken later), not from its publishing commit (a working-tree face
+    has none).  Stamping at build time is the only moment the address exists.
+    """
+    rows = [{"path": relpath(p, root or ROOT), "sha256": digest(t)} for p, t in files]
+    return {"members": len(rows), "pin_id": pin_id(rows) if rows else "",
+            "rule": "sha256 over LF-normalised text, one line per `path<TAB>digest`, order-free"}
+
+
 def refuse_duplicates(sources) -> None:
     seen = set()
     for s in sources:

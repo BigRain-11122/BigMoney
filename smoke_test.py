@@ -76,6 +76,37 @@ def _census_rebuild_scratch(mod, **kw):
         shutil.rmtree(out, ignore_errors=True)
 
 
+def _named_pin_corpus(face):
+    """The corpus a face was built over, rebuilt from the pin the face itself names.
+
+    E363: a census face quotes a population size.  Comparing that size against today's disk makes
+    the leg's verdict a function of what other lanes happened to write, and comparing it against
+    "the newest pin" does not work either -- a pin is taken after the face, so it describes a later
+    corpus (measured: published 2362 / live 2367 / newest pin 2365 / publishing commit 2227).
+    The only address that reproduces a face is the one the face wrote down, so the leg replays that
+    pin and refuses a face that names none.
+    """
+    source = (face or {}).get("corpus_source") or {}
+    pin_file = source.get("pin_file")
+    if not pin_file:
+        raise RuntimeError("the face names no corpus (E363 corpus_source)")
+    path = os.path.join("results", "state_tilt", pin_file)
+    if not os.path.exists(path):
+        raise RuntimeError("the named corpus pin %s is not on disk" % (pin_file,))
+    sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+    import e362_corpus_replay as _e362
+    import e363_corpus_vintage as _e363
+    import e361_census_corpus_pin as _e361
+    pin = _e361.load_pin(path)
+    gits = [s for s in pin["sources"] if s.get("tracked") and not s.get("dirty")]
+    from_git, _missing = _e362.blob_texts(pin["git_commit"], [s["path"] for s in gits])
+    store = _e362.load_store(pin["pin_id"])
+    texts = dict(from_git)
+    for p, blob in store["texts"].items():
+        texts.setdefault(p, _e362.decode_text(blob))
+    return texts, pin_file
+
+
 def main() -> int:
     print(f"== Bigmoney smoke test {dt.datetime.now():%Y-%m-%d %H:%M:%S} ==")
     try:
@@ -9792,8 +9823,14 @@ def main() -> int:
         else:
             sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
             _m331 = __import__("importlib").import_module("e331_pointer_only_readers")
-            _fresh331 = _m331.build()
+            # E363: rebuild over the corpus this face says it scanned, not over today's disk
+            _texts331, _pin331 = _named_pin_corpus(_f331)
+            _files331 = __import__("e363_corpus_vintage").files_from(
+                _texts331, "e331_pointer_only_readers.py")
+            _fresh331 = _census_rebuild_scratch(_m331, files=_files331)
             _s331 = _f331.get("summary") or {}
+            if (_f331.get("corpus") or {}).get("pin_id") != (_fresh331.get("corpus") or {}).get("pin_id"):
+                _bad331.append("the corpus the face addresses is not the corpus it was built over")
             if _f331.get("verdict") != _fresh331.get("verdict"):
                 _bad331.append("the verdict does not re-derive")
             if _f331.get("verdict") not in _m331.VERDICTS:
@@ -10224,6 +10261,15 @@ def main() -> int:
             if not os.path.exists(os.path.join("scripts", "e335_sibling_entry_point.py")):
                 _bad335.append("the study script is not on disk")
             _s335 = _f335.get("summary") or {}
+            # E363: a face that quotes a population must name the corpus it scanned, or nobody --
+            # not this leg, not a later reader -- can recheck that number.
+            _cs335 = _f335.get("corpus_source") or {}
+            if not _cs335.get("pin_file"):
+                _bad335.append("the face names no corpus, so its population cannot be rechecked")
+            elif not os.path.exists(os.path.join("results", "state_tilt", _cs335["pin_file"])):
+                _bad335.append("the corpus pin this face names is not on disk")
+            elif (_f335.get("corpus") or {}).get("members") != _s335.get("sources_read"):
+                _bad335.append("the corpus the face addressed is not the population it quotes")
             _i335 = (_f335.get("decision") or {}).get("inputs") or {}
             if _f335.get("verdict") not in _m335.VERDICTS:
                 _bad335.append("verdict %r is outside the frozen set" % (_f335.get("verdict"),))

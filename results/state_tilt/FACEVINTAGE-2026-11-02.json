@@ -1,0 +1,163 @@
+{
+ "study": "e363_corpus_vintage",
+ "evidence_cutoff": "2026-11-02",
+ "verdict": "every_published_population_is_reproducible_from_the_pin_the_face_names",
+ "rules": {
+  "one rule for every vintage": "all three readings go through corpus_paths(), and the rule is proved against the study's own live population before any comparison is published",
+  "history": "the commit that last wrote the face path -- a working-tree face has no other address",
+  "pinned": "the newest corpus pin replayed from its commit plus its content store",
+  "no_republish": "this study never writes a face it grades; it publishes what each vintage would say"
+ },
+ "limits": {
+  "registry": "two studies are in the registry; a census that does not expose a files= seam cannot be replayed over another vintage at all and is out of scope",
+  "history_of_a_dirty_face": "a face written and never committed has no publishing commit, so its history row is absent rather than equal",
+  "own_sources": "the exclusion list is declared here, so a study that changes its own self-exclusion moves this rule -- the live leg catches that"
+ },
+ "summary": {
+  "studies_measured": 2,
+  "populations_with_an_address_in_history": 0,
+  "populations_reproducible_from_the_newest_pin": 2,
+  "populations_reproducible_from_today_only": 0,
+  "populations_with_no_address": 0,
+  "rules_that_reproduce_the_study": 2,
+  "verdicts": [
+   "every_published_population_is_reproducible_from_the_pin_the_face_names"
+  ]
+ },
+ "rows": [
+  {
+   "study": "e331_pointer_only_readers",
+   "face": "pointeronly_latest.json",
+   "question": "which readers reach a face only through a pointer",
+   "population_key": "sources_scanned",
+   "published_population": 2365,
+   "published_verdict": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+   "live_population": 2369,
+   "rule_agrees_with_the_study": true,
+   "vintages": {
+    "live": {
+     "population": 2369,
+     "verdict_equal": true,
+     "summary_equal": false,
+     "keys_that_moved": [
+      "families_referenced_only_through_a_pointer",
+      "pairs",
+      "pairs_by_class",
+      "rows_published",
+      "sources_scanned",
+      "sources_whose_tail_the_scanner_cannot_see"
+     ],
+     "keys_that_moved_count": 6
+    },
+    "pinned": {
+     "population": 2365,
+     "verdict_equal": true,
+     "summary_equal": true,
+     "keys_that_moved": [],
+     "keys_that_moved_count": 0
+    },
+    "history": {
+     "population": 2227,
+     "verdict_equal": true,
+     "summary_equal": false,
+     "keys_that_moved": [
+      "distinct_families_read",
+      "distinct_pointer_files_named",
+      "families_referenced_only_through_a_pointer",
+      "families_that_resolve_today",
+      "handling_by_class",
+      "pairs",
+      "pairs_by_class",
+      "pointer_only_readers",
+      "prose_literals_rejected_as_notes",
+      "readers_guarded_before_they_use_the_value",
+      "rows_published",
+      "sources_scanned",
+      "sources_whose_tail_the_scanner_cannot_see"
+     ],
+     "keys_that_moved_count": 13
+    },
+    "named_pin": {
+     "population": 2365,
+     "verdict_equal": true,
+     "summary_equal": true,
+     "keys_that_moved": [],
+     "keys_that_moved_count": 0
+    }
+   },
+   "newest_pin_id": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f",
+   "newest_pin_commit": "1244ee231290",
+   "publishing_commit": "17ea91d1226e",
+   "named_pin": {
+    "pin_file": "CORPUSPIN-2026-11-02.json",
+    "pin_id": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f",
+    "stamp_equal": true
+   },
+   "classes": [
+    "pinned",
+    "named_pin"
+   ],
+   "verdict": "every_published_population_is_reproducible_from_the_pin_the_face_names"
+  },
+  {
+   "study": "e335_sibling_entry_point",
+   "face": "siblingentry_latest.json",
+   "question": "does the repaired reading land beside the shipped one",
+   "population_key": "sources_read",
+   "published_population": 2365,
+   "published_verdict": "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce",
+   "live_population": 2369,
+   "rule_agrees_with_the_study": true,
+   "vintages": {
+    "live": {
+     "population": 2369,
+     "verdict_equal": true,
+     "summary_equal": false,
+     "keys_that_moved": [
+      "sources_read",
+      "sources_where_the_readings_differ"
+     ],
+     "keys_that_moved_count": 2
+    },
+    "pinned": {
+     "population": 2365,
+     "verdict_equal": true,
+     "summary_equal": true,
+     "keys_that_moved": [],
+     "keys_that_moved_count": 0
+    },
+    "history": {
+     "population": 2227,
+     "verdict_equal": true,
+     "summary_equal": false,
+     "keys_that_moved": [
+      "e334_delta_candidates_reproduced",
+      "sources_read",
+      "sources_where_the_readings_differ"
+     ],
+     "keys_that_moved_count": 3
+    },
+    "named_pin": {
+     "population": 2365,
+     "verdict_equal": true,
+     "summary_equal": true,
+     "keys_that_moved": [],
+     "keys_that_moved_count": 0
+    }
+   },
+   "newest_pin_id": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f",
+   "newest_pin_commit": "1244ee231290",
+   "publishing_commit": "17ea91d1226e",
+   "named_pin": {
+    "pin_file": "CORPUSPIN-2026-11-02.json",
+    "pin_id": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f",
+    "stamp_equal": true
+   },
+   "classes": [
+    "pinned",
+    "named_pin"
+   ],
+   "verdict": "every_published_population_is_reproducible_from_the_pin_the_face_names"
+  }
+ ]
+}

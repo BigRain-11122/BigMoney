@@ -26575,18 +26575,60 @@
   },
   {
    "deliverable": "results/state_tilt/<face> + scripts/e356_*.py + chain leg + smoke leg + methodology card",
+   "done_note": "burned as E359 (card-id collision per this file's own note: E356 already had a published card). Scaffolding is 3.73 pct of 5,444 read sites and 10 of 139 unwritten guards, so E350's 131 reproduces at 129 on the production arm; 24 faces are read only by scaffolding; the three names the caveat guessed (FZ.json / _chunk_.json / json) stay production because their reads sit in ordinarily-named helpers, and 23.46 pct of reads report a face their own function never names (per-file binding leak, published as its own axis).",
+   "done_round": 1381,
+   "done_ts": "2026-11-02T11:4x+08:00",
    "entered_at": "2026-11-02T06:27:59+08:00",
    "entered_by": "bm-b r1375",
    "id": "E356-HOW-MUCH-OF-THE-CORPUS-CENSUS-IS-SELFTEST-SCAFFOLDING",
    "lane": "cpu-only",
    "notes": "cheap: it is the same corpus walk as E350 with one extra classification per source, and it corrects a baseline two studies already quoted",
-   "owner": null,
+   "owner": "bm-b",
    "priority": 2,
    "question": "E350 counted 2289 (face, field) pairs, 230 guard fields and 131 unwritten guards over 2343 sources without asking whether a source is a test. Ask, per pair and per read site: (a) does the reading source define a selftest leg, sit under a selftest()/--selftest branch, or read a face whose name only a temp dir would produce (tempfile / tdir / TemporaryDirectory); (b) publish the population twice -- production corpus vs scaffolding -- with the guards and unwritten guards in each; (c) name the faces that exist only as fixture names and the ones that are both (a real face AND a fixture name in another source); (d) state which of E350/E353's published counts survive a scaffolding-free rerun and by how much they move.",
+   "result_ref": "results/state_tilt/SCAFFOLD-2026-11-02.json + scripts/e359_census_scaffolding_split.py",
+   "result_refs": [
+    "results/state_tilt/SCAFFOLD-2026-11-02.json",
+    "results/state_tilt/scaffold_latest.json",
+    "scripts/e359_census_scaffolding_split.py",
+    "run_e359_smoke_leg.py",
+    "research/digests/DIGEST-20261102-r1381-e359-scaffolding-split.md",
+    "knowledge/METHODOLOGY_ASSETS.md#E359"
+   ],
    "source": "E353 GUARDPRESENCE-2026-11-02 (23 unreachable pairs, 16 of them naming files that are nowhere on disk, several of them selftest temp files)",
-   "status": "ready",
+   "status": "done",
    "target": "a two-population census of the same AST corpus, with the delta on every published count and the fixture-name faces named individually",
    "title": "E353 found that part of E350's 131 unwritten guards names files a selftest writes into a temp dir (FZ.json, _chunk_.json, json), so the population mixes production defence with test scaffolding; ask how much of the corpus census is scaffolding"
+  },
+  {
+   "id": "E363-WHY-A-PUBLISHED-POPULATION-CANNOT-BE-RECHECKED",
+   "title": "why a published population cannot be rechecked, and the stamp that fixes it",
+   "question": "r1384 left this: point the corpus-equality legs at the pin instead of today's disk. Four vintages later (published / live / newest pin / publishing commit) no address reproduces either face, so the repair is a build-time corpus stamp plus a leg that replays the pin the face names.",
+   "lane": "cpu-only",
+   "priority": 2,
+   "status": "done",
+   "owner": "bm-b",
+   "entered_at": "2026-11-02T16:05:00+08:00",
+   "entered_by": "bm-b r1384 (carry-over)",
+   "done_round": 1385,
+   "done_ts": "2026-11-02T16:36:41+08:00",
+   "result_ref": "results/state_tilt/FACEVINTAGE-2026-11-02.json + scripts/e363_corpus_vintage.py",
+   "done_note": "E331 published 2362 / live 2369 / newest pin 2365 / publishing commit 2227; E335 2348 / 2369 / 2365 / 2227 -- four numbers, none reachable. Repaired by stamping corpus{pin_id,members} at build time and republishing both faces over CORPUSPIN-2026-11-02.json (2365 members); the E331 leg now replays the pin the face names (standalone 1/1) and the E335 leg checks presence + member count.",
+   "source": "r1384 next milestone"
+  },
+  {
+   "id": "E364-WHICH-CENSUS-FACES-QUOTE-A-POPULATION-WITH-NO-STAMP",
+   "title": "which published census faces quote a population and carry no corpus address",
+   "question": "E363 stamped two faces and can only replay a study that exposes a files= seam. How many of the published census faces quote a count over the directory at all, how many of those carry a corpus block, and how many would need a producer seam before their number could ever be rechecked?",
+   "lane": "cpu-only",
+   "priority": 2,
+   "status": "ready",
+   "owner": null,
+   "entered_at": "2026-11-02T16:36:41+08:00",
+   "entered_by": "bm-b r1385",
+   "deliverable": "results/state_tilt/<face> + scripts/e364_*.py + chain leg + smoke leg + methodology card",
+   "notes": "cheap and static: read the faces, classify the summary keys that are counts of sources/files/faces, ask each face for a corpus block; no rebuild per face -- the expensive question was already priced by E363",
+   "source": "r1385 close"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -26601,6 +26643,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-02T10:46:43+08:00",
+ "updated_at": "2026-11-02T16:36:41+08:00",
  "version": 1
 }

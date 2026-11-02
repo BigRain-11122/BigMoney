@@ -7733,3 +7733,41 @@ How to apply: publish a digest together with the address that regenerates it (co
 for what no commit holds); make the replay declare whether it touched the working tree; and give the
 verdict at least one branch that a plausible defect actually reaches, demonstrated by perturbing a
 real member rather than by asserting the branch exists.
+
+
+## E363 -- a face that quotes a population must name the corpus it scanned, because neither the newest pin nor its publishing commit can reproduce it (r1385)
+
+E362 made a pin replayable and named its own leftover: the pin is taken *after* the faces published
+earlier, so pointing a corpus-judging leg at "the newest pin" does not reproduce them. This round
+measured how far off that is, and it is off by more than one round of drift.
+
+1. **No address reproduces an unquoted population.** One rule (`corpus_paths` + `files_from`) was
+   applied to four vintages for two studies, and the rule is proved first -- each study's own live
+   count must equal the file list handed to it, or the comparison refuses rather than averaging the
+   discrepancy away (the r1261 shape: two populations equal because nothing ran).
+   E331 published **2,362**, today's disk reads **2,369**, the newest pin replays **2,365**, and the
+   corpus at the commit that last wrote the face path is **2,227**. E335 published 2,348 against the
+   same three readings. Four different numbers, one of which is right and none of which is reachable.
+2. **"Latest commit touching the face" is not the face's vintage.** The mirror was last committed at
+   r1363 while the face itself is a working-tree artifact written later: 2,227 files at that commit
+   against 2,362 in the face. A study that publishes from an uncommitted run leaves no address at all
+   -- this is the same class as r1081's scratch law, now priced at the population level.
+3. **The repair is a stamp, and the only moment it can be taken is the build.** A face that scores a
+   census now writes `corpus: {members, pin_id}` (content address over `path<TAB>sha256`, order-free,
+   reusing E361's own `pin_id` -- never a second implementation) plus `corpus_source` naming the pin
+   file it was replayed from. Both faces were republished over `CORPUSPIN-2026-11-02.json`
+   (commit 1244ee231290), so their populations are now 2,365 and reproducible from a file on disk.
+4. **The leg replays the pin the face names, not the newest one.** E331's leg rebuilt over the newest
+   pin by definition ("pinned") and would break again the next time a pin is taken; it now rebuilds
+   over the named pin and fails a face that names none. Verified standalone 1/1 (25 pointer-only
+   readers over 20 families; 31 sources with an invisible tail). E335's leg gained the cheaper half:
+   the stamp must be present, on disk, and its member count must equal the population the face quotes.
+5. **Self-scoped ids are not the pin's id.** The study stamps the corpus it scanned (2,365 members,
+   its own source excluded), so `corpus.pin_id` differs between the two studies while
+   `corpus_source.pin_id_of_pin` is identical -- two addresses for two questions, both published.
+
+How to apply: any face that quotes a count over a directory must stamp that population at build time
+and name the replayable source in the same envelope; a checker must replay what the face names, never
+"the latest", and must prove its own corpus rule against the study it is grading before comparing.
+Where the vintage is already lost, say so with the numbers (published/live/pin/commit) instead of
+quietly republishing and calling the new number a reproduction.

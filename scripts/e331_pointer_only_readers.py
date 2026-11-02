@@ -57,6 +57,7 @@ sys.path.insert(0, HERE)
 import e326_template_parameter_consumers as e326  # noqa: E402  (path set above)
 import e329_two_vintage_binding as e329  # noqa: E402
 import e330_unpinned_choice as e330  # noqa: E402
+import e361_census_corpus_pin as e361  # noqa: E402  (E363: the face carries its own corpus address)
 
 ROOT = e326.ROOT
 OUTDIR = os.path.join(ROOT, "results", "state_tilt")
@@ -596,6 +597,7 @@ def build(root=None, outdir=None, files=None):
         "evidence_cutoff": TODAY,
         "verdict": verdict,
         "verdict_reason": reason,
+        "corpus": e361.stamp(files, root=root),
         "summary": summary,
         "rules": {
             "population": "a source names <stem>_latest.json outside its selftest region and names "

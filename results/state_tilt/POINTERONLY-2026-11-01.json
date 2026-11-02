@@ -2,20 +2,25 @@
  "study": "E331_pointer_only_readers",
  "evidence_cutoff": "2026-11-01",
  "verdict": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
- "verdict_reason": "all 24 pointer-only readers either branch before using the value or let the open error name the path, and no pointer they name is absent; 1 families cannot be judged because the pointer is their only published form",
+ "verdict_reason": "all 25 pointer-only readers either branch before using the value or let the open error name the path, and no pointer they name is absent; 1 families cannot be judged because the pointer is their only published form",
+ "corpus": {
+  "members": 2365,
+  "pin_id": "4a75d62f6452d238a5f29f94c63ffd858b4ed76372a78bf62830b24057ab7698",
+  "rule": "sha256 over LF-normalised text, one line per `path<TAB>digest`, order-free"
+ },
  "summary": {
-  "sources_scanned": 2307,
-  "families_referenced_only_through_a_pointer": 131,
-  "pairs": 45,
+  "sources_scanned": 2365,
+  "families_referenced_only_through_a_pointer": 155,
+  "pairs": 52,
   "pairs_by_class": {
    "writer_only": 3,
    "chain_with_a_variable_first": 6,
-   "reference_without_a_reader": 12,
-   "pointer_only_reader": 24
+   "reference_without_a_reader": 18,
+   "pointer_only_reader": 25
   },
-  "pointer_only_readers": 24,
-  "distinct_families_read": 19,
-  "distinct_pointer_files_named": 19,
+  "pointer_only_readers": 25,
+  "distinct_families_read": 20,
+  "distinct_pointer_files_named": 20,
   "handling_by_class": {
    "a_helper_returns_none_and_nothing_checks_it": 0,
    "the_callee_absorbs_the_None": 1,
@@ -23,20 +28,20 @@
    "defaults_to_an_empty_payload": 2,
    "narrowed_after_the_load": 2,
    "guarded_by_try_except": 4,
-   "guarded_by_an_existence_test": 6
+   "guarded_by_an_existence_test": 7
   },
-  "readers_guarded_before_they_use_the_value": 15,
+  "readers_guarded_before_they_use_the_value": 16,
   "readers_whose_helper_turns_a_miss_into_None": 0,
   "readers_whose_None_is_absorbed_by_the_callee": 1,
   "readers_that_raise_at_the_file": 9,
   "pointer_files_missing_on_disk_today": 0,
   "pointers_whose_stated_cut_is_not_on_disk_today": 0,
   "pointers_that_state_no_cutoff": 2,
-  "families_that_resolve_today": 16,
+  "families_that_resolve_today": 17,
   "families_read_but_unresolvable_today": 3,
-  "prose_literals_rejected_as_notes": 25,
-  "sources_whose_tail_the_scanner_cannot_see": 22,
-  "rows_published": 45,
+  "prose_literals_rejected_as_notes": 35,
+  "sources_whose_tail_the_scanner_cannot_see": 31,
+  "rows_published": 52,
   "rows_truncated": 0
  },
  "rules": {
@@ -55,6 +60,38 @@
   "invisible_tail": "the corpus helper drops a triple-quoted block to its end, so a source whose docstring logic continues past a point loses the rest of its lines; the count of such sources is published because a load site in that tail cannot be seen (e312 is one)"
  },
  "rows": [
+  {
+   "source": "Tools/_r695bmc_close_facts.py",
+   "family": "pack",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 45,
+   "first_text": "pk = os.path.join(REPO, \"results\", \"o2115_acceptance\", \"pack_latest.json\")",
+   "bound_names": [
+    "pk"
+   ],
+   "load_sites": [
+    {
+     "idx": 33,
+     "line": 47,
+     "text": "with open(pk, encoding=\"utf-8\") as fh:",
+     "helper": null
+    }
+   ],
+   "load_site_count": 1,
+   "handling": "guarded_by_an_existence_test",
+   "handling_why": "an existence test names this path before the load",
+   "load_line": 47,
+   "load_text": "with open(pk, encoding=\"utf-8\") as fh:",
+   "load_helper": null,
+   "helper_contract": null,
+   "pointer_on_disk": true,
+   "pointer_stated_cut": null,
+   "dated_vintages_on_disk": 1,
+   "resolution": "pointer_states_no_cutoff",
+   "resolves_today": false
+  },
   {
    "source": "scripts/alphagen_beam_w18.py",
    "family": "probe",
@@ -906,6 +943,110 @@
    ]
   },
   {
+   "source": "scripts/e353_unwritten_guard_presence.py",
+   "family": "fieldbranch",
+   "class": "pointer_only_reader",
+   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
+   "occurrences": 1,
+   "first_line": 375,
+   "first_text": "path = os.path.join(OUTDIR, \"fieldbranch_latest.json\")",
+   "bound_names": [
+    "path"
+   ],
+   "load_sites": [
+    {
+     "idx": 59,
+     "line": 125,
+     "text": "def read_face(path, root=ROOT):",
+     "helper": "read_face"
+    },
+    {
+     "idx": 90,
+     "line": 160,
+     "text": "doc, error = read_face(res[\"path\"], root)",
+     "helper": "read_face"
+    },
+    {
+     "idx": 274,
+     "line": 378,
+     "text": "with open(path, \"r\", encoding=\"utf-8\") as fh:",
+     "helper": null
+    }
+   ],
+   "load_site_count": 3,
+   "handling": "guarded_by_an_existence_test",
+   "handling_why": "an existence test names this path before the load",
+   "load_line": 378,
+   "load_text": "with open(path, \"r\", encoding=\"utf-8\") as fh:",
+   "load_helper": null,
+   "helper_contract": null,
+   "pointer_on_disk": true,
+   "pointer_stated_cut": "2026-11-01",
+   "dated_vintages_on_disk": 1,
+   "resolution": "stated_cut_on_disk",
+   "resolves_today": true
+  },
+  {
+   "source": "scripts/e356_census_red_triage.py",
+   "family": "orphangateface",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 48,
+   "first_text": "\"e325_orphan_gate_faces\", \"orphangateface_latest.json\"),",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e356_census_red_triage.py",
+   "family": "pointeronly",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 50,
+   "first_text": "\"e331_pointer_only_readers\", \"pointeronly_latest.json\"),",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e356_census_red_triage.py",
+   "family": "precisioncensus",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 44,
+   "first_text": "\"e299_rounded_vs_tolerance_census\", \"precisioncensus_latest.json\"),",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e356_census_red_triage.py",
+   "family": "reachwide",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 46,
+   "first_text": "\"e323_reach_under_wider_needle\", \"reachwide_latest.json\"),",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e356_census_red_triage.py",
+   "family": "replaycensus",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 42,
+   "first_text": "\"e298_replay_control_census\", \"replaycensus_latest.json\"),",
+   "bound_names": []
+  },
+  {
+   "source": "scripts/e356_census_red_triage.py",
+   "family": "siblingentry",
+   "class": "reference_without_a_reader",
+   "class_why": "the pointer is named but neither loaded nor written",
+   "occurrences": 1,
+   "first_line": 52,
+   "first_text": "\"e335_sibling_entry_point\", \"siblingentry_latest.json\"),",
+   "bound_names": []
+  },
+  {
    "source": "scripts/market_clock_call.py",
    "family": "call",
    "class": "reference_without_a_reader",
@@ -1046,101 +1187,9 @@
    "dated_vintages_on_disk": 16,
    "resolution": "stated_cut_on_disk",
    "resolves_today": true
-  },
-  {
-   "source": "Tools/_r695bmc_close_facts.py",
-   "family": "pack",
-   "class": "pointer_only_reader",
-   "class_why": "the pointer is loaded here and the source has no dated cut of the family",
-   "occurrences": 1,
-   "first_line": 45,
-   "first_text": "pk = os.path.join(REPO, \"results\", \"o2115_acceptance\", \"pack_latest.json\")",
-   "bound_names": [
-    "pk"
-   ],
-   "load_sites": [
-    {
-     "idx": 33,
-     "line": 47,
-     "text": "with open(pk, encoding=\"utf-8\") as fh:",
-     "helper": null
-    }
-   ],
-   "load_site_count": 1,
-   "handling": "guarded_by_an_existence_test",
-   "handling_why": "an existence test names this path before the load",
-   "load_line": 47,
-   "load_text": "with open(pk, encoding=\"utf-8\") as fh:",
-   "load_helper": null,
-   "helper_contract": null,
-   "pointer_on_disk": true,
-   "pointer_stated_cut": null,
-   "dated_vintages_on_disk": 1,
-   "resolution": "pointer_states_no_cutoff",
-   "resolves_today": false
   }
  ],
  "sources_with_an_invisible_tail": [
-  {
-   "source": "scripts/e231_band_path_test.py",
-   "raw_lines": 795,
-   "last_visible_line": 264,
-   "dropped_tail_lines": 531
-  },
-  {
-   "source": "scripts/e280_e251_rng_drift_repin.py",
-   "raw_lines": 295,
-   "last_visible_line": 22,
-   "dropped_tail_lines": 273
-  },
-  {
-   "source": "scripts/e299_rounded_vs_tolerance_census.py",
-   "raw_lines": 937,
-   "last_visible_line": 817,
-   "dropped_tail_lines": 120
-  },
-  {
-   "source": "scripts/e308_leg_vs_producer_tolerance.py",
-   "raw_lines": 577,
-   "last_visible_line": 191,
-   "dropped_tail_lines": 386
-  },
-  {
-   "source": "scripts/e312_gate_operand_identity.py",
-   "raw_lines": 743,
-   "last_visible_line": 319,
-   "dropped_tail_lines": 424
-  },
-  {
-   "source": "scripts/e330_unpinned_choice.py",
-   "raw_lines": 843,
-   "last_visible_line": 114,
-   "dropped_tail_lines": 729
-  },
-  {
-   "source": "scripts/g2_overlap_census.py",
-   "raw_lines": 1241,
-   "last_visible_line": 1213,
-   "dropped_tail_lines": 28
-  },
-  {
-   "source": "scripts/spm_j4_attribution.py",
-   "raw_lines": 643,
-   "last_visible_line": 523,
-   "dropped_tail_lines": 120
-  },
-  {
-   "source": "scripts/t11_negday_ic.py",
-   "raw_lines": 544,
-   "last_visible_line": 23,
-   "dropped_tail_lines": 521
-  },
-  {
-   "source": "scripts/t28_stable_profit.py",
-   "raw_lines": 541,
-   "last_visible_line": 441,
-   "dropped_tail_lines": 100
-  },
   {
    "source": "Tools/_r1184bmb_card.py",
    "raw_lines": 39,
@@ -1212,6 +1261,84 @@
    "raw_lines": 522,
    "last_visible_line": 128,
    "dropped_tail_lines": 394
+  },
+  {
+   "source": "scripts/_r1369_card.py",
+   "raw_lines": 56,
+   "last_visible_line": 45,
+   "dropped_tail_lines": 11
+  },
+  {
+   "source": "scripts/_r1372_closeout.py",
+   "raw_lines": 366,
+   "last_visible_line": 113,
+   "dropped_tail_lines": 253
+  },
+  {
+   "source": "scripts/_r1373_pit.py",
+   "raw_lines": 68,
+   "last_visible_line": 48,
+   "dropped_tail_lines": 20
+  },
+  {
+   "source": "scripts/_r1373_pit2.py",
+   "raw_lines": 32,
+   "last_visible_line": 17,
+   "dropped_tail_lines": 15
+  },
+  {
+   "source": "scripts/_r1384_closeout.py",
+   "raw_lines": 152,
+   "last_visible_line": 66,
+   "dropped_tail_lines": 86
+  },
+  {
+   "source": "scripts/e231_band_path_test.py",
+   "raw_lines": 795,
+   "last_visible_line": 264,
+   "dropped_tail_lines": 531
+  },
+  {
+   "source": "scripts/e280_e251_rng_drift_repin.py",
+   "raw_lines": 295,
+   "last_visible_line": 22,
+   "dropped_tail_lines": 273
+  },
+  {
+   "source": "scripts/e299_rounded_vs_tolerance_census.py",
+   "raw_lines": 954,
+   "last_visible_line": 826,
+   "dropped_tail_lines": 128
+  },
+  {
+   "source": "scripts/e308_leg_vs_producer_tolerance.py",
+   "raw_lines": 577,
+   "last_visible_line": 191,
+   "dropped_tail_lines": 386
+  },
+  {
+   "source": "scripts/e312_gate_operand_identity.py",
+   "raw_lines": 743,
+   "last_visible_line": 319,
+   "dropped_tail_lines": 424
+  },
+  {
+   "source": "scripts/e330_unpinned_choice.py",
+   "raw_lines": 843,
+   "last_visible_line": 114,
+   "dropped_tail_lines": 729
+  },
+  {
+   "source": "scripts/e350_field_branch_census.py",
+   "raw_lines": 638,
+   "last_visible_line": 500,
+   "dropped_tail_lines": 138
   }
- ]
+ ],
+ "corpus_source": {
+  "pin_file": "CORPUSPIN-2026-11-02.json",
+  "pin_id_of_pin": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f",
+  "git_commit": "1244ee231290e6ed13979acf474feb14dddd0dd0",
+  "replay": "e362 blob_texts + content store, working tree not read"
+ }
 }

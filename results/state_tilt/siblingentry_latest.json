@@ -57,15 +57,20 @@
    "shipped": true
   },
   "new_name_is_exported": true,
-  "sources_read": 2308,
-  "sources_where_the_readings_differ": 1378
+  "sources_read": 2365,
+  "sources_where_the_readings_differ": 1425
+ },
+ "corpus": {
+  "members": 2365,
+  "pin_id": "bdea39e8163f354607b0b8b30dbde59ff0a074551f8ad879a25ebd972d318f36",
+  "rule": "sha256 over LF-normalised text, one line per `path<TAB>digest`, order-free"
  },
  "decision": {
   "inputs": {
    "allowlisted_consumers": 1,
    "coexist_ok": true,
    "consumers_of_the_new_name": 1,
-   "delta_ok": true,
+   "delta_ok": false,
    "rebinds": 0,
    "unlisted_consumers": 0
   },
@@ -131,8 +136,8 @@
    "source": "scripts/trial_labor_w16.py"
   }
  ],
- "differing_sources_total": 1378,
- "differing_sources_truncated": 1370,
+ "differing_sources_total": 1425,
+ "differing_sources_truncated": 1417,
  "e326_bindings": {
   "bindings": [
    {
@@ -291,9 +296,9 @@
  "recommendation": "the tokenizer reading is available as a sibling entry point; switching a consumer is a separate decision with its own republish cost (E334)",
  "rederived_delta": {
   "candidates_published": 30,
-  "candidates_reproduced": 30,
+  "candidates_reproduced": 29,
   "e334_verdict": "repair_must_ship_beside_the_old_one_because_it_erases_the_evidence_that_measures_it",
-  "max_abs_diff": 0.0,
+  "max_abs_diff": 4.0,
   "reproduced_via": "code_lines_tokenized",
   "tolerance": 1e-09
  },
@@ -520,7 +525,7 @@
    "status": "reproduced"
   },
   {
-   "abs_diff": 0.0,
+   "abs_diff": 4.0,
    "published": {
     "event_delta": 3,
     "events_with_repaired_helper": 9,
@@ -531,10 +536,10 @@
     "event_delta": 3,
     "events_with_repaired_helper": 9,
     "events_with_shipped_helper": 6,
-    "recovered_code_lines": 89
+    "recovered_code_lines": 93
    },
    "source": "scripts/e299_rounded_vs_tolerance_census.py",
-   "status": "reproduced"
+   "status": "moved"
   },
   {
    "abs_diff": 0.0,
@@ -824,16 +829,22 @@
   "consumers_of_the_new_name": 1,
   "consumers_switched": 0,
   "e334_delta_candidates_published": 30,
-  "e334_delta_candidates_reproduced": 30,
-  "max_abs_diff_vs_published": 0.0,
+  "e334_delta_candidates_reproduced": 29,
+  "max_abs_diff_vs_published": 4.0,
   "mentions_of_the_new_name_that_are_not_reads": 1,
   "modules_that_rebind_a_reading_name": 0,
   "reading_names_added": 2,
-  "sources_read": 2308,
-  "sources_where_the_readings_differ": 1378,
+  "sources_read": 2365,
+  "sources_where_the_readings_differ": 1425,
   "studies_that_patch_and_restore_in_a_finally": 16,
   "unlisted_consumers_of_the_new_name": 0
  },
- "verdict": "sibling_entry_point_is_read_by_only_the_consumers_a_published_opt_in_face_names",
- "verdict_reason": "both readings coexist, E334's delta reproduces, and the only readers of the new name are the 1 consumer(s) a published opt-in face names"
+ "verdict": "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce",
+ "verdict_reason": "the_published_delta_does_not_reproduce_through_the_new_name",
+ "corpus_source": {
+  "pin_file": "CORPUSPIN-2026-11-02.json",
+  "pin_id_of_pin": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f",
+  "git_commit": "1244ee231290e6ed13979acf474feb14dddd0dd0",
+  "replay": "e362 blob_texts + content store, working tree not read"
+ }
 }
