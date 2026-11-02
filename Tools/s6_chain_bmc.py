@@ -184,6 +184,12 @@ LEGS = [
     # r1227 / E27: information is exhausted (E25 rebuild, E26 gap), so the last candidate is
     # the fill mechanic -- the same delta through k consecutive opens. Deterministic, ~50s.
     ("etf_book_open_slicing", ["python", "scripts/etf_book_open_slicing.py", "run"]),
+    # r1237 bm-a / E29: the gate is only on the way in. The ranking screens every name on a
+    # 20-bar turnover gate and no face checked that same number on the sell bar, so the book
+    # could be holding names it would not be allowed to buy. Reads the exit bar's own gate
+    # reading for every position the declared arm holds, prices the wait to the first
+    # qualifying bar (censored positions reported, never scored as zero). ~30s, offline.
+    ("etf_book_exit_liquidity", ["python", "scripts/etf_book_exit_liquidity.py", "run"]),
     # r1230 bm-a: depth and duration are different risks. Every other face prices the fall;
     # this one prices the wait (underwater episodes, per-entry recovery horizon with censored
     # entries kept, forward 1/2/3 calendar-year returns). ~80s, offline, deterministic -- it

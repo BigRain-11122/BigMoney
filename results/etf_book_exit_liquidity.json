@@ -1,0 +1,113 @@
+{
+ "schema": "etf_book_exit_liquidity/v1",
+ "generated": "2026-11-02 12:24:33",
+ "elapsed_sec": 26.8,
+ "evidence_cutoff": "2026-10-30",
+ "question": "the 20M 20-bar turnover gate is applied when a name is ranked and never when it is sold: how often does the book have to exit into a name it would not be allowed to buy, and what is the wait worth?",
+ "arm": "declared fill (score held one bar back, close t -> open t+1); as-coded not measured",
+ "config": {
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_bp_per_side": 10.0,
+  "vol_target": 0.08,
+  "vol_window": 60,
+  "start": "2020-01-01"
+ },
+ "criteria": {
+  "tol_pp": 0.57,
+  "share_min": 0.75,
+  "n_phases": 4,
+  "below_share_max": 0.02,
+  "below_share_min": 0.05,
+  "defer_max_bars": 20,
+  "gate_cny": 20000000.0
+ },
+ "reading_law": [
+  "the deferral is weight x (open[t']/open[exit] - 1): an attribution of stuck capital, not a re-priced equity curve",
+  "a position that never clears the gate inside 20 bars is outside_cap, never 0",
+  "drag_pp_per_year = 100 x summed contribution / that phase's own span in years"
+ ],
+ "panel": {
+  "shape": [
+   5270,
+   1504
+  ],
+  "flips_repaired": 168,
+  "first": "2005-02-23",
+  "last": "2026-10-30"
+ },
+ "summary": {
+  "phases": [
+   {
+    "positions": 984,
+    "below_gate": 39,
+    "missing_bar": 0,
+    "deferred": 14,
+    "outside_cap": 25,
+    "share_below_gate": 0.0396,
+    "mean_defer_bars": 10.57,
+    "contrib_sum": 0.029476,
+    "drag_pp_per_year": 0.4346,
+    "phase": 0,
+    "phase_start": "2020-01-02",
+    "holds": 82,
+    "span_years": 6.782
+   },
+   {
+    "positions": 984,
+    "below_gate": 46,
+    "missing_bar": 0,
+    "deferred": 18,
+    "outside_cap": 28,
+    "share_below_gate": 0.0467,
+    "mean_defer_bars": 6.83,
+    "contrib_sum": 0.008645,
+    "drag_pp_per_year": 0.1275,
+    "phase": 1,
+    "phase_start": "2020-01-09",
+    "holds": 82,
+    "span_years": 6.782
+   },
+   {
+    "positions": 984,
+    "below_gate": 46,
+    "missing_bar": 0,
+    "deferred": 13,
+    "outside_cap": 33,
+    "share_below_gate": 0.0467,
+    "mean_defer_bars": 7.69,
+    "contrib_sum": 0.000949,
+    "drag_pp_per_year": 0.014,
+    "phase": 2,
+    "phase_start": "2020-01-16",
+    "holds": 82,
+    "span_years": 6.782
+   },
+   {
+    "positions": 972,
+    "below_gate": 35,
+    "missing_bar": 0,
+    "deferred": 12,
+    "outside_cap": 23,
+    "share_below_gate": 0.036,
+    "mean_defer_bars": 10.33,
+    "contrib_sum": 0.019978,
+    "drag_pp_per_year": 0.2988,
+    "phase": 3,
+    "phase_start": "2020-01-23",
+    "holds": 81,
+    "span_years": 6.686
+   }
+  ],
+  "share_below_gate_mean": 0.0423,
+  "share_below_gate_max": 0.0467,
+  "drag_pp_mean": 0.2187,
+  "drag_pp_min": 0.014,
+  "drag_pp_max": 0.4346,
+  "positions_total": 3924,
+  "below_gate_total": 166,
+  "missing_bar_total": 0,
+  "outside_cap_total": 109,
+  "verdict": "MIXED_ACROSS_PHASES"
+ }
+}

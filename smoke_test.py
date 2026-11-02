@@ -2501,6 +2501,15 @@ def main() -> int:
              "scripts/etf_book_survivorship_hole.py", ["--selftest"]),
             ("product: etf_book_survivorship_hole (published verdict still recomputes)",
              "scripts/etf_book_survivorship_hole.py", ["--check"]),
+            # r1237 / E29: the gate is only on the way in. The ranking screens names on a
+            # 20-bar turnover gate and nothing checks the same number when the book sells.
+            # The legs pin the exit-side arithmetic (deferral to the first qualifying bar,
+            # weight from the engine's own scale, outside_cap never folded into a zero) and
+            # that the published verdict re-derives from the payload's rows.
+            ("product: etf_book_exit_liquidity (sell-side gate arithmetic re-derived)",
+             "scripts/etf_book_exit_liquidity.py", ["--selftest"]),
+            ("product: etf_book_exit_liquidity (published verdict still recomputes)",
+             "scripts/etf_book_exit_liquidity.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print
