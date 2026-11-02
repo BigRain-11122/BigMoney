@@ -230,7 +230,7 @@
  "last_updated": "2026-10-31T04:46:00+08:00",
  "latest_artifact": "results/state_tilt/GATEABSENCE-2026-11-01.json",
  "local_not_on_origin": "see report",
- "local_not_on_origin_commits": 141,
+ "local_not_on_origin_commits": 248,
  "local_not_on_origin_main": 220,
  "machine_health": "OK 8/8 for bm-a,bm-b,bm-c after gpu_face apply + machine_health_face write bm-b",
  "machine_id": "bm-b",
@@ -4262,6 +4262,14 @@
   "ts": "2026-11-02T22:04:20+08:00",
   "verdict": "a_pin_taken_at_the_publishing_commit_does_not_reproduce_the_published_corpus_size_2251_against_2343_so_the_face_was_built_from_a_tree_no_commit_holds_and_the_bill_is_a_pin_plus_a_store_per_vintage"
  },
+ "r1391_delivery": {
+  "branch": "machine/bm-b-r1391",
+  "files": 17,
+  "main_push_blocker": "local main has diverged from origin/main for many rounds (two blood lines, promisor lazy-fetch wedge r1255 family); not attempted, no unattended rebase per r1243, so the machine branch is the delivery channel",
+  "sha": "d51cae3ea5dab3cce570881610b4dd284f0f4b2e",
+  "ts": "2026-11-02T22:07:23+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1391 equals local HEAD"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -4306,11 +4314,11 @@
   ]
  },
  "sync": {
-  "ahead": 204,
-  "behind_origin_main": 235,
+  "ahead": 248,
+  "behind_origin_main": 277,
   "branch": "main",
   "peer": "origin",
-  "ts": "2026-11-01T22:03:07+08:00"
+  "ts": "2026-11-02T22:07:23+08:00"
  },
  "sync_note": "local commits not on origin/main stay large (two blood lines, promisor lazy-fetch wedge r1255 family); delivery went to machine/bm-b-r1390 and ls-remote equals local HEAD, so 'local not on origin/main' is by design here, not a delivery failure",
  "task": "r1391 E369: the pin is now at the right commit, and the number still does not come back",
@@ -4321,12 +4329,12 @@
   "latest_artifact": "results/state_tilt/PUBLISHPIN-2026-11-02.json @ 2026-11-02T22:04:20+08:00",
   "next_milestone": "E372: store the 128 members no commit holds and replay pin+store (<=48h)"
  },
- "timestamp": "2026-11-02T22:04:20+08:00",
- "ts": "2026-11-02T22:04:20+08:00",
+ "timestamp": "2026-11-02T22:07:23+08:00",
+ "ts": "2026-11-02T22:07:23+08:00",
  "ts_utc_ms": 1793628260684,
  "ts_utc_offset": "+08:00",
- "updated": "2026-11-02T22:04:20+08:00",
- "updated_at": "2026-11-02T22:04:20+08:00",
+ "updated": "2026-11-02T22:07:23+08:00",
+ "updated_at": "2026-11-02T22:07:23+08:00",
  "verdict": "product",
  "verdict_line": "8 census legs pass verbatim with 8 drift lines; no checker writes its subject",
  "verify": "python scripts/e369_pin_at_publishing_commit.py verify -> problems=[]",
