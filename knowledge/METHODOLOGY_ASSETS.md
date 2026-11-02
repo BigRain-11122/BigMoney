@@ -8345,3 +8345,37 @@ rather than a finding).
 Wiring: `scripts/e380_ballast_keys_and_readers.py` (run / verify problems=[] / selftest 13/13); smoke
 leg E380 (`scripts/run_e380_smoke_leg.py` execs it verbatim, 1/1); face
 `results/state_tilt/BALLASTKEYS-2026-11-03.json` + `ballastkeys_latest.json`.
+
+## E381 -- the census keys a join by its operands, so a face it reads is filed under a basename
+
+The card asked which side is wrong about `scripts/etf_book_bridge.py:369`: the site is inside E377's
+census universe (every operand of `os.path.join(OUT_DIR, "etf_book_production", "latest.json")` folds
+to a string), yet E377 published `results/etf_book_production/latest.json` among the faces no resolved
+sink keys. The instrument is wrong, and not at the universe rule:
+
+1. **The path is thrown away one step after it resolves.** `e347.values_in` (line 133) returns a
+   `join` call's operands as SEPARATE values -- the shape an enumeration scope wants (only trailing
+   components name a directory, E344) -- and `e350._face_bindings` (line 139) then keeps the operand
+   that ends in `.json` and runs `_face_key` on it ALONE. A three-component path becomes `latest.json`,
+   and `_face_key`'s documented basename fallback merges it with any other bare `latest.json`.
+2. **Two named causes, two different repairs.** Re-keying each load row from its own operands moves
+   12 corpus faces that are present on disk: 6 because the published keying names them by a basename
+   only, 6 because both helpers accept only `.endswith(".json")` (e350 lines 139 and 187), so a
+   `.jsonl` read is never keyed however well its path resolves, 0 unexplained. Rolling those into one
+   number would have shipped "component keying hides 12 faces" -- six of them would not have been
+   fixed by any fix to the key projection.
+3. **A census bill must name the line that pays it.** Of E377's 36 blind-spot faces exactly 2 move,
+   and one of them is the card's own. Each moved and each joined-only face is published with the
+   `source:line` and the operand list that named it: a list without the site is the decree this study
+   exists to replace.
+
+Bound published, not claimed: the joined keying is a SECOND reading of the same load rows, not a
+repair of the published one, and both are printed; a component the narrow filter refuses
+under-reports the defect (it cannot invent a face, because a joined key with no `.json`/`.jsonl`
+component is dropped); E377's face is read as published, never rebuilt, so "moved" means the two
+readings disagree, not that E377 was re-run.
+
+Wiring: `scripts/e381_component_key_blind_spot.py` (run / verify problems=[] / selftest 15/15); smoke
+leg E381 (`scripts/run_e381_smoke_leg.py` execs it verbatim, 1/1); S6 chain leg
+`component_key_blind_spot`; face `results/state_tilt/COMPONENTKEY-2026-11-03.json` +
+`componentkey_latest.json`.

@@ -1221,6 +1221,10 @@ LEGS = [
     # the corpus cannot be named, and 36 published faces are reached only by those writers. Verify
     # re-adds every writer row and re-derives the verdict from the published summary (~0.3 s).
     ("unresolved_destination", ["python", "scripts/e377_unresolved_destination.py", "verify"]),
+    # E381: E377's blind-spot list ships one face a resolved load already reads -- the census keys a
+    # join by its operands, so a three-component path lands under a bare basename. Verify re-adds the
+    # rows and the three named causes, and re-derives the verdict (~2 s, no corpus scan).
+    ("component_key_blind_spot", ["python", "scripts/e381_component_key_blind_spot.py", "verify"]),
 ]
 
 

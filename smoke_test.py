@@ -13176,6 +13176,72 @@ def _r37(face, key):
     return "n/a" if v is None else "%.3f" % v
 
 
+# E381: the reader census keys a join by its operands, so a face read through os.path.join is keyed
+# under a bare basename.  This leg refuses the shapes that would let the finding be asserted instead
+# of measured: a verdict outside the frozen vocabulary, rows that do not re-add, a joined-only list
+# whose three named causes do not cover it, a row without a line, the card's site not actually
+# crossing the two keyings, and the study's own verify not coming back clean.
+_name381 = ("product: the census keys a join by its operands, and the blind-spot list it published "
+            "holds one face the joined keying names")
+_bad381 = []
+try:
+    _p381 = os.path.join("results", "state_tilt", "componentkey_latest.json")
+    _f381 = json.load(open(_p381, encoding="utf-8")) if os.path.exists(_p381) else None
+    if _f381 is None:
+        _bad381.append("no published component-key face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m381 = __import__("importlib").import_module("e381_component_key_blind_spot")
+        _s381 = _f381.get("summary") or {}
+        if _f381.get("verdict") not in {_m381.V_COMPONENT, _m381.V_UNCOUNTED, _m381.V_NO_DEFECT}:
+            _bad381.append("verdict %r is outside the frozen vocabulary"
+                           % str(_f381.get("verdict"))[:60])
+        _rows381 = _f381.get("upstream_rows") or []
+        if len(_rows381) + (_f381.get("upstream_rows_truncated") or 0) \
+                != _s381.get("upstream_targets"):
+            _bad381.append("the upstream rows do not equal the published target count")
+        _moved381 = [r for r in _rows381 if r.get("status") == _m381.STATUS_MOVED]
+        if len(_moved381) != _s381.get("upstream_targets_moved"):
+            _bad381.append("the moved count does not re-add from the rows")
+        if len(_moved381) != len(_f381.get("moved_faces") or []):
+            _bad381.append("the moved list does not match the moved rows")
+        _split381 = sum(_s381.get(k) or 0 for k in ("joined_only_by_basename",
+                                                    "joined_only_by_jsonl_suffix",
+                                                    "joined_only_unexplained"))
+        if _split381 != _s381.get("joined_only_faces"):
+            _bad381.append("the three named causes do not re-add to the joined-only count")
+        for _row381 in (_f381.get("joined_only_faces") or []):
+            if _row381.get("reason") not in {_m381.REASON_BASENAME, _m381.REASON_SUFFIX,
+                                             _m381.REASON_NO_SITE}:
+                _bad381.append("a joined-only row carries no named cause: %s"
+                               % str(_row381.get("face"))[:60])
+                break
+            if not _row381.get("sites"):
+                _bad381.append("a joined-only row names no line: %s"
+                               % str(_row381.get("face"))[:60])
+                break
+        if not _s381.get("card_site_crosses_the_two_keyings"):
+            _bad381.append("the card's site does not cross the two keyings, so nothing is explained")
+        if _f381.get("verdict") != _m381.decide(_s381):
+            _bad381.append("the verdict does not re-derive from the summary")
+        if _m381.verify() != 0:
+            _bad381.append("the study's own verify does not come back clean")
+except Exception as e:
+    _bad381.append(repr(e)[:160])
+check(_name381, not _bad381, "; ".join(_bad381)[:220]
+      or "%d blind-spot faces, %d moved under a joined key (%d basename / %d jsonl-suffix); card "
+         "site %s:%s keyed %s published vs %s joined"
+         % ((_f381 or {}).get("summary", {}).get("upstream_targets", 0),
+            (_f381 or {}).get("summary", {}).get("upstream_targets_moved", 0),
+            (_f381 or {}).get("summary", {}).get("joined_only_by_basename", 0),
+            (_f381 or {}).get("summary", {}).get("joined_only_by_jsonl_suffix", 0),
+            ((_f381 or {}).get("bridge_evidence") or {}).get("source"),
+            (((_f381 or {}).get("bridge_evidence") or {}).get("card_row") or {}).get("line"),
+            (((_f381 or {}).get("bridge_evidence") or {}).get("card_row") or {}).get(
+                "published_keys"),
+            (((_f381 or {}).get("bridge_evidence") or {}).get("card_row") or {}).get("joined_key")))
+
+
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass

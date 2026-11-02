@@ -26905,6 +26905,46 @@
    "owner": null,
    "priority": 3,
    "question": "scripts/etf_book_bridge.py:369 reads results/etf_book_production/latest.json through an assigned load whose path is joined from constants, which is inside the census's own universe (literal/bound/joined_constants), yet E377 published that face as keyed by no resolved sink. Decide which side is wrong: re-derive E377's reader half over the same corpus and publish whether the face is excluded (source filter, scratch-file rule, MAX limit) or was keyed differently (e350._face_key vs the reader's resolved path). The bill is one named exclusion or one defect, never 'unkeyed' by decree.",
+   "status": "done",
+   "owner_since": "2026-11-03T06:31:00+08:00",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-03T06:31:00+08:00",
+   "done_at": "2026-11-03T06:47:00+08:00",
+   "result_ref": "results/state_tilt/COMPONENTKEY-2026-11-03.json",
+   "verdict": "the_census_keys_a_join_by_its_operands_so_a_face_it_reads_is_filed_under_a_basename_and_a_jsonl_read_is_never_keyed_at_all",
+   "closed_by": "bm-b r1400"
+  },
+  {
+   "entered_at": "2026-11-03T06:47:00+08:00",
+   "entered_by": "bm-b r1400",
+   "id": "E382-WHAT-MOVES-IF-THE-KEY-PROJECTION-IS-FIXED",
+   "lane": "cpu-only",
+   "notes": "static only, zero network; in-memory arms, do not rewrite the published E350/E353/E377 faces; read them as published and publish the delta beside them",
+   "owner": null,
+   "priority": 3,
+   "question": "E381 named two defects in the face keying shared by E350/E353/E377: a join is keyed by its operands (so a multi-component path lands under a bare basename) and both helpers accept only paths ending .json (so a .jsonl read is never keyed). Before anyone patches e350, price the republish: build the repaired keying in memory and publish which published numbers move -- E350's field/unwritten counts, E353's pair count, E377's blind-spot list length and the E381 moved set -- and whether any published verdict flips. A repair that silently changes a headline is a republish decision, not a bugfix, so the bill is the delta itself.",
+   "status": "ready"
+  },
+  {
+   "entered_at": "2026-11-03T06:47:00+08:00",
+   "entered_by": "bm-b r1400",
+   "id": "E383-HOW-MANY-PUBLISHED-FACES-SHARE-ONE-KEY",
+   "lane": "cpu-only",
+   "notes": "static only, zero network; read the published faces as they stand, publish collisions beside the paths that cause them, never split a key by decree",
+   "owner": null,
+   "priority": 3,
+   "question": "e350._face_key falls back to the basename when no recognised root survives, and its own docstring calls that the unsafe direction because two files sharing a basename merge. E381 showed the fallback firing on a path that did resolve. Ask the collision question directly: over the same corpus, how many DISTINCT files on disk are named by one key, which sites produce each collision (source:line), and does any published study consume a collided key as if it were one face? A collision is two faces a census cannot tell apart, so the bill is the collision table and the sentence that consumes it, not a count.",
+   "status": "ready"
+  },
+  {
+   "entered_at": "2026-11-03T06:47:00+08:00",
+   "entered_by": "bm-b r1400",
+   "id": "E384-WHICH-KEYS-COME-FROM-A-SITE-THAT-NEVER-OPENS-FACE",
+   "lane": "cpu-only",
+   "notes": "static only, zero network; the population is the published key set, the question is whether each key has a site that could open it",
+   "owner": null,
+   "priority": 3,
+   "question": "The keying helpers take face-shaped strings out of a source, and a string in a source is not a decision to open a file: a path assembled for a print, a banner, or a log can enter the keyed set and make a face look read. Take the published key set and, for each key, ask whether the site that named it is a load or a dump at all (E377's own classification) or a bare literal carried for some other purpose. Publish the keys with no opening site, the source:line each came from, and whether removing them changes any published count -- a key that no site opens is the reverse of E381's defect and it inflates the same census.",
    "status": "ready"
   }
  ],
