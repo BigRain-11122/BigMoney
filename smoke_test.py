@@ -12483,6 +12483,93 @@ def _r39(face, key):
                 str((((_f369 or {}).get("studies") or {}).get("E350") or {}).get(
                     "compare", {}).get("corpus_sources"))))
 
+# E372: E369 charged the pin for the members no commit holds and stopped there; this leg grades
+    # whether the payment is accounted for honestly -- the store must pay exactly the bill it was
+    # charged, every stored member's bytes must hash to the pin's sha (a near miss is not a store),
+    # the store must sit outside the corpus it repairs, and a store that lands on the *other side*
+    # of the published count must not be reported as a reproduction.
+    _name372 = ("product: a store of the members no commit holds pays exactly E369's bill, keeps "
+                "only bytes that hash to the pin, and brackets the published count instead of "
+                "claiming it")
+    _bad372 = []
+    try:
+        _p372 = os.path.join("results", "state_tilt", "pinplusstore_latest.json")
+        _f372 = json.load(open(_p372, encoding="utf-8")) if os.path.exists(_p372) else None
+        if _f372 is None:
+            _bad372.append("no published face")
+        else:
+            _m372 = __import__("importlib").import_module("e372_store_the_absent_members")
+            _sp372 = os.path.join(os.getcwd(), _f372.get("store_file") or "")
+            if not _f372.get("store_file") or not os.path.exists(_sp372):
+                _bad372.append("the face names no store that exists")
+                _st372 = {"members": []}
+            else:
+                _st372 = _m372.load_json(_sp372)
+            if _st372.get("store_id") != _f372.get("store_id"):
+                _bad372.append("the store is not the one the face names")
+            if _st372.get("pin") != _f372.get("pin"):
+                _bad372.append("the store was not taken at the face's pin")
+            _digest372 = __import__("hashlib").sha256()
+            for _mbr in sorted(_st372.get("members") or [], key=lambda m: m.get("path")):
+                _txt = _mbr.get("text")
+                if _txt is None:
+                    _bad372.append("%s: stored without bytes" % (_mbr.get("path"),))
+                    continue
+                _got = __import__("hashlib").sha256(
+                    _txt.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")).hexdigest()
+                if _got != _mbr.get("sha256"):
+                    _bad372.append("%s: the stored bytes do not hash to the pin's sha"
+                                   % (_mbr.get("path"),))
+                _digest372.update(("%s\0%s\n" % (_mbr.get("path"), _got)).encode("utf-8"))
+            if _st372.get("members") and _digest372.hexdigest() != _st372.get("store_id"):
+                _bad372.append("the store_id does not re-derive from the stored bytes")
+            _bill372 = ((_m372.load_json(os.path.join("results", "state_tilt",
+                                                      "publishpin_latest.json")).get("store_bill")
+                         or {}).get("must_be_stored"))
+            if _bill372 is not None and _st372.get("count") != _bill372:
+                _bad372.append("the store covers %r of the %r members the bill charged"
+                               % (_st372.get("count"), _bill372))
+            _rel372 = str(_f372.get("store_file") or "")
+            if any(_rel372.startswith(_d + "/") for _d in
+                   __import__("e346_status_writer_unread").CORPUS_DIRS):
+                _bad372.append("the store sits inside the corpus it is meant to repair")
+            _stud372 = (_f372.get("studies") or {})
+            for _st, _blk in _stud372.items():
+                for _key, _row in (_blk.get("compare") or {}).items():
+                    _w, _g = _row.get("published"), _row.get("replayed")
+                    if isinstance(_w, (int, float)) and isinstance(_g, (int, float)):
+                        if (_g - _w) != _row.get("delta"):
+                            _bad372.append("%s/%s: delta %r does not re-derive"
+                                           % (_st, _key, _row.get("delta")))
+            _pub372 = ((_stud372.get("E350") or {}).get("published") or {}).get("numbers") or {}
+            _only372 = ((_stud372.get("E350") or {}).get("pin_only") or {}).get("numbers") or {}
+            _both372 = ((_stud372.get("E350") or {}).get("pin_plus_store") or {}).get(
+                "numbers") or {}
+            _p372n, _o372n, _b372n = (_pub372.get("corpus_sources"), _only372.get("corpus_sources"),
+                                      _both372.get("corpus_sources"))
+            if all(isinstance(v, int) for v in (_p372n, _o372n, _b372n)) \
+                    and _b372n != _p372n and _f372.get("verdict") == _m372.V_PAYS:
+                _bad372.append("a store that does not land on the published count is reported as "
+                               "paid")
+            if (_p372n != _b372n) and (_f372.get("verdict") or "") == _m372.V_PAYS:
+                _bad372.append("the paid verdict is claimed without the count reproducing")
+            if not (_f372.get("verdict") or "").startswith(("a_store", "the_store", "no_")):
+                _bad372.append("the verdict is not one of the study's own sentences")
+    except Exception as e:
+        _bad372.append(repr(e)[:160])
+    check(_name372, not _bad372, "; ".join(_bad372)[:220]
+          or "store %s members from %s, pin %s, corpus_sources pin %s -> pin+store %s against "
+             "published %s"
+             % (str((_f372 or {}).get("store", {}).get("count")),
+                str((_f372 or {}).get("recoverability")),
+                str((_f372 or {}).get("pin"))[:8],
+                str(((_f372 or {}).get("studies", {}).get("E350", {})
+                     .get("pin_only", {}).get("numbers", {}).get("corpus_sources"))),
+                str(((_f372 or {}).get("studies", {}).get("E350", {})
+                     .get("pin_plus_store", {}).get("numbers", {}).get("corpus_sources"))),
+                str(((_f372 or {}).get("studies", {}).get("E350", {})
+                     .get("published", {}).get("numbers", {}).get("corpus_sources")))))
+
 # E358: E351 called 55 gate subjects unresolved because the subject was written as
     # os.path.join(...) -- three literals, none of which looks like a path on its own.  This leg
     # grades the ACCOUNTING, not the numbers: the classes must partition the population, a
@@ -12588,6 +12675,120 @@ def _r39(face, key):
                 str((_f359 or {}).get("delta_widened", {}).get("guard_fields_with_no_writer", {}).get("scaffolding")),
                 str((_f359 or {}).get("summary", {}).get("faces_only_read_by_scaffolding_widened")),
                 str((_f359 or {}).get("summary", {}).get("leak", {}).get("leaked_share_pct"))))
+
+    # E373: E369 took one pin at E350's publishing commit and the arm reproduced; the queue card
+    # answered that the two studies in the same replay were published from DIFFERENT commits.  This
+    # leg grades the ACCOUNTING of a two-vintage replay and never the numbers: each study's vintage
+    # must be machine-read off its own face (not carried in the study), each pin file must re-derive
+    # its digest from the rows it publishes, each bill must partition its population, the overlap
+    # must be arithmetic on the two populations in the order the studies are walked, and the verdict
+    # must come back out of the matrix rather than out of prose.
+    _name373 = ("product: a two-vintage replay reads each pin off the study's own face, and its "
+                "bills, overlap and verdict each re-derive from published rows")
+    _bad373 = []
+    try:
+        _p373 = os.path.join("results", "state_tilt", "twopins_latest.json")
+        _f373 = json.load(open(_p373, encoding="utf-8")) if os.path.exists(_p373) else None
+        if _f373 is None:
+            _bad373.append("no published two-pin face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m373 = __import__("importlib").import_module("e373_two_pins_one_replay")
+            _pins373 = _f373.get("pins") or {}
+            _mx373 = _f373.get("matrix") or {}
+            _order373 = []
+            for _st in _m373.STUDIES:
+                _pub = _m373.published_numbers(_st) or {}
+                _blk = _mx373.get(_st) or {}
+                if (_blk.get("published") or {}).get("pin") != _pub.get("pin"):
+                    _bad373.append("%s: the replay does not read the pin off its own face" % _st)
+                if _blk.get("published_from") != _pub.get("pin"):
+                    _bad373.append("%s: the walked vintage is not the face's vintage" % _st)
+                if _pub.get("pin") and _pub["pin"] not in _order373:
+                    _order373.append(_pub["pin"])
+            if len(_order373) != 2:
+                _bad373.append("the two studies share one publishing commit, so this is not a "
+                               "two-vintage replay")
+            for _sha, _pin in _pins373.items():
+                _pp = os.path.join(os.getcwd(), _pin.get("file") or "")
+                if not _pin.get("file") or not os.path.exists(_pp):
+                    _bad373.append("pin %s names no file that exists" % _sha[:8])
+                    continue
+                _rows373 = json.load(open(_pp, encoding="utf-8")).get("sources") or []
+                if len(_rows373) != _pin.get("count"):
+                    _bad373.append("pin %s publishes %r members but stores %d"
+                                   % (_sha[:8], _pin.get("count"), len(_rows373)))
+                _dg373 = __import__("hashlib").sha256()
+                for _row373 in sorted(_rows373, key=lambda r: r.get("path")):
+                    _dg373.update(("%s\0%s\n" % (_row373.get("path"),
+                                                 _row373.get("sha256"))).encode("utf-8"))
+                if _dg373.hexdigest() != _pin.get("pin_id"):
+                    _bad373.append("pin %s digest does not re-derive from its own rows"
+                                   % _sha[:8])
+            for _sha, _bill in (_f373.get("store_bills") or {}).items():
+                if not _bill.get("measured"):
+                    continue
+                _abs373 = _bill.get("absent_paths") or []
+                if (_bill.get("fetched_from_commit") or 0) + (_bill.get("absent") or 0) \
+                        != _bill.get("disk_pin_members"):
+                    _bad373.append("bill %s does not partition the population" % _sha[:8])
+                if len(set(_abs373)) != len(_abs373) or len(_abs373) != _bill.get("absent"):
+                    _bad373.append("bill %s charges a member twice or miscounts" % _sha[:8])
+                if _bill.get("must_be_stored") != _bill.get("absent"):
+                    _bad373.append("bill %s does not charge what it must store" % _sha[:8])
+            _ov373 = _f373.get("population_overlap") or {}
+            if len(_order373) == 2:
+                _ca373, _cb373 = (_pins373.get(_s) or {} for _s in _order373)
+                if _ov373.get("common", 0) + _ov373.get("only_a", 0) != _ca373.get("count"):
+                    _bad373.append("the overlap does not add up to the first population")
+                if _ov373.get("common", 0) + _ov373.get("only_b", 0) != _cb373.get("count"):
+                    _bad373.append("the overlap does not add up to the second population")
+                if (_cb373.get("count") or 0) - (_ca373.get("count") or 0) \
+                        != (_ov373.get("only_b") or 0) - (_ov373.get("only_a") or 0):
+                    _bad373.append("the size difference does not equal the only_a/only_b gap")
+            _v373, _own373 = _m373.decide(_mx373)
+            if _f373.get("verdict") != _v373:
+                _bad373.append("the verdict does not re-derive: %r != %r"
+                               % (_f373.get("verdict"), _v373))
+            if _f373.get("reproduces_at_own_pin") != _own373:
+                _bad373.append("the own-pin flags do not re-derive from the cells")
+            # a cell counts as reproduced only when EVERY comparable key reproduces (the study's
+            # own notion), so a partial cell must still be visible key by key -- that is the whole
+            # reason "neither tree explains the numbers" can sit beside a key that does come back
+            _whole373 = [k for _s in _mx373.values() for _c in (_s.get("cells") or {}).values()
+                         if _m373.reproduced_anywhere(_c.get("compare"))]
+            if _f373.get("verdict") == _m373.V_NONE and _whole373:
+                _bad373.append("'neither reproduces' is claimed while a cell reproduces every key")
+            for _st373 in _m373.STUDIES:
+                for _sha373, _c373 in ((_mx373.get(_st373) or {}).get("cells") or {}).items():
+                    for _k373, _row373 in (_c373.get("compare") or {}).items():
+                        if not isinstance(_row373.get("pinned"), (int, float)) \
+                                or not isinstance(_row373.get("published"), (int, float)):
+                            continue
+                        if _row373.get("reproduced") is None:
+                            _bad373.append("%s@%s/%s: a comparable key carries no reproduced flag"
+                                           % (_st373, _sha373[:8], _k373))
+                        elif _row373["reproduced"] != (_row373["pinned"] == _row373["published"]):
+                            _bad373.append("%s@%s/%s: the flag contradicts its own numbers"
+                                           % (_st373, _sha373[:8], _k373))
+    except Exception as e:
+        _bad373.append(repr(e)[:160])
+    check(_name373, not _bad373, "; ".join(_bad373)[:220]
+          or "pins %s vs %s (overlap common %s + only_b %s); E353 own-pin pairs %s against "
+             "published %s; verdict %s"
+             % (str(_order373[0] if _order373 else "?")[:8],
+                str(_order373[1] if len(_order373) > 1 else "?")[:8],
+                str((_f373 or {}).get("population_overlap", {}).get("common")),
+                str((_f373 or {}).get("population_overlap", {}).get("only_b")),
+                str((((_f373 or {}).get("matrix", {}).get("E353", {}).get("cells", {})
+                      .get(((_f373 or {}).get("matrix", {}).get("E353", {})
+                            .get("published_from")), {}).get("compare", {})
+                      .get("pairs", {})).get("pinned"))),
+                str((((_f373 or {}).get("matrix", {}).get("E353", {}).get("cells", {})
+                      .get(((_f373 or {}).get("matrix", {}).get("E353", {})
+                            .get("published_from")), {}).get("compare", {})
+                      .get("pairs", {})).get("published"))),
+                str((_f373 or {}).get("verdict"))[:60]))
 
 
 def _r39ci(face, key):

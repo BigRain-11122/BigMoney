@@ -7985,3 +7985,105 @@ then replays E350 and E353 over it.
 How to apply: before pinning a population, ask which commit the graded face was published from and
 pin there; count what that commit cannot supply and publish it as a store bill with paths; and make
 the vintage a field you read, never a constant you type.
+
+## E372 -- the store that pays the guard ledger still cannot rebuild the population (r1392 bm-b)
+
+E369 charged a bill: a pin at the publishing commit supplies 2240 of the publish-day 2368 members,
+128 are absent from every commit. E372 pays it -- recover each absent member from disk or from
+history by sha (never from a near miss), bundle it outside the corpus directories, replay both
+studies over pin and pin+store. Readings: 125 recovered from disk, 3 from history commits, 0
+unrecoverable; the store is 128 members / 789,753 bytes / store_id 43204da8. Replayed: corpus_sources
+2251 (pin) -> 2378 (pin+store) against a published 2343, while E353's pairs 129 -> 131, guard 131,
+`by_class` and `by_state` all come back exactly.
+
+1. **A bill paid after the fact is not a vintage.** pin 2251 < published 2343 < pin+store 2378: the
+   population is bracketed, not recreated, and no price buys the sentence "we can rebuild the face's
+   inputs". The overshoot has a named cause -- E369's bill is measured against E361's disk pin (2368
+   members) while the face counted 2343 sources, so the extra members were created after publish
+   day and nothing in the repo records which -- but the direction of the error is not recoverable.
+2. **Reproducibility splits by key shape, not by face.** Tally keys (a class partition, a
+   guard-never-fires count) come back exactly from commit+store because they count a predicate over
+   the population; a total over the whole population does not, because it counts the population.
+   Publish the kind per row so a reader can tell a zero-delta count from an agreeing tally.
+3. **A fixture that asserts a shape the producer cannot emit grades the copy, not the code.** The
+   first `compare()` graded only numeric values, so a tally was published `reproduced: None`; `bought`
+   drops nulls; `guard_paid` then never saw a tally and the strongest verdict the arms support ("the
+   store pays for the guard ledger and not for the population") was unreachable on real data -- while
+   a hand-built fixture asserted it by setting the flags itself. The repair publishes `kind` and
+   grades a tally by equality, and the new legs feed `decide()` from `compare()`'s own output.
+
+How to apply: write the store at publish time, not afterwards; when a store overshoots, say
+"bracketed" and name the population the bill was measured against; and build every verdict fixture
+out of the producer's real return value, never by hand-setting the flags the producer is supposed
+to compute.
+
+## E374 -- "free VRAM" was two quantities; the 176.8 MiB the face kept re-diagnosing was the driver's reservation (r1392 bm-b)
+
+The smoke leg `fleet: GPU face self-consistent on heartbeat` went red on bm-b with
+`spread_mib 176.8, high gpu_free_mib, low vram_free_gb`. Four earlier rounds (r1177, r1284, r1363,
+r1314) had each read the same gap as an aging key and healed it by rewriting the canonical
+spellings, and the alternate spelling came back the next round. Measured at one instant instead of
+inferred from the face: nvidia-smi reports `total 8192, used 6293, free 1726`, while the canonical
+`gpu_free_mib` is `total - used = 1899`. The 173 MiB difference is the driver reservation, which
+`memory.free` excludes and `total - used` includes -- a constant, not a sample. At the 20:21 face it
+was 2061 vs 1884 = 176.8 MiB, which is the red.
+
+The repair reads the fourth nvidia-smi field, publishes `gpu_reserved_mib` and a
+`gpu_memory_semantics` key naming the canonical definition, and leaves `audit()` strict: two numbers
+under one name is still a defect and the face still goes red, but the finding now carries
+`definition_note` when the spread equals the published reservation, so the next reader is not asked
+to re-derive it. `apply` then heals the face to one definition (findings `[]`, reservation 173,
+35 GPU keys, one stray `vram_used_gb` purged). selftest 41/41, ten of the legs new.
+
+1. **A disagreement that returns at the same magnitude is a definition, not an age.** Round after
+   round "healed" 176.8 MiB with a fresh probe; a probe cannot fix a number that is already current
+   under another definition. The measurement that settles it is one instant carrying both spellings,
+   which is cheaper than the four rounds the face spent guessing.
+2. **Publish the residual, or the next reader re-diagnoses it.** A face that says only
+   "free = 1899" cannot be distinguished from a face whose other key is stale. `gpu_reserved_mib` is
+   the witness that makes the two readings separable, and it belongs on the face, not in a comment.
+3. **Do not widen the tolerance to make the red go away.** The general escape here is `TOL_MIB >=
+   177`, which would have hidden two real defects as well. The defect is that one name carried two
+   quantities; the fix is to pick the definition, name it on the face, and disclose the constant
+   that separates it from the other spelling.
+
+How to apply: when the same "stale number" family recurs at a fixed magnitude, stop re-probing and
+probe both spellings at one instant; if the gap is constant it is a second definition. Publish the
+semantics key plus the residual, own the alternate spelling at the single writer, and keep the
+audit strict.
+
+## E373 -- one pin per vintage is not enough: the study's own commit explains only part of its own face (r1393 bm-b)
+
+E369 took one pin, at E350's publishing commit, and every arm reproduced -- which invited the
+sentence "the pin covers the face". The queue card answered that the two studies in that replay were
+published from DIFFERENT commits (E350 pin daf9a897, cutoff 11-01; E353 pin e847e099, cutoff 11-02),
+so E373 runs the same measurement twice, once per vintage, and crosses the two studies over both.
+Readings: the trees hold 2251 and 2255 members (the four extra are the E350/E351 study and smoke
+files, and the corpus rule excludes only the walking study's own file, so the second tree counts 3 of
+them); the two populations overlap by 2251 with 0 members only in the older tree. Neither study
+reproduces at EITHER commit -- E350's corpus_sources 2251/2254 against 2343, fields_with_no_writer
+1687 against 1698, guard_fields_with_no_writer 129 against 131; E353's pairs 129 against 131 although
+`guard_never_fires_on_a_falsy_value` (34) comes back in all four cells and `by_state`/`by_class` differ
+only where `pairs` differs.
+
+1. **A pin is a property of a vintage, not of a study, and a study can outrun its own pin.** E353 was
+   published from e847e099 and still does not reproduce there: the two missing pairs are members that
+   no commit holds at publish time (E372 recovered them from disk to reach 131). So "pin per study"
+   is the wrong unit as well -- the honest sentence is "pin per vintage PLUS a store for the members
+   the publish-day working tree carried and no commit holds". A queue that counts pins alone
+   under-bills every face that was written from a dirty tree.
+2. **Grade a cross-vintage replay on accounting, never on the numbers.** Each study's vintage must be
+   machine-read from its own face (a hardcoded commit would survive a re-publish), each pin must
+   re-derive its own digest from the rows it publishes, each bill must partition (fetched + absent ==
+   population), and the overlap arithmetic must be in the order the studies are walked -- only then
+   does "neither tree explains the numbers" mean what it says.
+3. **A cell reproduces only when every comparable key does; partials must still be visible.** The
+   first smoke leg for this study read `reproduced` per key and reported "'neither reproduces' is
+   claimed while a cell reproduces" -- the verdict was right (all-keys notion) and the leg was
+   grading a different notion. The repair kept both: a whole-cell flag drives the verdict, a per-key
+   flag must equal its own numbers, and a partial cell stays on the face key by key.
+
+How to apply: before quoting a replay as provenance, ask which vintage each study was built from and
+whether its arithmetic can fail; when the answer is "different vintages", count a pin AND a store per
+vintage and publish the bills side by side, because a single number that comes back is a stability
+reading, not a reconstruction.
