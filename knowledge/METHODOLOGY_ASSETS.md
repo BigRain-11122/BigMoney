@@ -7703,3 +7703,30 @@ whether the population is git-suppliable, machine-local scratch, or dirty; treat
 separate populations rather than one "corpus size", because only the first can be reproduced; and
 deliver a study's producer and face in the same commit as its card -- an uncommitted, non-ignored
 producer is a study that exists on one disk.
+
+## E362 -- a corpus pin is replayed from its own address, and the pointer is what made the digest a recipe (r1384)
+
+E361 ended with the gap in its own words: *"the pin exists, the pointer does not"* -- a digest that
+nobody can turn back into bytes is a receipt. This round publishes the pointer and measures it.
+
+1. **A pin only reproduces if it names a commit.** The face now carries `git_commit` alongside
+   `pin_id`; a tracked-and-clean member is then fetchable as `commit:path`. That covers 2,254 of
+   2,365 members. The remaining **111** (untracked round scratch plus files whose working copy
+   differs from their committed blob) are frozen into a content-addressed store beside the face
+   (`results/state_tilt/corpus_store/CORPUSSTORE-<pin16>.json`, zlib+base64 of the LF text,
+   328 KB for 562 KB of source).
+2. **Replay reads git objects and the store, never the work tree.** 2,365 members re-hash to their
+   pinned digests, `pin_id` recomputes bit-identical, 0 missing, 0 mismatched, 43,957,006 bytes.
+   The face declares `working_tree_read: false`, so the claim is inspectable rather than implied.
+3. **The check was shown able to fail.** Perturbing one stored member's text gives
+   `cannot_be_replayed_bytes_do_not_hash_to_the_pin`, `reproduces=False`, 1 mismatched -- the
+   verdict vocabulary is ordered so an incomplete store (missing / mismatched / no commit) can
+   never read as success.
+4. **The pin's own population is still not in git.** 107 untracked / 4 dirty of 2,365, so the
+   verdict on reachability stays `the_census_corpus_cannot_be_reassembled_from_any_commit`: the
+   store makes a census *re-runnable*, not the corpus *committable* (r1081 scratch law still rules).
+
+How to apply: publish a digest together with the address that regenerates it (commit + inline store
+for what no commit holds); make the replay declare whether it touched the working tree; and give the
+verdict at least one branch that a plausible defect actually reaches, demonstrated by perturbing a
+real member rather than by asserting the branch exists.

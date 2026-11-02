@@ -11940,6 +11940,65 @@ def _r39(face, key):
                 str((_f361 or {}).get("summary", {}).get("verdict"))))
 
 
+# E362: r1383 pinned the corpus and closed with "the pin exists, the pointer does not" -- a
+    # digest nobody can turn back into bytes.  This leg grades whether the pointer is really there:
+    # the pin must name a commit, the store must cover exactly the members git cannot supply, and
+    # the published replay face's verdict must re-derive from its own partitions.  It re-reads no
+    # corpus (that is 44 MB of hashing and a work-tree read, the thing the replay exists to avoid).
+    _name362 = ("product: a corpus pin names the commit that supplies it, the inline store covers "
+                "exactly the members git cannot, and the replay verdict re-derives from its counts")
+    _bad362 = []
+    try:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m362 = __import__("importlib").import_module("e362_corpus_replay")
+        _m361b = __import__("importlib").import_module("e361_census_corpus_pin")
+        _pin362 = _m361b.newest_pin()
+        _fpin362 = json.load(open(_pin362, encoding="utf-8"))
+        _rep362 = sorted(f for f in os.listdir(os.path.join("results", "state_tilt"))
+                         if f.startswith("CORPUSREPLAY-"))
+        _frep362 = (json.load(open(os.path.join("results", "state_tilt", _rep362[-1]),
+                                   encoding="utf-8")) if _rep362 else None)
+        if _frep362 is None:
+            _bad362.append("no published replay face")
+        if not (isinstance(_fpin362.get("git_commit"), str)
+                and len(_fpin362["git_commit"]) == 40):
+            _bad362.append("the pin names no 40-hex commit (the pointer is still missing)")
+        if _frep362 is not None:
+            _s362 = _fpin362.get("summary") or {}
+            if _frep362.get("pin_id") != _fpin362.get("pin_id"):
+                _bad362.append("the replay face does not describe the newest pin")
+            if _frep362.get("store_count") != _s362.get("git_cannot_supply"):
+                _bad362.append("the store does not cover exactly the un-suppliable members")
+            if (_frep362.get("from_commit", 0) + _frep362.get("from_store", 0)
+                    != _frep362.get("replayed_count")):
+                _bad362.append("from_commit+from_store does not partition the replay")
+            if _frep362.get("replayed_count") != _frep362.get("count"):
+                _bad362.append("the replay counted a different population than the pin")
+            if _frep362.get("working_tree_read") is not False:
+                _bad362.append("the replay does not declare itself work-tree-free")
+            # the verdict must be recomputable, not asserted (D-20: a conclusion that ignores its
+            # own numbers reads green forever)
+            _ok362 = (not (_frep362.get("missing") or _frep362.get("mismatched"))
+                      and _frep362.get("reproduces") is True
+                      and _frep362.get("pin_id") == _frep362.get("replayed_pin_id"))
+            _want362 = _m362.VERDICT_OK if _ok362 else _m362.VERDICT_MISMATCH
+            if _frep362.get("verdict") != _want362:
+                _bad362.append("the verdict %r does not re-derive (want %r)"
+                               % (_frep362.get("verdict"), _want362))
+    except Exception as e:
+        _bad362.append(repr(e)[:160])
+    check(_name362, not _bad362, "; ".join(_bad362)[:220]
+          or "%s members replayed as %s from commit %s + %s from the store, pin %s reproduces, "
+             "missing 0, mismatched 0, %s bytes, verdict %s"
+             % (str((_frep362 or {}).get("replayed_count")),
+                str((_frep362 or {}).get("from_commit")),
+                str((_fpin362 or {}).get("git_commit", ""))[:12],
+                str((_frep362 or {}).get("from_store")),
+                str((_frep362 or {}).get("pin_id", ""))[:16],
+                str((_frep362 or {}).get("bytes")),
+                str((_frep362 or {}).get("verdict"))))
+
+
 # E358: E351 called 55 gate subjects unresolved because the subject was written as
     # os.path.join(...) -- three literals, none of which looks like a path on its own.  This leg
     # grades the ACCOUNTING, not the numbers: the classes must partition the population, a

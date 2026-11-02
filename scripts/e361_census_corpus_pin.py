@@ -232,6 +232,9 @@ def build(study: str = STUDY, outdir: str = None) -> dict:
     face = {
         "study": study,
         "rule": RULE,
+        # The commit is part of the address: a path+digest without it names bytes nobody can fetch.
+        # E362 replays this pin from (commit, blob) and from the inline store, never from the tree.
+        "git_commit": _git("rev-parse", "HEAD").strip(),
         "evidence_cutoff": today,
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
         "pin_id": pin_id(rows),
