@@ -8788,4 +8788,4 @@ n12_vt08 差 **0.0 pp**，容差 0.5pp）。这一条腿绿了，后面每一格
 
 **边界：** 不量冲击（订单量/成交额）、不量买卖价差、不量持有期内消失的名字（面板无死亡样本，那一半由 E352 定价成预算）。
 
-**证据：** `scripts/etf_book_exit_liquidity.py`（selftest 20/20 · `--check` 复算判词）· `results/etf_book_exit_liquidity.json` · `research/ETF_BOOK_EXIT_LIQUIDITY.md` · 链腿 `etf_book_exit_liquidity` · smoke 两条腿。
+**证据：** `scripts/etf_book_exit_liquidity.py`（selftest 23/23 · `--check` 复算判词）· `results/etf_book_exit_liquidity.json` · `research/ETF_BOOK_EXIT_LIQUIDITY.md` · 链腿 `etf_book_exit_liquidity` · smoke 两条腿。

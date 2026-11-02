@@ -6,7 +6,7 @@
 holding names it would not be allowed to buy, and the sell becomes a queue rather than a
 decision.
 
-**Face.** `scripts/etf_book_exit_liquidity.py` (selftest 20/20, `--check` re-derives the
+**Face.** `scripts/etf_book_exit_liquidity.py` (selftest 23/23, `--check` re-derives the
 verdict from the published rows). Production panel through the production engine, declared
 arm only (score held one bar back), four decision phases.
 
@@ -40,6 +40,8 @@ priced as a budget by E352.
 (selftest + `--check`). Queue row E29, registered and consumed in the same round.
 
 **Note on quoting.** The card block was first appended through a PowerShell `python -c` whose
-backticks were eaten by the shell (`\`scripts/...\`` → `esults/...`), damaging five paths; it
-was cut and rewritten through a file-based script and re-verified by reading the tail. Same
-class as the eaten-path-prefix defect E351 already scans for.
+backticks were eaten by the shell, so every backticked path lost its leading characters; it was
+cut and rewritten through a file-based script and re-verified by reading the tail. Same class as
+the eaten-path-prefix defect E351 scans for — and this round's own hygiene leg caught the damage
+still quoted verbatim in the first version of this note, which is why the damaged strings are
+described here rather than reproduced.

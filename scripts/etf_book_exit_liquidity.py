@@ -120,22 +120,26 @@ def measure_positions(diag, openp, amt, gate=None, defer_max=DEFER_MAX):
                    "missing_bar": liq is None, "below_gate": liq is None or liq < gate,
                    "defer_bars": 0, "defer_to": None, "delta_ret": 0.0,
                    "outside_cap": False}
-            if rec["below_gate"] and entry_px is not None:
-                for k in range(1, defer_max + 1):
-                    if j + k >= len(bars):
-                        break
-                    b = bars[j + k]
-                    l2 = _cell(amt, b, nm)
-                    p2 = _cell(openp, b, nm)
-                    if l2 is not None and l2 >= gate and p2 is not None:
-                        rec["defer_bars"] = k
-                        rec["defer_to"] = str(pd.Timestamp(b).date())
-                        rec["delta_ret"] = round(p2 / entry_px - 1.0, 8)
-                        break
+            if rec["below_gate"]:
+                if entry_px is None:
+                    # no print at all on the exit bar: a forced hold, reported as censored.
+                    rec["outside_cap"] = True
                 else:
-                    rec["outside_cap"] = True
-                if rec["defer_to"] is None:
-                    rec["outside_cap"] = True
+                    for k in range(1, defer_max + 1):
+                        if j + k >= len(bars):
+                            break
+                        b = bars[j + k]
+                        l2 = _cell(amt, b, nm)
+                        p2 = _cell(openp, b, nm)
+                        if l2 is not None and l2 >= gate and p2 is not None:
+                            rec["defer_bars"] = k
+                            rec["defer_to"] = str(pd.Timestamp(b).date())
+                            rec["delta_ret"] = round(p2 / entry_px - 1.0, 8)
+                            break
+                    else:
+                        rec["outside_cap"] = True
+                    if rec["defer_to"] is None:
+                        rec["outside_cap"] = True
             rec["contrib"] = round(w * rec["delta_ret"], 10)
             rows.append(rec)
     return rows
@@ -464,12 +468,20 @@ def selftest():
                                           "outside_cap": True, "contrib": 0.0}], 1.0)
        ["outside_cap"], 1)
 
+    # a name with no exit print at all is a forced hold, not a silent zero
+    openp4 = pd.DataFrame({"Z": np.array([1.0] * 20 + [np.nan] + [1.0] * 19)}, index=idx)
+    amt4 = pd.DataFrame({"Z": np.array([100e6] * 20 + [np.nan] + [100e6] * 19)}, index=idx)
+    r4 = measure_positions(diag2, openp4, amt4, gate=gate, defer_max=5)[0]
+    eq("no print -> missing_bar", r4["missing_bar"], True)
+    eq("no print -> outside_cap", r4["outside_cap"], True)
+    eq("no print -> no fake return", r4["delta_ret"], 0.0)
+
     if fails:
         for f in fails:
             print("FAIL " + f)
         print("selftest %d failed" % len(fails))
         return 1
-    print("selftest 20/20 OK")
+    print("selftest 23/23 OK")
     return 0
 
 
