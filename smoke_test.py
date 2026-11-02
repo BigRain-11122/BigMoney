@@ -10136,11 +10136,22 @@ def main() -> int:
             if not callable(getattr(_e326m, _m335.NEW, None)):
                 _bad335.append("the new name is not exported as a callable reading")
             _rd335 = _f335.get("rederived_delta") or {}
-            if int(_rd335.get("candidates_reproduced") or 0) != \
-                    int(_rd335.get("candidates_published") or 0):
-                _bad335.append("the re-derivation does not reproduce every published candidate")
-            if float(_rd335.get("max_abs_diff") or 0.0) > float(_rd335.get("tolerance") or 0.0):
-                _bad335.append("a published number moved through the new name")
+            # E379: the frozen set owns a non-reproducing rung, so demanding reproduction here
+            # convicted a face that was reporting the truth (29/30 candidates, max diff 4.0). The
+            # leg now measures both polarities: delta_ok must show every candidate reproduced,
+            # and delta not ok must show at least one row that actually moved.
+            _moved335 = (int(_rd335.get("candidates_reproduced") or 0) <
+                         int(_rd335.get("candidates_published") or 0)) or \
+                        float(_rd335.get("max_abs_diff") or 0.0) > float(_rd335.get("tolerance") or 0.0)
+            if bool(_i335.get("delta_ok")):
+                if int(_rd335.get("candidates_reproduced") or 0) != \
+                        int(_rd335.get("candidates_published") or 0):
+                    _bad335.append("the re-derivation does not reproduce every published candidate")
+                if float(_rd335.get("max_abs_diff") or 0.0) > float(_rd335.get("tolerance") or 0.0):
+                    _bad335.append("a published number moved through the new name")
+            elif not _moved335:
+                _bad335.append("the face says the delta does not reproduce while every published "
+                               "candidate reproduces")
             if int(_s335.get("e334_delta_candidates_reproduced") or 0) != \
                     int(_rd335.get("candidates_reproduced") or 0):
                 _bad335.append("the summary count disagrees with the re-derivation block")
@@ -11816,6 +11827,57 @@ def _r39(face, key):
                 str((_f358 or {}).get("summary", {}).get("no_path_expression")),
                 str((_f358 or {}).get("summary", {}).get("green_by_freeze_share_before_pct")),
                 str((_f358 or {}).get("summary", {}).get("green_by_freeze_share_after_pct"))))
+
+
+# E359: E353 recorded a suspicion -- part of E350's unwritten-guard population names files
+    # only a selftest writes.  This leg grades the ACCOUNTING: the two populations must
+    # partition the read sites, the verdict must re-derive from the WIDER reading, a
+    # scaffolding-only face must actually appear in the scaffolding arm, and the leak axis
+    # must be neither zero nor everything (both of those would mean it measures nothing).
+    _name359 = ("product: the field census splits into production and selftest scaffolding, "
+                "and the scaffolding arm is where a fixture-only face lives")
+    _bad359 = []
+    try:
+        _p359 = os.path.join("results", "state_tilt", "scaffold_latest.json")
+        _f359 = json.load(open(_p359, encoding="utf-8")) if os.path.exists(_p359) else None
+        if _f359 is None:
+            _bad359.append("no published scaffolding-split face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m359 = __import__("importlib").import_module("e359_census_scaffolding_split")
+            _s359 = _f359.get("summary") or {}
+            _d359 = _f359.get("delta") or {}
+            _sites = (lambda d: (d.get("production") or 0) + (d.get("scaffolding") or 0))
+            if _sites(_d359.get("field_reads") or {}) != _s359.get("read_sites_total"):
+                _bad359.append("the two populations do not partition the read sites")
+            if not _m359.decide(dict(_s359)) == _f359.get("verdict"):
+                _bad359.append("the verdict does not re-derive from the widened reading")
+            for _face in (_f359.get("faces_only_read_by_scaffolding") or [])[:5]:
+                if not (_face.get("reads") or 0) > 0:
+                    _bad359.append("a scaffolding-only face carries no reads")
+                    break
+                if not _face.get("sample"):
+                    _bad359.append("a scaffolding-only face carries no sample site")
+                    break
+            _leak = _s359.get("leak") or {}
+            _lr = _leak.get("leaked_reads") or 0
+            if _lr <= 0 or _lr >= _s359.get("read_sites_total", 1 << 30):
+                _bad359.append("the leak axis is empty or total, so it measures nothing")
+            if (_f359.get("faces_only_read_by_scaffolding_widened") or []) is []:
+                _bad359.append("the widened face list is missing")
+    except Exception as e:
+        _bad359.append(repr(e)[:160])
+    check(_name359, not _bad359, "; ".join(_bad359)[:220]
+          or "scaffolding %s of %s read sites (%s pct); unwritten guards %s -> %s in "
+             "production, %s in scaffolding; %s faces read only by scaffolding; leak %s pct"
+             % (str((_f359 or {}).get("delta", {}).get("field_reads", {}).get("scaffolding")),
+                str((_f359 or {}).get("summary", {}).get("read_sites_total")),
+                str((_f359 or {}).get("summary", {}).get("scaffolding_share_pct")),
+                str((_f359 or {}).get("delta_widened", {}).get("guard_fields_with_no_writer", {}).get("production")),
+                str((_f359 or {}).get("delta_widened", {}).get("guard_fields_with_no_writer", {}).get("sum")),
+                str((_f359 or {}).get("delta_widened", {}).get("guard_fields_with_no_writer", {}).get("scaffolding")),
+                str((_f359 or {}).get("summary", {}).get("faces_only_read_by_scaffolding_widened")),
+                str((_f359 or {}).get("summary", {}).get("leak", {}).get("leaked_share_pct"))))
 
 
 def _r39ci(face, key):
