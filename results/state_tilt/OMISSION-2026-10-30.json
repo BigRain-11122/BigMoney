@@ -1,0 +1,1295 @@
+{
+ "answer": "omission sweep: 15 published slopes read, 7 re-priceable; the single-counterparty slope is x1.53 the identified one (closed form x1.89 at rho 0.424); the per-pair grid alone accounts for x1.10; E239's difference re-prices to 0.667 [0.498, 0.837] -> survives=True; levels at risk: E239.mean_cross, E239.pooled_cross, E240.naive_cross, own_only.b_own, own_plus_sum.mean_b_cross_mean; flips: none",
+ "book": {
+  "members": [
+   "sh510300",
+   "sh510050",
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "panel": "data/daily basket (equal weight)"
+ },
+ "collinearity": {
+  "max": 0.679318079093753,
+  "mean_rho": 0.42411889736115904,
+  "min": 0.3346991076851939,
+  "n_pairs": 10,
+  "pairs": [
+   [
+    "sh510300",
+    "sh510050",
+    0.679318079093753
+   ],
+   [
+    "sh510300",
+    "sh510500",
+    0.46336047543985814
+   ],
+   [
+    "sh510300",
+    "sh512100",
+    0.40128998083160083
+   ],
+   [
+    "sh510300",
+    "sh588000",
+    0.3981066526870911
+   ],
+   [
+    "sh510050",
+    "sh510500",
+    0.37446724797097697
+   ],
+   [
+    "sh510050",
+    "sh512100",
+    0.36839894718207133
+   ],
+   [
+    "sh510050",
+    "sh588000",
+    0.3579959006086341
+   ],
+   [
+    "sh510500",
+    "sh512100",
+    0.5274340822307805
+   ],
+   [
+    "sh510500",
+    "sh588000",
+    0.336118499881631
+   ],
+   [
+    "sh512100",
+    "sh588000",
+    0.3346991076851939
+   ]
+  ]
+ },
+ "designs": {
+  "own_only": {
+   "design": "own_only",
+   "mean_b_own": 1.1747421356919496,
+   "members": [
+    {
+     "b_own": 1.2285073369610613,
+     "member": "sh510300",
+     "omits_members": 4,
+     "r2": 0.12309146488015055,
+     "rows_used": 1329
+    },
+    {
+     "b_own": 0.9692133121644526,
+     "member": "sh510050",
+     "omits_members": 4,
+     "r2": 0.0935533801983639,
+     "rows_used": 1329
+    },
+    {
+     "b_own": 0.8965543902778245,
+     "member": "sh510500",
+     "omits_members": 4,
+     "r2": 0.062163180962669706,
+     "rows_used": 1329
+    },
+    {
+     "b_own": 0.8100776625929015,
+     "member": "sh512100",
+     "omits_members": 4,
+     "r2": 0.04310042747417553,
+     "rows_used": 1329
+    },
+    {
+     "b_own": 1.9693579764635087,
+     "member": "sh588000",
+     "omits_members": 4,
+     "r2": 0.20191987962257196,
+     "rows_used": 1329
+    }
+   ],
+   "n_members": 5
+  },
+  "own_plus_all": {
+   "design": "own_plus_all",
+   "diff_ci": [
+    -0.04436819357541699,
+    1.3475300024360455
+   ],
+   "mean_b_cross": 0.21217952098164564,
+   "mean_b_own": 0.8637604254119597,
+   "mean_diff": 0.6515809044303142,
+   "members": [
+    {
+     "b_cross_mean": 0.3060536263060919,
+     "b_other": [
+      0.29309051285351956,
+      0.09167691452676743,
+      -0.0256270042399786,
+      0.8650740820840591
+     ],
+     "b_own": 0.7376977924791248,
+     "diff": 0.4316441661730329,
+     "diff_ci": [
+      0.05797345664695275,
+      0.8053148756991131
+     ],
+     "member": "sh510300",
+     "omits_members": 0,
+     "own_of": [
+      "sh510050",
+      "sh510500",
+      "sh512100",
+      "sh588000"
+     ],
+     "r2": 0.158789315778338,
+     "rows_used": 1329
+    },
+    {
+     "b_cross_mean": 0.21975502580171116,
+     "b_other": [
+      0.4716538976564051,
+      -0.011746379347619074,
+      0.06332424254532773,
+      0.35578834235273094
+     ],
+     "b_own": 0.5515564494877465,
+     "diff": 0.3318014236860354,
+     "diff_ci": [
+      0.003914218087920307,
+      0.6596886292841504
+     ],
+     "member": "sh510050",
+     "omits_members": 0,
+     "own_of": [
+      "sh510300",
+      "sh510500",
+      "sh512100",
+      "sh588000"
+     ],
+     "r2": 0.11511828170758642,
+     "rows_used": 1329
+    },
+    {
+     "b_cross_mean": 0.3404091517517848,
+     "b_other": [
+      0.32935701995129063,
+      -0.17662541700731185,
+      0.20420544144722594,
+      1.0046995626159345
+     ],
+     "b_own": 0.4908158922950422,
+     "diff": 0.15040674054325737,
+     "diff_ci": [
+      -0.2249946246143894,
+      0.5258081057009041
+     ],
+     "member": "sh510500",
+     "omits_members": 0,
+     "own_of": [
+      "sh510300",
+      "sh510050",
+      "sh512100",
+      "sh588000"
+     ],
+     "r2": 0.10824346544716468,
+     "rows_used": 1329
+    },
+    {
+     "b_cross_mean": 0.27926848932166537,
+     "b_other": [
+      0.26503560819772665,
+      -0.26677863123070755,
+      0.2679303966365165,
+      0.8508865836831259
+     ],
+     "b_own": 0.4004752924105929,
+     "diff": 0.1212068030889275,
+     "diff_ci": [
+      -0.17377993768271982,
+      0.41619354386057483
+     ],
+     "member": "sh512100",
+     "omits_members": 0,
+     "own_of": [
+      "sh510300",
+      "sh510050",
+      "sh510500",
+      "sh588000"
+     ],
+     "r2": 0.08680550760637418,
+     "rows_used": 1329
+    },
+    {
+     "b_cross_mean": -0.08458868827302501,
+     "b_other": [
+      -0.03422139549038434,
+      -0.15800821729454145,
+      -0.1416514338235375,
+      -0.0044737064836367635
+     ],
+     "b_own": 2.138256700387293,
+     "diff": 2.222845388660318,
+     "diff_ci": [
+      1.9249436184327076,
+      2.5207471588879287
+     ],
+     "member": "sh588000",
+     "omits_members": 0,
+     "own_of": [
+      "sh510300",
+      "sh510050",
+      "sh510500",
+      "sh512100"
+     ],
+     "r2": 0.20839985378655002,
+     "rows_used": 1329
+    }
+   ],
+   "n_members": 5,
+   "pooled": {
+    "b_cross_mean": 0.17994070358498476,
+    "b_others": [
+     0.2177475809070498,
+     -0.08472773206808978,
+     0.016449358059610092,
+     0.5702936074413689
+    ],
+    "b_own": 0.8472423339789185,
+    "diff": 0.6673016303939336,
+    "diff_ci": [
+     0.49759672742975736,
+     0.8370065333581099
+    ],
+    "diff_t_nw": 7.706973533040481,
+    "member_fixed_effects": 5,
+    "r2": 0.11002997304393358,
+    "rows_used": 6645
+   }
+  },
+  "own_plus_one": {
+   "cases": [],
+   "design": "own_plus_one",
+   "mean_b_cross": 0.32494189609382446,
+   "mean_b_own": 1.0517533662052811,
+   "n_pairs": 20,
+   "omits_members": 3,
+   "pairs": [
+    {
+     "b_cross": 0.39923624623061293,
+     "b_own": 0.9498719889050102,
+     "cross_of": "sh510050",
+     "own_of": "sh510300",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.22014529655402582,
+     "b_own": 1.1215404248908123,
+     "cross_of": "sh510500",
+     "own_of": "sh510300",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.20685354654322896,
+     "b_own": 1.155359805525473,
+     "cross_of": "sh512100",
+     "own_of": "sh510300",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.9254448990913023,
+     "b_own": 0.9602340597825523,
+     "cross_of": "sh588000",
+     "own_of": "sh510300",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.5570484811168566,
+     "b_own": 0.6008867046732067,
+     "cross_of": "sh510300",
+     "own_of": "sh510050",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.17974711159628287,
+     "b_own": 0.9005122033025513,
+     "cross_of": "sh510500",
+     "own_of": "sh510050",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.21954493376874679,
+     "b_own": 0.8998408494751433,
+     "cross_of": "sh512100",
+     "own_of": "sh510050",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.48478806424775056,
+     "b_own": 0.846207874255642,
+     "cross_of": "sh588000",
+     "own_of": "sh510050",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.4742159477501471,
+     "b_own": 0.6870109455644318,
+     "cross_of": "sh510300",
+     "own_of": "sh510500",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.23903954119237952,
+     "b_own": 0.80885519706876,
+     "cross_of": "sh510050",
+     "own_of": "sh510500",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.4177516703022728,
+     "b_own": 0.7113958665754698,
+     "cross_of": "sh512100",
+     "own_of": "sh510500",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 1.1069264745633645,
+     "b_own": 0.6381989905316527,
+     "cross_of": "sh588000",
+     "own_of": "sh510500",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.3705117212751515,
+     "b_own": 0.6413517126124282,
+     "cross_of": "sh510300",
+     "own_of": "sh512100",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.11262504666184397,
+     "b_own": 0.7617041023215919,
+     "cross_of": "sh510050",
+     "own_of": "sh512100",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.4214606290271602,
+     "b_own": 0.5455519599715732,
+     "cross_of": "sh510500",
+     "own_of": "sh512100",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": 0.928875436091367,
+     "b_own": 0.55317946337613,
+     "cross_of": "sh588000",
+     "own_of": "sh512100",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": -0.1972007872855044,
+     "b_own": 2.0771733435749766,
+     "cross_of": "sh510300",
+     "own_of": "sh588000",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": -0.221755678316645,
+     "b_own": 2.081368406271459,
+     "cross_of": "sh510050",
+     "own_of": "sh588000",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": -0.19988780225838398,
+     "b_own": 2.0661127404555977,
+     "cross_of": "sh510500",
+     "own_of": "sh588000",
+     "rows_used": 1329
+    },
+    {
+     "b_cross": -0.14653285627546908,
+     "b_own": 2.028710684971158,
+     "cross_of": "sh512100",
+     "own_of": "sh588000",
+     "rows_used": 1329
+    }
+   ],
+   "pooled": {
+    "b_cross": 0.26232521961257005,
+    "b_own": 0.9891368400342169,
+    "diff": 0.7268116204216468,
+    "diff_ci": [
+     0.6267662092006206,
+     0.826857031642673
+    ],
+    "diff_t_nw": 14.239041637594221,
+    "pair_blocks": 20,
+    "r2": 0.09572825654306139,
+    "rows_used": 26580
+   }
+  },
+  "own_plus_sum": {
+   "cases": [
+    {
+     "b_one": 0.31557741890604096,
+     "b_one_ci": [
+      0.05389433703701718,
+      0.5772605007750647
+     ],
+     "b_rest3": 0.21960486525368406,
+     "b_rest3_ci": [
+      0.11380516418965127,
+      0.32540456631771686
+     ],
+     "diff": 0.0959725536523569,
+     "diff_ci": [
+      -0.19715884422383456,
+      0.3891039515285484
+     ],
+     "one_of": "sh510050",
+     "own_of": "sh510300",
+     "rows_used": 1329
+    },
+    {
+     "b_one": 0.02020142350976739,
+     "b_one_ci": [
+      -0.2044091385516017,
+      0.24481198557113648
+     ],
+     "b_rest3": 0.34833013204861885,
+     "b_rest3_ci": [
+      0.20145681005889834,
+      0.4952034540383393
+     ],
+     "diff": -0.32812870853885145,
+     "diff_ci": [
+      -0.6418227777685113,
+      -0.014434639309191699
+     ],
+     "one_of": "sh510500",
+     "own_of": "sh510300",
+     "rows_used": 1329
+    },
+    {
+     "b_one": -0.08425494315372384,
+     "b_one_ci": [
+      -0.32477167959776615,
+      0.15626179329031847
+     ],
+     "b_rest3": 0.3685843615874992,
+     "b_rest3_ci": [
+      0.2270077657987409,
+      0.5101609573762574
+     ],
+     "diff": -0.452839304741223,
+     "diff_ci": [
+      -0.7764098561547579,
+      -0.1292687533276881
+     ],
+     "one_of": "sh512100",
+     "own_of": "sh510300",
+     "rows_used": 1329
+    },
+    {
+     "b_one": 0.8601701854057179,
+     "b_one_ci": [
+      0.5632935273323938,
+      1.157046843479042
+     ],
+     "b_rest3": 0.09921488075806395,
+     "b_rest3_ci": [
+      -0.0034147534789557843,
+      0.20184451499508368
+     ],
+     "diff": 0.7609553046476539,
+     "diff_ci": [
+      0.4258439574081988,
+      1.0960666518871092
+     ],
+     "one_of": "sh588000",
+     "own_of": "sh510300",
+     "rows_used": 1329
+    },
+    {
+     "b_one": 0.4748460392925601,
+     "b_one_ci": [
+      0.21002391452549246,
+      0.7396681640596277
+     ],
+     "b_rest3": 0.09519417557210974,
+     "b_rest3_ci": [
+      -0.0026109917652180764,
+      0.19299934290943754
+     ],
+     "diff": 0.37965186372045034,
+     "diff_ci": [
+      0.06369703123494536,
+      0.6956066962059553
+     ],
+     "one_of": "sh510300",
+     "own_of": "sh510050",
+     "rows_used": 1329
+    },
+    {
+     "b_one": -0.045871646424819335,
+     "b_one_ci": [
+      -0.24385071602595662,
+      0.15210742317631795
+     ],
+     "b_rest3": 0.29087208689813304,
+     "b_rest3_ci": [
+      0.16665703137064242,
+      0.41508714242562367
+     ],
+     "diff": -0.3367437333229524,
+     "diff_ci": [
+      -0.6232215301021995,
+      -0.050265936543705314
+     ],
+     "one_of": "sh510500",
+     "own_of": "sh510050",
+     "rows_used": 1329
+    },
+    {
+     "b_one": -0.0015370041640592191,
+     "b_one_ci": [
+      -0.22397328840439973,
+      0.2208992800762813
+     ],
+     "b_rest3": 0.2381153063923026,
+     "b_rest3_ci": [
+      0.12578109991489084,
+      0.3504495128697144
+     ],
+     "diff": -0.23965231055636183,
+     "diff_ci": [
+      -0.5286140396586159,
+      0.049309418545892214
+     ],
+     "one_of": "sh512100",
+     "own_of": "sh510050",
+     "rows_used": 1329
+    },
+    {
+     "b_one": 0.37208172489291447,
+     "b_one_ci": [
+      0.08574896448954272,
+      0.6584144852962862
+     ],
+     "b_rest3": 0.13115972316397922,
+     "b_rest3_ci": [
+      0.039768800921275785,
+      0.22255064540668268
+     ],
+     "diff": 0.24092200172893524,
+     "diff_ci": [
+      -0.09274969349213069,
+      0.5745936969500012
+     ],
+     "one_of": "sh588000",
+     "own_of": "sh510050",
+     "rows_used": 1329
+    },
+    {
+     "b_one": 0.15387705780980143,
+     "b_one_ci": [
+      -0.13826022276757943,
+      0.4460143383871823
+     ],
+     "b_rest3": 0.3014894397655399,
+     "b_rest3_ci": [
+      0.14993523355216098,
+      0.4530436459789188
+     ],
+     "diff": -0.14761238195573845,
+     "diff_ci": [
+      -0.5492706282055064,
+      0.2540458642940296
+     ],
+     "one_of": "sh510300",
+     "own_of": "sh510500",
+     "rows_used": 1329
+    },
+    {
+     "b_one": -0.2266088927111759,
+     "b_one_ci": [
+      -0.4853378066735652,
+      0.03212002125121338
+     ],
+     "b_rest3": 0.49830841546837346,
+     "b_rest3_ci": [
+      0.3501194915022858,
+      0.6464973394344611
+     ],
+     "diff": -0.7249173081795494,
+     "diff_ci": [
+      -1.0759804660016714,
+      -0.37385415035742736
+     ],
+     "one_of": "sh510050",
+     "own_of": "sh510500",
+     "rows_used": 1329
+    },
+    {
+     "b_one": 0.23448257323690364,
+     "b_one_ci": [
+      -0.0654261440967539,
+      0.5343912905705612
+     ],
+     "b_rest3": 0.2607303962509795,
+     "b_rest3_ci": [
+      0.132045194837418,
+      0.389415597664541
+     ],
+     "diff": -0.026247823014075855,
+     "diff_ci": [
+      -0.4133952547394598,
+      0.3608996087113081
+     ],
+     "one_of": "sh512100",
+     "own_of": "sh510500",
+     "rows_used": 1329
+    },
+    {
+     "b_one": 1.0167047227713584,
+     "b_one_ci": [
+      0.5987925531437721,
+      1.4346168923989446
+     ],
+     "b_rest3": 0.09405563024896879,
+     "b_rest3_ci": [
+      -0.013471469680148923,
+      0.2015827301780865
+     ],
+     "diff": 0.9226490925223896,
+     "diff_ci": [
+      0.454437856054086,
+      1.3908603289906931
+     ],
+     "one_of": "sh588000",
+     "own_of": "sh510500",
+     "rows_used": 1329
+    },
+    {
+     "b_one": 0.06425634096272947,
+     "b_one_ci": [
+      -0.18874190024255982,
+      0.3172545821680188
+     ],
+     "b_rest3": 0.2564073541095335,
+     "b_rest3_ci": [
+      0.11925096611877731,
+      0.39356374210028977
+     ],
+     "diff": -0.19215101314680405,
+     "diff_ci": [
+      -0.5515759816912614,
+      0.16727395539765333
+     ],
+     "one_of": "sh510300",
+     "own_of": "sh512100",
+     "rows_used": 1329
+    },
+    {
+     "b_one": -0.30755247444079215,
+     "b_one_ci": [
+      -0.5480321125379433,
+      -0.06707283634364106
+     ],
+     "b_rest3": 0.4185986639401488,
+     "b_rest3_ci": [
+      0.3025140593003032,
+      0.5346832685799944
+     ],
+     "diff": -0.7261511383809409,
+     "diff_ci": [
+      -1.0463643910146425,
+      -0.4059378857472393
+     ],
+     "one_of": "sh510050",
+     "own_of": "sh512100",
+     "rows_used": 1329
+    },
+    {
+     "b_one": 0.2992441508930327,
+     "b_one_ci": [
+      0.07118416425487928,
+      0.5273041375311861
+     ],
+     "b_rest3": 0.16728068615021607,
+     "b_rest3_ci": [
+      0.067651062390161,
+      0.26691030991027115
+     ],
+     "diff": 0.13196346474281662,
+     "diff_ci": [
+      -0.158487780041644,
+      0.4224147095272772
+     ],
+     "one_of": "sh510500",
+     "own_of": "sh512100",
+     "rows_used": 1329
+    },
+    {
+     "b_one": 0.8534423220208238,
+     "b_one_ci": [
+      0.5469596032767086,
+      1.159925040764939
+     ],
+     "b_rest3": 0.07255245748943023,
+     "b_rest3_ci": [
+      -0.018133181813801427,
+      0.16323809679266188
+     ],
+     "diff": 0.7808898645313935,
+     "diff_ci": [
+      0.4366387333010912,
+      1.1251409957616958
+     ],
+     "one_of": "sh588000",
+     "own_of": "sh512100",
+     "rows_used": 1329
+    },
+    {
+     "b_one": -0.06527476284725969,
+     "b_one_ci": [
+      -0.27588105517406575,
+      0.14533152947954636
+     ],
+     "b_rest3": -0.09796144473211871,
+     "b_rest3_ci": [
+      -0.19538002101098773,
+      -0.0005428684532496897
+     ],
+     "diff": 0.032686681884859015,
+     "diff_ci": [
+      -0.23188657602061835,
+      0.2972599397903364
+     ],
+     "one_of": "sh510300",
+     "own_of": "sh588000",
+     "rows_used": 1329
+    },
+    {
+     "b_one": -0.14102238189494026,
+     "b_one_ci": [
+      -0.3564409919123115,
+      0.07439622812243096
+     ],
+     "b_rest3": -0.07073356325908586,
+     "b_rest3_ci": [
+      -0.16567299807515048,
+      0.02420587155697876
+     ],
+     "diff": -0.0702888186358544,
+     "diff_ci": [
+      -0.34206020796026054,
+      0.20148257068855174
+     ],
+     "one_of": "sh510050",
+     "own_of": "sh588000",
+     "rows_used": 1329
+    },
+    {
+     "b_one": -0.11914861467775492,
+     "b_one_ci": [
+      -0.3084034438163046,
+      0.07010621446079476
+     ],
+     "b_rest3": -0.07853271871959833,
+     "b_rest3_ci": [
+      -0.17414647928794535,
+      0.017081041848748715
+     ],
+     "diff": -0.040615895958156595,
+     "diff_ci": [
+      -0.2966140810619863,
+      0.21538228914567306
+     ],
+     "one_of": "sh510500",
+     "own_of": "sh588000",
+     "rows_used": 1329
+    },
+    {
+     "b_one": -0.012888795584737822,
+     "b_one_ci": [
+      -0.24085203032563185,
+      0.2150744391561562
+     ],
+     "b_rest3": -0.10909840859235409,
+     "b_rest3_ci": [
+      -0.19142818427243508,
+      -0.02676863291227312
+     ],
+     "diff": 0.09620961300761627,
+     "diff_ci": [
+      -0.18095147065656236,
+      0.3733706966717949
+     ],
+     "one_of": "sh512100",
+     "own_of": "sh588000",
+     "rows_used": 1329
+    }
+   ],
+   "design": "pair_one_vs_rest",
+   "diff_ci": [
+    -0.1852194455337753,
+    0.20087464593457163
+   ],
+   "diff_sd": 0.4404758337929824,
+   "diff_se": 0.09849339068070076,
+   "mean_b_one": 0.18303622219011934,
+   "mean_b_rest3": 0.17520862198972117,
+   "mean_diff": 0.00782760020039815,
+   "n_pairs": 20,
+   "pooled": {
+    "b_one": 0.13847018556112423,
+    "b_own": 0.8652818059827709,
+    "b_rest3": 0.13847018556112628,
+    "diff": -2.0539125955565396e-15,
+    "diff_ci": [
+     -0.07423386964618191,
+     0.0742338696461778
+    ],
+    "rows_used": 26580
+   }
+  }
+ },
+ "difference_insulation": {
+  "gap": 0.05950999002771318,
+  "gate_window": [
+   0.6673016303939336,
+   0.7268116204216468
+  ],
+  "identified_pooled_diff": 0.6673016303939336,
+  "naive_pooled_diff": 0.7268116204216468,
+  "reading": "the omitted block loads on the own and on the cross regressor alike, and the pooling runs every ordered pair in both directions, so the bias cancels in the difference: the level is the artefact, the paired difference is not"
+ },
+ "evidence_cutoff": "2026-10-30",
+ "frozen_spec": {
+  "closed_form_tolerance": 0.35,
+  "factor": "measured = naive / identified; predicted = (1+(k-1)rho-k rho^2)/(1-rho^2) at the measured mean pairwise correlation of turnover increments",
+  "grid_law": "the identified forms force every member onto the member's own sessions, so they exist only on the common intersection; a per-pair grid cannot host them",
+  "nested_designs": [
+   "S0 own only (omits 4)",
+   "S1 own + one (omits 3; E239/E240 form)",
+   "S2 own + one + sum of the rest 3 (identified, E240's form)",
+   "S3 own + each of the other four (identified, nothing omitted)"
+  ],
+  "no_adoption": "this face re-prices nothing and adopts nothing",
+  "question": "E240 priced one omission in one design (factor 1.89). Every design in this family whose regressor set leaves a member out inherits a factor; which published numbers are units artefacts?",
+  "verdict_vocabulary": [
+   "survives",
+   "flips",
+   "not_repriceable",
+   "unresolved"
+  ]
+ },
+ "generated": "2026-11-02T05:59:54",
+ "grid": {
+  "dates": 1329,
+  "first": "2020-11-17",
+  "kind": "common intersection of every member's sessions",
+  "last": "2026-10-30"
+ },
+ "grid_bridge": {
+  "common_grid_naive_mean_cross": 0.32494189609382446,
+  "grid_ratio": 1.0962481808860496,
+  "pair_specific_mean_cross": 0.3562169624865188,
+  "pair_specific_pairs": 20,
+  "reading": "the published pair mean was computed on per-pair intersections; the ATD grid ratio separates that choice from the omission, whose own factor is inflation.cross.measured_factor",
+  "sessions_common_grid": 1329
+ },
+ "inflation": {
+  "closed_form": 1.8934343153799222,
+  "closed_form_expression": "(1 + (k-1)rho - k rho^2) / (1 - rho^2), k = 4 counterparties",
+  "cross": {
+   "closed_form_gap": -0.3619863481562937,
+   "closed_form_gap_relative": -0.1911797759320002,
+   "closed_form_matches": true,
+   "factor_by_identified_form": {
+    "own_one_plus_sum": 1.7752873841348626,
+    "own_plus_all": 1.5314479672236285
+   },
+   "factor_range": [
+    1.5314479672236285,
+    1.7752873841348626
+   ],
+   "identified_own_one_plus_sum": 0.18303622219011934,
+   "identified_own_plus_all": 0.21217952098164564,
+   "measured_factor": 1.5314479672236285,
+   "naive_own_plus_one": 0.32494189609382446
+  },
+  "identified_forms_agree": true,
+  "k": 4,
+  "own": {
+   "identified_own_plus_all": 0.8637604254119597,
+   "measured_factor_own_only_vs_identified": 1.3600323667661331,
+   "measured_factor_vs_identified": 1.2176447719327503,
+   "naive_own_plus_one": 1.0517533662052811,
+   "own_only": 1.1747421356919496
+  },
+  "rho": 0.42411889736115904,
+  "substitution": {
+   "own_one_plus_sum_vs_own_all": 0.8626479188156556
+  }
+ },
+ "inventory": [
+  {
+   "face": "E239",
+   "key": "mean_cross",
+   "note": "mean over per-pair slopes, pair-specific grids",
+   "omits_members": 3,
+   "path": "results/state_tilt/owncross_latest.json",
+   "regressor_set": "own_plus_one",
+   "repriceable": true,
+   "value": 0.3562169624865188
+  },
+  {
+   "face": "E239",
+   "key": "pooled_cross",
+   "note": "pooled pair-FE fit, per-pair intersections",
+   "omits_members": 3,
+   "path": "results/state_tilt/owncross_latest.json",
+   "regressor_set": "own_plus_one",
+   "repriceable": true,
+   "value": 0.31368427636537716
+  },
+  {
+   "face": "E239",
+   "key": "two_way_cross",
+   "note": "member + date FE",
+   "omits_members": 3,
+   "path": "results/state_tilt/owncross_latest.json",
+   "regressor_set": "own_plus_one",
+   "repriceable": true,
+   "value": 0.05516205028672454
+  },
+  {
+   "face": "E239",
+   "key": "pooled_own",
+   "note": "the own slope in the same pair regression",
+   "omits_members": 3,
+   "path": "results/state_tilt/owncross_latest.json",
+   "regressor_set": "own_plus_one",
+   "repriceable": true,
+   "value": 0.7972682361971288
+  },
+  {
+   "face": "E239",
+   "key": "verdict",
+   "note": "frozen verdict of the pair design",
+   "omits_members": 3,
+   "path": "results/state_tilt/owncross_latest.json",
+   "regressor_set": "own_plus_one",
+   "repriceable": true,
+   "value": "own_exceeds_a_single_counterparty"
+  },
+  {
+   "face": "E240",
+   "key": "naive_cross",
+   "note": "E240's own reading",
+   "omits_members": 3,
+   "path": "results/state_tilt/AGGATT_latest.json",
+   "regressor_set": "own_plus_one",
+   "repriceable": true,
+   "value": 0.3248264498517257
+  },
+  {
+   "face": "E240",
+   "key": "b_one",
+   "note": "E240's own reading",
+   "omits_members": 0,
+   "path": "results/state_tilt/AGGATT_latest.json",
+   "regressor_set": "own_plus_sum",
+   "repriceable": false,
+   "value": 0.18298467684299835
+  },
+  {
+   "face": "E240",
+   "key": "b_rest3",
+   "note": "E240's own reading",
+   "omits_members": 0,
+   "path": "results/state_tilt/AGGATT_latest.json",
+   "regressor_set": "own_plus_sum",
+   "repriceable": false,
+   "value": 0.17513062295553938
+  },
+  {
+   "face": "E240",
+   "key": "b_own_direct",
+   "note": "E240's own reading",
+   "omits_members": 0,
+   "path": "results/state_tilt/AGGATT_latest.json",
+   "regressor_set": "own_plus_all",
+   "repriceable": false,
+   "value": 0.865430313622829
+  },
+  {
+   "face": "E240",
+   "key": "inflation_factor",
+   "note": "E240's own reading",
+   "omits_members": 3,
+   "path": "results/state_tilt/AGGATT_latest.json",
+   "regressor_set": "own_plus_one",
+   "repriceable": true,
+   "value": 1.8934643768451538
+  },
+  {
+   "face": "E240",
+   "key": "verdict",
+   "note": "computed from identified designs; this face is its control",
+   "omits_members": 0,
+   "path": "results/state_tilt/AGGATT_latest.json",
+   "regressor_set": "own_plus_sum",
+   "repriceable": false,
+   "value": "rest_channel_is_additive"
+  },
+  {
+   "face": "E236",
+   "key": "pooled_b_own",
+   "note": "own share + aggregate: contains all five members",
+   "omits_members": 0,
+   "path": "results/state_tilt/sharediff_latest.json",
+   "regressor_set": "own_plus_sum",
+   "repriceable": false,
+   "value": 0.43063914783071744
+  },
+  {
+   "face": "E236",
+   "key": "pooled_b_agg",
+   "note": "own share + aggregate: contains all five members",
+   "omits_members": 0,
+   "path": "results/state_tilt/sharediff_latest.json",
+   "regressor_set": "own_plus_sum",
+   "repriceable": false,
+   "value": 0.8794204832061876
+  },
+  {
+   "face": "E236",
+   "key": "family_single_regressor_gamma",
+   "note": "one regressor only; which one is not named on the face, so it cannot be re-priced here",
+   "omits_members": null,
+   "path": "results/state_tilt/sharediff_latest.json",
+   "regressor_set": "single_regressor",
+   "repriceable": false,
+   "value": 0.6217767440118207
+  },
+  {
+   "face": "E233",
+   "key": "verdict",
+   "note": "mixture vs split: an own-vs-aggregate question",
+   "omits_members": 0,
+   "path": "results/state_tilt/per_member_gamma_latest.json",
+   "regressor_set": "own_plus_sum",
+   "repriceable": false,
+   "value": "mixture"
+  }
+ ],
+ "level_claims": [
+  {
+   "face": "E239",
+   "factor": 1.6788470481905413,
+   "factor_same_grid": 1.5314479672236285,
+   "gate_window": [
+    0.21217952098164564,
+    0.3562169624865188
+   ],
+   "identified": 0.21217952098164564,
+   "key": "mean_cross",
+   "naive_common_grid": 0.32494189609382446,
+   "note": "mean over per-pair slopes; the published value also carries the per-pair GRID, so this row publishes the same-grid reading beside it",
+   "published": 0.3562169624865188,
+   "published_grid": "pair_specific"
+  },
+  {
+   "face": "E239",
+   "factor": 1.7432646984023057,
+   "factor_same_grid": 1.4578425802846526,
+   "gate_window": [
+    0.17994070358498476,
+    0.31368427636537716
+   ],
+   "identified": 0.17994070358498476,
+   "key": "pooled_cross",
+   "naive_common_grid": 0.26232521961257005,
+   "note": "pooled pair-FE cross slope",
+   "published": 0.31368427636537716,
+   "published_grid": "pair_specific"
+  },
+  {
+   "face": "E239",
+   "factor": 0.9410155798671019,
+   "factor_same_grid": 1.1674780642616345,
+   "gate_window": [
+    0.7972682361971288,
+    0.8472423339789185
+   ],
+   "identified": 0.8472423339789185,
+   "key": "pooled_own",
+   "naive_common_grid": 0.9891368400342169,
+   "note": "the own slope in the same pair regression is inflated too",
+   "published": 0.7972682361971288,
+   "published_grid": "pair_specific"
+  },
+  {
+   "face": "E240",
+   "factor": 1.775156562046057,
+   "factor_same_grid": 1.7757874686557826,
+   "gate_window": [
+    0.18298467684299835,
+    0.3248264498517257
+   ],
+   "identified": 0.18298467684299835,
+   "key": "naive_cross",
+   "naive_common_grid": 0.32494189609382446,
+   "note": "E240's own level reading, reproduced here",
+   "published": 0.3248264498517257,
+   "published_grid": "common"
+  },
+  {
+   "face": "own_only",
+   "factor": 1.3600323667661331,
+   "factor_same_grid": null,
+   "gate_window": [
+    0.8637604254119597,
+    1.1747421356919496
+   ],
+   "identified": 0.8637604254119597,
+   "key": "b_own",
+   "naive_common_grid": null,
+   "note": "the ceiling: a single-regressor design omits four members",
+   "published": 1.1747421356919496,
+   "published_grid": "common"
+  },
+  {
+   "face": "own_plus_sum",
+   "factor": 0.8626479188156556,
+   "factor_same_grid": null,
+   "gate_window": [
+    0.18303622219011934,
+    0.21217952098164564
+   ],
+   "identified": 0.21217952098164564,
+   "key": "mean_b_cross_mean",
+   "naive_common_grid": null,
+   "note": "control: the sum form omits nobody; a non-flat factor here measures how much the two identified forms disagree",
+   "published": 0.18303622219011934,
+   "published_grid": "common"
+  }
+ ],
+ "members": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "no_bill": {
+  "permitted": false,
+  "reason": "this face only asks which published slopes were units artefacts"
+ },
+ "study": "E242",
+ "summary": {
+  "closed_form_factor": 1.8934343153799222,
+  "closed_form_gap_relative": -0.1911797759320002,
+  "closed_form_matches": true,
+  "common_grid_naive_mean_cross": 0.32494189609382446,
+  "difference_gap": 0.05950999002771318,
+  "difference_insulated": true,
+  "grid_ratio": 1.0962481808860496,
+  "identified_cross": 0.21217952098164564,
+  "identified_cross_sum_form": 0.18303622219011934,
+  "inventory_repriceable": 7,
+  "inventory_rows": 15,
+  "level_claims": 6,
+  "levels_at_risk": [
+   "E239.mean_cross",
+   "E239.pooled_cross",
+   "E240.naive_cross",
+   "own_only.b_own",
+   "own_plus_sum.mean_b_cross_mean"
+  ],
+  "measured_cross_factor": 1.5314479672236285,
+  "naive_cross": 0.32494189609382446,
+  "own_factor_vs_identified": 1.2176447719327503,
+  "own_only_factor_vs_identified": 1.3600323667661331,
+  "pair_specific_mean_cross": 0.3562169624865188,
+  "rho": 0.42411889736115904,
+  "sessions": 1329,
+  "verdict": "omission_inflates_levels_and_spares_paired_differences",
+  "verdicts_flip": [],
+  "verdicts_not_repriceable": [
+   "E240",
+   "E236",
+   "E233"
+  ],
+  "verdicts_priced": [
+   "E239"
+  ],
+  "verdicts_survive": [
+   "E239"
+  ]
+ },
+ "title": "how many published family slopes are inflated by omitting the other members?",
+ "verdicts": [
+  {
+   "competition_note": "the published difference was computed on per-pair intersections; re-running the SAME naive design on the common grid moves it, so the total gap to the published number splits into a grid part and an omission part -- both are measured here, neither is assumed",
+   "consumes_omitted_design": true,
+   "direction": "strengthens",
+   "face": "E239",
+   "gap_from_grid": 0.24322766058989514,
+   "gap_from_omission": 0.05950999002771318,
+   "gap_total_vs_published": 0.24322766058989514,
+   "naive_diff_common_grid": 0.7268116204216468,
+   "published_diff": 0.4835839598317517,
+   "published_diff_ci": [
+    0.40760076646901594,
+    0.5595671531944875
+   ],
+   "published_verdict": "own_exceeds_a_single_counterparty",
+   "repriced_diff": 0.6673016303939336,
+   "repriced_diff_ci": [
+    0.49759672742975736,
+    0.8370065333581099
+   ],
+   "repriced_from": "own + all four counterparts, member fixed effects",
+   "repriced_verdict": "own_exceeds_a_single_counterparty",
+   "survives": true,
+   "verdict_key": "verdict"
+  },
+  {
+   "consumes_omitted_design": false,
+   "face": "E240",
+   "published_control_diff": 0.00785405388745896,
+   "published_verdict": "rest_channel_is_additive",
+   "reason": "the verdict is built from identified designs (own + one + rest-3); this face re-runs that control rather than re-pricing it",
+   "repriced_verdict": "not_repriceable",
+   "reproduced_control_diff": 0.00782760020039815,
+   "reproduction_gap": 2.645368706081022e-05,
+   "survives": true,
+   "verdict_key": "verdict"
+  },
+  {
+   "consumes_omitted_design": false,
+   "face": "E236",
+   "published_verdict": null,
+   "reason": "own share + aggregate: the regressor set already contains all five members, so no member is omitted; the defect class there is unit scaling, priced by E238/E240",
+   "repriced_verdict": "not_repriceable",
+   "survives": true,
+   "verdict_key": "verdict"
+  },
+  {
+   "consumes_omitted_design": false,
+   "face": "E233",
+   "published_verdict": "mixture",
+   "reason": "gamma is fitted on the own + aggregate channels: same reasoning as E236",
+   "repriced_verdict": "not_repriceable",
+   "survives": true,
+   "verdict_key": "verdict"
+  }
+ ]
+}

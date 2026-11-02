@@ -1,0 +1,1134 @@
+{
+ "answer": "own-channel artefact test: uncontrolled b_own 0.431 vs controlled 0.394, share/market-return co-movement -0.002 (t -1.234) -> own_channel_survives | bill REFUSED (both clear but the intervals do not overlap (sizes disagree)); members: 0 artefact / 4 survive of 5 fitted",
+ "bill_gate": {
+  "bar_t": 2.772921294608653,
+  "common": 0.10848331359025849,
+  "common_ci": [
+   0.10010752497733312,
+   0.11685910220318386
+  ],
+  "common_clears": true,
+  "permitted": false,
+  "reason": "both clear but the intervals do not overlap (sizes disagree)",
+  "relative": 0.07300123451467404,
+  "relative_ci": [
+   0.06582122115512443,
+   0.08018124787422365
+  ],
+  "relative_clears": true,
+  "rule": "a bill requires both decomposition components positive, clearing the multiplicity bar, with overlapping 95% intervals",
+  "verdict": "own_channel_survives"
+ },
+ "bills": {
+  "note": "no arm is re-priced; the family's linear charge stands",
+  "reason": "both clear but the intervals do not overlap (sizes disagree)",
+  "refused": true
+ },
+ "book": {
+  "first": "2005-02-23",
+  "last": "2026-10-30",
+  "panel": "basket_equal_weight",
+  "sessions": 5270,
+  "split_date": "2018-02-22",
+  "split_session": 3162,
+  "usable_members": [
+   "sh510300",
+   "sh510050",
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ]
+ },
+ "charges": [
+  {
+   "gamma": 1.0,
+   "key": "linear",
+   "kind": "aggregate",
+   "source": "linear_model"
+  }
+ ],
+ "evidence_cutoff": "2026-10-30",
+ "frozen_spec": {
+  "bill_rule": "a bill requires both decomposition components positive, clearing the multiplicity bar, with overlapping 95% intervals",
+  "decomposition": "log|r_member| on log|r_book|: fitted part = common, residual = relative; each differenced and fitted separately",
+  "designs": [
+   "components: d(log own turnover) on d(common), d(relative)",
+   "direct: d(log own turnover) on d(log|r|), d(log|r_book|)",
+   "share: E236 design A (dy on d(share), d(book turnover)) reused verbatim",
+   "share_controlled: the share design plus d(log|r_book|)",
+   "comove: first stage, d(share) on d(log|r_book|)",
+   "comove_own: descriptive, d(share) on d(relative component)"
+  ],
+  "direction_note": "the share designs take dy on turnover changes (E236's direction); components/direct take the turnover change on the return components. The two directions are not interchangeable.",
+  "identity_note": "components and direct span the same regressor space; c_rel is the dy coefficient by construction, so their agreement is algebra and never evidence",
+  "multiplicity_bar_t": 2.772921294608653,
+  "multiplicity_basis": "two-sided 5% over 9 pooled coefficient tests",
+  "no_adoption": "no arm is adopted or re-adopted here",
+  "verdict_vocabulary": [
+   "own_channel_is_information_artefact",
+   "own_channel_survives",
+   "unresolved_magnitude_disagreement",
+   "unresolved_sign_fragile",
+   "residual_only_channel",
+   "unresolved_share_dies_without_comovement",
+   "no_own_channel"
+  ]
+ },
+ "generated": "2026-11-02T06:25:26",
+ "members": [
+  {
+   "comove": {
+    "control": "dx",
+    "design": "comove",
+    "dx": 0.001709154560596754,
+    "dx_ci": [
+     -0.002785968735452218,
+     0.006204277856645726
+    ],
+    "dx_se": 0.0022934302530862104,
+    "dx_t_nw": 0.7452393890316867,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 2,
+    "note": "dependent = d(share); regressor = d(log|r_book|)",
+    "r2": 0.0002146317018594246,
+    "rows_used": 3456
+   },
+   "comove_own": {
+    "control": "dr",
+    "design": "comove_own",
+    "dr": 0.012836302018149403,
+    "dr_ci": [
+     0.006185257115357694,
+     0.01948734692094111
+    ],
+    "dr_se": 0.003393390256526382,
+    "dr_t_nw": 3.782736746373871,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 2,
+    "note": "dependent = d(share); regressor = d(relative component)",
+    "r2": 0.00536584330522738,
+    "rows_used": 3456
+   },
+   "components": {
+    "beta_x": [
+     0.624421661845922
+    ],
+    "dc": 0.10455815122506316,
+    "dc_ci": [
+     0.0908916440556708,
+     0.11822465839445553
+    ],
+    "dc_se": 0.0069727077394858995,
+    "dc_t_nw": 14.995344008606372,
+    "design": "components",
+    "dr": 0.07088280186970487,
+    "dr_ci": [
+     0.058755727711319705,
+     0.08300987602809004
+    ],
+    "dr_se": 0.006187282733869983,
+    "dr_t_nw": 11.456208632859669,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 3,
+    "note": "common = fitted part of log|r| on the book; rel = residual",
+    "r2": 0.1151955014545255,
+    "resid_corr_x": [
+     2.0868038946670608e-14
+    ],
+    "rows_used": 3456
+   },
+   "direct": {
+    "design": "direct",
+    "dx": 0.021027617607714946,
+    "dx_ci": [
+     0.010177467380256613,
+     0.03187776783517328
+    ],
+    "dx_se": 0.005535790932376701,
+    "dx_t_nw": 3.7984847810513473,
+    "dy": 0.07088280186970475,
+    "dy_ci": [
+     0.05875572771131954,
+     0.08300987602808996
+    ],
+    "dy_se": 0.0061872827338700035,
+    "dy_t_nw": 11.45620863285961,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 3,
+    "note": "dy = d(log|r|), dx = d(log|r_book|); same span as components",
+    "r2": 0.11519550145452517,
+    "rows_used": 3456
+   },
+   "first": "2012-05-28",
+   "last": "2026-10-30",
+   "sessions": 3457,
+   "share": {
+    "b_agg": 1.4000531096967224,
+    "b_agg_ci": [
+     1.0870815908367837,
+     1.713024628556661
+    ],
+    "b_agg_se": 0.15967934635711156,
+    "b_agg_t_nw": 8.767903561964756,
+    "b_own": 0.27474838143253044,
+    "b_own_ci": [
+     0.0038309340390285662,
+     0.5456658288260323
+    ],
+    "b_own_se": 0.13822318744566423,
+    "b_own_t_nw": 1.9877155671911741,
+    "corr_own_book": 0.866967111183469,
+    "design": "share",
+    "g_scaling": 1.6748014911292528,
+    "g_scaling_ci": [
+     1.5120667270923447,
+     1.837536255166161
+    ],
+    "g_scaling_se": 0.08302794083515723,
+    "g_scaling_t_nw": 20.171540740175473,
+    "identifiable": true,
+    "identifies_b_agg": true,
+    "n_regressors": 3,
+    "note": "d(log own turnover) on d(share) and d(log book turnover) -- E236 design A",
+    "r2": 0.13327499986660718,
+    "regressor_note": "first differences: d(own) = d(share) + d(book)",
+    "rows_used": 3456
+   },
+   "share_controlled": {
+    "control": "dx",
+    "design": "share_controlled",
+    "dla": 0.751269911751111,
+    "dla_ci": [
+     0.6189450150436188,
+     0.8835948084586033
+    ],
+    "dla_se": 0.06751270240178175,
+    "dla_t_nw": 11.127830541875687,
+    "dshare": 0.32743893381915895,
+    "dshare_ci": [
+     0.1160217159729374,
+     0.5388561516653805
+    ],
+    "dshare_se": 0.10786592747256202,
+    "dshare_t_nw": 3.035610423898223,
+    "dx": 0.5538659332513214,
+    "dx_ci": [
+     0.5163667496564301,
+     0.5913651168462126
+    ],
+    "dx_se": 0.019132236528005726,
+    "dx_t_nw": 28.949356362000525,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 4,
+    "note": "does the share coefficient survive the market's own |r|?",
+    "r2": 0.4755805807716573,
+    "rows_used": 3456
+   },
+   "symbol": "sh510300",
+   "verdict_bundle": {
+    "bar_t": 2.772921294608653,
+    "comove_coef": 0.001709154560596754,
+    "comovement_clears": false,
+    "controlled_b_own": 0.32743893381915895,
+    "controlled_clears": true,
+    "same_sign": true,
+    "uncontrolled_b_own": 0.27474838143253044,
+    "uncontrolled_clears": false,
+    "verdict": "residual_only_channel"
+   }
+  },
+  {
+   "comove": {
+    "control": "dx",
+    "design": "comove",
+    "dx": 0.0009789792326623799,
+    "dx_ci": [
+     -0.002696486398440356,
+     0.004654444863765116
+    ],
+    "dx_se": 0.001875237566889151,
+    "dx_t_nw": 0.5220561116885141,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 2,
+    "note": "dependent = d(share); regressor = d(log|r_book|)",
+    "r2": 7.470919032470658e-05,
+    "rows_used": 5174
+   },
+   "comove_own": {
+    "control": "dr",
+    "design": "comove_own",
+    "dr": 0.016141679315374927,
+    "dr_ci": [
+     0.010057214589463997,
+     0.022226144041285856
+    ],
+    "dr_se": 0.003104318737709658,
+    "dr_t_nw": 5.19974934251891,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 2,
+    "note": "dependent = d(share); regressor = d(relative component)",
+    "r2": 0.009575984814666039,
+    "rows_used": 5174
+   },
+   "components": {
+    "beta_x": [
+     0.5881946149688417
+    ],
+    "dc": 0.1252069938614048,
+    "dc_ci": [
+     0.11213031213805881,
+     0.1382836755847508
+    ],
+    "dc_se": 0.00667177638946224,
+    "dc_t_nw": 18.766665210657152,
+    "design": "components",
+    "dr": 0.07344923284731975,
+    "dr_ci": [
+     0.06205874736328931,
+     0.08483971833135018
+    ],
+    "dr_se": 0.005811472185729812,
+    "dr_t_nw": 12.638662029162907,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 3,
+    "note": "common = fitted part of log|r| on the book; rel = residual",
+    "r2": 0.11017318881209714,
+    "resid_corr_x": [
+     -2.3535100378094868e-14
+    ],
+    "rows_used": 5174
+   },
+   "direct": {
+    "design": "direct",
+    "dx": 0.030443636311328848,
+    "dx_ci": [
+     0.020980521490347993,
+     0.0399067511323097
+    ],
+    "dx_se": 0.0048281198066228844,
+    "dx_t_nw": 6.305484853455448,
+    "dy": 0.0734492328473199,
+    "dy_ci": [
+     0.06205874736328964,
+     0.08483971833135016
+    ],
+    "dy_se": 0.005811472185729725,
+    "dy_t_nw": 12.638662029163124,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 3,
+    "note": "dy = d(log|r|), dx = d(log|r_book|); same span as components",
+    "r2": 0.1101731888120967,
+    "rows_used": 5174
+   },
+   "first": "2005-02-23",
+   "last": "2026-10-30",
+   "sessions": 5175,
+   "share": {
+    "b_agg": 0.623133679623289,
+    "b_agg_ci": [
+     0.37530095552781023,
+     0.8709664037187679
+    ],
+    "b_agg_se": 0.12644526739565246,
+    "b_agg_t_nw": 4.928090172592052,
+    "b_own": 0.5717134964875953,
+    "b_own_ci": [
+     0.35449570443926925,
+     0.7889312885359213
+    ],
+    "b_own_se": 0.11082540410628881,
+    "b_own_t_nw": 5.158686323753755,
+    "corr_own_book": 0.9010592273751402,
+    "design": "share",
+    "g_scaling": 1.1948471761108843,
+    "g_scaling_ci": [
+     1.0594958792572253,
+     1.3301984729645433
+    ],
+    "g_scaling_se": 0.06905678410900971,
+    "g_scaling_t_nw": 17.3023866015069,
+    "identifiable": true,
+    "identifies_b_agg": true,
+    "n_regressors": 3,
+    "note": "d(log own turnover) on d(share) and d(log book turnover) -- E236 design A",
+    "r2": 0.10698034484719465,
+    "regressor_note": "first differences: d(own) = d(share) + d(book)",
+    "rows_used": 5174
+   },
+   "share_controlled": {
+    "control": "dx",
+    "design": "share_controlled",
+    "dla": 0.5397089776369782,
+    "dla_ci": [
+     0.4351874784478451,
+     0.6442304768261113
+    ],
+    "dla_se": 0.053327295504659755,
+    "dla_t_nw": 10.120689086695167,
+    "dshare": 0.5693870291530475,
+    "dshare_ci": [
+     0.3468786704535849,
+     0.7918953878525101
+    ],
+    "dshare_se": 0.11352467280584828,
+    "dshare_t_nw": 5.015535522633237,
+    "dx": 0.5077023382328636,
+    "dx_ci": [
+     0.46579879401827395,
+     0.5496058824474532
+    ],
+    "dx_se": 0.021379359293157964,
+    "dx_t_nw": 23.74731306355582,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 4,
+    "note": "does the share coefficient survive the market's own |r|?",
+    "r2": 0.41265280382257286,
+    "rows_used": 5174
+   },
+   "symbol": "sh510050",
+   "verdict_bundle": {
+    "bar_t": 2.772921294608653,
+    "comove_coef": 0.0009789792326623799,
+    "comovement_clears": false,
+    "controlled_b_own": 0.5693870291530475,
+    "controlled_clears": true,
+    "same_sign": true,
+    "uncontrolled_b_own": 0.5717134964875953,
+    "uncontrolled_clears": true,
+    "verdict": "own_channel_survives"
+   }
+  },
+  {
+   "comove": {
+    "control": "dx",
+    "design": "comove",
+    "dx": -0.010743266610147887,
+    "dx_ci": [
+     -0.021235082585622175,
+     -0.0002514506346735987
+    ],
+    "dx_se": 0.0053529673344256574,
+    "dx_t_nw": -2.006974064843715,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 2,
+    "note": "dependent = d(share); regressor = d(log|r_book|)",
+    "r2": 0.001521172726478004,
+    "rows_used": 3266
+   },
+   "comove_own": {
+    "control": "dr",
+    "design": "comove_own",
+    "dr": 0.03587418333466029,
+    "dr_ci": [
+     0.019767842313399234,
+     0.05198052435592135
+    ],
+    "dr_se": 0.008217520929214824,
+    "dr_t_nw": 4.36557249366057,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 2,
+    "note": "dependent = d(share); regressor = d(relative component)",
+    "r2": 0.008427220950556924,
+    "rows_used": 3266
+   },
+   "components": {
+    "beta_x": [
+     0.6082169832997106
+    ],
+    "dc": 0.08519536477024264,
+    "dc_ci": [
+     0.06531732513627495,
+     0.10507340440421034
+    ],
+    "dc_se": 0.010141856956105966,
+    "dc_t_nw": 8.400371365812871,
+    "design": "components",
+    "dr": 0.05710440724330022,
+    "dr_ci": [
+     0.03842690769445167,
+     0.07578190679214877
+    ],
+    "dr_se": 0.009529336504514568,
+    "dr_t_nw": 5.992485123832781,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 3,
+    "note": "common = fitted part of log|r| on the book; rel = residual",
+    "r2": 0.04020182337451794,
+    "resid_corr_x": [
+     -2.798348206257425e-14
+    ],
+    "rows_used": 3266
+   },
+   "direct": {
+    "design": "direct",
+    "dx": 0.01708539744503676,
+    "dx_ci": [
+     0.0013745851031648042,
+     0.03279620978690871
+    ],
+    "dx_se": 0.008015720582587732,
+    "dx_t_nw": 2.1314861551125883,
+    "dy": 0.057104407243300695,
+    "dy_ci": [
+     0.038426907694451826,
+     0.07578190679214956
+    ],
+    "dy_se": 0.009529336504514728,
+    "dy_t_nw": 5.99248512383273,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 3,
+    "note": "dy = d(log|r|), dx = d(log|r_book|); same span as components",
+    "r2": 0.04020182337451783,
+    "rows_used": 3266
+   },
+   "first": "2013-03-15",
+   "last": "2026-10-30",
+   "sessions": 3267,
+   "share": {
+    "b_agg": 1.0140947269775071,
+    "b_agg_ci": [
+     0.7962488013476695,
+     1.2319406526073446
+    ],
+    "b_agg_se": 0.11114588042338654,
+    "b_agg_t_nw": 9.123997426755984,
+    "b_own": 0.24285810656505624,
+    "b_own_ci": [
+     0.09167913185817417,
+     0.3940370812719383
+    ],
+    "b_own_se": 0.07713212995249086,
+    "b_own_t_nw": 3.1485984727070737,
+    "corr_own_book": 0.5130583016168807,
+    "design": "share",
+    "g_scaling": 1.2569528335425635,
+    "g_scaling_ci": [
+     1.0664892274660973,
+     1.4474164396190297
+    ],
+    "g_scaling_se": 0.09717530922268687,
+    "g_scaling_t_nw": 12.934899241350818,
+    "identifiable": true,
+    "identifies_b_agg": true,
+    "n_regressors": 3,
+    "note": "d(log own turnover) on d(share) and d(log book turnover) -- E236 design A",
+    "r2": 0.07280157031915346,
+    "regressor_note": "first differences: d(own) = d(share) + d(book)",
+    "rows_used": 3266
+   },
+   "share_controlled": {
+    "control": "dx",
+    "design": "share_controlled",
+    "dla": 0.36092898992380706,
+    "dla_ci": [
+     0.20590503649883868,
+     0.5159529433487755
+    ],
+    "dla_se": 0.07909385378824918,
+    "dla_t_nw": 4.563300087641318,
+    "dshare": 0.2541364204319311,
+    "dshare_ci": [
+     0.13566578658212639,
+     0.3726070542817358
+    ],
+    "dshare_se": 0.06044420094377791,
+    "dshare_t_nw": 4.204479775790497,
+    "dx": 0.5532354895055958,
+    "dx_ci": [
+     0.5141414295564605,
+     0.592329549454731
+    ],
+    "dx_se": 0.019945948953640463,
+    "dx_t_nw": 27.73673445126416,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 4,
+    "note": "does the share coefficient survive the market's own |r|?",
+    "r2": 0.4081139161935917,
+    "rows_used": 3266
+   },
+   "symbol": "sh510500",
+   "verdict_bundle": {
+    "bar_t": 2.772921294608653,
+    "comove_coef": -0.010743266610147887,
+    "comovement_clears": false,
+    "controlled_b_own": 0.2541364204319311,
+    "controlled_clears": true,
+    "same_sign": true,
+    "uncontrolled_b_own": 0.24285810656505624,
+    "uncontrolled_clears": true,
+    "verdict": "own_channel_survives"
+   }
+  },
+  {
+   "comove": {
+    "control": "dx",
+    "design": "comove",
+    "dx": -0.010437803642115032,
+    "dx_ci": [
+     -0.026089516332835717,
+     0.005213909048605652
+    ],
+    "dx_se": 0.007985567699347287,
+    "dx_t_nw": -1.3070834829899673,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 2,
+    "note": "dependent = d(share); regressor = d(log|r_book|)",
+    "r2": 0.0010553517113728317,
+    "rows_used": 2351
+   },
+   "comove_own": {
+    "control": "dr",
+    "design": "comove_own",
+    "dr": 0.06116552146382127,
+    "dr_ci": [
+     0.04015687390568601,
+     0.08217416902195653
+    ],
+    "dr_se": 0.010718697733742477,
+    "dr_t_nw": 5.706432160249478,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 2,
+    "note": "dependent = d(share); regressor = d(relative component)",
+    "r2": 0.015862280218442937,
+    "rows_used": 2351
+   },
+   "components": {
+    "beta_x": [
+     0.500230206482744
+    ],
+    "dc": 0.10042476389916986,
+    "dc_ci": [
+     0.06734129073454855,
+     0.13350823706379117
+    ],
+    "dc_se": 0.016879323043174143,
+    "dc_t_nw": 5.949572956350332,
+    "design": "components",
+    "dr": 0.09085202134995944,
+    "dr_ci": [
+     0.06759121646329821,
+     0.11411282623662067
+    ],
+    "dr_se": 0.01186775759523532,
+    "dr_t_nw": 7.655365440429522,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 3,
+    "note": "common = fitted part of log|r| on the book; rel = residual",
+    "r2": 0.05064079888449868,
+    "resid_corr_x": [
+     -3.229279534739126e-14
+    ],
+    "rows_used": 2351
+   },
+   "direct": {
+    "design": "direct",
+    "dx": 0.00478857498199757,
+    "dx_ci": [
+     -0.013841180328852773,
+     0.023418330292847914
+    ],
+    "dx_se": 0.00950497719941344,
+    "dx_t_nw": 0.5037965774702834,
+    "dy": 0.09085202134995948,
+    "dy_ci": [
+     0.0675912164632982,
+     0.11411282623662077
+    ],
+    "dy_se": 0.01186775759523535,
+    "dy_t_nw": 7.655365440429506,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 3,
+    "note": "dy = d(log|r|), dx = d(log|r_book|); same span as components",
+    "r2": 0.05064079888449835,
+    "rows_used": 2351
+   },
+   "first": "2016-11-04",
+   "last": "2026-10-30",
+   "sessions": 2352,
+   "share": {
+    "b_agg": 0.8863852728428128,
+    "b_agg_ci": [
+     0.6959310389272665,
+     1.076839506758359
+    ],
+    "b_agg_se": 0.09717052750793176,
+    "b_agg_t_nw": 9.121955963143861,
+    "b_own": 0.3509452149822621,
+    "b_own_ci": [
+     0.2387948344751757,
+     0.46309559548934853
+    ],
+    "b_own_se": 0.05721958189137063,
+    "b_own_t_nw": 6.13330617564664,
+    "corr_own_book": 0.3737513672789254,
+    "design": "share",
+    "g_scaling": 1.2373304878250748,
+    "g_scaling_ci": [
+     1.0576374628249612,
+     1.4170235128251885
+    ],
+    "g_scaling_se": 0.0916801147959764,
+    "g_scaling_t_nw": 13.496170795363991,
+    "identifiable": true,
+    "identifies_b_agg": true,
+    "n_regressors": 3,
+    "note": "d(log own turnover) on d(share) and d(log book turnover) -- E236 design A",
+    "r2": 0.08753017195130741,
+    "regressor_note": "first differences: d(own) = d(share) + d(book)",
+    "rows_used": 2351
+   },
+   "share_controlled": {
+    "control": "dx",
+    "design": "share_controlled",
+    "dla": 0.5139212748079365,
+    "dla_ci": [
+     0.3586116865308372,
+     0.6692308630850358
+    ],
+    "dla_se": 0.07923958585566289,
+    "dla_t_nw": 6.485663311568266,
+    "dshare": 0.3125038561739151,
+    "dshare_ci": [
+     0.2250931527964234,
+     0.39991455955140676
+    ],
+    "dshare_se": 0.04459729764157739,
+    "dshare_t_nw": 7.007237494196788,
+    "dx": 0.44199953057438124,
+    "dx_ci": [
+     0.4046913965556669,
+     0.4793076645930956
+    ],
+    "dx_se": 0.019034762254446103,
+    "dx_t_nw": 23.2206488668457,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 4,
+    "note": "does the share coefficient survive the market's own |r|?",
+    "r2": 0.35739764839195076,
+    "rows_used": 2351
+   },
+   "symbol": "sh512100",
+   "verdict_bundle": {
+    "bar_t": 2.772921294608653,
+    "comove_coef": -0.010437803642115032,
+    "comovement_clears": false,
+    "controlled_b_own": 0.3125038561739151,
+    "controlled_clears": true,
+    "same_sign": true,
+    "uncontrolled_b_own": 0.3509452149822621,
+    "uncontrolled_clears": true,
+    "verdict": "own_channel_survives"
+   }
+  },
+  {
+   "comove": {
+    "control": "dx",
+    "design": "comove",
+    "dx": 0.009007640166145628,
+    "dx_ci": [
+     -0.0005973248717323944,
+     0.01861260520402365
+    ],
+    "dx_se": 0.004900492366264297,
+    "dx_t_nw": 1.8381092128936949,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 2,
+    "note": "dependent = d(share); regressor = d(log|r_book|)",
+    "r2": 0.003070642439785276,
+    "rows_used": 1399
+   },
+   "comove_own": {
+    "control": "dr",
+    "design": "comove_own",
+    "dr": 0.07327931624641376,
+    "dr_ci": [
+     0.05986468361274144,
+     0.08669394888008608
+    ],
+    "dr_se": 0.006844200323302204,
+    "dr_t_nw": 10.706775486527226,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 2,
+    "note": "dependent = d(share); regressor = d(relative component)",
+    "r2": 0.09149364339186794,
+    "rows_used": 1399
+   },
+   "components": {
+    "beta_x": [
+     0.45576099826149097
+    ],
+    "dc": 0.14354553994001668,
+    "dc_ci": [
+     0.12366624052112961,
+     0.16342483935890373
+    ],
+    "dc_se": 0.010142499703513807,
+    "dc_t_nw": 14.152875931589744,
+    "design": "components",
+    "dr": 0.09040883591200168,
+    "dr_ci": [
+     0.07630664214811858,
+     0.10451102967588477
+    ],
+    "dr_se": 0.007194996818307701,
+    "dr_t_nw": 12.565514369923834,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 3,
+    "note": "common = fitted part of log|r| on the book; rel = residual",
+    "r2": 0.2319934006466261,
+    "resid_corr_x": [
+     1.8252887982952642e-14
+    ],
+    "rows_used": 1399
+   },
+   "direct": {
+    "design": "direct",
+    "dx": 0.024217637272133483,
+    "dx_ci": [
+     0.013792000087806351,
+     0.034643274456460614
+    ],
+    "dx_se": 0.005319202645064863,
+    "dx_t_nw": 4.5528698355951,
+    "dy": 0.09040883591200151,
+    "dy_ci": [
+     0.07630664214811847,
+     0.10451102967588455
+    ],
+    "dy_se": 0.007194996818307669,
+    "dy_t_nw": 12.565514369923864,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 3,
+    "note": "dy = d(log|r|), dx = d(log|r_book|); same span as components",
+    "r2": 0.23199340064662632,
+    "rows_used": 1399
+   },
+   "first": "2020-11-16",
+   "last": "2026-10-30",
+   "sessions": 1400,
+   "share": {
+    "b_agg": -0.4835861267549557,
+    "b_agg_ci": [
+     -0.7440124082327768,
+     -0.22315984527713462
+    ],
+    "b_agg_se": 0.13287055177439852,
+    "b_agg_t_nw": -3.639528249841535,
+    "b_own": 2.343301510493654,
+    "b_own_ci": [
+     2.0753793779735976,
+     2.61122364301371
+    ],
+    "b_own_se": 0.13669496557145724,
+    "b_own_t_nw": 17.142558986700163,
+    "corr_own_book": 0.5968831650002319,
+    "design": "share",
+    "g_scaling": 1.8597153837386982,
+    "g_scaling_ci": [
+     1.624308862078553,
+     2.0951219053988432
+    ],
+    "g_scaling_se": 0.12010536819395155,
+    "g_scaling_t_nw": 15.48403216029067,
+    "identifiable": true,
+    "identifies_b_agg": true,
+    "n_regressors": 3,
+    "note": "d(log own turnover) on d(share) and d(log book turnover) -- E236 design A",
+    "r2": 0.22703081993346463,
+    "regressor_note": "first differences: d(own) = d(share) + d(book)",
+    "rows_used": 1399
+   },
+   "share_controlled": {
+    "control": "dx",
+    "design": "share_controlled",
+    "dla": 1.0877537434273856,
+    "dla_ci": [
+     0.855025677704765,
+     1.3204818091500061
+    ],
+    "dla_se": 0.11873880904215338,
+    "dla_t_nw": 9.160894843077152,
+    "dshare": 1.8346415206808209,
+    "dshare_ci": [
+     1.5900625392435819,
+     2.07922050211806
+    ],
+    "dshare_se": 0.12478519461083619,
+    "dshare_t_nw": 14.702397399006044,
+    "dx": 0.34828624392911656,
+    "dx_ci": [
+     0.3001996093957454,
+     0.3963728784624877
+    ],
+    "dx_se": 0.024533997210903633,
+    "dx_t_nw": 14.196066011384719,
+    "member_dummies": 0,
+    "members": 1,
+    "n_regressors": 4,
+    "note": "does the share coefficient survive the market's own |r|?",
+    "r2": 0.394757980635152,
+    "rows_used": 1399
+   },
+   "symbol": "sh588000",
+   "verdict_bundle": {
+    "bar_t": 2.772921294608653,
+    "comove_coef": 0.009007640166145628,
+    "comovement_clears": false,
+    "controlled_b_own": 1.8346415206808209,
+    "controlled_clears": true,
+    "same_sign": true,
+    "uncontrolled_b_own": 2.343301510493654,
+    "uncontrolled_clears": true,
+    "verdict": "own_channel_survives"
+   }
+  }
+ ],
+ "pooled": {
+  "c_rel_minus_dy": 0.00016834921073431708,
+  "comove": {
+   "control": "dx",
+   "design": "comove",
+   "dx": -0.002356797572727441,
+   "dx_ci": [
+    -0.006100733076543657,
+    0.0013871379310887756
+   ],
+   "dx_se": 0.001910171175416437,
+   "dx_t_nw": -1.233814855474214,
+   "member_dummies": 4,
+   "members": 5,
+   "n_regressors": 6,
+   "note": "dependent = d(share); regressor = d(log|r_book|)",
+   "r2": 0.0001348866333763521,
+   "rows_used": 15646
+  },
+  "comove_own": {
+   "control": "dr",
+   "design": "comove_own",
+   "dr": 0.03131768348486579,
+   "dr_ci": [
+    0.02574163640630789,
+    0.036893730563423696
+   ],
+   "dr_se": 0.002844921978856073,
+   "dr_t_nw": 11.008274995807954,
+   "member_dummies": 4,
+   "members": 5,
+   "n_regressors": 6,
+   "note": "dependent = d(share); regressor = d(relative component)",
+   "r2": 0.011005375099951253,
+   "rows_used": 15646
+  },
+  "components": {
+   "beta_x": [
+    0.624421661845922,
+    0.5881946149688417,
+    0.6082169832997106,
+    0.500230206482744,
+    0.45576099826149097
+   ],
+   "dc": 0.10848331359025849,
+   "dc_ci": [
+    0.10010752497733312,
+    0.11685910220318386
+   ],
+   "dc_se": 0.004273361537206823,
+   "dc_t_nw": 25.385943278079374,
+   "design": "components",
+   "dr": 0.07300123451467404,
+   "dr_ci": [
+    0.06582122115512443,
+    0.08018124787422365
+   ],
+   "dr_se": 0.003663272122219193,
+   "dr_t_nw": 19.92787652107325,
+   "member_dummies": 4,
+   "members": 5,
+   "n_regressors": 7,
+   "note": "common = fitted part of log|r| on the book; rel = residual",
+   "r2": 0.08004324186717793,
+   "resid_corr_x": [
+    2.0868038946670608e-14,
+    -2.3535100378094868e-14,
+    -2.798348206257425e-14,
+    -3.229279534739126e-14,
+    1.8252887982952642e-14
+   ],
+   "rows_used": 15646
+  },
+  "direct": {
+   "design": "direct",
+   "dx": 0.020858820770012308,
+   "dx_ci": [
+    0.014888338477605702,
+    0.026829303062418913
+   ],
+   "dx_se": 0.003046164434901329,
+   "dx_t_nw": 6.847568874162882,
+   "dy": 0.07283288530393972,
+   "dy_ci": [
+    0.06569050482877278,
+    0.07997526577910666
+   ],
+   "dy_se": 0.0036440716710035384,
+   "dy_t_nw": 19.986677507877424,
+   "member_dummies": 4,
+   "members": 5,
+   "n_regressors": 7,
+   "note": "dy = d(log|r|), dx = d(log|r_book|); same span as components",
+   "r2": 0.08017903016370531,
+   "rows_used": 15646
+  },
+  "direction_note": "the share designs take dy on turnover changes (E236's direction); the components/direct designs take the turnover change on the return components (the card's impact elasticity). The two directions are not interchangeable and no coefficient is compared across them.",
+  "identity_note": "components c_rel and direct dy are the same coefficient in two coordinate systems (pinned by selftest)",
+  "members": [
+   "sh510300",
+   "sh510050",
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "share": {
+   "b_agg": 0.8794204832061876,
+   "b_agg_ci": [
+    0.768713682843646,
+    0.9901272835687291
+   ],
+   "b_agg_se": 0.05648306140945996,
+   "b_agg_t_nw": 15.569632050059163,
+   "b_own": 0.43063914783071744,
+   "b_own_ci": [
+    0.34118378582264747,
+    0.5200945098387875
+   ],
+   "b_own_se": 0.045640490820443864,
+   "b_own_t_nw": 9.43546267994603,
+   "corr_own_book": 0.6792729149592808,
+   "design": "share",
+   "g_scaling": 1.310059631036905,
+   "g_scaling_ci": [
+    1.2279408106247727,
+    1.3921784514490374
+   ],
+   "g_scaling_se": 0.04189735735312877,
+   "g_scaling_t_nw": 31.26831174565891,
+   "identifiable": true,
+   "identifies_b_agg": true,
+   "n_regressors": 7,
+   "note": "d(log own turnover) on d(share) and d(log book turnover) -- E236 design A",
+   "r2": 0.09970358228035248,
+   "regressor_note": "first differences: d(own) = d(share) + d(book)",
+   "rows_used": 15646
+  },
+  "share_controlled": {
+   "control": "dx",
+   "design": "share_controlled",
+   "dla": 0.5479641861173608,
+   "dla_ci": [
+    0.48336376962892436,
+    0.6125646026057971
+   ],
+   "dla_se": 0.0329593961675696,
+   "dla_t_nw": 16.62543158653283,
+   "dshare": 0.39399293210729786,
+   "dshare_ci": [
+    0.32241662594571974,
+    0.465569238268876
+   ],
+   "dshare_se": 0.03651852355182556,
+   "dshare_t_nw": 10.788851623427753,
+   "dx": 0.5080677597997382,
+   "dx_ci": [
+    0.48851754970595956,
+    0.5276179698935168
+   ],
+   "dx_se": 0.009974596986621748,
+   "dx_t_nw": 50.93616919873305,
+   "member_dummies": 4,
+   "members": 5,
+   "n_regressors": 8,
+   "note": "does the share coefficient survive the market's own |r|?",
+   "r2": 0.408098179722836,
+   "rows_used": 15646
+  },
+  "verdict_bundle": {
+   "bar_t": 2.772921294608653,
+   "comove_coef": -0.002356797572727441,
+   "comovement_clears": false,
+   "controlled_b_own": 0.39399293210729786,
+   "controlled_clears": true,
+   "same_sign": true,
+   "uncontrolled_b_own": 0.43063914783071744,
+   "uncontrolled_clears": true,
+   "verdict": "own_channel_survives"
+  }
+ },
+ "study": "E237",
+ "summary": {
+  "bar_t": 2.772921294608653,
+  "bill_permitted": false,
+  "bill_reason": "both clear but the intervals do not overlap (sizes disagree)",
+  "c_common": 0.10848331359025849,
+  "c_common_ci": [
+   0.10010752497733312,
+   0.11685910220318386
+  ],
+  "c_rel": 0.07300123451467404,
+  "c_rel_ci": [
+   0.06582122115512443,
+   0.08018124787422365
+  ],
+  "comove_coef": -0.002356797572727441,
+  "comove_own_coef": 0.03131768348486579,
+  "comove_own_t": 11.008274995807954,
+  "comove_t": -1.233814855474214,
+  "controlled_b_own": 0.39399293210729786,
+  "controlled_b_own_ci": [
+   0.32241662594571974,
+   0.465569238268876
+  ],
+  "identity_residual": 0.00016834921073431708,
+  "market_return_coef_in_control": 0.5080677597997382,
+  "member_artefact_count": 0,
+  "member_survives_count": 4,
+  "member_verdicts": {
+   "sh510050": "own_channel_survives",
+   "sh510300": "residual_only_channel",
+   "sh510500": "own_channel_survives",
+   "sh512100": "own_channel_survives",
+   "sh588000": "own_channel_survives"
+  },
+  "tests": 9,
+  "uncontrolled_b_own": 0.43063914783071744,
+  "uncontrolled_b_own_ci": [
+   0.34118378582264747,
+   0.5200945098387875
+  ],
+  "verdict": "own_channel_survives"
+ },
+ "title": "is the own-turnover channel an information-arrival artefact?"
+}

@@ -11882,6 +11882,64 @@ def _r39(face, key):
                 str((_f357 or {}).get("summary", {}).get("declared_writer_pairs"))))
 
 
+    # E361: r1382 named the real repair behind "the summary does not re-derive" -- pin the corpus by
+    # content digest -- and did not do it.  This leg grades the pin's accounting, not its numbers:
+    # the pin_id must re-derive from the sources it ships, every source must carry a digest, the
+    # partitions must add up, an untracked file must never be called dirty (there is no committed
+    # blob for it to differ from), and the output population must be counted by the same classifier
+    # as the input population.  Re-deriving the corpus would cost ~44 MB of hashing per suite run.
+    _name361 = ("product: a census corpus is content-pinned and every pinned source names the git "
+                "object that can supply it (untracked is never called dirty)")
+    _bad361 = []
+    try:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m361 = __import__("importlib").import_module("e361_census_corpus_pin")
+        _p361 = _m361.newest_pin()
+        _f361 = json.load(open(_p361, encoding="utf-8")) if os.path.exists(_p361) else None
+        if _f361 is None:
+            _bad361.append("no published corpus pin")
+        else:
+            _src361 = _f361.get("sources") or []
+            _s361 = _f361.get("summary") or {}
+            _faces361 = _f361.get("faces") or {}
+            if not _src361:
+                _bad361.append("the pin ships no sources")
+            elif any(not s.get("sha256") or len(str(s.get("sha256"))) != 64 for s in _src361):
+                _bad361.append("a pinned source carries no 64-hex digest")
+            if _f361.get("count") != len(_src361):
+                _bad361.append("count does not equal the sources it ships")
+            if _m361.pin_id(_src361) != _f361.get("pin_id"):
+                _bad361.append("pin_id does not re-derive from its own sources")
+            if _s361.get("tracked", 0) + _s361.get("untracked", 0) != _s361.get("corpus_count"):
+                _bad361.append("tracked+untracked does not partition the corpus")
+            if _s361.get("git_can_supply", 0) + _s361.get("git_cannot_supply", 0) != \
+                    _s361.get("corpus_count"):
+                _bad361.append("git_can_supply does not partition the corpus")
+            if any((not s.get("tracked")) and s.get("dirty") for s in _src361):
+                _bad361.append("an untracked source is called dirty")
+            if sum(1 for s in _src361 if s.get("tracked")) != _s361.get("tracked"):
+                _bad361.append("the tracked rows do not match the tracked count")
+            if not _faces361:
+                _bad361.append("the pin does not count the output population")
+            elif _faces361.get("tracked", 0) + _faces361.get("untracked", 0) != \
+                    _faces361.get("corpus_count"):
+                _bad361.append("the face population does not partition")
+    except Exception as e:
+        _bad361.append(repr(e)[:160])
+    check(_name361, not _bad361, "; ".join(_bad361)[:220]
+          or "%s sources of which git supplies %s (%s%%) in clean blobs, %s untracked, %s dirty; "
+             "of %s dated faces %s are untracked and %s are dirty; verdict %s"
+             % (str((_f361 or {}).get("count")),
+                str((_f361 or {}).get("summary", {}).get("git_can_supply")),
+                str((_f361 or {}).get("summary", {}).get("git_can_supply_share_pct")),
+                str((_f361 or {}).get("summary", {}).get("untracked")),
+                str((_f361 or {}).get("summary", {}).get("tracked_dirty")),
+                str((_f361 or {}).get("faces", {}).get("corpus_count")),
+                str((_f361 or {}).get("faces", {}).get("untracked")),
+                str((_f361 or {}).get("faces", {}).get("tracked_dirty")),
+                str((_f361 or {}).get("summary", {}).get("verdict"))))
+
+
 # E358: E351 called 55 gate subjects unresolved because the subject was written as
     # os.path.join(...) -- three literals, none of which looks like a path on its own.  This leg
     # grades the ACCOUNTING, not the numbers: the classes must partition the population, a

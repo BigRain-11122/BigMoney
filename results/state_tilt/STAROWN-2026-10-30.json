@@ -1,0 +1,969 @@
+{
+ "cells": [
+  {
+   "age_addition_outside_band": false,
+   "age_drop": 4.197327782795579e-05,
+   "age_gradient_across_members": {
+    "corr_residual_vs_age_at_mid": 0.7946088473813839,
+    "decided": false,
+    "n": 5,
+    "note": "n = number of members; descriptive only, never a decision (age and identity are one object inside a window)"
+   },
+   "age_series_available": true,
+   "band_age_addition": {
+    "band": {
+     "draws": 200,
+     "hi": 0.009842850837080142,
+     "lo": -0.008765678264927579,
+     "median": -3.332429294189421e-05,
+     "width": 0.01860852910200772
+    },
+    "draws_requested": 200,
+    "draws_used": 200,
+    "family": {
+     "draws": 200,
+     "max_abs": 0.009842850837080142,
+     "median_abs": 0.001118439182359654
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20365832
+   },
+   "band_star_lag1": {
+    "band": {
+     "draws": 200,
+     "hi": 0.35142217138287624,
+     "lo": -0.18569372281105984,
+     "median": -0.004738055339968177,
+     "width": 0.537115894193936
+    },
+    "draws_requested": 200,
+    "draws_used": 200,
+    "family": {
+     "draws": 200,
+     "max_abs": 0.35142217138287624,
+     "median_abs": 0.05577409025264074
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20261111
+   },
+   "band_vol_addition": {
+    "band": {
+     "draws": 200,
+     "hi": 0.009747692869918945,
+     "lo": -0.010211664085869265,
+     "median": -8.232274917752136e-06,
+     "width": 0.01995935695578821
+    },
+    "draws_requested": 200,
+    "draws_used": 200,
+    "family": {
+     "draws": 200,
+     "max_abs": 0.010211664085869265,
+     "median_abs": 0.0007263909660660817
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20269030
+   },
+   "columns": {
+    "sh510050": {
+     "age_corr_with_row_index": 0.9999836322376782,
+     "age_days_at_mid": 6832.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": 0.0719260878074307,
+     "b1_with_vol": 0.07209748680901817,
+     "b1_with_vol_age": 0.07208339102597659,
+     "b2_vol": 0.025147748578577385,
+     "b3_age": -1.9186419302587e-06,
+     "c1_loo": -0.6533542998588578,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.0023829879646222185,
+     "share_taken_by_vol_and_age": -0.002187012019436274
+    },
+    "sh510300": {
+     "age_corr_with_row_index": 0.9999836322376782,
+     "age_days_at_mid": 4181.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": 0.0485321744077051,
+     "b1_with_vol": 0.049546731143933126,
+     "b1_with_vol_age": 0.04954699505053156,
+     "b2_vol": 0.03228104034055008,
+     "b3_age": -3.52110652360154e-06,
+     "c1_loo": -0.6017863481976871,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.02090482754193168,
+     "share_taken_by_vol_and_age": -0.020910265307736653
+    },
+    "sh510500": {
+     "age_corr_with_row_index": 0.999983632237678,
+     "age_days_at_mid": 3890.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.1522004721317361,
+     "b1_with_vol": -0.15316269262045398,
+     "b1_with_vol_age": -0.15316291245701055,
+     "b2_vol": 0.04425654449107665,
+     "b3_age": -4.416927756596038e-06,
+     "c1_loo": -0.2992598456219619,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.006322059815195846,
+     "share_taken_by_vol_and_age": -0.006323504203334052
+    },
+    "sh512100": {
+     "age_corr_with_row_index": 0.999983632237678,
+     "age_days_at_mid": 2560.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.07415056055234047,
+     "b1_with_vol": -0.07512770138923874,
+     "b1_with_vol_age": -0.07525480256201669,
+     "b2_vol": 0.03155077455809004,
+     "b3_age": -7.816672506880422e-06,
+     "c1_loo": -0.48122857309062894,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.013177794336544979,
+     "share_taken_by_vol_and_age": -0.014891890249390194
+    },
+    "sh588000": {
+     "age_corr_with_row_index": 0.9999836322376782,
+     "age_days_at_mid": 1087.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.7252014696754883,
+     "b1_with_vol": -0.730241454704839,
+     "b1_with_vol_age": -0.7301994814270111,
+     "b2_vol": 0.02689961940983646,
+     "b3_age": -2.785614338358721e-06,
+     "c1_loo": -0.16564417893890443,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.0069497722220641656,
+     "share_taken_by_vol_and_age": -0.006891894129446907
+    }
+   },
+   "draws": {
+    "addition": 200,
+    "star": 200
+   },
+   "first": "2020-11-17",
+   "kind": "headline",
+   "label": "all_five",
+   "last": "2026-10-30",
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "sessions": 1329,
+   "star": "sh588000",
+   "star_outside_band": true,
+   "star_residual": {
+    "age_identified": false,
+    "b1": -0.7252014696754883,
+    "b1_with_vol": -0.730241454704839,
+    "b1_with_vol_age": -0.7301994814270111,
+    "share_taken_by_vol": -0.0069497722220641656,
+    "share_taken_by_vol_and_age": -0.006891894129446907
+   },
+   "star_source": "e245_star_rule",
+   "verdict": "residual_is_own_turnover",
+   "vol_addition_outside_band": false,
+   "vol_drop": -0.005039985029350769,
+   "window_inclusive": [
+    null,
+    null
+   ]
+  },
+  {
+   "age_gradient_across_members": {
+    "corr_residual_vs_age_at_mid": -0.9286141201198205,
+    "decided": false,
+    "n": 4,
+    "note": "n = number of members; descriptive only, never a decision (age and identity are one object inside a window)"
+   },
+   "columns": {
+    "sh510050": {
+     "age_corr_with_row_index": 0.9998735433952756,
+     "age_days_at_mid": 5021.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.29897862959584204,
+     "b1_with_vol": -0.297243572883452,
+     "b1_with_vol_age": -0.29733632117897596,
+     "b2_vol": 0.040657817525859785,
+     "b3_age": -8.651963770055022e-06,
+     "c1_loo": -0.2277311678999224,
+     "decided": true,
+     "members_fitted": 3,
+     "share_taken_by_vol": 0.005803280036220326,
+     "share_taken_by_vol_and_age": 0.00549306289578666
+    },
+    "sh510300": {
+     "age_corr_with_row_index": 0.9998735433952756,
+     "age_days_at_mid": 2370.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.2097694417935234,
+     "b1_with_vol": -0.20797149943790594,
+     "b1_with_vol_age": -0.20790465756142484,
+     "b2_vol": 0.0450994832407521,
+     "b3_age": -7.129086020541939e-06,
+     "c1_loo": -0.3686681847659556,
+     "decided": true,
+     "members_fitted": 3,
+     "share_taken_by_vol": 0.00857104037768841,
+     "share_taken_by_vol_and_age": 0.008889684866178249
+    },
+    "sh510500": {
+     "age_corr_with_row_index": 0.9998735433952756,
+     "age_days_at_mid": 2079.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.09110979458348435,
+     "b1_with_vol": -0.09369969547848796,
+     "b1_with_vol_age": -0.09373653117193921,
+     "b2_vol": 0.055201875965202866,
+     "b3_age": -6.389399456084132e-06,
+     "c1_loo": -0.3914561822092055,
+     "decided": true,
+     "members_fitted": 3,
+     "share_taken_by_vol": -0.028426152279714234,
+     "share_taken_by_vol_and_age": -0.028830452318141964
+    },
+    "sh512100": {
+     "age_corr_with_row_index": 0.9998735433952756,
+     "age_days_at_mid": 749.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": 0.00671121855460106,
+     "b1_with_vol": 0.006214066025306414,
+     "b1_with_vol_age": 0.006209447930445376,
+     "b2_vol": 0.04340637139345046,
+     "b3_age": 6.803070996242096e-07,
+     "c1_loo": -0.42245471762822556,
+     "decided": true,
+     "members_fitted": 3,
+     "share_taken_by_vol": 0.0740778332950891,
+     "share_taken_by_vol_and_age": 0.07476594899620448
+    }
+   },
+   "decided": false,
+   "draws": {
+    "addition": 60,
+    "star": 60
+   },
+   "first": "2016-11-07",
+   "kind": "window",
+   "label": "pre2020_four",
+   "last": "2020-11-13",
+   "members": [
+    "sh510050",
+    "sh510300",
+    "sh510500",
+    "sh512100"
+   ],
+   "reason": "no member was named star in this window (E245 lag-0 rule)",
+   "sessions": 891,
+   "star": null,
+   "star_source": "no_star_at_lag0",
+   "verdict": "unresolved_too_few_rows",
+   "window_inclusive": [
+    null,
+    "2020-11-15"
+   ]
+  },
+  {
+   "age_gradient_across_members": {
+    "corr_residual_vs_age_at_mid": 0.8872889051356176,
+    "decided": false,
+    "n": 5,
+    "note": "n = number of members; descriptive only, never a decision (age and identity are one object inside a window)"
+   },
+   "columns": {
+    "sh510050": {
+     "age_corr_with_row_index": 0.9999098964636043,
+     "age_days_at_mid": 6127.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": 0.14087787117402653,
+     "b1_with_vol": 0.14253621899420837,
+     "b1_with_vol_age": 0.14215562409858762,
+     "b2_vol": -0.08258021838159327,
+     "b3_age": -4.69284916916028e-05,
+     "c1_loo": -0.4431274321526233,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.011771528107017426,
+     "share_taken_by_vol_and_age": -0.009069933509874506
+    },
+    "sh510300": {
+     "age_corr_with_row_index": 0.9999098964636043,
+     "age_days_at_mid": 3476.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.024139874919698302,
+     "b1_with_vol": -0.02845312075439728,
+     "b1_with_vol_age": -0.028512995308461637,
+     "b2_vol": -0.02042793823392155,
+     "b3_age": -5.433194724516069e-05,
+     "c1_loo": -0.23322111395299705,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.17867722384838625,
+     "share_taken_by_vol_and_age": -0.18115754134230566
+    },
+    "sh510500": {
+     "age_corr_with_row_index": 0.9999098964636043,
+     "age_days_at_mid": 3185.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.1281332690466162,
+     "b1_with_vol": -0.13230794002959584,
+     "b1_with_vol_age": -0.13252378757445937,
+     "b2_vol": 0.06244863054467489,
+     "b3_age": -8.276171850334248e-05,
+     "c1_loo": -0.1461180268186764,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.032580695193696,
+     "share_taken_by_vol_and_age": -0.034265250239154055
+    },
+    "sh512100": {
+     "age_corr_with_row_index": 0.9999098964636043,
+     "age_days_at_mid": 1855.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.0741322791873473,
+     "b1_with_vol": -0.07112729046825549,
+     "b1_with_vol_age": -0.07124644997115082,
+     "b2_vol": 0.024683858680767883,
+     "b3_age": -6.229391136791146e-05,
+     "c1_loo": -0.34144194504143366,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": 0.04053549617026608,
+     "share_taken_by_vol_and_age": 0.0389281059186567
+    },
+    "sh588000": {
+     "age_corr_with_row_index": 0.9999098964636041,
+     "age_days_at_mid": 382.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.5248840102558545,
+     "b1_with_vol": -0.5323856044170769,
+     "b1_with_vol_age": -0.5318300500026183,
+     "b2_vol": 0.0677743629643005,
+     "b3_age": -3.964707916769008e-05,
+     "c1_loo": -0.15519833074532643,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.014291908335263948,
+     "share_taken_by_vol_and_age": -0.013233475608026124
+    }
+   },
+   "decided": false,
+   "draws": {
+    "addition": 60,
+    "star": 60
+   },
+   "first": "2020-11-17",
+   "kind": "era",
+   "label": "era_2020_2022",
+   "last": "2022-12-30",
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "reason": "no member was named star in this window (E245 lag-0 rule)",
+   "sessions": 474,
+   "star": null,
+   "star_source": "no_star_at_lag0",
+   "verdict": "unresolved_too_few_rows",
+   "window_inclusive": [
+    "2020-11-16",
+    "2022-12-31"
+   ]
+  },
+  {
+   "age_gradient_across_members": {
+    "corr_residual_vs_age_at_mid": 0.557295594864788,
+    "decided": false,
+    "n": 5,
+    "note": "n = number of members; descriptive only, never a decision (age and identity are one object inside a window)"
+   },
+   "age_series_available": true,
+   "band_star_lag1": {
+    "band": {
+     "draws": 60,
+     "hi": 0.34628292300900926,
+     "lo": -0.38965397709569133,
+     "median": 0.014108182888018302,
+     "width": 0.7359369001047006
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.38965397709569133,
+     "median_abs": 0.15540082118596368
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20261116
+   },
+   "band_vol_addition": {
+    "band": {
+     "draws": 60,
+     "hi": 0.027948423157516555,
+     "lo": -0.019329936198822062,
+     "median": -0.00048233130915043,
+     "width": 0.04727835935633862
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.027948423157516555,
+     "median_abs": 0.0032179469536489647
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20269035
+   },
+   "columns": {
+    "sh510050": {
+     "age_corr_with_row_index": 0.9998982018752466,
+     "age_days_at_mid": 6881.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.14452960626217368,
+     "b1_with_vol": -0.1429767826798909,
+     "b1_with_vol_age": -0.1429594751592838,
+     "b2_vol": 0.029700223764250702,
+     "b3_age": 2.375454262905508e-05,
+     "c1_loo": -0.42370643108548295,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": 0.01074398265131915,
+     "share_taken_by_vol_and_age": 0.01086373334499835
+    },
+    "sh510300": {
+     "age_corr_with_row_index": 0.9998982018752466,
+     "age_days_at_mid": 4230.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": 0.36546410605775215,
+     "b1_with_vol": 0.35935790807915025,
+     "b1_with_vol_age": 0.3593064221731319,
+     "b2_vol": 0.06912754458811099,
+     "b3_age": 2.8964468428885673e-05,
+     "c1_loo": -1.1044764787046868,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": 0.01670806483424392,
+     "share_taken_by_vol_and_age": 0.016848942981139592
+    },
+    "sh510500": {
+     "age_corr_with_row_index": 0.9998982018752473,
+     "age_days_at_mid": 3939.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.19767841756405127,
+     "b1_with_vol": -0.1874457761710423,
+     "b1_with_vol_age": -0.1871755623823961,
+     "b2_vol": 0.0726609132480994,
+     "b3_age": 4.858183013932974e-05,
+     "c1_loo": -0.39483360315695987,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": 0.05176407985810294,
+     "share_taken_by_vol_and_age": 0.05313101607691728
+    },
+    "sh512100": {
+     "age_corr_with_row_index": 0.9998982018752473,
+     "age_days_at_mid": 2609.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.13641136134880624,
+     "b1_with_vol": -0.14299717652058544,
+     "b1_with_vol_age": -0.14336957313739782,
+     "b2_vol": 0.06861890278443068,
+     "b3_age": 4.214900002353854e-05,
+     "c1_loo": -0.5187306116159732,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.04827908105791234,
+     "share_taken_by_vol_and_age": -0.051009034143419285
+    },
+    "sh588000": {
+     "age_corr_with_row_index": 0.9998982018752473,
+     "age_days_at_mid": 1136.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.8332269315437407,
+     "b1_with_vol": -0.8239115068287646,
+     "b1_with_vol_age": -0.8238638867698551,
+     "b2_vol": -0.04264356451977007,
+     "b3_age": 2.4200377143851714e-05,
+     "c1_loo": -0.08635769915714904,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": 0.011179937136354012,
+     "share_taken_by_vol_and_age": 0.011237088504254755
+    }
+   },
+   "draws": {
+    "addition": 60,
+    "star": 60
+   },
+   "first": "2023-01-03",
+   "kind": "era",
+   "label": "era_2023_2024",
+   "last": "2024-12-31",
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "sessions": 446,
+   "star": "sh588000",
+   "star_outside_band": true,
+   "star_residual": {
+    "age_identified": false,
+    "b1": -0.8332269315437407,
+    "b1_with_vol": -0.8239115068287646,
+    "b1_with_vol_age": -0.8238638867698551,
+    "share_taken_by_vol": 0.011179937136354012,
+    "share_taken_by_vol_and_age": 0.011237088504254755
+   },
+   "star_source": "e245_star_rule",
+   "verdict": "residual_is_own_turnover",
+   "vol_addition_outside_band": false,
+   "vol_drop": 0.00931542471497615,
+   "window_inclusive": [
+    "2023-01-01",
+    "2024-12-31"
+   ]
+  },
+  {
+   "age_gradient_across_members": {
+    "corr_residual_vs_age_at_mid": 0.8243703872478559,
+    "decided": false,
+    "n": 5,
+    "note": "n = number of members; descriptive only, never a decision (age and identity are one object inside a window)"
+   },
+   "age_series_available": true,
+   "band_star_lag1": {
+    "band": {
+     "draws": 60,
+     "hi": 0.35457523890140186,
+     "lo": -0.2952421816265157,
+     "median": 0.02956710617767196,
+     "width": 0.6498174205279176
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.35457523890140186,
+     "median_abs": 0.10615953090203088
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20261115
+   },
+   "band_vol_addition": {
+    "band": {
+     "draws": 60,
+     "hi": 0.040889752400319335,
+     "lo": -0.01833980283763359,
+     "median": 0.00011972163060525176,
+     "width": 0.059229555237952924
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.040889752400319335,
+     "median_abs": 0.0035876961756495795
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20269034
+   },
+   "columns": {
+    "sh510050": {
+     "age_corr_with_row_index": 0.9997946041500013,
+     "age_days_at_mid": 7587.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": 0.3401941865313659,
+     "b1_with_vol": 0.33988219628973637,
+     "b1_with_vol_age": 0.340218628365599,
+     "b2_vol": 0.1505520257610618,
+     "b3_age": 6.865428073645299e-05,
+     "c1_loo": -1.2659712988205007,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": 0.0009170945712230205,
+     "share_taken_by_vol_and_age": -7.184671343840598e-05
+    },
+    "sh510300": {
+     "age_corr_with_row_index": 0.9997946041500013,
+     "age_days_at_mid": 4936.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.2220322778831943,
+     "b1_with_vol": -0.2273118203880406,
+     "b1_with_vol_age": -0.22752897514737438,
+     "b2_vol": 0.05965971521923327,
+     "b3_age": 3.2813913858778756e-05,
+     "c1_loo": -0.40809251501557053,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.023778265733163995,
+     "share_taken_by_vol_and_age": -0.024756298122887266
+    },
+    "sh510500": {
+     "age_corr_with_row_index": 0.9997946041500013,
+     "age_days_at_mid": 4645.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.09190648354441908,
+     "b1_with_vol": -0.09070631781763358,
+     "b1_with_vol_age": -0.0907283475974348,
+     "b2_vol": -0.003889991530790544,
+     "b3_age": 8.918033423526166e-07,
+     "c1_loo": -0.3929312029902608,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": 0.013058553439327825,
+     "share_taken_by_vol_and_age": 0.012818855662287132
+    },
+    "sh512100": {
+     "age_corr_with_row_index": 0.9997946041500013,
+     "age_days_at_mid": 3315.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": 0.04936293176787807,
+     "b1_with_vol": 0.05005470964809255,
+     "b1_with_vol_age": 0.05001873996892735,
+     "b2_vol": -0.003739129271545398,
+     "b3_age": 6.160325527258983e-06,
+     "c1_loo": -0.6530327047296499,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.014014116573696667,
+     "share_taken_by_vol_and_age": -0.013285438639121239
+    },
+    "sh588000": {
+     "age_corr_with_row_index": 0.9997946041500019,
+     "age_days_at_mid": 1842.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.9117242484102217,
+     "b1_with_vol": -0.9222914753478862,
+     "b1_with_vol_age": -0.9225492369616033,
+     "b2_vol": 0.038877409375750516,
+     "b3_age": 2.6449305066181996e-05,
+     "c1_loo": -0.21236196253717882,
+     "decided": true,
+     "members_fitted": 4,
+     "share_taken_by_vol": -0.011590376099013033,
+     "share_taken_by_vol_and_age": -0.011873094930026529
+    }
+   },
+   "draws": {
+    "addition": 60,
+    "star": 60
+   },
+   "first": "2025-01-02",
+   "kind": "era",
+   "label": "era_2025_now",
+   "last": "2026-10-30",
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "sessions": 409,
+   "star": "sh588000",
+   "star_outside_band": true,
+   "star_residual": {
+    "age_identified": false,
+    "b1": -0.9117242484102217,
+    "b1_with_vol": -0.9222914753478862,
+    "b1_with_vol_age": -0.9225492369616033,
+    "share_taken_by_vol": -0.011590376099013033,
+    "share_taken_by_vol_and_age": -0.011873094930026529
+   },
+   "star_source": "e245_star_rule",
+   "verdict": "residual_is_own_turnover",
+   "vol_addition_outside_band": false,
+   "vol_drop": -0.010567226937664542,
+   "window_inclusive": [
+    "2025-01-01",
+    null
+   ]
+  },
+  {
+   "age_gradient_across_members": {
+    "corr_residual_vs_age_at_mid": null,
+    "decided": false,
+    "n": 3,
+    "note": "n = number of members; descriptive only, never a decision (age and identity are one object inside a window)"
+   },
+   "age_series_available": true,
+   "band_star_lag1": {
+    "band": {
+     "draws": 60,
+     "hi": 0.29882489984854366,
+     "lo": -0.26227210344102825,
+     "median": -0.01686172229652922,
+     "width": 0.5610970032895719
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.29882489984854366,
+     "median_abs": 0.07014552012314823
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20261114
+   },
+   "band_vol_addition": {
+    "band": {
+     "draws": 60,
+     "hi": 0.011167751718974661,
+     "lo": -0.00940643783754691,
+     "median": 3.7342981456855995e-05,
+     "width": 0.02057418955652157
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.011167751718974661,
+     "median_abs": 0.0013827506110654642
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20269033
+   },
+   "columns": {
+    "sh510050": {
+     "age_corr_with_row_index": 0.9998756522817819,
+     "age_days_at_mid": 3621.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.4942013405547795,
+     "b1_with_vol": -0.4923620392719612,
+     "b1_with_vol_age": -0.4923789649623317,
+     "b2_vol": -0.015523760579917625,
+     "b3_age": -5.111151765927178e-06,
+     "c1_loo": -0.1523634585617402,
+     "decided": true,
+     "members_fitted": 2,
+     "share_taken_by_vol": 0.0037217650618946996,
+     "share_taken_by_vol_and_age": 0.003687516489538578
+    },
+    "sh510300": {
+     "age_corr_with_row_index": 0.9998756522817819,
+     "age_days_at_mid": 970.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.11645059860865545,
+     "b1_with_vol": -0.11294955100061116,
+     "b1_with_vol_age": -0.11296450016584145,
+     "b2_vol": 0.06316890049516462,
+     "b3_age": -3.2893859854398385e-06,
+     "c1_loo": -0.369789938098362,
+     "decided": true,
+     "members_fitted": 2,
+     "share_taken_by_vol": 0.03006465960565763,
+     "share_taken_by_vol_and_age": 0.029936286154521263
+    },
+    "sh510500": {
+     "age_corr_with_row_index": 0.9998756522817819,
+     "age_days_at_mid": 679.0,
+     "age_identified": false,
+     "age_omitted": false,
+     "b1_base": -0.09819742954022317,
+     "b1_with_vol": -0.09822416042610316,
+     "b1_with_vol_age": -0.09825244888640074,
+     "b2_vol": -0.020830824740860152,
+     "b3_age": 1.1490506326295166e-05,
+     "c1_loo": -0.43646120008558453,
+     "decided": true,
+     "members_fitted": 2,
+     "share_taken_by_vol": -0.00027221573930336085,
+     "share_taken_by_vol_and_age": -0.0005602931404129485
+    }
+   },
+   "draws": {
+    "addition": 60,
+    "star": 60
+   },
+   "first": "2013-03-18",
+   "kind": "neighbour",
+   "label": "early_three",
+   "last": "2016-11-03",
+   "members": [
+    "sh510050",
+    "sh510300",
+    "sh510500"
+   ],
+   "sessions": 831,
+   "star": "sh510050",
+   "star_outside_band": true,
+   "star_residual": {
+    "age_identified": false,
+    "b1": -0.4942013405547795,
+    "b1_with_vol": -0.4923620392719612,
+    "b1_with_vol_age": -0.4923789649623317,
+    "share_taken_by_vol": 0.0037217650618946996,
+    "share_taken_by_vol_and_age": 0.003687516489538578
+   },
+   "star_source": "e245_star_rule",
+   "verdict": "residual_is_own_turnover",
+   "vol_addition_outside_band": false,
+   "vol_drop": 0.0018393012828182842,
+   "window_inclusive": [
+    "2013-03-15",
+    "2016-11-03"
+   ]
+  }
+ ],
+ "evidence_cutoff": "2026-10-30",
+ "frozen_spec": {
+  "addition_draws": 200,
+  "age_trend_collinear": 0.98,
+  "band_mode": "full_draw_range_200",
+  "base_seed": 20261103,
+  "designs": [
+   "D0 base (LOO aggregate in the row)",
+   "D1 base + star's own lagged |move|",
+   "D2 D1 + member age in days"
+  ],
+  "era_draws": 60,
+  "min_sessions": 200,
+  "reuse": "estimator e248._ols, star rule e250.name_star, LOO aggregate e250.aggregate_moves, grid e240",
+  "share_vol_strong": 0.5,
+  "share_vol_weak": 0.35,
+  "star_draws": 200,
+  "statistics": [
+   "b1 per model",
+   "share taken by each addition",
+   "(1 - b1_after/b1_before)"
+  ],
+  "verdicts": [
+   "residual_is_own_turnover",
+   "residual_is_own_volatility",
+   "residual_partially_explained",
+   "residual_inside_shuffled_band",
+   "unresolved_too_few_rows"
+  ]
+ },
+ "generated": "2026-11-02T05:10:22",
+ "identification_caveat": "inside one window a member's age is a monotone function of the row index, so age cannot be separated from any other slow trend there (age_identified is published per column); the age effect is read only as a cross-member gradient in the era cells, and that gradient is descriptive (n = members), never a decision",
+ "members": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "no_bill": "decomposition only: no adoption, no re-pricing, no member billed",
+ "rollup": {
+  "cells_by_verdict": {
+   "residual_is_own_turnover": 4,
+   "unresolved_too_few_rows": 2
+  },
+  "cells_counted": 6,
+  "stable_across_cells": false,
+  "verdict": "residual_is_own_turnover"
+ },
+ "study": "E251",
+ "summary": {
+  "cells_by_verdict": {
+   "residual_is_own_turnover": 4,
+   "unresolved_too_few_rows": 2
+  },
+  "cells_counted": 6,
+  "headline_age_addition_outside_band": false,
+  "headline_age_drop": 4.197327782795579e-05,
+  "headline_age_gradient": {
+   "corr_residual_vs_age_at_mid": 0.7946088473813839,
+   "decided": false,
+   "n": 5,
+   "note": "n = number of members; descriptive only, never a decision (age and identity are one object inside a window)"
+  },
+  "headline_b1_base_by_column": {
+   "sh510050": 0.0719260878074307,
+   "sh510300": 0.0485321744077051,
+   "sh510500": -0.1522004721317361,
+   "sh512100": -0.07415056055234047,
+   "sh588000": -0.7252014696754883
+  },
+  "headline_b1_with_vol_by_column": {
+   "sh510050": 0.07209748680901817,
+   "sh510300": 0.049546731143933126,
+   "sh510500": -0.15316269262045398,
+   "sh512100": -0.07512770138923874,
+   "sh588000": -0.730241454704839
+  },
+  "headline_b2_vol_by_column": {
+   "sh510050": 0.025147748578577385,
+   "sh510300": 0.03228104034055008,
+   "sh510500": 0.04425654449107665,
+   "sh512100": 0.03155077455809004,
+   "sh588000": 0.02689961940983646
+  },
+  "headline_band_star_lag1": {
+   "draws": 200,
+   "hi": 0.35142217138287624,
+   "lo": -0.18569372281105984,
+   "median": -0.004738055339968177,
+   "width": 0.537115894193936
+  },
+  "headline_band_vol_addition": {
+   "draws": 200,
+   "hi": 0.009747692869918945,
+   "lo": -0.010211664085869265,
+   "median": -8.232274917752136e-06,
+   "width": 0.01995935695578821
+  },
+  "headline_share_vol_by_column": {
+   "sh510050": -0.0023829879646222185,
+   "sh510300": -0.02090482754193168,
+   "sh510500": -0.006322059815195846,
+   "sh512100": -0.013177794336544979,
+   "sh588000": -0.0069497722220641656
+  },
+  "headline_star": "sh588000",
+  "headline_star_age_identified": false,
+  "headline_star_b1": -0.7252014696754883,
+  "headline_star_b1_with_vol": -0.730241454704839,
+  "headline_star_b1_with_vol_age": -0.7301994814270111,
+  "headline_star_outside_band": true,
+  "headline_star_share_all": -0.006891894129446907,
+  "headline_star_share_vol": -0.0069497722220641656,
+  "headline_verdict": "residual_is_own_turnover",
+  "headline_vol_addition_outside_band": false,
+  "headline_vol_drop": -0.005039985029350769,
+  "stable_across_cells": false,
+  "verdict": "residual_is_own_turnover"
+ },
+ "title": "what is left of the star column once the book-wide aggregate is removed?",
+ "written": null
+}

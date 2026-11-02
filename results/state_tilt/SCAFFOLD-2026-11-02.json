@@ -1,0 +1,2447 @@
+{
+ "bound": "corpus = in-repo .py sources walked by e346._corpus() minus this study's own source.  Population is read from the enclosing function's NAME, so a fixture built inside a production helper is counted as production (this understates scaffolding, never overstates it).  Reads reached through a path this resolver cannot fold remain in unresolved_load_bindings and contribute no field rows, exactly as in E350.  Additive keys are exact; file-level keys are published once, unsplit, on purpose.",
+ "delta": {
+  "choice_fields": {
+   "additive": true,
+   "production": 734,
+   "scaffolding": 2,
+   "scaffolding_share_pct": 0.27,
+   "sum": 736,
+   "union": 736
+  },
+  "choice_sites": {
+   "additive": true,
+   "production": 1149,
+   "scaffolding": 3,
+   "scaffolding_share_pct": 0.26,
+   "sum": 1152,
+   "union": 1152
+  },
+  "field_reads": {
+   "additive": true,
+   "production": 5256,
+   "scaffolding": 188,
+   "scaffolding_share_pct": 3.45,
+   "sum": 5444,
+   "union": 5444
+  },
+  "fields": {
+   "additive": false,
+   "production": 2206,
+   "scaffolding": 116,
+   "scaffolding_share_pct": 5.0,
+   "sum": 2322,
+   "union": 2304
+  },
+  "fields_with_no_writer": {
+   "additive": false,
+   "production": 1655,
+   "scaffolding": 110,
+   "scaffolding_share_pct": 6.23,
+   "sum": 1765,
+   "union": 1710
+  },
+  "guard_fields": {
+   "additive": true,
+   "production": 221,
+   "scaffolding": 9,
+   "scaffolding_share_pct": 3.91,
+   "sum": 230,
+   "union": 230
+  },
+  "guard_fields_with_no_writer": {
+   "additive": false,
+   "production": 129,
+   "scaffolding": 9,
+   "scaffolding_share_pct": 6.52,
+   "sum": 138,
+   "union": 131
+  },
+  "guard_sites": {
+   "additive": true,
+   "production": 893,
+   "scaffolding": 16,
+   "scaffolding_share_pct": 1.76,
+   "sum": 909,
+   "union": 909
+  },
+  "max_blast_radius": {
+   "additive": false,
+   "production": 14,
+   "scaffolding": 2,
+   "scaffolding_share_pct": 12.5,
+   "sum": 16,
+   "union": 14
+  }
+ },
+ "delta_rows": [
+  {
+   "additive": true,
+   "key": "field_reads",
+   "production": 5256,
+   "scaffolding": 188,
+   "scaffolding_share_pct": 3.45,
+   "sum": 5444,
+   "union": 5444
+  },
+  {
+   "additive": false,
+   "key": "fields",
+   "production": 2206,
+   "scaffolding": 116,
+   "scaffolding_share_pct": 5.0,
+   "sum": 2322,
+   "union": 2304
+  },
+  {
+   "additive": true,
+   "key": "guard_fields",
+   "production": 221,
+   "scaffolding": 9,
+   "scaffolding_share_pct": 3.91,
+   "sum": 230,
+   "union": 230
+  },
+  {
+   "additive": false,
+   "key": "guard_fields_with_no_writer",
+   "production": 129,
+   "scaffolding": 9,
+   "scaffolding_share_pct": 6.52,
+   "sum": 138,
+   "union": 131
+  },
+  {
+   "additive": true,
+   "key": "choice_fields",
+   "production": 734,
+   "scaffolding": 2,
+   "scaffolding_share_pct": 0.27,
+   "sum": 736,
+   "union": 736
+  },
+  {
+   "additive": true,
+   "key": "choice_sites",
+   "production": 1149,
+   "scaffolding": 3,
+   "scaffolding_share_pct": 0.26,
+   "sum": 1152,
+   "union": 1152
+  },
+  {
+   "additive": true,
+   "key": "guard_sites",
+   "production": 893,
+   "scaffolding": 16,
+   "scaffolding_share_pct": 1.76,
+   "sum": 909,
+   "union": 909
+  },
+  {
+   "additive": false,
+   "key": "fields_with_no_writer",
+   "production": 1655,
+   "scaffolding": 110,
+   "scaffolding_share_pct": 6.23,
+   "sum": 1765,
+   "union": 1710
+  },
+  {
+   "additive": false,
+   "key": "max_blast_radius",
+   "production": 14,
+   "scaffolding": 2,
+   "scaffolding_share_pct": 12.5,
+   "sum": 16,
+   "union": 14
+  }
+ ],
+ "delta_widened": {
+  "choice_fields": {
+   "additive": true,
+   "production": 734,
+   "scaffolding": 2,
+   "scaffolding_share_pct": 0.27,
+   "sum": 736,
+   "union": 736
+  },
+  "choice_sites": {
+   "additive": true,
+   "production": 1149,
+   "scaffolding": 3,
+   "scaffolding_share_pct": 0.26,
+   "sum": 1152,
+   "union": 1152
+  },
+  "field_reads": {
+   "additive": true,
+   "production": 5241,
+   "scaffolding": 203,
+   "scaffolding_share_pct": 3.73,
+   "sum": 5444,
+   "union": 5444
+  },
+  "fields": {
+   "additive": false,
+   "production": 2200,
+   "scaffolding": 128,
+   "scaffolding_share_pct": 5.5,
+   "sum": 2328,
+   "union": 2304
+  },
+  "fields_with_no_writer": {
+   "additive": false,
+   "production": 1653,
+   "scaffolding": 122,
+   "scaffolding_share_pct": 6.87,
+   "sum": 1775,
+   "union": 1710
+  },
+  "guard_fields": {
+   "additive": false,
+   "production": 221,
+   "scaffolding": 10,
+   "scaffolding_share_pct": 4.33,
+   "sum": 231,
+   "union": 230
+  },
+  "guard_fields_with_no_writer": {
+   "additive": false,
+   "production": 129,
+   "scaffolding": 10,
+   "scaffolding_share_pct": 7.19,
+   "sum": 139,
+   "union": 131
+  },
+  "guard_sites": {
+   "additive": true,
+   "production": 892,
+   "scaffolding": 17,
+   "scaffolding_share_pct": 1.87,
+   "sum": 909,
+   "union": 909
+  },
+  "max_blast_radius": {
+   "additive": false,
+   "production": 14,
+   "scaffolding": 2,
+   "scaffolding_share_pct": 12.5,
+   "sum": 16,
+   "union": 14
+  }
+ },
+ "faces_only_read_by_scaffolding": [
+  {
+   "face": "results/autofill_state.json.tmp/crash_fuse.json",
+   "fields": [
+    "cleared",
+    "lane_machine",
+    "sigs"
+   ],
+   "fields_n": 3,
+   "reads": 14,
+   "sample": {
+    "field": "lane_machine",
+    "func": "selftest",
+    "line": 3405,
+    "path": "Tools/autofill.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w16/w16_candidates.json",
+   "fields": [
+    "candidates",
+    "eligible_reform",
+    "eligible_v2",
+    "g1_pass_n",
+    "n",
+    "n_judged"
+   ],
+   "fields_n": 7,
+   "reads": 11,
+   "sample": {
+    "field": "candidates",
+    "func": "leg_w16_source",
+    "line": 129,
+    "path": "Tools/_r879bmc_w18_freeze_facts.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w17/w17_judge.json",
+   "fields": [
+    "candidates",
+    "eligible_reform",
+    "eligible_v2",
+    "g1_pass_n",
+    "n",
+    "n_judged"
+   ],
+   "fields_n": 7,
+   "reads": 11,
+   "sample": {
+    "field": "candidates",
+    "func": "leg_w16_source",
+    "line": 129,
+    "path": "Tools/_r879bmc_w18_freeze_facts.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w17/w17_screen.json",
+   "fields": [
+    "candidates",
+    "eligible_reform",
+    "eligible_v2",
+    "g1_pass_n",
+    "n",
+    "n_judged"
+   ],
+   "fields_n": 7,
+   "reads": 11,
+   "sample": {
+    "field": "candidates",
+    "func": "leg_w16_source",
+    "line": 129,
+    "path": "Tools/_r879bmc_w18_freeze_facts.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w16/w16_judge.json",
+   "fields": [
+    "candidates",
+    "cells",
+    "n_eligible_g2",
+    "n_judged_cells"
+   ],
+   "fields_n": 4,
+   "reads": 6,
+   "sample": {
+    "field": "cells",
+    "func": "leg_a7",
+    "line": 199,
+    "path": "Tools/_r788bmc_w17_freeze_facts.py"
+   }
+  },
+  {
+   "face": "results/autofill_state.json.tmp/autofill_state.json",
+   "fields": [
+    "lane_machine",
+    "last_tick",
+    "launches"
+   ],
+   "fields_n": 3,
+   "reads": 5,
+   "sample": {
+    "field": "lane_machine",
+    "func": "selftest",
+    "line": 2973,
+    "path": "Tools/autofill.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w1/w1_judge.json",
+   "fields": [
+    "candidates",
+    "cells",
+    "n_eligible_g2",
+    "n_judged_cells"
+   ],
+   "fields_n": 4,
+   "reads": 5,
+   "sample": {
+    "field": "cells",
+    "func": "leg_a7",
+    "line": 199,
+    "path": "Tools/_r788bmc_w17_freeze_facts.py"
+   }
+  },
+  {
+   "face": "p2_calibration.json",
+   "fields": [
+    "universe"
+   ],
+   "fields_n": 1,
+   "reads": 4,
+   "sample": {
+    "field": "universe",
+    "func": "selftest",
+    "line": 450,
+    "path": "scripts/p2_null_calibration_ext.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w16/w16_screen.json",
+   "fields": [
+    "batch_cells",
+    "k_nulls",
+    "n_survivors",
+    "null_family"
+   ],
+   "fields_n": 4,
+   "reads": 4,
+   "sample": {
+    "field": "n_survivors",
+    "func": "leg_a5",
+    "line": 159,
+    "path": "Tools/_r788bmc_w17_freeze_facts.py"
+   }
+  },
+  {
+   "face": "runnable_pool.bm-b.json",
+   "fields": [
+    "entries",
+    "updated_at"
+   ],
+   "fields_n": 2,
+   "reads": 4,
+   "sample": {
+    "field": "entries",
+    "func": "_selftest",
+    "line": 1854,
+    "path": "scripts/merge_lane_views.py"
+   }
+  },
+  {
+   "face": "census.json",
+   "fields": [
+    "markers",
+    "next_day_associations",
+    "per_day"
+   ],
+   "fields_n": 3,
+   "reads": 3,
+   "sample": {
+    "field": "per_day",
+    "func": "selftest",
+    "line": 255,
+    "path": "scripts/cycle_position_census.py"
+   }
+  },
+  {
+   "face": "results/heat_update_status.json",
+   "fields": [
+    "as_of",
+    "n_rows",
+    "rows"
+   ],
+   "fields_n": 3,
+   "reads": 3,
+   "sample": {
+    "field": "as_of",
+    "func": "selftest",
+    "line": 300,
+    "path": "scripts/update_heat.py"
+   }
+  },
+  {
+   "face": "results/t36_stale_takeover_drill.json.tmp/evidence.json",
+   "fields": [
+    "drill",
+    "verdict"
+   ],
+   "fields_n": 2,
+   "reads": 3,
+   "sample": {
+    "field": "drill",
+    "func": "selftest",
+    "line": 110,
+    "path": "Tools/t36_drill_runner.py"
+   }
+  },
+  {
+   "face": "update_status.json",
+   "fields": [
+    "exit_code",
+    "hook_exit",
+    "hook_ok"
+   ],
+   "fields_n": 3,
+   "reads": 3,
+   "sample": {
+    "field": "exit_code",
+    "func": "selftest",
+    "line": 688,
+    "path": "scripts/update_daily.py"
+   }
+  },
+  {
+   "face": "lhb_thermo_summary.json",
+   "fields": [
+    "meta",
+    "n_days"
+   ],
+   "fields_n": 2,
+   "reads": 2,
+   "sample": {
+    "field": "n_days",
+    "func": "_selftest",
+    "line": 252,
+    "path": "scripts/lhb_thermo_build.py"
+   }
+  },
+  {
+   "face": "n2_w15_prep_state.json",
+   "fields": [
+    "passive_6m_ret",
+    "starts"
+   ],
+   "fields_n": 2,
+   "reads": 2,
+   "sample": {
+    "field": "starts",
+    "func": "_leg_state_shared",
+    "line": 708,
+    "path": "scripts/perpetual_faces_n2.py"
+   }
+  },
+  {
+   "face": "o2.json",
+   "fields": [
+    "rows"
+   ],
+   "fields_n": 1,
+   "reads": 2,
+   "sample": {
+    "field": "rows",
+    "func": "selftest",
+    "line": 609,
+    "path": "scripts/sina_mf_ic_p1.py"
+   }
+  },
+  {
+   "face": "results/_quarantine/*/manifest.json",
+   "fields": [
+    "moved"
+   ],
+   "fields_n": 1,
+   "reads": 2,
+   "sample": {
+    "field": "moved",
+    "func": "selftest",
+    "line": 299,
+    "path": "Tools/canon_sweep.py"
+   }
+  },
+  {
+   "face": "results/sentiment_axes/_selftest_tmp.json",
+   "fields": [
+    "axes",
+    "axes_sha256"
+   ],
+   "fields_n": 2,
+   "reads": 2,
+   "sample": {
+    "field": "axes_sha256",
+    "func": "selftest",
+    "line": 350,
+    "path": "scripts/sentiment_axes_derive.py"
+   }
+  },
+  {
+   "face": "results/panel_coverage.json",
+   "fields": [
+    "evidence_cutoff"
+   ],
+   "fields_n": 1,
+   "reads": 1,
+   "sample": {
+    "field": "evidence_cutoff",
+    "func": "_selftest",
+    "line": 254,
+    "path": "scripts/panel_coverage_report.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w14/judge_state.json",
+   "fields": [
+    "grammar_sha256"
+   ],
+   "fields_n": 1,
+   "reads": 1,
+   "sample": {
+    "field": "grammar_sha256",
+    "func": "leg_a4",
+    "line": 145,
+    "path": "Tools/_r788bmc_w17_freeze_facts.py"
+   }
+  },
+  {
+   "face": "results/wild_route/wild_route_probe.json",
+   "fields": [
+    "cliff"
+   ],
+   "fields_n": 1,
+   "reads": 1,
+   "sample": {
+    "field": "cliff",
+    "func": "selftest",
+    "line": 1326,
+    "path": "scripts/wild_route_lab.py"
+   }
+  },
+  {
+   "face": "runnable_pool.bm-a.json",
+   "fields": [
+    "entries"
+   ],
+   "fields_n": 1,
+   "reads": 1,
+   "sample": {
+    "field": "entries",
+    "func": "_selftest",
+    "line": 1976,
+    "path": "scripts/merge_lane_views.py"
+   }
+  }
+ ],
+ "faces_only_read_by_scaffolding_widened": [
+  {
+   "face": "results/autofill_state.json.tmp/crash_fuse.json",
+   "fields": [
+    "cleared",
+    "lane_machine",
+    "sigs"
+   ],
+   "fields_n": 3,
+   "reads": 14,
+   "sample": {
+    "field": "lane_machine",
+    "func": "selftest",
+    "line": 3405,
+    "path": "Tools/autofill.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w16/w16_candidates.json",
+   "fields": [
+    "candidates",
+    "eligible_reform",
+    "eligible_v2",
+    "g1_pass_n",
+    "n",
+    "n_judged"
+   ],
+   "fields_n": 7,
+   "reads": 11,
+   "sample": {
+    "field": "candidates",
+    "func": "leg_w16_source",
+    "line": 129,
+    "path": "Tools/_r879bmc_w18_freeze_facts.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w17/w17_judge.json",
+   "fields": [
+    "candidates",
+    "eligible_reform",
+    "eligible_v2",
+    "g1_pass_n",
+    "n",
+    "n_judged"
+   ],
+   "fields_n": 7,
+   "reads": 11,
+   "sample": {
+    "field": "candidates",
+    "func": "leg_w16_source",
+    "line": 129,
+    "path": "Tools/_r879bmc_w18_freeze_facts.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w17/w17_screen.json",
+   "fields": [
+    "candidates",
+    "eligible_reform",
+    "eligible_v2",
+    "g1_pass_n",
+    "n",
+    "n_judged"
+   ],
+   "fields_n": 7,
+   "reads": 11,
+   "sample": {
+    "field": "candidates",
+    "func": "leg_w16_source",
+    "line": 129,
+    "path": "Tools/_r879bmc_w18_freeze_facts.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w16/w16_judge.json",
+   "fields": [
+    "candidates",
+    "cells",
+    "n_eligible_g2",
+    "n_judged_cells"
+   ],
+   "fields_n": 4,
+   "reads": 6,
+   "sample": {
+    "field": "cells",
+    "func": "leg_a7",
+    "line": 199,
+    "path": "Tools/_r788bmc_w17_freeze_facts.py"
+   }
+  },
+  {
+   "face": "results/autofill_state.json.tmp/autofill_state.json",
+   "fields": [
+    "lane_machine",
+    "last_tick",
+    "launches"
+   ],
+   "fields_n": 3,
+   "reads": 5,
+   "sample": {
+    "field": "lane_machine",
+    "func": "selftest",
+    "line": 2973,
+    "path": "Tools/autofill.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w1/w1_judge.json",
+   "fields": [
+    "candidates",
+    "cells",
+    "n_eligible_g2",
+    "n_judged_cells"
+   ],
+   "fields_n": 4,
+   "reads": 5,
+   "sample": {
+    "field": "cells",
+    "func": "leg_a7",
+    "line": 199,
+    "path": "Tools/_r788bmc_w17_freeze_facts.py"
+   }
+  },
+  {
+   "face": "p2_calibration.json",
+   "fields": [
+    "universe"
+   ],
+   "fields_n": 1,
+   "reads": 4,
+   "sample": {
+    "field": "universe",
+    "func": "selftest",
+    "line": 450,
+    "path": "scripts/p2_null_calibration_ext.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w16/w16_screen.json",
+   "fields": [
+    "batch_cells",
+    "k_nulls",
+    "n_survivors",
+    "null_family"
+   ],
+   "fields_n": 4,
+   "reads": 4,
+   "sample": {
+    "field": "n_survivors",
+    "func": "leg_a5",
+    "line": 159,
+    "path": "Tools/_r788bmc_w17_freeze_facts.py"
+   }
+  },
+  {
+   "face": "runnable_pool.bm-b.json",
+   "fields": [
+    "entries",
+    "updated_at"
+   ],
+   "fields_n": 2,
+   "reads": 4,
+   "sample": {
+    "field": "entries",
+    "func": "_selftest",
+    "line": 1854,
+    "path": "scripts/merge_lane_views.py"
+   }
+  },
+  {
+   "face": "census.json",
+   "fields": [
+    "markers",
+    "next_day_associations",
+    "per_day"
+   ],
+   "fields_n": 3,
+   "reads": 3,
+   "sample": {
+    "field": "per_day",
+    "func": "selftest",
+    "line": 255,
+    "path": "scripts/cycle_position_census.py"
+   }
+  },
+  {
+   "face": "results/heat_update_status.json",
+   "fields": [
+    "as_of",
+    "n_rows",
+    "rows"
+   ],
+   "fields_n": 3,
+   "reads": 3,
+   "sample": {
+    "field": "as_of",
+    "func": "selftest",
+    "line": 300,
+    "path": "scripts/update_heat.py"
+   }
+  },
+  {
+   "face": "results/t36_stale_takeover_drill.json.tmp/evidence.json",
+   "fields": [
+    "drill",
+    "verdict"
+   ],
+   "fields_n": 2,
+   "reads": 3,
+   "sample": {
+    "field": "drill",
+    "func": "selftest",
+    "line": 110,
+    "path": "Tools/t36_drill_runner.py"
+   }
+  },
+  {
+   "face": "update_status.json",
+   "fields": [
+    "exit_code",
+    "hook_exit",
+    "hook_ok"
+   ],
+   "fields_n": 3,
+   "reads": 3,
+   "sample": {
+    "field": "exit_code",
+    "func": "selftest",
+    "line": 688,
+    "path": "scripts/update_daily.py"
+   }
+  },
+  {
+   "face": "lhb_thermo_summary.json",
+   "fields": [
+    "meta",
+    "n_days"
+   ],
+   "fields_n": 2,
+   "reads": 2,
+   "sample": {
+    "field": "n_days",
+    "func": "_selftest",
+    "line": 252,
+    "path": "scripts/lhb_thermo_build.py"
+   }
+  },
+  {
+   "face": "n2_w15_prep_state.json",
+   "fields": [
+    "passive_6m_ret",
+    "starts"
+   ],
+   "fields_n": 2,
+   "reads": 2,
+   "sample": {
+    "field": "starts",
+    "func": "_leg_state_shared",
+    "line": 708,
+    "path": "scripts/perpetual_faces_n2.py"
+   }
+  },
+  {
+   "face": "o2.json",
+   "fields": [
+    "rows"
+   ],
+   "fields_n": 1,
+   "reads": 2,
+   "sample": {
+    "field": "rows",
+    "func": "selftest",
+    "line": 609,
+    "path": "scripts/sina_mf_ic_p1.py"
+   }
+  },
+  {
+   "face": "results/_quarantine/*/manifest.json",
+   "fields": [
+    "moved"
+   ],
+   "fields_n": 1,
+   "reads": 2,
+   "sample": {
+    "field": "moved",
+    "func": "selftest",
+    "line": 299,
+    "path": "Tools/canon_sweep.py"
+   }
+  },
+  {
+   "face": "results/sentiment_axes/_selftest_tmp.json",
+   "fields": [
+    "axes",
+    "axes_sha256"
+   ],
+   "fields_n": 2,
+   "reads": 2,
+   "sample": {
+    "field": "axes_sha256",
+    "func": "selftest",
+    "line": 350,
+    "path": "scripts/sentiment_axes_derive.py"
+   }
+  },
+  {
+   "face": "results/zt_pool_pilot_replay.json",
+   "fields": [
+    "batch",
+    "spec"
+   ],
+   "fields_n": 2,
+   "reads": 2,
+   "sample": {
+    "field": "batch",
+    "func": "run",
+    "line": 205,
+    "path": "scripts/cycle_position_census.py"
+   }
+  },
+  {
+   "face": "results/panel_coverage.json",
+   "fields": [
+    "evidence_cutoff"
+   ],
+   "fields_n": 1,
+   "reads": 1,
+   "sample": {
+    "field": "evidence_cutoff",
+    "func": "_selftest",
+    "line": 254,
+    "path": "scripts/panel_coverage_report.py"
+   }
+  },
+  {
+   "face": "results/trial_labor_w14/judge_state.json",
+   "fields": [
+    "grammar_sha256"
+   ],
+   "fields_n": 1,
+   "reads": 1,
+   "sample": {
+    "field": "grammar_sha256",
+    "func": "leg_a4",
+    "line": 145,
+    "path": "Tools/_r788bmc_w17_freeze_facts.py"
+   }
+  },
+  {
+   "face": "results/wild_route/wild_route_probe.json",
+   "fields": [
+    "cliff"
+   ],
+   "fields_n": 1,
+   "reads": 1,
+   "sample": {
+    "field": "cliff",
+    "func": "selftest",
+    "line": 1326,
+    "path": "scripts/wild_route_lab.py"
+   }
+  },
+  {
+   "face": "runnable_pool.bm-a.json",
+   "fields": [
+    "entries"
+   ],
+   "fields_n": 1,
+   "reads": 1,
+   "sample": {
+    "field": "entries",
+    "func": "_selftest",
+    "line": 1976,
+    "path": "scripts/merge_lane_views.py"
+   }
+  }
+ ],
+ "pin": "HEAD",
+ "populations": {
+  "production": {
+   "choice_fields": 734,
+   "choice_sites": 1149,
+   "field_reads": 5256,
+   "fields": 2206,
+   "fields_with_no_writer": 1655,
+   "fields_with_unresolved_face": 777,
+   "guard_fields": 221,
+   "guard_fields_with_no_writer": 129,
+   "guard_sites": 893,
+   "max_blast_field": "results/gate_attrition.json :: entries",
+   "max_blast_radius": 14,
+   "reads_by_branch": {
+    "assert_guard": 833,
+    "choice": 1149,
+    "exit_guard": 60,
+    "unbranched": 3214
+   }
+  },
+  "scaffolding": {
+   "choice_fields": 2,
+   "choice_sites": 3,
+   "field_reads": 188,
+   "fields": 116,
+   "fields_with_no_writer": 110,
+   "fields_with_unresolved_face": 34,
+   "guard_fields": 9,
+   "guard_fields_with_no_writer": 9,
+   "guard_sites": 16,
+   "max_blast_field": "results/_quarantine/*/manifest.json :: moved",
+   "max_blast_radius": 2,
+   "reads_by_branch": {
+    "assert_guard": 16,
+    "choice": 3,
+    "unbranched": 169
+   }
+  }
+ },
+ "populations_widened": {
+  "production": {
+   "choice_fields": 734,
+   "choice_sites": 1149,
+   "field_reads": 5241,
+   "fields": 2200,
+   "fields_with_no_writer": 1653,
+   "fields_with_unresolved_face": 773,
+   "guard_fields": 221,
+   "guard_fields_with_no_writer": 129,
+   "guard_sites": 892,
+   "max_blast_field": "results/gate_attrition.json :: entries",
+   "max_blast_radius": 14,
+   "reads_by_branch": {
+    "assert_guard": 832,
+    "choice": 1149,
+    "exit_guard": 60,
+    "unbranched": 3200
+   }
+  },
+  "scaffolding": {
+   "choice_fields": 2,
+   "choice_sites": 3,
+   "field_reads": 203,
+   "fields": 128,
+   "fields_with_no_writer": 122,
+   "fields_with_unresolved_face": 44,
+   "guard_fields": 10,
+   "guard_fields_with_no_writer": 10,
+   "guard_sites": 17,
+   "max_blast_field": "results/_quarantine/*/manifest.json :: moved",
+   "max_blast_radius": 2,
+   "reads_by_branch": {
+    "assert_guard": 17,
+    "choice": 3,
+    "unbranched": 183
+   }
+  }
+ },
+ "rule": {
+  "module_level_sites": "production",
+  "scaffolding_functions_exact": [
+   "selftest"
+  ],
+  "scaffolding_functions_name_contains": [
+   "fixture",
+   "harness"
+  ],
+  "scaffolding_functions_prefixes": [
+   "selftest",
+   "_selftest",
+   "test_",
+   "_test_",
+   "leg_",
+   "_leg"
+  ],
+  "writes_split_by": "prune the scaffolding top-level functions, re-measure, and take the set difference (a name written on both sides stays written on the production side)"
+ },
+ "study": "E359_census_scaffolding_split",
+ "summary": {
+  "delta": {
+   "choice_fields": {
+    "additive": true,
+    "production": 734,
+    "scaffolding": 2,
+    "scaffolding_share_pct": 0.27,
+    "sum": 736,
+    "union": 736
+   },
+   "choice_sites": {
+    "additive": true,
+    "production": 1149,
+    "scaffolding": 3,
+    "scaffolding_share_pct": 0.26,
+    "sum": 1152,
+    "union": 1152
+   },
+   "field_reads": {
+    "additive": true,
+    "production": 5256,
+    "scaffolding": 188,
+    "scaffolding_share_pct": 3.45,
+    "sum": 5444,
+    "union": 5444
+   },
+   "fields": {
+    "additive": false,
+    "production": 2206,
+    "scaffolding": 116,
+    "scaffolding_share_pct": 5.0,
+    "sum": 2322,
+    "union": 2304
+   },
+   "fields_with_no_writer": {
+    "additive": false,
+    "production": 1655,
+    "scaffolding": 110,
+    "scaffolding_share_pct": 6.23,
+    "sum": 1765,
+    "union": 1710
+   },
+   "guard_fields": {
+    "additive": true,
+    "production": 221,
+    "scaffolding": 9,
+    "scaffolding_share_pct": 3.91,
+    "sum": 230,
+    "union": 230
+   },
+   "guard_fields_with_no_writer": {
+    "additive": false,
+    "production": 129,
+    "scaffolding": 9,
+    "scaffolding_share_pct": 6.52,
+    "sum": 138,
+    "union": 131
+   },
+   "guard_sites": {
+    "additive": true,
+    "production": 893,
+    "scaffolding": 16,
+    "scaffolding_share_pct": 1.76,
+    "sum": 909,
+    "union": 909
+   },
+   "max_blast_radius": {
+    "additive": false,
+    "production": 14,
+    "scaffolding": 2,
+    "scaffolding_share_pct": 12.5,
+    "sum": 16,
+    "union": 14
+   }
+  },
+  "delta_widened": {
+   "choice_fields": {
+    "additive": true,
+    "production": 734,
+    "scaffolding": 2,
+    "scaffolding_share_pct": 0.27,
+    "sum": 736,
+    "union": 736
+   },
+   "choice_sites": {
+    "additive": true,
+    "production": 1149,
+    "scaffolding": 3,
+    "scaffolding_share_pct": 0.26,
+    "sum": 1152,
+    "union": 1152
+   },
+   "field_reads": {
+    "additive": true,
+    "production": 5241,
+    "scaffolding": 203,
+    "scaffolding_share_pct": 3.73,
+    "sum": 5444,
+    "union": 5444
+   },
+   "fields": {
+    "additive": false,
+    "production": 2200,
+    "scaffolding": 128,
+    "scaffolding_share_pct": 5.5,
+    "sum": 2328,
+    "union": 2304
+   },
+   "fields_with_no_writer": {
+    "additive": false,
+    "production": 1653,
+    "scaffolding": 122,
+    "scaffolding_share_pct": 6.87,
+    "sum": 1775,
+    "union": 1710
+   },
+   "guard_fields": {
+    "additive": false,
+    "production": 221,
+    "scaffolding": 10,
+    "scaffolding_share_pct": 4.33,
+    "sum": 231,
+    "union": 230
+   },
+   "guard_fields_with_no_writer": {
+    "additive": false,
+    "production": 129,
+    "scaffolding": 10,
+    "scaffolding_share_pct": 7.19,
+    "sum": 139,
+    "union": 131
+   },
+   "guard_sites": {
+    "additive": true,
+    "production": 892,
+    "scaffolding": 17,
+    "scaffolding_share_pct": 1.87,
+    "sum": 909,
+    "union": 909
+   },
+   "max_blast_radius": {
+    "additive": false,
+    "production": 14,
+    "scaffolding": 2,
+    "scaffolding_share_pct": 12.5,
+    "sum": 16,
+    "union": 14
+   }
+  },
+  "faces_every_read_leaked": [
+   {
+    "face": "json",
+    "leaked": 49,
+    "reads": 49
+   },
+   {
+    "face": "results/shortline/o1600_market_fit.json",
+    "leaked": 22,
+    "reads": 22
+   },
+   {
+    "face": "_chunk_.json",
+    "leaked": 21,
+    "reads": 21
+   },
+   {
+    "face": "results/state_tilt/bandfields_latest.json",
+    "leaked": 18,
+    "reads": 18
+   },
+   {
+    "face": "results/state_tilt/bandexp_latest.json",
+    "leaked": 17,
+    "reads": 17
+   },
+   {
+    "face": "bm-x.json",
+    "leaked": 14,
+    "reads": 14
+   },
+   {
+    "face": "results/state_tilt/bandfloormirror_latest.json",
+    "leaked": 11,
+    "reads": 11
+   },
+   {
+    "face": "results/state_tilt/bandspreadfloor_latest.json",
+    "leaked": 11,
+    "reads": 11
+   },
+   {
+    "face": "bad.json",
+    "leaked": 10,
+    "reads": 10
+   },
+   {
+    "face": "results/bandit_advisory_next.json",
+    "leaked": 10,
+    "reads": 10
+   },
+   {
+    "face": "results/state_tilt/bandgapceiling_latest.json",
+    "leaked": 10,
+    "reads": 10
+   },
+   {
+    "face": "results/state_tilt/bandpooled_latest.json",
+    "leaked": 10,
+    "reads": 10
+   },
+   {
+    "face": "results/state_tilt/bandsupply_latest.json",
+    "leaked": 10,
+    "reads": 10
+   },
+   {
+    "face": "FZ.json",
+    "leaked": 9,
+    "reads": 9
+   },
+   {
+    "face": "results/state_tilt/bandcountscope_latest.json",
+    "leaked": 9,
+    "reads": 9
+   },
+   {
+    "face": "results/state_tilt/banddeflate_latest.json",
+    "leaked": 9,
+    "reads": 9
+   },
+   {
+    "face": "results/state_tilt/bandfloor_latest.json",
+    "leaked": 9,
+    "reads": 9
+   },
+   {
+    "face": "results/state_tilt/bandfrozen_latest.json",
+    "leaked": 9,
+    "reads": 9
+   },
+   {
+    "face": "results/state_tilt/bandtight_latest.json",
+    "leaked": 9,
+    "reads": 9
+   },
+   {
+    "face": "results/state_tilt/per_member_gamma_latest.json",
+    "leaked": 9,
+    "reads": 9
+   },
+   {
+    "face": "results/state_tilt/printcov_latest.json",
+    "leaked": 9,
+    "reads": 9
+   },
+   {
+    "face": "results/state_tilt/zerotolprune_latest.json",
+    "leaked": 9,
+    "reads": 9
+   },
+   {
+    "face": "results/local_coding_pilot/tasks/C/verdict.json",
+    "leaked": 8,
+    "reads": 8
+   },
+   {
+    "face": "results/state_tilt/bandambient_latest.json",
+    "leaked": 8,
+    "reads": 8
+   },
+   {
+    "face": "results/state_tilt/banddisagree_latest.json",
+    "leaked": 8,
+    "reads": 8
+   },
+   {
+    "face": "results/state_tilt/banddraw_latest.json",
+    "leaked": 8,
+    "reads": 8
+   },
+   {
+    "face": "results/state_tilt/gateprint_latest.json",
+    "leaked": 8,
+    "reads": 8
+   },
+   {
+    "face": "results/state_tilt/gatetol_latest.json",
+    "leaked": 8,
+    "reads": 8
+   },
+   {
+    "face": "results/state_tilt/precisioncensus_latest.json",
+    "leaked": 8,
+    "reads": 8
+   },
+   {
+    "face": "results/state_tilt/precisiongap_latest.json",
+    "leaked": 8,
+    "reads": 8
+   },
+   {
+    "face": "results/divlowvol_nulls/NULLS-*.json",
+    "leaked": 7,
+    "reads": 7
+   },
+   {
+    "face": "results/state_tilt/banddisagreescope_latest.json",
+    "leaked": 7,
+    "reads": 7
+   },
+   {
+    "face": "results/state_tilt/banddupes_latest.json",
+    "leaked": 7,
+    "reads": 7
+   },
+   {
+    "face": "results/state_tilt/bandselfaudit_latest.json",
+    "leaked": 7,
+    "reads": 7
+   },
+   {
+    "face": "results/state_tilt/gateclamp_latest.json",
+    "leaked": 7,
+    "reads": 7
+   },
+   {
+    "face": "results/state_tilt/quantityname_latest.json",
+    "leaked": 7,
+    "reads": 7
+   },
+   {
+    "face": "results/state_tilt/selfres_latest.json",
+    "leaked": 7,
+    "reads": 7
+   },
+   {
+    "face": "fleet/machines/.json",
+    "leaked": 6,
+    "reads": 6
+   },
+   {
+    "face": "results/state_tilt/bandclosure_latest.json",
+    "leaked": 6,
+    "reads": 6
+   },
+   {
+    "face": "results/state_tilt/banddraw-d1920_latest.json",
+    "leaked": 6,
+    "reads": 6
+   },
+   {
+    "face": "results/state_tilt/bandnear1_latest.json",
+    "leaked": 6,
+    "reads": 6
+   },
+   {
+    "face": "results/state_tilt/bandsubstitute_latest.json",
+    "leaked": 6,
+    "reads": 6
+   },
+   {
+    "face": "results/state_tilt/gateoperands_latest.json",
+    "leaked": 6,
+    "reads": 6
+   },
+   {
+    "face": "results/state_tilt/leadcounter_latest.json",
+    "leaked": 6,
+    "reads": 6
+   },
+   {
+    "face": "results/state_tilt/legeps_latest.json",
+    "leaked": 6,
+    "reads": 6
+   },
+   {
+    "face": "results/state_tilt/stardir_latest.json",
+    "leaked": 6,
+    "reads": 6
+   },
+   {
+    "face": "sleeve_p3.json",
+    "leaked": 6,
+    "reads": 6
+   },
+   {
+    "face": "data/cache/t18_deep_panel/meta.json",
+    "leaked": 5,
+    "reads": 5
+   },
+   {
+    "face": "results/regime_calibration.json",
+    "leaked": 5,
+    "reads": 5
+   },
+   {
+    "face": "results/state_tilt/banddraw-d960_latest.json",
+    "leaked": 5,
+    "reads": 5
+   },
+   {
+    "face": "results/state_tilt/bandflipbudget_latest.json",
+    "leaked": 5,
+    "reads": 5
+   },
+   {
+    "face": "results/state_tilt/bandscreenbudget_latest.json",
+    "leaked": 5,
+    "reads": 5
+   },
+   {
+    "face": "results/state_tilt/bandstraddlesweep_latest.json",
+    "leaked": 5,
+    "reads": 5
+   },
+   {
+    "face": "results/state_tilt/bandsubstituteaudit_latest.json",
+    "leaked": 5,
+    "reads": 5
+   },
+   {
+    "face": "results/state_tilt/bandswitch_latest.json",
+    "leaked": 5,
+    "reads": 5
+   },
+   {
+    "face": "results/state_tilt/bookecho_latest.json",
+    "leaked": 5,
+    "reads": 5
+   },
+   {
+    "face": "results/state_tilt/slopematrix_latest.json",
+    "leaked": 5,
+    "reads": 5
+   },
+   {
+    "face": "results/state_tilt/starlagband_latest.json",
+    "leaked": 5,
+    "reads": 5
+   },
+   {
+    "face": "bad_prescreen.json",
+    "leaked": 4,
+    "reads": 4
+   },
+   {
+    "face": "g2_nsp1.json",
+    "leaked": 4,
+    "reads": 4
+   }
+  ],
+  "faces_only_read_by_scaffolding": 23,
+  "faces_only_read_by_scaffolding_widened": 24,
+  "file_level_counts": {
+   "corpus_sources": 2367,
+   "dump_sinks": 876,
+   "faces_named": 850,
+   "helpers_promoted_by_caller_closure": 845,
+   "json_bindings": 1641,
+   "skipped_numeric_keys": 27836,
+   "sources_parsed": 2352,
+   "unresolved_load_bindings": 3279
+  },
+  "file_level_reason": "these are file-level counts and are NOT split: one source file holds both populations, so a per-population share of a file count is not a measurement",
+  "leak": {
+   "definition": "a read is 'leaked' when its reported face is written as a literal neither inside the read's own enclosing function nor at module level -- E350's resolver is file-scoped, so a reused variable name inherits another function's face",
+   "faces_whose_every_read_is_leaked": 146,
+   "leaked_production_reads": 1254,
+   "leaked_reads": 1277,
+   "leaked_share_pct": 23.46,
+   "reads_total": 5444
+  },
+  "populations": {
+   "production": {
+    "choice_fields": 734,
+    "choice_sites": 1149,
+    "field_reads": 5256,
+    "fields": 2206,
+    "fields_with_no_writer": 1655,
+    "fields_with_unresolved_face": 777,
+    "guard_fields": 221,
+    "guard_fields_with_no_writer": 129,
+    "guard_sites": 893,
+    "max_blast_field": "results/gate_attrition.json :: entries",
+    "max_blast_radius": 14,
+    "reads_by_branch": {
+     "assert_guard": 833,
+     "choice": 1149,
+     "exit_guard": 60,
+     "unbranched": 3214
+    }
+   },
+   "scaffolding": {
+    "choice_fields": 2,
+    "choice_sites": 3,
+    "field_reads": 188,
+    "fields": 116,
+    "fields_with_no_writer": 110,
+    "fields_with_unresolved_face": 34,
+    "guard_fields": 9,
+    "guard_fields_with_no_writer": 9,
+    "guard_sites": 16,
+    "max_blast_field": "results/_quarantine/*/manifest.json :: moved",
+    "max_blast_radius": 2,
+    "reads_by_branch": {
+     "assert_guard": 16,
+     "choice": 3,
+     "unbranched": 169
+    }
+   }
+  },
+  "populations_widened": {
+   "production": {
+    "choice_fields": 734,
+    "choice_sites": 1149,
+    "field_reads": 5241,
+    "fields": 2200,
+    "fields_with_no_writer": 1653,
+    "fields_with_unresolved_face": 773,
+    "guard_fields": 221,
+    "guard_fields_with_no_writer": 129,
+    "guard_sites": 892,
+    "max_blast_field": "results/gate_attrition.json :: entries",
+    "max_blast_radius": 14,
+    "reads_by_branch": {
+     "assert_guard": 832,
+     "choice": 1149,
+     "exit_guard": 60,
+     "unbranched": 3200
+    }
+   },
+   "scaffolding": {
+    "choice_fields": 2,
+    "choice_sites": 3,
+    "field_reads": 203,
+    "fields": 128,
+    "fields_with_no_writer": 122,
+    "fields_with_unresolved_face": 44,
+    "guard_fields": 10,
+    "guard_fields_with_no_writer": 10,
+    "guard_sites": 17,
+    "max_blast_field": "results/_quarantine/*/manifest.json :: moved",
+    "max_blast_radius": 2,
+    "reads_by_branch": {
+     "assert_guard": 17,
+     "choice": 3,
+     "unbranched": 183
+    }
+   }
+  },
+  "read_sites_total": 5444,
+  "scaffolding_share_pct": 3.73,
+  "sites_split": 648
+ },
+ "today": "2026-11-02",
+ "ts": "2026-11-02T12:09:15+08:00",
+ "unwritten_guards_by_population": {
+  "production": [
+   {
+    "blast_radius": 4,
+    "choices": 4,
+    "classes": [
+     "assert_guard",
+     "choice",
+     "unbranched"
+    ],
+    "face": "results/shortline/t18_deep_manifest.json",
+    "face_resolved": true,
+    "field": "verdict",
+    "files": 6,
+    "guards": 1,
+    "loops": 0,
+    "reads": 13,
+    "unbranched": 8,
+    "written": false
+   },
+   {
+    "blast_radius": 2,
+    "choices": 2,
+    "classes": [
+     "assert_guard",
+     "choice"
+    ],
+    "face": "_chunk_.json",
+    "face_resolved": false,
+    "field": "digest",
+    "files": 2,
+    "guards": 2,
+    "loops": 0,
+    "reads": 4,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 2,
+    "choices": 2,
+    "classes": [
+     "assert_guard",
+     "choice",
+     "unbranched"
+    ],
+    "face": "_chunk_.json",
+    "face_resolved": false,
+    "field": "ks",
+    "files": 2,
+    "guards": 1,
+    "loops": 0,
+    "reads": 5,
+    "unbranched": 2,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard",
+     "exit_guard",
+     "unbranched"
+    ],
+    "face": "meta.json",
+    "face_resolved": false,
+    "field": "shape",
+    "files": 12,
+    "guards": 13,
+    "loops": 0,
+    "reads": 22,
+    "unbranched": 9,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard",
+     "exit_guard",
+     "unbranched"
+    ],
+    "face": "meta.json",
+    "face_resolved": false,
+    "field": "generated",
+    "files": 4,
+    "guards": 5,
+    "loops": 0,
+    "reads": 6,
+    "unbranched": 1,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "exit_guard"
+    ],
+    "face": "probe.json",
+    "face_resolved": false,
+    "field": "universe_n",
+    "files": 2,
+    "guards": 4,
+    "loops": 0,
+    "reads": 4,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "exit_guard"
+    ],
+    "face": "probe.json",
+    "face_resolved": false,
+    "field": "universe_skipped",
+    "files": 2,
+    "guards": 4,
+    "loops": 0,
+    "reads": 4,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "exit_guard"
+    ],
+    "face": "results/_r720bma_maxrank_w16_probe_facts.json",
+    "face_resolved": true,
+    "field": "rows",
+    "files": 1,
+    "guards": 4,
+    "loops": 0,
+    "reads": 4,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "exit_guard",
+     "unbranched"
+    ],
+    "face": "results/regime5_validation/REGIME5-VALIDATION-2026-09-30.json",
+    "face_resolved": true,
+    "field": "cutoff",
+    "files": 1,
+    "guards": 2,
+    "loops": 0,
+    "reads": 3,
+    "unbranched": 1,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "exit_guard"
+    ],
+    "face": "bm-x.json",
+    "face_resolved": false,
+    "field": "outcome",
+    "files": 1,
+    "guards": 2,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "idle_trigger.bm-c.json",
+    "face_resolved": false,
+    "field": "clock_read",
+    "files": 1,
+    "guards": 2,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "exit_guard"
+    ],
+    "face": "probe.json",
+    "face_resolved": false,
+    "field": "panel",
+    "files": 2,
+    "guards": 2,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "results/_r663bmc_s05_facts.json",
+    "face_resolved": true,
+    "field": "inbox_unread",
+    "files": 1,
+    "guards": 2,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "results/_r664bmc_s05_facts.json",
+    "face_resolved": true,
+    "field": "inbox_unread",
+    "files": 1,
+    "guards": 2,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "exit_guard"
+    ],
+    "face": "results/_r899bma_f1_bull_cond_selftest.json",
+    "face_resolved": true,
+    "field": "cutoff",
+    "files": 1,
+    "guards": 2,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "results/token_usage.json",
+    "face_resolved": true,
+    "field": "generated",
+    "files": 1,
+    "guards": 2,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "exit_guard"
+    ],
+    "face": "xcc.json",
+    "face_resolved": false,
+    "field": "bars_files",
+    "files": 2,
+    "guards": 2,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "exit_guard"
+    ],
+    "face": "xcc.json",
+    "face_resolved": false,
+    "field": "cache_last_date",
+    "files": 2,
+    "guards": 2,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard",
+     "unbranched"
+    ],
+    "face": "results/_r787bmc_w192_probe_receipt.json",
+    "face_resolved": true,
+    "field": "legs",
+    "files": 3,
+    "guards": 1,
+    "loops": 0,
+    "reads": 6,
+    "unbranched": 5,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard",
+     "unbranched"
+    ],
+    "face": "json",
+    "face_resolved": false,
+    "field": "params",
+    "files": 3,
+    "guards": 1,
+    "loops": 0,
+    "reads": 5,
+    "unbranched": 4,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard",
+     "unbranched"
+    ],
+    "face": "state-bm-b.json",
+    "face_resolved": false,
+    "field": "r1334",
+    "files": 2,
+    "guards": 1,
+    "loops": 0,
+    "reads": 5,
+    "unbranched": 4,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "exit_guard",
+     "unbranched"
+    ],
+    "face": "manifest.json",
+    "face_resolved": false,
+    "field": "faces",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 4,
+    "unbranched": 3,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard",
+     "unbranched"
+    ],
+    "face": "results/bond_carry_w3a.json",
+    "face_resolved": true,
+    "field": "d6",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 4,
+    "unbranched": 3,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard",
+     "unbranched"
+    ],
+    "face": "json",
+    "face_resolved": false,
+    "field": "exit_overrides",
+    "files": 3,
+    "guards": 1,
+    "loops": 0,
+    "reads": 3,
+    "unbranched": 2,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard",
+     "unbranched"
+    ],
+    "face": "manifest.json",
+    "face_resolved": false,
+    "field": "w2b",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 3,
+    "unbranched": 2,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard",
+     "unbranched"
+    ],
+    "face": "bm-b.json",
+    "face_resolved": false,
+    "field": "heartbeat_epoch_utc",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 1,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard",
+     "unbranched"
+    ],
+    "face": "bm-b.json",
+    "face_resolved": false,
+    "field": "round",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 1,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "exit_guard",
+     "unbranched"
+    ],
+    "face": "p2_calibration_v2_ext.json",
+    "face_resolved": false,
+    "field": "nshards",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 1,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "FZ.json",
+    "face_resolved": false,
+    "field": "HUGE",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "FZ.json",
+    "face_resolved": false,
+    "field": "MID",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "FZ.json",
+    "face_resolved": false,
+    "field": "MISS",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "FZ.json",
+    "face_resolved": false,
+    "field": "THIN",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "_r798bmc_s0_facts.json",
+    "face_resolved": false,
+    "field": "ord_delta",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "_r798bmc_s0_facts.json",
+    "face_resolved": false,
+    "field": "shape_assert",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "fleet/tasks/T-2026-09-28-101-P1.json",
+    "face_resolved": true,
+    "field": "claimed_by",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "fleet/tasks/T-2026-09-28-101-P1.json",
+    "face_resolved": true,
+    "field": "status",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "fleet/tasks/T-2026-09-30-134-P1.json",
+    "face_resolved": true,
+    "field": "claimed_by",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "fleet/tasks/T-2026-10-10-180-P1.json",
+    "face_resolved": true,
+    "field": "claimed_by",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "idle_trigger.bm-c.json",
+    "face_resolved": false,
+    "field": "heartbeat_epoch_utc",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "exit_guard"
+    ],
+    "face": "json",
+    "face_resolved": false,
+    "field": "members",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   }
+  ],
+  "scaffolding": [
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "p2_calibration.json",
+    "face_resolved": false,
+    "field": "universe",
+    "files": 2,
+    "guards": 4,
+    "loops": 0,
+    "reads": 4,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "results/shortline/p1c_nulls.json",
+    "face_resolved": true,
+    "field": "h10",
+    "files": 3,
+    "guards": 3,
+    "loops": 0,
+    "reads": 3,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "results/shortline/p1c_nulls.json",
+    "face_resolved": true,
+    "field": "meta",
+    "files": 3,
+    "guards": 3,
+    "loops": 0,
+    "reads": 3,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard",
+     "unbranched"
+    ],
+    "face": "o2.json",
+    "face_resolved": false,
+    "field": "rows",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 2,
+    "unbranched": 1,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "census.json",
+    "face_resolved": false,
+    "field": "next_day_associations",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "results/heat_update_status.json",
+    "face_resolved": true,
+    "field": "as_of",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "results/heat_update_status.json",
+    "face_resolved": true,
+    "field": "n_rows",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "results/heat_update_status.json",
+    "face_resolved": true,
+    "field": "rows",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   },
+   {
+    "blast_radius": 0,
+    "choices": 0,
+    "classes": [
+     "assert_guard"
+    ],
+    "face": "results/panel_coverage.json",
+    "face_resolved": true,
+    "field": "evidence_cutoff",
+    "files": 1,
+    "guards": 1,
+    "loops": 0,
+    "reads": 1,
+    "unbranched": 0,
+    "written": false
+   }
+  ]
+ },
+ "variants": {
+  "name_only": "a site is scaffolding when its own enclosing function is named selftest/test_/leg_*/fixture/harness",
+  "name_plus_callers": "...OR every function that calls it inside the same file is scaffolding (a helper used only by a selftest); a function with no in-file caller is never promoted",
+  "verdict_uses": "name_plus_callers (the wider, conservative reading)"
+ },
+ "verdict": "census_is_mostly_production"
+}

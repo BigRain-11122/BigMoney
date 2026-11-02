@@ -7658,3 +7658,45 @@ How to apply: before writing any "the published X re-derives", ask (a) is the su
 directory, (b) does my rebuild write, (c) what is the population key I can compare to know
 whether the two builds are about the same population. Publish DRIFT with both populations
 rather than convicting, and never let a checker's own write land in the checked face.
+
+## E361 -- a census corpus is pinned by content digest, and a fifth of it is scratch the repo forbids committing (r1383)
+
+r1382 named this repair and left it: *pinning a corpus by content digest is the real repair and is
+not in this round.* Pinning it answers a question nobody had asked -- what population the number
+describes, and where that population lives.
+
+1. **The corpus the censuses count cannot be assembled from any commit.** 2,359 python sources
+   across `scripts/Tools/live/monitor/firm` (44 MB of text): 2,255 tracked, **104 not in HEAD
+   (4.41 pct)**, and 3 tracked files whose working bytes are not their committed bytes
+   (`Tools/gpu_face.py`, `Tools/s6_chain_bmb.py`, `scripts/e321_quantity_name_reach.py`). Git can
+   supply a clean blob for **2,252 (95.46 pct)**. Every published corpus count in this repo sits
+   between 2,337 and 2,355 -- all of them above 2,252 -- so **no checkout reproduces any of them**,
+   and that was never a defect in the face or the leg.
+2. **Most of that fifth is scratch by law, not a delivery lapse.** 101 of the 104 match
+   `.gitignore:_r[0-9]*` (r1081 repo-slim birth gate: round scripts are machine-local evidence and
+   stay out of git). The other 3 are study producers that are *neither ignored nor committed*:
+   `e230_hysteresis_toll.py`, `e359_census_scaffolding_split.py` (both published studies -- E359's
+   face `SCAFFOLD-2026-11-02.json` was untracked too) and this study. Both real gaps are closed in
+   this commit, which is why the durable conclusion is about **counting**, not about delivery:
+   a census that walks the filesystem counts the machine's scratch pile, and that pile grows every
+   round by construction.
+3. **The outputs have the same disease, measured by the same classifier.** Of 148 dated faces in
+   `results/state_tilt`: 23 untracked (15.54 pct) and **36 tracked but dirty** -- a dated face that
+   is supposed to be a fixed statement about a day is, for a quarter of them, not the bytes HEAD
+   holds.
+4. **A pin is a content address, not a timestamp.** `pin_id` = sha256 over sorted
+   `path<TAB>sha256` pairs of LF-normalised text, so line endings cannot fake a change (r1317) and
+   order cannot either; an empty corpus and a duplicated path both refuse (EMPTY-SCOPE) instead of
+   publishing a green zero, and a file absent from HEAD is never called dirty because there is no
+   committed blob for it to differ from. `verify` partitions movement into added / removed /
+   changed by path, so a rename reads as removed+added and never as a change.
+
+Not in this round (stated, not implied): `build()` still does not accept a snapshot, so a census
+cannot yet be re-run *against* the pin -- the pin exists, the pointer does not. The 36 dirty dated
+faces are counted, not healed.
+
+How to apply: before quoting a census number, publish the pin (path+digest) beside it and say
+whether the population is git-suppliable, machine-local scratch, or dirty; treat those three as
+separate populations rather than one "corpus size", because only the first can be reproduced;
+and deliver a study's producer and face in the same commit as its card -- an uncommitted,
+non-ignored producer is a study that exists on one disk.

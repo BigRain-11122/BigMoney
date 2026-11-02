@@ -1,0 +1,1112 @@
+{
+ "answer": "Three stationary designs were run on the same five sleeves. differences b_own 0.431 [0.341, 0.520] t=9.44 | b_agg 0.879 [0.769, 0.990] t=15.57; frozen_z b_own 0.017 [-0.004, 0.038] t=1.62 | b_agg 0.101 [0.064, 0.137] t=5.41; two_way_fe b_own 0.024 [0.012, 0.035] t=3.97 | b_agg absorbed [-, -] t=-. Sign agreement: b_own sign True over 3 readers (size False, span 0.017..0.431), b_agg sign True over 2 readers (the date fixed effects absorb the aggregate channel by construction, so design C cannot vote on it). Pooled verdict after the spec check: unresolved_magnitude_disagreement. Negative own elasticity survived: False. Re-priced for the record: binary_low linear 1538.8 -> per-sleeve - -> aggregate - bp; tilt_step linear 1610.6 -> per-sleeve - -> aggregate - bp; tilt_linear linear 1707.4 -> per-sleeve - -> aggregate - bp. Conclusion: the designs agree on the SIGN of b_own but not on its SIZE (span 0.017..0.431, ratio 25.01, disjoint intervals on [['differences', 'frozen_z'], ['differences', 'two_way_fe']]). That is the signature of two different quantities wearing one name: the difference design prices a session against that session's own turnover change, which moves with the same information that moves |r|, while the frozen-z and date-FE designs price the cross-sectional share and find almost nothing. The bill therefore cannot be built from any of them -- the family's single exponent stays a PRICE without a bill, and E234's per-sleeve sum is not a substitute.",
+ "bills": {
+  "binary_low": {
+   "aggregate_scaling_bp": null,
+   "linear_bp": 1538.8379999999997,
+   "per_sleeve_own_bp": null
+  },
+  "tilt_linear": {
+   "aggregate_scaling_bp": null,
+   "linear_bp": 1707.425503726087,
+   "per_sleeve_own_bp": null
+  },
+  "tilt_step": {
+   "aggregate_scaling_bp": null,
+   "linear_bp": 1610.5635000000052,
+   "per_sleeve_own_bp": null
+  }
+ },
+ "book": {
+  "arms": [
+   {
+    "base_weight_changes": 118,
+    "by_charge": [
+     {
+      "bill": {
+       "total_cost_bp": 1538.8379999999997,
+       "weight_changes": 118
+      },
+      "channels": {
+       "pair": {
+        "ann_bp_per_year": 239.00619331417792,
+        "t_nw": 0.7811270765333983
+       },
+       "selection": {
+        "ann_bp_per_year": 279.4528674103753,
+        "t_nw": 1.379213347864252
+       },
+       "sessions": 2108,
+       "sizing": {
+        "ann_bp_per_year": 81.15384582790091,
+        "t_nw": 0.33511723848628605
+       },
+       "toll": {
+        "ann_bp_per_year": -121.60051992409892,
+        "t_nw": -6.36866629899763
+       }
+      },
+      "charge": "linear",
+      "gamma": 1.0,
+      "gammas": null,
+      "kind": "aggregate",
+      "source": "linear_model",
+      "toll_clears_bar": true
+     }
+    ],
+    "const_weight": 0.32685009487666034,
+    "liveness_flat_bill": {
+     "total_cost_bp": 0.0,
+     "weight_changes": 0
+    },
+    "name": "binary_low"
+   },
+   {
+    "base_weight_changes": 241,
+    "by_charge": [
+     {
+      "bill": {
+       "total_cost_bp": 1610.5635000000052,
+       "weight_changes": 241
+      },
+      "channels": {
+       "pair": {
+        "ann_bp_per_year": -181.7292389284947,
+        "t_nw": -0.5729531722367037
+       },
+       "selection": {
+        "ann_bp_per_year": -78.65604134716638,
+        "t_nw": -0.3225647656792506
+       },
+       "sessions": 2108,
+       "sizing": {
+        "ann_bp_per_year": 23.983755929108796,
+        "t_nw": 0.12182096442364737
+       },
+       "toll": {
+        "ann_bp_per_year": -127.05695351043639,
+        "t_nw": -10.035247100515802
+       }
+      },
+      "charge": "linear",
+      "gamma": 1.0,
+      "gammas": null,
+      "kind": "aggregate",
+      "source": "linear_model",
+      "toll_clears_bar": true
+     }
+    ],
+    "const_weight": 0.4599146110056926,
+    "liveness_flat_bill": {
+     "total_cost_bp": 0.0,
+     "weight_changes": 0
+    },
+    "name": "tilt_step"
+   },
+   {
+    "base_weight_changes": 998,
+    "by_charge": [
+     {
+      "bill": {
+       "total_cost_bp": 1707.425503726087,
+       "weight_changes": 998
+      },
+      "channels": {
+       "pair": {
+        "ann_bp_per_year": -161.53294870897477,
+        "t_nw": -0.4995943540170339
+       },
+       "selection": {
+        "ann_bp_per_year": -80.24908805363864,
+        "t_nw": -0.32256476567924985
+       },
+       "sessions": 2108,
+       "sizing": {
+        "ann_bp_per_year": 53.62225276295001,
+        "t_nw": 0.25776329111572316
+       },
+       "toll": {
+        "ann_bp_per_year": -134.9061134182856,
+        "t_nw": -10.058878513873376
+       }
+      },
+      "charge": "linear",
+      "gamma": 1.0,
+      "gammas": null,
+      "kind": "aggregate",
+      "source": "linear_model",
+      "toll_clears_bar": true
+     }
+    ],
+    "const_weight": 0.4692294130701306,
+    "liveness_flat_bill": {
+     "total_cost_bp": 0.0,
+     "weight_changes": 0
+    },
+    "name": "tilt_linear"
+   }
+  ],
+  "first": "2005-02-23",
+  "last": "2026-10-30",
+  "panel": "basket_equal_weight",
+  "price_bar_t": 2.772921294608653,
+  "sessions": 5270,
+  "signal_sd_is_bp": 85.4035341979355,
+  "split_date": "2018-02-22",
+  "split_session": 3162
+ },
+ "charges": [
+  {
+   "gamma": 1.0,
+   "key": "linear",
+   "kind": "aggregate",
+   "source": "linear_model"
+  }
+ ],
+ "comparison_to_e235": {
+  "e235_negative_own_sleeves": [
+   "sh510500",
+   "sh512100"
+  ],
+  "e235_pooled_b_agg": 0.038343873397336664,
+  "e235_pooled_b_own": 0.029099827772642833,
+  "e235_verdict": "unresolved_spec_inadequate",
+  "e236_pooled_b_own_by_design": {
+   "differences": 0.43063914783071744,
+   "frozen_z": 0.017222005632442243,
+   "two_way_fe": 0.02375758663694593
+  },
+  "e236_verdict": "unresolved_magnitude_disagreement",
+  "negative_survives": false,
+  "note": "a negative own elasticity that disappears when the regressors are differenced was a property of the level; one that survives is a property of the channel"
+ },
+ "evidence_cutoff": "2026-10-30",
+ "frozen_spec": {
+  "coordinate_note": "own turnover = share + book turnover in logs, so b_agg = g_scaling - b_own in every design that carries both",
+  "designs": [
+   "differences: dy on d(share) and d(book)",
+   "frozen_z: y on demeaned share and the aggregate level in frozen-window sd units (first 50% of each member's sessions)",
+   "two_way_fe: member intercepts + date fixed effects"
+  ],
+  "multiplicity_bar_t": 2.5758293035488986,
+  "multiplicity_basis": "two-sided 5% over 5 pooled coefficient tests",
+  "no_adoption": "no arm is re-adopted here; the family's verdicts stand",
+  "sign_agreement_rule": "b_own is compared across all designs that identify it; b_agg only across the designs that can -- date fixed effects absorb the aggregate by construction"
+ },
+ "generated": "2026-11-02T06:25:08",
+ "ladder": [
+  {
+   "arm": "binary_low",
+   "band_bp": 8.54035341979355,
+   "band_frac": 0.1,
+   "charge": "linear",
+   "d_pair_ann_bp_per_year": -17.334736578961806,
+   "d_pair_t_nw": -0.2258128725286895,
+   "gamma": 1.0,
+   "gammas": null,
+   "verdict": "BAND_COSTS",
+   "verdict_reason": "pair 17.3 bp/yr not better than the base arm",
+   "weight_changes": 82
+  },
+  {
+   "arm": "binary_low",
+   "band_bp": 21.350883549483875,
+   "band_frac": 0.25,
+   "charge": "linear",
+   "d_pair_ann_bp_per_year": 40.589062971511645,
+   "d_pair_t_nw": 0.19379901720062548,
+   "gamma": 1.0,
+   "gammas": null,
+   "verdict": "BAND_NOISE",
+   "verdict_reason": "t=0.19 < bar 2.77",
+   "weight_changes": 56
+  },
+  {
+   "arm": "tilt_step",
+   "band_bp": 8.54035341979355,
+   "band_frac": 0.1,
+   "charge": "linear",
+   "d_pair_ann_bp_per_year": 4.350267373952464,
+   "d_pair_t_nw": 0.061366080727840215,
+   "gamma": 1.0,
+   "gammas": null,
+   "verdict": "BAND_NOISE",
+   "verdict_reason": "t=0.06 < bar 2.77",
+   "weight_changes": 160
+  },
+  {
+   "arm": "tilt_step",
+   "band_bp": 21.350883549483875,
+   "band_frac": 0.25,
+   "charge": "linear",
+   "d_pair_ann_bp_per_year": 106.793781379115,
+   "d_pair_t_nw": 0.799464699394549,
+   "gamma": 1.0,
+   "gammas": null,
+   "verdict": "BAND_NOISE",
+   "verdict_reason": "t=0.80 < bar 2.77",
+   "weight_changes": 98
+  },
+  {
+   "arm": "tilt_linear",
+   "band_bp": 8.54035341979355,
+   "band_frac": 0.1,
+   "charge": "linear",
+   "d_pair_ann_bp_per_year": 88.61827397740491,
+   "d_pair_t_nw": 2.2692617723299824,
+   "gamma": 1.0,
+   "gammas": null,
+   "verdict": "BAND_NOISE",
+   "verdict_reason": "t=2.27 < bar 2.77",
+   "weight_changes": 254
+  },
+  {
+   "arm": "tilt_linear",
+   "band_bp": 21.350883549483875,
+   "band_frac": 0.25,
+   "charge": "linear",
+   "d_pair_ann_bp_per_year": 89.0044426171462,
+   "d_pair_t_nw": 0.6671471599830403,
+   "gamma": 1.0,
+   "gammas": null,
+   "verdict": "BAND_NOISE",
+   "verdict_reason": "t=0.67 < bar 2.77",
+   "weight_changes": 112
+  }
+ ],
+ "members": [
+  {
+   "bundle": {
+    "b_agg_magnitude_agreement": false,
+    "b_agg_positive_readers": 1,
+    "b_agg_readers": 2,
+    "b_agg_sign_agreement": false,
+    "b_own_disjoint_pairs": [],
+    "b_own_magnitude_agreement": true,
+    "b_own_magnitude_ratio": 1.7075770772998964,
+    "b_own_magnitude_span": [
+     0.27474838143253044,
+     0.46915403815943746
+    ],
+    "b_own_positive_readers": 1,
+    "b_own_readers": 2,
+    "b_own_sign_agreement": true,
+    "bar_t": 2.5758293035488986,
+    "reason": "no channel clears the multiplicity bar in two designs",
+    "verdict": "unresolved"
+   },
+   "designs": [
+    {
+     "b_agg": 1.4000531096967224,
+     "b_agg_ci": [
+      1.0870815908367837,
+      1.713024628556661
+     ],
+     "b_agg_se": 0.15967934635711156,
+     "b_agg_t_nw": 8.767903561964756,
+     "b_own": 0.27474838143253044,
+     "b_own_ci": [
+      0.0038309340390285662,
+      0.5456658288260323
+     ],
+     "b_own_se": 0.13822318744566423,
+     "b_own_t_nw": 1.9877155671911741,
+     "corr_own_book": 0.866967111183469,
+     "design": "differences",
+     "g_scaling": 1.6748014911292528,
+     "g_scaling_ci": [
+      1.5120667270923447,
+      1.837536255166161
+     ],
+     "g_scaling_se": 0.08302794083515723,
+     "g_scaling_t_nw": 20.171540740175473,
+     "identifiable": true,
+     "identifies_b_agg": true,
+     "n_regressors": 3,
+     "r2": 0.13327499986660718,
+     "regressor_note": "first differences: d(own) = d(share) + d(book)",
+     "rows_used": 3456
+    },
+    {
+     "b_agg": -0.20992427761731453,
+     "b_agg_ci": [
+      -0.3256632885702335,
+      -0.09418526666439554
+     ],
+     "b_agg_se": 0.05905051579230561,
+     "b_agg_t_nw": -3.5549948175841006,
+     "b_own": 0.46915403815943746,
+     "b_own_ci": [
+      0.3388285814311741,
+      0.5994794948877008
+     ],
+     "b_own_se": 0.06649257996339965,
+     "b_own_t_nw": 7.055735217639018,
+     "corr_share_z": -0.4268924474215843,
+     "design": "frozen_z",
+     "g_scaling": 0.25922976054212293,
+     "g_scaling_ci": [
+      0.20505377378122053,
+      0.31340574730302534
+     ],
+     "g_scaling_se": 0.02764080957188898,
+     "g_scaling_t_nw": 9.378515483343968,
+     "identifiable": true,
+     "identifies_b_agg": true,
+     "n_regressors": 3,
+     "r2": 0.04753179500781857,
+     "ref_bars": 1728,
+     "regressor_note": "demeaned share + aggregate level in frozen-window sd units; the scale is one constant so beta_z / sd_ref is exact",
+     "rows_used": 3457,
+     "sd_ref": 0.7831299487996504
+    },
+    {
+     "design": "two_way_fe",
+     "identifiable": false,
+     "reason": "the share carries no within-date variation"
+    }
+   ],
+   "first": "2012-05-28",
+   "last": "2026-10-30",
+   "sessions": 3457,
+   "symbol": "sh510300"
+  },
+  {
+   "bundle": {
+    "b_agg_magnitude_agreement": false,
+    "b_agg_positive_readers": 1,
+    "b_agg_readers": 2,
+    "b_agg_sign_agreement": false,
+    "b_own_disjoint_pairs": [],
+    "b_own_magnitude_agreement": true,
+    "b_own_magnitude_ratio": 1.3278072078313465,
+    "b_own_magnitude_span": [
+     0.5717134964875953,
+     0.7591253014506902
+    ],
+    "b_own_positive_readers": 2,
+    "b_own_readers": 2,
+    "b_own_sign_agreement": true,
+    "bar_t": 2.5758293035488986,
+    "verdict": "own_dominates"
+   },
+   "designs": [
+    {
+     "b_agg": 0.623133679623289,
+     "b_agg_ci": [
+      0.37530095552781023,
+      0.8709664037187679
+     ],
+     "b_agg_se": 0.12644526739565246,
+     "b_agg_t_nw": 4.928090172592052,
+     "b_own": 0.5717134964875953,
+     "b_own_ci": [
+      0.35449570443926925,
+      0.7889312885359213
+     ],
+     "b_own_se": 0.11082540410628881,
+     "b_own_t_nw": 5.158686323753755,
+     "corr_own_book": 0.9010592273751402,
+     "design": "differences",
+     "g_scaling": 1.1948471761108843,
+     "g_scaling_ci": [
+      1.0594958792572253,
+      1.3301984729645433
+     ],
+     "g_scaling_se": 0.06905678410900971,
+     "g_scaling_t_nw": 17.3023866015069,
+     "identifiable": true,
+     "identifies_b_agg": true,
+     "n_regressors": 3,
+     "r2": 0.10698034484719465,
+     "regressor_note": "first differences: d(own) = d(share) + d(book)",
+     "rows_used": 5174
+    },
+    {
+     "b_agg": -0.5052403194156352,
+     "b_agg_ci": [
+      -0.5633641785755584,
+      -0.4471164602557119
+     ],
+     "b_agg_se": 0.029655030183634332,
+     "b_agg_t_nw": -17.03725527463672,
+     "b_own": 0.7591253014506902,
+     "b_own_ci": [
+      0.6754111228134325,
+      0.842839480087948
+     ],
+     "b_own_se": 0.04271131563125396,
+     "b_own_t_nw": 17.7734000985725,
+     "corr_share_z": -0.7850640087698909,
+     "design": "frozen_z",
+     "g_scaling": 0.25388498203505505,
+     "g_scaling_ci": [
+      0.21037912848668275,
+      0.2973908355834273
+     ],
+     "g_scaling_se": 0.022196864055291986,
+     "g_scaling_t_nw": 11.43787615235342,
+     "identifiable": true,
+     "identifies_b_agg": true,
+     "n_regressors": 3,
+     "r2": 0.09434340228498028,
+     "ref_bars": 2588,
+     "regressor_note": "demeaned share + aggregate level in frozen-window sd units; the scale is one constant so beta_z / sd_ref is exact",
+     "rows_used": 5175,
+     "sd_ref": 1.2872246195531627
+    },
+    {
+     "design": "two_way_fe",
+     "identifiable": false,
+     "reason": "the share carries no within-date variation"
+    }
+   ],
+   "first": "2005-02-23",
+   "last": "2026-10-30",
+   "sessions": 5175,
+   "symbol": "sh510050"
+  },
+  {
+   "bundle": {
+    "b_agg_magnitude_agreement": false,
+    "b_agg_positive_readers": 2,
+    "b_agg_readers": 2,
+    "b_agg_sign_agreement": true,
+    "b_own_disjoint_pairs": [
+     [
+      "differences",
+      "frozen_z"
+     ]
+    ],
+    "b_own_magnitude_agreement": false,
+    "b_own_magnitude_ratio": 1.8623505168258432,
+    "b_own_magnitude_span": [
+     0.13040408041928608,
+     0.24285810656505624
+    ],
+    "b_own_positive_readers": 1,
+    "b_own_readers": 2,
+    "b_own_sign_agreement": false,
+    "bar_t": 2.5758293035488986,
+    "reason": "b_own changes sign between designs, so the channel is not identified by the stationary forms either",
+    "verdict": "unresolved_sign_fragile"
+   },
+   "designs": [
+    {
+     "b_agg": 1.0140947269775071,
+     "b_agg_ci": [
+      0.7962488013476695,
+      1.2319406526073446
+     ],
+     "b_agg_se": 0.11114588042338654,
+     "b_agg_t_nw": 9.123997426755984,
+     "b_own": 0.24285810656505624,
+     "b_own_ci": [
+      0.09167913185817417,
+      0.3940370812719383
+     ],
+     "b_own_se": 0.07713212995249086,
+     "b_own_t_nw": 3.1485984727070737,
+     "corr_own_book": 0.5130583016168807,
+     "design": "differences",
+     "g_scaling": 1.2569528335425635,
+     "g_scaling_ci": [
+      1.0664892274660973,
+      1.4474164396190297
+     ],
+     "g_scaling_se": 0.09717530922268687,
+     "g_scaling_t_nw": 12.934899241350818,
+     "identifiable": true,
+     "identifies_b_agg": true,
+     "n_regressors": 3,
+     "r2": 0.07280157031915346,
+     "regressor_note": "first differences: d(own) = d(share) + d(book)",
+     "rows_used": 3266
+    },
+    {
+     "b_agg": 0.32065219916220694,
+     "b_agg_ci": [
+      0.24162558961317993,
+      0.39967880871123396
+     ],
+     "b_agg_se": 0.040319698749503585,
+     "b_agg_t_nw": 7.952742929810576,
+     "b_own": -0.13040408041928608,
+     "b_own_ci": [
+      -0.16490353875605895,
+      -0.09590462208251321
+     ],
+     "b_own_se": 0.01760176445753718,
+     "b_own_t_nw": -7.408580016729305,
+     "corr_share_z": 0.28528683706342084,
+     "design": "frozen_z",
+     "g_scaling": 0.19024811874292086,
+     "g_scaling_ci": [
+      0.13224728370711866,
+      0.24824895377872305
+     ],
+     "g_scaling_se": 0.02959226277336847,
+     "g_scaling_t_nw": 6.428981798381923,
+     "identifiable": true,
+     "identifies_b_agg": true,
+     "n_regressors": 3,
+     "r2": 0.03382943546557726,
+     "ref_bars": 1634,
+     "regressor_note": "demeaned share + aggregate level in frozen-window sd units; the scale is one constant so beta_z / sd_ref is exact",
+     "rows_used": 3267,
+     "sd_ref": 0.7675202335897124
+    },
+    {
+     "design": "two_way_fe",
+     "identifiable": false,
+     "reason": "the share carries no within-date variation"
+    }
+   ],
+   "first": "2013-03-15",
+   "last": "2026-10-30",
+   "sessions": 3267,
+   "symbol": "sh510500"
+  },
+  {
+   "bundle": {
+    "b_agg_magnitude_agreement": true,
+    "b_agg_positive_readers": 2,
+    "b_agg_readers": 2,
+    "b_agg_sign_agreement": true,
+    "b_own_disjoint_pairs": [
+     [
+      "differences",
+      "frozen_z"
+     ]
+    ],
+    "b_own_magnitude_agreement": false,
+    "b_own_magnitude_ratio": 2.369633956943394,
+    "b_own_magnitude_span": [
+     0.14810102376948908,
+     0.3509452149822621
+    ],
+    "b_own_positive_readers": 1,
+    "b_own_readers": 2,
+    "b_own_sign_agreement": false,
+    "bar_t": 2.5758293035488986,
+    "reason": "b_own changes sign between designs, so the channel is not identified by the stationary forms either",
+    "verdict": "unresolved_sign_fragile"
+   },
+   "designs": [
+    {
+     "b_agg": 0.8863852728428128,
+     "b_agg_ci": [
+      0.6959310389272665,
+      1.076839506758359
+     ],
+     "b_agg_se": 0.09717052750793176,
+     "b_agg_t_nw": 9.121955963143861,
+     "b_own": 0.3509452149822621,
+     "b_own_ci": [
+      0.2387948344751757,
+      0.46309559548934853
+     ],
+     "b_own_se": 0.05721958189137063,
+     "b_own_t_nw": 6.13330617564664,
+     "corr_own_book": 0.3737513672789254,
+     "design": "differences",
+     "g_scaling": 1.2373304878250748,
+     "g_scaling_ci": [
+      1.0576374628249612,
+      1.4170235128251885
+     ],
+     "g_scaling_se": 0.0916801147959764,
+     "g_scaling_t_nw": 13.496170795363991,
+     "identifiable": true,
+     "identifies_b_agg": true,
+     "n_regressors": 3,
+     "r2": 0.08753017195130741,
+     "regressor_note": "first differences: d(own) = d(share) + d(book)",
+     "rows_used": 2351
+    },
+    {
+     "b_agg": 0.6441208884832335,
+     "b_agg_ci": [
+      0.5419139107106893,
+      0.7463278662557776
+     ],
+     "b_agg_se": 0.052146417230889884,
+     "b_agg_t_nw": 12.352159988887534,
+     "b_own": -0.14810102376948908,
+     "b_own_ci": [
+      -0.1806188602983662,
+      -0.11558318724061195
+     ],
+     "b_own_se": 0.016590732922896496,
+     "b_own_t_nw": -8.92673183624686,
+     "corr_share_z": 0.7561715679332399,
+     "design": "frozen_z",
+     "g_scaling": 0.4960198647137444,
+     "g_scaling_ci": [
+      0.42143726602007003,
+      0.5706024634074187
+     ],
+     "g_scaling_se": 0.03805234627228282,
+     "g_scaling_t_nw": 13.035197913013928,
+     "identifiable": true,
+     "identifies_b_agg": true,
+     "n_regressors": 3,
+     "r2": 0.08330067376210815,
+     "ref_bars": 1176,
+     "regressor_note": "demeaned share + aggregate level in frozen-window sd units; the scale is one constant so beta_z / sd_ref is exact",
+     "rows_used": 2352,
+     "sd_ref": 0.6847512848691444
+    },
+    {
+     "design": "two_way_fe",
+     "identifiable": false,
+     "reason": "the share carries no within-date variation"
+    }
+   ],
+   "first": "2016-11-04",
+   "last": "2026-10-30",
+   "sessions": 2352,
+   "symbol": "sh512100"
+  },
+  {
+   "bundle": {
+    "b_agg_magnitude_agreement": false,
+    "b_agg_positive_readers": 0,
+    "b_agg_readers": 2,
+    "b_agg_sign_agreement": false,
+    "b_own_disjoint_pairs": [
+     [
+      "differences",
+      "frozen_z"
+     ]
+    ],
+    "b_own_magnitude_agreement": false,
+    "b_own_magnitude_ratio": 12.098276391818874,
+    "b_own_magnitude_span": [
+     0.1936888722494592,
+     2.343301510493654
+    ],
+    "b_own_positive_readers": 2,
+    "b_own_readers": 2,
+    "b_own_sign_agreement": true,
+    "bar_t": 2.5758293035488986,
+    "reason": "the designs agree about the sign of b_own but not about its size (span 0.194..2.343, ratio 12.10, non-overlapping intervals on [['differences', 'frozen_z']]), so any bill built from one of them is a different bill from another's",
+    "verdict": "unresolved_magnitude_disagreement"
+   },
+   "designs": [
+    {
+     "b_agg": -0.4835861267549557,
+     "b_agg_ci": [
+      -0.7440124082327768,
+      -0.22315984527713462
+     ],
+     "b_agg_se": 0.13287055177439852,
+     "b_agg_t_nw": -3.639528249841535,
+     "b_own": 2.343301510493654,
+     "b_own_ci": [
+      2.0753793779735976,
+      2.61122364301371
+     ],
+     "b_own_se": 0.13669496557145724,
+     "b_own_t_nw": 17.142558986700163,
+     "corr_own_book": 0.5968831650002319,
+     "design": "differences",
+     "g_scaling": 1.8597153837386982,
+     "g_scaling_ci": [
+      1.624308862078553,
+      2.0951219053988432
+     ],
+     "g_scaling_se": 0.12010536819395155,
+     "g_scaling_t_nw": 15.48403216029067,
+     "identifiable": true,
+     "identifies_b_agg": true,
+     "n_regressors": 3,
+     "r2": 0.22703081993346463,
+     "regressor_note": "first differences: d(own) = d(share) + d(book)",
+     "rows_used": 1399
+    },
+    {
+     "b_agg": 0.24875062093219574,
+     "b_agg_ci": [
+      0.020624506122034064,
+      0.47687673574235745
+     ],
+     "b_agg_se": 0.11639087490314372,
+     "b_agg_t_nw": 2.137200370211127,
+     "b_own": 0.1936888722494592,
+     "b_own_ci": [
+      0.05934941919404213,
+      0.32802832530487624
+     ],
+     "b_own_se": 0.06854053727317197,
+     "b_own_t_nw": 2.8259024506548855,
+     "corr_share_z": 0.3653215720954974,
+     "design": "frozen_z",
+     "g_scaling": 0.44243949318165493,
+     "g_scaling_ci": [
+      0.311784402054466,
+      0.5730945843088439
+     ],
+     "g_scaling_se": 0.06666076077917803,
+     "g_scaling_t_nw": 6.6371803743328135,
+     "identifiable": true,
+     "identifies_b_agg": true,
+     "n_regressors": 3,
+     "r2": 0.08990551804559732,
+     "ref_bars": 700,
+     "regressor_note": "demeaned share + aggregate level in frozen-window sd units; the scale is one constant so beta_z / sd_ref is exact",
+     "rows_used": 1400,
+     "sd_ref": 0.349824567448849
+    },
+    {
+     "design": "two_way_fe",
+     "identifiable": false,
+     "reason": "the share carries no within-date variation"
+    }
+   ],
+   "first": "2020-11-16",
+   "last": "2026-10-30",
+   "sessions": 1400,
+   "symbol": "sh588000"
+  }
+ ],
+ "pooled": {
+  "b_agg_sign_agreement": {
+   "agree": true,
+   "key": "b_agg",
+   "n_readers": 2,
+   "readers": [
+    {
+     "design": "differences",
+     "value": 0.8794204832061876
+    },
+    {
+     "design": "frozen_z",
+     "value": 0.10058158637945
+    }
+   ],
+   "sign": "+"
+  },
+  "b_own_sign_agreement": {
+   "agree": true,
+   "key": "b_own",
+   "n_readers": 3,
+   "readers": [
+    {
+     "design": "differences",
+     "value": 0.43063914783071744
+    },
+    {
+     "design": "frozen_z",
+     "value": 0.017222005632442243
+    },
+    {
+     "design": "two_way_fe",
+     "value": 0.02375758663694593
+    }
+   ],
+   "sign": "+"
+  },
+  "bundle": {
+   "b_agg_magnitude_agreement": false,
+   "b_agg_positive_readers": 2,
+   "b_agg_readers": 2,
+   "b_agg_sign_agreement": true,
+   "b_own_disjoint_pairs": [
+    [
+     "differences",
+     "frozen_z"
+    ],
+    [
+     "differences",
+     "two_way_fe"
+    ]
+   ],
+   "b_own_magnitude_agreement": false,
+   "b_own_magnitude_ratio": 25.005168214525124,
+   "b_own_magnitude_span": [
+    0.017222005632442243,
+    0.43063914783071744
+   ],
+   "b_own_positive_readers": 2,
+   "b_own_readers": 3,
+   "b_own_sign_agreement": true,
+   "bar_t": 2.5758293035488986,
+   "reason": "the designs agree about the sign of b_own but not about its size (span 0.017..0.431, ratio 25.01, non-overlapping intervals on [['differences', 'frozen_z'], ['differences', 'two_way_fe']]), so any bill built from one of them is a different bill from another's",
+   "verdict": "unresolved_magnitude_disagreement"
+  },
+  "designs": [
+   {
+    "b_agg": 0.8794204832061876,
+    "b_agg_ci": [
+     0.768713682843646,
+     0.9901272835687291
+    ],
+    "b_agg_se": 0.05648306140945996,
+    "b_agg_t_nw": 15.569632050059163,
+    "b_own": 0.43063914783071744,
+    "b_own_ci": [
+     0.34118378582264747,
+     0.5200945098387875
+    ],
+    "b_own_se": 0.045640490820443864,
+    "b_own_t_nw": 9.43546267994603,
+    "corr_own_book": 0.6792729149592808,
+    "design": "differences",
+    "g_scaling": 1.310059631036905,
+    "g_scaling_ci": [
+     1.2279408106247727,
+     1.3921784514490374
+    ],
+    "g_scaling_se": 0.04189735735312877,
+    "g_scaling_t_nw": 31.26831174565891,
+    "identifiable": true,
+    "identifies_b_agg": true,
+    "n_regressors": 7,
+    "r2": 0.09970358228035248,
+    "regressor_note": "first differences: d(own) = d(share) + d(book)",
+    "rows_used": 15646
+   },
+   {
+    "b_agg": 0.10058158637945,
+    "b_agg_ci": [
+     0.06411492586967246,
+     0.13704824688922754
+    ],
+    "b_agg_se": 0.018605439035600788,
+    "b_agg_t_nw": 5.406031332396458,
+    "b_own": 0.017222005632442243,
+    "b_own_ci": [
+     -0.003635233854463734,
+     0.03807924511934822
+    ],
+    "b_own_se": 0.010641448717809173,
+    "b_own_t_nw": 1.6183891957887342,
+    "corr_share_z": 0.1308654296562048,
+    "design": "frozen_z",
+    "g_scaling": 0.11780359201189224,
+    "g_scaling_ci": [
+     0.09283298453942453,
+     0.14277419948435993
+    ],
+    "g_scaling_se": 0.012740105853299852,
+    "g_scaling_t_nw": 9.246672937288004,
+    "identifiable": true,
+    "identifies_b_agg": true,
+    "n_regressors": 7,
+    "r2": 0.03481508843535863,
+    "ref_bars": 1728,
+    "regressor_note": "demeaned share + aggregate level in frozen-window sd units; the scale is one constant so beta_z / sd_ref is exact",
+    "rows_used": 15651,
+    "sd_ref": 0.7831299487996504
+   },
+   {
+    "absorbed": {
+     "date_fixed_effects": 5234,
+     "member_intercepts": 5,
+     "reason": "the aggregate turnover is one value per date, so the date fixed effects absorb it entirely"
+    },
+    "b_agg": null,
+    "b_own": 0.02375758663694593,
+    "b_own_ci": [
+     0.012036857104808571,
+     0.03547831616908329
+    ],
+    "b_own_se": 0.005979964047008857,
+    "b_own_t_nw": 3.9728644604191787,
+    "design": "two_way_fe",
+    "g_scaling": null,
+    "identifiable": true,
+    "identifies_b_agg": false,
+    "n_regressors": 1,
+    "r2": 0.001372632862143397,
+    "regressor_note": "two-way within transform (member + date), b_own only",
+    "rows_used": 15651,
+    "share_within_sd": 0.9961065270476945
+   }
+  ]
+ },
+ "study": "E236",
+ "summary": {
+  "b_agg_magnitude_agreement": false,
+  "b_agg_positive_readers": 2,
+  "b_agg_readers": 2,
+  "b_agg_sign_agreement": true,
+  "b_own_disjoint_pairs": [
+   [
+    "differences",
+    "frozen_z"
+   ],
+   [
+    "differences",
+    "two_way_fe"
+   ]
+  ],
+  "b_own_magnitude_agreement": false,
+  "b_own_magnitude_ratio": 25.005168214525124,
+  "b_own_magnitude_span": [
+   0.017222005632442243,
+   0.43063914783071744
+  ],
+  "b_own_positive_readers": 2,
+  "b_own_readers": 3,
+  "b_own_sign_agreement": true,
+  "bills": {
+   "binary_low": {
+    "aggregate_scaling_bp": null,
+    "linear_bp": 1538.8379999999997,
+    "per_sleeve_own_bp": null
+   },
+   "tilt_linear": {
+    "aggregate_scaling_bp": null,
+    "linear_bp": 1707.425503726087,
+    "per_sleeve_own_bp": null
+   },
+   "tilt_step": {
+    "aggregate_scaling_bp": null,
+    "linear_bp": 1610.5635000000052,
+    "per_sleeve_own_bp": null
+   }
+  },
+  "charges_priced": [
+   "linear"
+  ],
+  "family_single_regressor_gamma": 0.6217767440118207,
+  "fe_absorbs_aggregate": {
+   "date_fixed_effects": 5234,
+   "member_intercepts": 5,
+   "reason": "the aggregate turnover is one value per date, so the date fixed effects absorb it entirely"
+  },
+  "ladder_cells": 6,
+  "ladder_verdicts_by_charge": {
+   "linear": {
+    "BAND_COSTS": 1,
+    "BAND_NOISE": 5
+   }
+  },
+  "member_verdicts": {
+   "aggregate_dominates": 0,
+   "both_channels_live": 0,
+   "own_dominates": 1,
+   "unresolved": 1,
+   "unresolved_magnitude_disagreement": 1,
+   "unresolved_sign_fragile": 2,
+   "unresolved_spec_inadequate": 0
+  },
+  "members_fitted": 5,
+  "pooled_b_agg": [
+   {
+    "ci": [
+     0.768713682843646,
+     0.9901272835687291
+    ],
+    "design": "differences",
+    "identifies": true,
+    "reason": null,
+    "se": 0.05648306140945996,
+    "t_nw": 15.569632050059163,
+    "value": 0.8794204832061876
+   },
+   {
+    "ci": [
+     0.06411492586967246,
+     0.13704824688922754
+    ],
+    "design": "frozen_z",
+    "identifies": true,
+    "reason": null,
+    "se": 0.018605439035600788,
+    "t_nw": 5.406031332396458,
+    "value": 0.10058158637945
+   },
+   {
+    "ci": null,
+    "design": "two_way_fe",
+    "identifies": false,
+    "reason": null,
+    "se": null,
+    "t_nw": null,
+    "value": null
+   }
+  ],
+  "pooled_b_own": [
+   {
+    "ci": [
+     0.34118378582264747,
+     0.5200945098387875
+    ],
+    "design": "differences",
+    "identifies": true,
+    "reason": null,
+    "se": 0.045640490820443864,
+    "t_nw": 9.43546267994603,
+    "value": 0.43063914783071744
+   },
+   {
+    "ci": [
+     -0.003635233854463734,
+     0.03807924511934822
+    ],
+    "design": "frozen_z",
+    "identifies": true,
+    "reason": null,
+    "se": 0.010641448717809173,
+    "t_nw": 1.6183891957887342,
+    "value": 0.017222005632442243
+   },
+   {
+    "ci": [
+     0.012036857104808571,
+     0.03547831616908329
+    ],
+    "design": "two_way_fe",
+    "identifies": true,
+    "reason": null,
+    "se": 0.005979964047008857,
+    "t_nw": 3.9728644604191787,
+    "value": 0.02375758663694593
+   }
+  ],
+  "pooled_g_scaling": [
+   {
+    "ci": [
+     1.2279408106247727,
+     1.3921784514490374
+    ],
+    "design": "differences",
+    "identifies": true,
+    "reason": null,
+    "se": 0.04189735735312877,
+    "t_nw": 31.26831174565891,
+    "value": 1.310059631036905
+   },
+   {
+    "ci": [
+     0.09283298453942453,
+     0.14277419948435993
+    ],
+    "design": "frozen_z",
+    "identifies": true,
+    "reason": null,
+    "se": 0.012740105853299852,
+    "t_nw": 9.246672937288004,
+    "value": 0.11780359201189224
+   },
+   {
+    "ci": null,
+    "design": "two_way_fe",
+    "identifies": true,
+    "reason": null,
+    "se": null,
+    "t_nw": null,
+    "value": null
+   }
+  ],
+  "pooled_verdict": "unresolved_magnitude_disagreement",
+  "pooled_verdict_reason": "the designs agree about the sign of b_own but not about its size (span 0.017..0.431, ratio 25.01, non-overlapping intervals on [['differences', 'frozen_z'], ['differences', 'two_way_fe']]), so any bill built from one of them is a different bill from another's",
+  "toll_clears_bar": {
+   "linear": 3
+  }
+ },
+ "title": "can a share-and-difference design settle the granularity question the level regression could not?"
+}

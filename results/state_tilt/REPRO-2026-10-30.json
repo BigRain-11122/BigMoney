@@ -1,0 +1,334 @@
+{
+ "alignment": {
+  "a_share_moves": -0.9288221900191347,
+  "a_share_published": 0.5962496292423473,
+  "a_share_rung0": 0.5962496292423473,
+  "a_share_rung1": 0.8910262742543932,
+  "a_share_rung2": 0.7902463185181497,
+  "a_share_rung3": -0.3325725607767874,
+  "aligned_gap": -0.21848779751990666,
+  "aligned_gap_name": "the CORRECTED common-grid rest channel vs the published one (r3b - published)",
+  "available": true,
+  "code_path_cross_check": {
+   "a_share_abs_diff": 1.1228188792949372,
+   "g_book_abs_diff": 1.518375670000861,
+   "r2_e238_code_on_inclusive_rows": {
+    "a_share": 0.7902463185181497,
+    "b_agg": 0.5539033666337209,
+    "g_book": 1.3441496851518706,
+    "rows": 6645
+   },
+   "r3_e240_code_on_common_grid": {
+    "a_share": -0.3325725607767874,
+    "b_agg": 0.158346575927797,
+    "g_book": -0.17422598484899038,
+    "rows": 6640
+   },
+   "same_object": false
+  },
+  "coordinate_map_common_grid": {
+   "a_own": -0.30090324559122794,
+   "available": true,
+   "c_rest": 0.1266772607422376,
+   "kappa": 0.25,
+   "note": "constant-weight approximation: kappa is the nominal w/(1-w); the direct fit on the common grid is published beside it"
+  },
+  "coordinate_map_published": {
+   "a_own": 0.6311286913179421,
+   "available": true,
+   "c_rest": 0.1395162483023798,
+   "kappa": 0.25,
+   "note": "constant-weight approximation: kappa is the nominal w/(1-w); the direct fit on the common grid is published beside it"
+  },
+  "dominant": "rows",
+  "kappa_common_grid": null,
+  "kappa_nominal": 0.25,
+  "kappa_published": 0.27893040753307463,
+  "reader_defect_b_agg": -0.39381056617261834,
+  "reader_part": -0.0017462245333055293,
+  "reader_part_name": "READER (E240's y one session behind its regressors; the difference between r3 as published and the corrected r3b, shown separately and NOT summed in)",
+  "residual": 0.0,
+  "rows_part": -0.3033995359443349,
+  "rows_part_name": "ROWS (own grid -> common dates, leave-one-out)",
+  "weights_part": 0.08665796295773376,
+  "weights_part_name": "DENOMINATOR (leave-one-out -> inclusive), measured on E238's own code path"
+ },
+ "answer": "rung0 reproduces E238 exactly (a_share 0.5962, b_agg 0.7706 on 13916 rows), so the grid is not the problem. E240's common-grid pair (A -0.3326, B -0.1742) is one session out of step with its own regressors: of 6640 rows tested, 6635 carry the PREVIOUS session's move (same-session matches 0). Feeding the same increments and the same y through the same routine gives A 0.7909, b_agg 0.5522, i.e. the row restriction alone moves the rest channel from 0.7706 to 0.5522 and nothing here flips a sign. E240's A/B pair is superseded; its dy/dx designs are unaffected because they index both arrays by the same session.",
+ "dept": "研究",
+ "evidence_cutoff": "2026-10-30",
+ "frozen_spec": {
+  "ladder_rule": "one dimension relaxed per rung; every rung publishes a_share, g_book AND the derived b_agg = g_book - a_share, because E238's published b_agg is the derived rest channel and NOT the coefficient on d(log book)",
+  "no_adoption": "this face reprices the reproduction record only; no charge, no arm",
+  "no_transcription": "the published pair is machine-read from loobook_latest.json",
+  "question": "E238 published (b_own 0.596, b_agg 0.771) on its own date grid; E240 re-ran the coordinates on the common five-member grid and read (A -0.333, B -0.174), a gap of -1.16/-1.18. Which single change carries it?",
+  "three_candidates": {
+   "response": "the book-scaling coefficient g flips sign, which no weighting choice can produce",
+   "rows": "E238 fits each member on its own sessions; the common grid keeps only dates where all five print",
+   "weights": "the share is the turnover-level share of the printing book in E238 and a level recomputation on the common grid in E240; kappa is the nominal 1/5 in one reading and a measured share in the other"
+  }
+ },
+ "generated": "2026-11-02T05:59:46",
+ "ladder": [
+  {
+   "a_share": 0.5962496292423473,
+   "a_share_ci": [
+    0.5100189726926836,
+    0.6824802857920109
+   ],
+   "b_agg": 0.770644939620322,
+   "change_vs_previous": "baseline (E238 reproduced)",
+   "channel": "rest (leave-one-out denominator)",
+   "g_denominator": 1.3668945688626692,
+   "g_denominator_ci": [
+    1.2820009727261654,
+    1.451788164999173
+   ],
+   "r2": 0.09997314906172561,
+   "reason": null,
+   "rows": 13916,
+   "step": "r0_published_rows_loo"
+  },
+  {
+   "a_share": 0.8910262742543932,
+   "a_share_ci": [
+    0.7522404154210764,
+    1.02981213308771
+   ],
+   "b_agg": 0.4672454036759871,
+   "change_vs_previous": "ROWS",
+   "channel": "rest (leave-one-out denominator)",
+   "g_denominator": 1.3582716779303803,
+   "g_denominator_ci": [
+    1.2326587271405118,
+    1.4838846287202487
+   ],
+   "r2": 0.09877608809461291,
+   "reason": null,
+   "rows": 6645,
+   "step": "r1_common_rows_loo"
+  },
+  {
+   "a_share": 0.7902463185181497,
+   "a_share_ci": [
+    0.6283147592547057,
+    0.9521778777815938
+   ],
+   "b_agg": 0.5539033666337209,
+   "change_vs_previous": "DENOMINATOR (leave-one-out -> inclusive)",
+   "channel": "book (inclusive denominator)",
+   "g_denominator": 1.3441496851518706,
+   "g_denominator_ci": [
+    1.2202768155751211,
+    1.46802255472862
+   ],
+   "r2": 0.09845376802072736,
+   "reason": null,
+   "rows": 6645,
+   "step": "r2_common_rows_inclusive"
+  },
+  {
+   "a_share": -0.3325725607767874,
+   "a_share_ci": [
+    -0.49040992647263304,
+    -0.17473519508094168
+   ],
+   "b_agg": 0.158346575927797,
+   "change_vs_previous": "CODE PATH (E240 routine, same object)",
+   "channel": "book (inclusive denominator)",
+   "g_denominator": -0.17422598484899038,
+   "g_denominator_ci": [
+    -0.2949747839067035,
+    -0.053477185791277235
+   ],
+   "r2": 0.00506228996412128,
+   "reason": null,
+   "rows": 6640,
+   "step": "r3_common_grid_e240_code_path"
+  },
+  {
+   "a_share": 0.7908605087679897,
+   "a_share_ci": [
+    0.6288165741907051,
+    0.9529044433452744
+   ],
+   "b_agg": 0.5521571421004153,
+   "change_vs_previous": "Y ALIGNMENT (same routine, y from the session the regressors describe)",
+   "channel": "book (inclusive denominator)",
+   "g_denominator": 1.343017650868405,
+   "g_denominator_ci": [
+    1.219069182538118,
+    1.4669661191986922
+   ],
+   "r2": 0.09839825300046678,
+   "reason": null,
+   "rows": 6640,
+   "step": "r3b_e240_code_y_realigned"
+  },
+  {
+   "aligned_part": -0.612298363692525,
+   "aligned_split": {
+    "a_share_moves": -0.9288221900191347,
+    "a_share_published": 0.5962496292423473,
+    "a_share_rung0": 0.5962496292423473,
+    "a_share_rung1": 0.8910262742543932,
+    "a_share_rung2": 0.7902463185181497,
+    "a_share_rung3": -0.3325725607767874,
+    "aligned_gap": -0.21848779751990666,
+    "aligned_gap_name": "the CORRECTED common-grid rest channel vs the published one (r3b - published)",
+    "available": true,
+    "code_path_cross_check": {
+     "a_share_abs_diff": 1.1228188792949372,
+     "g_book_abs_diff": 1.518375670000861,
+     "r2_e238_code_on_inclusive_rows": {
+      "a_share": 0.7902463185181497,
+      "b_agg": 0.5539033666337209,
+      "g_book": 1.3441496851518706,
+      "rows": 6645
+     },
+     "r3_e240_code_on_common_grid": {
+      "a_share": -0.3325725607767874,
+      "b_agg": 0.158346575927797,
+      "g_book": -0.17422598484899038,
+      "rows": 6640
+     },
+     "same_object": false
+    },
+    "coordinate_map_common_grid": {
+     "a_own": -0.30090324559122794,
+     "available": true,
+     "c_rest": 0.1266772607422376,
+     "kappa": 0.25,
+     "note": "constant-weight approximation: kappa is the nominal w/(1-w); the direct fit on the common grid is published beside it"
+    },
+    "coordinate_map_published": {
+     "a_own": 0.6311286913179421,
+     "available": true,
+     "c_rest": 0.1395162483023798,
+     "kappa": 0.25,
+     "note": "constant-weight approximation: kappa is the nominal w/(1-w); the direct fit on the common grid is published beside it"
+    },
+    "dominant": "rows",
+    "kappa_common_grid": null,
+    "kappa_nominal": 0.25,
+    "kappa_published": 0.27893040753307463,
+    "reader_defect_b_agg": -0.39381056617261834,
+    "reader_part": -0.0017462245333055293,
+    "reader_part_name": "READER (E240's y one session behind its regressors; the difference between r3 as published and the corrected r3b, shown separately and NOT summed in)",
+    "residual": 0.0,
+    "rows_part": -0.3033995359443349,
+    "rows_part_name": "ROWS (own grid -> common dates, leave-one-out)",
+    "weights_part": 0.08665796295773376,
+    "weights_part_name": "DENOMINATOR (leave-one-out -> inclusive), measured on E238's own code path"
+   },
+   "channel": "aligned comparison",
+   "identity_residual": 0.0,
+   "naive_gap_B": -0.9448709244693123,
+   "parametrisation_part": -0.3325725607767874,
+   "step": "r4_aligned_comparison",
+   "verdict": "the_non_reproduction_is_a_one_session_misalignment_in_the_reader"
+  }
+ ],
+ "members": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "misalignment": {
+  "available": true,
+  "dy_is_one_session_behind": true,
+  "dy_matches_the_previous_session": 6635,
+  "dy_matches_the_same_session": 0,
+  "note": "common_increments indexes dy by the KEPT session; design_share_book takes dy[k-1] while pairing the sessions k-1 -> k",
+  "rows_tested": 6640
+ },
+ "no_bill": {
+  "permitted": false,
+  "reason": "a reproduction ladder identifies a unit error; it publishes no charge and adopts no arm"
+ },
+ "published_face_check": {
+  "face": "aggatt_latest.json",
+  "published_a_share": -0.33297401246666736,
+  "published_b_book": -0.17418726756570735,
+  "replica_a_share": -0.3325725607767874,
+  "replica_b_book": -0.17422598484899038,
+  "reproduced": true,
+  "superseded": true
+ },
+ "published_pair": {
+  "a_share": 0.5962496292423473,
+  "b_agg": 0.770644939620322,
+  "face": "loobook_latest.json",
+  "g_book": 1.3668945688626692,
+  "kappa_nominal": 0.25,
+  "kappa_used": 0.27893040753307463,
+  "r2": 0.09997314906172561,
+  "rows": 13916,
+  "sessions": 3505
+ },
+ "reproduction": {
+  "abs_diff_a": 0.0,
+  "abs_diff_b": 0.0,
+  "published_a_share": 0.5962496292423473,
+  "published_b_agg": 0.770644939620322,
+  "published_rows": 13916,
+  "reproduced": true,
+  "rung0_a_share": 0.5962496292423473,
+  "rung0_b_agg": 0.770644939620322,
+  "rung0_rows": 13916,
+  "tolerance": 0.005
+ },
+ "study": "E241",
+ "summary": {
+  "reproduces_published": true,
+  "rows_common": 6645,
+  "rows_common_grid_240": 6645,
+  "rows_rung0": 13916,
+  "sessions_common": 1330,
+  "verdict": "the_non_reproduction_is_a_one_session_misalignment_in_the_reader"
+ },
+ "title": "why does E238's published (A, B) pair not reproduce on the common grid?",
+ "verdict_block": {
+  "a_share_common_grid": -0.3325725607767874,
+  "a_share_published": 0.5962496292423473,
+  "a_share_sign_flips": true,
+  "aligned_b_agg_change": -0.612298363692525,
+  "aligned_part": -0.612298363692525,
+  "b_agg_common_grid": 0.158346575927797,
+  "b_agg_published": 0.770644939620322,
+  "b_agg_sign_flips": false,
+  "channels": {
+   "common_grid_b_agg": "book (inclusive)",
+   "published_b_agg": "rest (leave-one-out)"
+  },
+  "denominators_differ": true,
+  "g_denominator_common_grid": -0.17422598484899038,
+  "g_denominator_published": 1.3668945688626692,
+  "g_sign_flips": true,
+  "identity_residual": 0.0,
+  "misalignment": {
+   "available": true,
+   "dy_is_one_session_behind": true,
+   "dy_matches_the_previous_session": 6635,
+   "dy_matches_the_same_session": 0,
+   "note": "common_increments indexes dy by the KEPT session; design_share_book takes dy[k-1] while pairing the sessions k-1 -> k",
+   "rows_tested": 6640
+  },
+  "naive_gap_B": -0.9448709244693123,
+  "parametrisation_part": -0.3325725607767874,
+  "parametrisation_share_of_naive_gap": 0.35197671148953713,
+  "realigned_agrees_with_rung2": true,
+  "realigned_pair": {
+   "a_share": 0.7908605087679897,
+   "a_share_ci": [
+    0.6288165741907051,
+    0.9529044433452744
+   ],
+   "b_agg": 0.5521571421004153,
+   "g_book": 1.343017650868405,
+   "rows": 6640
+  },
+  "verdict": "the_non_reproduction_is_a_one_session_misalignment_in_the_reader"
+ }
+}
