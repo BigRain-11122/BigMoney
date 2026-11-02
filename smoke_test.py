@@ -12962,6 +12962,63 @@ check(_name377, not _bad377, "; ".join(_bad377)[:220]
                 "e350_unwritten_guard_rows_named_by_an_unnameable_writer", 0)))
 
 
+# E379: "keyed by no resolved sink" and "read by nobody" are different claims. This leg refuses the
+# shapes that would let the split be asserted instead of measured: a verdict outside the frozen
+# vocabulary, four buckets that do not cover the target population, a read row with no evidence, a
+# census-universe count that does not re-add from the rows or that is claimed without a resolved
+# reading, and a verdict that does not re-derive.
+_name379 = ("product: unkeyed is split into read / read-only-through-the-census-blind-spot / named / "
+            "unread, and a census-universe read is published as a contradiction of the upstream")
+_bad379 = []
+try:
+    _p379 = os.path.join("results", "state_tilt", "unkeyedreader_latest.json")
+    _f379 = json.load(open(_p379, encoding="utf-8")) if os.path.exists(_p379) else None
+    if _f379 is None:
+        _bad379.append("no published unkeyed-reader face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m379 = __import__("importlib").import_module("e379_unkeyed_face_reader")
+        _vocab379 = {_m379.V_CONTRADICTED, _m379.V_BLIND, _m379.V_NAME_ONLY, _m379.V_FOREIGN,
+                     _m379.V_EMPTY}
+        if _f379.get("verdict") not in _vocab379:
+            _bad379.append("verdict %r is outside the frozen vocabulary"
+                           % str(_f379.get("verdict"))[:60])
+        _s379 = _f379.get("summary") or {}
+        _rows379 = _f379.get("faces") or []
+        _buckets379 = (_m379.SITE_RESOLVED, _m379.SITE_UNASSIGNED, _m379.SITE_IN_FUNCTION,
+                       _m379.SITE_UNREAD)
+        if sum(_s379.get(_k) or 0 for _k in _buckets379) != _s379.get("target_faces"):
+            _bad379.append("the four buckets do not cover the target population")
+        for _k379 in _buckets379:
+            if _s379.get(_k379) != sum(1 for _r379 in _rows379 if _r379.get("kind") == _k379):
+                _bad379.append("a bucket does not equal its rows: %s" % _k379)
+                break
+        for _r379 in _rows379[:60]:
+            if _r379.get("kind") != _m379.SITE_UNREAD and not _r379.get("evidence"):
+                _bad379.append("a read row carries no evidence: %s" % _r379.get("face"))
+                break
+        _census379 = sum(1 for _r379 in _rows379 if _r379.get("census_universe_sites"))
+        if _s379.get("faces_read_within_the_census_universe") != _census379:
+            _bad379.append("the census-universe face count does not re-add from the rows")
+        if _census379 and not _s379.get("read_at_a_resolved_site"):
+            _bad379.append("a census-universe read is claimed with no resolved-site reading")
+        if _f379.get("verdict") != _m379.decide(_s379):
+            _bad379.append("the verdict does not re-derive from the summary")
+        if _m379.verify() != 0:
+            _bad379.append("the study's own verify does not come back clean")
+except Exception as e:
+    _bad379.append(repr(e)[:160])
+check(_name379, not _bad379, "; ".join(_bad379)[:220]
+      or "read %d / blind %d / named %d / unread %d of %d unkeyed faces; %d read inside the "
+         "census universe"
+         % ((_f379 or {}).get("summary", {}).get("read_at_a_resolved_site", 0),
+            (_f379 or {}).get("summary", {}).get("read_at_an_unassigned_resolved_site", 0),
+            (_f379 or {}).get("summary", {}).get("named_inside_the_loading_function", 0),
+            (_f379 or {}).get("summary", {}).get("unread", 0),
+            (_f379 or {}).get("summary", {}).get("target_faces", 0),
+            (_f379 or {}).get("summary", {}).get("faces_read_within_the_census_universe", 0)))
+
+
 # E374: E372 charged the corpus for 128 recovered members to buy two pairs.  This leg grades the
 # ACCOUNTING of the load-bearing claim and never the pair numbers: every arm's published pair
 # count must equal the size of its own pair set, the moved split must re-derive from the two

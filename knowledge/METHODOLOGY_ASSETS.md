@@ -8254,3 +8254,51 @@ Four reusable rules:
 How to apply: when a study borrows bytes to repair a published number, publish the necessary set per
 instrument plus both ablation ends, and never attribute from a table whose rows were truncated for
 display.
+
+## E379 -- unkeyed is not unread, and the instrument that says "unread" is the one that must split first (r1398 bm-b)
+
+E377 published 36 published faces that an *unnameable* writer can reach and that no *resolved sink* in
+the corpus keys. Two different claims hide in "unkeyed": nobody reads it, and nobody the instrument can
+name reads it. E379 separates them by widening only the reader half.
+
+The census's reader half is narrower than its writer half: `e347.load_bindings` keeps only loads whose
+value is **assigned to a name**, and its constant table holds only string literals. Two ordinary reader
+forms are therefore invisible -- `json.load(open(P))` in expression position, and a path joined against a
+directory name (`os.path.join(ROOT, "results", "x.json")`, `Path(ROOT) / "results" / "x.json"`).
+
+Census over 2,413 sources (2,395 parse), 15,174 load calls, 12,544 resolved:
+
+| bucket | faces of 36 |
+|---|---|
+| read at a resolved site | 2 |
+| read at a resolved site the binding census cannot see | 3 |
+| only named inside a loading function that loads something | 22 |
+| unread | 9 |
+
+So **22 of 36 are not consumption claims at all** -- reach, not use -- and 5 are read. The 1,115 load
+sites that only the two new forms can name are 7.3 pct of the corpus's load calls: the blind spot is not
+marginal to the reader side, it is most of it.
+
+Three rules:
+1. **A contradiction test has to be built into the taxonomy, not hoped for.** `read_at_a_resolved_site`
+   is defined as "the census's own universe (a contradiction if it appears)", so the study cannot quietly
+   report a blind-spot finding over a face the census does key. One of the 2 resolved reads is inside the
+   census universe (`results/etf_book_production/latest.json`, assigned + `joined_constants`) and is
+   published as the verdict; the other (`results/runnable_pool.bm-a.json`, a literal in **expression
+   position**) is the blind spot this study exists to measure.
+2. **"Assigned" is part of the universe test.** The first draft counted every site whose *form* was
+   census-native and reported 2 contradictions; a literal nobody binds is invisible to a binding census
+   by design, so counting it as a contradiction invents a defect in someone else's instrument. The fix is
+   one boolean in the predicate, and it changed the verdict's owner, not its severity.
+3. **Reach must be graded weaker than use in the same table.** `named_inside_the_loading_function` says a
+   literal of that face appears in a function that loads *something* -- the literal may belong to another
+   statement. Publishing the four buckets side by side is what keeps the strong claim ("unread") from
+   absorbing the weak one.
+
+Bound published, not claimed: static name test, nothing executed, no source imported; a reader that
+computes its path at run time stays invisible; the population is read from E377's published face, so a
+stale upstream narrows the study rather than invalidating it; a face key falls back to the basename when
+no known root appears, so two same-named files can merge.
+
+Wiring: `scripts/e379_unkeyed_face_reader.py` (run / verify problems=[] / selftest 17/17);
+face `results/state_tilt/UNKEYEDREADER-2026-11-03.json` + `unkeyedreader_latest.json`.

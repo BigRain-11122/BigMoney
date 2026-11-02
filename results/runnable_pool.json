@@ -26845,43 +26845,60 @@
    "title": "the store pays 128 members but only two pairs move: name the members that actually carry the difference"
   },
   {
+   "claimed_at": "2026-11-03T03:52:00+08:00",
+   "claimed_by": "bm-b",
+   "done_at": "2026-11-03T04:40:00+08:00",
+   "done_by": "bm-b r1397",
    "entered_at": "2026-11-03T03:42:00+08:00",
    "entered_by": "bm-b r1396",
    "id": "E378-WHICH-STORED-MEMBERS-ARE-LOAD-BEARING-ON-E350-ARM",
    "lane": "cpu-only",
    "notes": "reuse the e374 attribute/ablate machinery verbatim; never rewrite E350/E353 faces; the store file stays outside results/ (E328 face population) | done: 20 of 128 necessary and sufficient on the E350 arm (drop 20 -> pin exactly, keep 20 -> store exactly); the status-flip subset is 3 and equals E353 set; first draft attributed from the capped rows table (10) and its ablation refused to return",
    "owner": "bm-b",
+   "owner_since": "2026-11-03T03:52:00+08:00",
    "priority": 2,
    "question": "E374 published that three of the 128 store members are load-bearing for E353's unwritten-guard pairs, and E371 already showed the same members are footprint-empty on E350's arm. Run the same four-arm ablation against E350's own published numbers (fields, fields_with_no_writer, guard_fields_with_no_writer) and publish the necessary set per arm -- if the two instruments disagree about necessity, 'load-bearing' needs a per-arm table rather than one sentence.",
-   "status": "done",
-   "owner_since": "2026-11-03T03:52:00+08:00",
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-11-03T03:52:00+08:00",
-   "done_at": "2026-11-03T04:40:00+08:00",
-   "done_by": "bm-b r1397",
-   "result_ref": "results/state_tilt/E350ARM-2026-11-03.json"
+   "result_ref": "results/state_tilt/E350ARM-2026-11-03.json",
+   "status": "done"
   },
   {
+   "claimed_at": "2026-11-03T04:52:00+08:00",
+   "claimed_by": "bm-b",
+   "done_at": "2026-11-03T05:00:00+08:00",
+   "done_by": "bm-b r1398",
    "entered_at": "2026-11-03T03:42:00+08:00",
    "entered_by": "bm-b r1396",
    "id": "E379-WHICH-UNKEYED-FACES-HAVE-A-CORPUS-READER",
    "lane": "cpu-only",
-   "notes": "static name test only, zero network, nothing executed from the corpus; exclude this study's own face from its own population (E319/E328 family)",
-   "owner": null,
+   "notes": "static name test only, zero network, nothing executed from the corpus; exclude this study's own face from its own population (E319/E328 family) | done: of the 36 unkeyed faces, 2 are read at a resolved site, 3 more are read only at a load the binding census cannot see (expression position / root-joined / pathlib), 22 are only NAMED inside a loading function and 9 are unread; of the 2 resolved reads only 1 sits inside the census's own universe (results/etf_book_production/latest.json via scripts/etf_book_bridge.py:369 joined_constants) -- that one contradicts E377's 'no resolved sink keys it' and is published as the study's verdict rather than buried under the blind-spot finding; the other (results/runnable_pool.bm-a.json, a literal in expression position) is the blind spot this study exists to measure, not a contradiction -- first draft counted both and was corrected in-window",
+   "owner": "bm-b",
+   "owner_since": "2026-11-03T04:52:00+08:00",
    "priority": 3,
    "question": "E377 found 36 published faces reached by an unnameable writer and keyed by no resolved sink. Reach is not consumption: for each of those 36, find whether any corpus source binds a path that resolves to it (same name universe as the census) and publish the split reader / unread -- a face written by an unnameable writer and read by nobody is an out-of-corpus contract, a stronger claim than 'unkeyed'.",
+   "result_ref": "results/state_tilt/UNKEYEDREADER-2026-11-03.json",
+   "status": "done"
+  },
+  {
+   "entered_at": "2026-11-03T04:40:00+08:00",
+   "entered_by": "bm-b r1397",
+   "id": "E380-WHICH-OF-THE-TWO-INSTRUMENTS-NAMES-THE-SAME-BALLAST",
+   "lane": "cpu-only",
+   "notes": "static only, zero network; reuse e377 resolved-sink universe; exclude this study own face from its own population (E319/E328 family)",
+   "owner": null,
+   "priority": 3,
+   "question": "E378 measured 108 store members that move neither E353 pairs nor any E350 headline number, and 17 that move only the field count by adding new keys. Decide whether those 17 keys are read anywhere (a static name test over the same corpus, no execution): rows that no reader names are dead weight in a face, rows that a reader names are why the store had to exist. Publish reader/unread per new key.",
    "status": "ready"
   },
   {
-   "id": "E380-WHICH-OF-THE-TWO-INSTRUMENTS-NAMES-THE-SAME-BALLAST",
-   "entered_at": "2026-11-03T04:40:00+08:00",
-   "entered_by": "bm-b r1397",
+   "entered_at": "2026-11-03T05:00:00+08:00",
+   "entered_by": "bm-b r1398",
+   "id": "E381-WHY-DOES-THE-UPSTREAM-READER-CENSUS-MISS-A-LITERAL-READ",
    "lane": "cpu-only",
-   "priority": 3,
-   "status": "ready",
+   "notes": "static only, zero network; consume E377's published face and E379's rows by reading them, never recompute the upstream claim from a docstring; a face is only 'within the census universe' when the load is assigned AND the why is literal/bound/joined_constants",
    "owner": null,
-   "question": "E378 measured 108 store members that move neither E353 pairs nor any E350 headline number, and 17 that move only the field count by adding new keys. Decide whether those 17 keys are read anywhere (a static name test over the same corpus, no execution): rows that no reader names are dead weight in a face, rows that a reader names are why the store had to exist. Publish reader/unread per new key.",
-   "notes": "static only, zero network; reuse e377 resolved-sink universe; exclude this study own face from its own population (E319/E328 family)"
+   "priority": 3,
+   "question": "scripts/etf_book_bridge.py:369 reads results/etf_book_production/latest.json through an assigned load whose path is joined from constants, which is inside the census's own universe (literal/bound/joined_constants), yet E377 published that face as keyed by no resolved sink. Decide which side is wrong: re-derive E377's reader half over the same corpus and publish whether the face is excluded (source filter, scratch-file rule, MAX limit) or was keyed differently (e350._face_key vs the reader's resolved path). The bill is one named exclusion or one defect, never 'unkeyed' by decree.",
+   "status": "ready"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -26896,6 +26913,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-03T03:42:00+08:00",
+ "updated_at": "2026-11-03T05:00:00+08:00",
  "version": 1
 }
