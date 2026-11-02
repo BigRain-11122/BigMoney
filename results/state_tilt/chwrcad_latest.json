@@ -1,0 +1,1315 @@
+{
+ "clock_note": "cadence and lag are both measured in commits on the same first-parent window, so the two numbers are comparable; a writer that only runs outside the window is published with touches_in_window=0, never as a period",
+ "evidence_cutoff": "2026-11-02",
+ "omnipresent_max_share_pct": 40.0,
+ "pin": "31d43b18263fbb683da2e0900e52503391dd0556",
+ "rows": [
+  {
+   "class": "not_written_in_window",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 0,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 19,
+   "dominant_writer": null,
+   "file": "state-bm-a.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 0,
+   "lag_median_commits": 121,
+   "path": "results/_quarantine/r964-estate-20261013/state-bm-a.json",
+   "producer_names": [],
+   "top_declared": [
+    "Tools/heartbeat_write.py",
+    "Tools/_r190_wrap.py",
+    "Tools/_r409bma_closeout.py"
+   ],
+   "writers_credited": 0
+  },
+  {
+   "class": "not_written_in_window",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 0,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 31,
+   "dominant_writer": null,
+   "file": "bm-a.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 0,
+   "lag_median_commits": 121,
+   "path": "fleet/machines/bm-a.json",
+   "producer_names": [],
+   "top_declared": [
+    "Tools/heartbeat_write.py",
+    "Tools/_r190_wrap.py",
+    "Tools/_r409bma_closeout.py"
+   ],
+   "writers_credited": 0
+  },
+  {
+   "class": "not_written_in_window",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 0,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 399,
+   "dominant_writer": null,
+   "file": "state-bm-c.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 0,
+   "lag_median_commits": 121,
+   "path": "state-bm-c.json",
+   "producer_names": [],
+   "top_declared": [
+    "Tools/_r1029bmc_close.py",
+    "Tools/_r1031bmc_closeout.py",
+    "Tools/_r1034bmc_closeout.py"
+   ],
+   "writers_credited": 0
+  },
+  {
+   "class": "not_written_in_window",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 0,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 441,
+   "dominant_writer": null,
+   "file": "bm-c.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 0,
+   "lag_median_commits": 121,
+   "path": "fleet/machines/bm-c.json",
+   "producer_names": [],
+   "top_declared": [
+    "Tools/_r1029bmc_close.py",
+    "Tools/_r1031bmc_closeout.py",
+    "Tools/_r1034bmc_closeout.py"
+   ],
+   "writers_credited": 0
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e244_pair_heterogeneity.py",
+   "file": "pairhet_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 113,
+   "path": "results/state_tilt/pairhet_latest.json",
+   "producer_names": [
+    "scripts/e244_pair_heterogeneity.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e244_pair_heterogeneity.py",
+    "scripts/e245_pair_slope_matrix.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e245_pair_slope_matrix.py",
+   "file": "slopematrix_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 112,
+   "path": "results/state_tilt/slopematrix_latest.json",
+   "producer_names": [
+    "scripts/e245_pair_slope_matrix.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e245_pair_slope_matrix.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e246_star_direction.py",
+   "file": "stardir_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 111,
+   "path": "results/state_tilt/stardir_latest.json",
+   "producer_names": [
+    "scripts/e246_star_direction.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e246_star_direction.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e248_star_lag_band.py",
+   "file": "starlagband_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 109,
+   "path": "results/state_tilt/starlagband_latest.json",
+   "producer_names": [
+    "scripts/e248_star_lag_band.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e248_star_lag_band.py",
+    "scripts/e249_lead_counterfactual.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e249_lead_counterfactual.py",
+   "file": "leadcounter_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 108,
+   "path": "results/state_tilt/leadcounter_latest.json",
+   "producer_names": [
+    "scripts/e249_lead_counterfactual.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e249_lead_counterfactual.py",
+    "_tmp_r1275_close.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e250_book_turnover_echo.py",
+   "file": "bookecho_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 107,
+   "path": "results/state_tilt/bookecho_latest.json",
+   "producer_names": [
+    "scripts/e250_book_turnover_echo.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e250_book_turnover_echo.py",
+    "_tmp_r1277_view.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 6,
+   "dominant_writer": "scripts/e251_star_own_component.py",
+   "file": "starown_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 106,
+   "path": "results/state_tilt/starown_latest.json",
+   "producer_names": [
+    "scripts/e251_star_own_component.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e252_star_prices_itself.py",
+    "scripts/e251_star_own_component.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e252_star_prices_itself.py",
+   "file": "starself_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 104,
+   "path": "results/state_tilt/starself_latest.json",
+   "producer_names": [
+    "scripts/e252_star_prices_itself.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e252_star_prices_itself.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e253_self_row_resolution.py",
+   "file": "selfres_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 103,
+   "path": "results/state_tilt/selfres_latest.json",
+   "producer_names": [
+    "scripts/e253_self_row_resolution.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e253_self_row_resolution.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e254_band_exponent_inside_cell.py",
+   "file": "bandexp_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 102,
+   "path": "results/state_tilt/bandexp_latest.json",
+   "producer_names": [
+    "scripts/e254_band_exponent_inside_cell.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e254_band_exponent_inside_cell.py",
+    "_tmp_r1281_close.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e255_band_draw_starvation.py",
+   "file": "banddraw_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 101,
+   "path": "results/state_tilt/banddraw_latest.json",
+   "producer_names": [
+    "scripts/e255_band_draw_starvation.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e255_band_draw_starvation.py",
+    "_tmp_r1282_close.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": null,
+   "file": "banddraw-d1920_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 100,
+   "path": "results/state_tilt/banddraw-d1920_latest.json",
+   "producer_names": [],
+   "top_declared": [
+    "smoke_test.py",
+    "_tmp_r1283_close.py"
+   ],
+   "writers_credited": 0
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": null,
+   "file": "banddraw-d960_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 100,
+   "path": "results/state_tilt/banddraw-d960_latest.json",
+   "producer_names": [],
+   "top_declared": [
+    "smoke_test.py",
+    "_tmp_r1283_close.py"
+   ],
+   "writers_credited": 0
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+   "file": "bandbucket_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 95,
+   "path": "results/state_tilt/bandbucket_latest.json",
+   "producer_names": [
+    "scripts/e261_degenerate_seeds_leave_one_bucket.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e261_degenerate_seeds_leave_one_bucket.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e263_arrival_vs_cell_size.py",
+   "file": "bandarrivalate_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 94,
+   "path": "results/state_tilt/bandarrivalate_latest.json",
+   "producer_names": [
+    "scripts/e263_arrival_vs_cell_size.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e263_arrival_vs_cell_size.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e264_near_one_seeds_reading.py",
+   "file": "bandnear1_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 90,
+   "path": "results/state_tilt/bandnear1_latest.json",
+   "producer_names": [
+    "scripts/e264_near_one_seeds_reading.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e264_near_one_seeds_reading.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e266_wide_end_screen_holdout.py",
+   "file": "bandscreen_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 89,
+   "path": "results/state_tilt/bandscreen_latest.json",
+   "producer_names": [
+    "scripts/e266_wide_end_screen_holdout.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e266_wide_end_screen_holdout.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e267_screen_buffer_margin.py",
+   "file": "bandmargin_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 88,
+   "path": "results/state_tilt/bandmargin_latest.json",
+   "producer_names": [
+    "scripts/e267_screen_buffer_margin.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e267_screen_buffer_margin.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e268_screen_on_pooled_end.py",
+   "file": "bandpooled_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 87,
+   "path": "results/state_tilt/bandpooled_latest.json",
+   "producer_names": [
+    "scripts/e268_screen_on_pooled_end.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e268_screen_on_pooled_end.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e269_tight_end_transfer.py",
+   "file": "bandtight_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 86,
+   "path": "results/state_tilt/bandtight_latest.json",
+   "producer_names": [
+    "scripts/e269_tight_end_transfer.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e269_tight_end_transfer.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e270_guard_field_audit.py",
+   "file": "bandfields_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 85,
+   "path": "results/state_tilt/bandfields_latest.json",
+   "producer_names": [
+    "scripts/e270_guard_field_audit.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e270_guard_field_audit.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e273_guard_from_threshold.py",
+   "file": "bandthreshguard_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 84,
+   "path": "results/state_tilt/bandthreshguard_latest.json",
+   "producer_names": [
+    "scripts/e273_guard_from_threshold.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e273_guard_from_threshold.py",
+    "_tmp_r1297_close.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e271_donor_choice_sensitivity.py",
+   "file": "banddonorchoice_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 83,
+   "path": "results/state_tilt/banddonorchoice_latest.json",
+   "producer_names": [
+    "scripts/e271_donor_choice_sensitivity.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e271_donor_choice_sensitivity.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e274_spread_straddle_sweep.py",
+   "file": "bandstraddlesweep_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 82,
+   "path": "results/state_tilt/bandstraddlesweep_latest.json",
+   "producer_names": [
+    "scripts/e274_spread_straddle_sweep.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e274_spread_straddle_sweep.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e272_flip_budget_two_tails.py",
+   "file": "bandflipbudget_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 81,
+   "path": "results/state_tilt/bandflipbudget_latest.json",
+   "producer_names": [
+    "scripts/e272_flip_budget_two_tails.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e281_substitution_dependency_audit.py",
+    "scripts/e272_flip_budget_two_tails.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e275_screen_margin_budget.py",
+   "file": "bandscreenbudget_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 80,
+   "path": "results/state_tilt/bandscreenbudget_latest.json",
+   "producer_names": [
+    "scripts/e275_screen_margin_budget.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e275_screen_margin_budget.py",
+    "_tmp_r1301_state.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e277_tight_multiplier_floor.py",
+   "file": "bandspreadfloor_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 78,
+   "path": "results/state_tilt/bandspreadfloor_latest.json",
+   "producer_names": [
+    "scripts/e277_tight_multiplier_floor.py",
+    "scripts/e278_spread_floor.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e277_tight_multiplier_floor.py",
+    "scripts/e278_spread_floor.py"
+   ],
+   "writers_credited": 2
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e279_substitution_soundness.py",
+   "file": "bandsubstitute_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 76,
+   "path": "results/state_tilt/bandsubstitute_latest.json",
+   "producer_names": [
+    "scripts/e279_substitution_soundness.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e279_substitution_soundness.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e281_substitution_dependency_audit.py",
+   "file": "bandsubstituteaudit_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 74,
+   "path": "results/state_tilt/bandsubstituteaudit_latest.json",
+   "producer_names": [
+    "scripts/e281_substitution_dependency_audit.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e281_substitution_dependency_audit.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e282_substitution_disagreement_census.py",
+   "file": "banddisagree_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 73,
+   "path": "results/state_tilt/banddisagree_latest.json",
+   "producer_names": [
+    "scripts/e282_substitution_disagreement_census.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e282_substitution_disagreement_census.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e283_degenerate_range_reachable.py",
+   "file": "banddeflate_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 72,
+   "path": "results/state_tilt/banddeflate_latest.json",
+   "producer_names": [
+    "scripts/e283_degenerate_range_reachable.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e283_degenerate_range_reachable.py",
+    "scripts/e327_who_reads_a_face_through_a_pointer.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e284_disagreement_field_scope.py",
+   "file": "banddisagreescope_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 71,
+   "path": "results/state_tilt/banddisagreescope_latest.json",
+   "producer_names": [
+    "scripts/e284_disagreement_field_scope.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e284_disagreement_field_scope.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e285_interrange_gap_ceiling.py",
+   "file": "bandgapceiling_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 70,
+   "path": "results/state_tilt/bandgapceiling_latest.json",
+   "producer_names": [
+    "scripts/e285_interrange_gap_ceiling.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e285_interrange_gap_ceiling.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e286_count_field_scope.py",
+   "file": "bandcountscope_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 69,
+   "path": "results/state_tilt/bandcountscope_latest.json",
+   "producer_names": [
+    "scripts/e286_count_field_scope.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e286_count_field_scope.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e290_selfauditable_face_profile.py",
+   "file": "bandselfaudit_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 68,
+   "path": "results/state_tilt/bandselfaudit_latest.json",
+   "producer_names": [
+    "scripts/e290_selfauditable_face_profile.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e290_selfauditable_face_profile.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 4,
+   "dominant_writer": "scripts/e291_ambiguity_chance.py",
+   "file": "bandambient_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 67,
+   "path": "results/state_tilt/bandambient_latest.json",
+   "producer_names": [
+    "scripts/e291_ambiguity_chance.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e291_ambiguity_chance.py",
+    "_r1313bmb_closeout.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e293_duplicate_list_census.py",
+   "file": "banddupes_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 66,
+   "path": "results/state_tilt/banddupes_latest.json",
+   "producer_names": [
+    "scripts/e293_duplicate_list_census.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e293_duplicate_list_census.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e287_supply_ceiling_axes.py",
+   "file": "bandsupply_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 66,
+   "path": "results/state_tilt/bandsupply_latest.json",
+   "producer_names": [
+    "scripts/e287_supply_ceiling_axes.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e287_supply_ceiling_axes.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e288_below_floor_narrowing.py",
+   "file": "bandfloormirror_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 63,
+   "path": "results/state_tilt/bandfloormirror_latest.json",
+   "producer_names": [
+    "scripts/e288_below_floor_narrowing.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e288_below_floor_narrowing.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e295_supply_gap_closure.py",
+   "file": "bandclosure_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 61,
+   "path": "results/state_tilt/bandclosure_latest.json",
+   "producer_names": [
+    "scripts/e295_supply_gap_closure.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e295_supply_gap_closure.py",
+    "_e295_closeout.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "lag_beyond_writer_period",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e243_additivity_out_of_sample.py",
+   "file": "addos_latest.json",
+   "file_cadence_commits": 50.0,
+   "file_touches_in_window": 3,
+   "lag_median_commits": 56,
+   "path": "results/state_tilt/addos_latest.json",
+   "producer_names": [
+    "scripts/e243_additivity_out_of_sample.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e243_additivity_out_of_sample.py",
+    "scripts/e244_pair_heterogeneity.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 4,
+   "dominant_writer": "scripts/e312_gate_operand_identity.py",
+   "file": "gateoperands_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 47,
+   "path": "results/state_tilt/gateoperands_latest.json",
+   "producer_names": [
+    "scripts/e312_gate_operand_identity.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e312_gate_operand_identity.py",
+    "scripts/e313_gate_form_and_scale.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "lag_beyond_writer_period",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 4,
+   "dominant_writer": "scripts/e308_leg_vs_producer_tolerance.py",
+   "file": "gatetol_latest.json",
+   "file_cadence_commits": 3.0,
+   "file_touches_in_window": 2,
+   "lag_median_commits": 45,
+   "path": "results/state_tilt/gatetol_latest.json",
+   "producer_names": [
+    "scripts/e308_leg_vs_producer_tolerance.py",
+    "scripts/e312_gate_operand_identity.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e308_leg_vs_producer_tolerance.py",
+    "scripts/e312_gate_operand_identity.py"
+   ],
+   "writers_credited": 2
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e314_clamped_gate_census.py",
+   "file": "gateclamp_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 44,
+   "path": "results/state_tilt/gateclamp_latest.json",
+   "producer_names": [
+    "scripts/e314_clamped_gate_census.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e314_clamped_gate_census.py",
+    "scripts/e315_leg_epsilon_vs_flat_regime.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 4,
+   "dominant_writer": "scripts/e315_leg_epsilon_vs_flat_regime.py",
+   "file": "legeps_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 43,
+   "path": "results/state_tilt/legeps_latest.json",
+   "producer_names": [
+    "scripts/e315_leg_epsilon_vs_flat_regime.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e315_leg_epsilon_vs_flat_regime.py",
+    "scripts/e316_gate_print_requirements.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e316_gate_print_requirements.py",
+   "file": "gateprint_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 42,
+   "path": "results/state_tilt/gateprint_latest.json",
+   "producer_names": [
+    "scripts/e316_gate_print_requirements.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e316_gate_print_requirements.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e317_print_coverage_census.py",
+   "file": "printcov_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 40,
+   "path": "results/state_tilt/printcov_latest.json",
+   "producer_names": [
+    "scripts/e317_print_coverage_census.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e317_print_coverage_census.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "single_write_no_cadence",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e318_count_named_gate_leaves.py",
+   "file": "zerotolprune_latest.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 1,
+   "lag_median_commits": 38,
+   "path": "results/state_tilt/zerotolprune_latest.json",
+   "producer_names": [
+    "scripts/e318_count_named_gate_leaves.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e318_count_named_gate_leaves.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "lag_beyond_writer_period",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e305_face_level_row_pricing.py",
+   "file": "precisiongap_latest.json",
+   "file_cadence_commits": 9.0,
+   "file_touches_in_window": 4,
+   "lag_median_commits": 26,
+   "path": "results/state_tilt/precisiongap_latest.json",
+   "producer_names": [
+    "scripts/e305_face_level_row_pricing.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e305_face_level_row_pricing.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "lag_beyond_writer_period",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e302_universe_switch_backfill.py",
+   "file": "bandswitch_latest.json",
+   "file_cadence_commits": 4.5,
+   "file_touches_in_window": 7,
+   "lag_median_commits": 22,
+   "path": "results/state_tilt/bandswitch_latest.json",
+   "producer_names": [
+    "scripts/e302_universe_switch_backfill.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e302_universe_switch_backfill.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "lag_inside_writer_period",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e321_quantity_name_reach.py",
+   "file": "quantityname_latest.json",
+   "file_cadence_commits": 43.0,
+   "file_touches_in_window": 2,
+   "lag_median_commits": 17,
+   "path": "results/state_tilt/quantityname_latest.json",
+   "producer_names": [
+    "scripts/e321_quantity_name_reach.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e321_quantity_name_reach.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "lag_inside_writer_period",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e323_reach_under_wider_needle.py",
+   "file": "reachwide_latest.json",
+   "file_cadence_commits": 32.0,
+   "file_touches_in_window": 3,
+   "lag_median_commits": 15,
+   "path": "results/state_tilt/reachwide_latest.json",
+   "producer_names": [
+    "scripts/e323_reach_under_wider_needle.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e323_reach_under_wider_needle.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "lag_inside_writer_period",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 2,
+   "dominant_writer": "scripts/e298_replay_control_census.py",
+   "file": "replaycensus_latest.json",
+   "file_cadence_commits": 10.0,
+   "file_touches_in_window": 10,
+   "lag_median_commits": 8,
+   "path": "results/state_tilt/replaycensus_latest.json",
+   "producer_names": [
+    "scripts/e298_replay_control_census.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e298_replay_control_census.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "lag_inside_writer_period",
+   "class_e352": "lagging",
+   "declared_harness_pairs": 1,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 3,
+   "dominant_writer": "scripts/e299_rounded_vs_tolerance_census.py",
+   "file": "precisioncensus_latest.json",
+   "file_cadence_commits": 10.0,
+   "file_touches_in_window": 9,
+   "lag_median_commits": 8,
+   "path": "results/state_tilt/precisioncensus_latest.json",
+   "producer_names": [
+    "scripts/e299_rounded_vs_tolerance_census.py"
+   ],
+   "top_declared": [
+    "smoke_test.py",
+    "scripts/e299_rounded_vs_tolerance_census.py",
+    "scripts/e305_face_level_row_pricing.py"
+   ],
+   "writers_credited": 1
+  },
+  {
+   "class": "rewritten_at_boundary",
+   "class_e352": "rewritten_every_round",
+   "declared_harness_pairs": 0,
+   "declared_omnipresent_pairs": 0,
+   "declared_writers": 266,
+   "dominant_writer": null,
+   "file": "bm-b.json",
+   "file_cadence_commits": null,
+   "file_touches_in_window": 152,
+   "lag_median_commits": 0,
+   "path": "fleet/machines/bm-b.json",
+   "producer_names": [],
+   "top_declared": [
+    "scripts/e349_latest_mirror_census.py",
+    "Tools/_r1096_closeout.py",
+    "Tools/_r1096_receipt.py"
+   ],
+   "writers_credited": 0
+  }
+ ],
+ "rows_published": 59,
+ "rows_truncated": 0,
+ "source": {
+  "face": "results/state_tilt/STALEWIN-2026-11-02.json",
+  "population": "E352 rows with measured=true"
+ },
+ "study": "E357_channel_writer_cadence",
+ "summary": {
+  "classes": {
+   "lag_beyond_writer_period": 4,
+   "lag_inside_writer_period": 4,
+   "not_written_in_window": 4,
+   "rewritten_at_boundary": 1,
+   "single_write_no_cadence": 46
+  },
+  "declared_but_never_co_changed_pairs": 1237,
+  "declared_harness_pairs": 54,
+  "declared_omnipresent_pairs": 0,
+  "declared_writer_pairs": 1291,
+  "distinct_file_cadence_count": 7,
+  "distinct_file_cadences": [
+   3.0,
+   4.5,
+   9.0,
+   10.0,
+   32.0,
+   43.0,
+   50.0
+  ],
+  "files_lag_beyond_their_cadence": 4,
+  "files_lagging_inside_their_cadence": 4,
+  "files_not_written_in_window": 4,
+  "files_single_write_no_cadence": 46,
+  "files_with_a_named_producer": 52,
+  "files_with_no_producer_evidence": 0,
+  "lagging_files_measured": 59,
+  "largest_declared_writer_count": 441,
+  "largest_declared_writer_list": "fleet/machines/bm-c.json",
+  "median_lag_commits": 80.0,
+  "periods_collapsed": false,
+  "window_commits": 240,
+  "window_head": "31d43b18",
+  "worst_declared_writers": 19,
+  "worst_file": "results/_quarantine/r964-estate-20261013/state-bm-a.json",
+  "writer_pairs_credited": 54
+ },
+ "today": "2026-11-02",
+ "ts": "2026-11-02T09:54:06+08:00",
+ "verdict": "stale_beyond_its_own_cadence",
+ "verdict_definition": "reader_cannot_be_fresher_than_its_producer: no file's median blob age exceeds the interval at which that file is itself rewritten, so every copy a reader takes is younger than one production cycle -- the channel cannot be fresher than this by construction.  stale_beyond_its_own_cadence: at least one file's median lag exceeds its own rewrite interval, i.e. the copy in front of a reader is older than the file's rhythm -- those are readers that never re-run.  no_cadence_population: no file in the population has two or more writes in the window, so there is no rhythm to compare a lag against -- the finding would be about the window, not the channel.  measurement_collapsed: every file inherited the same cadence, which means one source's rhythm leaked into the whole population (the first draft's defect) -- no finding may be read from it.",
+ "window": {
+  "commits": 240,
+  "head": "31d43b18263fbb683da2e0900e52503391dd0556",
+  "oldest": "d0f0146ef34cbcb0871c51ac693f87c0c717bdfa"
+ }
+}

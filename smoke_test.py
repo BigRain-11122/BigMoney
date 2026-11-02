@@ -11709,6 +11709,58 @@ def _r39(face, key):
                 str((_f356 or {}).get("summary", {}).get("total_removed_rows")),
                 str((_f356 or {}).get("summary", {}).get("verdicts_moved"))))
 
+    # E357: E352 priced the window but did not say who writes the file or how often.  This leg is
+    # STRUCTURAL on purpose, for the same reason E356's is: the population it describes is re-derived
+    # from git history every round, so grading it by equality with a fresh build would make it red
+    # the moment any face is republished.  What it does grade is the accounting that the first two
+    # drafts got wrong -- a cadence must come from the file's own writes (not from a writer's code
+    # edits, not from a co-commit with the suite), one cadence may not be inherited by the whole
+    # population, and the classes must partition the rows.
+    _name357 = ("product: a channel file's cadence is measured from its own writes and every lag "
+                "class partitions the population (no inherited rhythm, no harness producer)")
+    _bad357 = []
+    try:
+        _p357 = os.path.join("results", "state_tilt", "chwrcad_latest.json")
+        _f357 = json.load(open(_p357, encoding="utf-8")) if os.path.exists(_p357) else None
+        if _f357 is None:
+            _bad357.append("no published writer-cadence face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m357 = __import__("importlib").import_module("e357_channel_writer_cadence")
+            _s357 = _f357.get("summary") or {}
+            _rows357 = _f357.get("rows") or []
+            if not _rows357:
+                _bad357.append("the face publishes no rows")
+            if sum((_s357.get("classes") or {}).values()) != _s357.get(
+                    "lagging_files_measured"):
+                _bad357.append("the class partition does not sum to the measured population")
+            if _s357.get("periods_collapsed"):
+                _bad357.append("the population is cadence-collapsed (one rhythm for every file)")
+            if _f357.get("verdict") != _m357.decide(_f357):
+                _bad357.append("the stored verdict does not re-derive from its own summary")
+            if any(r.get("class") == "lag_beyond_writer_period"
+                   and not (r.get("file_cadence_commits") or 0)
+                   for r in _rows357):
+                _bad357.append("a file is called stale against a cadence it does not have")
+            if any((r.get("lag_median_commits") or 0) <= (r.get("file_cadence_commits") or 0)
+                   for r in _rows357 if r.get("class") == "lag_beyond_writer_period"):
+                _bad357.append("a beyond-cadence row's lag does not exceed its own cadence")
+            if any(str(r.get("dominant_writer") or "").endswith("smoke_test.py")
+                   for r in _rows357):
+                _bad357.append("the suite is named as a producer")
+    except Exception as e:
+        _bad357.append(repr(e)[:160])
+    check(_name357, not _bad357, "; ".join(_bad357)[:220]
+          or "%s file(s): %s; %s written once in the window (age, not cadence), %s inside their "
+             "cadence, %s beyond it; %s of %s declared writer pairs never co-changed"
+             % (str((_f357 or {}).get("summary", {}).get("lagging_files_measured")),
+                str((_f357 or {}).get("summary", {}).get("classes")),
+                str((_f357 or {}).get("summary", {}).get("files_single_write_no_cadence")),
+                str((_f357 or {}).get("summary", {}).get("files_lagging_inside_their_cadence")),
+                str((_f357 or {}).get("summary", {}).get("files_lag_beyond_their_cadence")),
+                str((_f357 or {}).get("summary", {}).get("declared_but_never_co_changed_pairs")),
+                str((_f357 or {}).get("summary", {}).get("declared_writer_pairs"))))
+
 
 def _r39ci(face, key):
     v = (face.get("summary") or {}).get(key)

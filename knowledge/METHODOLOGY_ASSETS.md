@@ -7507,3 +7507,45 @@ population, or value -- and only the last one is a defect. Publish the triage, n
 re-deriving a census on a bigger corpus cannot be made to equal its old self, and a leg that
 demands it goes red forever. Assert what must hold (partition sums, vocabulary, commission,
 row-for-row identity), never equality with a re-derivation the corpus guarantees to move.
+
+## E357 -- a cadence is measured on the file, and a co-commit with the suite is not production (r1379)
+
+E352 measured how far behind the copy a reader takes is (median 80 commits over 59 deciding
+channel files) and stopped there. This study asked the other half -- who writes each file and how
+often -- and shipped the wrong answer twice before publishing, which is the whole value of the
+card.
+
+1. **"Who writes it" cannot be read off the source that names it.** E352 resolves writers as
+   *sources that mention the basename and contain a write token anywhere*. Against the 240-commit
+   window, **1237 of 1291 declared writer pairs (95.8%) never co-changed with the file they are
+   said to write.** The extreme is `fleet/machines/bm-c.json` with 441 declared writers and zero
+   touches in the window. A name match is a candidate list, never a producer list.
+2. **A co-commit is only evidence when the commit is distinctive.** The first draft called any
+   source that changed in the same commit as the file its producer. `smoke_test.py` is touched in
+   **102 of 240 commits**, so a file rewritten once co-occurs with it by necessity: the suite was
+   crowned producer of the whole channel and lent every file its two-commit rhythm. The published
+   symptom was `distinct_fastest_periods: [2.0]` -- one period for 54 files -- and 54 of 54 read
+   "stale". Two filters fixed it (exclude the harness, refuse any source present in >40% of
+   commits) and a detector now makes the shape unpublishable: `periods_collapsed` forces the
+   verdict to `measurement_collapsed` before any finding can be read.
+3. **The second draft's fix produced the opposite lie.** Requiring a source to be *edited* >= 3
+   times inside the window reported that **no** channel file has a standing producer -- because a
+   producer that runs every round but has not had its **code** edited in 240 commits has zero
+   touches. Both drafts were measuring source edits. Production is the file's own change history:
+   the cadence of a channel file is the median gap between its own writes, and the comparison a
+   reader cares about is `lag` vs that interval.
+4. **The honest result is mostly an absence.** 46 of 59 files are written **exactly once** in the
+   240-commit window: they have an age, not a cadence, and grading their lag would grade a
+   publishing decision made long ago. Only 8 files have an interval at all, and they split 4 inside
+   (e.g. `precisioncensus_latest.json` lag 8 / cadence 10) and 4 beyond (e.g. `bandswitch_latest`
+   lag 22 / cadence 4.5, 7 writes). The four beyond-cadence files are the only ones in the whole
+   population that answer the card's question with "yes": their copy is older than their own rhythm.
+5. **An absence needs its own class.** `single_write_no_cadence` is published rather than folded
+   into `lag_beyond`: calling a once-published face stale is the same error as calling a
+   never-evaluated gate vacuous.
+
+How to apply: when asking who produces something, credit the producer only where it moved with the
+product and the commit could have been about that product; measure cadence on the product, not on
+the producer's source; and treat "written once in the window" as a category, not a number to
+average. Any distribution that collapses to a single value across the whole population is a leak
+from one source, not a finding.

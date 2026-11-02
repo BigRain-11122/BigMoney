@@ -1142,6 +1142,14 @@ LEGS = [
     # working tree only (this clone is blob:none; `git show` / `git grep` start a lazy fetch and
     # hang the round) and only `git log` / `ls-tree` metadata is asked of git. ~4-6 min.
     ("staleness_window", ["python", "scripts/e352_staleness_window.py", "verify"]),
+
+    # E357: E352 measured how far behind the copy a reader takes is, but not why. Against the same
+    # 240-commit first-parent window and the same 59 files: 46 are written exactly ONCE in the
+    # window (a face published and never refreshed -- an age, not a cadence), so only 8 files have
+    # a rewrite interval to compare a lag against, and those split 4 inside / 4 beyond. 1237 of
+    # 1291 declared writer pairs never co-changed with the file they are said to write, and 54 of
+    # them are the suite itself. Verify re-derives classes and the partition (~2 s, one git log).
+    ("channel_writer_cadence", ["python", "scripts/e357_channel_writer_cadence.py", "verify"]),
 ]
 
 

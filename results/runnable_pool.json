@@ -26545,15 +26545,29 @@
    "title": "E351 published 55 of 92 product: gates whose subject is not a literal path; name what they actually read and whether any of them can be resolved"
   },
   {
+   "done_at": "2026-11-02T10:03:20+08:00",
    "entered_at": "2026-11-02T05:12:00+08:00",
    "entered_by": "bm-b r1374",
    "id": "E355-WHO-WRITES-EACH-LAGGING-CHANNEL-FILE-AND-HOW-OFTEN",
    "lane": "cpu-only",
    "notes": "seeded at E352 close. Bound to keep: cadence is read from the file's own first-parent write history, exactly the clock E352 used, so the two studies cannot disagree about how to count a round",
-   "owner": null,
+   "outcome": "REJECT the card as stated: 46 of 59 files are written exactly once in the 240-commit window, so they have an age, not a cadence, and no lag-vs-period test applies. Only 8 files have an interval and they split 4 inside / 4 beyond. 1237 of 1291 declared writer pairs never co-changed with the file they are said to write; 54 of the 54 that did are the suite itself.",
+   "outcome_note": "ID COLLISION, published rather than hidden: this card was seeded as E355 while the E-numbers E354/E355/E356 had already been consumed by studies (r1374 E354, r1377 E355, r1378 E356). The work is published as study E357; the card id is left unchanged so the seeded reference stays resolvable. The same collision applies to the two remaining ready cards (E354-WHAT-THE-55-UNNAMED-SUBJECTS-ARE-READING and E356-HOW-MUCH-OF-THE-CORPUS-CENSUS-IS-SELFTEST-SCAFFOLDING) -- they must be renumbered when claimed, not claimed under a number that already has a published card.",
+   "owner": "bm-b",
+   "owner_since": "2026-11-02T10:03:20+08:00",
    "priority": 2,
+   "result_ref": "results/state_tilt/CHWRCAD-2026-11-02.json + scripts/e357_channel_writer_cadence.py",
+   "result_refs": [
+    "results/state_tilt/CHWRCAD-2026-11-02.json",
+    "results/state_tilt/chwrcad_latest.json",
+    "scripts/e357_channel_writer_cadence.py",
+    "scripts/run_e357_smoke_leg.py",
+    "research/digests/DIGEST-20261102-r1379-e357-channel-writer-cadence.md",
+    "knowledge/METHODOLOGY_ASSETS.md#E357"
+   ],
    "source": "E352 STALEWIN-2026-11-02 (58 of 59 deciding files lag; median 80 commits; 7 carry a freshness gate)",
-   "status": "ready",
+   "status": "done",
+   "study": "E357_channel_writer_cadence",
    "target": "a per-file writer-and-cadence table over the 58 lagging channel files, with the lag tested against the named writer's own period instead of against zero",
    "title": "E352 measured how far behind the copy a reader takes is, but not why: 58 of 59 deciding channel files lag their newest writer and 1 is rewritten every round. Ask who writes each of the 58 and at what cadence, then test whether each file's measured lag is bounded by its writer's period or exceeds it -- a lag inside the writer's own cadence is not a defect, a lag beyond it is a reader that never re-runs"
   },
@@ -26585,6 +26599,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-02T06:27:59+08:00",
+ "updated_at": "2026-11-02T10:03:20+08:00",
  "version": 1
 }
