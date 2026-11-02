@@ -1,12 +1,12 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-11-02T06:41:45+08:00",
+ "clock_read": "2026-11-02T09:02:00+08:00",
  "cpu_pct": 11.5,
- "current": "r1376: automation_line_audit E1 carrier-parse fix (table spelling)",
- "current_task": "r1376: automation_line_audit E1 carrier-parse fix (table spelling)",
- "current_work": "r1375 E353: of 131 guards on a field no source writes, 23 raise before the guard runs, 5 read a missing/null field, 103 read a value (34 falsy); 4 faces of one writer each close the alert class",
+ "current": "r1378 E356 census-red triage",
+ "current_task": "r1378 E356 census-red triage",
+ "current_work": "E356 triage of the seven census-corpus red legs",
  "cyc_round": 1373,
- "cycle_round": 1373,
+ "cycle_round": 1378,
  "d19": {
   "decisions_changed": false,
   "decisions_sha": "fdd605df",
@@ -186,7 +186,7 @@
  "last_decisions_probe_at": "2026-11-01T00:28:21+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
  "last_decisions_read_at": "2026-11-01T07:10:00+08:00",
- "last_decisions_sha": "ecc7fbac817806056d4c53f4a18a3d8eda6704b32936c91a8bb8455905b93ca7",
+ "last_decisions_sha": "3a7c526e25d25164c2d3913695762c6e8fe00c7509a94bc3db719a758df838f5",
  "last_decisions_sha_method": "sha256(origin/main:docs/decisions.md)[:16]",
  "last_decisions_sha_prev": "0d09d6e9be1fdd42712d319f85bac5a0db48b1cb138fba8805e7d4293ddcddbc",
  "last_decisions_sha_probe": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
@@ -3893,8 +3893,8 @@
  "ram_total_gb": 23.92,
  "reds_open": [],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1377,
- "round_no": 1377,
+ "round": 1378,
+ "round_no": 1378,
  "round_no_label": "r1377",
  "round_no_note": "r1373 healed a 6-round split: round/round_no said 1372 while cyc_round/cycle_round/last_round/did_round still said 1366 and the label said r1370. Pre-fix faces: {\"cyc_round\": 1366, \"cycle_round\": 1366, \"did_round\": 1366, \"last_round\": 1366, \"round\": 1372, \"round_no\": 1372, \"round_no_label\": \"r1370\"}",
  "round_no_ts": "2026-11-02T00:37:31+08:00",
@@ -3946,5 +3946,11 @@
  "watermark_note": "orphan py_faces=7 orphans=0 residents=0 | sat engine rc=0 idle | attrition CLEAN 4 ledgers | dualrun ZERO-DRIFT 843 streak 5",
  "watermark_red": false,
  "watermark_verdict": "pool floor 3/3 met at open (E351/E352/E353); E351 burned in-window; E354 seeded",
- "work": "r1377 repair: two legs delivered as 'standalone PASS' (E350 r1371, E353 r1375) raised NameError('re') inside the suite because their runners import re and smoke_test.py did not"
+ "work": "r1377 repair: two legs delivered as 'standalone PASS' (E350 r1371, E353 r1375) raised NameError('re') inside the suite because their runners import re and smoke_test.py did not",
+ "cycl_round": 1378,
+ "decisions_consumed_r1378": [
+  "D-20261101-13 (ghost s6 leg etf_book_width_cross; bm-a already disabled it, bm-b legs 100/100)",
+  "D-20261102-08 (line triage stale-threshold; quant-audit stage face repaired in r1376)",
+  "D-20261102-10/11 (LANE-REGISTRY + KnownDisabled; Bigmoney lane reads Ready/Running here, no revival needed)"
+ ]
 }

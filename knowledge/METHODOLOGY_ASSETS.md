@@ -7472,3 +7472,38 @@ body) and execute the leg against exactly that namespace plus the `check`/`RESUL
 a runner injects but the suite lacks surfaces immediately as NameError.
 `scripts/prove_smoke_leg_isolation.py` does this for every runner-backed leg and is itself wired
 into the suite (leg E355), so a future leg cannot be delivered on runner-only evidence.
+
+## E356 -- a leg that grades a census against a fresh build grades two populations, not one (r1378)
+
+Seven assertions in the r1378 suite were red and every one of them said the same sentence:
+`summary ... does not re-derive`. They are not seven defects. Each compares a *published* face
+against `build()` on today's disk, and the population those censuses describe gains a script and
+two faces every round -- so a published count is a statement about a corpus that no longer exists.
+Triage (`scripts/e356_census_red_triage.py`, selftest 26/26) measured what actually moved, per
+leg, leaf by leaf: 6 studies, 1 `in_sync` (and still red -- its leg measures something the build
+does not reproduce), 2 population movement (759 rows appeared, 740 left, no finding moved), 3
+substantive. The face only means something because of how it counted:
+
+1. **A diff keyed on position reports renumbering as disagreement.** Address census rows by
+   identity (`rows[source=...]`), never by index: the same two populations produced **1658**
+   changed leaves by position and **148** by identity, and every one of the 1,510 extra leaves was
+   a shifted index.
+2. **A synthetic identity that embeds a coordinate turns renumbering into renaming.** Seven rows
+   were named `<unnamed leg at line 1128>`; when a line was inserted above them the *name* moved.
+   Fold only the literal `line <n>` spelling -- a template that blanks every digit would also
+   blank a real value (12.24 vs 1.53).
+3. **A scalar list is a member set, not a sequence.** `mentions_rejected` gained one source and
+   every element after it appeared to change. Compare members; report appeared/disappeared.
+4. **One of the seven was not about the face at all**: the leg unpacked `optin_allowlist()` into
+   two values after the function had grown a third (`ValueError: too many values to unpack`). A
+   leg written against a signature rots with the signature -- the exception surfaced only because
+   the leg ran.
+5. **The one substantive move that matters is E325**: orphan rows fell 24 -> 3 and the largest
+   orphan family 22 -> 1 because E332's recovered corpus changed which sources can name a face.
+   That is a finding moving, and it is the only row here that deserves a phone call.
+
+How to apply: when a guard says "does not re-derive", first ask *what* moved -- stamp, coordinate,
+population, or value -- and only the last one is a defect. Publish the triage, not a republish:
+re-deriving a census on a bigger corpus cannot be made to equal its old self, and a leg that
+demands it goes red forever. Assert what must hold (partition sums, vocabulary, commission,
+row-for-row identity), never equality with a re-derivation the corpus guarantees to move.

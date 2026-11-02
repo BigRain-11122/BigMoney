@@ -10171,7 +10171,8 @@ def main() -> int:
                 _bad335.append("the unlisted readers disagree with the decision inputs")
             if _inert335.get("clean") != (not _nreb and not _nunl335):
                 _bad335.append("the inertness block calls itself clean while naming offenders")
-            _allowface335, _whyallow335 = _m335.optin_allowlist()
+            # optin_allowlist() returns (consumers, verdict, why); unpacking two was a ValueError
+            _allowface335, _whyallow335, _ignored = _m335.optin_allowlist()
             for _r335x in _inert335.get("allowlisted_consumers") or []:
                 if _r335x.get("source") not in _allowface335:
                     _bad335.append("%s reads the new name without a published opt-in (%s)"
@@ -11645,6 +11646,68 @@ def _r77(face, key):
 def _r39(face, key):
     v = (face.get("summary") or {}).get(key)
     return "n/a" if v is None else "%.3f" % v
+
+
+    # E356: the census-corpus reds are graded on *what moved*, never on a re-derivation that the
+    # corpus itself guarantees to move.  r1378: six legs were red because each compared a published
+    # census against build() on today's disk; the population those censuses describe gains sources
+    # every round, so "summary does not re-derive" is a statement about two different populations.
+    # This leg is structural on purpose: it grades the triage face's own accounting, so it cannot
+    # go red the moment a study publishes.
+    _name356 = ("product: every census-corpus red is triaged by what moved (stamps, population, "
+                "values) instead of by equality with a re-derivation the corpus guarantees to move")
+    _bad356 = []
+    try:
+        _p356 = os.path.join("results", "state_tilt", "redtriage_latest.json")
+        _f356 = json.load(open(_p356, encoding="utf-8")) if os.path.exists(_p356) else None
+        if _f356 is None:
+            _bad356.append("no published red-triage face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m356 = __import__("importlib").import_module("e356_census_red_triage")
+            _s356 = _f356.get("summary") or {}
+            _rows356 = _f356.get("legs") or []
+            _cls356 = [r.get("class") for r in _rows356]
+            if any(c not in _m356.CLASSES for c in _cls356):
+                _bad356.append("a row class is outside the frozen vocabulary")
+            if sum((_s356.get("by_class") or {}).values()) != _s356.get("legs"):
+                _bad356.append("the class partition does not sum to the leg count")
+            if _s356.get("legs") != len(_rows356):
+                _bad356.append("the summary leg count disagrees with its rows")
+            if _s356.get("legs") != len(_m356.LEGS):
+                _bad356.append("the face does not cover the population its study declares")
+            if [r.get("leg") for r in _rows356] != [l[0] for l in _m356.LEGS]:
+                _bad356.append("the rows are not the declared legs, in order")
+            _inv356 = sum(1 for c in _cls356 if c in ("substantive", "shrunk", "unbuildable",
+                                                      "absent"))
+            _pub356 = sum(1 for c in _cls356 if c in ("corpus_growth", "stamps_only"))
+            if _inv356 != _s356.get("needs_investigation"):
+                _bad356.append("needs_investigation does not re-derive from the rows")
+            if _pub356 != _s356.get("republish_candidates"):
+                _bad356.append("republish_candidates does not re-derive from the rows")
+            if sum(int(r.get("n_changed") or 0) for r in _rows356) != \
+                    _s356.get("total_changed_leaves"):
+                _bad356.append("the changed-leaf total does not re-derive from the rows")
+            if _s356.get("verdicts_moved") != sum(1 for r in _rows356 if r.get("verdict_moved")):
+                _bad356.append("the moved-verdict count does not re-derive from the rows")
+            for _r356 in _rows356:
+                if not os.path.exists(os.path.join("scripts", _r356["module"] + ".py")):
+                    _bad356.append("%s: the study script is not on disk" % (_r356["module"],))
+                if not os.path.exists(os.path.join("results", "state_tilt", _r356["face"])):
+                    _bad356.append("%s: the graded face is not on disk" % (_r356["face"],))
+    except Exception as e:
+        _bad356.append(repr(e)[:160])
+    check(_name356, not _bad356, "; ".join(_bad356)[:220]
+          or "%s leg(s): %s; %s need investigation, %s are a republish decision; %s changed "
+             "leaf/leaves, %s row(s) added, %s removed, %s moved verdict(s)"
+             % (str((_f356 or {}).get("summary", {}).get("legs")),
+                str((_f356 or {}).get("summary", {}).get("by_class")),
+                str((_f356 or {}).get("summary", {}).get("needs_investigation")),
+                str((_f356 or {}).get("summary", {}).get("republish_candidates")),
+                str((_f356 or {}).get("summary", {}).get("total_changed_leaves")),
+                str((_f356 or {}).get("summary", {}).get("total_added_rows")),
+                str((_f356 or {}).get("summary", {}).get("total_removed_rows")),
+                str((_f356 or {}).get("summary", {}).get("verdicts_moved"))))
 
 
 def _r39ci(face, key):

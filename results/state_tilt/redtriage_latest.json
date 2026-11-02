@@ -1,0 +1,414 @@
+{
+ "study": "E356",
+ "generated": "2026-11-02T08:59:37+0800",
+ "question": "do the census-corpus red legs describe a stale face or a real disagreement?",
+ "method": "each published face is compared leaf-by-leaf against the module's own build() on today's disk; numeric-only upward moves are corpus growth",
+ "summary": {
+  "legs": 6,
+  "by_class": {
+   "in_sync": 1,
+   "stamps_only": 0,
+   "reindexed": 0,
+   "population_moved": 2,
+   "corpus_growth": 0,
+   "shrunk": 0,
+   "substantive": 3,
+   "unbuildable": 0,
+   "absent": 0
+  },
+  "classes_sum_to_legs": true,
+  "republish_candidates": 0,
+  "needs_investigation": 3,
+  "total_changed_leaves": 148,
+  "total_added_rows": 785,
+  "total_removed_rows": 748,
+  "legs_with_order_moved": 1,
+  "verdicts_moved": 0
+ },
+ "legs": [
+  {
+   "leg": 298,
+   "label": "control blocks censused by the panel they re-derived on",
+   "module": "e298_replay_control_census",
+   "face": "replaycensus_latest.json",
+   "class": "substantive",
+   "n_changed": 5,
+   "n_added": 0,
+   "n_removed": 1,
+   "order_moved": false,
+   "changes": [
+    {
+     "path": "evidence_cutoff",
+     "published": "2026-11-01",
+     "fresh": "2026-11-02"
+    },
+    {
+     "path": "summary.faces_scanned",
+     "published": 138,
+     "fresh": 142
+    },
+    {
+     "path": "summary.mirror_files_excluded",
+     "published": 113,
+     "fresh": 117
+    },
+    {
+     "path": "summary.self_face_cutoff_present",
+     "published": true,
+     "fresh": false
+    },
+    {
+     "path": "summary.self_face_files_on_disk",
+     "published": 2,
+     "fresh": 3
+    }
+   ],
+   "changed_truncated": 0,
+   "added_sample": [],
+   "removed_sample": [
+    "generated"
+   ],
+   "published_verdict": "controls_that_cannot_state_their_basis_exist",
+   "fresh_verdict": "controls_that_cannot_state_their_basis_exist",
+   "verdict_moved": false,
+   "notes": [
+    "added:0",
+    "removed:1",
+    "stamp:evidence_cutoff",
+    "value:summary.self_face_cutoff_present"
+   ],
+   "seconds": 0.41
+  },
+  {
+   "leg": 299,
+   "label": "a face value compared finer than the field is printed",
+   "module": "e299_rounded_vs_tolerance_census",
+   "face": "precisioncensus_latest.json",
+   "class": "population_moved",
+   "n_changed": 122,
+   "n_added": 759,
+   "n_removed": 740,
+   "order_moved": false,
+   "changes": [
+    {
+     "path": "at_risk[expression=(_b72.get('gap_pct') or 0) > 1e-12].line",
+     "published": 5770,
+     "fresh": 5785
+    },
+    {
+     "path": "at_risk[expression=(_c104.get('gates_with_a_zero_tolerance') or 0) != len([r for r in _rows104 if r.get('value') == 0])].line",
+     "published": 8800,
+     "fresh": 8815
+    },
+    {
+     "path": "at_risk[expression=(_curve.get('1920') or {}).get('share_settled') != 1.0].line",
+     "published": 4848,
+     "fresh": 4863
+    },
+    {
+     "path": "at_risk[expression=(_f.get('cause') == _m307.CAUSE_NONE) != (not _f.get('writers'))].line",
+     "published": 9092,
+     "fresh": 9117
+    },
+    {
+     "path": "at_risk[expression=(_f73 or {}).get('rederivation', {}).get('max_abs_diff_t_max_end') != 0.0].line",
+     "published": 6036,
+     "fresh": 6051
+    },
+    {
+     "path": "at_risk[expression=(_f73 or {}).get('rederivation', {}).get('max_abs_diff_t_side') != 0.0].line",
+     "published": 6038,
+     "fresh": 6053
+    },
+    {
+     "path": "at_risk[expression=(_fresh85.get('summary') or {}).get('gap_rows') != _s85.get('gap_rows')].line",
+     "published": 6945,
+     "fresh": 6960
+    },
+    {
+     "path": "at_risk[expression=(_mo28.get('cost_bp_per_year_oos') or 0.0) != 0.0].line",
+     "published": 2368,
+     "fresh": 2383
+    },
+    {
+     "path": "at_risk[expression=_ad.get('share_positive') != _share].line",
+     "published": 1909,
+     "fresh": 1924
+    },
+    {
+     "path": "at_risk[expression=_bb77.get('band_pct') != [0.0, 100.0]].line",
+     "published": 6337,
+     "fresh": 6352
+    },
+    {
+     "path": "at_risk[expression=_f.get('cause') == _m307.CAUSE_NONE].line",
+     "published": 9092,
+     "fresh": 9117
+    },
+    {
+     "path": "at_risk[expression=_fresh83.get('tolerance_band') != (_f83.get('tolerance_band') or {})].line",
+     "published": 6761,
+     "fresh": 6776
+    }
+   ],
+   "changed_truncated": 110,
+   "added_sample": [
+    "legs[0].lines[]->33",
+    "legs[100].lines[]->798",
+    "legs[100].lines[]->830",
+    "legs[101].lines[]->833",
+    "legs[102].lines[]->835",
+    "legs[102].lines[]->839",
+    "legs[103].lines[]->844",
+    "legs[104].lines[]->846",
+    "legs[105].lines[]->847",
+    "legs[105].lines[]->851",
+    "legs[106].lines[]->856",
+    "legs[107].lines[]->858"
+   ],
+   "removed_sample": [
+    "generated",
+    "legs[0].lines[]<-32",
+    "legs[100].lines[]<-797",
+    "legs[100].lines[]<-829",
+    "legs[101].lines[]<-831",
+    "legs[102].lines[]<-834",
+    "legs[102].lines[]<-838",
+    "legs[103].lines[]<-842",
+    "legs[104].lines[]<-845",
+    "legs[105].lines[]<-846",
+    "legs[105].lines[]<-850",
+    "legs[106].lines[]<-854"
+   ],
+   "published_verdict": "legs_compare_face_values_finer_than_the_faces_print",
+   "fresh_verdict": "legs_compare_face_values_finer_than_the_faces_print",
+   "verdict_moved": false,
+   "notes": [
+    "added:759",
+    "removed:740",
+    "stamp:at_risk[expression=(_b72.get('gap_pct') or 0) > 1e-12].line",
+    "stamp:at_risk[expression=(_c104.get('gates_with_a_zero_tolerance') or 0) != len([r for r in _rows104 if r.get('value') == 0])].line",
+    "stamp:at_risk[expression=(_curve.get('1920') or {}).get('share_settled') != 1.0].line",
+    "stamp:at_risk[expression=(_f.get('cause') == _m307.CAUSE_NONE) != (not _f.get('writers'))].line",
+    "stamp:at_risk[expression=(_f73 or {}).get('rederivation', {}).get('max_abs_diff_t_max_end') != 0.0].line",
+    "stamp:at_risk[expression=(_f73 or {}).get('rederivation', {}).get('max_abs_diff_t_side') != 0.0].line",
+    "stamp:at_risk[expression=(_fresh85.get('summary') or {}).get('gap_rows') != _s85.get('gap_rows')].line",
+    "stamp:at_risk[expression=(_mo28.get('cost_bp_per_year_oos') or 0.0) != 0.0].line",
+    "stamp:at_risk[expression=_ad.get('share_positive') != _share].line",
+    "stamp:at_risk[expression=_bb77.get('band_pct') != [0.0, 100.0]].line"
+   ],
+   "seconds": 51.96
+  },
+  {
+   "leg": 323,
+   "label": "widening the producer needle relocates the unowned gates",
+   "module": "e323_reach_under_wider_needle",
+   "face": "reachwide_latest.json",
+   "class": "substantive",
+   "n_changed": 4,
+   "n_added": 20,
+   "n_removed": 0,
+   "order_moved": false,
+   "changes": [
+    {
+     "path": "summary.corpus_files",
+     "published": 2341,
+     "fresh": 2350
+    },
+    {
+     "path": "summary.max_naive_writers_on_one_face",
+     "published": 973,
+     "fresh": 978
+    },
+    {
+     "path": "summary.mentions_rejected",
+     "published": 6020,
+     "fresh": 6035
+    },
+    {
+     "path": "verdict_reason",
+     "published": "196 rows re-classified under the wider needle (2341 corpus files): 25 rows move class, 25 of them to a LESS named class, and the named count goes 21 -> 21. The named share was 10.7 pct with the literal needle and is 10.7 pct now. A naively accumulated producer set would report 28 named rows, but all 7 of the extra names come from family needles (a composed prefix or a sibling filename) rather than from the face's own path, so attribution refuses them and the published figure is the attended one.",
+     "fresh": "196 rows re-classified under the wider needle (2350 corpus files): 25 rows move class, 25 of them to a LESS named class, and the named count goes 21 -> 21. The named share was 10.7 pct with the literal needle and is 10.7 pct now. A naively accumulated producer set would report 28 named rows, but all 7 of the extra names come from family needles (a composed prefix or a sibling filename) rather than from the face's own path, so attribution refuses them and the published figure is the attended one."
+    }
+   ],
+   "changed_truncated": 0,
+   "added_sample": [
+    "rows[13].mentions_rejected[]->scripts/_r1373_post.py",
+    "rows[14].mentions_rejected[]->scripts/_r1373_post.py",
+    "rows[15].mentions_rejected[]->scripts/_r1373_post.py",
+    "rows[16].mentions_rejected[]->scripts/_r1373_post.py",
+    "rows[17].mentions_rejected[]->scripts/_r1373_post.py",
+    "rows[18].mentions_rejected[]->scripts/_r1373_post.py",
+    "rows[19].mentions_rejected[]->scripts/_r1373_post.py",
+    "rows[20].mentions_rejected[]->scripts/_r1373_post.py",
+    "rows[21].mentions_rejected[]->scripts/_r1374bmb_closeout.py",
+    "rows[21].mentions_rejected[]->scripts/e353_unwritten_guard_presence.py",
+    "rows[21].writers_by_step.composed[]->scripts/e352_staleness_window.py",
+    "rows[21].writers_by_step.composed[]->scripts/e356_census_red_triage.py"
+   ],
+   "removed_sample": [],
+   "published_verdict": "the_wider_needle_moves_rows_between_classes_without_naming_anything_new",
+   "fresh_verdict": "the_wider_needle_moves_rows_between_classes_without_naming_anything_new",
+   "verdict_moved": false,
+   "notes": [
+    "added:20",
+    "removed:0",
+    "value:verdict_reason"
+   ],
+   "seconds": 69.23
+  },
+  {
+   "leg": 325,
+   "label": "a gate whose face no source can produce",
+   "module": "e325_orphan_gate_faces",
+   "face": "orphangateface_latest.json",
+   "class": "substantive",
+   "n_changed": 17,
+   "n_added": 6,
+   "n_removed": 6,
+   "order_moved": true,
+   "changes": [
+    {
+     "path": "by_rung.R1_standard_needle.largest_orphan_rows",
+     "published": 22,
+     "fresh": 1
+    },
+    {
+     "path": "by_rung.R1_standard_needle.orphan_rows",
+     "published": 24,
+     "fresh": 3
+    },
+    {
+     "path": "by_rung.R1_standard_needle.share_of_rows",
+     "published": 12.24,
+     "fresh": 1.53
+    },
+    {
+     "path": "corpus.files",
+     "published": 2340,
+     "fresh": 2349
+    },
+    {
+     "path": "faces[face=results/e40_cashleg_drag/CASHLeg-20261027.json].class_by_rung.R1_standard_needle",
+     "published": "reproducible_by_a_source_that_names_the_file_and_writes",
+     "fresh": "no_source_in_the_corpus_names_the_face"
+    },
+    {
+     "path": "faces[face=results/e40_cashleg_drag/CASHLeg-20261027.json].first_rung_that_finds_a_writer",
+     "published": "R1_standard_needle",
+     "fresh": "R2_every_auditor_kept"
+    },
+    {
+     "path": "faces[face=results/state_tilt/GATEOPERANDS-2026-10-31.json].class_by_rung.R1_standard_needle",
+     "published": "no_source_in_the_corpus_names_the_face",
+     "fresh": "reproducible_by_a_source_that_names_the_file_and_writes"
+    },
+    {
+     "path": "faces[face=results/state_tilt/GATEOPERANDS-2026-10-31.json].first_rung_that_finds_a_writer",
+     "published": "R3_plus_format_templates",
+     "fresh": "R1_standard_needle"
+    },
+    {
+     "path": "moved_faces[face=results/e40_cashleg_drag/CASHLeg-20261027.json].first_rung_that_finds_a_writer",
+     "published": "R1_standard_needle",
+     "fresh": "R2_every_auditor_kept"
+    },
+    {
+     "path": "moved_faces[face=results/e40_cashleg_drag/CASHLeg-20261027.json].standard",
+     "published": "reproducible_by_a_source_that_names_the_file_and_writes",
+     "fresh": "no_source_in_the_corpus_names_the_face"
+    },
+    {
+     "path": "moved_faces[face=results/state_tilt/GATEOPERANDS-2026-10-31.json].first_rung_that_finds_a_writer",
+     "published": "R3_plus_format_templates",
+     "fresh": "R1_standard_needle"
+    },
+    {
+     "path": "moved_faces[face=results/state_tilt/GATEOPERANDS-2026-10-31.json].standard",
+     "published": "no_source_in_the_corpus_names_the_face",
+     "fresh": "reproducible_by_a_source_that_names_the_file_and_writes"
+    }
+   ],
+   "changed_truncated": 5,
+   "added_sample": [
+    "by_rung.R1_standard_needle.orphan_face_names[]->results/e40_cashleg_drag/CASHLeg-20261027.json",
+    "faces[face=results/e40_cashleg_drag/CASHLeg-20261027.json].orphan_under[]->R1_standard_needle",
+    "faces[face=results/state_tilt/GATEOPERANDS-2026-10-31.json].writers_standard[]->scripts/e312_gate_operand_identity.py",
+    "summary.faces_orphan_on_one_rung_and_written_on_a_later_one[face=results/e40_cashleg_drag/CASHLeg-20261027.json].face",
+    "summary.faces_orphan_on_one_rung_and_written_on_a_later_one[face=results/e40_cashleg_drag/CASHLeg-20261027.json].first_rung_that_finds_a_writer",
+    "summary.faces_orphan_on_one_rung_and_written_on_a_later_one[face=results/e40_cashleg_drag/CASHLeg-20261027.json].rows"
+   ],
+   "removed_sample": [
+    "by_rung.R1_standard_needle.orphan_face_names[]<-results/state_tilt/GATEOPERANDS-2026-10-31.json",
+    "faces[face=results/e40_cashleg_drag/CASHLeg-20261027.json].writers_standard[]<-scripts/e323_reach_under_wider_needle.py",
+    "faces[face=results/state_tilt/GATEOPERANDS-2026-10-31.json].orphan_under[]<-R1_standard_needle",
+    "summary.faces_orphan_on_one_rung_and_written_on_a_later_one[face=results/state_tilt/GATEOPERANDS-2026-10-31.json].face",
+    "summary.faces_orphan_on_one_rung_and_written_on_a_later_one[face=results/state_tilt/GATEOPERANDS-2026-10-31.json].first_rung_that_finds_a_writer",
+    "summary.faces_orphan_on_one_rung_and_written_on_a_later_one[face=results/state_tilt/GATEOPERANDS-2026-10-31.json].rows"
+   ],
+   "published_verdict": "every_writer_less_face_in_the_population_is_a_lookup_artefact_under_a_later_rung",
+   "fresh_verdict": "every_writer_less_face_in_the_population_is_a_lookup_artefact_under_a_later_rung",
+   "verdict_moved": false,
+   "notes": [
+    "added:6",
+    "removed:6",
+    "down:by_rung.R1_standard_needle.largest_orphan_rows",
+    "down:by_rung.R1_standard_needle.orphan_rows",
+    "down:by_rung.R1_standard_needle.share_of_rows",
+    "value:faces[face=results/e40_cashleg_drag/CASHLeg-20261027.json].class_by_rung.R1_standard_needle",
+    "value:faces[face=results/e40_cashleg_drag/CASHLeg-20261027.json].first_rung_that_finds_a_writer",
+    "value:faces[face=results/state_tilt/GATEOPERANDS-2026-10-31.json].class_by_rung.R1_standard_needle",
+    "value:faces[face=results/state_tilt/GATEOPERANDS-2026-10-31.json].first_rung_that_finds_a_writer",
+    "value:moved_faces[face=results/e40_cashleg_drag/CASHLeg-20261027.json].first_rung_that_finds_a_writer",
+    "value:moved_faces[face=results/e40_cashleg_drag/CASHLeg-20261027.json].standard",
+    "value:moved_faces[face=results/state_tilt/GATEOPERANDS-2026-10-31.json].first_rung_that_finds_a_writer"
+   ],
+   "seconds": 29.08
+  },
+  {
+   "leg": 331,
+   "label": "every reader that reaches a face only through a pointer",
+   "module": "e331_pointer_only_readers",
+   "face": "pointeronly_latest.json",
+   "class": "in_sync",
+   "n_changed": 0,
+   "n_added": 0,
+   "n_removed": 0,
+   "order_moved": false,
+   "changes": [],
+   "changed_truncated": 0,
+   "added_sample": [],
+   "removed_sample": [],
+   "published_verdict": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+   "fresh_verdict": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+   "verdict_moved": false,
+   "notes": [],
+   "seconds": 11.42
+  },
+  {
+   "leg": 335,
+   "label": "the repaired corpus reading lands beside the shipped one",
+   "module": "e335_sibling_entry_point",
+   "face": "siblingentry_latest.json",
+   "class": "population_moved",
+   "n_changed": 0,
+   "n_added": 0,
+   "n_removed": 1,
+   "order_moved": false,
+   "changes": [],
+   "changed_truncated": 0,
+   "added_sample": [],
+   "removed_sample": [
+    "face"
+   ],
+   "published_verdict": "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce",
+   "fresh_verdict": "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce",
+   "verdict_moved": false,
+   "notes": [
+    "added:0",
+    "removed:1"
+   ],
+   "seconds": 71.17
+  }
+ ]
+}
