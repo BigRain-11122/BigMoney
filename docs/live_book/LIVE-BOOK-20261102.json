@@ -3115,7 +3115,7 @@
    "turnover_arm": 0.9422,
    "turnover_declared": 0.9529
   },
-  "elapsed_sec": 48.9,
+  "elapsed_sec": 44.6,
   "evidence_cutoff": "2026-10-30",
   "gross_rows": [
    {
@@ -3492,7 +3492,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-02T09:23:55+0800",
+  "ts": "2026-11-02T10:43:44+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -4018,7 +4018,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 44.6,
+  "elapsed_sec": 43.2,
   "evidence_cutoff": "2026-10-30",
   "gap_stats": {
    "entry_bars": 83,
@@ -4377,7 +4377,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-02T09:24:41+0800",
+  "ts": "2026-11-02T10:44:28+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [

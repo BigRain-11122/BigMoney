@@ -1055,7 +1055,8 @@ def universe_lock_block(ul):
         L.append("")
     L.append("> 跨窗口面：`%s` ｜ 证据截止 %s ｜ 控制闸：本面先在卡片自己的两条臂上复现"
              "（as coded 与 declared fill 各差 0.00 pp）才引用任何冻结数。"
-             % (ul.get("artifact"), ul.get("evidence_cutoff")))
+             % (str(ul.get("artifact") or "results/etf_book_universe_lock.json").replace(os.sep, "/"),
+                ul.get("evidence_cutoff")))
     L.append("")
     return L
 
@@ -3288,7 +3289,7 @@ def render_md(p):
     # r1235: was this book runnable in 2020, or does its return depend on funds
     # that were listed after the window opened?
     for _ul_line in universe_lock_block(p.get("universe_lock") or {}):
-        add(_sw_line)
+        add(_ul_line)
     add("## 必须记住的四条")
     add("")
     for c in p["caveats"]:
@@ -4495,6 +4496,19 @@ def selftest():
         and ("%.1f%%" % (100.0 * (_ul_pk.get("share_listed_after_lock") or 0.0))) in _ul_md,
         "slots=%s listed_after=%s" % (_ul_pk.get("pick_slots"),
                                       _ul_pk.get("book_in_force_listed_after_lock")))
+    # L120 (r1235): L116-L119 read universe_lock_block()'s own return value, so they
+    # stayed 122/122 GREEN while the shipped assembly loop appended `_sw_line` -- the
+    # sample-window block's last line -- once per lock line, dropping every lock line
+    # from the page. A leg that reads the producer cannot testify for the consumer, so
+    # this one renders the page and looks for the block the reader is promised.
+    _ul_lines = [l for l in universe_lock_block(page.get("universe_lock") or {})
+                 if l.strip()]
+    _ul_off = [l for l in _ul_lines if l not in md]
+    chk("L120 universe lock: the block itself reaches the rendered page",
+        bool(_ul_lines) and not _ul_off,
+        "status=%s, %d/%d line(s) on the page"
+        % ((page.get("universe_lock") or {}).get("status"),
+           len(_ul_lines) - len(_ul_off), len(_ul_lines)))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

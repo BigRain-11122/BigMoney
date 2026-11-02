@@ -56,7 +56,7 @@ Descriptive measurement only: zero prereg, zero judgement, zero ledger booking, 
 
 Unit E36-CONCENTRATION-N (N=10 tightest book, 2018-01-02, 8.46y, 106 months), result face
 
-esults/e36_concentration_n10/UNIV-b1d578-s20180101-xsh511-20261021.json:
+results/e36_concentration_n10/UNIV-b1d578-s20180101-xsh511-20261021.json:
 
 | scheme | ann % | vol % | sharpe | cost bp/yr |
 |---|---|---|---|---|

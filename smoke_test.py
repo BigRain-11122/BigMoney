@@ -3864,6 +3864,30 @@ def main() -> int:
         check("config: no card or digest carries a control character",
               False, repr(e)[:160])
 
+    # r1235: the same escape that ate letters in r1383 leaves a second shape --
+    # a line ending in a backslash followed by a path token resolves `\r` into a
+    # real CR and eats the token's leading `r` (`... (selftest 19/19) \` +
+    # newline + `results/x.json` -> `esults/x.json`). The CR is a legal line
+    # break, so the control-character leg above is blind to it, and eleven
+    # pointers in the registry plus one in a digest had been unfollowable for
+    # weeks. The detector proves each candidate on the file system (restored
+    # path exists, or -- for a <template> -- its directory does), so it cannot
+    # fire on spelling.
+    try:
+        _cth2 = _card_text_hygiene()
+        _phits = _cth2.prefix_findings()
+        check("config: no card or digest carries an eaten path prefix",
+              not _phits,
+              ("%d site(s): " % len(_phits)
+               + "; ".join("%s:%d %s" % (h["path"], h["line"], h["token"])
+                           for h in _phits[:4]))[:220]
+              if _phits else
+              "%d files scanned (repair = Tools/card_text_hygiene.py fix)"
+              % len(_cth2.corpus()))
+    except Exception as e:
+        check("config: no card or digest carries an eaten path prefix",
+              False, repr(e)[:160])
+
     # r1344: the card-ledger tripwire must see every card at either heading level.
     # bm-b files `### E221`, this machine files `## E232`, and the first version of
     # the guard matched only `##` -- so 6 of 158 cards were invisible to the one gate

@@ -560,9 +560,9 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
   日息；前向账逐 bar 幂等，漂移断言用「账本 NAV / (1+r0) vs 引擎切片归一」才归零（直接比绝对值会留
   首 bar 误差，r1256 首跑 0.0023 假漂移即此）。
 - 证据：scripts/etf_book_order.py（--selftest 11/11）、
-esults/etf_book_order_fresh/TICKET-2026-10-23.json、
+results/etf_book_order_fresh/TICKET-2026-10-23.json、
   
-esearch/ETF_BOOK_ORDER.md。
+research/ETF_BOOK_ORDER.md。
 - 下一站：全池 ETF 刷新腿（数据面 P1，需署名任务单）；票面接券商=物理件（CEO 保留面）。
 - 2026-10-25 19:3x bm-c r1256 探索
 
@@ -646,9 +646,9 @@ esearch/ETF_BOOK_ORDER.md。
 - 发现：①**10M 口径 5 名最赚（5.58%），12 名单袖效率最高**（+96% 容量只让 0.49pp = 196%/pp）；②**但 50M/100M 口径 12 名单袖反超**（3.48%/2.28% vs 5 名 3.11%/1.29%）——摊宽把参与度成本按 NAV 线性压低，降得比深位信号的衰减快，所以「宽度最优」是资金的函数：8 名在 4,289 万追上 5 名、12 名在 3,279 万；③**错峰只在 8 名成立**（唯一一处同降回撤 -14.2→-10.8% 且收回成本），12/16 名错峰回撤恶化到 -21%，因为它用「更分散的相位」换「更差的选股集中度」，名数一多这笔交易就亏；④容量≠收益的反例：装得最多的 12 名错峰（214.7 万）只赚 3.79%，是面上最差组合之一。
 - 工程：①**同一张表里两列成本不同 = 假对比**：首跑错峰「flat」腿实际走了 ImpactCost，与 priced 列逐字相同才暴露——正法是把成本对象按 leg 显式传入，并加一条功能性自检（ADV≪NAV 时 priced 必须严格低于 flat、flat 腿不得漏出参与度字段）；②F.metrics 的回撤键是 maxdd 不是 max_dd，写错得整列 null 而脚本照跑绿；③任何「哪个参数最好」的面先出效率指标（单位代价换回多少），否则只能在格子里挑绝对最高收益、看不见代价。
 - 证据：scripts/etf_breadth_sweep.py（--selftest 36/36，L8 成本同源功能腿、L9 交叉点插值腿）｜
-esults/etf_breadth_sweep.json（surface + 
+results/etf_breadth_sweep.json（surface + 
 eadings.crossover_nav_vs_ref）｜
-esearch/ETF_BREADTH_SWEEP.md
+research/ETF_BREADTH_SWEEP.md
 - 下一站：宽度 × 打分面（深位 9–12 名由哪些因子撑住）+ 部分成交档（>1% ADV 只成交 1%）+ 12 名单袖叠 8% 波动目标。
 - 2026-10-25 23:3x bm-c r1263 探索
 
@@ -862,7 +862,7 @@ eutralrob，八格与新件 unscreened 臂逐格恒等（diff 为空）。
 ## E136 自指日历分不清假日与哑火：拿交易所官方日历做独立参照，才敢说「今天没有新增 bar」是合法的（r1286 bm-c 实证）
 - 情境：2026-10-26（官方交易日，收盘已过）ETF feed 未发当日 bar。全链 42 条腿全部 rc=0：update_daily 打 probe_no_new、etf_book_forward 打 NO-OP last_bar=2026-10-23、forward 账本停在 1.0。所有腿的「预期完整 bar 日」都是从我们自己的面板/由面板生成的日历推的——**数据自己当裁判，永远判自己合格**。
 - 实做：scripts/exchange_calendar_audit.py（两脸一跑）——①data/exchange_calendar.csv 官方交易日（sina tool_trade_date_hist_sina 一次请求，8797 天，覆盖到 2026-12-31；刷新闸=覆盖不足 30 天或距上次 6h，常态零网络；写入一律与盘上**取并集**，日历属历史不可缩）②
-esults/data_lag_audit.json 把官方日历与本地面板逐日对账，判 in_sync / source_lag（就是今天这一根还没发） / panel_gap（更早的官方日也缺=feed 真哑了），并直接写明对 forward 账本的影响。
+results/data_lag_audit.json 把官方日历与本地面板逐日对账，判 in_sync / source_lag（就是今天这一根还没发） / panel_gap（更早的官方日也缺=feed 真哑了），并直接写明对 forward 账本的影响。
 - 口径要点（全部有 selftest 钉子）：①**15:30 边界**——盘前不要求当日 bar，否则每个上午都报假警（L4）；②**别拿最老的 CSV 当面板落后度**——data/daily 有 1,725 个文件，其中 2 个停在 09-04/09-22，min() 会把「1 天发布延迟」读成「10 天停摆」（首跑就踩，见 L9）；正法=维护中队列（尾 bar 落在最新尾 bar 的 5 个官方日内）+ 覆盖率 ≥90% 才算该日已覆盖；③冻结队列单独披露，不静默平均进状态。
 - 验证：python scripts\exchange_calendar_audit.py selftest 9/9；实跑 verdict=source_lag（expected 2026-10-26，active 1723/1725，effective 2026-10-23，missing ['2026-10-26']）；已接 S6 链 cal_audit 腿（43 腿）+ smoke 两条腿（selftest 契约 + 活面已发布）。
 - 读法：**「没有新 bar」不是状态，是待解释的观测**。有官方日历才有资格说这是延迟；没有就只能等。
@@ -4019,7 +4019,7 @@ calendar rule pays the toll more often and buys nothing.
 Pieces: scripts/e223_obs_rate_ladder.py (
 un / selftest, 26 hermetic legs); face
 
-esults/obs_rate/OBSRATE-<cutoff>.json + latest.json; S6 leg obs_rate_ladder after
+results/obs_rate/OBSRATE-<cutoff>.json + latest.json; S6 leg obs_rate_ladder after
 	om_overlay; smoke leg that re-derives every rung's MDE from its own dispersion and fails
 a rung that ADOPTs below the bar. Pit: the ladder summary needs all four rungs in its
 fixture or it raises instead of reporting a short ladder; and a bp fixture written in
@@ -8633,8 +8633,8 @@ horizon 用 DateOffset 日历年而非假设 252 bar/年。
 
 **证据：** scripts/etf_book_underwater.py（selftest 14/14・--check OK）+
 
-esults/etf_book_underwater.json + 
-esearch/ETF_BOOK_UNDERWATER.md + smoke 两腿（退出码契约 /
+results/etf_book_underwater.json + 
+research/ETF_BOOK_UNDERWATER.md + smoke 两腿（退出码契约 /
 从已发布行重算判决）。
 
 
@@ -8712,3 +8712,50 @@ n12_vt08 差 **0.0 pp**，容差 0.5pp）。这一条腿绿了，后面每一格
 
 **证据：** `scripts/etf_book_pre2020_voltarget.py`（selftest 24/24）· `results/etf_book_pre2020_voltarget.json` ·
 `research/ETF_BOOK_PRE2020_VOLTARGET.md` · `research/digests/DIGEST-20261102-r1234-pre2020-voltarget.md`
+
+## E350 · 「窗口里的钱」要问一句：那个票池当年存在吗（r1235 bm-a）
+
+**一句话：** 任何一个「20XX 年以来年化 N%」都隐含一个没人能执行的前提——**今天的票池当年就有**。
+本线印的 8.46%（declared fill）/9.60%（as coded）都长在今天 **1504 只** ETF 上，而今天真正在手的 12 个名字里
+**11 个是 2020 年以后上市的**。把票池冻结在窗口第一天（193 只）、其余旋钮一个不动重跑，四个决策相位差
+**+0.50 / +0.90 / +0.80 / −2.24 pp**，平均 **−0.01pp** → MIXED_ACROSS_PHASES。
+
+**方法论四条。**
+1. **冻结票池要重算打分**：分数是横截面排行，拿宽票池的排名去套窄票池＝拿「不存在的同侪」排名；
+   锁定臂必须在自己的票池上重建 score，否则测的是两件事。
+2. **「锁定要花钱」与「票池要够宽」是两条不同的结论**：相位平均为零不看梯子就会漏掉真正的依赖——
+   2015 年的 **61 只**票池只有 **5.35%**（−3.1pp），2023 年的 663 只 **8.98%**（+0.5pp）。
+   所以缺的不是「新」，是「多」。
+3. **控制闸要复现两张公开的纸**：锁定数之前先用同一引擎重算 as coded（0.0960）与 declared（0.0846），
+   双双 0.00pp 才引用；控制不过＝这批锁定数属于另一本书。
+4. **口袋里的书要单独报价**：窗口平均差额小，不等于「你手上的这本」不依赖新面孔——
+   11/12 在窗口内上市、37.5% 的决策持仓位落在窗口内新上市的名字上。平均数与当前持仓要分开印。
+
+**边界：** 存活者仍在（2020 年存在但已退市的基金不在面板里，故锁定臂是上界）；票池普查按决策位计数不是资金加权；
+只用 declared fill 做判词（as coded 仅作控制）。**side finding（如实披露）：** 冻结票池的相位摆幅（−2.24..+0.90 pp）
+比这条线测过的任何效应都大——单相位结论在这条线上都不该被当成规则。
+
+**证据：** `scripts/etf_book_universe_lock.py`（selftest 19/19・--check OK）·`results/etf_book_universe_lock.json`·`research/ETF_BOOK_UNIVERSE_LOCK.md`·`scripts/etf_book_ceo_page.py`（universe_lock_face/_block，selftest 118→123，L120 是消费者腿：读渲染后的页而不是读 block 的返回值）·`docs/live_book/LIVE-BOOK-20261102.md`·`research/digests/DIGEST-20261102-r1235-universe-lock.md`
+
+## E351 · 转义吃掉指针的首字母，而字节扫描看不见（r1235 bm-a）
+
+**一句话：** `\r` 既可以读成换行也可以读成字母 `r`——当它出现在本该是 `results/` 的地方，留下的是一行
+**合法的换行**加一个读不到的 `esults/`。r1383 那道控制字符闸按字节扫，而 CR 属合法结构，于是它天生盲：
+卡账本 **11 处**证据指针 + 一个 digest 长期打不开，没有任何一条腿红过。
+
+**四条。**
+1. **修复的证明要去文件系统取**：给候选 token 前置 `r`，只有恢复后的路径存在（模板则其目录存在）才认。
+   按拼写猜＝把一次改数变成一次创作。
+2. **模板 tier 的条件必须写死**：只按「目录存在」判会让每个手误的 `esults/foo.json` 都中招
+   （`results/` 永远存在）；只有 token 自带 `<占位符>` 时才降到目录级。
+3. **同一类缺陷有两种残留形态**：控制字符还在（可扫出）／已被解析成合法结构（只能按 token 形状找）。
+   闸要两条都读——一条绿不代表这一类清零。
+4. **修复必须幂等，且不许覆盖自己的回执**：首版 `fix` 第二遍把「修了 11 处」的记录写成「0 处」，
+   等于把证据换成「没事」；回执只由**移动过字节的那一次**写，重跑无站点时不动回执。
+
+**边界：** 只覆盖 card/digest 语料（registry + `research/digests/**`），其它文件面没扫过；实测只出现
+`esults`/`esearch` 两个家族，是否还有别的被吃首字母的代币（`cripts/`、`ools/`）未测。
+
+**证据：** `Tools/card_text_hygiene.py`（selftest 11→15 · `scan` 双类共 425 文件）·
+`results/card_text_hygiene.json`（8 处按 HEAD→工作树逐字测得 + 3 处属本轮新卡 + 1 处 digest）·
+`smoke_test.py` 新腿「no card or digest carries an eaten path prefix」
