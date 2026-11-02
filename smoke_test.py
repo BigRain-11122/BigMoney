@@ -2471,6 +2471,14 @@ def main() -> int:
             # stands on a script nobody can re-derive.
             ("product: etf_book_spanning_pre2020 period test (exit-code contract)",
              "scripts/etf_book_spanning_pre2020.py", ["--selftest"]),
+            # r1234: the pre-2020 number (5.12%) is quoted on the CEO page as "the same rule
+            # in a harder tape". Inside that window the 8% overlay is not a drag but the
+            # whole return: the un-overlaid book earns 0.73%/yr at 19.9% vol and -46% dd.
+            # The leg pins the two ways that reading can rot -- a published verdict that no
+            # longer recomputes from its own summary, and a control that stops reproducing
+            # the shipped cells_vt (at which point it is pricing a different book).
+            ("product: etf_book_pre2020 vol-target decomposition (verdict recomputed)",
+             "scripts/etf_book_pre2020_voltarget.py", ["--selftest"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print

@@ -8691,3 +8691,24 @@ n12_vt08 差 **0.0 pp**，容差 0.5pp）。这一条腿绿了，后面每一格
 `results/etf_book_weight_scheme.json` · `research/ETF_BOOK_WEIGHT_SCHEME.md` ·
 `scripts/etf_robust_pf.py`（`weight_hook`，默认 None 逐位不变）·
 `research/digests/DIGEST-20261102-r1232-weight-scheme.md`
+
+## E349 · 总收益必须拆成因：「更差的行情」要分成「选得弱」与「躲得及时」（r1234 bm-a）
+
+**一句话：** 一个面报「同一套规则在旧行情里只有 5.12%」，读者只能猜这是能力水平还是保险账单。
+把它拆开跑：同一份面板、同一个引擎，一臂不带 8% 波动覆盖（raw），一臂带（vt）。实测发货格
+裸跑 **0.73%/年·夏普 0.14·回撤 −46.18%·波动 19.85%**，带覆盖 **5.12% / 0.70 / −16.71% / 7.79%**，
+10 格全为正、均值 **+5.03pp**。于是这本书 2015-2019 的收益**几乎全部是风控给的**，不是选券。
+
+**方法论三条：**
+1. **拆因必须先有控制臂**：嘣的 vt 单元格要复现已发布的 `cells_vt`（10/10 ≤0.5pp，发货格逐位 5.12%），
+   复现不了就 exit 3 不引用——否则差值量的是两本书。
+2. **覆盖类 delta 必须附「真的触发过吗」**：正 delta 也可能是两边都没触发。逐决策读 `scale`，
+   报降仓占比（本轮 61%~80%），把「没开」与「开了没用」分开。
+3. **默认值从引擎读回来，不抄交接文档**：上轮交接写「10 日窗口」，引擎常量是 **60 根**（三处同值）。
+   钉三条腿（签名有 `vol_window` / 默认=发货值 / `backtest` 同值），改默认值当场红。
+
+**边界：** 只测「降仓赚不赚钱」，不测怎么改降仓规则（归 `etf_book_drawdown_guard`）；`vol_cap` 恒 1.0 只降不升；
+窗口 20/60/120 极差 1.10pp > 1.0pp 线 → `WINDOW_MATTERS`，按预注册纪律只记录不调参。
+
+**证据：** `scripts/etf_book_pre2020_voltarget.py`（selftest 24/24）· `results/etf_book_pre2020_voltarget.json` ·
+`research/ETF_BOOK_PRE2020_VOLTARGET.md` · `research/digests/DIGEST-20261102-r1234-pre2020-voltarget.md`

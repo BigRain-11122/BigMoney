@@ -40,6 +40,17 @@ from datetime import datetime
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "Tools"))
 
+# r1234: a leg's own stdout can carry U+FFFD (a reader decoding a file with the wrong codec).
+# Printing that through this host's GBK console raised UnicodeEncodeError at the per-leg print
+# -- i.e. leg 114 of 124 killed the runner BEFORE the chain record was written, so the whole
+# run left no evidence. A reporting channel must never be able to destroy the record it is
+# reporting on (D-20261102-03 encoding-at-birth, applied to the runner that reprints legs).
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 import s6_chain_bmc as canonical  # noqa: E402  (the single source of the leg list)
 
 LEGS = canonical.LEGS
