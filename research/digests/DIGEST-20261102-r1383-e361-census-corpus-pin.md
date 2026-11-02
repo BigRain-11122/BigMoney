@@ -27,13 +27,13 @@ than an assumption.
 
 ## What it found
 
-    corpus        2359 sources, 44 MB of text
-    tracked       2255   not in HEAD 104 (4.41%)   tracked-but-dirty 3
-    git supplies  2252 clean blobs (95.46%)   cannot supply 107
+    corpus        2362 sources, 44 MB of text
+    tracked       2258   not in HEAD 104 (4.40%)   tracked-but-dirty 3
+    git supplies  2255 clean blobs (95.47%)   cannot supply 107
     dirty         Tools/gpu_face.py, Tools/s6_chain_bmb.py, scripts/e321_quantity_name_reach.py
 
 Every published corpus count in this repo -- 2337 (REFUSALCAUSE-2026-10-31), 2341 (REACHWIDE),
-2354 (POINTERONLY), 2355 (INVISIBLETAIL) -- is **above** the 2252 files git can supply. So no
+2354 (POINTERONLY), 2355 (INVISIBLETAIL) -- is **above** what git can supply. So no
 checkout of any commit reproduces any published corpus count, and the "summary does not re-derive"
 family was never only a leg problem.
 
@@ -48,12 +48,17 @@ Which means the durable finding is a counting defect, not a delivery one: a cens
 filesystem counts the machine's scratch pile, and the scratch pile grows every round by
 construction -- so the published number is a property of this disk, not of the repository.
 
-The same classifier was pointed at the outputs, because a face has the identical question:
+The same classifier was pointed at the outputs, because a face has the identical question. Before
+the delivery below: of 148 dated faces, 23 untracked and **36 tracked-but-dirty**. After it:
 
-    results/state_tilt dated faces   148
-    tracked 125   untracked 23 (15.54%)   tracked-but-dirty 36
+    results/state_tilt dated faces   149
+    tracked 149   untracked 0   tracked-but-dirty 36
 
-36 of 148 dated faces -- statements about a fixed day -- are not the bytes HEAD holds.
+36 of 149 dated faces -- statements about a fixed day -- are not the bytes HEAD holds.
+
+Reproduction is now measurable rather than argued. `verify` fired on the round's own work before
+the repin (`added 3`: the three helper scripts written after the pin), then after the repin:
+`pin_id 7ce257a3ca23eb63 ... reproduces=True, added 0 removed 0 changed 0`.
 
 ## What this round does NOT claim
 

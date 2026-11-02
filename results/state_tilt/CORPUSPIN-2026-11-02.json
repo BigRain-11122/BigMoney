@@ -1,8 +1,8 @@
 {
- "count": 2359,
+ "count": 2362,
  "evidence_cutoff": "2026-11-02",
  "faces": {
-  "corpus_count": 148,
+  "corpus_count": 149,
   "dir": "results/state_tilt",
   "dirty_faces": [
    "results/state_tilt/ADDOS-2026-10-29.json",
@@ -42,44 +42,20 @@
    "results/state_tilt/UNPINNEDCHOICE-2026-11-01.json",
    "results/state_tilt/UNPUBLISHEDKEY-2026-10-31.json"
   ],
-  "dirty_share_of_tracked_pct": 28.8,
-  "git_can_supply": 89,
-  "git_can_supply_share_pct": 60.14,
-  "git_cannot_supply": 59,
-  "tracked": 125,
-  "tracked_clean": 89,
+  "dirty_share_of_tracked_pct": 24.16,
+  "git_can_supply": 113,
+  "git_can_supply_share_pct": 75.84,
+  "git_cannot_supply": 36,
+  "tracked": 149,
+  "tracked_clean": 113,
   "tracked_dirty": 36,
-  "untracked": 23,
-  "untracked_faces": [
-   "results/state_tilt/BANDPATH-2026-10-30.json",
-   "results/state_tilt/BOOKECHO-2026-10-30.json",
-   "results/state_tilt/BREAKEVEN-2026-10-30.json",
-   "results/state_tilt/COSTCURVE-2026-10-30.json",
-   "results/state_tilt/GRANULARITY-2026-10-30.json",
-   "results/state_tilt/HYSTERESIS-2026-10-30.json",
-   "results/state_tilt/INFOSTRUCT-2026-10-30.json",
-   "results/state_tilt/LEADCOUNTER-2026-10-30.json",
-   "results/state_tilt/LOOBOOK-2026-10-30.json",
-   "results/state_tilt/MATCHED-2026-10-30.json",
-   "results/state_tilt/OMISSION-2026-10-30.json",
-   "results/state_tilt/OWNCROSS-2026-10-30.json",
-   "results/state_tilt/PAIRHET-2026-10-30.json",
-   "results/state_tilt/PRECISIONGAP-2026-11-01.json",
-   "results/state_tilt/REPRO-2026-10-30.json",
-   "results/state_tilt/SCAFFOLD-2026-11-02.json",
-   "results/state_tilt/SHAREDIFF-2026-10-30.json",
-   "results/state_tilt/SLOPEMATRIX-2026-10-30.json",
-   "results/state_tilt/STARDIR-2026-10-30.json",
-   "results/state_tilt/STARLAGBAND-2026-10-30.json",
-   "results/state_tilt/STAROWN-2026-10-30.json",
-   "results/state_tilt/TILT-2026-10-30.json",
-   "results/state_tilt/TIMINGSEL-2026-10-30.json"
-  ],
-  "untracked_share_pct": 15.54,
+  "untracked": 0,
+  "untracked_faces": [],
+  "untracked_share_pct": 0.0,
   "verdict": "the_census_corpus_cannot_be_reassembled_from_any_commit"
  },
- "generated": "2026-11-02T14:13:12",
- "pin_id": "c8d7865bfe37ef7a84631230787fe89e6f99ad031eeac45d3e3714c9af20227c",
+ "generated": "2026-11-02T14:18:06",
+ "pin_id": "7ce257a3ca23eb637ee15360580c6c63e0f29b4e49292e5b2de9a4a031dec375",
  "rule": "e323_reach_under_wider_needle.corpus(): python sources under scripts/Tools/live/monitor/firm, the study's own file excluded",
  "sources": [
   {
@@ -11367,10 +11343,31 @@
    "tracked": false
   },
   {
+   "bytes": 2644,
+   "dirty": false,
+   "path": "scripts/_r1383_heartbeat.py",
+   "sha256": "fa62f7d7cf1db789d9d4ec0a450b8751ebf1e138e84e3bd29d7bcc9b7738fdbb",
+   "tracked": false
+  },
+  {
+   "bytes": 4814,
+   "dirty": false,
+   "path": "scripts/_r1383_report.py",
+   "sha256": "d891fc89720facbbf4bf04d155f26aa3127d5034593599ec2abb450c5411c06c",
+   "tracked": false
+  },
+  {
    "bytes": 1044,
    "dirty": false,
    "path": "scripts/_r1383_run_e361_leg.py",
    "sha256": "ca81ee371c7aebca8ea3bded0a6b7625d4a3e08d1e93186c52b55049cdd4874f",
+   "tracked": false
+  },
+  {
+   "bytes": 2283,
+   "dirty": false,
+   "path": "scripts/_r1383_stage.py",
+   "sha256": "18add3b3cabe8e77f41b4b072d50e4a712657ff6fba43ae1d9a1ce77310b6d83",
    "tracked": false
   },
   {
@@ -12344,7 +12341,7 @@
    "dirty": false,
    "path": "scripts/e230_hysteresis_toll.py",
    "sha256": "3d57151a3a4415b419ecc26293383215303383f8d1aab58d365f3726cd055c7a",
-   "tracked": false
+   "tracked": true
   },
   {
    "bytes": 39155,
@@ -13226,14 +13223,14 @@
    "dirty": false,
    "path": "scripts/e359_census_scaffolding_split.py",
    "sha256": "c16deda6d793c6e16aaa29b2312b3ae6b3adb231bdde1995add6ab72e8ce6e6b",
-   "tracked": false
+   "tracked": true
   },
   {
    "bytes": 18275,
    "dirty": false,
    "path": "scripts/e361_census_corpus_pin.py",
    "sha256": "bb1b40bd5b456c52394256e976e009baf4df2c60c11a66e91630882c721cbfa0",
-   "tracked": false
+   "tracked": true
   },
   {
    "bytes": 11040,
@@ -16598,18 +16595,18 @@
  ],
  "study": "e323_reach_under_wider_needle",
  "summary": {
-  "corpus_count": 2359,
+  "corpus_count": 2362,
   "count_matches_sources": true,
   "dirty_share_of_tracked_pct": 0.13,
-  "git_can_supply": 2252,
-  "git_can_supply_share_pct": 95.46,
+  "git_can_supply": 2255,
+  "git_can_supply_share_pct": 95.47,
   "git_cannot_supply": 107,
-  "pin_id": "c8d7865bfe37ef7a84631230787fe89e6f99ad031eeac45d3e3714c9af20227c",
-  "tracked": 2255,
-  "tracked_clean": 2252,
+  "pin_id": "7ce257a3ca23eb637ee15360580c6c63e0f29b4e49292e5b2de9a4a031dec375",
+  "tracked": 2258,
+  "tracked_clean": 2255,
   "tracked_dirty": 3,
   "untracked": 104,
-  "untracked_share_pct": 4.41,
+  "untracked_share_pct": 4.4,
   "verdict": "the_census_corpus_cannot_be_reassembled_from_any_commit"
  }
 }
