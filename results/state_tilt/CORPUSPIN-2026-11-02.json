@@ -1,8 +1,8 @@
 {
- "count": 2365,
+ "count": 2368,
  "evidence_cutoff": "2026-11-02",
  "faces": {
-  "corpus_count": 149,
+  "corpus_count": 150,
   "dir": "results/state_tilt",
   "dirty_faces": [
    "results/state_tilt/ADDOS-2026-10-29.json",
@@ -42,21 +42,21 @@
    "results/state_tilt/UNPINNEDCHOICE-2026-11-01.json",
    "results/state_tilt/UNPUBLISHEDKEY-2026-10-31.json"
   ],
-  "dirty_share_of_tracked_pct": 24.16,
-  "git_can_supply": 113,
-  "git_can_supply_share_pct": 75.84,
+  "dirty_share_of_tracked_pct": 24.0,
+  "git_can_supply": 114,
+  "git_can_supply_share_pct": 76.0,
   "git_cannot_supply": 36,
-  "tracked": 149,
-  "tracked_clean": 113,
+  "tracked": 150,
+  "tracked_clean": 114,
   "tracked_dirty": 36,
   "untracked": 0,
   "untracked_faces": [],
   "untracked_share_pct": 0.0,
   "verdict": "the_census_corpus_cannot_be_reassembled_from_any_commit"
  },
- "generated": "2026-11-02T15:17:14",
- "git_commit": "fa4e1870f910b70ada3ed8261df390ff48c763c4",
- "pin_id": "2f80629544573dc05e3c7e876cf69b9916e62353fed1b7649da8482ee3132b2b",
+ "generated": "2026-11-02T15:24:34",
+ "git_commit": "1244ee231290e6ed13979acf474feb14dddd0dd0",
+ "pin_id": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f",
  "rule": "e323_reach_under_wider_needle.corpus(): python sources under scripts/Tools/live/monitor/firm, the study's own file excluded",
  "sources": [
   {
@@ -11386,6 +11386,20 @@
    "tracked": false
   },
   {
+   "bytes": 2300,
+   "dirty": false,
+   "path": "scripts/_r1384_append_card.py",
+   "sha256": "8e5cca209130134db7a87a06339c0479ed13b018238abf6a35fce479c85a85ba",
+   "tracked": false
+  },
+  {
+   "bytes": 9669,
+   "dirty": false,
+   "path": "scripts/_r1384_closeout.py",
+   "sha256": "9e285d663a6fc6b66f0afa6518533a3eabb6c22b3e0b8cb557439f68061133b8",
+   "tracked": false
+  },
+  {
    "bytes": 6039,
    "dirty": false,
    "path": "scripts/_r853bma_oss_ledger_append.py",
@@ -13242,7 +13256,7 @@
   },
   {
    "bytes": 18532,
-   "dirty": true,
+   "dirty": false,
    "path": "scripts/e361_census_corpus_pin.py",
    "sha256": "5c8bc246ed40a2a19428c1232e9faac9d6e222ac5b02c30e5d8002b4059f0bc5",
    "tracked": true
@@ -13252,7 +13266,7 @@
    "dirty": false,
    "path": "scripts/e362_corpus_replay.py",
    "sha256": "cb9d9efcc763c6696c94aec711e27007e2dd9909098f992e11c43cb4833aa49a",
-   "tracked": false
+   "tracked": true
   },
   {
    "bytes": 11040,
@@ -15600,6 +15614,13 @@
    "tracked": true
   },
   {
+   "bytes": 3088,
+   "dirty": false,
+   "path": "scripts/run_e362_smoke_leg.py",
+   "sha256": "9310de9c4d5361d8d5ccfe83bb8075e9327a662fb714757081440ad7a3e25de1",
+   "tracked": true
+  },
+  {
    "bytes": 63059,
    "dirty": false,
    "path": "scripts/saturation_engine.py",
@@ -16617,18 +16638,18 @@
  ],
  "study": "e323_reach_under_wider_needle",
  "summary": {
-  "corpus_count": 2365,
+  "corpus_count": 2368,
   "count_matches_sources": true,
-  "dirty_share_of_tracked_pct": 0.18,
-  "git_can_supply": 2254,
+  "dirty_share_of_tracked_pct": 0.13,
+  "git_can_supply": 2257,
   "git_can_supply_share_pct": 95.31,
   "git_cannot_supply": 111,
-  "pin_id": "2f80629544573dc05e3c7e876cf69b9916e62353fed1b7649da8482ee3132b2b",
-  "tracked": 2258,
-  "tracked_clean": 2254,
-  "tracked_dirty": 4,
-  "untracked": 107,
-  "untracked_share_pct": 4.52,
+  "pin_id": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f",
+  "tracked": 2260,
+  "tracked_clean": 2257,
+  "tracked_dirty": 3,
+  "untracked": 108,
+  "untracked_share_pct": 4.56,
   "verdict": "the_census_corpus_cannot_be_reassembled_from_any_commit"
  }
 }

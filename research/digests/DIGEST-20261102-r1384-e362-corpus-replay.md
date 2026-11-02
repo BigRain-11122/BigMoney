@@ -6,17 +6,20 @@ pin exists, the pointer does not*. A digest nobody can turn back into bytes is a
 **Answer.** The pin now names a commit, and the minority no commit holds is frozen into a
 content-addressed store. Replay rebuilds the corpus from `git cat-file` + that store only:
 
-* `git_commit` on the pin; 2,254 of 2,365 members are clean blobs fetchable as `commit:path`.
+* `git_commit` on the pin; 2,257 of 2,368 members are clean blobs fetchable as `commit:path`.
 * 111 un-suppliable members (107 untracked round scratch, 4 tracked-but-dirty) frozen to
   `results/state_tilt/corpus_store/CORPUSSTORE-2f80629544573dc0.json` (328 KB for 562 KB of text).
-* replay: 2,365/2,365 members re-hash to their pinned digests, `pin_id` recomputes bit-identical
-  (2f80629544573dc0...), 0 missing, 0 mismatched, 43,957,006 bytes, `working_tree_read: false`.
+* replay: 2,368/2,368 members re-hash to their pinned digests, `pin_id` recomputes bit-identical
+  (535be1fe6cc7445c...), 0 missing, 0 mismatched, 43,972,063 bytes, `working_tree_read: false`.
+* two vintages, both green: the pre-delivery pin (2,365 members, `2f806295`) replayed identically
+  before the commit; the delivered pin (2,368, `535be1fe`) adds this round's own three scripts. The
+  digest quotes the delivered one; the earlier numbers appear in the round report as the before side.
 * negative control on a real member (`Tools/_r1071bmb_shard_relaunch.py`, one appended line):
   `cannot_be_replayed_bytes_do_not_hash_to_the_pin`, `reproduces=False`, 1 mismatched -- the
   verdict is reachable, not decorative.
 
-**What this does not fix.** The population is still not committable: 107 untracked + 4 dirty of
-2,365, so the reachability verdict stays `the_census_corpus_cannot_be_reassembled_from_any_commit`.
+**What this does not fix.** The population is still not committable: 108 untracked + 3 dirty of
+2,368, so the reachability verdict stays `the_census_corpus_cannot_be_reassembled_from_any_commit`.
 The store makes a census *re-runnable*, not the corpus *committable* (r1081 scratch law unchanged).
 
 **Reusable.** Publish a digest with the address that regenerates it; make the replay declare whether
