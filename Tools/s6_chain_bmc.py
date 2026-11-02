@@ -190,6 +190,18 @@ LEGS = [
     # reading for every position the declared arm holds, prices the wait to the first
     # qualifying bar (censored positions reported, never scored as zero). ~30s, offline.
     ("etf_book_exit_liquidity", ["python", "scripts/etf_book_exit_liquidity.py", "run"]),
+    # r1238 bm-a: the sibling leg above prices the exits that waited for the gate to clear and
+    # reports the ones that never did as outside_cap with no price attached (109 of 3,924).
+    # This leg prices that tail -- first print after the exit, no gate, silent names kept as
+    # open_at_end -- and refuses its verdict unless the imported census reproduces the totals
+    # the sibling face published. Must run after exit_liquidity: it imports its rows. ~10s.
+    ("etf_book_forced_hold", ["python", "scripts/etf_book_forced_hold.py", "run"]),
+    # r1238 bm-a: every cost number on the shelf is a RATE per side (8bp + sqrt impact) and a
+    # rate has no floor, while a real brokerage charge does (a 5 CNY minimum per trade on most
+    # retail accounts). At this rule's trade sizes the floor is not negligible, so the published
+    # return is unreachable below ~68k CNY -- and above ~217k the same 8bp model is 5.5bp/side
+    # too expensive. Both halves are priced on the published weight path. ~2min, offline.
+    ("etf_book_min_capital", ["python", "scripts/etf_book_min_capital.py", "run"]),
     # r1230 bm-a: depth and duration are different risks. Every other face prices the fall;
     # this one prices the wait (underwater episodes, per-entry recovery horizon with censored
     # entries kept, forward 1/2/3 calendar-year returns). ~80s, offline, deterministic -- it

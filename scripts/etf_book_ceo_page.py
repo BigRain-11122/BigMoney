@@ -59,6 +59,8 @@ UNDERWATER_JSON = os.path.join(ROOT, "results", "etf_book_underwater.json")
 SPANNING_PRE2020_JSON = os.path.join(ROOT, "results", "etf_book_spanning_pre2020.json")
 PRE2020_JSON = os.path.join(ROOT, "results", "etf_book_pre2020.json")
 UNIVERSE_LOCK_JSON = os.path.join(ROOT, "results", "etf_book_universe_lock.json")
+EXIT_LIQ_JSON = os.path.join(ROOT, "results", "etf_book_exit_liquidity.json")
+FORCED_HOLD_JSON = os.path.join(ROOT, "results", "etf_book_forced_hold.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -1057,6 +1059,155 @@ def universe_lock_block(ul):
              "（as coded 与 declared fill 各差 0.00 pp）才引用任何冻结数。"
              % (str(ul.get("artifact") or "results/etf_book_universe_lock.json").replace(os.sep, "/"),
                 ul.get("evidence_cutoff")))
+    L.append("")
+    return L
+
+
+def sellability_face(exit_path=EXIT_LIQ_JSON, tail_path=FORCED_HOLD_JSON):
+    """Can the desk actually get out of what it is holding? (r1238)
+
+    Every name this book buys passed a 20-bar turnover gate on the bar it was ranked. Nobody
+    checked that same number on the bar it is sold. Two faces measure that: one prices the
+    exits that had to wait for the gate to clear again, the other prices the tail that never
+    cleared it. Both are read here, and both verdicts are re-derived through their own single
+    implementation (imported, never a second copy). A payload whose stored verdict disagrees
+    with its own rows -- or a tail whose imported census no longer reproduces the totals the
+    published 2.78% was counted on -- is REFUSED rather than printed.
+    """
+    for p in (exit_path, tail_path):
+        if not os.path.exists(p):
+            return {"status": "absent", "artifact": _rel(p, ROOT), "detail": "no artifact"}
+    try:
+        with open(exit_path, encoding="utf-8") as fh:
+            ex = json.load(fh)
+        with open(tail_path, encoding="utf-8") as fh:
+            tl = json.load(fh)
+        exs = ex.get("summary") or {}
+        tls = tl.get("summary") or {}
+        if not (exs.get("phases") and tls.get("phases")):
+            return {"status": "unreadable", "artifact": _rel(tail_path, ROOT),
+                    "detail": "no phase rows"}
+        import etf_book_exit_liquidity as L
+        import etf_book_forced_hold as FH
+        ex_v = L.verdict_from_summary(exs)
+        tl_v = FH.verdict_from_summary(tls)
+        if exs.get("verdict") != ex_v or tls.get("verdict") != tl_v:
+            return {"status": "drifted", "artifact": _rel(tail_path, ROOT),
+                    "detail": "a published verdict disagrees with its own rows",
+                    "verdicts": [exs.get("verdict"), tls.get("verdict")],
+                    "recomputed": [ex_v, tl_v]}
+        control = tls.get("control") or {}
+        if not control.get("reproduced"):
+            return {"status": "drifted", "artifact": _rel(tail_path, ROOT),
+                    "detail": "the tail census no longer reproduces the published totals",
+                    "control": control}
+        ceiling = [p.get("weight_ceiling_pp") for p in (tls.get("phases") or [])
+                   if p.get("weight_ceiling_pp") is not None]
+        return {
+            "status": "ok",
+            "artifact": _rel(tail_path, ROOT),
+            "sibling_artifact": _rel(exit_path, ROOT),
+            "evidence_cutoff": tl.get("evidence_cutoff"),
+            "sibling_cutoff": ex.get("evidence_cutoff"),
+            "positions": exs.get("positions_total"),
+            "below_gate": exs.get("below_gate_total"),
+            "share_below_gate": exs.get("share_below_gate_mean"),
+            "wait_pp": exs.get("drag_pp_mean"),
+            "exit_verdict": exs.get("verdict"),
+            "tail_total": tls.get("tail_total"),
+            "tail_share": tls.get("tail_share"),
+            "tail_pp": tls.get("pp_mean"),
+            "tail_pp_min": tls.get("pp_min"),
+            "tail_pp_max": tls.get("pp_max"),
+            # the two halves are additive by construction (same census, same weights), so the
+            # sentence that adds them is derived here rather than typed into prose.
+            "combined_pp": ((round((exs["drag_pp_mean"] or 0.0) + (tls["pp_mean"] or 0.0), 4))
+                            if exs.get("drag_pp_mean") is not None
+                            and tls.get("pp_mean") is not None else None),
+            "priced_total": tls.get("priced_total"),
+            "open_at_end_total": tls.get("open_at_end_total"),
+            "ceiling_min": min(ceiling) if ceiling else None,
+            "ceiling_max": max(ceiling) if ceiling else None,
+            "material_pp": (tl.get("criteria") or {}).get("material_pp"),
+            "verdict": tl_v,
+            "phases": [{"phase": p.get("phase"), "start": p.get("phase_start"),
+                        "positions": p.get("positions"),
+                        "tail": p.get("tail_positions"),
+                        "share": p.get("tail_share_of_positions"),
+                        "pp": p.get("pp_per_year"),
+                        "wait_bars": p.get("mean_sale_bars")} for p in (tls.get("phases") or [])],
+        }
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": _rel(tail_path, ROOT), "detail": repr(exc)}
+
+
+def sellability_block(sf):
+    L = []
+    L.append("## 你手上这些东西，真卖得掉吗？")
+    L.append("")
+    if sf.get("status") != "ok":
+        L.append("**这一问现在答不了。** 证据件缺席或已经对不上自己的行（%s）。"
+                 % (sf.get("detail") or sf.get("status")))
+        L.append("")
+        return L
+    share = sf.get("share_below_gate") or 0.0
+    L.append("这本书选名字的时候，每一个名字都要过「最近 20 个交易日平均成交额 ≥ 2000 万」这道门；"
+             "**卖的时候没人查过同一个数**。在 %d 个持仓里，有 **%d 个（%.2f%%）**的卖出落在"
+             "「按自己的规则不允许买入」的名字上。"
+             % (sf.get("positions") or 0, sf.get("below_gate") or 0, 100.0 * share))
+    L.append("")
+    L.append("分两半量：")
+    L.append("")
+    L.append("- **等到它重新达标再卖**：平均多等几根 bar，等待期价格 **%+.2f pp/年**（很小，"
+             "而且方向是正的——跌出门槛的名字在等待期在涨）。"
+             % (sf.get("wait_pp") or 0.0))
+    L.append("- **不再等，见价就卖**：有 **%d 个（%.2f%%）**在 20 根内根本没等到重新达标。"
+             "按「卖出后第一个有报价的 bar」成交，它们值 **%+.2f pp/年**（单个相位 %+.2f ~ %+.2f）"
+             "——这是上一条把尾巴记成 0 时没有量的那一半。"
+             % (sf.get("tail_total") or 0, 100.0 * (sf.get("tail_share") or 0.0),
+                sf.get("tail_pp") or 0.0, sf.get("tail_pp_min") or 0.0,
+                sf.get("tail_pp_max") or 0.0))
+    L.append("")
+    L.append("| 决策相位起点 | 持仓数 | 尾巴数 | 尾巴占比 | 尾巴值 (pp/年) | 平均要等几根 bar |")
+    L.append("|---|---|---|---|---|---|")
+    for p in sf.get("phases") or []:
+        L.append("| %s | %d | %d | %.2f%% | %+.3f | %s |"
+                 % (p.get("start"), p.get("positions") or 0, p.get("tail") or 0,
+                    100.0 * (p.get("share") or 0.0), p.get("pp") or 0.0,
+                    ("%.1f" % p["wait_bars"]) if p.get("wait_bars") is not None else "-"))
+    L.append("")
+    if sf.get("combined_pp") is not None:
+        L.append("**两半加起来**（同一个持仓清点、同一套权重，所以可以相加）：卖单排队一共占 **%.2f%%** "
+                 "的持仓、**%+.2f pp/年** = 等待 %+.2f + 尾巴 %+.2f。这个数是「卖出这条路一共值多少钱」，"
+                 "不是净值曲线里的拖累。"
+                 % (100.0 * (sf.get("share_below_gate") or 0.0), sf.get("combined_pp") or 0.0,
+                    sf.get("wait_pp") or 0.0, sf.get("tail_pp") or 0.0))
+        L.append("")
+    _sale = ("**结论：卖得掉。** 尾巴就算按最坏的口径（占全部仓位 %.2f%% 的权重全按一年摊）"
+             "天花板也只有 %.2f~%.2f pp/年，实测 %+.2f pp/年，远在 %.2f pp 这条材料线之下；"
+             "而且它平均**下一根 bar 就有报价**——这些不是退市的死票，只是永远过不了自己的买入门槛。"
+             % (100.0 * (sf.get("tail_share") or 0.0), sf.get("ceiling_min") or 0.0,
+                sf.get("ceiling_max") or 0.0, sf.get("tail_pp") or 0.0,
+                sf.get("material_pp") or 0.0))
+    if sf.get("verdict") == "THE_CENSORED_TAIL_IS_MATERIAL":
+        _sale = ("**结论：这一项是要付钱的。** 尾巴值 %+.2f pp/年，已经越过 %.2f pp 的材料线。"
+                 % (sf.get("tail_pp") or 0.0, sf.get("material_pp") or 0.0))
+    elif sf.get("verdict") != "CENSORED_TAIL_IS_IMMATERIAL":
+        _sale = ("**结论：两半结论不一致**（%s）：有的相位小到可以忽略，有的越过了材料线，"
+                 "不挑好看的那一半报。" % sf.get("verdict"))
+    L.append(_sale)
+    L.append("")
+    _cens = ("%d 个尾巴持仓里 **%d 个**在面板结束前还有报价、被定价了；**%d 个**彻底不再报价，"
+             "按「仍未定价」单独计数，**没有折成 0**。"
+             % (sf.get("tail_total") or 0, sf.get("priced_total") or 0,
+                sf.get("open_at_end_total") or 0))
+    L.append(_cens)
+    L.append("")
+    L.append("> 口径：这是**卡住的资金的归因**，不是重算净值曲线——曲线上的年化/回撤仍按引擎自己的"
+             "停牌处理。冲击成本与买卖价差不在射程；门槛本身（2000 万 / 20 个交易日）没有扫过。"
+             "证据件：`%s` 与 `%s` ｜ 证据截止 %s。"
+             % (str(sf.get("sibling_artifact") or "").replace(os.sep, "/"),
+                str(sf.get("artifact") or "").replace(os.sep, "/"), sf.get("evidence_cutoff")))
     L.append("")
     return L
 
@@ -2374,6 +2525,7 @@ def build(with_stress=False):
     page["underwater"] = underwater_face()
     page["sample_window"] = sample_window_face()
     page["universe_lock"] = universe_lock_face()
+    page["sellability"] = sellability_face()
     page["gap"] = gap_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
@@ -3290,6 +3442,9 @@ def render_md(p):
     # that were listed after the window opened?
     for _ul_line in universe_lock_block(p.get("universe_lock") or {}):
         add(_ul_line)
+    # r1238: the gate is on the way in only -- can the desk get out of what it holds?
+    for _sf_line in sellability_block(p.get("sellability") or {}):
+        add(_sf_line)
     add("## 必须记住的四条")
     add("")
     for c in p["caveats"]:
@@ -4509,6 +4664,46 @@ def selftest():
         "status=%s, %d/%d line(s) on the page"
         % ((page.get("universe_lock") or {}).get("status"),
            len(_ul_lines) - len(_ul_off), len(_ul_lines)))
+    # L121-L123 (r1238): the sellability section reads two payloads. The legs pin the three
+    # ways it can lie: printing a tail worth when its census no longer reproduces the totals
+    # the published share was counted on (drift), printing a verdict its rows no longer say,
+    # and -- the r1235 lesson repeated -- a block whose lines never reach the page.
+    _sf_absent = "\n".join(sellability_block({"status": "absent",
+                                              "artifact": FORCED_HOLD_JSON}))
+    chk("L121 sellability: an absent or drifted face is not printed as a number",
+        ("答不了" in _sf_absent)
+        and ("答不了" in "\n".join(sellability_block(
+            {"status": "drifted", "detail": "census"}))),
+        "absent=%r" % _sf_absent[:40])
+    _sf = sellability_face()
+    _sf_rows_ok = (_sf.get("status") == "ok"
+                   and (_sf.get("tail_total") or 0) == (_sf.get("priced_total") or 0)
+                   + (_sf.get("open_at_end_total") or 0))
+    chk("L122 sellability: priced + unpriced = the tail (no censored row folded into a zero)",
+        _sf_rows_ok,
+        "status=%s tail=%s priced=%s open_at_end=%s"
+        % (_sf.get("status"), _sf.get("tail_total"), _sf.get("priced_total"),
+           _sf.get("open_at_end_total")))
+    _sf_lines = [l for l in sellability_block(_sf) if l.strip()]
+    _sf_off = [l for l in _sf_lines if l not in md]
+    chk("L123 sellability: the block itself reaches the rendered page",
+        bool(_sf_lines) and not _sf_off,
+        "status=%s, %d/%d line(s) on the page"
+        % (_sf.get("status"), len(_sf_lines) - len(_sf_off), len(_sf_lines)))
+    # L124 (r1238): the two halves are additive only because they come off the same census;
+    # the combined sentence is therefore re-derived here from the two payloads (never from the
+    # prose) and has to be on the page. A page that prints the halves but not their sum sends
+    # the reader back to the methodology card for a number the operator page already has.
+    _w_pp = ((_load(EXIT_LIQ_JSON) or {}).get("summary") or {}).get("drag_pp_mean")
+    _t_pp = ((_load(FORCED_HOLD_JSON) or {}).get("summary") or {}).get("pp_mean")
+    _sum_pp = (round((_w_pp or 0.0) + (_t_pp or 0.0), 4)
+               if _w_pp is not None and _t_pp is not None else None)
+    _sum_txt = "%+.2f pp/年" % (_sum_pp or 0.0)
+    chk("L124 sellability: the combined reading is the arithmetic of the two published halves "
+        "and it is printed",
+        _sum_pp is not None and _sum_pp == _sf.get("combined_pp") and _sum_txt in md,
+        "wait=%s tail=%s sum=%s printed=%s"
+        % (_w_pp, _t_pp, _sum_pp, _sum_txt in md))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

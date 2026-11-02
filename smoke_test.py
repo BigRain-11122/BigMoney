@@ -2510,6 +2510,23 @@ def main() -> int:
              "scripts/etf_book_exit_liquidity.py", ["--selftest"]),
             ("product: etf_book_exit_liquidity (published verdict still recomputes)",
              "scripts/etf_book_exit_liquidity.py", ["--check"]),
+            # r1238: the forced-hold tail the sibling face reported and left at zero. The
+            # legs pin the two ways this can go wrong -- a silent name folded into the pp
+            # total as a zero, and a control arm that no longer reproduces the census the
+            # published 2.78% was counted on -- plus the verdict recompute.
+            ("product: etf_book_forced_hold (censored tail arithmetic re-derived)",
+             "scripts/etf_book_forced_hold.py", ["--selftest"]),
+            ("product: etf_book_forced_hold (published verdict still recomputes)",
+             "scripts/etf_book_forced_hold.py", ["--check"]),
+            # r1238: the other end of the size question. Capacity asks how BIG the book can get
+            # before impact eats it; this asks how SMALL an account can be before the 5-yuan
+            # commission floor eats it -- a rate model has no floor, a real broker does. The
+            # legs pin the floor arithmetic on a hand-built trade and demand the published
+            # neutral points re-derive from the published rows.
+            ("product: etf_book_min_capital (commission floor arithmetic re-derived)",
+             "scripts/etf_book_min_capital.py", ["--selftest"]),
+            ("product: etf_book_min_capital (published neutral points still recompute)",
+             "scripts/etf_book_min_capital.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print

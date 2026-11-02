@@ -2,11 +2,20 @@
  "evidence_cutoff": "2026-11-02",
  "gaps_explained_by_quiet_window": [
   {
-   "from": "2026-10-30T09:18",
-   "gap_high_min": 609.8,
-   "gap_low_min": 609.8,
-   "quiet_window_min": 609.8,
-   "to": "2026-10-30T19:28",
+   "from": "2026-11-02T09:40",
+   "gap_high_min": 101.0,
+   "gap_low_min": 101.0,
+   "quiet_window_min": 101.0,
+   "to": "2026-11-02T11:21",
+   "unexplained_high_min": 0.0,
+   "unexplained_low_min": 0.0
+  },
+  {
+   "from": "2026-11-02T11:21",
+   "gap_high_min": 93.8,
+   "gap_low_min": 93.8,
+   "quiet_window_min": 93.8,
+   "to": "2026-11-02T12:54",
    "unexplained_high_min": 0.0,
    "unexplained_low_min": 0.0
   }
@@ -104,37 +113,15 @@
   }
  ],
  "gaps_over_threshold_count": 10,
- "generated": "2026-11-02T09:12:28",
+ "generated": "2026-11-02T17:09:26",
  "lane_tasks": {
   "absent": [],
   "disabled": [],
-  "disabled_before_heal": [
-   "Bigmoney-IterationLoop",
-   "Bigmoney-LoopWatchdog"
-  ],
+  "disabled_before_heal": [],
   "heal": {
-   "acts": [
-    {
-     "action": "enabled",
-     "detail": "",
-     "task": "Bigmoney-IterationLoop",
-     "verified": true
-    },
-    {
-     "action": "enabled",
-     "detail": "",
-     "task": "Bigmoney-LoopWatchdog",
-     "verified": true
-    }
-   ],
-   "healed": [
-    "Bigmoney-IterationLoop",
-    "Bigmoney-LoopWatchdog"
-   ],
-   "readback": {
-    "Bigmoney-IterationLoop": "Ready",
-    "Bigmoney-LoopWatchdog": "Ready"
-   }
+   "acts": [],
+   "healed": [],
+   "readback": {}
   },
   "probeable": 4,
   "states": {
@@ -157,14 +144,14 @@
   "unexplained_low_min": 501.2
  },
  "machine": "bm-a",
- "median_gap_min": 28.9,
+ "median_gap_min": 32.0,
  "open_gap": {
-  "gap_high_min": 52.3,
-  "gap_low_min": 52.3,
-  "quiet_window_min": 12.5,
-  "since": "2026-11-02T08:20",
-  "unexplained_high_min": 39.9,
-  "unexplained_low_min": 39.9
+  "gap_high_min": 254.6,
+  "gap_low_min": 254.6,
+  "quiet_window_min": 254.6,
+  "since": "2026-11-02T12:54",
+  "unexplained_high_min": 0.0,
+  "unexplained_low_min": 0.0
  },
  "parse_precision_note": "stamps recorded with an 'x' digit are read as a 9-minute interval; a gap is only called when its pessimistic end clears the threshold",
  "quiet_windows": [
@@ -174,8 +161,8 @@
    19
   ]
  ],
- "rounds_in_ledger": 719,
- "rounds_in_window": 75,
+ "rounds_in_ledger": 722,
+ "rounds_in_window": 77,
  "silence_verdict": "SILENT_GAP",
  "source": "round_reports-bm-a.md",
  "threshold_min": 90,
