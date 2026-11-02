@@ -7,9 +7,9 @@
  "current": "r1378 E356 census-red triage",
  "current_task": "r1386 E364 census inventory (done) -> E365 seeded",
  "current_work": "E356 triage of the seven census-corpus red legs",
- "cyc_round": 1389,
+ "cyc_round": 1391,
  "cycl_round": 1378,
- "cycle_round": 1389,
+ "cycle_round": 1391,
  "d19": {
   "decisions_changed": false,
   "decisions_sha": "fdd605df",
@@ -142,7 +142,7 @@
  "delivery_note": "main-branch push is not attempted: a bounded attempt has hung in promisor lazy-fetch for thirteen consecutive rounds (r1255..r1295 family), so the machine branch is the delivery channel until it clears",
  "dept": "research+engineering",
  "did": "r1366 E345: a deleted gate's absence is measured against the rounds in which the suite ran -- the three smoke checks r1227 removed and r1243's union merge restored were absent for 9.26h / 29 mainline commits / 10 rounds in which smoke ran 37 times, and NOTHING on the futures-TSMOM face asserted the property (both its checks died together); the face was not even in this line's tree at the window tip, so the machine was green about a face it neither held nor checked",
- "did_round": 1389,
+ "did_round": 1391,
  "face": "results/state_tilt/PINQUEUE-2026-11-02.json",
  "finding": "E328's quoted numbers 1,430 -> 1,933 (+503), stale faces quoted 4 -> 5; E329's pairs naming two vintages 12 -> 15; E326's consumers 36 -> 35 with the class split flipping one row; E330 moves 0 of 21 even though 602 of its 635 code lines were hidden. All six E328 movers are explained exactly by scripts/e280_e251_rng_drift_repin.py, and E329's positive movers by scripts/e330_unpinned_choice.py. The shipped half reproduces NONE of the four published faces because the corpus grew since they were written (faces_scanned 550 -> 555, sources 2,284 -> 2,287): the delta is the helper, the reproduction gap is corpus drift, and the face publishes both as separate axes.",
  "free_vram_gb": 3.5,
@@ -220,7 +220,7 @@
  "last_push_at": "2026-11-01T20:13:07+08:00",
  "last_push_sha": "d5e0738db3687ed79d895a66dd03c1f6204e57dc",
  "last_push_ts": "2026-11-02T21:25:00+08:00",
- "last_round": 1389,
+ "last_round": 1391,
  "last_round_at": "2026-11-01T17:30:00+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md",
  "last_round_ts": "2026-11-01T07:04:05+08:00",
@@ -384,10 +384,10 @@
  "orders_ack_note": "r1301: 114 order files / 115 acked / unacked 0",
  "orders_delta_pending": false,
  "orders_note": "r1337 consumed the orders delta on the group face: OB-20261031-174059-609 (resume, bm-b = voice lane) and OB-20261031-182307-132 (executor unification). The executor order was EXECUTED on this machine: Tools/fleet/agent.py materialised from the origin blob (the stale worktree did not carry Tools/fleet at all), tick verified hb=0 lane=0 in <1s, FluxGroup-Agent-bm-b registered via Tools/task-register.ps1 (every:5m, S4U, hidden wscript->pythonw) with fire result=0, HQ-ProductionClaim disabled. Deviation disclosed in the receipt: the registered arg is '--node bm-b --no-pull' because an unattended 5-min pull --rebase from this 195-behind promisor worktree wedges (r1255 family).",
- "orphan": "py_faces=15 orphans=0 residents=0",
+ "orphan": "py_faces=14 orphans=0 residents=0",
  "orphan_face": 0,
  "orphan_face_note": "orphan_face_probe: py_faces=8 orphans=0 residents=0 (read-only report)",
- "orphan_faces": 8,
+ "orphan_faces": 14,
  "orphan_probe": {
   "orphans": 0,
   "py_faces": 11,
@@ -399,12 +399,12 @@
   "Bigmoney-IntradayMarks: check marks-20261027.jsonl after 15:10; if absent run update_intraday_marks.py --force inside the window and read the rc/2 branch (carried from r1168)."
  ],
  "pit": "(1) e346._corpus() yields absolute paths while the corpus() studies yield repo-relative ones, so the first union double-counted every member (4,764 against 2,387); equal counts across the six studies were the signal. (2) the first queue included this study's own face (E319) and read its own store byte count as a population of 44,654,431. (3) the first smoke leg asserted 'prose-only seams == 0' -- the count IS the finding, so the leg now asserts the summary agrees with the rows instead. (4) the bill moves while other lanes write the tree, so verify had to be split into decision keys (bit-stable) and bill drift (published), or the study would convict itself for someone else's commit (E360 in reverse).",
- "pool": "E366 done with result_ref; E368 seeded ready (852 entries, 1 ready)",
+ "pool": "E369 done with result_ref; ready=4 (E370, E371, E372, E373 seeded this round); 857 entries",
  "pool_claims": {
   "E263-ARRIVAL-VS-CELL-SIZE": "bm-b r1289 done -> 06bce2c3b on machine/bm-b-r1289"
  },
  "pool_ready_unclaimed": 3,
- "product": "E366 face + script (build/verify/check/selftest 22 legs) + S6 leg pinable_queue_size + smoke leg E366 + card E366 + digest r1389",
+ "product": "a pin at the publishing commit still does not cover the face: provenance and reproduction are different findings, and the bill is one pin plus one store per vintage",
  "push": "machine/bm-b-r1340",
  "push_note": "main push not attempted: local main is 142 ahead / 205 behind origin and pushes from this blob:none promisor clone wedge before negotiation (r1255 family); the machine branch is the delivery channel per D-20260925-01(3)",
  "push_receipt_pending": false,
@@ -4216,32 +4216,78 @@
   "lost_lines": 0,
   "moved_to_cold": 17
  },
+ "r1391": {
+  "bill": {
+   "absent": 128,
+   "bytes_differ": 6,
+   "disk_pin_members": 2368,
+   "fetched": 2240
+  },
+  "dept": "research+engineering",
+  "face": "results/state_tilt/PUBLISHPIN-2026-11-02.json",
+  "next": "E372: store the 128 members no commit holds, then replay pin+store",
+  "not_run": "full smoke suite, lane collectors, update_* chain, paper/scorecard faces; GPU untouched (parked C-20261014-01); cloud untouched",
+  "numbers": {
+   "E353_pairs": [
+    131,
+    129
+   ],
+   "corpus_sources": [
+    2343,
+    2251
+   ],
+   "fields_with_no_writer": [
+    1698,
+    1687
+   ],
+   "guard_fields_with_no_writer": [
+    131,
+    129
+   ],
+   "guard_never_fires_on_a_falsy_value": [
+    34,
+    34
+   ]
+  },
+  "pin_face": "results/state_tilt/CORPUSPIN-AT-COMMIT-daf9a897.json",
+  "product": [
+   "scripts/e369_pin_at_publishing_commit.py (selftest 12/12, verify problems=[])",
+   "results/state_tilt/PUBLISHPIN-2026-11-02.json + publishpin_latest.json",
+   "results/state_tilt/CORPUSPIN-AT-COMMIT-daf9a897.json (2251 members)",
+   "smoke_test.py leg E369 + scripts/run_e369_smoke_leg.py (1/1 verbatim)",
+   "knowledge/METHODOLOGY_ASSETS.md E369",
+   "research/digests/DIGEST-20261102-r1391-e369-pin-at-publishing-commit.md"
+  ],
+  "study": "E369_pin_at_publishing_commit",
+  "ts": "2026-11-02T22:04:20+08:00",
+  "verdict": "a_pin_taken_at_the_publishing_commit_does_not_reproduce_the_published_corpus_size_2251_against_2343_so_the_face_was_built_from_a_tree_no_commit_holds_and_the_bill_is_a_pin_plus_a_store_per_vintage"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "ram_free_gb": 4.78,
- "ram_free_mb": 4898,
- "ram_free_pct": 20.0,
+ "ram_free_gb": 4.91,
+ "ram_free_mb": 4910,
+ "ram_free_pct": 19.6,
  "ram_load_pct": 80,
- "ram_total_gb": 23.92,
+ "ram_total_gb": 25.08,
  "reds_open": [],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1390,
- "round_no": 1390,
- "round_no_label": "r1390",
+ "round": 1391,
+ "round_no": 1391,
+ "round_no_label": "r1391",
  "round_no_note": "r1373 healed a 6-round split: round/round_no said 1372 while cyc_round/cycle_round/last_round/did_round still said 1366 and the label said r1370. Pre-fix faces: {\"cyc_round\": 1366, \"cycle_round\": 1366, \"did_round\": 1366, \"last_round\": 1366, \"round\": 1372, \"round_no\": 1372, \"round_no_label\": \"r1370\"}",
- "round_no_ts": "2026-11-02T21:07:07+08:00",
+ "round_no_ts": "2026-11-02T22:04:20+08:00",
  "round_no_ts_note": "r1389 closeout",
  "round_pit": "(1) the degeneracy cross-check summed n_at_base over the 16 PUBLISHED ROWS and read 29 against E259 52 -- the published rows and E259 distribution arms are two different 16s, so the \"reproduction failure\" was my lookup, not a broken upstream; the pin is now per arm (base count AND leg in the key) and a selftest leg pins that the row sum is NOT the arm total. (2) my first selftest assertion on extra_draws_median said 280 while the code (correctly) returns the median of [280,1720]=1000 -- the assertion was wrong, not the code (r1281 shape). (3) two fixture counts in the new arm-level leg were written as if the cross arm had 1 degenerate seed when its own fixture implies 2; the leg caught it, which is what a pin is for. (4) a self-contained smoke leg cannot be run by the suite in-round (~35 min) so it is executed by exec-ing its own text out of smoke_test.py -- a re-implementation would prove the copy.",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
- "s1": "the full suite (~35 min) was not re-run this window; the changed surfaces were verified individually: e350 selftest 23/23, e368 selftest 9/9 + verify problems=[], the new smoke leg exec'd verbatim out of smoke_test.py (PASS)",
- "s6": "dualrun ZERO-DRIFT 853 entries streak 18 | compute_audit FLAG cap_violation,gpu_unauthorized,supply_gap,supply_floor (GPU apps = content lane, nothing killed; supply floor breach was real: ready 1 vs floor 3, closed at close by seeding E370+E371) | py_watermark py 28.1 pct insufficient_history, pool_ready E369 | orphan py_faces=16 orphans=0 residents=0 | attrition CLEAN 4 ledgers (3 historical shrinks healed) | sat engine rc=0 idle | lane collectors / update_* / paper faces NOT re-run",
+ "s1": "the full smoke suite (~35 min) was NOT re-run this window; the new surfaces were verified individually: e369 selftest 12/12, verify problems=[], the new smoke leg exec'd verbatim (1/1 PASS), smoke_test.py compiles",
+ "s6": "dualrun ZERO-DRIFT 857 entries streak 19 | compute_audit FLAG gpu_unauthorized,supply_gap (GPU apps = content/drama lane, nothing killed; supply_floor ready 4/3 no breach) | py_watermark py 28.4 pct insufficient_history, pool_ready 4 | orphan py_faces=14 orphans=0 residents=0 | attrition CLEAN 4 ledgers (3 historical shrinks healed) | lane collectors / update_* / paper faces NOT re-run",
  "s6_leg": "pinable_queue_size rc=0 2.5s (Tools/s6_chain_bmb.py 1389 --only)",
  "s6_note": "the S6 maintenance chain was NOT re-run this window",
- "s7": "Bigmoney-IterationLoop pin=2 no-op (next fire 20:52) | watchdog/satengine tasks present | pre-commit + pre-push claws present | orders 114 files / 115 acks / 0 unacked (1 stale ack for a removed file) | decisions.md read fresh from the group origin blob: sha 416e7984 unchanged, latest id D-20261102-18 already consumed -> zero rows owed",
+ "s7": "Bigmoney-IterationLoop pin=2 no-op (next fire 22:07) | watchdog re-registered (task was absent, re-created S4U/SWA=false, first fire 22:04) | pre-commit + pre-push claws reinstalled (idempotent, LF-normalized) | orders 114 files / 115 acks / 0 unacked | decisions.md read fresh from the group origin blob: sha 416e7984 unchanged, latest id D-20261102-18 already consumed -> zero rows owed",
  "sat_engine": "rc=0 idle",
- "selftest": "e368 9/9; e350 23/23; verify problems=[]; smoke leg 1/1",
- "seq": 1390,
+ "selftest": "e369 selftest 12/12; verify problems=[]; smoke leg E369 1/1 (exec'd verbatim out of smoke_test.py); smoke_test compiles",
+ "seq": 1391,
  "smoke": {
   "note": "the r1381 detached suite's 8 census reds were repaired at r1382; the full suite was not re-run this window; the new E366 leg was executed verbatim (1/1)",
   "ts": "2026-11-02T20:24:00+08:00"
@@ -4250,14 +4296,13 @@
  "snapshot": {},
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "ok",
- "study": "E368_seam_replay",
+ "study": "E369_pin_at_publishing_commit",
  "supply_floor": {
   "floor": 3,
-  "ready_at_close": 3,
+  "ready_at_close": 4,
   "seeded": [
-   "E369-PIN-AT-THE-PUBLISHING-COMMIT",
-   "E370-WHICH-E350-NUMBERS-MOVE-WITH-THE-POPULATION",
-   "E371-WHAT-THE-ONE-STORE-NEEDED-MEMBER-COSTS"
+   "E372-STORE-THE-128-MEMBERS-NO-COMMIT-HOLDS",
+   "E373-E353-WAS-PUBLISHED-FROM-ANOTHER-COMMIT"
   ]
  },
  "sync": {
@@ -4268,29 +4313,29 @@
   "ts": "2026-11-01T22:03:07+08:00"
  },
  "sync_note": "local commits not on origin/main stay large (two blood lines, promisor lazy-fetch wedge r1255 family); delivery went to machine/bm-b-r1390 and ls-remote equals local HEAD, so 'local not on origin/main' is by design here, not a delivery failure",
- "task": "r1390 E368: a repaired seam replays the number but the pin is not the publishing vintage",
- "task_short": "r1390 E368 seam replay",
+ "task": "r1391 E369: the pin is now at the right commit, and the number still does not come back",
+ "task_short": "r1391 E369 pin at publishing commit",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
  "three_line": {
-  "current": "E368 repaired the seam and replayed: both verdict numbers come back on all four arms, a neighbouring count moves 20%",
-  "latest_artifact": "results/state_tilt/SEAMREPLAY-2026-11-02.json @ 2026-11-02T21:07:07+08:00",
-  "next_milestone": "E369: pin one face at its own publishing commit and re-run the comparison (<=48h)"
+  "current": "E369 pinned the corpus at the commit E350's face records: corpus_sources 2251 vs 2343, guard headline 129 vs 131, so provenance does not reproduce the number",
+  "latest_artifact": "results/state_tilt/PUBLISHPIN-2026-11-02.json @ 2026-11-02T22:04:20+08:00",
+  "next_milestone": "E372: store the 128 members no commit holds and replay pin+store (<=48h)"
  },
- "timestamp": "2026-11-02T21:28:00+08:00",
- "ts": "2026-11-02T21:28:00+08:00",
- "ts_utc_ms": 1793624828419,
+ "timestamp": "2026-11-02T22:04:20+08:00",
+ "ts": "2026-11-02T22:04:20+08:00",
+ "ts_utc_ms": 1793628260684,
  "ts_utc_offset": "+08:00",
- "updated": "2026-11-02T21:28:00+08:00",
- "updated_at": "2026-11-02T21:28:00+08:00",
+ "updated": "2026-11-02T22:04:20+08:00",
+ "updated_at": "2026-11-02T22:04:20+08:00",
  "verdict": "product",
  "verdict_line": "8 census legs pass verbatim with 8 drift lines; no checker writes its subject",
- "verify": "each leg's own text exec'd with a stub check: 95/298/308/311/327/328/329/332 PASS; published faces byte-identical after two verification passes",
+ "verify": "python scripts/e369_pin_at_publishing_commit.py verify -> problems=[]",
  "vram_free_gb": 1.84,
  "vram_probe": "nvidia-smi",
  "vram_total_gb": 8.0,
  "vram_used_gb": 5.99,
- "watermark_note": "py_watermark probe run at close: py 27.4 pct, pool_ready E368 x1, insufficient_history",
+ "watermark_note": "py_watermark probe at close: py 28.4 pct, pool_ready 4, insufficient_history",
  "watermark_red": true,
- "watermark_verdict": "red at open: py_low_with_work_cands, pool_ready E368 -- taken as this round's product; E369 seeded at close for autofill",
- "work": "repaired E350._sources()/build() with files= (a member may be a relpath or (relpath, text)) and E353 inherits it; replay over the 2,368-member pin @1244ee23 (2361 disk / 6 git / 1 store_needed) reproduces both verdict numbers on all four arms (E350 guard_fields_with_no_writer 131, E353 pairs 131 = 5+103+23, 34 falsy) while fields_with_no_writer moved 1698 published -> 1356 pinned -> 1717 live and corpus_sources 2343 -> 2367 -> 2392; the pin commit is not the face's publishing commit (daf9a897) so the reproduction is stability, not provenance"
+ "watermark_verdict": "red at open: py_low_with_work_cands, pool_ready E369 -- taken as this round's product; E372/E373 seeded at close for autofill",
+ "work": "took the corpus pin at the commit E350's own face records (machine-read from fieldbranch_latest, never embedded in the study): 2251 members at that tree, pin_id 7aacd4d5a13d; replayed E350 and E353 over the pinned bytes -> corpus_sources 2251 vs published 2343 (-92), fields_with_no_writer 1687 vs 1698, guard_fields_with_no_writer 129 vs 131, E353 pairs 129 vs 131, only guard_never_fires_on_a_falsy_value 34 invariant; store bill vs the publish-day pin: 2240 fetchable, 128 absent from every commit, 6 present with other bytes"
 }

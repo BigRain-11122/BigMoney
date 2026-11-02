@@ -7953,3 +7953,35 @@ How to apply: when you repair a seam, measure the arm you claim it repairs (publ
 bytes vs live) rather than the seam's existence; publish population_source on every arm, because
 a replay without it is indistinguishable from a walk; and check the pin's commit against the
 face's own pin field before the word 'reproduced' means provenance.
+
+## E369 -- a pin at the publishing commit still does not cover the face, because the face read files no commit holds (r1391)
+
+E368 left the question open: its pin sat on a later commit, so a reproduced number was stability,
+not provenance. E369 takes the pin where a pin belongs -- at the commit E350's own face records --
+reading both the member list (git ls-tree) and the bytes (git cat-file --batch) from that tree, and
+then replays E350 and E353 over it.
+
+1. **Provenance is not reproduction, and here it is not even close.** With the vintage finally
+   right, corpus_sources came back at 2,251 against the published 2,343 (-92),
+   fields_with_no_writer 1,687 vs 1,698 (-11), guard_fields_with_no_writer 129 vs 131 (-2), fields
+   2,264 vs 2,289, and E353 pairs 129 vs 131. Only guard_never_fires_on_a_falsy_value (34) was
+   invariant. The earlier "it reproduces" was a statement about two nearby trees, not about the
+   face's own input.
+2. **The bill is a store, not a pin.** Of the 2,368 members the census family pinned on 11-02, 128
+   do not exist at the publishing commit and 6 exist with other bytes. A pin can only hold what a
+   commit holds; anything untracked at publish time has to be *stored* beside the pin. So E366's
+   queue of pins was under-counted by exactly this: one pin per vintage plus one store of the
+   members no commit ever held.
+3. **The vintage must be machine-read from the graded face.** The study carries no commit hash; it
+   reads the pin field off E350's published face, so re-publishing cannot silently keep comparing
+   against a stale commit. A selftest leg greps the study's own source to prove the hash is not
+   embedded -- a rule enforced only by memory is not enforced.
+4. **Two numbers in one face, one invariant and one moving, is the whole argument.** Publishing
+   each key's published/pinned pair plus its delta makes "the number comes back" a measurement per
+   key instead of a claim about the face; the verdict is then chosen by the deltas (a moved
+   population can never be reported as a plain reproduction), and the smoke leg refuses a stored
+   verdict that does not re-derive.
+
+How to apply: before pinning a population, ask which commit the graded face was published from and
+pin there; count what that commit cannot supply and publish it as a store bill with paths; and make
+the vintage a field you read, never a constant you type.

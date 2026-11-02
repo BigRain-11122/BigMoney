@@ -12405,6 +12405,84 @@ def _r39(face, key):
                             for a in ((b.get("compare") or {}).get("reproduced_by") or [])}))))
 
 
+# E369: a pin at the publishing commit is the only pin that can carry provenance, so this leg
+    # grades the accounting around it rather than the number: the vintage must be the commit the
+    # graded face itself records (machine-read, never written into the study), the pin file must be
+    # the face's pin, the store bill must add up (every member is either fetched or charged), each
+    # comparison row's delta must re-derive from its own two numbers, and a moved population must
+    # not be reported as a plain reproduction.
+    _name369 = ("product: a pin taken at the graded face's own commit publishes its bill and its "
+                "deltas without borrowing either from today's tree")
+    _bad369 = []
+    try:
+        _p369 = os.path.join("results", "state_tilt", "publishpin_latest.json")
+        _f369 = json.load(open(_p369, encoding="utf-8")) if os.path.exists(_p369) else None
+        if _f369 is None:
+            _bad369.append("no published publishing-commit pin face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m369 = __import__("importlib").import_module("e369_pin_at_publishing_commit")
+            _pub369 = _m369.published_numbers("E350") or {}
+            if (_f369.get("pin") or "") != (_pub369.get("pin") or ""):
+                _bad369.append("the pin is not the commit the graded face records")
+            _pin369 = None
+            _pp369 = os.path.join(os.getcwd(), _f369.get("pin_file") or "")
+            if not _f369.get("pin_file") or not os.path.exists(_pp369):
+                _bad369.append("the pin file the face names is not on disk")
+            else:
+                _pin369 = json.load(open(_pp369, encoding="utf-8"))
+                if (_pin369.get("git_commit") or "") != (_f369.get("pin") or ""):
+                    _bad369.append("the pin file holds another commit than the face")
+                if int(_f369.get("pin_members") or -1) != len(_pin369.get("sources") or []):
+                    _bad369.append("the face pin_members is not the pin file's member count")
+                if (_f369.get("pin_id") or "") != (_pin369.get("pin_id") or ""):
+                    _bad369.append("the face pin_id is not the pin file's")
+                if any(not r.get("sha256") or not r.get("path") for r in _pin369.get("sources") or []):
+                    _bad369.append("a pin member carries no path or no digest")
+            _bill369 = _f369.get("store_bill") or {}
+            if _bill369.get("measured"):
+                if (_bill369.get("fetched_from_commit") or 0) + (_bill369.get("absent") or 0) != (
+                        _bill369.get("disk_pin_members") or -1):
+                    _bad369.append("fetched + absent does not add up to the publish-day population")
+                if (_bill369.get("must_be_stored") or 0) != (_bill369.get("absent") or -1):
+                    _bad369.append("must_be_stored is not the population the commit cannot fetch")
+                if len(_bill369.get("absent_paths") or []) != (_bill369.get("absent") or -1):
+                    _bad369.append("the absent count is not the absent path list")
+            else:
+                _bad369.append("the face publishes no store bill")
+            for _st, _blk in (_f369.get("studies") or {}).items():
+                if not ((_blk.get("pinned") or {}).get("population_source") or "").startswith(
+                        "pinned_bytes"):
+                    _bad369.append("%s: the replay does not publish a pinned-bytes population" % (_st,))
+                for _key, _row in (_blk.get("compare") or {}).items():
+                    _want, _got = _row.get("published"), _row.get("pinned")
+                    if isinstance(_want, (int, float)) and isinstance(_got, (int, float)):
+                        if (_got - _want) != _row.get("delta"):
+                            _bad369.append("%s/%s: delta %r does not re-derive"
+                                           % (_st, _key, _row.get("delta")))
+                        if (_row.get("delta") == 0) != _row.get("reproduced"):
+                            _bad369.append("%s/%s: the reproduced flag contradicts its delta"
+                                           % (_st, _key))
+            _redecide369 = _m369.decide(_f369.get("studies") or {}, _bill369,
+                                        {"count": _f369.get("pin_members")})
+            if _f369.get("verdict") != _redecide369:
+                _bad369.append("the verdict does not re-derive: %r != %r"
+                               % (_f369.get("verdict"), _redecide369))
+            _moved369 = ((_f369.get("studies") or {}).get("E350") or {}).get("compare") or {}
+            if (_moved369.get("corpus_sources") or {}).get("reproduced") is False \
+                    and _f369.get("verdict") == _m369.V_REPRODUCED:
+                _bad369.append("a moved population is reported as a plain reproduction")
+    except Exception as e:
+        _bad369.append(repr(e)[:160])
+    check(_name369, not _bad369, "; ".join(_bad369)[:220]
+          or "pin %s at %s members, bill %s fetched / %s absent / %s bytes-differ, corpus_sources %s"
+             % (str((_f369 or {}).get("pin_id"))[:12], str((_f369 or {}).get("pin_members")),
+                str(((_f369 or {}).get("store_bill") or {}).get("fetched_from_commit")),
+                str(((_f369 or {}).get("store_bill") or {}).get("absent")),
+                str(((_f369 or {}).get("store_bill") or {}).get("bytes_differ")),
+                str((((_f369 or {}).get("studies") or {}).get("E350") or {}).get(
+                    "compare", {}).get("corpus_sources"))))
+
 # E358: E351 called 55 gate subjects unresolved because the subject was written as
     # os.path.join(...) -- three literals, none of which looks like a path on its own.  This leg
     # grades the ACCOUNTING, not the numbers: the classes must partition the population, a

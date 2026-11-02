@@ -26703,16 +26703,22 @@
    "title": "E366 priced the queue at two pins and ten seam repairs: wire files= into the cheapest NEEDS_SEAM study and prove its published number re-derives over a pinned population"
   },
   {
+   "claimed_at": "2026-11-02T21:24:40+08:00",
+   "claimed_by": "bm-b",
+   "done_at": "2026-11-02T22:00:29+08:00",
+   "done_by": "bm-b r1391",
    "entered_at": "2026-11-02T21:10:00+08:00",
    "entered_by": "bm-b r1390",
    "id": "E369-PIN-AT-THE-PUBLISHING-COMMIT",
    "lane": "cpu-only",
    "notes": "cheap and static; the walk at that commit is a git ls-tree + cat-file pass, no network; do not rewrite E350 published face, only compare against it",
-   "owner": null,
+   "owner": "bm-b",
    "priority": 2,
    "question": "E368 showed a replay over a pin taken the day AFTER the face was published reproduces the verdict number (131) on every arm, which cannot distinguish stability from provenance. Take the pin at the publishing commit of E350 fieldbranch (daf9a897fda167987d85aa27ea17beadb48de24f) -- the corpus members and bytes as of that commit -- replay E350 and E353 over it, and publish: does corpus_sources come back at 2343, does fields_with_no_writer come back at 1698, and how many members must be stored rather than fetched from that commit. If the numbers still come back then the seam is cheap insurance; if corpus_sources moves, then E366 bill was under-counted by one pin per vintage.",
+   "result_note": "pin taken at the publishing commit the E350 face records (machine-read, not embedded): corpus at that commit = 2251 members, pin_id 7aacd4d5a13d; replay gives corpus_sources 2251 vs published 2343 (-92), fields_with_no_writer 1687 vs 1698, guard_fields_with_no_writer 129 vs 131, E353 pairs 129 vs 131, and only guard_never_fires_on_a_falsy_value 34 is invariant. So provenance does not reproduce the number. Store bill vs the publish-day pin: 2240 fetchable, 128 absent from every commit, 6 present with other bytes.",
+   "result_ref": "scripts/e369_pin_at_publishing_commit.py (selftest 12/12, verify problems=[]) + results/state_tilt/PUBLISHPIN-2026-11-02.json + results/state_tilt/CORPUSPIN-AT-COMMIT-daf9a897.json + smoke leg E369 1/1 + knowledge/METHODOLOGY_ASSETS.md E369 + research/digests/DIGEST-20261102-r1391-e369-pin-at-publishing-commit.md",
    "source": "E368 SEAMREPLAY-2026-11-02 (vintage same_commit=false)",
-   "status": "ready",
+   "status": "done",
    "target": "one pin at a publishing commit plus the four-arm replay over it, with corpus_sources and fields_with_no_writer compared to the published face",
    "title": "take one pin at the commit the face it serves was published from, then re-run E368 comparison -- is a stable number distinguishable from a pinned one"
   },
@@ -26743,6 +26749,34 @@
    "status": "ready",
    "target": "a field-level footprint of the store_needed member plus one three-arm replay with it excluded, so the store cost per member is measured",
    "title": "E368's pin needed exactly one member it could not fetch from the pin commit; measure what that member writes and whether any published number depends on it"
+  },
+  {
+   "entered_at": "2026-11-02T22:00:29+08:00",
+   "entered_by": "bm-b r1391",
+   "id": "E372-STORE-THE-128-MEMBERS-NO-COMMIT-HOLDS",
+   "lane": "cpu-only",
+   "notes": "static, no network; the store must live outside results/ so it does not join E328 face population; reuse E369 read_blobs/build_pin rather than rewriting the walk",
+   "owner": null,
+   "priority": 2,
+   "question": "E369 showed a pin at the publishing commit fetches 2240 of the 2368 publish-day members; 128 are absent from every commit and 6 differ in bytes. Build the store half: record those members as content-addressed artifacts outside results/ (a store file with sha256 + text), teach the E369 replay to resolve a member from the store when git cannot supply it, and publish whether the corpus_sources 2343 and fields_with_no_writer 1698 come back. If they come back the E366 bill is one pin plus one store; if not, the face was built from a third thing nobody has named yet. Never edit the published E350 face.",
+   "source": "E369 PUBLISHPIN-2026-11-02 (absent 128, bytes_differ 6)",
+   "status": "ready",
+   "target": "a pin+store resolver plus the replay numbers beside the E369 pin-only numbers, so the cost of provenance is measured rather than argued",
+   "title": "E369 measured 128 publish-day members that no commit holds: store them beside the pin and prove a pin+store replay then reproduces the published corpus_sources"
+  },
+  {
+   "entered_at": "2026-11-02T22:00:29+08:00",
+   "entered_by": "bm-b r1391",
+   "id": "E373-E353-WAS-PUBLISHED-FROM-ANOTHER-COMMIT",
+   "lane": "cpu-only",
+   "notes": "same machinery as E369, one scan per study; do not rewrite either published face",
+   "owner": null,
+   "priority": 2,
+   "question": "E350 face pin=daf9a897 but E353 face pin=e847e099 and its evidence_cutoff is 11-02 while E350 is 11-01, so the two studies in one replay were published from different vintages. Run the E369 measurement at E353 own commit: how many members does that tree hold, which of the two published populations can each commit explain, and does E353 pairs (131) come back at its own vintage. Publish both bills side by side: the queue of pins may be per-study rather than per-corpus.",
+   "source": "E369 PUBLISHPIN-2026-11-02 (E350 pin daf9a897 vs E353 pin e847e099)",
+   "status": "ready",
+   "target": "the E369 replay at E353 own pin with both bills side by side, so pins are counted per study if the vintages differ",
+   "title": "E353 face records a different pin than E350: repeat the E369 reading at E353 own commit and say which study the E366 bill belongs to"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -26757,6 +26791,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-02T20:19:38+08:00",
+ "updated_at": "2026-11-02T22:00:29+08:00",
  "version": 1
 }
