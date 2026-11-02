@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-02 17:59:52",
+ "ts": "2026-11-02 19:51:09",
  "evidence_cutoff": "2026-10-30",
  "script": "scripts/etf_book_min_capital.py",
  "config": {
@@ -569,5 +569,68 @@
   "note": "the traded-leg median is measured on three samples with the same engine; the reported neutral NAV is the published 2020-2026 one, and the window rows say how far it travels when the sample changes"
  },
  "method_note": "one engine, one weight path, one window; only the base per-side rate is replaced by max(prop, 5 CNY / notional), impact term identical. Capital held constant per rung so each delta is attributable to the fee schedule (compare vs the same-NAV @8bp arm, not across rungs).",
+ "width": {
+  "verdict": "BREAKEVEN_WIDTH_MOVES_499PCT",
+  "spread_pct_of_published": 499.3,
+  "stability_tol_pct": 10.0,
+  "widths": [
+   5,
+   8,
+   12,
+   20
+  ],
+  "published_path_width": 5,
+  "rows": [
+   {
+    "n_hold": 5,
+    "names_median": 5.0,
+    "first_bar": "2020-01-02",
+    "last_bar": "2026-10-30",
+    "bars": 1653,
+    "legs": 864,
+    "dw_median": 0.09226805,
+    "fee_neutral_vs_model_nav": 67737.42,
+    "cagr_8bp": 0.073,
+    "sharpe_8bp": 0.893
+   },
+   {
+    "n_hold": 8,
+    "names_median": 8.0,
+    "first_bar": "2020-01-02",
+    "last_bar": "2026-10-30",
+    "bars": 1653,
+    "legs": 1442,
+    "dw_median": 0.04784457,
+    "fee_neutral_vs_model_nav": 130631.34,
+    "cagr_8bp": 0.0663,
+    "sharpe_8bp": 0.819
+   },
+   {
+    "n_hold": 12,
+    "names_median": 12.0,
+    "first_bar": "2020-01-02",
+    "last_bar": "2026-10-30",
+    "bars": 1653,
+    "legs": 2084,
+    "dw_median": 0.03078714,
+    "fee_neutral_vs_model_nav": 203006.85,
+    "cagr_8bp": 0.0618,
+    "sharpe_8bp": 0.836
+   },
+   {
+    "n_hold": 20,
+    "names_median": 20.0,
+    "first_bar": "2020-01-02",
+    "last_bar": "2026-10-30",
+    "bars": 1653,
+    "legs": 3242,
+    "dw_median": 0.01539595,
+    "fee_neutral_vs_model_nav": 405950.98,
+    "cagr_8bp": 0.055,
+    "sharpe_8bp": 0.847
+   }
+  ],
+  "note": "each width re-ranks the same panel with the same rule at its own n_hold; the neutral NAV is a closed form in that path's traded-leg median, so a width row is a reading and not an extrapolation"
+ },
  "scope_note": "fees only: spread is inside the 8bp reference and is NOT added here; a broker with no 5-yuan floor is the wan2.5+0 row; the delivered rule's own turnover is imported from the engine."
 }

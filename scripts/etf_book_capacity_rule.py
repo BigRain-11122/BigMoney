@@ -85,13 +85,20 @@ def _applied_k(sched, dates):
     return marks.shift(1).ffill()
 
 
-def build_face(target=TARGET_BETA, start=START):
-    """One engine pass (gross) + the production k schedule + repo cash leg."""
+def build_face(target=TARGET_BETA, start=START, n_hold=None):
+    """One engine pass (gross) + the production k schedule + repo cash leg.
+
+    `n_hold=None` keeps the engine's own default (the delivered book); any other value
+    re-ranks the SAME panel at that width, which is what a width study needs -- the
+    ranking rule and the decision grid stay identical, only the basket size moves.
+    """
     close, openp, amt, feats = F.build_panel()
     score = F.build_score(close, amt, feats)
     rec = Recorder()
     gross, turn, gapfill = F.run_next_open(close, openp, amt, feats, REBAL,
-                                           cost=rec, start=start, score=score)
+                                           cost=rec, start=start, score=score,
+                                           **({} if n_hold is None
+                                              else {"n_hold": int(n_hold)}))
     mkt_col = next((c for c in BT.MKT if c in close.columns), None)
     if mkt_col is None:
         raise SystemExit("FATAL: no 510300 column on the panel")
@@ -108,7 +115,7 @@ def build_face(target=TARGET_BETA, start=START):
     return {"close": close, "amt": amt, "idx": idx, "rp": rp, "rm": rm,
             "sched": sched, "k": k_ser, "rf": rf, "rf_missing": rf_missing,
             "fills": rec.fills, "rebal_turnover": turn, "gapfill": gapfill,
-            "market": mkt, "mkt_col": mkt_col}
+            "market": mkt, "mkt_col": mkt_col, "n_hold": n_hold}
 
 
 def weight_path(face, k_override=None):

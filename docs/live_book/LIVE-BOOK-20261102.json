@@ -3115,7 +3115,7 @@
    "turnover_arm": 0.9422,
    "turnover_declared": 0.9529
   },
-  "elapsed_sec": 49.2,
+  "elapsed_sec": 50.6,
   "evidence_cutoff": "2026-10-30",
   "gross_rows": [
    {
@@ -3492,7 +3492,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-02T17:20:41+0800",
+  "ts": "2026-11-02T19:45:20+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -4066,7 +4066,43 @@
     "model_nav": 55929.14,
     "real_nav": 178973.24
    }
-  ]
+  ],
+  "width_verdict": "BREAKEVEN_WIDTH_MOVES_499PCT",
+  "width_spread_pct": 499.3,
+  "width_tol_pct": 10.0,
+  "published_path_width": 5,
+  "widths": [
+   {
+    "n_hold": 5,
+    "names_median": 5.0,
+    "dw_median": 0.09226805,
+    "model_nav": 67737.42,
+    "cagr_8bp": 0.073
+   },
+   {
+    "n_hold": 8,
+    "names_median": 8.0,
+    "dw_median": 0.04784457,
+    "model_nav": 130631.34,
+    "cagr_8bp": 0.0663
+   },
+   {
+    "n_hold": 12,
+    "names_median": 12.0,
+    "dw_median": 0.03078714,
+    "model_nav": 203006.85,
+    "cagr_8bp": 0.0618
+   },
+   {
+    "n_hold": 20,
+    "names_median": 20.0,
+    "dw_median": 0.01539595,
+    "model_nav": 405950.98,
+    "cagr_8bp": 0.055
+   }
+  ],
+  "delivered_n_hold": 12,
+  "width_mismatch": true
  },
  "gap": {
   "audits": {
@@ -4129,7 +4165,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 44.2,
+  "elapsed_sec": 42.6,
   "evidence_cutoff": "2026-10-30",
   "gap_stats": {
    "entry_bars": 83,
@@ -4488,7 +4524,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-02T17:21:26+0800",
+  "ts": "2026-11-02T19:46:03+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [

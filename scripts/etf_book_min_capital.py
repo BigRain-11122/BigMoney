@@ -85,6 +85,12 @@ WINDOWS = (
 )
 WINDOW_STABLE_PCT = 10.0       # frozen before the run: a >10% move is not a constant
 
+# The neutral point also moves with the BASKET, not only with the years: more names means
+# smaller legs means the cash floor bites at a bigger account. Same engine, same rule,
+# same grid -- only n_hold changes (prereg-free reading rule frozen here, before the run).
+WIDTHS = (5, 8, 12, 20)
+WIDTH_STABLE_PCT = 10.0
+
 
 def fee_bp(prop_bp, min_fee_cny, notional):
     """Per-side commission in bp: the proportional rate with a cash floor."""
@@ -242,6 +248,81 @@ def _window_verdict(rows, reference=None, tol_pct=WINDOW_STABLE_PCT):
     return token, round(spread, 2)
 
 
+def width_dependence(start=R.START):
+    """Does the fee-neutral NAV depend on how many names the basket holds?
+
+    The neutral point is 1e4*min_fee/(8bp*dw_median), so it moves exactly with the
+    traded leg. A wider basket splits the same NAV into more (smaller) legs, so the
+    floor should bind at a LARGER account. That is a prediction, not a reading -- each
+    width re-ranks the SAME panel with the SAME rule and is priced on its own path.
+    """
+    rows = []
+    for n in WIDTHS:
+        face = R.build_face(start=start, n_hold=n)
+        path = R.weight_path(face)
+        if not path:
+            rows.append({"n_hold": n, "names_median": None, "dw_median": None,
+                         "fee_neutral_vs_model_nav": None, "cagr_8bp": None,
+                         "legs": 0})
+            continue
+        ser, _r, cnt = curve(face, 1e6, BASE_BP, 0.0, path=path)
+        m = F.metrics(ser, "width %d" % n)
+        dw = cnt["dw_median"]
+        names = [len(w) for _d, w, _c in path if w]
+        rows.append({
+            "n_hold": n,
+            "names_median": (float(np.median(names)) if names else None),
+            "first_bar": str(pd.Timestamp(path[0][0]).date()),
+            "last_bar": str(pd.Timestamp(path[-1][0]).date()),
+            "bars": len(ser),
+            "legs": cnt["legs"],
+            "dw_median": None if dw is None else round(dw, 8),
+            "fee_neutral_vs_model_nav": (None if dw is None else
+                                         round(neutral_nav(dw, BASE_BP, MIN_FEE_CNY), 2)),
+            "cagr_8bp": m.get("cagr"),
+            "sharpe_8bp": m.get("sharpe"),
+        })
+    return rows
+
+
+def _width_verdict(rows, reference=None, tol_pct=WIDTH_STABLE_PCT):
+    """Frozen reading rule: how far the neutral point travels across basket widths (%)."""
+    vals = [r["fee_neutral_vs_model_nav"] for r in rows
+            if r.get("fee_neutral_vs_model_nav") is not None]
+    if len(vals) < 2:
+        return "WIDTH_UNMEASURED", None
+    ref = reference if reference is not None else vals[0]
+    spread = 100.0 * (max(vals) - min(vals)) / ref if ref else None
+    if spread is None:
+        return "WIDTH_UNMEASURED", None
+    token = ("BREAKEVEN_WIDTH_MOVES_%dPCT" % int(round(spread))
+             if spread > tol_pct else "BREAKEVEN_WIDTH_STABLE")
+    return token, round(spread, 2)
+
+
+def _delivered_width(rows, published_neutral):
+    """Which width is the ladder actually priced on? The one whose own neutral matches it.
+
+    This is a check on the face, not a parameter: if no width reproduces the published
+    number, the ladder's path is not one of the widths in the sweep and that must be
+    said rather than guessed (an unmatched path reads None).
+    """
+    if published_neutral is None:
+        return None
+    best = None
+    for r in rows:
+        v = r.get("fee_neutral_vs_model_nav")
+        if v is None:
+            continue
+        d = abs(v - published_neutral)
+        if best is None or d < best[0]:
+            best = (d, r["n_hold"])
+    if best is None:
+        return None
+    # published precision is 0.01 CNY; anything inside 1% is the same path
+    return best[1] if best[0] <= 0.01 * max(1.0, published_neutral) else None
+
+
 def run(start=R.START):
     face = R.build_face(start=start)
     path = R.weight_path(face)
@@ -286,6 +367,9 @@ def run(start=R.START):
     window_rows = window_dependence()
     window_verdict, window_spread_pct = _window_verdict(window_rows, fee_neutral_model)
 
+    width_rows = width_dependence(start=start)
+    width_verdict, width_spread_pct = _width_verdict(width_rows, fee_neutral_model)
+
     out = {
         "ts": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
         "evidence_cutoff": str(pd.Timestamp(face["idx"][-1]).date()),
@@ -317,6 +401,18 @@ def run(start=R.START):
                         "impact term identical. Capital held constant per rung so each "
                         "delta is attributable to the fee schedule (compare vs the "
                         "same-NAV @8bp arm, not across rungs)."),
+        "width": {
+            "verdict": width_verdict,
+            "spread_pct_of_published": width_spread_pct,
+            "stability_tol_pct": WIDTH_STABLE_PCT,
+            "widths": list(WIDTHS),
+            "published_path_width": (
+                None if not width_rows else _delivered_width(width_rows, fee_neutral_model)),
+            "rows": width_rows,
+            "note": ("each width re-ranks the same panel with the same rule at its own "
+                     "n_hold; the neutral NAV is a closed form in that path's traded-leg "
+                     "median, so a width row is a reading and not an extrapolation"),
+        },
         "scope_note": ("fees only: spread is inside the 8bp reference and is NOT added "
                        "here; a broker with no 5-yuan floor is the wan2.5+0 row; the "
                        "delivered rule's own turnover is imported from the engine."),
@@ -324,6 +420,18 @@ def run(start=R.START):
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
     return out
+
+
+def _close(got, want, abs_tol=0.02, rel_tol=1e-5):
+    """Published rows carry the traded leg rounded to 8dp, so a closed form recomputed
+    from them differs in the last digits -- at 4e5 CNY that is 0.06 CNY, not drift.
+    Absolute 0.02 CNY for small numbers, 1e-5 relative above (a width change moves this
+    by thousands, so the tolerance cannot swallow a real disagreement)."""
+    try:
+        a, b = float(got), float(want)
+    except (TypeError, ValueError):
+        return False
+    return abs(a - b) <= max(abs_tol, rel_tol * max(1.0, abs(b)))
 
 
 def check():
@@ -359,7 +467,7 @@ def check():
         if dw_w is None or r.get("fee_neutral_vs_model_nav") is None:
             continue
         want_w = neutral_nav(dw_w, cfg["base_bp_published"], primary["min_fee_cny"])
-        if abs(want_w - r["fee_neutral_vs_model_nav"]) > 0.02:
+        if not _close(want_w, r["fee_neutral_vs_model_nav"]):
             problems.append("window %s: neutral %.2f != %.2f"
                             % (r.get("window"), r["fee_neutral_vs_model_nav"], want_w))
     if w.get("rows"):
@@ -372,12 +480,36 @@ def check():
                 and abs(want_ws - w["spread_pct_of_published"]) > 0.02):
             problems.append("window spread %.2f != %.2f"
                             % (w["spread_pct_of_published"], want_ws))
-    if problems:
-        for p in problems:
-            print("DRIFT: " + p)
-        return 3
-    print("min_capital: check OK (%s, neutral vs model %s CNY, vs real %s CNY)"
-          % (d["verdict"], d["fee_neutral_vs_model_nav"], d["fee_neutral_vs_real_nav"]))
+    # the width block must satisfy the same arithmetic, and its token must come from rows
+        wid = d.get("width") or {}
+        for r in wid.get("rows") or []:
+            dw_w = r.get("dw_median")
+            if dw_w is None or r.get("fee_neutral_vs_model_nav") is None:
+                continue
+            want_w = neutral_nav(dw_w, cfg["base_bp_published"], primary["min_fee_cny"])
+            if not _close(want_w, r["fee_neutral_vs_model_nav"]):
+                problems.append("width %s: neutral %.2f != %.2f"
+                                % (r.get("n_hold"), r["fee_neutral_vs_model_nav"], want_w))
+        if wid.get("rows"):
+            want_wv, want_ws = _width_verdict(wid["rows"],
+                                              d.get("fee_neutral_vs_model_nav"))
+            if want_wv != wid.get("verdict"):
+                problems.append("width verdict %s != recomputed %s"
+                                % (wid.get("verdict"), want_wv))
+            if (want_ws is not None and wid.get("spread_pct_of_published") is not None
+                    and abs(want_ws - wid["spread_pct_of_published"]) > 0.02):
+                problems.append("width spread %.2f != %.2f"
+                                % (wid["spread_pct_of_published"], want_ws))
+            want_pw = _delivered_width(wid["rows"], d.get("fee_neutral_vs_model_nav"))
+            if want_pw != wid.get("published_path_width"):
+                problems.append("published_path_width %s != recomputed %s"
+                                % (wid.get("published_path_width"), want_pw))
+        if problems:
+            for p in problems:
+                print("DRIFT: " + p)
+            return 3
+        print("min_capital: check OK (%s, neutral vs model %s CNY, vs real %s CNY)"
+              % (d["verdict"], d["fee_neutral_vs_model_nav"], d["fee_neutral_vs_real_nav"]))
     return 0
 
 
@@ -468,6 +600,27 @@ def selftest():
     chk("L17 a harder-churning sample needs less capital for the same 8bp (dw 20% vs 5%)",
         neutral_nav(dw_big, BASE_BP, 5.0) < neutral_nav(dw_small, BASE_BP, 5.0),
         (neutral_nav(dw_big, BASE_BP, 5.0), neutral_nav(dw_small, BASE_BP, 5.0)))
+
+    # L18-L21: the width face. The neutral point is a closed form in the traded leg, so a
+    # wider basket must need MORE capital -- that is arithmetic, and the fixtures pin it
+    # so a panel result can be read against it instead of being its own control.
+    chk("L18 halving the traded leg doubles the neutral NAV (1/n arithmetic)",
+        abs(neutral_nav(0.02, BASE_BP, 5.0) - 2 * neutral_nav(0.04, BASE_BP, 5.0)) < 1e-6,
+        (neutral_nav(0.02, BASE_BP, 5.0), neutral_nav(0.04, BASE_BP, 5.0)))
+    _w_flat = [{"n_hold": 5, "fee_neutral_vs_model_nav": 67737.42},
+               {"n_hold": 12, "fee_neutral_vs_model_nav": 69000.0}]
+    _tok_w, _sp_w = _width_verdict(_w_flat, 67737.42)
+    chk("L19 a 2% spread across widths reads as a constant",
+        _tok_w == "BREAKEVEN_WIDTH_STABLE", (_tok_w, _sp_w))
+    _w_up = [{"n_hold": 5, "fee_neutral_vs_model_nav": 67737.42},
+             {"n_hold": 20, "fee_neutral_vs_model_nav": 169000.0}]
+    _tok_w2, _sp_w2 = _width_verdict(_w_up, 67737.42)
+    chk("L20 a 150% spread reads as movement, not as a constant",
+        _tok_w2.startswith("BREAKEVEN_WIDTH_MOVES_") and _sp_w2 > 100.0,
+        (_tok_w2, _sp_w2))
+    chk("L21 a path no width reproduces is reported as unmatched, never guessed",
+        _delivered_width(_w_up, 500000.0) is None
+        and _delivered_width(_w_up, 68000.0) == 5)
 
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1

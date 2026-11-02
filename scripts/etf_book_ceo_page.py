@@ -1263,6 +1263,20 @@ def capital_face(path=MIN_CAPITAL_JSON):
                     "published": win.get("verdict"), "recomputed": want_wv}
         small = min(primary, key=lambda r: r.get("capital") or 0) if primary else {}
         big = max(primary, key=lambda r: r.get("capital") or 0) if primary else {}
+        wid = d.get("width") or {}
+        xrows = wid.get("rows") or []
+        if xrows:
+            want_xv, _want_xs = MC._width_verdict(xrows, model)
+            if wid.get("verdict") != want_xv:
+                return {"status": "drifted", "artifact": _rel(path, ROOT),
+                        "detail": "the width token disagrees with its own rows",
+                        "published": wid.get("verdict"), "recomputed": want_xv}
+            want_pw = MC._delivered_width(xrows, model)
+            if want_pw != wid.get("published_path_width"):
+                return {"status": "drifted", "artifact": _rel(path, ROOT),
+                        "detail": "the width this ladder was priced on disagrees with its rows",
+                        "published": wid.get("published_path_width"),
+                        "recomputed": want_pw}
         return {
             "status": "ok",
             "artifact": _rel(path, ROOT),
@@ -1291,9 +1305,40 @@ def capital_face(path=MIN_CAPITAL_JSON):
                          "model_nav": r.get("fee_neutral_vs_model_nav"),
                          "real_nav": r.get("fee_neutral_vs_real_nav")}
                         for r in wrows],
+            "width_verdict": want_xv if xrows else "WIDTH_UNMEASURED",
+            "width_spread_pct": wid.get("spread_pct_of_published"),
+            "width_tol_pct": wid.get("stability_tol_pct"),
+            "published_path_width": wid.get("published_path_width"),
+            "widths": [{"n_hold": r.get("n_hold"),
+                        "names_median": r.get("names_median"),
+                        "dw_median": r.get("dw_median"),
+                        "model_nav": r.get("fee_neutral_vs_model_nav"),
+                        "cagr_8bp": r.get("cagr_8bp")}
+                       for r in xrows],
+            "delivered_n_hold": _delivered_names(),
+            "width_mismatch": (None if (_delivered_names() is None
+                                        or not wid.get("published_path_width"))
+                               else (_delivered_names() != wid.get("published_path_width"))),
         }
     except Exception as exc:                                    # noqa: BLE001
         return {"status": "unreadable", "artifact": _rel(path, ROOT), "detail": repr(exc)}
+
+
+def _delivered_names(path=None):
+    """How many names the delivered card actually holds (read from its own payload).
+
+    The capital face prices a basket; the card ships a basket. If the two differ, the
+    floor printed on this page belongs to a book the reader does not hold -- a mismatch
+    this page must be able to SEE rather than infer from two documents.
+    """
+    path = path or os.path.join(ROOT, "results", "etf_book_production", "latest.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            d = json.load(fh)
+        n = (d.get("config") or {}).get("n_hold")
+        return int(n) if n is not None else None
+    except Exception:                                           # noqa: BLE001
+        return None
 
 
 def capital_block(cf):
@@ -1347,6 +1392,39 @@ def capital_block(cf):
                     ("%.0f 元" % w["model_nav"]) if w.get("model_nav") is not None else "-",
                     ("%.0f 元" % w["real_nav"]) if w.get("real_nav") is not None else "-"))
     L.append("")
+    wid_rows = cf.get("widths") or []
+    wspread = cf.get("width_spread_pct")
+    if wid_rows and cf.get("width_verdict") not in (None, "WIDTH_UNMEASURED"):
+        pw = cf.get("published_path_width")
+        L.append("**同一个门槛也随篮子宽度移动。** 上面的每一档都是按 **%s 名**的篮子算的"
+                 "（这一条是从行本身认出来的，不是写死的）；名字越多，每个仓位动得越小，5 元地板就"
+                 "咬得更晚：%s。极差 **%.1f%%**（冻结容差 %g%%）。"
+                 % (("这 %d" % pw) if pw else "某个未在扫描里的",
+                    "、".join("%d 名 %.0f 元" % (w.get("n_hold"), w.get("model_nav"))
+                              for w in wid_rows if w.get("model_nav") is not None),
+                    wspread or 0.0, cf.get("width_tol_pct") or 0.0))
+        L.append("")
+        if cf.get("width_mismatch"):
+            _pv = cf.get("published_path_width")
+            _dv = cf.get("delivered_n_hold")
+            _hit = next((w for w in wid_rows if w.get("n_hold") == _dv), {})
+            L.append("**⚠ 这一节的门槛是拿 %s 名的篮子算的，而卡片配置写的是 %s 名。** "
+                     "同一套规则在 %s 名上重算，平衡点是 **%s**——比印在上面的数高。"
+                     "换宽度就是换分母，门槛不是这一层的常数，读之前先对齐篮子宽度。"
+                     % (_pv, _dv, _dv,
+                        ("%.0f 元" % _hit["model_nav"]) if _hit.get("model_nav") is not None
+                        else "（未扫到该宽度）"))
+            L.append("")
+        L.append("| 篮子宽度 | 实际持名（中位） | 平均每仓位换手 | 8bp 平衡点 | 8bp 下年化 |")
+        L.append("|---|---|---|---|---|")
+        for w in wid_rows:
+            L.append("| %s 名 | %s | %.2f%% | %s | %s |"
+                     % (w.get("n_hold"),
+                        ("%.1f" % w["names_median"]) if w.get("names_median") is not None else "-",
+                        100.0 * (w.get("dw_median") or 0.0),
+                        ("%.0f 元" % w["model_nav"]) if w.get("model_nav") is not None else "-",
+                        ("%.2f%%" % (100.0 * w["cagr_8bp"])) if w.get("cagr_8bp") is not None else "-"))
+        L.append("")
     L.append("> 口径：只算佣金与既有的冲击项。买卖价差已经在那 8bp 里，**没有再叠加一次**。"
              "资本在每一档内保持恒定，所以「小账户差多少」只归因于费率、不掺第二个变量。"
              "没有 5 元地板的券商（`wan%g+0`）在 1 万元上也不会被咬。"
@@ -4883,6 +4961,41 @@ def selftest():
         or (str(_cf_wv).startswith("BREAKEVEN_WINDOW_MOVES") and _cf_moves_txt in md
             and _cf_published_txt not in md),
         "window_verdict=%s printed_as_constant=%s" % (_cf_wv, _cf_published_txt in md))
+    # r1240: the floor is a closed form in the traded leg, so it moves with the BASKET.
+    # The page must print the width table, and it must SAY when the basket it priced is
+    # not the basket the card ships -- a number from a 5-name book printed beside a
+    # 12-name book is exactly the defect this pair of legs exists to catch.
+    _cf_widths = _cf.get("widths") or []
+    _cf_mm = _cf.get("width_mismatch")
+    _cf_warn = [l for l in _cf_lines if "\u26a0" in l]
+    chk("L129 capital: the block prints one row per width and warns only on a real mismatch",
+        bool(_cf_widths)
+        and all(("%d \u540d" % w.get("n_hold")) in md for w in _cf_widths)
+        and ((_cf_mm is True and bool(_cf_warn)) or (_cf_mm is not True and not _cf_warn)),
+        "width_verdict=%s widths=%d mismatch=%s warn_lines=%d"
+        % (_cf.get("width_verdict"), len(_cf_widths), _cf_mm, len(_cf_warn)))
+    _fake = {"status": "ok", "model_nav": 100000.0, "real_nav": 300000.0,
+             "base_bp": 8.0, "min_fee_cny": 5.0, "dw_median": 0.09, "prop_bp": 2.5,
+             "small_capital": 1e4, "small_cagr": 0.02, "small_ref_cagr": 0.08,
+             "small_fee_cny": 4320.0, "big_capital": 1e6, "big_delta_pp": 0.6,
+             "window_verdict": "WINDOW_UNMEASURED", "window_spread_pct": None,
+             "window_tol_pct": 10.0, "windows": [],
+             "width_verdict": "BREAKEVEN_WIDTH_STABLE", "width_spread_pct": 1.0,
+             "width_tol_pct": 10.0, "published_path_width": 5, "delivered_n_hold": 12,
+             "width_mismatch": True,
+             "widths": [{"n_hold": 5, "names_median": 5.0, "dw_median": 0.09,
+                         "model_nav": 100000.0, "cagr_8bp": 0.07},
+                        {"n_hold": 12, "names_median": 12.0, "dw_median": 0.03,
+                         "model_nav": 300000.0, "cagr_8bp": 0.06}]}
+    _fake_on = [l for l in capital_block(_fake) if "\u26a0" in l]
+    _fake_off_cf = dict(_fake)
+    _fake_off_cf["width_mismatch"] = False
+    _fake_off_cf["delivered_n_hold"] = 5
+    _fake_off = [l for l in capital_block(_fake_off_cf) if "\u26a0" in l]
+    chk("L130 capital: the width warning is derived from the two faces, not typed",
+        len(_fake_on) == 1 and not _fake_off
+        and "300000" in _fake_on[0].replace(",", ""),
+        "on=%d off=%d" % (len(_fake_on), len(_fake_off)))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 
