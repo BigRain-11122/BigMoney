@@ -12849,6 +12849,60 @@ def _r39(face, key):
                 str((_f370 or {}).get("arm_populations", {}).get("live", {}).get("E350")),
                 str((_f370 or {}).get("verdict"))[:60]))
 
+    # E371: the store_needed member is a place a replay can borrow bytes from the tree instead of
+    # from the pin, so its cost has to be measured, not assumed.  This leg refuses the three shapes
+    # that would let a footnote pass as a bill: a member published with only one byte arm (a BOM
+    # makes "unparseable" and "contributes nothing" two different zeros), a verdict that contradicts
+    # the replay's own moved keys, and a source-count delta that is not the store's size.
+    _name371 = ("product: a store_needed member's cost is a measured replay, and the two zeros "
+                "(unparseable vs empty) are published apart")
+    _bad371 = []
+    try:
+        _p371 = os.path.join("results", "state_tilt", "storemembercost_latest.json")
+        _f371 = json.load(open(_p371, encoding="utf-8")) if os.path.exists(_p371) else None
+        if _f371 is None:
+            _bad371.append("no published store-member-cost face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m371 = __import__("importlib").import_module("e371_store_member_cost")
+            _vocab371 = {_m371.V_INVISIBLE, _m371.V_UNSEEN_WRITER, _m371.V_LOAD_BEARING,
+                         _m371.V_NO_STORE, _m371.V_EMPTY}
+            if _f371.get("verdict") not in _vocab371:
+                _bad371.append("verdict %r is outside the frozen vocabulary"
+                               % str(_f371.get("verdict"))[:60])
+            _fps371 = _f371.get("footprints") or []
+            if not _fps371 or len(_fps371) != len(_f371.get("store_needed_paths") or []):
+                _bad371.append("a store member carries no footprint")
+            for _fp371 in _fps371:
+                if set((_fp371.get("arms") or {})) != {"as_pinned", "bom_stripped"}:
+                    _bad371.append("%s publishes only one byte arm" % _fp371.get("path"))
+                    break
+                if _fp371.get("leading_bom") and (_fp371.get("arms") or {})[
+                        "bom_stripped"].get("parsed") != 1:
+                    _bad371.append("%s carries a BOM but does not parse once stripped"
+                                   % _fp371.get("path"))
+                    break
+            _moved371 = sorted(k for _s in (_f371.get("studies") or {}).values()
+                               for k in (_s.get("moved_keys") or {}))
+            _field371 = [k for k in _moved371 if k not in ("corpus_sources", "sources_parsed")]
+            if bool(_field371) != (_f371.get("verdict") == _m371.V_LOAD_BEARING):
+                _bad371.append("the verdict contradicts the moved keys %s" % str(_field371)[:80])
+            _size371 = len(_f371.get("store_needed_paths") or [])
+            for _sname, _s371 in (_f371.get("studies") or {}).items():
+                _d371 = ((_s371.get("moved_keys") or {}).get("corpus_sources") or {})
+                if _d371 and _d371.get("with_store", 0) - _d371.get("without_store", 0) != _size371:
+                    _bad371.append("%s source delta is not the store size %d" % (_sname, _size371))
+            if _m371.verify() != 0:
+                _bad371.append("the study's own verify does not come back clean")
+    except Exception as e:
+        _bad371.append(repr(e)[:160])
+    check(_name371, not _bad371, "; ".join(_bad371)[:220]
+          or "store %d; moved %s; verdict %s"
+             % (len((_f371 or {}).get("store_needed_paths") or []),
+                str(sorted(k for _s in ((_f371 or {}).get("studies") or {}).values()
+                           for k in (_s.get("moved_keys") or {}))),
+                str((_f371 or {}).get("verdict"))[:60]))
+
 
 def _r39ci(face, key):
     v = (face.get("summary") or {}).get(key)

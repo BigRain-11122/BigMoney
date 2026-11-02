@@ -1,4 +1,4 @@
-"""bm-b S6 chain runner (reusable).
+﻿"""bm-b S6 chain runner (reusable).
 
 Same shape and same reason as Tools/s6_chain_bmc.py: the per-round S6 chain used
 to be an ad-hoc script rebuilt every window, which spent the round's wall time
@@ -1137,6 +1137,13 @@ LEGS = [
     ("key_sensitivity",
      ["python", "scripts/e370_key_sensitivity.py", "verify"]),
 
+    # E371: E370 priced keys, E372 paid the bulk store, and the single store_needed member was
+    # still unpriced.  This leg re-derives the footprint counts, the moved sets and the verdict
+    # from the published face (~1 s), so a hand-edited delta or a verdict that no longer follows
+    # from its own rows cannot ship.
+    ("store_member",
+     ["python", "scripts/e371_one_store_member.py", "verify"]),
+
     # E352: E349 priced the channel as a population and found 14 of 840 comparisons ask whether
     # what they read is current; this prices the window instead, in the repository's own clock.
     # 60 deciding channel files, 59 measurable: median file lag 80 commits / p90 111, worst
@@ -1203,6 +1210,13 @@ LEGS = [
     # 1291 declared writer pairs never co-changed with the file they are said to write, and 54 of
     # them are the suite itself. Verify re-derives classes and the partition (~2 s, one git log).
     ("channel_writer_cadence", ["python", "scripts/e357_channel_writer_cadence.py", "verify"]),
+
+    # E371: E366 billed the store as the expensive half of a pin and left the store_needed members
+    # as a footnote. The footprint is measured twice (the pin's bytes carry a BOM, so "unparseable"
+    # and "contributes nothing" are two different zeros), the missing-writer question is asked by
+    # name against the E350 guard table, and the bill is a replay with the store excluded. Verify
+    # re-derives both footprints and the source-count arithmetic (~2 s, no corpus scan).
+    ("store_member_cost", ["python", "scripts/e371_store_member_cost.py", "verify"]),
 ]
 
 

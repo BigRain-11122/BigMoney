@@ -1,0 +1,201 @@
+{
+ "bill": "the store's bill on this instrument is the source count: dropping the store_needed set moves corpus_sources / sources_parsed by exactly its size and no field-level number; the members themselves contribute no resolvable read and no keyed write, so what the store pays for is a member whose output face the census cannot name",
+ "bound": "a member that is unparseable under the pin's bytes and empty when the BOM is stripped is two different zeros and both are published; the name-reach test is a substring test over one member's text, so it can only show that a writer could be this member, never that it is; the replay compares published numbers to two arms of the same instrument, so a key the instrument never measures cannot move in either arm",
+ "bytes_provenance": {
+  "disk": 2360,
+  "git": 6,
+  "store_needed": 2,
+  "unreadable": 0
+ },
+ "evidence_cutoff": "2026-11-03",
+ "footprints": [
+  {
+   "arms": {
+    "as_pinned": {
+     "dump_sinks": 0,
+     "faces_named": [],
+     "json_bindings": 0,
+     "parsed": 1,
+     "reads": 0,
+     "write_pairs": [],
+     "writes": 0
+    },
+    "bom_stripped": {
+     "dump_sinks": 0,
+     "faces_named": [],
+     "json_bindings": 0,
+     "parsed": 1,
+     "reads": 0,
+     "write_pairs": [],
+     "writes": 0
+    }
+   },
+   "bytes": 30035,
+   "dump_calls": [
+    {
+     "line": 549,
+     "resolved": false,
+     "target": "<bound>"
+    },
+    {
+     "line": 552,
+     "resolved": false,
+     "target": "<bound>"
+    }
+   ],
+   "footprint_empty": true,
+   "leading_bom": false,
+   "path": "Tools/gpu_face.py",
+   "unparseable_as_pinned": false,
+   "unresolved_dump_paths": [
+    {
+     "line": 549,
+     "resolved": false,
+     "target": "<bound>"
+    },
+    {
+     "line": 552,
+     "resolved": false,
+     "target": "<bound>"
+    }
+   ]
+  },
+  {
+   "arms": {
+    "as_pinned": {
+     "dump_sinks": 0,
+     "faces_named": [],
+     "json_bindings": 0,
+     "parsed": 0,
+     "reads": 0,
+     "write_pairs": [],
+     "writes": 0
+    },
+    "bom_stripped": {
+     "dump_sinks": 0,
+     "faces_named": [],
+     "json_bindings": 0,
+     "parsed": 1,
+     "reads": 0,
+     "write_pairs": [],
+     "writes": 0
+    }
+   },
+   "bytes": 98035,
+   "dump_calls": [
+    {
+     "line": 1305,
+     "resolved": false,
+     "target": "<bound>"
+    }
+   ],
+   "footprint_empty": true,
+   "leading_bom": true,
+   "path": "Tools/s6_chain_bmb.py",
+   "unparseable_as_pinned": true,
+   "unresolved_dump_paths": [
+    {
+     "line": 1305,
+     "resolved": false,
+     "target": "<bound>"
+    }
+   ]
+  }
+ ],
+ "name_reach": {
+  "counted": 131,
+  "naming_a_member": 0,
+  "rows": [],
+  "tested": 40,
+  "untested": 91
+ },
+ "pin": "1244ee231290e6ed13979acf474feb14dddd0dd0",
+ "pin_id": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f",
+ "pin_members": 2368,
+ "source": "scripts/e371_store_member_cost.py",
+ "store_needed_paths": [
+  "Tools/gpu_face.py",
+  "Tools/s6_chain_bmb.py"
+ ],
+ "studies": {
+  "E350": {
+   "arms": {
+    "with_store": {
+     "numbers": {
+      "corpus_sources": 2367,
+      "dump_sinks": 880,
+      "faces_named": 773,
+      "fields": 1947,
+      "fields_with_no_writer": 1356,
+      "guard_fields": 230,
+      "guard_fields_with_no_writer": 131,
+      "sources_parsed": 2351
+     },
+     "population_source": "pinned_bytes:2368"
+    },
+    "without_store": {
+     "numbers": {
+      "corpus_sources": 2365,
+      "dump_sinks": 880,
+      "faces_named": 773,
+      "fields": 1947,
+      "fields_with_no_writer": 1356,
+      "guard_fields": 230,
+      "guard_fields_with_no_writer": 131,
+      "sources_parsed": 2350
+     },
+     "population_source": "pinned_bytes:2366"
+    }
+   },
+   "moved_keys": {
+    "corpus_sources": {
+     "with_store": 2367,
+     "without_store": 2365
+    },
+    "sources_parsed": {
+     "with_store": 2351,
+     "without_store": 2350
+    }
+   },
+   "published": {
+    "corpus_sources": 2343,
+    "fields_with_no_writer": 1698,
+    "guard_fields": 230,
+    "guard_fields_with_no_writer": 131
+   },
+   "published_reproduced_by": []
+  },
+  "E353": {
+   "arms": {
+    "with_store": {
+     "numbers": {
+      "guard_never_fires_on_a_falsy_value": 34,
+      "pairs": 131
+     },
+     "population_source": "pinned_bytes:2368"
+    },
+    "without_store": {
+     "numbers": {
+      "guard_never_fires_on_a_falsy_value": 34,
+      "pairs": 131
+     },
+     "population_source": "pinned_bytes:2366"
+    }
+   },
+   "moved_keys": {},
+   "published": {
+    "by_class": {
+     "guard_is_the_alert": 5,
+     "guard_never_fires": 103,
+     "guard_unreachable": 23
+    },
+    "guard_never_fires_on_a_falsy_value": 34,
+    "pairs": 131
+   },
+   "published_reproduced_by": []
+  }
+ },
+ "study": "E371_store_member_cost",
+ "ts": "2026-11-03T02:16:27+08:00",
+ "verdict": "the_store_needed_members_bind_and_write_no_field_of_any_face_the_instrument_can_key_and_excluding_them_moves_nothing_but_the_source_count_so_the_store_pays_for_a_writer_the_census_cannot_see_rather_than_for_a_number"
+}

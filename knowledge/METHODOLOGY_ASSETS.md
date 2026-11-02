@@ -8128,3 +8128,35 @@ class and its tolerated_drift_pct. A **ratio** at 2.77% is quotable through that
 re-run; an **unmoved** key is not evidence of stability, it is a question this arm set never asked.
 And do not read a class as a property of the key's NAME -- the word "fields" hides both an invariant
 guard count and a 15%-moving field count.
+
+## E376 -- a store_needed member is billed by what the census cannot key, and "unparseable" is not "empty" (r1395 bm-b)
+
+E366 priced the store as the expensive half of a pin, E368 replayed a repaired seam and left the
+store_needed member as a footnote. E371 bills it: footprint of the member under the pin's bytes and
+under BOM-stripped bytes, a name-level test of the missing-writer question, and one replay of E350 +
+E353 with the store present and with it excluded.
+
+The bill: the store is two members (Tools/gpu_face.py, Tools/s6_chain_bmb.py), both footprint-empty
+in both arms (0 reads / 0 writes / 0 json bindings / 0 faces named). Excluding both moves only
+corpus_sources 2367 -> 2365 and sources_parsed 2351 -> 2350; fields, fields_with_no_writer (1356),
+guard_fields (230), guard_fields_with_no_writer (131) and every E353 key (pairs 131, falsy-value 34)
+are identical. The store's measurable cost is one parsed source that contributes no field --
+sources_parsed falls by 1, not 2, because Tools/s6_chain_bmb.py was never parsed at all.
+
+Three reusable rules:
+1. **A BOM makes two different zeros.** The pin's bytes are read as UTF-8, so a leading U+FEFF makes
+   the file unparseable; strip it and the file parses to nothing. "I could not read it" and "I read
+   it and it says nothing" are different claims, and a census that folds the first into the second
+   has converted a blind spot into a measured zero. Publish both byte arms per member.
+2. **Zero fields is not "writes nothing".** Both members write faces whose paths they format at run
+   time ("results/_r%sbmb_s6_chain.json" % rnd), which a census keying literal/constant paths cannot
+   name. Publish the dump-call census beside the footprint (2/2 and 1/1 unresolved here) or "no
+   writer" reads as "writes nothing".
+3. **A truncated table is a bound, not a result.** The published E350 face carries 40 of the 131
+   unwritten-guard rows; the name test therefore ships tested / counted / untested (40 / 131 / 91)
+   so an untested residue cannot read as a cleared one.
+
+How to apply: when a replay has to borrow bytes from the disk instead of the pin, bill the borrowed
+member by the numbers that move when it is dropped, and publish the two zeros and the unkeyable
+writes separately -- a cheap bill on a name-keyed instrument says nothing about what the member does
+at run time.
