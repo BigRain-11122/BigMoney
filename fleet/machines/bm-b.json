@@ -132,7 +132,7 @@
  "last_product": "scripts/e348_restored_gate_retrospect.py + RESTOREDGATE face + card E348 + smoke leg",
  "last_push": "d5e0738db3687ed79d895a66dd03c1f6204e57dc",
  "last_push_at": "2026-11-02T18:3x+08:00",
- "last_push_sha": "d5e0738db3687ed79d895a66dd03c1f6204e57dc",
+ "last_push_sha": "b2636db3ca3009dd15a5a5e1f3dabf747d95b198",
  "last_push_ts": "2026-11-02T21:25:00+08:00",
  "last_round": 1390,
  "last_round_at": "2026-11-02T21:07:07+08:00",
@@ -295,7 +295,7 @@
   "E257-BAND-AT-TOP-FLIPS done r1284",
   "E258-BAND-MULTIPLIER-IN-EACH-WINDOW ready"
  ],
- "pool_ready_unclaimed": 1,
+ "pool_ready_unclaimed": 3,
  "pos": "PUSHED_VERIFIED 699bbc56b (new branch, ls-remote confirmed)",
  "postscript_sha": "3c3d0bd56",
  "product": 1,
@@ -1024,9 +1024,9 @@
   "branch": "machine/bm-b-r1390",
   "files": 14,
   "main_push_blocker": "local main has diverged from origin/main for many rounds (two blood lines, promisor lazy-fetch wedge r1255 family); not attempted, no unattended rebase per r1243, so the machine branch is the delivery channel",
-  "sha": "d5e0738db3687ed79d895a66dd03c1f6204e57dc",
+  "sha": "b2636db3ca3009dd15a5a5e1f3dabf747d95b198",
   "ts": "2026-11-02T21:25:00+08:00",
-  "verified": "ls-remote equals local HEAD"
+  "verified": "ls-remote equals local HEAD (postscript b2636db3c included)"
  },
  "ram_free_gb": 4.78,
  "ram_free_mb": 4898,
@@ -1040,7 +1040,7 @@
  "round_no_label": "r1390",
  "round_no_ts": "2026-11-02T21:07:07+08:00",
  "s1": "detached full suite from the previous window finished 278/278 PASS at 18:54 (results/_smoke_r1387b.out) on the pre-change tree; the two surfaces changed this round were verified individually (audit selftest 15/15, the edited smoke leg exec'd verbatim against the live face -> PASS); a second full suite was launched at 19:0x and its verdict is owed to the next round",
- "s6": "dualrun ZERO-DRIFT 851 entries streak 16 | attrition CLEAN 4 ledgers (2 historical shrinks healed) | sat engine rc=0 idle | orphan py_faces=18 orphans=0 residents=0 | update_daily ran: 0 new rows, cutoff 2026-10-30 | lane collectors / market_regime / paper faces not re-run this window (stated, not claimed)",
+ "s6": "dualrun ZERO-DRIFT 853 entries streak 18 | compute_audit FLAG cap_violation,gpu_unauthorized,supply_gap,supply_floor (GPU apps = content lane, nothing killed; supply floor breach was real: ready 1 vs floor 3, closed at close by seeding E370+E371) | py_watermark py 28.1 pct insufficient_history, pool_ready E369 | orphan py_faces=16 orphans=0 residents=0 | attrition CLEAN 4 ledgers (3 historical shrinks healed) | sat engine rc=0 idle | lane collectors / update_* / paper faces NOT re-run",
  "s7": "loop task and watchdog not re-run this window (stated, not claimed); orders 114 files / 115 acks / 0 unacked; decisions.md read fresh from the group tree by origin blob: sha c4f018fc, batch 38 (D-20261102-14..18) -- ids already consumed at r1383, zero rows owed",
  "sat_engine": "rc=0 idle",
  "selftest": "e350 20/20; verify 0 problems; smoke leg 1/1",
@@ -1048,6 +1048,15 @@
  "smoke": "detached suite finished 277/278 with one red (leg 96, e302, subject left the disk); repaired and verified by executing the leg verbatim out of smoke_test.py (rc 0); the full suite was re-launched detached at 18:29 (results/_smoke_r1387b.out) and its verdict is owed to the next round",
  "status": "ok",
  "study": "E368_seam_replay",
+ "supply_floor": {
+  "floor": 3,
+  "ready_at_close": 3,
+  "seeded": [
+   "E369-PIN-AT-THE-PUBLISHING-COMMIT",
+   "E370-WHICH-E350-NUMBERS-MOVE-WITH-THE-POPULATION",
+   "E371-WHAT-THE-ONE-STORE-NEEDED-MEMBER-COSTS"
+  ]
+ },
  "sync": {
   "ahead": 199,
   "behind_origin_main": 226,
