@@ -1110,6 +1110,16 @@ LEGS = [
     ("unstamped_census",
      ["python", "scripts/e364_unstamped_census.py", "check"]),
 
+    # E365: E364 named this queue head and left it open -- can a *published-face* population be
+    # pinned and replayed like a source population?  It can, and the first draft proved why the
+    # address must be byte level: one of 591 faces is UTF-16, so a text digest gave it two
+    # identities depending on which decoder read it.  Every round this leg rebuilds the population
+    # from git blobs + the inline store only (no work-tree read, ~8 s) and asserts the pin
+    # reproduces, the store covers exactly the un-suppliable members, and the study's own faces
+    # stay out of its own population (E319 applied at the pinning layer).
+    ("face_population_pin",
+     ["python", "scripts/e365_face_population_pin.py", "check"]),
+
     # E352: E349 priced the channel as a population and found 14 of 840 comparisons ask whether
     # what they read is current; this prices the window instead, in the repository's own clock.
     # 60 deciding channel files, 59 measurable: median file lag 80 commits / p90 111, worst

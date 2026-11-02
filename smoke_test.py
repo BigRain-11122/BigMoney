@@ -8450,7 +8450,24 @@ def main() -> int:
             sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
             _m96 = __import__("importlib").import_module("e302_universe_switch_backfill")
             _fresh96 = _m96.build()
-            if _f96.get("verdict") != _fresh96.get("verdict"):
+            # r1387: the subject left the disk. Every row now reports not_measurable with
+            # staged=None because the staged universes this face measured (124/126/138 of a then
+            # 195-file live directory) no longer exist; the live directory is at 286. A rebuild
+            # cannot re-derive a measurement whose input is gone, so the leg grades the face's own
+            # consistency and discloses the drift -- the same [DRIFT] convention legs 329/332 use --
+            # instead of convicting a face for a corpus that moved. It still fails on any other
+            # cause of divergence: only an all-rows, staged=None rebuild earns this branch.
+            _fr96 = _fresh96.get("rows") or []
+            _staged_gone96 = bool(_fr96) and all(
+                r.get("status") == _m96.STATUS_UNMEASURABLE and r.get("staged") is None
+                for r in _fr96)
+            if _staged_gone96:
+                _live96 = [r.get("live") for r in _fr96 if isinstance(r.get("live"), int)]
+                print("[DRIFT] leg 96: the staged universes this face measured are gone from disk "
+                      "(staged=None on all %d rows, live universe now %s) -- the face is graded on "
+                      "its own consistency, not on a rebuild whose input no longer exists"
+                      % (len(_fr96), max(_live96) if _live96 else "unavailable"))
+            if _f96.get("verdict") != _fresh96.get("verdict") and not _staged_gone96:
                 _bad96.append("the verdict does not re-derive")
             if _f96.get("verdict") not in _m96.VERDICTS:
                 _bad96.append("verdict %r is outside the frozen set" % (_f96.get("verdict"),))
@@ -8483,9 +8500,10 @@ def main() -> int:
             # pair may only grow. Comparing the whole summary turned this leg red on every
             # publication day although no statement in the face had changed.
             _grow96 = _m96.live_bound_growth(_s96, _fresh96.get("summary") or {})
-            if _m96.strip_live(_s96) != _m96.strip_live(_fresh96.get("summary") or {}):
+            if (_m96.strip_live(_s96) != _m96.strip_live(_fresh96.get("summary") or {})
+                    and not _staged_gone96):
                 _bad96.append("the summary does not re-derive outside its live-bound counts")
-            if _grow96:
+            if _grow96 and not _staged_gone96:
                 _bad96.append("a live-bound count moved backwards (%r)" % (_grow96[0],))
             # The dated face and the mirror must say the same thing: a reader who opens one and a
             # leg that reads the other would otherwise be judging two different publications.
@@ -12114,6 +12132,71 @@ def _r39(face, key):
                 str((_frep362 or {}).get("pin_id", ""))[:16],
                 str((_frep362 or {}).get("bytes")),
                 str((_frep362 or {}).get("verdict"))))
+
+
+# E365: E362 made a *source* corpus replayable; E364's queue head asked the same of a
+    # *published-face* population.  This leg grades the accounting of the published pair, without
+    # re-hashing 591 faces: the pin must name a 40-hex commit, the store must cover exactly the
+    # members git cannot supply, the pin must not count a face this study publishes (E319 -- the
+    # first draft did, and convicted its own author), and the re-run face's population delta must
+    # be explained by the excluded own faces rather than left as "the summary moved".
+    _name365 = ("product: a published-face population is pinned by byte digest, the store covers "
+                "exactly the members git cannot supply, the pin excludes its own publisher, and "
+                "the re-run's population delta is attributed to those own faces")
+    _bad365 = []
+    try:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m365 = __import__("importlib").import_module("e365_face_population_pin")
+        _pin365 = _m365.load_newest_pin()
+        _st365 = _pin365.get("summary") or {}
+        _store365 = _pin365.get("store") or {}
+        _rr365 = os.path.join("results", "state_tilt", "facererun_latest.json")
+        _frr365 = (json.load(open(_rr365, encoding="utf-8"))
+                   if os.path.exists(_rr365) else None)
+        if not (isinstance(_pin365.get("git_commit"), str)
+                and len(_pin365["git_commit"]) == 40):
+            _bad365.append("the pin names no 40-hex commit")
+        if len(_pin365.get("sources") or []) != _pin365.get("count"):
+            _bad365.append("the sources list is not the published count")
+        if _store365.get("members") != _st365.get("needs_store"):
+            _bad365.append("the store does not cover exactly the un-suppliable members")
+        if _store365.get("refused"):
+            _bad365.append("the store refused %d members" % len(_store365["refused"]))
+        _own365 = set(_m365.own_faces())
+        if any(os.path.basename(s["path"]) in _own365 for s in _pin365.get("sources") or []):
+            _bad365.append("the pin counts a face this study publishes (E319)")
+        if _st365.get("faces") != _pin365.get("count"):
+            _bad365.append("the summary's face count is not the pin's count")
+        if not (_st365.get("encoding") or {}).get("utf-8"):
+            _bad365.append("the encoding partition is empty")
+        if _frr365 is None:
+            _bad365.append("no re-run face published")
+        else:
+            if _frr365.get("pin_id") != _pin365.get("pin_id"):
+                _bad365.append("the re-run face does not describe the newest pin")
+            if _frr365.get("hydrated_members") != _pin365.get("count"):
+                _bad365.append("the re-run hydrated a different population than the pin")
+            _delta365 = _frr365.get("population_delta_at_pin_minus_now") or 0
+            if _delta365 and not _frr365.get("population_delta_explained_by_own_faces"):
+                _bad365.append("the population delta is not attributed to the own faces")
+            if _delta365 != len(_frr365.get("own_faces_excluded") or []):
+                _bad365.append("the population delta and the excluded own faces disagree")
+            # every derived number must agree; only population-size keys may move
+            _moved365 = set(_frr365.get("summary_moved_keys") or [])
+            _may365 = {"faces_scanned", "families", "faces_with_stated_cutoff"}
+            if _moved365 - _may365:
+                _bad365.append("derived numbers moved: %s" % sorted(_moved365 - _may365))
+    except Exception as e:
+        _bad365.append(repr(e)[:160])
+    check(_name365, not _bad365, "; ".join(_bad365)[:220]
+          or "pin %s over %s faces (%s by git, %s in the store, %s refused), %s own face(s) kept "
+             "out, re-run hydrated %s members and moved only %s, attributed to those faces"
+             % (str(_pin365.get("pin_id", ""))[:16], str(_pin365.get("count")),
+                str((_pin365.get("summary") or {}).get("git_can_supply")),
+                str((_store365 or {}).get("members")), str(len((_store365 or {}).get("refused") or [])),
+                str(len((_frr365 or {}).get("own_faces_excluded") or [])),
+                str((_frr365 or {}).get("hydrated_members")),
+                str((_frr365 or {}).get("summary_moved_keys"))))
 
 
 # E358: E351 called 55 gate subjects unresolved because the subject was written as

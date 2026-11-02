@@ -7817,3 +7817,36 @@ directory (sources or published faces), then stamp that population at build time
 lets someone else re-run the rule -- and if the study has no seam, the honest output is the queue
 entry, not a stamp over a different corpus. Any classifier over key names must publish what it
 refused, and must be gated by a structural fact (does this study enumerate a directory at all).
+
+## E365 -- a published-face population can be pinned and replayed, and the address has to be bytes (r1387)
+
+E364 named this and left it open: can the *outputs* be addressed the way E361/E362 address a study's
+*source* corpus? Yes -- `e328.build(root=, files=)` was already the seam, so a replay needs no new
+hook, only fetchable bytes. Three things came back from doing it on 591 faces:
+
+1. **A count is not an address.** E328's published summary says `faces_scanned: 587`; the population
+   held 593 rows at 17:5x and 591 rows twenty minutes later. Neither number is wrong, and neither can
+   be turned back into members: 10 of 13 summary keys are derivable and stable, but the population
+   itself has to be pinned or it is only a number somebody once measured. The mtime heuristic used to
+   name likely additions over-counted (9 named for a delta of 4) -- offered with that caveat.
+2. **The address has to be byte level, because a directory walk is not a UTF-8 population.** The first
+   draft inherited E362's text rule (sha256 over LF-normalised UTF-8 text) and the replay convicted a
+   face that had not moved: `results/e25_cash_leg/TREND-a0653f-20261021.json` starts with `FF FE` (it
+   is UTF-16LE), so the same bytes hash one way under surrogateescape and another when a git blob is
+   decoded with `replace`. 1 of 591 members is non-UTF-8 and 1 of 591 does not parse at all. A digest
+   of a file must not depend on who decodes it.
+3. **The pin must not count its own publisher.** The first real run pinned 593 members, then refused
+   `FACEPOPPIN-2026-11-02.json` -- it was in the population by the time the store re-read the disk,
+   after the face had been rewritten. E319 applies one layer lower than it is usually stated: a pin
+   that includes its own output is not idempotent, and an address has to be.
+
+The replay publishes both halves: `FACEPOPPIN-*` (pin, supply partition, store) and `FACERERUN-*`
+(the rule re-executed over the hydrated vintage). 591/591 replayed from 526 git blobs + 65 stored
+members; the re-run moved only the three population-size keys, by exactly the 2 excluded own faces,
+and 10 of 13 keys -- every derived number -- did not move even though the reader corpus's content
+moved underneath it.
+
+How to apply: to make an output-count recheckable, (a) stamp the population with the study's own
+scanner, (b) hash bytes, not decoded text, (c) store the members no commit holds, (d) exclude your
+own faces, and (e) publish the re-run's attribution rather than just its verdict. A pinned population
+whose difference is unattributed is the same claim as no pin at all, only more expensive.

@@ -198,7 +198,7 @@
  "last_decisions_probe_at": "2026-11-01T00:28:21+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
  "last_decisions_read_at": "2026-11-01T07:10:00+08:00",
- "last_decisions_sha": "416e79843902ace4823c40a2c254b220604ec9ed71a536910fd3f045e0c7dc39",
+ "last_decisions_sha": "4094e5298c1475bf427bda09d77595593c2a61102ede5ab1a4edbbcac042fd13",
  "last_decisions_sha_method": "sha256(origin/main:docs/decisions.md)[:16]",
  "last_decisions_sha_prev": "0d09d6e9be1fdd42712d319f85bac5a0db48b1cb138fba8805e7d4293ddcddbc",
  "last_decisions_sha_probe": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
@@ -4083,6 +4083,64 @@
   "ts": "2026-11-02T13:54:22+08:00",
   "verdict": "a_census_leg_that_compares_a_published_population_to_a_live_rebuild_convicts_the_tree_for_having_grown_and_three_of_them_republished_the_face_they_checked"
  },
+ "r1385": {
+  "dept": "research+engineering",
+  "face": "results/state_tilt/FACEVINTAGE-2026-11-02.json",
+  "measured": {
+   "e331": {
+    "live": 2369,
+    "newest_pin": 2365,
+    "published": 2362,
+    "publishing_commit": 2227
+   },
+   "e335": {
+    "live": 2369,
+    "newest_pin": 2365,
+    "published": 2348,
+    "publishing_commit": 2227
+   },
+   "publishing_commit": "17ea91d1 (r1363) -- last commit touching pointeronly_latest.json",
+   "republished_over": {
+    "git_commit": "1244ee231290e6ed13979acf474feb14dddd0dd0",
+    "members": 2365,
+    "pin_file": "CORPUSPIN-2026-11-02.json",
+    "pin_id_of_pin": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f"
+   }
+  },
+  "not_run": "full 277-leg suite, S6 chain, compute_audit, py_watermark, lane collectors, market_regime, update_*, paper/scorecard faces; GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted, no quarantine action",
+  "pit": "(1) the first draft of the study gave the named-pin class the publishing commit's verdict string, so a row printed 'reproducible from the commit' while its history vintage read 2227 against 2365 -- a label is not a measurement, and it is now its own constant with a leg. (2) three selftest legs failed on their own assertions, not the code (r1281 shape): rel paths sort as bytes so 'Tools/' precedes the lower-case roots, and a 'skills/a.py' input tested a case the rule never sees. (3) the no-address counter summed only rows WITH classes, so 'no classic reproduced' counted as zero no-address rows -- an empty list is the finding, not the absence of one. (4) the corpus grew 2365 -> 2369 inside the round (other lanes writing), which is the finding stated as a hazard for the leg.",
+  "pool": "E363 done with result_ref; E364 seeded ready (848 entries, 1 ready)",
+  "product": [
+   "scripts/e363_corpus_vintage.py (run / stamp / verify / selftest 22/22)",
+   "scripts/e331_pointer_only_readers.py: corpus stamp in the face envelope",
+   "scripts/e335_sibling_entry_point.py: files= seam + corpus stamp",
+   "scripts/e361_census_corpus_pin.py: stamp()",
+   "results/state_tilt/FACEVINTAGE-2026-11-02.json + facevintage_latest.json",
+   "results/state_tilt/pointeronly_latest.json + siblingentry_latest.json (republished with corpus_source naming CORPUSPIN-2026-11-02.json)",
+   "smoke_test.py: _named_pin_corpus + E331 leg replays the named pin + E335 stamp checks",
+   "scripts/run_e331_smoke_leg.py, scripts/run_e335_smoke_leg.py (namespace = vars(smoke_test))",
+   "knowledge/METHODOLOGY_ASSETS.md card E363",
+   "research/digests/DIGEST-20261102-r1385-e363-corpus-vintage.md",
+   "results/runnable_pool.json E363 done with result_ref + E364 seeded"
+  ]
+ },
+ "r1385_delivery": {
+  "ahead_of_origin_main": 232,
+  "behind_origin_main": 274,
+  "branch": "machine/bm-b-r1385",
+  "files": 19,
+  "main_push_blocker": "local main diverged from origin/main (two blood lines, promisor lazy-fetch wedge r1255 family); no unattended rebase per r1243, so the machine branch is the delivery channel",
+  "sha": "59e9501be6522ef135614160151ac177c9cde25d",
+  "ts": "2026-11-02T16:43:48+08:00",
+  "verified": "ls-remote equals local HEAD"
+ },
+ "r1387": {
+  "decisions": "sha 416e7984 -> 4094e529; no decision id beyond D-20261102-18 exists, and 14-18 were consumed at r1383, so the delta is non-row (batch summary/self-check) and zero rows were owed",
+  "face": "results/state_tilt/FACEPOPPIN-2026-11-02.json",
+  "next": "E366 seeded: which face-population studies can be pinned today with E365's mechanism",
+  "product": "E365 face population pinned and replayed",
+  "rerun_face": "results/state_tilt/FACERERUN-2026-11-02.json"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -4094,7 +4152,7 @@
  "reds_open": [],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1385,
- "round_no": 1386,
+ "round_no": 1387,
  "round_no_label": "r1385",
  "round_no_note": "r1373 healed a 6-round split: round/round_no said 1372 while cyc_round/cycle_round/last_round/did_round still said 1366 and the label said r1370. Pre-fix faces: {\"cyc_round\": 1366, \"cycle_round\": 1366, \"did_round\": 1366, \"last_round\": 1366, \"round\": 1372, \"round_no\": 1372, \"round_no_label\": \"r1370\"}",
  "round_no_ts": "2026-11-02T16:41:44+08:00",
@@ -4132,6 +4190,11 @@
  "task": "r1385 E363: a face that quotes a population now stamps the corpus it scanned, because neither the newest pin nor the publishing commit could reproduce it",
  "task_short": "r1385 E363 corpus stamp",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
+ "three_line": {
+  "current": "E363 vintage face published; both census faces stamped and replayed from the pin they name",
+  "latest_artifact": "results/state_tilt/FACEVINTAGE-2026-11-02.json @ 2026-11-02T16:41:44+08:00",
+  "next_milestone": "E364: which published census faces quote a population with no corpus block, and which need a producer seam first (<=48h)"
+ },
  "timestamp": "2026-11-02T16:41:44+08:00",
  "ts": "2026-11-02T16:43:48+08:00",
  "ts_utc_ms": 1793574929181,
@@ -4147,61 +4210,5 @@
  "watermark_note": "pool card E354 taken and burned this round; no py_watermark probe run",
  "watermark_red": true,
  "watermark_verdict": "red at open: py_low_with_work_cands (pool ready ids E353/E354/E355); taken as the S1 red-first mandate, no pool card burned this round",
- "work": "r1382 red fix: eight census legs gated on corpus identity, three of them no longer write the face they check",
- "three_line": {
-  "current": "E363 vintage face published; both census faces stamped and replayed from the pin they name",
-  "latest_artifact": "results/state_tilt/FACEVINTAGE-2026-11-02.json @ 2026-11-02T16:41:44+08:00",
-  "next_milestone": "E364: which published census faces quote a population with no corpus block, and which need a producer seam first (<=48h)"
- },
- "r1385": {
-  "dept": "research+engineering",
-  "face": "results/state_tilt/FACEVINTAGE-2026-11-02.json",
-  "measured": {
-   "e331": {
-    "published": 2362,
-    "live": 2369,
-    "newest_pin": 2365,
-    "publishing_commit": 2227
-   },
-   "e335": {
-    "published": 2348,
-    "live": 2369,
-    "newest_pin": 2365,
-    "publishing_commit": 2227
-   },
-   "publishing_commit": "17ea91d1 (r1363) -- last commit touching pointeronly_latest.json",
-   "republished_over": {
-    "pin_file": "CORPUSPIN-2026-11-02.json",
-    "pin_id_of_pin": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f",
-    "git_commit": "1244ee231290e6ed13979acf474feb14dddd0dd0",
-    "members": 2365
-   }
-  },
-  "product": [
-   "scripts/e363_corpus_vintage.py (run / stamp / verify / selftest 22/22)",
-   "scripts/e331_pointer_only_readers.py: corpus stamp in the face envelope",
-   "scripts/e335_sibling_entry_point.py: files= seam + corpus stamp",
-   "scripts/e361_census_corpus_pin.py: stamp()",
-   "results/state_tilt/FACEVINTAGE-2026-11-02.json + facevintage_latest.json",
-   "results/state_tilt/pointeronly_latest.json + siblingentry_latest.json (republished with corpus_source naming CORPUSPIN-2026-11-02.json)",
-   "smoke_test.py: _named_pin_corpus + E331 leg replays the named pin + E335 stamp checks",
-   "scripts/run_e331_smoke_leg.py, scripts/run_e335_smoke_leg.py (namespace = vars(smoke_test))",
-   "knowledge/METHODOLOGY_ASSETS.md card E363",
-   "research/digests/DIGEST-20261102-r1385-e363-corpus-vintage.md",
-   "results/runnable_pool.json E363 done with result_ref + E364 seeded"
-  ],
-  "pit": "(1) the first draft of the study gave the named-pin class the publishing commit's verdict string, so a row printed 'reproducible from the commit' while its history vintage read 2227 against 2365 -- a label is not a measurement, and it is now its own constant with a leg. (2) three selftest legs failed on their own assertions, not the code (r1281 shape): rel paths sort as bytes so 'Tools/' precedes the lower-case roots, and a 'skills/a.py' input tested a case the rule never sees. (3) the no-address counter summed only rows WITH classes, so 'no classic reproduced' counted as zero no-address rows -- an empty list is the finding, not the absence of one. (4) the corpus grew 2365 -> 2369 inside the round (other lanes writing), which is the finding stated as a hazard for the leg.",
-  "pool": "E363 done with result_ref; E364 seeded ready (848 entries, 1 ready)",
-  "not_run": "full 277-leg suite, S6 chain, compute_audit, py_watermark, lane collectors, market_regime, update_*, paper/scorecard faces; GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted, no quarantine action"
- },
- "r1385_delivery": {
-  "branch": "machine/bm-b-r1385",
-  "sha": "59e9501be6522ef135614160151ac177c9cde25d",
-  "verified": "ls-remote equals local HEAD",
-  "files": 19,
-  "ahead_of_origin_main": 232,
-  "behind_origin_main": 274,
-  "main_push_blocker": "local main diverged from origin/main (two blood lines, promisor lazy-fetch wedge r1255 family); no unattended rebase per r1243, so the machine branch is the delivery channel",
-  "ts": "2026-11-02T16:43:48+08:00"
- }
+ "work": "r1382 red fix: eight census legs gated on corpus identity, three of them no longer write the face they check"
 }
