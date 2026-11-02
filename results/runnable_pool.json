@@ -26662,12 +26662,18 @@
    "id": "E366-WHICH-FACE-POPULATION-STUDIES-CAN-BE-PINNED-TODAY",
    "lane": "cpu-only",
    "notes": "cheap and static: AST/import over the existing studies, no builds, no burns",
-   "owner": null,
+   "owner": "bm-b",
    "priority": 2,
    "question": "E364 counted 23 studies that enumerate the published faces and 15 that quote a population; E365 proved the mechanism works when a study reads its population through a `root=` seam. Measure, per study: does it have that seam, does it have a store-able minority, and what would its pin count be -- so the queue becomes work-sized instead of one study per round.",
    "source": "r1387 close",
-   "status": "ready",
-   "title": "which face-population studies can be pinned today with E365's mechanism, and which need a seam repaired first"
+   "status": "done",
+   "title": "which face-population studies can be pinned today with E365's mechanism, and which need a seam repaired first",
+   "owner_since": "2026-11-02T20:19:38+08:00",
+   "claimed_by": "bm-b",
+   "done_at": "2026-11-02T20:19:38+08:00",
+   "result": "the thirteen queued studies walk two populations, so the bill is two pins and ten seam repairs -- and five of them reach both populations, so they need both pins",
+   "result_ref": "results/state_tilt/PINQUEUE-2026-11-02.json + scripts/e366_pinable_queue_size.py (build/verify/check/selftest 22 legs)",
+   "evidence": "S6 leg pinable_queue_size rc=0 2.5s (decision keys bit-stable, bill as DRIFT); smoke leg E366 1/1 verbatim; research/digests/DIGEST-20261102-r1389-e366-pin-bill.md; knowledge/METHODOLOGY_ASSETS.md E366"
   },
   {
    "done_at": "2026-11-02T19:14:16",
@@ -26677,6 +26683,20 @@
    "result_ref": "scripts/exchange_calendar_audit.py (selftest 15/15) + results/data_lag_audit.json (cause_measured/self_heals/fetcher block) + knowledge/METHODOLOGY_ASSETS.md E367",
    "status": "done",
    "title": "does a verdict that names a cause (source_lag) measure that cause, or only infer it from the date"
+  },
+  {
+   "id": "E368-WILL-ONE-REPAIRED-SEAM-ACTUALLY-REPLAY",
+   "title": "E366 priced the queue at two pins and ten seam repairs: wire files= into the cheapest NEEDS_SEAM study and prove its published number re-derives over a pinned population",
+   "question": "E366 measured that ten of thirteen queued studies have no build(files=) parameter, and that of the eleven bodies that spell the word only two take it as a parameter. Take the one whose seam repair is mechanical (E353/E359 walk e346._corpus() with no local named files; E326 has a local `files = corpus()` that only needs promoting to a parameter), give it the parameter, and then replay it over the source population's pinned bytes. Publish: does the face's quoted population re-derive exactly, does the repaired study now pass its own selftest, and does the pin cost what E366 billed (112 members of 2,387 needing a store)? A seam that is wired but does not replay is the same claim as no seam, only more convincing.",
+   "target": "one repaired build(files=) seam plus a replay of that study over the pinned source population, with the published number re-derived byte-for-byte",
+   "lane": "cpu-only",
+   "priority": 2,
+   "status": "ready",
+   "owner": null,
+   "entered_at": "2026-11-02T20:19:38+08:00",
+   "entered_by": "bm-b r1389",
+   "notes": "cheap and static: e346._corpus() is one walk and E361 already pins it for the narrower e323 family; the new part is the parameter and the replay. Bound to keep: repair the seam, never the assertion -- if the replay disagrees with the published number, publish the disagreement and leave the face alone",
+   "source": "E366 PINQUEUE-2026-11-02 (pins_required=2, seam_repairs_required=10)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -26691,6 +26711,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-02T19:14:16",
+ "updated_at": "2026-11-02T20:19:38+08:00",
  "version": 1
 }

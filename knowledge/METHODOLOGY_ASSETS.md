@@ -7887,3 +7887,38 @@ How to apply: when a verdict word asserts a cause (source/feed/lane/user), eithe
 measure that cause or publish `cause_measured: false` alongside it; put the threshold
 that makes a run count as a measurement in the face, not in a comment; and when a
 verdict set grows, widen every consumer that enumerates it in the same commit.
+
+## E366 -- a queue of studies is not a bill of pins: price the populations, not the studies (r1389)
+
+E364 published thirteen studies whose quoted populations nobody can re-check, as one row per
+study -- which reads as thirteen pins, thirteen rounds. E365 then proved the mechanism works.
+Nobody had priced the market, so the queue was about to be worked at the wrong unit. Measuring it
+moved the unit three times:
+
+1. **One population, six studies.** Importing all six `corpus()` functions (never re-implementing
+   a walk) gives 2,372..2,375 members whose set differences are *exactly* each study's own source
+   file: union 2,377, intersection 2,371, and every delta is a study excluding itself (E319). Two
+   further families are reachable from the same queue (`e346._corpus()` at 2,387, which strictly
+   contains all six; `e328.scan_faces()` at 593), so the thirteen rows are **two pins**, seven
+   studies each. Work-sizing a queue by counting rows overstates it by the collapse ratio.
+2. **The bill is what git cannot supply, not what you must hash.** Of 2,387 source members, 112
+   need a store (109 untracked scratch files the repo forbids committing -- the E361 finding, now
+   priced) and 66 of 593 faces do (3.0 MB). The expensive half of a pin is the minority; a
+   population size is the cheap half.
+3. **The word "files" is not a seam, and the difference is six of eleven.** E364 published that
+   limit about itself. Measured as three shapes: `build(files=)` (2 studies, replayable today), a
+   *local* named `files` that shadows the parameter (1: `files = corpus()`, a rename plus a
+   parameter), and prose that only says the word (6: format strings like "98 keys x 3k files", and
+   `files, skipped = [], []` which is a list of *records*, a different population entirely). A text
+   grep calls all nine seams. And five of the thirteen studies reach *both* populations (E328 walks
+   faces but calls `e326.corpus()` for its reader domain), so they need both pins, not one.
+
+The face also separates the two kinds of number it publishes: the *decision* (classes, pins, seam
+shapes) must re-derive bit-stable, while the *bill* is republished as drift when another lane writes
+the tree -- 112 untracked files means the byte count moves hourly, and convicting the study of that
+would be exactly the E360 mistake in reverse.
+
+How to apply: price a queue in populations, not rows; take the population list from each study's
+own enumerator and compare *sets*, because equal counts hide a self-exclusion; count the members
+git cannot supply, since that is what a store costs; and when grading a seam, grade the parameter,
+not the token -- a local name and a format string both spell "files".

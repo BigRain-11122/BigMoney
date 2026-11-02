@@ -1120,6 +1120,16 @@ LEGS = [
     ("face_population_pin",
      ["python", "scripts/e365_face_population_pin.py", "check"]),
 
+    # E366: E365 proved the pin works but priced it per study, and E364's queue read as thirteen
+    # rounds.  This leg re-derives the bill every round: the thirteen queued studies walk TWO
+    # populations (2,387 in-repo sources, 593 published faces), so the pin work is two pins and the
+    # rest is seam repair -- and it separates a real build(files=) parameter from a local named
+    # files and from prose that says the word (a text grep calls six of eleven seams; none of them
+    # is one).  Decision keys must be bit-stable; the bill is published as drift because other
+    # lanes write this working tree all day (~2.5 s: six cached imports, two git passes).
+    ("pinable_queue_size",
+     ["python", "scripts/e366_pinable_queue_size.py", "check"]),
+
     # E352: E349 priced the channel as a population and found 14 of 840 comparisons ask whether
     # what they read is current; this prices the window instead, in the repository's own clock.
     # 60 deciding channel files, 59 measurable: median file lag 80 commits / p90 111, worst

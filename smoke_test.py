@@ -12205,6 +12205,93 @@ def _r39(face, key):
                 str((_frr365 or {}).get("summary_moved_keys"))))
 
 
+# E366: E365 proved a published-face population can be pinned, but priced it per study, and
+    # E364's queue therefore read as thirteen rounds.  This leg grades the *accounting of the
+    # bill*, not the walks (importing six studies in the suite would pay for numbers this leg does
+    # not need): the per-study classes must partition the queue, a study called pinnable must have
+    # a real files parameter rather than a local or a word in a string, the pins must sum to the
+    # studies they serve, and a study whose two domain readings disagree must say so instead of
+    # being folded into one pin.
+    _name366 = ("product: thirteen queued studies walk two populations, so the bill is two pins "
+                "and ten seam repairs -- and a seam is a parameter, not the word files")
+    _bad366 = []
+    try:
+        _p366 = os.path.join("results", "state_tilt", "pinqueue_latest.json")
+        _f366 = json.load(open(_p366, encoding="utf-8")) if os.path.exists(_p366) else None
+        if _f366 is None:
+            _bad366.append("no published pinable-queue face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m366 = __import__("importlib").import_module("e366_pinable_queue_size")
+            _s366 = _f366.get("summary") or {}
+            _q366 = _f366.get("queue") or []
+            if not _q366:
+                _bad366.append("the inventory publishes no queue")
+            _classes366 = [_r.get("class") for _r in _q366]
+            if len(_q366) != int(_s366.get("studies_in_queue") or -1):
+                _bad366.append("the queue length is not the published study count")
+            if sum((_s366.get("studies_served_by_one_pin") or {}).values()) != len(_q366):
+                _bad366.append("the per-population counts do not sum to the queue")
+            if len(_s366.get("studies_served_by_one_pin") or {}) != int(
+                    _s366.get("pins_required") or -1):
+                _bad366.append("the pins required is not the number of populations served")
+            if _classes366.count("PINNABLE_TODAY") != int(_s366.get("pinnable_today") or 0):
+                _bad366.append("the pinnable count does not match the rows")
+            if _classes366.count("NEEDS_SEAM") != int(_s366.get("seam_repairs_required") or 0):
+                _bad366.append("the seam-repair count does not match the rows")
+            for _r366 in _q366:
+                _sh366 = (_r366.get("seam") or {}).get("shape")
+                if _r366.get("class") == "PINNABLE_TODAY" and _sh366 != _m366.SEAM_PARAMETER:
+                    _bad366.append("%s is called pinnable without a files parameter"
+                                   % (_r366.get("study"),))
+                if _r366.get("class") == "PINNABLE_TODAY" and not (
+                        _r366.get("seam") or {}).get("accepts_files"):
+                    _bad366.append("%s is called pinnable while its build() takes no files"
+                                   % (_r366.get("study"),))
+                if _r366.get("walks_two_populations") and _r366.get("domains_agree") is not False:
+                    _bad366.append("%s claims two populations and agrees with itself"
+                                   % (_r366.get("study"),))
+                if any((_r366.get("study") or "").startswith("E366") for _ in [_r366]):
+                    _bad366.append("the inventory counted its own study (E319)")
+            # the prose count is the finding, not a defect: what must hold is that the summary agrees
+            # with the rows, so a study cannot be promoted to a seam by saying the word
+            if int(_s366.get("seam_word_is_not_a_seam") or 0) != sum(
+                    1 for _r in _q366
+                    if (_r.get("seam") or {}).get("shape") == _m366.SEAM_PROSE):
+                _bad366.append("the prose-only seam count is not the number of prose-only rows")
+            if int(_s366.get("seam_shadowed_by_a_local") or 0) != sum(
+                    1 for _r in _q366
+                    if (_r.get("seam") or {}).get("shape") == _m366.SEAM_SHADOW):
+                _bad366.append("the shadowed-seam count is not the number of shadowed rows")
+            if _f366.get("verdict") != _m366.decide(_s366):
+                _bad366.append("the verdict does not follow from the summary")
+            _bill366 = _f366.get("store_bill") or {}
+            for _side366, _b366 in _bill366.items():
+                if int(_b366.get("git_can_supply") or 0) + int(_b366.get("need_store") or 0) != int(
+                        _b366.get("members") or 0):
+                    _bad366.append("%s: supplied plus stored is not the population" % (_side366,))
+            if int(_s366.get("pins_required") or 0) >= int(_s366.get("studies_in_queue") or 0):
+                _bad366.append("the queue was not collapsed, so the bill claim is unsupported")
+            if not _f366.get("own_faces_excluded"):
+                _bad366.append("the study never tested whether it counted its own face (E319)")
+    except Exception as e:
+        _bad366.append(repr(e)[:160])
+    check(_name366, not _bad366, "; ".join(_bad366)[:220]
+          or "%s | %s studies -> %s pins (%s), %s seam repairs, %s pinnable today, %s need their "
+             "own rule, %s walk two populations, %s prose-only 'seams' refused, store bill %s+%s"
+             % (str(_f366.get("verdict")),
+                str((_f366 or {}).get("summary", {}).get("studies_in_queue")),
+                str((_f366 or {}).get("summary", {}).get("pins_required")),
+                str((_f366 or {}).get("summary", {}).get("studies_served_by_one_pin")),
+                str((_f366 or {}).get("summary", {}).get("seam_repairs_required")),
+                str((_f366 or {}).get("summary", {}).get("pinnable_today")),
+                str((_f366 or {}).get("summary", {}).get("need_their_own_rule")),
+                str((_f366 or {}).get("summary", {}).get("studies_that_walk_two_populations")),
+                str((_f366 or {}).get("summary", {}).get("seam_word_is_not_a_seam")),
+                str((( _f366 or {}).get("store_bill") or {}).get("source_corpus", {}).get("need_store")),
+                str(((_f366 or {}).get("store_bill") or {}).get("published_faces", {}).get("need_store"))))
+
+
 # E358: E351 called 55 gate subjects unresolved because the subject was written as
     # os.path.join(...) -- three literals, none of which looks like a path on its own.  This leg
     # grades the ACCOUNTING, not the numbers: the classes must partition the population, a
