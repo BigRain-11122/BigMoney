@@ -58,6 +58,7 @@ UNDERWATER_JSON = os.path.join(ROOT, "results", "etf_book_underwater.json")
 # the numbers are a property of the rule rather than of the window.
 SPANNING_PRE2020_JSON = os.path.join(ROOT, "results", "etf_book_spanning_pre2020.json")
 PRE2020_JSON = os.path.join(ROOT, "results", "etf_book_pre2020.json")
+UNIVERSE_LOCK_JSON = os.path.join(ROOT, "results", "etf_book_universe_lock.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -923,6 +924,139 @@ def sample_window_block(sw):
     add("> 跨窗口面：`%s` ｜ 窗口 %s ~ %s ｜ 票池 %s 只（2020 前已上市）"
         % (sw.get("artifact"), win[0], win[1], uni.get("U_pre")))
     add("")
+    return L
+
+
+def universe_lock_face(path=UNIVERSE_LOCK_JSON):
+    """Was this book runnable in 2020, or does its return depend on funds listed since? (r1235)
+
+    Every headline on this page is earned on today's universe. A third of those funds did not
+    exist when the window opened, and 11 of the 12 names in the book in force were listed
+    after it. This face answers the reader's question ("could I have bought this?") with the
+    locked-universe run: same cell, same fill, universe frozen on the window's first day.
+
+    Reads only, and re-derives the verdict from the payload's own rows through the face's
+    single implementation (import, never a second copy). A payload whose control arms no
+    longer reproduce the published headline is REFUSED rather than printed -- the lock numbers
+    are meaningless if they were priced on a different book.
+    """
+    if not os.path.exists(path):
+        return {"status": "absent", "artifact": _rel(path, ROOT), "detail": "no artifact"}
+    try:
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        rows = doc.get("phase_rows") or []
+        summary = doc.get("summary") or {}
+        control = doc.get("control") or {}
+        if not rows or not summary:
+            return {"status": "unreadable", "artifact": _rel(path, ROOT),
+                    "detail": "no phase rows"}
+        if not (control.get("ok") and all(v.get("ok")
+                                         for v in (control.get("arms") or {}).values())):
+            return {"status": "drifted", "artifact": _rel(path, ROOT),
+                    "detail": "the control arms no longer reproduce the published headline",
+                    "control": control}
+        import etf_book_universe_lock as UL
+        recomputed = UL.verdict_from_summary(UL._summarise(rows))
+        if summary.get("verdict") != recomputed:
+            return {"status": "drifted", "artifact": _rel(path, ROOT),
+                    "detail": "the published verdict disagrees with its own rows",
+                    "verdict": summary.get("verdict"), "recomputed": recomputed}
+        lock_key = "lock_%s" % (doc.get("criteria") or {}).get("headline_lock", "")
+        phases = []
+        for r in rows:
+            lk = r.get(lock_key) or {}
+            phases.append({"phase": r.get("phase"), "start": r.get("phase_start"),
+                           "unlocked": (r.get("unlocked") or {}).get("cagr"),
+                           "locked": lk.get("cagr"), "delta_pp": r.get("delta_pp")})
+        return {"status": "ok", "artifact": _rel(path, ROOT),
+                "evidence_cutoff": doc.get("evidence_cutoff"),
+                "verdict": summary.get("verdict"),
+                "delta_mean_pp": summary.get("delta_mean_pp"),
+                "delta_min_pp": summary.get("delta_min_pp"),
+                "delta_max_pp": summary.get("delta_max_pp"),
+                "phases_lock_costs": summary.get("phases_lock_costs"),
+                "phases": phases,
+                "lock_date": (doc.get("criteria") or {}).get("headline_lock"),
+                "full_n": ((doc.get("panel") or {}).get("columns")),
+                "locked_n": (rows[0].get("locked_n") if rows else None),
+                "ladder": doc.get("ladder") or [],
+                "picks": doc.get("picks") or {},
+                "control": control,
+                "tol_pp": (doc.get("criteria") or {}).get("tol_pp")}
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": _rel(path, ROOT), "detail": repr(exc)}
+
+
+def universe_lock_block(ul):
+    L = []
+    if ul.get("status") != "ok":
+        L.append("## 2020 年能不能真的跑这本书？")
+        L.append("")
+        L.append("**这一问现在答不了。** 证据件缺席或已经对不上自己的行（%s）。"
+                 % (ul.get("detail") or ul.get("status")))
+        L.append("")
+        return L
+    pk = ul.get("picks") or {}
+    L.append("## 2020 年能不能真的跑这本书？")
+    L.append("")
+    L.append("上面每个数都是在**今天**的 %s 只基金上算出来的；这些基金里有一部分在窗口开始时"
+             "还不存在——今天在手的 %d 个名字里 **%d 个**是 2020 年以后才上市的。"
+             % (ul.get("full_n"), len(pk.get("book_in_force") or []),
+                pk.get("book_in_force_listed_after_lock") or 0))
+    L.append("")
+    L.append("同一格规则、同一种成交，把票池冻结在窗口第一天（%s，%s 只）重跑："
+             % (ul.get("lock_date"), ul.get("locked_n")))
+    L.append("")
+    L.append("| 决策相位起点 | 全票池 | 冻结票池 | 差 |")
+    L.append("|---|---|---|---|")
+    for p in ul.get("phases") or []:
+        L.append("| %s | %.2f%% | %.2f%% | %+.2f pp |"
+                 % (p.get("start"), 100.0 * (p.get("unlocked") or 0.0),
+                    100.0 * (p.get("locked") or 0.0), p.get("delta_pp") or 0.0))
+    L.append("")
+    v = ul.get("verdict")
+    mean = ul.get("delta_mean_pp") or 0.0
+    if v == "LOCK_COSTS_MONEY":
+        L.append("**要动手的钱：** 冻结票池平均少赚 %+.2f pp/年（%d/%d 个相位达到 %.2f pp 线）——"
+                 "上面那些数字有一部分是「买到了后来才上市的基金」给的。"
+                 % (mean, ul.get("phases_lock_costs") or 0, len(ul.get("phases") or []),
+                    ul.get("tol_pp") or 0.0))
+    elif v == "UNIVERSE_ROBUST":
+        L.append("**跟票池新旧无关：** 冻结票池后平均只差 %+.2f pp/年（四个相位都在 %.2f pp 内）——"
+                 "这套规则在今天这份名单上能做的事，2020 年那份名单上也能做。"
+                 % (mean, ul.get("tol_pp") or 0.0))
+    else:
+        L.append("**平均为零，但相位之间摆动很大：** 冻结票池平均 %+.2f pp/年，"
+                 "单个相位从 %+.2f 到 %+.2f pp——摆幅比这条线测过的任何一个效应都大。"
+                 "所以既不能说「靠新基金」，也不能说「完全无关」；"
+                 "能确定的是选券需要**票池够宽**，而不是**票池够新**（见下表）。"
+                 % (mean, ul.get("delta_min_pp") or 0.0, ul.get("delta_max_pp") or 0.0))
+    L.append("")
+    lad = ul.get("ladder") or []
+    if lad:
+        L.append("| 票池冻结在 | 基金数 | 年化 | 夏普 | 最大回撤 |")
+        L.append("|---|---|---|---|---|")
+        labels = {"unlocked": "不冻结（今天）"}
+        for r in lad:
+            L.append("| %s | %s | %.2f%% | %.2f | %.2f%% |"
+                     % (labels.get(r.get("universe"), r.get("universe")), r.get("n_funds"),
+                        100.0 * (r.get("cagr") or 0.0), r.get("sharpe") or 0.0,
+                        100.0 * (r.get("maxdd") or 0.0)))
+        L.append("")
+    if pk.get("pick_slots"):
+        L.append("整个窗口 %d 个决策持仓位里，有 %d 个（%.1f%%）落在「窗口内才上市」的名字上；"
+                 "在手的这一本（决策日 %s）里 %d/%d 属于这一类。"
+                 % (pk.get("pick_slots"), pk.get("slots_listed_after_lock") or 0,
+                    100.0 * (pk.get("share_listed_after_lock") or 0.0),
+                    pk.get("book_in_force_date"),
+                    pk.get("book_in_force_listed_after_lock") or 0,
+                    len(pk.get("book_in_force") or [])))
+        L.append("")
+    L.append("> 跨窗口面：`%s` ｜ 证据截止 %s ｜ 控制闸：本面先在卡片自己的两条臂上复现"
+             "（as coded 与 declared fill 各差 0.00 pp）才引用任何冻结数。"
+             % (ul.get("artifact"), ul.get("evidence_cutoff")))
+    L.append("")
     return L
 
 
@@ -2238,6 +2372,7 @@ def build(with_stress=False):
     page["research_arc"] = research_arc_face()
     page["underwater"] = underwater_face()
     page["sample_window"] = sample_window_face()
+    page["universe_lock"] = universe_lock_face()
     page["gap"] = gap_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
@@ -3149,6 +3284,10 @@ def render_md(p):
     # r1233: the reader must know the window those numbers were grown in before deciding
     # what "8%/yr" means for him.
     for _sw_line in sample_window_block(p.get("sample_window") or {}):
+        add(_sw_line)
+    # r1235: was this book runnable in 2020, or does its return depend on funds
+    # that were listed after the window opened?
+    for _ul_line in universe_lock_block(p.get("universe_lock") or {}):
         add(_sw_line)
     add("## 必须记住的四条")
     add("")
@@ -4317,6 +4456,45 @@ def selftest():
     chk("L115 sample window: an absent or drifted face prints no window table at all",
         "无法回答" in _sw_gone and "无法回答" in _sw_drift
         and "|" not in _sw_gone and "|" not in _sw_drift, "")
+    # L116-L119 (r1235): the reader must know whether he could have bought this book in 2020.
+    # The page quotes the locked-universe run, its verdict sentence is chosen from the payload's
+    # own rows (through the face's single implementation), a payload whose control arms drift is
+    # refused rather than printed, and the book-composition sentence is the payload's number.
+    _ul = universe_lock_face()
+    _ul_md = "\n".join(universe_lock_block(_ul))
+    _ul_ph = _ul.get("phases") or []
+    _ul_decl = (((_ul.get("control") or {}).get("arms") or {}).get("declared") or {}).get(
+        "published")
+    chk("L116 universe lock: the live face is read and the window's own grid is quoted",
+        _ul.get("status") == "ok" and _ul_ph
+        and ("%.2f%%" % (100.0 * (_ul_ph[0].get("unlocked") or 0.0)) in _ul_md)
+        and ("%.2f%%" % (100.0 * (_ul_ph[0].get("locked") or 0.0)) in _ul_md)
+        # phase 0 is the card's own decision grid: it has to equal the declared headline
+        and _ul_decl is not None
+        and abs((_ul_ph[0].get("unlocked") or 0.0) - _ul_decl) <= 1e-9,
+        "status=%s phases=%d declared=%s" % (_ul.get("status"), len(_ul_ph), _ul_decl))
+    _ul_fake_cost = dict(_ul, verdict="LOCK_COSTS_MONEY")
+    _ul_fake_rob = dict(_ul, verdict="UNIVERSE_ROBUST")
+    chk("L117 universe lock: the verdict sentence follows the payload's own verdict",
+        ("要动手的钱" in "\n".join(universe_lock_block(_ul_fake_cost)))
+        and ("跟票池新旧无关" in "\n".join(universe_lock_block(_ul_fake_rob)))
+        and any(s in _ul_md for s in ("要动手的钱", "跟票池新旧无关", "平均为零")),
+        "verdict=%s" % _ul.get("verdict"))
+    _ul_gone = "\n".join(universe_lock_block({"status": "absent",
+                                              "artifact": UNIVERSE_LOCK_JSON}))
+    _ul_drift = "\n".join(universe_lock_block({"status": "drifted",
+                                               "artifact": UNIVERSE_LOCK_JSON}))
+    chk("L118 universe lock: an absent or drifted face prints no lock table at all",
+        "答不了" in _ul_gone and "答不了" in _ul_drift
+        and "|" not in _ul_gone and "|" not in _ul_drift, "")
+    _ul_pk = _ul.get("picks") or {}
+    _ul_nb = len(_ul_pk.get("book_in_force") or [])
+    chk("L119 universe lock: the book-composition sentence is the payload's own number",
+        bool(_ul_pk.get("pick_slots"))
+        and ("%d/%d" % (_ul_pk.get("book_in_force_listed_after_lock") or 0, _ul_nb)) in _ul_md
+        and ("%.1f%%" % (100.0 * (_ul_pk.get("share_listed_after_lock") or 0.0))) in _ul_md,
+        "slots=%s listed_after=%s" % (_ul_pk.get("pick_slots"),
+                                      _ul_pk.get("book_in_force_listed_after_lock")))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

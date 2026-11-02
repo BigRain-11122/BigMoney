@@ -22,7 +22,7 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `a1a42aee64453839` (5270 bars x 1613 symbols, 2005-02-23->2026-10-30, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-10-30 / ticket 2026-10-30 / page 2026-10-30 (compared at 2026-11-02 03:42:44); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-10-30 / ticket 2026-10-30 / page 2026-10-30 (compared at 2026-11-02 09:22:37); this card, the executable sheet and the CEO page all priced the same closing bar.
 
 **Family coherence: ONE_WORLD** -- all 10 width arms priced `a1a42aee64453839` (cutoff 2026-10-30); the verdicts that license this card's width are measurements on one panel.
 

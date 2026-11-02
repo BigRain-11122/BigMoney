@@ -2479,6 +2479,15 @@ def main() -> int:
             # the shipped cells_vt (at which point it is pricing a different book).
             ("product: etf_book_pre2020 vol-target decomposition (verdict recomputed)",
              "scripts/etf_book_pre2020_voltarget.py", ["--selftest"]),
+            # r1235: every headline on this line is earned on TODAY's 1504 funds; a third of
+            # them did not exist when the window opened, and 11 of the 12 names in the book
+            # in force were listed after it. This face prices the same cell on the universe
+            # frozen at the window's first day. The leg pins the two ways that reading can
+            # rot: a verdict that no longer recomputes from its own phase rows, and a control
+            # that stops reproducing the card's two published arms (at which point the lock
+            # numbers belong to a different book).
+            ("product: etf_book_universe_lock (verdict recomputed, control reproduced)",
+             "scripts/etf_book_universe_lock.py", ["--selftest"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print
@@ -5485,6 +5494,79 @@ def main() -> int:
                  any(_t >= 2.0 for _t in (_tabs33 or []))))
     except Exception as e:
         check("product: the operator page says which window its numbers came from",
+              False, repr(e)[:160])
+    # ---- r1235: could this book be run in 2020? -----------------------------------------
+    # The page quotes the locked-universe run and the book's own composition. This leg
+    # re-derives the verdict from the payload's phase rows through the face's single
+    # implementation (never from the sentence), refuses a payload whose control arms no longer
+    # reproduce the card's two published arms, and demands the same numbers on the page.
+    try:
+        _bad34 = []
+        _ul34 = os.path.join(PATHS.results_dir, "etf_book_universe_lock.json")
+        _doc34 = {}
+        _ver34 = None
+        _pg34 = None
+        if not os.path.exists(_ul34):
+            _bad34.append("results/etf_book_universe_lock.json missing")
+        else:
+            with open(_ul34, encoding="utf-8") as _fh34:
+                _doc34 = json.load(_fh34)
+            _rows34 = _doc34.get("phase_rows") or []
+            if not _rows34:
+                _bad34.append("the payload publishes no phase rows")
+            else:
+                _mod34 = importlib.import_module("etf_book_universe_lock")
+                _ver34 = _mod34.verdict_from_summary(_mod34._summarise(_rows34))
+                if (_doc34.get("summary") or {}).get("verdict") != _ver34:
+                    _bad34.append("the published verdict does not recompute (%r vs %r)"
+                                  % ((_doc34.get("summary") or {}).get("verdict"), _ver34))
+            _ctl34 = _doc34.get("control") or {}
+            if not (_ctl34.get("ok")
+                    and all(v.get("ok") for v in (_ctl34.get("arms") or {}).values())):
+                _bad34.append("the control arms no longer reproduce the published headline")
+            _pg34 = importlib.import_module("etf_book_ceo_page")
+            _ptr34 = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
+            _mdpath34 = ""
+            if os.path.exists(_ptr34):
+                with open(_ptr34, encoding="utf-8") as _fh34b:
+                    _mdpath34 = (json.load(_fh34b) or {}).get("page") or ""
+            if not _mdpath34:
+                _bad34.append("docs/live_book/latest.json names no page")
+            else:
+                with open(os.path.join(PATHS.root, _mdpath34.replace("/", os.sep)),
+                          encoding="utf-8") as _fh34c:
+                    _md34 = _fh34c.read()
+                if "2020 年能不能真的跑这本书" not in _md34:
+                    _bad34.append("the page has no universe-lock section")
+                _ph34 = _rows34[0] if _rows34 else {}
+                _lkkey34 = "lock_%s" % ((_doc34.get("criteria") or {}).get("headline_lock"))
+                _lk34 = _ph34.get(_lkkey34) or {}
+                for _val34 in ((_ph34.get("unlocked") or {}).get("cagr"),
+                               _lk34.get("cagr")):
+                    if _val34 is None or ("%.2f%%" % (100.0 * _val34)) not in _md34:
+                        _bad34.append("the page does not print %.2f%%"
+                                      % (100.0 * (_val34 or 0.0)))
+                _pk34 = _doc34.get("picks") or {}
+                _pair34 = "%d/%d" % (_pk34.get("book_in_force_listed_after_lock") or 0,
+                                     len(_pk34.get("book_in_force") or []))
+                if _pk34.get("pick_slots") and _pair34 not in _md34:
+                    _bad34.append("the page does not print the book composition %s" % _pair34)
+                _face34 = _pg34.universe_lock_face()
+                if _face34.get("status") != "ok":
+                    _bad34.append("the page's universe-lock face reads %r"
+                                  % (_face34.get("status"),))
+                elif _ver34 is not None and _face34.get("verdict") != _ver34:
+                    _bad34.append("page face verdict %r != payload %r"
+                                  % (_face34.get("verdict"), _ver34))
+        check("product: the operator page says whether this book was runnable in 2020",
+              not _bad34,
+              "; ".join(_bad34)[:220] or "verdict %s | locked %s funds | book %s listed after"
+              % (_ver34, _rows34[0].get("locked_n") if _rows34 else None,
+                 "%d/%d" % ((_doc34.get("picks") or {}).get(
+                     "book_in_force_listed_after_lock") or 0,
+                     len((_doc34.get("picks") or {}).get("book_in_force") or []))))
+    except Exception as e:
+        check("product: the operator page says whether this book was runnable in 2020",
               False, repr(e)[:160])
     # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
     # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two

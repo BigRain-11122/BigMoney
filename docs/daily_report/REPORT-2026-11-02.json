@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-02",
- "generated_at": "2026-11-02 05:58:46",
+ "generated_at": "2026-11-02 09:33:22",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,22 +294,22 @@
   "md_link": "../live_usage/LIVE-2026-11-02.md"
  },
  "rd": {
-  "commits_24h": 45,
-  "result_jsons_landed_24h": 100,
-  "digests_landed_24h": 5,
-  "prereg_md_touched_24h": 22,
+  "commits_24h": 49,
+  "result_jsons_landed_24h": 101,
+  "digests_landed_24h": 8,
+  "prereg_md_touched_24h": 24,
   "compute_audit_latest": {
-   "ts": "2026-11-02 05:55:37",
-   "py_cpu_pct": 5.2,
+   "ts": "2026-11-02 09:12:17",
+   "py_cpu_pct": 0.6,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -652,7 +652,7 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2370920,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-01 16:45:32",
+   "prev_generated": "2026-11-02 07:56:56",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -665,33 +665,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-11-02 05:55:37",
-    "py_pct": 5.2,
-    "cpu_pct": 31.0,
+    "latest_ts": "2026-11-02 09:12:17",
+    "py_pct": 0.6,
+    "cpu_pct": 40.0,
     "ready": 0,
-    "streak_min": 2850.3,
+    "streak_min": 3047.0,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "22:58",
-      2.4
-     ],
-     [
-      "23:41",
-      4.8
-     ],
-     [
-      "00:08",
-      5.2
-     ],
-     [
-      "00:38",
-      1.5
-     ],
-     [
-      "01:02",
-      5.3
-     ],
      [
       "01:46",
       0.5
@@ -719,9 +699,29 @@
      [
       "05:55",
       5.2
+     ],
+     [
+      "06:34",
+      0.1
+     ],
+     [
+      "07:36",
+      0.8
+     ],
+     [
+      "08:16",
+      0.2
+     ],
+     [
+      "08:46",
+      0.6
+     ],
+     [
+      "09:12",
+      0.6
      ]
     ],
-    "today_samples": 10,
+    "today_samples": 15,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -870,7 +870,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-02 05:55:37"
+     "audit_ts": "2026-11-02 09:12:17"
     }
    },
    "bm-b": {
@@ -1698,10 +1698,10 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-02T02:43:59",
+  "as_of": "2026-11-02T09:12:28",
   "verdict": "host_down",
   "observer": "bm-a",
-  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-b 的盘上（62.01h 未报到）；留在本机盘上的 3 条里 2 条可核实，1 条连署名都没有。",
+  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-b 的盘上（68.49h 未报到）；留在本机盘上的 3 条里 2 条可核实，1 条连署名都没有。",
   "n_lanes": 9,
   "n_offhost": 6,
   "n_here": 3,
@@ -1720,7 +1720,7 @@
     ],
     "n": 6,
     "alive": false,
-    "age_h": 62.01,
+    "age_h": 68.49,
     "last_seen": "2026-10-30T12:43:06+08:00"
    }
   ],
@@ -1750,10 +1750,10 @@
   "verdict": "SILENT_GAP",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 16.9,
-  "rounds_in_window": 89,
-  "rounds_in_ledger": 708,
-  "gaps_over_threshold_count": 11,
+  "median_gap_min": 28.9,
+  "rounds_in_window": 75,
+  "rounds_in_ledger": 719,
+  "gaps_over_threshold_count": 10,
   "longest_silence": {
    "from": "2026-10-31T19:15",
    "gap_high_min": 501.2,
@@ -1764,23 +1764,14 @@
    "unexplained_low_min": 501.2
   },
   "open_gap": {
-   "gap_high_min": 12.3,
-   "gap_low_min": 12.3,
-   "quiet_window_min": 0.0,
-   "since": "2026-11-02T00:49",
-   "unexplained_high_min": 12.3,
-   "unexplained_low_min": 12.3
+   "gap_high_min": 52.3,
+   "gap_low_min": 52.3,
+   "quiet_window_min": 12.5,
+   "since": "2026-11-02T08:20",
+   "unexplained_high_min": 39.9,
+   "unexplained_low_min": 39.9
   },
   "gaps_over_threshold": [
-   {
-    "from": "2026-10-30T01:37",
-    "gap_high_min": 152.0,
-    "gap_low_min": 143.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-10-30T04:00",
-    "unexplained_high_min": 152.0,
-    "unexplained_low_min": 143.0
-   },
    {
     "from": "2026-10-31T01:00",
     "gap_high_min": 129.0,
@@ -1873,42 +1864,42 @@
    }
   ],
   "evidence_cutoff": "2026-11-02",
-  "generated": "2026-11-02T01:01:17",
+  "generated": "2026-11-02T09:12:28",
   "silence_verdict": "SILENT_GAP",
   "lane_tasks": {
    "absent": [],
    "disabled": [],
    "disabled_before_heal": [
-    "Bigmoney-LoopWatchdog",
-    "HQ-Patrol-BigMoney"
+    "Bigmoney-IterationLoop",
+    "Bigmoney-LoopWatchdog"
    ],
    "heal": {
     "acts": [
      {
       "action": "enabled",
       "detail": "",
-      "task": "Bigmoney-LoopWatchdog",
+      "task": "Bigmoney-IterationLoop",
       "verified": true
      },
      {
       "action": "enabled",
       "detail": "",
-      "task": "HQ-Patrol-BigMoney",
+      "task": "Bigmoney-LoopWatchdog",
       "verified": true
      }
     ],
     "healed": [
-     "Bigmoney-LoopWatchdog",
-     "HQ-Patrol-BigMoney"
+     "Bigmoney-IterationLoop",
+     "Bigmoney-LoopWatchdog"
     ],
     "readback": {
-     "Bigmoney-LoopWatchdog": "Ready",
-     "HQ-Patrol-BigMoney": "Ready"
+     "Bigmoney-IterationLoop": "Ready",
+     "Bigmoney-LoopWatchdog": "Ready"
     }
    },
    "probeable": 4,
    "states": {
-    "Bigmoney-IterationLoop": "Running",
+    "Bigmoney-IterationLoop": "Ready",
     "Bigmoney-LoopWatchdog": "Ready",
     "Bigmoney-SatEngine-bm-b": "Ready",
     "HQ-Patrol-BigMoney": "Ready"
@@ -1917,7 +1908,7 @@
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-a: 89 rounds in 3d, median gap 16.9 min, 11 unexplained gap(s) over 90 min; longest silence 2026-10-31T19:15 -> 2026-11-01T03:36 (501.2-501.2 min, 0.0 explained by its quiet window); still open since 2026-11-02T00:49 (12.3-12.3 min unexplained)."
+  "sentence": "bm-a: 75 rounds in 3d, median gap 28.9 min, 10 unexplained gap(s) over 90 min; longest silence 2026-10-31T19:15 -> 2026-11-01T03:36 (501.2-501.2 min, 0.0 explained by its quiet window); still open since 2026-11-02T08:20 (39.9-39.9 min unexplained)."
  },
  "cap_vs_book": {
   "status": "ok",

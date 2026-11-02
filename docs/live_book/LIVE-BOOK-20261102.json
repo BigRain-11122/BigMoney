@@ -3115,7 +3115,7 @@
    "turnover_arm": 0.9422,
    "turnover_declared": 0.9529
   },
-  "elapsed_sec": 46.4,
+  "elapsed_sec": 48.9,
   "evidence_cutoff": "2026-10-30",
   "gross_rows": [
    {
@@ -3492,7 +3492,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-02T07:47:38+0800",
+  "ts": "2026-11-02T09:23:55+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -3826,6 +3826,137 @@
   ],
   "evidence_cutoff": "2026-10-26"
  },
+ "universe_lock": {
+  "status": "ok",
+  "artifact": "results\\etf_book_universe_lock.json",
+  "evidence_cutoff": "2026-10-30",
+  "verdict": "MIXED_ACROSS_PHASES",
+  "delta_mean_pp": -0.01,
+  "delta_min_pp": -2.24,
+  "delta_max_pp": 0.9,
+  "phases_lock_costs": 2,
+  "phases": [
+   {
+    "phase": 0,
+    "start": "2020-01-02",
+    "unlocked": 0.0846,
+    "locked": 0.0796,
+    "delta_pp": 0.5
+   },
+   {
+    "phase": 1,
+    "start": "2020-01-09",
+    "unlocked": 0.0794,
+    "locked": 0.0704,
+    "delta_pp": 0.9
+   },
+   {
+    "phase": 2,
+    "start": "2020-01-16",
+    "unlocked": 0.0809,
+    "locked": 0.0729,
+    "delta_pp": 0.8
+   },
+   {
+    "phase": 3,
+    "start": "2020-01-23",
+    "unlocked": 0.0593,
+    "locked": 0.0817,
+    "delta_pp": -2.24
+   }
+  ],
+  "lock_date": "2019-12-31",
+  "full_n": 1504,
+  "locked_n": 193,
+  "ladder": [
+   {
+    "universe": "unlocked",
+    "n_funds": 1504,
+    "cagr": 0.0846,
+    "sharpe": 0.874,
+    "maxdd": -0.1656,
+    "vol": 0.1028
+   },
+   {
+    "universe": "2014-12-31",
+    "n_funds": 61,
+    "cagr": 0.0535,
+    "sharpe": 0.576,
+    "maxdd": -0.1952,
+    "vol": 0.1036
+   },
+   {
+    "universe": "2019-12-31",
+    "n_funds": 193,
+    "cagr": 0.0796,
+    "sharpe": 0.837,
+    "maxdd": -0.1605,
+    "vol": 0.1014
+   },
+   {
+    "universe": "2022-12-31",
+    "n_funds": 663,
+    "cagr": 0.0898,
+    "sharpe": 0.907,
+    "maxdd": -0.1656,
+    "vol": 0.1049
+   }
+  ],
+  "picks": {
+   "pick_slots": 996,
+   "slots_listed_after_lock": 374,
+   "share_listed_after_lock": 0.3755,
+   "book_in_force_date": "2026-10-14",
+   "book_in_force": [
+    "159501",
+    "159263",
+    "159307",
+    "513690",
+    "159547",
+    "159207",
+    "515100",
+    "513100",
+    "159696",
+    "159659",
+    "513630",
+    "563020"
+   ],
+   "book_in_force_listed_after_lock": 11,
+   "book_in_force_listing_dates": {
+    "159501": "2023-06-14",
+    "159263": "2025-07-08",
+    "159307": "2024-04-25",
+    "513690": "2021-05-20",
+    "159547": "2024-02-06",
+    "159207": "2025-04-09",
+    "515100": "2020-07-03",
+    "513100": "2013-07-31",
+    "159696": "2023-08-25",
+    "159659": "2023-04-25",
+    "513630": "2023-12-08",
+    "563020": "2023-12-14"
+   }
+  },
+  "control": {
+   "tol_pp": 0.5,
+   "arms": {
+    "as_coded": {
+     "published": 0.096,
+     "recomputed": 0.096,
+     "diff_pp": 0.0,
+     "ok": true
+    },
+    "declared": {
+     "published": 0.0846,
+     "recomputed": 0.0846,
+     "diff_pp": 0.0,
+     "ok": true
+    }
+   },
+   "ok": true
+  },
+  "tol_pp": 0.57
+ },
  "gap": {
   "audits": {
    "A6_fill_time_causality": {
@@ -3887,7 +4018,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 43.0,
+  "elapsed_sec": 44.6,
   "evidence_cutoff": "2026-10-30",
   "gap_stats": {
    "entry_bars": 83,
@@ -4246,7 +4377,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-02T07:48:21+0800",
+  "ts": "2026-11-02T09:24:41+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [

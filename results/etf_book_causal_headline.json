@@ -61,9 +61,9 @@
   "source": "results\\etf_book_production\\latest.json",
   "verdict": "SAME_OPEN_ARM"
  },
- "elapsed_sec": 25.8,
+ "elapsed_sec": 27.1,
  "evidence_cutoff": "2026-10-30",
- "generated": "2026-11-02T00:37:30+0800",
+ "generated": "2026-11-02T09:22:59+0800",
  "panel": {
   "bars": 5270,
   "first_bar": "2005-02-23",
@@ -72,18 +72,17 @@
   "symbols": 1504
  },
  "printed": {
-  "cagr": 0.096,
-  "raw": "| 2020-01 onwards | 9.6% | 0.99 | -11.8% | 10.2% | 8% (1.27x) |",
+  "cagr": null,
+  "error": "no '2020-01 onwards' row found",
   "source": "results\\etf_book_production\\CARD.md"
  },
- "recommendation": "No further change is called for on this face: the headline is still the same-open arm, but the card prints the declared arm (8.46%/yr) beside it and that number is this face's own measurement, so the operator can size off the tradeable arm.",
+ "recommendation": "No headline change is called for: the sheet already prices the execution it declares -- but the comparison is unreadable, so the sheet should print its convention until it can be re-derived.",
  "script": "scripts/etf_book_causal_headline.py",
  "verdict": {
-  "disclosure_vs_face_as_coded_pp": 0.0,
-  "disclosure_vs_face_declared_pp": 0.0,
-  "printed_vs_as_coded_pp": 0.0,
-  "printed_vs_declared_pp": -1.14,
-  "state": "DISCLOSED",
-  "why": "the card prints +1.14pp against the execution it declares (9.60 vs 8.46%/yr); the printed number reproduces the same-open arm within 0.25pp; the card also prints the declared arm (8.46%/yr) and it is this face's own declared arm (0.00pp); the operator can size off it"
+  "as_coded_cagr_pp": 9.6,
+  "declared_cagr_pp": 8.46,
+  "printed_cagr_pp": null,
+  "state": "CANNOT_VERIFY",
+  "why": "a side of the comparison is unreadable"
  }
 }
