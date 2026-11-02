@@ -2488,6 +2488,19 @@ def main() -> int:
             # numbers belong to a different book).
             ("product: etf_book_universe_lock (verdict recomputed, control reproduced)",
              "scripts/etf_book_universe_lock.py", ["--selftest"]),
+            # r1236: the other half of the survivor problem. No series in the panel ever ends
+            # its life inside the window, so the book can never be charged for holding a fund
+            # that later dies. The census (r1319) counts the symbols that stop printing and
+            # says plainly that the funds the source never served are invisible in its bytes --
+            # so this face prices that residual as a mortality budget (drag = deaths-per-name-
+            # year x LGD, break-even = CAGR / LGD) instead of re-classifying the panel a second
+            # time (E289). The legs pin the arithmetic, that the break-even does not move with
+            # how many names are held, that the census is quoted rather than recomputed, and
+            # that the verdict re-derives from the published rows instead of being prose.
+            ("product: etf_book_survivorship_hole (break-even mortality re-derived)",
+             "scripts/etf_book_survivorship_hole.py", ["--selftest"]),
+            ("product: etf_book_survivorship_hole (published verdict still recomputes)",
+             "scripts/etf_book_survivorship_hole.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print

@@ -8759,3 +8759,17 @@ n12_vt08 差 **0.0 pp**，容差 0.5pp）。这一条腿绿了，后面每一格
 **证据：** `Tools/card_text_hygiene.py`（selftest 11→15 · `scan` 双类共 425 文件）·
 `results/card_text_hygiene.json`（8 处按 HEAD→工作树逐字测得 + 3 处属本轮新卡 + 1 处 digest）·
 `smoke_test.py` 新腿「no card or digest carries an eaten path prefix」
+
+## E352 · 死掉的基金不是数不到的，是可以定价成预算的（r1236 bm-a）
+
+**一句话：** 面板里没有死亡样本，不等于缺口无法定价——把「一次死亡值多少钱」从面板自己的尾巴读出来，除成年化拖累，就得到「每年多少持仓死亡才会把这条收益吃掉」的预算线。
+
+**内容：**
+1. 存量普查（`scripts/etf_pool_survival.py`，r1319）数的是「面板里停止打印的符号」（2/1661＝0.12%），它自己写明数不到「源从未服务过的基金」。再写一套阈值重分类＝同一个缺陷的第二份拷贝（E289），所以**引用不重算**。
+2. 一次死亡的代价从面板自己的 20 bar 收益 p1 读（19.0%），不假设 LGD。
+3. 敞口算术：每次再平衡持 n 名跑 rebal bar，跑一年正好 n 个名-年；一次死亡损失 LGD×(1/n) 的账面 → **年化拖累＝每年每名死亡次数×LGD**，与持几名无关（selftest 钉 n=5 与 n=12 的 break-even 相同）。
+4. 判定线冻结在「每年 10% 持仓死亡」＝已不可信的宇宙；break-even 在其上方＝缺口不能解释这条收益。
+
+**边界：** 真实清盘率来自面板外部，本面不引用任何外部数字，只给出读者可以自己去对的线。死亡只压尾巴不改均值（本书是 top-n 相对排名）；真正被高估的是**持有期内**发生的死亡，而持有期只有 20 个交易日。
+
+**证据：** `scripts/etf_book_survivorship_hole.py`（selftest 16/16）· `results/etf_book_survivorship_hole.json` · `research/ETF_BOOK_SURVIVORSHIP_HOLE.md` · smoke 两条腿 · 读数：declared 手臂 8.46%/0.87/-16.56% 上 break-even＝44.8%/年。

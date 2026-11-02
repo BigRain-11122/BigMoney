@@ -1,0 +1,129 @@
+{
+ "ts": "2026-11-02 11:37:01",
+ "evidence_cutoff": "2026-10-30",
+ "script": "scripts/etf_book_survivorship_hole.py",
+ "criteria": {
+  "start": "2020-01-01",
+  "gate_cny": 20000000.0,
+  "fwd_bars": 20,
+  "tail_q": 0.01,
+  "m_sweep": [
+   0.005,
+   0.01,
+   0.02,
+   0.05,
+   0.1
+  ],
+  "break_even_sane": 0.1
+ },
+ "census": {
+  "available": true,
+  "source": "results\\etf_pool_survival.json",
+  "evidence_cutoff": "2026-10-30",
+  "panel_files": 1725,
+  "eligible": 1661,
+  "dead": 2,
+  "stale": 6,
+  "alive": 1653,
+  "dead_share_of_eligible_pct": 0.12040939193257075,
+  "dead_symbols": [
+   "sh512390",
+   "510880_t73"
+  ],
+  "cannot_answer": "funds the source never served (invisible in every panel byte)",
+  "reading": "the census counts what the panel holds; a symbol that stops printing keeps the history it printed, so the engine did see it while it traded. What no count on these bytes can see is the fund that was never collected -- this face prices that residual as a mortality budget below"
+ },
+ "listing_cohorts": {
+  "columns": 1504,
+  "buyable_on_window_open": 193,
+  "listed_inside_the_window": 1311,
+  "share_listed_inside_the_window": 0.8717
+ },
+ "gate_attrition": {
+  "gate_cny": 20000000.0,
+  "buyable_on_window_open": 67,
+  "buyable_at_cutoff": 610,
+  "left_the_gate_and_stayed_out": 18,
+  "share_of_2020_universe_that_attrited": 0.2687,
+  "attrited_names": [
+   "159902",
+   "159966",
+   "159968",
+   "510350",
+   "510390",
+   "510590",
+   "510710",
+   "510850",
+   "510880_t73",
+   "512160",
+   "512380",
+   "512650",
+   "512750",
+   "512990",
+   "515580",
+   "515750",
+   "515810",
+   "515860"
+  ],
+  "median_return_of_attrited_names": 0.4205,
+  "note": "a fund that leaves the gate but keeps printing is not a death; a delisted fund never prints at all and is outside every count on this face"
+ },
+ "forward_tail": {
+  "observations": 557599,
+  "usable": true,
+  "horizon_bars": 20,
+  "p0_1": -0.2955,
+  "p1": -0.1889,
+  "p5": -0.117,
+  "median": 0.0011,
+  "lgd_basis": "p1 of 20-bar returns among gate-passing funds"
+ },
+ "exposure": {
+  "arm": "declared fill (score held one bar back, close t -> open t+1), vol target 8%",
+  "cagr": 0.0846,
+  "sharpe": 0.874,
+  "maxdd": -0.1656,
+  "years": 6.82,
+  "decisions": 1652,
+  "n_hold": 12,
+  "rebal_bars": 20,
+  "turnover_per_decision": 0.953,
+  "name_years_per_year": 12.0,
+  "weight_per_name": 0.083333
+ },
+ "mortality_budget": {
+  "lgd": 0.1889,
+  "break_even_deaths_per_name_year": 0.4479,
+  "break_even_share_of_held_book_pp": 44.8,
+  "drag_curve": [
+   {
+    "deaths_per_name_year": 0.005,
+    "annual_drag_pp": 0.09,
+    "cagr_after_drag": 0.0837
+   },
+   {
+    "deaths_per_name_year": 0.01,
+    "annual_drag_pp": 0.19,
+    "cagr_after_drag": 0.0827
+   },
+   {
+    "deaths_per_name_year": 0.02,
+    "annual_drag_pp": 0.38,
+    "cagr_after_drag": 0.0808
+   },
+   {
+    "deaths_per_name_year": 0.05,
+    "annual_drag_pp": 0.94,
+    "cagr_after_drag": 0.0752
+   },
+   {
+    "deaths_per_name_year": 0.1,
+    "annual_drag_pp": 1.89,
+    "cagr_after_drag": 0.0657
+   }
+  ],
+  "arithmetic": "each rebalance holds n names for rebal bars, so one year of running the book holds exactly n name-years; a death costs LGD x (1/n) of the book, so annual drag = deaths-per-name-year x LGD"
+ },
+ "verdict": "HOLE_CANNOT_EXPLAIN_THE_EDGE",
+ "one_line": "the pool census already found 2 symbols that stop printing (0.12% of the eligible pool) and says the funds the source never served are invisible in every panel byte; priced off the panel's own 20-bar 1st percentile a death costs 19% of that position (1.6% of the book), so the book absorbs 45% of its held names dying every year before the 8.46% return is gone -- the residual hole is a ceiling on the tail, not the source of the return"
+}
