@@ -1092,6 +1092,24 @@ LEGS = [
     ("subject_resolution",
      ["python", "scripts/e358_subject_resolution.py", "verify"]),
 
+    # E359: E353 recorded that part of E350's unwritten-guard population names files only a
+    # selftest writes.  Measured: scaffolding is 3.7 pct of 5,444 read sites and 10 of 139
+    # unwritten guards, so E350's headline survives at 129 -- but 24 faces are read ONLY by
+    # scaffolding (fixture dirs, .tmp trees, short-name copies of real status faces), and
+    # 23.5 pct of reads report a face their own function never names. Verify re-derives both
+    # populations, both deltas and the leak axis off the current corpus (~50 s of AST).
+    ("census_scaffolding_split",
+     ["python", "scripts/e359_census_scaffolding_split.py", "verify"]),
+
+    # E364: E363 stamped two faces and found replay needs a files= seam. This leg holds the whole
+    # published census family to that question every round: of the studies that enumerate a
+    # directory, which quote a population, which name the corpus they counted, and which have no
+    # seam so their number can never be rechecked. ~4 s (121 faces, no builds). A study that loses
+    # its address is a regression (rc 1); a study new to the queue is reported, not failed, because
+    # the queue is allowed to grow with the repository.
+    ("unstamped_census",
+     ["python", "scripts/e364_unstamped_census.py", "check"]),
+
     # E352: E349 priced the channel as a population and found 14 of 840 comparisons ask whether
     # what they read is current; this prices the window instead, in the repository's own clock.
     # 60 deciding channel files, 59 measurable: median file lag 80 commits / p90 111, worst

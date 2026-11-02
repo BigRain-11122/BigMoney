@@ -26622,13 +26622,33 @@
    "question": "E363 stamped two faces and can only replay a study that exposes a files= seam. How many of the published census faces quote a count over the directory at all, how many of those carry a corpus block, and how many would need a producer seam before their number could ever be rechecked?",
    "lane": "cpu-only",
    "priority": 2,
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "entered_at": "2026-11-02T16:36:41+08:00",
    "entered_by": "bm-b r1385",
    "deliverable": "results/state_tilt/<face> + scripts/e364_*.py + chain leg + smoke leg + methodology card",
    "notes": "cheap and static: read the faces, classify the summary keys that are counts of sources/files/faces, ask each face for a corpus block; no rebuild per face -- the expensive question was already priced by E363",
-   "source": "r1385 close"
+   "source": "r1385 close",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-02T17:10:00+08:00",
+   "done_round": 1386,
+   "done_ts": "2026-11-02T17:23:02",
+   "result_ref": "results/state_tilt/UNSTAMPEDCENSUS-2026-11-02.json + scripts/e364_unstamped_census.py",
+   "done_note": "28 of 120 published studies enumerate a directory; 15 quote a population, 13 enumerate and quote nothing. Only E331/E335 name the corpus they counted (2); 13 populations cannot be rechecked, 11 of those need a files= seam first, 2 are stampable today (E328 566 faces, E329 246 sources). E340's faces_parsed 12,519 against 121 faces on disk is flagged, not believed. Chain leg check() fails on lost address, not on a growing queue."
+  },
+  {
+   "id": "E365-CAN-A-PUBLISHED-FACE-POPULATION-BE-PINNED",
+   "title": "can a published-face population be pinned and replayed like a source population",
+   "question": "E364's queue is mostly counts over the *published faces* (566, 246, 191, 128), so a source-corpus pin would be a false address. Pin that directory the way E361 pins the source corpus, then stamp E328 at build time and replay it through its existing files= seam.",
+   "lane": "cpu-only",
+   "priority": 2,
+   "status": "ready",
+   "owner": null,
+   "entered_at": "2026-11-02T17:23:02",
+   "entered_by": "bm-b r1386",
+   "deliverable": "results/state_tilt/<face pin> + scripts/e365_*.py + chain leg + smoke leg + methodology card",
+   "notes": "cheap and static: the seam already exists in E328/E329 (build(files=...)); the new part is a digest over face JSON text and a replay of one study over it",
+   "source": "r1386 close"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -26643,6 +26663,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-02T16:36:41+08:00",
+ "updated_at": "2026-11-02T17:23:02",
  "version": 1
 }

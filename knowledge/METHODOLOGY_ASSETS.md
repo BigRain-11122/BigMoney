@@ -7771,3 +7771,49 @@ and name the replayable source in the same envelope; a checker must replay what 
 "the latest", and must prove its own corpus rule against the study it is grading before comparing.
 Where the vintage is already lost, say so with the numbers (published/live/pin/commit) instead of
 quietly republishing and calling the new number a reproduction.
+
+
+## E364 -- the census family has a queue, and most of it cannot be rechecked even in principle (r1386)
+
+E363 stamped two faces and named the constraint: replay needs the producer to expose a `files=`
+seam, because a checker must run *the study's own rule* over another vintage. That left the portfolio
+question open, and the answer is not "a few stragglers".
+
+1. **28 of 120 published studies enumerate a directory, 15 quote a population number, 2 can be
+   rechecked.** Read from `results/state_tilt/*_latest.json` and their producer sources: 11 studies
+   enumerate the source corpus (`corpus_paths`, `_corpus`, `e361.stamp`, `CORPUS_ROOTS`), 23 glob the
+   published faces (6 do both). Of those 28, 15 put a corpus count in `summary`, 13 enumerate and
+   quote nothing, and only E331/E335 carry `corpus{pin_id}` naming a pin that is on disk. 13
+   populations cannot be rechecked today; 11 of those cannot even be replayed tomorrow, because
+   their `build()` takes no `files`.
+2. **The count vocabulary is only allowed to run inside a census.** A key name is not evidence
+   (E207/E208): `median_of_file_medians_commits` 80, `p90_of_file_medians_commits` 111 and
+   `worst_file_p90_commits` 216 are statistics over files, `max_naive_writers_on_one_face` 973 is a
+   maximum, `source_family_pairs` is a data population. All of them are refused *and published as
+   refused*, and the refusal rule is gated on the study already being measured as a census -- a
+   substring alone would have turned this table into 3,879 rows over `results/**` (the shape that
+   made E207's first version worthless).
+3. **Over-rejecting is the same defect in the other direction.** `faces_named` 846 and
+   `distinct_pointer_files_named` 20 are counts of files, and an earlier draft refused them because
+   the word "name" was in the non-census list; the rule was narrowed to occurrence counts
+   (`*_before` / `*_after` / `named_*`) after measuring which keys it moved. Under-counting a
+   population is a smaller lie than inventing one, but it is still a lie.
+4. **A quoted population can exceed the directory it names.** E340 publishes
+   `faces_parsed` = 12,519 against 121 published faces on disk. That is not a face count; it is now
+   flagged (`quoted_populations_beyond_the_directory_they_name`) instead of being dropped or
+   believed.
+5. **The address has to be the kind the population is.** Most of the queue quotes *published-face*
+   populations (566, 246, 191, 128 ...), so sealing a source-corpus pin onto them would be a false
+   address -- exactly what E331's leg already refuses when `corpus.members != sources_scanned`. The
+   queue therefore carries `population_kind` and `needs`, and the next study is what a face-corpus
+   pin looks like.
+6. **The chain leg measures drift, not the number.** `e364 ... check` re-runs the inventory and
+   reports studies added to the queue (allowed -- the repository grows), but a study that *loses*
+   its address is rc 1. A guard whose only failure mode is "the repository got bigger" gets turned
+   off within a week.
+
+How to apply: when a study publishes a number that is a count over a directory, decide first which
+directory (sources or published faces), then stamp that population at build time with the seam that
+lets someone else re-run the rule -- and if the study has no seam, the honest output is the queue
+entry, not a stamp over a different corpus. Any classifier over key names must publish what it
+refused, and must be gated by a structural fact (does this study enumerate a directory at all).

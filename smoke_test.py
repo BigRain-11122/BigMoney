@@ -10369,6 +10369,77 @@ def main() -> int:
                 ((_f335 or {}).get("summary") or {}).get("modules_that_rebind_a_reading_name"),
                 ((_f335 or {}).get("summary") or {}).get("consumers_of_the_new_name")))
 
+    # E364: E363 stamped two faces and found that replay needs a files= seam. This leg holds the
+    # whole published census family to that: the inventory must re-derive from its own rows, every
+    # study it calls stamped must name a pin that exists on disk and expose the seam, a statistic in
+    # a key name must never be read as a population, and the study must not count its own face.
+    _name364 = ("product: the published census family is inventoried -- how many quote a population, "
+                "how many name the corpus they counted, and which need a seam before replay")
+    _bad364 = []
+    try:
+        _p364 = os.path.join("results", "state_tilt", "UNSTAMPEDCENSUS-2026-11-02.json")
+        if not os.path.exists(_p364):
+            _bad364.append("no published census inventory face")
+        else:
+            _f364 = json.load(open(_p364, encoding="utf-8"))
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m364 = importlib.import_module("e364_unstamped_census")
+            _bad364 += list(_m364.verify(_p364))
+            _rows364 = _f364.get("rows") or []
+            if not _rows364:
+                _bad364.append("the inventory has no rows")
+            if any((_r.get("study") or "").startswith("E364") for _r in _rows364):
+                _bad364.append("the inventory counted its own face (E319)")
+            for _r364 in _rows364:
+                if _r364.get("class") == "STAMPED":
+                    if not _r364.get("files_seam"):
+                        _bad364.append("%s is published as stamped while its build() takes no files "
+                                       "(E363 replay is impossible)" % (_r364.get("study"),))
+                    for _fc in _r364.get("faces") or []:
+                        if not (_fc.get("address") or {}).get("pin_id"):
+                            _bad364.append("%s: a stamped face carries no pin"
+                                           % (_r364.get("study"),))
+                            continue
+                        _doc = json.load(open(os.path.join("results", "state_tilt",
+                                                           _fc.get("face")), encoding="utf-8"))
+                        _pf = (_doc.get("corpus_source") or {}).get("pin_file")
+                        if not _pf or not os.path.exists(os.path.join("results", "state_tilt", _pf)):
+                            _bad364.append("%s names no pin that is on disk" % (_fc.get("face"),))
+                for _fc in _r364.get("faces") or []:
+                    for _k364 in _fc.get("quoted_populations") or {}:
+                        if _m364.STAT_KEY_RE.match(_k364.lower()):
+                            _bad364.append("%s: %s is a statistic, not a population"
+                                           % (_fc.get("face"), _k364))
+            _s364 = _f364.get("summary") or {}
+            if int(_s364.get("censuses_that_quote_a_population") or 0) + \
+                    int(_s364.get("censuses_that_enumerate_but_quote_nothing") or 0) != \
+                    int(_s364.get("census_studies") or 0):
+                _bad364.append("quotation split does not add up to the census count")
+            if int(_s364.get("censuses_that_name_their_corpus") or 0) + \
+                    int(_s364.get("censuses_whose_population_cannot_be_rechecked") or 0) != \
+                    int(_s364.get("censuses_that_quote_a_population") or 0):
+                _bad364.append("addressed and unaddressed do not add up to the quoting censuses")
+            if _f364.get("verdict") != _m364.decide(_s364):
+                _bad364.append("the verdict does not follow from the summary")
+            if int(_s364.get("censuses_that_quote_a_population") or 0) <= 0:
+                _bad364.append("no census quotes a population, so nothing was measured")
+    except Exception as e:
+        check(_name364, False, repr(e)[:160])
+
+    check(_name364, not _bad364, "; ".join(_bad364)[:220]
+          or "%s | %s census studies (%s over the source corpus, %s over published faces): %s quote "
+             "a population, %s name the corpus they counted, %s can still not be rechecked, %s need "
+             "a files= seam first, %s stampable today"
+             % (str((_f364 or {}).get("verdict")),
+                ((_f364 or {}).get("summary") or {}).get("census_studies"),
+                ((_f364 or {}).get("summary") or {}).get("census_over_the_source_corpus"),
+                ((_f364 or {}).get("summary") or {}).get("census_over_the_published_faces"),
+                ((_f364 or {}).get("summary") or {}).get("censuses_that_quote_a_population"),
+                ((_f364 or {}).get("summary") or {}).get("censuses_that_name_their_corpus"),
+                ((_f364 or {}).get("summary") or {}).get("censuses_whose_population_cannot_be_rechecked"),
+                ((_f364 or {}).get("summary") or {}).get("needs_a_seam_before_replay"),
+                ((_f364 or {}).get("summary") or {}).get("stampable_today")))
+
     # E336: E335's landing is only useful if a consumer can afford to move onto it, and E334 only
     # priced the repository. This leg refuses a per-consumer ranking that cannot be re-derived from
     # its own rows: orders that disagree with the published lists, a candidate named while the
