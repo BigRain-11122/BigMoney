@@ -8218,3 +8218,39 @@ Four reusable rules:
 How to apply: when a corpus borrows bytes to repair a number, grade the repair with an ablation that
 must *return* to both ends (empty set -> old number, kept set -> new number), and publish the necessary
 set rather than the net delta.
+
+## E379 -- a capped table is not a population, and necessity is per instrument (r1397 bm-b)
+
+E374 published three load-bearing members for E353's pairs; E371 published that the two `store_needed`
+members are footprint-empty on E350. Both were quoted as a verdict on "the store". E378 ran E374's
+four-arm ablation against E350's own headline numbers (`fields` / `fields_with_no_writer` /
+`guard_fields_with_no_writer`) over the same pin (`daf9a897`, 2,251 sources) and the same 128-member
+store:
+
+| arm | fields | no_writer | guard_no_writer |
+|---|---|---|---|
+| pin only | 2,264 | 1,687 | 129 |
+| pin + store | 2,306 | 1,712 | 131 |
+| store minus the 20 | 2,264 | 1,687 | 129 |
+| the 20 only | 2,306 | 1,712 | 131 |
+
+Four reusable rules:
+
+1. **A capped publication table is not a population.** The face of a census caps `rows` at `MAX_ROWS`
+   for size; analysing that table gave 10 load-bearing members instead of 3, and an ablation that
+   could not return to the pin. Re-derive from `measure()` when the question is about *coverage*; a
+   cap is a display decision that silently becomes a filter.
+2. **Enumerate every way a member can move the number.** Three rules were needed, not two: guard a
+   field the pin does not guard, write a field the pin counts unwritten, **read a field key the pin
+   does not have**. The last one only shows up as +`fields`; a status-flip rule set cannot see it, and
+   the failed ablation (not a review) is what pointed at it.
+3. **Necessity is per instrument.** 3 members carry E353's pairs, 20 carry E350's field count, and the
+   intersection is exactly the 3. Any sentence of the form "these members are load-bearing" has to
+   name the number it defends; 108 members are ballast on both yardsticks.
+4. **Grade a borrowed corpus by ablation, not by static walk.** The walk decides membership; the
+   two-ended ablation (empty set -> old number, kept set -> new number) decides whether the walk was
+   complete. Cost: two extra scans (~5 min) against 128 targeted replays.
+
+How to apply: when a study borrows bytes to repair a published number, publish the necessary set per
+instrument plus both ablation ends, and never attribute from a table whose rows were truncated for
+display.

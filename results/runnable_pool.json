@@ -26849,11 +26849,17 @@
    "entered_by": "bm-b r1396",
    "id": "E378-WHICH-STORED-MEMBERS-ARE-LOAD-BEARING-ON-E350-ARM",
    "lane": "cpu-only",
-   "notes": "reuse the e374 attribute/ablate machinery verbatim; never rewrite E350/E353 faces; the store file stays outside results/ (E328 face population)",
-   "owner": null,
+   "notes": "reuse the e374 attribute/ablate machinery verbatim; never rewrite E350/E353 faces; the store file stays outside results/ (E328 face population) | done: 20 of 128 necessary and sufficient on the E350 arm (drop 20 -> pin exactly, keep 20 -> store exactly); the status-flip subset is 3 and equals E353 set; first draft attributed from the capped rows table (10) and its ablation refused to return",
+   "owner": "bm-b",
    "priority": 2,
    "question": "E374 published that three of the 128 store members are load-bearing for E353's unwritten-guard pairs, and E371 already showed the same members are footprint-empty on E350's arm. Run the same four-arm ablation against E350's own published numbers (fields, fields_with_no_writer, guard_fields_with_no_writer) and publish the necessary set per arm -- if the two instruments disagree about necessity, 'load-bearing' needs a per-arm table rather than one sentence.",
-   "status": "ready"
+   "status": "done",
+   "owner_since": "2026-11-03T03:52:00+08:00",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-03T03:52:00+08:00",
+   "done_at": "2026-11-03T04:40:00+08:00",
+   "done_by": "bm-b r1397",
+   "result_ref": "results/state_tilt/E350ARM-2026-11-03.json"
   },
   {
    "entered_at": "2026-11-03T03:42:00+08:00",
@@ -26865,6 +26871,17 @@
    "priority": 3,
    "question": "E377 found 36 published faces reached by an unnameable writer and keyed by no resolved sink. Reach is not consumption: for each of those 36, find whether any corpus source binds a path that resolves to it (same name universe as the census) and publish the split reader / unread -- a face written by an unnameable writer and read by nobody is an out-of-corpus contract, a stronger claim than 'unkeyed'.",
    "status": "ready"
+  },
+  {
+   "id": "E380-WHICH-OF-THE-TWO-INSTRUMENTS-NAMES-THE-SAME-BALLAST",
+   "entered_at": "2026-11-03T04:40:00+08:00",
+   "entered_by": "bm-b r1397",
+   "lane": "cpu-only",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "question": "E378 measured 108 store members that move neither E353 pairs nor any E350 headline number, and 17 that move only the field count by adding new keys. Decide whether those 17 keys are read anywhere (a static name test over the same corpus, no execution): rows that no reader names are dead weight in a face, rows that a reader names are why the store had to exist. Publish reader/unread per new key.",
+   "notes": "static only, zero network; reuse e377 resolved-sink universe; exclude this study own face from its own population (E319/E328 family)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

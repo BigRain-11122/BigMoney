@@ -1,0 +1,1098 @@
+{
+ "study": "E378_store_load_bearing_e350_arm",
+ "ts": "2026-11-03T04:05:51+08:00",
+ "evidence_cutoff": "2026-11-03",
+ "source": "scripts/e378_store_load_bearing_e350_arm.py",
+ "pin": "daf9a897fda167987d85aa27ea17beadb48de24f",
+ "pin_id": "7aacd4d5a13d423740432aac1117f121fd765314969d23e94769390de8295c79",
+ "pin_members": 2251,
+ "store_file": "research/corpus_store/PINSTORE-daf9a897.json",
+ "store_id": "43204da804098f101ea58366fcd58503fa49809bd1c9b741e12a4139db7972d1",
+ "store_count": 128,
+ "headline_fields": [
+  "fields",
+  "fields_with_no_writer",
+  "guard_fields_with_no_writer"
+ ],
+ "arms": {
+  "pin_only": {
+   "headline": {
+    "fields": 2264,
+    "fields_with_no_writer": 1687,
+    "guard_fields_with_no_writer": 129
+   },
+   "population_source": "pinned_bytes:2251",
+   "measured": true,
+   "row_keys": 2264
+  },
+  "pin_plus_store": {
+   "headline": {
+    "fields": 2306,
+    "fields_with_no_writer": 1712,
+    "guard_fields_with_no_writer": 131
+   },
+   "population_source": "pinned_bytes:2379",
+   "measured": true,
+   "row_keys": 2306
+  },
+  "store_minus_load": {
+   "headline": {
+    "fields": 2264,
+    "fields_with_no_writer": 1687,
+    "guard_fields_with_no_writer": 129
+   },
+   "population_source": "pinned_bytes:2359",
+   "measured": true,
+   "row_keys": 2264
+  },
+  "load_only": {
+   "headline": {
+    "fields": 2306,
+    "fields_with_no_writer": 1712,
+    "guard_fields_with_no_writer": 131
+   },
+   "population_source": "pinned_bytes:2271",
+   "measured": true,
+   "row_keys": 2306
+  }
+ },
+ "a_equals_b": {
+  "headline_equal": false,
+  "row_keys_equal": false,
+  "headline_delta": {
+   "fields": [
+    2264,
+    2306
+   ],
+   "fields_with_no_writer": [
+    1687,
+    1712
+   ],
+   "guard_fields_with_no_writer": [
+    129,
+    131
+   ]
+  }
+ },
+ "load_bearing": {
+  "set": [
+   "Tools/_r1096_receipt.py",
+   "Tools/_r1101_close.py",
+   "Tools/_r1164bmb_closeout.py",
+   "Tools/_r1176bmb_closeout.py",
+   "Tools/_r1234bmb_pool.py",
+   "Tools/_r1234bmb_state.py",
+   "Tools/_r1334bmb_closeout.py",
+   "Tools/_r1334bmb_delivery.py",
+   "Tools/_r1334bmb_s7fix.py",
+   "scripts/_r1369_close.py",
+   "scripts/_r1369_state.py",
+   "scripts/_r1370_postscript.py",
+   "scripts/_r1374bmb_closeout.py",
+   "scripts/_r1383_heartbeat.py",
+   "scripts/_r1383_report.py",
+   "scripts/_r1384_closeout.py",
+   "scripts/e345_gate_absence_windows.py",
+   "scripts/e352_staleness_window.py",
+   "scripts/e358_subject_resolution.py",
+   "scripts/prove_smoke_leg_isolation.py"
+  ],
+  "count": 20,
+  "of": 128,
+  "v1_only_set": [
+   "Tools/_r1234bmb_pool.py",
+   "Tools/_r1334bmb_closeout.py",
+   "Tools/_r1334bmb_delivery.py"
+  ],
+  "v1_only_count": 3,
+  "rule": "a member is load-bearing on THIS arm iff it guards a field the pin has no guard on, writes a field the pin counts as written by nobody, or reads a field key the pin does not have (the first two rules alone were measured this window and do not return the ablation to the pin)",
+  "evidence": [
+   {
+    "path": "Tools/_r1096_receipt.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "Tools/_r1101_close.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "Tools/_r1164bmb_closeout.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "Tools/_r1176bmb_closeout.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "Tools/_r1234bmb_pool.py",
+    "could_lift_guard": [],
+    "could_close_writer": [
+     [
+      "results/runnable_pool.json",
+      "entries"
+     ]
+    ]
+   },
+   {
+    "path": "Tools/_r1234bmb_state.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "Tools/_r1334bmb_closeout.py",
+    "could_lift_guard": [
+     [
+      "bm-b.json",
+      "heartbeat_epoch_utc"
+     ],
+     [
+      "bm-b.json",
+      "round"
+     ],
+     [
+      "state-bm-b.json",
+      "round_no"
+     ]
+    ],
+    "could_close_writer": []
+   },
+   {
+    "path": "Tools/_r1334bmb_delivery.py",
+    "could_lift_guard": [
+     [
+      "state-bm-b.json",
+      "r1334"
+     ]
+    ],
+    "could_close_writer": []
+   },
+   {
+    "path": "Tools/_r1334bmb_s7fix.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "scripts/_r1369_close.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "scripts/_r1369_state.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "scripts/_r1370_postscript.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "scripts/_r1374bmb_closeout.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "scripts/_r1383_heartbeat.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "scripts/_r1383_report.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "scripts/_r1384_closeout.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "scripts/e345_gate_absence_windows.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "scripts/e352_staleness_window.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "scripts/e358_subject_resolution.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   },
+   {
+    "path": "scripts/prove_smoke_leg_isolation.py",
+    "could_lift_guard": [],
+    "could_close_writer": []
+   }
+  ],
+  "adds_new_field_counts": {
+   "Tools/_r1096_receipt.py": 1,
+   "Tools/_r1101_close.py": 5,
+   "Tools/_r1164bmb_closeout.py": 1,
+   "Tools/_r1176bmb_closeout.py": 2,
+   "Tools/_r1234bmb_state.py": 3,
+   "Tools/_r1334bmb_closeout.py": 8,
+   "Tools/_r1334bmb_delivery.py": 1,
+   "Tools/_r1334bmb_s7fix.py": 1,
+   "scripts/_r1369_close.py": 2,
+   "scripts/_r1369_state.py": 2,
+   "scripts/_r1370_postscript.py": 2,
+   "scripts/_r1374bmb_closeout.py": 1,
+   "scripts/_r1383_heartbeat.py": 4,
+   "scripts/_r1383_report.py": 1,
+   "scripts/_r1384_closeout.py": 1,
+   "scripts/e345_gate_absence_windows.py": 2,
+   "scripts/e352_staleness_window.py": 10,
+   "scripts/e358_subject_resolution.py": 3,
+   "scripts/prove_smoke_leg_isolation.py": 2
+  }
+ },
+ "footprint": {
+  "members_with_any_guard": 10,
+  "members_with_any_write": 30,
+  "members_unparseable": [],
+  "rows": [
+   {
+    "path": "Tools/_r1071bmb_shard_relaunch.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1096_append_row.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1096_closeout.py",
+    "guards": 0,
+    "writes": 32,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1096_pool.py",
+    "guards": 0,
+    "writes": 1,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1096_receipt.py",
+    "guards": 0,
+    "writes": 4,
+    "load_bearing": true
+   },
+   {
+    "path": "Tools/_r1098_pool.py",
+    "guards": 0,
+    "writes": 1,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1101_close.py",
+    "guards": 1,
+    "writes": 49,
+    "load_bearing": true
+   },
+   {
+    "path": "Tools/_r1101_pool.py",
+    "guards": 0,
+    "writes": 1,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1164bmb_clone.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1164bmb_closeout.py",
+    "guards": 1,
+    "writes": 30,
+    "load_bearing": true
+   },
+   {
+    "path": "Tools/_r1164bmb_eol.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1164bmb_mem.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1164bmb_pool.py",
+    "guards": 0,
+    "writes": 1,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1164bmb_pool2.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1164bmb_push.py",
+    "guards": 0,
+    "writes": 4,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1164bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1164bmb_union.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1166bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1170bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1171bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1172bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1173bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1176bmb_closeout.py",
+    "guards": 1,
+    "writes": 24,
+    "load_bearing": true
+   },
+   {
+    "path": "Tools/_r1176bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1180bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1181bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1182bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1183bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1184bmb_card.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1184bmb_closeout.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1184bmb_e117_spawn.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1184bmb_pool.py",
+    "guards": 1,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1184bmb_renumber.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1184bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1184bmb_s6_spawn.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1208bmb_s6_spawn.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1210bmb_closeout.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1210bmb_hb_epoch.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1210bmb_receipt.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1210bmb_s6_spawn.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1212bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1226bmb_face.py",
+    "guards": 1,
+    "writes": 19,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1230bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1232bmb_card.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1232bmb_closeout.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1232bmb_delivery.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1232bmb_fixrow.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1232bmb_pool.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1232bmb_repair.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_card.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_cardfix.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_dbg.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_delivery.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_fixlit.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_fldiff.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_fleetlink.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_hb.py",
+    "guards": 2,
+    "writes": 17,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_memo.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_orders.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_pool.py",
+    "guards": 0,
+    "writes": 2,
+    "load_bearing": true
+   },
+   {
+    "path": "Tools/_r1234bmb_recall.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_recall2.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_recall3.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_recall4.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_report.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1234bmb_state.py",
+    "guards": 0,
+    "writes": 14,
+    "load_bearing": true
+   },
+   {
+    "path": "Tools/_r1235bmb_s6.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1237bmb_closeout.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1244bmb_closeout.py",
+    "guards": 1,
+    "writes": 20,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1244bmb_pool.py",
+    "guards": 0,
+    "writes": 1,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1334bmb_closeout.py",
+    "guards": 3,
+    "writes": 4,
+    "load_bearing": true
+   },
+   {
+    "path": "Tools/_r1334bmb_delivery.py",
+    "guards": 1,
+    "writes": 0,
+    "load_bearing": true
+   },
+   {
+    "path": "Tools/_r1334bmb_eol_fix.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1334bmb_s7fix.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": true
+   },
+   {
+    "path": "Tools/_r1353bmb_card.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1353bmb_closeout.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1353bmb_pool.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1353bmb_report.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "Tools/_r1353bmb_state2.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1369_card.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1369_close.py",
+    "guards": 0,
+    "writes": 70,
+    "load_bearing": true
+   },
+   {
+    "path": "scripts/_r1369_pool.py",
+    "guards": 0,
+    "writes": 1,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1369_postscript.py",
+    "guards": 0,
+    "writes": 5,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1369_state.py",
+    "guards": 0,
+    "writes": 22,
+    "load_bearing": true
+   },
+   {
+    "path": "scripts/_r1370_closeout.py",
+    "guards": 2,
+    "writes": 67,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1370_pool_update.py",
+    "guards": 0,
+    "writes": 1,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1370_postscript.py",
+    "guards": 0,
+    "writes": 18,
+    "load_bearing": true
+   },
+   {
+    "path": "scripts/_r1370_report_row.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1371_patch_e350.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1372_closeout.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1372_postscript.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1373_closeout.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1373_hb2.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1373_pit.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1373_pit2.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1373_post.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1373_rows.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1374bmb_closeout.py",
+    "guards": 0,
+    "writes": 22,
+    "load_bearing": true
+   },
+   {
+    "path": "scripts/_r1379bmb_closeout.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1379bmb_postscript.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1383_addendum.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1383_heartbeat.py",
+    "guards": 0,
+    "writes": 10,
+    "load_bearing": true
+   },
+   {
+    "path": "scripts/_r1383_postscript.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1383_report.py",
+    "guards": 0,
+    "writes": 2,
+    "load_bearing": true
+   },
+   {
+    "path": "scripts/_r1383_run_e361_leg.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1383_stage.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1384_append_card.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/_r1384_closeout.py",
+    "guards": 0,
+    "writes": 13,
+    "load_bearing": true
+   },
+   {
+    "path": "scripts/e230_hysteresis_toll.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/e345_gate_absence_windows.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": true
+   },
+   {
+    "path": "scripts/e350_field_branch_census.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/e351_gate_state_census.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/e352_staleness_window.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": true
+   },
+   {
+    "path": "scripts/e353_unwritten_guard_presence.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/e356_census_red_triage.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/e357_channel_writer_cadence.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/e358_subject_resolution.py",
+    "guards": 0,
+    "writes": 10,
+    "load_bearing": true
+   },
+   {
+    "path": "scripts/e359_census_scaffolding_split.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/e361_census_corpus_pin.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/e362_corpus_replay.py",
+    "guards": 0,
+    "writes": 6,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/prove_smoke_leg_isolation.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": true
+   },
+   {
+    "path": "scripts/run_e350_smoke_leg.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/run_e351_smoke_leg.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/run_e352_smoke_leg.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/run_e353_smoke_leg.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/run_e357_smoke_leg.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/run_e358_smoke_leg.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   },
+   {
+    "path": "scripts/run_e362_smoke_leg.py",
+    "guards": 0,
+    "writes": 0,
+    "load_bearing": false
+   }
+  ]
+ },
+ "ablation": {
+  "dropped": 108,
+  "measured": true,
+  "headline": {
+   "fields": 2264,
+   "fields_with_no_writer": 1687,
+   "guard_fields_with_no_writer": 129
+  },
+  "returns_to_pin": true,
+  "missing_vs_pin": {},
+  "note": "both further arms were built over the pin's bytes"
+ },
+ "sufficiency": {
+  "headline": {
+   "fields": 2306,
+   "fields_with_no_writer": 1712,
+   "guard_fields_with_no_writer": 131
+  },
+  "equals_full_store": true,
+  "delta_vs_full_store": {}
+ },
+ "per_arm_table": [
+  {
+   "instrument": "E353 unwritten-guard pairs",
+   "necessary_set": 3,
+   "source": "results/state_tilt/STORELOAD-2026-11-03.json"
+  },
+  {
+   "instrument": "E350 headline numbers",
+   "necessary_set": 20,
+   "source": "E350ARM-2026-11-03.json"
+  }
+ ],
+ "published_e350_comparison": {
+  "file": "C:/Fluxgroup/FluxGroup/quant/bigmoney/results/state_tilt/FIELDBRANCH-2026-11-01.json",
+  "published": {
+   "fields": 2289,
+   "fields_with_no_writer": 1698,
+   "guard_fields_with_no_writer": 131
+  },
+  "replay_at_pin": {
+   "fields": 2264,
+   "fields_with_no_writer": 1687,
+   "guard_fields_with_no_writer": 129
+  },
+  "equal": {
+   "fields": false,
+   "fields_with_no_writer": false,
+   "guard_fields_with_no_writer": false
+  },
+  "note": "published E350 walked today's corpus; this replay pins the member list and the bytes at one commit, so a difference is a vintage difference, not a defect"
+ },
+ "verdict": "the_two_instruments_disagree_about_necessity_so_load_bearing_needs_a_per_arm_table",
+ "bound": "the emptiness claim is about THIS instrument: a member can still matter to a different yardstick (E353 pairs do move by 2), and 'no field named' means no read and no write in the census, not 'no effect anywhere' -- the replay's own population source is published per arm so a reader can tell a walk from a pin; the ablation-with-all-dropped equals the pin only because the ablation set is empty, which is a tautology the face states rather than a scan it pretends to have run",
+ "e353_reference": {
+  "source": "results/state_tilt/storeload_latest.json",
+  "set": [
+   "Tools/_r1234bmb_pool.py",
+   "Tools/_r1334bmb_closeout.py",
+   "Tools/_r1334bmb_delivery.py"
+  ]
+ },
+ "e353_intersection": [
+  "Tools/_r1234bmb_pool.py",
+  "Tools/_r1334bmb_closeout.py",
+  "Tools/_r1334bmb_delivery.py"
+ ]
+}
