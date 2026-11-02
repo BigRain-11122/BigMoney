@@ -11762,6 +11762,62 @@ def _r39(face, key):
                 str((_f357 or {}).get("summary", {}).get("declared_writer_pairs"))))
 
 
+# E358: E351 called 55 gate subjects unresolved because the subject was written as
+    # os.path.join(...) -- three literals, none of which looks like a path on its own.  This leg
+    # grades the ACCOUNTING, not the numbers: the classes must partition the population, a
+    # "resolved" row must name a folded file, and the verdict must re-derive from the summary
+    # (the share is recomputed from the face, never carried in prose).
+    _name358 = ("product: a folding-resolved gate subject names a file, the classes partition the "
+                "population, and the green-by-freeze share re-derives from the summary")
+    _bad358 = []
+    try:
+        _p358 = os.path.join("results", "state_tilt", "subjres_latest.json")
+        _f358 = json.load(open(_p358, encoding="utf-8")) if os.path.exists(_p358) else None
+        if _f358 is None:
+            _bad358.append("no published subject-resolution face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m358 = __import__("importlib").import_module("e358_subject_resolution")
+            _s358 = _f358.get("summary") or {}
+            _rows358 = _f358.get("rows") or []
+            if not _rows358:
+                _bad358.append("the face publishes no rows")
+            if sum((_s358.get("class_counts") or {}).values()) != _s358.get(
+                    "gates_measured_here"):
+                _bad358.append("the class partition does not sum to the measured population")
+            if sum(1 for r in _rows358 if r.get("folded_files")) != (
+                    (_s358.get("resolved_by_folding") or 0)
+                    + (_s358.get("class_counts") or {}).get("never_evaluated", 0)):
+                _bad358.append("the folded rows do not match the resolved classes")
+            if any(r.get("class") in ("frozen_subject", "live_subject")
+                   and not r.get("folded_files") for r in _rows358):
+                _bad358.append("a graded subject is published without a folded file")
+            if any(r.get("class") == "dynamic_subject" and r.get("folded_files")
+                   for r in _rows358):
+                _bad358.append("a dynamic subject is also published as folded")
+            if any(r.get("class") == "never_evaluated" for r in _rows358):
+                _bad358.append("a subject is called never-evaluated although the window is seeded")
+            if _f358.get("verdict") != _m358.decide(_f358):
+                _bad358.append("the stored verdict does not re-derive from its own summary")
+            _m358_folding = _m358.fold(
+                __import__("ast").parse("os.path.join('results', 'state_tilt', 'x.json')",
+                                        mode="eval").body, {}, {})
+            if _m358_folding[0] != "results/state_tilt/x.json":
+                _bad358.append("the folding helper no longer resolves a constant join")
+    except Exception as e:
+        _bad358.append(repr(e)[:160])
+    check(_name358, not _bad358, "; ".join(_bad358)[:220]
+          or "%s of %s gates resolved by folding (depth %s), %s dynamic, %s name no file; "
+             "share %s -> %s pct"
+             % (str((_f358 or {}).get("summary", {}).get("resolved_by_folding")),
+                str((_f358 or {}).get("summary", {}).get("gates_measured_here")),
+                str((_f358 or {}).get("summary", {}).get("fold_depth_histogram")),
+                str((_f358 or {}).get("summary", {}).get("dynamic_remainder")),
+                str((_f358 or {}).get("summary", {}).get("no_path_expression")),
+                str((_f358 or {}).get("summary", {}).get("green_by_freeze_share_before_pct")),
+                str((_f358 or {}).get("summary", {}).get("green_by_freeze_share_after_pct"))))
+
+
 def _r39ci(face, key):
     v = (face.get("summary") or {}).get(key)
     return "n/a" if not v else "[%.3f, %.3f]" % (v[0], v[1])

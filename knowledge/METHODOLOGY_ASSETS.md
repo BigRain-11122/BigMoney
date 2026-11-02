@@ -7549,3 +7549,41 @@ product and the commit could have been about that product; measure cadence on th
 the producer's source; and treat "written once in the window" as a category, not a number to
 average. Any distribution that collapses to a single value across the whole population is a leak
 from one source, not a finding.
+
+
+## E358 -- a subject written as os.path.join is a constant the parser never folded (r1380)
+
+E351 published 55 of 92 `product:` gates as `unresolved_subject` because their subject had to be
+computed, and wrote the bound as "out of scope". Folding one step shows the bound was mostly a
+parser gap.
+
+1. **"Computed" and "uncomputable" are different words.** E351 collected *string literals* from a
+   gate's try body and kept the ones that already looked like a path (`results/...`). The very
+   common `os.path.join("results", "state_tilt", "x.json")` is three literals, none of which
+   matches, so a constant subject read as "no subject". Folding `os.path.join` / `str + str` /
+   one hop into a module or in-body constant resolves **40 of the 55** (all at folding depth 1) and
+   raises the green-by-freeze share from 16.2% to 48.1% (37 of 77 gates with a subject).
+2. **The residual is the interesting part, and it is small and nameable.** 8 of the 15 remaining
+   build the subject from *whatever the directory holds* (`os.path.join(_dir, _files[-1])`), and
+   7 name no file at all (their check compares computed numbers). Those 8 are the population that
+   can never be replayed from git -- measure them, do not guess them, and do not fold them.
+3. **A wildcard is not a face.** `os.path.join("data", "futures_daily", "*.csv")` folds cleanly to
+   a string that ends in .csv; the first build counted it as a subject and then reported it as
+   "never on disk". Class it as a wildcard and keep it out of the file population.
+4. **The state series must be seeded with the window's base tree.** E351 leaves a path at `None`
+   until its first in-window write, so a face older than the window reads as `distinct_states==0`
+   and is published `never_evaluated` -- the opposite of the truth (present and unchanged). Reading
+   `git ls-tree <oldest>^ -- <paths>` once and seeding the series turned 9 "never evaluated" rows
+   into frozen ones; a file created inside the window still starts at `None`, so the fix does not
+   rewind history.
+5. **A path filter on the replay answers a different question.** `git log -- <paths>` lists only
+   the commits that touched the paths: the first draft graded faces over an 88-commit "window" of
+   their own touches and read `present_commits` as single digits. The window must be the
+   repository's contiguous commits; the path history is read out of it.
+6. **Frozen in git is not frozen on disk.** 5 of the 31 frozen subjects are modified in the working
+   tree, so the committed blob is not the bytes the gate read. Published as a count, never folded
+   into the share.
+
+How to apply: before calling a subject "uncomputable", fold the expressions the parser can fold and
+publish the folding depth; classify an unfolded *path attempt* separately from a message string; and
+seed any replay series with the tree the window starts from.

@@ -1084,6 +1084,14 @@ LEGS = [
     ("gate_state_census",
      ["python", "scripts/e351_gate_state_census.py", "verify"]),
 
+    # E358: E351 left 55 gates unresolved because a subject written as ``os.path.join(...)`` is
+    # three literals, none of which looks like a path. Folding one step resolves 40 of them (31 of
+    # those subjects never moved in 300 commits), 8 read whatever a directory holds and 7 name no
+    # file at all. Verify re-derives the folding and the state classes at the face's own pin
+    # (~5 s, one git replay + AST).
+    ("subject_resolution",
+     ["python", "scripts/e358_subject_resolution.py", "verify"]),
+
     # E352: E349 priced the channel as a population and found 14 of 840 comparisons ask whether
     # what they read is current; this prices the window instead, in the repository's own clock.
     # 60 deciding channel files, 59 measurable: median file lag 80 commits / p90 111, worst

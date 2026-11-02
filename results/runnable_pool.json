@@ -26529,18 +26529,20 @@
    "title": "E350 found 131 (face, field) pairs read by a guard and written nowhere in the corpus; ask what each of those guards would do today against the face on disk"
   },
   {
+   "closed_at": "2026-11-02T10:46:43+08:00",
    "deliverable": "results/state_tilt/<face> + scripts/e354_*.py + chain leg + smoke leg + methodology card",
    "entered_at": "2026-11-01T22:16:37+08:00",
    "entered_by": "bm-b r1372",
    "id": "E354-WHAT-THE-55-UNNAMED-SUBJECTS-ARE-READING",
    "lane": "cpu-only",
-   "notes": "seeded by r1372 at E351 close; E351's own bound says the 55 are out of scope, so this card is the scope, not a new question. Constant folding is the same machinery E344 needed for GLOB = PREFIX + '*', so the helper is on disk.",
-   "owner": null,
-   "owner_since": null,
+   "notes": "seeded by r1372 at E351 close; E351's own bound says the 55 are out of scope, so this card is the scope, not a new question. Constant folding is the same machinery E344 needed for GLOB = PREFIX + '*', so the helper is on disk. | r1380 closed: 40 of 55 resolved by constant folding (depth 1), 31 of those subjects frozen over 300 commits, 8 read a directory listing (never replayable), 7 name no file. Share 16.2 -> 48.1 pct. Study number is E358 because the card id's number was already published (E354/E355/E356 collision, r1379 family).",
+   "owner": "bm-b",
+   "owner_since": "2026-11-02T10:46:43+08:00",
    "priority": 2,
    "question": "E351 resolved a subject for 37 of the 92 `product:` smoke gates and left 55 as unresolved_subject because the face path is computed (os.path.join, an f-string, a constant held in another module). Ask, per unresolved gate: (a) does the try body contain a directory literal, a filename fragment, or a helper whose own source folds to a path? (b) how many resolve after constant folding and module-constant following (publish the folding depth), and how many remain dynamic (built from a date, a cutoff, an env var) -- a gate whose subject is built at runtime is the population that can never be replayed from git; (c) publish the shortlist of gates whose subject is a *dated* name, because those would silently read whatever cutoff the disk holds.",
+   "result_ref": "results/state_tilt/SUBJRES-2026-11-02.json + scripts/e358_subject_resolution.py (selftest 16/16) + S6 leg subject_resolution + smoke leg E358 + knowledge/METHODOLOGY_ASSETS.md E358 + research/digests/DIGEST-20261102-r1380-e358-subject-resolution.md",
    "source": "E351 GATESTATE-2026-11-01 (55 unresolved of 92 product: gates)",
-   "status": "ready",
+   "status": "done",
    "target": "a resolution table over the 55 unresolved product-gate subjects, with the folding depth each needed and the residue that cannot be resolved statically",
    "title": "E351 published 55 of 92 product: gates whose subject is not a literal path; name what they actually read and whether any of them can be resolved"
   },
@@ -26599,6 +26601,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-02T10:03:20+08:00",
+ "updated_at": "2026-11-02T10:46:43+08:00",
  "version": 1
 }
