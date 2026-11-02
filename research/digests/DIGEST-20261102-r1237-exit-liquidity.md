@@ -45,3 +45,11 @@ cut and rewritten through a file-based script and re-verified by reading the tai
 the eaten-path-prefix defect E351 scans for — and this round's own hygiene leg caught the damage
 still quoted verbatim in the first version of this note, which is why the damaged strings are
 described here rather than reproduced.
+
+**Ops trap found in close-out (worth carrying).** `Tools/heartbeat_write.py` validates field
+types: a `round` supplied as the string "r1237" makes the whole batch refuse with rc=3 and
+**nothing is applied** — ts, clock_read and round_no all stay at the previous round while the
+caller's own print still says the write ran. Because the return is `(verdict, rc)`, a close-out
+that ignores it believes the heartbeat is current. Correct form: `round` int + `round_no` int,
+then read the file back and assert ts / round / epoch type (this round's heartbeat was re-written
+that way; the ack face kept all 123 entries through the merge-only writer).
