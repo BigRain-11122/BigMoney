@@ -8874,3 +8874,111 @@ n12_vt08 差 **0.0 pp**，容差 0.5pp）。这一条腿绿了，后面每一格
 **证据：** `scripts/etf_book_min_capital.py`（selftest **21/21**·`--check` 同时重算宽度行与宽度判词）·
 `results/etf_book_min_capital.json`（`width` 块）· `scripts/etf_book_ceo_page.py`（selftest **133/133**，L129/L130）与
 操作者页新表与 ⚠ 不一致告警·已重生成）· `research/digests/DIGEST-20261102-r1240-breakeven-width.md`。
+
+### E358 · 「交付的那本书」写在配置里，却没人按它算：门槛必须按在持宽度定价（r1241 bm-a）
+
+**缺陷（本轮实锚）：** 操作者页把佣金地板的门槛印成 67,737 元，而生产的卡片配置持 12 名
+（`results/etf_book_production/latest.json` → `config.n_hold`）。同一套规则在 12 名上重算是
+**203,007 元**，差 **3.0 倍**。根因有两层：①`etf_book_capacity_rule.build_face(n_hold=None)`
+的文档说「引擎默认就是交付的那本书」，而引擎默认是 `F.N_HOLD=5`——「交付」这个词被写在
+默认值上，却从来没读过真正持有交付配置的那个文件；②上一轮（r1240）只是**印了一张宽度表加
+一段告警**，数字本身仍按 5 名算，读数的人拿到的第一行仍是错的（披露 ≠ 修正）。
+
+**修法（三件，缺一仍是半修）：**
+1. **定价侧**：`etf_book_min_capital.ladder_width()` 从卡片配置读 `n_hold`，写进
+   `config.ladder_n_hold` + `config.ladder_n_hold_source`（`production_card` / `engine_default`）。
+   读不到就退回引擎默认**并自报来源**——绝不让一个默认值穿着「交付」的外衣。
+   窗口表同宽（否则窗口读数与它比对的中位数不是同一本书）。
+2. **守卫侧**：`--check` 增加「梯子宽度 == 宽度表反解出的宽度」，`capital_face()` 增加
+   「梯子宽度 == 交付卡片宽度」，不一致即 `drifted`（页面对读者说「这一问答不了」），
+   **禁在告警里继续印错的头条**。同轮修掉一个结构坑：宽度块原本嵌在 `if w.get("rows")`
+   里面——窗口行缺席时全部宽度校验静默跳过，`check()` 照样打印 OK（守卫只在另一个面非空时
+   才运行的经典假绿）。
+3. **读数侧**：门槛是「每笔动多少」的闭式解，于是同一张表有两种都真的读法——
+   **中位数那一笔**（每笔地板咬得最狠的那一笔）与**平均那一笔**（按金额加权，账户实际付多少）。
+   12 名 full-window 两者相差 0.8%（203,007 vs 201,296，可当同一个数），但 12 名 pre-2020
+   相差 **34 倍**（11,486,970 vs 338,934）：薄宇宙里这本书多数时候只修一点点量，中位数那一笔
+   是零头，按它算门槛在任何账户规模都压过 8bp。**两个数都要印**，判词仍取中位数（冻结口径）。
+
+**可复用律：**
+- 一个面若自称「交付」，它必须**读**交付配置并自报来源；默认值不许继承这个名字。
+- 「披露」不是「修正」：把差异印在告警里而头条仍用错的数，读数的人先信头条。
+- 门槛类统计先问「这一笔代表什么」：中位数答「最抠的一笔」，均值答「日常要付多少」——
+  分布是双峰（多数零头 + 少数大换手）时两者差一个量级，只印一个就是错的。
+
+**边界：** 宽度 12 是卡片当下的配置，卡片一改这一节就要重算（守卫会拦住没重算的页面）；
+中位数/均值两种读法都只描述佣金地板，不含冲击与价差；pre-2020 的 12 名段 gross 只有 0.42、
+按金额加权的门槛 339k，**不是**「这本书 2015 年只要 34 万就能跑」的宣称——那段是薄宇宙，
+宽度本身就是 r1291 那一族的正式问题。
+
+**证据：** `scripts/etf_book_min_capital.py`（selftest **23/23**，L22/L23 钉宽度来源；`--check`
+同时重算梯子宽度）· `results/etf_book_min_capital.json`（`config.ladder_n_hold` /
+`fee_neutral_vs_model_nav_mean_leg` / `window.rows[].dw_mean`）· `scripts/etf_book_ceo_page.py`
+（capital 节印宽度与来源 + 两种读法）· `docs/live_book/LIVE-BOOK-20261102.md` 已重生成 ·
+`research/digests/DIGEST-20261102-r1241-ladder-width.md`。
+
+### E359 — 闸只许判已定格的值：把「重发」和「改数」分开（r1242 bm-a）
+
+**缺陷（本轮实弹）**：`scripts/etf_book_phase_atlas_arms.py --live-widths-check` 把 `as_issued`
+块（可执行单自己的 2×2 快照）按「逐位重算必须相等」判定。可执行单每天都在新 bar 上重写，其
+inception 模拟随 bar 多一天，四个格子的 cagr 各自挪几千分之一 pp——2026-11-02 首次跳出：
+TICKET-2026-10-30 → TICKET-2026-11-02 四格全动（12.21→12.17 / 11.19→11.16 / 11.97→11.94 /
+9.66→9.63），闸判 rc=1「有人手改」。与 E270/E275 同族（「闸管了还在到货的最新一根」）：它永远
+不可能被诚实满足，而最省事的修法就是放松断言。
+
+**正法**：快照必须自带它拍的是哪张单——`as_issued.ticket_asof`（取 ticket 的 `evidence_cutoff`，
+缺则回退文件名日期）；判据按单自己的日期分流：**更晚的单 = stale（rc2，链付声明的 refresh 重新
+定格）**；同一天或更早 = 真改数（rc1 保持红）；重发分支**不得豁免 as_issued 以外的任何漂移**。
+
+**可复用四条**：
+1. 任何「快照型」字段先问它拍的是哪个**可重写对象**；对象会重写，快照就必须记身份，否则闸在两
+   者之间无从区分（本例：同一份 JSON 里既有「定格的 atlas 面」又有「每交易日重写的单」）。
+2. 三态只能来自内容：`ticket_asof` 缺失 = **无法证明**，按 stale 诚实刷新，禁当「没变」。
+3. 白名单式豁免要正反都钉：只有「全部漂移都落在 as_issued 内」才允许走 stale 分支。
+4. 修完必须让链按原契约自愈：本闸的 refresh 腿早就在链里（check → stale → refresh → 再 check），
+   改动只改判据，不改链路。
+
+**证据**：`scripts/etf_book_phase_atlas_arms.py`（selftest 117→120 legs，新增 L29b/L29c/L29d：
+旧单→2 / 同日→1 / 外部漂移→1）；`--live-widths-check` 实弹 2 → `--live-widths` → 0；
+`smoke_test.py` 该面腿加断言「as-issued 块必须带 ticket 日期」；面
+`results/etf_book_live_width_ruler.json`（`as_issued.ticket_asof` 2026-11-02，`evidence_cutoff`
+2026-10-30，verdict COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT，配对 0.12pp vs 引擎分歧 2.035pp）。
+
+**边界**：本卡只管「快照 vs 重写对象」这一类漂移；真改数（同日漂移）照旧红。ticket 重发说明
+**票面数变了**，不等于这一格的研究结论变了——两件事在同一份 JSON 里必须分开印。
+
+### E360 — 一侧符号的「差」不是度量；闸的拒绝必须被印出来（r1243 bm-a）
+
+**缺陷（本轮继承窗实弹，三红同源）**：2026-11-02 那根只有 5 个收盘价的空心 bar 已被
+`etf_composite_pf.drop_hollow_tail` 拒掉，但**拒绝本身没有痕迹**，于是三件事同时成立：①
+`series_lag_bars` 用 `>= 0` 把「序列比书多一根」读成「没有滞后」，envelope 照旧 bootstrap
+幻影 bar，与书差 0.01pp 却判 `same_object`；②台账 `panel` 板块停在加闸前的构建（5271 根 /
+到 11-02），与卡 5270 根变成「两个面板」；③幻影 bar 的 face 永远 `missing` → 它永远是最新
+已发布 bar → 后一根真 bar 也被连带判 provisional → 台账再也合不上一根（永久红）。
+
+**正法三条**：
+1. **静默丢弃与「源丢了一天」在盘上必须不同**：`drop_hollow_tail` 把拒绝写进 `PANEL_TAIL`
+   （拒几行 / 被拒日期 / 参照覆盖 / 地板），任何自报「我定价了哪个面板」的面（台账 `panel`
+   块、序列 `panel_tail`）随件刊出。
+2. **差的度量必须符号三态**：`+1` 落后 / `-1` 超前 / `0` 同日 / `None` 未知；两个非零方向
+   都付 refresh。原实现只有一边，而超前那一侧正是幻影 bar 唯一能被抓到的地方。
+3. **撤回 ≠ 删除**：幻影 bar 的 published 值留在 record 里 + `withdrawn` + 原因 + 面板末日，
+   并退出 settled/provisional 分区（`published_bars()` 单一读器，settle audit 同源 import）。
+   一次性处理，而不是每轮重新喊一遍（E275/E318 同族的「永久红」）。
+
+**可复用**：①判 `same_object` 的容差不能替代 cutoff 恒等（0.01pp 的「一致」是两个不同对象
+的一致，该红的是 `evidence_cutoff`）；②旧断言可能把缺陷写死——L30 的注释写着「lag reads both
+ways」而断言只实现一边，改判据时必须连注释一起读；③「投影/前瞻」类面（序列、台账）与
+「卡/票」类面读同一个面板时，谁先说清自己读了哪一天，谁就定义了这一轮的一致。
+
+**证据**：`scripts/etf_composite_pf.py`（`PANEL_TAIL` / `_record_tail`）·
+`scripts/etf_book_nav_envelope.py`（`series_lag_bars` 三态 · `run` 双向 heal · 序列带
+`panel_tail` · selftest 43/43）· `scripts/etf_book_forward.py`（`withdraw_provisional` /
+`published_bars` / `_panel_block` 刊拒绝 · selftest 全绿）·
+`scripts/etf_book_forward_settle_audit.py`（同源 import · selftest 10/10 · `check` MATCH）·
+产物 `results/etf_book_forward/LEDGER.json`（`refused_trailing_rows: 1` / head 2026-10-30）·
+`results/etf_book_series/NAV-2026-10-30.json`（cagr 9.60% = 生产 cell）·
+`research/digests/DIGEST-20261102-r1243-hollow-bar-accounting.md`。
+
+**边界**：本卡不管「宽表由谁接管」（bm-c 车道，物理/车道决定），只管「面板被拒的那一根如何在
+每个读者面上被诚实记账」。

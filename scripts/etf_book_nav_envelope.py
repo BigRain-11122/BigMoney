@@ -248,12 +248,22 @@ def production_cutoff():
 
 
 def series_lag_bars(series_cutoff, prod_cutoff):
-    """None when either side is unknown (absent input is never 'no lag')."""
+    """Signed disagreement in bars: +1 behind the book, -1 ahead, 0 same, None unknown.
+
+    None means "absent input", never "no lag" -- and both directions of non-zero mean the
+    two faces describe different objects, so both get healed by the writer.
+    """
     if not series_cutoff or not prod_cutoff:
         return None
-    if str(series_cutoff) >= str(prod_cutoff):
+    a, b = str(series_cutoff), str(prod_cutoff)
+    if a == b:
         return 0
-    return 1
+    # r1243: a series AHEAD of the book is not "no lag" -- it is a series priced on a bar the
+    # book could not price (2026-11-02 carried 5 closes out of 1,613 and only the panel's own
+    # coverage gate ever refused it). The old comparison was one-sided (`>=` read as 0), so
+    # the envelope bootstrapped that phantom bar for a whole window and published 9.59% next
+    # to the book's 9.60% -- a 0.01pp "agreement" between two different objects.
+    return 1 if a < b else -1
 
 
 def book_reconciliation(series_point, prod_bt, n_hold=None, vol_target=None):
@@ -303,6 +313,10 @@ def derive_series():
         "last_bar": cutoff,
         "dates": dates,
         "nav": navs,
+        # r1243: the series names the panel it was priced on AND what the coverage gate
+        # refused, so "the series ends a bar earlier than the source file" can never again
+        # be read as "the source lost a day" (E136's coverage rule, made visible here).
+        "panel_tail": dict(getattr(P.E, "PANEL_TAIL", {}) or {}),
         "note": ("the production cell's own daily path, published so bootstrap/replay studies "
                  "do not have to reload the panel; NAV is normalised to 1.0 at the first bar"),
     }
@@ -332,11 +346,15 @@ def run(boot=N_BOOT, block=BLOCK, procs=4, shard=None, series_file=None):
     refreshed = None
     lag = series_lag_bars(doc.get("evidence_cutoff"), production_cutoff())
     if lag:
-        # the producer was never on the chain: heal it here rather than bootstrap a stale book
+        # The producer was never on the chain: heal it here rather than bootstrap a stale
+        # book. r1243: "ahead" is healed the same way -- a series priced on a bar the book
+        # could not price is the same defect read backwards, and re-deriving is what makes
+        # the two faces one object again instead of two numbers that happen to be close.
         stale_from = doc.get("evidence_cutoff")
         doc, path = derive_series()
-        refreshed = {"from": stale_from, "to": doc.get("evidence_cutoff")}
-        print(f"series was {lag} bar(s) behind the published book "
+        refreshed = {"from": stale_from, "to": doc.get("evidence_cutoff"),
+                     "direction": "behind" if lag > 0 else "ahead"}
+        print(f"series was {abs(lag)} bar(s) {refreshed['direction']} the published book "
               f"({stale_from} -> {doc.get('evidence_cutoff')}); re-derived")
     r = returns_from(doc)
     bpy = doc.get("bars_per_year") or bars_per_year([doc["dates"][0], doc["dates"][-1]])
@@ -1375,11 +1393,14 @@ def selftest():
         and _tail_verdict([_arm(0.060, 0.013, -0.046)])["tail_is_mostly_a_middle_effect"] is True)
 
     # L30/L31 r1210: the envelope's input series had no scheduled producer, so the percentiles
-    # could describe a book that stops one bar early. Lag reads both ways and absent is unknown.
-    leg("L30 a series ending before the book is stale, one ending with it is not",
+    # could describe a book that stops one bar early. r1243: "both ways" was declared here and
+    # only one was implemented (`>=` read as 0), so a series one bar AHEAD -- priced on the
+    # hollow 2026-11-02 row, 5 closes out of 1,613 -- bootstrapped a phantom bar and published
+    # 9.59% next to the book's 9.60%. Ahead is -1 and the writer heals it like any other lag.
+    leg("L30 a series before the book is stale (+1), one after it is stale (-1), same is 0",
         series_lag_bars("2026-10-29", "2026-10-30") == 1
         and series_lag_bars("2026-10-30", "2026-10-30") == 0
-        and series_lag_bars("2026-10-31", "2026-10-30") == 0
+        and series_lag_bars("2026-10-31", "2026-10-30") == -1
         and series_lag_bars(None, "2026-10-30") is None
         and series_lag_bars("2026-10-30", None) is None)
 

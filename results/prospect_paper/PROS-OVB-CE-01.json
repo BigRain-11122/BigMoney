@@ -21,12 +21,14 @@
     }
   },
   "evidence_cutoff": "2026-09-22",
-  "cutoff": "2026-10-30",
-  "updated": "2026-10-30 16:47:09",
+  "cutoff": "2026-11-02",
+  "updated": "2026-11-02 21:15:52",
   "paper_start": "2026-09-24",
-  "bars": 21,
-  "months_tracked": 0,
-  "monthly_returns": [],
+  "bars": 22,
+  "months_tracked": 1,
+  "monthly_returns": [
+    0.0013
+  ],
   "current_dd": -0.0042,
   "months_detail": [
     {
@@ -41,14 +43,22 @@
       "month": "2026-10",
       "return": 0.0013,
       "bars": 17,
+      "month_ended": true,
+      "full_from_hire": true,
+      "counted": true
+    },
+    {
+      "month": "2026-11",
+      "return": 0.0,
+      "bars": 1,
       "month_ended": false,
       "full_from_hire": true,
       "counted": false
     }
   ],
   "window_metrics": {
-    "annual_return": 0.0032,
-    "sharpe": 0.1474,
+    "annual_return": 0.0031,
+    "sharpe": 0.144,
     "max_drawdown": -0.0042,
     "win_rate": 0.5,
     "profit_factor": 1.5695,
@@ -74,11 +84,11 @@
   },
   "regime_guard": {
     "mode": "shadow",
-    "state": "ORANGE",
-    "state_cn": "橙·高危",
-    "asof": "2026-10-29",
+    "state": "RED",
+    "state_cn": "红·危机",
+    "asof": "2026-11-02",
     "raw_level": "ORANGE",
-    "days_in_state": 10,
+    "days_in_state": 2,
     "note": "shadow = log-only; enforce needs calibration PASS + GM approval (T-05)"
   },
   "forward_guard": {

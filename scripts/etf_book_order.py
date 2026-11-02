@@ -859,6 +859,19 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     if ticket is None:
         print("FATAL: no decision bar on the grid -- panel too short")
         return 2
+    # r1241: a bar the panel barely covers is not a bar. On 2026-11-02 the shared panel
+    # carried 5 closes out of 1613 (the five-member leg advanced, the wide panel's owner
+    # had been silent for ~57h), so this ticket priced --  nothing -- and published
+    # "book 0 / cash 1,000,000" with every order row unpriced while its weights still
+    # summed to k. Publishing that is worse than publishing nothing: the desk would read
+    # a fully-cashed book. Refuse the sheet, say why, and keep the last priced one.
+    _unpriced = [r["symbol"] for r in ticket["order"] if r.get("price") is None]
+    _cov = int(close.loc[asof].notna().sum())
+    if _cov and len(_unpriced) == len(ticket["order"]):
+        print("FATAL: bar %s covers only %d of %d names on the panel -- every pick is "
+              "unpriced, so this sheet would read 'book 0 / all cash'. Refusing to write."
+              % (asof, _cov, len(close.columns)))
+        return 2
     rp_block = reprice_block(legacy, ticket, dec_bar, asof)
     print("reprice: %s -- %s" % (rp_block.get("verdict"), rp_block.get("sentence")), flush=True)
     ticket_picks = [r["symbol"] for r in ticket["order"]]

@@ -1,5 +1,5 @@
 {
- "evidence_cutoff": "2026-10-30",
+ "evidence_cutoff": "2026-11-02",
  "universe": 1613,
  "question": "E205 priced a per-factor IC sign; E208 priced all 64 vectors on one window. The operator's actual procedure is neither: pick one vector from history and run it. Does trailing-Sharpe re-selection of the 64 vectors earn anything point-in-time, on the declared cells, against the equal-weight control?",
  "declared": {
@@ -141,14 +141,14 @@
     "cagr": 0.0135,
     "sharpe": 0.168,
     "maxdd": -0.3991,
-    "bars": 1652,
+    "bars": 1653,
     "traded": true
    },
    "prod": {
-    "cagr": 0.0607,
+    "cagr": 0.0606,
     "sharpe": 0.637,
     "maxdd": -0.1284,
-    "bars": 1653,
+    "bars": 1654,
     "traded": true,
     "signs": {
      "mom_12_1": 1.0,
@@ -161,25 +161,25 @@
    },
    "best": {
     "id": "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range+",
-    "cagr": 0.084,
+    "cagr": 0.0839,
     "sharpe": 0.556,
     "maxdd": -0.2943,
-    "bars": 1653,
+    "bars": 1654,
     "traded": true
    },
    "variants": {
     "S60_L250": {
      "reselect": 60,
      "lookback": 250,
-     "cagr": -0.0459,
+     "cagr": -0.0458,
      "sharpe": -0.28,
      "maxdd": -0.4366,
-     "bars": 1404,
+     "bars": 1405,
      "beat_control": false,
      "positive": false,
      "n_events": 24,
      "picks_distinct": 13,
-     "mean_lift_per_bar": 0.0001349,
+     "mean_lift_per_bar": 0.00012368,
      "lift_positive_frac": 0.5417,
      "events": [
       {
@@ -395,23 +395,23 @@
        "trailing_sharpe": 1.5797,
        "rank": 1,
        "n_valid": 64,
-       "fwd_mean": -0.00054134,
-       "fwd_mean_all": -0.00700318
+       "fwd_mean": -0.00051878,
+       "fwd_mean_all": -0.00671138
       }
      ]
     },
     "S60_L500": {
      "reselect": 60,
      "lookback": 500,
-     "cagr": -0.0998,
+     "cagr": -0.0996,
      "sharpe": -0.628,
      "maxdd": -0.4681,
-     "bars": 1154,
+     "bars": 1155,
      "beat_control": false,
      "positive": false,
      "n_events": 20,
      "picks_distinct": 11,
-     "mean_lift_per_bar": -9.145e-05,
+     "mean_lift_per_bar": -0.00011159,
      "lift_positive_frac": 0.45,
      "events": [
       {
@@ -591,8 +591,8 @@
        "trailing_sharpe": 1.6,
        "rank": 1,
        "n_valid": 64,
-       "fwd_mean": -0.00166598,
-       "fwd_mean_all": -0.00730488
+       "fwd_mean": -0.00154698,
+       "fwd_mean_all": -0.0067831
       }
      ]
     },
@@ -602,12 +602,12 @@
      "cagr": 0.0065,
      "sharpe": 0.117,
      "maxdd": -0.2414,
-     "bars": 1404,
+     "bars": 1405,
      "beat_control": false,
      "positive": true,
      "n_events": 12,
      "picks_distinct": 8,
-     "mean_lift_per_bar": 0.00024378,
+     "mean_lift_per_bar": 0.00024136,
      "lift_positive_frac": 0.6667,
      "events": [
       {
@@ -715,23 +715,23 @@
        "trailing_sharpe": 2.7071,
        "rank": 1,
        "n_valid": 64,
-       "fwd_mean": -0.00049895,
-       "fwd_mean_all": -0.00293965
+       "fwd_mean": -0.00049301,
+       "fwd_mean_all": -0.00290465
       }
      ]
     },
     "S120_L500": {
      "reselect": 120,
      "lookback": 500,
-     "cagr": -0.0885,
+     "cagr": -0.0884,
      "sharpe": -0.528,
      "maxdd": -0.375,
-     "bars": 1154,
+     "bars": 1155,
      "beat_control": false,
      "positive": false,
      "n_events": 10,
      "picks_distinct": 8,
-     "mean_lift_per_bar": -0.00028178,
+     "mean_lift_per_bar": -0.00028105,
      "lift_positive_frac": 0.4,
      "events": [
       {
@@ -821,8 +821,8 @@
        "trailing_sharpe": 1.4389,
        "rank": 1,
        "n_valid": 64,
-       "fwd_mean": -0.00308694,
-       "fwd_mean_all": -0.00254616
+       "fwd_mean": -0.00304522,
+       "fwd_mean_all": -0.00251175
       }
      ]
     },
@@ -832,12 +832,12 @@
      "cagr": -0.0409,
      "sharpe": -0.222,
      "maxdd": -0.5301,
-     "bars": 1404,
+     "bars": 1405,
      "beat_control": false,
      "positive": false,
      "n_events": 6,
      "picks_distinct": 6,
-     "mean_lift_per_bar": 7.404e-05,
+     "mean_lift_per_bar": 7.27e-05,
      "lift_positive_frac": 0.5,
      "events": [
       {
@@ -891,23 +891,23 @@
        "trailing_sharpe": 2.4998,
        "rank": 1,
        "n_valid": 64,
-       "fwd_mean": -0.00017174,
-       "fwd_mean_all": -0.00140785
+       "fwd_mean": -0.00017063,
+       "fwd_mean_all": -0.00139871
       }
      ]
     },
     "S250_L500": {
      "reselect": 250,
      "lookback": 500,
-     "cagr": -0.0351,
+     "cagr": -0.035,
      "sharpe": -0.14,
      "maxdd": -0.4826,
-     "bars": 1154,
+     "bars": 1155,
      "beat_control": false,
      "positive": false,
      "n_events": 5,
      "picks_distinct": 4,
-     "mean_lift_per_bar": 9.614e-05,
+     "mean_lift_per_bar": 9.406e-05,
      "lift_positive_frac": 0.4,
      "events": [
       {
@@ -952,8 +952,8 @@
        "trailing_sharpe": 1.7758,
        "rank": 1,
        "n_valid": 64,
-       "fwd_mean": 0.00019581,
-       "fwd_mean_all": -0.00140785
+       "fwd_mean": 0.00019454,
+       "fwd_mean_all": -0.00139871
       }
      ]
     }
@@ -966,14 +966,14 @@
     "cagr": 0.0135,
     "sharpe": 0.168,
     "maxdd": -0.3991,
-    "bars": 1652,
+    "bars": 1653,
     "traded": true
    },
    "prod": {
-    "cagr": 0.0779,
-    "sharpe": 0.803,
+    "cagr": 0.0778,
+    "sharpe": 0.802,
     "maxdd": -0.1538,
-    "bars": 1653,
+    "bars": 1654,
     "traded": true,
     "signs": {
      "mom_12_1": 1.0,
@@ -986,25 +986,25 @@
    },
    "best": {
     "id": "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range+",
-    "cagr": 0.1294,
+    "cagr": 0.1292,
     "sharpe": 0.683,
     "maxdd": -0.2108,
-    "bars": 1653,
+    "bars": 1654,
     "traded": true
    },
    "variants": {
     "S60_L250": {
      "reselect": 60,
      "lookback": 250,
-     "cagr": -0.0648,
+     "cagr": -0.0647,
      "sharpe": -0.255,
      "maxdd": -0.4924,
-     "bars": 1404,
+     "bars": 1405,
      "beat_control": false,
      "positive": false,
      "n_events": 24,
      "picks_distinct": 15,
-     "mean_lift_per_bar": -0.00021039,
+     "mean_lift_per_bar": -0.00020258,
      "lift_positive_frac": 0.5417,
      "events": [
       {
@@ -1220,23 +1220,23 @@
        "trailing_sharpe": 1.3114,
        "rank": 1,
        "n_valid": 64,
-       "fwd_mean": -0.01152191,
-       "fwd_mean_all": -0.00702379
+       "fwd_mean": -0.01104183,
+       "fwd_mean_all": -0.00673113
       }
      ]
     },
     "S60_L500": {
      "reselect": 60,
      "lookback": 500,
-     "cagr": -0.0551,
+     "cagr": -0.055,
      "sharpe": -0.344,
      "maxdd": -0.2698,
-     "bars": 1154,
+     "bars": 1155,
      "beat_control": false,
      "positive": false,
      "n_events": 20,
      "picks_distinct": 8,
-     "mean_lift_per_bar": 7.676e-05,
+     "mean_lift_per_bar": 5.653e-05,
      "lift_positive_frac": 0.45,
      "events": [
       {
@@ -1416,23 +1416,23 @@
        "trailing_sharpe": 1.6749,
        "rank": 1,
        "n_valid": 64,
-       "fwd_mean": -0.00169265,
-       "fwd_mean_all": -0.00735587
+       "fwd_mean": -0.00157175,
+       "fwd_mean_all": -0.00683045
       }
      ]
     },
     "S120_L250": {
      "reselect": 120,
      "lookback": 250,
-     "cagr": -0.119,
+     "cagr": -0.1189,
      "sharpe": -0.612,
      "maxdd": -0.6016,
-     "bars": 1404,
+     "bars": 1405,
      "beat_control": false,
      "positive": false,
      "n_events": 12,
      "picks_distinct": 9,
-     "mean_lift_per_bar": -0.00051404,
+     "mean_lift_per_bar": -0.0005074,
      "lift_positive_frac": 0.5833,
      "events": [
       {
@@ -1540,23 +1540,23 @@
        "trailing_sharpe": 2.4249,
        "rank": 1,
        "n_valid": 64,
-       "fwd_mean": -0.00940512,
-       "fwd_mean_all": -0.00271558
+       "fwd_mean": -0.00929315,
+       "fwd_mean_all": -0.00268325
       }
      ]
     },
     "S120_L500": {
      "reselect": 120,
      "lookback": 500,
-     "cagr": -0.0531,
+     "cagr": -0.053,
      "sharpe": -0.203,
      "maxdd": -0.3225,
-     "bars": 1154,
+     "bars": 1155,
      "beat_control": false,
      "positive": false,
      "n_events": 10,
      "picks_distinct": 6,
-     "mean_lift_per_bar": -1.259e-05,
+     "mean_lift_per_bar": -1.582e-05,
      "lift_positive_frac": 0.5,
      "events": [
       {
@@ -1646,8 +1646,8 @@
        "trailing_sharpe": 1.7575,
        "rank": 1,
        "n_valid": 64,
-       "fwd_mean": 3.911e-05,
-       "fwd_mean_all": -0.0023508
+       "fwd_mean": 3.858e-05,
+       "fwd_mean_all": -0.00231903
       }
      ]
     },
@@ -1657,12 +1657,12 @@
      "cagr": -0.0395,
      "sharpe": -0.115,
      "maxdd": -0.3921,
-     "bars": 1404,
+     "bars": 1405,
      "beat_control": false,
      "positive": false,
      "n_events": 6,
      "picks_distinct": 5,
-     "mean_lift_per_bar": 6.279e-05,
+     "mean_lift_per_bar": 6.192e-05,
      "lift_positive_frac": 0.5,
      "events": [
       {
@@ -1716,23 +1716,23 @@
        "trailing_sharpe": 2.4802,
        "rank": 1,
        "n_valid": 64,
-       "fwd_mean": -0.00035751,
-       "fwd_mean_all": -0.00115777
+       "fwd_mean": -0.00035519,
+       "fwd_mean_all": -0.00115025
       }
      ]
     },
     "S250_L500": {
      "reselect": 250,
      "lookback": 500,
-     "cagr": -0.0454,
+     "cagr": -0.0453,
      "sharpe": -0.121,
      "maxdd": -0.469,
-     "bars": 1154,
+     "bars": 1155,
      "beat_control": false,
      "positive": false,
      "n_events": 5,
      "picks_distinct": 5,
-     "mean_lift_per_bar": 7.76e-06,
+     "mean_lift_per_bar": 6.72e-06,
      "lift_positive_frac": 0.6,
      "events": [
       {
@@ -1777,8 +1777,8 @@
        "trailing_sharpe": 1.9113,
        "rank": 1,
        "n_valid": 64,
-       "fwd_mean": -0.00035751,
-       "fwd_mean_all": -0.00115777
+       "fwd_mean": -0.00035519,
+       "fwd_mean_all": -0.00115025
       }
      ]
     }
@@ -1790,22 +1790,22 @@
    {
     "cell": "R20_N12",
     "variant": "S60_L250",
-    "cagr": -0.0459,
+    "cagr": -0.0458,
     "sharpe": -0.28,
     "control_cagr": 0.0135,
-    "prod_cagr": 0.0607,
+    "prod_cagr": 0.0606,
     "beat_control": false,
-    "mean_lift_per_bar": 0.0001349
+    "mean_lift_per_bar": 0.00012368
    },
    {
     "cell": "R20_N12",
     "variant": "S60_L500",
-    "cagr": -0.0998,
+    "cagr": -0.0996,
     "sharpe": -0.628,
     "control_cagr": 0.0135,
-    "prod_cagr": 0.0607,
+    "prod_cagr": 0.0606,
     "beat_control": false,
-    "mean_lift_per_bar": -9.145e-05
+    "mean_lift_per_bar": -0.00011159
    },
    {
     "cell": "R20_N12",
@@ -1813,19 +1813,19 @@
     "cagr": 0.0065,
     "sharpe": 0.117,
     "control_cagr": 0.0135,
-    "prod_cagr": 0.0607,
+    "prod_cagr": 0.0606,
     "beat_control": false,
-    "mean_lift_per_bar": 0.00024378
+    "mean_lift_per_bar": 0.00024136
    },
    {
     "cell": "R20_N12",
     "variant": "S120_L500",
-    "cagr": -0.0885,
+    "cagr": -0.0884,
     "sharpe": -0.528,
     "control_cagr": 0.0135,
-    "prod_cagr": 0.0607,
+    "prod_cagr": 0.0606,
     "beat_control": false,
-    "mean_lift_per_bar": -0.00028178
+    "mean_lift_per_bar": -0.00028105
    },
    {
     "cell": "R20_N12",
@@ -1833,59 +1833,59 @@
     "cagr": -0.0409,
     "sharpe": -0.222,
     "control_cagr": 0.0135,
-    "prod_cagr": 0.0607,
+    "prod_cagr": 0.0606,
     "beat_control": false,
-    "mean_lift_per_bar": 7.404e-05
+    "mean_lift_per_bar": 7.27e-05
    },
    {
     "cell": "R20_N12",
     "variant": "S250_L500",
-    "cagr": -0.0351,
+    "cagr": -0.035,
     "sharpe": -0.14,
     "control_cagr": 0.0135,
-    "prod_cagr": 0.0607,
+    "prod_cagr": 0.0606,
     "beat_control": false,
-    "mean_lift_per_bar": 9.614e-05
+    "mean_lift_per_bar": 9.406e-05
    },
    {
     "cell": "R20_N5",
     "variant": "S60_L250",
-    "cagr": -0.0648,
+    "cagr": -0.0647,
     "sharpe": -0.255,
     "control_cagr": 0.0135,
-    "prod_cagr": 0.0779,
+    "prod_cagr": 0.0778,
     "beat_control": false,
-    "mean_lift_per_bar": -0.00021039
+    "mean_lift_per_bar": -0.00020258
    },
    {
     "cell": "R20_N5",
     "variant": "S60_L500",
-    "cagr": -0.0551,
+    "cagr": -0.055,
     "sharpe": -0.344,
     "control_cagr": 0.0135,
-    "prod_cagr": 0.0779,
+    "prod_cagr": 0.0778,
     "beat_control": false,
-    "mean_lift_per_bar": 7.676e-05
+    "mean_lift_per_bar": 5.653e-05
    },
    {
     "cell": "R20_N5",
     "variant": "S120_L250",
-    "cagr": -0.119,
+    "cagr": -0.1189,
     "sharpe": -0.612,
     "control_cagr": 0.0135,
-    "prod_cagr": 0.0779,
+    "prod_cagr": 0.0778,
     "beat_control": false,
-    "mean_lift_per_bar": -0.00051404
+    "mean_lift_per_bar": -0.0005074
    },
    {
     "cell": "R20_N5",
     "variant": "S120_L500",
-    "cagr": -0.0531,
+    "cagr": -0.053,
     "sharpe": -0.203,
     "control_cagr": 0.0135,
-    "prod_cagr": 0.0779,
+    "prod_cagr": 0.0778,
     "beat_control": false,
-    "mean_lift_per_bar": -1.259e-05
+    "mean_lift_per_bar": -1.582e-05
    },
    {
     "cell": "R20_N5",
@@ -1893,42 +1893,42 @@
     "cagr": -0.0395,
     "sharpe": -0.115,
     "control_cagr": 0.0135,
-    "prod_cagr": 0.0779,
+    "prod_cagr": 0.0778,
     "beat_control": false,
-    "mean_lift_per_bar": 6.279e-05
+    "mean_lift_per_bar": 6.192e-05
    },
    {
     "cell": "R20_N5",
     "variant": "S250_L500",
-    "cagr": -0.0454,
+    "cagr": -0.0453,
     "sharpe": -0.121,
     "control_cagr": 0.0135,
-    "prod_cagr": 0.0779,
+    "prod_cagr": 0.0778,
     "beat_control": false,
-    "mean_lift_per_bar": 7.76e-06
+    "mean_lift_per_bar": 6.72e-06
    }
   ],
   "verdict": "pit_combo_no_value",
   "n": 12,
   "n_beat": 0,
   "n_positive": 1,
-  "median_cagr": -0.0495,
-  "median_d_cagr_vs_control": -0.063,
+  "median_cagr": -0.0494,
+  "median_d_cagr_vs_control": -0.0629,
   "prod_cagr_by_cell": {
-   "R20_N12": 0.0607,
-   "R20_N5": 0.0779
+   "R20_N12": 0.0606,
+   "R20_N5": 0.0778
   },
   "best_cagr_by_cell": {
-   "R20_N12": 0.084,
-   "R20_N5": 0.1294
+   "R20_N12": 0.0839,
+   "R20_N5": 0.1292
   },
   "control_cagr_by_cell": {
    "R20_N12": 0.0135,
    "R20_N5": 0.0135
   },
-  "oracle_minus_pit_median_pp": 0.1188,
+  "oracle_minus_pit_median_pp": 0.1186,
   "n_trials_declared": 64,
-  "elapsed_s": 87.2
+  "elapsed_s": 77.0
  },
  "caveats": [
   "Both oracle arms (PROD, BEST) are in-sample by construction: their signs were read off this panel (E205/E208). Only the PIT arms are candidates for a live claim.",

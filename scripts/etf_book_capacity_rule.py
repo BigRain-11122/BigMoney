@@ -88,9 +88,13 @@ def _applied_k(sched, dates):
 def build_face(target=TARGET_BETA, start=START, n_hold=None):
     """One engine pass (gross) + the production k schedule + repo cash leg.
 
-    `n_hold=None` keeps the engine's own default (the delivered book); any other value
-    re-ranks the SAME panel at that width, which is what a width study needs -- the
-    ranking rule and the decision grid stay identical, only the basket size moves.
+    `n_hold=None` keeps the ENGINE's own default (`etf_composite_pf.N_HOLD`, 5), which is
+    *not* the delivered book: the production card overrides it via
+    `results/etf_book_production/latest.json` -> `config.n_hold` (12 as of r1241). Pass that
+    number explicitly when the question is about the delivered basket -- a face priced on
+    the engine default answers for a book nobody holds. Any other value re-ranks the SAME
+    panel at that width, which is what a width study needs: the ranking rule and the
+    decision grid stay identical, only the basket size moves.
     """
     close, openp, amt, feats = F.build_panel()
     score = F.build_score(close, amt, feats)

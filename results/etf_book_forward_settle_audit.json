@@ -1,7 +1,7 @@
 {
  "schema": "etf-book-forward-settle-audit/v1",
- "generated": "2026-11-02T19:36:11+0800",
- "evidence_cutoff": "2026-10-30",
+ "generated": "2026-11-02T23:13:01+0800",
+ "evidence_cutoff": "2026-11-02",
  "ledger": {
   "path": "results\\etf_book_forward\\LEDGER.json",
   "status": "live",
@@ -11,7 +11,8 @@
    "2026-10-27",
    "2026-10-28",
    "2026-10-29",
-   "2026-10-30"
+   "2026-10-30",
+   "2026-11-02"
   ],
   "drift": {
    "faces": [],
@@ -32,7 +33,8 @@
    "provisional_faces": [],
    "benchmark_settled_faces": [],
    "benchmark_provisional_faces": [],
-   "restated_bars": []
+   "restated_bars": [],
+   "withdrawn_bars": []
   },
   "rebases": 0,
   "drift_tol": 1e-09,
@@ -42,7 +44,6 @@
   "daily_dir": "data\\daily",
   "universe_symbols": 1725,
   "coverage_by_day": {
-   "2026-10-19": 1722,
    "2026-10-20": 1723,
    "2026-10-21": 1721,
    "2026-10-22": 1722,
@@ -51,10 +52,10 @@
    "2026-10-27": 1720,
    "2026-10-28": 1721,
    "2026-10-29": 1723,
-   "2026-10-30": 1717
+   "2026-10-30": 1717,
+   "2026-11-02": 41
   },
   "pending_symbols_by_day": {
-   "2026-10-19": 3,
    "2026-10-20": 2,
    "2026-10-21": 4,
    "2026-10-22": 3,
@@ -63,7 +64,8 @@
    "2026-10-27": 5,
    "2026-10-28": 4,
    "2026-10-29": 2,
-   "2026-10-30": 8
+   "2026-10-30": 8,
+   "2026-11-02": 1684
   }
  },
  "classification": {
@@ -88,10 +90,10 @@
    "published_bars": 6
   },
   "newest_bar": "2026-10-30",
-  "panel_last_date": "2026-10-30"
+  "panel_last_date": "2026-11-02"
  },
  "data_lag_audit": {
-  "as_of": "2026-11-02T19:27:06",
+  "as_of": "2026-11-02T21:23:30",
   "coverage_by_day": {
    "2026-10-20": 1.0,
    "2026-10-21": 1.0,
@@ -102,10 +104,10 @@
    "2026-10-28": 1.0,
    "2026-10-29": 1.0,
    "2026-10-30": 0.9965,
-   "2026-11-02": 0.0
+   "2026-11-02": 0.0238
   },
-  "detail": "2026-11-02 is an official trading day; the market closed 4.0h ago and no bar has been published to this panel yet",
-  "ledger_last_bar": "2026-10-30"
+  "detail": "2026-11-02 is an official trading day; the market closed 5.9h ago and no bar has been published to this panel yet",
+  "ledger_last_bar": "2026-11-02"
  },
  "headline": "ledger re-derives clean",
  "recommended_rule": "A drift gate may only police SETTLED bars. The newest published bar is provisional until its panel date stops gaining symbols (coverage stable across consecutive runs); while it is provisional, a re-derivation mismatch is expected and must be reported, not frozen on -- and never bought with a history rewrite.",

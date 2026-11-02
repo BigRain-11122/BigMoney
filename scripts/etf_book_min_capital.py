@@ -91,6 +91,30 @@ WINDOW_STABLE_PCT = 10.0       # frozen before the run: a >10% move is not a con
 WIDTHS = (5, 8, 12, 20)
 WIDTH_STABLE_PCT = 10.0
 
+CARD_JSON = os.path.join(ROOT, "results", "etf_book_production", "latest.json")
+
+
+def ladder_width(card_json=None):
+    """How many names the ladder must be priced on: the ones the delivered card holds.
+
+    The engine's own default is 5 (`F.N_HOLD`), but the production card overrides it via
+    `config.n_hold`, and a ladder priced on the engine default answers a question about a
+    basket nobody is holding (r1240: 5 names -> 67,737 CNY, 12 names -> 203,007 CNY --
+    a 3.0x difference in the answer to 'how much money do I need').
+
+    Returns `(n_hold, source)`; a missing or unreadable card falls back to the engine
+    default and *says so*, so the face never wears the delivered label by accident.
+    """
+    path = card_json or CARD_JSON
+    try:
+        with open(path, encoding="utf-8") as fh:
+            n = (json.load(fh).get("config") or {}).get("n_hold")
+        if n is not None and int(n) > 0:
+            return int(n), "production_card"
+    except Exception:                                           # noqa: BLE001
+        pass
+    return int(F.N_HOLD), "engine_default"
+
 
 def fee_bp(prop_bp, min_fee_cny, notional):
     """Per-side commission in bp: the proportional rate with a cash floor."""
@@ -192,29 +216,35 @@ def _verdict(rows, fee_neutral_model, fee_neutral_real, ladder_bounds):
     return token
 
 
-def window_dependence():
+def window_dependence(n_hold=None):
     """Is the fee-neutral NAV a property of the book, or of the years it was priced on?
 
-    One arm, one engine, three samples. The traded-leg median is read off the SAME
-    `curve` the ladder uses (no second leg scan), once per window, at a capital that is
-    large enough to leave the floor out of the way -- `dw` does not depend on capital
-    at all, so the rung only serves to make the call comparable to the published rows.
+    One arm, one engine, three samples, and -- since r1241 -- the SAME basket width as the
+    ladder. A window table priced on a different width would move for two reasons at once
+    and could no longer be read against the published neutral point it is compared with.
+    The traded-leg median is read off the SAME `curve` the ladder uses (no second leg
+    scan), once per window, at a capital large enough to leave the floor out of the way --
+    `dw` does not depend on capital at all, so the rung only serves to make the call
+    comparable to the published rows.
     """
     rows = []
     for name, start, cutoff in WINDOWS:
-        face = R.build_face(start=start)
+        face = R.build_face(start=start, n_hold=n_hold)
         path = R.weight_path(face)
         if cutoff:
             _cut = pd.Timestamp(cutoff)
             path = [(d, w, c) for (d, w, c) in path if pd.Timestamp(d) <= _cut]
         if not path:
             rows.append({"window": name, "start": start, "cutoff": cutoff,
-                         "dw_median": None, "fee_neutral_vs_model_nav": None,
-                         "fee_neutral_vs_real_nav": None, "legs": 0,
+                         "dw_median": None, "dw_mean": None,
+                         "fee_neutral_vs_model_nav": None,
+                         "fee_neutral_vs_real_nav": None,
+                         "fee_neutral_vs_model_nav_mean_leg": None, "legs": 0,
                          "first_bar": None, "last_bar": None})
             continue
         ser, _r, cnt = curve(face, 1e6, BASE_BP, 0.0, path=path)
         dw = cnt["dw_median"]
+        dmean = cnt.get("dw_mean")
         rows.append({
             "window": name,
             "start": start,
@@ -224,11 +254,19 @@ def window_dependence():
             "bars": len(ser),
             "legs": cnt["legs"],
             "dw_median": None if dw is None else round(dw, 8),
+            # the mean leg is the size-weighted typical trade: where a book mostly holds
+            # and occasionally rotates, the median leg is a rounding-sized trim and its
+            # closed form quotes a break-even no account ever reaches. Both are published
+            # so the reader can see which one the verdict was taken from (r1241).
+            "dw_mean": None if dmean is None else round(dmean, 8),
             "fee_neutral_vs_model_nav": (None if dw is None else
                                          round(neutral_nav(dw, BASE_BP, MIN_FEE_CNY), 2)),
             "fee_neutral_vs_real_nav": (None if dw is None else
                                         round(neutral_nav(dw, SCHEDULES[0]["prop_bp"],
                                                           MIN_FEE_CNY), 2)),
+            "fee_neutral_vs_model_nav_mean_leg": (None if not dmean else
+                                                  round(neutral_nav(dmean, BASE_BP,
+                                                                    MIN_FEE_CNY), 2)),
         })
     return rows
 
@@ -323,8 +361,11 @@ def _delivered_width(rows, published_neutral):
     return best[1] if best[0] <= 0.01 * max(1.0, published_neutral) else None
 
 
-def run(start=R.START):
-    face = R.build_face(start=start)
+def run(start=R.START, n_hold=None):
+    """Price the ladder on the basket the delivered card holds, not on the engine default."""
+    n_used, n_source = ((int(n_hold), "explicit") if n_hold is not None
+                        else ladder_width())
+    face = R.build_face(start=start, n_hold=n_used)
     path = R.weight_path(face)
     # reference: the published flat-8bp assumption, same path, same impact term
     ref_rows = {}
@@ -334,6 +375,7 @@ def run(start=R.START):
 
     ladder = []
     dw_median = None
+    dw_mean = None
     for sched in SCHEDULES:
         for capital in CAPITALS:
             ser, rows, cnt = curve(face, capital, sched["prop_bp"],
@@ -349,12 +391,16 @@ def run(start=R.START):
                                          else round(cnt["share_below_floor"], 6)),
                    "fee_cny_total": cnt["fee_cny_total"],
                    "dw_median": (None if cnt["dw_median"] is None
-                                 else round(cnt["dw_median"], 8))}
+                                 else round(cnt["dw_median"], 8)),
+                   "dw_mean": (None if cnt.get("dw_mean") is None
+                               else round(cnt["dw_mean"], 8))}
             if m.get("cagr") is not None and ref.get("cagr") is not None:
                 row["delta_vs_8bp_pp"] = round(100.0 * (m["cagr"] - ref["cagr"]), 4)
                 row["annual_delta_cny"] = round(capital * (m["cagr"] - ref["cagr"]), 0)
             if row["dw_median"]:
                 dw_median = row["dw_median"]
+            if row.get("dw_mean"):
+                dw_mean = row["dw_mean"]
             ladder.append(row)
 
     primary = SCHEDULES[0]
@@ -364,7 +410,7 @@ def run(start=R.START):
     verdict = _verdict(primary_rows, fee_neutral_model, fee_neutral_real,
                        (min(CAPITALS), max(CAPITALS)))
 
-    window_rows = window_dependence()
+    window_rows = window_dependence(n_hold=n_used)
     window_verdict, window_spread_pct = _window_verdict(window_rows, fee_neutral_model)
 
     width_rows = width_dependence(start=start)
@@ -379,12 +425,21 @@ def run(start=R.START):
                    "impact_bp_per_pct": C.IMPACT_BP_PER_PCT,
                    "punitive_bp": C.PUNITIVE_BP,
                    "rebal": R.REBAL, "start": start,
+                   "ladder_n_hold": n_used, "ladder_n_hold_source": n_source,
                    "dw_median_all_legs": (None if dw_median is None
-                                          else round(dw_median, 8))},
+                                          else round(dw_median, 8)),
+                   "dw_mean_all_legs": (None if dw_mean is None
+                                        else round(dw_mean, 8))},
         "fee_neutral_vs_model_nav": (None if fee_neutral_model is None
                                      else round(fee_neutral_model, 2)),
         "fee_neutral_vs_real_nav": (None if fee_neutral_real is None
                                     else round(fee_neutral_real, 2)),
+# the same question read off the MEAN leg (size-weighted typical trade) rather than the
+        # median leg; published side by side because a book that mostly holds and rarely
+        # rotates makes the median leg a rounding-sized trim (r1241)
+        "fee_neutral_vs_model_nav_mean_leg": (None if not dw_mean else
+                                              round(neutral_nav(dw_mean, BASE_BP,
+                                                                primary["min_fee_cny"]), 2)),
         "verdict": verdict,
         "ladder": ladder,
         "window": {
@@ -480,36 +535,44 @@ def check():
                 and abs(want_ws - w["spread_pct_of_published"]) > 0.02):
             problems.append("window spread %.2f != %.2f"
                             % (w["spread_pct_of_published"], want_ws))
-    # the width block must satisfy the same arithmetic, and its token must come from rows
-        wid = d.get("width") or {}
-        for r in wid.get("rows") or []:
-            dw_w = r.get("dw_median")
-            if dw_w is None or r.get("fee_neutral_vs_model_nav") is None:
-                continue
-            want_w = neutral_nav(dw_w, cfg["base_bp_published"], primary["min_fee_cny"])
-            if not _close(want_w, r["fee_neutral_vs_model_nav"]):
-                problems.append("width %s: neutral %.2f != %.2f"
-                                % (r.get("n_hold"), r["fee_neutral_vs_model_nav"], want_w))
-        if wid.get("rows"):
-            want_wv, want_ws = _width_verdict(wid["rows"],
-                                              d.get("fee_neutral_vs_model_nav"))
-            if want_wv != wid.get("verdict"):
-                problems.append("width verdict %s != recomputed %s"
-                                % (wid.get("verdict"), want_wv))
-            if (want_ws is not None and wid.get("spread_pct_of_published") is not None
-                    and abs(want_ws - wid["spread_pct_of_published"]) > 0.02):
-                problems.append("width spread %.2f != %.2f"
-                                % (wid["spread_pct_of_published"], want_ws))
-            want_pw = _delivered_width(wid["rows"], d.get("fee_neutral_vs_model_nav"))
-            if want_pw != wid.get("published_path_width"):
-                problems.append("published_path_width %s != recomputed %s"
-                                % (wid.get("published_path_width"), want_pw))
-        if problems:
-            for p in problems:
-                print("DRIFT: " + p)
-            return 3
-        print("min_capital: check OK (%s, neutral vs model %s CNY, vs real %s CNY)"
-              % (d["verdict"], d["fee_neutral_vs_model_nav"], d["fee_neutral_vs_real_nav"]))
+    # the width block must satisfy the same arithmetic, and its token must come from rows.
+    # (r1241: this block used to sit inside `if w.get("rows")` -- a face with no window
+    # rows would have skipped every width check and still printed "check OK".)
+    wid = d.get("width") or {}
+    for r in wid.get("rows") or []:
+        dw_w = r.get("dw_median")
+        if dw_w is None or r.get("fee_neutral_vs_model_nav") is None:
+            continue
+        want_w = neutral_nav(dw_w, cfg["base_bp_published"], primary["min_fee_cny"])
+        if not _close(want_w, r["fee_neutral_vs_model_nav"]):
+            problems.append("width %s: neutral %.2f != %.2f"
+                            % (r.get("n_hold"), r["fee_neutral_vs_model_nav"], want_w))
+    if wid.get("rows"):
+        want_wv, want_ws = _width_verdict(wid["rows"],
+                                          d.get("fee_neutral_vs_model_nav"))
+        if want_wv != wid.get("verdict"):
+            problems.append("width verdict %s != recomputed %s"
+                            % (wid.get("verdict"), want_wv))
+        if (want_ws is not None and wid.get("spread_pct_of_published") is not None
+                and abs(want_ws - wid["spread_pct_of_published"]) > 0.02):
+            problems.append("width spread %.2f != %.2f"
+                            % (wid["spread_pct_of_published"], want_ws))
+        want_pw = _delivered_width(wid["rows"], d.get("fee_neutral_vs_model_nav"))
+        if want_pw != wid.get("published_path_width"):
+            problems.append("published_path_width %s != recomputed %s"
+                            % (wid.get("published_path_width"), want_pw))
+        # the width the ladder was PRICED on must be the width its own rows point at;
+        # otherwise the rungs and the sweep describe two different baskets (r1240/r1241)
+        if cfg.get("ladder_n_hold") is not None and want_pw is not None \
+                and int(cfg["ladder_n_hold"]) != int(want_pw):
+            problems.append("ladder priced at %s names but its rows read %s"
+                            % (cfg.get("ladder_n_hold"), want_pw))
+    if problems:
+        for p in problems:
+            print("DRIFT: " + p)
+        return 3
+    print("min_capital: check OK (%s, neutral vs model %s CNY, vs real %s CNY)"
+          % (d["verdict"], d["fee_neutral_vs_model_nav"], d["fee_neutral_vs_real_nav"]))
     return 0
 
 
@@ -621,6 +684,20 @@ def selftest():
     chk("L21 a path no width reproduces is reported as unmatched, never guessed",
         _delivered_width(_w_up, 500000.0) is None
         and _delivered_width(_w_up, 68000.0) == 5)
+
+    # L22-L23: which basket the ladder is priced on. The engine default is 5 names, the
+    # delivered card holds 12, and the answer moves 3x between them -- so the ladder must
+    # read the card, and must label its own source when the card is missing.
+    import tempfile as _tempfile
+    _card_dir = _tempfile.mkdtemp()
+    _card = os.path.join(_card_dir, "latest.json")
+    with open(_card, "w", encoding="utf-8") as _fh:
+        json.dump({"config": {"n_hold": 12}}, _fh)
+    chk("L22 the ladder width is the delivered card's width, and says where it came from",
+        ladder_width(_card) == (12, "production_card"), ladder_width(_card))
+    _none = os.path.join(_card_dir, "absent.json")
+    chk("L23 a missing card falls back to the engine default and names the fallback",
+        ladder_width(_none) == (int(F.N_HOLD), "engine_default"), ladder_width(_none))
 
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1

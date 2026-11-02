@@ -1,0 +1,1148 @@
+{
+ "ts": "2026-11-02 22:30:50",
+ "evidence_cutoff": "2026-11-02",
+ "feed_status": {
+  "ticket_bar": "2026-11-02",
+  "expected_bar": "2026-11-02",
+  "lag_days": 0,
+  "status": "current",
+  "detail": "the ticket is priced on the newest official bar that must exist"
+ },
+ "price_basis": {
+  "panel": "repaired (flip prints neutralised before any measurement)",
+  "flip_thr": 0.35,
+  "flip_prints": 168,
+  "symbols_with_a_flip": 158,
+  "columns": 1613,
+  "sentence": "本面的数字算在**已修复**的面板上：**168 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 158 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1613 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。",
+  "neutralised": true,
+  "panel_digest": {
+   "digest": "dba12856f34161a4",
+   "dates": 5271,
+   "columns": 1613,
+   "first": "2005-02-23",
+   "last": "2026-11-02",
+   "blocks": [
+    "close",
+    "open",
+    "amount"
+   ],
+   "amount_columns": 1613
+  }
+ },
+ "family_coherence": {
+  "artifact": "results/etf_book_phase_atlas_arms.json",
+  "verdict": "ONE_WORLD",
+  "detail": "all 11 faces priced a1a42aee64453839",
+  "panels": [
+   "a1a42aee64453839"
+  ],
+  "arms": 10,
+  "evidence_cutoff": "2026-10-30",
+  "priced_same_panel": true
+ },
+ "priced_faces": {
+  "faces": {
+   "card": "2026-11-02",
+   "ticket": "2026-10-30",
+   "page": "2026-10-30"
+  },
+  "verdict": "DIFFERENT_DAYS",
+  "detail": "priced on different bars: card 2026-11-02 / ticket 2026-10-30 / page 2026-10-30",
+  "missing": [],
+  "same_day": false
+ },
+ "script": "scripts/etf_book_production.py",
+ "config": {
+  "universe_classes": [
+   "equity",
+   "commodity",
+   "convertible"
+  ],
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_bp_per_side": 10.0,
+  "vol_target": 0.08,
+  "capital_cny": 1000000.0,
+  "universe_size": 1504,
+  "flips_repaired": 168,
+  "execution": "decide at close t -> fill at open t+1 -> hold to next rebalance"
+ },
+ "backtest": {
+  "n5_base": {
+   "full": {
+    "cagr": 0.1571,
+    "sharpe": 1.011,
+    "maxdd": -0.1604,
+    "vol": 0.1637,
+    "years": 6.83
+   },
+   "is": {
+    "cagr": 0.1022,
+    "sharpe": 0.685,
+    "maxdd": -0.1418,
+    "vol": 0.1683,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2395,
+    "sharpe": 1.51,
+    "maxdd": -0.1604,
+    "vol": 0.1569,
+    "years": 2.83
+   },
+   "turnover_per_decision": 1.53,
+   "n_hold": 5,
+   "vol_target": null,
+   "cost_bp": 10.0
+  },
+  "n5_vt08": {
+   "full": {
+    "cagr": 0.1159,
+    "sharpe": 1.142,
+    "maxdd": -0.1056,
+    "vol": 0.1049,
+    "years": 6.83
+   },
+   "is": {
+    "cagr": 0.0581,
+    "sharpe": 0.621,
+    "maxdd": -0.088,
+    "vol": 0.1031,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2031,
+    "sharpe": 1.854,
+    "maxdd": -0.1056,
+    "vol": 0.1074,
+    "years": 2.83
+   },
+   "turnover_per_decision": 1.08,
+   "n_hold": 5,
+   "vol_target": 0.08,
+   "cost_bp": 10.0
+  },
+  "n8_base": {
+   "full": {
+    "cagr": 0.1513,
+    "sharpe": 1.003,
+    "maxdd": -0.1678,
+    "vol": 0.159,
+    "years": 6.83
+   },
+   "is": {
+    "cagr": 0.0883,
+    "sharpe": 0.625,
+    "maxdd": -0.1678,
+    "vol": 0.1616,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2469,
+    "sharpe": 1.563,
+    "maxdd": -0.1494,
+    "vol": 0.1554,
+    "years": 2.83
+   },
+   "turnover_per_decision": 1.389,
+   "n_hold": 8,
+   "vol_target": null,
+   "cost_bp": 10.0
+  },
+  "n8_vt08": {
+   "full": {
+    "cagr": 0.107,
+    "sharpe": 1.064,
+    "maxdd": -0.114,
+    "vol": 0.1048,
+    "years": 6.83
+   },
+   "is": {
+    "cagr": 0.0474,
+    "sharpe": 0.516,
+    "maxdd": -0.114,
+    "vol": 0.1035,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.1974,
+    "sharpe": 1.823,
+    "maxdd": -0.1044,
+    "vol": 0.1065,
+    "years": 2.83
+   },
+   "turnover_per_decision": 1.018,
+   "n_hold": 8,
+   "vol_target": 0.08,
+   "cost_bp": 10.0
+  },
+  "n12_base": {
+   "full": {
+    "cagr": 0.1419,
+    "sharpe": 0.981,
+    "maxdd": -0.1588,
+    "vol": 0.1529,
+    "years": 6.83
+   },
+   "is": {
+    "cagr": 0.0769,
+    "sharpe": 0.57,
+    "maxdd": -0.1588,
+    "vol": 0.1565,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2411,
+    "sharpe": 1.603,
+    "maxdd": -0.1289,
+    "vol": 0.1478,
+    "years": 2.83
+   },
+   "turnover_per_decision": 1.277,
+   "n_hold": 12,
+   "vol_target": null,
+   "cost_bp": 10.0
+  },
+  "n12_vt08": {
+   "full": {
+    "cagr": 0.0959,
+    "sharpe": 0.989,
+    "maxdd": -0.1177,
+    "vol": 0.1017,
+    "years": 6.83
+   },
+   "is": {
+    "cagr": 0.0384,
+    "sharpe": 0.442,
+    "maxdd": -0.1177,
+    "vol": 0.0997,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.1829,
+    "sharpe": 1.737,
+    "maxdd": -0.107,
+    "vol": 0.1043,
+    "years": 2.83
+   },
+   "turnover_per_decision": 0.934,
+   "n_hold": 12,
+   "vol_target": 0.08,
+   "cost_bp": 10.0
+  },
+  "n12_vt08_declared": {
+   "full": {
+    "cagr": 0.0845,
+    "sharpe": 0.874,
+    "maxdd": -0.1656,
+    "vol": 0.1028,
+    "years": 6.83
+   },
+   "is": {
+    "cagr": 0.0256,
+    "sharpe": 0.31,
+    "maxdd": -0.1656,
+    "vol": 0.1015,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.1737,
+    "sharpe": 1.657,
+    "maxdd": -0.1162,
+    "vol": 0.1044,
+    "years": 2.83
+   },
+   "turnover_per_decision": 0.953,
+   "n_hold": 12,
+   "vol_target": 0.08,
+   "cost_bp": 10.0
+  }
+ },
+ "vol_delivery": {
+  "target_vol": 0.08,
+  "windows": {
+   "full": {
+    "target": 0.08,
+    "delivered": 0.1017,
+    "ratio": 1.271
+   },
+   "is": {
+    "target": 0.08,
+    "delivered": 0.0997,
+    "ratio": 1.246
+   },
+   "oos": {
+    "target": 0.08,
+    "delivered": 0.1043,
+    "ratio": 1.304
+   }
+  },
+  "headline": "target 8% -> delivered 10.2% over the full window (1.27x)"
+ },
+ "execution_basis": {
+  "as_coded_cagr": 0.0959,
+  "declared_cagr": 0.0845,
+  "as_coded_sharpe": 0.989,
+  "declared_sharpe": 0.874,
+  "as_coded_maxdd": -0.1177,
+  "declared_maxdd": -0.1656,
+  "tol_pp": 0.25,
+  "conventions": {
+   "as_coded": "score(bar d) selects, the book earns open[d] -> open[d+1]",
+   "declared": "score(bar d-1) selects, the book earns open[d] -> open[d+1]"
+  },
+  "gap_pp": 1.14,
+  "verdict": "SAME_OPEN_ARM",
+  "sentence": "**Execution basis: the as-coded row is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.45%/yr, Sharpe 0.87, max drawdown -16.6%**, i.e. 1.14pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach."
+ },
+ "research_exhaustion": {
+  "artifact": "results/etf_book_production/latest.json",
+  "rows": [
+   {
+    "case": "E25",
+    "question": "can the one-bar price be earned back by a causal rule",
+    "artifact": "results/etf_book_causal_rebuild.json",
+    "prereg": "research/CASE_PREREG_E25_CAUSAL_REBUILD.md",
+    "state": "IRRECOVERABLE",
+    "best_arm": "smooth_k2",
+    "best_pp": 0.07,
+    "admissible": [],
+    "evidence_cutoff": "2026-11-02",
+    "readable": true
+   },
+   {
+    "case": "E26",
+    "question": "is anything visible between the close and the fill worth that price",
+    "artifact": "results/etf_book_overnight_gap.json",
+    "prereg": "research/CASE_PREREG_E26_OVERNIGHT_GAP.md",
+    "state": "MIXED_ACROSS_PHASES",
+    "best_arm": "excl_upgap_q80",
+    "best_pp": 0.81,
+    "admissible": [],
+    "evidence_cutoff": "2026-11-02",
+    "readable": true
+   },
+   {
+    "case": "E27",
+    "question": "does slicing the rebalance over k opens buy anything",
+    "artifact": "results/etf_book_open_slicing.json",
+    "prereg": "research/CASE_PREREG_E27_OPEN_SLICING.md",
+    "state": "NO_SLICING_EDGE",
+    "best_arm": "k5",
+    "best_pp": -0.01,
+    "admissible": [],
+    "evidence_cutoff": "2026-11-02",
+    "readable": true
+   }
+  ],
+  "cases": [
+   "E25",
+   "E26",
+   "E27"
+  ],
+  "missing": [],
+  "levers": [],
+  "cutoffs": [
+   "2026-11-02"
+  ],
+  "faces_read": 3,
+  "faces_total": 3,
+  "verdict": "CLOSED",
+  "sentence": "**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.07pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.81pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (-0.01pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics."
+ },
+ "vol_overlay_tail": {
+  "artifact": "results/etf_book_bootstrap/etf_book_voltarget_tail.json",
+  "evidence_cutoff": "2026-10-29",
+  "bars": 1650,
+  "resamples": 2000,
+  "blocks": [
+   5,
+   20,
+   60,
+   120,
+   250
+  ],
+  "median_maxdd_delta_pp": 6.04,
+  "p1_maxdd_delta_pp": 1.26,
+  "median_cagr_delta_pp": -4.61,
+  "tail_share_of_middle": 0.209,
+  "tail_is_mostly_a_middle_effect": true
+ },
+ "sheet": {
+  "as_of_bar": "2026-11-02",
+  "decision": "HOLD: 7 bars until the next decision point",
+  "is_grid_decision_bar": false,
+  "last_decision_bar": "2026-10-14",
+  "book_decided_at": "2026-10-14",
+  "bars_until_next_decision": 7,
+  "capital_cny": 1000000.0,
+  "target_vol": 0.08,
+  "realised_book_vol_60d": 0.1142,
+  "risk_scale": 0.7008,
+  "cash_weight": 0.2992,
+  "cash_amount_cny": 299225.0,
+  "cash_executable_cny": 301289.0,
+  "amount_column": "executable",
+  "book_target_cny": 700776.0,
+  "book_executable_cny": 698711.0,
+  "lot_residual_cny": 2065.0,
+  "lot_residual_pct_nav": 0.2065,
+  "legs": [
+   {
+    "symbol": "159501",
+    "name": "纳指ETF嘉实",
+    "class": "equity",
+    "score": 0.7957,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 2.1580000000000044,
+    "lots_100": 27000,
+    "actual_amount_cny": 58266.0
+   },
+   {
+    "symbol": "513100",
+    "name": "纳指ETF国泰",
+    "class": "equity",
+    "score": 0.7499,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 11.4530916256158,
+    "lots_100": 5000,
+    "actual_amount_cny": 57265.0
+   },
+   {
+    "symbol": "513690",
+    "name": "港股红利ETF博时",
+    "class": "equity",
+    "score": 0.7197,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.1229999999999978,
+    "lots_100": 52000,
+    "actual_amount_cny": 58396.0
+   },
+   {
+    "symbol": "159577",
+    "name": "美国50ETF汇添富",
+    "class": "equity",
+    "score": 0.7167,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.662000000000005,
+    "lots_100": 35100,
+    "actual_amount_cny": 58336.0
+   },
+   {
+    "symbol": "159263",
+    "name": "价值ETF易方达",
+    "class": "equity",
+    "score": 0.7092,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.1290000000000024,
+    "lots_100": 51700,
+    "actual_amount_cny": 58369.0
+   },
+   {
+    "symbol": "513630",
+    "name": "港股低波红利ETF摩根",
+    "class": "equity",
+    "score": 0.7043,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.5749999999999973,
+    "lots_100": 37000,
+    "actual_amount_cny": 58275.0
+   },
+   {
+    "symbol": "513300",
+    "name": "纳斯达克ETF华夏",
+    "class": "equity",
+    "score": 0.6999,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 2.674000000000019,
+    "lots_100": 21800,
+    "actual_amount_cny": 58293.0
+   },
+   {
+    "symbol": "513850",
+    "name": "美国50ETF易方达",
+    "class": "equity",
+    "score": 0.6945,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.8569999999999987,
+    "lots_100": 31400,
+    "actual_amount_cny": 58310.0
+   },
+   {
+    "symbol": "159207",
+    "name": "高股息ETF广发",
+    "class": "equity",
+    "score": 0.6891,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.1769999999999952,
+    "lots_100": 49600,
+    "actual_amount_cny": 58379.0
+   },
+   {
+    "symbol": "159307",
+    "name": "红利低波100ETF博时",
+    "class": "equity",
+    "score": 0.6816,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.0440000000000003,
+    "lots_100": 55900,
+    "actual_amount_cny": 58360.0
+   },
+   {
+    "symbol": "513870",
+    "name": "纳指ETF富国",
+    "class": "equity",
+    "score": 0.681,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 2.067000000000006,
+    "lots_100": 28200,
+    "actual_amount_cny": 58289.0
+   },
+   {
+    "symbol": "159632",
+    "name": "纳斯达克ETF华安",
+    "class": "equity",
+    "score": 0.676,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 2.433999999999997,
+    "lots_100": 23900,
+    "actual_amount_cny": 58173.0
+   }
+  ]
+ },
+ "caveats": [
+  "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -24.8% and -17.5% and the share of resamples worse than -20% between 1.5% and 15.7%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-02.json.",
+  "THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.84%/yr (Sharpe -0.41) against +6.06%/yr (+0.64) for the fixed signs -- and reversing the trailing sign does not recover it (-1.59%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.",
+  "ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.",
+  "THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.",
+  "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
+  "2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.",
+  "The vol target only de-levers; it is a drawdown tool, not an edge. Priced on the draw tail (paired bootstrap, 2000 resamples, blocks 5/20/60/120/250): the median drawdown gain is +6.04pp but only 21% of it survives at the worst 1% of histories (+1.26pp), bought with -4.61pp of median CAGR -- mostly a middle-path tool.",
+  "Delivered vol is not the label: target 8% -> delivered 10.2% over the full window (1.27x). The label is a per-hold risk target, so an 8% label annualises near 10% once hold-level vol dispersion is priced in -- a definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md).",
+  "The window table is the as-coded arm (rank on bar d, paid open bar d); the declared next-open fill is priced beside it in execution_basis -- read that one when sizing a position.",
+  "Order sheet is research output, not an investment recommendation.",
+  "The sheet is the book decided at book_decided_at, not a re-ranking of the latest bar: the engine only re-decides every 20 bars, so an off-grid ranking would trade names the book never held."
+ ],
+ "preperiod": {
+  "artifact": "results/etf_book_pre2020.json",
+  "grid_cell": "N5_R20",
+  "window": "2015-01-01..2019-12-31",
+  "universe_size": 224,
+  "book_cagr": -0.0497,
+  "ew_cagr": 0.0389,
+  "excess_pp": -8.86,
+  "null_p": 0.96,
+  "cells_negative": 6,
+  "cells_total": 6
+ },
+ "concentration": {
+  "status": "ok",
+  "sentence": "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
+  "evidence_cutoff": "2026-11-02",
+  "verdict": "BROAD|SURVIVES_WITHOUT_TOP3",
+  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_concentration.json",
+  "top3_share": 0.2205,
+  "hhi": 0.0241,
+  "names_negative": 69,
+  "names_above_1pct": 41,
+  "distinct_names": 189,
+  "top": [
+   {
+    "symbol": "159934",
+    "name": "黄金ETF易方达",
+    "share": 0.0752
+   },
+   {
+    "symbol": "518800",
+    "name": "黄金ETF国泰",
+    "share": 0.0745
+   },
+   {
+    "symbol": "159937",
+    "name": "黄金ETF博时",
+    "share": 0.0707
+   }
+  ],
+  "baseline": {
+   "cagr": 0.0959,
+   "sharpe": 0.989,
+   "maxdd": -0.1177,
+   "vol": 0.1017,
+   "years": 6.83
+  },
+  "top_k_out": {
+   "k": 3,
+   "symbols": [
+    "159934",
+    "518800",
+    "159937"
+   ],
+   "delta_cagr_pp": -1.99,
+   "stats": {
+    "full": {
+     "cagr": 0.076,
+     "sharpe": 0.809,
+     "maxdd": -0.1868,
+     "vol": 0.1007,
+     "years": 6.83
+    },
+    "is": {
+     "cagr": 0.0237,
+     "sharpe": 0.294,
+     "maxdd": -0.1868,
+     "vol": 0.0996,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1546,
+     "sharpe": 1.524,
+     "maxdd": -0.1083,
+     "vol": 0.1021,
+     "years": 2.83
+    }
+   }
+  },
+  "sleeve": {
+   "class": "commodity",
+   "symbols_removed": 41,
+   "delta_cagr_pp": -3.71,
+   "stats": {
+    "full": {
+     "cagr": 0.0588,
+     "sharpe": 0.643,
+     "maxdd": -0.2226,
+     "vol": 0.1005,
+     "years": 6.83
+    },
+    "is": {
+     "cagr": 0.0097,
+     "sharpe": 0.151,
+     "maxdd": -0.2226,
+     "vol": 0.1002,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1318,
+     "sharpe": 1.333,
+     "maxdd": -0.1086,
+     "vol": 0.1009,
+     "years": 2.83
+    }
+   }
+  }
+ },
+ "sleeve_gate": {
+  "status": "ok",
+  "sentence": "No sleeve-level gate earns adoption: switching the sleeve off on trend 24%, vol 30%, drawdown 16% of the decision grid is no better than switching it off on the same number of untimed decisions, so a gate here would buy a shorter holding period, not a signal. The closest arm is the vol gate: +0.86pp of drawdown against the frozen 1.0pp bar, and it does beat its own placebo by +5.00pp -- which is why it is named as the re-test candidate on new data, not re-thresholded here. Verdict NO_GATE.",
+  "evidence_cutoff": "2026-11-02",
+  "verdict": "NO_GATE",
+  "adopting": [],
+  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_sleeve_gate.json",
+  "gates": [
+   {
+    "name": "trend",
+    "off_decisions": 20,
+    "off_share": 0.241,
+    "delta_cagr_pp": -0.32,
+    "delta_maxdd_pp": -2.77,
+    "placebo_delta_cagr_pp": 1.09,
+    "placebo_delta_maxdd_pp": -1.74,
+    "dd_gain_pp": -2.77,
+    "cagr_keep": 0.9666,
+    "placebo_dd_edge_pp": -1.03,
+    "placebo_cagr_edge_pp": -1.41,
+    "beats_placebo": false,
+    "verdict": "NO_GATE",
+    "why": "no_gain_vs_baseline"
+   },
+   {
+    "name": "vol",
+    "off_decisions": 25,
+    "off_share": 0.3012,
+    "delta_cagr_pp": 0.02,
+    "delta_maxdd_pp": 0.86,
+    "placebo_delta_cagr_pp": -2.9,
+    "placebo_delta_maxdd_pp": -4.14,
+    "dd_gain_pp": 0.86,
+    "cagr_keep": 1.0021,
+    "placebo_dd_edge_pp": 5.0,
+    "placebo_cagr_edge_pp": 2.92,
+    "beats_placebo": true,
+    "verdict": "NO_GATE",
+    "why": "short_of_bar"
+   },
+   {
+    "name": "drawdown",
+    "off_decisions": 13,
+    "off_share": 0.1566,
+    "delta_cagr_pp": -0.19,
+    "delta_maxdd_pp": -1.27,
+    "placebo_delta_cagr_pp": -2.18,
+    "placebo_delta_maxdd_pp": -3.7,
+    "dd_gain_pp": -1.27,
+    "cagr_keep": 0.9802,
+    "placebo_dd_edge_pp": 2.43,
+    "placebo_cagr_edge_pp": 1.99,
+    "beats_placebo": true,
+    "verdict": "NO_GATE",
+    "why": "no_gain_vs_baseline"
+   }
+  ],
+  "closest": {
+   "name": "vol",
+   "off_decisions": 25,
+   "off_share": 0.3012,
+   "delta_cagr_pp": 0.02,
+   "delta_maxdd_pp": 0.86,
+   "placebo_delta_cagr_pp": -2.9,
+   "placebo_delta_maxdd_pp": -4.14,
+   "dd_gain_pp": 0.86,
+   "cagr_keep": 1.0021,
+   "placebo_dd_edge_pp": 5.0,
+   "placebo_cagr_edge_pp": 2.92,
+   "beats_placebo": true,
+   "verdict": "NO_GATE",
+   "why": "short_of_bar"
+  },
+  "criteria": {
+   "min_dd_gain_pp": 1.0,
+   "cagr_keep": 0.95,
+   "placebo_dd_edge_pp": 0.5,
+   "placebo_cagr_edge_pp": 0.5
+  },
+  "book": {
+   "decisions": 83,
+   "n_hold": 12,
+   "sleeve_class": "commodity"
+  },
+  "baseline": {
+   "cagr": 0.0959,
+   "maxdd": -0.1177
+  }
+ },
+ "commodity": {
+  "artifact": "results/etf_book_commodity_split.json",
+  "cell": "N5_R20_10bp",
+  "n_cols": 41,
+  "book_cagr": 0.1631,
+  "ew_cagr": 0.1145,
+  "excess_pp": 4.86,
+  "gross_share_pct": 30.1,
+  "passive_name": "518880",
+  "passive_cagr": 0.1391,
+  "verdict": "selection adds +4.86pp/yr over the sleeve's own equal weight (IS +2.09 / OOS +9.16) and +2.40pp vs holding 518880 passively; but the sleeve's raw return is mostly metal beta (+13.91%/yr passive vs +16.31%/yr book), and the excess is OOS-concentrated"
+ },
+ "passive_mix": {
+  "artifact": "results/etf_book_passive_mix.json",
+  "cell": "N12_R20_10bp",
+  "book_cagr": 0.0949,
+  "book_maxdd": -0.1177,
+  "static_cagr": 0.0313,
+  "static_maxdd": -0.229,
+  "premium_pp": 6.36,
+  "book_turnover": 0.9343,
+  "static_turnover": 0.0893,
+  "verdict": "the ranking pays: +6.36pp/yr over a static mix of the book's own class exposure, at 10.46x the static arm's turnover",
+  "by_window": {
+   "full": {
+    "book_cagr": 0.0949,
+    "book_maxdd": -0.1177,
+    "premium_pp": 6.36,
+    "static_cagr": 0.0313,
+    "static_maxdd": -0.229,
+    "universe_size": 1499,
+    "verdict": "the ranking pays: +6.36pp/yr over a static mix of the book's own class exposure, at 10.46x the static arm's turnover",
+    "window": "2020-01-01..2026-10-26"
+   },
+   "post2020_pre_universe": {
+    "book_cagr": 0.0912,
+    "book_maxdd": -0.1524,
+    "premium_pp": 4.39,
+    "static_cagr": 0.0473,
+    "static_maxdd": -0.1715,
+    "universe_size": 193,
+    "verdict": "the ranking pays: +4.39pp/yr over a static mix of the book's own class exposure, at 7.92x the static arm's turnover",
+    "window": "2020-01-01..2026-10-26"
+   },
+   "pre2020": {
+    "book_cagr": 0.0512,
+    "book_maxdd": -0.1671,
+    "premium_pp": 2.17,
+    "static_cagr": 0.0295,
+    "static_maxdd": -0.1647,
+    "universe_size": 193,
+    "verdict": "the ranking pays: +2.17pp/yr over a static mix of the book's own class exposure, at 4.21x the static arm's turnover",
+    "window": "2015-01-01..2019-12-31"
+   }
+  },
+  "cross_window": "the premium survives the period change: +2.17pp/yr over 2015-2019 vs +4.39pp/yr over 2020+ on the same universe -- the ranking adds value in both, so the pre-2020 failure is about the level, not the machinery.",
+  "premium_flips": false
+ },
+ "window_decomp": {
+  "artifact": "results/etf_book_window_decomp.json",
+  "window": "2015-01-01..2019-12-31",
+  "steps": [
+   {
+    "rung": "r1_published_cell",
+    "moves": "r1305 cell A: all classes, N5, no vol overlay, 10bp/side",
+    "cagr": -0.0497,
+    "excess_pp": -8.86,
+    "delta_pp": null
+   },
+   {
+    "rung": "r2_bond_free_pool",
+    "moves": "the production pool (equity/commodity/convertible) instead of all classes",
+    "cagr": 0.0085,
+    "excess_pp": -1.51,
+    "delta_pp": 5.82
+   },
+   {
+    "rung": "r3_wider_book",
+    "moves": "the shipped book width (12 names) instead of 5",
+    "cagr": 0.0073,
+    "excess_pp": -1.63,
+    "delta_pp": -0.12
+   },
+   {
+    "rung": "r4_vol_overlay",
+    "moves": "the shipped 8% de-lever-only overlay -- the cell r1308's premium is built on",
+    "cagr": 0.0512,
+    "excess_pp": 2.76,
+    "delta_pp": 4.39
+   }
+  ],
+  "total_move_pp": 10.09,
+  "controls": {
+   "rung1_vs_pre2020_cellA": {
+    "delta_pp": 0.0,
+    "passes": true,
+    "published_cagr": -0.0497,
+    "recomputed_cagr": -0.0497,
+    "tolerance_pp": 0.5
+   },
+   "rung4_vs_passive_mix_pre2020": {
+    "delta_pp": 0.0,
+    "passes": true,
+    "published_cagr": 0.0512,
+    "recomputed_cagr": 0.0512,
+    "tolerance_pp": 0.5
+   }
+  },
+  "verdict": "the two published readings are the same engine on different cells: moving one axis at a time from r1305's cell to the shipped cell shifts the 2015-2019 CAGR by +10.09pp in total, and +5.82pp of that comes from r2_bond_free_pool. Neither round was wrong; the window answers a different question depending on the cell asked."
+ },
+ "spanning": {
+  "artifact": "results/etf_book_spanning.json",
+  "as_of": "2026-10-30",
+  "book_cagr": 0.0959,
+  "book_sharpe": 0.989,
+  "book_maxdd": -0.1177,
+  "basket_cagr": 0.099,
+  "basket_sharpe": 0.965,
+  "basket_maxdd": -0.1135,
+  "alpha_annual": 0.0596,
+  "alpha_t": 1.978,
+  "r2": 0.4348,
+  "resid_vol_annual": 0.0766,
+  "is_alpha_t": 1.162,
+  "oos_alpha_t": 2.004,
+  "arms": {
+   "gold": {
+    "cagr": 0.1325,
+    "sharpe": 0.806,
+    "maxdd": -0.3154
+   },
+   "us_tech": {
+    "cagr": 0.2044,
+    "sharpe": 0.88,
+    "maxdd": -0.2745
+   },
+   "csi300": {
+    "cagr": -0.0015,
+    "sharpe": 0.092,
+    "maxdd": -0.4668
+   },
+   "bond": {
+    "cagr": 0.0252,
+    "sharpe": 1.212,
+    "maxdd": -0.0521
+   }
+  },
+  "codes": [
+   "518880",
+   "513100",
+   "510300",
+   "511010"
+  ],
+  "staggered_arm": {
+   "window": [
+    "2020-01-06",
+    "2026-10-30"
+   ],
+   "alpha_annual": 0.0698,
+   "alpha_t": 2.428,
+   "r2": 0.498,
+   "resid_vol_annual": 0.0731,
+   "is_alpha_t": 1.26,
+   "oos_alpha_t": 2.382,
+   "cagr": 0.1067,
+   "sharpe": 1.076,
+   "maxdd": -0.1036,
+   "book_alpha_annual": 0.0596,
+   "book_alpha_t": 1.978,
+   "crosses_two_sigma": true,
+   "book_crosses_two_sigma": false
+  },
+  "stagger_control": {
+   "mine": 0.1067,
+   "published": 0.1041,
+   "delta_pp": 0.26,
+   "within_0p5pp": true,
+   "source": "results/etf_book_stagger_publish.json:staggered.cagr"
+  }
+ },
+ "spanning_pre2020": {
+  "artifact": "results/etf_book_spanning_pre2020.json",
+  "window": [
+   "2015-01-01",
+   "2019-12-31"
+  ],
+  "universe": {
+   "U_pre": 193,
+   "cols": 193,
+   "flips_repaired": 168,
+   "shape": [
+    3617,
+    193
+   ],
+   "last_bar": "2019-12-31"
+  },
+  "single": {
+   "alpha_annual": 0.0203,
+   "alpha_t": 1.036,
+   "r2": 0.6989,
+   "is_alpha_t": 1.548,
+   "oos_alpha_t": -0.388,
+   "cagr": 0.0512,
+   "sharpe": 0.7,
+   "maxdd": -0.1671
+  },
+  "staggered": {
+   "alpha_annual": 0.01,
+   "alpha_t": 0.479,
+   "r2": 0.6778,
+   "is_alpha_t": 1.131,
+   "oos_alpha_t": -0.774,
+   "cagr": 0.0426,
+   "sharpe": 0.574,
+   "maxdd": -0.1762
+  },
+  "basket": {
+   "cagr": 0.0864,
+   "sharpe": 0.968,
+   "maxdd": -0.1298,
+   "vol": 0.0928
+  },
+  "control": {
+   "source": "results/etf_book_pre2020_wf.json:full_window_arm_stats.fixed_n12_vt",
+   "tolerance_pp": 0.5,
+   "mine": 0.0512,
+   "published": 0.0499,
+   "delta_pp": 0.13,
+   "within_0p5pp": true
+  },
+  "verdict": "no intercept survives outside 2020-2026 (t 1.04 single / 0.48 staggered): the published alpha is a property of the window, not of the book"
+ },
+ "hysteresis": {
+  "artifact": "results/etf_book_hysteresis.json",
+  "evidence_cutoff": "2026-11-02",
+  "config": {
+   "n_hold": 12,
+   "rebal": 20,
+   "cost_bp": 10.0,
+   "grid": [
+    0.0,
+    0.05,
+    0.1,
+    0.2,
+    0.35,
+    0.5
+   ]
+  },
+  "control": {
+   "published": 0.0959,
+   "measured": 0.0959,
+   "delta_pp": 0.0,
+   "within_tol": true,
+   "published_turnover": 0.934,
+   "measured_turnover": 0.934
+  },
+  "census": {
+   "n_decisions": 83,
+   "cut_score_median": 0.00454,
+   "share_within_0p10": 0.8675,
+   "cut_sd_median": 0.0181
+  },
+  "trades": {
+   "n_pairs": 590,
+   "gap_sd_median": 0.9741,
+   "share_under_0p10sd": 0.0288,
+   "share_under_0p25sd": 0.0915
+  },
+  "arms": [
+   {
+    "k": 0.0,
+    "turnover": 0.934,
+    "cagr": 0.0959,
+    "sharpe": 0.989,
+    "maxdd": -0.1177
+   },
+   {
+    "k": 0.05,
+    "turnover": 0.901,
+    "cagr": 0.0965,
+    "sharpe": 1.003,
+    "maxdd": -0.1159
+   },
+   {
+    "k": 0.1,
+    "turnover": 0.887,
+    "cagr": 0.0964,
+    "sharpe": 1.0,
+    "maxdd": -0.1258
+   },
+   {
+    "k": 0.2,
+    "turnover": 0.843,
+    "cagr": 0.0971,
+    "sharpe": 1.011,
+    "maxdd": -0.1247
+   },
+   {
+    "k": 0.35,
+    "turnover": 0.762,
+    "cagr": 0.0951,
+    "sharpe": 0.986,
+    "maxdd": -0.1257
+   },
+   {
+    "k": 0.5,
+    "turnover": 0.702,
+    "cagr": 0.0964,
+    "sharpe": 0.997,
+    "maxdd": -0.1348
+   }
+  ],
+  "best_arm_k": 0.05,
+  "caveats": [
+   "exploratory: no preregistration, no verdict, no ledger booking",
+   "MEASURED (results/etf_book_buffer_adoption.json): that path-dependence test was run on 60 cells -- verdict REJECT. Read the arms above as one decision sequence, not an edge."
+  ]
+ },
+ "drawdown_band": {
+  "artifact": "results/etf_book_bootstrap/BLOCKS-2026-11-02.json",
+  "evidence_cutoff": "2026-11-02",
+  "block_set": [
+   1,
+   5,
+   10,
+   20,
+   40,
+   60,
+   120,
+   250
+  ],
+  "n_resamples": 2000,
+  "arm_rows": [
+   {
+    "block": 1,
+    "maxdd_p5": -0.24773663049218853,
+    "maxdd_p50": -0.14650395089233775,
+    "dd_break_share": 0.152,
+    "point_pctile_maxdd": 77.3
+   },
+   {
+    "block": 5,
+    "maxdd_p5": -0.24396767433600913,
+    "maxdd_p50": -0.14586801183245185,
+    "dd_break_share": 0.157,
+    "point_pctile_maxdd": 77.0
+   },
+   {
+    "block": 10,
+    "maxdd_p5": -0.23129510686146698,
+    "maxdd_p50": -0.14069908176162604,
+    "dd_break_share": 0.13,
+    "point_pctile_maxdd": 73.5
+   },
+   {
+    "block": 20,
+    "maxdd_p5": -0.20991209601024854,
+    "maxdd_p50": -0.13277146692477948,
+    "dd_break_share": 0.073,
+    "point_pctile_maxdd": 67.1
+   },
+   {
+    "block": 40,
+    "maxdd_p5": -0.21208790450093715,
+    "maxdd_p50": -0.13201825444419607,
+    "dd_break_share": 0.072,
+    "point_pctile_maxdd": 67.3
+   },
+   {
+    "block": 60,
+    "maxdd_p5": -0.22095520198406435,
+    "maxdd_p50": -0.13437315930172555,
+    "dd_break_share": 0.085,
+    "point_pctile_maxdd": 68.2
+   },
+   {
+    "block": 120,
+    "maxdd_p5": -0.20463728058066522,
+    "maxdd_p50": -0.13244046138566185,
+    "dd_break_share": 0.06,
+    "point_pctile_maxdd": 68.0
+   },
+   {
+    "block": 250,
+    "maxdd_p5": -0.17517043971567672,
+    "maxdd_p50": -0.12412923255241276,
+    "dd_break_share": 0.015,
+    "point_pctile_maxdd": 60.2
+   }
+  ],
+  "maxdd_p5_band": {
+   "min": -0.24773663049218853,
+   "max": -0.17517043971567672,
+   "range": 0.0725661907765118
+  },
+  "maxdd_p50_band": {
+   "min": -0.14650395089233775,
+   "max": -0.12412923255241276,
+   "range": 0.022374718339924993
+  },
+  "dd_break_band": {
+   "min": 0.015,
+   "max": 0.157
+  },
+  "readings": {
+   "headline_not_a_lucky_path": false,
+   "drawdown_tail_is_block_dependent": true,
+   "ultra_tail_is_block_dependent": true,
+   "median_cagr_stable": true
+  },
+  "band_pp": 7.25661907765118
+ }
+}

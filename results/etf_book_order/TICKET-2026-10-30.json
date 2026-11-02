@@ -208,89 +208,89 @@
   "ticket_rule": "beta",
   "card_rule": "vol",
   "ticket": {
-   "cagr": 0.1119,
-   "sharpe": 1.373,
+   "cagr": 0.1116,
+   "sharpe": 1.369,
    "maxdd": -0.0601,
    "vol": 0.0815
   },
   "card": {
-   "cagr": 0.1221,
-   "sharpe": 1.389,
+   "cagr": 0.1217,
+   "sharpe": 1.386,
    "maxdd": -0.0795,
-   "vol": 0.0879
+   "vol": 0.0878
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1119,
-    "card_width_cagr": 0.0966,
-    "pp": -1.53
-   },
    "vol": {
-    "ticket_width_cagr": 0.1197,
-    "card_width_cagr": 0.1221,
-    "pp": 0.24
+    "ticket_width_cagr": 0.1194,
+    "card_width_cagr": 0.1217,
+    "pp": 0.23
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1116,
+    "card_width_cagr": 0.0963,
+    "pp": -1.53
    }
   },
   "rules_differ": true,
   "delta_ticket_minus_card": {
-   "cagr_pp": -1.02,
-   "sharpe": -0.016,
+   "cagr_pp": -1.01,
+   "sharpe": -0.017,
    "maxdd_pp": 1.94,
-   "vol_pp": -0.64
+   "vol_pp": -0.63
   },
   "square": {
    "cells": {
     "beta@5": {
-     "cagr": 0.1119,
-     "sharpe": 1.373,
+     "cagr": 0.1116,
+     "sharpe": 1.369,
      "maxdd": -0.0601,
      "turnover": 1.5301,
      "cash_share": 0.5501
     },
     "beta@12": {
-     "cagr": 0.0966,
-     "sharpe": 1.583,
+     "cagr": 0.0963,
+     "sharpe": 1.579,
      "maxdd": -0.0417,
      "turnover": 1.3032,
      "cash_share": 0.6191
     },
     "vol@5": {
-     "cagr": 0.1197,
-     "sharpe": 1.382,
+     "cagr": 0.1194,
+     "sharpe": 1.379,
      "maxdd": -0.0756,
      "turnover": 1.5301,
-     "cash_share": 0.4792
+     "cash_share": 0.4788
     },
     "vol@12": {
-     "cagr": 0.1221,
-     "sharpe": 1.389,
+     "cagr": 0.1217,
+     "sharpe": 1.386,
      "maxdd": -0.0795,
      "turnover": 1.3032,
-     "cash_share": 0.4271
+     "cash_share": 0.4266
     }
    },
    "width_effect_pp": {
     "beta": -1.53,
-    "vol": 0.24
+    "vol": 0.23
    },
    "rule_effect_pp": {
     "n5": 0.78,
-    "n12": 2.55
+    "n12": 2.54
    },
-   "interaction_pp": 1.77,
-   "published_diagonal_pp": 1.02,
+   "interaction_pp": 1.76,
+   "published_diagonal_pp": 1.01,
    "sharpe_width_effect": {
     "beta": 0.21,
     "vol": 0.007
    },
    "sharpe_rule_effect": {
-    "n5": 0.009,
-    "n12": -0.194
+    "n5": 0.01,
+    "n12": -0.193
    }
   },
   "same_accounting": "one ledger (GC001 cash leg, next-open fills, 8bp/side); width and leverage rule each varied in turn",
   "source": "results/etf_book_width_audit.json",
-  "evidence_cutoff": "2026-10-30"
+  "evidence_cutoff": "2026-11-02"
  },
  "live_width_ruler": {
   "state": "inside_disagreement",
@@ -409,12 +409,21 @@
     "nav_settled": 1.0145314121,
     "delta": 5.0639e-06,
     "reason": "published while the panel for that date was still gaining symbols"
+   },
+   {
+    "bar": "2026-11-02",
+    "ts": "2026-11-02T23:11:55+0800",
+    "nav_published": 1.0086329582,
+    "nav_settled": null,
+    "delta": null,
+    "reason": "published on a bar the panel's coverage gate has since refused; the panel's last bar is earlier than this date, so it can never re-derive"
    }
   ],
   "bars": [
-   "2026-10-29"
+   "2026-10-29",
+   "2026-11-02"
   ],
-  "bars_published": 6
+  "bars_published": 7
  },
  "bets": {
   "status": "ok",
@@ -423,12 +432,12 @@
   "effective_bets": 2.1648970197587434,
   "risk_split": 4.29358560781991,
   "nominal_bets": 4.999999999999999,
-  "evidence_cutoff": "2026-10-30"
+  "evidence_cutoff": "2026-11-02"
  },
  "concentration": {
   "status": "ok",
   "sentence": "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
-  "evidence_cutoff": "2026-10-30",
+  "evidence_cutoff": "2026-11-02",
   "verdict": "BROAD|SURVIVES_WITHOUT_TOP3"
  },
  "caveats": [
@@ -436,8 +445,8 @@
   "ticket prices are closes; no impact cost, no limit-move guard",
   "GC001 single tenor, rolling assumed cost-free",
   "k revised every 20 bars so delivered beta still wanders",
-  "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it",
-  "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
+  "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it (measured on the 2026-11-02 bar)",
+  "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3） (measured on the 2026-11-02 bar)",
   "exploratory: no preregistration, no verdict, no ledger booking",
   "this ticket is the 5-name aggressive end of the book; the production card runs 12 names -- see width_disclosure"
  ]

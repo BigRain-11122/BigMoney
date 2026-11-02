@@ -1277,6 +1277,17 @@ def capital_face(path=MIN_CAPITAL_JSON):
                         "detail": "the width this ladder was priced on disagrees with its rows",
                         "published": wid.get("published_path_width"),
                         "recomputed": want_pw}
+        # (r1241) the headline must be priced on the basket the reader is holding: the
+        # ladder's own width, the width its rows point at, and the delivered card must be
+        # the same number. Before this leg the page printed a 5-name threshold next to a
+        # 12-name card and only warned in prose.
+        _lad_w = cfg.get("ladder_n_hold")
+        _del_w = _delivered_names()
+        if _lad_w is not None and _del_w is not None and int(_lad_w) != int(_del_w):
+            return {"status": "drifted", "artifact": _rel(path, ROOT),
+                    "detail": "the ladder is priced on %s names but the delivered card holds %s"
+                              % (_lad_w, _del_w),
+                    "published": _lad_w, "recomputed": _del_w}
         return {
             "status": "ok",
             "artifact": _rel(path, ROOT),
@@ -1284,6 +1295,11 @@ def capital_face(path=MIN_CAPITAL_JSON):
             "dw_median": dw,
             "model_nav": d.get("fee_neutral_vs_model_nav"),
             "real_nav": d.get("fee_neutral_vs_real_nav"),
+            "model_nav_mean_leg": d.get("fee_neutral_vs_model_nav_mean_leg"),
+            "ladder_n_hold": cfg.get("ladder_n_hold"),
+            "ladder_n_hold_source": cfg.get("ladder_n_hold_source"),
+            "ladder_dw_median": cfg.get("dw_median_all_legs"),
+            "ladder_dw_mean": cfg.get("dw_mean_all_legs"),
             "base_bp": cfg.get("base_bp_published"),
             "prop_bp": sched.get("prop_bp"),
             "min_fee_cny": sched.get("min_fee_cny"),
@@ -1302,7 +1318,9 @@ def capital_face(path=MIN_CAPITAL_JSON):
             "windows": [{"window": r.get("window"), "first_bar": r.get("first_bar"),
                          "last_bar": r.get("last_bar"),
                          "dw_median": r.get("dw_median"),
+                         "dw_mean": r.get("dw_mean"),
                          "model_nav": r.get("fee_neutral_vs_model_nav"),
+                         "model_nav_mean_leg": r.get("fee_neutral_vs_model_nav_mean_leg"),
                          "real_nav": r.get("fee_neutral_vs_real_nav")}
                         for r in wrows],
             "width_verdict": want_xv if xrows else "WIDTH_UNMEASURED",
@@ -1358,6 +1376,16 @@ def capital_block(cf):
              % (cf.get("base_bp") or 0.0, cf.get("min_fee_cny") or 0.0,
                 100.0 * (cf.get("dw_median") or 0.0)))
     L.append("")
+    _lad_w = cf.get("ladder_n_hold")
+    if cf.get("ladder_n_hold_source") == "production_card":
+        L.append("**下面的门槛是按 %s 名的篮子算的**（宽度取自卡片本身，"
+                 "`results/etf_book_production/latest.json`）——这正是你手上这本。"
+                 % (_lad_w if _lad_w is not None else "？"))
+    else:
+        L.append("**下面的门槛按 %s 名算，但这个宽度不是从卡片读到的**（卡片配置缺席或读不出），"
+                 "退回引擎默认——换言之它未必是你在持的那本，先看宽度表再引用。"
+                 % (_lad_w if _lad_w is not None else "？"))
+    L.append("")
     L.append("- **低于约 %.0f 元**：5 元地板压过 %g bp，模型比真实便宜——"
              "%.0f 元账户的年化只剩 **%.2f%%**（同一路径、同一冲击项，按 8bp 算是 **%.2f%%**），"
              "全窗佣金 **%.0f 元**，相当于把起始本金吃掉一大块。"
@@ -1381,6 +1409,20 @@ def capital_block(cf):
                                                 str(w.get("window") or "").replace("_", " "))
                               for w in cf.get("windows") or [] if w.get("model_nav") is not None),
                     spread, cf.get("window_tol_pct") or 0.0, model_nav))
+        # if the median reading is being carried by a degenerate leg, say what the
+        # amount-weighted reading says about the SAME samples, through the same rule
+        _mv = [{"window": w.get("window"),
+                "fee_neutral_vs_model_nav": w.get("model_nav_mean_leg")}
+               for w in cf.get("windows") or [] if w.get("model_nav_mean_leg")]
+        if len(_mv) >= 2:
+            import etf_book_min_capital as _MCmm
+            _mtok, _msp = _MCmm._window_verdict(_mv, model_nav)
+            if _msp is not None and spread and _msp < spread / 3.0:
+                L.append("按「平均那一笔」（按金额加权，下表解释两种读法）读同一组样本，"
+                         "平衡点是 %s，极差 **%.1f%%**——没有中位数读数那么极端，"
+                         "但同样不是常数。"
+                         % ("、".join("%.0f 元" % r["fee_neutral_vs_model_nav"] for r in _mv),
+                            _msp))
     L.append("")
     L.append("| 样本 | 起 | 止 | 平均每仓位换手 | 8bp 与券商费率的平衡点 | 8bp 与万%g 的平衡点 |"
              % (cf.get("prop_bp") or 0.0))
@@ -1391,6 +1433,25 @@ def capital_block(cf):
                     w.get("last_bar"), 100.0 * (w.get("dw_median") or 0.0),
                     ("%.0f 元" % w["model_nav"]) if w.get("model_nav") is not None else "-",
                     ("%.0f 元" % w["real_nav"]) if w.get("real_nav") is not None else "-"))
+    # (r1241) the window table has two honest readings: the median leg (what the typical
+    # single trade is worth -- where a per-trade floor bites hardest) and the mean leg
+    # (amount-weighted -- what the account actually pays). In a thin universe they can be
+    # a factor of 30 apart, and a table that prints only one of them reads as a bug.
+    _mm = [(str(w.get("window") or "").replace("_", " "), w.get("model_nav"),
+            w.get("model_nav_mean_leg")) for w in cf.get("windows") or []]
+    _mm = [t for t in _mm if t[1] and t[2]]
+    if _mm:
+        _worst = max(_mm, key=lambda t: max(t[1] / t[2], t[2] / t[1]))
+        _ratio = max(_worst[1] / _worst[2], _worst[2] / _worst[1])
+        if _ratio > 3.0:
+            L.append("")
+            L.append("**这张表有两种读法，最远差 %.0f 倍。** 表里印的是「中位数那一笔」——"
+                     "盘里大多数换手只是把某个名字的量修一点点，按这一笔算，5 元门票在任何账户"
+                     "规模上都压过 8bp（%s 读到 **%.0f 元**）；换成「平均那一笔」（按金额加权）"
+                     "读同一个样本，是 **%.0f 元**。地板是**每笔**收的，所以两个数都真，"
+                     "问的不是同一件事：前者答「最抠的那一笔要多少钱才不亏」，"
+                     "后者答「这个账户日常要付多少佣金」。判词仍取自中位数（冻结口径）。"
+                     % (_ratio, _worst[0], _worst[1], _worst[2]))
     L.append("")
     wid_rows = cf.get("widths") or []
     wspread = cf.get("width_spread_pct")

@@ -237,6 +237,14 @@ def fields_from(probe, stamp):
         "gpu_face": "nvidia-smi %d%% / %d MiB used of %d MiB"
                     % (int(probe["util_pct"]), probe["used_mib"],
                        probe["total_mib"]),
+        # r1241: a round had written free-form prose into gpu_note ("94% / 1537 MiB
+        # free") and nothing owned it, so the face carried two contradicting
+        # descriptions of the same GPU with a fresh stamp on one of them. Text that
+        # states numbers is as much a GPU field as the numbers themselves.
+        "gpu_note": "nvidia-smi %d%% util / %d MiB free of %d MiB"
+                    % (int(probe["util_pct"]),
+                       probe["total_mib"] - probe["used_mib"],
+                       probe["total_mib"]),
         "gpu_face_ts": stamp,
         "gpu_face_source": "nvidia-smi",
     }
@@ -327,7 +335,7 @@ def audit(face):
                         "used_mib": round(u, 1), "total_mib": round(t, 1),
                         "gap_mib": round((f + u) - t, 1)})
     known = set(FREE_KEYS) | set(USED_KEYS) | set(TOTAL_KEYS) | set(PAIR_FREE_TOTAL) | {
-        "gpu_util_pct", "gpu_face", "gpu_face_ts", "gpu_face_source"}
+        "gpu_util_pct", "gpu_face", "gpu_face_ts", "gpu_face_source", "gpu_note"}
     # r1177: ownership is "apply() will refresh it", not "somebody tabulated it".
     # A numeric spelling with a derivable family is restated by the probe, so it
     # can no longer age; what still ages is a GPU-memory key whose value is a

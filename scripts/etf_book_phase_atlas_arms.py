@@ -795,6 +795,27 @@ def _cap_ladder(cap, rebal):
     return out
 
 
+def _ticket_asof(ticket=None):
+    """The bar the executable ticket was priced on -- the only date its 2x2 can be frozen to.
+
+    The as-issued block is a snapshot of a file that is re-written every time the book is
+    priced, so the gate needs its identity. `evidence_cutoff` is the priced bar; the file name
+    is the fallback, because a ticket written before that key existed still carries its date
+    there and an unreadable identity must not be silently treated as 'unchanged'.
+    """
+    t = ticket if ticket is not None else _ticket_payload()
+    if isinstance(t, dict):
+        v = _cutoff_of(t)
+        if v:
+            return v
+    p = _ticket_bar_face()
+    if p:
+        m = re.search(r"(\d{4}-\d{2}-\d{2})", os.path.basename(p))
+        if m:
+            return m.group(1)
+    return None
+
+
 def _ticket_payload():
     """The executable ticket the operator is actually holding (resolve latest -> dated file)."""
     if not os.path.exists(TICKET_LATEST):
@@ -924,7 +945,7 @@ def live_width_of(payload, capacity, ticket):
     }
     as_issued = None
     if ticket and ticket.get("width_disclosure"):
-        as_issued = _as_issued_block(ticket["width_disclosure"], out, LIVE_RULE)
+        as_issued = _as_issued_block(ticket["width_disclosure"], out, LIVE_RULE, ticket)
         out["as_issued"] = as_issued
     reasons = ["%d paired phases of one R%d cycle (need >= %d)"
                % (n, cad, LIVE_RULE["pairs_min"])]
@@ -999,7 +1020,7 @@ def _sd(a):
     return (sum((x - m) ** 2 for x in a) / float(len(a))) ** 0.5
 
 
-def _as_issued_block(wd, ctx, rule):
+def _as_issued_block(wd, ctx, rule, ticket=None):
     """Re-derive the ticket's own 2x2 from its four cells instead of trusting its summaries."""
     sq = ((wd.get("square") or {}).get("cells") or {})
     need = ("beta@5", "beta@12", "vol@5", "vol@12")
@@ -1030,6 +1051,7 @@ def _as_issued_block(wd, ctx, rule):
             })
     return {
         "source": "results/etf_book_order/TICKET-*.json width_disclosure.square",
+        "ticket_asof": _ticket_asof(ticket),
         "cells_cagr_pp": g,
         "card_cagr_pp": g["vol@12"], "ticket_cagr_pp": g["beta@5"],
         "diagonal_pp": diag,
@@ -1047,6 +1069,36 @@ def _as_issued_block(wd, ctx, rule):
 def build_live_widths():
     cap = face(CAPACITY_FACE) if os.path.exists(CAPACITY_FACE) else None
     return live_width_of(face(BASE), cap, _ticket_payload())
+
+
+def _ticket_repriced(pub, rebuilt):
+    """Why an as_issued-only drift is a RE-ISSUED ticket rather than an edited face, or None.
+
+    The as-issued block is a snapshot of the executable ticket's own 2x2, and that ticket is
+    re-written every time the book is priced on a new bar -- its inception simulation gains a
+    day, so all four cells move by a few hundredths of a pp through no edit of this file.
+    Measured 2026-11-02 (first live firing): TICKET-2026-10-30 -> TICKET-2026-11-02 moved every
+    cell (12.21 -> 12.17, 11.19 -> 11.16, ...) and the gate called the face hand-edited (rc=1),
+    i.e. it was permanently red on the one input it cannot freeze. A gate may only judge what
+    is settled, so the ticket's own date decides: a later ticket is STALE (the chain pays the
+    declared refresh, which re-snapshots it); the same or an earlier one is a real edit and
+    stays red. Nothing else in the face may ride along on this branch.
+    """
+    full = _diff(pub, rebuilt, limit=10 ** 6)
+    if not full:
+        return None
+    if not all(d.split(" (")[0].lstrip(".").startswith("as_issued") for d in full):
+        return None
+    mine = (pub.get("as_issued") or {}).get("ticket_asof")
+    theirs = (rebuilt.get("as_issued") or {}).get("ticket_asof")
+    if not theirs:
+        return None
+    if mine and isinstance(mine, str) and theirs <= mine:
+        return None
+    return ("the executable ticket has been re-issued since this face was written "
+            "(ticket_asof %s -> %s), so the as-issued 2x2 is a snapshot of a ticket that no "
+            "longer exists; every other block still matches"
+            % (mine if mine else "unrecorded", theirs))
 
 
 def live_width_check():
@@ -1073,6 +1125,10 @@ def live_width_check():
     # TICKET-2026-10-30 vs a face priced 2026-10-29 that re-derives to the same bytes). The
     # ticket's real contribution is covered by the drift comparison itself.
     src = [BASE, CAPACITY_FACE]
+    repriced = _ticket_repriced(pub, rebuilt)
+    if repriced:
+        print("live-width face is stale: %s; drift=%s" % (repriced, "; ".join(drift)[:250]))
+        return 2
     why = _source_moved(pub, drift, [p for p in src if os.path.exists(p)])
     if why:
         print("live-width face is stale: %s; drift=%s" % (why, "; ".join(drift)[:250]))
@@ -1698,6 +1754,51 @@ def _selftest():
             chk(live_width_check() == 2, "a missing live-width face is stale, not inconsistent")
         finally:
             LIVE_OUT = keepl
+
+    # L29b-L29d r1242 (2026-11-02, first live firing of this gate): the as-issued block is a
+    # snapshot of a ticket that is RE-WRITTEN whenever the book is priced on a new bar, so a
+    # ticket re-issue must read stale (chain pays the refresh) while a hand edit of the same
+    # block stays inconsistent -- and the re-issue branch may not excuse any other block.
+    keepl2 = LIVE_OUT
+    with tempfile.TemporaryDirectory() as td:
+        try:
+            ltmp = os.path.join(td, "live2.json")
+            sub0 = json.loads(json.dumps(build_live_widths()))
+            asof_now = (sub0.get("as_issued") or {}).get("ticket_asof")
+
+            def _write(payload):
+                with open(ltmp, "w", encoding="utf-8") as fh:
+                    json.dump(payload, fh, ensure_ascii=False, indent=1)
+
+            LIVE_OUT = ltmp
+            # (a) cells moved AND the ticket is dated earlier than the one re-derived now
+            a = json.loads(json.dumps(sub0))
+            if a.get("as_issued"):
+                a["as_issued"]["cells_cagr_pp"]["beta@5"] = round(
+                    a["as_issued"]["cells_cagr_pp"]["beta@5"] - 0.03, 3)
+                a["as_issued"]["ticket_asof"] = "2000-01-01"
+                _write(a)
+                rc = live_width_check()
+                chk(rc == 2, "an as-issued block from an OLDER ticket is stale, not an edit "
+                             "(rc=%r, ticket %r -> %r)"
+                             % (rc, "2000-01-01", asof_now))
+                # (b) same cells, same ticket date => a real edit stays red
+                b = json.loads(json.dumps(a))
+                if asof_now:
+                    b["as_issued"]["ticket_asof"] = asof_now
+                _write(b)
+                rc = live_width_check()
+                chk(rc == 1, "the same edit under an unchanged ticket date stays inconsistent "
+                             "(rc=%r)" % rc)
+                # (c) an older ticket must not excuse a drift outside the as-issued block
+                c = json.loads(json.dumps(a))
+                c["paired"]["median_pp"] = round((c["paired"].get("median_pp") or 0.0) + 0.5, 3)
+                _write(c)
+                rc = live_width_check()
+                chk(rc == 1, "a re-issued ticket does not excuse a non-as-issued drift (rc=%r)"
+                             % rc)
+        finally:
+            LIVE_OUT = keepl2
 
     # L30 a cost arm never publishes its returns label as an adoption (r1168): a zero-toll arm
     # would otherwise read ADOPT, which is not a finding about the strategy at all

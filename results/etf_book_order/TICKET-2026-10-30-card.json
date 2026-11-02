@@ -197,14 +197,15 @@
   "ledger_scale": 0.700775,
   "same_scale_as_ledger": true,
   "ledger_book_bar": "2026-10-14",
-  "ledger_last_bar": "2026-10-30",
-  "ledger_last_nav": 1.0085993056,
+  "ledger_last_bar": "2026-11-02",
+  "ledger_last_nav": 1.0086329582,
   "ledger_status": "live",
   "ledger_source": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
   "restatements_readable": true,
   "restatements_source": "restatements",
   "restated_bars": [
-   "2026-10-29"
+   "2026-10-29",
+   "2026-11-02"
   ],
   "restatements": [
    {
@@ -214,9 +215,17 @@
     "nav_settled": 1.0145314121,
     "delta": 5.0639e-06,
     "reason": "published while the panel for that date was still gaining symbols"
+   },
+   {
+    "bar": "2026-11-02",
+    "ts": "2026-11-02T23:11:55+0800",
+    "nav_published": 1.0086329582,
+    "nav_settled": null,
+    "delta": null,
+    "reason": "published on a bar the panel's coverage gate has since refused; the panel's last bar is earlier than this date, so it can never re-derive"
    }
   ],
-  "ledger_bars_published": 6,
+  "ledger_bars_published": 7,
   "card_cash_weight": 0.2992,
   "card_cash_amount": 301289.0,
   "card_cash_is_executable": true,

@@ -626,9 +626,28 @@ def write_md(payload, path=None):
 
 # --------------------------------------------------------------------------- check
 def check(path=None):
-    """Re-read the published face and recompute every verdict from its own rows."""
+    """Re-read the published face and recompute every verdict from its own rows.
+
+    r1242: this is also the FRESHNESS gate. The operator page pairs this face with
+    `results/etf_book_sleeve_paths.json` and prints "cannot verify" whenever the two sit on
+    different bars, and only the paths leg was on the chain -- so the sleeve section silently
+    degraded to "cannot verify" every day the panel advanced (measured 2026-11-02: gate
+    priced 2026-10-30 vs paths 2026-11-02, two smoke legs red). A gate that stays green while
+    its face falls behind the panel is the r1345 trap: the panel's own last bar decides, and a
+    face behind it reads "stale" (rc2) so the chain pays the declared refresh, which re-prices
+    all three arms.
+    """
     p = Path(path) if path else OUT_JSON
     doc = json.load(open(p, encoding="utf-8"))
+    try:
+        panel_bar = str(P.prep_panel()[0].index[-1].date())
+    except Exception:                                          # noqa: BLE001
+        panel_bar = None
+    if panel_bar and (doc.get("evidence_cutoff") or "") != panel_bar:
+        print("sleeve-gate face is stale: priced %s, panel at %s (the page reads this face "
+              "against the paths face on the same bar)"
+              % (doc.get("evidence_cutoff"), panel_bar))
+        return 2
     problems = []
     if doc.get("criteria") != CRITERIA:
         problems.append("criteria echoed by the face differ from the frozen constants")

@@ -30,8 +30,8 @@
   "cost_bp_per_side": 10.0
  },
  "book": {
-  "cagr": 0.096,
-  "sharpe": 0.99,
+  "cagr": 0.0959,
+  "sharpe": 0.989,
   "maxdd": -0.1177,
   "vol": 0.1017,
   "turnover_per_decision": 0.934,
@@ -129,12 +129,12 @@
   "csi300": {
    "code": "510300",
    "label": "CSI 300 ETF",
-   "cagr": -0.0024,
+   "cagr": -0.0015,
    "turnover_total": 1.0,
-   "sharpe": 0.087,
+   "sharpe": 0.092,
    "maxdd": -0.4668,
    "vol": 0.2013,
-   "years": 6.81
+   "years": 6.82
   },
   "bond": {
    "code": "511010",
@@ -352,7 +352,7 @@
    "offset_bars": 10,
    "source": "results/etf_book_stagger_publish.json:machinery"
   },
-  "bars": 1652
+  "bars": 1653
  },
  "caveats": [
   "daily OLS, no HAC correction (non-overlapping daily returns; autocorrelation in the residual would only widen the alpha interval, so a t below 2 is not rescued by it)",
@@ -371,7 +371,7 @@
  "panel": {
   "universe": 1504,
   "flips_repaired": 168,
-  "last_bar": "2026-10-30"
+  "last_bar": "2026-11-02"
  },
- "verdict": "book 9.60%/yr SR 0.99 DD -11.8% vs EW span basket 9.90%/yr SR 0.96 DD -11.3% over 2026-10-30; span explains R2=0.43 of daily variance; alpha +5.96%/yr (t=1.98); alpha NOT distinguishable from a fixed loadings mix of the four span assets at 2 sigma; span arms with a higher Sharpe than the book: bond; staggered 6+6 arm: alpha +6.98%/yr (t=2.43) vs book +5.96%/yr (t=1.98), resid vol 7.3% vs 7.7% -- the split clock pushes the intercept over 2 sigma (+1.02pp/yr) where the single sleeve does not clear it -- a strategy difference, not a free lunch: one arm over a t of 2 is the threshold, not a proven edge"
+ "verdict": "book 9.59%/yr SR 0.99 DD -11.8% vs EW span basket 9.90%/yr SR 0.96 DD -11.3% over 2026-10-30; span explains R2=0.43 of daily variance; alpha +5.96%/yr (t=1.98); alpha NOT distinguishable from a fixed loadings mix of the four span assets at 2 sigma; span arms with a higher Sharpe than the book: bond; staggered 6+6 arm: alpha +6.98%/yr (t=2.43) vs book +5.96%/yr (t=1.98), resid vol 7.3% vs 7.7% -- the split clock pushes the intercept over 2 sigma (+1.02pp/yr) where the single sleeve does not clear it -- a strategy difference, not a free lunch: one arm over a t of 2 is the threshold, not a proven edge"
 }

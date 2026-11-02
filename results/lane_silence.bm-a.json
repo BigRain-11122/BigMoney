@@ -27,6 +27,15 @@
    "to": "2026-11-02T17:37",
    "unexplained_high_min": 0.0,
    "unexplained_low_min": 0.0
+  },
+  {
+   "from": "2026-11-02T18:27",
+   "gap_high_min": 114.0,
+   "gap_low_min": 114.0,
+   "quiet_window_min": 92.0,
+   "to": "2026-11-02T20:21",
+   "unexplained_high_min": 22.0,
+   "unexplained_low_min": 22.0
   }
  ],
  "gaps_over_threshold": [
@@ -122,19 +131,32 @@
   }
  ],
  "gaps_over_threshold_count": 10,
- "generated": "2026-11-02T19:27:46",
+ "generated": "2026-11-02T21:23:33",
  "lane_tasks": {
   "absent": [],
   "disabled": [],
-  "disabled_before_heal": [],
+  "disabled_before_heal": [
+   "Bigmoney-IterationLoop"
+  ],
   "heal": {
-   "acts": [],
-   "healed": [],
-   "readback": {}
+   "acts": [
+    {
+     "action": "enabled",
+     "detail": "",
+     "task": "Bigmoney-IterationLoop",
+     "verified": true
+    }
+   ],
+   "healed": [
+    "Bigmoney-IterationLoop"
+   ],
+   "readback": {
+    "Bigmoney-IterationLoop": "Ready"
+   }
   },
   "probeable": 4,
   "states": {
-   "Bigmoney-IterationLoop": "Running",
+   "Bigmoney-IterationLoop": "Ready",
    "Bigmoney-LoopWatchdog": "Ready",
    "Bigmoney-SatEngine-bm-b": "Ready",
    "HQ-Patrol-BigMoney": "Ready"
@@ -155,12 +177,12 @@
  "machine": "bm-a",
  "median_gap_min": 32.0,
  "open_gap": {
-  "gap_high_min": 60.8,
-  "gap_low_min": 60.8,
-  "quiet_window_min": 60.8,
-  "since": "2026-11-02T18:27",
-  "unexplained_high_min": 0.0,
-  "unexplained_low_min": 0.0
+  "gap_high_min": 27.6,
+  "gap_low_min": 27.6,
+  "quiet_window_min": 0.0,
+  "since": "2026-11-02T20:56",
+  "unexplained_high_min": 27.6,
+  "unexplained_low_min": 27.6
  },
  "parse_precision_note": "stamps recorded with an 'x' digit are read as a 9-minute interval; a gap is only called when its pessimistic end clears the threshold",
  "quiet_windows": [
@@ -170,8 +192,8 @@
    19
   ]
  ],
- "rounds_in_ledger": 725,
- "rounds_in_window": 80,
+ "rounds_in_ledger": 727,
+ "rounds_in_window": 79,
  "silence_verdict": "SILENT_GAP",
  "source": "round_reports-bm-a.md",
  "threshold_min": 90,

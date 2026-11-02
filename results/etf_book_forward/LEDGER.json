@@ -88,7 +88,21 @@
    "n_held": 12,
    "filled": false,
    "turn": 0.0,
-   "provisional": true
+   "provisional": false,
+   "settled_at": "2026-11-02T21:27:15+0800"
+  },
+  {
+   "bar": "2026-11-02",
+   "nav": 1.0086329582,
+   "dd": -0.006681,
+   "cash": 0.299225,
+   "carry": 3.33656e-05,
+   "n_held": 12,
+   "filled": false,
+   "turn": 0.0,
+   "provisional": false,
+   "withdrawn": true,
+   "withdrawn_at": "2026-11-02T23:11:55+0800"
   }
  ],
  "books": {},
@@ -132,7 +146,8 @@
   "provisional_faces": [],
   "benchmark_settled_faces": [],
   "benchmark_provisional_faces": [],
-  "restated_bars": []
+  "restated_bars": [],
+  "withdrawn_bars": []
  },
  "rebases": [],
  "runs": [
@@ -281,6 +296,21 @@
    "ts": "2026-11-02T07:40:18+0800",
    "new_bars": 0,
    "last_bar": "2026-10-30"
+  },
+  {
+   "ts": "2026-11-02T20:52:36+0800",
+   "new_bars": 1,
+   "last_bar": "2026-11-02"
+  },
+  {
+   "ts": "2026-11-02T21:27:18+0800",
+   "new_bars": 0,
+   "last_bar": "2026-11-02"
+  },
+  {
+   "ts": "2026-11-02T23:13:00+0800",
+   "new_bars": 0,
+   "last_bar": "2026-10-30"
   }
  ],
  "panel": {
@@ -294,7 +324,11 @@
    "close",
    "open",
    "amount"
-  ]
+  ],
+  "refused_trailing_rows": 1,
+  "refused_last_bar": "2026-11-02",
+  "coverage_floor": 0.5,
+  "reference_coverage": 1611
  },
  "caveats": [
   "The ETF pool is today's listed set: survivorship is still in the equity sleeve.",
@@ -393,8 +427,8 @@
     "1y": 16.572,
     "3y": 28.704
    },
-   "noise_band_pp_at_published": 2.599,
-   "published_bars": 6,
+   "noise_band_pp_at_published": 2.807,
+   "published_bars": 7,
    "bars_needed_for_edge": {
     "3pp/yr": 7753,
     "5pp/yr": 2792,
@@ -486,6 +520,16 @@
    "nav_published": 1.014536476,
    "nav_settled": 1.0145314121,
    "delta": 5.0639e-06
+  },
+  {
+   "ts": "2026-11-02T23:11:55+0800",
+   "bar": "2026-11-02",
+   "type": "withdrawn",
+   "reason": "published on a bar the panel's coverage gate has since refused; the panel's last bar is earlier than this date, so it can never re-derive",
+   "panel_last_date": "2026-10-30",
+   "nav_published": 1.0086329582,
+   "dd_published": -0.006681,
+   "cash_published": 0.299225
   }
  ]
 }

@@ -126,6 +126,15 @@ def _panel_block(cls, n_flip):
         blk["first_bar"] = PANEL_DIGEST["first"]
         blk["last_bar"] = PANEL_DIGEST["last"]
         blk["covers"] = PANEL_DIGEST.get("blocks") or []
+    # r1243: the ledger said last_bar 2026-11-02 on a row carrying 5 closes out of 1,613.
+    # A ledger that silently ends one bar earlier than its source is indistinguishable from
+    # one whose source lost a day, so it now carries the coverage gate's own record.
+    _tail = dict(getattr(E, "PANEL_TAIL", {}) or {})
+    if _tail.get("dropped"):
+        blk["refused_trailing_rows"] = _tail.get("rows_refused")
+        blk["refused_last_bar"] = _tail.get("last_bar_named")
+        blk["coverage_floor"] = _tail.get("floor")
+        blk["reference_coverage"] = _tail.get("reference_coverage")
     return blk
 
 
@@ -642,6 +651,18 @@ def bench_drift(published, fresh, tol=DRIFT_TOL):
     return faces[:20]
 
 
+def published_bars(led):
+    """The ledger bars still being policed: a withdrawn mark stays in the record but is inert.
+
+    r1243: one published mark (2026-11-02) was priced on a bar the panel's coverage gate has
+    since refused. Deleting it would rewrite the record, so it stays with `withdrawn: True`
+    and stops entering the settled/provisional partition -- otherwise it is "the newest
+    published bar" forever, every later run calls the newest REAL bar provisional too, and the
+    ledger can never close a bar again.
+    """
+    return [b for b in (led.get("bars") or []) if not b.get("withdrawn")]
+
+
 def partition_settled(bars, panel_last_date):
     """(settled, provisional) published bar dates -- the ONE implementation.
 
@@ -693,6 +714,34 @@ def restate_provisional(led, rec, fresh, delta, panel_last_date):
             rec[k] = fresh[k]
     rec["provisional"] = False
     rec["restated_at"] = ent["ts"]
+    led.setdefault("restatements", []).append(ent)
+    return ent
+
+
+def withdraw_provisional(led, rec, panel_last_date):
+    """Retire a mark published on a bar the panel has since REFUSED.
+
+    `restate_provisional` covers one ending: the date was a real session, its panel was
+    still filling, and it settles to a different number. This covers the other: the date
+    never became a session the account could price at all (2026-11-02 carried 5 closes out
+    of 1,613, and the panel's coverage gate has since dropped the row). The published value
+    is kept -- deleting it would rewrite history -- and the record says why it will never be
+    re-derived. One disclosed entry, then the mark is inert.
+    """
+    ent = {
+        "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+        "bar": rec["bar"],
+        "type": "withdrawn",
+        "reason": ("published on a bar the panel's coverage gate has since refused; the "
+                   "panel's last bar is earlier than this date, so it can never re-derive"),
+        "panel_last_date": panel_last_date,
+        "nav_published": rec.get("nav"),
+        "dd_published": rec.get("dd"),
+        "cash_published": rec.get("cash"),
+    }
+    rec["withdrawn"] = True
+    rec["withdrawn_at"] = ent["ts"]
+    rec["provisional"] = False
     led.setdefault("restatements", []).append(ent)
     return ent
 
@@ -930,17 +979,27 @@ def run(rebase=False):
     seed_bar = led["seed"]["bar"]
     fresh = {b["bar"]: b for b in _indexed(marks, seed_bar)}
     panel_last = str(dates[-1].date()) if dates else None
-    settled, provisional = partition_settled([b["bar"] for b in led["bars"]], panel_last)
+    settled, provisional = partition_settled(
+        [b["bar"] for b in published_bars(led)], panel_last)
 
     # drift gate: every published mark on a SETTLED bar must re-derive exactly. A bar
     # that was published while its panel was still filling and has since settled gets one
     # disclosed restatement instead (see restate_provisional); a bar still filling is not
     # asked the question at all, because its answer is not final yet.
     faces, restated, worst = [], [], 0.0
+    withdrawn = []
     for b in led["bars"]:
+        if b.get("withdrawn"):
+            continue
         f = fresh.get(b["bar"])
         if f is None:
-            faces.append(b["bar"] + ":missing")
+            # r1243: a provisional mark whose date the panel has stopped short of is not a
+            # missing face to be re-derived -- the bar was never a session. Retire it once,
+            # disclosed; anything else is a real missing face and still blocks if settled.
+            if b.get("provisional") and panel_last and b["bar"] > panel_last:
+                withdrawn.append(withdraw_provisional(led, b, panel_last))
+            else:
+                faces.append(b["bar"] + ":missing")
             continue
         d = abs(f["nav"] - b["nav"])
         if b.get("provisional") and b["bar"] in settled:
@@ -976,7 +1035,7 @@ def run(rebase=False):
     led["drift"] = {
         "faces": (faces_settled + faces_prov)[:20],
         "max_abs": worst,
-        "checked_bars": len(led["bars"]),
+        "checked_bars": len(published_bars(led)),
         "gate": "settled_bars_only",
         "settled_bars": settled[-10:],
         "provisional_bars": provisional,
@@ -985,7 +1044,12 @@ def run(rebase=False):
         "benchmark_settled_faces": bench_faces,
         "benchmark_provisional_faces": bench_prov,
         "restated_bars": [r["bar"] for r in restated],
+        "withdrawn_bars": [r["bar"] for r in withdrawn],
     }
+    if withdrawn:
+        print("WITHDRAWN %s: published on a bar the coverage gate has since refused "
+              "(panel ends %s) -> kept in the record, no longer re-derived"
+              % (",".join(r["bar"] for r in withdrawn), panel_last), flush=True)
 
     new_bars = [f for f in _indexed(marks, seed_bar) if f["bar"] > led["bars"][-1]["bar"]]
     for nb in new_bars:
@@ -1029,7 +1093,11 @@ def run(rebase=False):
               (",".join(provisional) or "none", len(faces_prov), len(bench_prov)), flush=True)
 
     if not new_bars:
-        headed = led["bars"][-1] if led["bars"] else {}
+        # r1243: the headline bar is the last one still being policed -- a withdrawn mark
+        # (published on a bar the coverage gate refused) is in the record but is not "where
+        # the book stands", so the no-op line must not name it as the ledger's head.
+        _live = published_bars(led)
+        headed = _live[-1] if _live else {}
         led["benchmark"] = _bench_with_book(led["bars"], dates, seed_bar)
         _attach_sig(led, significance(dates, marks, set(dates[::CONFIG["rebal"]]),
                                       len(led["bars"])))
@@ -1369,6 +1437,26 @@ def selftest():
         _rec["nav"] == 1.100001 and _rec["provisional"] is False
         and _led["restatements"][0]["nav_published"] == 1.1
         and abs(ent["delta"] - 1e-6) < 1e-15, str(ent))
+
+    # 7c. the other ending (r1243): a provisional mark whose date the panel has since STOPPED
+    #     short of was never a session -- it is retired in the record, not deleted and not
+    #     left asking to be re-derived forever. Both halves are asserted here too: the mark
+    #     stays with its published value AND it leaves the partition, so the newest REAL bar
+    #     can settle again (otherwise every later run calls that bar provisional as well).
+    _wled = {"restatements": [], "bars": [
+        {"bar": "2026-10-29", "nav": 1.01, "provisional": False},
+        {"bar": "2026-10-30", "nav": 1.02, "provisional": False},
+        {"bar": "2026-11-02", "nav": 1.021, "provisional": True}]}
+    _went = withdraw_provisional(_wled, _wled["bars"][-1], "2026-10-30")
+    _wpub = published_bars(_wled)
+    _wst, _wpv = partition_settled([b["bar"] for b in _wpub], "2026-10-30")
+    chk("a mark on a bar the panel refuses is withdrawn once, kept, and leaves the partition",
+        _wled["bars"][-1].get("withdrawn") is True
+        and _wled["bars"][-1]["nav"] == 1.021
+        and _wled["bars"][-1].get("provisional") is False
+        and _went["nav_published"] == 1.021 and _went["panel_last_date"] == "2026-10-30"
+        and [b["bar"] for b in _wpub] == ["2026-10-29", "2026-10-30"]
+        and _wpv == ["2026-10-30"] and _wst == ["2026-10-29"], str(_went))
 
     # 8. THE BUG CATCHER: with the vol target ON the accrual must still be the book's
     #    weighted return. r1267's equivalence leg ran with vol_target=None, where every

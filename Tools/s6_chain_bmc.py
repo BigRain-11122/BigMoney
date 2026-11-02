@@ -336,6 +336,14 @@ LEGS = [
     # prefix, which does NOT move an engine grid anchored at `start`, and published fifteen
     # identical paths; the gate below therefore refuses phases that are not distinct grids,
     # and refuses a face whose verdicts do not recompute from its own rows. Engine-free.
+    # r1242 (bm-a): the paths face below is paired with results/etf_book_sleeve_gate.json and
+    # the operator page prints "cannot verify" whenever the two sit on different bars -- but
+    # only the paths leg was on this chain, so the sleeve section degraded to "cannot verify"
+    # every day the panel advanced (measured 2026-11-02: gate 2026-10-30 vs paths 2026-11-02,
+    # two smoke legs red). Producer before consumer, and the gate's own check now reads the
+    # panel's last bar: behind it = "stale" -> rc2 -> this refresh re-prices the three arms.
+    ("etf_book_sleeve_gate", ["python", "scripts/etf_book_sleeve_gate.py", "check"],
+     ["python", "scripts/etf_book_sleeve_gate.py", "run"]),
     ("etf_book_sleeve_paths", ["python", "scripts/etf_book_sleeve_paths.py", "--check"],
      ["python", "scripts/etf_book_sleeve_paths.py", "run"]),
     # r1196 (bm-a): the card calls the 8% vol target "a drawdown tool, not an edge" while the

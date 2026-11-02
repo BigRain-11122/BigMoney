@@ -3,7 +3,7 @@
  "face": "descriptive flip-rate sweep; selects no arm, changes no book, places no order",
  "anchor": {
   "book_vol": 0.1017,
-  "book_cagr": 0.0972,
+  "book_cagr": 0.097,
   "book_sharpe": 1.0,
   "book_maxdd": -0.1177,
   "blend_weight": 0.3333
@@ -12,7 +12,7 @@
   "etf_book": {
    "names": 1504,
    "flips_repaired": 168,
-   "cutoff": "2026-10-30"
+   "cutoff": "2026-11-02"
   },
   "futures_sleeve": {
    "source": "data/futures_daily main-continuous",
@@ -42,7 +42,7 @@
   "tsmom60": {
    "lookback": 60,
    "control_arm": "tsmom60_base",
-   "verdict": "tsmom60_strength_hold_0.02 clears the base at 3/5/10bp: 72.0% fewer flips, turnover cut 83.2%, gross -0.39 pp; breakeven moves to 10bp (+0.48 pp at that cost, +0.48 pp at 10bp)",
+   "verdict": "tsmom60_strength_hold_0.02 clears the base at 3/5/10bp: 72.0% fewer flips, turnover cut 83.2%, gross -0.39 pp; breakeven moves to 10bp (+0.47 pp at that cost, +0.47 pp at 10bp)",
    "robustness": {
     "theta_levels_tested": [
      0.02,
@@ -71,43 +71,43 @@
      "mean_abs_weight": 0.2959,
      "sleeve_turnover_total": 1006.4,
      "sleeve_gross_cagr": 0.0195,
-     "sleeve_cagr_1bp": 0.0772,
-     "sleeve_sharpe_1bp": 1.089,
+     "sleeve_cagr_1bp": 0.0769,
+     "sleeve_sharpe_1bp": 1.086,
      "cost_rows": [
       {
        "cost_per_side_bp": 1.0,
        "turnover_total": 1006.4,
-       "blend_cagr": 0.0772,
-       "blend_sharpe": 1.089,
-       "equal_risk_cagr": 0.1068,
-       "equal_risk_delta_cagr_pp": 0.96,
+       "blend_cagr": 0.0769,
+       "blend_sharpe": 1.086,
+       "equal_risk_cagr": 0.1064,
+       "equal_risk_delta_cagr_pp": 0.94,
        "equal_risk_delta_maxdd_pp": -0.21
       },
       {
        "cost_per_side_bp": 3.0,
        "turnover_total": 1006.4,
-       "blend_cagr": 0.0701,
-       "blend_sharpe": 0.997,
-       "equal_risk_cagr": 0.0969,
-       "equal_risk_delta_cagr_pp": -0.03,
+       "blend_cagr": 0.0698,
+       "blend_sharpe": 0.994,
+       "equal_risk_cagr": 0.0965,
+       "equal_risk_delta_cagr_pp": -0.05,
        "equal_risk_delta_maxdd_pp": -1.29
       },
       {
        "cost_per_side_bp": 5.0,
        "turnover_total": 1006.4,
-       "blend_cagr": 0.0631,
-       "blend_sharpe": 0.904,
-       "equal_risk_cagr": 0.087,
-       "equal_risk_delta_cagr_pp": -1.02,
+       "blend_cagr": 0.0629,
+       "blend_sharpe": 0.901,
+       "equal_risk_cagr": 0.0866,
+       "equal_risk_delta_cagr_pp": -1.04,
        "equal_risk_delta_maxdd_pp": -2.36
       },
       {
        "cost_per_side_bp": 10.0,
        "turnover_total": 1006.4,
-       "blend_cagr": 0.0459,
-       "blend_sharpe": 0.671,
-       "equal_risk_cagr": 0.0627,
-       "equal_risk_delta_cagr_pp": -3.45,
+       "blend_cagr": 0.0456,
+       "blend_sharpe": 0.668,
+       "equal_risk_cagr": 0.0623,
+       "equal_risk_delta_cagr_pp": -3.47,
        "equal_risk_delta_maxdd_pp": -4.97
       }
      ],
@@ -133,43 +133,43 @@
      "mean_abs_weight": 0.296,
      "sleeve_turnover_total": 168.7,
      "sleeve_gross_cagr": 0.0156,
-     "sleeve_cagr_1bp": 0.0779,
-     "sleeve_sharpe_1bp": 1.095,
+     "sleeve_cagr_1bp": 0.0777,
+     "sleeve_sharpe_1bp": 1.094,
      "cost_rows": [
       {
        "cost_per_side_bp": 1.0,
        "turnover_total": 168.7,
-       "blend_cagr": 0.0779,
-       "blend_sharpe": 1.095,
-       "equal_risk_cagr": 0.1074,
+       "blend_cagr": 0.0777,
+       "blend_sharpe": 1.094,
+       "equal_risk_cagr": 0.1072,
        "equal_risk_delta_cagr_pp": 1.02,
        "equal_risk_delta_maxdd_pp": 1.53
       },
       {
        "cost_per_side_bp": 3.0,
        "turnover_total": 168.7,
-       "blend_cagr": 0.077,
-       "blend_sharpe": 1.084,
-       "equal_risk_cagr": 0.1062,
+       "blend_cagr": 0.0768,
+       "blend_sharpe": 1.082,
+       "equal_risk_cagr": 0.106,
        "equal_risk_delta_cagr_pp": 0.9,
        "equal_risk_delta_maxdd_pp": 1.52
       },
       {
        "cost_per_side_bp": 5.0,
        "turnover_total": 168.7,
-       "blend_cagr": 0.0762,
-       "blend_sharpe": 1.073,
-       "equal_risk_cagr": 0.105,
+       "blend_cagr": 0.076,
+       "blend_sharpe": 1.071,
+       "equal_risk_cagr": 0.1048,
        "equal_risk_delta_cagr_pp": 0.78,
        "equal_risk_delta_maxdd_pp": 1.52
       },
       {
        "cost_per_side_bp": 10.0,
        "turnover_total": 168.7,
-       "blend_cagr": 0.074,
-       "blend_sharpe": 1.045,
-       "equal_risk_cagr": 0.102,
-       "equal_risk_delta_cagr_pp": 0.48,
+       "blend_cagr": 0.0739,
+       "blend_sharpe": 1.043,
+       "equal_risk_cagr": 0.1017,
+       "equal_risk_delta_cagr_pp": 0.47,
        "equal_risk_delta_maxdd_pp": 1.49
       }
      ],
@@ -177,7 +177,7 @@
      "flip_cut_pct": 72.0,
      "turnover_cut_pct": 83.2,
      "gross_give_up_pp": -0.39,
-     "sharpe_delta_vs_base_1bp": 0.006,
+     "sharpe_delta_vs_base_1bp": 0.008,
      "beats_base_at_3bp_or_worse": true
     },
     {
@@ -195,43 +195,43 @@
      "mean_abs_weight": 0.296,
      "sleeve_turnover_total": 130.8,
      "sleeve_gross_cagr": -0.0017,
-     "sleeve_cagr_1bp": 0.0625,
-     "sleeve_sharpe_1bp": 0.885,
+     "sleeve_cagr_1bp": 0.0621,
+     "sleeve_sharpe_1bp": 0.882,
      "cost_rows": [
       {
        "cost_per_side_bp": 1.0,
        "turnover_total": 130.8,
-       "blend_cagr": 0.0625,
-       "blend_sharpe": 0.885,
-       "equal_risk_cagr": 0.0845,
-       "equal_risk_delta_cagr_pp": -1.27,
+       "blend_cagr": 0.0621,
+       "blend_sharpe": 0.882,
+       "equal_risk_cagr": 0.0841,
+       "equal_risk_delta_cagr_pp": -1.29,
        "equal_risk_delta_maxdd_pp": -0.02
       },
       {
        "cost_per_side_bp": 3.0,
        "turnover_total": 130.8,
-       "blend_cagr": 0.0617,
-       "blend_sharpe": 0.876,
-       "equal_risk_cagr": 0.0835,
-       "equal_risk_delta_cagr_pp": -1.37,
+       "blend_cagr": 0.0614,
+       "blend_sharpe": 0.872,
+       "equal_risk_cagr": 0.0831,
+       "equal_risk_delta_cagr_pp": -1.39,
        "equal_risk_delta_maxdd_pp": -0.03
       },
       {
        "cost_per_side_bp": 5.0,
        "turnover_total": 130.8,
-       "blend_cagr": 0.061,
-       "blend_sharpe": 0.866,
-       "equal_risk_cagr": 0.0826,
-       "equal_risk_delta_cagr_pp": -1.46,
+       "blend_cagr": 0.0607,
+       "blend_sharpe": 0.863,
+       "equal_risk_cagr": 0.0821,
+       "equal_risk_delta_cagr_pp": -1.49,
        "equal_risk_delta_maxdd_pp": -0.03
       },
       {
        "cost_per_side_bp": 10.0,
        "turnover_total": 130.8,
-       "blend_cagr": 0.0592,
-       "blend_sharpe": 0.843,
-       "equal_risk_cagr": 0.0801,
-       "equal_risk_delta_cagr_pp": -1.71,
+       "blend_cagr": 0.0589,
+       "blend_sharpe": 0.839,
+       "equal_risk_cagr": 0.0796,
+       "equal_risk_delta_cagr_pp": -1.74,
        "equal_risk_delta_maxdd_pp": -0.05
       }
      ],
@@ -257,43 +257,43 @@
      "mean_abs_weight": 0.296,
      "sleeve_turnover_total": 436.6,
      "sleeve_gross_cagr": 0.0126,
-     "sleeve_cagr_1bp": 0.0737,
-     "sleeve_sharpe_1bp": 1.032,
+     "sleeve_cagr_1bp": 0.0735,
+     "sleeve_sharpe_1bp": 1.03,
      "cost_rows": [
       {
        "cost_per_side_bp": 1.0,
        "turnover_total": 436.6,
-       "blend_cagr": 0.0737,
-       "blend_sharpe": 1.032,
-       "equal_risk_cagr": 0.1003,
-       "equal_risk_delta_cagr_pp": 0.31,
+       "blend_cagr": 0.0735,
+       "blend_sharpe": 1.03,
+       "equal_risk_cagr": 0.1,
+       "equal_risk_delta_cagr_pp": 0.3,
        "equal_risk_delta_maxdd_pp": -0.13
       },
       {
        "cost_per_side_bp": 3.0,
        "turnover_total": 436.6,
-       "blend_cagr": 0.0707,
-       "blend_sharpe": 0.993,
-       "equal_risk_cagr": 0.0961,
+       "blend_cagr": 0.0706,
+       "blend_sharpe": 0.992,
+       "equal_risk_cagr": 0.0959,
        "equal_risk_delta_cagr_pp": -0.11,
        "equal_risk_delta_maxdd_pp": -0.66
       },
       {
        "cost_per_side_bp": 5.0,
        "turnover_total": 436.6,
-       "blend_cagr": 0.0678,
-       "blend_sharpe": 0.955,
-       "equal_risk_cagr": 0.092,
+       "blend_cagr": 0.0676,
+       "blend_sharpe": 0.953,
+       "equal_risk_cagr": 0.0918,
        "equal_risk_delta_cagr_pp": -0.52,
        "equal_risk_delta_maxdd_pp": -1.18
       },
       {
        "cost_per_side_bp": 10.0,
        "turnover_total": 436.6,
-       "blend_cagr": 0.0605,
-       "blend_sharpe": 0.858,
-       "equal_risk_cagr": 0.0818,
-       "equal_risk_delta_cagr_pp": -1.54,
+       "blend_cagr": 0.0604,
+       "blend_sharpe": 0.857,
+       "equal_risk_cagr": 0.0815,
+       "equal_risk_delta_cagr_pp": -1.55,
        "equal_risk_delta_maxdd_pp": -2.46
       }
      ],
@@ -301,7 +301,7 @@
      "flip_cut_pct": 58.8,
      "turnover_cut_pct": 56.6,
      "gross_give_up_pp": -0.69,
-     "sharpe_delta_vs_base_1bp": -0.057,
+     "sharpe_delta_vs_base_1bp": -0.056,
      "beats_base_at_3bp_or_worse": false
     },
     {
@@ -319,43 +319,43 @@
      "mean_abs_weight": 0.296,
      "sleeve_turnover_total": 329.2,
      "sleeve_gross_cagr": 0.0143,
-     "sleeve_cagr_1bp": 0.0784,
-     "sleeve_sharpe_1bp": 1.091,
+     "sleeve_cagr_1bp": 0.0782,
+     "sleeve_sharpe_1bp": 1.09,
      "cost_rows": [
       {
        "cost_per_side_bp": 1.0,
        "turnover_total": 329.2,
-       "blend_cagr": 0.0784,
-       "blend_sharpe": 1.091,
-       "equal_risk_cagr": 0.1067,
-       "equal_risk_delta_cagr_pp": 0.95,
+       "blend_cagr": 0.0782,
+       "blend_sharpe": 1.09,
+       "equal_risk_cagr": 0.1064,
+       "equal_risk_delta_cagr_pp": 0.94,
        "equal_risk_delta_maxdd_pp": -0.13
       },
       {
        "cost_per_side_bp": 3.0,
        "turnover_total": 329.2,
-       "blend_cagr": 0.0763,
-       "blend_sharpe": 1.064,
-       "equal_risk_cagr": 0.1038,
-       "equal_risk_delta_cagr_pp": 0.66,
+       "blend_cagr": 0.0761,
+       "blend_sharpe": 1.063,
+       "equal_risk_cagr": 0.1035,
+       "equal_risk_delta_cagr_pp": 0.65,
        "equal_risk_delta_maxdd_pp": -0.53
       },
       {
        "cost_per_side_bp": 5.0,
        "turnover_total": 329.2,
-       "blend_cagr": 0.0742,
-       "blend_sharpe": 1.037,
-       "equal_risk_cagr": 0.1008,
+       "blend_cagr": 0.074,
+       "blend_sharpe": 1.036,
+       "equal_risk_cagr": 0.1006,
        "equal_risk_delta_cagr_pp": 0.36,
        "equal_risk_delta_maxdd_pp": -0.93
       },
       {
        "cost_per_side_bp": 10.0,
        "turnover_total": 329.2,
-       "blend_cagr": 0.0689,
-       "blend_sharpe": 0.969,
-       "equal_risk_cagr": 0.0936,
-       "equal_risk_delta_cagr_pp": -0.36,
+       "blend_cagr": 0.0688,
+       "blend_sharpe": 0.968,
+       "equal_risk_cagr": 0.0933,
+       "equal_risk_delta_cagr_pp": -0.37,
        "equal_risk_delta_maxdd_pp": -1.92
       }
      ],
@@ -363,7 +363,7 @@
      "flip_cut_pct": 70.7,
      "turnover_cut_pct": 67.3,
      "gross_give_up_pp": -0.52,
-     "sharpe_delta_vs_base_1bp": 0.002,
+     "sharpe_delta_vs_base_1bp": 0.004,
      "beats_base_at_3bp_or_worse": true
     }
    ]
@@ -371,7 +371,7 @@
   "tsmom120": {
    "lookback": 120,
    "control_arm": "tsmom120_base",
-   "verdict": "tsmom120_strength_hold_0.02 clears the base at 3/5/10bp: 69.1% fewer flips, turnover cut 76.2%, gross -0.35 pp; breakeven moves to 10bp (+0.02 pp at that cost, +0.02 pp at 10bp)",
+   "verdict": "tsmom120_strength_hold_0.02 clears the base at 3/5/10bp: 69.1% fewer flips, turnover cut 76.2%, gross -0.35 pp; breakeven moves to 10bp (+0.01 pp at that cost, +0.01 pp at 10bp)",
    "robustness": {
     "theta_levels_tested": [
      0.02,
@@ -400,42 +400,42 @@
      "mean_abs_weight": 0.2972,
      "sleeve_turnover_total": 633.3,
      "sleeve_gross_cagr": 0.0223,
-     "sleeve_cagr_1bp": 0.0754,
-     "sleeve_sharpe_1bp": 1.078,
+     "sleeve_cagr_1bp": 0.0752,
+     "sleeve_sharpe_1bp": 1.077,
      "cost_rows": [
       {
        "cost_per_side_bp": 1.0,
        "turnover_total": 633.3,
-       "blend_cagr": 0.0754,
-       "blend_sharpe": 1.078,
-       "equal_risk_cagr": 0.1056,
+       "blend_cagr": 0.0752,
+       "blend_sharpe": 1.077,
+       "equal_risk_cagr": 0.1054,
        "equal_risk_delta_cagr_pp": 0.84,
        "equal_risk_delta_maxdd_pp": 0.49
       },
       {
        "cost_per_side_bp": 3.0,
        "turnover_total": 633.3,
-       "blend_cagr": 0.071,
-       "blend_sharpe": 1.019,
-       "equal_risk_cagr": 0.0993,
+       "blend_cagr": 0.0708,
+       "blend_sharpe": 1.018,
+       "equal_risk_cagr": 0.0991,
        "equal_risk_delta_cagr_pp": 0.21,
        "equal_risk_delta_maxdd_pp": -0.26
       },
       {
        "cost_per_side_bp": 5.0,
        "turnover_total": 633.3,
-       "blend_cagr": 0.0666,
-       "blend_sharpe": 0.961,
-       "equal_risk_cagr": 0.0931,
-       "equal_risk_delta_cagr_pp": -0.41,
+       "blend_cagr": 0.0664,
+       "blend_sharpe": 0.959,
+       "equal_risk_cagr": 0.0928,
+       "equal_risk_delta_cagr_pp": -0.42,
        "equal_risk_delta_maxdd_pp": -1.0
       },
       {
        "cost_per_side_bp": 10.0,
        "turnover_total": 633.3,
-       "blend_cagr": 0.0557,
-       "blend_sharpe": 0.814,
-       "equal_risk_cagr": 0.0775,
+       "blend_cagr": 0.0556,
+       "blend_sharpe": 0.812,
+       "equal_risk_cagr": 0.0773,
        "equal_risk_delta_cagr_pp": -1.97,
        "equal_risk_delta_maxdd_pp": -2.82
       }
@@ -462,43 +462,43 @@
      "mean_abs_weight": 0.2972,
      "sleeve_turnover_total": 151.0,
      "sleeve_gross_cagr": 0.0188,
-     "sleeve_cagr_1bp": 0.0735,
-     "sleeve_sharpe_1bp": 1.05,
+     "sleeve_cagr_1bp": 0.0733,
+     "sleeve_sharpe_1bp": 1.049,
      "cost_rows": [
       {
        "cost_per_side_bp": 1.0,
        "turnover_total": 151.0,
-       "blend_cagr": 0.0735,
-       "blend_sharpe": 1.05,
-       "equal_risk_cagr": 0.1027,
-       "equal_risk_delta_cagr_pp": 0.55,
+       "blend_cagr": 0.0733,
+       "blend_sharpe": 1.049,
+       "equal_risk_cagr": 0.1024,
+       "equal_risk_delta_cagr_pp": 0.54,
        "equal_risk_delta_maxdd_pp": 1.67
       },
       {
        "cost_per_side_bp": 3.0,
        "turnover_total": 151.0,
-       "blend_cagr": 0.0726,
-       "blend_sharpe": 1.039,
-       "equal_risk_cagr": 0.1015,
-       "equal_risk_delta_cagr_pp": 0.43,
+       "blend_cagr": 0.0725,
+       "blend_sharpe": 1.038,
+       "equal_risk_cagr": 0.1012,
+       "equal_risk_delta_cagr_pp": 0.42,
        "equal_risk_delta_maxdd_pp": 1.64
       },
       {
        "cost_per_side_bp": 5.0,
        "turnover_total": 151.0,
-       "blend_cagr": 0.0718,
-       "blend_sharpe": 1.029,
-       "equal_risk_cagr": 0.1003,
+       "blend_cagr": 0.0716,
+       "blend_sharpe": 1.027,
+       "equal_risk_cagr": 0.1001,
        "equal_risk_delta_cagr_pp": 0.31,
        "equal_risk_delta_maxdd_pp": 1.61
       },
       {
        "cost_per_side_bp": 10.0,
        "turnover_total": 151.0,
-       "blend_cagr": 0.0697,
-       "blend_sharpe": 1.001,
-       "equal_risk_cagr": 0.0974,
-       "equal_risk_delta_cagr_pp": 0.02,
+       "blend_cagr": 0.0696,
+       "blend_sharpe": 1.0,
+       "equal_risk_cagr": 0.0971,
+       "equal_risk_delta_cagr_pp": 0.01,
        "equal_risk_delta_maxdd_pp": 1.52
       }
      ],
@@ -524,43 +524,43 @@
      "mean_abs_weight": 0.2972,
      "sleeve_turnover_total": 126.2,
      "sleeve_gross_cagr": 0.0024,
-     "sleeve_cagr_1bp": 0.0611,
-     "sleeve_sharpe_1bp": 0.886,
+     "sleeve_cagr_1bp": 0.0609,
+     "sleeve_sharpe_1bp": 0.884,
      "cost_rows": [
       {
        "cost_per_side_bp": 1.0,
        "turnover_total": 126.2,
-       "blend_cagr": 0.0611,
-       "blend_sharpe": 0.886,
-       "equal_risk_cagr": 0.085,
-       "equal_risk_delta_cagr_pp": -1.22,
+       "blend_cagr": 0.0609,
+       "blend_sharpe": 0.884,
+       "equal_risk_cagr": 0.0847,
+       "equal_risk_delta_cagr_pp": -1.23,
        "equal_risk_delta_maxdd_pp": 0.82
       },
       {
        "cost_per_side_bp": 3.0,
        "turnover_total": 126.2,
-       "blend_cagr": 0.0605,
-       "blend_sharpe": 0.877,
-       "equal_risk_cagr": 0.084,
-       "equal_risk_delta_cagr_pp": -1.32,
+       "blend_cagr": 0.0602,
+       "blend_sharpe": 0.875,
+       "equal_risk_cagr": 0.0837,
+       "equal_risk_delta_cagr_pp": -1.33,
        "equal_risk_delta_maxdd_pp": 0.79
       },
       {
        "cost_per_side_bp": 5.0,
        "turnover_total": 126.2,
-       "blend_cagr": 0.0598,
-       "blend_sharpe": 0.868,
-       "equal_risk_cagr": 0.0831,
-       "equal_risk_delta_cagr_pp": -1.41,
+       "blend_cagr": 0.0596,
+       "blend_sharpe": 0.866,
+       "equal_risk_cagr": 0.0828,
+       "equal_risk_delta_cagr_pp": -1.42,
        "equal_risk_delta_maxdd_pp": 0.75
       },
       {
        "cost_per_side_bp": 10.0,
        "turnover_total": 126.2,
-       "blend_cagr": 0.0581,
-       "blend_sharpe": 0.845,
-       "equal_risk_cagr": 0.0807,
-       "equal_risk_delta_cagr_pp": -1.65,
+       "blend_cagr": 0.0579,
+       "blend_sharpe": 0.843,
+       "equal_risk_cagr": 0.0804,
+       "equal_risk_delta_cagr_pp": -1.66,
        "equal_risk_delta_maxdd_pp": 0.68
       }
      ],
@@ -568,7 +568,7 @@
      "flip_cut_pct": 79.8,
      "turnover_cut_pct": 80.1,
      "gross_give_up_pp": -1.99,
-     "sharpe_delta_vs_base_1bp": -0.192,
+     "sharpe_delta_vs_base_1bp": -0.193,
      "beats_base_at_3bp_or_worse": false
     },
     {
@@ -586,43 +586,43 @@
      "mean_abs_weight": 0.2972,
      "sleeve_turnover_total": 270.7,
      "sleeve_gross_cagr": 0.014,
-     "sleeve_cagr_1bp": 0.068,
-     "sleeve_sharpe_1bp": 0.956,
+     "sleeve_cagr_1bp": 0.0679,
+     "sleeve_sharpe_1bp": 0.955,
      "cost_rows": [
       {
        "cost_per_side_bp": 1.0,
        "turnover_total": 270.7,
-       "blend_cagr": 0.068,
-       "blend_sharpe": 0.956,
-       "equal_risk_cagr": 0.0925,
+       "blend_cagr": 0.0679,
+       "blend_sharpe": 0.955,
+       "equal_risk_cagr": 0.0923,
        "equal_risk_delta_cagr_pp": -0.47,
        "equal_risk_delta_maxdd_pp": 0.57
       },
       {
        "cost_per_side_bp": 3.0,
        "turnover_total": 270.7,
-       "blend_cagr": 0.0663,
-       "blend_sharpe": 0.933,
-       "equal_risk_cagr": 0.0901,
+       "blend_cagr": 0.0661,
+       "blend_sharpe": 0.932,
+       "equal_risk_cagr": 0.0899,
        "equal_risk_delta_cagr_pp": -0.71,
        "equal_risk_delta_maxdd_pp": 0.55
       },
       {
        "cost_per_side_bp": 5.0,
        "turnover_total": 270.7,
-       "blend_cagr": 0.0646,
-       "blend_sharpe": 0.911,
-       "equal_risk_cagr": 0.0877,
+       "blend_cagr": 0.0644,
+       "blend_sharpe": 0.909,
+       "equal_risk_cagr": 0.0875,
        "equal_risk_delta_cagr_pp": -0.95,
        "equal_risk_delta_maxdd_pp": 0.44
       },
       {
        "cost_per_side_bp": 10.0,
        "turnover_total": 270.7,
-       "blend_cagr": 0.0603,
-       "blend_sharpe": 0.854,
-       "equal_risk_cagr": 0.0817,
-       "equal_risk_delta_cagr_pp": -1.55,
+       "blend_cagr": 0.0601,
+       "blend_sharpe": 0.852,
+       "equal_risk_cagr": 0.0814,
+       "equal_risk_delta_cagr_pp": -1.56,
        "equal_risk_delta_maxdd_pp": -0.16
       }
      ],
@@ -648,43 +648,43 @@
      "mean_abs_weight": 0.2972,
      "sleeve_turnover_total": 233.5,
      "sleeve_gross_cagr": 0.0149,
-     "sleeve_cagr_1bp": 0.0733,
-     "sleeve_sharpe_1bp": 1.023,
+     "sleeve_cagr_1bp": 0.0731,
+     "sleeve_sharpe_1bp": 1.022,
      "cost_rows": [
       {
        "cost_per_side_bp": 1.0,
        "turnover_total": 233.5,
-       "blend_cagr": 0.0733,
-       "blend_sharpe": 1.023,
-       "equal_risk_cagr": 0.0997,
+       "blend_cagr": 0.0731,
+       "blend_sharpe": 1.022,
+       "equal_risk_cagr": 0.0995,
        "equal_risk_delta_cagr_pp": 0.25,
        "equal_risk_delta_maxdd_pp": 1.23
       },
       {
        "cost_per_side_bp": 3.0,
        "turnover_total": 233.5,
-       "blend_cagr": 0.0717,
-       "blend_sharpe": 1.003,
-       "equal_risk_cagr": 0.0975,
+       "blend_cagr": 0.0716,
+       "blend_sharpe": 1.001,
+       "equal_risk_cagr": 0.0973,
        "equal_risk_delta_cagr_pp": 0.03,
        "equal_risk_delta_maxdd_pp": 1.21
       },
       {
        "cost_per_side_bp": 5.0,
        "turnover_total": 233.5,
-       "blend_cagr": 0.0702,
-       "blend_sharpe": 0.982,
-       "equal_risk_cagr": 0.0953,
+       "blend_cagr": 0.07,
+       "blend_sharpe": 0.981,
+       "equal_risk_cagr": 0.0951,
        "equal_risk_delta_cagr_pp": -0.19,
        "equal_risk_delta_maxdd_pp": 1.19
       },
       {
        "cost_per_side_bp": 10.0,
        "turnover_total": 233.5,
-       "blend_cagr": 0.0662,
-       "blend_sharpe": 0.931,
-       "equal_risk_cagr": 0.0899,
-       "equal_risk_delta_cagr_pp": -0.73,
+       "blend_cagr": 0.0661,
+       "blend_sharpe": 0.93,
+       "equal_risk_cagr": 0.0896,
+       "equal_risk_delta_cagr_pp": -0.74,
        "equal_risk_delta_maxdd_pp": 1.01
       }
      ],

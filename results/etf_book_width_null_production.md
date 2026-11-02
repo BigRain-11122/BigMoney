@@ -1,14 +1,14 @@
 # ETF book: does the width sign survive a signal-free book on the same panel?
 
-Panel 5270 bars x 1504 names, 2005-02-23..2026-10-30, cadence 20, toll 10bp. Real score vs 6 seeded
+Panel 5271 bars x 1504 names, 2005-02-23..2026-11-02, cadence 20, toll 10bp. Real score vs 6 seeded
 random scores on the same eligibility mask.
 
 | width | real CAGR | null median (min..max) | real-null | real - best null | real Sharpe | real vol |
 |---|---|---|---|---|---|
-| 3 | 15.58% | 0.77% (14.82..-6.53) | +3.39pp | +12.19pp | 0.95 | 17.4% |
-| 5 | 15.73% | 0.30% (15.43..-2.89) | +2.23pp | +13.50pp | 1.01 | 16.4% |
-| 8 | 15.15% | 0.48% (14.67..-1.70) | +2.64pp | +12.51pp | 1.00 | 15.9% |
-| 12 | 14.21% | 1.77% (12.44..-1.63) | +3.68pp | +10.53pp | 0.98 | 15.3% |
+| 3 | 15.56% | 0.78% (14.78..-6.52) | +3.39pp | +12.17pp | 0.95 | 17.4% |
+| 5 | 15.71% | 0.31% (15.40..-2.89) | +2.22pp | +13.49pp | 1.01 | 16.4% |
+| 8 | 15.13% | 0.48% (14.64..-1.70) | +2.64pp | +12.49pp | 1.00 | 15.9% |
+| 12 | 14.19% | 1.76% (12.43..-1.63) | +3.67pp | +10.52pp | 0.98 | 15.3% |
 
 Verdict: **WIDTH_SIGN_DIFFERS_FROM_NOISE**
 rank corr(width, CAGR): real -0.8 / null 0.4

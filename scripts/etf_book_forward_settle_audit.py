@@ -49,7 +49,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
 
 from config import PATHS
-from etf_book_forward import partition_settled
+from etf_book_forward import partition_settled, published_bars
 
 SCHEMA = "etf-book-forward-settle-audit/v1"
 LEDGER = os.path.join(PATHS.results_dir, "etf_book_forward", "LEDGER.json")
@@ -105,7 +105,9 @@ def _panel_dates(daily_dir=DAILY, lookback=SETTLE_LOOKBACK):
 
 def _classify(ledger, coverage, universe_total, drift_tol):
     """Which ledger bars are settled, and does the drift land only on the unsettled one?"""
-    bars = [b["bar"] for b in ledger.get("bars") or []]
+    # r1243: withdrawn marks stay in the record but are outside the partition, and both
+    # readers get that from the same function so they cannot drift apart (E270).
+    bars = [b["bar"] for b in published_bars(ledger)]
     if not bars:
         return {"verdict": "no_published_bars", "settled": [], "provisional": [], "checks": {}}
     # "settled" = the panel for that date has stopped growing, which we can only judge

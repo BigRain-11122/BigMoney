@@ -67,6 +67,75 @@ def _dedupe(prices):
     return out
 
 
+COVERAGE_FLOOR = 0.5   # a trailing bar carrying less than half the reference coverage is not a bar
+
+# r1243: the refusal has to be visible. A panel that ends one bar earlier than its source
+# looks identical to a panel whose source lost a day -- the faces published on it said
+# `last_bar` and nothing said "and one more row was refused". Every consumer that reports
+# which panel it priced can now report the refused tail as well.
+PANEL_TAIL = {}
+
+
+def _record_tail(dropped, close, kept=None, rows=0, floor=COVERAGE_FLOOR,
+                 lookback=20, ref=None):
+    """Publish what the coverage gate did, so "no bar today" is never read as "no data"."""
+    global PANEL_TAIL
+    PANEL_TAIL = {
+        "dropped": bool(dropped),
+        "rows_refused": int(rows),
+        "floor": float(floor),
+        "lookback": int(lookback),
+        "reference_coverage": None if ref is None or not np.isfinite(ref) else int(ref),
+        "last_bar_named": (None if not len(close)
+                           else str(pd.Timestamp(close.index[-1]).date())),
+        "last_bar_kept": (None if kept is None
+                          else str(pd.Timestamp(kept[-1]).date())),
+    }
+    return PANEL_TAIL
+
+
+def drop_hollow_tail(close, floor=COVERAGE_FLOOR, lookback=20, record=True):
+    """Refuse to price on a trailing bar the panel barely covers.
+
+    r1241 live defect: on 2026-11-02 the shared panel carried 5 closes out of 1,613 --
+    the five-member leg had advanced the index while the wide panel's owner (bm-c) had
+    been heartbeat-silent for ~57h -- and every face downstream priced that row as if it
+    were a session. The order ticket could not price a single leg and published
+    "book 0 / cash 1,000,000" with weights that still summed to k; the card claimed a
+    12-name book priced on a bar whose names had no prints.
+
+    Reference coverage is the MAXIMUM over the last `lookback` rows, so one sparse day
+    at the end of the file is dropped while interior holes (a symbol that did not
+    trade) are left exactly as they are. A panel whose last `lookback` rows are all
+    equally thin is left alone -- there is nothing to compare against, and guessing
+    would delete real bars.
+
+    Returns (frame, dropped_trailing_rows: bool).
+    """
+    def _none(ref=None):
+        if record:
+            _record_tail(False, close, floor=floor, lookback=lookback, ref=ref)
+        return close, False
+
+    if not len(close):
+        return _none()
+    cov = close.notna().sum(axis=1)
+    ref = float(cov.iloc[-lookback:].max())
+    if ref <= 0:
+        return _none(ref)
+    good = cov >= floor * ref
+    if bool(good.iloc[-1]):
+        return _none(ref)
+    last_good = np.where(good.values)[0]
+    if not len(last_good):
+        return _none(ref)
+    keep = close.index[: int(last_good[-1]) + 1]
+    if record:
+        _record_tail(True, close, kept=keep, rows=len(close) - len(keep),
+                     floor=floor, lookback=lookback, ref=ref)
+    return close.loc[keep], True
+
+
 def build_panel():
     prices = _dedupe(_load_prices())
     bench = None
@@ -77,6 +146,10 @@ def build_panel():
     openp = pd.DataFrame({s: p["open"] for s, p in prices.items()}).sort_index()
     vol = pd.DataFrame({s: p["volume"] for s, p in prices.items()}).sort_index()
     close = close.replace(0.0, np.nan)
+    close, dropped = drop_hollow_tail(close)
+    if dropped:
+        openp = openp.loc[close.index]
+        vol = vol.loc[close.index]
     feats = compute_all(prices, bench)
     amt = (close * vol).rolling(20, min_periods=10).median()
     return close, openp, amt, feats

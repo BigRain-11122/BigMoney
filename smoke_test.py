@@ -6419,6 +6419,12 @@ def main() -> int:
                 _lrb = round(_lcell["beta@12"] - _lcell["beta@5"], 3)
                 if abs(_lrb - float(_lw.get("beta", 0.0))) > 0.011:
                     _lbad.append("the beta-rule width effect is not beta@12 minus beta@5")
+            # r1242: the as-issued 2x2 is a snapshot of a ticket that is re-written every time
+            # the book is priced, so the snapshot must name the ticket it came from -- without
+            # that date the gate cannot tell a re-issue (stale, refresh) from an edit (red).
+            if not _lai.get("ticket_asof"):
+                _lbad.append("the as-issued block carries no ticket date, so a re-issued "
+                             "ticket cannot be told apart from a hand-edited face")
         check("product: the two live widths are priced on one ruler and the gap is inside the "
               "engines' own disagreement", not _lbad,
               "; ".join(_lbad)[:220] or "%s | paired %+.3fpp over %d phases, engine "

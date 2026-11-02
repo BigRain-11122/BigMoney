@@ -122,7 +122,15 @@ def main(argv):
             text = ""
             tail = ["TIMEOUT"]
         refreshed = None
-        if rc != 0 and refresh and "stale" in text.lower():
+        # r1241: the refresh arm only fired on the word "stale". A leg whose face simply
+        # does not exist yet says "FACE MISSING: BLOCKS-2026-11-02.json" and got rc2 with
+        # its own declared build command sitting unused in the table -- the chain then
+        # reported a red leg that a one-word vocabulary change turns into a green one.
+        # Deliberately narrow: "missing face" is the remedy's own trigger; a verdict /
+        # identity / drift failure must NOT be rebuilt, because rebuilding would launder
+        # exactly the disagreement the frozen check exists to catch.
+        _low = text.lower()
+        if rc != 0 and refresh and ("stale" in _low or "face missing" in _low):
             tr = time.time()
             try:
                 rr = subprocess.run(resolve(refresh), cwd=ROOT, capture_output=True,
