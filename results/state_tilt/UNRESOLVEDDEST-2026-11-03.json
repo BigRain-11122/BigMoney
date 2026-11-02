@@ -1,0 +1,4145 @@
+{
+ "bound": "the reach test is a NAME test over one source's literals, so it shows a face the writer could be writing, never that it writes it; a writer whose destination a caller supplies names no face at all, so its reach is under-counted, not over-counted; 'keyed' is the union of resolved sinks over the same corpus E350 walks, so a face keyed only by another unnameable writer still counts as unkeyed; the E350 face is read as published and not rebuilt here",
+ "e350_unwritten_guards_explained": [
+  {
+   "face": "results/token_usage.json",
+   "field": "generated",
+   "guards": 2
+  }
+ ],
+ "evidence_cutoff": "2026-11-03",
+ "faces_no_census_keys": [
+  "docs/daily_report/REPORT-2026-10-07.json",
+  "docs/live_usage/LIVE-2026-10-07.json",
+  "docs/live_usage/LIVE-latest.json",
+  "results/_r668bmc_ca_union_receipt.json",
+  "results/_r805bmc_resolver.json",
+  "results/_r814bmc_h3_download_state.json",
+  "results/alphagen_w19/W19-2026-10-09.json",
+  "results/alphagen_w20/W20-2026-10-09.json",
+  "results/crash_fuse.bm-a.json",
+  "results/cta_wave1_g2_ts_check.json",
+  "results/etf_book_breadth.json",
+  "results/etf_book_production/latest.json",
+  "results/etf_book_voltarget_phase.json",
+  "results/exclusion_marginal_scan/scan.json",
+  "results/fundamental_b_layer_filter.json",
+  "results/futures_update_status.json",
+  "results/im_ic_pair_runs.jsonl",
+  "results/market_clock/call_latest.json",
+  "results/options_wave2.json",
+  "results/pbo_cscv_v1.json",
+  "results/portfolio_blend_tournament.json",
+  "results/portfolio_ew6.json",
+  "results/portfolio_iv6.json",
+  "results/regime_state.json",
+  "results/runnable_pool.bm-a.json",
+  "results/runnable_pool.bm-b.json",
+  "results/runnable_pool.bm-c.json",
+  "results/scorecard_v1.json",
+  "results/shortline_cta_p1.json",
+  "results/shortline_cta_p2_noau.json",
+  "results/shortline_cta_wave1.json",
+  "results/shortline_im_ic_pair.json",
+  "results/spm_j4_attribution.json",
+  "results/t34_early_signal_verdict.json",
+  "results/update_status.json",
+  "results/x2_watch_log.jsonl"
+ ],
+ "faces_no_census_keys_truncated": 0,
+ "source": "scripts/e377_unresolved_destination.py",
+ "study": "E377_unresolved_destination",
+ "summary": {
+  "corpus_sources": 2411,
+  "dump_calls": 2121,
+  "e350_unwritten_guard_rows": 40,
+  "e350_unwritten_guard_rows_named_by_an_unnameable_writer": 1,
+  "faces_named_by_unnameable_writers": 62,
+  "faces_no_census_keys": 36,
+  "keyed_faces_in_corpus": 856,
+  "sources_parsed": 2393,
+  "unresolved_calls": 542,
+  "why_histogram": {
+   "argument_supplied": 94,
+   "attribute_supplied": 3,
+   "formatted": 2,
+   "joined_computed": 70,
+   "local_expression": 84,
+   "other": 26,
+   "returned_from_helper": 6
+  },
+  "writers_with_unresolved": 285
+ },
+ "ts": "2026-11-03T02:55:00+08:00",
+ "verdict": "an_unnameable_destination_set_exists_and_it_reaches_published_faces_that_no_resolved_sink_in_the_corpus_keys_so_no_writer_splits_into_no_named_writer_and_a_writer_the_instrument_cannot_name",
+ "writers": [
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r1029bmc_close.py:102 dump argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r1029bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r1029bmc_rebase_resolve.py:48 resolve_union_by_ts other"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r1029bmc_rebase_resolve.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r1069bmc_closeout.py:139 atomic_json local_expression"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r1069bmc_closeout.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r1069bmc_resample.py:61 patch argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r1069bmc_resample.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r1226bmb_face.py:24 write_json joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r1226bmb_face.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r1244bmb_closeout.py:52 dump argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r1244bmb_closeout.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r1390_addendum.py:35 save argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r1390_addendum.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "Tools/_r1390_closeout.py:150 main local_expression",
+    "Tools/_r1390_closeout.py:167 main local_expression",
+    "Tools/_r1390_closeout.py:191 main local_expression"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r1390_closeout.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r1390_postscript.py:30 save argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r1390_postscript.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r1393_closeout.py:149 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r1393_closeout.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r415bmc_close.py:41 dump argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r415bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r416bmc_close.py:41 dump argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r416bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "Tools/_r439bmc_closeout_writes.py:62 main other",
+    "Tools/_r439bmc_closeout_writes.py:166 main other",
+    "Tools/_r439bmc_closeout_writes.py:209 main other"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r439bmc_closeout_writes.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/_r488_close.py:82 <module> other",
+    "Tools/_r488_close.py:112 <module> other"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r488_close.py",
+   "unnameable_faces": [
+    "fleet/machines/bm-b.json",
+    "state.json"
+   ],
+   "unresolved": 2,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r506bmc_rebase_resolve.py:345 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r506bmc_rebase_resolve.py",
+   "unnameable_faces": [
+    "results/compute_audit.json",
+    "results/dashboard_status.json",
+    "results/token_usage.json",
+    "results/x2_watch_log.jsonl"
+   ],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r507bmc_rebase_resolve.py:252 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r507bmc_rebase_resolve.py",
+   "unnameable_faces": [
+    "results/compute_audit.json",
+    "results/dashboard_status.json",
+    "results/token_usage.json",
+    "results/x2_watch_log.jsonl"
+   ],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r507bmc_satengine_resolve.py:17 <module> joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r507bmc_satengine_resolve.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/_r508bmc_merge_resolve.py:228 main joined_computed",
+    "Tools/_r508bmc_merge_resolve.py:221 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r508bmc_merge_resolve.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/_r509bmc_merge_resolve.py:288 main joined_computed",
+    "Tools/_r509bmc_merge_resolve.py:283 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r509bmc_merge_resolve.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r511bmc_rebase_resolve.py:266 save_receipt joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r511bmc_rebase_resolve.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/_r512bmc_merge_resolve.py:268 main joined_computed",
+    "Tools/_r512bmc_merge_resolve.py:263 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r512bmc_merge_resolve.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/_r515bmc_merge_resolve.py:268 main joined_computed",
+    "Tools/_r515bmc_merge_resolve.py:263 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r515bmc_merge_resolve.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r517bmc_rebase_resolve.py:523 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r517bmc_rebase_resolve.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r518bmc_rebase_resolve.py:582 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r518bmc_rebase_resolve.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r629bma_divlowvol_release.py:72 <module> argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r629bma_divlowvol_release.py",
+   "unnameable_faces": [
+    "results/crash_fuse.bm-a.json",
+    "results/crash_fuse.json",
+    "results/runnable_pool.bm-a.json",
+    "results/runnable_pool.bm-b.json",
+    "results/runnable_pool.bm-c.json",
+    "results/runnable_pool.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r666bmc_mojibake_heal.py:151 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r666bmc_mojibake_heal.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "Tools/_r666bmc_race_resolve.py:61 main joined_computed",
+    "Tools/_r666bmc_race_resolve.py:81 main joined_computed",
+    "Tools/_r666bmc_race_resolve.py:77 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r666bmc_race_resolve.py",
+   "unnameable_faces": [
+    "results/compute_audit.json",
+    "results/fundamental_b_layer_filter.json",
+    "results/futures_update_status.json",
+    "results/lhb_update_status.json"
+   ],
+   "unresolved": 3,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r668bmc_uu_resolve.py:109 <module> other"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r668bmc_uu_resolve.py",
+   "unnameable_faces": [
+    "docs/daily_report/REPORT-2026-10-07.json",
+    "docs/live_usage/LIVE-2026-10-07.json",
+    "docs/live_usage/LIVE-latest.json",
+    "results/_attrition_guard_scan.json",
+    "results/_r668bmc_ca_union_receipt.json",
+    "results/compute_audit.json",
+    "results/dashboard_status.json",
+    "results/fundamental_b_layer_filter.json",
+    "results/futures_update_status.json",
+    "results/lhb_update_status.json",
+    "results/regime_state.json",
+    "results/scorecard_v1.json",
+    "results/strategy_scorecard.json",
+    "results/token_usage.json",
+    "results/update_status.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r668bmc_uu_resolve2.py:90 <module> other"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r668bmc_uu_resolve2.py",
+   "unnameable_faces": [
+    "docs/daily_report/REPORT-2026-10-07.json",
+    "docs/live_usage/LIVE-2026-10-07.json",
+    "docs/live_usage/LIVE-latest.json",
+    "results/_attrition_guard_scan.json",
+    "results/_r668bmc_ca_union_receipt.json",
+    "results/compute_audit.json",
+    "results/dashboard_status.json",
+    "results/fundamental_b_layer_filter.json",
+    "results/futures_update_status.json",
+    "results/lhb_update_status.json",
+    "results/regime_state.json",
+    "results/scorecard_v1.json",
+    "results/strategy_scorecard.json",
+    "results/token_usage.json",
+    "results/update_status.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r672bmc_close.py:35 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r672bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r680bmc_close.py:46 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r680bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r680bmc_merge_resolve.py:123 resolve joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r680bmc_merge_resolve.py",
+   "unnameable_faces": [
+    "results/compute_audit.json",
+    "results/runnable_pool.json",
+    "results/scorecard_v1.json",
+    "results/strategy_scorecard.json",
+    "results/token_usage.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r681bmc_close.py:43 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r681bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r682bmc_close.py:49 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r682bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r683bmc_close.py:47 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r683bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r684bmc_close.py:50 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r684bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r685bmc_close.py:56 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r685bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r686bmc_close.py:56 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r686bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r687bmc_close.py:54 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r687bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r688bmc_close.py:54 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r688bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/_r688bmc_rebase_resolve.py:38 main other",
+    "Tools/_r688bmc_rebase_resolve.py:44 main other"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r688bmc_rebase_resolve.py",
+   "unnameable_faces": [
+    "results/compute_audit.json",
+    "results/lhb_update_status.json"
+   ],
+   "unresolved": 2,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r689bmc_close.py:55 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r689bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r690bmc_close.py:61 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r690bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r691bmc_close.py:64 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r691bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r692bmc_close.py:64 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r692bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r693bmc_close.py:61 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r693bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r694bmc_close.py:57 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r694bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r695bmc_close.py:57 write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r695bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/_r711bmc_close.py:92 <module> other",
+    "Tools/_r711bmc_close.py:146 <module> other"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r711bmc_close.py",
+   "unnameable_faces": [
+    "fleet/machines/bm-c.json",
+    "state-bm-c.json"
+   ],
+   "unresolved": 2,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/_r771bmc_close.py:247 main argument_supplied",
+    "Tools/_r771bmc_close.py:215 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r771bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/_r772bmc_close.py:264 main argument_supplied",
+    "Tools/_r772bmc_close.py:230 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r772bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r774bmc_close.py:239 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r774bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r775bmc_close.py:231 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r775bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r776bmc_close.py:234 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r776bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r777bmc_close.py:236 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r777bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r778bmc_close.py:254 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r778bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r779bmc_close.py:311 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r779bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r779bmc_coldptr_merge.py:203 main local_expression"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r779bmc_coldptr_merge.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r786bmc_merge_resume.py:196 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r786bmc_merge_resume.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r788bmc_w17_freeze_facts.py:429 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r788bmc_w17_freeze_facts.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r791bmc_rebase_resolver.py:102 main local_expression"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r791bmc_rebase_resolver.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r798bmc_rebase_resolver.py:149 main other"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r798bmc_rebase_resolver.py",
+   "unnameable_faces": [
+    "results/_r798bmc_rebase_resolve.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r801bmc_rebase_resolver.py:141 main other"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r801bmc_rebase_resolver.py",
+   "unnameable_faces": [
+    "results/_r801bmc_rebase_resolve.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r802bmc_rebase_resolver.py:170 main other"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r802bmc_rebase_resolver.py",
+   "unnameable_faces": [
+    "results/_r802bmc_rebase_resolve.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r805bmc_resolver.py:294 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r805bmc_resolver.py",
+   "unnameable_faces": [
+    "results/_r805bmc_resolver.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r807bmc_rebase_finale.py:52 report local_expression"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r807bmc_rebase_finale.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/_r807bmc_rebase_recover.py:188 main argument_supplied",
+    "Tools/_r807bmc_rebase_recover.py:126 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r807bmc_rebase_recover.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r811bmb_closeout.py:35 dump argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r811bmb_closeout.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r814bmc_fl_receipt.py:46 <module> other"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r814bmc_fl_receipt.py",
+   "unnameable_faces": [
+    "results/_r814bmc_fleetlink_receipt.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r814bmc_h3_ignite.py:28 <module> joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r814bmc_h3_ignite.py",
+   "unnameable_faces": [
+    "results/_r814bmc_h3_download_state.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/_r844bmc_close.py:99 save argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/_r844bmc_close.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/bma-work-registry-gate.py:257 cmd_done argument_supplied",
+    "Tools/bma-work-registry-gate.py:220 cmd_claim argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/bma-work-registry-gate.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/bmc-work-registry-gate.py:244 cmd_done argument_supplied",
+    "Tools/bmc-work-registry-gate.py:206 cmd_claim argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/bmc-work-registry-gate.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/d19_check.py:266 main joined_computed",
+    "Tools/d19_check.py:228 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/d19_check.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/fill_ladder.py:303 selftest joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/fill_ladder.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "Tools/gpu_face.py:549 selftest joined_computed",
+    "Tools/gpu_face.py:552 selftest joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/gpu_face.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 4,
+   "evidence": [
+    "Tools/heartbeat_write.py:76 _dump_atomic joined_computed",
+    "Tools/heartbeat_write.py:312 _fixture joined_computed",
+    "Tools/heartbeat_write.py:319 _fixture joined_computed",
+    "Tools/heartbeat_write.py:328 _fixture joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/heartbeat_write.py",
+   "unnameable_faces": [],
+   "unresolved": 4,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 9,
+   "evidence": [
+    "Tools/machine_health_face.py:246 _save local_expression",
+    "Tools/machine_health_face.py:278 _selftest local_expression",
+    "Tools/machine_health_face.py:285 _selftest local_expression",
+    "Tools/machine_health_face.py:295 _selftest local_expression",
+    "Tools/machine_health_face.py:304 _selftest local_expression",
+    "Tools/machine_health_face.py:330 _selftest local_expression"
+   ],
+   "resolved": 0,
+   "source": "Tools/machine_health_face.py",
+   "unnameable_faces": [],
+   "unresolved": 9,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/n1_seat_probe.py:331 probe local_expression"
+   ],
+   "resolved": 0,
+   "source": "Tools/n1_seat_probe.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 4,
+   "evidence": [
+    "Tools/orders_ack_append.py:79 _dump_atomic argument_supplied",
+    "Tools/orders_ack_append.py:202 _mk_fixture argument_supplied",
+    "Tools/orders_ack_append.py:206 _mk_fixture argument_supplied",
+    "Tools/orders_ack_append.py:211 _mk_fixture argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "Tools/orders_ack_append.py",
+   "unnameable_faces": [],
+   "unresolved": 4,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 4,
+   "evidence": [
+    "Tools/orders_ack_scan.py:205 _mk_fixture joined_computed",
+    "Tools/orders_ack_scan.py:209 _mk_fixture joined_computed",
+    "Tools/orders_ack_scan.py:166 main joined_computed",
+    "Tools/orders_ack_scan.py:215 _mk_fixture joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/orders_ack_scan.py",
+   "unnameable_faces": [],
+   "unresolved": 4,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "Tools/pool_deliverable_audit.py:299 main local_expression",
+    "Tools/pool_deliverable_audit.py:266 apply_close local_expression",
+    "Tools/pool_deliverable_audit.py:364 selftest local_expression",
+    "Tools/pool_deliverable_audit.py:429 selftest local_expression",
+    "Tools/pool_deliverable_audit.py:464 selftest local_expression"
+   ],
+   "resolved": 0,
+   "source": "Tools/pool_deliverable_audit.py",
+   "unnameable_faces": [],
+   "unresolved": 5,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 4,
+   "evidence": [
+    "Tools/resident_dispatcher.py:117 _save_disp_state local_expression",
+    "Tools/resident_dispatcher.py:482 selftest local_expression",
+    "Tools/resident_dispatcher.py:491 selftest local_expression",
+    "Tools/resident_dispatcher.py:432 _pool_write local_expression"
+   ],
+   "resolved": 0,
+   "source": "Tools/resident_dispatcher.py",
+   "unnameable_faces": [],
+   "unresolved": 4,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/s6_chain_bmc.py:397 main formatted"
+   ],
+   "resolved": 0,
+   "source": "Tools/s6_chain_bmc.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "formatted"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/saturation_engine.py:575 write_state local_expression"
+   ],
+   "resolved": 0,
+   "source": "Tools/saturation_engine.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "Tools/upstream_mirror.py:113 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "Tools/upstream_mirror.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "content/drama/runner_assets/anchor_precheck.py:115 emit_frame_check argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "content/drama/runner_assets/anchor_precheck.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "content/drama/runner_assets/dubbing_sheet_prep.py:94 wr_json local_expression"
+   ],
+   "resolved": 0,
+   "source": "content/drama/runner_assets/dubbing_sheet_prep.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "content/drama/runner_assets/voice_bank_entries.py:93 wr_json local_expression"
+   ],
+   "resolved": 0,
+   "source": "content/drama/runner_assets/voice_bank_entries.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "firm/hr.py:67 save_trader local_expression"
+   ],
+   "resolved": 0,
+   "source": "firm/hr.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "firm/risk/b_layer_filter.py:161 _atomic_write_json local_expression"
+   ],
+   "resolved": 0,
+   "source": "firm/risk/b_layer_filter.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/a6_corr_regime_probe.py:294 cmd_run formatted"
+   ],
+   "resolved": 0,
+   "source": "scripts/a6_corr_regime_probe.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "formatted"
+   ]
+  },
+  {
+   "dump_calls": 4,
+   "evidence": [
+    "scripts/aggr_capacity_probe.py:341 cmd_run joined_computed",
+    "scripts/aggr_capacity_probe.py:388 _fixture_panel joined_computed",
+    "scripts/aggr_capacity_probe.py:356 cmd_run joined_computed",
+    "scripts/aggr_capacity_probe.py:432 f2 joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/aggr_capacity_probe.py",
+   "unnameable_faces": [],
+   "unresolved": 4,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/aggressive_lab.py:621 run_batch argument_supplied",
+    "scripts/aggressive_lab.py:891 run_family_batch argument_supplied",
+    "scripts/aggressive_lab.py:637 run_batch argument_supplied",
+    "scripts/aggressive_lab.py:905 run_family_batch argument_supplied",
+    "scripts/aggressive_lab.py:1104 cmd_paper argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/aggressive_lab.py",
+   "unnameable_faces": [],
+   "unresolved": 5,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/ah_panel_puller.py:363 _write_json local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/ah_panel_puller.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/alloc_paper.py:342 selftest argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/alloc_paper.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/alphagen_beam_w18.py:474 _dump local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/alphagen_beam_w18.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/alphagen_beam_w19.py:563 _dump local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/alphagen_beam_w19.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/alphagen_beam_w20.py:594 _dump local_expression",
+    "scripts/alphagen_beam_w20.py:1151 selftest local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/alphagen_beam_w20.py",
+   "unnameable_faces": [
+    "results/alphagen_w19/W19-2026-10-09.json",
+    "results/alphagen_w20/W20-2026-10-09.json"
+   ],
+   "unresolved": 2,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/alphagen_rl_p1.py:207 _dump local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/alphagen_rl_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/automation_line_audit.py:316 run_audit local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/automation_line_audit.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/bandit_queue.py:278 selftest argument_supplied",
+    "scripts/bandit_queue.py:303 selftest argument_supplied",
+    "scripts/bandit_queue.py:314 selftest argument_supplied",
+    "scripts/bandit_queue.py:327 selftest argument_supplied",
+    "scripts/bandit_queue.py:219 _atomic_write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/bandit_queue.py",
+   "unnameable_faces": [],
+   "unresolved": 5,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/behavior_guardrails.py:335 cmd_run argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/behavior_guardrails.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/bond_panel_puller.py:65 _atomic_write_json local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/bond_panel_puller.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/build_premium_panel.py:430 cmd_build local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/build_premium_panel.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/ce_transfer.py:521 write_outputs joined_computed",
+    "scripts/ce_transfer.py:456 write_outputs joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/ce_transfer.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 6,
+   "evidence": [
+    "scripts/census_fusion_s2_w2b.py:651 run argument_supplied",
+    "scripts/census_fusion_s2_w2b.py:660 run argument_supplied",
+    "scripts/census_fusion_s2_w2b.py:710 run argument_supplied",
+    "scripts/census_fusion_s2_w2b.py:845 selftest argument_supplied",
+    "scripts/census_fusion_s2_w2b.py:853 selftest argument_supplied",
+    "scripts/census_fusion_s2_w2b.py:864 selftest argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/census_fusion_s2_w2b.py",
+   "unnameable_faces": [],
+   "unresolved": 6,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/cn_kline_pattern_p1.py:833 _attr_row other",
+    "scripts/cn_kline_pattern_p1.py:930 finalize other",
+    "scripts/cn_kline_pattern_p1.py:978 cmd_run other"
+   ],
+   "resolved": 2,
+   "source": "scripts/cn_kline_pattern_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 7,
+   "evidence": [
+    "scripts/cn_mkneutral_p1.py:942 _attr_row other",
+    "scripts/cn_mkneutral_p1.py:1077 finalize other",
+    "scripts/cn_mkneutral_p1.py:1137 cmd_run other"
+   ],
+   "resolved": 4,
+   "source": "scripts/cn_mkneutral_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 7,
+   "evidence": [
+    "scripts/cn_sector_leader_p1.py:1072 _attr_row other",
+    "scripts/cn_sector_leader_p1.py:1170 finalize other",
+    "scripts/cn_sector_leader_p1.py:1219 cmd_run other"
+   ],
+   "resolved": 4,
+   "source": "scripts/cn_sector_leader_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/cn_soe_etf_p1.py:1065 _attr_row other",
+    "scripts/cn_soe_etf_p1.py:1208 finalize other",
+    "scripts/cn_soe_etf_p1.py:1260 _compute_cells other"
+   ],
+   "resolved": 2,
+   "source": "scripts/cn_soe_etf_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/cn_trend_etf_p1.py:935 _attr_row other",
+    "scripts/cn_trend_etf_p1.py:1062 finalize other",
+    "scripts/cn_trend_etf_p1.py:1117 cmd_run other"
+   ],
+   "resolved": 2,
+   "source": "scripts/cn_trend_etf_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/codely_gate_pin.py:79 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/codely_gate_pin.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/combined_exit_screen.py:482 main joined_computed",
+    "scripts/combined_exit_screen.py:429 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/combined_exit_screen.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/contest_ytd_legs.py:383 _ensure_prime_anchors argument_supplied"
+   ],
+   "resolved": 2,
+   "source": "scripts/contest_ytd_legs.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/corebook_closeout_p1.py:205 run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/corebook_closeout_p1.py",
+   "unnameable_faces": [
+    "results/corebook_closeout_p1/corebook_closeout_p1.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/cta_p1_screen.py:504 do_run local_expression",
+    "scripts/cta_p1_screen.py:633 do_run local_expression",
+    "scripts/cta_p1_screen.py:691 do_run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/cta_p1_screen.py",
+   "unnameable_faces": [
+    "results/shortline_cta_p1.json"
+   ],
+   "unresolved": 3,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/cta_p2_noau.py:236 do_run local_expression",
+    "scripts/cta_p2_noau.py:364 do_run local_expression",
+    "scripts/cta_p2_noau.py:422 do_run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/cta_p2_noau.py",
+   "unnameable_faces": [
+    "results/shortline_cta_p2_noau.json"
+   ],
+   "unresolved": 3,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/cta_wave1.py:584 do_run local_expression",
+    "scripts/cta_wave1.py:729 do_run local_expression",
+    "scripts/cta_wave1.py:799 do_run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/cta_wave1.py",
+   "unnameable_faces": [
+    "results/cta_wave1_g2_ts_check.json",
+    "results/shortline_cta_wave1.json"
+   ],
+   "unresolved": 3,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/cycle_position_census.py:221 run argument_supplied",
+    "scripts/cycle_position_census.py:249 selftest argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/cycle_position_census.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 15,
+   "evidence": [
+    "scripts/d19_watermark.py:1123 l27 argument_supplied",
+    "scripts/d19_watermark.py:203 _atomic_json_write argument_supplied",
+    "scripts/d19_watermark.py:680 mkfix argument_supplied"
+   ],
+   "resolved": 12,
+   "source": "scripts/d19_watermark.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/daily_report.py:807 run joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/daily_report.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/daily_validate.py:295 _write_status_atomic local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/daily_validate.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e111_face_factor_stamp.py:144 run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/e111_face_factor_stamp.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e221_dom_profile.py:293 run argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/e221_dom_profile.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e222_tom_overlay.py:377 run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/e222_tom_overlay.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e241_pair_reproduction.py:319 _write argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/e241_pair_reproduction.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e244_pair_heterogeneity.py:353 _write local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/e244_pair_heterogeneity.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e246_star_direction.py:446 _write joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/e246_star_direction.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e248_star_lag_band.py:580 _write joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/e248_star_lag_band.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e24_breadth_h20_entry.py:397 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/e24_breadth_h20_entry.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e24_dispersion_h60_entry.py:300 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/e24_dispersion_h60_entry.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e253_self_row_resolution.py:497 _run_cells local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/e253_self_row_resolution.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/e257_band_at_top_flips.py:542 _write returned_from_helper",
+    "scripts/e257_band_at_top_flips.py:545 _write returned_from_helper"
+   ],
+   "resolved": 0,
+   "source": "scripts/e257_band_at_top_flips.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "returned_from_helper"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/e258_band_multiplier_per_window.py:583 _write returned_from_helper",
+    "scripts/e258_band_multiplier_per_window.py:586 _write returned_from_helper"
+   ],
+   "resolved": 0,
+   "source": "scripts/e258_band_multiplier_per_window.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "returned_from_helper"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e25_whipsaw_diag.py:212 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/e25_whipsaw_diag.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e26_band_rebalance.py:332 main local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/e26_band_rebalance.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e27_universe_expansion.py:484 main local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/e27_universe_expansion.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/e302_universe_switch_backfill.py:696 selftest joined_computed",
+    "scripts/e302_universe_switch_backfill.py:698 selftest joined_computed",
+    "scripts/e302_universe_switch_backfill.py:795 selftest joined_computed",
+    "scripts/e302_universe_switch_backfill.py:797 selftest joined_computed",
+    "scripts/e302_universe_switch_backfill.py:799 selftest joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/e302_universe_switch_backfill.py",
+   "unnameable_faces": [],
+   "unresolved": 5,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/e303_recover_unmeasurable_basis.py:503 _fixture joined_computed"
+   ],
+   "resolved": 1,
+   "source": "scripts/e303_recover_unmeasurable_basis.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/e325_orphan_gate_faces.py:428 build joined_computed",
+    "scripts/e325_orphan_gate_faces.py:432 build joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/e325_orphan_gate_faces.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/e326_template_parameter_consumers.py:486 build joined_computed",
+    "scripts/e326_template_parameter_consumers.py:490 build joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/e326_template_parameter_consumers.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/e346_status_writer_unread.py:582 build local_expression",
+    "scripts/e346_status_writer_unread.py:586 build local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/e346_status_writer_unread.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e349_latest_mirror_census.py:573 write argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/e349_latest_mirror_census.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e352_staleness_window.py:494 write joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/e352_staleness_window.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e361_census_corpus_pin.py:264 build local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/e361_census_corpus_pin.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/e364_unstamped_census.py:535 selftest joined_computed"
+   ],
+   "resolved": 4,
+   "source": "scripts/e364_unstamped_census.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e366_pinable_queue_size.py:435 publish joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/e366_pinable_queue_size.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/e38_panel_drift_census.py:173 run joined_computed",
+    "scripts/e38_panel_drift_census.py:181 run joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/e38_panel_drift_census.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e79_face_screen_matrix.py:410 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/e79_face_screen_matrix.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e94_readset_triage.py:401 run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/e94_readset_triage.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/e96_level_label_audit.py:225 run argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/e96_level_label_audit.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 4,
+   "evidence": [
+    "scripts/e97_routing.py:4694 _fixture returned_from_helper",
+    "scripts/e97_routing.py:4682 write returned_from_helper",
+    "scripts/e97_routing.py:4716 write returned_from_helper",
+    "scripts/e97_routing.py:5426 _nzwrite returned_from_helper"
+   ],
+   "resolved": 0,
+   "source": "scripts/e97_routing.py",
+   "unnameable_faces": [],
+   "unresolved": 4,
+   "why": [
+    "returned_from_helper"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/etf_book_breadth.py:332 main local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_breadth.py",
+   "unnameable_faces": [
+    "results/etf_book_breadth.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/etf_book_capacity.py:393 main attribute_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_capacity.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "attribute_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/etf_book_capacity_carry.py:192 main attribute_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_capacity_carry.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "attribute_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/etf_book_capacity_rule.py:566 main local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_capacity_rule.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/etf_book_cash_ladder.py:577 main joined_computed",
+    "scripts/etf_book_cash_ladder.py:580 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_cash_ladder.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/etf_book_ceo_page.py:925 run local_expression",
+    "scripts/etf_book_ceo_page.py:930 run local_expression",
+    "scripts/etf_book_ceo_page.py:485 build_stress local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_ceo_page.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 12,
+   "evidence": [
+    "scripts/etf_book_order.py:190 _write joined_computed",
+    "scripts/etf_book_order.py:1239 selftest joined_computed",
+    "scripts/etf_book_order.py:1259 selftest joined_computed",
+    "scripts/etf_book_order.py:1261 selftest joined_computed",
+    "scripts/etf_book_order.py:1271 selftest joined_computed",
+    "scripts/etf_book_order.py:1286 selftest joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_order.py",
+   "unnameable_faces": [],
+   "unresolved": 12,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/etf_book_premium_phases.py:223 build local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_premium_phases.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/etf_book_production.py:648 run joined_computed",
+    "scripts/etf_book_production.py:650 run joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_production.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 6,
+   "evidence": [
+    "scripts/etf_book_registry.py:416 run local_expression",
+    "scripts/etf_book_registry.py:568 selftest local_expression",
+    "scripts/etf_book_registry.py:571 selftest local_expression",
+    "scripts/etf_book_registry.py:578 selftest local_expression",
+    "scripts/etf_book_registry.py:586 selftest local_expression",
+    "scripts/etf_book_registry.py:593 selftest local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_registry.py",
+   "unnameable_faces": [
+    "results/etf_book_order/latest.json",
+    "results/etf_book_production/latest.json"
+   ],
+   "unresolved": 6,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/etf_book_split_audit.py:241 run joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_split_audit.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/etf_book_turnover.py:452 main local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_turnover.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/etf_book_voltarget_phase.py:305 build local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_book_voltarget_phase.py",
+   "unnameable_faces": [
+    "results/etf_book_voltarget_phase.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/etf_breadth_sweep.py:448 main local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_breadth_sweep.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/etf_composite_pf.py:544 main local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_composite_pf.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/etf_ops_bp1.py:201 _atomic_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/etf_ops_bp1.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/ew6_portfolio.py:474 write_outputs joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/ew6_portfolio.py",
+   "unnameable_faces": [
+    "results/portfolio_ew6.json"
+   ],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/exchange_calendar_audit.py:188 refresh local_expression",
+    "scripts/exchange_calendar_audit.py:481 run local_expression",
+    "scripts/exchange_calendar_audit.py:642 selftest local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/exchange_calendar_audit.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 4,
+   "evidence": [
+    "scripts/exclusion_marginal_scan.py:213 probe argument_supplied",
+    "scripts/exclusion_marginal_scan.py:1220 run argument_supplied",
+    "scripts/exclusion_marginal_scan.py:1257 run argument_supplied"
+   ],
+   "resolved": 1,
+   "source": "scripts/exclusion_marginal_scan.py",
+   "unnameable_faces": [
+    "results/exclusion_marginal_scan/scan.json"
+   ],
+   "unresolved": 3,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/finalize_trio_readiness.py:225 run argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/finalize_trio_readiness.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/fund_divlowvol_p1.py:249 _dump joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/fund_divlowvol_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/fund_divlowvol_p2_probe.py:667 main local_expression",
+    "scripts/fund_divlowvol_p2_probe.py:682 _dump_d6 local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/fund_divlowvol_p2_probe.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/fund_divlowvol_p2_route_b_fidelity.py:77 _dump local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/fund_divlowvol_p2_route_b_fidelity.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/fund_p2_burn_progress.py:106 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/fund_p2_burn_progress.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/fund_quality_p1.py:218 _dump joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/fund_quality_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/fund_trio_p1_diagnostics.py:66 _dump argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/fund_trio_p1_diagnostics.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/fund_value_p1.py:208 _dump joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/fund_value_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/fund_vq_p2_common.py:55 dump local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/fund_vq_p2_common.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/fund_vq_p2_plan.py:285 cmd_plan joined_computed",
+    "scripts/fund_vq_p2_plan.py:290 cmd_plan joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/fund_vq_p2_plan.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/fund_vq_p2_probe.py:345 main other"
+   ],
+   "resolved": 0,
+   "source": "scripts/fund_vq_p2_probe.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/g25_retro.py:394 run joined_computed",
+    "scripts/g25_retro.py:370 run joined_computed",
+    "scripts/g25_retro.py:447 selftest joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/g25_retro.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/g2_nsp1.py:155 register_trader joined_computed",
+    "scripts/g2_nsp1.py:385 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/g2_nsp1.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/grid_dualface_backtest.py:237 _atomic_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/grid_dualface_backtest.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/im_ic_pair.py:637 finalize local_expression",
+    "scripts/im_ic_pair.py:703 finalize local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/im_ic_pair.py",
+   "unnameable_faces": [
+    "results/im_ic_pair_runs.jsonl",
+    "results/shortline_im_ic_pair.json"
+   ],
+   "unresolved": 2,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/index_basis_probe.py:315 run argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/index_basis_probe.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 4,
+   "evidence": [
+    "scripts/innovation_quota_w1.py:513 _attr_row other",
+    "scripts/innovation_quota_w1.py:556 phase1_write other",
+    "scripts/innovation_quota_w1.py:612 finalize other"
+   ],
+   "resolved": 1,
+   "source": "scripts/innovation_quota_w1.py",
+   "unnameable_faces": [
+    "results/innovation_quota/REPO-CALENDAR-P1.json"
+   ],
+   "unresolved": 3,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/innovation_quota_w10.py:581 _attr_row local_expression",
+    "scripts/innovation_quota_w10.py:597 write_product local_expression",
+    "scripts/innovation_quota_w10.py:1208 cmd_selftest local_expression"
+   ],
+   "resolved": 2,
+   "source": "scripts/innovation_quota_w10.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 4,
+   "evidence": [
+    "scripts/innovation_quota_w2.py:658 _attr_row other",
+    "scripts/innovation_quota_w2.py:722 phase1_write other",
+    "scripts/innovation_quota_w2.py:789 finalize other"
+   ],
+   "resolved": 1,
+   "source": "scripts/innovation_quota_w2.py",
+   "unnameable_faces": [
+    "results/innovation_quota/REPO-CALENDAR-P2.json"
+   ],
+   "unresolved": 3,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 4,
+   "evidence": [
+    "scripts/innovation_quota_w3.py:534 _attr_row other",
+    "scripts/innovation_quota_w3.py:581 phase1_write other",
+    "scripts/innovation_quota_w3.py:644 finalize other"
+   ],
+   "resolved": 1,
+   "source": "scripts/innovation_quota_w3.py",
+   "unnameable_faces": [
+    "results/innovation_quota/HIGHERMOM-TIMING-P1.json"
+   ],
+   "unresolved": 3,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/innovation_quota_w4.py:675 _attr_row other",
+    "scripts/innovation_quota_w4.py:739 phase1_write other",
+    "scripts/innovation_quota_w4.py:805 finalize other",
+    "scripts/innovation_quota_w4.py:1133 cmd_selftest other"
+   ],
+   "resolved": 1,
+   "source": "scripts/innovation_quota_w4.py",
+   "unnameable_faces": [
+    "results/innovation_quota/VOLREGIME-TIMING-P1.json"
+   ],
+   "unresolved": 4,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/innovation_quota_w5.py:786 _attr_row other",
+    "scripts/innovation_quota_w5.py:859 phase1_write other",
+    "scripts/innovation_quota_w5.py:925 finalize other",
+    "scripts/innovation_quota_w5.py:1289 cmd_selftest other"
+   ],
+   "resolved": 1,
+   "source": "scripts/innovation_quota_w5.py",
+   "unnameable_faces": [
+    "results/innovation_quota/ICU-MA-TIMING-P1.json"
+   ],
+   "unresolved": 4,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 6,
+   "evidence": [
+    "scripts/innovation_quota_w6.py:384 _attr_row local_expression",
+    "scripts/innovation_quota_w6.py:462 phase1_write local_expression",
+    "scripts/innovation_quota_w6.py:756 cmd_selftest local_expression",
+    "scripts/innovation_quota_w6.py:764 cmd_selftest local_expression",
+    "scripts/innovation_quota_w6.py:771 cmd_selftest local_expression",
+    "scripts/innovation_quota_w6.py:819 cmd_selftest local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/innovation_quota_w6.py",
+   "unnameable_faces": [],
+   "unresolved": 6,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 7,
+   "evidence": [
+    "scripts/innovation_quota_w8.py:563 _attr_row local_expression",
+    "scripts/innovation_quota_w8.py:603 phase1_write local_expression",
+    "scripts/innovation_quota_w8.py:1042 cmd_selftest local_expression",
+    "scripts/innovation_quota_w8.py:1054 cmd_selftest local_expression",
+    "scripts/innovation_quota_w8.py:1059 cmd_selftest local_expression",
+    "scripts/innovation_quota_w8.py:1085 cmd_selftest local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/innovation_quota_w8.py",
+   "unnameable_faces": [],
+   "unresolved": 7,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/lowamp_deep_p1.py:240 _dump joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/lowamp_deep_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/lowamp_p1.py:168 _dump joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/lowamp_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/lowamp_p2.py:177 _dump joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/lowamp_p2.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/lowamp_p3.py:209 _dump joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/lowamp_p3.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/lowchurn_screen.py:513 main joined_computed",
+    "scripts/lowchurn_screen.py:450 register joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/lowchurn_screen.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/marks_coverage.py:281 run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/marks_coverage.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/mass_trial_report.py:291 _write_fixture local_expression",
+    "scripts/mass_trial_report.py:336 cmd_selftest local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/mass_trial_report.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 10,
+   "evidence": [
+    "scripts/merge_lane_views.py:1585 _selftest local_expression",
+    "scripts/merge_lane_views.py:1803 _selftest local_expression",
+    "scripts/merge_lane_views.py:1808 _selftest local_expression",
+    "scripts/merge_lane_views.py:1839 _selftest local_expression",
+    "scripts/merge_lane_views.py:1845 _selftest local_expression",
+    "scripts/merge_lane_views.py:1869 _selftest local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/merge_lane_views.py",
+   "unnameable_faces": [
+    "results/autofill_state.json",
+    "results/dashboard_status.json",
+    "results/market_clock/call_latest.json"
+   ],
+   "unresolved": 10,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/mf_ic_p1.py:450 evaluate argument_supplied",
+    "scripts/mf_ic_p1.py:488 _toy argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/mf_ic_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 9,
+   "evidence": [
+    "scripts/month_exam_readiness.py:377 _mkfixture argument_supplied",
+    "scripts/month_exam_readiness.py:380 _mkfixture argument_supplied",
+    "scripts/month_exam_readiness.py:383 _mkfixture argument_supplied",
+    "scripts/month_exam_readiness.py:388 _mkfixture argument_supplied",
+    "scripts/month_exam_readiness.py:392 _mkfixture argument_supplied",
+    "scripts/month_exam_readiness.py:402 _mkfixture argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/month_exam_readiness.py",
+   "unnameable_faces": [],
+   "unresolved": 9,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/national_team_face.py:143 _atomic_write_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/national_team_face.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/national_team_s3_review.py:59 _atomic_json local_expression"
+   ],
+   "resolved": 1,
+   "source": "scripts/national_team_s3_review.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/new_signal_p1.py:345 write_outputs joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/new_signal_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/newlist_census.py:229 run joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/newlist_census.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 11,
+   "evidence": [
+    "scripts/open_market_readiness.py:442 _mkfixture argument_supplied",
+    "scripts/open_market_readiness.py:446 _mkfixture argument_supplied",
+    "scripts/open_market_readiness.py:453 _mkfixture argument_supplied",
+    "scripts/open_market_readiness.py:457 _mkfixture argument_supplied",
+    "scripts/open_market_readiness.py:467 _mkfixture argument_supplied",
+    "scripts/open_market_readiness.py:413 cmd_run argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/open_market_readiness.py",
+   "unnameable_faces": [],
+   "unresolved": 11,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/options_iv_freeze_counter.py:176 _atomic_write local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/options_iv_freeze_counter.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/options_wave2.py:651 do_run local_expression",
+    "scripts/options_wave2.py:799 do_run local_expression",
+    "scripts/options_wave2.py:847 do_run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/options_wave2.py",
+   "unnameable_faces": [
+    "results/options_wave2.json"
+   ],
+   "unresolved": 3,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/overnight_gap_census.py:331 write_outputs local_expression",
+    "scripts/overnight_gap_census.py:333 write_outputs local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/overnight_gap_census.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/overnight_gap_conditioned.py:384 write_outputs local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/overnight_gap_conditioned.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/p1e_ic_batch.py:425 run_nulls local_expression",
+    "scripts/p1e_ic_batch.py:495 run_cells local_expression",
+    "scripts/p1e_ic_batch.py:684 finalize local_expression",
+    "scripts/p1e_ic_batch.py:219 equivalence_gate local_expression",
+    "scripts/p1e_ic_batch.py:467 _save local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/p1e_ic_batch.py",
+   "unnameable_faces": [],
+   "unresolved": 5,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/p2_deepening.py:461 main joined_computed",
+    "scripts/p2_deepening.py:383 main joined_computed",
+    "scripts/p2_deepening.py:422 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/p2_deepening.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/p3_portfolio.py:404 write_outputs joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/p3_portfolio.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/p4_batch1_screen.py:288 write_outputs joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/p4_batch1_screen.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/p4_batch2_screen.py:269 cmd_panel argument_supplied"
+   ],
+   "resolved": 1,
+   "source": "scripts/p4_batch2_screen.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/p4_batch2a_screen.py:340 write_outputs joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/p4_batch2a_screen.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/p4_folk_screen.py:345 write_outputs joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/p4_folk_screen.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/p4_queue_screen.py:238 write_outputs joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/p4_queue_screen.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/panel_coverage_report.py:208 write_outputs local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/panel_coverage_report.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/parking_idle_scan.py:184 main other"
+   ],
+   "resolved": 0,
+   "source": "scripts/parking_idle_scan.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/pb_heat_pull.py:122 stage_membership other"
+   ],
+   "resolved": 0,
+   "source": "scripts/pb_heat_pull.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 8,
+   "evidence": [
+    "scripts/perpetual_faces_n3.py:552 cmd_probe returned_from_helper",
+    "scripts/perpetual_faces_n3.py:845 cmd_probe_r2 returned_from_helper",
+    "scripts/perpetual_faces_n3.py:1010 cmd_finalize_r2 returned_from_helper",
+    "scripts/perpetual_faces_n3.py:1187 cmd_finalize_one returned_from_helper",
+    "scripts/perpetual_faces_n3.py:786 cmd_probe_r2 returned_from_helper",
+    "scripts/perpetual_faces_n3.py:936 cmd_finalize_r2 returned_from_helper"
+   ],
+   "resolved": 1,
+   "source": "scripts/perpetual_faces_n3.py",
+   "unnameable_faces": [],
+   "unresolved": 7,
+   "why": [
+    "returned_from_helper"
+   ]
+  },
+  {
+   "dump_calls": 6,
+   "evidence": [
+    "scripts/perpetual_faces_n4.py:498 cmd_probe local_expression",
+    "scripts/perpetual_faces_n4.py:671 cmd_run_shard local_expression",
+    "scripts/perpetual_faces_n4.py:924 cmd_finalize local_expression"
+   ],
+   "resolved": 3,
+   "source": "scripts/perpetual_faces_n4.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 6,
+   "evidence": [
+    "scripts/pool_dualrun_reconcile.py:260 _selftest local_expression",
+    "scripts/pool_dualrun_reconcile.py:265 _selftest local_expression",
+    "scripts/pool_dualrun_reconcile.py:288 _selftest local_expression",
+    "scripts/pool_dualrun_reconcile.py:302 _selftest local_expression",
+    "scripts/pool_dualrun_reconcile.py:309 _selftest local_expression",
+    "scripts/pool_dualrun_reconcile.py:322 _selftest local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/pool_dualrun_reconcile.py",
+   "unnameable_faces": [],
+   "unresolved": 6,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 8,
+   "evidence": [
+    "scripts/refine_bench_rev_p2.py:298 cmd_probe other",
+    "scripts/refine_bench_rev_p2.py:363 cmd_run_shard other",
+    "scripts/refine_bench_rev_p2.py:447 cmd_run_nulls other",
+    "scripts/refine_bench_rev_p2.py:565 cmd_finalize other",
+    "scripts/refine_bench_rev_p2.py:637 cmd_selftest other",
+    "scripts/refine_bench_rev_p2.py:354 cmd_run_shard other"
+   ],
+   "resolved": 1,
+   "source": "scripts/refine_bench_rev_p2.py",
+   "unnameable_faces": [],
+   "unresolved": 7,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/regime5_labeler.py:211 cmd_run argument_supplied",
+    "scripts/regime5_labeler.py:217 cmd_run argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/regime5_labeler.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/regime_calibration.py:473 _write local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/regime_calibration.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/regime_deep_replay.py:474 _write_json local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/regime_deep_replay.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/regime_enforce_gates.py:265 main joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/regime_enforce_gates.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/regime_gate_dualarm.py:216 _atomic_write argument_supplied",
+    "scripts/regime_gate_dualarm.py:410 _selftest argument_supplied",
+    "scripts/regime_gate_dualarm.py:338 _selftest argument_supplied",
+    "scripts/regime_gate_dualarm.py:438 _selftest argument_supplied",
+    "scripts/regime_gate_dualarm.py:445 _selftest argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/regime_gate_dualarm.py",
+   "unnameable_faces": [],
+   "unresolved": 5,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/regime_p0_slice2.py:289 run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/regime_p0_slice2.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/regime_p0_slice4.py:185 run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/regime_p0_slice4.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/regime_p0_slice5.py:250 run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/regime_p0_slice5.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/regime_style_matrix.py:200 cmd_run local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/regime_style_matrix.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/retro_paper_2026.py:136 _write argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/retro_paper_2026.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/rev_osc_signal_export.py:80 _atomic_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/rev_osc_signal_export.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/rev_osc_stock_p1.py:653 _attr_row other",
+    "scripts/rev_osc_stock_p1.py:751 finalize other",
+    "scripts/rev_osc_stock_p1.py:791 cmd_run other"
+   ],
+   "resolved": 2,
+   "source": "scripts/rev_osc_stock_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "other"
+   ]
+  },
+  {
+   "dump_calls": 12,
+   "evidence": [
+    "scripts/science_gates.py:3310 selftest joined_computed"
+   ],
+   "resolved": 11,
+   "source": "scripts/science_gates.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/scorecard.py:397 run argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/scorecard.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/seasonal_calendar_census.py:533 _write_panel returned_from_helper",
+    "scripts/seasonal_calendar_census.py:539 _write_panel returned_from_helper"
+   ],
+   "resolved": 0,
+   "source": "scripts/seasonal_calendar_census.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "returned_from_helper"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/seasonal_horizon_stability.py:331 write_outputs local_expression",
+    "scripts/seasonal_horizon_stability.py:382 _toy_panel local_expression",
+    "scripts/seasonal_horizon_stability.py:384 _toy_panel local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/seasonal_horizon_stability.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/sina_construct_ic.py:498 evaluate argument_supplied",
+    "scripts/sina_construct_ic.py:567 _toy argument_supplied",
+    "scripts/sina_construct_ic.py:569 _toy argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/sina_construct_ic.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/sina_mf_accept.py:319 run local_expression",
+    "scripts/sina_mf_accept.py:374 _selftest local_expression",
+    "scripts/sina_mf_accept.py:377 _selftest local_expression",
+    "scripts/sina_mf_accept.py:400 _selftest local_expression",
+    "scripts/sina_mf_accept.py:474 _selftest local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/sina_mf_accept.py",
+   "unnameable_faces": [],
+   "unresolved": 5,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/sina_mf_ic_p1.py:460 evaluate argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/sina_mf_ic_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/sleeve_p3.py:454 write_outputs joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/sleeve_p3.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/southbound_reprobe.py:202 _append_history local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/southbound_reprobe.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/sscombo_pit_drift_audit.py:100 run argument_supplied",
+    "scripts/sscombo_pit_drift_audit.py:119 selftest argument_supplied",
+    "scripts/sscombo_pit_drift_audit.py:122 selftest argument_supplied",
+    "scripts/sscombo_pit_drift_audit.py:126 selftest argument_supplied",
+    "scripts/sscombo_pit_drift_audit.py:137 selftest argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/sscombo_pit_drift_audit.py",
+   "unnameable_faces": [],
+   "unresolved": 5,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/sscombo_stage_priors.py:160 run argument_supplied",
+    "scripts/sscombo_stage_priors.py:179 selftest argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/sscombo_stage_priors.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 10,
+   "evidence": [
+    "scripts/strategy_scorecard.py:595 calibrate local_expression",
+    "scripts/strategy_scorecard.py:1403 run local_expression",
+    "scripts/strategy_scorecard.py:1573 selftest local_expression",
+    "scripts/strategy_scorecard.py:1594 selftest local_expression",
+    "scripts/strategy_scorecard.py:1774 selftest local_expression",
+    "scripts/strategy_scorecard.py:1777 selftest local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/strategy_scorecard.py",
+   "unnameable_faces": [
+    "results/corps_roster.json",
+    "results/current_market_stable_profit.json",
+    "results/pbo_cscv_v1.json",
+    "results/portfolio_blend_tournament.json",
+    "results/portfolio_ew6.json",
+    "results/portfolio_iv6.json",
+    "results/spm_j4_attribution.json"
+   ],
+   "unresolved": 10,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/supply_alignment.py:298 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/supply_alignment.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/susp_resume_census.py:318 run joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/susp_resume_census.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/susp_resume_forward.py:229 build local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/susp_resume_forward.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/system_v1_paper.py:110 _atomic_json argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/system_v1_paper.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 10,
+   "evidence": [
+    "scripts/t18_deep_axis.py:1562 _selftest attribute_supplied",
+    "scripts/t18_deep_axis.py:1572 _selftest attribute_supplied"
+   ],
+   "resolved": 8,
+   "source": "scripts/t18_deep_axis.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "attribute_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/t23_random_grammar_census.py:524 _dump local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/t23_random_grammar_census.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/t24_prospect_beatrate.py:332 cmd_run argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/t24_prospect_beatrate.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/t24_prospect_paper.py:70 _save_member joined_computed",
+    "scripts/t24_prospect_paper.py:230 _run_lane joined_computed",
+    "scripts/t24_prospect_paper.py:196 _run_lane joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/t24_prospect_paper.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 5,
+   "evidence": [
+    "scripts/t24_prospect_promotion.py:202 _run_eval joined_computed",
+    "scripts/t24_prospect_promotion.py:255 _write_trader joined_computed",
+    "scripts/t24_prospect_promotion.py:283 cmd_selftest joined_computed",
+    "scripts/t24_prospect_promotion.py:331 cmd_selftest joined_computed",
+    "scripts/t24_prospect_promotion.py:172 _run_eval joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/t24_prospect_promotion.py",
+   "unnameable_faces": [],
+   "unresolved": 5,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/t33_corps_roster.py:312 run argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/t33_corps_roster.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/t34_early_signal.py:692 cmd_finalize returned_from_helper",
+    "scripts/t34_early_signal.py:741 cmd_finalize returned_from_helper"
+   ],
+   "resolved": 0,
+   "source": "scripts/t34_early_signal.py",
+   "unnameable_faces": [
+    "results/t34_early_signal_verdict.json"
+   ],
+   "unresolved": 2,
+   "why": [
+    "returned_from_helper"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/t35_paper_export.py:64 _write_json_atomic local_expression",
+    "scripts/t35_paper_export.py:392 selftest local_expression",
+    "scripts/t35_paper_export.py:314 state local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/t35_paper_export.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/t70_midterm_dossier.py:277 run argument_supplied",
+    "scripts/t70_midterm_dossier.py:313 selftest argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/t70_midterm_dossier.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/theme_deepen_p1.py:702 write_outputs argument_supplied",
+    "scripts/theme_deepen_p1.py:704 write_outputs argument_supplied",
+    "scripts/theme_deepen_p1.py:855 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/theme_deepen_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 3,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/theme_persist_p1.py:592 _write_outputs argument_supplied",
+    "scripts/theme_persist_p1.py:594 _write_outputs argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/theme_persist_p1.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/trial_labor_w1.py:249 _dump argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/trial_labor_w1.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/trial_labor_w17.py:223 _dump argument_supplied",
+    "scripts/trial_labor_w17.py:969 _worker_claim argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/trial_labor_w17.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/trial_labor_w3.py:2125 cmd_selftest argument_supplied"
+   ],
+   "resolved": 1,
+   "source": "scripts/trial_labor_w3.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/trial_labor_w4.py:2433 cmd_selftest argument_supplied"
+   ],
+   "resolved": 1,
+   "source": "scripts/trial_labor_w4.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/trial_labor_w5.py:2789 cmd_selftest local_expression",
+    "scripts/trial_labor_w5.py:2794 cmd_selftest local_expression"
+   ],
+   "resolved": 1,
+   "source": "scripts/trial_labor_w5.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/trial_labor_w6.py:3107 cmd_selftest local_expression",
+    "scripts/trial_labor_w6.py:3112 cmd_selftest local_expression"
+   ],
+   "resolved": 1,
+   "source": "scripts/trial_labor_w6.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 3,
+   "evidence": [
+    "scripts/update_daily.py:167 _write_status_atomic local_expression"
+   ],
+   "resolved": 2,
+   "source": "scripts/update_daily.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/update_etf_daily.py:380 write_status argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/update_etf_daily.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/update_fundamental.py:384 _atomic_write_json local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/update_fundamental.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/w22_null_screen.py:311 main argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/w22_null_screen.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/w22_prereg_derive.py:133 write local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/w22_prereg_derive.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/w22_window_forecast.py:199 _run argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/w22_window_forecast.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 8,
+   "evidence": [
+    "scripts/wild_route_lab.py:801 _wr_run_meta joined_computed"
+   ],
+   "resolved": 7,
+   "source": "scripts/wild_route_lab.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/ytd_track_record.py:457 render_outputs argument_supplied",
+    "scripts/ytd_track_record.py:460 render_outputs argument_supplied"
+   ],
+   "resolved": 0,
+   "source": "scripts/ytd_track_record.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "argument_supplied"
+   ]
+  },
+  {
+   "dump_calls": 2,
+   "evidence": [
+    "scripts/zt_ladder_probe.py:291 main joined_computed",
+    "scripts/zt_ladder_probe.py:267 selftest joined_computed"
+   ],
+   "resolved": 0,
+   "source": "scripts/zt_ladder_probe.py",
+   "unnameable_faces": [],
+   "unresolved": 2,
+   "why": [
+    "joined_computed"
+   ]
+  },
+  {
+   "dump_calls": 1,
+   "evidence": [
+    "scripts/zt_pool_crosscheck.py:59 _atomic_json_write local_expression"
+   ],
+   "resolved": 0,
+   "source": "scripts/zt_pool_crosscheck.py",
+   "unnameable_faces": [],
+   "unresolved": 1,
+   "why": [
+    "local_expression"
+   ]
+  }
+ ],
+ "writers_truncated": 0
+}

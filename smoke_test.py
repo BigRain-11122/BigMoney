@@ -12909,6 +12909,141 @@ def _r39ci(face, key):
     return "n/a" if not v else "[%.3f, %.3f]" % (v[0], v[1])
 
 
+# E377: "no writer" is two claims.  A census that keys literal/constant paths cannot see a writer
+# whose destination is built at run time, so a face it calls unwritten may simply be unwritten by a
+# writer it cannot name. This leg refuses the shapes that would let the split be asserted instead of
+# measured: a verdict outside the frozen vocabulary, a writer row that does not add up, a row with no
+# evidence line, a face count that does not match its own list, and a verdict that does not re-derive.
+_name377 = ("product: an unnameable json.dump destination is split from an unwritten face, and the "
+            "writer rows carry their own evidence")
+_bad377 = []
+try:
+    _p377 = os.path.join("results", "state_tilt", "unresolveddest_latest.json")
+    _f377 = json.load(open(_p377, encoding="utf-8")) if os.path.exists(_p377) else None
+    if _f377 is None:
+        _bad377.append("no published unresolved-destination face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m377 = __import__("importlib").import_module("e377_unresolved_destination")
+        _vocab377 = {_m377.V_ALL_NAMED, _m377.V_BLIND_SPOT, _m377.V_REACHES_NOTHING,
+                     _m377.V_EMPTY}
+        if _f377.get("verdict") not in _vocab377:
+            _bad377.append("verdict %r is outside the frozen vocabulary"
+                           % str(_f377.get("verdict"))[:60])
+        _s377 = _f377.get("summary") or {}
+        _rows377 = _f377.get("writers") or []
+        if _s377.get("writers_with_unresolved") != len(_rows377) + (
+                _f377.get("writers_truncated") or 0):
+            _bad377.append("the writer count does not equal the published rows")
+        for _r377 in _rows377[:50]:
+            if _r377.get("resolved", 0) + _r377.get("unresolved", 0) != _r377.get("dump_calls"):
+                _bad377.append("a writer row does not add up: %s" % _r377.get("source"))
+                break
+            if not _r377.get("evidence"):
+                _bad377.append("a writer row carries no evidence line: %s" % _r377.get("source"))
+                break
+        if len(_f377.get("faces_no_census_keys") or []) + (
+                _f377.get("faces_no_census_keys_truncated") or 0) != _s377.get(
+                    "faces_no_census_keys"):
+            _bad377.append("the face list does not match its own count")
+        if _f377.get("verdict") != _m377.decide(_s377):
+            _bad377.append("the verdict does not re-derive from the summary")
+        if _m377.verify() != 0:
+            _bad377.append("the study's own verify does not come back clean")
+except Exception as e:
+    _bad377.append(repr(e)[:160])
+check(_name377, not _bad377, "; ".join(_bad377)[:220]
+      or "unresolved %d/%d calls over %d writers; %d faces no census keys; %d guards explained"
+         % ((_f377 or {}).get("summary", {}).get("unresolved_calls", 0),
+            (_f377 or {}).get("summary", {}).get("dump_calls", 0),
+            (_f377 or {}).get("summary", {}).get("writers_with_unresolved", 0),
+            (_f377 or {}).get("summary", {}).get("faces_no_census_keys", 0),
+            (_f377 or {}).get("summary", {}).get(
+                "e350_unwritten_guard_rows_named_by_an_unnameable_writer", 0)))
+
+
+# E374: E372 charged the corpus for 128 recovered members to buy two pairs.  This leg grades the
+# ACCOUNTING of the load-bearing claim and never the pair numbers: every arm's published pair
+# count must equal the size of its own pair set, the moved split must re-derive from the two
+# upstream arms, the dropped members plus the kept ones must partition the store, the ablation
+# and sufficiency flags must agree with the arms they describe, each kept member must publish an
+# evidence line, and the verdict must come back out of the set algebra rather than out of prose.
+# No corpus scan: the attribution walk is per-member and cheap, which is the point of it.
+_name374 = ("product: a store's load-bearing members are named by their own evidence lines and "
+            "the ablation, not by the pair arithmetic alone")
+_bad374 = []
+_f374 = None
+try:
+    _p374 = os.path.join("results", "state_tilt", "storeload_latest.json")
+    _f374 = json.load(open(_p374, encoding="utf-8")) if os.path.exists(_p374) else None
+    if _f374 is None:
+        _bad374.append("no published load-bearing face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m374 = __import__("importlib").import_module("e374_store_load_bearing_members")
+        _arms374 = _f374.get("arms") or {}
+        for _n374 in _m374.ARMS:
+            _a374 = _arms374.get(_n374) or {}
+            _ps374 = _a374.get("pair_set") or []
+            if _a374.get("pairs") != len(_ps374):
+                _bad374.append("%s: pairs=%r but %d pair rows"
+                               % (_n374, _a374.get("pairs"), len(_ps374)))
+            if len({tuple(x) for x in _ps374}) != len(_ps374):
+                _bad374.append("%s: duplicate pair rows" % _n374)
+        _g374, _l374 = _m374.diff_pairs(_arms374["pin_only"]["pair_set"],
+                                        _arms374["pin_plus_store"]["pair_set"])
+        _mv374 = _f374.get("moved") or {}
+        if _g374 != _mv374.get("gained") or _l374 != _mv374.get("lost"):
+            _bad374.append("the moved split does not re-derive from the two arms")
+        if _mv374.get("net") != len(_g374) - len(_l374):
+            _bad374.append("moved.net is not gained minus lost")
+        _store374 = _m374.load_json(os.path.join(os.getcwd(), _f374.get("store_file") or ""))
+        _kept374, _scan374 = _m374.attribute(_store374, _g374, _l374)
+        if [r.get("path") for r in _kept374] != [r.get("path")
+                                                  for r in _f374.get("load_bearing") or []]:
+            _bad374.append("the load-bearing set does not re-derive from the store")
+        for _r374 in _f374.get("load_bearing") or []:
+            if not _r374.get("evidence"):
+                _bad374.append("a load-bearing member carries no evidence line: %s"
+                               % _r374.get("path"))
+        _ab374 = _f374.get("ablation") or {}
+        if _ab374.get("dropped") != _scan374 - len(_kept374):
+            _bad374.append("the dropped count plus the kept set does not partition the store")
+        if _ab374.get("pairs_full_store") != _arms374["pin_plus_store"]["pairs"]:
+            _bad374.append("the ablation does not quote the arm it ablates")
+        if _ab374.get("pairs_after_drop") != _arms374["store_minus_load"]["pairs"]:
+            _bad374.append("the ablation quotes a number no arm carries")
+        _a_set374 = {tuple(x) for x in _arms374["pin_only"]["pair_set"]}
+        _d_set374 = {tuple(x) for x in _arms374["store_minus_load"]["pair_set"]}
+        _b_set374 = {tuple(x) for x in _arms374["pin_plus_store"]["pair_set"]}
+        _c_set374 = {tuple(x) for x in _arms374["load_only"]["pair_set"]}
+        if _ab374.get("pair_set_equals_pin_only") != (_d_set374 == _a_set374):
+            _bad374.append("the ablation flag disagrees with its own pair sets")
+        if (_f374.get("sufficiency") or {}).get("pair_set_equals_full_store") \
+                != (_c_set374 == _b_set374):
+            _bad374.append("the sufficiency flag disagrees with its own pair sets")
+        if _f374.get("verdict") != _m374.decide(
+                {_n: {"pair_set": (_arms374[_n] or {}).get("pair_set") or []}
+                 for _n in _m374.ARMS},
+                {"gained": _g374, "lost": _l374}, _kept374,
+                ["x"] * (_scan374 - len(_kept374))):
+            _bad374.append("the verdict does not re-derive from the set algebra")
+        if _m374.verify() != 0:
+            _bad374.append("the study's own verify does not come back clean")
+except Exception as _e374:
+    _bad374.append(repr(_e374)[:160])
+check(_name374, not _bad374, "; ".join(_bad374)[:220]
+      or "store %s members -> %s load-bearing; pairs %s -> %s, gained %d lost %d; ablation "
+         "back to %s"
+         % ((_f374 or {}).get("store_count"),
+            len((_f374 or {}).get("load_bearing") or []),
+            (((_f374 or {}).get("arms") or {}).get("pin_only") or {}).get("pairs"),
+            (((_f374 or {}).get("arms") or {}).get("pin_plus_store") or {}).get("pairs"),
+            len(((_f374 or {}).get("moved") or {}).get("gained") or []),
+            len(((_f374 or {}).get("moved") or {}).get("lost") or []),
+            (((_f374 or {}).get("arms") or {}).get("store_minus_load") or {}).get("pairs")))
+
+
 def _r38(face, key):
     v = (face.get("summary") or {}).get(key)
     return "n/a" if v is None else "%.3f" % v

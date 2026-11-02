@@ -8160,3 +8160,61 @@ How to apply: when a replay has to borrow bytes from the disk instead of the pin
 member by the numbers that move when it is dropped, and publish the two zeros and the unkeyable
 writes separately -- a cheap bill on a name-keyed instrument says nothing about what the member does
 at run time.
+
+## E377 -- "no writer" is two claims: a name-keyed census cannot see a destination it cannot name (r1396 bm-b)
+
+E376 found one member writing `"results/_r%sbmb_s6_chain.json" % rnd` and had to publish the dump-call
+census beside the footprint. E377 prices that blind spot corpus-wide: of 2,121 `json.dump` calls in
+2,411 sources, **542 (25.6%) in 285 sources** write to a path no name-keyed census can resolve
+(`argument_supplied` 94, `local_expression` 84, `joined_computed` 70, `other` 26,
+`returned_from_helper` 6, `attribute_supplied` 3, `formatted` 2). They reach 62 faces, of which **36
+are published faces that no resolved sink in the corpus keys at all** -- so a face can be "written by
+nobody" and still be written on every run.
+
+Three reusable rules:
+1. **Split the negative before publishing it.** "No writer" answers "did a keyable source write this".
+   An unnameable writer produces exactly the same silence as no writer. Publish the unnameable set and
+   its reach beside the negative, or the negative absorbs the blind spot.
+2. **Name reach is a lower bound.** The reach test is a NAME test over one source's literals: it shows
+   a face the writer could write, never that it writes it; a destination supplied by a caller names
+   nothing. Reach is under-counted, not over-counted -- publish it as a floor.
+3. **Reach is not consumption.** A face keyed by nobody and reached by an unnameable writer has no
+   corpus reader; whether anything outside the corpus reads it is a separate question, and inventing
+   that answer inside a census is the same defect one level up.
+
+How to apply: before any "unwritten field" / "no writer" claim is published, run the two populations
+apart -- resolved sinks (what the census can key) and unnameable sinks (what it cannot) -- and name the
+claim with the instrument that produced it.
+
+## E378 -- load-bearing is a property of the yardstick, not of the member (r1396 bm-b)
+
+E372 paid 128 recovered store members to lift E353's `pairs` from 129 to 131. E374 asks which members
+carry that, earns membership per member (an `assert`/`exit` guard on a moved field, or a writer for a
+pair the store removes), and settles indirect feeders with **one** ablation replay instead of 128.
+
+Four arms, one pin (2,251 members from the pinned tree; store = 128 recovered members):
+
+| arm | population | E353 `pairs` |
+|---|---|---|
+| A pin only | 2,251 | 129 |
+| B pin + whole store | 2,379 | 131 |
+| D pin + store minus the 125 non-load-bearing | 2,376 | 129 (returns to A's set exactly) |
+| C pin + the 3 load-bearing only | 2,254 | 131 (returns to B's set exactly) |
+
+So three members are necessary and sufficient, and the net +2 hides a swap: **three pairs gained, one
+paid back** (`results/runnable_pool.json:entries`, whose writer enters the population).
+
+Four reusable rules:
+1. **A count delta is not a change set.** 129 -> 131 is compatible with +2, +3/-1, or +40/-38. Publish
+   gained and lost pair lists and the net as three separate fields.
+2. **Membership is earned by a line, not inferred from the total.** Pruning by "it changed the count"
+   would have kept all 128; an unbranched *read* of the same field earns a note, not membership, because
+   a read that is not a guard creates no pair.
+3. **One ablation beats N targeted replays.** The static walk cannot see a feeder two calls deep; the
+   ablation arm can, at the cost of one extra scan (~170 s) versus 128.
+4. **Name the instrument in the sentence.** The same members are footprint-empty on E350's arm (E371),
+   so "load-bearing" is meaningless without the yardstick; a store's size is justified per instrument.
+
+How to apply: when a corpus borrows bytes to repair a number, grade the repair with an ablation that
+must *return* to both ends (empty set -> old number, kept set -> new number), and publish the necessary
+set rather than the net delta.

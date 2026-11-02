@@ -1217,6 +1217,10 @@ LEGS = [
     # name against the E350 guard table, and the bill is a replay with the store excluded. Verify
     # re-derives both footprints and the source-count arithmetic (~2 s, no corpus scan).
     ("store_member_cost", ["python", "scripts/e371_store_member_cost.py", "verify"]),
+    # E377: the tree-wide version of the same question -- 542 of 2,121 json.dump destinations in
+    # the corpus cannot be named, and 36 published faces are reached only by those writers. Verify
+    # re-adds every writer row and re-derives the verdict from the published summary (~0.3 s).
+    ("unresolved_destination", ["python", "scripts/e377_unresolved_destination.py", "verify"]),
 ]
 
 
