@@ -9062,3 +9062,21 @@ RATES_FELL / RATES_STEADY / RATES_ROSE（阈值 25bp，跑前冻结）；读不�
 **证据**：`scripts/etf_book_order.py::cash_money`（selftest leg4c/4d/4e）、
 `results/etf_book_order/ORDER-2026-10-30.md`（「现金那一半今天赚多少钱」节）、
 `smoke_test.py`（腿：the order sheet prices the cash half in CNY at today's rate）。
+
+### E365 · 一个门槛值吃不吃重，只能把它挪开来测（r1246 bm-a）
+
+正身=`scripts/etf_book_entry_gate.py`（selftest 11/11 + `--check`）。
+
+这本书的整个宇宙由一个数决定：20 日成交额中位数 ≥ 20M。所有已发布的数字都长在这道闸上面，而从没人在本书内部扫过它——闸的位置是继承来的。同面板、同排名、同网格，只动这一个数，读卡片承认可交易的臂（收盘决策 → 次日开盘成交）：5M/10M 8.67%、20M 8.46%（控制臂，复现已发布 declared 格到 0.0000pp）、50M 7.93%、100M 8.65%（但回撤 -20.7%）、200M 5.50%。判决 `GATE_SITS_ON_PLATEAU`。
+
+两条可复用律：①**门槛的"吃重"是两面**——对收益它是平的（±0.21pp），对宽度它是重的（中位可选名数 462 → 262 → 56）。薄书读者测不到的东西，要容量的人天天感受到；只报收益会把"闸决定容量"这条特性藏起来。②**单参数敏感性扫必须自带控制臂**：被扫的那个格要能复现已发布的数字，否则整场扫描讲的是另一张面板的故事（本面把它钉在 0.25pp，复现不了就 CANNOT_JUDGE）。非单调的一格如实并列（100M 比 50M 高 0.7pp 但回撤深 4.6pp），不当趋势。
+
+### E366 · 账本跑在面板前面时，身份自证该截到共享段，而不是噤声（r1246 bm-a）
+
+正身=`scripts/etf_book_card_track.py::drift`（r1246 改）。
+
+前向账本按网格决策，会先落一根面板还没定价的 bar（这是车道滞后，数据新鲜度板上写着）。旧实现在这种状态下整块返回 `unavailable("seed/last bar not on the panel")`，把一条**本来可检**的身份自证（paper book 的 nav 能否被重放出来）丢掉了；于是 smoke 长期红在一个 `agrees=True` 的面上——读者看到的是"所有权不合"，真因是"有一根 bar 定价不了"。
+
+正法=重放到两边共有的最新 bar，并发布 `panel_last / ledger_last / replay_last / lag_on_panel_bars`；seed 不在面板上仍然硬失败（那时重放没有原点）。修后 6 根共享 bar 上 nav 恒等 2.0e-10。
+
+律：不可核验必须点名"核验到哪、还剩多少没核验"，而不是整面沉默——沉默会让下游把"看不见"读成"没过"，也会让一条真缺陷（比如面板缺口）伪装成另一条面的故障。

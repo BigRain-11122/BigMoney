@@ -1,0 +1,167 @@
+{
+ "evidence_cutoff": "2026-10-30",
+ "panel_last_bar": "2026-10-30",
+ "script": "scripts/etf_book_entry_gate.py",
+ "rule": {
+  "gates_cny": [
+   5000000.0,
+   10000000.0,
+   20000000.0,
+   50000000.0,
+   100000000.0,
+   200000000.0
+  ],
+  "shipped_cny": 20000000.0,
+  "tol_pp": 1.0,
+  "control_tol_pp": 0.25,
+  "near_gates_cny": [
+   10000000.0,
+   20000000.0,
+   50000000.0
+  ],
+  "universe_tol_names": 20,
+  "arm": "declared: decide at close t -> fill at open t+1 (score.shift(1), the arm the card says the desk can trade)",
+  "frozen": "criteria written before the run; --check re-derives them"
+ },
+ "config": {
+  "n_hold": 12,
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cost_bp_per_side": 10.0,
+  "universe_measured": 1504,
+  "universe_published": 1504,
+  "universe_delta_names": 0,
+  "flips_repaired": 168,
+  "source_panel_digest": {
+   "digest": "f190a278575af170",
+   "dates": 5270,
+   "columns": 1504,
+   "first": "2005-02-23",
+   "last": "2026-10-30",
+   "blocks": [
+    "close",
+    "open",
+    "amount"
+   ],
+   "amount_columns": 1504
+  }
+ },
+ "control": {
+  "published_declared_cagr": 0.0846,
+  "arm_declared_cagr": 0.0846,
+  "delta_pp": 0.0,
+  "tol_pp": 0.25
+ },
+ "rows": [
+  {
+   "min_amt_cny": 5000000.0,
+   "min_amt_m": 5.0,
+   "cagr": 0.0867,
+   "sharpe": 0.891,
+   "maxdd": -0.1651,
+   "vol": 0.1032,
+   "turnover_per_decision": 0.958,
+   "oos_cagr": 0.1761,
+   "bars": 1653,
+   "median": 462,
+   "mean": 459.5,
+   "min": 71,
+   "max": 1025
+  },
+  {
+   "min_amt_cny": 10000000.0,
+   "min_amt_m": 10.0,
+   "cagr": 0.0867,
+   "sharpe": 0.891,
+   "maxdd": -0.1651,
+   "vol": 0.1032,
+   "turnover_per_decision": 0.958,
+   "oos_cagr": 0.1761,
+   "bars": 1653,
+   "median": 367,
+   "mean": 372.1,
+   "min": 61,
+   "max": 873
+  },
+  {
+   "min_amt_cny": 20000000.0,
+   "min_amt_m": 20.0,
+   "cagr": 0.0846,
+   "sharpe": 0.874,
+   "maxdd": -0.1656,
+   "vol": 0.1028,
+   "turnover_per_decision": 0.953,
+   "oos_cagr": 0.1743,
+   "bars": 1653,
+   "median": 262,
+   "mean": 282.8,
+   "min": 51,
+   "max": 694
+  },
+  {
+   "min_amt_cny": 50000000.0,
+   "min_amt_m": 50.0,
+   "cagr": 0.0793,
+   "sharpe": 0.832,
+   "maxdd": -0.202,
+   "vol": 0.1017,
+   "turnover_per_decision": 0.877,
+   "oos_cagr": 0.1806,
+   "bars": 1653,
+   "median": 154,
+   "mean": 184.3,
+   "min": 32,
+   "max": 492
+  },
+  {
+   "min_amt_cny": 100000000.0,
+   "min_amt_m": 100.0,
+   "cagr": 0.0865,
+   "sharpe": 0.891,
+   "maxdd": -0.2066,
+   "vol": 0.1029,
+   "turnover_per_decision": 0.779,
+   "oos_cagr": 0.1857,
+   "bars": 1653,
+   "median": 94,
+   "mean": 123.2,
+   "min": 21,
+   "max": 357
+  },
+  {
+   "min_amt_cny": 200000000.0,
+   "min_amt_m": 200.0,
+   "cagr": 0.055,
+   "sharpe": 0.583,
+   "maxdd": -0.2269,
+   "vol": 0.1051,
+   "turnover_per_decision": 0.68,
+   "oos_cagr": 0.1525,
+   "bars": 1653,
+   "median": 56,
+   "mean": 76.6,
+   "min": 16,
+   "max": 231
+  }
+ ],
+ "verdict": {
+  "verdict": "GATE_SITS_ON_PLATEAU",
+  "shipped_cagr": 0.0846,
+  "deltas_pp": {
+   "5000000": 0.21,
+   "10000000": 0.21,
+   "20000000": 0.0,
+   "50000000": -0.53,
+   "100000000": 0.19,
+   "200000000": -2.96
+  },
+  "best_gate_cny": 5000000.0,
+  "best_delta_pp": 0.21,
+  "near_deltas_pp": [
+   0.21,
+   0.0,
+   -0.53
+  ],
+  "sentence": "halving or doubling the shipped cut moves the declared arm by at most 0.53pp and no gate beats it by more than 0.21pp, so 20M is a plateau -- the number is not load-bearing and any future line may inherit it safely"
+ }
+}

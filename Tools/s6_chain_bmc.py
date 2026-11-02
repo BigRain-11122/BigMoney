@@ -202,6 +202,12 @@ LEGS = [
     # return is unreachable below ~68k CNY -- and above ~217k the same 8bp model is 5.5bp/side
     # too expensive. Both halves are priced on the published weight path. ~2min, offline.
     ("etf_book_min_capital", ["python", "scripts/etf_book_min_capital.py", "run"]),
+    # r1246 bm-a: the whole universe is chosen by one number (20-day median turnover
+    # >= 20M) and until now that cut was assumed, never swept inside this book. This leg
+    # prices the same panel/ranking/grid at six gates on the arm the card calls tradable,
+    # with the 20M arm required to reproduce the published declared cell (control) or the
+    # verdict is CANNOT_JUDGE. ~90s, offline, deterministic.
+    ("etf_book_entry_gate", ["python", "scripts/etf_book_entry_gate.py", "run"]),
     # r1230 bm-a: depth and duration are different risks. Every other face prices the fall;
     # this one prices the wait (underwater episodes, per-entry recovery horizon with censored
     # entries kept, forward 1/2/3 calendar-year returns). ~80s, offline, deterministic -- it

@@ -2527,6 +2527,14 @@ def main() -> int:
              "scripts/etf_book_min_capital.py", ["--selftest"]),
             ("product: etf_book_min_capital (published neutral points still recompute)",
              "scripts/etf_book_min_capital.py", ["--check"]),
+            # r1246: the entry gate (20-day median turnover >= 20M) picks the entire
+            # universe and had never been swept inside this book. The first leg pins the
+            # frozen rule, the second re-derives the published verdict from the published
+            # rows -- a face whose own thresholds moved reads red instead of confident.
+            ("product: etf_book_entry_gate (frozen gate rule, five states)",
+             "scripts/etf_book_entry_gate.py", ["--selftest"]),
+            ("product: etf_book_entry_gate (published verdict still re-derives)",
+             "scripts/etf_book_entry_gate.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print
@@ -5841,6 +5849,96 @@ def main() -> int:
                  _cm74.get("verdict")))
     except Exception as e:
         check("product: the order sheet prices the cash half in CNY at today's rate",
+              False, repr(e)[:160])
+    # ---- r1246: the operator page prices the same cash on the sheet's own three rates ----
+    # r1245 taught the ticket to print today's quote, its own trailing mean and the ledger
+    # window mean side by side; the page kept printing one of them. This leg reads both
+    # published faces and demands identical numbers -- a page that re-derives them (and
+    # re-rounds the 3-dp accrual into 11,041 against the sheet's 11,039) reads red, and so
+    # does one that quietly drops the section.
+    try:
+        _bad76 = []
+        _ptr76 = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
+        _tk76 = {}
+        if not os.path.exists(_ptr76):
+            _bad76.append("ticket pointer missing")
+        else:
+            with open(_ptr76, encoding="utf-8") as _fh76:
+                _p76 = json.load(_fh76)
+            _rel76 = _p76.get("file") or _p76.get("path") or ""
+            _cand76 = [os.path.join(os.path.dirname(_ptr76), _rel76),
+                       os.path.join(PATHS.root, _rel76)]
+            _path76 = next((p for p in _cand76 if p and os.path.exists(p)), None)
+            if not _path76:
+                _bad76.append("ticket body not resolvable")
+            else:
+                with open(_path76, encoding="utf-8") as _fh76b:
+                    _tk76 = json.load(_fh76b)
+        _money76 = ((_tk76.get("cash_leg") or {}).get("money") or {})
+        _lb76 = os.path.join(PATHS.root, "docs", "live_book")
+        _ptr76b = os.path.join(_lb76, "latest.json")
+        _page76 = {}
+        _md76 = ""
+        if not os.path.exists(_ptr76b):
+            _bad76.append("docs/live_book/latest.json missing")
+        else:
+            with open(_ptr76b, encoding="utf-8") as _fh76c:
+                _pl76 = json.load(_fh76c)
+            _js76 = os.path.join(PATHS.root, (_pl76.get("json") or "").replace("/", os.sep))
+            _mdp76 = os.path.join(PATHS.root, (_pl76.get("page") or "").replace("/", os.sep))
+            if not (_js76 and os.path.exists(_js76)):
+                _bad76.append("the page json named by latest.json is absent")
+            else:
+                with open(_js76, encoding="utf-8") as _fh76d:
+                    _page76 = json.load(_fh76d)
+            if _mdp76 and os.path.exists(_mdp76):
+                with open(_mdp76, encoding="utf-8") as _fh76e:
+                    _md76 = _fh76e.read()
+            else:
+                _bad76.append("the page md named by latest.json is absent")
+        _cm76 = (_page76.get("cash_money") or {})
+        _pb76 = _cm76.get("block") or {}
+        if _cm76.get("status") != "ok":
+            _bad76.append("the page prices no cash money (%r/%r)"
+                          % (_cm76.get("status"), _cm76.get("note")))
+        elif _money76.get("verdict") in (None, "CANNOT_PRICE"):
+            _bad76.append("the sheet prices no cash money while the page claims one")
+        else:
+            for _key in ("spot", "mean_tail", "window"):
+                _a76 = (_pb76.get(_key) or {})
+                _b76 = (_money76.get(_key) or {})
+                for _fld in ("pct", "annual_cny"):
+                    if _a76.get(_fld) != _b76.get(_fld):
+                        _bad76.append("%s.%s page=%r sheet=%r"
+                                      % (_key, _fld, _a76.get(_fld), _b76.get(_fld)))
+            if _pb76.get("verdict") != _money76.get("verdict"):
+                _bad76.append("verdict page=%r sheet=%r"
+                              % (_pb76.get("verdict"), _money76.get("verdict")))
+            if abs(float(_pb76.get("cash_amount_cny") or 0)
+                   - float(_page76.get("cash_amount_cny") or 0)) > 0.01:
+                _bad76.append("the block prices a different pile of money than the page")
+            if "同一笔现金" not in _md76:
+                _bad76.append("the section is gone from the page")
+            for _key in ("spot", "mean_tail", "window"):
+                _cm_cny = ((_pb76.get(_key) or {}).get("annual_cny"))
+                if _cm_cny is not None and format(int(_cm_cny), ",") not in _md76:
+                    _bad76.append("%s annual (%s CNY) is not printed"
+                                  % (_key, format(int(_cm_cny), ",")))
+            if _pb76.get("verdict") == "RATES_FELL":
+                if "利率掉下来" not in _md76:
+                    _bad76.append("the face says rates fell but the page does not")
+            elif "利率掉下来" in _md76:
+                _bad76.append("the page calls it a fall while the face does not")
+        check("product: the operator page prices the cash half on the sheet's own three rates",
+              not _bad76,
+              "; ".join(_bad76)[:220] or
+              "spot %s / own mean %s / ledger window %s (%s)"
+              % (format(int((_pb76.get("spot") or {}).get("annual_cny") or 0), ","),
+                 format(int((_pb76.get("mean_tail") or {}).get("annual_cny") or 0), ","),
+                 format(int((_pb76.get("window") or {}).get("annual_cny") or 0), ","),
+                 _pb76.get("verdict")))
+    except Exception as e:
+        check("product: the operator page prices the cash half on the sheet's own three rates",
               False, repr(e)[:160])
     # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
     # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two

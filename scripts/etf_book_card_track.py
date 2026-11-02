@@ -131,8 +131,26 @@ def drift(led, close, openp, cost_per_side=None):
     fill_bar = dates[di + 1]
     seed_bar = (led.get("seed") or {}).get("bar")
     last_bar = bars[-1].get("bar")
-    if seed_bar not in dates or last_bar not in dates:
-        return {"available": False, "reason": "seed/last bar not on the panel"}
+    # r1246: the ledger can be AHEAD of the panel -- it decides on the grid and books a bar
+    # the ETF panel has not priced yet (that lag is a lane fact, published on the data-lane
+    # board, not a defect of this face). Going silent in that state threw away a checkable
+    # identity: the paper book's nav is still reproducible over the bars BOTH sides hold.
+    # So replay to the newest shared bar and DECLARE the unpriceable tail. An off-panel SEED
+    # bar stays fatal -- there the replay has no origin at all.
+    panel_last = dates[-1] if dates else None
+    ledger_last = last_bar
+    shared_last = next((str(b.get("bar")) for b in reversed(bars)
+                        if str(b.get("bar")) in dates), None)
+    unpriced = [str(b.get("bar")) for b in bars if str(b.get("bar")) not in dates]
+    if seed_bar not in dates:
+        return {"available": False, "reason": "seed bar %s not on the panel" % seed_bar,
+                "panel_last": panel_last, "ledger_last": ledger_last,
+                "bars_not_on_panel": unpriced}
+    if shared_last is None:
+        return {"available": False, "reason": "no ledger bar is on the panel",
+                "panel_last": panel_last, "ledger_last": ledger_last,
+                "bars_not_on_panel": unpriced}
+    last_bar = shared_last
     if dates.index(seed_bar) < dates.index(fill_bar):
         return {"available": False, "reason": "seed bar is before the fill bar"}
 
@@ -220,6 +238,13 @@ def drift(led, close, openp, cost_per_side=None):
         "drift_turnover_one_way": round(turn, 6),
         "drift_cost_bp": round(turn * cp * 1e4, 2),
         "next_decision_bars": gp.get("bars_until_next_decision"),
+        # r1246: the horizon this replay actually used, so a reader can tell "the identity
+        # holds" from "the identity holds on the part of the ledger the panel can price".
+        "panel_last": panel_last,
+        "ledger_last": ledger_last,
+        "replay_last": last_bar,
+        "bars_not_on_panel": unpriced,
+        "lag_on_panel_bars": len(unpriced),
         "nav_identity_max_dev": None if worst is None else round(worst, 10),
         "nav_identity_ok": None if worst is None else bool(worst <= NAV_TOL),
         "nav_buyhold_gap": None if bh_dev is None else round(bh_dev, 10),
