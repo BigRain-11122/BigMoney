@@ -5940,6 +5940,102 @@ def main() -> int:
     except Exception as e:
         check("product: the operator page prices the cash half on the sheet's own three rates",
               False, repr(e)[:160])
+    # ---- r1247: the operator page says what the entry gate is the source of ---------------
+    # The whole universe is picked by one number (a 20M median-turnover cut), and r1246 swept
+    # it: return is flat across the sweep, width is not. This leg re-derives the verdict from
+    # the published rows through the face's own classify() (never from its sentence), then
+    # demands the page print the same verdict, the same rows, and -- when the sweep really is
+    # wide -- the capacity sentence. A page that re-types "20M is safe" instead of deriving it
+    # reads red, and so does one that drops the section.
+    try:
+        import importlib as _il77
+        _EG77 = _il77.import_module("etf_book_entry_gate")
+        _p77 = os.path.join(PATHS.results_dir, "etf_book_entry_gate.json")
+        _bad77 = []
+        _doc77 = {}
+        if not os.path.exists(_p77):
+            _bad77.append("results/etf_book_entry_gate.json missing")
+        else:
+            with open(_p77, encoding="utf-8") as _fh77:
+                _doc77 = json.load(_fh77)
+        _again77 = _EG77.classify(
+            _doc77.get("rows") or [],
+            control_delta_pp=((_doc77.get("control") or {}).get("delta_pp")),
+            universe_delta=((_doc77.get("config") or {}).get("universe_delta_names")))
+        _stored77 = (_doc77.get("verdict") or {}).get("verdict")
+        if _stored77 != _again77.get("verdict"):
+            _bad77.append("stored verdict %r != recomputed %r"
+                          % (_stored77, _again77.get("verdict")))
+        _lb77 = os.path.join(PATHS.root, "docs", "live_book")
+        _page77 = {}
+        _md77 = ""
+        _ptr77 = os.path.join(_lb77, "latest.json")
+        if not os.path.exists(_ptr77):
+            _bad77.append("docs/live_book/latest.json missing")
+        else:
+            with open(_ptr77, encoding="utf-8") as _fh77b:
+                _pl77 = json.load(_fh77b)
+            _js77 = os.path.join(PATHS.root, (_pl77.get("json") or "").replace("/", os.sep))
+            _mdp77 = os.path.join(PATHS.root, (_pl77.get("page") or "").replace("/", os.sep))
+            if _js77 and os.path.exists(_js77):
+                with open(_js77, encoding="utf-8") as _fh77c:
+                    _page77 = json.load(_fh77c)
+            else:
+                _bad77.append("the page json named by latest.json is absent")
+            if _mdp77 and os.path.exists(_mdp77):
+                with open(_mdp77, encoding="utf-8") as _fh77d:
+                    _md77 = _fh77d.read()
+            else:
+                _bad77.append("the page md named by latest.json is absent")
+        _eg77 = (_page77.get("entry_gate") or {})
+        if _eg77.get("status") != "ok":
+            _bad77.append("the page carries no entry gate (%r/%r)"
+                          % (_eg77.get("status"), _eg77.get("detail")))
+        else:
+            if _eg77.get("verdict") != _again77.get("verdict"):
+                _bad77.append("page verdict %r != recomputed %r"
+                              % (_eg77.get("verdict"), _again77.get("verdict")))
+            if "这本书的票池是被一个数选出来的" not in _md77:
+                _bad77.append("the section is gone from the page")
+            _page_rows77 = {int(round(float(g.get("gate_cny") or 0))): g
+                            for g in (_eg77.get("gates") or [])}
+            for _r77 in (_doc77.get("rows") or []):
+                _g77 = int(round(float(_r77.get("min_amt_cny") or 0)))
+                _pr77 = _page_rows77.get(_g77)
+                if _pr77 is None:
+                    _bad77.append("gate %s is on the face but not on the page" % _g77)
+                    continue
+                if abs(float(_pr77.get("cagr") or 0) - float(_r77.get("cagr") or 0)) > 1e-9:
+                    _bad77.append("gate %s cagr page=%r face=%r"
+                                  % (_g77, _pr77.get("cagr"), _r77.get("cagr")))
+                if _pr77.get("median_names") != _r77.get("median"):
+                    _bad77.append("gate %s median names page=%r face=%r"
+                                  % (_g77, _pr77.get("median_names"), _r77.get("median")))
+            for _r77 in (_doc77.get("rows") or []):
+                if _r77.get("median") is None or _r77.get("cagr") is None:
+                    continue
+                if "%d" % int(_r77["median"]) not in _md77:
+                    _bad77.append("gate %s median %s is not printed"
+                                  % (_r77.get("min_amt_m"), _r77["median"]))
+            _ratio77 = _eg77.get("width_ratio")
+            if _ratio77 is not None and float(_ratio77) >= 2.0:
+                if "容量来源" not in _md77:
+                    _bad77.append("the sweep is wide (%.1fx) but the page never says the "
+                                  "gate sets capacity" % float(_ratio77))
+            elif "容量来源" in _md77:
+                _bad77.append("the page calls the gate a capacity source while its own "
+                              "rows are not wide")
+        check("product: the operator page says the entry gate sets capacity, not return",
+              not _bad77,
+              "; ".join(_bad77)[:220] or
+              "%s / %g..%gM / names %s..%s"
+              % (_again77.get("verdict"),
+                 min(float(g.get("gate_m") or 0) for g in (_eg77.get("gates") or [])),
+                 max(float(g.get("gate_m") or 0) for g in (_eg77.get("gates") or [])),
+                 _eg77.get("narrowest_names"), _eg77.get("widest_names")))
+    except Exception as e:
+        check("product: the operator page says the entry gate sets capacity, not return",
+              False, repr(e)[:160])
     # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
     # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two
     # class universes and two fill orderings, under one column headed 全窗. This leg

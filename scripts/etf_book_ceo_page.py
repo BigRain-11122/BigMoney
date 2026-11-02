@@ -62,6 +62,11 @@ UNIVERSE_LOCK_JSON = os.path.join(ROOT, "results", "etf_book_universe_lock.json"
 EXIT_LIQ_JSON = os.path.join(ROOT, "results", "etf_book_exit_liquidity.json")
 FORCED_HOLD_JSON = os.path.join(ROOT, "results", "etf_book_forced_hold.json")
 MIN_CAPITAL_JSON = os.path.join(ROOT, "results", "etf_book_min_capital.json")
+# r1247: the whole universe is picked by one number -- a 20M median-turnover cut. Nobody had
+# swept that number inside this book, so a reader could not tell whether it is a result or an
+# inheritance, nor that what sits on it is the book's CAPACITY (how many names it may hold),
+# not its return.
+ENTRY_GATE_JSON = os.path.join(ROOT, "results", "etf_book_entry_gate.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -1064,6 +1069,149 @@ def universe_lock_block(ul):
     return L
 
 
+def entry_gate_face(path=ENTRY_GATE_JSON):
+    """The universe is chosen by one number. Is it a result, or an inheritance? (r1247)
+
+    Every name this book may buy cleared a single cut -- median 20-day turnover >= 20M CNY --
+    and that cut was never swept inside the book, so nobody could say whether it is measured
+    or just copied. The face that swept it (scripts/etf_book_entry_gate.py, its own selftest)
+    is consumed here, not re-run: the verdict is re-derived from the payload's own rows and
+    its own control arm through the face's single implementation. A payload whose shipped arm
+    no longer reproduces the card's published cell, or whose stored verdict disagrees with its
+    own six rows, is REFUSED -- a plateau claim priced on a different book is worse than none.
+
+    The two axes are kept apart on purpose: the same knob buys ±0.2pp of return and it also
+    sets how many names the book may hold. Reporting only the first hides the second.
+    """
+    if not os.path.exists(path):
+        return {"status": "absent", "artifact": _rel(path, ROOT), "detail": "no artifact"}
+    try:
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        rows = doc.get("rows") or []
+        control = doc.get("control") or {}
+        cfg = doc.get("config") or {}
+        stored = doc.get("verdict") or {}
+        if len(rows) < 3:
+            return {"status": "unreadable", "artifact": _rel(path, ROOT),
+                    "detail": "fewer than three priced gates"}
+        if control.get("delta_pp") is None:
+            return {"status": "drifted", "artifact": _rel(path, ROOT), "control": control,
+                    "detail": "no control arm, so a sweep of the cut is not a statement "
+                              "about this book"}
+        tol = float(control.get("tol_pp") or 0.0)
+        if abs(float(control["delta_pp"])) > tol:
+            return {"status": "drifted", "artifact": _rel(path, ROOT), "control": control,
+                    "detail": "the shipped arm misses the published cell by %.3fpp "
+                              "(tolerance %.2fpp)" % (float(control["delta_pp"]), tol)}
+        import etf_book_entry_gate as _EG
+        recomputed = _EG.classify(
+            rows, control_delta_pp=control.get("delta_pp"),
+            universe_delta=cfg.get("universe_delta_names"))
+        if stored.get("verdict") != recomputed.get("verdict"):
+            return {"status": "drifted", "artifact": _rel(path, ROOT),
+                    "detail": "the published verdict disagrees with its own rows",
+                    "verdict": stored.get("verdict"),
+                    "recomputed": recomputed.get("verdict")}
+        gates = []
+        for r in rows:
+            if r.get("cagr") is None or r.get("error"):
+                continue
+            gates.append({"gate_m": r.get("min_amt_m"),
+                          "gate_cny": r.get("min_amt_cny"),
+                          "cagr": float(r.get("cagr")),
+                          "sharpe": r.get("sharpe"),
+                          "maxdd": r.get("maxdd"),
+                          "median_names": r.get("median"),
+                          "turnover": r.get("turnover_per_decision"),
+                          "delta_pp": (stored.get("deltas_pp") or {}).get(
+                              str(int(r.get("min_amt_cny") or 0)))})
+        if len(gates) < 3:
+            return {"status": "unreadable", "artifact": _rel(path, ROOT),
+                    "detail": "fewer than three gates could be priced"}
+        widths = [g["median_names"] for g in gates if g["median_names"] is not None]
+        widest, narrowest = (max(widths), min(widths)) if widths else (None, None)
+        near = stored.get("near_deltas_pp") or []
+        return {"status": "ok", "artifact": _rel(path, ROOT),
+                "evidence_cutoff": doc.get("evidence_cutoff"),
+                "panel_last_bar": doc.get("panel_last_bar"),
+                "verdict": recomputed.get("verdict"),
+                "sentence": recomputed.get("sentence"),
+                "shipped_cny": (doc.get("rule") or {}).get("shipped_cny"),
+                "tol_pp": (doc.get("rule") or {}).get("tol_pp"),
+                "near_max_pp": (max(abs(float(d)) for d in near) if near else None),
+                "best_delta_pp": stored.get("best_delta_pp"),
+                "gates": gates,
+                "widest_names": widest, "narrowest_names": narrowest,
+                "width_ratio": (float(widest) / float(narrowest)
+                                if widest and narrowest else None),
+                "universe_measured": cfg.get("universe_measured"),
+                "universe_published": cfg.get("universe_published"),
+                "control": control}
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": _rel(path, ROOT), "detail": repr(exc)}
+
+
+def entry_gate_block(eg):
+    L = []
+    if eg.get("status") != "ok":
+        L.append("## 这本书的票池是被一个数选出来的，那个数是从哪来的？")
+        L.append("")
+        L.append("**这一问现在答不了。** 证据件缺席、或它自己的行已经对不上"
+                 "（%s），所以下面这个门槛是不是量出来的，本页不冒充知道。"
+                 % (eg.get("detail") or eg.get("status")))
+        L.append("")
+        return L
+    shipped_m = (float(eg.get("shipped_cny") or 0.0)) / 1e6
+    L.append("## 这本书的票池是被一个数选出来的，那个数是从哪来的？")
+    L.append("")
+    L.append("能买的每一个名字，都要先过同一道闸：20 日成交额中位数 ≥ **%gM**。这个数一直是被继承的，"
+             "没人在本书内部挪过它。同一张面板、同一套排名、同一个网格，只动这一个数："
+             % shipped_m)
+    L.append("")
+    L.append("| 门槛 | 年化 | 夏普 | 最大回撤 | 可选名数（中位） | 每次调仓换手 | 相对这一档 |")
+    L.append("|---|---|---|---|---|---|---|")
+    for g in eg.get("gates") or []:
+        d = g.get("delta_pp")
+        L.append("| %gM | %.2f%% | %s | %s | %s | %s | %s |"
+                 % (g.get("gate_m") or 0.0, 100.0 * (g.get("cagr") or 0.0),
+                    "—" if g.get("sharpe") is None else "%.2f" % g["sharpe"],
+                    "—" if g.get("maxdd") is None else "%.2f%%" % (100.0 * g["maxdd"]),
+                    "—" if g.get("median_names") is None else "%d" % g["median_names"],
+                    "—" if g.get("turnover") is None else "%.2f" % g["turnover"],
+                    "—" if d is None else "%+.2f pp" % float(d)))
+    L.append("")
+    near = eg.get("near_max_pp")
+    ratio = eg.get("width_ratio")
+    if eg.get("verdict") == "GATE_SITS_ON_PLATEAU":
+        L.append("**把这道闸砍一半或翻一倍，年化只动 ±%.2f pp**（判据 %.1f pp 内），"
+                 "最好的那一档也只多 %+.2f pp——所以这个 20M 不是一个结果，它站在一段平台上，"
+                 "可以是任何人的默认值。"
+                 % (float(near or 0.0), float(eg.get("tol_pp") or 0.0),
+                    float(eg.get("best_delta_pp") or 0.0)))
+    else:
+        L.append("**判词：%s。** %s"
+                 % (eg.get("verdict"), eg.get("sentence") or ""))
+    L.append("")
+    if ratio is not None and float(ratio) >= 2.0:
+        L.append("但对**宽度**它不是平的：同一个门槛从最松到最紧，可选名数中位从 **%d 只** 掉到 "
+                 "**%d 只**（%.1f 倍）。这道闸不是你的收益来源，**它是你的容量来源**——"
+                 "它决定这本书最多能在多少个名字里挑，也决定同样的钱摊到每个名字上有多大。"
+                 "想要更宽的书，代价不是收益，是单笔更小、其中一部分名字的成交额更薄。"
+                 % (int(eg.get("widest_names") or 0), int(eg.get("narrowest_names") or 0),
+                    float(ratio)))
+        L.append("")
+    L.append("> 跨窗口面：`%s` ｜ 证据截止 %s（面板末根 bar %s）｜ 控制闸：%gM 这一档先复现"
+             "卡片已发表的「可交易臂」年化（差 %.3f pp，容差 %.2f pp）才引用任何一行；"
+             "判词由本面从这六行重新导出，不读存盘结论。"
+             % (str(eg.get("artifact") or "results/etf_book_entry_gate.json").replace(os.sep, "/"),
+                eg.get("evidence_cutoff"), eg.get("panel_last_bar"), shipped_m,
+                float((eg.get("control") or {}).get("delta_pp") or 0.0),
+                float((eg.get("control") or {}).get("tol_pp") or 0.0)))
+    L.append("")
+    return L
+
+
 def sellability_face(exit_path=EXIT_LIQ_JSON, tail_path=FORCED_HOLD_JSON):
     """Can the desk actually get out of what it is holding? (r1238)
 
@@ -2060,6 +2208,157 @@ def cash_yield(cash_amount, symbol=CASH_LEG_SYMBOL, panel_dir=REPO_DIR, window=2
     return out
 
 
+CASH_MONEY_TAIL = 250
+
+
+def cash_money_face(cash_amount, ticket=None, panel_dir=REPO_DIR, tail=CASH_MONEY_TAIL):
+    """The order sheet's three-rate cash pricing, applied to the money this page shows.
+
+    (r1246) The ticket learned (r1245) to price its idle half in CNY at the quote it
+    actually pays today, at its own trailing mean and at the ledger's window mean; this
+    page kept quoting one of the three, so the CEO one-pager and the sheet described the
+    same cash at different calibers. Both documents describe the same money, so the
+    function is imported from scripts/etf_book_order instead of being copied here -- a
+    second copy is exactly how two faces drift apart while each still looks right.
+    Unreadable inputs stay None with a stated reason, never 0.
+    """
+    ticket = ticket or {}
+    out = {"status": "absent", "source": None, "tail": int(tail), "block": None,
+           "note": None}
+    try:
+        cash = float(cash_amount)
+    except (TypeError, ValueError):
+        cash = 0.0
+    if cash <= 0:
+        out["note"] = "现金腿金额读不出来（不是 0，是不知道）"
+        return out
+    # (r1246) the ticket already priced this exact money. Consume that block instead of
+    # re-deriving it: round-tripping through `mean_accrual_ann_pct` (3 dp) printed 11,041
+    # here against the sheet's 11,039 -- the same cash at two calibers, which is the very
+    # defect this face exists to remove. Only when the two cash amounts differ (a page
+    # built off a different snapshot) does this recompute, and then it refuses the window
+    # row rather than borrowing the ticket's accrual for a different pile of money.
+    money = ((ticket.get("cash_leg") or {}).get("money") or {})
+    m_cash = money.get("cash_amount_cny")
+    if m_cash is not None:
+        try:
+            same = abs(float(m_cash) - cash) <= 0.01
+        except (TypeError, ValueError):
+            same = False
+        if same:
+            out["block"] = money
+            out["source"] = "票据 cash_leg.money（逐字消费）"
+            out["status"] = ("ok" if money.get("verdict")
+                             and money.get("verdict") != "CANNOT_PRICE" else "unpriced")
+            if out["status"] != "ok":
+                out["note"] = money.get("sentence") or "票据说这一半不可定价"
+            return out
+        out["note"] = ("票据那一份现金是 ¥%s，这一页是 ¥%s —— 不是同一笔钱，"
+                       "所以窗口口径不往下借"
+                       % (format(float(m_cash), ",.0f"), format(cash, ",.0f")))
+    else:
+        out["note"] = "票据没有为这一半定价（没有 cash_leg.money），窗口口径不印"
+    rows = repo_rows(CASH_LEG_SYMBOL, panel_dir)
+    if not rows:
+        out["note"] = "%s 面板缺席" % CASH_LEG_SYMBOL
+        return out
+    try:
+        import etf_book_order as _ORD
+    except Exception as exc:                 # a broken sibling must not blank the page
+        out["note"] = "定价模块取不到（%s）" % exc.__class__.__name__
+        return out
+    try:
+        import pandas as _pd
+    except Exception as exc:
+        out["note"] = "pandas 不可用（%s）" % exc.__class__.__name__
+        return out
+    rates = _pd.Series([v for _, v in rows],
+                       index=_pd.to_datetime([d.isoformat() for d, _ in rows]))
+    asof = ticket.get("evidence_cutoff") or rows[-1][0].isoformat()
+    blk = _ORD.cash_money(cash, rates, asof, tail=tail)
+    blk["sentence"] = ((blk.get("sentence") or "") +
+                       "（窗口口径缺席：这一页的现金不是票据定价的那一笔）").strip()
+    out["block"] = blk
+    out["source"] = "scripts/etf_book_order.cash_money（页自己重算，无窗口行）"
+    out["status"] = "ok" if blk.get("verdict") and blk["verdict"] != "CANNOT_PRICE" else "unpriced"
+    if out["status"] != "ok":
+        out["note"] = blk.get("sentence") or "定价面返回不可定价"
+    return out
+
+
+def cash_money_block(cm):
+    """Three rates on the same cash, and what picking the flattering one would cost (r1246)."""
+    L = []
+    L.append("## 同一笔现金，三种利率口径差多少钱")
+    L.append("")
+    if cm.get("status") != "ok":
+        L.append("**这一问现在答不了。** %s —— 不印 0，也不拿别的口径顶上。"
+                 % (cm.get("note") or cm.get("status")))
+        L.append("")
+        return L
+    b = cm.get("block") or {}
+    cash = float(b.get("cash_amount_cny") or 0.0)
+    spot = b.get("spot") or {}
+    tail_b = b.get("mean_tail") or {}
+    win = b.get("window") or {}
+    base = spot.get("pct")
+    L.append("这 ¥%s 放在逆回购里，一年赚多少取决于拿哪个利率去乘它。三个都是这张面板自己的读数、"
+             "不是预测；并排印出来，是因为「按历史均值去算」会让账面以为有另一笔钱。"
+             % format(cash, ",.0f"))
+    L.append("")
+    L.append("| 口径 | 年化 | 一年约赚 | 比今天的报价 |")
+    L.append("|---|---|---|---|")
+
+    def _row(label, pct, annual, is_base=False):
+        if pct is None:
+            return "| %s | — | — | — |" % label
+        if is_base or base is None:
+            delta = "—"
+        else:
+            dpct = (float(pct) - float(base)) * 100.0
+            dcny = float(annual or 0) - float(spot.get("annual_cny") or 0)
+            delta = "%+.0f bp / %s¥%s" % (dpct, "+" if dcny >= 0 else "-",
+                                          format(abs(dcny), ",.0f"))
+        return "| %s | %.2f%% | %s | %s |" % (
+            label, float(pct),
+            ("**¥%s**" % format(annual, ",.0f")) if annual is not None else "—", delta)
+
+    L.append(_row("**今天的报价**（%s）" % (spot.get("date") or "—"), base,
+                  spot.get("annual_cny"), is_base=True))
+    L.append(_row("自己近 %d 个报价的均值" % (spot.get("quotes") or cm.get("tail") or 0),
+                  tail_b.get("pct"), tail_b.get("annual_cny")))
+    if win.get("pct") is not None:
+        L.append(_row("账本自己走过的全窗均值", win.get("pct"), win.get("annual_cny")))
+    L.append("")
+    verdict = b.get("verdict")
+    if verdict == "RATES_FELL":
+        L.append("**今天能拿到的是第一行。** 它比自己近一段的均值低 **%.2f pp**——"
+                 "照均值算会以为一年多赚 **¥%s**，那是利率掉下来的差，不是这个月选错了票；"
+                 "把历史平均收益率写进预期，等于给账面多记一笔钱。"
+                 % (float(tail_b.get("pct") or 0.0) - float(base or 0.0),
+                    format(abs(float(b.get("spread_vs_tail_cny") or 0.0)), ",.0f")))
+    elif verdict == "RATES_ROSE":
+        L.append("**今天能拿到的比自己的均值高**（%+.0f bp，一年多 **¥%s**）——季末/节前的飙高是常态，"
+                 "别把这个差当成常常有，往后还是按均值算。"
+                 % ((float(base or 0.0) - float(tail_b.get("pct") or 0.0)) * 100.0,
+                    format(abs(float(b.get("spread_vs_tail_cny") or 0.0)), ",.0f")))
+    else:
+        L.append("**今天的报价就在它自己的均值上**（差 %.0f bp，在冻结的 %.0f bp 噪声带内）——"
+                 "这三个口径挑哪个都不算撒谎，但利率一变，第一行就不在这了。"
+                 % (abs(float(base or 0.0) - float(tail_b.get("pct") or 0.0)) * 100.0,
+                    float(b.get("fall_bp") or 0.0)))
+    if win.get("pct") is not None:
+        L.append("")
+        L.append("- 第三行是回测账本 accrued 用的利率（历史全窗均值 %.2f%%）：它说的是「过去这些年现金值多少」，"
+                 "不是今天这 ¥%s 的收益率 —— 同一笔钱在首末两行之间能差 **¥%s**。"
+                 % (float(win["pct"]), format(cash, ",.0f"),
+                    format(abs(float(win.get("annual_cny") or 0)
+                               - float(spot.get("annual_cny") or 0)), ",.0f")))
+    L.append("- 这三个数都不是收益来源：现金的活是「不缩水」，要收益得靠上面那些票。")
+    L.append("")
+    return L
+
+
 LADDER_TENORS = ("GC001", "GC003", "GC007", "GC014", "GC028", "GC091")
 LADDER_WINDOWS_YEARS = (1, 3, 5)
 # Frozen adoption rule. A longer tenor is only worth the lock-up if it pays at
@@ -2807,6 +3106,7 @@ def build(with_stress=False):
         "cash_weight": round(cash_w, 4),
         "cash_leg": cash_leg,
         "cash_yield": cash_yield(cash_amt),
+        "cash_money": cash_money_face(cash_amt, tk),
         "cash_ladder": cash_ladder(cash_amt),
         "k_now": tk.get("k_now"),
         "n_hold": tk.get("n_hold"),
@@ -2860,6 +3160,7 @@ def build(with_stress=False):
     page["underwater"] = underwater_face()
     page["sample_window"] = sample_window_face()
     page["universe_lock"] = universe_lock_face()
+    page["entry_gate"] = entry_gate_face()
     page["sellability"] = sellability_face()
     page["capital"] = capital_face()
     page["gap"] = gap_face()
@@ -2960,6 +3261,8 @@ def render_md(p):
                 % (cy["window"], cy["rate_20d_pct"]))
         add("- 不买逆回购、留在活期，这 ¥%s 就是没有的。" % format(cy["annual_cny"], ",.0f"))
         add("")
+    for _cm_line in cash_money_block(p.get("cash_money") or {}):
+        add(_cm_line)
     cl = p.get("cash_ladder") or {}
     rows_l = cl.get("tenors") or []
     if rows_l and cl.get("cash_amount_cny"):
@@ -3778,6 +4081,10 @@ def render_md(p):
     # that were listed after the window opened?
     for _ul_line in universe_lock_block(p.get("universe_lock") or {}):
         add(_ul_line)
+    # r1247: the universe is picked by one number (a liquidity cut). Say where that number
+    # came from, and say that what sits on it is the book's capacity, not its return.
+    for _eg_line in entry_gate_block(p.get("entry_gate") or {}):
+        add(_eg_line)
     # r1238: the gate is on the way in only -- can the desk get out of what it holds?
     for _sf_line in sellability_block(p.get("sellability") or {}):
         add(_sf_line)
@@ -5134,6 +5441,134 @@ def selftest():
         bool(_tk_none_lines) and "读不出来" in _tk_none_lines[0]
         and "203007" not in _tk_none_lines[0],
         "lines=%r" % (_tk_none_lines[:1],))
+    # ---- r1246: the page prices the same cash on the ticket's three rates ----------------
+    # The ticket learned to print three calibers (today's quote / its own trailing mean /
+    # the ledger's window mean) in r1245; the page kept quoting one. These legs drive a
+    # fixture through both readers and demand one answer -- including the case where a
+    # second implementation would have printed 11,041 against the sheet's 11,039.
+    _cm_dir = tempfile.mkdtemp()
+    _cm_days = _sessions(_dt.date(2023, 1, 2), 300)
+    _cm_pairs = [(d.isoformat(), 2.0) for d in _cm_days]
+    _cm_pairs[-1] = (_cm_days[-1].isoformat(), 1.0)     # today 100bp below its own mean
+    _panel(_cm_dir, "GC001", _cm_pairs)
+    _cm_date = _cm_days[-1].isoformat()
+    _cm_nomoney = {"evidence_cutoff": _cm_date, "cash_leg": {"mean_accrual_ann_pct": 2.10}}
+    _cm_money = {"cash_amount_cny": 100000.0,
+                 "spot": {"pct": 1.0, "date": _cm_date, "annual_cny": 1000.0, "quotes": 250},
+                 "mean_tail": {"pct": 1.996, "annual_cny": 1996.0},
+                 "window": {"pct": 2.1, "annual_cny": 2100.0},
+                 "spread_vs_tail_cny": -996, "spread_vs_window_cny": -1100,
+                 "fall_bp": 25.0, "verdict": "RATES_FELL"}
+    _cm_tk_money = {"evidence_cutoff": _cm_date, "cash_leg": {"money": _cm_money}}
+    _cmf_v = cash_money_face(100000.0, _cm_tk_money, panel_dir=_cm_dir)
+    _cmf_r = cash_money_face(100000.0, _cm_nomoney, panel_dir=_cm_dir)
+    _cmb_r = _cmf_r.get("block") or {}
+    chk("L133 cash money: the ticket's own block is consumed verbatim, not re-rounded",
+        _cmf_v.get("status") == "ok"
+        and (_cmf_v.get("block") or {}).get("window", {}).get("annual_cny") == 2100.0
+        and (_cmf_v.get("block") or {}).get("spot", {}).get("annual_cny") == 1000.0
+        and "逐字" in (_cmf_v.get("source") or ""),
+        "status=%s source=%s window=%s"
+        % (_cmf_v.get("status"), _cmf_v.get("source"),
+           ((_cmf_v.get("block") or {}).get("window") or {}).get("annual_cny")))
+    chk("L134 cash money: with no ticket block it re-prices spot and its own mean, no window",
+        _cmf_r.get("status") == "ok" and _cmb_r.get("verdict") == "RATES_FELL"
+        and abs(((_cmb_r.get("spot") or {}).get("annual_cny") or 0) - 1000.0) < 1.0
+        and abs(((_cmb_r.get("mean_tail") or {}).get("annual_cny") or 0) - 1996.0) < 2.0
+        and (_cmb_r.get("window") is None or _cmb_r["window"].get("pct") is None)
+        and "重算" in (_cmf_r.get("source") or ""),
+        "status=%s verdict=%s spot=%s tail=%s window=%r"
+        % (_cmf_r.get("status"), _cmb_r.get("verdict"),
+           ((_cmb_r.get("spot") or {}).get("annual_cny")),
+           ((_cmb_r.get("mean_tail") or {}).get("annual_cny")),
+           _cmb_r.get("window")))
+    _cmf_empty = cash_money_face(100000.0, _cm_nomoney, panel_dir=tempfile.mkdtemp())
+    chk("L135 cash money: a missing repo panel is unmeasured, never 0",
+        _cmf_empty.get("status") != "ok" and _cmf_empty.get("block") is None
+        and bool(_cmf_empty.get("note")),
+        "status=%s note=%s" % (_cmf_empty.get("status"), _cmf_empty.get("note")))
+    _cmf_mis = cash_money_face(50000.0, _cm_tk_money, panel_dir=_cm_dir)
+    chk("L136 cash money: a different pile of money does not borrow the ticket's window row",
+        (_cmf_mis.get("block") or {}).get("window") is None
+        or ((_cmf_mis.get("block") or {}).get("window") or {}).get("pct") is None
+        and "不是同一笔钱" in (_cmf_mis.get("note") or ""),
+        "note=%s window=%r" % (_cmf_mis.get("note"),
+                               ((_cmf_mis.get("block") or {}).get("window"))))
+    _cm_lines = "\n".join(cash_money_block(_cmf_v))
+    _cm_dir2 = tempfile.mkdtemp()
+    _panel(_cm_dir2, "GC001", [(d.isoformat(), 2.0) for d in _cm_days])
+    _cm_flat_txt = "\n".join(cash_money_block(
+        cash_money_face(100000.0, _cm_nomoney, panel_dir=_cm_dir2)))
+    chk("L137 cash money: the block prints all three rows and calls a fall a fall",
+        ("今天的报价" in _cm_lines and "自己近" in _cm_lines and "全窗均值" in _cm_lines
+         and "利率掉下来" in _cm_lines and "996" in _cm_lines)
+        and ("利率掉下来" not in _cm_flat_txt),
+        "rows=[spot=%s tail=%s window=%s] fall_says_fall=%s steady_says_fall=%s"
+        % ("今天的报价" in _cm_lines, "自己近" in _cm_lines, "全窗均值" in _cm_lines,
+           "利率掉下来" in _cm_lines, "利率掉下来" in _cm_flat_txt))
+    # L138-L140 (r1247): the entry gate -- the one number that picks the whole universe.
+    _eg_dir = tempfile.mkdtemp()
+    _eg_gates = [5e6, 10e6, 20e6, 50e6, 100e6, 200e6]
+    _eg_medians = [460, 370, 262, 150, 94, 56]
+    _eg_cagrs = [8.50, 8.50, 8.40, 7.90, 8.50, 5.50]
+    _eg_rows = [{"min_amt_cny": g, "min_amt_m": round(g / 1e6, 1), "cagr": c / 100.0,
+                 "sharpe": 0.9, "maxdd": -0.16, "median": m,
+                 "turnover_per_decision": 0.95}
+                for g, c, m in zip(_eg_gates, _eg_cagrs, _eg_medians)]
+    _eg_doc = {"evidence_cutoff": "2026-10-30", "panel_last_bar": "2026-10-30",
+               "rule": {"shipped_cny": 20e6, "tol_pp": 1.0},
+               "config": {"universe_delta_names": 0, "universe_measured": 1504,
+                          "universe_published": 1504},
+               "control": {"delta_pp": 0.0, "tol_pp": 0.25},
+               "rows": _eg_rows,
+               "verdict": {"verdict": "GATE_SITS_ON_PLATEAU", "sentence": "fixture",
+                           "best_delta_pp": 0.1,
+                           "near_deltas_pp": [0.1, 0.0, -0.5],
+                           "deltas_pp": {"5000000": 0.1, "10000000": 0.1, "20000000": 0.0,
+                                         "50000000": -0.5, "100000000": 0.1,
+                                         "200000000": -2.9}}}
+    _eg_path = os.path.join(_eg_dir, "gate.json")
+    with open(_eg_path, "w", encoding="utf-8") as _fh:
+        json.dump(_eg_doc, _fh, ensure_ascii=False)
+    _eg_ok = entry_gate_face(_eg_path)
+    _eg_bad = dict(_eg_doc)
+    _eg_bad["verdict"] = dict(_eg_doc["verdict"], verdict="GATE_BINDS_LOW")
+    _eg_bad_path = os.path.join(_eg_dir, "gate_lied.json")
+    with open(_eg_bad_path, "w", encoding="utf-8") as _fh:
+        json.dump(_eg_bad, _fh, ensure_ascii=False)
+    _eg_lied = entry_gate_face(_eg_bad_path)
+    chk("L138 entry gate: the verdict is re-derived from its own rows, and a payload that "
+        "disagrees with them is refused",
+        _eg_ok.get("status") == "ok" and _eg_ok.get("verdict") == "GATE_SITS_ON_PLATEAU"
+        and _eg_lied.get("status") == "drifted"
+        and "disagrees" in (_eg_lied.get("detail") or ""),
+        "ok=%s/%s lied=%s" % (_eg_ok.get("status"), _eg_ok.get("verdict"),
+                              _eg_lied.get("status")))
+    _eg_nocontrol = dict(_eg_doc, control={"delta_pp": None, "tol_pp": 0.25})
+    _eg_nc_path = os.path.join(_eg_dir, "gate_nocontrol.json")
+    with open(_eg_nc_path, "w", encoding="utf-8") as _fh:
+        json.dump(_eg_nocontrol, _fh, ensure_ascii=False)
+    _eg_nc = entry_gate_face(_eg_nc_path)
+    _eg_off = dict(_eg_doc, control={"delta_pp": 0.9, "tol_pp": 0.25})
+    _eg_off_path = os.path.join(_eg_dir, "gate_offcontrol.json")
+    with open(_eg_off_path, "w", encoding="utf-8") as _fh:
+        json.dump(_eg_off, _fh, ensure_ascii=False)
+    _eg_of = entry_gate_face(_eg_off_path)
+    chk("L139 entry gate: a sweep without a reproducing control arm is not printed as a "
+        "plateau (missing and off by more than tolerance both refuse)",
+        _eg_nc.get("status") == "drifted" and _eg_of.get("status") == "drifted"
+        and "misses the published cell" in (_eg_of.get("detail") or ""),
+        "nocontrol=%s offcontrol=%s detail=%s"
+        % (_eg_nc.get("status"), _eg_of.get("status"), _eg_of.get("detail")))
+    _eg_lines = "\n".join(entry_gate_block(_eg_ok))
+    _eg_absent = "\n".join(entry_gate_block({"status": "absent", "artifact": ENTRY_GATE_JSON}))
+    chk("L140 entry gate: the block prints both axes -- the flat return and the width that "
+        "is not flat -- and refuses to answer when the payload is missing",
+        ("460" in _eg_lines and "56" in _eg_lines
+         and "容量来源" in _eg_lines and "±0.50 pp" in _eg_lines
+         and "答不了" in _eg_absent and "容量来源" not in _eg_absent),
+        "width_sentence=%s return_sentence=%s absent_says_unmeasured=%s"
+        % ("容量来源" in _eg_lines, "±0.50 pp" in _eg_lines, "答不了" in _eg_absent))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 
