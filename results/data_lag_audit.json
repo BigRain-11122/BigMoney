@@ -1,5 +1,5 @@
 {
- "as_of": "2026-10-31T23:42:33",
+ "as_of": "2026-11-02T19:12:06",
  "calendar": {
   "path": "data/exchange_calendar.csv",
   "refresh": {
@@ -11,8 +11,8 @@
   "scope_end": "2026-12-31",
   "scope_start": "1990-12-19"
  },
+ "cause_measured": true,
  "coverage_by_day": {
-  "2026-10-19": 1.0,
   "2026-10-20": 1.0,
   "2026-10-21": 1.0,
   "2026-10-22": 1.0,
@@ -21,17 +21,32 @@
   "2026-10-27": 1.0,
   "2026-10-28": 1.0,
   "2026-10-29": 1.0,
-  "2026-10-30": 1.0
+  "2026-10-30": 1.0,
+  "2026-11-02": 0.0
  },
- "detail": "the maintained panel covers every official trading day it should by now",
- "expected_last_official_day": "2026-10-30",
+ "detail": "2026-11-02 is missing although the updater ran after today's close (2026-11-02 19:06:06) and appended 0 row(s) with no errors -- the source itself has not published; this is measured, not inferred",
+ "expected_last_official_day": "2026-11-02",
+ "fetcher": {
+  "data_cutoff": "2026-10-30",
+  "hours_since": 0.1,
+  "n_failures": 0,
+  "n_overlap_mismatches": 0,
+  "path": "results/update_status.json",
+  "present": true,
+  "ran_after_close": true,
+  "ran_today": true,
+  "total_new_rows": 0,
+  "updated": "2026-11-02 19:06:06"
+ },
  "forward_impact": {
   "blocked": false,
   "ledger_last_bar": "2026-10-29",
   "note": "one mark per new panel bar; a lagging feed pauses accrual without any error"
  },
- "missing_official_days": [],
- "note": "Descriptive face. The calendar is the independent reference; the panel is ours. source_lag is a publication delay (self-heals), panel_gap is a stopped feed (needs a human/lane owner).",
+ "missing_official_days": [
+  "2026-11-02"
+ ],
+ "note": "Descriptive face. The calendar is the independent reference; the panel is ours. source_lag is a publication delay (self-heals) and is only called measured when the updater actually asked the source after today's close (fetcher.ran_after_close) -- otherwise fetcher_silent means no bar will arrive on its own. panel_gap is a stopped feed (needs a human/lane owner).",
  "panel": {
   "active_floor": "2026-10-26",
   "cutoff_max": "2026-10-30",
@@ -43,5 +58,6 @@
   "n_symbols": 1725
  },
  "schema": "data-lag-audit/v1",
- "verdict": "in_sync"
+ "self_heals": true,
+ "verdict": "source_lag"
 }

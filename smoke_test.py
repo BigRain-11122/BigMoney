@@ -533,11 +533,17 @@ def main() -> int:
     try:
         _la = json.load(open("results/data_lag_audit.json", encoding="utf-8"))
         _ok_la = (_la.get("schema") == "data-lag-audit/v1"
-                  and _la.get("verdict") in {"in_sync", "source_lag", "panel_gap"}
-                  and bool(_la.get("expected_last_official_day")))
+                  and _la.get("verdict") in {"in_sync", "source_lag", "panel_gap",
+                                             "fetcher_silent", "fetcher_failed"}
+                  and bool(_la.get("expected_last_official_day"))
+                  # r1388: the verdict has to say whether its cause was measured.
+                  # A face that names a cause it never checked is the defect this
+                  # field exists to expose, so both keys are required of every run.
+                  and "cause_measured" in _la and "self_heals" in _la)
         check("product: data lag audit face published", _ok_la,
               f"verdict={_la.get('verdict')} expected="
-              f"{_la.get('expected_last_official_day')} as_of={_la.get('as_of')}")
+              f"{_la.get('expected_last_official_day')} as_of={_la.get('as_of')} "
+              f"cause_measured={_la.get('cause_measured')}")
     except Exception as e:
         check("product: data lag audit face published", False, str(e))
     try:

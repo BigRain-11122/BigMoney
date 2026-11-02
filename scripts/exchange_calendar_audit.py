@@ -23,14 +23,27 @@ following rounds are pure local computation. The artifact is written as a UNION
 with whatever is already on disk -- the calendar is history and can never shrink.
 
 Verdicts (parsed by the round report, not by a hidden heuristic):
-  in_sync     panel has every official day it should by now
-  source_lag  only the most recent official day is missing and that day is today,
-              i.e. the market closed and the feed has not published yet
-  panel_gap   an older official day is missing -> the panel is behind the market,
-              not merely behind today's publication
+  in_sync       panel has every official day it should by now
+  source_lag    only the most recent official day is missing and that day is today,
+                i.e. the market closed and the feed has not published yet
+  panel_gap     an older official day is missing -> the panel is behind the market,
+                not merely behind today's publication
+  fetcher_silent  the day is missing and the updater never asked the source after
+                today's close -- nothing will self-heal, a lane is asleep
+  fetcher_failed  the updater asked and the ask errored (per-symbol failures or an
+                overlap mismatch) -- the panel is late because of us, not the source
 
-Exit codes: run 0 = in_sync/source_lag, 1 = panel_gap (needs attention, never
-silenced), 2 = mechanism failure (no calendar at all, unreadable panel).
+r1388: `source_lag` used to be inferred from the date alone (today is missing and
+today is a trading day), so it read identically whether the source was late or
+none of our own machinery had run. At 19:06 on 2026-11-02 the updater HAD run,
+post-close, and returned 0 rows -- that is a measurement of the source, and it is
+recorded as `cause_measured` from now on. When the fetcher face is absent the
+audit keeps `source_lag` but states `cause_measured: false` and `self_heals:
+null` instead of promising a heal it never verified.
+
+Exit codes: run 0 = in_sync/source_lag, 1 = panel_gap/fetcher_silent/
+fetcher_failed (needs attention, never silenced), 2 = mechanism failure (no
+calendar at all, unreadable panel).
 selftest 0 = pass / 1 = fail (hermetic tmp sandbox, zero network).
 
 Usage:
@@ -54,6 +67,7 @@ CAL_PATH = os.path.join(ROOT, "data", "exchange_calendar.csv")
 FETCH_STAMP = os.path.join(ROOT, "data", "exchange_calendar._fetch.json")
 OUT_PATH = os.path.join(ROOT, "results", "data_lag_audit.json")
 DAILY_DIR = os.path.join(ROOT, "data", "daily")
+FETCHER_STATUS = os.path.join(ROOT, "results", "update_status.json")
 LEDGER = os.path.join(ROOT, "results", "etf_book_forward", "LEDGER.json")
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -218,8 +232,51 @@ def expected_last_day(days, now):
     return upto[-1] if upto else None, past
 
 
+def fetcher_status(now, path=FETCHER_STATUS):
+    """What the daily updater itself last reported -- read, never inferred.
+
+    The lag verdict answers "is the panel behind the market"; it cannot answer
+    "did anyone ask" from panel files alone, because a lane that never ran and a
+    source that never published leave exactly the same trace (no new row). This
+    reads update_daily's own status face so the two cases can be separated. Pure
+    local read: absent or unparseable is `present: false`, never an exception.
+    """
+    out = {"path": os.path.relpath(path, ROOT).replace("\\", "/"),
+           "present": False, "updated": None, "ran_today": False,
+           "ran_after_close": False, "hours_since": None,
+           "total_new_rows": None, "n_failures": None,
+           "n_overlap_mismatches": None, "data_cutoff": None}
+    try:
+        with io.open(path, encoding="utf-8") as f:
+            st = json.load(f)
+    except (OSError, ValueError):
+        return out
+    out["present"] = True
+    raw = st.get("updated") or st.get("now")
+    when = None
+    if raw:
+        for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S.%f"):
+            try:
+                when = dt.datetime.strptime(str(raw)[:26], fmt)
+                break
+            except ValueError:
+                continue
+    out["updated"] = str(raw) if raw else None
+    if when is not None:
+        out["ran_today"] = when.date() == now.date()
+        out["ran_after_close"] = bool(
+            when.date() == now.date()
+            and when.time() >= CLOSE_ACCEPT_TIME)
+        out["hours_since"] = round((now - when).total_seconds() / 3600.0, 2)
+    out["total_new_rows"] = st.get("total_new_rows")
+    out["n_failures"] = len(st.get("failures") or [])
+    out["n_overlap_mismatches"] = len(st.get("overlap_mismatches") or [])
+    out["data_cutoff"] = st.get("data_cutoff")
+    return out
+
+
 def audit(days, tails, now, missing_window=MISSING_WINDOW,
-          active_lag_days=5, coverage_share=0.90):
+          active_lag_days=5, coverage_share=0.90, fetcher=None):
     """Judge the panel by its MAINTAINED cohort, not by its oldest file.
 
     data/daily holds 1,725 CSVs; 1,671 of them stopped at 2026-09-22 when the
@@ -240,6 +297,7 @@ def audit(days, tails, now, missing_window=MISSING_WINDOW,
                       "cutoff_max": None, "n_active": 0, "n_stale_cohort": len(tails)},
             "missing_official_days": [],
             "verdict": "in_sync" if not tails else "in_sync",
+            "cause_measured": False, "self_heals": None,
             "detail": "empty panel face -- nothing to audit",
         }
     cutoff_max = max(tails.values())
@@ -263,17 +321,43 @@ def audit(days, tails, now, missing_window=MISSING_WINDOW,
     if not missing:
         verdict = "in_sync"
         detail = "the maintained panel covers every official trading day it should by now"
+        cause_measured, self_heals = True, True
     elif len(missing) == 1 and missing[0] == exp == now.date().isoformat():
-        verdict = "source_lag"
         close = dt.datetime.combine(now.date(), CLOSE_ACCEPT_TIME)
         lag_h = max(0.0, (now - close).total_seconds() / 3600.0)
+        verdict = "source_lag"
         detail = (f"{exp} is an official trading day; the market closed {lag_h:.1f}h "
                   f"ago and no bar has been published to this panel yet")
+        cause_measured = False
+        self_heals = None
+        if fetcher and fetcher.get("present"):
+            if (fetcher.get("n_failures") or 0) or (fetcher.get("n_overlap_mismatches") or 0):
+                verdict = "fetcher_failed"
+                detail = (f"{exp} is missing and the updater's last run reported "
+                          f"{fetcher.get('n_failures')} failure(s) and "
+                          f"{fetcher.get('n_overlap_mismatches')} overlap mismatch(es) "
+                          f"at {fetcher.get('updated')} -- the gap is ours, not the source's")
+                cause_measured, self_heals = True, False
+            elif fetcher.get("ran_after_close"):
+                cause_measured, self_heals = True, True
+                detail = (
+                    f"{exp} is missing although the updater ran after today's close "
+                    f"({fetcher.get('updated')}) and appended "
+                    f"{fetcher.get('total_new_rows')} row(s) with no errors -- the "
+                    f"source itself has not published; this is measured, not inferred")
+            else:
+                verdict = "fetcher_silent"
+                detail = (
+                    f"{exp} is missing and the updater has not run since today's close "
+                    f"(last status {fetcher.get('updated')}); no bar will arrive on its "
+                    f"own -- the fetch lane is asleep, not the source")
+                cause_measured, self_heals = True, False
     else:
         verdict = "panel_gap"
         detail = (f"the maintained panel is behind the market by {len(missing)} "
                   f"official day(s): {', '.join(missing)} -- a feed that stopped "
                   f"publishing, not merely a publication delay")
+        cause_measured, self_heals = True, False
     return {
         "expected_last_official_day": exp,
         "panel": {"n_symbols": len(tails), "cutoff_min": min(tails.values()),
@@ -283,6 +367,8 @@ def audit(days, tails, now, missing_window=MISSING_WINDOW,
         "missing_official_days": missing,
         "coverage_by_day": {d: round(s, 4) for d, s in covered},
         "verdict": verdict,
+        "cause_measured": cause_measured,
+        "self_heals": self_heals,
         "detail": detail,
     }
 
@@ -368,7 +454,8 @@ def run(now=None, allow_network=True, cal_path=CAL_PATH, daily_dir=DAILY_DIR,
         return {"schema": "data-lag-audit/v1", "verdict": "mechanism_failure",
                 "error": info.get("error") or info.get("reason")}
     tails = panel_tails(daily_dir)
-    body = audit(days, tails, now)
+    fetch = fetcher_status(now)
+    body = audit(days, tails, now, fetcher=fetch)
     face = {
         "schema": "data-lag-audit/v1",
         "as_of": now.isoformat(timespec="seconds"),
@@ -378,10 +465,14 @@ def run(now=None, allow_network=True, cal_path=CAL_PATH, daily_dir=DAILY_DIR,
             "refresh": info,
         },
         "forward_impact": forward_impact(),
+        "fetcher": fetch,
         **body,
         "note": ("Descriptive face. The calendar is the independent reference; the "
-                 "panel is ours. source_lag is a publication delay (self-heals), "
-                 "panel_gap is a stopped feed (needs a human/lane owner)."),
+                 "panel is ours. source_lag is a publication delay (self-heals) and "
+                 "is only called measured when the updater actually asked the source "
+                 "after today's close (fetcher.ran_after_close) -- otherwise "
+                 "fetcher_silent means no bar will arrive on its own. panel_gap is a "
+                 "stopped feed (needs a human/lane owner)."),
     }
     if write:
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
@@ -393,7 +484,8 @@ def run(now=None, allow_network=True, cal_path=CAL_PATH, daily_dir=DAILY_DIR,
           f"({len(days)}d) | expected {face['expected_last_official_day']} | "
           f"active {face['panel']['n_active']}/{face['panel']['n_symbols']} syms "
           f"effective {face['panel']['effective_cutoff']} | missing "
-          f"{face['missing_official_days'] or 'none'}")
+          f"{face['missing_official_days'] or 'none'} | "
+          f"cause_measured={face['cause_measured']} self_heals={face['self_heals']}")
     return face
 
 
@@ -490,7 +582,75 @@ def selftest():
           f"stale={res['panel']['n_stale_cohort']}")
     ok &= l9
 
-    print(f"selftest: {'PASS' if ok else 'FAIL'} (9 legs)")
+    # ---- r1388: the lag verdict must say whether the cause was MEASURED ------
+    # L10 the updater asked the source after the close and got nothing: that is
+    # a measurement of the source, so source_lag may claim a heal.
+    lag_tails = {"sh510300": "2026-10-23", "sh510050": "2026-10-23"}
+    asked = {"present": True, "updated": "2026-10-26 16:05:00", "ran_today": True,
+             "ran_after_close": True, "total_new_rows": 0, "n_failures": 0,
+             "n_overlap_mismatches": 0}
+    res = audit(days, lag_tails, mon_close, fetcher=asked)
+    l10 = (res["verdict"] == "source_lag" and res["cause_measured"] is True
+           and res["self_heals"] is True)
+    print(f"  [{'PASS' if l10 else 'FAIL'}] L10 source_lag measured after close: "
+          f"verdict={res['verdict']} measured={res['cause_measured']} "
+          f"heals={res['self_heals']}")
+    ok &= l10
+    # L11 a fetch that ran BEFORE the close proves nothing about publication --
+    # calling that source_lag would be the same inference as the old rule, and it
+    # would promise a heal from a lane that never asked after the bar existed.
+    early = dict(asked, updated="2026-10-26 09:05:00", ran_after_close=False)
+    res = audit(days, lag_tails, mon_close, fetcher=early)
+    l11 = (res["verdict"] == "fetcher_silent" and res["self_heals"] is False)
+    print(f"  [{'PASS' if l11 else 'FAIL'}] L11 pre-close fetch is not a measurement: "
+          f"verdict={res['verdict']} heals={res['self_heals']}")
+    ok &= l11
+    # L12 no fetcher face on disk: keep source_lag but refuse to promise the heal
+    res = audit(days, lag_tails, mon_close, fetcher={"present": False})
+    l12 = (res["verdict"] == "source_lag" and res["cause_measured"] is False
+           and res["self_heals"] is None)
+    print(f"  [{'PASS' if l12 else 'FAIL'}] L12 absent fetcher face claims no heal: "
+          f"verdict={res['verdict']} measured={res['cause_measured']} "
+          f"heals={res['self_heals']}")
+    ok &= l12
+    # L13 the updater asked and errored -> the gap is ours, and it needs attention
+    failed = dict(asked, n_failures=3)
+    res = audit(days, lag_tails, mon_close, fetcher=failed)
+    l13 = res["verdict"] == "fetcher_failed"
+    print(f"  [{'PASS' if l13 else 'FAIL'}] L13 fetch errors blamed on us: "
+          f"verdict={res['verdict']}")
+    ok &= l13
+    l13b = audit(days, lag_tails, mon_close,
+                 fetcher=dict(asked, n_overlap_mismatches=1))["verdict"] == "fetcher_failed"
+    print(f"  [{'PASS' if l13b else 'FAIL'}] L13b an overlap mismatch is a failure too")
+    ok &= l13b
+    # L14 an on-time panel must not be slandered by a silent fetcher
+    res = audit(days, {"sh510300": "2026-10-26"}, mon_close,
+                fetcher=dict(asked, ran_after_close=False))
+    l14 = (res["verdict"] == "in_sync" and res["self_heals"] is True)
+    print(f"  [{'PASS' if l14 else 'FAIL'}] L14 in_sync is not gated on the fetcher: "
+          f"verdict={res['verdict']}")
+    ok &= l14
+    # L15 the reader tolerates a corrupt/absent status file without raising
+    with tempfile.TemporaryDirectory() as td:
+        p = os.path.join(td, "update_status.json")
+        f_absent = fetcher_status(mon_close, path=p)
+        with io.open(p, "w", encoding="utf-8") as f:
+            f.write("{not json")
+        f_corrupt = fetcher_status(mon_close, path=p)
+        with io.open(p, "w", encoding="utf-8") as f:
+            json.dump({"updated": "2026-10-26 16:40:00", "total_new_rows": 0,
+                       "failures": [], "overlap_mismatches": [],
+                       "data_cutoff": "2026-10-23"}, f)
+        f_ok = fetcher_status(mon_close, path=p)
+    l15 = (f_absent["present"] is False and f_corrupt["present"] is False
+           and f_ok["present"] is True and f_ok["ran_after_close"] is True
+           and f_ok["hours_since"] == 0.08)
+    print(f"  [{'PASS' if l15 else 'FAIL'}] L15 absent/corrupt status is present=false, "
+          f"never an exception; age read as {f_ok['hours_since']}h")
+    ok &= l15
+
+    print(f"selftest: {'PASS' if ok else 'FAIL'} (15 legs)")
     return 0 if ok else 1
 
 
@@ -504,7 +664,8 @@ def main():
     face = run(allow_network=not a.no_network)
     if face.get("verdict") == "mechanism_failure":
         return 2
-    return 1 if face.get("verdict") == "panel_gap" else 0
+    return 1 if face.get("verdict") in (
+        "panel_gap", "fetcher_silent", "fetcher_failed") else 0
 
 
 if __name__ == "__main__":

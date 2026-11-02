@@ -7850,3 +7850,40 @@ How to apply: to make an output-count recheckable, (a) stamp the population with
 scanner, (b) hash bytes, not decoded text, (c) store the members no commit holds, (d) exclude your
 own faces, and (e) publish the re-run's attribution rather than just its verdict. A pinned population
 whose difference is unattributed is the same claim as no pin at all, only more expensive.
+## E367 -- a verdict that names a cause must say whether the cause was measured (r1388)
+
+`exchange_calendar_audit` published `verdict: source_lag` whenever the only missing
+official day was today. That is a *structural* inference from the calendar: it holds
+identically whether the source has not published or none of our machinery ran. On
+2026-11-02 at 19:06 the difference stopped being academic -- `update_daily` had run
+after the close and appended 0 rows, so the honest statement was "we asked the source
+and it gave nothing", and the face could not say it. The two states need different
+responses: a late publication needs patience (it self-heals), a silent fetch lane
+needs somebody, and the original wording promised the heal in both cases.
+
+Three things came out of wiring the updater's own status face into the audit:
+
+1. **The measurement has a time threshold, not just a date.** A fetch that ran at
+   09:05 "today" proves nothing about a bar published at 15:00; treating it as a
+   measurement is the same date-only inference under a new name. So the test is
+   `ran_after_close`, and a pre-close run is `fetcher_silent` (attention), not
+   `source_lag` (patience). 15:30 is already this module's boundary for "expected
+   by now" -- one clock, two uses.
+2. **An absent input must weaken the claim, not the verdict.** With no status face
+   on disk the audit keeps `source_lag` but publishes `cause_measured: false` and
+   `self_heals: null`. Dropping to a failure verdict would cry wolf on a fresh
+   checkout; keeping the old sentence would promise a heal nobody verified.
+3. **The consumer has to be repriced with the producer.** `smoke_test.py` graded the
+   published face against a fixed set `{in_sync, source_lag, panel_gap}`; adding two
+   verdicts without widening that set turns the first silent lane into a red leg that
+   looks like a publication bug. The set is part of the contract.
+
+Live reading: `source_lag` + `cause_measured: true` + `self_heals: true`, with the
+evidence inline (`updated 2026-11-02 19:06:06`, `total_new_rows 0`, `n_failures 0`),
+corroborated by a separate source probe whose tail is 2026-10-30 -- the panel is one
+publication behind and nobody needs to act.
+
+How to apply: when a verdict word asserts a cause (source/feed/lane/user), either
+measure that cause or publish `cause_measured: false` alongside it; put the threshold
+that makes a run count as a measurement in the face, not in a comment; and when a
+verdict set grows, widen every consumer that enumerates it in the same commit.
