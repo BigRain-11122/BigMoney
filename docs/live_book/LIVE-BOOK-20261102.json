@@ -3115,7 +3115,7 @@
    "turnover_arm": 0.9422,
    "turnover_declared": 0.9529
   },
-  "elapsed_sec": 43.4,
+  "elapsed_sec": 46.4,
   "evidence_cutoff": "2026-10-30",
   "gross_rows": [
    {
@@ -3492,7 +3492,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-02T01:40:45+0800",
+  "ts": "2026-11-02T07:47:38+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -3733,6 +3733,99 @@
   "verdict": "DESCRIPTIVE",
   "status": "ok"
  },
+ "sample_window": {
+  "status": "ok",
+  "artifact": "results/etf_book_spanning_pre2020.json",
+  "window": [
+   "2015-01-01",
+   "2019-12-31"
+  ],
+  "universe": {
+   "U_pre": 193,
+   "cols": 193,
+   "flips_repaired": 168,
+   "shape": [
+    3617,
+    193
+   ],
+   "last_bar": "2019-12-31"
+  },
+  "config": {
+   "n_hold": 12,
+   "rebal": 20,
+   "vol_target": 0.08,
+   "cost_bp_per_side": 10.0,
+   "stagger": {
+    "n_total": 12,
+    "rebal": 20,
+    "vol_target": 0.08,
+    "cost": 0.001
+   },
+   "stagger_source": "results/etf_book_stagger_publish.json:machinery"
+  },
+  "rows": [
+   {
+    "arm": "single",
+    "window": [
+     "2015-01-07",
+     "2019-12-31"
+    ],
+    "cagr": 0.0512,
+    "sharpe": 0.7,
+    "maxdd": -0.1671,
+    "vol": 0.0779,
+    "alpha_annual": 0.0203,
+    "alpha_t": 1.036,
+    "oos_alpha_annual": -0.0083,
+    "oos_alpha_t": -0.388,
+    "n_obs": 1217
+   },
+   {
+    "arm": "staggered",
+    "window": [
+     "2015-01-07",
+     "2019-12-31"
+    ],
+    "cagr": 0.0426,
+    "sharpe": 0.574,
+    "maxdd": -0.1762,
+    "vol": 0.0806,
+    "alpha_annual": 0.01,
+    "alpha_t": 0.479,
+    "oos_alpha_annual": -0.019,
+    "oos_alpha_t": -0.774,
+    "n_obs": 1217
+   }
+  ],
+  "verdict": "no intercept survives outside 2020-2026 (t 1.04 single / 0.48 staggered): the published alpha is a property of the window, not of the book",
+  "survives": false,
+  "t_abs_max": 1.036,
+  "grid": {
+   "primary": "N5_R20",
+   "start": "2015-01-01",
+   "end": "2019-12-31",
+   "book_cagr": -0.0497,
+   "ew_cagr": 0.0389,
+   "excess_pp": -8.86,
+   "p_value": 0.96,
+   "n_iter": 200,
+   "universe": 224,
+   "cost_bp": null,
+   "cutoff": "2026-10-26"
+  },
+  "page_window": [
+   "2020-01-01",
+   "2026-10-26"
+  ],
+  "caveats": [
+   "one window, one universe: U_pre is itself survival-filtered (dead funds are absent from the panel), so a pass here is weaker evidence than it looks and a failure is stronger",
+   "the pre-2020 cross-section is small (eligible names per decision are published in the panel block); a top-12 pick out of 20 names is the universe, not a ranking",
+   "daily OLS without HAC correction, same basis as results/etf_book_spanning.json",
+   "span arms carry the same flip repair as the book's panel",
+   "exploratory: no preregistration, no verdict booking, no member file touched"
+  ],
+  "evidence_cutoff": "2026-10-26"
+ },
  "gap": {
   "audits": {
    "A6_fill_time_causality": {
@@ -3794,7 +3887,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 35.3,
+  "elapsed_sec": 43.0,
   "evidence_cutoff": "2026-10-30",
   "gap_stats": {
    "entry_bars": 83,
@@ -4153,7 +4246,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-02T02:43:01+0800",
+  "ts": "2026-11-02T07:48:21+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [

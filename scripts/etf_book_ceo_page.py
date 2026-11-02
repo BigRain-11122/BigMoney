@@ -52,6 +52,12 @@ ENVELOPE_JSON = os.path.join(ROOT, "results", "etf_book_bootstrap", "latest.json
 # r1231: every other number on this page answers "how much" or "how deep". Nobody answered
 # "how long do I have to wait", which is the question the person holding the book asks.
 UNDERWATER_JSON = os.path.join(ROOT, "results", "etf_book_underwater.json")
+# r1233: every number on this page is measured on the 2020-2026 ETF boom. The card tests
+# the same rule on the ETFs that already existed before it and says the alpha does not
+# survive; the page never carried that sentence, so a reader sizing off it would believe
+# the numbers are a property of the rule rather than of the window.
+SPANNING_PRE2020_JSON = os.path.join(ROOT, "results", "etf_book_spanning_pre2020.json")
+PRE2020_JSON = os.path.join(ROOT, "results", "etf_book_pre2020.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -753,6 +759,169 @@ def underwater_block(u):
     add("> 时长面：`%s` ｜ 证据截止 %s ｜ 定义：水下=严格低于历史峰值，回本日不计入；"
         "末 bar 未愈合的入场点按「仍未回本」披露，不参与分布。"
         % (u.get("artifact"), u.get("evidence_cutoff")))
+    add("")
+    return L
+
+
+def sample_window_face(path=SPANNING_PRE2020_JSON, grid_path=PRE2020_JSON):
+    """Where do the numbers on this page come from -- which window, which universe? (r1233)
+
+    Everything printed above is measured on 2020-01 onwards, i.e. on the ETF boom. The card
+    already ran the same shipment rule on the 193 ETFs that existed before that window and
+    reports that no intercept survives; this page never said so, which let a reader size a
+    position believing the numbers are the rule's level rather than the window's property.
+
+    Reads only. The payload's own verdict is cross-checked against the numbers it publishes:
+    "no intercept survives" must mean every published t is below 2, and a payload whose words
+    disagree with its own rows is refused (drifted) instead of printed."""
+    if not os.path.exists(path):
+        return {"status": "absent", "artifact": _rel(path, ROOT), "detail": "no artifact"}
+    try:
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        arms = doc.get("arms") or {}
+        rows = []
+        for key in ("single", "staggered"):
+            arm = arms.get(key) or {}
+            full = arm.get("full") or {}
+            oos = arm.get("oos") or {}
+            st = arm.get("stats") or {}
+            if full.get("alpha_t") is None:
+                continue
+            rows.append({"arm": key,
+                         "window": arm.get("window"),
+                         "cagr": st.get("cagr"), "sharpe": st.get("sharpe"),
+                         "maxdd": st.get("maxdd"), "vol": st.get("vol"),
+                         "alpha_annual": full.get("alpha_annual"),
+                         "alpha_t": full.get("alpha_t"),
+                         "oos_alpha_annual": oos.get("alpha_annual"),
+                         "oos_alpha_t": oos.get("alpha_t"),
+                         "n_obs": full.get("n_obs")})
+        if not rows:
+            return {"status": "unreadable", "artifact": _rel(path, ROOT),
+                    "detail": "no arm publishes an intercept test"}
+        ts = [abs(float(r["alpha_t"])) for r in rows]
+        survives = any(t >= 2.0 for t in ts)
+        claimed_none = "no intercept survives" in (doc.get("verdict") or "").lower()
+        # the words and the rows must agree; when they do not, the page has no basis to pick one
+        if survives == claimed_none:
+            return {"status": "drifted", "artifact": _rel(path, ROOT),
+                    "detail": "the published verdict disagrees with its own t statistics",
+                    "t_abs": ts, "verdict": doc.get("verdict")}
+        grid = None
+        page_window = None
+        if os.path.exists(grid_path):
+            try:
+                with open(grid_path, encoding="utf-8") as fh:
+                    gd = json.load(fh)
+                prim = ((gd.get("grid") or {}).get("primary")) or "N5_R20"
+                cell = None
+                blocks = gd.get("cells") or {}
+                # the post-period block IS the window every number on this page lives in;
+                # read it in its own pass so the 2015 cell lookup cannot short-circuit it
+                for key, block in blocks.items():
+                    if key.startswith("C_") and block.get("start") and block.get("end"):
+                        page_window = [block.get("start"), block.get("end")]
+                        break
+                for block in blocks.values():
+                    if (block.get("start"), block.get("end")) == ("2015-01-01", "2019-12-31"):
+                        cell = (block.get("cells") or {}).get(prim)
+                        if cell:
+                            grid = {"primary": prim, "start": block.get("start"),
+                                    "end": block.get("end"),
+                                    "book_cagr": (cell.get("book") or {}).get("cagr"),
+                                    "ew_cagr": (cell.get("ew") or {}).get("cagr"),
+                                    "excess_pp": cell.get("excess_cagr_pp"),
+                                    "p_value": (cell.get("null") or {}).get("p_value"),
+                                    "n_iter": (cell.get("null") or {}).get("n_iter"),
+                                    "universe": block.get("universe_size"),
+                                    "cost_bp": gd.get("cost_bp_per_side"),
+                                    "cutoff": gd.get("evidence_cutoff")}
+                            break
+            except Exception:                                   # noqa: BLE001
+                grid = None
+        return {"status": "ok", "artifact": _rel(path, ROOT).replace("\\", "/"),
+                "window": doc.get("window"), "universe": doc.get("universe") or {},
+                "config": doc.get("config") or {}, "rows": rows,
+                "verdict": doc.get("verdict"), "survives": survives,
+                "t_abs_max": max(ts), "grid": grid, "page_window": page_window,
+                "caveats": doc.get("caveats") or [],
+                "evidence_cutoff": (grid or {}).get("cutoff")}
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": _rel(path, ROOT),
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def sample_window_block(sw):
+    """The page's numbers belong to a window -- say which one, and what happens outside it.
+
+    Factored out so a selftest can feed an absent / drifted / ok face. The label ("clears /
+    does not clear") is derived from the published t statistics, never from the prose."""
+    L = []
+    add = L.append
+    add("## 这些号码是从哪一段行情里长出来的")
+    add("")
+    sw = sw or {}
+    if sw.get("status") != "ok":
+        add("这一页没拿到跨窗口检验（`%s`，状态 `%s`）：%s。所以**这里无法回答**「换个时段还成不成」"
+            "——读不出来不等于「跨时段也成立」。"
+            % (str(sw.get("artifact") or "results/etf_book_spanning_pre2020.json").replace(os.sep, "/"),
+               sw.get("status") or "unknown",
+               sw.get("detail") or "判决不能从自己的行重算"))
+        add("")
+        return L
+    uni = sw.get("universe") or {}
+    cfg = sw.get("config") or {}
+    win = sw.get("window") or ["?", "?"]
+    pw = sw.get("page_window") or [None, None]
+    _page_win = ("%s 至 %s" % (pw[0], pw[1])) if (pw[0] and pw[1]) else "2020 年以后"
+    add("上面每一格都是 **%s** 这段行情里量出来的。同一套要发货的规则（%s 名 / %s 日 / %s%% 波动目标 / 单边 %s bp）"
+        "跑到那之前就已经上市的 **%s 只** ETF 上、%s 至 %s："
+        % (_page_win, cfg.get("n_hold"), cfg.get("rebal"),
+           (round((cfg.get("vol_target") or 0.0) * 100, 2)), cfg.get("cost_bp_per_side"),
+           uni.get("U_pre"), win[0], win[1]))
+    add("")
+    add("| 这条规则的跑法 | 年化 | 夏普 | 最大回撤 | 摊到「黄金/纳指/沪深300/债券」之后还剩 |")
+    add("|---|---|---|---|---|")
+    names = {"single": "一条序列（本页这种）", "staggered": "分成 %s 段错开建仓" % (cfg.get("stagger") or {}).get("n_total")}
+    for r in sw.get("rows") or []:
+        add("| %s | %+.2f%% | %.2f | %+.2f%% | %+.2f%%/年（t=%.2f） |"
+            % (names.get(r.get("arm"), r.get("arm")),
+               100.0 * (r.get("cagr") or 0.0), r.get("sharpe") or 0.0,
+               100.0 * (r.get("maxdd") or 0.0),
+               100.0 * (r.get("alpha_annual") or 0.0), r.get("alpha_t") or 0.0))
+    add("")
+    add("同一批数据，切成「前三年拟合、后两年检验」：%s。"
+        % "；".join("%s %+.2f%%/年（t=%.2f）"
+                   % (names.get(r.get("arm"), r.get("arm")),
+                      100.0 * (r.get("oos_alpha_annual") or 0.0), r.get("oos_alpha_t") or 0.0)
+                   for r in (sw.get("rows") or [])))
+    add("")
+    g = sw.get("grid") or {}
+    if g.get("book_cagr") is not None:
+        _cost = ("、单边 %s bp" % g["cost_bp"]) if g.get("cost_bp") is not None else ""
+        _niter = ("随机置换 %s 次的 " % g["n_iter"]) if g.get("n_iter") is not None else ""
+        add("换一种跑法（%s 名、不加波动覆盖%s）在同一时段：**%+.2f%%/年**，"
+            "同期同样的票池等权是 **%+.2f%%/年**（相差 %+.2fpp/年，%sp=%.2f）。"
+            % (str(g.get("primary") or "").split("_")[0].lstrip("N"), _cost,
+               100.0 * g["book_cagr"],
+               100.0 * (g.get("ew_cagr") or 0.0), g.get("excess_pp") or 0.0,
+               _niter, g.get("p_value") if g.get("p_value") is not None else float("nan")))
+        add("")
+    if sw.get("survives"):
+        add("- 上面那条 t 的读数**过线了**：换个时段这套规则仍与一个固定配比有所区别。"
+            "但样本只有 %s 至 %s 这 %d 根 bar，仍不是「未来的承诺」。"
+            % (win[0], win[1], max((r.get("n_obs") or 0) for r in (sw.get("rows") or [])) or 0))
+    else:
+        add("- 两条跑法的 t 都在 **%.2f 以下**：换个时段，这套规则**跟一个固定的四资产配比分不开**。"
+            "所以上面那些数字是 **2020 之后这段行情** 的性质，不是这套规则的水平——"
+            "买它等于押「这段行情还会再来」，不是买一个跨时段验证过的超额。" % sw.get("t_abs_max", 0.0))
+    add("")
+    for c in (sw.get("caveats") or [])[:2]:
+        add("- 证据件原话（未改写，避免第二套措辞）：%s" % c)
+    add("")
+    add("> 跨窗口面：`%s` ｜ 窗口 %s ~ %s ｜ 票池 %s 只（2020 前已上市）"
+        % (sw.get("artifact"), win[0], win[1], uni.get("U_pre")))
     add("")
     return L
 
@@ -2068,6 +2237,7 @@ def build(with_stress=False):
     page["causal_rebuild"] = causal_rebuild_face()
     page["research_arc"] = research_arc_face()
     page["underwater"] = underwater_face()
+    page["sample_window"] = sample_window_face()
     page["gap"] = gap_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
@@ -2976,6 +3146,10 @@ def render_md(p):
     # 3-year "no losses" is this sample's property, not a promise.
     for _uw_line in underwater_block(p.get("underwater") or {}):
         add(_uw_line)
+    # r1233: the reader must know the window those numbers were grown in before deciding
+    # what "8%/yr" means for him.
+    for _sw_line in sample_window_block(p.get("sample_window") or {}):
+        add(_sw_line)
     add("## 必须记住的四条")
     add("")
     for c in p["caveats"]:
@@ -4111,6 +4285,38 @@ def selftest():
     chk("L111 underwater: an absent or drifted face reads 'cannot answer' and prints no table",
         "无法回答" in _uw_gone and "无法回答" in _uw_drift
         and "|" not in _uw_gone and "|" not in _uw_drift, "")
+    # L112-L115 (r1233): every number on the page is measured on the 2020-2026 boom. The page
+    # must name the window, quote the out-of-window test from its own payload, and refuse a
+    # payload whose prose disagrees with its own t statistics.
+    _sw = sample_window_face()
+    _sw_md = "\n".join(sample_window_block(_sw))
+    _sw_uni = (_sw.get("universe") or {}).get("U_pre")
+    _sw_t = max([abs(float(r.get("alpha_t") or 0.0)) for r in (_sw.get("rows") or [])] or [0.0])
+    _sw_pw = _sw.get("page_window") or [None, None]
+    chk("L112 sample window: the live face is read and the page names the universe and window",
+        _sw.get("status") == "ok" and _sw_uni and ("%s 只" % _sw_uni) in _sw_md
+        and _sw_pw[0] and ("%s 至 %s" % (_sw_pw[0], _sw_pw[1])) in _sw_md
+        # the sentence must name the window THIS page lives in, never the out-of-window test
+        and "**2015" not in _sw_md
+        and "这些号码是从哪一段行情里长出来的" in _sw_md,
+        "status=%s universe=%s page_window=%s" % (_sw.get("status"), _sw_uni, _sw_pw))
+    chk("L113 sample window: the out-of-window verdict is derived from the published t, not prose",
+        (_sw.get("survives") is (_sw_t >= 2.0))
+        and (("过线了" in _sw_md) if _sw.get("survives") else ("分不开" in _sw_md)), "t=%.3f" % _sw_t)
+    _sw_fake = dict(_sw)
+    _sw_fake["rows"] = [dict((_sw.get("rows") or [{}])[0])]
+    _sw_fake["rows"][0]["alpha_t"] = 3.4
+    _sw_fake["survives"] = True
+    _sw_fake_md = "\n".join(sample_window_block(_sw_fake))
+    chk("L114 sample window: a t above 2 prints 'clears the line', never the closed sentence",
+        "过线了" in _sw_fake_md and "分不开" not in _sw_fake_md, "")
+    _sw_gone = "\n".join(sample_window_block({"status": "absent",
+                                              "artifact": SPANNING_PRE2020_JSON}))
+    _sw_drift = "\n".join(sample_window_block({"status": "drifted",
+                                               "artifact": SPANNING_PRE2020_JSON}))
+    chk("L115 sample window: an absent or drifted face prints no window table at all",
+        "无法回答" in _sw_gone and "无法回答" in _sw_drift
+        and "|" not in _sw_gone and "|" not in _sw_drift, "")
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

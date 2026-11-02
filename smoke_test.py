@@ -5411,6 +5411,73 @@ def main() -> int:
     except Exception as e:
         check("product: the operator page prints how long the wait is",
               False, repr(e)[:160])
+    # ---- r1233: the operator page must say which window its numbers came from ------------
+    # Every number on the page is measured on the 2020+ boom. The card already tested the
+    # same shipment rule on the 193 ETFs that existed before it and reports that no
+    # intercept survives; this leg requires the page a person sizes from to carry that
+    # verdict, re-derived here from results/etf_book_spanning_pre2020.json (its own t
+    # statistics, never its prose) and demanding the same numbers appear on the page.
+    try:
+        _bad33 = []
+        _sp33 = os.path.join(PATHS.results_dir, "etf_book_spanning_pre2020.json")
+        _doc33 = {}
+        _tabs33 = None
+        if not os.path.exists(_sp33):
+            _bad33.append("results/etf_book_spanning_pre2020.json missing")
+        else:
+            with open(_sp33, encoding="utf-8") as _fh33:
+                _doc33 = json.load(_fh33)
+            _arms33 = _doc33.get("arms") or {}
+            _tabs33 = [abs(float(((_arms33.get(_k) or {}).get("full") or {}).get("alpha_t")))
+                       for _k in ("single", "staggered")
+                       if ((_arms33.get(_k) or {}).get("full") or {}).get("alpha_t") is not None]
+            if not _tabs33:
+                _bad33.append("the payload publishes no intercept t")
+            _uni33 = (_doc33.get("universe") or {}).get("U_pre")
+            _pg33 = importlib.import_module("etf_book_ceo_page")
+            _ptr33 = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
+            _mdpath33 = ""
+            if os.path.exists(_ptr33):
+                with open(_ptr33, encoding="utf-8") as _fh33b:
+                    _mdpath33 = (json.load(_fh33b) or {}).get("page") or ""
+            if not _mdpath33:
+                _bad33.append("docs/live_book/latest.json names no page")
+            else:
+                with open(os.path.join(PATHS.root, _mdpath33.replace("/", os.sep)),
+                          encoding="utf-8") as _fh33c:
+                    _md33 = _fh33c.read()
+                if "这些号码是从哪一段行情里长出来的" not in _md33:
+                    _bad33.append("the page has no sample-window section")
+                _w33 = _doc33.get("window") or ["?", "?"]
+                if str(_w33[0]) not in _md33:
+                    _bad33.append("the page does not name the out-of-window test start")
+                if _uni33 and ("%s 只" % _uni33) not in _md33:
+                    _bad33.append("the page does not print the pre-2020 universe size")
+                _surv33 = any(_t >= 2.0 for _t in (_tabs33 or []))
+                if _surv33 and "过线了" not in _md33:
+                    _bad33.append("a t above 2 must print 'clears the line'")
+                if not _surv33 and "分不开" not in _md33:
+                    _bad33.append("no t above 2 must print 'indistinguishable from a fixed mix'")
+                _blk33 = _pg33.sample_window_face()
+                if _blk33.get("status") != "ok":
+                    _bad33.append("the page's sample-window face reads %r"
+                                  % (_blk33.get("status"),))
+                else:
+                    _pg_t33 = max([abs(float(_r.get("alpha_t") or 0.0))
+                                   for _r in (_blk33.get("rows") or [])] or [0.0])
+                    if _tabs33 and abs(_pg_t33 - max(_tabs33)) > 1e-9:
+                        _bad33.append("page face reads t=%.3f vs payload %.3f"
+                                      % (_pg_t33, max(_tabs33)))
+                    if bool(_blk33.get("survives")) is not _surv33:
+                        _bad33.append("page face verdict disagrees with its own t")
+        check("product: the operator page says which window its numbers came from",
+              not _bad33,
+              "; ".join(_bad33)[:220] or "universe %s ETFs | out-of-window t max %s | survives %s"
+              % (_uni33, max(_tabs33) if _tabs33 else None,
+                 any(_t >= 2.0 for _t in (_tabs33 or []))))
+    except Exception as e:
+        check("product: the operator page says which window its numbers came from",
+              False, repr(e)[:160])
     # ---- r1213 / E329: the expectation table's three rows are three rulers ---------------
     # The operator page prints row 1 from 2024-01-02 and rows 2-3 from 2020-01-01, over two
     # class universes and two fill orderings, under one column headed 全窗. This leg
