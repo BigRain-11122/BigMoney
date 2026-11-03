@@ -13979,5 +13979,68 @@ except Exception as _e393:
 check(_name393, not _bad393, "; ".join(_bad393)[:220]
       or "verdict %s" % str((_f393 or {}).get("verdict"))[:80])
 
+# E394: the other direction. E393 showed the 1 MB cap had been hiding faces that almost all do
+# store the key, so the residue is what the cap never was: 218 reads resolve to a face that does
+# NOT store their key. This leg refuses the ways the price of that residue could be asserted
+# instead of measured -- a face that does not re-add from its per-key rows, class counts that do
+# not partition the residual, a broken-reader count that is not the dead class alone, a class
+# outside the frozen set, a residual wider than its own cap-hidden slice, a classification that
+# claims to move a published ratio, and a study whose own verify does not come back clean.
+_name394 = ("product: why 218 resolved reads open a face that does not store their key -- depth, "
+            "producer-writes, another face, counted-but-unwitnessed, unparsed and dead, with only "
+            "the dead class published as a broken reader")
+_bad394 = []
+_f394 = None
+try:
+    _p394 = os.path.join("results", "state_tilt", "phantomwhy_latest.json")
+    _f394 = json.load(open(_p394, encoding="utf-8")) if os.path.exists(_p394) else None
+    if _f394 is None:
+        _bad394.append("no published phantom-why face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m394 = __import__("importlib").import_module("e394_phantom_why")
+        _res394 = _f394.get("residual") or {}
+        _rows394 = _res394.get("rows") or []
+        _cls394 = _res394.get("by_class") or {}
+        _residual394 = _res394.get("residual_reads")
+        if _f394.get("verdict") not in (
+                "no_read_resolves_to_a_face_that_lacks_its_key_so_the_residue_is_empty",
+                "every_residual_read_names_a_key_no_face_in_the_tree_stores",
+                "some_residual_reads_are_real_broken_readers_and_the_rest_are_depth_producer_"
+                "or_moved_name",
+                "no_residual_read_is_a_broken_reader_it_is_depth_producer_or_moved_name"):
+            _bad394.append("verdict %r is outside the frozen set"
+                           % str(_f394.get("verdict"))[:60])
+        if sum(r.get("residual_reads") or 0 for r in _rows394) != _residual394:
+            _bad394.append("the per-key rows do not re-add to the residual")
+        if sum(_cls394.get(c, 0) for c in _m394.CLASSES) != _residual394:
+            _bad394.append("the class counts do not partition the residual")
+        if len(_res394.get("classified") or []) != _residual394:
+            _bad394.append("the classified rows do not re-add to the residual")
+        for _c394 in _cls394:
+            if _c394 not in _m394.CLASSES:
+                _bad394.append("a class outside the frozen set is published")
+                break
+        if (_res394.get("broken_reader_reads") or 0) != _cls394.get(_m394.C_DEAD, 0):
+            _bad394.append("broken_reader_reads is not the dead class alone")
+        if (_res394.get("cap_hidden_reads") or 0) > (_residual394 or 0):
+            _bad394.append("the cap-hidden slice is wider than the residual it sits in")
+        if (_f394.get("headline") or {}).get("moves_a_published_number"):
+            _bad394.append("a residual classification cannot move a published ratio")
+        if _bad394:
+            pass
+        elif _m394.verify() != []:
+            _bad394.append("the study's own verify does not come back clean")
+        _name394 = ("product: %d reads open a face without their key (%d the cap had hidden) "
+                    "across %d keys / %d faces; %d are dead readers, the rest split as %s"
+                    % (_residual394 or 0, _res394.get("cap_hidden_reads") or 0,
+                       _res394.get("residual_keys") or 0, _res394.get("residual_faces") or 0,
+                       _res394.get("broken_reader_reads") or 0,
+                       ", ".join("%s=%d" % (k, v) for k, v in sorted(_cls394.items()))[:150]))
+except Exception as _e394:
+    _bad394.append(repr(_e394)[:160])
+check(_name394, not _bad394, "; ".join(_bad394)[:220]
+      or "verdict %s" % str((_f394 or {}).get("verdict"))[:80])
+
 if __name__ == "__main__":
     sys.exit(main())

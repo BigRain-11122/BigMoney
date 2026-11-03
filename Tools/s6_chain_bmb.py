@@ -1275,6 +1275,13 @@ LEGS = [
     # the 0.051 share is a lower bound and becomes 0.0797. Verify re-adds the cap arithmetic and
     # both shares from the per-key rows (~0 s, no corpus walk, no byte scan).
     ("read_cap_price", ["python", "scripts/e393_read_cap_price.py", "verify"]),
+    # E394: the other direction -- 218 reads resolve to a face that does not store their key (188
+    # under the cap, 30 the cap had been hiding). Each is classified as depth / producer-writes /
+    # a face another read witnesses / counted-but-unwitnessed / unparsed / dead, and only the last
+    # is a broken reader. The producer test is structural (dict literal, subscript store,
+    # setdefault), never co-occurrence of the face name and the literal. No published ratio moves.
+    # Verify re-adds the per-key rows and the class counts (~0 s, no corpus walk).
+    ("phantom_why", ["python", "scripts/e394_phantom_why.py", "verify"]),
 ]
 
 

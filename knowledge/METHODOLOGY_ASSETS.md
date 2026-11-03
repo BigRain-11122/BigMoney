@@ -8761,3 +8761,50 @@ in. And a leg spliced into `smoke_test.py` must be run through its extracted-ver
 
 Wiring: `scripts/e393_read_cap_price.py` (run / verify problems=[] / selftest 15/15); smoke leg E393
 (1/1); S6 leg `read_cap_price`; face `results/state_tilt/READCAP-2026-11-03.json`.
+
+### E394 -- the residue of a bound has to be classified, not counted (r1411 bm-b)
+
+E393 left 218 reads that resolve to a real face which does not store their key (188 under the 1 MB
+cap plus the 30 the cap had been hiding). Publishing that as "218 broken readers" would be the same
+failure E392 named in its own postscript, because a face that lacks a key has four innocent causes.
+
+The classes, and what each one actually measures:
+
+| class | reads | what it is |
+|---|---|---|
+| `producer_names_the_key_but_the_face_lacks_it` | 131 | a source that names the face *writes* the key (dict literal / subscript store / `setdefault`), so the face may write it conditionally and this instance did not |
+| `key_lives_in_another_face` | 69 | another read in the same scan opened a face and found the key there -- the name moved, the site opens the old face |
+| `a_face_stores_it_but_no_read_names_which` | 16 | the population counts a file carrying it, but no read in this census witnesses which face |
+| `face_unparsed_so_presence_unknown` | 2 | the face was above the cap or would not parse: published as unknown, never as dead |
+| `key_present_at_another_depth` | 0 | the key is in the face at a depth the site does not index |
+| `no_face_in_the_tree_stores_this_key` | 0 | **the only class that is a broken reader** |
+
+Lessons:
+
+(1) **Co-occurrence is not authorship.** A first pass asked "does a source that names the face also
+contain the literal key" and put all 218 reads in the producer class -- including `arm` matched
+against six unrelated closeout scripts and `bytes` matched against `smoke_test.py`. Requiring a
+structural write (dict-literal key, subscript store, `setdefault`) moved 87 reads out of that class
+without changing a single read's face. The class name has to name the measurement, so it says
+*producer writes* and the evidence column carries the write form and line.
+
+(2) **A class set without a "dead" leg is a class set that cannot find its own defect.** Depth,
+producer, another-face and unparsed all explain a missing key without anyone being wrong; if the
+dead class is empty the honest verdict is `no_residual_read_is_a_broken_reader`, and it must be
+*derivable* -- the smoke leg recomputes `broken_reader_reads == by_class[dead]` rather than trusting
+the headline.
+
+(3) **The residual cannot move the ratio it sits outside.** The share is storing-reads over
+name-matched reads; classifying the complement changes neither term, so `moves_a_published_number`
+is published as `False` with the arithmetic. E382's republish rule is for splits that move a
+headline, and calling this one a republish would be a false alarm in the other direction.
+
+(4) **An unwitnessed key is not a dead key.** The population's `files` field is a *count*, not a
+list, so "which face carries it" cannot be read off the population. The two answers kept separate:
+a face a read actually opened and found the key in (class `key_lives_in_another_face`), and a count
+that says some face carries it with no reader naming which (`...but_no_read_names_which`). Folding
+the second into the first would invent a face; folding it into `dead` would invent a defect.
+
+Wiring: `scripts/e394_phantom_why.py` (run / verify problems=[] / selftest 21/21); smoke leg E394
+(1/1, exec'd verbatim by `scripts/run_e394_smoke_leg.py`); S6 leg `phantom_why`; face
+`results/state_tilt/PHANTOMWHY-2026-11-03.json`.
