@@ -1,48 +1,70 @@
 {
  "audit": "pool deliverable reconciliation",
- "ts": "2026-11-01T14:32:30+0800",
+ "ts": "2026-11-03T12:14:15+0800",
  "pool": "results/runnable_pool.json",
- "open_cards": 3,
+ "open_cards": 4,
  "counts": {
-  "NO_FACE": 3
+  "NO_FACE": 3,
+  "AFTER_ENTRY": 1
  },
- "stale_evidence": [],
+ "stale_evidence": [
+  {
+   "id": "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
+   "status": "ready",
+   "lane_owner": null,
+   "deliverable": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
+   "deliverable_template": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
+   "declared_prose_stripped": false,
+   "entered_at": "2026-11-03T11:56:00+08:00",
+   "faces_found": 1,
+   "face_newest": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
+   "face_newest_bytes": 79870,
+   "face_bytes_zero_any": false,
+   "face_lag_hours": 0.27,
+   "reading": "AFTER_ENTRY",
+   "evidence": "newest face was written 0.27h after the card entered",
+   "runner_reading": "RUNNER_UNDECLARED",
+   "runner": null,
+   "runner_evidence": "the card declares no runner: only a bespoke worker can run it"
+  }
+ ],
  "ambiguous": [],
  "misnamed": [],
- "prose_deliverables": [
-  "E343-WHERE-A-BOUND-GRANT-ACTUALLY-DECIDES",
-  "E344-WHO-CONSUMES-THE-FAMILY-ONLY-NAMES",
-  "E345-HOW-LONG-A-GATE-WAS-ABSENT-AND-WHAT-STAYED-GREEN"
- ],
+ "prose_deliverables": [],
  "runner_absent": [
   {
-   "id": "E343-WHERE-A-BOUND-GRANT-ACTUALLY-DECIDES",
+   "id": "E384-WHICH-KEYS-COME-FROM-A-SITE-THAT-NEVER-OPENS-FACE",
    "runner": null
   },
   {
-   "id": "E344-WHO-CONSUMES-THE-FAMILY-ONLY-NAMES",
+   "id": "E385-DOES-SPLITTING-A-MERGED-KEY-MOVE-ANY-PUBLISHED-COUNT",
    "runner": null
   },
   {
-   "id": "E345-HOW-LONG-A-GATE-WAS-ABSENT-AND-WHAT-STAYED-GREEN",
+   "id": "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
+   "runner": null
+  },
+  {
+   "id": "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE",
    "runner": null
   }
  ],
  "runner_absent_ids": [
-  "E343-WHERE-A-BOUND-GRANT-ACTUALLY-DECIDES",
-  "E344-WHO-CONSUMES-THE-FAMILY-ONLY-NAMES",
-  "E345-HOW-LONG-A-GATE-WAS-ABSENT-AND-WHAT-STAYED-GREEN"
+  "E384-WHICH-KEYS-COME-FROM-A-SITE-THAT-NEVER-OPENS-FACE",
+  "E385-DOES-SPLITTING-A-MERGED-KEY-MOVE-ANY-PUBLISHED-COUNT",
+  "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
+  "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE"
  ],
  "runnable_open_cards": 0,
  "cards": [
   {
-   "id": "E343-WHERE-A-BOUND-GRANT-ACTUALLY-DECIDES",
+   "id": "E384-WHICH-KEYS-COME-FROM-A-SITE-THAT-NEVER-OPENS-FACE",
    "status": "ready",
    "lane_owner": null,
-   "deliverable": "results/state_tilt/<face> + scripts/e343_*.py + chain leg + smoke leg + methodology card",
-   "deliverable_template": "results/state_tilt/<face> + scripts/e343_*.py",
-   "declared_prose_stripped": true,
-   "entered_at": "2026-11-01T13:45:00+08:00",
+   "deliverable": null,
+   "deliverable_template": null,
+   "declared_prose_stripped": false,
+   "entered_at": "2026-11-03T06:47:00+08:00",
    "faces_found": 0,
    "face_newest": null,
    "face_newest_bytes": null,
@@ -55,13 +77,13 @@
    "runner_evidence": "the card declares no runner: only a bespoke worker can run it"
   },
   {
-   "id": "E344-WHO-CONSUMES-THE-FAMILY-ONLY-NAMES",
+   "id": "E385-DOES-SPLITTING-A-MERGED-KEY-MOVE-ANY-PUBLISHED-COUNT",
    "status": "ready",
    "lane_owner": null,
-   "deliverable": "results/state_tilt/<face> + scripts/e344_*.py + chain leg + smoke leg + methodology card",
-   "deliverable_template": "results/state_tilt/<face> + scripts/e344_*.py",
-   "declared_prose_stripped": true,
-   "entered_at": "2026-11-01T14:20:00+08:00",
+   "deliverable": null,
+   "deliverable_template": null,
+   "declared_prose_stripped": false,
+   "entered_at": "2026-11-03T08:54:50+08:00",
    "faces_found": 0,
    "face_newest": null,
    "face_newest_bytes": null,
@@ -74,13 +96,32 @@
    "runner_evidence": "the card declares no runner: only a bespoke worker can run it"
   },
   {
-   "id": "E345-HOW-LONG-A-GATE-WAS-ABSENT-AND-WHAT-STAYED-GREEN",
+   "id": "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
    "status": "ready",
    "lane_owner": null,
-   "deliverable": "results/state_tilt/<face> + scripts/e345_*.py + chain leg + smoke leg + methodology card",
-   "deliverable_template": "results/state_tilt/<face> + scripts/e345_*.py",
-   "declared_prose_stripped": true,
-   "entered_at": "2026-11-01T14:31:00+08:00",
+   "deliverable": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
+   "deliverable_template": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
+   "declared_prose_stripped": false,
+   "entered_at": "2026-11-03T11:56:00+08:00",
+   "faces_found": 1,
+   "face_newest": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
+   "face_newest_bytes": 79870,
+   "face_bytes_zero_any": false,
+   "face_lag_hours": 0.27,
+   "reading": "AFTER_ENTRY",
+   "evidence": "newest face was written 0.27h after the card entered",
+   "runner_reading": "RUNNER_UNDECLARED",
+   "runner": null,
+   "runner_evidence": "the card declares no runner: only a bespoke worker can run it"
+  },
+  {
+   "id": "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE",
+   "status": "ready",
+   "lane_owner": null,
+   "deliverable": "results/state_tilt/FAMILYGLOB-2026-11-03.json",
+   "deliverable_template": "results/state_tilt/FAMILYGLOB-2026-11-03.json",
+   "declared_prose_stripped": false,
+   "entered_at": "2026-11-03T11:56:00+08:00",
    "faces_found": 0,
    "face_newest": null,
    "face_newest_bytes": null,
@@ -94,21 +135,27 @@
   }
  ],
  "apply": {
-  "ts": "2026-11-01T14:32:30+0800",
-  "closed": [],
+  "ts": "2026-11-03T12:14:15+0800",
+  "closed": [
+   {
+    "id": "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
+    "result_ref": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
+    "face_lag_hours": 0.27
+   }
+  ],
   "skipped": [
    {
-    "id": "E343-WHERE-A-BOUND-GRANT-ACTUALLY-DECIDES",
+    "id": "E384-WHICH-KEYS-COME-FROM-A-SITE-THAT-NEVER-OPENS-FACE",
     "reading": "NO_FACE",
     "reason": "no file matches the declared deliverable template"
    },
    {
-    "id": "E344-WHO-CONSUMES-THE-FAMILY-ONLY-NAMES",
+    "id": "E385-DOES-SPLITTING-A-MERGED-KEY-MOVE-ANY-PUBLISHED-COUNT",
     "reading": "NO_FACE",
     "reason": "no file matches the declared deliverable template"
    },
    {
-    "id": "E345-HOW-LONG-A-GATE-WAS-ABSENT-AND-WHAT-STAYED-GREEN",
+    "id": "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE",
     "reading": "NO_FACE",
     "reason": "no file matches the declared deliverable template"
    }

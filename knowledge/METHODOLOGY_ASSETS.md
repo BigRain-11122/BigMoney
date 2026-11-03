@@ -8555,3 +8555,38 @@ Wiring: `scripts/e386_merged_key_cost.py` (run / verify problems=[] / selftest 2
 disagrees. Successors seeded: E388 (is the accretion a chain or a break?) and E389 (what do the 18
 family-glob readers actually compute?).
 
+## E388 -- the trial-labor schema is an accretion up to a wall, and the wall is a break
+
+E386 published that the two merged basenames hold 31 distinct key sets. That is a count of shapes, not
+an answer to the only question a reader has: does a later wave still answer every question an earlier
+one did? Accretion (a strict superset each wave) costs a reader nothing; a break costs it a field, and
+only a break makes the merge dangerous.
+
+Measured per consecutive **observed** wave, over 39 members: the walls (fields added / removed), each
+field as maximal presence intervals, each field's JSON type in every wave, and -- for each numeric
+field dropped at a break -- whether any quantity in the post-break schema carries the same value.
+
+Readings. 29 walls, **26 accretion and 3 break**, and **0 fields ever re-added**: the series is a
+strict monotone chain from w1 to w16, then judge_state w16->w17 removes 16 fields and adds 7 (a block
+schema: `blocks`/`judged_cells` replacing the per-factor `*_meta` dicts), prep_state w16->w17 removes
+18 and adds 0, and judge_state w19->w21 removes `cap` while adding `cell_cap`. Four to five later
+waves sit on the wrong side and the dropped fields stay absent. Of 4 dropped numerics, 2 are gone --
+`n_survivors` (40) has no counterpart among the post-break `43 blocks / 344 cells / cap 90`, and
+`n_distinct` (173) none -- while 2 survive under another name: `n_starts_6m` 1253 = `starts.len` =
+`passive_6m_ret.len`, and `cap` 90 = `cell_cap` 90. Type flips among *surviving* names: 0. One
+in-place vocabulary replacement: `gates` keeps its name while its 11 factor gates become 4 pipeline
+gates and then 5 -- a reader keyed on `G-VOL` gets `KeyError`, not `None`.
+
+Three rules, measured not assumed. (1) **Value equality is not recovery**: the coincidental match of
+a dropped `d=4` to an unrelated `a=4` in the next wave was the first draft's "recovered" scalar, so a
+counterpart must also share a name token with the field it would replace, and value-only matches are
+published separately as `value_coincidences`. (2) **Consecutive observed waves, not consecutive wave
+numbers**: w15 and w20 hold no member, and calling that a removal would have manufactured two breaks.
+(3) **A wall is a break iff it removes something** -- `fields_to - fields_from` must equal
+`added - removed` for every wall, or the two lists and the sizes have drifted apart.
+
+Wiring: `scripts/e388_schema_accretion.py` (run / verify problems=[] / selftest 33/33); smoke leg E388
+(exec'd verbatim by `scripts/run_e388_smoke_leg.py`, 1/1); S6 leg `schema_accretion`; face
+`results/state_tilt/SCHEMAACCRETE-2026-11-03.json` + `schemaaccrete_latest.json`. Frozen verdicts
+`V_EMPTY` / `V_ACCRETION` / `V_BREAK_RECOVERABLE` / `V_BREAK`, re-derived by `decide()`. Successor:
+E389 (what do the 18 family-glob readers compute, and what is the arithmetic gap of an aggregate?).

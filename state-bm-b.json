@@ -7,9 +7,9 @@
  "current": "r1394 E370: every summary key classified by how it answers a grown corpus",
  "current_task": "E370 four-arm key sensitivity (published / live +2.774% / pinned_list / pinned_bytes)",
  "current_work": "49 numeric leaves over two studies: 6 ratio (the guard family held at both drifts), 4 count, 11 filtered, 25 unmoved (E353's population is 131 in every arm)",
- "cyc_round": 1404,
- "cycl_round": 1404,
- "cycle_round": 1404,
+ "cyc_round": 1405,
+ "cycl_round": 1405,
+ "cycle_round": 1405,
  "d19": {
   "decisions_sha": "02fffd2a3a113f5ccfa24f3724d2a6822494a81826306c85bcb1cab4d5e0c5c3",
   "decisions_sha_short": "02fffd2a",
@@ -151,7 +151,7 @@
  "delivery_note": "main-branch push is not attempted: a bounded attempt has hung in promisor lazy-fetch for thirteen consecutive rounds (r1255..r1295 family), so the machine branch is the delivery channel until it clears",
  "dept": "research+engineering",
  "did": "r1401 E382: 10 of 11 headlines move under the repaired keying (fields +55, no-writer +44, guard-unwritten +17, E353 pairs +17, faces +24, unresolved-face -52); E350 verdict flips 131->148; E377 targets keyed 0->2; joined-only 12->0",
- "did_round": 1404,
+ "did_round": 1405,
  "face": "results/state_tilt/REPUBLISH-2026-11-03.json",
  "finding": "a BOM makes 'unparseable' and 'empty' two different zeros (s6_chain_bmb.py is unparseable under the pin's UTF-8 bytes and parses to nothing once stripped); both members write faces whose paths they format at run time, so zero fields means 'writes something the ledger cannot key', not 'writes nothing'; name reach tested 0 of the 40 published unwritten-guard rows with 91 of 131 untested and the bound published",
  "free_vram_gb": 3.5,
@@ -229,7 +229,7 @@
  "last_push_at": "2026-11-03T02:27:04+08:00",
  "last_push_sha": "6e77cbda084331b908d5d42866244b7c67413b7b",
  "last_push_ts": "2026-11-03T02:27:04+08:00",
- "last_round": 1404,
+ "last_round": 1405,
  "last_round_at": "2026-11-03T08:24:31+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md",
  "last_round_ts": "2026-11-03T08:24:31+08:00",
@@ -4400,6 +4400,63 @@
   "ts": "2026-11-03T11:59:00+08:00",
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1404 equals local HEAD"
  },
+ "r1405": {
+  "dept": "research+engineering",
+  "face": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
+  "not_run": "full smoke suite, remaining S6 chain legs, update_* collectors, paper/scorecard faces; GPU and cloud untouched",
+  "numbers": {
+   "accretion_walls": 26,
+   "break_walls": 3,
+   "dropped_numeric": 4,
+   "dropped_numeric_lost": 2,
+   "dropped_numeric_recovered": 2,
+   "fields_re_added_after_removal": 0,
+   "fields_union": 37,
+   "judge_break_w16_17": {
+    "added": 7,
+    "removed": 16
+   },
+   "judge_break_w19_21": {
+    "added": 1,
+    "removed": 1
+   },
+   "judge_schema_span": [
+    8,
+    12
+   ],
+   "lost_scalars": {
+    "n_distinct": 173,
+    "n_survivors": 40
+   },
+   "members": 39,
+   "prep_break_w16_17": {
+    "added": 0,
+    "removed": 18
+   },
+   "prep_schema_span": [
+    7,
+    6
+   ],
+   "recovered_scalars": {
+    "cap": "cell_cap",
+    "n_starts_6m": "starts.len"
+   },
+   "type_flips": 0,
+   "walls": 29
+  },
+  "product": [
+   "scripts/e388_schema_accretion.py (selftest 33/33, verify problems=[])",
+   "results/state_tilt/SCHEMAACCRETE-2026-11-03.json + schemaaccrete_latest.json",
+   "scripts/run_e388_smoke_leg.py + smoke_test.py leg E388 (1/1 verbatim)",
+   "Tools/s6_chain_bmb.py leg schema_accretion (rc 0, 0.95s)",
+   "knowledge/METHODOLOGY_ASSETS.md card E388",
+   "research/digests/DIGEST-20261103-r1405-e388-schema-accretion.md",
+   "results/runnable_pool.json E388 done via deliverable audit; E390 seeded (ready 4)"
+  ],
+  "study": "E388_schema_accretion_vs_break",
+  "ts": "2026-11-03T12:18:43+08:00",
+  "verdict": "the_key_sets_only_grow_for_sixteen_waves_then_one_wall_swaps_a_flat_factor_schema_for_a_block_schema_and_two_dropped_scalars_are_gone"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -4410,71 +4467,67 @@
  "ram_total_gb": 23.9,
  "reds_open": [],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1404,
- "round_no": 1404,
- "round_no_label": "r1404",
+ "round": 1405,
+ "round_no": 1405,
+ "round_no_label": "r1405",
  "round_no_note": "r1393 healed another mirror split: cyc_round/cycle_round/did_round/last_round/cycl_round read 1391/1378 while round/round_no said 1392. All eight keys now move together.",
- "round_no_ts": "2026-11-03T11:56:00+08:00",
+ "round_no_ts": "2026-11-03T12:18:43+08:00",
  "round_no_ts_note": "r1398 closeout; the split mirrors (1394/1396/1393/1395) are collapsed -- all round keys move together again",
- "round_pit": "(1) a census over the live tree is self-perturbing: the study own new scripts join the corpus it counts, so a pin_id taken before the last script was written can never match -- the first E387 leg went red on corpus_source.pin_id, not on any reader-visible number; rebuild the chain on the settled tree; (2) the new smoke leg was inserted at 4-space indent into a column-0 block and the suite died at import with zero output -- read the detached stderr instead of assuming a slow leg",
+ "round_pit": "(1) value equality is not recovery: a dropped d=4 matched an unrelated a=4 in the next wave and was the first draft's one 'recovered' scalar -> require a shared name token and publish value_coincidences separately; (2) consecutive OBSERVED waves, not wave numbers -- w15/w20 hold no member and a gap read as a removal would have manufactured two breaks; (3) the first smoke-suite attempt printed nothing for 5 minutes and was cancelled, so the window carried a standalone leg instead of a suite claim",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
- "s1": "full suite NOT re-run this window; the new leg was exercised standalone: scripts/run_e386_smoke_leg.py 1/1 verbatim",
- "s6": "S6 chain legs not re-run this window; attrition guard CLEAN (4 ledgers, 0 active loss); orphan probe py_faces=17 orphans=0",
- "s6_leg": "republish_audit rc=0 0.16s (Tools/s6_chain_bmb.py 1403 --only)",
+ "s1": "full suite NOT re-run this window: the first attempt produced no output and was cancelled at 5 minutes; the new leg was exercised standalone (1/1 verbatim)",
+ "s6": "dualrun ZERO-DRIFT (872 entries, streak 33, cutoff 12:14) | update_daily legal no-op (0 rows, cutoff 2026-11-02) | py_watermark py 15.9% pool_ready 4 verdict insufficient_history | compute_audit FLAG gpu_unauthorized,supply_gap (verbatim) | market_regime asof 2026-11-02 RED shadow | attrition guard CLEAN 4 ledgers | orphan probe py_faces=7 orphans=0 | sat engine rc=0 idle",
+ "s6_leg": "schema_accretion rc=0 0.95s (Tools/s6_chain_bmb.py 1405 --only)",
  "s6_note": "the S6 maintenance chain was NOT re-run this window",
- "s7": "orders 114/115/0 unacked | loop pin=2 no-op (first fire 11:52) | watchdog present | pre-commit + pre-push claws present | decisions.md not read this window (promisor wedge)",
+ "s7": "orders 114/115/0 unacked | loop pin=2 no-op (first fire 12:17) | watchdog present | pre-commit + pre-push claws present | decisions.md read from the local group tree origin blob, sha256 unchanged -> zero rows consumed",
  "sat_engine": "rc=0 idle",
- "selftest": "e386 29/29 | e386 verify problems=[] | smoke leg E386 1/1",
- "seq": 1404,
- "smoke": "not re-run this window (stated, not claimed); leg E386 1/1 standalone",
+ "selftest": "e388 33/33 | e388 verify problems=[] | smoke leg E388 1/1",
+ "seq": 1405,
+ "smoke": "not re-run this window (stated, not claimed); leg E388 exec'd verbatim 1/1 via scripts/run_e388_smoke_leg.py",
  "smoke_note": "the suite was re-run twice: the first detached run died at import on a bad indent in the new leg (zero output), the second is the verdict above",
  "snapshot": {},
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "ok",
- "study": "E386_merged_key_cost",
+ "study": "E388_schema_accretion_vs_break",
  "supply_floor": {
   "floor": 3,
   "ready": [
    "E384-WHICH-KEYS-COME-FROM-A-SITE-THAT-NEVER-OPENS-FACE",
    "E385-DOES-SPLITTING-A-MERGED-KEY-MOVE-ANY-PUBLISHED-COUNT",
-   "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
-   "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE"
+   "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE",
+   "E390-WHICH-IN-REPO-READER-ASKS-FOR-A-FIELD-ON-THE-WRONG-SIDE-OF-THE-WALL"
   ],
-  "ready_at_close": 4,
-  "seeded": [
-   "E388",
-   "E389"
-  ]
+  "ready_at_close": 4
  },
  "sync": {
-  "ahead_note": "two blood lines; delivery goes to machine/bm-b-r1401",
-  "ahead_of_origin_main": 267,
+  "ahead_note": "two blood lines; delivery goes to machine/bm-b-r1405",
+  "ahead_of_origin_main": 274,
   "behind_origin_main": 285
  },
  "sync_note": "r1401: local commits not on origin/main stay large (two blood lines, promisor lazy-fetch wedge); delivery goes to machine/bm-b-r1401 and is verified by ls-remote",
- "task": "r1404 E386: the merged key costs the trial-labor family a schema, not a reader number",
- "task_short": "r1404 E386 merged-key cost",
+ "task": "r1405 E388: the trial-labor schema is a monotone accretion up to one wall, and the wall is a break",
+ "task_short": "r1405 E388 schema accretion vs break",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
  "three_line": {
-  "current": "E386: the trial-labor merge is a schema break -- 31 key sets under 2 basenames, n_survivors missing from 5 of 19 waves -- and 0 in-repo readers read the bare name",
-  "latest_artifact": "results/state_tilt/MERGEDCOST-2026-11-03.json @ 2026-11-03T11:56:00+08:00",
-  "next_milestone": "E388 schema accretion vs break: are the 31 key sets a chain (<=48h)"
+  "current": "E388: 29 walls over 39 members -- 26 accretion, 3 break; 0 fields come back; n_survivors 40 and n_distinct 173 are lost, cap 90 and n_starts_6m 1253 survive under another name",
+  "latest_artifact": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json @ 2026-11-03T12:18:43+08:00",
+  "next_milestone": "E389 what the 18 family-glob readers compute (<=48h)"
  },
- "timestamp": "2026-11-03T11:56:00+08:00",
- "ts": "2026-11-03T11:56:00+08:00",
+ "timestamp": "2026-11-03T12:18:43+08:00",
+ "ts": "2026-11-03T12:18:43+08:00",
  "ts_utc_ms": 1793676365000,
  "ts_utc_offset": "+08:00",
- "updated": "2026-11-03T11:56:00+08:00",
- "updated_at": "2026-11-03T11:56:00+08:00",
+ "updated": "2026-11-03T12:18:43+08:00",
+ "updated_at": "2026-11-03T12:18:43+08:00",
  "verdict": "product",
- "verdict_line": "the_members_of_one_key_do_not_share_a_schema_so_the_merge_hides_a_shape_change_even_though_every_reader_names_its_wave",
- "verify": "e386 selftest 29/29 | verify problems=[] | smoke leg exec verbatim PASS",
+ "verdict_line": "the_key_sets_only_grow_for_sixteen_waves_then_one_wall_swaps_a_flat_factor_schema_for_a_block_schema_and_two_dropped_scalars_are_gone",
+ "verify": "e388 selftest 33/33 | verify problems=[] | smoke leg exec verbatim PASS",
  "vram_free_gb": 1.5,
  "vram_probe": "nvidia-smi",
  "vram_total_gb": 8.0,
  "vram_used_gb": 6.33,
  "watermark_note": "idle_trigger at open: green_idle=false (ram_free 25.6 pct), pool_ready 3, claimable 1",
  "watermark_red": false,
- "watermark_verdict": "pool floor met at open (3 ready); E386 burned in-window; 3 ready now",
+ "watermark_verdict": "pool floor met at open (4 ready); E388 burned in-window; 4 ready at close",
  "work": "E386 whether a merged key costs the trial-labor family a number or a schema"
 }

@@ -26996,13 +26996,17 @@
    "status": "done"
   },
   {
+   "close_note": "deliverable landed on disk 0.27h after entry; closed by the reconciliation audit",
+   "closed_at": "2026-11-03T12:14:15+0800",
+   "closed_by": "Tools/pool_deliverable_audit.py apply",
    "deliverable": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
    "entered_at": "2026-11-03T11:56:00+08:00",
    "entered_by": "bm-b r1404 (supply floor refill after E386 close)",
    "id": "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
    "lane": "cpu-only",
    "note": "r1404: the trial-labor family holds 31 distinct top-level key sets under two basenames. Decide from rows whether that is monotone field accretion (each wave adds fields, so a later reader sees every earlier field) or a genuine break (a field appears and later disappears, or a block schema replaces a flat one). Publish, per key, the removal edges and the waves on the wrong side of them, so 'the merge loses a number' and 'the merge loses a schema' stop being one flag.",
-   "status": "ready"
+   "result_ref": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
+   "status": "done"
   },
   {
    "deliverable": "results/state_tilt/FAMILYGLOB-2026-11-03.json",
@@ -27011,6 +27015,15 @@
    "id": "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE",
    "lane": "cpu-only",
    "note": "r1404: 18 in-repo .py files glob results/trial_labor_w*. None of them reads a merged basename, but an aggregate that takes the latest member by mtime would answer a different question than a sum over members. Read each glob site, classify what it computes (latest / sum / per-wave fan-out / existence probe), and publish the arithmetic gap for the ones that aggregate: the family-wide sum of n_survivors against the single latest value.",
+   "status": "ready"
+  },
+  {
+   "deliverable": "results/state_tilt/WRONGSIDE-2026-11-03.json",
+   "entered_at": "2026-11-03T12:20:00+08:00",
+   "entered_by": "bm-b r1405 (supply floor refill after E388 close)",
+   "id": "E390-WHICH-IN-REPO-READER-ASKS-FOR-A-FIELD-ON-THE-WRONG-SIDE-OF-THE-WALL",
+   "lane": "cpu-only",
+   "note": "r1405: E388 named the fields each break wall drops and the waves on the wrong side, and published that no field ever comes back. The reader-side question is now answerable without guessing: for each in-repo .py site that names drops a family field by literal string against a wave directory, test whether the wave it opens is after that field last sighting -- such a read returns None (or KeyError inside the dict blocks) and no error arrives at the caller. Publish the site list with source:line, the wave it would open, the field it asks for and the verdict, and separate the sites that read a per-wave file from those that glob the family (a glob reader cannot know which wave it landed on). Static only, zero network; do not rewrite any published face.",
    "status": "ready"
   }
  ],
@@ -27026,6 +27039,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-03T11:56:00+08:00",
+ "updated_at": "2026-11-03T12:14:25",
  "version": 1
 }

@@ -13561,5 +13561,109 @@ check(_name386, not _bad386, "; ".join(_bad386)[:220]
             (_s386.get("readers_by_class") or {}).get("file_name_list", 0),
             str((_f386 or {}).get("verdict"))[:80]))
 
+# E388: are the trial-labor schema walls accretion or breaks?  This leg refuses the shapes that
+# would let the answer be asserted instead of measured: a verdict outside the frozen vocabulary, a
+# wall whose size delta disagrees with its own added/removed lists, an accretion wall that removes
+# something, a break wall that removes nothing, a field row count that disagrees with its basename,
+# a dropped-scalar partition that does not re-add, a "recoverable" scalar whose only support is a
+# value coincidence, and the study's own verify not coming back clean.
+_name388 = "product: the trial-labor schema is a monotone accretion up to a wall, not a slow drift"
+_bad388 = []
+_s388 = {}
+_f388 = None
+try:
+    _p388 = os.path.join("results", "state_tilt", "schemaaccrete_latest.json")
+    _f388 = json.load(open(_p388, encoding="utf-8")) if os.path.exists(_p388) else None
+    if _f388 is None:
+        _bad388.append("no published schema-accretion face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m388 = __import__("importlib").import_module("e388_schema_accretion")
+        _s388 = _f388.get("summary") or {}
+        if _f388.get("verdict") not in _m388.VOCAB:
+            _bad388.append("verdict %r is outside the frozen vocabulary"
+                           % str(_f388.get("verdict"))[:60])
+        _tables388 = _f388.get("basename_table") or []
+        if len(_tables388) != _s388.get("basenames"):
+            _bad388.append("the basename table does not hold one row per basename")
+        if sum(_t388.get("members") or 0 for _t388 in _tables388) != _s388.get("members"):
+            _bad388.append("the member total does not re-add")
+        if sum(len(_t388.get("walls") or []) for _t388 in _tables388) != _s388.get("walls"):
+            _bad388.append("the wall total does not re-add")
+        if sum(1 for _t388 in _tables388 for _w388 in (_t388.get("walls") or [])
+               if _w388.get("kind") == _m388.KIND_BREAK) != _s388.get("break_walls"):
+            _bad388.append("the break-wall count does not re-derive from the rows")
+        if (_s388.get("dropped_numeric_recovered") or 0) + (_s388.get("dropped_numeric_lost") or 0) \
+                != _s388.get("dropped_numeric"):
+            _bad388.append("the dropped-scalar classes do not partition the dropped scalars")
+        for _t388 in _tables388:
+            if len(_t388.get("field_rows") or []) != _t388.get("fields"):
+                _bad388.append("the field rows do not hold one row per field: %s"
+                               % _t388.get("basename"))
+                break
+            if (_t388.get("accretion_walls") or 0) + (_t388.get("break_walls") or 0) \
+                    != len(_t388.get("walls") or []):
+                _bad388.append("the wall classes do not partition the walls: %s"
+                               % _t388.get("basename"))
+                break
+            _broke388 = False
+            for _w388 in _t388.get("walls") or []:
+                _d388 = (_w388.get("fields_to") or 0) - (_w388.get("fields_from") or 0)
+                _lists388 = len(_w388.get("added") or []) - len(_w388.get("removed") or [])
+                if _d388 != _lists388:
+                    _bad388.append("a wall's size delta disagrees with its own lists: %s"
+                                   % _t388.get("basename"))
+                    _broke388 = True
+                    break
+                if _w388.get("kind") == _m388.KIND_ACCRETION and _w388.get("removed"):
+                    _bad388.append("an accretion wall carries a removed field: %s"
+                                   % _t388.get("basename"))
+                    _broke388 = True
+                    break
+                if _w388.get("kind") == _m388.KIND_BREAK and not _w388.get("removed"):
+                    _bad388.append("a break wall removes nothing: %s" % _t388.get("basename"))
+                    _broke388 = True
+                    break
+            if _broke388:
+                break
+            for _x388 in _t388.get("scalar_fate") or []:
+                if _x388.get("kind") != "numeric":
+                    continue
+                if bool(_x388.get("counterparts")) != bool(_x388.get("recoverable")):
+                    _bad388.append("a scalar's recoverable flag disagrees with its counterparts")
+                    break
+                _tok388 = _m388._tokens(_x388.get("field"))
+                for _c388 in _x388.get("counterparts") or []:
+                    if not (_tok388 & _m388._tokens(_c388)):
+                        _bad388.append("a scalar is called recovered on a value match alone: %s"
+                                       % _x388.get("field"))
+                        break
+        if sum(1 for _t388 in _tables388 for _x388 in (_t388.get("scalar_fate") or [])
+               if _x388.get("kind") == "numeric" and not _x388.get("recoverable")) \
+                != _s388.get("dropped_numeric_lost"):
+            _bad388.append("the lost-scalar count does not re-add from the rows")
+        if _s388.get("fields_re_added_after_removal"):
+            _bad388.append("a field is claimed to come back after a removal")
+        if _f388.get("verdict") != _m388.decide(_s388):
+            _bad388.append("the verdict does not re-derive from the summary")
+        if _m388.verify() != 0:
+            _bad388.append("the study's own verify does not come back clean")
+        _name388 = ("product: %d walls over %d members, %d of them break walls dropping %d fields, "
+                    "%d dropped scalar(s) lost"
+                    % (_s388.get("walls") or 0, _s388.get("members") or 0,
+                       _s388.get("break_walls") or 0,
+                       sum(len(_w388.get("removed") or []) for _t388 in _tables388
+                           for _w388 in (_t388.get("walls") or [])
+                           if _w388.get("kind") == _m388.KIND_BREAK),
+                       _s388.get("dropped_numeric_lost") or 0))
+except Exception as _e388:
+    _bad388.append(repr(_e388)[:160])
+check(_name388, not _bad388, "; ".join(_bad388)[:220]
+      or "%d accretion walls, %d break walls, %d type flips, %d dict vocabularies replaced; verdict %s"
+         % (_s388.get("accretion_walls") or 0, _s388.get("break_walls") or 0,
+            _s388.get("fields_with_type_flip") or 0,
+            _s388.get("fields_replaced_inside_a_dict") or 0,
+            str((_f388 or {}).get("verdict"))[:80]))
+
 if __name__ == "__main__":
     sys.exit(main())

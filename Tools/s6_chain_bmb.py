@@ -1240,6 +1240,12 @@ LEGS = [
     # moved (republish) or the face never reproduced (seam). Verify re-derives the frozen verdict
     # set and the tally from the published face (~0 s, no corpus scan, no disk walk).
     ("republish_audit", ["python", "scripts/e387_republish_audit.py", "verify"]),
+    # E388: E386 published that the two merged trial-labor basenames hold 31 key sets but not
+    # which failure that is. Measured per consecutive wave: 26 walls only add fields and 3 remove
+    # them (16 and 18 at w16->w17, one at w19->w21), 0 fields are ever re-added, and 2 of the 4
+    # dropped numerics are gone (n_survivors 40, n_distinct 173) while 2 survive under another
+    # name. Verify re-reads the family and re-derives every published count (~0.3 s).
+    ("schema_accretion", ["python", "scripts/e388_schema_accretion.py", "verify"]),
 ]
 
 
