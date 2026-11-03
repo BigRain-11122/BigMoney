@@ -14100,5 +14100,160 @@ except Exception as _e395:
 check(_name395, not _bad395, "; ".join(_bad395)[:220]
       or "verdict %s" % str((_f395 or {}).get("verdict"))[:80])
 
+# E396: the one same-document pair E395 published, priced on three named explanations, plus the
+# substring test that produced it re-run as an exact test.  This leg refuses an answer that is
+# asserted instead of measured -- a published collision that is not a proper suffix of the longer
+# basename it names, a dump target whose class does not re-derive from the same classifier, a pair
+# published as moved that still holds or that dropped a producer for a reason other than the
+# suffix, counters that do not re-add, or a study whose own verify does not come back clean.
+_name396 = ("product: the one same-document pair is a proper-suffix match, and re-running the "
+            "claim as an exact test moves every pair it was made about")
+_bad396 = []
+_f396 = None
+try:
+    _p396 = os.path.join("results", "state_tilt", "lasttick_latest.json")
+    _f396 = json.load(open(_p396, encoding="utf-8")) if os.path.exists(_p396) else None
+    if _f396 is None:
+        _bad396.append("no published last-tick face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m396 = __import__("importlib").import_module("e396_last_tick")
+        _g396 = _f396.get("generalisation") or {}
+        _moved396 = _g396.get("pairs_that_move") or []
+        _held396 = _g396.get("pairs_that_still_hold_under_an_exact_test") or []
+        _coll396 = _g396.get("suffix_collisions") or []
+        _pair396 = _f396.get("pair") or {}
+        _tgt396 = _f396.get("explanation_b_dump_target") or {}
+        for _c396 in _coll396:
+            _small = _c396.get("basename") or ""
+            _long = _c396.get("is_a_proper_suffix_of") or ""
+            if not _small or _small == _long or not _long.endswith(_small):
+                _bad396.append("a published collision is not a proper-suffix pair")
+                break
+            _owners396 = [os.path.basename(_f) for _f in (_c396.get("faces") or [])]
+            if _small not in _owners396:
+                _bad396.append("the short basename is not carried by any face it names")
+                break
+            _longer396 = [os.path.basename(_f) for _f in (_c396.get("faces_with_the_longer_basename") or [])]
+            if not _longer396 or any(_b != _long for _b in _longer396):
+                _bad396.append("the longer basename is not the one the longer faces carry")
+                break
+        for _t396 in _tgt396.get("targets") or []:
+            if _m396.classify_target(_t396.get("target") or "",
+                                     _pair396.get("face") or _m396.FACE_PATH) != _t396.get("class"):
+                _bad396.append("a dump target's class does not re-derive from the classifier")
+                break
+        for _r396 in _moved396:
+            if _r396.get("holds"):
+                _bad396.append("a pair published as moved still holds")
+                break
+            if _r396.get("kept"):
+                _bad396.append("a moved pair kept a producer it should have dropped")
+                break
+            if any(_m396.T_SUFFIX_ONLY not in (_d.get("target_classes") or [])
+                   for _d in (_r396.get("dropped") or [])):
+                _bad396.append("a moved pair dropped a producer for a reason other than the suffix")
+                break
+        if _g396.get("same_document_pairs") != len(_moved396) + len(_held396):
+            _bad396.append("the same-document pairs do not re-add")
+        _v396 = _f396.get("verdict") or {}
+        if _v396.get("same_document_pairs_that_move") != len(_moved396):
+            _bad396.append("the verdict's moved count does not re-derive")
+        if _v396.get("suffix_only_targets_published") != len(_tgt396.get("suffix_only_targets") or []):
+            _bad396.append("the verdict's suffix-only count does not re-derive")
+        if not _bad396 and _m396.verify() != []:
+            _bad396.append("the study's own verify does not come back clean")
+        _name396 = ("product: %d same-document pair(s) over %d face(s) split %d moved / %d held "
+                    "under an exact test, %d suffix collision(s); verdict %s"
+                    % (_g396.get("same_document_pairs") or 0, _g396.get("faces_in_population") or 0,
+                       len(_moved396), len(_held396), len(_coll396),
+                       str(_v396.get("name"))[:80]))
+except Exception as _e396:
+    _bad396.append(repr(_e396)[:160])
+check(_name396, not _bad396, "; ".join(_bad396)[:220]
+      or "verdict %s" % str((_f396 or {}).get("verdict"))[:80])
+
+# E396 sibling: the same pair re-resolved with a path-segment matcher instead of a substring, A/B
+# over E395's own walk, plus a tree-wide basename census.  This leg re-derives the A/B result from
+# the published rows -- the two arms must cover the same population, each arm's verdict counts must
+# re-add, every moved pair must lose its same-document claim, the witness' dump calls must classify
+# from their own published literals (an unknown literal shape fails closed), and the history bound
+# must be published as a window rather than as a history.
+_name396b = ("product: the same document pair is re-resolved by path segments, and the tree-wide "
+             "basename exposure is published as a census rather than as one anecdote")
+_bad396b = []
+_f396b = None
+try:
+    _p396b = os.path.join("results", "state_tilt", "facenamesuffix_latest.json")
+    _f396b = json.load(open(_p396b, encoding="utf-8")) if os.path.exists(_p396b) else None
+    if _f396b is None:
+        _bad396b.append("no published basename-suffix face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m396b = __import__("importlib").import_module("e396_face_basename_suffix")
+        _me396b = _f396b.get("measure") or {}
+        _ab396b = _me396b.get("ab_rerun") or {}
+        if not _ab396b.get("population_identical"):
+            _bad396b.append("the two matchers do not cover the same population")
+        _nsub396b = _ab396b.get("pairs_basename_substring") or 0
+        _nseg396b = _ab396b.get("pairs_path_segments") or 0
+        if _nsub396b != _nseg396b:
+            _bad396b.append("the two arms do not publish the same pair count")
+        _sub396b = _ab396b.get("pairs_by_verdict_basename_substring") or {}
+        _seg396b = _ab396b.get("pairs_by_verdict_path_segments") or {}
+        if sum(_sub396b.values()) != _nsub396b or sum(_seg396b.values()) != _nseg396b:
+            _bad396b.append("an arm's verdict counts do not re-add to its pair count")
+        _moved396b = _ab396b.get("pairs_moved") or []
+        for _r396b in _moved396b:
+            _pair2 = _r396b.get("unconditional_same_doc") or []
+            if len(_pair2) != 2 or not _pair2[0] or _pair2[1]:
+                _bad396b.append("a moved pair does not go from a same-document claim to none")
+                break
+        if [v for k, v in _seg396b.items() if k.endswith("this_very_face") and v]:
+            _bad396b.append("the path-segment arm still claims a same-document write")
+        _w396b = _me396b.get("witness_static") or {}
+        if _w396b.get("mentions_the_face_path"):
+            _bad396b.append("the witness producer names the face path it was credited with")
+        _face396b = (_me396b.get("witness_history") or {}).get("face") or "logs/iteration-loop/state.json"
+        for _c396b in _w396b.get("dump_calls") or []:
+            _lits = _c396b.get("literals") or []
+            if not _lits:
+                _derived = "unresolved"
+            elif len(_lits) == 1 and _lits[0] == _face396b:
+                _derived = "this_face"
+            elif all(("/" in _l or "\\" in _l) for _l in _lits):
+                _derived = "another_file"
+            elif all(os.path.basename(_l) == os.path.basename(_face396b) for _l in _lits):
+                _derived = "basename_only"
+            else:
+                _derived = "unclassified"
+            if _derived == "unclassified":
+                _bad396b.append("a published dump call carries a literal shape the leg cannot classify")
+                break
+            if _derived != _c396b.get("class_for_witness"):
+                _bad396b.append("a dump call's class does not re-derive from its own literals")
+                break
+        _h396b = _me396b.get("witness_history") or {}
+        if _h396b.get("revisions_carrying_the_key"):
+            _bad396b.append("the history arm claims the key was carried where it says none was")
+        if _h396b.get("capped") and _h396b.get("revisions_inspected") != _h396b.get("cap"):
+            _bad396b.append("the history probe declares a cap and does not publish it as reached")
+        _cen396b = _me396b.get("basename_census") or {}
+        if _cen396b.get("faces") != (_cen396b.get("faces_in_results") or 0) + (
+                _cen396b.get("faces_outside_results") or 0):
+            _bad396b.append("the census does not re-add its two directories")
+        if (_cen396b.get("distinct_short_basenames_involved") or 0) > (_cen396b.get("basename_suffix_pairs") or 0):
+            _bad396b.append("more short basenames than suffix pairs")
+        if not _bad396b and _m396b.verify() != []:
+            _bad396b.append("the sibling study's own verify does not come back clean")
+        _name396b = ("product: %d pairs re-resolved by path segments (%d moved, same population), "
+                     "%d basename-suffix pair(s) over %d face(s) / %d short basename(s)"
+                     % (_nseg396b, len(_moved396b), _cen396b.get("basename_suffix_pairs") or 0,
+                        _cen396b.get("faces") or 0, _cen396b.get("distinct_short_basenames_involved") or 0))
+except Exception as _e396b:
+    _bad396b.append(repr(_e396b)[:160])
+check(_name396b, not _bad396b, "; ".join(_bad396b)[:220]
+      or "verdict %s" % str((_f396b or {}).get("verdict"))[:80])
+
 if __name__ == "__main__":
     sys.exit(main())

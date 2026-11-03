@@ -1291,6 +1291,22 @@ LEGS = [
     # inside a callable, 8 mixed, and 1 writes this very face unconditionally. Verify re-derives
     # every pair verdict from the published producer rows (~0 s, no corpus walk).
     ("conditional_write", ["python", "scripts/e395_conditional_write.py", "verify"]),
+
+    # E396 prices the single same-document pair E395 published instead of believing it: the dump
+    # target is published as a literal string (results/autofill_state.json), the face's own history
+    # is read over exactly that path, and the read site is quoted.  The claim existed because the
+    # dump test was `face_basename in value` -- a substring test -- and `state.json` is a proper
+    # suffix of `autofill_state.json`, so E395's one "writes this very face" pair re-derives to
+    # zero under an exact-basename test.  Verify re-derives each dump-target class and each moved
+    # pair from the published rows (a few s, one history walk).
+    ("last_tick", ["python", "scripts/e396_last_tick.py", "verify"]),
+
+    # E396's sibling re-resolves the same pair with a path-segment matcher and A/Bs E395's own walk
+    # (identical population, 39 pairs both arms, exactly 1 pair moves and loses its same-document
+    # claim), then publishes the tree-wide basename exposure as a census instead of one anecdote:
+    # 18,342 faces, 2,253 basename-suffix pairs, 133 distinct short basenames.  Verify re-derives
+    # the witness' dump classes and the A/B arithmetic from the published rows.
+    ("face_basename_suffix", ["python", "scripts/e396_face_basename_suffix.py", "verify"]),
 ]
 
 

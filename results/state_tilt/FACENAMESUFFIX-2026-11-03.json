@@ -1,0 +1,1882 @@
+{
+ "study": "E396_face_basename_suffix",
+ "script": "scripts/e396_face_basename_suffix.py",
+ "generated": "2026-11-03T20:46:52+08:00",
+ "evidence_cutoff": "2026-11-03",
+ "dept": "research+engineering",
+ "method": "the same population, producer index and path classification as E395, with its substring face matcher replaced by a path-segment matcher; the A/B is produced by re-running E395's measure() with the matcher patched, never by editing its published rows",
+ "refusals": [
+  "a basename collision is published as exposure, not as a proven misread of a published number that was not re-derived here",
+  "basename_only is its own class: a call that names the right filename in the wrong directory cannot confirm the face and is not evidence of another document",
+  "unresolved is not another_file: the path may be assembled from variables",
+  "the history probe is capped at 40 revisions and the cap is published",
+  "the study excludes its own source, face, mirror and smoke leg",
+  "a key that is absent from every inspected revision is reported as absent, not as a schema regression",
+  "each arm of the A/B runs in its own interpreter: the corpus holds an 8.9 MB generated source, and running both arms in one process made the second arm die in ast.parse with MemoryError, which is a property of the runner and not of the matcher being compared"
+ ],
+ "verify_covers": [
+  "A/B pair counts re-added from the two verdict tables",
+  "every moved pair re-derived from the two published verdict strings",
+  "the census pair count re-added from the published sample plus its own total"
+ ],
+ "verify_does_not_cover": [
+  "the AST re-parse of each producer (verify reads the published tables)",
+  "whether any other published study consumed a face by basename"
+ ],
+ "measure": {
+  "ab_rerun": {
+   "population_identical": true,
+   "pairs_basename_substring": 39,
+   "pairs_path_segments": 39,
+   "pairs_only_in_basename_run": [],
+   "pairs_only_in_segment_run": [],
+   "pairs_moved": [
+    {
+     "face": "logs/iteration-loop/state.json",
+     "key": "last_tick",
+     "verdict_basename_substring": "producer_writes_the_key_unconditionally_into_this_very_face",
+     "verdict_path_segments": "producer_writes_the_key_unconditionally_but_into_another_document_so_it_is_not_this_faces_writer",
+     "unconditional_same_doc": [
+      1,
+      0
+     ]
+    }
+   ],
+   "pairs_by_verdict_basename_substring": {
+    "every_write_site_is_inside_a_callable_and_no_module_level_write_exists": 5,
+    "every_write_site_is_on_a_branch": 6,
+    "producer_writes_the_key_unconditionally_but_into_another_document_so_it_is_not_this_faces_writer": 19,
+    "producer_writes_the_key_unconditionally_into_this_very_face": 1,
+    "write_sites_disagree_some_branch_some_callable": 8
+   },
+   "pairs_by_verdict_path_segments": {
+    "every_write_site_is_inside_a_callable_and_no_module_level_write_exists": 5,
+    "every_write_site_is_on_a_branch": 6,
+    "producer_writes_the_key_unconditionally_but_into_another_document_so_it_is_not_this_faces_writer": 20,
+    "write_sites_disagree_some_branch_some_callable": 8
+   },
+   "reads_by_verdict_path_segments": {
+    "every_write_site_is_inside_a_callable_and_no_module_level_write_exists": 5,
+    "every_write_site_is_on_a_branch": 16,
+    "producer_writes_the_key_unconditionally_but_into_another_document_so_it_is_not_this_faces_writer": 64,
+    "write_sites_disagree_some_branch_some_callable": 46
+   },
+   "witness_class_in_segment_run": {
+    "found": true,
+    "verdict": "producer_writes_the_key_unconditionally_but_into_another_document_so_it_is_not_this_faces_writer",
+    "producers": [
+     {
+      "producer": "Tools/_r200_af_union.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "Tools/_r201_af_union.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "Tools/_r201_wrap.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "Tools/autofill.py",
+      "path_class": "mixed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "direct_to_another_file",
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "Tools/resolve_af_conflict_r210.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "Tools/s6_chain_bmb.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "_r1085bmb_closeout.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "_r1313bmb_closeout.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "_r1313bmb_deliv.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "_r1313bmb_stateclock.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "_tmp_r1282_amend.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "_tmp_r1282_close.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "_tmp_r1282_eol.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "_tmp_r1282_receipt.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "monitor/build_status.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r1015bmb_uu_pick.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r1024bma_rollback_side/Tools__autofill.py",
+      "path_class": "mixed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "direct_to_another_file",
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r1049_orddiff.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r1049bmb_handover.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r1049bmb_pushreceipt.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r1086bmb_closeout.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r1086bmb_postscript.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r109bmc_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "assigned_and_never_dumped"
+      ]
+     },
+     {
+      "producer": "results/_r128bmc_resolve_storm.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r208_resolver.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r210_resolver.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r212_resolver.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r216_rebase_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r218_rebase_resolve.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r218b_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r219_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r220_rebase_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r221_af_union.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r222_bma_rebase_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r223_bma_rebase_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r224_bma_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r224_closeout.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r225_bma_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r225_closeout.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r225_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r226_af_union.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r226_bma_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "assigned_and_never_dumped"
+      ]
+     },
+     {
+      "producer": "results/_r227_bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r230_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r231_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r231b_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r231c_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "assigned_and_never_dumped"
+      ]
+     },
+     {
+      "producer": "results/_r231f_s7.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r234bmb_af_resolver.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump",
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r235_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r235bmb_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "assigned_and_never_dumped"
+      ]
+     },
+     {
+      "producer": "results/_r236_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r237a_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r238_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r239_bookkeeping.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r239_resolve_mega.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r239bmb_resolve2.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r242_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r242bmb_replay_resolver.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "assigned_and_never_dumped"
+      ]
+     },
+     {
+      "producer": "results/_r243_bookkeeping.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r243_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r243bmb_replay_resolver.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r244bmb_af_resolver.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump",
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r245bmb_replay_resolver.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r250_state_heartbeat.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r251bmb_close.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r252bmb_close.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r254bmb_replay_resolver.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r262bmb_close.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r262bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r262bmb_resolve_wave2.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r263bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r263bmb_resolve2.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r264bmb_close.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r264bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r266bmb_close.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r267bmb_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r269bmb_closeout.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r270bmb_state_update.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r272bmb_close.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r275bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r275bmb_state_hb.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r276bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r276bmb_resolve2.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r276bmb_writeback.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r277bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r277bmb_resolve2.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r277bmb_state_hb.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r279bmb_closing.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r279bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r280bmb_closing.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r280bmb_resolve2.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r281bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r283bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r283bmb_wrap.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r284bmb_wrap.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r285bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r285bmb_wrap.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r286bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r286bmb_wrap.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r287bmb_wrap.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r289bmb_closeout.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r289bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r290bmb_closeout.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r292bmb_closeout.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r292bmb_resolve2.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r293bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r295bmb_s0uu_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r296bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r298bmb_autofill_union.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r298bmb_resolve5.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "direct_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r299bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "direct_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r301bmb_resolve2.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r302bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r306bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r306bmb_resolve2.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r307bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r311_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r313bmb_wrap.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "assigned_and_never_dumped"
+      ]
+     },
+     {
+      "producer": "results/_r314bmb_s0_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r315bmb_s0_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r320bmb_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r324bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r325bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r328bmb_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "direct_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r330bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r331bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r332bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r333bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r334bmb_resolve_autofill.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r335bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r336bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r337bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r337bmb_resolve2.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r339bmb_resolve2.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r344bmb_fold_drive.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r344bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r345bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r351bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r351bmb_resolve_wave4.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r353bmb_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "assigned_and_never_dumped"
+      ]
+     },
+     {
+      "producer": "results/_r356bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r356bmb_resolve2.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r357bmb_resolve_autofill.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r360bmb_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r360bmb_resolve_storm.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r467bmb_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r469bmb_resolve.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r623bmb_resolve.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r679bmb_d19_check.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r698bmb_d19_check.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r780bmb_d19_read.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r786bmb_d19_read.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r787bmb_d19_read.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r800bmb_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r803bmb_generic_resolve.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r804bmb_rebase_resolve.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r806bmb_d19_read.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r80bmc_resolve.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r81bmc_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r81bmc_resolve2.py",
+      "path_class": "inside_a_callable",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r83bmc_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r83bmc_resolve2.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r83bmc_resolve3.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r84bmc_governance_append.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r84bmc_probe.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r84bmc_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r85bmc_resolve2.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r860bma_round_close.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r87bmc_resolve.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r87bmc_resolve3.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r88bmc_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r88bmc_resolve2.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r89bmc_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r902bmb_closeout.py",
+      "path_class": "producer_unparsed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": []
+     },
+     {
+      "producer": "results/_r90bmc_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r91bmc_resolve_autofill.py",
+      "path_class": "unconditional_at_module_level",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r92bmc_rebase_resolve.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "direct_to_another_file"
+      ]
+     },
+     {
+      "producer": "results/_r93bmc_rebase_resolver.py",
+      "path_class": "inside_if_try_loop_or_with",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump"
+      ]
+     },
+     {
+      "producer": "results/_r94bmc_resolve_autofill.py",
+      "path_class": "mixed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "not_part_of_a_dump",
+       "via_name_to_another_file"
+      ]
+     },
+     {
+      "producer": "scripts/merge_lane_views.py",
+      "path_class": "mixed",
+      "writes_this_face_unconditionally": false,
+      "dump_contexts": [
+       "assigned_and_never_dumped",
+       "inside_another_literal",
+       "not_part_of_a_dump",
+       "via_name_to_another_file"
+      ]
+     }
+    ]
+   }
+  },
+  "witness_static": {
+   "producer": "results/_r128bmc_resolve_storm.py",
+   "present": true,
+   "parsed": true,
+   "mentions_the_face_path": false,
+   "dump_calls": [
+    {
+     "line": 39,
+     "literals": [
+      "results/autofill_state.json"
+     ],
+     "class_for_witness": "another_file"
+    },
+    {
+     "line": 56,
+     "literals": [
+      "results/compute_audit.json"
+     ],
+     "class_for_witness": "another_file"
+    },
+    {
+     "line": 70,
+     "literals": [
+      "results/regime_state.json"
+     ],
+     "class_for_witness": "another_file"
+    },
+    {
+     "line": 88,
+     "literals": [
+      "results/token_usage.json"
+     ],
+     "class_for_witness": "another_file"
+    },
+    {
+     "line": 14,
+     "literals": [],
+     "class_for_witness": "unresolved"
+    }
+   ],
+   "distinct_documents_dumped": [
+    "results/autofill_state.json",
+    "results/compute_audit.json",
+    "results/regime_state.json",
+    "results/token_usage.json"
+   ]
+  },
+  "witness_history": {
+   "face": "logs/iteration-loop/state.json",
+   "revisions_in_history": 390,
+   "cap": 40,
+   "revisions_inspected": 40,
+   "unreadable": 0,
+   "revisions_carrying_the_key": 0,
+   "never_present_in_inspected_window": true,
+   "keys_in_every_inspected_revision": [
+    "current_task",
+    "did",
+    "last_round_ts",
+    "last_seen",
+    "next",
+    "round_no",
+    "ts",
+    "updated_at",
+    "verdict"
+   ],
+   "capped": true
+  },
+  "basename_census": {
+   "faces": 18342,
+   "faces_in_results": 12751,
+   "faces_outside_results": 5591,
+   "distinct_basenames": 13999,
+   "basename_suffix_pairs": 2253,
+   "distinct_short_basenames_involved": 133,
+   "same_basename_different_directory_groups": 183,
+   "witness": [
+    {
+     "basename": "state.json",
+     "is_suffix_of": "autofill_state.json",
+     "faces_short": [
+      "Money0923/state/state.json",
+      "logs/iteration-loop/state.json",
+      "results/etf_book_order/state.json",
+      "results/etf_book_order_fresh/state.json"
+     ],
+     "faces_long": [
+      "results/autofill_state.json"
+     ]
+    }
+   ],
+   "sample": [
+    {
+     "basename": "d6.json",
+     "is_suffix_of": "4af69dd6.json",
+     "faces_short": [
+      "results/fund_divlowvol_p1/d6.json",
+      "results/fund_divlowvol_p2/d6.json",
+      "results/fund_quality_p1/d6.json",
+      "results/fund_value_p1/d6.json"
+     ],
+     "faces_long": [
+      "results/4af69dd6.json"
+     ]
+    },
+    {
+     "basename": "d6.json",
+     "is_suffix_of": "589af0d6.json",
+     "faces_short": [
+      "results/fund_divlowvol_p1/d6.json",
+      "results/fund_divlowvol_p2/d6.json",
+      "results/fund_quality_p1/d6.json",
+      "results/fund_value_p1/d6.json"
+     ],
+     "faces_long": [
+      "results/589af0d6.json"
+     ]
+    },
+    {
+     "basename": "d6.json",
+     "is_suffix_of": "df7795d6.json",
+     "faces_short": [
+      "results/fund_divlowvol_p1/d6.json",
+      "results/fund_divlowvol_p2/d6.json",
+      "results/fund_quality_p1/d6.json",
+      "results/fund_value_p1/d6.json"
+     ],
+     "faces_long": [
+      "results/df7795d6.json"
+     ]
+    },
+    {
+     "basename": "bm-a.json",
+     "is_suffix_of": "COMPOSITE-CE-01.bm-a.json",
+     "faces_short": [
+      "fleet/machines/bm-a.json"
+     ],
+     "faces_long": [
+      "results/pool_claims/PERPETUAL-N3-R1-COMPOSITE-CE-01/COMPOSITE-CE-01.bm-a.json"
+     ]
+    },
+    {
+     "basename": "bm-a.json",
+     "is_suffix_of": "COMPOSITE-CE-02.bm-a.json",
+     "faces_short": [
+      "fleet/machines/bm-a.json"
+     ],
+     "faces_long": [
+      "results/pool_claims/PERPETUAL-N3-R1-COMPOSITE-CE-02/COMPOSITE-CE-02.bm-a.json"
+     ]
+    },
+    {
+     "basename": "bm-a.json",
+     "is_suffix_of": "DROUGHT-CE-01.bm-a.json",
+     "faces_short": [
+      "fleet/machines/bm-a.json"
+     ],
+     "faces_long": [
+      "results/pool_claims/PERPETUAL-N3-R1-DROUGHT-CE-01/DROUGHT-CE-01.bm-a.json"
+     ]
+    },
+    {
+     "basename": "bm-a.json",
+     "is_suffix_of": "ENGULF-CE-01.bm-a.json",
+     "faces_short": [
+      "fleet/machines/bm-a.json"
+     ],
+     "faces_long": [
+      "results/pool_claims/PERPETUAL-N3-R1-ENGULF-CE-01/ENGULF-CE-01.bm-a.json"
+     ]
+    },
+    {
+     "basename": "bm-a.json",
+     "is_suffix_of": "MSG-20260925-0110-claim-T39-bm-a.json",
+     "faces_short": [
+      "fleet/machines/bm-a.json"
+     ],
+     "faces_long": [
+      "fleet/inbox/processed/MSG-20260925-0110-claim-T39-bm-a.json"
+     ]
+    },
+    {
+     "basename": "bm-a.json",
+     "is_suffix_of": "MSG-20260927-0035-bm-a.json",
+     "faces_short": [
+      "fleet/machines/bm-a.json"
+     ],
+     "faces_long": [
+      "fleet/inbox/processed/MSG-20260927-0035-bm-a.json"
+     ]
+    },
+    {
+     "basename": "bm-a.json",
+     "is_suffix_of": "MSG-20260927-0230-bm-a.json",
+     "faces_short": [
+      "fleet/machines/bm-a.json"
+     ],
+     "faces_long": [
+      "fleet/inbox/processed/MSG-20260927-0230-bm-a.json"
+     ]
+    },
+    {
+     "basename": "bm-a.json",
+     "is_suffix_of": "MSG-20260927-0750-bm-a.json",
+     "faces_short": [
+      "fleet/machines/bm-a.json"
+     ],
+     "faces_long": [
+      "fleet/inbox/processed/MSG-20260927-0750-bm-a.json"
+     ]
+    },
+    {
+     "basename": "bm-a.json",
+     "is_suffix_of": "MSG-20260927-0805-bm-a.json",
+     "faces_short": [
+      "fleet/machines/bm-a.json"
+     ],
+     "faces_long": [
+      "fleet/inbox/processed/MSG-20260927-0805-bm-a.json"
+     ]
+    },
+    {
+     "basename": "bm-a.json",
+     "is_suffix_of": "NEEDLE-DE-01.bm-a.json",
+     "faces_short": [
+      "fleet/machines/bm-a.json"
+     ],
+     "faces_long": [
+      "results/pool_claims/PERPETUAL-N3-R1-NEEDLE-DE-01/NEEDLE-DE-01.bm-a.json",
+      "results/pool_claims/PERPETUAL-N3-R2-NEEDLE-DE-01/NEEDLE-DE-01.bm-a.json"
+     ]
+    },
+    {
+     "basename": "bm-a.json",
+     "is_suffix_of": "VOLATILITY-CE-01.bm-a.json",
+     "faces_short": [
+      "fleet/machines/bm-a.json"
+     ],
+     "faces_long": [
+      "results/pool_claims/PERPETUAL-N3-R1-VOLATILITY-CE-01/VOLATILITY-CE-01.bm-a.json",
+      "results/pool_claims/PERPETUAL-N3-R2-VOLATILITY-CE-01/VOLATILITY-CE-01.bm-a.json"
+     ]
+    },
+    {
+     "basename": "bm-a.json",
+     "is_suffix_of": "_orphan_face_probe.bm-a.json",
+     "faces_short": [
+      "fleet/machines/bm-a.json"
+     ],
+     "faces_long": [
+      "results/_orphan_face_probe.bm-a.json"
+     ]
+    }
+   ],
+   "same_basename_sample": [
+    {
+     "basename": "manifest.json",
+     "count": 2,
+     "faces": [
+      "Money0923/MoneyViz/Packages/manifest.json",
+      "content/drama/voice_bank/manifest.json"
+     ]
+    },
+    {
+     "basename": "state.json",
+     "count": 6,
+     "faces": [
+      "Money0923/state/state.json",
+      "logs/iteration-loop/state.json",
+      "results/etf_book_order/state.json",
+      "results/etf_book_order_fresh/state.json",
+      "results/etf_composite_live/state.json",
+      "state.json"
+     ]
+    },
+    {
+     "basename": "_progress.json",
+     "count": 5,
+     "faces": [
+      "data/ah_panel/_progress.json",
+      "data/astock_daily/_progress.json",
+      "data/fund_statement_export/_progress.json",
+      "data/sina_mf/_progress.json",
+      "data/ths_ggzjl/_progress.json"
+     ]
+    },
+    {
+     "basename": "status.json",
+     "count": 2,
+     "faces": [
+      "data/fund_statement_export/status.json",
+      "data/ths_ggzjl/status.json"
+     ]
+    },
+    {
+     "basename": "latest.json",
+     "count": 28,
+     "faces": [
+      "docs/live_book/latest.json",
+      "results/alphagen_rg/latest.json",
+      "results/div_event_census/latest.json",
+      "results/divex_harvest/latest.json",
+      "results/divlowvol_live/latest.json",
+      "results/divlowvol_nulls/latest.json"
+     ]
+    },
+    {
+     "basename": "LIVE-2026-10-23.json",
+     "count": 2,
+     "faces": [
+      "docs/live_usage/LIVE-2026-10-23.json",
+      "results/etf_composite_live/LIVE-2026-10-23.json"
+     ]
+    },
+    {
+     "basename": "COMPOSITE-CE-01.json",
+     "count": 5,
+     "faces": [
+      "firm/traders/COMPOSITE-CE-01.json",
+      "results/g25/COMPOSITE-CE-01.json",
+      "results/perpetual_faces/n3_r1/COMPOSITE-CE-01.json",
+      "results/perpetual_faces/n3_r2/COMPOSITE-CE-01.json",
+      "results/t56_caliber_registry/firm/traders/COMPOSITE-CE-01.json"
+     ]
+    },
+    {
+     "basename": "COMPOSITE-CE-02.json",
+     "count": 5,
+     "faces": [
+      "firm/traders/COMPOSITE-CE-02.json",
+      "results/g25/COMPOSITE-CE-02.json",
+      "results/perpetual_faces/n3_r1/COMPOSITE-CE-02.json",
+      "results/perpetual_faces/n3_r2/COMPOSITE-CE-02.json",
+      "results/t56_caliber_registry/firm/traders/COMPOSITE-CE-02.json"
+     ]
+    },
+    {
+     "basename": "DROUGHT-CE-01.json",
+     "count": 5,
+     "faces": [
+      "firm/traders/DROUGHT-CE-01.json",
+      "results/g25/DROUGHT-CE-01.json",
+      "results/perpetual_faces/n3_r1/DROUGHT-CE-01.json",
+      "results/perpetual_faces/n3_r2/DROUGHT-CE-01.json",
+      "results/t56_caliber_registry/firm/traders/DROUGHT-CE-01.json"
+     ]
+    },
+    {
+     "basename": "ENGULF-CE-01.json",
+     "count": 5,
+     "faces": [
+      "firm/traders/ENGULF-CE-01.json",
+      "results/g25/ENGULF-CE-01.json",
+      "results/perpetual_faces/n3_r1/ENGULF-CE-01.json",
+      "results/perpetual_faces/n3_r2/ENGULF-CE-01.json",
+      "results/t56_caliber_registry/firm/traders/ENGULF-CE-01.json"
+     ]
+    },
+    {
+     "basename": "NEEDLE-DE-01.json",
+     "count": 5,
+     "faces": [
+      "firm/traders/NEEDLE-DE-01.json",
+      "results/g25/NEEDLE-DE-01.json",
+      "results/perpetual_faces/n3_r1/NEEDLE-DE-01.json",
+      "results/perpetual_faces/n3_r2/NEEDLE-DE-01.json",
+      "results/t56_caliber_registry/firm/traders/NEEDLE-DE-01.json"
+     ]
+    },
+    {
+     "basename": "PROS-ANTS-01.json",
+     "count": 5,
+     "faces": [
+      "firm/traders/PROS-ANTS-01.json",
+      "results/prospect_g2/PROS-ANTS-01.json",
+      "results/prospect_paper/PROS-ANTS-01.json",
+      "results/prospect_promotion/PROS-ANTS-01.json",
+      "results/t56_caliber_registry/firm/traders/PROS-ANTS-01.json"
+     ]
+    },
+    {
+     "basename": "PROS-ANTS-CE-01.json",
+     "count": 5,
+     "faces": [
+      "firm/traders/PROS-ANTS-CE-01.json",
+      "results/prospect_g2/PROS-ANTS-CE-01.json",
+      "results/prospect_paper/PROS-ANTS-CE-01.json",
+      "results/prospect_promotion/PROS-ANTS-CE-01.json",
+      "results/t56_caliber_registry/firm/traders/PROS-ANTS-CE-01.json"
+     ]
+    },
+    {
+     "basename": "PROS-BBS-01.json",
+     "count": 5,
+     "faces": [
+      "firm/traders/PROS-BBS-01.json",
+      "results/prospect_g2/PROS-BBS-01.json",
+      "results/prospect_paper/PROS-BBS-01.json",
+      "results/prospect_promotion/PROS-BBS-01.json",
+      "results/t56_caliber_registry/firm/traders/PROS-BBS-01.json"
+     ]
+    },
+    {
+     "basename": "PROS-BBS-CE-01.json",
+     "count": 5,
+     "faces": [
+      "firm/traders/PROS-BBS-CE-01.json",
+      "results/prospect_g2/PROS-BBS-CE-01.json",
+      "results/prospect_paper/PROS-BBS-CE-01.json",
+      "results/prospect_promotion/PROS-BBS-CE-01.json",
+      "results/t56_caliber_registry/firm/traders/PROS-BBS-CE-01.json"
+     ]
+    }
+   ]
+  }
+ },
+ "verdict": "the_one_unconditional_same_document_pair_is_a_basename_substring_artifact_so_all_20_unconditional_pairs_write_another_document"
+}

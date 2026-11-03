@@ -8859,3 +8859,60 @@ promises, counted apart.
 Wiring: `scripts/e395_conditional_write.py` (run / verify problems=[] / selftest 20/20); smoke leg
 E395 (1/1, exec'd verbatim by `scripts/run_e395_smoke_leg.py`); S6 leg `conditional_write`; face
 `results/state_tilt/CONDITIONALWRITE-2026-11-03.json`.
+
+### E396 -- the one same-document pair is a suffix match, not a path match (r1413 bm-b)
+
+E395 published 39 (key, face) pairs and set exactly one apart: a producer that writes the key
+*unconditionally into this very face* -- `logs/iteration-loop/state.json` / `last_tick`, set at
+module level in `results/_r128bmc_resolve_storm.py:37`. E395 was careful to call it an anomaly and
+left three explanations a reader can tell apart. E396 prices all three.
+
+| reading | result |
+|---|---|
+| (a) schema regression | the path's own history is available (14 revisions sampled, 14 readable); 0 carry the key; key-set difference across the boundary is empty (0 only_before / 0 only_after) |
+| (b) dump target, published as a literal string | `results/autofill_state.json` -- the face basename `state.json` is a proper **suffix** of it |
+| (c) read site | `Tools/_r201_wrap.py:67` reads it as a **fallback** behind an `af` first choice, and does not name this face |
+
+The claim existed because the dump test was `face_basename in value` over the dump's target string --
+a substring test. Over E395's own 22-face population there is exactly one such collision
+(`state.json` ⊂ `autofill_state.json`); re-running every same-document claim as an exact-basename
+test leaves 0 of 1 standing. A sibling study (`scripts/e396_face_basename_suffix.py`) re-resolves the
+same pair with a path-segment matcher, A/Bs E395's own walk (identical population, 39 pairs in both
+arms, exactly 1 pair moves; under the segment arm 0 pairs claim a same-document write, so all 20
+unconditional pairs write another document), and publishes what each dump call becomes
+(`this_face` / `basename_only` / `another_file` / `unresolved`). The witness producer dumps four
+documents (`autofill_state`, `compute_audit`, `regime_state`, `token_usage`) and never names the face
+it was credited with. Tree-wide exposure: 18,342 faces / 13,999 distinct basenames / **2,253
+basename-suffix pairs** across 133 distinct short basenames and 183 same-basename-different-directory
+groups -- published as exposure, not as 2,253 proven misreads.
+
+Lessons:
+
+(1) **A substring test on a basename credits the wrong face, and the wrong reading is the alarming
+one.** "This face should store the key and does not" is a defect claim; the truth is that the writer
+never opened that document. The repair is exact-basename (or path) equality -- and the cost of not
+fixing it is a same-document claim no reader can reproduce. The same substring idiom is available to
+2,253 face pairs in this tree, so the defect class is not rare; what is rare is a study that goes
+looking for it.
+
+(2) **One pair is not a class, and the class size decides whether the classifier gets edited.** Here
+the blast radius is one, so E395's classifier is left unedited and the defect is published where it
+can be measured. Editing it on the evidence of a single pair would have been a rewrite, not a repair.
+
+(3) **A boolean that ORs two sources cannot answer a history question.** `face_ever_carried_the_key`
+is `bool(ever) or bool(in_tree_writers)`; in this face it is `True` while
+`carried_in_the_sampled_revisions` is `False` (the only in-tree writer is `Tools/_r201_wrap.py:51`).
+A reader taking the flag as "the history carried the key and a later writer dropped it" gets the
+opposite of the measured history. The disjunction's two terms are now published separately.
+
+(4) **A history probe that stops at a cap is a window, not a history.** The sibling inspects 40 of the
+390 revisions touching this path and publishes `capped: true` beside `revisions_carrying_the_key: 0`
+and `never_present_in_the_inspected_window: true`. Both studies agree the key is absent from every
+revision they looked at; neither claims it was never there.
+
+Wiring: `scripts/e396_last_tick.py` (run / verify problems=[] / selftest 25/25); smoke leg E396 (2/2,
+exec'd verbatim by `scripts/run_e396_smoke_leg.py`); S6 legs `last_tick` + `face_basename_suffix`;
+face `results/state_tilt/LASTTICK-2026-11-03.json` + `lasttick_latest.json`; sibling
+`scripts/e396_face_basename_suffix.py` (selftest 13/13, verify problems=[]) publishing
+`results/state_tilt/FACENAMESUFFIX-2026-11-03.json` + `facenamesuffix_latest.json`; digest
+`research/digests/DIGEST-20261103-r1413-e396-suffix-not-path.md`.
