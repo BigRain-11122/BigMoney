@@ -25,6 +25,7 @@ Usage:
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -1052,6 +1053,13 @@ def _as_issued_block(wd, ctx, rule, ticket=None):
     return {
         "source": "results/etf_book_order/TICKET-*.json width_disclosure.square",
         "ticket_asof": _ticket_asof(ticket),
+        # r1248: the DATE cannot identify the ticket -- the order leg is re-run whenever the
+        # panel gains a bar, and today it was re-priced twice under the same 2026-11-03 name
+        # (21:28 -> 22:1x). A key that stays equal across a re-issue makes the gate call the
+        # re-issue a hand edit. This is a content key: it moves with any cell of the ticket's
+        # own 2x2, and it is the only thing the gate uses to tell "the ticket changed" from
+        # "somebody edited this face".
+        "square_fingerprint": _square_fingerprint(wd.get("square")),
         "cells_cagr_pp": g,
         "card_cagr_pp": g["vol@12"], "ticket_cagr_pp": g["beta@5"],
         "diagonal_pp": diag,
@@ -1071,6 +1079,20 @@ def build_live_widths():
     return live_width_of(face(BASE), cap, _ticket_payload())
 
 
+def _square_fingerprint(square):
+    """Content key for the ticket's own 2x2: 16 hex chars, None when there is no square.
+
+    Deliberately NOT the date and not the file name: the order leg rewrites the ticket
+    whenever the book is priced on a new bar, and it can do that more than once in a session
+    under one date (measured 2026-11-03: TICKET-2026-11-03 written 21:28, re-written ~22:1x).
+    A re-issue that leaves the date untouched is still a different ticket payload.
+    """
+    if not square:
+        return None
+    blob = json.dumps(square, sort_keys=True, default=str, ensure_ascii=False)
+    return hashlib.sha256(blob.encode("utf-8")).hexdigest()[:16]
+
+
 def _ticket_repriced(pub, rebuilt):
     """Why an as_issued-only drift is a RE-ISSUED ticket rather than an edited face, or None.
 
@@ -1083,22 +1105,137 @@ def _ticket_repriced(pub, rebuilt):
     is settled, so the ticket's own date decides: a later ticket is STALE (the chain pays the
     declared refresh, which re-snapshots it); the same or an earlier one is a real edit and
     stays red. Nothing else in the face may ride along on this branch.
+
+    r1248 (2026-11-03, second live firing): the face also PRINTS those as-issued numbers into
+    one verdict-reason sentence AND into a coincidence note, so a re-issue moved eight cells
+    plus that sentence, dropped one reason entirely (the coincidence disappeared), and the
+    whitelist -- which admitted only `as_issued.*` paths -- dropped the whole re-issue back
+    into "hand edit". The sentence and the note are not a second opinion, they are the same
+    block restated, so they ride the same branch: a `verdict_reasons` item is admitted when
+    substituting each side's own as-issued numbers makes the two strings identical, and a
+    change in the LIST LENGTH is admitted when the sentences that appeared or vanished are
+    exactly the coincidence notes either side's own as-issued block generates.
+
+    r1248 also retires the date as the identity. The same session re-priced the ticket twice
+    under one name (TICKET-2026-11-03 at 21:28 and again ~22:1x after the panel refresh), so
+    `theirs <= mine` read a genuine re-issue as a hand edit. Identity is now the ticket's own
+    square fingerprint (`as_issued.square_fingerprint`): equal fingerprint with moved numbers
+    is an edit and stays red; a different fingerprint is a re-issue and reads stale. The date
+    still gates the one direction it can prove -- an OLDER ticket is never a re-issue.
     """
     full = _diff(pub, rebuilt, limit=10 ** 6)
     if not full:
         return None
-    if not all(d.split(" (")[0].lstrip(".").startswith("as_issued") for d in full):
+    numap = _as_issued_number_map(pub, rebuilt)
+    for d in full:
+        if d.split(" (")[0].lstrip(".").startswith("as_issued"):
+            continue
+        if numap and _as_issued_echo(d, pub, rebuilt, numap):
+            continue
+        if _as_issued_sentence_vanished(d, pub, rebuilt):
+            continue
         return None
-    mine = (pub.get("as_issued") or {}).get("ticket_asof")
-    theirs = (rebuilt.get("as_issued") or {}).get("ticket_asof")
+    pa = pub.get("as_issued") or {}
+    ra = rebuilt.get("as_issued") or {}
+    mine = pa.get("ticket_asof")
+    theirs = ra.get("ticket_asof")
     if not theirs:
         return None
-    if mine and isinstance(mine, str) and theirs <= mine:
+    if mine and isinstance(mine, str) and theirs < mine:
+        return None
+    mine_fp = pa.get("square_fingerprint")
+    theirs_fp = ra.get("square_fingerprint")
+    if not mine_fp or not theirs_fp:
+        # a face published before the fingerprint existed: fall back to the weaker date test
+        if not (mine and isinstance(mine, str) and theirs > mine):
+            return None
+    elif mine_fp == theirs_fp:
         return None
     return ("the executable ticket has been re-issued since this face was written "
-            "(ticket_asof %s -> %s), so the as-issued 2x2 is a snapshot of a ticket that no "
-            "longer exists; every other block still matches"
-            % (mine if mine else "unrecorded", theirs))
+            "(ticket_asof %s -> %s, square %s -> %s), so the as-issued 2x2 is a snapshot of a "
+            "ticket that no longer exists; every other block still matches (the verdict-reason "
+            "sentence and the coincidence note that restate those numbers moved with them)"
+            % (mine if mine else "unrecorded", theirs,
+               mine_fp if mine_fp else "unrecorded", theirs_fp))
+
+
+def _as_issued_coincidence_notes(block):
+    """The verdict-reason sentences a face's own as-issued block generates."""
+    out = []
+    for c in (block or {}).get("coincidences") or []:
+        if isinstance(c, dict) and c.get("note"):
+            out.append("COINCIDENCE, not agreement: %s" % c["note"])
+    return out
+
+
+def _as_issued_sentence_vanished(d, pub, rebuilt):
+    """Is this diff the verdict_reasons LIST changing by a note the as-issued block owns?
+
+    The coincidence note exists only while the collision does, so a re-issue can make one
+    reason disappear entirely -- a length diff, which no per-index echo check can see.
+    """
+    if d.split(" (")[0].lstrip(".") != "verdict_reasons":
+        return False
+    pr = [x for x in (pub.get("verdict_reasons") or [])]
+    rr = [x for x in (rebuilt.get("verdict_reasons") or [])]
+    if len(pr) == len(rr):
+        return False
+    longer, shorter = (pr, rr) if len(pr) > len(rr) else (rr, pr)
+    extra = list(longer)
+    for s in shorter:
+        if s in extra:
+            extra.remove(s)
+    if not extra:
+        return False
+    allowed = set(_as_issued_coincidence_notes(pub.get("as_issued"))) | set(
+        _as_issued_coincidence_notes(rebuilt.get("as_issued")))
+    return all(s in allowed for s in extra)
+
+
+def _as_issued_number_map(pub, rebuilt):
+    """published as-issued number -> its re-derived value, as the face PRINTS them (%.2f).
+
+    Both spellings are mapped because the sentence signs some numbers and not others.
+    """
+    pa = pub.get("as_issued") or {}
+    ra = rebuilt.get("as_issued") or {}
+    if not pa or not ra:
+        return None
+    out = {}
+
+    def pair(old, new):
+        try:
+            old, new = float(old), float(new)
+        except (TypeError, ValueError):
+            return
+        for fmt in ("%.2f", "%+.2f"):
+            out[fmt % old] = fmt % new
+
+    for key in ("card_cagr_pp", "ticket_cagr_pp", "diagonal_pp", "interaction_pp"):
+        pair(pa.get(key), ra.get(key))
+    for key in ("beta", "vol"):
+        pair((pa.get("width_effect_pp") or {}).get(key),
+             (ra.get("width_effect_pp") or {}).get(key))
+    return out or None
+
+
+def _as_issued_echo(d, pub, rebuilt, numap):
+    """Is this diff item the verdict-reason sentence reprinting the as-issued numbers?"""
+    head = d.split(" (")[0].lstrip(".")
+    if not head.startswith("verdict_reasons["):
+        return False
+    try:
+        idx = int(head[len("verdict_reasons["):].rstrip("]"))
+    except ValueError:
+        return False
+    pr = (pub.get("verdict_reasons") or [])
+    rr = (rebuilt.get("verdict_reasons") or [])
+    if idx >= len(pr) or idx >= len(rr) or not isinstance(pr[idx], str) or not isinstance(rr[idx], str):
+        return False
+    mapped = pr[idx]
+    for old, new in numap.items():
+        mapped = mapped.replace(old, new)
+    return mapped == rr[idx]
 
 
 def live_width_check():
@@ -1771,25 +1908,31 @@ def _selftest():
                     json.dump(payload, fh, ensure_ascii=False, indent=1)
 
             LIVE_OUT = ltmp
-            # (a) cells moved AND the ticket is dated earlier than the one re-derived now
+            # (a) cells moved AND the ticket is dated earlier than the one re-derived now.
+            # r1248: an older ticket is by definition a DIFFERENT payload, so the fixture must
+            # move the square fingerprint too -- leaving it equal would (correctly) read as an
+            # edit under the new rule and the fixture would pin the wrong branch.
             a = json.loads(json.dumps(sub0))
             if a.get("as_issued"):
                 a["as_issued"]["cells_cagr_pp"]["beta@5"] = round(
                     a["as_issued"]["cells_cagr_pp"]["beta@5"] - 0.03, 3)
                 a["as_issued"]["ticket_asof"] = "2000-01-01"
+                a["as_issued"]["square_fingerprint"] = "0" * 16
                 _write(a)
                 rc = live_width_check()
                 chk(rc == 2, "an as-issued block from an OLDER ticket is stale, not an edit "
                              "(rc=%r, ticket %r -> %r)"
                              % (rc, "2000-01-01", asof_now))
-                # (b) same cells, same ticket date => a real edit stays red
+                # (b) same cells under the CURRENT ticket's fingerprint => a real edit stays red
                 b = json.loads(json.dumps(a))
                 if asof_now:
                     b["as_issued"]["ticket_asof"] = asof_now
+                b["as_issued"]["square_fingerprint"] = (
+                    (sub0.get("as_issued") or {}).get("square_fingerprint"))
                 _write(b)
                 rc = live_width_check()
-                chk(rc == 1, "the same edit under an unchanged ticket date stays inconsistent "
-                             "(rc=%r)" % rc)
+                chk(rc == 1, "the same edit under the ticket's OWN square fingerprint stays "
+                             "inconsistent (rc=%r)" % rc)
                 # (c) an older ticket must not excuse a drift outside the as-issued block
                 c = json.loads(json.dumps(a))
                 c["paired"]["median_pp"] = round((c["paired"].get("median_pp") or 0.0) + 0.5, 3)
@@ -1797,6 +1940,110 @@ def _selftest():
                 rc = live_width_check()
                 chk(rc == 1, "a re-issued ticket does not excuse a non-as-issued drift (rc=%r)"
                              % rc)
+                # (d) r1248 (second live firing, 2026-11-03: TICKET-11-02 -> 11-03): the face
+                # also RESTATES the as-issued numbers in one verdict-reason sentence, so a real
+                # re-issue moved eight cells plus that sentence and the as_issued-only whitelist
+                # read it as a hand edit. The sentence carries no second opinion -- it carries
+                # the same numbers -- so it must ride the same branch.
+                d = json.loads(json.dumps(sub0))
+                if d.get("as_issued") and d.get("verdict_reasons"):
+                    ai = d["as_issued"]
+                    pairs = [("card_cagr_pp", ai.get("card_cagr_pp")),
+                             ("ticket_cagr_pp", ai.get("ticket_cagr_pp")),
+                             ("diagonal_pp", ai.get("diagonal_pp")),
+                             ("interaction_pp", ai.get("interaction_pp")),
+                             ("width_effect_pp.beta",
+                              (ai.get("width_effect_pp") or {}).get("beta")),
+                             ("width_effect_pp.vol", (ai.get("width_effect_pp") or {}).get("vol"))]
+                    new2old = {}
+                    for path, val in pairs:
+                        if val is None:
+                            continue
+                        oldv = round(float(val) - 0.03, 3)
+                        for fmt in ("%.2f", "%+.2f"):
+                            new2old[fmt % float(val)] = fmt % oldv
+                        head, _, tail = path.partition(".")
+                        if tail:
+                            ai[head][tail] = oldv
+                        else:
+                            ai[head] = oldv
+                    # roll the sentence back the same way: old numbers in, same prose out
+                    for i, txt in enumerate(d["verdict_reasons"]):
+                        if isinstance(txt, str):
+                            for new, old in new2old.items():
+                                txt = txt.replace(new, old)
+                            d["verdict_reasons"][i] = txt
+                    d["as_issued"]["ticket_asof"] = "2000-01-01"
+                    d["as_issued"]["square_fingerprint"] = "0" * 16
+                    _write(d)
+                    rc = live_width_check()
+                    chk(rc == 2, "a re-issue that restates its numbers in the verdict sentence "
+                                 "is stale, not an edit (rc=%r)" % rc)
+                    # (e) the same payload, sentence edited BEYOND those numbers -> real edit
+                    e = json.loads(json.dumps(d))
+                    hit = False
+                    for i, txt in enumerate(e["verdict_reasons"]):
+                        if isinstance(txt, str) and "bigger than both width effects =" in txt:
+                            e["verdict_reasons"][i] = txt.replace(
+                                "bigger than both width effects =",
+                                "bigger than both width effects ->")
+                            hit = True
+                    if hit:
+                        _write(e)
+                        rc = live_width_check()
+                        chk(rc == 1, "an edit to that sentence beyond its own numbers stays "
+                                     "inconsistent (rc=%r)" % rc)
+                    # (f) r1248 THIRD firing, and the one that finally broke the date rule: the
+                    # order leg re-priced TICKET-2026-11-03 a second time in the same session
+                    # (21:28 -> ~22:1x), so every cell moved while the DATE stayed the same and
+                    # `theirs <= mine` read the re-issue as a hand edit. Identity is the square
+                    # fingerprint now: same date, different payload => stale.
+                    f = json.loads(json.dumps(sub0))
+                    if f.get("as_issued") and asof_now:
+                        ai = f["as_issued"]
+                        # only the cell block moves; the restated sentence is left alone so the
+                        # branch under test is the identity one, not the echo admission
+                        ai["cells_cagr_pp"]["vol@12"] = round(
+                            ai["cells_cagr_pp"]["vol@12"] - 0.29, 3)
+                        ai["ticket_asof"] = asof_now
+                        ai["square_fingerprint"] = "f" * 16
+                        _write(f)
+                        rc = live_width_check()
+                        chk(rc == 2, "a SAME-DAY re-issue (same ticket_asof, different square) "
+                                     "is stale, not an edit (rc=%r)" % rc)
+                        # (g) the coincidence note exists only while the collision does: a re-issue can make one
+                        # verdict-reason disappear entirely. A length diff is a diff no per-index
+                        # echo check can see, so it needs its own admission -- and that admission
+                        # must not leak into the edit branch.
+                        note = ("the beta-rule width effect (-1.47pp) equals the capacity engine's "
+                                "5->12 rung (-1.47pp) to the basis point")
+                        g = json.loads(json.dumps(sub0))
+                        g["as_issued"]["coincidences"] = [{"value_pp": -1.47,
+                                                           "same_as": "capacity rung",
+                                                           "note": note}]
+                        g["verdict_reasons"] = list(g.get("verdict_reasons") or []) + [
+                            "COINCIDENCE, not agreement: %s" % note]
+                        g["as_issued"]["ticket_asof"] = asof_now
+                        g["as_issued"]["square_fingerprint"] = "f" * 16
+                        _write(g)
+                        rc = live_width_check()
+                        chk(rc == 2, "a re-issue that carries an extra as-issued coincidence "
+                                     "note is stale, not an edit (rc=%r)" % rc)
+                        g2 = json.loads(json.dumps(g))
+                        g2["as_issued"]["square_fingerprint"] = (
+                            (sub0.get("as_issued") or {}).get("square_fingerprint"))
+                        _write(g2)
+                        rc = live_width_check()
+                        chk(rc == 1, "the same extra note under the ticket's own square stays "
+                                     "inconsistent (rc=%r)" % rc)
+                        # (h) a note that is NOT the as-issued block's own is not admitted
+                        g3 = json.loads(json.dumps(g))
+                        g3["verdict_reasons"] = list(g3["verdict_reasons"]) + [
+                            "SOMETHING ELSE ENTIRELY"]
+                        _write(g3)
+                        rc = live_width_check()
+                        chk(rc == 1, "an unrelated sentence added beside the note stays "
+                                     "inconsistent (rc=%r)" % rc)
         finally:
             LIVE_OUT = keepl2
 
