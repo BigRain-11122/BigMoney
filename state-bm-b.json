@@ -8,6 +8,7 @@
  ],
  "behind_origin_main": 285,
  "clock_read": "2026-11-03T21:22:54+08:00",
+ "concurrency_note": "Tools/iteration_loop.ps1 pid 31396 (started 02:07) was live in this repo for the whole window and its own ticks reported 'previous round still running'; no queue head, task card or shared lane face was claimed, and loop/watchdog/claw re-registration was deliberately not attempted",
  "cpu_current_pct": 33.4,
  "cpu_pct": 33.4,
  "current": "r1417 product: E384 -- 882 of 883 published keys are opened by a real load or dump; the one residue is a project-local reader and no published face carries it",
@@ -147,9 +148,11 @@
   "sha256": "5997f27bc5c7c0b3bd30a8337f7e230f9ddcdef58c81532fad485ccf74b7f68b"
  },
  "delivery": {
-  "branch": "machine/bm-b-r1410",
+  "branch": "machine/bm-b-r1419",
   "files": 14,
-  "sha": "e841b08753db70c794aa5d7a3f85defd2924131d",
+  "main_push_blocker": "local main stays diverged from origin/main (314 ahead / 288 behind); no unattended rebase per r1243, so the machine branch is the delivery channel",
+  "sha": "72b0a20db8e32e3f3ed0d7d1c38cc8e9edbee0fd",
+  "ts": "2026-11-04T02:57:19+08:00",
   "verified": "ls-remote equals local HEAD"
  },
  "delivery_note": "main-branch push is not attempted: a bounded attempt has hung in promisor lazy-fetch for thirteen consecutive rounds (r1255..r1295 family), so the machine branch is the delivery channel until it clears",
@@ -4671,9 +4674,9 @@
   ]
  },
  "sync": {
-  "ahead": 307,
-  "behind": 285,
-  "branch": "machine/bm-b-r1416",
+  "ahead": 314,
+  "behind": 288,
+  "branch": "machine/bm-b-r1419",
   "peer": "origin"
  },
  "sync_note": "r1401: local commits not on origin/main stay large (two blood lines, promisor lazy-fetch wedge); delivery goes to machine/bm-b-r1416 and is verified by ls-remote",
@@ -4685,11 +4688,11 @@
  "three_line_current": "r1419 burned E398 -- the readers of a latest.json pointer priced by where their family comes from",
  "three_line_next": "E403 (callers of the 17 family-parameter readers) or E401/E402 within 48h",
  "timestamp": "2026-11-04T02:55:57+08:00",
- "ts": "2026-11-04T02:55:57+08:00",
+ "ts": "2026-11-04T02:57:19+08:00",
  "ts_utc_ms": 1793715839000,
  "ts_utc_offset": "+08:00",
- "updated": "2026-11-04T02:55:57+08:00",
- "updated_at": "2026-11-04T02:55:57+08:00",
+ "updated": "2026-11-04T02:57:19+08:00",
+ "updated_at": "2026-11-04T02:57:19+08:00",
  "verdict": "the_pointer_convention_is_safe_where_the_caller_is_because_every_live_reader_either_names_its_family_or_is_handed_one",
  "verdict_line": "884 keys (862 read half + 22 write-only), 20 ambiguous: 19 keep >=2 files inside both walks, 1 depends on the rule, 0 collapse -> repair list empty, the bill is one skip set; 98 names resolve to no file; E385's 19-of-20 was the read half only (ledger.jsonl is write-only)",
  "verify": "e398 verify problems=[] | S6 leg latest_family rc=0 (~1 min)",
