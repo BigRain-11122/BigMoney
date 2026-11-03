@@ -8623,3 +8623,36 @@ Wiring: `scripts/e389_family_glob_readers.py` (run / verify problems=[] / selfte
 machine-read from E386's own face (`family_glob_rows`), never hand-copied, and the scanner excludes its own
 source (E180/E207 family). Frozen verdicts `V_EMPTY` / `V_PROSE_ONLY` / `V_MIXED` / `V_ALL_COMPUTE`,
 re-derived by `build()`. Successor: E390 (which in-repo reader asks for a field on the wrong side of the wall).
+
+## E390 -- a key name that matches is not a face read, and a subscript store is not a read (r1407 bm-b)
+
+E388 priced the wall (18 fields dropped at wave 16->17, none ever returning). E390 asks the reader-side
+question: does any in-repo .py site ask one of those fields of a wave that lost it? Population comes
+machine-read from E388's own face (`basename_table[].field_rows` with a `removal_edges` and no re-add);
+the corpus is every .py under the repo; a row needs a string literal whose value IS a dropped field,
+and the literal is classified by its **AST parent**, never by text (E389's lesson).
+
+Readings. 1989 rows over 75 sites. **1683 are not reads at all** (dict keys being built, mentions, the
+same field name reused as an output key). Of the 306 read rows on 51 sites: **148 read a wave that still
+holds the field** (every one of them a historical runner on waves 10-16), **45 read another face
+entirely**, **33 read a locally built dict**, **80 cannot be resolved statically**, and **0 read a wave
+past the field's last sighting**. Verdict: the wall broke no reader this census can see, and the 80
+unresolved rows are published as a bound rather than dropped or guessed.
+
+Three rules, each found by this census failing first. (1) **A subscript store is a write**:
+`face["generated"] = ...` in `scripts/w22_window_forecast.py:193` was published as a wrong-side read
+until the AST subscript context was checked -- the literal names the slot being filled, not a slot being
+asked for. (2) **A neighbour directory is not the family**: `results/trial_labor_w22_confirm/` starts
+with the family stem and is wave 22 of nothing; a wave may only be read from a path segment that is
+exactly `trial_labor_w<N>`. (3) **A key name that matches is not evidence of a face read**:
+`monitor/build_status.py` reads `generated` from `portfolio_ew6.json`, a face with nothing to do with
+trial labor, so attribution has to follow the path the read actually opens -- the literals inside the
+load expression and the name bindings behind it, not the literals elsewhere in the file. Two corollaries
+the resolver needed: `json.load(...) if p.exists() else {}` is a face with an empty fallback, not two
+different containers; and `ctrl = d.get("per_face_survival")` is still face data.
+
+Wiring: `scripts/e390_wrong_side_reader.py` (run / verify problems=[] / selftest 24/24); smoke leg E390
+(exec'd verbatim by `scripts/run_e390_smoke_leg.py`, 1/1); face `results/state_tilt/WRONGSIDE-2026-11-03.json`
++ `wrongside_latest.json`. Frozen verdicts `V_NONE` / `V_WRONG` / `V_SAFE` re-derived by `decide()`, plus a
+frozen row vocabulary re-derived by the smoke leg. Successor: E391 (which key name carries two meanings
+across published faces -- the 45 misattributed reads are that family).

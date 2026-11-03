@@ -13665,5 +13665,72 @@ check(_name388, not _bad388, "; ".join(_bad388)[:220]
             _s388.get("fields_replaced_inside_a_dict") or 0,
             str((_f388 or {}).get("verdict"))[:80]))
 
+# E390: does any in-repo reader ask a trial-labor wave for a field that wave already dropped?
+# This leg refuses the shapes that would let the answer be asserted instead of measured: a
+# verdict outside the frozen vocabulary, a row verdict outside that vocabulary, a wrong-side row
+# with no resolved wave, a row charged to a face it does not open, a summary whose counts do not
+# re-add from the rows, a verdict that does not re-derive from its own summary, and the study's
+# own verify not coming back clean.
+_name390 = "product: no statically resolvable in-repo reader asks a dropped family field of a wave that lost it"
+_bad390 = []
+_s390 = {}
+_f390 = None
+try:
+    _p390 = os.path.join("results", "state_tilt", "wrongside_latest.json")
+    _f390 = json.load(open(_p390, encoding="utf-8")) if os.path.exists(_p390) else None
+    if _f390 is None:
+        _bad390.append("no published wrong-side face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m390 = __import__("importlib").import_module("e390_wrong_side_reader")
+        _s390 = _f390.get("summary") or {}
+        _r390 = _f390.get("rows") or []
+        if _f390.get("verdict") not in _m390.VOCAB:
+            _bad390.append("verdict %r is outside the frozen vocabulary"
+                           % str(_f390.get("verdict"))[:60])
+        if len(_r390) != _s390.get("rows"):
+            _bad390.append("the row count does not re-add")
+        if len({r.get("site") for r in _r390}) != _s390.get("sites"):
+            _bad390.append("the site count does not re-derive from the rows")
+        _wrong390 = [r for r in _r390 if r.get("verdict") == "reads_after_drop"]
+        if len(_wrong390) != _s390.get("wrong_side_rows"):
+            _bad390.append("the wrong-side row count does not re-derive")
+        if sorted({r.get("site") for r in _wrong390}) != list(_s390.get("wrong_side_sites") or []):
+            _bad390.append("the wrong-side site list does not re-derive from the rows")
+        _by390 = {}
+        for _r390a in _r390:
+            _by390[_r390a.get("verdict")] = _by390.get(_r390a.get("verdict"), 0) + 1
+        if dict(sorted(_by390.items())) != (_s390.get("by_verdict") or {}):
+            _bad390.append("the verdict histogram does not re-add")
+        for _r390a in _r390:
+            if _r390a.get("verdict") not in _m390.VERDICT_READ:
+                _bad390.append("a row verdict is outside the frozen vocabulary: %r"
+                               % str(_r390a.get("verdict"))[:40])
+                break
+            if _r390a.get("verdict") == "reads_after_drop" and not _r390a.get("wave_literals"):
+                _bad390.append("a wrong-side row carries no resolved wave")
+                break
+            if _r390a.get("verdict") == "reads_a_different_face" and _r390a.get("basename"):
+                _bad390.append("a row is charged to a face it does not open: %s"
+                               % str(_r390a.get("site"))[:60])
+                break
+        if _f390.get("verdict") != _m390.decide(_s390):
+            _bad390.append("the verdict does not re-derive from the summary")
+        if _m390.verify() != []:
+            _bad390.append("the study's own verify does not come back clean")
+        _name390 = ("product: %d rows over %d sites, %d read rows on %d read sites, %d reads "
+                    "still on a wave that holds the field, %d unresolved, %d on another face, "
+                    "%d wrong-side"
+                    % (_s390.get("rows") or 0, _s390.get("sites") or 0,
+                       _s390.get("read_rows") or 0, _s390.get("read_sites") or 0,
+                       (_s390.get("by_verdict") or {}).get("reads_where_the_field_still_lives", 0),
+                       (_s390.get("by_verdict") or {}).get("target_unresolved", 0),
+                       (_s390.get("by_verdict") or {}).get("reads_a_different_face", 0),
+                       _s390.get("wrong_side_rows") or 0))
+except Exception as _e390:
+    _bad390.append(repr(_e390)[:160])
+check(_name390, not _bad390, "; ".join(_bad390)[:220]
+      or "verdict %s" % str((_f390 or {}).get("verdict"))[:80])
+
 if __name__ == "__main__":
     sys.exit(main())

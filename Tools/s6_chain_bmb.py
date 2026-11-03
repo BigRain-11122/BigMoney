@@ -1246,6 +1246,11 @@ LEGS = [
     # dropped numerics are gone (n_survivors 40, n_distinct 173) while 2 survive under another
     # name. Verify re-reads the family and re-derives every published count (~0.3 s).
     ("schema_accretion", ["python", "scripts/e388_schema_accretion.py", "verify"]),
+    # E390: E388 priced which fields each wall drops but not who reads them. Measured statically
+    # over every .py in the repo: 0 readers ask a dropped field of a wave past its last sighting;
+    # the 148 live reads are historical runners on waves 10-16, 45 rows open another face, 33 read
+    # a local dict and 80 cannot be resolved. Verify re-derives every row and count (~1 s).
+    ("wrong_side_reader", ["python", "scripts/e390_wrong_side_reader.py", "verify"]),
 ]
 
 
