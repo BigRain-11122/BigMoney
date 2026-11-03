@@ -135,6 +135,11 @@
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "decisions_sha": "02fffd2a3a113f5ccfa24f3724d2a6822494a81826306c85bcb1cab4d5e0c5c3",
+ "decisions_watermark": {
+  "read_at": "2026-11-03T08:27:35+08:00",
+  "rows_consumed": 0,
+  "sha256": "5997f27bc5c7c0b3bd30a8337f7e230f9ddcdef58c81532fad485ccf74b7f68b"
+ },
  "delivery": {
   "branch": "machine/bm-b-r1395",
   "files": 13,
@@ -386,13 +391,21 @@
   "O-20261026-0400-bm-c.md"
  ],
  "orders_ack_last": "2026-10-30T01:27:13+08:00",
- "orders_ack_note": "r1301: 114 order files / 115 acked / unacked 0",
+ "orders_ack_note": {
+  "acks": 115,
+  "files": 114,
+  "unacked": 0
+ },
  "orders_delta_pending": false,
  "orders_note": "r1337 consumed the orders delta on the group face: OB-20261031-174059-609 (resume, bm-b = voice lane) and OB-20261031-182307-132 (executor unification). The executor order was EXECUTED on this machine: Tools/fleet/agent.py materialised from the origin blob (the stale worktree did not carry Tools/fleet at all), tick verified hb=0 lane=0 in <1s, FluxGroup-Agent-bm-b registered via Tools/task-register.ps1 (every:5m, S4U, hidden wscript->pythonw) with fire result=0, HQ-ProductionClaim disabled. Deviation disclosed in the receipt: the registered arg is '--node bm-b --no-pull' because an unattended 5-min pull --rebase from this 195-behind promisor worktree wedges (r1255 family).",
  "orphan": "py_faces=14 orphans=0 residents=0",
  "orphan_face": 0,
  "orphan_face_note": "orphan_face_probe: py_faces=8 orphans=0 residents=0 (read-only report)",
- "orphan_faces": 15,
+ "orphan_faces": {
+  "orphans": 0,
+  "py_faces": 13,
+  "resident_servers": 0
+ },
  "orphan_probe": {
   "orphans": 0,
   "py_faces": 11,
@@ -4342,6 +4355,13 @@
   "ts": "2026-11-03T06:48:53+08:00",
   "verdict": "the_census_keys_a_join_by_its_operands_so_a_face_it_reads_is_filed_under_a_basename_and_a_jsonl_read_is_never_keyed_at_all"
  },
+ "r1401_delivery": {
+  "branch": "machine/bm-b-r1401",
+  "main_push_blocker": "local main diverged from origin/main (two blood lines + promisor lazy-fetch wedge r1255 family); not attempted per r1243",
+  "sha": "e2fb571ed68559a5bf18adc11142ddb731b6867b",
+  "ts": "2026-11-03T08:27:35+08:00",
+  "verified": "git ls-remote equals local HEAD"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -4383,9 +4403,11 @@
   "seeded": []
  },
  "sync": {
-  "ahead_note": "two blood lines; delivery goes to machine/bm-b-r1393"
+  "ahead_note": "two blood lines; delivery goes to machine/bm-b-r1401",
+  "ahead_of_origin_main": 267,
+  "behind_origin_main": 285
  },
- "sync_note": "local commits not on origin/main stay large (two blood lines, promisor lazy-fetch wedge r1255 family); delivery goes to machine/bm-b-r1393 and is verified by ls-remote",
+ "sync_note": "r1401: local commits not on origin/main stay large (two blood lines, promisor lazy-fetch wedge); delivery goes to machine/bm-b-r1401 and is verified by ls-remote",
  "task": "r1401 E382: the key-projection repair moves 10 of 11 published headlines and flips E350's verdict",
  "task_short": "r1401 E382 key-projection repricing",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
