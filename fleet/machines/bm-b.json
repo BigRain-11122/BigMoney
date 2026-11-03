@@ -1,6 +1,8 @@
 {
  "agenda_starved": false,
  "agent": "bm-b",
+ "ahead_of_origin_main": 287,
+ "behind_origin_main": 285,
  "claws": {
   "pre-commit": "MATCH",
   "pre-push": "MATCH"
@@ -47,7 +49,12 @@
  "d19_note": "D-13's ghost leg lives in Tools/s6_chain_bmc.py (bm-c's chain), not this machine's s6_chain_bmb.py, so no bm-b action; D-02(3) loop tasks are never an auto-pause target -- verified on this machine; D-20 (an all-green conclusion must publish the target hit count) is adopted in E348's smoke leg, which now counts distinct states and refuses a green stretch without them",
  "decisions_delta_pending": false,
  "decisions_sha": "5997f27bc5c7c0b3bd30a8337f7e230f9ddcdef58c81532fad485ccf74b7f68b",
- "delivery": "machine/bm-b-r1400",
+ "delivery": {
+  "branch": "machine/bm-b-r1410",
+  "files": 14,
+  "sha": "e841b08753db70c794aa5d7a3f85defd2924131d",
+  "verified": "ls-remote equals local HEAD"
+ },
  "delivery_note": "main diverged 248 ahead / 277 behind (two blood lines, promisor wedge r1255); machine branch is the channel per r1243",
  "dept": "research+engineering",
  "did": "r1410 E393 read cap priced (0.051 -> 0.0797)",

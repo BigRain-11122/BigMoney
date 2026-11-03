@@ -141,12 +141,10 @@
   "sha256": "5997f27bc5c7c0b3bd30a8337f7e230f9ddcdef58c81532fad485ccf74b7f68b"
  },
  "delivery": {
-  "branch": "machine/bm-b-r1395",
-  "files": 13,
-  "main_push_blocker": "local main diverged 283 ahead / 253 behind origin/main (two blood lines, promisor lazy-fetch wedge r1255 family); not attempted, no unattended rebase per r1243",
-  "sha": "6e77cbda084331b908d5d42866244b7c67413b7b",
-  "ts": "2026-11-03T02:27:04+08:00",
-  "verified": "git ls-remote equals local HEAD"
+  "branch": "machine/bm-b-r1410",
+  "files": 14,
+  "sha": "e841b08753db70c794aa5d7a3f85defd2924131d",
+  "verified": "ls-remote equals local HEAD"
  },
  "delivery_note": "main-branch push is not attempted: a bounded attempt has hung in promisor lazy-fetch for thirteen consecutive rounds (r1255..r1295 family), so the machine branch is the delivery channel until it clears",
  "dept": "research+engineering",
@@ -4534,9 +4532,10 @@
   ]
  },
  "sync": {
-  "ahead_note": "two blood lines; delivery goes to machine/bm-b-r1407",
-  "ahead_of_origin_main": 278,
-  "behind_origin_main": 285
+  "ahead": 287,
+  "behind": 285,
+  "branch": "machine/bm-b-r1410",
+  "peer": "origin"
  },
  "sync_note": "r1401: local commits not on origin/main stay large (two blood lines, promisor lazy-fetch wedge); delivery goes to machine/bm-b-r1401 and is verified by ls-remote",
  "task": "r1410 E393: the 1 MB read cap priced, and the faces it was hiding",
