@@ -8916,3 +8916,57 @@ face `results/state_tilt/LASTTICK-2026-11-03.json` + `lasttick_latest.json`; sib
 `scripts/e396_face_basename_suffix.py` (selftest 13/13, verify problems=[]) publishing
 `results/state_tilt/FACENAMESUFFIX-2026-11-03.json` + `facenamesuffix_latest.json`; digest
 `research/digests/DIGEST-20261103-r1413-e396-suffix-not-path.md`.
+
+
+### E385 -- a split has to be priced against a headline, not against a name (r1415 bm-b)
+
+E383 published eight keys that each name two or more files on disk (``prep_state.json`` 20,
+``judge_state.json`` 18, ``latest.json`` 28) and found seven of them quoted from a published face
+list. E386 then priced the merge inside one family (the members do not share a schema). The
+question left open is the one a republish turns on: *would splitting those keys move a published
+NUMBER?* Four headlines are functions of the key set, and each is re-derived under two keyings from
+the same population -- the published one (a key is one unit) and a split one (every identified file
+behind a key is its own unit).
+
+| headline | published | split | what moved |
+|---|---|---|---|
+| E350 `faces_named` | 862 names | 1,002 documents | nothing: the unit is a name, and every consumer names a key |
+| E353 `pairs` | 131 key-level pairs | 210 document-level pairs | **yes** -- `by_class` 5/103/23 -> 80/108/22 |
+| E377 `faces_no_census_keys` | 36 faces | 36 | no: the unit is a path |
+| E381 `joined_only_faces` | 12 faces | 12 | no: the unit is a path |
+
+Lessons:
+
+(1) **A name count is not a document count, and the difference is 140 -- but it is not a republish.**
+19 of 862 names merge two or more files, so the census's "862 faces" are 1,002 documents with 140
+of them unaddressable by the name that is published. That changes what the number *means*, not what
+it *says*: every consumer quotes a key, and no consumer can act differently until a key stops naming
+two files. Publishing this as a republish would be a false alarm; publishing it as "862 faces" with
+no note is the omission E383 already named.
+
+(2) **The class that exists only because the key is ambiguous is not a class about the guard.** All
+seven E353 pairs on an ambiguous key are published as `guard_unreachable`, and naming each member
+moves **7 of 7**: none of them keeps that class. The wording matters both ways -- the published
+class is not *wrong* (the instrument genuinely cannot name the file) and the members' classes are
+not a correction of the guard; they are the reading the ambiguity was hiding.
+
+(3) **Only the part of the ambiguity the index creates can be repaired by naming a member.** Two of
+the seven are settled by exactly one in-census member (the other member of ``meta.json`` sits in
+``Money02``, outside the census walk), and five stay ambiguous inside the walk (``manifest.json`` has
+19 in-census members, ``probe.json`` 14). So the honest split of the seven is 2 the instrument owns
+and 5 the data owns -- and a rule that splits every merged key would have overwritten five real
+ambiguities with a choice.
+
+(4) **The merge is in the data, not in the walk.** All 19 merged names survive dropping every file
+outside the census walk, so no merged key is an artifact of the index including ``media``/``Money02``;
+the 2 cases in (3) are about a *pair's* member list, not about the name.
+
+(5) **A face list cannot move, and saying so is a measurement.** E377 and E381 publish paths; a path
+names one file however many other files share its basename (4 of the 48 listed faces do). Refusing
+to report movement there is what keeps the one real headline move from being diluted by three
+fictional ones.
+
+Wiring: ``scripts/e385_merged_key_split.py`` (run / verify problems=[] / selftest 19/19); smoke leg
+E385 (1/1, exec'd verbatim by ``scripts/run_e385_smoke_leg.py``); S6 leg ``merged_key_split``; face
+``results/state_tilt/SPLITPRICE-2026-11-03.json``; upstream faces read as published (E350/E353/
+E377/E381), none rewritten.

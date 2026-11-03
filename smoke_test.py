@@ -14255,5 +14255,85 @@ except Exception as _e396b:
 check(_name396b, not _bad396b, "; ".join(_bad396b)[:220]
       or "verdict %s" % str((_f396b or {}).get("verdict"))[:80])
 
+# E385: E383 published eight keys that each name two or more files; this asks the question a
+# republish decision actually turns on -- would splitting them move a published NUMBER? Four
+# headlines are re-derived under a second keying (a name vs the documents behind it). The leg
+# refuses the ways that projection could be asserted instead of measured: an arm whose split and
+# published numbers do not re-add to its own delta, a face list reporting movement when its unit is
+# a path, a merged row naming fewer than two files, an ambiguity split that does not partition the
+# pairs it claims to explain, an exactness flag that does not follow from the two arms, a verdict
+# that does not re-derive from the summary, and a study whose own verify does not come back clean.
+_name385 = ("product: does splitting a merged key move a published number -- 4 headlines re-derived "
+            "under a name keying and a document keying")
+_bad385 = []
+_f385 = None
+try:
+    _p385 = os.path.join("results", "state_tilt", "splitprice_latest.json")
+    _f385 = json.load(open(_p385, encoding="utf-8")) if os.path.exists(_p385) else None
+    if _f385 is None:
+        _bad385.append("no published split-price face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m385 = __import__("importlib").import_module("e385_merged_key_split")
+        _s385 = _f385.get("summary") or {}
+        _arms385 = _f385.get("arms") or []
+        if _f385.get("verdict") not in (_m385.V_NAMES, _m385.V_MOVES, _m385.V_MIXED,
+                                        _m385.V_STABLE, _m385.V_EMPTY):
+            _bad385.append("verdict %r is outside the frozen set" % str(_f385.get("verdict"))[:60])
+        if len(_arms385) != _s385.get("arms") or len(_arms385) != 4:
+            _bad385.append("the arm list does not match the arm count")
+        for _a385 in _arms385:
+            if (_a385.get("split") or 0) - (_a385.get("published") or 0) != (_a385.get("delta") or 0):
+                _bad385.append("%s: split - published is not its own delta" % _a385.get("headline"))
+        _a1_385 = _arms385[0] if _arms385 else {}
+        _a2_385 = _arms385[1] if len(_arms385) > 1 else {}
+        _rows385 = _a1_385.get("merged_rows") or []
+        if len(_rows385) != min(20, _a1_385.get("names_that_merge_two_or_more_files") or 0):
+            _bad385.append("the merged rows do not enumerate the names it counts")
+        for _r385 in _rows385:
+            if (_r385.get("n_files") or 0) < 2:
+                _bad385.append("a merged row names fewer than two files")
+                break
+            if (_r385.get("n_inside") or 0) > (_r385.get("n_files") or 0):
+                _bad385.append("a row is inside the census walk more often than it has files")
+                break
+        _cls385 = _a2_385.get("by_class_split") or {}
+        if sum(_cls385.values()) != (_a2_385.get("split") or 0):
+            _bad385.append("the split classes do not sum to the split pair count")
+        if sum((_a2_385.get("by_class_published") or {}).values()) != (_a2_385.get("published") or 0):
+            _bad385.append("the published classes do not sum to the published pair count")
+        if _a2_385.get("pairs_whose_members_disagree_with_the_published_class") != len(
+                _a2_385.get("divergent") or []):
+            _bad385.append("the divergent list does not re-add to the count it publishes")
+        _settled385 = _a2_385.get("divergent_pairs_decided_by_one_in_census_member") or 0
+        _still385 = _a2_385.get("divergent_pairs_ambiguous_even_inside_the_census_walk") or 0
+        if _settled385 + _still385 != (
+                _a2_385.get("pairs_whose_members_disagree_with_the_published_class") or 0):
+            _bad385.append("the settled/still split does not partition the divergent pairs")
+        if _s385.get("split_is_exact_everywhere") != (
+                bool(_a1_385.get("delta_is_exact")) and bool(_a2_385.get("delta_is_exact"))):
+            _bad385.append("the exactness flag does not follow from the two arms")
+        for _a385 in _arms385[2:]:
+            if _a385.get("verdict_moves") or (_a385.get("delta") or 0) != 0:
+                _bad385.append("%s: a path-keyed face list cannot move" % _a385.get("headline"))
+        if _s385.get("verdict") != _m385.decide(_s385):
+            _bad385.append("the decision gate does not re-derive the published verdict")
+        if _bad385:
+            pass
+        elif _m385.verify() != []:
+            _bad385.append("the study's own verify does not come back clean")
+        _name385 = ("product: %d names carry %d documents (%d merge >=2, largest %d); the guard "
+                    "headline moves %d -> %d pairs and %d of %d ambiguous pairs change class"
+                    % (_a1_385.get("published") or 0, _a1_385.get("split") or 0,
+                       _a1_385.get("names_that_merge_two_or_more_files") or 0,
+                       _a1_385.get("largest_merge") or 0,
+                       _a2_385.get("published") or 0, _a2_385.get("split") or 0,
+                       _a2_385.get("pairs_whose_members_disagree_with_the_published_class") or 0,
+                       _a2_385.get("pairs_on_an_ambiguous_key") or 0))
+except Exception as _e385:
+    _bad385.append(repr(_e385)[:160])
+check(_name385, not _bad385, "; ".join(_bad385)[:220]
+      or "verdict %s" % str((_f385 or {}).get("verdict"))[:80])
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -1307,6 +1307,17 @@ LEGS = [
     # 18,342 faces, 2,253 basename-suffix pairs, 133 distinct short basenames.  Verify re-derives
     # the witness' dump classes and the A/B arithmetic from the published rows.
     ("face_basename_suffix", ["python", "scripts/e396_face_basename_suffix.py", "verify"]),
+
+    # E385 answers the question E383 left open for a republish decision: would splitting the keys
+    # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
+    # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names
+    # merge >=2, largest 28), E353 pairs (131 key-level pairs -> 210 document-level, by_class
+    # 5/103/23 -> 80/108/22), and the two face lists (E377/E381), whose unit is a path and so cannot
+    # move.  Of the 7 pairs on an ambiguous key, 2 are settled by naming the single in-census member
+    # (the other member sits outside the census walk) and 5 stay undecidable inside it -- so the
+    # split both prices a republish and says which part of the ambiguity is the index's.  Verify
+    # re-derives every arm's delta, the class sums and the decision gate without the corpus walk.
+    ("merged_key_split", ["python", "scripts/e385_merged_key_split.py", "verify"]),
 ]
 
 
