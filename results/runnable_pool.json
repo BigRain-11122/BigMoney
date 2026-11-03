@@ -26948,6 +26948,9 @@
    "status": "done"
   },
   {
+   "done_at": "2026-11-03T23:5x+08:00",
+   "done_by": "bm-b r1417",
+   "done_note": "E384 answered at r1417: 882 of 883 published keys are named by at least one site that opens or dumps a file; 1 key (results/perpetual_faces/n1_w192_results.json, site Tools/_r789bmc_post_rebase_verify.py:12) is named only by a call the table cannot see -- a project-local show() reader -- and no published census face carries it, so no published count moves. 2,969 sites: 1,921 load / 1,038 dump / 10 other. First burn read 793 of 883 as never-opened because it classified the literal's own line instead of the call around the SITE line; fixed, pinned by 3 selftest legs.",
    "entered_at": "2026-11-03T06:47:00+08:00",
    "entered_by": "bm-b r1400",
    "id": "E384-WHICH-KEYS-COME-FROM-A-SITE-THAT-NEVER-OPENS-FACE",
@@ -26956,7 +26959,8 @@
    "owner": null,
    "priority": 3,
    "question": "The keying helpers take face-shaped strings out of a source, and a string in a source is not a decision to open a file: a path assembled for a print, a banner, or a log can enter the keyed set and make a face look read. Take the published key set and, for each key, ask whether the site that named it is a load or a dump at all (E377's own classification) or a bare literal carried for some other purpose. Publish the keys with no opening site, the source:line each came from, and whether removing them changes any published count -- a key that no site opens is the reverse of E381's defect and it inflates the same census.",
-   "status": "ready"
+   "result_ref": "results/state_tilt/NEVEROPENED-2026-11-03.json",
+   "status": "done"
   },
   {
    "claimed_at": "2026-11-03T21:35+08:00",
@@ -27174,6 +27178,18 @@
    "note": "E397 resolved all 884 published keys and found 98 that name no file at all -- 11% of the key population. A key that a source opens and no file answers is either a face this checkout does not carry (a lane that has not run here) or a name the resolver cannot reach (a directory prefix that moved, a value folded from a join, a file inside a skip tree). Ask it per key: does the value carry a directory prefix, which sources read it and which write it, would a wider index (skip trees included, glob-style last-segment match) find a file, and does that file live under a tree the census deliberately excludes? Publish the repair list (names that WOULD resolve under the widened index, with the path) and the honest list (names no checkout here ever had), plus the sentence a reader needs: what such a read reports today. Do not create, rename or delete a file to make a name resolve -- the bill is the list and the reader sentence, not a tree edit.",
    "owner": null,
    "priority": 3,
+   "status": "ready"
+  },
+  {
+   "deliverable": "results/state_tilt/LOCALREADER-2026-11-04.json",
+   "entered_at": "2026-11-04T00:0x+08:00",
+   "entered_by": "bm-b r1417 (supply floor refill after E384)",
+   "id": "E401-A-PROJECT-LOCAL-READER-IS-INVISIBLE-TO-A-STDLIB-CALL-TABLE",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static; the classifier is reused, not rewritten",
+   "owner": null,
+   "priority": 3,
+   "question": "E384 classified every published key's sites by the stdlib call family that surrounds them and found exactly one residue: results/perpetual_faces/n1_w192_results.json, named only at Tools/_r789bmc_post_rebase_verify.py:12 inside json.loads(show(...)), where show() is a project-local helper that reads a blob. A call table built from stdlib names cannot see such a reader, so the same blind spot could hide a whole population behind one helper. Ask it per helper: enumerate every project-local callable whose body opens or dumps a file (transitively, to a bounded depth), then re-run the E384 classification with those names added and publish which keys change class and how many sites the table was missing. The bill is the helper table plus the sentence that says what the old table would have called those keys -- never a rewrite of the classifier.",
    "status": "ready"
   }
  ],

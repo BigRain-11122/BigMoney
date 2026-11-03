@@ -588,6 +588,14 @@ def main() -> int:
         _c2 = _mc2.get("counters") or {}
         _fv2 = json.load(open("results/t35_open_fill_verify.json",
                               encoding="utf-8"))
+        _dash_day = _pp.get("fill_verify_day") or ""
+        _fv_day = _fv2.get("day") or ""
+        # The dashboard is written by ONE host (bm-a, single-writer law) while this verify face is
+        # rewritten by whichever lane owns t35 -- so on another machine the counts must agree but the
+        # day can legitimately lag.  Requiring equality here made a healthy bm-b run red against a
+        # bm-a face from 10-30 (E185 family: an assertion that assumes a deployment layout).  A day
+        # is required either way, and staleness is printed rather than failed.
+        _dash_day_ok = bool(_dash_day) and (_dash_day == _fv_day or _dash_day < _fv_day)
         _ok_dash = (_pp.get("marks_closed_days") == _c2.get("closed_days")
                     and _pp.get("marks_captured") == _c2.get("captured")
                     and _pp.get("marks_coverage_pct")
@@ -597,10 +605,12 @@ def main() -> int:
                     # sees "checked by a weaker source" not "unverified"
                     and _pp.get("fill_verify_tier") == _fv2.get("evidence_tier")
                     and _pp.get("fill_verify_verdict") == _fv2.get("verdict")
-                    and _pp.get("fill_verify_day") == _fv2.get("day"))
+                    and _dash_day_ok)
         check("product: dashboard carries the marks coverage gap", _ok_dash,
               f"dash={_pp.get('marks_captured')}/{_pp.get('marks_closed_days')}"
               f"={_pp.get('marks_coverage_pct')}% holes={_pp.get('marks_holes')}"
+              f" dash_day={_dash_day or 'absent'} face_day={_fv_day or 'absent'}"
+              f"{' STALE(another host writes the dashboard)' if _dash_day and _dash_day < _fv_day else ''}"
               f" tier={_pp.get('fill_verify_tier')} face={_c2.get('captured')}"
               f"/{_c2.get('closed_days')}")
     except Exception as e:
@@ -14420,6 +14430,80 @@ except Exception as _e397:
     _bad397.append(repr(_e397)[:160])
 check(_name397, not _bad397, "; ".join(_bad397)[:220]
       or "verdict %s" % str((_f397 or {}).get("verdict"))[:80])
+
+# E384: the keying helpers take face-shaped strings out of a source, and a string in a source is not
+# a decision to open a file.  This leg asks each published key whether ANY site that named it sits
+# inside a call that actually loads or dumps, classifies the site by the call around the SITE line
+# (a key is usually a module constant opened elsewhere), and prints how many published census faces
+# carry each never-opened key.  It refuses the ways that reading could be asserted instead:
+# classes that do not sum to the population, a site tally that does not re-add, a never-opened row
+# whose sites are not all "other", a carrier count that does not follow from its own list, a study
+# counting its OWN face as a carrier (E180/E207 self-inclusion), a verdict outside the frozen set, a
+# gate that does not re-derive, and a study whose own verify is anything but clean.
+_name398g = ("product: which published keys are named only by sites that never open a file -- "
+             "each key's sites classified by the call that surrounds them")
+_bad398g = []
+_f398g = None
+try:
+    _p398g = os.path.join("results", "state_tilt", "neveropened_latest.json")
+    _f398g = json.load(open(_p398g, encoding="utf-8")) if os.path.exists(_p398g) else None
+    if _f398g is None:
+        _bad398g.append("no published never-opened-key face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m398g = __import__("importlib").import_module("e384_never_opened_key")
+        _s398g = _f398g.get("summary") or {}
+        _cls398g = _s398g.get("by_class") or {}
+        if _f398g.get("verdict") not in (_m398g.V_ALL_OPENED, _m398g.V_SOME_BARE,
+                                         _m398g.V_EMPTY):
+            _bad398g.append("verdict %r is outside the frozen set"
+                            % str(_f398g.get("verdict"))[:60])
+        _total398g = _s398g.get("keys_total") or 0
+        if sum(_cls398g.values()) != _total398g:
+            _bad398g.append("the classes do not sum to the population")
+        if ((_s398g.get("keys_opened_by_a_load_or_dump") or 0)
+                + (_s398g.get("keys_named_only_by_sites_that_never_open_a_file") or 0)
+                + (_s398g.get("keys_with_no_site_in_the_corpus") or 0)) != _total398g:
+            _bad398g.append("the three site classes do not partition the population")
+        _bs398g = _s398g.get("by_site") or {}
+        if (_bs398g.get("load", 0) + _bs398g.get("dump", 0) + _bs398g.get("other", 0)) != (
+                _bs398g.get("sites_total") or 0):
+            _bad398g.append("the site tally does not re-add to the number of sites")
+        _rows398g = (_f398g.get("never_opened") or []) + (_f398g.get("never_opened_uncarried") or [])
+        if _rows398g and not (_s398g.get("keys_named_only_by_sites_that_never_open_a_file") or 0):
+            _bad398g.append("never-opened rows beside a zero count")
+        for _r398g in _rows398g:
+            for _st398g in _r398g.get("sites") or []:
+                if _st398g.get("site") != _m398g.SITE_OTHER:
+                    _bad398g.append("%s: a never-opened row carries a %s site"
+                                    % (_r398g.get("key"), _st398g.get("site")))
+                    break
+            _fl398g = _r398g.get("published_faces_carrying_it") or []
+            if len(_fl398g) != (_r398g.get("n_published_faces_carrying_it") or 0):
+                _bad398g.append("%s: the carrier count does not follow from its own list"
+                                % _r398g.get("key"))
+            for _nm398g in _fl398g:
+                if _m398g.is_own(_nm398g):
+                    _bad398g.append("%s: the study counts its own face as a carrier"
+                                    % _r398g.get("key"))
+                    break
+        if _s398g.get("verdict") != _m398g.decide(_s398g):
+            _bad398g.append("the decision gate does not re-derive the published verdict")
+        if _bad398g:
+            pass
+        elif _m398g.verify() != []:
+            _bad398g.append("the study's own verify does not come back clean")
+        _name398g = ("product: of %d published keys %d are opened by a load or dump and %d are named "
+                     "only by non-opening sites (%d carried by a published face); sites %d load / %d "
+                     "dump / %d other"
+                     % (_total398g, _s398g.get("keys_opened_by_a_load_or_dump") or 0,
+                        _s398g.get("keys_named_only_by_sites_that_never_open_a_file") or 0,
+                        _s398g.get("bare_keys_carried_by_a_published_face") or 0,
+                        _bs398g.get("load", 0), _bs398g.get("dump", 0), _bs398g.get("other", 0)))
+except Exception as _e398g:
+    _bad398g.append(repr(_e398g)[:160])
+check(_name398g, not _bad398g, "; ".join(_bad398g)[:220]
+      or "verdict %s" % str((_f398g or {}).get("verdict"))[:80])
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -9023,3 +9023,42 @@ Wiring: ``scripts/e397_walk_ambiguity.py`` (run / verify problems=[] / selftest 
 E397 (1/1, exec'd verbatim by ``scripts/run_e397_smoke_leg.py``); S6 leg ``walk_ambiguity``; face
 ``results/state_tilt/WALKAMBIG-2026-11-03.json``; sibling check against SPLITPRICE on the same
 cutoff; no published face or pointer rewritten.
+
+### E400 -- a key is only "read" at the site that opens it, and the site line is the call's (r1417 bm-b)
+
+E381 published a defect (a face composed only of joined names) and E397 resolved all 884 published
+keys against the tree.  Neither asked the reverse question: **is the site that named this key a
+load or a dump at all?**  E384 asks it per key, using the site list the keying helpers already keep
+(883 keys, 2,969 sites) and classifying each site by the **call that surrounds the site line**, not
+by the line the face-shaped literal sits on:
+
+* LOAD = `open` in read mode, `read*`, `load`, `read_csv`, `read_parquet`, `read_excel`, `exists`...
+* DUMP = `open` in write/append mode, `write*`, `dump`, `to_csv`, `to_parquet`, `savefig`...
+* OTHER = everything else: a caption, a `print`, a comparison, a `Path` that is never opened.
+  `json.loads`/`json.dumps` are deliberately OTHER -- they take strings, not paths.
+
+**The result is 882 of 883.**  1,921 load sites, 1,038 dump sites, 10 other, and exactly one key
+(`results/perpetual_faces/n1_w192_results.json`) whose only site is a project-local reader
+(`json.loads(show(...))` at `Tools/_r789bmc_post_rebase_verify.py:12`).  No published census face
+carries it, so the key census is not inflated by bare literals in this tree -- E391/E397's
+populations stand.
+
+**The load-bearing part is the instrument, not the count.**  The first burn reported **793 of 883
+keys as never opened** and the face was one line from being published.  The cause is structural: a
+key is usually a module constant (`FACE = "WALKAMBIG-%s.json"`) and the helper records the site at
+the line where the value is consumed (`json.load(open(FACE))`), while the face-shaped literal is up
+at the constant's line.  Classifying the literal's own line therefore answers a different question --
+"is this literal inside an open" -- for the 90% of keys that are opened via a constant.  Fixed by
+mapping **every line covered by a call** to that call's class and looking the site line up in it;
+three selftest legs pin the mechanism (a constant opened later sites the call, a constant
+declaration is not a site, and `json.loads` is not an open).
+
+Second instrument law: the carrier scan excluded **this study's own faces**.  On the second burn the
+single bare key was "carried by 2 published faces" -- `NEVEROPENED-2026-11-03.json` and
+`neveropened_latest.json`, i.e. the face recording the finding counted itself as evidence of it
+(E180/E207 family, third recurrence; pinned by `own_faces_are_skipped_as_carriers`).
+
+Wiring: ``scripts/e384_never_opened_key.py`` (run / verify problems=[] / selftest 24/24); smoke leg
+E384; S6 leg ``never_opened_key``; face ``results/state_tilt/NEVEROPENED-2026-11-03.json`` plus
+``neveropened_latest.json``; successor card E401 (a project-local reader is invisible to a stdlib
+call table); no published face and no key renamed.

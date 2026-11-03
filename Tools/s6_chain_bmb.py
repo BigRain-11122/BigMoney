@@ -1330,6 +1330,15 @@ LEGS = [
     # empty and the bill is a rule (pick one skip set = the union) rather than a split.  Verify
     # re-resolves every published row from the tree and re-derives the classes and the gate.
     ("walk_ambiguity", ["python", "scripts/e397_walk_ambiguity.py", "verify"]),
+
+    # E384 asks the reverse question of E381: a published key is only "read" if some site actually
+    # opens or dumps a file.  A string in a source is not a decision to open one -- the same literal
+    # can feed a caption, a comparison or a Path that is never read.  The leg classifies each key's
+    # sites by the call around the SITE line (a key is usually a module constant opened elsewhere,
+    # so reading the literal's own line called 90% of a healthy population "never opened" on the
+    # first burn), then prints how many published census faces carry each never-opened key.  Verify
+    # re-classifies every published row and re-derives the gate without the corpus walk.
+    ("never_opened_key", ["python", "scripts/e384_never_opened_key.py", "verify"]),
 ]
 
 
