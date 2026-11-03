@@ -249,7 +249,7 @@
  "local_commits_not_on_origin_main_note": "ls-remote-verified delivery to the machine branch; the ahead/behind counters are carried from the r1403 face (rev-list against origin/main not re-run this window, promisor wedge)",
  "local_not_on_origin": "see report",
  "local_not_on_origin_commits": 282,
- "local_not_on_origin_main": 283,
+ "local_not_on_origin_main": 307,
  "local_not_on_origin_note": "see sync_note (machine branch is the delivery channel)",
  "machine_health": "OK 8/8 for bm-a,bm-b,bm-c after gpu_face apply + machine_health_face write bm-b",
  "machine_id": "bm-b",
@@ -4574,6 +4574,14 @@
   "ts": "2026-11-03T21:58:00+08:00",
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1415 equals local HEAD"
  },
+ "r1416_delivery": {
+  "branch": "machine/bm-b-r1416",
+  "files": 16,
+  "main_push_blocker": "local main diverged from origin/main (307 not on origin/main / 285 behind; two blood lines + promisor lazy-fetch wedge); not attempted per r1243, the machine branch is the delivery channel",
+  "sha": "8e31922279bf3c61606c0320be35acb94d4110fc",
+  "ts": "2026-11-03T22:25:33+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1416 equals local HEAD"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -4620,9 +4628,9 @@
   ]
  },
  "sync": {
-  "ahead": 289,
+  "ahead": 307,
   "behind": 285,
-  "branch": "machine/bm-b-r1415",
+  "branch": "machine/bm-b-r1416",
   "peer": "origin"
  },
  "sync_note": "r1401: local commits not on origin/main stay large (two blood lines, promisor lazy-fetch wedge); delivery goes to machine/bm-b-r1416 and is verified by ls-remote",
@@ -4633,12 +4641,12 @@
  "three_line_artifact": "results/state_tilt/WALKAMBIG-2026-11-03.json @ 2026-11-03T22:23:59+08:00",
  "three_line_current": "r1416 burned E397 -- every published key resolved and tested against both walk rules",
  "three_line_next": "E398 (latest-pointer readers) or E399 (the 98 names that resolve to no file) within 48h",
- "timestamp": "2026-11-03T22:23:59+08:00",
- "ts": "2026-11-03T22:23:59+08:00",
+ "timestamp": "2026-11-03T22:25:33+08:00",
+ "ts": "2026-11-03T22:25:33+08:00",
  "ts_utc_ms": 1793715839000,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-03T22:23:59+08:00",
- "updated_at": "2026-11-03T22:23:59+08:00",
+ "updated_at": "2026-11-03T22:25:33+08:00",
  "verdict": "every_ambiguous_name_keeps_at_least_two_files_inside_every_walk_so_the_ambiguity_is_the_data_and_naming_a_member_is_a_decision_not_a_cleanup",
  "verdict_line": "884 keys (862 read half + 22 write-only), 20 ambiguous: 19 keep >=2 files inside both walks, 1 depends on the rule, 0 collapse -> repair list empty, the bill is one skip set; 98 names resolve to no file; E385's 19-of-20 was the read half only (ledger.jsonl is write-only)",
  "verify": "e397 verify problems=[] (every published row re-resolved from the tree) | S6 leg walk_ambiguity rc=0 0.35s",
