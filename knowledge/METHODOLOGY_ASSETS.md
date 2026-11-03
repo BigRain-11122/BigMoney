@@ -8590,3 +8590,36 @@ Wiring: `scripts/e388_schema_accretion.py` (run / verify problems=[] / selftest 
 `results/state_tilt/SCHEMAACCRETE-2026-11-03.json` + `schemaaccrete_latest.json`. Frozen verdicts
 `V_EMPTY` / `V_ACCRETION` / `V_BREAK_RECOVERABLE` / `V_BREAK`, re-derived by `decide()`. Successor:
 E389 (what do the 18 family-glob readers compute, and what is the arithmetic gap of an aggregate?).
+
+
+## E389 -- a text census counts mentions, and the same stem names two different families (r1406 bm-b)
+
+E386 published `family_glob_readers: 18` from `FAMILY_GLOB_RX.search(src)` -- a regex over the raw
+text of every in-repo .py file. A text hit is not a read. This study re-derives the same population
+from **tokens** (comment vs string vs code) and then prices each surviving read by what it does with
+the match.
+
+Readings. 21 files mention the pattern. **2 read the results family** (`scripts/e386_merged_key_cost.py`
+line 88, `scripts/e388_schema_accretion.py` line 85, both `sorted(...)` over `glob.glob(os.path.join(root,
+"results", "trial_labor_w*"))`, both filtering with `os.path.isdir`). **14 are comment-only**: seven wave
+runners w9-w16 and five stage/draft copies carry the identical `.gitignore results/trial_labor_w*/checkpoint/
+covers w9` note -- the same three tokens, in a comment, computing nothing. **1 reads a different family
+that the same stem names**: `results/_r434bmc_capture_weld.py` globs `scripts/trial_labor_w*.py`, the
+runner *sources*, not the result *directories*; counting it would have inflated the results family by 50%.
+**4 path constants are dead**: `FAMILY_GLOB = os.path.join(ROOT, "results", "trial_labor_w*")` sits in
+E386 and E388 and is never passed to a glob -- the glob at the call site re-types the literal. E386's 18
+therefore prices as **2 readers, 14 prose, 1 other family, and 1 detector** (its own `re.compile`).
+
+Three rules, measured not assumed. (1) **A name is a use only at a word boundary**: the first draft read
+`FAMILY_GLOB_RX` as a use of `FAMILY_GLOB` and "found" a dead constant in service; the boundary test is
+what makes "dead" publishable at all. (2) **The stem is not the population**: `trial_labor_w*` names both
+`results/` directories and `scripts/*.py` sources, so every read carries its target, and the reader sets
+must be disjoint -- a scanner that reports one number for both is reporting a union nobody asked for.
+(3) **A star must touch the stem**: matching "stem and some `*` somewhere in the token" picked up 212
+docstrings that merely discuss the family, which is the same defect one level up from E386's.
+
+Wiring: `scripts/e389_family_glob_readers.py` (run / verify problems=[] / selftest 14/14); face
+`results/state_tilt/FAMILYGLOBREAD-2026-11-03.json` + `familyglobread_latest.json`. Population is
+machine-read from E386's own face (`family_glob_rows`), never hand-copied, and the scanner excludes its own
+source (E180/E207 family). Frozen verdicts `V_EMPTY` / `V_PROSE_ONLY` / `V_MIXED` / `V_ALL_COMPUTE`,
+re-derived by `build()`. Successor: E390 (which in-repo reader asks for a field on the wrong side of the wall).

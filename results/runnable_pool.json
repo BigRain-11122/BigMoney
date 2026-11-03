@@ -27009,13 +27009,16 @@
    "status": "done"
   },
   {
+   "claimed_by": "bm-b",
    "deliverable": "results/state_tilt/FAMILYGLOB-2026-11-03.json",
    "entered_at": "2026-11-03T11:56:00+08:00",
    "entered_by": "bm-b r1404 (supply floor refill after E386 close)",
    "id": "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE",
    "lane": "cpu-only",
    "note": "r1404: 18 in-repo .py files glob results/trial_labor_w*. None of them reads a merged basename, but an aggregate that takes the latest member by mtime would answer a different question than a sum over members. Read each glob site, classify what it computes (latest / sum / per-wave fan-out / existence probe), and publish the arithmetic gap for the ones that aggregate: the family-wide sum of n_survivors against the single latest value.",
-   "status": "ready"
+   "owner": "bm-b",
+   "result_ref": "results/state_tilt/FAMILYGLOBREAD-2026-11-03.json + scripts/e389_family_glob_readers.py (run/verify problems=[]/selftest 14/14)",
+   "status": "done"
   },
   {
    "deliverable": "results/state_tilt/WRONGSIDE-2026-11-03.json",
