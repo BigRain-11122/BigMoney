@@ -1251,6 +1251,14 @@ LEGS = [
     # the 148 live reads are historical runners on waves 10-16, 45 rows open another face, 33 read
     # a local dict and 80 cannot be resolved. Verify re-derives every row and count (~1 s).
     ("wrong_side_reader", ["python", "scripts/e390_wrong_side_reader.py", "verify"]),
+    # E391: E390 showed that a matching key name is not a face read; this asks the other question
+    # about the same names -- which published key name is a number in one face and a container in
+    # another. 12,313 faces / 80,411 key names -> 7,797 structural conflicts, split into 3,877
+    # field-shaped names and 3,920 row-map index keys (an index is not a name: measured, not assumed
+    # away); 2,216 field-shaped conflicts are named by >=1 in-repo literal (132,588 sites, a
+    # name-matched upper bound and not a face resolution) and 1,661 are latent. Verify re-derives
+    # every published count from the listed conflict rows (~1 s, no corpus walk).
+    ("key_name_two_meanings", ["python", "scripts/e391_key_name_two_meanings.py", "verify"]),
 ]
 
 

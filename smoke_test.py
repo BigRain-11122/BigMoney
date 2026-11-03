@@ -13732,5 +13732,82 @@ except Exception as _e390:
 check(_name390, not _bad390, "; ".join(_bad390)[:220]
       or "verdict %s" % str((_f390 or {}).get("verdict"))[:80])
 
+# E391: which published key name is a number in one face and a container in another? This leg
+# refuses the shapes that would let the answer be asserted instead of measured: a verdict outside
+# the frozen vocabulary, a verdict that does not re-derive from its own summary, a listed row whose
+# class does not re-classify from its own shape list, a row filed under the wrong key kind (an
+# index key is not a field name), a summary whose counts do not re-add from the listed rows, a
+# published class table that does not add up to the key count, listed plus counted-only rows that
+# do not add up to the key count, a read bound published without its caveat, and the study's own
+# verify not coming back clean.
+_name391 = ("product: a key-name census counts a field name apart from a row-map index, and the read "
+            "figure it publishes is a name-matched bound rather than a face resolution")
+_bad391 = []
+_s391 = {}
+_f391 = None
+try:
+    _p391 = os.path.join("results", "state_tilt", "twomeanings_latest.json")
+    _f391 = json.load(open(_p391, encoding="utf-8")) if os.path.exists(_p391) else None
+    if _f391 is None:
+        _bad391.append("no published two-meanings face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m391 = __import__("importlib").import_module("e391_key_name_two_meanings")
+        _s391 = _f391.get("summary") or {}
+        _r391 = _f391.get("rows") or []
+        if _f391.get("verdict") not in _m391.VOCAB:
+            _bad391.append("verdict %r is outside the frozen vocabulary"
+                           % str(_f391.get("verdict"))[:60])
+        if _f391.get("verdict") != _m391.decide(_s391):
+            _bad391.append("the verdict does not re-derive from the summary")
+        if _s391.get("rows_published") != len(_r391):
+            _bad391.append("rows_published is not the listed row count")
+        if int(_s391.get("rows_published") or 0) + int(_s391.get("rows_counted_only") or 0) != int(
+                _s391.get("keys") or 0):
+            _bad391.append("listed plus counted-only rows do not add up to the key count")
+        if sum((_s391.get("by_class") or {}).values()) != int(_s391.get("keys") or 0):
+            _bad391.append("the published class table does not add up to the key count")
+        if _s391.get("read_bound_is_name_matched_not_face_resolved") is not True:
+            _bad391.append("the read figure is published without its name-matched caveat")
+        _derived391 = _m391.derive_summary(_r391, keys=_s391.get("keys"))
+        for _k391 in _m391.ROW_DERIVED:
+            if _s391.get(_k391) != _derived391.get(_k391):
+                _bad391.append("summary.%s does not re-add from the listed rows" % _k391)
+                break
+        for _row391 in _r391:
+            if _row391.get("class") != "structural_conflict":
+                _bad391.append("a non-conflict row (class %r) is listed"
+                               % (_row391.get("class"),))
+                break
+            if _m391.classify({_s: 1 for _s in _row391.get("shapes") or []}) != _row391.get("class"):
+                _bad391.append("row %r does not re-classify" % str(_row391.get("key"))[:40])
+                break
+            if _row391.get("kind") != _m391.key_kind(_row391.get("key") or ""):
+                _bad391.append("row %r is filed under the wrong key kind"
+                               % str(_row391.get("key"))[:40])
+                break
+            if _row391.get("occ") != sum((_row391.get("shape_counts") or {}).values()):
+                _bad391.append("row %r occ does not re-add from shape_counts"
+                               % str(_row391.get("key"))[:40])
+                break
+        if _bad391:
+            pass
+        elif _m391.verify() != []:
+            _bad391.append("the study's own verify does not come back clean")
+        _name391 = ("product: %d faces / %d key names, %d structural conflicts = %d field-shaped "
+                    "names + %d row-map index keys; %d field-shaped conflicts carry a name-matched "
+                    "read (%d sites, an upper bound) and %d are latent"
+                    % (_s391.get("faces_scanned") or 0, _s391.get("keys") or 0,
+                       _s391.get("structural_conflicts") or 0,
+                       _s391.get("structural_conflicts_name_keys") or 0,
+                       _s391.get("structural_conflicts_index_keys") or 0,
+                       _s391.get("structural_conflicts_read") or 0,
+                       _s391.get("read_sites_on_conflicted_keys") or 0,
+                       _s391.get("structural_conflicts_latent") or 0))
+except Exception as _e391:
+    _bad391.append(repr(_e391)[:160])
+check(_name391, not _bad391, "; ".join(_bad391)[:220]
+      or "verdict %s" % str((_f391 or {}).get("verdict"))[:80])
+
 if __name__ == "__main__":
     sys.exit(main())

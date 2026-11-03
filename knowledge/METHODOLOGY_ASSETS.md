@@ -8656,3 +8656,34 @@ Wiring: `scripts/e390_wrong_side_reader.py` (run / verify problems=[] / selftest
 + `wrongside_latest.json`. Frozen verdicts `V_NONE` / `V_WRONG` / `V_SAFE` re-derived by `decide()`, plus a
 frozen row vocabulary re-derived by the smoke leg. Successor: E391 (which key name carries two meanings
 across published faces -- the 45 misattributed reads are that family).
+
+## E391 -- a row-map index is not a field name, and a name match is not a face read (r1408 bm-b)
+
+Every key name in every published JSON face under `results/` was given the shape of its value
+(12,313 faces, 80,411 names): 7,797 names store more than one structural class, i.e. a reader that
+keys by name alone is right on one face and raises on another. Two refusals make the number usable,
+and both were found by the census inflating first.
+
+(1) **An index is not a name.** The first build published 7,797 conflicts; 3,920 of them are
+row-map keys (`"0"`, `"000001"`, `"2026-11-03"`, `"+ 19,"`, `"-bm-a"`) -- one digit indexing two
+different tables, not one field with two meanings. The split is now measured per key kind and
+published side by side (3,877 field-shaped + 3,920 index), and only field-shaped keys can carry a
+verdict. A tree whose only conflicts are index keys is graded `V_NONE`, which a fixture pins.
+
+(2) **A name match is not a face read.** `reader_sites` counts literal subscripts and
+`.get`/`pop`/`setdefault` names repo-wide -- the exact shortcut E390 rejected. Publishing 132,604
+sites as "reads" would repeat E390's 45-row defect one order of magnitude larger, so the figure is
+published with `read_bound_is_name_matched_not_face_resolved: true` and the verdict string carries
+the caveat; the study that resolves load paths is the named successor, not a footnote.
+
+Two smaller rules the same window needed: a face that lists 80,411 rows is 33 MB and nobody scans
+it, so only conflict rows are listed and `rows_counted_only` keeps the arithmetic closed
+(`rows_published + rows_counted_only == keys`); and `verify` re-derives every count from the listed
+rows in 0.12 s instead of re-parsing 560 MB of corpus, with the walk-only totals named in
+`verify_does_not_cover` rather than quietly unchecked.
+
+Wiring: `scripts/e391_key_name_two_meanings.py` (run / verify problems=[] / selftest 43/43); smoke
+leg E391 (1/1, exec'd verbatim by `scripts/run_e391_smoke_leg.py`); face
+`results/state_tilt/TWOMEANINGS-2026-11-03.json` + `twomeanings_latest.json`; S6 leg
+`key_name_two_meanings`. Frozen verdicts re-derived by `decide()`. Successor: E392 (which
+name-matched read actually opens the face that carries the key).
