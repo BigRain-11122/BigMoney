@@ -1,40 +1,40 @@
 {
  "study": "E332_invisible_tail_recovery",
  "evidence_cutoff": "2026-11-01",
- "verdict": "the_published_reader_count_is_a_floor_over_a_corpus_that_hides_its_own_code",
- "verdict_reason": "30 sources carry 4284 lines of real code the corpus helper does not show, and reading them moves E331's pointer-only reader count by +1 (pairs +0, sources +0): the published count is a floor, not a count",
+ "verdict": "the_helper_hides_pairs_but_no_published_reader_classification_moves",
+ "verdict_reason": "59 sources carry 7470 hidden lines and reading them moves a published count (pairs +2) but no pointer-only reader class",
  "summary": {
-  "sources_scanned": 2308,
-  "sources_the_helper_blinds": 30,
-  "recovered_code_lines": 4284,
+  "sources_scanned": 2456,
+  "sources_the_helper_blinds": 59,
+  "recovered_code_lines": 7470,
   "recovered_by_kind": {
-   "definitions": 157,
+   "definitions": 269,
    "classes": 0,
-   "face_handles": 18,
-   "load_sites": 103,
-   "selftest_legs": 187
+   "face_handles": 71,
+   "load_sites": 177,
+   "selftest_legs": 657
   },
-  "sources_whose_tail_is_invisible": 22,
-  "sources_blinded_before_their_last_line": 30,
-  "spans_per_source_median": 7,
-  "sources_with_more_than_one_span": 22,
+  "sources_whose_tail_is_invisible": 49,
+  "sources_blinded_before_their_last_line": 58,
+  "spans_per_source_median": 11,
+  "sources_with_more_than_one_span": 48,
   "sources_whose_stream_ended_early": 0,
   "repricing_delta": {
    "sources_scanned": 0,
-   "families_referenced_only_through_a_pointer": 5,
-   "pairs": 0,
-   "pointer_only_readers": 1,
-   "distinct_families_read": 0,
-   "readers_guarded_before_they_use_the_value": 0,
+   "families_referenced_only_through_a_pointer": 7,
+   "pairs": 2,
+   "pointer_only_readers": 0,
+   "distinct_families_read": -1,
+   "readers_guarded_before_they_use_the_value": -1,
    "readers_whose_helper_turns_a_miss_into_None": 0,
    "readers_that_raise_at_the_file": 1,
-   "sources_whose_tail_the_scanner_cannot_see": -22,
-   "prose_literals_rejected_as_notes": -1
+   "sources_whose_tail_the_scanner_cannot_see": -49,
+   "prose_literals_rejected_as_notes": 1
   },
   "verdict_moved": false,
   "pointer_only_readers_visible_only_in_the_recovered_text": 1,
   "pairs_reclassified_when_the_corpus_is_read": 1,
-  "rows_published": 30,
+  "rows_published": 59,
   "rows_truncated": 0
  },
  "rules": {
@@ -50,46 +50,51 @@
  },
  "repricing": {
   "with_shipped_helper": {
-   "sources_scanned": 2307,
-   "families_referenced_only_through_a_pointer": 131,
-   "pairs": 45,
-   "pointer_only_readers": 24,
-   "distinct_families_read": 19,
-   "readers_guarded_before_they_use_the_value": 15,
+   "sources_scanned": 2455,
+   "families_referenced_only_through_a_pointer": 218,
+   "pairs": 73,
+   "pointer_only_readers": 32,
+   "distinct_families_read": 24,
+   "readers_guarded_before_they_use_the_value": 20,
    "readers_whose_helper_turns_a_miss_into_None": 0,
-   "readers_that_raise_at_the_file": 9,
-   "sources_whose_tail_the_scanner_cannot_see": 22,
-   "prose_literals_rejected_as_notes": 25
+   "readers_that_raise_at_the_file": 12,
+   "sources_whose_tail_the_scanner_cannot_see": 49,
+   "prose_literals_rejected_as_notes": 47
   },
   "with_recovered_corpus": {
-   "sources_scanned": 2307,
-   "families_referenced_only_through_a_pointer": 136,
-   "pairs": 45,
-   "pointer_only_readers": 25,
-   "distinct_families_read": 19,
-   "readers_guarded_before_they_use_the_value": 15,
+   "sources_scanned": 2455,
+   "families_referenced_only_through_a_pointer": 225,
+   "pairs": 75,
+   "pointer_only_readers": 32,
+   "distinct_families_read": 23,
+   "readers_guarded_before_they_use_the_value": 19,
    "readers_whose_helper_turns_a_miss_into_None": 0,
-   "readers_that_raise_at_the_file": 10,
+   "readers_that_raise_at_the_file": 13,
    "sources_whose_tail_the_scanner_cannot_see": 0,
-   "prose_literals_rejected_as_notes": 24
+   "prose_literals_rejected_as_notes": 48
   },
   "delta": {
    "sources_scanned": 0,
-   "families_referenced_only_through_a_pointer": 5,
-   "pairs": 0,
-   "pointer_only_readers": 1,
-   "distinct_families_read": 0,
-   "readers_guarded_before_they_use_the_value": 0,
+   "families_referenced_only_through_a_pointer": 7,
+   "pairs": 2,
+   "pointer_only_readers": 0,
+   "distinct_families_read": -1,
+   "readers_guarded_before_they_use_the_value": -1,
    "readers_whose_helper_turns_a_miss_into_None": 0,
    "readers_that_raise_at_the_file": 1,
-   "sources_whose_tail_the_scanner_cannot_see": -22,
-   "prose_literals_rejected_as_notes": -1
+   "sources_whose_tail_the_scanner_cannot_see": -49,
+   "prose_literals_rejected_as_notes": 1
   },
   "handling_by_class": {
    "the_load_raises_at_the_file": {
-    "with_helper": 9,
-    "recovered": 10,
+    "with_helper": 12,
+    "recovered": 13,
     "delta": 1
+   },
+   "guarded_by_try_except": {
+    "with_helper": 5,
+    "recovered": 4,
+    "delta": -1
    }
   },
   "verdict_with_shipped_helper": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
@@ -109,8 +114,8 @@
     "recovered": "pointer_only_reader"
    }
   ],
-  "pairs_only_with_the_shipped_helper": 0,
-  "pairs_only_with_the_recovered_corpus": 0
+  "pairs_only_with_the_shipped_helper": 1,
+  "pairs_only_with_the_recovered_corpus": 3
  },
  "sources": [
   {
@@ -386,6 +391,73 @@
    ]
   },
   {
+   "source": "scripts/e371_one_store_member.py",
+   "raw_lines": 590,
+   "lines_the_helper_shows": 41,
+   "real_code_lines": 443,
+   "recovered_code_lines": 442,
+   "spans": [
+    [
+     45,
+     45,
+     1
+    ],
+    [
+     47,
+     51,
+     5
+    ],
+    [
+     53,
+     56,
+     4
+    ],
+    [
+     58,
+     60,
+     3
+    ],
+    [
+     62,
+     70,
+     9
+    ],
+    [
+     72,
+     73,
+     2
+    ]
+   ],
+   "span_count": 56,
+   "first_hidden_code_line": 45,
+   "dropped_from_the_end": 441,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 22,
+    "classes": 0,
+    "face_handles": 1,
+    "load_sites": 8,
+    "selftest_legs": 34
+   },
+   "examples": [
+    {
+     "line": 45,
+     "text": "from __future__ import annotations",
+     "kinds": []
+    },
+    {
+     "line": 47,
+     "text": "import hashlib",
+     "kinds": []
+    },
+    {
+     "line": 48,
+     "text": "import json",
+     "kinds": []
+    }
+   ]
+  },
+  {
    "source": "scripts/t11_negday_ic.py",
    "raw_lines": 544,
    "lines_the_helper_shows": 18,
@@ -453,6 +525,73 @@
    ]
   },
   {
+   "source": "scripts/e394_phantom_why.py",
+   "raw_lines": 549,
+   "lines_the_helper_shows": 36,
+   "real_code_lines": 436,
+   "recovered_code_lines": 435,
+   "spans": [
+    [
+     41,
+     46,
+     6
+    ],
+    [
+     48,
+     51,
+     4
+    ],
+    [
+     53,
+     55,
+     3
+    ],
+    [
+     57,
+     63,
+     7
+    ],
+    [
+     65,
+     67,
+     3
+    ],
+    [
+     69,
+     76,
+     8
+    ]
+   ],
+   "span_count": 47,
+   "first_hidden_code_line": 41,
+   "dropped_from_the_end": 389,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 15,
+    "classes": 0,
+    "face_handles": 5,
+    "load_sites": 14,
+    "selftest_legs": 28
+   },
+   "examples": [
+    {
+     "line": 41,
+     "text": "import ast",
+     "kinds": []
+    },
+    {
+     "line": 42,
+     "text": "import io",
+     "kinds": []
+    },
+    {
+     "line": 43,
+     "text": "import json",
+     "kinds": []
+    }
+   ]
+  },
+  {
    "source": "Tools/tree_shrink_guard.py",
    "raw_lines": 522,
    "lines_the_helper_shows": 19,
@@ -514,6 +653,140 @@
     },
     {
      "line": 26,
+     "text": "import json",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "Tools/s6_chain_bmb.py",
+   "raw_lines": 1485,
+   "lines_the_helper_shows": 16,
+   "real_code_lines": 358,
+   "recovered_code_lines": 357,
+   "spans": [
+    [
+     14,
+     19,
+     6
+    ],
+    [
+     21,
+     22,
+     2
+    ],
+    [
+     27,
+     31,
+     5
+    ],
+    [
+     33,
+     33,
+     1
+    ],
+    [
+     39,
+     41,
+     3
+    ],
+    [
+     43,
+     44,
+     2
+    ]
+   ],
+   "span_count": 171,
+   "first_hidden_code_line": 14,
+   "dropped_from_the_end": 83,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 2,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 1,
+    "selftest_legs": 10
+   },
+   "examples": [
+    {
+     "line": 14,
+     "text": "import json",
+     "kinds": []
+    },
+    {
+     "line": 15,
+     "text": "import os",
+     "kinds": []
+    },
+    {
+     "line": 16,
+     "text": "import subprocess",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/e387_republish_audit.py",
+   "raw_lines": 314,
+   "lines_the_helper_shows": 17,
+   "real_code_lines": 254,
+   "recovered_code_lines": 253,
+   "spans": [
+    [
+     25,
+     31,
+     7
+    ],
+    [
+     33,
+     39,
+     7
+    ],
+    [
+     41,
+     42,
+     2
+    ],
+    [
+     46,
+     57,
+     12
+    ],
+    [
+     59,
+     62,
+     4
+    ],
+    [
+     65,
+     68,
+     4
+    ]
+   ],
+   "span_count": 24,
+   "first_hidden_code_line": 25,
+   "dropped_from_the_end": 290,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 11,
+    "classes": 0,
+    "face_handles": 6,
+    "load_sites": 10,
+    "selftest_legs": 9
+   },
+   "examples": [
+    {
+     "line": 25,
+     "text": "import hashlib",
+     "kinds": []
+    },
+    {
+     "line": 26,
+     "text": "import io",
+     "kinds": []
+    },
+    {
+     "line": 27,
      "text": "import json",
      "kinds": []
     }
@@ -654,6 +927,488 @@
    ]
   },
   {
+   "source": "scripts/e390_wrong_side_reader.py",
+   "raw_lines": 877,
+   "lines_the_helper_shows": 523,
+   "real_code_lines": 647,
+   "recovered_code_lines": 183,
+   "spans": [
+    [
+     623,
+     623,
+     1
+    ],
+    [
+     633,
+     633,
+     1
+    ],
+    [
+     643,
+     643,
+     1
+    ],
+    [
+     649,
+     649,
+     1
+    ],
+    [
+     656,
+     656,
+     1
+    ],
+    [
+     663,
+     663,
+     1
+    ]
+   ],
+   "span_count": 23,
+   "first_hidden_code_line": 623,
+   "dropped_from_the_end": 196,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 4,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 2,
+    "selftest_legs": 34
+   },
+   "examples": [
+    {
+     "line": 623,
+     "text": "FIXTURE_LOCAL = '''import json, os",
+     "kinds": []
+    },
+    {
+     "line": 633,
+     "text": "FIXTURE_INDIRECT = '''import json, os",
+     "kinds": []
+    },
+    {
+     "line": 643,
+     "text": "FIXTURE_EARLY = '''import json, os",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/_r1372_closeout.py",
+   "raw_lines": 366,
+   "lines_the_helper_shows": 80,
+   "real_code_lines": 186,
+   "recovered_code_lines": 175,
+   "spans": [
+    [
+     55,
+     55,
+     1
+    ],
+    [
+     117,
+     119,
+     3
+    ],
+    [
+     122,
+     124,
+     3
+    ],
+    [
+     127,
+     127,
+     1
+    ],
+    [
+     129,
+     138,
+     10
+    ],
+    [
+     141,
+     142,
+     2
+    ]
+   ],
+   "span_count": 21,
+   "first_hidden_code_line": 55,
+   "dropped_from_the_end": 253,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 3,
+    "classes": 0,
+    "face_handles": 5,
+    "load_sites": 13,
+    "selftest_legs": 5
+   },
+   "examples": [
+    {
+     "line": 55,
+     "text": "DIGEST = \"\"\"# DIGEST 2026-11-01 r1372 -- E351 product-gate state census",
+     "kinds": []
+    },
+    {
+     "line": 117,
+     "text": "def read(path):",
+     "kinds": [
+      "definitions"
+     ]
+    },
+    {
+     "line": 118,
+     "text": "with io.open(os.path.join(ROOT, path), encoding=\"utf-8\") as fh:",
+     "kinds": [
+      "load_sites"
+     ]
+    }
+   ]
+  },
+  {
+   "source": "scripts/e359_census_scaffolding_split.py",
+   "raw_lines": 827,
+   "lines_the_helper_shows": 497,
+   "real_code_lines": 611,
+   "recovered_code_lines": 150,
+   "spans": [
+    [
+     628,
+     628,
+     1
+    ],
+    [
+     641,
+     641,
+     1
+    ],
+    [
+     650,
+     651,
+     2
+    ],
+    [
+     653,
+     654,
+     2
+    ],
+    [
+     656,
+     657,
+     2
+    ],
+    [
+     659,
+     681,
+     23
+    ]
+   ],
+   "span_count": 19,
+   "first_hidden_code_line": 628,
+   "dropped_from_the_end": 181,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 3,
+    "classes": 0,
+    "face_handles": 1,
+    "load_sites": 0,
+    "selftest_legs": 39
+   },
+   "examples": [
+    {
+     "line": 628,
+     "text": "SCAFF = '''",
+     "kinds": []
+    },
+    {
+     "line": 641,
+     "text": "LONE_HELPER = '''import json",
+     "kinds": []
+    },
+    {
+     "line": 650,
+     "text": "def selftest():",
+     "kinds": [
+      "definitions",
+      "selftest_legs"
+     ]
+    }
+   ]
+  },
+  {
+   "source": "scripts/e350_field_branch_census.py",
+   "raw_lines": 702,
+   "lines_the_helper_shows": 404,
+   "real_code_lines": 503,
+   "recovered_code_lines": 132,
+   "spans": [
+    [
+     517,
+     517,
+     1
+    ],
+    [
+     525,
+     525,
+     1
+    ],
+    [
+     536,
+     537,
+     2
+    ],
+    [
+     540,
+     541,
+     2
+    ],
+    [
+     543,
+     544,
+     2
+    ],
+    [
+     546,
+     555,
+     10
+    ]
+   ],
+   "span_count": 24,
+   "first_hidden_code_line": 517,
+   "dropped_from_the_end": 32,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 5,
+    "classes": 0,
+    "face_handles": 3,
+    "load_sites": 7,
+    "selftest_legs": 33
+   },
+   "examples": [
+    {
+     "line": 517,
+     "text": "FIXTURE_ASSERT = '''",
+     "kinds": []
+    },
+    {
+     "line": 525,
+     "text": "FIXTURE_WRITE = '''",
+     "kinds": []
+    },
+    {
+     "line": 536,
+     "text": "def _rows_by(reads, writes, face):",
+     "kinds": [
+      "definitions"
+     ]
+    }
+   ]
+  },
+  {
+   "source": "scripts/e383_shared_key_collision.py",
+   "raw_lines": 705,
+   "lines_the_helper_shows": 446,
+   "real_code_lines": 529,
+   "recovered_code_lines": 109,
+   "spans": [
+    [
+     579,
+     585,
+     7
+    ],
+    [
+     588,
+     589,
+     2
+    ],
+    [
+     591,
+     592,
+     2
+    ],
+    [
+     594,
+     601,
+     8
+    ],
+    [
+     603,
+     610,
+     8
+    ],
+    [
+     614,
+     639,
+     26
+    ]
+   ],
+   "span_count": 14,
+   "first_hidden_code_line": 579,
+   "dropped_from_the_end": 130,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 4,
+    "classes": 0,
+    "face_handles": 8,
+    "load_sites": 0,
+    "selftest_legs": 36
+   },
+   "examples": [
+    {
+     "line": 579,
+     "text": "def _fixture_keyed(text):",
+     "kinds": [
+      "definitions"
+     ]
+    },
+    {
+     "line": 580,
+     "text": "tree = ast.parse(text)",
+     "kinds": []
+    },
+    {
+     "line": 581,
+     "text": "consts = e347.constants(tree)",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/e401_local_reader.py",
+   "raw_lines": 862,
+   "lines_the_helper_shows": 602,
+   "real_code_lines": 649,
+   "recovered_code_lines": 103,
+   "spans": [
+    [
+     688,
+     688,
+     1
+    ],
+    [
+     700,
+     700,
+     1
+    ],
+    [
+     712,
+     712,
+     1
+    ],
+    [
+     717,
+     717,
+     1
+    ],
+    [
+     723,
+     723,
+     1
+    ],
+    [
+     731,
+     731,
+     1
+    ]
+   ],
+   "span_count": 22,
+   "first_hidden_code_line": 688,
+   "dropped_from_the_end": 128,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 3,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 0,
+    "selftest_legs": 35
+   },
+   "examples": [
+    {
+     "line": 688,
+     "text": "FIXT_HELPER_CHAIN = '''",
+     "kinds": []
+    },
+    {
+     "line": 700,
+     "text": "FIXT_DEEP = '''",
+     "kinds": []
+    },
+    {
+     "line": 712,
+     "text": "FIXT_CYCLE = '''",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/e395_conditional_write.py",
+   "raw_lines": 764,
+   "lines_the_helper_shows": 517,
+   "real_code_lines": 584,
+   "recovered_code_lines": 99,
+   "spans": [
+    [
+     630,
+     630,
+     1
+    ],
+    [
+     641,
+     641,
+     1
+    ],
+    [
+     654,
+     660,
+     7
+    ],
+    [
+     663,
+     665,
+     3
+    ],
+    [
+     667,
+     669,
+     3
+    ],
+    [
+     671,
+     680,
+     10
+    ]
+   ],
+   "span_count": 14,
+   "first_hidden_code_line": 630,
+   "dropped_from_the_end": 114,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 3,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 2,
+    "selftest_legs": 27
+   },
+   "examples": [
+    {
+     "line": 630,
+     "text": "BRANCHY = '''",
+     "kinds": []
+    },
+    {
+     "line": 641,
+     "text": "IN_CALL = '''",
+     "kinds": []
+    },
+    {
+     "line": 654,
+     "text": "def _fixture(tmp):",
+     "kinds": [
+      "definitions"
+     ]
+    }
+   ]
+  },
+  {
    "source": "Tools/_r390bmc_close.py",
    "raw_lines": 164,
    "lines_the_helper_shows": 14,
@@ -723,6 +1478,76 @@
    ]
   },
   {
+   "source": "scripts/e299_rounded_vs_tolerance_census.py",
+   "raw_lines": 954,
+   "lines_the_helper_shows": 669,
+   "real_code_lines": 714,
+   "recovered_code_lines": 93,
+   "spans": [
+    [
+     830,
+     832,
+     3
+    ],
+    [
+     834,
+     839,
+     6
+    ],
+    [
+     841,
+     842,
+     2
+    ],
+    [
+     844,
+     844,
+     1
+    ],
+    [
+     849,
+     864,
+     16
+    ],
+    [
+     867,
+     871,
+     5
+    ]
+   ],
+   "span_count": 19,
+   "first_hidden_code_line": 830,
+   "dropped_from_the_end": 128,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 3,
+    "classes": 0,
+    "face_handles": 4,
+    "load_sites": 0,
+    "selftest_legs": 43
+   },
+   "examples": [
+    {
+     "line": 830,
+     "text": "def cmd_selftest():",
+     "kinds": [
+      "definitions",
+      "selftest_legs"
+     ]
+    },
+    {
+     "line": 831,
+     "text": "ok = 0",
+     "kinds": []
+    },
+    {
+     "line": 832,
+     "text": "fails = []",
+     "kinds": []
+    }
+   ]
+  },
+  {
    "source": "scripts/spm_j4_attribution.py",
    "raw_lines": 643,
    "lines_the_helper_shows": 398,
@@ -787,76 +1612,6 @@
     {
      "line": 527,
      "text": "print(f\"report: {OUT_MD}\")",
-     "kinds": []
-    }
-   ]
-  },
-  {
-   "source": "scripts/e299_rounded_vs_tolerance_census.py",
-   "raw_lines": 937,
-   "lines_the_helper_shows": 665,
-   "real_code_lines": 709,
-   "recovered_code_lines": 89,
-   "spans": [
-    [
-     821,
-     823,
-     3
-    ],
-    [
-     825,
-     830,
-     6
-    ],
-    [
-     832,
-     833,
-     2
-    ],
-    [
-     835,
-     847,
-     13
-    ],
-    [
-     850,
-     854,
-     5
-    ],
-    [
-     857,
-     859,
-     3
-    ]
-   ],
-   "span_count": 18,
-   "first_hidden_code_line": 821,
-   "dropped_from_the_end": 120,
-   "stream_ended_early": false,
-   "kinds": {
-    "definitions": 3,
-    "classes": 0,
-    "face_handles": 4,
-    "load_sites": 0,
-    "selftest_legs": 42
-   },
-   "examples": [
-    {
-     "line": 821,
-     "text": "def cmd_selftest():",
-     "kinds": [
-      "definitions",
-      "selftest_legs"
-     ]
-    },
-    {
-     "line": 822,
-     "text": "ok = 0",
-     "kinds": []
-    },
-    {
-     "line": 823,
-     "text": "fails = []",
      "kinds": []
     }
    ]
@@ -1000,6 +1755,207 @@
    ]
   },
   {
+   "source": "scripts/e384_never_opened_key.py",
+   "raw_lines": 534,
+   "lines_the_helper_shows": 321,
+   "real_code_lines": 380,
+   "recovered_code_lines": 86,
+   "spans": [
+    [
+     406,
+     406,
+     1
+    ],
+    [
+     413,
+     413,
+     1
+    ],
+    [
+     419,
+     419,
+     1
+    ],
+    [
+     428,
+     429,
+     2
+    ],
+    [
+     431,
+     432,
+     2
+    ],
+    [
+     435,
+     441,
+     7
+    ]
+   ],
+   "span_count": 18,
+   "first_hidden_code_line": 406,
+   "dropped_from_the_end": 110,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 3,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 0,
+    "selftest_legs": 35
+   },
+   "examples": [
+    {
+     "line": 406,
+     "text": "FIXT_DUMP = '''",
+     "kinds": []
+    },
+    {
+     "line": 413,
+     "text": "FIXT_BARE = '''",
+     "kinds": []
+    },
+    {
+     "line": 419,
+     "text": "FIXT_CONST = '''",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/e382_key_projection_repair_price.py",
+   "raw_lines": 573,
+   "lines_the_helper_shows": 381,
+   "real_code_lines": 420,
+   "recovered_code_lines": 79,
+   "spans": [
+    [
+     457,
+     457,
+     1
+    ],
+    [
+     467,
+     467,
+     1
+    ],
+    [
+     474,
+     474,
+     1
+    ],
+    [
+     484,
+     489,
+     6
+    ],
+    [
+     492,
+     493,
+     2
+    ],
+    [
+     495,
+     496,
+     2
+    ]
+   ],
+   "span_count": 15,
+   "first_hidden_code_line": 457,
+   "dropped_from_the_end": 93,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 4,
+    "classes": 0,
+    "face_handles": 3,
+    "load_sites": 0,
+    "selftest_legs": 25
+   },
+   "examples": [
+    {
+     "line": 457,
+     "text": "FIXT_JSONL = '''",
+     "kinds": []
+    },
+    {
+     "line": 467,
+     "text": "FIXT_LITERAL = '''",
+     "kinds": []
+    },
+    {
+     "line": 474,
+     "text": "FIXT_STRJOIN = '''",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "raw_lines": 635,
+   "lines_the_helper_shows": 430,
+   "real_code_lines": 466,
+   "recovered_code_lines": 77,
+   "spans": [
+    [
+     505,
+     505,
+     1
+    ],
+    [
+     514,
+     514,
+     1
+    ],
+    [
+     522,
+     522,
+     1
+    ],
+    [
+     528,
+     528,
+     1
+    ],
+    [
+     534,
+     534,
+     1
+    ],
+    [
+     541,
+     541,
+     1
+    ]
+   ],
+   "span_count": 22,
+   "first_hidden_code_line": 505,
+   "dropped_from_the_end": 91,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 3,
+    "classes": 0,
+    "face_handles": 8,
+    "load_sites": 0,
+    "selftest_legs": 27
+   },
+   "examples": [
+    {
+     "line": 505,
+     "text": "FIXT_B = '''",
+     "kinds": []
+    },
+    {
+     "line": 514,
+     "text": "FIXT_C = '''",
+     "kinds": []
+    },
+    {
+     "line": 522,
+     "text": "FIXT_D = '''",
+     "kinds": []
+    }
+   ]
+  },
+  {
    "source": "scripts/t28_stable_profit.py",
    "raw_lines": 541,
    "lines_the_helper_shows": 361,
@@ -1065,6 +2021,145 @@
      "line": 445,
      "text": "print(f\"report: {OUT_REPORT}\")",
      "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/e381_component_key_blind_spot.py",
+   "raw_lines": 508,
+   "lines_the_helper_shows": 314,
+   "real_code_lines": 351,
+   "recovered_code_lines": 71,
+   "spans": [
+    [
+     401,
+     401,
+     1
+    ],
+    [
+     408,
+     408,
+     1
+    ],
+    [
+     416,
+     423,
+     8
+    ],
+    [
+     426,
+     426,
+     1
+    ],
+    [
+     435,
+     436,
+     2
+    ],
+    [
+     438,
+     439,
+     2
+    ]
+   ],
+   "span_count": 17,
+   "first_hidden_code_line": 401,
+   "dropped_from_the_end": 77,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 4,
+    "classes": 0,
+    "face_handles": 3,
+    "load_sites": 0,
+    "selftest_legs": 25
+   },
+   "examples": [
+    {
+     "line": 401,
+     "text": "FIXT_LITERAL = '''",
+     "kinds": []
+    },
+    {
+     "line": 408,
+     "text": "FIXT_NOFACE = '''",
+     "kinds": []
+    },
+    {
+     "line": 416,
+     "text": "def _row(text, face_like):",
+     "kinds": [
+      "definitions"
+     ]
+    }
+   ]
+  },
+  {
+   "source": "scripts/e382_key_projection_delta.py",
+   "raw_lines": 556,
+   "lines_the_helper_shows": 365,
+   "real_code_lines": 411,
+   "recovered_code_lines": 70,
+   "spans": [
+    [
+     454,
+     454,
+     1
+    ],
+    [
+     460,
+     460,
+     1
+    ],
+    [
+     469,
+     471,
+     3
+    ],
+    [
+     474,
+     475,
+     2
+    ],
+    [
+     477,
+     478,
+     2
+    ],
+    [
+     480,
+     482,
+     3
+    ]
+   ],
+   "span_count": 15,
+   "first_hidden_code_line": 454,
+   "dropped_from_the_end": 91,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 4,
+    "classes": 0,
+    "face_handles": 4,
+    "load_sites": 0,
+    "selftest_legs": 28
+   },
+   "examples": [
+    {
+     "line": 454,
+     "text": "FIXTURE_JSONL = '''",
+     "kinds": []
+    },
+    {
+     "line": 460,
+     "text": "FIXTURE_OPAQUE = '''",
+     "kinds": []
+    },
+    {
+     "line": 469,
+     "text": "def _selftest_corpus():",
+     "kinds": [
+      "definitions",
+      "selftest_legs"
+     ]
     }
    ]
   },
@@ -1138,6 +2233,73 @@
    ]
   },
   {
+   "source": "scripts/run_e335_smoke_leg.py",
+   "raw_lines": 81,
+   "lines_the_helper_shows": 8,
+   "real_code_lines": 60,
+   "recovered_code_lines": 59,
+   "spans": [
+    [
+     12,
+     14,
+     3
+    ],
+    [
+     16,
+     19,
+     4
+    ],
+    [
+     22,
+     52,
+     31
+    ],
+    [
+     55,
+     58,
+     4
+    ],
+    [
+     60,
+     61,
+     2
+    ],
+    [
+     63,
+     64,
+     2
+    ]
+   ],
+   "span_count": 9,
+   "first_hidden_code_line": 12,
+   "dropped_from_the_end": 71,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 3,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 1,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 12,
+     "text": "import ast",
+     "kinds": []
+    },
+    {
+     "line": 13,
+     "text": "import os",
+     "kinds": []
+    },
+    {
+     "line": 14,
+     "text": "import sys",
+     "kinds": []
+    }
+   ]
+  },
+  {
    "source": "Tools/_r390bmc_addendum.py",
    "raw_lines": 86,
    "lines_the_helper_shows": 11,
@@ -1200,6 +2362,279 @@
     {
      "line": 27,
      "text": "APPEND_NEXT_PREFIX = (\"(a0) CONTEST SHARD-3/4 double-claim watch (first check): bm-a tick behavior on rows 3/4 \"",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/e371_store_member_cost.py",
+   "raw_lines": 436,
+   "lines_the_helper_shows": 287,
+   "real_code_lines": 315,
+   "recovered_code_lines": 50,
+   "spans": [
+    [
+     368,
+     368,
+     1
+    ],
+    [
+     377,
+     378,
+     2
+    ],
+    [
+     380,
+     381,
+     2
+    ],
+    [
+     383,
+     385,
+     3
+    ],
+    [
+     387,
+     390,
+     4
+    ],
+    [
+     392,
+     396,
+     5
+    ]
+   ],
+   "span_count": 11,
+   "first_hidden_code_line": 368,
+   "dropped_from_the_end": 63,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 3,
+    "classes": 0,
+    "face_handles": 3,
+    "load_sites": 0,
+    "selftest_legs": 18
+   },
+   "examples": [
+    {
+     "line": 368,
+     "text": "FIXTURE_COMPUTED = '''",
+     "kinds": []
+    },
+    {
+     "line": 377,
+     "text": "def selftest():",
+     "kinds": [
+      "definitions",
+      "selftest_legs"
+     ]
+    },
+    {
+     "line": 378,
+     "text": "legs = []",
+     "kinds": [
+      "selftest_legs"
+     ]
+    }
+   ]
+  },
+  {
+   "source": "scripts/e377_unresolved_destination.py",
+   "raw_lines": 571,
+   "lines_the_helper_shows": 384,
+   "real_code_lines": 407,
+   "recovered_code_lines": 50,
+   "spans": [
+    [
+     491,
+     491,
+     1
+    ],
+    [
+     498,
+     498,
+     1
+    ],
+    [
+     504,
+     504,
+     1
+    ],
+    [
+     512,
+     513,
+     2
+    ],
+    [
+     515,
+     516,
+     2
+    ],
+    [
+     518,
+     521,
+     4
+    ]
+   ],
+   "span_count": 15,
+   "first_hidden_code_line": 491,
+   "dropped_from_the_end": 63,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 3,
+    "classes": 0,
+    "face_handles": 1,
+    "load_sites": 0,
+    "selftest_legs": 20
+   },
+   "examples": [
+    {
+     "line": 491,
+     "text": "FIXT_B = '''",
+     "kinds": []
+    },
+    {
+     "line": 498,
+     "text": "FIXT_C = '''",
+     "kinds": []
+    },
+    {
+     "line": 504,
+     "text": "FIXT_D = '''",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/run_e349_smoke_leg.py",
+   "raw_lines": 67,
+   "lines_the_helper_shows": 5,
+   "real_code_lines": 50,
+   "recovered_code_lines": 49,
+   "spans": [
+    [
+     8,
+     12,
+     5
+    ],
+    [
+     14,
+     16,
+     3
+    ],
+    [
+     19,
+     38,
+     20
+    ],
+    [
+     41,
+     44,
+     4
+    ],
+    [
+     46,
+     47,
+     2
+    ],
+    [
+     49,
+     50,
+     2
+    ]
+   ],
+   "span_count": 8,
+   "first_hidden_code_line": 8,
+   "dropped_from_the_end": 60,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 4,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 1,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 8,
+     "text": "import ast",
+     "kinds": []
+    },
+    {
+     "line": 9,
+     "text": "import json",
+     "kinds": []
+    },
+    {
+     "line": 10,
+     "text": "import os",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/run_e353_smoke_leg.py",
+   "raw_lines": 66,
+   "lines_the_helper_shows": 5,
+   "real_code_lines": 49,
+   "recovered_code_lines": 48,
+   "spans": [
+    [
+     8,
+     13,
+     6
+    ],
+    [
+     15,
+     18,
+     4
+    ],
+    [
+     21,
+     40,
+     20
+    ],
+    [
+     43,
+     46,
+     4
+    ],
+    [
+     48,
+     49,
+     2
+    ],
+    [
+     51,
+     52,
+     2
+    ]
+   ],
+   "span_count": 8,
+   "first_hidden_code_line": 8,
+   "dropped_from_the_end": 59,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 4,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 1,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 8,
+     "text": "import ast",
+     "kinds": []
+    },
+    {
+     "line": 9,
+     "text": "import json",
+     "kinds": []
+    },
+    {
+     "line": 10,
+     "text": "import os",
      "kinds": []
     }
    ]
@@ -1380,6 +2815,141 @@
    ]
   },
   {
+   "source": "scripts/_r1384_closeout.py",
+   "raw_lines": 152,
+   "lines_the_helper_shows": 46,
+   "real_code_lines": 58,
+   "recovered_code_lines": 32,
+   "spans": [
+    [
+     68,
+     70,
+     3
+    ],
+    [
+     73,
+     73,
+     1
+    ],
+    [
+     94,
+     94,
+     1
+    ],
+    [
+     107,
+     107,
+     1
+    ],
+    [
+     122,
+     124,
+     3
+    ],
+    [
+     127,
+     132,
+     6
+    ]
+   ],
+   "span_count": 8,
+   "first_hidden_code_line": 68,
+   "dropped_from_the_end": 86,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 1,
+    "selftest_legs": 1
+   },
+   "examples": [
+    {
+     "line": 68,
+     "text": "with io.open(\"research/digests/DIGEST-20261102-r1384-e362-corpus-replay.md\", \"w\",",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 69,
+     "text": "encoding=\"utf-8\", newline=\"\\n\") as fh:",
+     "kinds": []
+    },
+    {
+     "line": 70,
+     "text": "fh.write(digest)",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/_r1421bmb_card_seed.py",
+   "raw_lines": 78,
+   "lines_the_helper_shows": 31,
+   "real_code_lines": 30,
+   "recovered_code_lines": 27,
+   "spans": [
+    [
+     42,
+     43,
+     2
+    ],
+    [
+     45,
+     47,
+     3
+    ],
+    [
+     49,
+     53,
+     5
+    ],
+    [
+     61,
+     75,
+     15
+    ],
+    [
+     77,
+     78,
+     2
+    ]
+   ],
+   "span_count": 5,
+   "first_hidden_code_line": 42,
+   "dropped_from_the_end": 39,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 2,
+    "load_sites": 4,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 42,
+     "text": "with io.open(\"knowledge/METHODOLOGY_ASSETS.md\", \"a\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 43,
+     "text": "fh.write(CARD)",
+     "kinds": []
+    },
+    {
+     "line": 45,
+     "text": "P = \"results/runnable_pool.json\"",
+     "kinds": [
+      "face_handles"
+     ]
+    }
+   ]
+  },
+  {
    "source": "Tools/_r840bma_pit_directwrite.py",
    "raw_lines": 35,
    "lines_the_helper_shows": 2,
@@ -1496,6 +3066,57 @@
    ]
   },
   {
+   "source": "scripts/_r1373_pit.py",
+   "raw_lines": 68,
+   "lines_the_helper_shows": 42,
+   "real_code_lines": 21,
+   "recovered_code_lines": 15,
+   "spans": [
+    [
+     52,
+     64,
+     13
+    ],
+    [
+     67,
+     68,
+     2
+    ]
+   ],
+   "span_count": 2,
+   "first_hidden_code_line": 52,
+   "dropped_from_the_end": 20,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 1,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 2,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 52,
+     "text": "def main():",
+     "kinds": [
+      "definitions"
+     ]
+    },
+    {
+     "line": 53,
+     "text": "raw = io.open(P, \"rb\").read()",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 54,
+     "text": "nl = \"\\r\\n\" if b\"\\r\\n\" in raw else \"\\n\"",
+     "kinds": []
+    }
+   ]
+  },
+  {
    "source": "Tools/_r1234bmb_card.py",
    "raw_lines": 51,
    "lines_the_helper_shows": 30,
@@ -1540,6 +3161,101 @@
    ]
   },
   {
+   "source": "scripts/_r1373_pit2.py",
+   "raw_lines": 32,
+   "lines_the_helper_shows": 14,
+   "real_code_lines": 16,
+   "recovered_code_lines": 10,
+   "spans": [
+    [
+     21,
+     28,
+     8
+    ],
+    [
+     31,
+     32,
+     2
+    ]
+   ],
+   "span_count": 2,
+   "first_hidden_code_line": 21,
+   "dropped_from_the_end": 15,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 1,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 2,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 21,
+     "text": "def main():",
+     "kinds": [
+      "definitions"
+     ]
+    },
+    {
+     "line": 22,
+     "text": "raw = io.open(P, \"rb\").read()",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 23,
+     "text": "nl = \"\\r\\n\" if b\"\\r\\n\" in raw else \"\\n\"",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/_r1369_card.py",
+   "raw_lines": 56,
+   "lines_the_helper_shows": 39,
+   "real_code_lines": 14,
+   "recovered_code_lines": 9,
+   "spans": [
+    [
+     48,
+     56,
+     9
+    ]
+   ],
+   "span_count": 1,
+   "first_hidden_code_line": 48,
+   "dropped_from_the_end": 11,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 2,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 48,
+     "text": "with io.open(P, \"r\", encoding=\"utf-8\") as fh:",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 49,
+     "text": "old = fh.read()",
+     "kinds": []
+    },
+    {
+     "line": 50,
+     "text": "if \"## E348 --\" in old:",
+     "kinds": []
+    }
+   ]
+  },
+  {
    "source": "Tools/_r1184bmb_card.py",
    "raw_lines": 39,
    "lines_the_helper_shows": 25,
@@ -1579,6 +3295,50 @@
     {
      "line": 33,
      "text": "if \"E151 \" in s:",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/_insert_e401_leg.py",
+   "raw_lines": 87,
+   "lines_the_helper_shows": 68,
+   "real_code_lines": 14,
+   "recovered_code_lines": 8,
+   "spans": [
+    [
+     80,
+     87,
+     8
+    ]
+   ],
+   "span_count": 1,
+   "first_hidden_code_line": 80,
+   "dropped_from_the_end": 12,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 2,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 80,
+     "text": "text = io.open(SMOKE, encoding=\"utf-8\").read()",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 81,
+     "text": "if \"# E401:\" in text:",
+     "kinds": []
+    },
+    {
+     "line": 82,
+     "text": "raise SystemExit(\"E401 leg already present in smoke_test.py\")",
      "kinds": []
     }
    ]
@@ -1890,6 +3650,87 @@
     {
      "line": 31,
      "text": "print('cloned s6 driver ok', len(out))",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/_r1371_patch_e350.py",
+   "raw_lines": 54,
+   "lines_the_helper_shows": 43,
+   "real_code_lines": 12,
+   "recovered_code_lines": 2,
+   "spans": [
+    [
+     43,
+     43,
+     1
+    ],
+    [
+     46,
+     46,
+     1
+    ]
+   ],
+   "span_count": 2,
+   "first_hidden_code_line": 43,
+   "dropped_from_the_end": 0,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 0,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 43,
+     "text": "s = s[:start] + new + s[end:]",
+     "kinds": []
+    },
+    {
+     "line": 46,
+     "text": "s = s.replace('''        slot[\"written\"] = key in writes",
+     "kinds": []
+    }
+   ]
+  },
+  {
+   "source": "scripts/_r1384_append_card.py",
+   "raw_lines": 36,
+   "lines_the_helper_shows": 26,
+   "real_code_lines": 6,
+   "recovered_code_lines": 2,
+   "spans": [
+    [
+     35,
+     36,
+     2
+    ]
+   ],
+   "span_count": 1,
+   "first_hidden_code_line": 35,
+   "dropped_from_the_end": 3,
+   "stream_ended_early": false,
+   "kinds": {
+    "definitions": 0,
+    "classes": 0,
+    "face_handles": 0,
+    "load_sites": 1,
+    "selftest_legs": 0
+   },
+   "examples": [
+    {
+     "line": 35,
+     "text": "io.open(p, 'w', encoding='utf-8', newline='\\n').write(s.rstrip('\\n') + card)",
+     "kinds": [
+      "load_sites"
+     ]
+    },
+    {
+     "line": 36,
+     "text": "print('card appended', len(card))",
      "kinds": []
     }
    ]

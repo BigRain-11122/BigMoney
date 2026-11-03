@@ -27274,6 +27274,19 @@
    "question": "E401 priced every site the stdlib call table calls 'other' and found all 10 are git-object reads: `subprocess.run([\"git\",\"show\",\"HEAD:\"+path])` and family, across 4 keys and 63 direct helpers. A working-tree read and a committed-blob read of the same published face can disagree whenever the face is newer than the last commit (it is, all day). Ask it per reader: does the site read the working tree or a git object, does it ever compare the two, and for each published face it reads, how large is the blob-vs-tree disagreement right now. The bill is the reader table plus the measured disagreement per face -- never a rewrite of a reader and never a git write.",
    "status": "ready",
    "title": "E401 found the whole 'other' residue is git-object reads; price the gap between the two readers"
+  },
+  {
+   "deliverable": "results/state_tilt/LEGINPUT-2026-11-05.json",
+   "entered_at": "2026-11-04T06:35:34+08:00",
+   "entered_by": "bm-b r1422 postscript (E305 re-red twice in one window)",
+   "id": "E407-DOES-A-SMELL-TEST-LEG-READ-A-FACE-AN-EARLIER-LEG-REPUBLISHES",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static reading of smoke_test.py legs plus one at-rest rebuild per leg",
+   "owner": null,
+   "priority": 3,
+   "question": "The E305 leg checks 'is precisiongap_latest.json published at the number the audit re-derives' by calling the study's own build() at check time. That build reads sibling faces (t35_open_fill_verify.json and family) which OTHER legs of the same suite republish earlier in the run, so the published face is stale by the time the leg runs -- measured twice this window: the face re-derives equal to the live build at rest (summary, rows and verdict identical), and fails inside the suite. Ask it for every live-directory leg: does its input change during the suite, which leg changes it, and does the leg re-derive before comparing. The bill is the per-leg input-stability table plus the fix each unstable leg needs (freeze a snapshot, or rebuild before comparing) -- never a loosened assertion, and never a face written mid-run to make a leg pass.",
+   "status": "ready",
+   "title": "E305's leg re-reds inside every suite run because earlier legs move its inputs"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27288,6 +27301,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-04T06:28:39+08:00",
+ "updated_at": "2026-11-04T06:35:34+08:00",
  "version": 1
 }
