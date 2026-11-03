@@ -8379,3 +8379,50 @@ Wiring: `scripts/e381_component_key_blind_spot.py` (run / verify problems=[] / s
 leg E381 (`scripts/run_e381_smoke_leg.py` execs it verbatim, 1/1); S6 chain leg
 `component_key_blind_spot`; face `results/state_tilt/COMPONENTKEY-2026-11-03.json` +
 `componentkey_latest.json`.
+
+## E382 -- a repair that renames keys must be priced before it is written, and the price is a verdict
+
+E381 named two defects in the key projection E350/E353/E377 share (a `join` keyed by its operands,
+`.jsonl` never keyed). E382 asks the question nobody had asked: **what moves if it is fixed?** Two
+arms are built in memory over the same corpus, in one parse pass per source -- `published_keying`
+(e350._face_bindings unchanged) and `repaired_keying` (each load's own operands folded into one path,
+`.jsonl` accepted) -- and every headline is published three ways: the number the face on disk carries,
+the number the published arm re-derives from today's corpus, and the number the repaired arm
+re-derives from the same corpus.
+
+Readings (2,422 sources): **10 of 11 headlines move.** fields 2,318 -> 2,373; fields with no writer
+1,717 -> 1,761; guard fields 230 -> 253; **unwritten guard fields 131 -> 148**; E353 pairs 131 -> 148;
+face keys 857 -> 881; fields with an unresolved face 810 -> **758**; E377 blind-spot targets keyed
+0 -> 2; joined-only faces 12 -> 0. E350's verdict string **flips** (131 -> 148 unwritten guards), so
+the same defect E381 called a census bug is, from the publishing side, a republish.
+
+Four rules this face measures rather than asserts:
+
+1. **Three columns, or the delta lies.** `repair = repaired - published_arm` and
+   `drift = published_arm - face_on_disk` are published side by side; the corpus has moved since E350
+   was published (fields +29, reads +93) and rolling that into the repair's bill would have charged a
+   bugfix for a panel that grew.
+2. **A repair by renaming is not monotone.** The first draft asserted the repair was "additive" and
+   the selftest killed it: a folded load DROPS its basename key (keeping both would preserve the very
+   collision being repaired), so a distinct-key count can move either way and the sign of every delta
+   is published, not argued. What IS asserted: every key removed is a bare basename and every key
+   added is a path or a `.jsonl` face.
+3. **The largest delta is a decrease, and it is the defect's signature.** fields with an unresolved
+   face fall 52 (-6.4%): those reads were filed under names no path could resolve, and the repair
+   turns them into paths.
+4. **A verdict string is data.** E350's text carries the count, so a republish changes published
+   prose, not only numbers -- the study re-applies `e350.decide()` to both arms and publishes the
+   flip rather than leaving it for the next reader to notice.
+
+Bound published, not claimed: both arms read TODAY's tree, so the repair's bill is
+`repaired - published-arm` and never `repaired - face-on-disk`; E353's pair COUNT is repriced but its
+verdict is not (its classes come from reading each pair's face on disk, which this study does not
+re-run); E377's verdict inputs (dump-call, unresolved-call counts) do not move with keying, so only
+its face list is republished; the repaired arm keeps the published per-value rule whenever a load's
+operands do not fold, so no binding loses its key. A corpus member changed between the first build
+and this one (smoke_test.py gained a leg), so the run was killed and restarted on the final tree
+rather than published from a moving corpus -- the numbers here are one snapshot, not the first one.
+
+Wiring: `scripts/e382_key_projection_delta.py` (run / verify problems=[] / selftest 16/16); smoke leg
+E382 (`scripts/run_e382_smoke_leg.py` execs it verbatim, 1/1); S6 chain leg `key_projection_delta`;
+face `results/state_tilt/KEYDELTA-2026-11-03.json` + `keydelta_latest.json`.

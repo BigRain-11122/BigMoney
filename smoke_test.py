@@ -13242,6 +13242,88 @@ check(_name381, not _bad381, "; ".join(_bad381)[:220]
             (((_f381 or {}).get("bridge_evidence") or {}).get("card_row") or {}).get("joined_key")))
 
 
+# E382: before anyone patches the shared face keying, price the repair.  This leg refuses the
+# shapes that would let a republish be asserted instead of measured: a verdict outside the frozen
+# vocabulary, a headline the study claims to reprice but does not carry, a delta that does not
+# re-add, a row that mixes the repair's bill with the corpus drift, a target face the "additive"
+# repair lost, a joined-only face published without a path, a verdict that does not re-derive, and
+# the study's own verify not coming back clean.
+_name382 = ("product: the key-projection repair moves %d published headline(s) and flips %d verdict(s)"
+            % (0, 0))
+_bad382 = []
+try:
+    _p382 = os.path.join("results", "state_tilt", "keydelta_latest.json")
+    _f382 = json.load(open(_p382, encoding="utf-8")) if os.path.exists(_p382) else None
+    if _f382 is None:
+        _bad382.append("no published key-delta face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m382 = __import__("importlib").import_module("e382_key_projection_delta")
+        _s382 = _f382.get("summary") or {}
+        if _f382.get("verdict") not in {_m382.V_HEADLINES_MOVE, _m382.V_HEADLINES_HOLD,
+                                        _m382.V_VERDICT_FLIPS, _m382.V_EMPTY}:
+            _bad382.append("verdict %r is outside the frozen vocabulary"
+                           % str(_f382.get("verdict"))[:60])
+        _rows382 = _f382.get("headlines") or []
+        _keys382 = {r.get("key") for r in _rows382}
+        for _k382, _lbl382 in _m382.HEADLINES:
+            if _k382 not in _keys382:
+                _bad382.append("headline %s is not carried" % _k382)
+                break
+        _moves382 = []
+        for _r382 in _rows382:
+            _b382, _a382 = _r382.get("recomputed_published_arm"), _r382.get("recomputed_repaired_arm")
+            if isinstance(_b382, int) and isinstance(_a382, int):
+                if _r382.get("repair_delta") != _a382 - _b382:
+                    _bad382.append("delta does not re-derive at %s" % _r382.get("key"))
+                    break
+                if _r382.get("repair_delta"):
+                    _moves382.append(_r382["key"])
+            elif _r382.get("repair_delta") is not None:
+                _bad382.append("a non-integer delta is published at %s" % _r382.get("key"))
+                break
+            if "corpus_drift" not in _r382:
+                _bad382.append("row %s does not separate the repair's bill from corpus drift"
+                               % _r382.get("key"))
+                break
+        if _s382.get("headlines_that_move") != len(_moves382):
+            _bad382.append("headlines_that_move does not equal the moving rows")
+        if sorted(_s382.get("headline_keys_that_move") or []) != sorted(_moves382):
+            _bad382.append("the moving-key list is not the moving rows")
+        _trows382 = _f382.get("e377_rows") or []
+        _named382 = sum(1 for r in _trows382 if r.get("status") == "the_repair_names_it")
+        if _named382 != _s382.get("e377_targets_named_only_by_the_repair"):
+            _bad382.append("the repair-names-it count does not re-add from the rows")
+        if any(r.get("the_repair_loses_a_key") for r in _trows382):
+            _bad382.append("the repair lost a target face, so it is not a rename")
+        for _face382 in (_f382.get("joined_only_faces") or []):
+            if "/" not in _face382:
+                _bad382.append("a joined-only face is published without a path")
+                break
+        _arms382 = _s382.get("arms") or {}
+        for _arm382 in (_m382.ARM_PUBLISHED, _m382.ARM_REPAIRED):
+            if not isinstance((_arms382.get(_arm382) or {}).get("keys"), int):
+                _bad382.append("arm %s publishes no integer key count" % _arm382)
+                break
+            if not (_arms382.get(_arm382) or {}).get("verdict"):
+                _bad382.append("arm %s publishes no verdict string" % _arm382)
+                break
+        if _f382.get("verdict") != _m382.decide(_s382):
+            _bad382.append("the verdict does not re-derive from the summary")
+        if _m382.verify() != 0:
+            _bad382.append("the study's own verify does not come back clean")
+        _name382 = ("product: the key-projection repair moves %d published headline(s) and flips "
+                    "%d verdict(s)" % (len(_moves382), _s382.get("verdicts_that_flip") or 0))
+except Exception as e:
+    _bad382.append(repr(e)[:160])
+check(_name382, not _bad382, "; ".join(_bad382)[:220]
+      or "%d headlines, %d move (%s); E377 targets %d, %d named only by the repair; verdict %s"
+         % (len(_rows382 or []), len(_moves382 or []), ",".join(_moves382 or []),
+            (_s382 or {}).get("e377_targets", 0),
+            (_s382 or {}).get("e377_targets_named_only_by_the_repair", 0),
+            str((_f382 or {}).get("verdict"))[:80]))
+
+
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass

@@ -1225,6 +1225,11 @@ LEGS = [
     # join by its operands, so a three-component path lands under a bare basename. Verify re-adds the
     # rows and the three named causes, and re-derives the verdict (~2 s, no corpus scan).
     ("component_key_blind_spot", ["python", "scripts/e381_component_key_blind_spot.py", "verify"]),
+    # E382: prices the repair of that keying before anyone patches it -- two arms over the
+    # same corpus; 10 of 11 published headlines move and E350's verdict string changes
+    # 131 -> 148, so the fix is a republish decision. Verify re-derives every delta from the
+    # stored rows (~1 s, no corpus scan).
+    ("key_projection_delta", ["python", "scripts/e382_key_projection_delta.py", "verify"]),
 ]
 
 
