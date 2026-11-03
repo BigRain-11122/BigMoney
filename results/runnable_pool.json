@@ -27200,11 +27200,15 @@
   },
   {
    "deliverable": "results/state_tilt/FRAGMENTPRODUCERS-2026-11-05.json",
+   "done_at": "2026-11-04T04:03+08:00",
+   "done_by": "bm-b r1420",
    "entered_at": "2026-11-04T01:4x+08:00",
    "entered_by": "bm-b r1418 (supply floor refill after E399)",
    "id": "E402-WHICH-SITES-COMPOSE-A-BASENAME-FRAGMENT-AND-CAN-THE-JOIN-EVER-RESOLVE",
    "lane": "cpu-only",
-   "status": "ready",
+   "note": "52 fragments / 100 producer sites: 67 sites (27 fragments) are temp-directory fixtures, 16 (6) untraceable module constants, 7 (2) joins onto a constant base that does not hold the file (one hard-codes K:\\...), 7 (6) cwd-relative reads, 3 (3) are pieces of a formatted name rather than filenames, 0 compose to an existing path",
+   "result_ref": "results/state_tilt/FRAGMENTPRODUCERS-2026-11-04.json",
+   "status": "done",
    "title": "E399 found that 52 of the 884 published keys (5.9%) are bare basenames -- a filename whose directory is supplied by a runtime variable, so \"resolves to no file\" is their normal state. Measure the producer side: for each fragment, find the site that writes it and the expression that supplies the directory, then classify whether that join can ever produce an existing file (constant existing dir / constant missing dir / dir built from another key / dir built from a date or symbol not in the tree). The bill separates fragments that are legitimate runtime names from fragments that will never resolve anywhere -- and says how much of any \"faces named\" headline is fragments."
   },
   {
@@ -27218,6 +27222,19 @@
    "owner": null,
    "priority": 3,
    "status": "ready"
+  },
+  {
+   "deliverable": "results/state_tilt/CONSTANTDIRS-2026-11-05.json",
+   "entered_at": "2026-11-04T04:03+08:00",
+   "entered_by": "bm-b r1420 (supply floor refill after E402)",
+   "id": "E404-WHICH-MODULE-CONSTANT-SUPPLIES-THE-6-UNTRACEABLE-FRAGMENT-DIRECTORIES",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static; follow import edges only, never rewrite a constant",
+   "note": "6 of 52 fragments were C7 in E402; this prices the instrument's own blind spot",
+   "owner": null,
+   "priority": 3,
+   "status": "ready",
+   "title": "E402 traced 52 fragments to their write sites and could not follow 6 of them because the directory is a module constant or an attribute this corpus defines outside the python walk (CACHE_DIR / CKPT_DIR / RES_DIR / MACHINES_DIR / PATHS.root). Measure the constant side: for each untraceable fragment, resolve the name through imports to its definition, publish whether the definition still exists in the tree it points at, and say whether the value can ever be a directory this machine has. The bill separates 'a constant defined in a tree the index skips' from 'a constant defined nowhere'."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

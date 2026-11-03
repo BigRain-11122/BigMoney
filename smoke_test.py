@@ -14572,6 +14572,86 @@ except Exception as _e399:
 check(_name399, not _bad399, "; ".join(_bad399)[:240]
       or "verdict %s" % str((_f399 or {}).get("verdict"))[:90])
 
+# E402: E399 called the 52 bare basenames "a fragment whose directory is a runtime variable at the
+# one site that writes it" and left it there. This leg prices the producer side and refuses the ways
+# a producer census can flatter itself: a class outside the frozen set, classes that do not sum to
+# the published producer total, a per-fragment table that does not add up to the fragment count, a
+# dead-join list whose length is not its own headline, a "composed path exists" list that disagrees
+# with its own count, a landing claimed for a join whose composed path is absent, a verdict that does
+# not re-derive from the summary, and a study whose own verify is not clean.
+_name402 = ("product: who composes a bare-basename fragment -- %s of %s are temporary-directory "
+            "fixtures, %s are not whole filenames at all, %s are joins that can never land, %s "
+            "compose to a path that exists")
+_bad402 = []
+_f402 = None
+try:
+    _p402 = os.path.join("results", "state_tilt", "fragmentproducers_latest.json")
+    _f402 = json.load(open(_p402, encoding="utf-8")) if os.path.exists(_p402) else None
+    if _f402 is None:
+        _bad402.append("no published fragment-producer face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m402 = __import__("importlib").import_module("e402_fragment_producers")
+        _s402 = _f402.get("summary") or {}
+        _cls402 = _s402.get("by_class") or {}
+        if _f402.get("verdict") not in (_m402.V_NO_WRITER, _m402.V_SCAFFOLDING,
+                                        _m402.V_DEAD_WRITES, _m402.V_MIXED, _m402.V_UNTRACED):
+            _bad402.append("verdict %r is outside the frozen set" % str(_f402.get("verdict")))
+        _unknown402 = sorted(set(_cls402) - set(_m402.CLASSES))
+        if _unknown402:
+            _bad402.append("classes outside the frozen set: %s" % _unknown402)
+        if sum(_cls402.values()) != (_s402.get("producer_sites_total") or 0):
+            _bad402.append("classes sum to %d but the producer total is %r"
+                           % (sum(_cls402.values()), _s402.get("producer_sites_total")))
+        if _s402.get("classes_sum_to_sites") is not True:
+            _bad402.append("the face does not claim its classes cover every site")
+        _rows402 = _f402.get("rows") or []
+        if len(_rows402) != (_s402.get("fragments") or 0):
+            _bad402.append("rows %d vs fragments %r" % (len(_rows402), _s402.get("fragments")))
+        _prim402 = _s402.get("by_fragment_primary_class") or {}
+        if sum(_prim402.values()) != len(_rows402):
+            _bad402.append("the per-fragment table sums to %d, not %d"
+                           % (sum(_prim402.values()), len(_rows402)))
+        _from402 = _s402.get("by_classified_from") or {}
+        if sum(_from402.values()) != len(_rows402):
+            _bad402.append("the classified-from table sums to %d, not %d"
+                           % (sum(_from402.values()), len(_rows402)))
+        _dead402 = _s402.get("joins_that_can_never_land") or []
+        if _s402.get("fragments_primary_class_dead_join") != len(_dead402):
+            _bad402.append("the dead-join headline is not the length of its own list")
+        for _d402 in _dead402:
+            if not _d402.get("expression") or not _d402.get("site"):
+                _bad402.append("a dead join does not name its site and expression")
+        if _s402.get("fragments_primary_class_temporary") != _prim402.get(_m402.C4, 0):
+            _bad402.append("the temporary-directory headline is not its own primary class")
+        if _s402.get("fragments_with_no_site_in_the_corpus") != len(
+                _s402.get("fragments_no_site_named") or []):
+            _bad402.append("the no-site headline is not the length of its own list")
+        _exist402 = _s402.get("fragments_that_exist_when_composed") or []
+        if len(_exist402) != (_s402.get("fragments_whose_composed_path_exists") or 0):
+            _bad402.append("the landing headline is not the length of its own list")
+        for _r402 in _rows402:
+            if _r402.get("producer_path_exists") and _r402.get("producer_class") != _m402.C1:
+                _bad402.append("%s claims a landing outside the exists class"
+                               % _r402.get("fragment"))
+            if _r402.get("producer_class") in (_m402.C4, _m402.C5, _m402.C7, _m402.C8) \
+                    and _r402.get("producer_composed_path"):
+                _bad402.append("%s publishes a composed path for a class that has none"
+                               % _r402.get("fragment"))
+        if _m402.decide(_s402) != _s402.get("verdict"):
+            _bad402.append("the verdict does not re-derive from the summary")
+        if _m402.verify() != []:
+            _bad402.append("the study's own verify does not come back clean")
+        _name402 = _name402 % (_s402.get("fragments_primary_class_temporary"),
+                               _s402.get("fragments"),
+                               _s402.get("fragments_primary_class_suffix_only"),
+                               _s402.get("fragments_primary_class_dead_join"),
+                               _s402.get("fragments_whose_composed_path_exists"))
+except Exception as _e402:
+    _bad402.append(repr(_e402)[:160])
+check(_name402, not _bad402, "; ".join(_bad402)[:240]
+      or "verdict %s" % str((_f402 or {}).get("verdict"))[:90])
+
 # E398: E385 found 28 files under the name latest.json. This leg asks who READS such a pointer and
 # whether the reader knows which family wrote last. It refuses the ways a reader census can flatter
 # or indict itself: a class outside the frozen set, classes that do not sum to the read sites, a

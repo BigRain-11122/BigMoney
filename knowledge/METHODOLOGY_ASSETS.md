@@ -9169,3 +9169,62 @@ Wiring: ``scripts/e398_latest_family.py`` (run / verify problems=[] / selftest 2
 ``results/state_tilt/LATESTFAMILY-2026-11-04.json`` + ``latestfamily_latest.json``; successor card
 E403 (do the *callers* of a family-parameter reader pass the right family -- 17 sites, 0 checked
 here); no pointer, reader or face edited.
+### E402 -- a fragment has no producer until you find one, and 27 of 52 are fixtures (r1420 bm-b)
+
+E399 published 52 of 884 keys as `bare_basename_whose_directory_is_a_runtime_variable` and described
+them as names whose directory "is supplied by a runtime variable at the one site that writes it".  That
+sentence asserts a producer; E402 reads the producer side instead.  For each fragment it finds every
+site where the name appears as an **exact** string constant, classifies the site as write / read /
+untagged from the enclosing statement, traces the directory expression the name is joined onto (one
+hop through local and module assignments, `with ... as` bindings included), and asks whether the
+composed path exists.
+
+| what the producer side says | sites | fragments |
+|---|---|---|
+| temporary directory, deleted by design (a fixture name) | **67** | **27** |
+| directory expression not traceable statically | 16 | 6 |
+| constant directory that does **not** hold the file | 7 | **2** |
+| cwd-relative, no directory supplied | 7 | 6 |
+| not a whole filename at all (a piece of a formatted name) | 3 | **3** |
+| constant directory that holds the file | **0** | **0** |
+
+Lessons:
+
+(1) **An exact match is the instrument, not a detail.** `_judge.json` occurs inside `w13_judge.json`
+at thirteen sites that have nothing to do with the key, `census.json` inside `multicore_census.json`.
+A substring census of "which sites carry this name" prices other people's files; match
+`ast.Constant == the key` and nothing else.
+
+(2) **"A runtime variable supplies the directory" is mostly a temp dir.** 27 of 52 are fixture names
+inside `tempfile.TemporaryDirectory()`; they are *supposed* to resolve to no file.  Two more are
+joins onto a constant base that does not hold them (one hard-codes `K:\...`, one points `results/`
+at a `Tools/`-relative root), and three are not filenames at all but the tail of `f"{tid}_paper.json"`.
+So of 52 fragments, **0** compose to a path that exists -- the residual is scaffolding, not attrition.
+
+(3) **A piece of a computed name is a category error, not an absence.** E399's form test was "no
+slash + known extension", and `_x1.json` passes it while being the right-hand operand of
+`c + "_x1.json"`.  Once a name is built by concatenation or formatting the key was never a filename;
+publish that as its own class (C8) instead of folding it into "unresolved".
+
+(4) **The trace must honour `dirname`, and `with ... as` is not an `Assign`.** Flattening
+`os.path.dirname(os.path.dirname(os.path.abspath(__file__)))` into a parts list moved the base up two
+directories and read a real `results/` join as `Tools/results/` -- a false "dead join".  Reading
+`with tempfile.TemporaryDirectory() as tmp` needed a `withitem` arm; without it 24 sites fell into
+"untraceable" for no reason.  Both errors were in the instrument, not the tree.
+
+(5) **Say where the classification came from.** Only 11 of 52 fragments have a write site; 32 are
+priced from an untagged site, 9 from read sites only, 8 appear nowhere in the corpus.  A row labelled
+"producer_class" that is really a *read* site's join is the kind of misnomer that later gets quoted as
+a producer; `classified_from` is published per fragment.
+
+Wiring: `scripts/e402_fragment_producers.py` (run / verify problems=[] / selftest 19/19); smoke leg
+E402 (1/1, exec'd verbatim by `scripts/run_e402_smoke_leg.py`); S6 leg `fragment_producers` (rc 0,
+20.8 s); face `results/state_tilt/FRAGMENTPRODUCERS-2026-11-04.json` + `fragmentproducers_latest.json`;
+successor card E404 filed for the 6 untraceable directories (module constants imported from the
+excluded tree); no published face, pointer, caller or key edited.
+
+Measured side effect: the new `fragmentproducers_latest.json` is itself a family-named pointer, so
+E398's `named_pointers` moved 175 -> 176 and the E398 smoke leg failed.  The E398 face was
+**re-derived from the live build** (`run` + `verify problems=[]`) rather than the leg loosened; its
+read-site count (187) and bare-pointer count (28) did not move.
+

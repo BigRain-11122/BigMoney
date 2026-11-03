@@ -1345,6 +1345,15 @@ LEGS = [
     # re-derives every published row's class from the tree.
     ("unresolved_names", ["python", "scripts/e399_unresolved_names.py", "verify"]),
 
+    # E402 tests the inference E399 left standing: 52 published keys are bare basenames "whose
+    # directory is supplied by a runtime variable at the one site that writes it".  The producer side
+    # says otherwise for most of them -- 27 are fixture names inside a temporary directory deleted by
+    # design, 3 are not whole filenames at all (a piece of a concatenated name), 6 are cwd-relative
+    # reads, 2 are joined onto a constant base that does not hold the file, 6 could not be traced,
+    # and none composes to a path that exists.  Verify re-derives every site count, every class and
+    # the landing test from the tree.
+    ("fragment_producers", ["python", "scripts/e402_fragment_producers.py", "verify"]),
+
     # E398 asks who reads a latest.json pointer and whether the reader knows which family wrote
     # last.  E385 found 28 files under the name latest.json; a reader that resolves the pointer
     # against a free runtime base opens whichever family published last and looks healthy doing it

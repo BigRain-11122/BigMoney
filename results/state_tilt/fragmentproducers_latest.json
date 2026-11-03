@@ -1,0 +1,2233 @@
+{
+ "arms": {
+  "A0_population": {
+   "kind": "E399 face rows with class == bare_basename_whose_directory_is_a_runtime_variable",
+   "rows_read": 98
+  },
+  "A1_site_match": {
+   "kind": "ast.Constant with value == the fragment",
+   "why_not_substring": "_judge.json occurs inside w13_judge.json at 13 sites that have nothing to do with the key"
+  },
+  "A2_write_test": {
+   "kind": "enclosing statement: open(mode) / json.dump / to_csv / write_text / savetxt",
+   "three_valued": [
+    "write",
+    "read",
+    "unknown"
+   ]
+  },
+  "A3_directory_trace": {
+   "classes": [
+    "constant_directory_that_holds_the_file_in_the_tree",
+    "constant_directory_that_does_not_hold_the_file",
+    "cwd_relative_no_directory_supplied",
+    "temporary_directory_deleted_by_design",
+    "directory_supplied_by_a_runtime_value",
+    "directory_built_from_a_name_or_date_the_tree_does_not_hold",
+    "directory_expression_not_traceable_statically",
+    "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename"
+   ],
+   "kind": "join / Path / format / concatenation, one hop through local and module assignments"
+  },
+  "A4_landing_test": {
+   "kind": "does the composed path exist right now"
+  }
+ },
+ "bounds": {
+  "measured": "each of the 52 fragments against every exact string constant in the python corpus; the write/read split from the enclosing statement; the directory expression as written; and whether the composed path exists",
+  "no_rewrites": "no published face, pointer, caller or key is edited here",
+  "not_measured": "non-python sites (.ps1, .md, json) are not scanned; a fragment used only as a suffix of a longer literal is invisible to the exact-match arm by design; the trace follows one hop of assignment and does not evaluate arbitrary expressions"
+ },
+ "evidence_cutoff": "2026-11-04",
+ "rows": [
+  {
+   "classes_at_this_fragment": {
+    "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename": 1
+   },
+   "classified_from": "write_site",
+   "fragment": "-sender.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 0,
+   "n_write_sites": 1,
+   "producer_class": "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename",
+   "producer_composed_path": null,
+   "producer_directory_expression": "f\"{TICKET}-sender.json\"",
+   "producer_path_exists": false,
+   "producer_site": "Tools/_r421bmc_mf_assist.py:264",
+   "sites": [
+    {
+     "class": "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename",
+     "composed_path": null,
+     "directory_expression": "f\"{TICKET}-sender.json\"",
+     "exists": false,
+     "site": "Tools/_r421bmc_mf_assist.py:264",
+     "why": "the key is a piece of a computed name",
+     "write_kind": "write"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "directory_expression_not_traceable_statically": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "COMPOSITE-001.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "directory_expression_not_traceable_statically",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(PATHS.root, \"firm\", \"traders\", \"COMPOSITE-001.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/p2_deepening.py:420",
+   "sites": [
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(PATHS.root, \"firm\", \"traders\", \"COMPOSITE-001.json\")",
+     "exists": false,
+     "site": "scripts/p2_deepening.py:420",
+     "why": "unresolved",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "CORPUSPIN-2026-01-02.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"CORPUSPIN-2026-01-02.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/e362_corpus_replay.py:267",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"CORPUSPIN-2026-01-02.json\")",
+     "exists": false,
+     "site": "scripts/e362_corpus_replay.py:267",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "DUALARM-2026-09-22.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(out2, \"DUALARM-2026-09-22.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/regime_gate_dualarm.py:422",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(out2, \"DUALARM-2026-09-22.json\")",
+     "exists": false,
+     "site": "scripts/regime_gate_dualarm.py:422",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "write_site",
+   "fragment": "FZ.json",
+   "n_read_sites": 0,
+   "n_sites": 4,
+   "n_untagged_sites": 3,
+   "n_write_sites": 1,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tdir, \"FZ.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/aggr_capacity_probe.py:430",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tdir, \"FZ.json\")",
+     "exists": false,
+     "site": "scripts/aggr_capacity_probe.py:430",
+     "why": "temporary directory",
+     "write_kind": "write"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/e359_census_scaffolding_split.py:665",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/e359_census_scaffolding_split.py:685",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/e359_census_scaffolding_split.py:746",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "directory_expression_not_traceable_statically": 3,
+    "temporary_directory_deleted_by_design": 2
+   },
+   "classified_from": "write_site",
+   "fragment": "GRID-X_paper.json",
+   "n_read_sites": 0,
+   "n_sites": 5,
+   "n_untagged_sites": 0,
+   "n_write_sites": 5,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"results\", \"grid_paper\", \"GRID-X_paper.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/month_exam_readiness.py:382",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"results\", \"grid_paper\", \"GRID-X_paper.json\")",
+     "exists": false,
+     "site": "scripts/month_exam_readiness.py:382",
+     "why": "temporary directory",
+     "write_kind": "write"
+    },
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(fx, \"results\", \"grid_paper\", \"GRID-X_paper.json\")",
+     "exists": false,
+     "site": "scripts/month_exam_readiness.py:450",
+     "why": "unresolved",
+     "write_kind": "write"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"results\", \"grid_paper\", \"GRID-X_paper.json\")",
+     "exists": false,
+     "site": "scripts/open_market_readiness.py:445",
+     "why": "temporary directory",
+     "write_kind": "write"
+    },
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(fx, \"results\", \"grid_paper\", \"GRID-X_paper.json\")",
+     "exists": false,
+     "site": "scripts/open_market_readiness.py:508",
+     "why": "unresolved",
+     "write_kind": "write"
+    },
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(fx, \"results\", \"grid_paper\", \"GRID-X_paper.json\")",
+     "exists": false,
+     "site": "scripts/open_market_readiness.py:511",
+     "why": "unresolved",
+     "write_kind": "write"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "cwd_relative_no_directory_supplied": 1
+   },
+   "classified_from": "write_site",
+   "fragment": "PAGE-2026-10-27.json",
+   "n_read_sites": 0,
+   "n_sites": 2,
+   "n_untagged_sites": 1,
+   "n_write_sites": 1,
+   "producer_class": "cwd_relative_no_directory_supplied",
+   "producer_composed_path": "PAGE-2026-10-27.json",
+   "producer_directory_expression": "",
+   "producer_path_exists": false,
+   "producer_site": "scripts/etf_book_registry.py:578",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmpd, \"PAGE-2026-10-27.json\")",
+     "exists": false,
+     "site": "scripts/etf_book_registry.py:569",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": "PAGE-2026-10-27.json",
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/etf_book_registry.py:578",
+     "why": "the fragment is used without a directory",
+     "write_kind": "write"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {},
+   "classified_from": "nothing",
+   "fragment": "REGIME5-DIAG-.json",
+   "n_read_sites": 0,
+   "n_sites": 0,
+   "n_untagged_sites": 0,
+   "n_write_sites": 0,
+   "producer_class": null,
+   "producer_composed_path": null,
+   "producer_directory_expression": null,
+   "producer_path_exists": null,
+   "producer_site": null,
+   "sites": []
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "SH600418.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(td, \"SH600418.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/backfill_heat_history.py:358",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"SH600418.json\")",
+     "exists": false,
+     "site": "scripts/backfill_heat_history.py:358",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "cwd_relative_no_directory_supplied": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "UPSTREAM-MIRROR.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "cwd_relative_no_directory_supplied",
+   "producer_composed_path": null,
+   "producer_directory_expression": "",
+   "producer_path_exists": false,
+   "producer_site": "Tools/upstream_mirror.py:33",
+   "sites": [
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "Tools/upstream_mirror.py:33",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {},
+   "classified_from": "nothing",
+   "fragment": "_chunk_.json",
+   "n_read_sites": 0,
+   "n_sites": 0,
+   "n_untagged_sites": 0,
+   "n_write_sites": 0,
+   "producer_class": null,
+   "producer_composed_path": null,
+   "producer_directory_expression": null,
+   "producer_path_exists": null,
+   "producer_site": null,
+   "sites": []
+  },
+  {
+   "classes_at_this_fragment": {
+    "cwd_relative_no_directory_supplied": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "_judge.json",
+   "n_read_sites": 1,
+   "n_sites": 2,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "cwd_relative_no_directory_supplied",
+   "producer_composed_path": null,
+   "producer_directory_expression": "",
+   "producer_path_exists": false,
+   "producer_site": "scripts/mass_trial_report.py:72",
+   "sites": [
+    {
+     "class": "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename",
+     "composed_path": null,
+     "directory_expression": "f\"{wv}_judge.json\"",
+     "exists": false,
+     "site": "scripts/e15_emotion_reeval.py:162",
+     "why": "the key is a piece of a computed name",
+     "write_kind": "read"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/mass_trial_report.py:72",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename": 1
+   },
+   "classified_from": "write_site",
+   "fragment": "_paper.json",
+   "n_read_sites": 2,
+   "n_sites": 29,
+   "n_untagged_sites": 26,
+   "n_write_sites": 1,
+   "producer_class": "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename",
+   "producer_composed_path": null,
+   "producer_directory_expression": "f\"{tid}_paper.json\"",
+   "producer_path_exists": false,
+   "producer_site": "scripts/t35_paper_export.py:312",
+   "sites": [
+    {
+     "class": "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename",
+     "composed_path": null,
+     "directory_expression": "f\"{t['id']}_paper.json\"",
+     "exists": false,
+     "site": "live/paper.py:1242",
+     "why": "the key is a piece of a computed name",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "monitor/build_status.py:1636",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "monitor/build_status.py:2241",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "str(s.get(\"trader\") or f[:-len(\"_paper.json\")])",
+     "exists": false,
+     "site": "monitor/build_status.py:1646",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename",
+     "composed_path": null,
+     "directory_expression": "f\"{variant}_paper.json\"",
+     "exists": false,
+     "site": "scripts/aggressive_lab.py:711",
+     "why": "the key is a piece of a computed name",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/daily_scorecard.py:47",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/daily_scorecard.py:101",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename",
+     "composed_path": null,
+     "directory_expression": "f\"GRID-{code}_paper.json\"",
+     "exists": false,
+     "site": "scripts/grid_paper.py:64",
+     "why": "the key is a piece of a computed name",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/monthly_exam_prep.py:65",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/monthly_exam_prep.py:67",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/monthly_exam_prep.py:68",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/monthly_exam_prep.py:69",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "cwd_relative_no_directory_supplied": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "_r1383_hb_fields.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "cwd_relative_no_directory_supplied",
+   "producer_composed_path": "_r1383_hb_fields.json",
+   "producer_directory_expression": "os.path.join(os.path.dirname(__file__), \"_r1383_hb_fields.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/_r1383_heartbeat.py:49",
+   "sites": [
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": "_r1383_hb_fields.json",
+     "directory_expression": "os.path.join(os.path.dirname(__file__), \"_r1383_hb_fields.json\")",
+     "exists": false,
+     "site": "scripts/_r1383_heartbeat.py:49",
+     "why": "no directory supplied",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "constant_directory_that_does_not_hold_the_file": 1
+   },
+   "classified_from": "write_site",
+   "fragment": "_r789bmc_adopt_facts.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 0,
+   "n_write_sites": 1,
+   "producer_class": "constant_directory_that_does_not_hold_the_file",
+   "producer_composed_path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r789bmc_adopt_facts.json",
+   "producer_directory_expression": "os.path.join(REPO, \"results\", \"_r789bmc_adopt_facts.json\")",
+   "producer_path_exists": false,
+   "producer_site": "Tools/_r789bmc_adopt.py:91",
+   "sites": [
+    {
+     "class": "constant_directory_that_does_not_hold_the_file",
+     "composed_path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r789bmc_adopt_facts.json",
+     "directory_expression": "os.path.join(REPO, \"results\", \"_r789bmc_adopt_facts.json\")",
+     "exists": false,
+     "site": "Tools/_r789bmc_adopt.py:91",
+     "why": "the composed path does not exist",
+     "write_kind": "write"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename": 2
+   },
+   "classified_from": "read_site_only",
+   "fragment": "_x1.json",
+   "n_read_sites": 2,
+   "n_sites": 2,
+   "n_untagged_sites": 0,
+   "n_write_sites": 0,
+   "producer_class": "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename",
+   "producer_composed_path": null,
+   "producer_directory_expression": "c + \"_x1.json\"",
+   "producer_path_exists": false,
+   "producer_site": "scripts/regime_matrix_p0.py:459",
+   "sites": [
+    {
+     "class": "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename",
+     "composed_path": null,
+     "directory_expression": "c + \"_x1.json\"",
+     "exists": false,
+     "site": "scripts/regime_matrix_p0.py:459",
+     "why": "the key is a piece of a computed name",
+     "write_kind": "read"
+    },
+    {
+     "class": "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename",
+     "composed_path": null,
+     "directory_expression": "m + \"_x1.json\"",
+     "exists": false,
+     "site": "scripts/regime_matrix_p0.py:569",
+     "why": "the key is a piece of a computed name",
+     "write_kind": "read"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "arm.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"arm.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/e396_face_basename_suffix.py:244",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"arm.json\")",
+     "exists": false,
+     "site": "scripts/e396_face_basename_suffix.py:244",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 13
+   },
+   "classified_from": "untagged_site",
+   "fragment": "attr.json",
+   "n_read_sites": 0,
+   "n_sites": 13,
+   "n_untagged_sites": 13,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(td, \"attr.json\")",
+   "producer_path_exists": false,
+   "producer_site": "Tools/oss_import_gate.py:323",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"attr.json\")",
+     "exists": false,
+     "site": "Tools/oss_import_gate.py:323",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"attr.json\")",
+     "exists": false,
+     "site": "scripts/cn_kline_pattern_p1.py:1131",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"attr.json\")",
+     "exists": false,
+     "site": "scripts/cn_mkneutral_p1.py:1338",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"attr.json\")",
+     "exists": false,
+     "site": "scripts/cn_sector_leader_p1.py:1429",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"attr.json\")",
+     "exists": false,
+     "site": "scripts/cn_soe_etf_p1.py:1405",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"attr.json\")",
+     "exists": false,
+     "site": "scripts/cn_trend_etf_p1.py:1235",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"attr.json\")",
+     "exists": false,
+     "site": "scripts/innovation_quota_w1.py:727",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"attr.json\")",
+     "exists": false,
+     "site": "scripts/innovation_quota_w2.py:954",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"attr.json\")",
+     "exists": false,
+     "site": "scripts/innovation_quota_w3.py:760",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"attr.json\")",
+     "exists": false,
+     "site": "scripts/innovation_quota_w4.py:940",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"attr.json\")",
+     "exists": false,
+     "site": "scripts/innovation_quota_w5.py:1064",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"attr.json\")",
+     "exists": false,
+     "site": "scripts/member_reinforce_p1.py:684",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 4
+   },
+   "classified_from": "write_site",
+   "fragment": "bad.json",
+   "n_read_sites": 0,
+   "n_sites": 10,
+   "n_untagged_sites": 6,
+   "n_write_sites": 4,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(td, \"bad.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/compute_audit.py:957",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(d, \"bad.json\")",
+     "exists": false,
+     "site": "Tools/machine_health_face.py:316",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"bad.json\")",
+     "exists": false,
+     "site": "scripts/aggr_fullpool_battery.py:844",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"bad.json\")",
+     "exists": false,
+     "site": "scripts/compute_audit.py:957",
+     "why": "temporary directory",
+     "write_kind": "write"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/e399_unresolved_names.py:558",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/e399_unresolved_names.py:576",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tempfile.mkdtemp(), \"bad.json\")",
+     "exists": false,
+     "site": "scripts/innovation_quota_fee_recheck.py:274",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"bad.json\")",
+     "exists": false,
+     "site": "scripts/py_watermark.py:472",
+     "why": "temporary directory",
+     "write_kind": "write"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmpd, \"bad.json\")",
+     "exists": false,
+     "site": "scripts/regime_gate_evidence.py:181",
+     "why": "temporary directory",
+     "write_kind": "write"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmpd, \"bad.json\")",
+     "exists": false,
+     "site": "scripts/regime_gate_evidence.py:190",
+     "why": "temporary directory",
+     "write_kind": "write"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"bad.json\")",
+     "exists": false,
+     "site": "scripts/sscombo_pit_drift_audit.py:135",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "bad_prescreen.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"bad_prescreen.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/t101_v4_a158_fv.py:561",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"bad_prescreen.json\")",
+     "exists": false,
+     "site": "scripts/t101_v4_a158_fv.py:561",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "bad_recheck.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"bad_recheck.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/a158_gate_timing_prescreen.py:316",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"bad_recheck.json\")",
+     "exists": false,
+     "site": "scripts/a158_gate_timing_prescreen.py:316",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "cwd_relative_no_directory_supplied": 1,
+    "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename": 1,
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "big.json",
+   "n_read_sites": 0,
+   "n_sites": 3,
+   "n_untagged_sites": 3,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"big.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/e393_read_cap_price.py:333",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"big.json\")",
+     "exists": false,
+     "site": "scripts/e393_read_cap_price.py:333",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/e393_read_cap_price.py:353",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename",
+     "composed_path": null,
+     "directory_expression": "[{\"key\": \"k\", \"site\": \"s\", \"line\": 1, \"kind\": \"read_subscript\",\n          \"status\": e392.S_RESOLVED_STORES, \"structure\": \"float\"} for _ in range(2)]\n        + [{\"key\": \"k\", \"site\": \"s\", \"line\": 2, \"kind\": \"read_subscript\",\n            \"stat",
+     "exists": false,
+     "site": "scripts/e393_read_cap_price.py:347",
+     "why": "the key is a piece of a computed name",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "directory_expression_not_traceable_statically": 1,
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "write_site",
+   "fragment": "bm-x.json",
+   "n_read_sites": 0,
+   "n_sites": 3,
+   "n_untagged_sites": 1,
+   "n_write_sites": 2,
+   "producer_class": "directory_expression_not_traceable_statically",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(MACHINES_DIR, \"bm-x.json\")",
+   "producer_path_exists": false,
+   "producer_site": "Tools/pool_worker.py:1038",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(f5, \"fleet\", \"machines\", \"bm-x.json\")",
+     "exists": false,
+     "site": "Tools/orders_ack_scan.py:269",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(MACHINES_DIR, \"bm-x.json\")",
+     "exists": false,
+     "site": "Tools/pool_worker.py:1038",
+     "why": "unresolved",
+     "write_kind": "write"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(f1, \"fleet\", \"machines\", \"bm-x.json\")",
+     "exists": false,
+     "site": "Tools/s05_probe.py:189",
+     "why": "temporary directory",
+     "write_kind": "write"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 13
+   },
+   "classified_from": "untagged_site",
+   "fragment": "cells.jsonl",
+   "n_read_sites": 0,
+   "n_sites": 13,
+   "n_untagged_sites": 13,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"cells.jsonl\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/fund_divlowvol_p1.py:1835",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"cells.jsonl\")",
+     "exists": false,
+     "site": "scripts/fund_divlowvol_p1.py:1835",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"cells.jsonl\")",
+     "exists": false,
+     "site": "scripts/fund_quality_p1.py:1692",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"cells.jsonl\")",
+     "exists": false,
+     "site": "scripts/fund_value_p1.py:1640",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"cells.jsonl\")",
+     "exists": false,
+     "site": "scripts/grid_p1_screen.py:721",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"cells.jsonl\")",
+     "exists": false,
+     "site": "scripts/lowamp_deep_p1.py:1400",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"cells.jsonl\")",
+     "exists": false,
+     "site": "scripts/lowamp_p1.py:1185",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"cells.jsonl\")",
+     "exists": false,
+     "site": "scripts/lowamp_p2.py:1207",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"cells.jsonl\")",
+     "exists": false,
+     "site": "scripts/lowamp_p3.py:1306",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"cells.jsonl\")",
+     "exists": false,
+     "site": "scripts/p4_batch3_dca.py:1016",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"cells.jsonl\")",
+     "exists": false,
+     "site": "scripts/t24_g2_pack.py:697",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"cells.jsonl\")",
+     "exists": false,
+     "site": "scripts/t24_prospect_paper.py:428",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"cells.jsonl\")",
+     "exists": false,
+     "site": "scripts/t33_corps_roster.py:371",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {},
+   "classified_from": "nothing",
+   "fragment": "cells___.jsonl",
+   "n_read_sites": 0,
+   "n_sites": 0,
+   "n_untagged_sites": 0,
+   "n_write_sites": 0,
+   "producer_class": null,
+   "producer_composed_path": null,
+   "producer_directory_expression": null,
+   "producer_path_exists": null,
+   "producer_site": null,
+   "sites": []
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 2
+   },
+   "classified_from": "untagged_site",
+   "fragment": "census.json",
+   "n_read_sites": 0,
+   "n_sites": 2,
+   "n_untagged_sites": 2,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(td, \"census.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/cycle_position_census.py:250",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"census.json\")",
+     "exists": false,
+     "site": "scripts/cycle_position_census.py:250",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"census.json\")",
+     "exists": false,
+     "site": "scripts/e303_recover_unmeasurable_basis.py:532",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 2
+   },
+   "classified_from": "untagged_site",
+   "fragment": "ck.jsonl",
+   "n_read_sites": 0,
+   "n_sites": 2,
+   "n_untagged_sites": 2,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(td, \"ck.jsonl\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/contest_ytd_legs.py:590",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"ck.jsonl\")",
+     "exists": false,
+     "site": "scripts/contest_ytd_legs.py:590",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"ck.jsonl\")",
+     "exists": false,
+     "site": "scripts/p5c_virtual_timepoint.py:1003",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "criteria.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"criteria.json\")",
+   "producer_path_exists": false,
+   "producer_site": "Tools/post_review.py:272",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"criteria.json\")",
+     "exists": false,
+     "site": "Tools/post_review.py:272",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 2
+   },
+   "classified_from": "untagged_site",
+   "fragment": "ev.json",
+   "n_read_sites": 0,
+   "n_sites": 2,
+   "n_untagged_sites": 2,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"ev.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/southbound_reprobe.py:302",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"ev.json\")",
+     "exists": false,
+     "site": "scripts/southbound_reprobe.py:302",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"ev.json\")",
+     "exists": false,
+     "site": "scripts/zt_pool_crosscheck.py:401",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "ev2.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"ev2.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/southbound_reprobe.py:314",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"ev2.json\")",
+     "exists": false,
+     "site": "scripts/southbound_reprobe.py:314",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "directory_expression_not_traceable_statically": 1
+   },
+   "classified_from": "write_site",
+   "fragment": "face_bm-c.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 0,
+   "n_write_sites": 1,
+   "producer_class": "directory_expression_not_traceable_statically",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(fx, \"results\", \"saturation_engine\", \"face_bm-c.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/open_market_readiness.py:573",
+   "sites": [
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(fx, \"results\", \"saturation_engine\", \"face_bm-c.json\")",
+     "exists": false,
+     "site": "scripts/open_market_readiness.py:573",
+     "why": "unresolved",
+     "write_kind": "write"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {},
+   "classified_from": "nothing",
+   "fragment": "factor.json",
+   "n_read_sites": 0,
+   "n_sites": 0,
+   "n_untagged_sites": 0,
+   "n_write_sites": 0,
+   "producer_class": null,
+   "producer_composed_path": null,
+   "producer_directory_expression": null,
+   "producer_path_exists": null,
+   "producer_site": null,
+   "sites": []
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 5
+   },
+   "classified_from": "untagged_site",
+   "fragment": "gate_attrition.lane.json",
+   "n_read_sites": 0,
+   "n_sites": 5,
+   "n_untagged_sites": 5,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"gate_attrition.lane.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/innovation_quota_w10.py:1032",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"gate_attrition.lane.json\")",
+     "exists": false,
+     "site": "scripts/innovation_quota_w10.py:1032",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"gate_attrition.lane.json\")",
+     "exists": false,
+     "site": "scripts/innovation_quota_w6.py:778",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"gate_attrition.lane.json\")",
+     "exists": false,
+     "site": "scripts/innovation_quota_w7.py:1065",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"gate_attrition.lane.json\")",
+     "exists": false,
+     "site": "scripts/innovation_quota_w8.py:1066",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"gate_attrition.lane.json\")",
+     "exists": false,
+     "site": "scripts/innovation_quota_w9.py:1070",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "constant_directory_that_does_not_hold_the_file": 6,
+    "directory_expression_not_traceable_statically": 3
+   },
+   "classified_from": "untagged_site",
+   "fragment": "idle_trigger.bm-c.json",
+   "n_read_sites": 7,
+   "n_sites": 16,
+   "n_untagged_sites": 9,
+   "n_write_sites": 0,
+   "producer_class": "constant_directory_that_does_not_hold_the_file",
+   "producer_composed_path": "results\\idle_trigger.bm-c.json",
+   "producer_directory_expression": "os.path.join(ROOT, \"results\", \"idle_trigger.bm-c.json\")",
+   "producer_path_exists": false,
+   "producer_site": "Tools/_r731bmc_s3probe.py:50",
+   "sites": [
+    {
+     "class": "constant_directory_that_does_not_hold_the_file",
+     "composed_path": "results\\idle_trigger.bm-c.json",
+     "directory_expression": "os.path.join(ROOT, \"results\", \"idle_trigger.bm-c.json\")",
+     "exists": false,
+     "site": "Tools/_r1031bmc_closeout.py:156",
+     "why": "the composed path does not exist",
+     "write_kind": "read"
+    },
+    {
+     "class": "constant_directory_that_does_not_hold_the_file",
+     "composed_path": "results\\idle_trigger.bm-c.json",
+     "directory_expression": "os.path.join(ROOT, \"results\", \"idle_trigger.bm-c.json\")",
+     "exists": false,
+     "site": "Tools/_r731bmc_s3probe.py:50",
+     "why": "the composed path does not exist",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "constant_directory_that_does_not_hold_the_file",
+     "composed_path": "results\\idle_trigger.bm-c.json",
+     "directory_expression": "os.path.join(ROOT, \"results\", \"idle_trigger.bm-c.json\")",
+     "exists": false,
+     "site": "Tools/_r732bmc_s3probe.py:50",
+     "why": "the composed path does not exist",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "constant_directory_that_does_not_hold_the_file",
+     "composed_path": "results\\idle_trigger.bm-c.json",
+     "directory_expression": "os.path.join(ROOT, \"results\", \"idle_trigger.bm-c.json\")",
+     "exists": false,
+     "site": "Tools/_r733bmc_s3probe.py:50",
+     "why": "the composed path does not exist",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "constant_directory_that_does_not_hold_the_file",
+     "composed_path": "results\\idle_trigger.bm-c.json",
+     "directory_expression": "os.path.join(ROOT, \"results\", \"idle_trigger.bm-c.json\")",
+     "exists": false,
+     "site": "Tools/_r734bmc_s3probe.py:51",
+     "why": "the composed path does not exist",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "constant_directory_that_does_not_hold_the_file",
+     "composed_path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\idle_trigger.bm-c.json",
+     "directory_expression": "os.path.join(ROOT, \"results\", \"idle_trigger.bm-c.json\")",
+     "exists": false,
+     "site": "Tools/_r767bmc_s1.py:54",
+     "why": "the composed path does not exist",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "constant_directory_that_does_not_hold_the_file",
+     "composed_path": "results\\idle_trigger.bm-c.json",
+     "directory_expression": "os.path.join(ROOT, \"results\", \"idle_trigger.bm-c.json\")",
+     "exists": false,
+     "site": "Tools/_r787bmc_s7.py:132",
+     "why": "the composed path does not exist",
+     "write_kind": "read"
+    },
+    {
+     "class": "constant_directory_that_does_not_hold_the_file",
+     "composed_path": "results\\idle_trigger.bm-c.json",
+     "directory_expression": "os.path.join(ROOT, \"results\", \"idle_trigger.bm-c.json\")",
+     "exists": false,
+     "site": "Tools/_r787bmc_s7.py:106",
+     "why": "the composed path does not exist",
+     "write_kind": "read"
+    },
+    {
+     "class": "constant_directory_that_does_not_hold_the_file",
+     "composed_path": "results\\idle_trigger.bm-c.json",
+     "directory_expression": "os.path.join(ROOT, \"results\", \"idle_trigger.bm-c.json\")",
+     "exists": false,
+     "site": "Tools/_r788bmc_s7.py:137",
+     "why": "the composed path does not exist",
+     "write_kind": "read"
+    },
+    {
+     "class": "constant_directory_that_does_not_hold_the_file",
+     "composed_path": "results\\idle_trigger.bm-c.json",
+     "directory_expression": "os.path.join(ROOT, \"results\", \"idle_trigger.bm-c.json\")",
+     "exists": false,
+     "site": "Tools/_r788bmc_s7.py:111",
+     "why": "the composed path does not exist",
+     "write_kind": "read"
+    },
+    {
+     "class": "constant_directory_that_does_not_hold_the_file",
+     "composed_path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\idle_trigger.bm-c.json",
+     "directory_expression": "os.path.join(REPO, \"results\", \"idle_trigger.bm-c.json\")",
+     "exists": false,
+     "site": "Tools/_r801bmc_close.py:36",
+     "why": "the composed path does not exist",
+     "write_kind": "read"
+    },
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "ROOT / \"results\" / \"idle_trigger.bm-c.json\"",
+     "exists": false,
+     "site": "Tools/_r815bmc_close.py:53",
+     "why": "unresolved",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "led.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(td, \"led.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/national_team_s3_review.py:394",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"led.json\")",
+     "exists": false,
+     "site": "scripts/national_team_s3_review.py:394",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {},
+   "classified_from": "nothing",
+   "fragment": "machine_id.json",
+   "n_read_sites": 0,
+   "n_sites": 0,
+   "n_untagged_sites": 0,
+   "n_write_sites": 0,
+   "producer_class": null,
+   "producer_composed_path": null,
+   "producer_directory_expression": null,
+   "producer_path_exists": null,
+   "producer_site": null,
+   "sites": []
+  },
+  {
+   "classes_at_this_fragment": {},
+   "classified_from": "nothing",
+   "fragment": "marks-.jsonl",
+   "n_read_sites": 0,
+   "n_sites": 0,
+   "n_untagged_sites": 0,
+   "n_write_sites": 0,
+   "producer_class": null,
+   "producer_composed_path": null,
+   "producer_directory_expression": null,
+   "producer_path_exists": null,
+   "producer_site": null,
+   "sites": []
+  },
+  {
+   "classes_at_this_fragment": {
+    "directory_expression_not_traceable_statically": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "mktcap_raw.meta.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "directory_expression_not_traceable_statically",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(CACHE_DIR, \"mktcap_raw.meta.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/t73_mktcap_sidecar.py:69",
+   "sites": [
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(CACHE_DIR, \"mktcap_raw.meta.json\")",
+     "exists": false,
+     "site": "scripts/t73_mktcap_sidecar.py:69",
+     "why": "unresolved",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {},
+   "classified_from": "nothing",
+   "fragment": "nulls_.jsonl",
+   "n_read_sites": 0,
+   "n_sites": 0,
+   "n_untagged_sites": 0,
+   "n_write_sites": 0,
+   "producer_class": null,
+   "producer_composed_path": null,
+   "producer_directory_expression": null,
+   "producer_path_exists": null,
+   "producer_site": null,
+   "sites": []
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 3
+   },
+   "classified_from": "untagged_site",
+   "fragment": "o2.json",
+   "n_read_sites": 2,
+   "n_sites": 5,
+   "n_untagged_sites": 3,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"o2.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/mf_ic_p1.py:548",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"o2.json\")",
+     "exists": false,
+     "site": "scripts/mf_ic_p1.py:548",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"o2.json\")",
+     "exists": false,
+     "site": "scripts/mf_ic_p1.py:553",
+     "why": "temporary directory",
+     "write_kind": "read"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"o2.json\")",
+     "exists": false,
+     "site": "scripts/sina_construct_ic.py:634",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"o2.json\")",
+     "exists": false,
+     "site": "scripts/sina_mf_ic_p1.py:600",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"o2.json\")",
+     "exists": false,
+     "site": "scripts/sina_mf_ic_p1.py:605",
+     "why": "temporary directory",
+     "write_kind": "read"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 2
+   },
+   "classified_from": "untagged_site",
+   "fragment": "other.json",
+   "n_read_sites": 0,
+   "n_sites": 2,
+   "n_untagged_sites": 2,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(td, \"other.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/t101_v4_a13_predface.py:552",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"other.json\")",
+     "exists": false,
+     "site": "scripts/t101_v4_a13_predface.py:552",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"other.json\")",
+     "exists": false,
+     "site": "scripts/t101_v4_a14_predface.py:796",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "pcs_local_r617.jsonl",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(os.environ.get(\"TEMP\", \".\"), \"pcs_local_r617.jsonl\")",
+   "producer_path_exists": false,
+   "producer_site": "Tools/_r617bmb_postmerge.py:19",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(os.environ.get(\"TEMP\", \".\"), \"pcs_local_r617.jsonl\")",
+     "exists": false,
+     "site": "Tools/_r617bmb_postmerge.py:19",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "pilot.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(td, \"pilot.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/cycle_position_census.py:247",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(td, \"pilot.json\")",
+     "exists": false,
+     "site": "scripts/cycle_position_census.py:247",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {},
+   "classified_from": "nothing",
+   "fragment": "run_meta-of.json",
+   "n_read_sites": 0,
+   "n_sites": 0,
+   "n_untagged_sites": 0,
+   "n_write_sites": 0,
+   "producer_class": null,
+   "producer_composed_path": null,
+   "producer_directory_expression": null,
+   "producer_path_exists": null,
+   "producer_site": null,
+   "sites": []
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "shad-0-of-6.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"shad-0-of-6.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/perpetual_faces_n4.py:1140",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"shad-0-of-6.json\")",
+     "exists": false,
+     "site": "scripts/perpetual_faces_n4.py:1140",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "tie.json",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 1,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmpd, \"tie.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/bandit_queue.py:325",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmpd, \"tie.json\")",
+     "exists": false,
+     "site": "scripts/bandit_queue.py:325",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "directory_expression_not_traceable_statically": 1
+   },
+   "classified_from": "write_site",
+   "fragment": "train_log.jsonl",
+   "n_read_sites": 0,
+   "n_sites": 6,
+   "n_untagged_sites": 5,
+   "n_write_sites": 1,
+   "producer_class": "directory_expression_not_traceable_statically",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(d, \"train_log.jsonl\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/alphagen_rl_p1.py:2328",
+   "sites": [
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(cd, \"train_log.jsonl\")",
+     "exists": false,
+     "site": "scripts/alphagen_rl_p1.py:875",
+     "why": "unresolved",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(CKPT_DIR, \"train_log.jsonl\")",
+     "exists": false,
+     "site": "scripts/alphagen_rl_p1.py:1170",
+     "why": "unresolved",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(CKPT_DIR, \"train_log.jsonl\")",
+     "exists": false,
+     "site": "scripts/alphagen_rl_p1.py:1285",
+     "why": "unresolved",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(CKPT_DIR, \"train_log.jsonl\")",
+     "exists": false,
+     "site": "scripts/alphagen_rl_p1.py:1956",
+     "why": "unresolved",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/alphagen_rl_p1.py:1951",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(d, \"train_log.jsonl\")",
+     "exists": false,
+     "site": "scripts/alphagen_rl_p1.py:2328",
+     "why": "unresolved",
+     "write_kind": "write"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "directory_expression_not_traceable_statically": 3
+   },
+   "classified_from": "untagged_site",
+   "fragment": "turnover_derived.meta.json",
+   "n_read_sites": 0,
+   "n_sites": 3,
+   "n_untagged_sites": 3,
+   "n_write_sites": 0,
+   "producer_class": "directory_expression_not_traceable_statically",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(CACHE_DIR, \"turnover_derived.meta.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/p1e_ic_batch.py:142",
+   "sites": [
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(CACHE_DIR, \"turnover_derived.meta.json\")",
+     "exists": false,
+     "site": "scripts/p1e_ic_batch.py:142",
+     "why": "unresolved",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(CACHE_DIR, \"turnover_derived.meta.json\")",
+     "exists": false,
+     "site": "scripts/p1e_probe.py:73",
+     "why": "unresolved",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(CACHE_DIR, \"turnover_derived.meta.json\")",
+     "exists": false,
+     "site": "scripts/p1e_turnover_derive.py:42",
+     "why": "unresolved",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 1
+   },
+   "classified_from": "write_site",
+   "fragment": "universes-M1.jsonl",
+   "n_read_sites": 0,
+   "n_sites": 1,
+   "n_untagged_sites": 0,
+   "n_write_sites": 1,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(pred_dir, \"universes-M1.jsonl\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/perpetual_faces_n4.py:1282",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(pred_dir, \"universes-M1.jsonl\")",
+     "exists": false,
+     "site": "scripts/perpetual_faces_n4.py:1282",
+     "why": "temporary directory",
+     "write_kind": "write"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "cwd_relative_no_directory_supplied": 1,
+    "directory_expression_not_traceable_statically": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "w20_reform_face.json",
+   "n_read_sites": 0,
+   "n_sites": 2,
+   "n_untagged_sites": 2,
+   "n_write_sites": 0,
+   "producer_class": "cwd_relative_no_directory_supplied",
+   "producer_composed_path": null,
+   "producer_directory_expression": "",
+   "producer_path_exists": false,
+   "producer_site": "scripts/trial_labor_w20.py:698",
+   "sites": [
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(RES_DIR, \"w20_reform_face.json\")",
+     "exists": false,
+     "site": "scripts/trial_labor_w20.py:97",
+     "why": "unresolved",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/trial_labor_w20.py:698",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "cwd_relative_no_directory_supplied": 1,
+    "directory_expression_not_traceable_statically": 1
+   },
+   "classified_from": "untagged_site",
+   "fragment": "w20_screen.json",
+   "n_read_sites": 0,
+   "n_sites": 2,
+   "n_untagged_sites": 2,
+   "n_write_sites": 0,
+   "producer_class": "cwd_relative_no_directory_supplied",
+   "producer_composed_path": null,
+   "producer_directory_expression": "",
+   "producer_path_exists": false,
+   "producer_site": "scripts/trial_labor_w20.py:696",
+   "sites": [
+    {
+     "class": "directory_expression_not_traceable_statically",
+     "composed_path": null,
+     "directory_expression": "os.path.join(RES_DIR, \"w20_screen.json\")",
+     "exists": false,
+     "site": "scripts/trial_labor_w20.py:94",
+     "why": "unresolved",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/trial_labor_w20.py:696",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    }
+   ]
+  },
+  {
+   "classes_at_this_fragment": {
+    "temporary_directory_deleted_by_design": 2
+   },
+   "classified_from": "untagged_site",
+   "fragment": "xcc.json",
+   "n_read_sites": 0,
+   "n_sites": 2,
+   "n_untagged_sites": 2,
+   "n_write_sites": 0,
+   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_composed_path": null,
+   "producer_directory_expression": "os.path.join(tmp, \"xcc.json\")",
+   "producer_path_exists": false,
+   "producer_site": "scripts/cn_mkneutral_p1.py:1327",
+   "sites": [
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"xcc.json\")",
+     "exists": false,
+     "site": "scripts/cn_mkneutral_p1.py:1327",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"xcc.json\")",
+     "exists": false,
+     "site": "scripts/cn_sector_leader_p1.py:1418",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    }
+   ]
+  }
+ ],
+ "seeded_by": "results/state_tilt/FRAGMENTPRODUCERS-2026-11-05.json",
+ "source": "scripts/e402_fragment_producers.py",
+ "study": "E402_fragment_producers",
+ "summary": {
+  "by_class": {
+   "constant_directory_that_does_not_hold_the_file": 7,
+   "cwd_relative_no_directory_supplied": 7,
+   "directory_expression_not_traceable_statically": 16,
+   "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename": 5,
+   "temporary_directory_deleted_by_design": 67
+  },
+  "by_classified_from": {
+   "nothing": 8,
+   "read_site_only": 1,
+   "untagged_site": 32,
+   "write_site": 11
+  },
+  "by_fragment_primary_class": {
+   "constant_directory_that_does_not_hold_the_file": 2,
+   "cwd_relative_no_directory_supplied": 6,
+   "directory_expression_not_traceable_statically": 6,
+   "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename": 3,
+   "no_write_or_untagged_site_only_reads": 8,
+   "temporary_directory_deleted_by_design": 27
+  },
+  "classes_sum_to_sites": true,
+  "corpus_sources": 2457,
+  "fragments": 52,
+  "fragments_no_site_named": [
+   "REGIME5-DIAG-.json",
+   "_chunk_.json",
+   "cells___.jsonl",
+   "factor.json",
+   "machine_id.json",
+   "marks-.jsonl",
+   "nulls_.jsonl",
+   "run_meta-of.json"
+  ],
+  "fragments_primary_class_dead_join": 2,
+  "fragments_primary_class_runtime_value": 0,
+  "fragments_primary_class_suffix_only": 3,
+  "fragments_primary_class_temporary": 27,
+  "fragments_that_exist_when_composed": [],
+  "fragments_whose_composed_path_exists": 0,
+  "fragments_with_a_write_site": 11,
+  "fragments_with_no_site_in_the_corpus": 8,
+  "fragments_with_read_sites_only": 8,
+  "joins_that_can_never_land": [
+   {
+    "composed": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r789bmc_adopt_facts.json",
+    "expression": "os.path.join(REPO, \"results\", \"_r789bmc_adopt_facts.json\")",
+    "fragment": "_r789bmc_adopt_facts.json",
+    "site": "Tools/_r789bmc_adopt.py:91"
+   },
+   {
+    "composed": "results\\idle_trigger.bm-c.json",
+    "expression": "os.path.join(ROOT, \"results\", \"idle_trigger.bm-c.json\")",
+    "fragment": "idle_trigger.bm-c.json",
+    "site": "Tools/_r731bmc_s3probe.py:50"
+   }
+  ],
+  "keys_total_checked": 884,
+  "producer_sites_total": 102,
+  "published_keys": 884,
+  "published_keys_note": "taken from the E399 face's own summary: that face carries only the 98 unresolved rows, so the total cannot be counted from rows",
+  "read_sites_total": 14,
+  "share_of_published_keys_that_are_fragments": 0.0588,
+  "sites_total": 156,
+  "verdict": "the_fragments_split_between_design_names_and_joins_that_cannot_land_so_the_residual_is_partly_a_real_gap",
+  "write_sites_total": 19
+ },
+ "ts": "2026-11-04T03:50:17+08:00",
+ "verdict": "the_fragments_split_between_design_names_and_joins_that_cannot_land_so_the_residual_is_partly_a_real_gap"
+}
