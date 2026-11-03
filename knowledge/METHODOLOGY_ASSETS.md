@@ -9228,3 +9228,38 @@ E398's `named_pointers` moved 175 -> 176 and the E398 smoke leg failed.  The E39
 **re-derived from the live build** (`run` + `verify problems=[]`) rather than the leg loosened; its
 read-site count (187) and bare-pointer count (28) did not move.
 
+
+
+## E404 -- an untraceable directory is usually a directory the reader cannot act on
+
+E402 could not follow 6 of 52 fragments ("directory_expression_not_traceable_statically") and left
+the reason standing. E404 prices the constant side on the 18 sites carrying the 10 fragments those
+rows name: follow the first name of the directory expression to its binding (function scope ->
+module assignment -> one import hop), compose the literal tail, and test the file.
+
+Reading: **7 of 18 sites are runtime-supplied** (6 a function parameter or loop value, 1 a module
+constant rebound inside a function), **8 name a directory outside the tracked tree or a gitignored
+runtime cache** (`results/idle_trigger.bm-c.json`, `results/alphagen_rl_p1/ckpt/train_log.jsonl`,
+`Money02/data/cache/p1c_stock/*.meta.json`), **0 stay unresolved**, and **3 name an in-tree
+directory whose joined file does not exist** -- `firm/traders/COMPOSITE-001.json`,
+`results/trial_labor_w20/w20_screen.json`, `results/trial_labor_w20/w20_reform_face.json`. All
+three are READS with no writer anywhere in the corpus (`in_tree_absent_writes = 0`), so they cannot
+be "pending output": they can only ever fail. No site names an in-tree directory whose file the
+corpus does produce, so the residual is scaffolding plus three dead reads, not attrition.
+
+Verdict: `a_module_constant_does_name_an_in_tree_directory_and_the_joined_file_is_not_there`.
+Every fragment resolves to at most 4 classes at once; the per-fragment table names them, so the
+class tally (18 sites) and the fragment count (10) are different denominators and both are
+published.
+
+How to apply: an "untraceable" bucket is not one finding. Split it by whether the directory is
+supplied at call time, lives outside the tracked tree, or names an in-tree path -- only the last
+one can be a defect, and then only if no writer produces the file. Publish the read/write split
+beside the class, because a missing read target is a permanently failing leg while a missing write
+target is just an unrun producer.
+
+Wiring: `scripts/e404_constant_directory_resolution.py` (run / verify problems=[] / selftest 15/15);
+smoke leg E404 (1/1, exec'd verbatim by `scripts/run_e404_smoke_leg.py`); S6 leg
+`constant_directory_resolution`; face `results/state_tilt/CONSTDIRS-2026-11-04.json` +
+`constdirs_latest.json`; successor card E405 filed (does the reader of a never-produced file fail
+loudly or silently); no published face, pointer, caller or key edited.

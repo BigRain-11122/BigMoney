@@ -14652,6 +14652,82 @@ except Exception as _e402:
 check(_name402, not _bad402, "; ".join(_bad402)[:240]
       or "verdict %s" % str((_f402 or {}).get("verdict"))[:90])
 
+# E404: E402 could not follow 6 of 52 fragments because the directory is a module constant or an
+# attribute this corpus defines elsewhere. This leg refuses the ways a constant trace can flatter
+# itself: a class outside the frozen set, classes that do not sum to the published site total, a
+# per-fragment table whose keys are not the fragment set, a dead-join headline that is not the
+# length of its own list, an in-tree-absent split whose halves do not re-add, a verdict that does
+# not re-derive from the summary, and a study whose own verify is not clean.
+_name404 = ("product: what supplies an untraceable fragment directory -- %s of %s sites are "
+            "runtime-supplied, %s name an in-tree directory whose file is absent (%s read / %s "
+            "write), %s name a directory outside the tree, %s stay unresolved")
+_bad404 = []
+_f404 = None
+try:
+    _p404 = os.path.join("results", "state_tilt", "constdirs_latest.json")
+    _f404 = json.load(open(_p404, encoding="utf-8")) if os.path.exists(_p404) else None
+    if _f404 is None:
+        _bad404.append("no published constant-directory face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m404 = __import__("importlib").import_module("e404_constant_directory_resolution")
+        _s404 = _f404.get("summary") or {}
+        if _f404.get("verdict") not in (_m404.V_DANGLING, _m404.V_DEAD_JOIN, _m404.V_LANDS,
+                                        _m404.V_ALL_RUNTIME, _m404.V_PARTIAL,
+                                        _m404.V_NOT_YET_PRODUCED, _m404.V_MISSING_READ_TARGET):
+            _bad404.append("verdict %r is outside the frozen set" % str(_f404.get("verdict")))
+        _cls404 = _s404.get("by_class") or {}
+        _unknown404 = sorted(set(_cls404) - set(_m404.CLASSES))
+        if _unknown404:
+            _bad404.append("classes outside the frozen set: %s" % _unknown404)
+        if sum(_cls404.values()) != (_s404.get("sites") or 0):
+            _bad404.append("classes sum to %d but the site total is %r"
+                           % (sum(_cls404.values()), _s404.get("sites")))
+        if _s404.get("classes_sum_to_sites") is not True:
+            _bad404.append("the face does not claim its classes cover every site")
+        _rows404 = _f404.get("rows") or []
+        if len(_rows404) != (_s404.get("sites") or 0):
+            _bad404.append("rows %d vs sites %r" % (len(_rows404), _s404.get("sites")))
+        _frag404 = _s404.get("by_fragment") or {}
+        if len(_frag404) != (_s404.get("fragments") or 0):
+            _bad404.append("the per-fragment table has %d keys, not %r"
+                           % (len(_frag404), _s404.get("fragments")))
+        if set(_frag404) != {r.get("fragment") for r in _rows404}:
+            _bad404.append("the per-fragment table does not name the fragment set in its rows")
+        _absent404 = _cls404.get(_m404.F6, 0)
+        if _s404.get("sites_where_the_directory_is_in_tree_and_the_file_is_absent") != _absent404:
+            _bad404.append("the in-tree-absent headline is not its own class count")
+        if len(_s404.get("dead_joins") or []) != _absent404:
+            _bad404.append("the dead-join list is not the length of its own class")
+        if (_s404.get("in_tree_absent_reads", 0) + _s404.get("in_tree_absent_writes", 0)) \
+                != _absent404:
+            _bad404.append("the read/write split does not re-add to the in-tree-absent class")
+        if _s404.get("sites_where_the_join_lands") != _cls404.get(_m404.F5, 0):
+            _bad404.append("the landing headline is not its own class count")
+        if _s404.get("sites_still_unresolved") != _cls404.get(_m404.F8, 0):
+            _bad404.append("the unresolved headline is not its own class count")
+        for _r404 in _rows404:
+            if _r404.get("class") == _m404.F5:
+                if not _r404.get("composed_path") or not os.path.exists(_r404["composed_path"]):
+                    _bad404.append("%s claims a landing whose composed path is absent"
+                                   % _r404.get("fragment"))
+            if _r404.get("class") == _m404.F6 and os.path.exists(_r404.get("composed_path") or ""):
+                _bad404.append("%s is classed in-tree-absent but its composed path exists"
+                               % _r404.get("fragment"))
+        if _m404.decide(_s404) != _s404.get("verdict"):
+            _bad404.append("the verdict does not re-derive from the summary")
+        if _m404.verify() != []:
+            _bad404.append("the study's own verify does not come back clean")
+        _runtime404 = sum(_cls404.get(_k, 0) for _k in _m404.DESIGN_FREE)
+        _name404 = _name404 % (_runtime404, _s404.get("sites"),
+                               _absent404, _s404.get("in_tree_absent_reads", 0),
+                               _s404.get("in_tree_absent_writes", 0),
+                               _cls404.get(_m404.F7, 0), _cls404.get(_m404.F8, 0))
+except Exception as _e404:
+    _bad404.append(repr(_e404)[:160])
+check(_name404, not _bad404, "; ".join(_bad404)[:240]
+      or "verdict %s" % str((_f404 or {}).get("verdict"))[:90])
+
 # E398: E385 found 28 files under the name latest.json. This leg asks who READS such a pointer and
 # whether the reader knows which family wrote last. It refuses the ways a reader census can flatter
 # or indict itself: a class outside the frozen set, classes that do not sum to the read sites, a

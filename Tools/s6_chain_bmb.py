@@ -1354,6 +1354,13 @@ LEGS = [
     # the landing test from the tree.
     ("fragment_producers", ["python", "scripts/e402_fragment_producers.py", "verify"]),
 
+    # E404 prices the constant side of E402's untraceable fragments: for each one the directory
+    # expression is followed to the binding that supplies it (function scope, then module
+    # assignment, then one import hop) and the joined file tested against the tree.  Verify
+    # re-derives every class, every count and the landing test from the tree.
+    ("constant_directory_resolution",
+     ["python", "scripts/e404_constant_directory_resolution.py", "verify"]),
+
     # E398 asks who reads a latest.json pointer and whether the reader knows which family wrote
     # last.  E385 found 28 files under the name latest.json; a reader that resolves the pointer
     # against a free runtime base opens whichever family published last and looks healthy doing it

@@ -1,0 +1,516 @@
+{
+ "arms": {
+  "A0_population": {
+   "kind": "results/state_tilt/FRAGMENTPRODUCERS-2026-11-04.json rows whose site class == directory_expression_not_traceable_statically",
+   "rows_read": 52
+  },
+  "A1_name_trace": {
+   "classes": [
+    "fixture_directory_created_by_a_runtime_helper",
+    "module_constant_rebound_inside_a_function",
+    "directory_supplied_by_a_function_parameter_or_loop_value",
+    "imported_constant_module_absent_from_the_tree",
+    "resolved_directory_inside_the_tree_and_the_path_exists",
+    "resolved_directory_inside_the_tree_and_the_path_is_absent",
+    "resolved_directory_outside_the_tree_or_gitignored_runtime_cache",
+    "still_unresolved_by_this_arm"
+   ],
+   "kind": "first name of the directory expression followed to its binding: function scope (parameter / local / `global` rebind) then module assignment then import"
+  },
+  "A2_module_hop": {
+   "kind": "attribute on an imported module resolved one hop into that module's file; absent module file -> F4"
+  },
+  "A3_landing_test": {
+   "kind": "compose the literal tail onto the resolved directory and test existence; in-tree but absent and not git-ignored -> F6"
+  }
+ },
+ "bounds": {
+  "measured": "every 18 site E402 classed directory_expression_not_traceable_statically, its directory expression followed to the first name's binding, and whether the composed path exists",
+  "no_rewrites": "no published face, pointer, caller or key is edited here",
+  "not_measured": "expressions whose base is only known at call time stay F8; attribute chains deeper than module.attr.attr are not followed; the existence test is a point-in-time read of a machine-local tree"
+ },
+ "evidence_cutoff": "2026-11-04",
+ "rows": [
+  {
+   "class": "resolved_directory_inside_the_tree_and_the_path_is_absent",
+   "composed_path": "firm/traders/COMPOSITE-001.json",
+   "constants": [
+    "firm",
+    "traders",
+    "COMPOSITE-001.json"
+   ],
+   "detail": "__file__ of config/settings.py",
+   "directory_expression": "os.path.join(PATHS.root, \"firm\", \"traders\", \"COMPOSITE-001.json\")",
+   "fragment": "COMPOSITE-001.json",
+   "fragment_write_sites": 0,
+   "path_exists": false,
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\firm\\traders\\COMPOSITE-001.json",
+   "resolved_inside_tree": true,
+   "site": "scripts/p2_deepening.py:420",
+   "source": "scripts/p2_deepening.py",
+   "trace": [
+    "PATHS resolves to instance (PathConfig)",
+    "PathConfig.root from the class body",
+    "join() base -> dir (__file__ of config/settings.py)"
+   ]
+  },
+  {
+   "class": "directory_supplied_by_a_function_parameter_or_loop_value",
+   "composed_path": null,
+   "constants": [
+    "results",
+    "grid_paper",
+    "GRID-X_paper.json"
+   ],
+   "detail": "local tmp",
+   "directory_expression": "os.path.join(fx, \"results\", \"grid_paper\", \"GRID-X_paper.json\")",
+   "fragment": "GRID-X_paper.json",
+   "fragment_write_sites": 5,
+   "path_exists": null,
+   "resolved_directory": null,
+   "site": "scripts/month_exam_readiness.py:450",
+   "source": "scripts/month_exam_readiness.py",
+   "trace": [
+    "fx is function_local",
+    "tmp is function_local",
+    "call TemporaryDirectory() is not evaluated by this arm",
+    "join() base -> directory_supplied_by_a_function_parameter_or_loop_value (local tmp)"
+   ]
+  },
+  {
+   "class": "directory_supplied_by_a_function_parameter_or_loop_value",
+   "composed_path": null,
+   "constants": [
+    "results",
+    "grid_paper",
+    "GRID-X_paper.json"
+   ],
+   "detail": "local tmp",
+   "directory_expression": "os.path.join(fx, \"results\", \"grid_paper\", \"GRID-X_paper.json\")",
+   "fragment": "GRID-X_paper.json",
+   "fragment_write_sites": 5,
+   "path_exists": null,
+   "resolved_directory": null,
+   "site": "scripts/open_market_readiness.py:508",
+   "source": "scripts/open_market_readiness.py",
+   "trace": [
+    "fx is function_local",
+    "tmp is function_local",
+    "call TemporaryDirectory() is not evaluated by this arm",
+    "join() base -> directory_supplied_by_a_function_parameter_or_loop_value (local tmp)"
+   ]
+  },
+  {
+   "class": "directory_supplied_by_a_function_parameter_or_loop_value",
+   "composed_path": null,
+   "constants": [
+    "results",
+    "grid_paper",
+    "GRID-X_paper.json"
+   ],
+   "detail": "local tmp",
+   "directory_expression": "os.path.join(fx, \"results\", \"grid_paper\", \"GRID-X_paper.json\")",
+   "fragment": "GRID-X_paper.json",
+   "fragment_write_sites": 5,
+   "path_exists": null,
+   "resolved_directory": null,
+   "site": "scripts/open_market_readiness.py:511",
+   "source": "scripts/open_market_readiness.py",
+   "trace": [
+    "fx is function_local",
+    "tmp is function_local",
+    "call TemporaryDirectory() is not evaluated by this arm",
+    "join() base -> directory_supplied_by_a_function_parameter_or_loop_value (local tmp)"
+   ]
+  },
+  {
+   "class": "module_constant_rebound_inside_a_function",
+   "composed_path": null,
+   "constants": [
+    "bm-x.json"
+   ],
+   "detail": "rebound in selftest under a global statement",
+   "directory_expression": "os.path.join(MACHINES_DIR, \"bm-x.json\")",
+   "fragment": "bm-x.json",
+   "fragment_write_sites": 2,
+   "path_exists": null,
+   "resolved_directory": null,
+   "site": "Tools/pool_worker.py:1038",
+   "source": "Tools/pool_worker.py",
+   "trace": [
+    "MACHINES_DIR is global_rebound_in_function",
+    "join() base -> module_constant_rebound_inside_a_function (rebound in selftest under a global statement)"
+   ]
+  },
+  {
+   "class": "directory_supplied_by_a_function_parameter_or_loop_value",
+   "composed_path": null,
+   "constants": [
+    "results",
+    "saturation_engine",
+    "face_bm-c.json"
+   ],
+   "detail": "local tmp",
+   "directory_expression": "os.path.join(fx, \"results\", \"saturation_engine\", \"face_bm-c.json\")",
+   "fragment": "face_bm-c.json",
+   "fragment_write_sites": 1,
+   "path_exists": null,
+   "resolved_directory": null,
+   "site": "scripts/open_market_readiness.py:573",
+   "source": "scripts/open_market_readiness.py",
+   "trace": [
+    "fx is function_local",
+    "tmp is function_local",
+    "call TemporaryDirectory() is not evaluated by this arm",
+    "join() base -> directory_supplied_by_a_function_parameter_or_loop_value (local tmp)"
+   ]
+  },
+  {
+   "class": "resolved_directory_outside_the_tree_or_gitignored_runtime_cache",
+   "composed_path": "results/idle_trigger.bm-c.json",
+   "constants": [
+    "results",
+    "idle_trigger.bm-c.json"
+   ],
+   "detail": "parents[2] of __file__ of Tools/_r815bmc_close.py",
+   "directory_expression": "ROOT / \"results\" / \"idle_trigger.bm-c.json\"",
+   "fragment": "idle_trigger.bm-c.json",
+   "fragment_write_sites": 0,
+   "path_exists": false,
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\idle_trigger.bm-c.json",
+   "resolved_inside_tree": true,
+   "site": "Tools/_r815bmc_close.py:53",
+   "source": "Tools/_r815bmc_close.py",
+   "trace": [
+    "ROOT is module"
+   ]
+  },
+  {
+   "class": "resolved_directory_outside_the_tree_or_gitignored_runtime_cache",
+   "composed_path": "Money02/data/cache/p1c_stock/mktcap_raw.meta.json",
+   "constants": [
+    "mktcap_raw.meta.json"
+   ],
+   "detail": "__file__ of scripts/p1c_stock_ic_batch.py",
+   "directory_expression": "os.path.join(CACHE_DIR, \"mktcap_raw.meta.json\")",
+   "fragment": "mktcap_raw.meta.json",
+   "fragment_write_sites": 0,
+   "path_exists": false,
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\mktcap_raw.meta.json",
+   "resolved_inside_tree": true,
+   "site": "scripts/t73_mktcap_sidecar.py:69",
+   "source": "scripts/t73_mktcap_sidecar.py",
+   "trace": [
+    "CACHE_DIR is module",
+    "P1C resolves to module (p1c_stock_ic_batch)",
+    "ROOT is module",
+    "join() base -> dir (__file__ of scripts/p1c_stock_ic_batch.py)",
+    "join() base -> dir (__file__ of scripts/p1c_stock_ic_batch.py)"
+   ]
+  },
+  {
+   "class": "directory_supplied_by_a_function_parameter_or_loop_value",
+   "composed_path": null,
+   "constants": [
+    "train_log.jsonl"
+   ],
+   "detail": "local cd",
+   "directory_expression": "os.path.join(cd, \"train_log.jsonl\")",
+   "fragment": "train_log.jsonl",
+   "fragment_write_sites": 1,
+   "path_exists": null,
+   "resolved_directory": null,
+   "site": "scripts/alphagen_rl_p1.py:875",
+   "source": "scripts/alphagen_rl_p1.py",
+   "trace": [
+    "cd is function_local",
+    "join() base -> directory_supplied_by_a_function_parameter_or_loop_value (local cd)"
+   ]
+  },
+  {
+   "class": "resolved_directory_outside_the_tree_or_gitignored_runtime_cache",
+   "composed_path": "results/alphagen_rl_p1/ckpt/train_log.jsonl",
+   "constants": [
+    "train_log.jsonl"
+   ],
+   "detail": "__file__ of scripts/alphagen_rl_p1.py",
+   "directory_expression": "os.path.join(CKPT_DIR, \"train_log.jsonl\")",
+   "fragment": "train_log.jsonl",
+   "fragment_write_sites": 1,
+   "path_exists": false,
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "resolved_inside_tree": true,
+   "site": "scripts/alphagen_rl_p1.py:1170",
+   "source": "scripts/alphagen_rl_p1.py",
+   "trace": [
+    "CKPT_DIR is module",
+    "OUT_DIR is module",
+    "ROOT is module",
+    "join() base -> dir (__file__ of scripts/alphagen_rl_p1.py)",
+    "join() base -> dir (__file__ of scripts/alphagen_rl_p1.py)",
+    "join() base -> dir (__file__ of scripts/alphagen_rl_p1.py)"
+   ]
+  },
+  {
+   "class": "resolved_directory_outside_the_tree_or_gitignored_runtime_cache",
+   "composed_path": "results/alphagen_rl_p1/ckpt/train_log.jsonl",
+   "constants": [
+    "train_log.jsonl"
+   ],
+   "detail": "__file__ of scripts/alphagen_rl_p1.py",
+   "directory_expression": "os.path.join(CKPT_DIR, \"train_log.jsonl\")",
+   "fragment": "train_log.jsonl",
+   "fragment_write_sites": 1,
+   "path_exists": false,
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "resolved_inside_tree": true,
+   "site": "scripts/alphagen_rl_p1.py:1285",
+   "source": "scripts/alphagen_rl_p1.py",
+   "trace": [
+    "CKPT_DIR is module",
+    "OUT_DIR is module",
+    "ROOT is module",
+    "join() base -> dir (__file__ of scripts/alphagen_rl_p1.py)",
+    "join() base -> dir (__file__ of scripts/alphagen_rl_p1.py)",
+    "join() base -> dir (__file__ of scripts/alphagen_rl_p1.py)"
+   ]
+  },
+  {
+   "class": "resolved_directory_outside_the_tree_or_gitignored_runtime_cache",
+   "composed_path": "results/alphagen_rl_p1/ckpt/train_log.jsonl",
+   "constants": [
+    "train_log.jsonl"
+   ],
+   "detail": "__file__ of scripts/alphagen_rl_p1.py",
+   "directory_expression": "os.path.join(CKPT_DIR, \"train_log.jsonl\")",
+   "fragment": "train_log.jsonl",
+   "fragment_write_sites": 1,
+   "path_exists": false,
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "resolved_inside_tree": true,
+   "site": "scripts/alphagen_rl_p1.py:1956",
+   "source": "scripts/alphagen_rl_p1.py",
+   "trace": [
+    "CKPT_DIR is module",
+    "OUT_DIR is module",
+    "ROOT is module",
+    "join() base -> dir (__file__ of scripts/alphagen_rl_p1.py)",
+    "join() base -> dir (__file__ of scripts/alphagen_rl_p1.py)",
+    "join() base -> dir (__file__ of scripts/alphagen_rl_p1.py)"
+   ]
+  },
+  {
+   "class": "directory_supplied_by_a_function_parameter_or_loop_value",
+   "composed_path": null,
+   "constants": [
+    "train_log.jsonl"
+   ],
+   "detail": "parameter of _mk_ckpt_face",
+   "directory_expression": "os.path.join(d, \"train_log.jsonl\")",
+   "fragment": "train_log.jsonl",
+   "fragment_write_sites": 1,
+   "path_exists": null,
+   "resolved_directory": null,
+   "site": "scripts/alphagen_rl_p1.py:2328",
+   "source": "scripts/alphagen_rl_p1.py",
+   "trace": [
+    "d is function_parameter",
+    "join() base -> directory_supplied_by_a_function_parameter_or_loop_value (parameter of _mk_ckpt_face)"
+   ]
+  },
+  {
+   "class": "resolved_directory_outside_the_tree_or_gitignored_runtime_cache",
+   "composed_path": "Money02/data/cache/p1c_stock/turnover_derived.meta.json",
+   "constants": [
+    "turnover_derived.meta.json"
+   ],
+   "detail": "__file__ of scripts/p1c_stock_ic_batch.py",
+   "directory_expression": "os.path.join(CACHE_DIR, \"turnover_derived.meta.json\")",
+   "fragment": "turnover_derived.meta.json",
+   "fragment_write_sites": 0,
+   "path_exists": false,
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "resolved_inside_tree": true,
+   "site": "scripts/p1e_ic_batch.py:142",
+   "source": "scripts/p1e_ic_batch.py",
+   "trace": [
+    "CACHE_DIR is module",
+    "P1C resolves to module (p1c_stock_ic_batch)",
+    "ROOT is module",
+    "join() base -> dir (__file__ of scripts/p1c_stock_ic_batch.py)",
+    "join() base -> dir (__file__ of scripts/p1c_stock_ic_batch.py)"
+   ]
+  },
+  {
+   "class": "resolved_directory_outside_the_tree_or_gitignored_runtime_cache",
+   "composed_path": "Money02/data/cache/p1c_stock/turnover_derived.meta.json",
+   "constants": [
+    "turnover_derived.meta.json"
+   ],
+   "detail": "__file__ of scripts/p1c_stock_ic_batch.py",
+   "directory_expression": "os.path.join(CACHE_DIR, \"turnover_derived.meta.json\")",
+   "fragment": "turnover_derived.meta.json",
+   "fragment_write_sites": 0,
+   "path_exists": false,
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "resolved_inside_tree": true,
+   "site": "scripts/p1e_probe.py:73",
+   "source": "scripts/p1e_probe.py",
+   "trace": [
+    "CACHE_DIR is module",
+    "P1C resolves to module (p1c_stock_ic_batch)",
+    "ROOT is module",
+    "join() base -> dir (__file__ of scripts/p1c_stock_ic_batch.py)",
+    "join() base -> dir (__file__ of scripts/p1c_stock_ic_batch.py)"
+   ]
+  },
+  {
+   "class": "resolved_directory_outside_the_tree_or_gitignored_runtime_cache",
+   "composed_path": "Money02/data/cache/p1c_stock/turnover_derived.meta.json",
+   "constants": [
+    "turnover_derived.meta.json"
+   ],
+   "detail": "__file__ of scripts/p1c_stock_ic_batch.py",
+   "directory_expression": "os.path.join(CACHE_DIR, \"turnover_derived.meta.json\")",
+   "fragment": "turnover_derived.meta.json",
+   "fragment_write_sites": 0,
+   "path_exists": false,
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "resolved_inside_tree": true,
+   "site": "scripts/p1e_turnover_derive.py:42",
+   "source": "scripts/p1e_turnover_derive.py",
+   "trace": [
+    "CACHE_DIR is module",
+    "P1C resolves to module (p1c_stock_ic_batch)",
+    "ROOT is module",
+    "join() base -> dir (__file__ of scripts/p1c_stock_ic_batch.py)",
+    "join() base -> dir (__file__ of scripts/p1c_stock_ic_batch.py)"
+   ]
+  },
+  {
+   "class": "resolved_directory_inside_the_tree_and_the_path_is_absent",
+   "composed_path": "results/trial_labor_w20/w20_reform_face.json",
+   "constants": [
+    "w20_reform_face.json"
+   ],
+   "detail": "__file__ of config/settings.py",
+   "directory_expression": "os.path.join(RES_DIR, \"w20_reform_face.json\")",
+   "fragment": "w20_reform_face.json",
+   "fragment_write_sites": 0,
+   "path_exists": false,
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\trial_labor_w20\\w20_reform_face.json",
+   "resolved_inside_tree": true,
+   "site": "scripts/trial_labor_w20.py:97",
+   "source": "scripts/trial_labor_w20.py",
+   "trace": [
+    "RES_DIR is module",
+    "tl1 resolves to module (trial_labor_w1)",
+    "PathConfig.results_dir from the class body",
+    "PathConfig.root from the class body",
+    "join() base -> dir (__file__ of config/settings.py)",
+    "join() base -> dir (__file__ of config/settings.py)"
+   ]
+  },
+  {
+   "class": "resolved_directory_inside_the_tree_and_the_path_is_absent",
+   "composed_path": "results/trial_labor_w20/w20_screen.json",
+   "constants": [
+    "w20_screen.json"
+   ],
+   "detail": "__file__ of config/settings.py",
+   "directory_expression": "os.path.join(RES_DIR, \"w20_screen.json\")",
+   "fragment": "w20_screen.json",
+   "fragment_write_sites": 0,
+   "path_exists": false,
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\trial_labor_w20\\w20_screen.json",
+   "resolved_inside_tree": true,
+   "site": "scripts/trial_labor_w20.py:94",
+   "source": "scripts/trial_labor_w20.py",
+   "trace": [
+    "RES_DIR is module",
+    "tl1 resolves to module (trial_labor_w1)",
+    "PathConfig.results_dir from the class body",
+    "PathConfig.root from the class body",
+    "join() base -> dir (__file__ of config/settings.py)",
+    "join() base -> dir (__file__ of config/settings.py)"
+   ]
+  }
+ ],
+ "seeded_by": "results/state_tilt/FRAGMENTPRODUCERS-2026-11-04.json",
+ "source": "scripts/e404_constant_directory_resolution.py",
+ "study": "E404_constant_directory_resolution",
+ "summary": {
+  "by_class": {
+   "directory_supplied_by_a_function_parameter_or_loop_value": 6,
+   "module_constant_rebound_inside_a_function": 1,
+   "resolved_directory_inside_the_tree_and_the_path_is_absent": 3,
+   "resolved_directory_outside_the_tree_or_gitignored_runtime_cache": 8
+  },
+  "by_fragment": {
+   "COMPOSITE-001.json": [
+    "resolved_directory_inside_the_tree_and_the_path_is_absent"
+   ],
+   "GRID-X_paper.json": [
+    "directory_supplied_by_a_function_parameter_or_loop_value"
+   ],
+   "bm-x.json": [
+    "module_constant_rebound_inside_a_function"
+   ],
+   "face_bm-c.json": [
+    "directory_supplied_by_a_function_parameter_or_loop_value"
+   ],
+   "idle_trigger.bm-c.json": [
+    "resolved_directory_outside_the_tree_or_gitignored_runtime_cache"
+   ],
+   "mktcap_raw.meta.json": [
+    "resolved_directory_outside_the_tree_or_gitignored_runtime_cache"
+   ],
+   "train_log.jsonl": [
+    "directory_supplied_by_a_function_parameter_or_loop_value",
+    "resolved_directory_outside_the_tree_or_gitignored_runtime_cache"
+   ],
+   "turnover_derived.meta.json": [
+    "resolved_directory_outside_the_tree_or_gitignored_runtime_cache"
+   ],
+   "w20_reform_face.json": [
+    "resolved_directory_inside_the_tree_and_the_path_is_absent"
+   ],
+   "w20_screen.json": [
+    "resolved_directory_inside_the_tree_and_the_path_is_absent"
+   ]
+  },
+  "classes_sum_to_sites": true,
+  "dangling_imports": [],
+  "dead_joins": [
+   {
+    "composed": "firm/traders/COMPOSITE-001.json",
+    "fragment": "COMPOSITE-001.json",
+    "site": "scripts/p2_deepening.py:420"
+   },
+   {
+    "composed": "results/trial_labor_w20/w20_reform_face.json",
+    "fragment": "w20_reform_face.json",
+    "site": "scripts/trial_labor_w20.py:97"
+   },
+   {
+    "composed": "results/trial_labor_w20/w20_screen.json",
+    "fragment": "w20_screen.json",
+    "site": "scripts/trial_labor_w20.py:94"
+   }
+  ],
+  "distinct_source_files": 11,
+  "fragments": 10,
+  "in_tree_absent_reads": 3,
+  "in_tree_absent_writes": 0,
+  "population_class": "directory_expression_not_traceable_statically",
+  "population_source": "results/state_tilt/FRAGMENTPRODUCERS-2026-11-04.json",
+  "sites": 18,
+  "sites_naming_a_directory_the_reader_cannot_act_on": 15,
+  "sites_still_unresolved": 0,
+  "sites_where_the_directory_is_in_tree_and_the_file_is_absent": 3,
+  "sites_where_the_join_lands": 0,
+  "verdict": "a_module_constant_does_name_an_in_tree_directory_and_the_joined_file_is_not_there"
+ },
+ "ts": "2026-11-04T04:52:22+08:00",
+ "verdict": "a_module_constant_does_name_an_in_tree_directory_and_the_joined_file_is_not_there"
+}

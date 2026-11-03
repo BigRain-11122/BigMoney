@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1419 bm-b: E398 closed with result_ref; E403 seeded (ready floor 3)",
+ "_stamp_note": "r1421 bm-b: E404 closed with result_ref (3 in-tree reads have no writer); E405 seeded, ready floor 3",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27225,6 +27225,9 @@
   },
   {
    "deliverable": "results/state_tilt/CONSTANTDIRS-2026-11-05.json",
+   "done_at": "2026-11-04T05:35:00+08:00",
+   "done_by": "bm-b r1421",
+   "done_note": "18 sites / 10 fragments priced on the constant side: 7 runtime-supplied (6 parameter or loop value, 1 module constant rebound inside a function), 8 name a directory that is outside the tracked tree or a gitignored runtime cache, 0 stay unresolved, and 3 name an in-tree directory whose joined file does not exist -- all three are READS with no writer (firm/traders/COMPOSITE-001.json, results/trial_labor_w20/w20_screen.json, w20_reform_face.json), so they can only ever fail.  No site names an in-tree directory whose file the corpus does produce.",
    "entered_at": "2026-11-04T04:03+08:00",
    "entered_by": "bm-b r1420 (supply floor refill after E402)",
    "id": "E404-WHICH-MODULE-CONSTANT-SUPPLIES-THE-6-UNTRACEABLE-FRAGMENT-DIRECTORIES",
@@ -27233,8 +27236,22 @@
    "note": "6 of 52 fragments were C7 in E402; this prices the instrument's own blind spot",
    "owner": null,
    "priority": 3,
-   "status": "ready",
+   "result_ref": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "status": "done",
    "title": "E402 traced 52 fragments to their write sites and could not follow 6 of them because the directory is a module constant or an attribute this corpus defines outside the python walk (CACHE_DIR / CKPT_DIR / RES_DIR / MACHINES_DIR / PATHS.root). Measure the constant side: for each untraceable fragment, resolve the name through imports to its definition, publish whether the definition still exists in the tree it points at, and say whether the value can ever be a directory this machine has. The bill separates 'a constant defined in a tree the index skips' from 'a constant defined nowhere'."
+  },
+  {
+   "deliverable": "results/state_tilt/DEADREAD-2026-11-04.json",
+   "entered_at": "2026-11-04T05:38:00+08:00",
+   "entered_by": "bm-b r1421 (supply floor refill after E404)",
+   "id": "E405-DOES-THE-READER-OF-A-NEVER-PRODUCED-FILE-FAIL-LOUDLY-OR-SILENTLY",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static; no reader is edited",
+   "owner": null,
+   "priority": 3,
+   "question": "E404 published 3 sites whose joined path names an in-tree directory and a file the corpus never writes: scripts/p2_deepening.py:420 (firm/traders/COMPOSITE-001.json) and scripts/trial_labor_w20.py:94/97 (results/trial_labor_w20/w20_screen.json + w20_reform_face.json). A missing read target is only a defect if the reader would fail; if the site is wrapped in a try/except, a .get default, or an existence guard, the cost is a silently absent number instead. Ask it per site: read the enclosing call chain and publish whether the absence raises, returns a default, or is guarded by an os.path.exists test -- and which published face, if any, consumes the result.",
+   "status": "ready",
+   "title": "E404 found 3 in-tree read targets no writer produces; price the failure mode"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
