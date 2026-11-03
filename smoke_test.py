@@ -14652,6 +14652,82 @@ except Exception as _e402:
 check(_name402, not _bad402, "; ".join(_bad402)[:240]
       or "verdict %s" % str((_f402 or {}).get("verdict"))[:90])
 
+# E405: E404 published three in-tree files no writer produces and stopped at the join. This leg
+# refuses the ways a failure-mode study can flatter itself: a verdict outside the frozen set, a
+# verdict that does not re-derive from its own rows, classes or failure modes outside their frozen
+# sets, a constant whose consumer list is empty, a row charged with a silent mode that names neither
+# a consumer nor a directory enumerator, a write site counted as a read, and a study whose own
+# verify is not clean against the live tree.
+_name405 = ("product: of %s sites E404 published as absent reads, %s is a write at the join line and "
+            "%s are constants -- %s refuse loudly, %s would be silently omitted by the directory "
+            "enumerators, %s ungraded")
+_bad405 = []
+_f405 = None
+try:
+    _p405 = os.path.join("results", "state_tilt", "deadread_latest.json")
+    _f405 = json.load(open(_p405, encoding="utf-8")) if os.path.exists(_p405) else None
+    if _f405 is None:
+        _bad405.append("no published dead-read face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m405 = __import__("importlib").import_module("e405_dead_read_failure_mode")
+        _s405 = _f405.get("summary") or {}
+        _rows405 = _f405.get("rows") or []
+        if _f405.get("verdict") not in (_m405.V_MISPREMISE, _m405.V_LOUD, _m405.V_RAISES,
+                                        _m405.V_SILENT, _m405.V_MIXED):
+            _bad405.append("verdict %r is outside the frozen set" % str(_f405.get("verdict")))
+        if _m405.decide(_rows405) != _f405.get("verdict"):
+            _bad405.append("the verdict does not re-derive from the published rows")
+        if len(_rows405) != (_s405.get("sites") or 0):
+            _bad405.append("rows %d vs sites %r" % (len(_rows405), _s405.get("sites")))
+        if _s405.get("sites") != _f405.get("published_absent_read_count"):
+            _bad405.append("the priced site count is not the count E404 published")
+        _use405 = _s405.get("by_use_class") or {}
+        _mode405 = _s405.get("by_failure_mode") or {}
+        if set(_use405) - set(_m405.USE_CLASSES):
+            _bad405.append("use classes outside the frozen set: %s"
+                           % sorted(set(_use405) - set(_m405.USE_CLASSES)))
+        if set(_mode405) - set(_m405.FAILURE_MODES):
+            _bad405.append("failure modes outside the frozen set: %s"
+                           % sorted(set(_mode405) - set(_m405.FAILURE_MODES)))
+        if sum(_mode405.values()) != (_s405.get("sites") or 0):
+            _bad405.append("failure modes sum to %d but the site total is %r"
+                           % (sum(_mode405.values()), _s405.get("sites")))
+        if _s405.get("sites_that_are_reads_at_the_join_line") != _use405.get(_m405.U3, 0):
+            _bad405.append("the read-at-the-join-line headline is not its own class count")
+        if _s405.get("sites_that_are_writes_at_the_join_line") != _use405.get(_m405.U1, 0):
+            _bad405.append("the write headline is not its own class count")
+        for _r405 in _rows405:
+            if _r405.get("use_class") not in _m405.USE_CLASSES:
+                _bad405.append("%s: use class outside the frozen set" % _r405.get("site"))
+            if _r405.get("failure_mode") not in _m405.FAILURE_MODES:
+                _bad405.append("%s: failure mode outside the frozen set" % _r405.get("site"))
+            if _r405.get("use_class") == _m405.U2 and not (_r405.get("consumers") or []):
+                _bad405.append("%s: a constant with no consumer rows" % _r405.get("site"))
+            if _r405.get("failure_mode") == _m405.M_SILENT and not (
+                    _r405.get("consumers") or _r405.get("directory_enumerators")):
+                _bad405.append("%s: charged silent with nothing to be silent in" % _r405.get("site"))
+            if _r405.get("use_class") == _m405.U1 and _r405.get("failure_mode") == _m405.M_RAISE:
+                _bad405.append("%s: a write site cannot raise on a read" % _r405.get("site"))
+            for _c405 in (_r405.get("consumers") or []):
+                if _c405.get("class") not in _m405.CONSUMER_CLASSES:
+                    _bad405.append("%s: consumer class %r outside the frozen set"
+                                   % (_r405.get("site"), _c405.get("class")))
+                if _c405.get("class") == _m405.C5 and _c405.get("failure_mode") != _m405.M_RAISE:
+                    _bad405.append("%s: an ungated read that does not raise" % _r405.get("site"))
+        if _m405.verify() != []:
+            _bad405.append("the study's own verify does not come back clean")
+        _name405 = _name405 % (_s405.get("sites"),
+                               _use405.get(_m405.U1, 0),
+                               _use405.get(_m405.U2, 0),
+                               _mode405.get(_m405.M_LOUD, 0),
+                               _mode405.get(_m405.M_SILENT, 0),
+                               _mode405.get(_m405.M_UNGRADED, 0))
+except Exception as _e405:
+    _bad405.append(repr(_e405)[:160])
+check(_name405, not _bad405, "; ".join(_bad405)[:240]
+      or "verdict %s" % str((_f405 or {}).get("verdict"))[:90])
+
 # E404: E402 could not follow 6 of 52 fragments because the directory is a module constant or an
 # attribute this corpus defines elsewhere. This leg refuses the ways a constant trace can flatter
 # itself: a class outside the frozen set, classes that do not sum to the published site total, a

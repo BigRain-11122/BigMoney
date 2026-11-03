@@ -27259,8 +27259,12 @@
    "owner": null,
    "priority": 3,
    "question": "E404 published 3 sites whose joined path names an in-tree directory and a file the corpus never writes: scripts/p2_deepening.py:420 (firm/traders/COMPOSITE-001.json) and scripts/trial_labor_w20.py:94/97 (results/trial_labor_w20/w20_screen.json + w20_reform_face.json). A missing read target is only a defect if the reader would fail; if the site is wrapped in a try/except, a .get default, or an existence guard, the cost is a silently absent number instead. Ask it per site: read the enclosing call chain and publish whether the absence raises, returns a default, or is guarded by an os.path.exists test -- and which published face, if any, consumes the result.",
-   "status": "ready",
-   "title": "E404 found 3 in-tree read targets no writer produces; price the failure mode"
+   "status": "done",
+   "title": "E404 found 3 in-tree read targets no writer produces; price the failure mode",
+   "done_at": "2026-11-04T07:55:00+08:00",
+   "done_by": "bm-b r1424",
+   "result_ref": "results/state_tilt/DEADREAD-2026-11-04.json",
+   "done_note": "3 published sites re-derived: 1 is a write at the join line (p2_deepening.py:420 assigns then open(mode='w') at 421, so E404's in_tree_absent_writes=0 is false), 2 are module constants (trial_labor_w20.py:94/97) whose only name-based readers sit behind if not os.path.exists(NAME): return 2. 11 consumer rows + 2 directory enumerators: 2 refuse loudly, 1 would be silently omitted (nothing names COMPOSITE-001.json as a read; aggressive_lab.py:266 and monthly_briefing.py:70 glob firm/traders/*.json), 0 reads at the join line, 1 reference published ungraded (finalize_already_landed at w20:1254)."
   },
   {
    "deliverable": "results/state_tilt/BLOBREAD-2026-11-05.json",
@@ -27301,6 +27305,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-04T06:35:34+08:00",
+ "updated_at": "2026-11-04T07:55:00+08:00",
  "version": 1
 }

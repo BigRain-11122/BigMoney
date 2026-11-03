@@ -9354,3 +9354,56 @@ declaration `fleet/lane_host_ownership.json`; faces `results/lane_host_ownership
 `lane_host_ownership_latest.json`; rendered declaration `docs/LANE-HOST-OWNERSHIP.md`; smoke leg
 (`scripts/run_lane_host_ownership_smoke_leg.py`, exec'd verbatim, 1/1); referenced from
 `HQ-FEEDBACK.md` F-20261104-01 as the decision requires.
+
+
+## E405 -- an absent read target is only a defect if a reader would fail, and none of E404's three sites reads its target at the join line (r1424 bm-b)
+
+E404 published `in_tree_absent_reads: 3` and stopped at the join. That count is a statement about the
+path, not about the reader: the line E404 landed on can be a write, a module constant, or an existence
+test, and the file can be absent because the stage that writes it has not run. E405 re-derives what
+each of the three join lines is *doing* and then asks who consumes the path and how that consumer
+fails when the file is not there.
+
+Readings (3 sites, 11 consumer rows, 2 directory enumerators):
+
+1. **One of the three is a write, not a read.** `scripts/p2_deepening.py:420` assigns
+   `path = os.path.join(PATHS.root, "firm", "traders", "COMPOSITE-001.json")` and line 421 opens it
+   with mode `"w"`. E404's `in_tree_absent_writes: 0` is therefore false: the site is a write target
+   whose registration stage never ran. The mode has to be read off the *first later use* of a
+   function-local path, not off the join line.
+2. **The other two are module constants, and every name-based reader refuses loudly.**
+   `scripts/trial_labor_w20.py:94/97` (`SCREEN_FILE`, `REFORM_FILE`) are read at 1508 / 1910 only
+   under `if not os.path.exists(...): print("...GATE..."); return 2`. Eleven consumer rows: 2 writers
+   (`_dump` at 1334 / 1840 feed the same constants), 2 existence gates, 2 gated reads, 2 status-table
+   prints, 2 landing-helper passes, 1 other. Absence here is a loud pending output, not a broken path.
+3. **The one genuinely silent mode in this batch is one level away from the join.** No source file
+   names `COMPOSITE-001.json` as a read; the two corpus readers consume the *directory*
+   (`aggressive_lab.py:266` `glob.glob(... "firm","traders","*.json")`, `monthly_briefing.py:70`
+   `traders_dir.glob("*.json")`). A trader whose registration never ran is silently missing from a
+   roster nobody counts -- the failure is an omission, and no existence gate can catch it.
+
+Three instrument rules:
+
+- **A join line is not a use.** Classify the site as write / module constant / read first, and for a
+  function-local path follow it to its first later use -- that is where the mode lives. A count of
+  "absent reads" that charges a `json.dump` site is the same defect as E389's text census: the name
+  alone was taken for the use.
+- **Price the consumer's guard, not the file's absence.** An existence gate returning non-zero is
+  loud; an enumeration of the parent directory is silent omission; no gate is `FileNotFoundError`.
+  A file can be absent and every named reader still healthy.
+- **A reference the arm cannot grade is published ungraded.** `finalize_already_landed(BATCH, NAME)`
+  hides its own gate behind a helper; that row is
+  `not_graded_this_arm_sees_the_reference_not_its_effect` rather than charged silent. 1 of 11 rows.
+  Charging it would have manufactured a silent mode.
+
+How to apply: when a census reports "N readers of a file that does not exist", do not price the file --
+open each site and read what the line does. Absence is a defect only where a consumer would either
+raise or, worse, enumerate around it. And when the consumer set turns out to be directory enumeration,
+the finding is about the *roster count*, not about the path: nothing in the tree can notice a member
+that was never written.
+
+Wiring: `scripts/e405_dead_read_failure_mode.py` (run / verify problems=[] / selftest 17/17); smoke
+leg E405 (1/1, exec'd verbatim by `scripts/run_e405_smoke_leg.py`); S6 leg `dead_read_failure_mode`;
+faces `results/state_tilt/DEADREAD-2026-11-04.json` + `deadread_latest.json`; population machine-read
+from E404's published `summary.dead_joins` (never hand-copied); no reader, constant, face or pointer was
+edited. Successor card E406 stays queued (the committed-blob reader).

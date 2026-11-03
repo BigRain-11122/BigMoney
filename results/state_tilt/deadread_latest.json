@@ -1,0 +1,168 @@
+{
+ "study": "E405_dead_read_failure_mode",
+ "evidence_cutoff": "2026-11-04",
+ "generated": "2026-11-04T07:37:57+08:00",
+ "population_source": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+ "population_note": "the three sites E404 published as in_tree_absent_reads; this study re-derives what each join line does and who consumes the path",
+ "published_absent_read_count": 3,
+ "summary": {
+  "sites": 3,
+  "by_use_class": {
+   "join_lands_on_a_write_not_a_read": 1,
+   "module_constant_not_a_read_at_this_line": 2
+  },
+  "by_failure_mode": {
+   "silent_default_or_silent_omission": 1,
+   "loud_refuse_nonzero_exit": 2
+  },
+  "sites_that_are_reads_at_the_join_line": 0,
+  "sites_that_are_writes_at_the_join_line": 1,
+  "sites_that_are_module_constants_at_the_join_line": 2,
+  "sites_with_a_pending_output": 3
+ },
+ "rows": [
+  {
+   "site": "scripts/p2_deepening.py:420",
+   "fragment": "COMPOSITE-001.json",
+   "composed_path": "firm/traders/COMPOSITE-001.json",
+   "target_exists_on_disk": false,
+   "use_class": "join_lands_on_a_write_not_a_read",
+   "use_detail": "function-local path; open(mode='w') of the assigned path at line 421",
+   "constant_name": "path",
+   "consumers": [],
+   "directory_enumerators": [
+    {
+     "site": "scripts/aggressive_lab.py:266",
+     "class": "directory_enumeration",
+     "source": "glob.glob(os.path.join(PATHS.root, \"firm\", \"traders\",                                     \"*.json\"))"
+    },
+    {
+     "site": "scripts/monthly_briefing.py:70",
+     "class": "directory_enumeration",
+     "source": "traders_dir.glob(\"*.json\")"
+    }
+   ],
+   "failure_mode": "silent_default_or_silent_omission",
+   "pending_output": true
+  },
+  {
+   "site": "scripts/trial_labor_w20.py:97",
+   "fragment": "w20_reform_face.json",
+   "composed_path": "results/trial_labor_w20/w20_reform_face.json",
+   "target_exists_on_disk": false,
+   "use_class": "module_constant_not_a_read_at_this_line",
+   "use_detail": "module-level constant joining a directory",
+   "constant_name": "REFORM_FILE",
+   "consumers": [
+    {
+     "line": 698,
+     "class": "status_report",
+     "failure_mode": "silent_default_or_silent_omission"
+    },
+    {
+     "line": 1840,
+     "class": "writer",
+     "failure_mode": "not_a_read",
+     "call": "_dump",
+     "source": "_dump(REFORM_FILE, reform_prod)"
+    },
+    {
+     "line": 1896,
+     "class": "status_report",
+     "failure_mode": "silent_default_or_silent_omission",
+     "call": "print",
+     "source": "print(f\"products: {JUDGE_FILE} + {REFORM_FILE} \"\n          f\"(ledger total {ledger['total']})\")"
+    },
+    {
+     "line": 1906,
+     "class": "existence_gate",
+     "failure_mode": "loud_refuse_nonzero_exit",
+     "call": "exists",
+     "source": "os.path.exists(REFORM_FILE)"
+    },
+    {
+     "line": 1910,
+     "class": "guarded_read",
+     "failure_mode": "loud_refuse_nonzero_exit",
+     "gate_line": 1906,
+     "gate_exit_code": 2,
+     "function": "cmd_intake",
+     "call": "open",
+     "source": "open(REFORM_FILE, encoding=\"utf-8\")"
+    }
+   ],
+   "directory_enumerators": [],
+   "failure_mode": "loud_refuse_nonzero_exit",
+   "produced_by": [
+    1840
+   ],
+   "pending_output": true
+  },
+  {
+   "site": "scripts/trial_labor_w20.py:94",
+   "fragment": "w20_screen.json",
+   "composed_path": "results/trial_labor_w20/w20_screen.json",
+   "target_exists_on_disk": false,
+   "use_class": "module_constant_not_a_read_at_this_line",
+   "use_detail": "module-level constant joining a directory",
+   "constant_name": "SCREEN_FILE",
+   "consumers": [
+    {
+     "line": 696,
+     "class": "status_report",
+     "failure_mode": "silent_default_or_silent_omission"
+    },
+    {
+     "line": 1254,
+     "class": "passed_to_a_landing_helper",
+     "failure_mode": "not_graded_this_arm_sees_the_reference_not_its_effect",
+     "call": "finalize_already_landed",
+     "source": "tl16.tl6.finalize_already_landed(SCREEN_BATCH, SCREEN_FILE)"
+    },
+    {
+     "line": 1334,
+     "class": "writer",
+     "failure_mode": "not_a_read",
+     "call": "_dump",
+     "source": "_dump(SCREEN_FILE, prod)"
+    },
+    {
+     "line": 1349,
+     "class": "status_report",
+     "failure_mode": "silent_default_or_silent_omission",
+     "call": "print",
+     "source": "print(f\"products: {SCREEN_FILE} + {SCREEN_CSV} \"\n          f\"(ledger total {ledger['total']})\")"
+    },
+    {
+     "line": 1504,
+     "class": "existence_gate",
+     "failure_mode": "loud_refuse_nonzero_exit",
+     "call": "exists",
+     "source": "os.path.exists(SCREEN_FILE)"
+    },
+    {
+     "line": 1508,
+     "class": "guarded_read",
+     "failure_mode": "loud_refuse_nonzero_exit",
+     "gate_line": 1504,
+     "gate_exit_code": 2,
+     "function": "cmd_judge_prep",
+     "call": "open",
+     "source": "open(SCREEN_FILE, encoding=\"utf-8\")"
+    }
+   ],
+   "directory_enumerators": [],
+   "failure_mode": "loud_refuse_nonzero_exit",
+   "produced_by": [
+    1334
+   ],
+   "pending_output": true
+  }
+ ],
+ "bounds": {
+  "no_rewrites": "no published face, pointer, constant or consumer is edited here",
+  "static_only": "failure modes are read from the AST and from os.path.exists on the target; no consumer is executed"
+ },
+ "verdict": "readers_and_enumeration_disagree_loud_name_based_consumers_and_a_silent_directory_enumerating_one",
+ "source": "scripts/e405_dead_read_failure_mode.py"
+}

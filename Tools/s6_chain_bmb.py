@@ -1361,6 +1361,15 @@ LEGS = [
     ("constant_directory_resolution",
      ["python", "scripts/e404_constant_directory_resolution.py", "verify"]),
 
+    # E405 asks the follow-up E404 left open: an absent read target is only a defect if a reader
+    # would fail.  For each of the three published joins it re-derives what the line is doing (write
+    # / module constant / read), walks every later use of that constant in the same file (writer,
+    # existence gate, gated read, bare read, status table, landing helper) and reads the failure mode
+    # from the AST plus an existence test on the target.  Verify re-derives every class and the
+    # verdict against the live tree.
+    ("dead_read_failure_mode",
+     ["python", "scripts/e405_dead_read_failure_mode.py", "verify"]),
+
     # E401 re-runs E384's own key-site classifier with every project-local callable that opens a
     # file added to the call table (patched for one run, restored in a finally).  It publishes the
     # keys that change class, the site lines the stdlib table could not see, and the other arm:
