@@ -1,0 +1,367 @@
+{
+ "bounds": {
+  "measured": "each published key resolved to files and tested against both walk rules in the tree; the classes are functions of the resolved sets",
+  "no_rewrites": "no published face and no pointer is edited here",
+  "not_measured": "whether a consumer of an ambiguous name reads the member it meant (E383's consumer table); the corpus content of the excluded trees"
+ },
+ "evidence_cutoff": "2026-11-03",
+ "repair_list": [],
+ "rule": {
+  "names_the_rule_would_collapse": [],
+  "names_whose_class_depends_on_the_walk": [
+   "p1d_gates.json"
+  ],
+  "sentence": "the two walks disagree on 1 name(s) but neither exclusion collapses them, so the corpus must pick ONE skip set (the union) before any key count is compared across instruments",
+  "tops_holding_files_only_one_walk_sees": {},
+  "walk_disagreement_count": 1
+ },
+ "sibling_check": {
+  "agree": false,
+  "available": true,
+  "published_merged_names": 19,
+  "published_not_recomputed": [],
+  "recomputed_merged_names": 20,
+  "recomputed_not_published": [
+   "ledger.jsonl"
+  ],
+  "same_cutoff": true,
+  "sibling": "SPLITPRICE-2026-11-03.json"
+ },
+ "source": "scripts/e397_walk_ambiguity.py",
+ "study": "E397_walk_ambiguity",
+ "summary": {
+  "by_class": {
+   "ambiguity_depends_on_which_walk_you_use": 1,
+   "ambiguity_survives_every_walk": 19,
+   "unique_or_unresolved": 864
+  },
+  "classes_sum_to_the_population": true,
+  "corpus_parsed": 2430,
+  "corpus_sources": 2450,
+  "keys_read_half": 862,
+  "keys_total": 884,
+  "keys_write_only": 22,
+  "names_ambiguous_in_the_resolver": 20,
+  "names_ambiguous_inside_every_walk": 19,
+  "names_ambiguous_only_because_the_resolver_is_wider": 0,
+  "names_resolved_to_no_file": 98,
+  "names_unique": 766,
+  "names_whose_class_depends_on_the_walk": 1,
+  "per_walk": {
+   "e350_e353_e377": {
+    "names_with_exactly_one_file_inside": 766,
+    "names_with_no_file_inside": 98,
+    "names_with_two_or_more_files_inside": 20
+   },
+   "e391_py_corpus": {
+    "names_with_exactly_one_file_inside": 767,
+    "names_with_no_file_inside": 98,
+    "names_with_two_or_more_files_inside": 19
+   }
+  },
+  "verdict": "every_ambiguous_name_keeps_at_least_two_files_inside_every_walk_so_the_ambiguity_is_the_data_and_naming_a_member_is_a_decision_not_a_cleanup"
+ },
+ "ts": "2026-11-03T22:16:52+08:00",
+ "undecided_inside_every_walk": [
+  {
+   "files": [
+    "firm/traders/VOLATILITY-CE-01.json",
+    "results/g25/VOLATILITY-CE-01.json",
+    "results/perpetual_faces/n3_r1/VOLATILITY-CE-01.json",
+    "results/perpetual_faces/n3_r2/VOLATILITY-CE-01.json",
+    "results/t56_caliber_registry/firm/traders/VOLATILITY-CE-01.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "VOLATILITY-CE-01.json",
+   "n_files": 5
+  },
+  {
+   "files": [
+    "results/g25/_summary.json",
+    "results/prospect_paper/_summary.json",
+    "results/prospect_promotion/_summary.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "_summary.json",
+   "n_files": 3
+  },
+  {
+   "files": [
+    "results/mass_trial/judge_state.json",
+    "results/trial_labor_w1/judge_state.json",
+    "results/trial_labor_w10/judge_state.json",
+    "results/trial_labor_w11/judge_state.json",
+    "results/trial_labor_w12/judge_state.json",
+    "results/trial_labor_w13/judge_state.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "judge_state.json",
+   "n_files": 20
+  },
+  {
+   "files": [
+    "docs/live_book/latest.json",
+    "results/alphagen_rg/latest.json",
+    "results/div_event_census/latest.json",
+    "results/divex_harvest/latest.json",
+    "results/divlowvol_live/latest.json",
+    "results/divlowvol_nulls/latest.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "latest.json",
+   "n_files": 28
+  },
+  {
+   "files": [
+    "results/etf_book_order/ledger.jsonl",
+    "results/etf_book_order_fresh/ledger.jsonl",
+    "results/etf_composite_live/ledger.jsonl",
+    "results/etf_paper/ledger.jsonl",
+    "results/local_coding_pilot/ledger.jsonl",
+    "results/susp_resume_forward/ledger.jsonl"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "ledger.jsonl",
+   "n_files": 6
+  },
+  {
+   "files": [
+    "results/_r1012bmb_s0_backup/lhb_update_status.json",
+    "results/lhb_update_status.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "lhb_update_status.json",
+   "n_files": 2
+  },
+  {
+   "files": [
+    "Money0923/MoneyViz/Packages/manifest.json",
+    "content/drama/voice_bank/manifest.json",
+    "results/_quarantine/20261003-221448/manifest.json",
+    "results/_quarantine/20261004-061625_r447bmc_codely_mojibake/manifest.json",
+    "results/_quarantine/20261004-160832_r685bma_w3_bogus_summary/manifest.json",
+    "results/_quarantine/20261004-161427_r685bma_w3_wrongprev_summary/manifest.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "manifest.json",
+   "n_files": 20
+  },
+  {
+   "files": [
+    "results/local_coding_pilot/tasks/01/B/metrics.json",
+    "results/local_coding_pilot/tasks/01/C/metrics.json",
+    "results/local_coding_pilot/tasks/02/B/metrics.json",
+    "results/local_coding_pilot/tasks/02/C/metrics.json",
+    "results/local_coding_pilot/tasks/03/B/metrics.json",
+    "results/local_coding_pilot/tasks/03/C/metrics.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "metrics.json",
+   "n_files": 20
+  },
+  {
+   "files": [
+    "results/trial_labor_w1/prep_state.json",
+    "results/trial_labor_w10/prep_state.json",
+    "results/trial_labor_w11/prep_state.json",
+    "results/trial_labor_w12/prep_state.json",
+    "results/trial_labor_w13/prep_state.json",
+    "results/trial_labor_w14/prep_state.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "prep_state.json",
+   "n_files": 20
+  },
+  {
+   "files": [
+    "results/census_fusion_s2/probe.json",
+    "results/fund_divlowvol_p1/probe.json",
+    "results/fund_quality_p1/probe.json",
+    "results/fund_quality_p2/probe.json",
+    "results/fund_value_p1/probe.json",
+    "results/fund_value_p2/probe.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "probe.json",
+   "n_files": 14
+  },
+  {
+   "files": [
+    "logs/iteration-loop/state-bm-a.json",
+    "results/_quarantine/r964-estate-20261013/state-bm-a.json",
+    "state-bm-a.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "state-bm-a.json",
+   "n_files": 3
+  },
+  {
+   "files": [
+    "logs/iteration-loop/state-bm-c.json",
+    "results/_r1024bma_rollback_side/state-bm-c.json",
+    "results/_r753bmc_churn_backup/state-bm-c.json",
+    "state-bm-c.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "state-bm-c.json",
+   "n_files": 4
+  },
+  {
+   "files": [
+    "Money0923/state/state.json",
+    "logs/iteration-loop/state.json",
+    "results/etf_book_order/state.json",
+    "results/etf_book_order_fresh/state.json",
+    "results/etf_composite_live/state.json",
+    "state.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "state.json",
+   "n_files": 6
+  },
+  {
+   "files": [
+    "results/mass_trial/w1_judge.json",
+    "results/trial_labor_w1/w1_judge.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "w1_judge.json",
+   "n_files": 2
+  },
+  {
+   "files": [
+    "results/mass_trial/w2_candidates.json",
+    "results/trial_labor_w2/w2_candidates.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "w2_candidates.json",
+   "n_files": 2
+  },
+  {
+   "files": [
+    "results/mass_trial/w2_judge.json",
+    "results/trial_labor_w2/w2_judge.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "w2_judge.json",
+   "n_files": 2
+  },
+  {
+   "files": [
+    "results/mass_trial/w3_candidates.json",
+    "results/trial_labor_w3/w3_candidates.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "w3_candidates.json",
+   "n_files": 2
+  },
+  {
+   "files": [
+    "results/mass_trial/w3_judge.json",
+    "results/trial_labor_w3/w3_judge.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "w3_judge.json",
+   "n_files": 2
+  },
+  {
+   "files": [
+    "results/_r1012bmb_s0_backup/watermark_red.json",
+    "results/watermark_red.json"
+   ],
+   "files_inside": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "two_or_more_files_inside_the_walk"
+   },
+   "key": "watermark_red.json",
+   "n_files": 2
+  }
+ ],
+ "verdict": "every_ambiguous_name_keeps_at_least_two_files_inside_every_walk_so_the_ambiguity_is_the_data_and_naming_a_member_is_a_decision_not_a_cleanup",
+ "walk_dependent": [
+  {
+   "key": "p1d_gates.json",
+   "n_files": 2,
+   "states_by_walk": {
+    "e350_e353_e377": "two_or_more_files_inside_the_walk",
+    "e391_py_corpus": "exactly_one_file_inside_the_walk"
+   }
+  }
+ ],
+ "walks": {
+  "e350_e353_e377": {
+   "exclusions": [
+    "Money02",
+    "legacy",
+    "media",
+    "Money0923"
+   ],
+   "kind": "top"
+  },
+  "e391_py_corpus": {
+   "exclusions": [
+    ".git",
+    "__pycache__",
+    "_quarantine",
+    "node_modules",
+    ".codely-cli",
+    "_smoke"
+   ],
+   "kind": "part"
+  }
+ }
+}

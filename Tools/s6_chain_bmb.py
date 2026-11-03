@@ -1318,6 +1318,18 @@ LEGS = [
     # split both prices a republish and says which part of the ambiguity is the index's.  Verify
     # re-derives every arm's delta, the class sums and the decision gate without the corpus walk.
     ("merged_key_split", ["python", "scripts/e385_merged_key_split.py", "verify"]),
+
+    # E397 takes E385's untested sentence ("merged names whose ambiguity is only outside the census
+    # walk = 0") and measures it per NAME over all 884 published keys (862 read half + 22
+    # write-only), resolving each key to files and testing that set against BOTH walk rules the
+    # tree contains: E350's whole-tree drops (Money02/legacy/media/Money0923) and E391's path-part
+    # drops (.git/__pycache__/_quarantine/node_modules/.codely-cli/_smoke).  20 keys are ambiguous:
+    # 19 keep two or more files inside every walk (the ambiguity is the DATA -- naming a member is
+    # a decision, not a cleanup), 1 (`p1d_gates.json`) flips class depending on the rule because one
+    # of its two files is a quarantine snapshot, and 0 collapse under a rule, so the repair list is
+    # empty and the bill is a rule (pick one skip set = the union) rather than a split.  Verify
+    # re-resolves every published row from the tree and re-derives the classes and the gate.
+    ("walk_ambiguity", ["python", "scripts/e397_walk_ambiguity.py", "verify"]),
 ]
 
 

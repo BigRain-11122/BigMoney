@@ -8970,3 +8970,56 @@ Wiring: ``scripts/e385_merged_key_split.py`` (run / verify problems=[] / selftes
 E385 (1/1, exec'd verbatim by ``scripts/run_e385_smoke_leg.py``); S6 leg ``merged_key_split``; face
 ``results/state_tilt/SPLITPRICE-2026-11-03.json``; upstream faces read as published (E350/E353/
 E377/E381), none rewritten.
+
+### E397 -- a by-product count is not a measurement, and the tree has two census walks (r1416 bm-b)
+
+E385 published `merged_names_whose_ambiguity_is_only_outside_the_walk = 0` as a by-product of a
+study that walked the **862 read-half names** under **one** exclusion rule. Ask it as its own
+question -- per name, over every published key, against every walk the tree actually runs -- and
+both of those scoping choices turn out to matter.
+
+Population: 884 keys (862 read half from E350's `faces_named` + 22 write-only from E383's dump
+sinks). Each key is resolved with the E383 suffix index and each resolved file tested against two
+rules that both exist in the tree today: E350/E353/E377 drop whole top-level trees
+(`Money02`, `legacy`, `media`, `Money0923`); E391's `py_corpus` drops path components anywhere
+(`.git`, `__pycache__`, `_quarantine`, `node_modules`, `.codely-cli`, `_smoke`).
+
+| class | names |
+|---|---|
+| resolve to no file at all | 98 |
+| exactly one file | 766 |
+| ambiguous, survives **both** walks | 19 |
+| ambiguous, class flips with the rule | 1 (`p1d_gates.json`) |
+| ambiguous, collapses under a rule (the repairable kind) | **0** |
+
+Lessons:
+
+(1) **A by-product number inherits the scope of the study that dropped it.** E385's 0 is right
+about the names it walked and the rule it used; asked over both halves and both rules the collapse
+count is still 0 but the *disagreement* count is 1. "The merge is in the data, not in the walk" is
+now a per-name measurement, with a counterexample to the stronger reading ("the instruments agree").
+
+(2) **The population has a half the read census cannot see.** 22 of 884 keys exist only as dump
+sinks, and one of them (`ledger.jsonl`) is ambiguous -- so a split priced on the read half reports
+19 of 20 names. Any future key-count claim must say which half it walked.
+
+(3) **A name with no file is not a name with zero files.** 98 keys resolve to nothing in this
+checkout. E385 priced unresolved names as one document (a floor); that is a different claim from
+"unresolved", and here it is published as its own state rather than folded into the count.
+
+(4) **Memory is part of the instrument.** E350's `measure()` builds a per-source parent map for its
+read rows; on this host (free RAM ~2-3 GB, r1414 family) that raised `MemoryError` on the full
+corpus. The key *set* is a function of the two binding helpers alone, so the same set is reproduced
+by calling them directly and skipping the row walk -- one tree live at a time. A `MemoryError`
+inside a measurement script is an environment reading, not a code defect; the honest repair keeps
+the population identical and changes only what is held live.
+
+(5) **The bill for an empty repair list is a rule.** With 0 collapses the actionable output is not a
+split but a statement about the corpus: the two instruments must pick one skip set (their union)
+before a key count is compared across them. Naming a member inside a walk that still keeps two files
+is a decision (E385's 5-of-7), and this study publishes that list instead of repairing it.
+
+Wiring: ``scripts/e397_walk_ambiguity.py`` (run / verify problems=[] / selftest 17/17); smoke leg
+E397 (1/1, exec'd verbatim by ``scripts/run_e397_smoke_leg.py``); S6 leg ``walk_ambiguity``; face
+``results/state_tilt/WALKAMBIG-2026-11-03.json``; sibling check against SPLITPRICE on the same
+cutoff; no published face or pointer rewritten.

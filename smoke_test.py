@@ -14335,5 +14335,91 @@ except Exception as _e385:
 check(_name385, not _bad385, "; ".join(_bad385)[:220]
       or "verdict %s" % str((_f385 or {}).get("verdict"))[:80])
 
+# E397: E385 published "merged names whose ambiguity is only outside the census walk = 0" without
+# testing it per NAME. This leg asks each published key which files it resolves to, then tests that
+# set against BOTH walk rules the tree actually contains (E350's top-level tree drops vs E391's
+# path-part drops). It refuses the ways that claim could be asserted instead of measured: classes
+# that do not sum to the population, three ambiguity counts that do not partition the ambiguous
+# names, a per-walk tally that does not re-add to the population, a repair list whose length is not
+# the count it publishes, a repair row naming fewer than two files, a walk-disagreement count that
+# does not equal the published list, a sibling comparison that is not flagged as a different
+# cutoff, a verdict that does not re-derive from the summary, and a study whose own verify is
+# anything but clean.
+_name397 = ("product: which keys are ambiguous only because the resolver is wider than the walk -- "
+            "each key resolved and tested against both walk rules")
+_bad397 = []
+_f397 = None
+try:
+    _p397 = os.path.join("results", "state_tilt", "walkambig_latest.json")
+    _f397 = json.load(open(_p397, encoding="utf-8")) if os.path.exists(_p397) else None
+    if _f397 is None:
+        _bad397.append("no published walk-ambiguity face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m397 = __import__("importlib").import_module("e397_walk_ambiguity")
+        _s397 = _f397.get("summary") or {}
+        _cls397 = _s397.get("by_class") or {}
+        if _f397.get("verdict") not in (_m397.V_DATA, _m397.V_WALK, _m397.V_MIXED,
+                                        _m397.V_EMPTY):
+            _bad397.append("verdict %r is outside the frozen set" % str(_f397.get("verdict"))[:60])
+        _total397 = _s397.get("keys_total") or 0
+        if sum(_cls397.values()) != _total397:
+            _bad397.append("the classes do not sum to the population")
+        _parts397 = ((_s397.get("names_ambiguous_only_because_the_resolver_is_wider") or 0)
+                     + (_s397.get("names_ambiguous_inside_every_walk") or 0)
+                     + (_s397.get("names_whose_class_depends_on_the_walk") or 0))
+        if _parts397 != (_s397.get("names_ambiguous_in_the_resolver") or 0):
+            _bad397.append("the three ambiguity classes do not partition the ambiguous names")
+        if sum(v for k, v in _cls397.items() if k != _m397.CLASS_UNIQUE) != _parts397:
+            _bad397.append("the class table does not re-add to the ambiguity counts")
+        for _w397, _t397 in (_s397.get("per_walk") or {}).items():
+            _sum397 = ((_t397.get("names_with_two_or_more_files_inside") or 0)
+                       + (_t397.get("names_with_exactly_one_file_inside") or 0)
+                       + (_t397.get("names_with_no_file_inside") or 0))
+            if _sum397 != _total397:
+                _bad397.append("%s: the per-walk tally does not re-add to the population" % _w397)
+        _lists397 = (("repair_list", "names_ambiguous_only_because_the_resolver_is_wider"),
+                     ("undecided_inside_every_walk", "names_ambiguous_inside_every_walk"),
+                     ("walk_dependent", "names_whose_class_depends_on_the_walk"))
+        for _g397, _k397 in _lists397:
+            _rows397 = _f397.get(_g397) or []
+            _want397 = _s397.get(_k397) or 0
+            if _want397 and not _rows397:
+                _bad397.append("%s: a non-zero count with no rows" % _g397)
+            if len(_rows397) > _want397:
+                _bad397.append("%s: more rows than the count it publishes" % _g397)
+            for _r397 in _rows397:
+                if (_r397.get("n_files") or 0) < 2:
+                    _bad397.append("%s: a row names fewer than two files" % _g397)
+                    break
+        if (_f397.get("rule") or {}).get("walk_disagreement_count") != (
+                _s397.get("names_whose_class_depends_on_the_walk") or 0):
+            _bad397.append("the rule's disagreement count is not the summary's")
+        _sib397 = _f397.get("sibling_check") or {}
+        if _sib397.get("available") and not _sib397.get("same_cutoff"):
+            _bad397.append("the sibling comparison spans two cutoffs (r1225 family)")
+        if _sib397.get("available") and bool(_sib397.get("agree")) != (
+                not (_sib397.get("published_not_recomputed")
+                     or _sib397.get("recomputed_not_published"))):
+            _bad397.append("the sibling agreement flag does not follow from its own two lists")
+        if _s397.get("verdict") != _m397.decide(_s397):
+            _bad397.append("the decision gate does not re-derive the published verdict")
+        if _bad397:
+            pass
+        elif _m397.verify() != []:
+            _bad397.append("the study's own verify does not come back clean")
+        _name397 = ("product: of %d published keys %d are ambiguous -- %d survive both walks, %d "
+                    "depend on which walk you use, %d collapse under a rule (%d names the tree "
+                    "cannot resolve at all)"
+                    % (_total397, _s397.get("names_ambiguous_in_the_resolver") or 0,
+                       _s397.get("names_ambiguous_inside_every_walk") or 0,
+                       _s397.get("names_whose_class_depends_on_the_walk") or 0,
+                       _s397.get("names_ambiguous_only_because_the_resolver_is_wider") or 0,
+                       _s397.get("names_resolved_to_no_file") or 0))
+except Exception as _e397:
+    _bad397.append(repr(_e397)[:160])
+check(_name397, not _bad397, "; ".join(_bad397)[:220]
+      or "verdict %s" % str((_f397 or {}).get("verdict"))[:80])
+
 if __name__ == "__main__":
     sys.exit(main())
