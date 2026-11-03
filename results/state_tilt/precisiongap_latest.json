@@ -20,51 +20,37 @@
    "keys": [
     "session_open"
    ],
-   "resolution": "written_inside_records",
-   "value_kinds": [],
+   "resolution": "in_priced_face",
+   "value_kinds": [
+    "float"
+   ],
    "key_sites": [
     {
      "key": "session_open",
-     "in_priced_face": [],
+     "in_priced_face": [
+      {
+       "path": "/per_trader/DROUGHT-CE-01/detail/[]/session_open",
+       "kind": "float",
+       "value": 1.393,
+       "container": null,
+       "face": "results/t35_open_fill_verify.json"
+      },
+      {
+       "path": "/per_trader/ENGULF-CE-01/detail/[]/session_open",
+       "kind": "float",
+       "value": 0.727,
+       "container": null,
+       "face": "results/t35_open_fill_verify.json"
+      }
+     ],
      "in_other_faces": {}
     }
    ],
-   "producer_writers": [
-    {
-     "script": "scripts/e316_gate_print_requirements.py",
-     "line": 87,
-     "text": "\"session_open\": {"
-    },
-    {
-     "script": "scripts/e317_print_coverage_census.py",
-     "line": 1000,
-     "text": "{\"tolerance\": 1e-9, \"prev_draws\": 120.0, \"session_open\": 12.5},"
-    },
-    {
-     "script": "scripts/t35_open_fill_verify.py",
-     "line": 214,
-     "text": "\"session_open\": session_open,"
-    },
-    {
-     "script": "scripts/t35_open_fill_verify.py",
-     "line": 220,
-     "text": "\"cost_price\": cost, \"session_open\": session_open,"
-    },
-    {
-     "script": "scripts/t35_open_fill_verify.py",
-     "line": 331,
-     "text": "f\"{r['session_open']} (rel {r['rel_diff']})\")"
-    },
-    {
-     "script": "scripts/update_intraday_marks.py",
-     "line": 284,
-     "text": "\"session_open\": (q or {}).get(\"open\"),"
-    }
-   ],
-   "found_decimals": null,
-   "found_quantum": null,
-   "at_risk_after": false,
-   "reason": "the producer writes this key inside per-record dicts and the face carries none on this vintage, so there is no printed number to be finer than"
+   "producer_writers": [],
+   "found_decimals": 3,
+   "found_quantum": 0.001,
+   "at_risk_after": true,
+   "reason": "a printed number was found at 3 dp, still coarser than 2x the tolerance"
   },
   {
    "leg": "product: the star's residual is decomposed and split from volatility and age",
@@ -95,42 +81,42 @@
        {
         "path": "/cells/[]/columns/sh510050/share_taken_by_vol",
         "kind": "float",
-        "value": -0.0023745814509124052,
+        "value": -0.002479660350479529,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh510300/share_taken_by_vol",
         "kind": "float",
-        "value": -0.020849353551980254,
+        "value": -0.02076933316883256,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh510500/share_taken_by_vol",
         "kind": "float",
-        "value": -0.00649165952457631,
+        "value": -0.005792792588949824,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh512100/share_taken_by_vol",
         "kind": "float",
-        "value": -0.012803538210119259,
+        "value": -0.011636049151276362,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh588000/share_taken_by_vol",
         "kind": "float",
-        "value": -0.007013494157762201,
+        "value": -0.006981256784900802,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/star_residual/share_taken_by_vol",
         "kind": "float",
-        "value": -0.007013494157762201,
+        "value": -0.006981256784900802,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
@@ -242,42 +228,42 @@
        {
         "path": "/cells/[]/columns/sh510050/share_taken_by_vol",
         "kind": "float",
-        "value": 0.0006628832328759993,
+        "value": -6.966671119545964e-05,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh510300/share_taken_by_vol",
         "kind": "float",
-        "value": -0.023650364580789285,
+        "value": -0.022469445913867903,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh510500/share_taken_by_vol",
         "kind": "float",
-        "value": 0.013201811743986935,
+        "value": 0.014455056790103948,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh512100/share_taken_by_vol",
         "kind": "float",
-        "value": -0.012049671700428366,
+        "value": -0.013451905840091705,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh588000/share_taken_by_vol",
         "kind": "float",
-        "value": -0.011804324790824383,
+        "value": -0.011527895243631514,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/star_residual/share_taken_by_vol",
         "kind": "float",
-        "value": -0.011804324790824383,
+        "value": -0.011527895243631514,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
@@ -1442,16 +1428,16 @@
   "census_published_face_level_rows": 14,
   "rows_priced": 14,
   "by_resolution": {
-   "written_inside_records": 1,
+   "in_priced_face": 1,
    "in_a_sibling_face": 3,
    "not_a_number_in_a_sibling_face": 7,
    "not_a_number_in_priced_face": 3
   },
-  "n_at_risk_after": 0,
-  "n_withdrawn": 14,
+  "n_at_risk_after": 1,
+  "n_withdrawn": 13,
   "faces_read": 13,
   "faces_unreadable_or_missing": [],
-  "statement": "of the 14 at-risk rows E299 could only bound at face level, 14 are withdrawn: 10 rest on a value that is a container or a label rather than a printed number, 3 read a key that lives in a sibling face the same leg names, 1 name a key the producer writes inside per-record lists that are empty on this vintage; 0 stay at risk once the printed number is found. A face-level bound is an upper bound on resolution, not a measurement of the field."
+  "statement": "of the 14 at-risk rows E299 could only bound at face level, 13 are withdrawn: 10 rest on a value that is a container or a label rather than a printed number, 4 read a key that lives in a sibling face the same leg names, 0 name a key the producer writes inside per-record lists that are empty on this vintage; 1 stay at risk once the printed number is found. A face-level bound is an upper bound on resolution, not a measurement of the field."
  },
  "identity_check": {
   "row_count_matches_the_census": true,
@@ -1464,7 +1450,7 @@
   "unreadable_faces_disclosed": true,
   "all_checks": true
  },
- "verdict": "none_of_the_face_level_rows_is_at_risk",
- "verdict_reason": "14 row(s) priced; 14 withdrawn as unmeasurable-or-finer, 0 still finer than the quantum of the number actually found.",
- "generated": "2026-11-03T10:36:01"
+ "verdict": "some_face_level_rows_stay_at_risk",
+ "verdict_reason": "14 row(s) priced; 13 withdrawn as unmeasurable-or-finer, 1 still finer than the quantum of the number actually found.",
+ "generated": "2026-11-04T00:21:22"
 }

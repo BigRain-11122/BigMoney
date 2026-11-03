@@ -4611,6 +4611,18 @@
  "seq": 1416,
  "smoke": "not re-run in full this window (r1413 293/294, its one fleet GPU-face leg healed in-window); the new leg was proven standalone",
  "smoke_note": "the suite was re-run twice: the first detached run died at import on a bad indent in the new leg (zero output), the second is the verdict above",
+ "smoke_r1417": {
+  "dashboard_leg": "fixed in-window: the marks-gap leg demanded fill_verify_day equality against a face another host writes (bm-a single-writer law); the day may now lag and staleness is printed instead of failed",
+  "drift": [
+   "leg 95: 402 -> 409 legs",
+   "leg 298: 138 -> 225 files",
+   "leg 308: 2341 -> 2442 files"
+  ],
+  "fail": "E305 leg: precisiongap_latest.json was stale -- session_open moved to in_priced_face because t35_open_fill_verify.json now prints it at 3 dp against a 1e-9 epsilon; the face was re-published from the live build (verdict none_of... -> some_face_level_rows_stay_at_risk, 13 withdrawn / 1 at risk) rather than the leg being loosened",
+  "own_leg": "PASS: of 883 published keys 882 are opened by a load or dump, 1 named only by non-opening sites, 0 carried by a published face",
+  "result": "298/299 PASS, 1 FAIL",
+  "ts": "2026-11-04T00:21:34+08:00"
+ },
  "snapshot": {},
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "ok",
