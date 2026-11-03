@@ -8808,3 +8808,54 @@ the second into the first would invent a face; folding it into `dead` would inve
 Wiring: `scripts/e394_phantom_why.py` (run / verify problems=[] / selftest 21/21); smoke leg E394
 (1/1, exec'd verbatim by `scripts/run_e394_smoke_leg.py`); S6 leg `phantom_why`; face
 `results/state_tilt/PHANTOMWHY-2026-11-03.json`.
+
+### E395 -- a writer that names the key is not a writer that always writes it (r1412 bm-b)
+
+E394 classified 218 residual reads and put 131 of them in one class: a source that mentions the face
+also builds the key structurally. It was careful to call that evidence that the producer *can* write
+the key. E395 asks the follow-up -- does it write it on every path -- and answers it with two AST
+readings per write site.
+
+**Reading 1, path position.** Ancestor chain between the write and the module body: `if` / `try` /
+`for` / `while` / `with` means the write is on a branch; a function body means the write happens
+when the function is called (`inside_a_callable`, with the module's reference count published beside
+it, 0 = defined and never called); module body with neither means unconditional.
+
+**Reading 2, dump target -- the one that changed the answer.** Does this object reach a dump of
+*this* face's file, as a direct argument or across one name hop (`facts = {...};
+json.dump(facts, ...)`)? A closeout script writes several documents from one function, so "this
+function dumps a file called `state-bm-c.json` **and** builds a dict with `dec_delta`" is not the
+claim "that dict is what gets dumped into that face".
+
+39 (key, face) pairs / 131 reads / 31 keys / 22 faces:
+
+| verdict | pairs |
+|---|---|
+| unconditional, but into **another** document (attribution failure) | 19 |
+| mixed (some branch, some inside a callable) | 8 |
+| every write site on a branch | 6 |
+| every write site inside a callable | 5 |
+| unconditional into **this very** face | 1 |
+
+Lessons:
+
+(1) **Co-occurrence has a second level.** E394 rejected "the source names the face and contains the
+literal". The structural test is still not authorship: an unconditional dict literal in a closeout
+script is evidence about *some* document, and 19 of 20 unconditional pairs write a different one.
+Without the dump target those 19 read as "the key is conditional", which is the wrong repair --
+nothing about that writer is conditional, and the face is simply not its output.
+
+(2) **An unconditional writer is an attribution failure, not a conditionality finding.** If a
+producer always sets the key in the file the read opened, the face cannot legitimately lack it. That
+is one pair here (`logs/iteration-loop/state.json` / `last_tick`, written at module level and dumped
+into that file by `results/_r128bmc_resolve_storm.py:37`), and it is a chase, not a defect registry
+entry. Publishing all 20 as "conditionally written" would have hidden both facts.
+
+(3) **A declaration needs the key and a marker on the same line.** 4 of 39 pairs have a producer
+docstring naming the key beside an optionality marker; 15 of 39 faces name the key somewhere in
+their own prose, which tells a reader the key exists but not that it may be absent. Two different
+promises, counted apart.
+
+Wiring: `scripts/e395_conditional_write.py` (run / verify problems=[] / selftest 20/20); smoke leg
+E395 (1/1, exec'd verbatim by `scripts/run_e395_smoke_leg.py`); S6 leg `conditional_write`; face
+`results/state_tilt/CONDITIONALWRITE-2026-11-03.json`.

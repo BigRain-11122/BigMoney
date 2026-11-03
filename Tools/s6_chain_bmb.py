@@ -1282,6 +1282,15 @@ LEGS = [
     # setdefault), never co-occurrence of the face name and the literal. No published ratio moves.
     # Verify re-adds the per-key rows and the class counts (~0 s, no corpus walk).
     ("phantom_why", ["python", "scripts/e394_phantom_why.py", "verify"]),
+    # E395: E394's producer-named class, asked the honest follow-up -- does the producer write the
+    # key on every path? Measured as an AST path position (if/try/loop/with -> a branch, function
+    # body -> inside_a_callable, module body -> unconditional) AND as a dump target: a dict literal
+    # carrying the key is only evidence about this face if it reaches a dump of this face's file
+    # (direct argument or one name hop). 131 reads / 39 (key,face) pairs: 19 pairs are attribution
+    # failures -- the unconditional writer writes ANOTHER document -- 6 are on a branch, 5 only
+    # inside a callable, 8 mixed, and 1 writes this very face unconditionally. Verify re-derives
+    # every pair verdict from the published producer rows (~0 s, no corpus walk).
+    ("conditional_write", ["python", "scripts/e395_conditional_write.py", "verify"]),
 ]
 
 

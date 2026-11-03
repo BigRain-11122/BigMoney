@@ -14042,5 +14042,63 @@ except Exception as _e394:
 check(_name394, not _bad394, "; ".join(_bad394)[:220]
       or "verdict %s" % str((_f394 or {}).get("verdict"))[:80])
 
+# E395: E394's producer-named class, asked whether the producer writes the key on every path.
+# This leg refuses the ways an answer could be asserted instead of measured -- pair verdicts that
+# do not re-derive from the published producer rows, a same-document claim with no unconditional
+# write that reaches this face's dump, pair verdicts outside the frozen set, counters that do not
+# re-add, totals that do not re-derive, and a study whose own verify does not come back clean.
+_name395 = ("product: a producer that names the key is split by whether it writes it "
+            "unconditionally into THIS face or into another document")
+_bad395 = []
+_f395 = None
+try:
+    _p395 = os.path.join("results", "state_tilt", "conditionalwrite_latest.json")
+    _f395 = json.load(open(_p395, encoding="utf-8")) if os.path.exists(_p395) else None
+    if _f395 is None:
+        _bad395.append("no published conditional-write face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m395 = __import__("importlib").import_module("e395_conditional_write")
+        _m5 = _f395.get("measure") or {}
+        _rows395 = _f395.get("rows") or []
+        _frozen395 = [getattr(_m395, _n) for _n in ("V_UNCONDITIONAL_SAME_DOC",
+                                                    "V_UNCONDITIONAL_ELSEWHERE", "V_BRANCH",
+                                                    "V_CALLABLE", "V_MIXED", "V_NONE")]
+        if sum(r.get("reads") or 0 for r in _rows395) != _m5.get("producer_named_reads"):
+            _bad395.append("the pair rows do not re-add to the read total")
+        if len(_rows395) != _m5.get("distinct_pairs"):
+            _bad395.append("the pair rows do not re-derive the pair count")
+        _byv395, _reads395 = {}, {}
+        for _r395 in _rows395:
+            _byv395[_r395["verdict"]] = _byv395.get(_r395["verdict"], 0) + 1
+            _reads395[_r395["verdict"]] = _reads395.get(_r395["verdict"], 0) + _r395["reads"]
+            if _r395["verdict"] not in _frozen395:
+                _bad395.append("a pair verdict outside the frozen set is published")
+                break
+            if _m395.pair_verdict(_r395["producers"]) != _r395["verdict"]:
+                _bad395.append("a pair verdict does not re-derive from its producer rows")
+                break
+            _same395 = sum(1 for _p5 in _r395["producers"]
+                           if _p5.get("writes_this_face_unconditionally"))
+            if _same395 != _r395.get("producers_writing_this_face_unconditionally"):
+                _bad395.append("a same-document counter does not re-add")
+                break
+            if _r395["verdict"] == _m395.V_UNCONDITIONAL_SAME_DOC and not _same395:
+                _bad395.append("a same-document claim carries no such write site")
+                break
+        if dict(sorted(_byv395.items())) != (_m5.get("pairs_by_verdict") or {}):
+            _bad395.append("pairs_by_verdict does not re-derive")
+        if dict(sorted(_reads395.items())) != (_m5.get("reads_by_verdict") or {}):
+            _bad395.append("reads_by_verdict does not re-derive")
+        if not _bad395 and _m395.verify() != []:
+            _bad395.append("the study's own verify does not come back clean")
+        _name395 = ("product: %d producer-named reads over %d (key,face) pairs split as %s"
+                    % (_m5.get("producer_named_reads") or 0, _m5.get("distinct_pairs") or 0,
+                       ", ".join("%s=%d" % (k, v) for k, v in sorted(_byv395.items()))[:200]))
+except Exception as _e395:
+    _bad395.append(repr(_e395)[:160])
+check(_name395, not _bad395, "; ".join(_bad395)[:220]
+      or "verdict %s" % str((_f395 or {}).get("verdict"))[:80])
+
 if __name__ == "__main__":
     sys.exit(main())
