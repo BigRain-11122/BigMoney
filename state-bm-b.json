@@ -1,15 +1,15 @@
 {
  "agenda_starved": false,
- "ahead_of_origin_main": 242,
- "behind_origin_main": 277,
- "clock_read": "2026-11-03T16:46:30+08:00",
+ "ahead_of_origin_main": 297,
+ "behind_origin_main": 285,
+ "clock_read": "2026-11-03T20:50:47+08:00",
  "cpu_pct": 63.5,
- "current": "r1412 E395: the producer that names the key, and the file it actually dumps into",
- "current_task": "r1409 E392: the name-matched bound priced, and a read cap that hides the faces it cannot see",
- "current_work": "E392: 112,910 name-matched reads on 3,877 conflicted keys -> 25,461 on a face container -> 9,243 resolved -> 5,763 open a face that stores the key",
- "cyc_round": 1412,
- "cycl_round": 1412,
- "cycle_round": 1412,
+ "current": "r1413 E396: the one same-document pair is a suffix match, not a path match",
+ "current_task": "r1413 E396 (LASTTICK + FACENAMESUFFIX)",
+ "current_work": "E396 (two studies): the one same-document pair E395 published is a basename SUBSTRING artifact -- state.json is a proper suffix of autofill_state.json -- so under an exact/path-segment test 0 of 1 pairs hold and all 20 unconditional pairs write another document; tree-wide exposure 2,253 basename-suffix pairs over 18,342 faces / 133 short basenames",
+ "cyc_round": 1413,
+ "cycl_round": 1413,
+ "cycle_round": 1413,
  "d19": {
   "decisions_sha": "02fffd2a3a113f5ccfa24f3724d2a6822494a81826306c85bcb1cab4d5e0c5c3",
   "decisions_sha_short": "02fffd2a",
@@ -227,10 +227,10 @@
  "last_push_at": "2026-11-03T02:27:04+08:00",
  "last_push_sha": "6e77cbda084331b908d5d42866244b7c67413b7b",
  "last_push_ts": "2026-11-03T02:27:04+08:00",
- "last_round": 1412,
+ "last_round": 1413,
  "last_round_at": "2026-11-03T18:07:00+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md",
- "last_round_ts": "2026-11-03T18:07:00+08:00",
+ "last_round_ts": "2026-11-03T20:50:47+08:00",
  "last_round_utc": "2026-11-03T09:22:00+00:00",
  "last_run": "2026-10-31T10:52:20+08:00",
  "last_seen": "2026-11-03T02:24",
@@ -4475,7 +4475,7 @@
  "reds_open": [],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1411,
- "round_no": 1411,
+ "round_no": 1413,
  "round_no_label": "r1411",
  "round_no_note": "r1411 collapsed the mirrors again: round/round_no said 1410 while cyc_round/cycl_round/cycle_round/seq read 1407 and did_round read 1409. All round keys now move together (the r1393 heal does not survive a lane that writes only one face).",
  "round_no_ts": "2026-11-03T17:22:00+08:00",
@@ -4519,7 +4519,7 @@
   "next_milestone": "E395 asks whether the 131 producer-written keys are written on every path or behind a condition, and whether the face says so (<=48h)"
  },
  "timestamp": "2026-11-03T17:22:00+08:00",
- "ts": "2026-11-03T17:22:00+08:00",
+ "ts": "2026-11-03T20:50:47+08:00",
  "ts_utc_ms": 1793676365000,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-03T17:22:00+08:00",
@@ -4574,5 +4574,6 @@
   "supply_gap"
  ],
  "audit_flag_note": "gpu_unauthorized = 4 uv python.exe on the GPU, all MCP/Blender children started 16:52-17:08 by the interactive environment, none of them a bm-b batch; supply_gap = pool ready 3 vs floor 3, breach=false",
- "orders_unacked": 0
+ "orders_unacked": 0,
+ "last_round_summary": "E396 (two studies): the one same-document pair E395 published is a basename SUBSTRING artifact -- state.json is a proper suffix of autofill_state.json -- so under an exact/path-segment test 0 of 1 pairs hold and all 20 unconditional pairs write another document; tree-wide exposure 2,253 basename-suffix pairs over 18,342 faces / 133 short basenames"
 }
