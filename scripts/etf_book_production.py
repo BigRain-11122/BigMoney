@@ -1023,6 +1023,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "spanning_pre2020": spanning_pre2020_support(),
         "hysteresis": hysteresis_support(),
         "drawdown_band": drawdown_band_support(),
+        "entry_gate": entry_gate_support(),
     }
     pp = out["preperiod"]
     if pp is not None:
@@ -1109,6 +1110,79 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
     write_card(out)
     print(json.dumps(sheet, ensure_ascii=False, indent=1))
     return out
+
+
+def entry_gate_support():
+    """r1248: the cut that picks the whole universe, priced for this card's reader.
+
+    Derived, not re-run: scripts/etf_book_ceo_page.entry_gate_face is the one reader that
+    validates the shipped arm against this card's published cell and re-derives the verdict
+    from the payload's own rows through etf_book_entry_gate.classify. Two faces reading one
+    artifact through two implementations is how a defect gets a second copy (E289), so this
+    face imports that derivation instead of writing a second one.
+    """
+    try:
+        import etf_book_ceo_page as _PAGE
+        return _PAGE.entry_gate_face()
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "detail": repr(exc)}
+
+
+def entry_gate_paragraphs(eg):
+    """Two axes kept apart: what the cut buys in return, and what it buys in capacity."""
+    eg = eg or {}
+    if eg.get("status") != "ok":
+        return ["**This question could not be answered.** %s -- the cut that picks the "
+                "universe is untested here, not verified."
+                % (eg.get("detail") or eg.get("status")), ""]
+    shipped_m = (float(eg.get("shipped_cny") or 0.0)) / 1e6
+    L = ["Every name this card may buy cleared a single cut -- median 20-day turnover >= "
+         "**%gM** -- and that cut was never swept inside this book, so nothing on this page "
+         "said whether it is measured or inherited. Priced with the same panel, the same "
+         "ranking and the same grid, moving only that number:" % shipped_m, ""]
+    L.append("| gate | CAGR | Sharpe | max drawdown | median names admitted | "
+             "turnover / decision | vs shipped |")
+    L.append("|---|---|---|---|---|---|---|")
+    for g in eg.get("gates") or []:
+        d = g.get("delta_pp")
+        L.append("| %gM | %.2f%% | %s | %s | %s | %s | %s |" % (
+            g.get("gate_m") or 0.0, 100.0 * (g.get("cagr") or 0.0),
+            "-" if g.get("sharpe") is None else "%.2f" % g["sharpe"],
+            "-" if g.get("maxdd") is None else "%.2f%%" % (100.0 * g["maxdd"]),
+            "-" if g.get("median_names") is None else "%d" % g["median_names"],
+            "-" if g.get("turnover") is None else "%.2f" % g["turnover"],
+            "-" if d is None else "%+.2f pp" % float(d)))
+    L.append("")
+    near = eg.get("near_max_pp")
+    ratio = eg.get("width_ratio")
+    if eg.get("verdict") == "GATE_SITS_ON_PLATEAU":
+        L.append("**On return this cut is flat**: half or double the threshold moves the "
+                 "declared CAGR by at most **%.2f pp** (best arm %+.2f pp, tolerance %.1f pp), "
+                 "so the shipped %gM is not carrying the return."
+                 % (float(near or 0.0), float(eg.get("best_delta_pp") or 0.0),
+                    float(eg.get("tol_pp") or 0.0), shipped_m))
+    else:
+        L.append("**On return this cut is not flat: %s.** %s"
+                 % (eg.get("verdict"), eg.get("sentence") or ""))
+    L.append("")
+    if ratio is not None and float(ratio) >= 2.0:
+        L.append("**On capacity it is load-bearing**: the same knob moves the median number of "
+                 "names the book is allowed to hold from **%d** to **%d** (%.1f times). Read "
+                 "the gate as the source of this book's capacity, not of its return -- a "
+                 "thicker book spreads the same money over more names, which changes what one "
+                 "position can be, not the expected edge."
+                 % (int(eg.get("widest_names") or 0), int(eg.get("narrowest_names") or 0),
+                    float(ratio)))
+        L.append("")
+    L.append("> Evidence: `%s` -- evidence cutoff %s, panel last bar %s. The %gM arm must "
+             "reproduce this card's published declared cell (%.3f pp off, tolerance %.2f pp) "
+             "or this section refuses to answer."
+             % (str(eg.get("artifact") or "results/etf_book_entry_gate.json").replace(os.sep, "/"),
+                eg.get("evidence_cutoff"), eg.get("panel_last_bar"), shipped_m,
+                float((eg.get("control") or {}).get("delta_pp") or 0.0),
+                float((eg.get("control") or {}).get("tol_pp") or 0.0)))
+    L.append("")
+    return L
 
 
 def concentration_support():
@@ -1519,6 +1593,8 @@ def write_card(out):
     lines += spanning_pre2020_paragraphs(out.get("spanning_pre2020"))
     lines += ["## Does the book trade on noise?", ""]
     lines += hysteresis_paragraphs(out.get("hysteresis"))
+    lines += ["## Is the universe a result, or an inheritance?", ""]
+    lines += entry_gate_paragraphs(out.get("entry_gate"))
     lines += ["## What has already been asked about these numbers", ""]
     lines += research_exhaustion_paragraphs(out.get("research_exhaustion"))
     full = b.get("full") or {}
@@ -1902,17 +1978,23 @@ def selftest():
             # band that is AHEAD of the table is not stale at all, so the old leg (which
             # demanded the word "stale" for any mismatch) could only pass when the band was
             # not behind, i.e. exactly when nobody needed the warning.
-            _head = card.split("## Caveats")[0]
+            # r1248: judge the BAND sentence, not the word "stale". The head legitimately
+            # carries "Feed: stale_feed" whenever the table is behind the official calendar
+            # (which a synthetic 2021-2022 panel always is), so a bare substring test made
+            # this leg red for a reason that had nothing to do with the band.
+            _band_old = "这根回撤带比表格旧"
+            _band_new = "这根回撤带比表格新"
+            _head = card
             _bb = str(band["evidence_cutoff"] or "")
             _cb = str(o.get("evidence_cutoff") or "")
             if _bb == _cb:
-                _ok_band = ("比表格旧" not in _head) and ("比表格新" not in _head)
+                _ok_band = (_band_old not in _head) and (_band_new not in _head)
                 _why = "same bar %s" % _cb
             elif _bb < _cb:
-                _ok_band = ("比表格旧" in _head) and ("stale" in _head)
+                _ok_band = (_band_old in _head) and (_band_new not in _head)
                 _why = "band older %s < %s" % (_bb, _cb)
             else:
-                _ok_band = ("比表格新" in _head) and ("stale" not in _head)
+                _ok_band = (_band_new in _head) and (_band_old not in _head)
                 _why = "band newer %s > %s" % (_bb, _cb)
             chk("band on another bar says which face is the stale one", _ok_band, _why)
             _fx = {"block_set": [5], "n_resamples": 10, "band_pp": 1.0,
@@ -1989,6 +2071,41 @@ def selftest():
             "executable (CNY)" in card and "target (CNY)" in card
             and "Which column is money" in card
             and format(int(_sh["cash_executable_cny"]), ",") in card)
+        # r1248: the one number that picks the whole universe now reaches the card, and the
+        # card must print BOTH axes -- the return reading and the capacity reading. A reader
+        # given only the first would conclude the cut is decorative, which is the opposite of
+        # what the sweep found.
+        _eg = o.get("entry_gate") or {}
+        chk("card answers whether the universe cut is measured or inherited",
+            "Is the universe a result, or an inheritance?" in card,
+            "status=%s" % _eg.get("status"))
+        if _eg.get("status") == "ok":
+            chk("card prints both axes of the entry gate",
+                ("On return this cut is flat" in card or _eg.get("verdict") in card)
+                and ("load-bearing" in card or _eg.get("width_ratio") is None),
+                "verdict=%s ratio=%s" % (_eg.get("verdict"), _eg.get("width_ratio")))
+        else:
+            chk("card says the entry question is unanswerable rather than silent",
+                "could not be answered" in card, "status=%s" % _eg.get("status"))
+        # renderer fixtures: a refused face must refuse in words, and the two axes must be
+        # read off the payload handed in (not off a constant baked into the renderer).
+        _bad = "\n".join(entry_gate_paragraphs({"status": "drifted",
+                                                "detail": "no control arm"}))
+        chk("gate renderer refuses the claim when the control arm is missing",
+            "could not be answered" in _bad and "plateau" not in _bad.lower()
+            and "%" not in _bad.split("--")[0])
+        _fx = {"status": "ok", "shipped_cny": 20e6, "verdict": "GATE_SITS_ON_PLATEAU",
+               "near_max_pp": 1.53, "best_delta_pp": 0.21, "tol_pp": 1.0,
+               "width_ratio": 8.25, "widest_names": 462, "narrowest_names": 56,
+               "artifact": "x.json", "evidence_cutoff": "2026-10-30",
+               "panel_last_bar": "2026-10-30", "gates": [],
+               "control": {"delta_pp": 0.0, "tol_pp": 0.25}}
+        _txt = "\n".join(entry_gate_paragraphs(_fx))
+        chk("gate renderer names both axes from the payload it was given",
+            "at most **1.53 pp**" in _txt and "from **462** to **56**" in _txt)
+        chk("capacity sentence disappears when the knob does not move width",
+            "load-bearing" not in "\n".join(entry_gate_paragraphs(
+                dict(_fx, width_ratio=1.2, widest_names=70, narrowest_names=60))))
     finally:
         globals()["prep_panel"], globals()["load_names"], globals()["OUT_DIR"] = keep
         shutil.rmtree(tmp, ignore_errors=True)

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01T20:44:43+0800",
+ "generated": "2026-11-03T22:06:16+0800",
  "script": "scripts/etf_book_window_label.py",
  "criteria": {
   "tol_pp_per_year": 0.25,
@@ -15,18 +15,18 @@
  },
  "rows": {
   "printed_under_full_header": {
-   "cagr_pp": 12.78,
-   "sharpe": 1.729,
+   "cagr_pp": 12.56,
+   "sharpe": 1.701,
    "maxdd_pp": -5.78,
-   "bars": 683,
-   "artifact": "results/etf_book_order/TICKET-2026-10-30.json",
+   "bars": 685,
+   "artifact": "results/etf_book_order/TICKET-2026-11-03.json",
    "source": "the ticket's own backtest, as the page prints it today"
   },
   "same_book_full_window": {
-   "cagr_pp": 7.71,
-   "sharpe": 1.342,
+   "cagr_pp": 7.63,
+   "sharpe": 1.329,
    "maxdd_pp": -5.78,
-   "bars": 1525,
+   "bars": 1527,
    "source": "results/etf_book_band_ruler.json :: held/causal/ticket.full"
   },
   "same_book_2020_2023": {
@@ -39,8 +39,8 @@
  },
  "identity": {
   "the full-window cell's own window reproduces the ticket": {
-   "measured_pp": 12.78,
-   "published_pp": 12.78,
+   "measured_pp": 12.56,
+   "published_pp": 12.56,
    "delta_pp": 0.0,
    "pass": true
   }
@@ -48,8 +48,8 @@
  "inputs": {
   "band_ruler_status": "ok",
   "band_ruler_artifact": "results/etf_book_band_ruler.json",
-  "ticket_artifact": "results/etf_book_order/TICKET-2026-10-30.json",
-  "evidence_cutoff": "2026-10-30"
+  "ticket_artifact": "results/etf_book_order/TICKET-2026-11-03.json",
+  "evidence_cutoff": "2026-11-03"
  },
  "segments": {
   "middle_bars": 842,
@@ -58,22 +58,22 @@
  },
  "verdict": {
   "state": "ROW_LABELED_BY_WINDOW",
-  "gap_pp": 5.07,
-  "why": "the value under the 全窗 header is the 2.82-year window; the same book over the full window reads 7.71%, i.e. +5.07 pp/yr and the header is not what the cell holds"
+  "gap_pp": 4.93,
+  "why": "the value under the 全窗 header is the 2.83-year window; the same book over the full window reads 7.63%, i.e. +4.93 pp/yr and the header is not what the cell holds"
  },
  "table_row": {
   "full": {
-   "cagr_pct": 7.71,
-   "sharpe": 1.342,
+   "cagr_pct": 7.63,
+   "sharpe": 1.329,
    "maxdd_pct": -5.78
   },
   "oos": {
-   "cagr_pct": 12.78,
-   "sharpe": 1.729,
+   "cagr_pct": 12.56,
+   "sharpe": 1.701,
    "maxdd_pct": -5.78
   },
-  "full_window_bars": 1525,
-  "short_window_bars": 683,
+  "full_window_bars": 1527,
+  "short_window_bars": 685,
   "is": {
    "cagr_pct": 3.71,
    "sharpe": 0.901,

@@ -454,6 +454,62 @@ def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CAS
     return out
 
 
+def entry_gate_support():
+    """r1248: 这本书能买哪些票，是一只手的数定的。
+
+    派生不重跑：唯一读器是 scripts/etf_book_ceo_page.entry_gate_face —— 它用申报格校验
+    20M 档是否复现本书、并用 etf_book_entry_gate.classify 从载荷自己的行重算判词。
+    第二份实现就是同一个缺陷的第二份拷贝（E289），所以这里 import 那条派生。
+    """
+    try:
+        from scripts import etf_book_ceo_page as _PAGE
+        return _PAGE.entry_gate_face()
+    except Exception as exc:                                    # noqa: BLE001
+        try:
+            import etf_book_ceo_page as _PAGE2
+            return _PAGE2.entry_gate_face()
+        except Exception:                                       # noqa: BLE001
+            return {"status": "unreadable", "detail": repr(exc)}
+
+
+def entry_gate_md(eg):
+    """两轴分开印：这道闸买到了多少收益，和它买到了多少容量。"""
+    eg = eg or {}
+    if eg.get("status") != "ok":
+        return ["## 这本书能买哪些票（r1248）",
+                "- **这一问答不了。** %s —— 选票的那道闸在本单上没有测过，不是验过了。"
+                % (eg.get("detail") or eg.get("status")), ""]
+    shipped_m = (float(eg.get("shipped_cny") or 0.0)) / 1e6
+    L = ["## 这本书能买哪些票，是谁定的（r1248）",
+         "- 全部可选名都过了**同一道闸**：20 日成交额中位数 ≥ **%gM**。这道闸从来没在本书内部"
+         "被扫过，所以「这个门槛对不对」过去只能猜。" % shipped_m]
+    if eg.get("verdict") == "GATE_SITS_ON_PLATEAU":
+        L.append("- **收益这一轴是平的**：门槛砍一半或翻一倍，申报口径年化只动 ≤%.2f pp"
+                 "（最好那档 %+.2f pp，容差 %.1f pp）——%gM 不承载收益。"
+                 % (float(eg.get("near_max_pp") or 0.0),
+                    float(eg.get("best_delta_pp") or 0.0),
+                    float(eg.get("tol_pp") or 0.0), shipped_m))
+    else:
+        L.append("- **收益这一轴不平：%s。** %s"
+                 % (eg.get("verdict"), eg.get("sentence") or ""))
+    ratio = eg.get("width_ratio")
+    if ratio is not None and float(ratio) >= 2.0:
+        L.append("- **容量这一轴不平**：同一个旋钮把可选名数中位数从 **%d 只** 压到 **%d 只**"
+                 "（%.1f 倍）——这道闸不是你的收益来源，是**你的容量来源**：同样的钱摊到几只票上，"
+                 "改变的是单笔能有多大，不是期望收益。"
+                 % (int(eg.get("widest_names") or 0), int(eg.get("narrowest_names") or 0),
+                    float(ratio)))
+    L.append("- 判定 **%s**｜出处 `%s`（证据截止 %s，面板末 bar %s；%gM 档复现本书申报格 "
+             "%.3f pp，容差 %.2f pp）。"
+             % (eg.get("verdict"),
+                str(eg.get("artifact") or "results/etf_book_entry_gate.json").replace(os.sep, "/"),
+                eg.get("evidence_cutoff"), eg.get("panel_last_bar"), shipped_m,
+                float((eg.get("control") or {}).get("delta_pp") or 0.0),
+                float((eg.get("control") or {}).get("tol_pp") or 0.0)))
+    L.append("")
+    return L
+
+
 def card(ticket, mk, sched, asof, beta, extra):
     L = ["# ETF 复合书 · 可执行订单单（%s）" % asof, "",
          "当前活：β 目标 %.2f 的单本 R%d N%d + GC001 现金腿，每 %d 个交易日重算一次 k。"
@@ -502,6 +558,7 @@ def card(ticket, mk, sched, asof, beta, extra):
                          format(int(cm["cash_amount_cny"]), ",")),
                       "- 出处：%s（同一块面板，%d 个报价的尾窗；判定 **%s**）。"
                       % ("data/repo_daily/GC001.csv", cm["spot"]["quotes"], cm["verdict"])]
+        L += entry_gate_md(extra.get("entry_gate"))
         rp = extra.get("reprice")
         if rp and rp.get("status") == "ok":
             L += ["", "## 参考价用的是哪一天（这会改变手数）",
@@ -1039,6 +1096,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                                 accrual_pct=float(cash_rf.mean() * 252.0) * 100.0)},
                "ledger": {"bars": int(state.get("rows", 0)), "nav": round(float(state["nav"]), 8),
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift},
+               "entry_gate": entry_gate_support(),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
@@ -1074,6 +1132,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "feed": feed, "agreement": agreement, "ruler": ruler,
                       "carry": carry, "restatements": payload["restatements"],
                       "cash_money": payload["cash_leg"]["money"],
+                      "entry_gate": payload["entry_gate"],
                       "bets_line": bets_line,
                       "conc_line": conc_line,
                       "family_coherence": fam,
@@ -2980,6 +3039,38 @@ def selftest():
         and "REPRICED_TO_THE_BAR_YOU_PAY" in _rp_md and "+10.00%" in _rp_md
         and "参考价用的是哪一天" not in card(_rp_tk, None, None, "2026-10-30", 0.2,
                                             {"inception": "2024-01-01"}), "")
+
+    # r1248: 选票的那道闸必须在票面上说话。三条腿分开打：①渲染器两轴都印（夹具值来自载荷，
+    # 不是写死的常数）；②容量那句在宽度不动时消失；③票面真的带上这一节，缺席时不印假话。
+    _eg_ok = {"status": "ok", "shipped_cny": 20e6, "verdict": "GATE_SITS_ON_PLATEAU",
+              "near_max_pp": 1.53, "best_delta_pp": 0.21, "tol_pp": 1.0,
+              "width_ratio": 8.25, "widest_names": 462, "narrowest_names": 56,
+              "artifact": "results/etf_book_entry_gate.json",
+              "evidence_cutoff": "2026-10-30", "panel_last_bar": "2026-10-30",
+              "control": {"delta_pp": 0.0, "tol_pp": 0.25}}
+    _eg_md = "\n".join(entry_gate_md(_eg_ok))
+    chk("leg48a entry gate: the sheet prints BOTH axes from the payload it was given",
+        "<=1.53 pp" in _eg_md.replace("≤", "<=") and "462" in _eg_md
+        and "56" in _eg_md and "容量来源" in _eg_md and "GATE_SITS_ON_PLATEAU" in _eg_md,
+        _eg_md[:80])
+    chk("leg48b entry gate: no capacity sentence when the knob does not move width",
+        "容量来源" not in "\n".join(entry_gate_md(
+            dict(_eg_ok, width_ratio=1.2, widest_names=70, narrowest_names=60))))
+    chk("leg48c entry gate: a refused face refuses in words, never a plateau claim",
+        "这一问答不了" in "\n".join(entry_gate_md({"status": "drifted",
+                                                   "detail": "no control arm"}))
+        and "平台" not in "\n".join(entry_gate_md({"status": "drifted",
+                                                   "detail": "no control arm"})))
+    _tk_min = {"nav": 1_000_000.0, "beta_k": 0.2, "book_weight": 0.2, "cash_weight": 0.8,
+               "cash_leg": "GC001 (1-day repo, observed close)", "cash_amount": 800_000.0,
+               "order": [], "underspend_pct": 0.0}
+    _tk_md = card(_tk_min, None, None, "2026-10-30", 0.2,
+                  {"inception": "2024-01-01", "entry_gate": _eg_ok})
+    _tk_absent = card(_tk_min, None, None, "2026-10-30", 0.2, {"inception": "2024-01-01"})
+    chk("leg48d entry gate: the sheet carries the section, and an absent face says it "
+        "cannot be answered instead of vanishing",
+        "这本书能买哪些票" in _tk_md and "容量来源" in _tk_md
+        and "这一问答不了" in _tk_absent and "容量来源" not in _tk_absent)
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

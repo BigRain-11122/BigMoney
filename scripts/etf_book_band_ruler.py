@@ -324,7 +324,7 @@ def price_all(verbose=True):
     checks = []
     checks.append(_ident("ticket 12.78% reproduced on its own ruler",
                          doc["cells"]["held/causal/ticket"]["ticket_window"]["cagr_pp"],
-                         pub.get("ticket")))
+                         pub.get("ticket_oos")))
     checks.append(_ident("card 9.60% reproduced on its own ruler",
                          doc["cells"]["card/12/vol08"]["full"]["cagr_pp"],
                          pub.get("card_full")))
@@ -389,7 +389,12 @@ def _published_band():
             isr = (row.get("is") or {}).get("cagr_pct")
             out["rows"].append({"label": label, "full": full, "is": isr, "oos": oos})
             if label.startswith("5 名·可执行"):
+                # r1248: this row used to print ONE number, so `full` was also the ticket's
+                # own 2024+ CAGR. After the row was correctly split into 全窗 / 2020-2023 /
+                # 2024+ (r1247 relabel) the arm name still quotes 12.78% -- that is the 2024+
+                # column, while the 685-bar ticket window is not the 1527-bar full window.
                 out["ticket"] = full
+                out["ticket_oos"] = oos
             elif label.startswith("12 名"):
                 out["card_full"] = full
                 out["card_oos"] = oos
@@ -644,6 +649,30 @@ def selftest():
     md = render_md({"verdict": {"state": "SAME_RULER"}, "cells": {}, "dial_prices": {},
                     "identity": {}, "panels": {}, "elapsed_sec": 0.0})
     chk("an empty face renders dashes, not zeros", "—" in md and "0.00" not in md)
+
+    # L8 (r1248): the ticket arm reads the column its NAME quotes. The row was split into
+    # 全窗 / 2020-2023 / 2024+ in r1247; before that "full" also happened to be the 2024+
+    # number, so an arm wired to `full` passed for the wrong reason and went red the moment
+    # the columns became distinct. A fixture where the two columns differ pins the choice.
+    import tempfile as _tf
+    with _tf.TemporaryDirectory() as _td:
+        _pg = os.path.join(_td, "page.json")
+        with open(_pg, "w", encoding="utf-8") as _fh:
+            json.dump({"backtest_band": {
+                "5 名·可执行的那一本": {"full": {"cagr_pct": 7.63}, "is": {"cagr_pct": 3.71},
+                                       "oos": {"cagr_pct": 12.56}},
+                "12 名·8% 波动目标": {"full": {"cagr_pct": 9.6}, "oos": {"cagr_pct": 18.33}}}},
+                _fh, ensure_ascii=False)
+        _keep = PAGE_JSON
+        try:
+            globals()["PAGE_JSON"] = _pg
+            _pub = _published_band()
+        finally:
+            globals()["PAGE_JSON"] = _keep
+    chk("the ticket arm reads the 2024+ column, not the full-window one",
+        _pub.get("ticket_oos") == 12.56 and _pub.get("ticket") == 7.63
+        and _ident("x", 12.56, _pub.get("ticket_oos"))["pass"]
+        and not _ident("x", 12.56, _pub.get("ticket"))["pass"])
 
     print("selftest: %d/%d" % (ok, ok + len(fail)))
     for f in fail:

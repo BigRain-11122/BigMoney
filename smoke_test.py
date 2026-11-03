@@ -1800,6 +1800,41 @@ def main() -> int:
         check("product: ETF live-book yuan figures are its own percentages x its own capital", _ok_money,
               f"expected={_mc.get('expected_annual_cny')} excess={_mc.get('excess_annual_cny')} "
               f"worst={_mc.get('worst_drawdown_cny')} capital={_cap}")
+        # r1248: the cut that picks the whole universe is quoted on BOTH reader faces, and the
+        # reading is recomputed here from the published sweep rather than retyped. A face that
+        # prints a plateau while the payload's own rows moved is the E289 two-copies defect, so
+        # the numbers are compared, not the words.
+        _eg_pub = json.load(open("results/etf_book_entry_gate.json", encoding="utf-8"))
+        _eg_rows = [r for r in (_eg_pub.get("rows") or [])
+                    if r.get("cagr") is not None and not r.get("error")]
+        _eg_w = [r.get("median") for r in _eg_rows if r.get("median") is not None]
+        _eg_near = [abs(float(d)) for d in
+                    ((_eg_pub.get("verdict") or {}).get("near_deltas_pp") or [])]
+        _eg_ratio = (float(max(_eg_w)) / float(min(_eg_w))) if _eg_w else None
+        _eg_near_max = max(_eg_near) if _eg_near else None
+        _tk_path = os.path.join("results", "etf_book_order",
+                                "TICKET-%s.json" % _lb.get("as_of"))
+        _tk_eg = (json.load(open(_tk_path, encoding="utf-8")).get("entry_gate") or {}
+                  if os.path.exists(_tk_path) else {})
+        _card_path = os.path.join("results", "etf_book_production", "CARD.md")
+        _card_txt = open(_card_path, encoding="utf-8").read() if os.path.exists(_card_path) else ""
+        _tk_md_path = os.path.join("results", "etf_book_order", "ORDER-%s.md" % _lb.get("as_of"))
+        _tk_md = open(_tk_md_path, encoding="utf-8").read() if os.path.exists(_tk_md_path) else ""
+        _ok_eg = (bool(_eg_w) and _eg_near_max is not None and _eg_ratio is not None
+                  and _tk_eg.get("status") == "ok"
+                  and _tk_eg.get("verdict") == (_eg_pub.get("verdict") or {}).get("verdict")
+                  and abs(float(_tk_eg.get("near_max_pp") or -1) - _eg_near_max) < 1e-9
+                  and abs(float(_tk_eg.get("width_ratio") or -1) - _eg_ratio) < 1e-6
+                  and ("%d" % int(max(_eg_w))) in _card_txt
+                  and ("%d" % int(min(_eg_w))) in _card_txt
+                  and "number of names the book is allowed to hold" in _card_txt
+                  and "容量这一轴" in _tk_md)
+        check("product: both reader faces print the cut that picks the universe, recomputed",
+              _ok_eg,
+              "ticket=%s near=%s (payload %s) ratio=%s (payload %s) card widths=%s/%s"
+              % (_tk_eg.get("verdict"), _tk_eg.get("near_max_pp"), _eg_near_max,
+                 _tk_eg.get("width_ratio"), _eg_ratio,
+                 max(_eg_w) if _eg_w else None, min(_eg_w) if _eg_w else None))
         # The page used to print a fresh buy list every session while the DECISION
         # had not moved for two weeks: a holder following it would re-buy a book
         # they already own, at 8bp a side. Assert the page names the world the
@@ -3014,6 +3049,41 @@ def main() -> int:
         check("product: ETF live-book yuan figures are its own percentages x its own capital", _ok_money,
               f"expected={_mc.get('expected_annual_cny')} excess={_mc.get('excess_annual_cny')} "
               f"worst={_mc.get('worst_drawdown_cny')} capital={_cap}")
+        # r1248: the cut that picks the whole universe is quoted on BOTH reader faces, and the
+        # reading is recomputed here from the published sweep rather than retyped. A face that
+        # prints a plateau while the payload's own rows moved is the E289 two-copies defect, so
+        # the numbers are compared, not the words.
+        _eg_pub = json.load(open("results/etf_book_entry_gate.json", encoding="utf-8"))
+        _eg_rows = [r for r in (_eg_pub.get("rows") or [])
+                    if r.get("cagr") is not None and not r.get("error")]
+        _eg_w = [r.get("median") for r in _eg_rows if r.get("median") is not None]
+        _eg_near = [abs(float(d)) for d in
+                    ((_eg_pub.get("verdict") or {}).get("near_deltas_pp") or [])]
+        _eg_ratio = (float(max(_eg_w)) / float(min(_eg_w))) if _eg_w else None
+        _eg_near_max = max(_eg_near) if _eg_near else None
+        _tk_path = os.path.join("results", "etf_book_order",
+                                "TICKET-%s.json" % _lb.get("as_of"))
+        _tk_eg = (json.load(open(_tk_path, encoding="utf-8")).get("entry_gate") or {}
+                  if os.path.exists(_tk_path) else {})
+        _card_path = os.path.join("results", "etf_book_production", "CARD.md")
+        _card_txt = open(_card_path, encoding="utf-8").read() if os.path.exists(_card_path) else ""
+        _tk_md_path = os.path.join("results", "etf_book_order", "ORDER-%s.md" % _lb.get("as_of"))
+        _tk_md = open(_tk_md_path, encoding="utf-8").read() if os.path.exists(_tk_md_path) else ""
+        _ok_eg = (bool(_eg_w) and _eg_near_max is not None and _eg_ratio is not None
+                  and _tk_eg.get("status") == "ok"
+                  and _tk_eg.get("verdict") == (_eg_pub.get("verdict") or {}).get("verdict")
+                  and abs(float(_tk_eg.get("near_max_pp") or -1) - _eg_near_max) < 1e-9
+                  and abs(float(_tk_eg.get("width_ratio") or -1) - _eg_ratio) < 1e-6
+                  and ("%d" % int(max(_eg_w))) in _card_txt
+                  and ("%d" % int(min(_eg_w))) in _card_txt
+                  and "number of names the book is allowed to hold" in _card_txt
+                  and "容量这一轴" in _tk_md)
+        check("product: both reader faces print the cut that picks the universe, recomputed",
+              _ok_eg,
+              "ticket=%s near=%s (payload %s) ratio=%s (payload %s) card widths=%s/%s"
+              % (_tk_eg.get("verdict"), _tk_eg.get("near_max_pp"), _eg_near_max,
+                 _tk_eg.get("width_ratio"), _eg_ratio,
+                 max(_eg_w) if _eg_w else None, min(_eg_w) if _eg_w else None))
         # The page used to print a fresh buy list every session while the DECISION
         # had not moved for two weeks: a holder following it would re-buy a book
         # they already own, at 8bp a side. Assert the page names the world the

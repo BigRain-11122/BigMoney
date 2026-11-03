@@ -110,10 +110,25 @@ def y_n(names):
     return {"n": len(names), "symbols": names}
 
 
+def _rec_nav(bar, bars):
+    """The ledger's own nav for `bar`, or None -- used only to SIZE a held-back deviation."""
+    for b in bars:
+        if str(b.get("bar")) == str(bar) and b.get("nav") is not None:
+            return float(b["nav"])
+    return None
+
+
 def drift(led, close, openp, cost_per_side=None):
     """Weights the frozen decision has drifted to, and what undoing that drift costs."""
     bif = (led or {}).get("book_in_force") or {}
-    bars = (led or {}).get("bars") or []
+    # r1248: a WITHDRAWN mark stays in the record but is inert in the ledger's own nav path
+    # (etf_book_forward.published_bars). Reading `state["bars"]` here replayed it anyway, so
+    # the identity leg reported a 13.2 bp deviation that belonged to a bar the ledger had
+    # already refused -- a check that fails on a retired row teaches a reader to ignore it.
+    # Same rule, one implementation: ask the ledger which bars it still polices.
+    all_bars = (led or {}).get("bars") or []
+    bars = F.published_bars(led or {})
+    withheld = [str(b.get("bar")) for b in all_bars if b.get("withdrawn")]
     names = [str(n) for n in (bif.get("names") or [])]
     scale = bif.get("scale")
     if not names or scale is None or len(bars) < 1:
@@ -192,6 +207,13 @@ def drift(led, close, openp, cost_per_side=None):
     # ladder rate), so it is added as-is; multiplying by the cash weight again under-charges
     # it by 30% and the identity leg then reads a phantom trade (caught in-window).
     cum_carry = sum((b.get("carry") or 0.0) for b in bars)
+    # r1248: the identity may only police a bar the panel has STOPPED filling. The newest
+    # published bar (and any bar that is still the panel's newest date) keeps gaining prints,
+    # so a re-derivation against it measures the panel's growth, not the ledger's arithmetic.
+    # Same rule as the drift gate, same implementation (etf_book_forward.partition_settled).
+    _settled, _provisional = F.partition_settled([str(b.get("bar")) for b in bars],
+                                                 str(dates[-1]) if dates else None)
+    not_policed = set(_provisional)
     nav_hat, dev, nav_bh = {}, [], {}
     cur_cw, cur_bh = 1.0, 1.0
     prev = None
@@ -210,7 +232,7 @@ def drift(led, close, openp, cost_per_side=None):
             cur_cw *= (1.0 + ret + (b.get("carry") or 0.0))
         nav_hat[bar] = cur_cw
         prev = bar
-        if b.get("nav") is not None:
+        if b.get("nav") is not None and bar not in not_policed:
             dev.append(abs(cur_cw - float(b["nav"])))
     worst = max(dev) if dev else None
     bh_dev = None
@@ -251,6 +273,16 @@ def drift(led, close, openp, cost_per_side=None):
         "nav_buyhold_gap_bp": None if bh_dev is None else round(bh_dev * 1e4, 3),
         "cum_carry_bars": round(cum_carry, 10),
         "bars_matched": len(dev),
+        # r1248: the bars the identity did not police because the panel is still filling them,
+        # named with the live deviation so a reader can see the size of what was held back
+        # instead of reading a shorter replay as a cleaner one.
+        "identity_not_policed": sorted(not_policed),
+        "identity_not_policed_dev": {
+            b: None if nav_hat.get(b) is None or _rec_nav(b, bars) is None
+            else round(abs(nav_hat[b] - _rec_nav(b, bars)), 10) for b in sorted(not_policed)},
+        # r1248: the bars this replay did NOT police because the ledger itself withdrew them,
+        # named rather than silently dropped -- a shorter replay must say what it left out.
+        "bars_withheld": withheld,
         "convention": ("ledger books constant target weights every bar (costless implicit "
                        "rebalance) + carry on the target cash fraction; a card follower holds "
                        "drifting weights, so nav_buyhold_gap is the convention's own footprint"),
@@ -392,13 +424,26 @@ def selftest():
         d["available"] and abs(d["drift_cost_bp"] - round(d["drift_turnover_one_way"] * 10, 2)) < 0.02)
 
     # The identity leg must MOVE when the recorded path is tampered with (r1261 class).
+    # r1248: tamper a SETTLED bar -- the newest one is deliberately held back from policing
+    # while the panel is still filling it, so tampering it would prove nothing about the leg.
     led2 = json.loads(json.dumps(led))
-    led2["bars"][-1]["nav"] = 1.5
+    led2["bars"][-2]["nav"] = 1.5
     d2 = drift(led2, px, op, cost_per_side=0.001)
     chk("L7 identity leg catches a tampered nav", d2["available"] and d2["nav_identity_ok"] is False,
         str(d2.get("nav_identity_max_dev")))
     chk("L7b identity leg is clean on the untampered fixture",
         d["available"] and d["nav_identity_ok"] is True, str(d.get("nav_identity_max_dev")))
+
+    # r1248: a WITHDRAWN mark is inert in the ledger's own nav path, so it must be inert here
+    # too. Same fixture plus one withdrawn bar carrying an absurd nav: with the old read of
+    # `state["bars"]` this leg went red on a row the ledger had already refused.
+    led_w = json.loads(json.dumps(led))
+    led_w["bars"].append({"bar": "2026-01-04", "nav": 99.0, "cash": 0.2, "carry": 0.0,
+                          "withdrawn": True, "withdrawn_at": "2026-01-05T00:00:00+0800"})
+    d_w = drift(led_w, px, op, cost_per_side=0.001)
+    chk("L7c a withdrawn mark does not move the identity",
+        d_w["available"] and d_w["nav_identity_ok"] is True and d_w["bars_withheld"] == ["2026-01-04"],
+        "%s / withheld=%s" % (d_w.get("nav_identity_max_dev"), d_w.get("bars_withheld")))
 
     led3 = {"book_in_force": {"bar": "2025-12-31", "scale": 0.8, "names": ["A", "B"]},
             "seed": {"bar": "2026-01-02"}, "bars": [{"bar": "2026-01-05", "nav": 1.0}]}
