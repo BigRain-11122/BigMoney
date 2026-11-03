@@ -1187,11 +1187,11 @@
  "ram_load_pct": 52,
  "ram_total_gb": 23.9,
  "round": 1391,
- "round_no": 1396,
+ "round_no": 1409,
  "round_no_drift_healed": "state.json stood at 1259 while the report series and commits were at r1262 (r1020 double-drift class); healed to 1263 from the report series",
- "round_no_label": "r1391",
- "round_no_note": "r1325 appended the block and healed the label (state round_no had drifted to 1314)",
- "round_no_ts": "2026-11-01T19:55:36+08:00",
+ "round_no_label": "r1409",
+ "round_no_note": "r1409 kept this mirror's label in step with state-bm-b.json (the authoritative face); it had stood at 1396 while the report series was at 1408",
+ "round_no_ts": "2026-11-03T16:25:43+08:00",
  "s1": "the full ~340-leg suite was not re-run this window; the new E347 leg was extracted verbatim from smoke_test.py and executed standalone (PASS); r1364's 11 census-corpus reds stand published",
  "s6": "dualrun ZERO-DRIFT 840 streak 5 | compute_audit FLAG:supply_gap (floor ready 3/3, breach=false) | py_watermark insufficient_history (3 ready cards) | attrition CLEAN 4 ledgers | sat engine rc=0 idle | orphan probe py_faces=7 orphans=0 residents=0 | lane collectors, market_regime, update_* and the paper/scorecard faces were NOT re-run this window (wall budget, stated plainly)",
  "s7": "orders 114 files / 115 acks / 0 unacked at S0.5 | decisions and orders both changed at the group tree with no row mentioning this repo -> hash-only advance | loop and watchdog tasks not re-registered (no red; stated plainly) | claws not re-checked this window",
@@ -1204,7 +1204,7 @@
  "smoke": "E346 leg extracted verbatim and run standalone: PASS (1/1)",
  "state_face_note": "mirror; authoritative face is state-bm-b.json",
  "status": "ok",
- "study": "E368_seam_replay",
+ "study": "E392_read_resolve",
  "sync": {
   "ahead": 109,
   "behind": 195,
@@ -1212,23 +1212,23 @@
   "peer": "origin"
  },
  "sync_note": "the 29-commit deferral is closed: every round since r1230 rode machine/bm-b-r* branches instead of main because the blob:none promisor clone hung on rebase and mktree replay is banned after the LEDGER loss. A git-native merge in a throwaway worktree with -c merge.renames=false (the rename pass is what triggered the unfetchable-object fetch) lands both lineages at once.",
- "task": "r1390 E368: a repaired seam replays the number but the pin is not the publishing vintage",
+ "task": "r1409 E392: the name-matched bound priced, and a read cap that hides the faces it cannot see",
  "task_short": "r1368 E347 where a published number decides",
  "task_short_note": "3-class resolution (union on leg containers and append-only ledgers, owner-verbatim on faces another host writes); AST + selftest validated; 8 upstream deletions caught by the tree-shrink claw and restored before push",
  "three_line": {
-  "current": "E368 repaired the seam and replayed: both verdict numbers come back on all four arms, a neighbouring count moves 20%",
-  "latest_artifact": "results/state_tilt/SEAMREPLAY-2026-11-02.json @ 2026-11-02T21:07:07+08:00",
-  "next_milestone": "E369: pin one face at its own publishing commit and re-run the comparison (<=48h)"
+  "current": "E392 priced E391's bound: 112,910 reads name a two-meaning key, 25,461 are on a face container, 9,243 reach a face and 5,763 open a face that stores it",
+  "latest_artifact": "results/state_tilt/READRESOLVE-2026-11-03.json @ 2026-11-03T16:25:43+08:00",
+  "next_milestone": "E393 prices the 1 MB read cap: 3,271 of 3,292 unreadable resolutions are size refusals, so the 5.1% is a bound and not a ceiling (<=48h)"
  },
- "timestamp": "2026-11-02T22:04:20+08:00",
- "ts": "2026-11-02T22:04:20+08:00",
- "updated": "2026-11-02T22:04:20+08:00",
- "updated_at": "2026-11-02T22:04:20+08:00",
+ "timestamp": "2026-11-03T16:25:43+08:00",
+ "ts": "2026-11-03T16:25:43+08:00",
+ "updated": "2026-11-03T16:25:43+08:00",
+ "updated_at": "2026-11-03T16:25:43+08:00",
  "verdict": "green (study landed + verified; product face published)",
  "verdict_line": "pool floor 3/3 met at open (ready E347/E348 + one seeded card); E347 burned in-window and floor restored to 3 by seeding E349/E350",
  "verify": "e347 selftest 17/17 | verify problems=[] (whole face re-derived from the pinned corpus) | chain leg wired (verify run, not the full chain) | smoke leg wired and exec'd standalone PASS | orphan 0 | sat rc=0 idle | dualrun ZERO-DRIFT",
  "vram_free_gb": 1.84,
  "watermark_red": false,
  "watermark_verdict": "pool floor 3/3 met at open (ready E347/E348 + one seeded card); E347 burned in-window and floor restored to 3 by seeding E349/E350",
- "work": "E368 seam replay: population pinned, verdict numbers reproduced, vintage named"
+ "work": "E392 name-matched bound priced"
 }

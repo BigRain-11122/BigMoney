@@ -8687,3 +8687,37 @@ leg E391 (1/1, exec'd verbatim by `scripts/run_e391_smoke_leg.py`); face
 `results/state_tilt/TWOMEANINGS-2026-11-03.json` + `twomeanings_latest.json`; S6 leg
 `key_name_two_meanings`. Frozen verdicts re-derived by `decide()`. Successor: E392 (which
 name-matched read actually opens the face that carries the key).
+
+
+## E392 -- a bound is priced by following the load, and the unresolvable bucket is the denominator (r1409 bm-b)
+
+E391 published a name-matched bound (132,604 sites naming one of 3,877 two-meaning keys) and said
+so in the field name. Pricing it changed the number by an order of magnitude: of 112,898 actual
+reads, 25,456 are on a container the resolver can call a face at all, 9,243 reach a face path, and
+5,763 open a face that stores the key -- 5.1% of the bound, 22.6% of the reads demonstrably on a
+face. Three rules came out of it.
+
+(1) **Price in the denominator, not in the numerator.** 77.5% of the reads are not resolvable at all
+(22,712 local dicts, 64,730 untyped containers, 15,357 refused paths, 856 ambiguous). Publishing
+only "5,763 confirmed" invites the reading "95% are wrong"; publishing the 25,456 face-container
+reads beside it makes the same measurement say "of what can be checked, 22.6% stores it". A census
+whose unresolvable bucket is the majority must publish the bucket, and a rate must name which
+population it divides.
+
+(2) **The unreadable faces are the big ones.** 3,271 of the 3,292 unreadable resolutions are faces
+above a 1 MB read cap -- exactly the aggregate faces a reader is usually quoting. A check that skips
+large inputs silently grades its own blind spot as "no evidence"; the reason is published per site
+and the cap becomes a named successor, not a footnote.
+
+(3) **The slice you would verify by hand is the worst.** 711 keys are named by <=3 reads; 29 of them
+(4.1%) open a face that stores the key, below the 5.1% aggregate. Trusting the small, legible rows is
+exactly backwards.
+
+Two mechanics worth keeping: sites must be walked with the *same* corpus filter as the population
+(E391's `py_corpus`, which excludes `.codely-cli/` and `_smoke/`) or the two censuses differ by a
+silent 125 sites, and the reconciliation (reads + writes = 132,605 vs 132,604) is the only evidence
+that the two populations are the same tree. And the presence test is "any depth", published as an
+upper bound: a key found deeper than the site indexes still counts as a hit, and the face says so.
+
+Wiring: `scripts/e392_read_resolve.py` (run / verify problems=[] / selftest 23/23); smoke leg E392
+(1/1); S6 leg `read_resolve`; face `results/state_tilt/READRESOLVE-2026-11-03.json`.

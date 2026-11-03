@@ -1259,6 +1259,16 @@ LEGS = [
     # name-matched upper bound and not a face resolution) and 1,661 are latent. Verify re-derives
     # every published count from the listed conflict rows (~1 s, no corpus walk).
     ("key_name_two_meanings", ["python", "scripts/e391_key_name_two_meanings.py", "verify"]),
+    # E392: E391 published a name-matched bound and said so in the field name; this prices it.
+    # 112,910 reads name one of the 3,877 conflicted keys, but only 25,461 of those reads are on a
+    # container the resolver can call a face at all (22,714 read a local dict, 64,735 cannot be
+    # typed), 9,243 reach a face path, and 5,763 open a face that stores the key -- 5.1% of the
+    # name-matched bound, or 22.6% of the reads that are demonstrably on a face. 188 open a face
+    # that does not carry it; 3,292 land on a face above the 1 MB read cap, so the largest faces are
+    # exactly the ones the check cannot see (3,271 too_large / 21 unparseable). 711 keys have <=3
+    # reads and only 29 of them are confirmed sightings. Verify re-adds every published count from
+    # the per-key rows (~0 s, no corpus walk).
+    ("read_resolve", ["python", "scripts/e392_read_resolve.py", "verify"]),
 ]
 
 

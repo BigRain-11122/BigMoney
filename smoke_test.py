@@ -13809,5 +13809,96 @@ except Exception as _e391:
 check(_name391, not _bad391, "; ".join(_bad391)[:220]
       or "verdict %s" % str((_f391 or {}).get("verdict"))[:80])
 
+# E392: E391 published a name-matched bound and named it as one; this prices it by following each
+# read's container to the face it opens. This leg refuses the answers that would let the ratio be
+# asserted instead of measured: a verdict outside the frozen vocabulary, a verdict that does not
+# re-derive from the summary, per-key rows that do not re-add to the headline counts, a share that
+# does not re-divide, a storing row that names no face or carries no structure, an unreadable
+# bucket whose reasons do not add up, a row that stores more reads than it has, and the study's
+# own verify not coming back clean.
+_name392 = ("product: of the reads that name a conflicted key, the share that statically opens a "
+            "face storing it, with every unresolved bucket published rather than dropped")
+_bad392 = []
+_s392 = {}
+_f392 = None
+try:
+    _p392 = os.path.join("results", "state_tilt", "readresolve_latest.json")
+    _f392 = json.load(open(_p392, encoding="utf-8")) if os.path.exists(_p392) else None
+    if _f392 is None:
+        _bad392.append("no published read-resolve face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m392 = __import__("importlib").import_module("e392_read_resolve")
+        _s392 = _f392.get("summary") or {}
+        _r392 = _f392.get("rows") or []
+        if _f392.get("verdict") not in _m392.VOCAB:
+            _bad392.append("verdict %r is outside the frozen vocabulary"
+                           % str(_f392.get("verdict"))[:60])
+        if _f392.get("verdict") != _m392.decide(_s392):
+            _bad392.append("the verdict does not re-derive from the summary")
+        if _s392.get("population_keys_named_in_repo") != len(_r392):
+            _bad392.append("population_keys_named_in_repo is not the listed row count")
+        if sum(r.get("name_matched_reads") or 0 for r in _r392) != _s392.get("name_matched_reads"):
+            _bad392.append("the name-matched read count does not re-add from the rows")
+        if sum(r.get("resolved_stores") or 0 for r in _r392) != \
+                _s392.get("resolved_reads_storing_the_key"):
+            _bad392.append("the storing count does not re-add from the rows")
+        if sum(r.get("face_container_reads") or 0 for r in _r392) != \
+                _s392.get("face_container_reads"):
+            _bad392.append("the face-container count does not re-add from the rows")
+        for _key392 in ("resolved_stores", "resolved_lacks", "resolved_unreadable", "ambiguous",
+                        "unresolved", "local_container", "container_unknown"):
+            if sum(r.get(_key392) or 0 for r in _r392) != \
+                    (_s392.get("by_status") or {}).get(_m392._status_of(_key392), 0):
+                _bad392.append("summary.%s is not the sum of the per-key rows" % _key392)
+                break
+        if _s392.get("face_container_reads"):
+            _share392 = round((_s392.get("resolved_reads_storing_the_key") or 0)
+                              / _s392.get("face_container_reads"), 4)
+            if _share392 != _s392.get("share_of_face_container_reads_that_store"):
+                _bad392.append("the face-container share does not re-divide")
+        if sum((_s392.get("resolved_unreadable_by_reason") or {}).values()) != \
+                (_s392.get("by_status") or {}).get("resolved_face_unreadable", 0):
+            _bad392.append("the unreadable reasons do not add up")
+        for _row392 in _r392:
+            if (_row392.get("resolved_stores") or 0) > (_row392.get("name_matched_reads") or 0):
+                _bad392.append("row %r stores more reads than it has"
+                               % str(_row392.get("key"))[:40])
+                break
+            if _row392.get("verdict") == "at_least_one_read_opens_a_face_that_stores_it" and \
+                    not _row392.get("resolved_stores"):
+                _bad392.append("row %r claims a storing read it does not count"
+                               % str(_row392.get("key"))[:40])
+                break
+        for _site392 in (_f392.get("sites_storing_sample") or []):
+            if not _site392.get("face"):
+                _bad392.append("a storing site names no face")
+                break
+            if not _site392.get("structure"):
+                _bad392.append("a storing site carries no structure")
+                break
+        if _f392.get("sites_phantom") and not all(
+                s.get("face") for s in _f392.get("sites_phantom") or []):
+            _bad392.append("a phantom site names no face")
+        if _bad392:
+            pass
+        elif _m392.verify() != []:
+            _bad392.append("the study's own verify does not come back clean")
+        _name392 = ("product: %d keys / %d read sites name one, %d of those reads are on a face "
+                    "container, %d resolve to a face and %d open a face that stores the key (%s of "
+                    "the name-matched bound); %d phantom, %d unreadable (%s)"
+                    % (_s392.get("population_keys") or 0, _s392.get("name_matched_reads") or 0,
+                       _s392.get("face_container_reads") or 0, _s392.get("resolved_reads") or 0,
+                       _s392.get("resolved_reads_storing_the_key") or 0,
+                       _s392.get("share_of_name_matched_reads_that_resolve_and_store"),
+                       _s392.get("resolved_reads_on_a_face_without_the_key") or 0,
+                       _s392.get("resolved_reads_unreadable_face") or 0,
+                       "; ".join("%s=%d" % (k, v) for k, v in
+                                 sorted((_s392.get("resolved_unreadable_by_reason") or {}).items()))))
+except Exception as _e392:
+    _bad392.append(repr(_e392)[:160])
+check(_name392, not _bad392, "; ".join(_bad392)[:220]
+      or "verdict %s" % str((_f392 or {}).get("verdict"))[:80])
+
 if __name__ == "__main__":
     sys.exit(main())
