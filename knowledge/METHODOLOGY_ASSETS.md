@@ -9305,3 +9305,52 @@ stays queued (the never-produced read target); no published face, pointer, calle
 edited. Side effect measured: the new `localreader_latest.json` is itself a family-named pointer, so
 E398's pointer count moved 176 -> 178 and its face was re-derived from the live build rather than
 the leg loosened.
+
+## E408 -- a shared "disabled" flag answers who-is-off, never who-should-turn-it-on; and the prose list of tasks is not the whitelist's list (r1423 bm-b)
+
+D-20261104-05 dispatched @BigMoney a one-line per-lane host declaration before the 2026-11-08
+review of eight `EXPECTED-DISABLED` tasks, on the reasoning that a whitelist which only says "off
+by policy" leaves nobody able to say which machine should turn it back on -- so a name-keyed enable
+at the deadline could start one lane on two machines. Building the declaration mechanically produced
+three findings, none of which is visible from the decision text.
+
+1. **The decision's own list of eight is not the whitelist's eight.** The prose names seven
+   `Bigmoney-*` tasks plus `HQ-Patrol-BigMoney`; the whitelist's `owner == "@BigMoney"` set is seven
+   `Bigmoney-*` plus **`BmaIdleGuard`** (`Tools/register_idleguard_task.ps1` -> `Tools/bma_idleguard.pyw`,
+   which runs bm-a's own work bank and bm-a's SatEngine revive recipe). `HQ-Patrol-BigMoney` is owned
+   by `@HQ`. Reading the prose would have produced a declaration that misses a real bm-a lane and
+   claims a lane that is not this company's to declare. The declaration therefore reads the whitelist
+   blob (`Tools/task-expected-disabled.json@origin/main`) and filters on `owner`, and the tool refuses
+   the whole verdict if a whitelisted task has no row.
+2. **"Single host" is the wrong shape for six of the eight.** Only `Bigmoney-IntradayMarks` is a
+   single-host lane in code (`scripts/update_intraday_marks.py:75`, `LANE_OWNER = "bm-b"`). The loop,
+   the pool worker, the watchdog, the dispatcher, the autofill driver and the saturation engine are
+   instanced *per machine* on purpose: `register_loop_task.ps1` pins start offsets bm-a=8 / bm-b=2 /
+   bm-c=5, `register_pool_worker_task.ps1` pins 7/12/17, and the rest resolve `fleet/machine.json` at
+   runtime. A declaration that wrote "one host" for all eight would forbid the thing the pin tables
+   exist to schedule. The real rule is two-sided: a single-host lane must not appear on a second
+   machine, and a per-machine lane must not have two instances on one machine.
+3. **A task name that pins a host is a trap for name-keyed restores.** `Bigmoney-SatEngine-bm-b` is
+   the fleet-shared *local* name for a per-machine engine, and it was found Disabled on bm-a. Enabling
+   tasks by name at the deadline would install bm-b's engine on bm-a and leave bm-a's own engine with
+   no task at all. The face publishes `name_pins_host` beside `mode` so the mismatch is a disclosed
+   row, not a comment.
+
+The verifier refuses exactly these: a whitelisted task with no row (finding 1), a row for a task
+nobody whitelisted, a single-host row whose target script declares a different owner, a per-machine
+row that neither carries a three-host pinMap nor resolves its machine at runtime (finding 2), a lane
+claimed on two hosts, an evidence path that is not on disk, and a doc that is not the rendered face.
+Evidence arms are named, not inferred: `lane_owner_constant`, `pinmap_all_hosts`,
+`machine_id_at_runtime`, `no_constant` (which then requires cited evidence).
+
+How to apply: when a governance flag only records "why this is off", the missing half is a
+machine-readable ownership row per lane, and that row must be *derived* from the registering
+scripts and the targets' own owner constants -- the decision prose is not a source of truth about
+its own population. Never resolve a host from a task name: names are chosen once for the fleet and
+outlive the machine they were coined on.
+
+Wiring: `scripts/lane_host_ownership.py` (run / verify byte-identical re-derive / selftest 13/13);
+declaration `fleet/lane_host_ownership.json`; faces `results/lane_host_ownership.json` +
+`lane_host_ownership_latest.json`; rendered declaration `docs/LANE-HOST-OWNERSHIP.md`; smoke leg
+(`scripts/run_lane_host_ownership_smoke_leg.py`, exec'd verbatim, 1/1); referenced from
+`HQ-FEEDBACK.md` F-20261104-01 as the decision requires.

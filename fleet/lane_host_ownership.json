@@ -1,0 +1,81 @@
+{
+ "schema": "lane-host-ownership/v1",
+ "decision": "D-20261104-05",
+ "note": "Escalated by the 07:14 yield round: the group whitelist says EXPECTED-DISABLED for eight Bigmoney tasks but never says which machine owns each lane, so a name-keyed enable at the 2026-11-08 review could start one lane on two machines. Verified by scripts/lane_host_ownership.py -- it re-reads the whitelist from the group origin blob, each register script under Tools/, and each target script's own owner constant, and refuses a row it cannot see.",
+ "tasks": [
+  {
+   "task": "Bigmoney-Autofill",
+   "mode": "per-machine",
+   "lane": "pool-autofill",
+   "register": "Tools/register_autofill_task.ps1",
+   "target": "Tools/autofill.py",
+   "evidence": ["Tools/autofill.py#L138", "fleet/machine.json"],
+   "note": "the watchdog C8 supply driver; each machine fills its own share of the pool, so one instance per machine is the design, two instances on one machine is the defect"
+  },
+  {
+   "task": "Bigmoney-IntradayMarks",
+   "mode": "single-host",
+   "host": "bm-b",
+   "lane": "intraday-marks",
+   "register": "Tools/register_intraday_marks_task.ps1",
+   "target": "scripts/update_intraday_marks.py",
+   "evidence": ["scripts/update_intraday_marks.py#L75"],
+   "note": "the only one of the eight that is a single-host lane in code: LANE_OWNER = bm-b and the script's own lane guard turns every other machine into a stdout-only no-op"
+  },
+  {
+   "task": "Bigmoney-IterationLoop",
+   "mode": "per-machine",
+   "lane": "iteration-loop",
+   "register": "Tools/register_loop_task.ps1",
+   "target": "Tools/iteration_loop.ps1",
+   "evidence": ["Tools/register_loop_task.ps1#L35", "fleet/machines/bm-b.json"],
+   "note": "the register script carries the pinned start offsets bm-a=8 / bm-b=2 / bm-c=5, which only makes sense if all three machines run it"
+  },
+  {
+   "task": "Bigmoney-LoopWatchdog",
+   "mode": "per-machine",
+   "lane": "loop-watchdog",
+   "register": "Tools/register_watchdog_task.ps1",
+   "target": "Tools/watchdog.ps1",
+   "evidence": ["Tools/watchdog.ps1#L91"],
+   "note": "a per-machine watchdog can only revive the loop on the machine it runs on, so it must exist everywhere the loop does"
+  },
+  {
+   "task": "Bigmoney-PoolWorker",
+   "mode": "per-machine",
+   "lane": "pool-worker",
+   "register": "Tools/register_pool_worker_task.ps1",
+   "target": "Tools/pool_worker.py",
+   "evidence": ["Tools/register_pool_worker_task.ps1#L47"],
+   "note": "register script spreads worker start offsets over all three hosts (bm-a=7 / bm-b=12 / bm-c=17)"
+  },
+  {
+   "task": "Bigmoney-ResidentDispatcher",
+   "mode": "per-machine",
+   "lane": "resident-dispatcher",
+   "register": "Tools/register_dispatcher_task.ps1",
+   "target": "Tools/resident_dispatcher.py",
+   "evidence": ["Tools/resident_dispatcher.py#L106"],
+   "note": "writes a machine-suffixed state face (results/dispatcher_state.<mid>.json), so instances are meant to coexist"
+  },
+  {
+   "task": "Bigmoney-SatEngine-bm-b",
+   "mode": "per-machine",
+   "lane": "saturation-engine",
+   "register": "Tools/register_satengine_task.ps1",
+   "target": "Tools/saturation_engine.py",
+   "evidence": ["Tools/saturation_engine.py#L93"],
+   "note": "per-machine engine (each machine burns its own queue), but the task name is the fleet-shared local name and pins bm-b: found Disabled on bm-a, a name-keyed restore would enable bm-b's engine on the wrong machine and leave bm-a's own engine without a task -- so the enable action must resolve the host from fleet/machine.json, never from the task name"
+  },
+  {
+   "task": "BmaIdleGuard",
+   "mode": "single-host",
+   "host": "bm-a",
+   "lane": "idle-guard-bm-a",
+   "register": "Tools/register_idleguard_task.ps1",
+   "target": "Tools/bma_idleguard.pyw",
+   "evidence": ["Tools/register_idleguard_task.ps1#L1", "Tools/bma_idleguard.pyw#L1"],
+   "note": "the eighth owner=@BigMoney row is this one, not HQ-Patrol-BigMoney (that row's owner is @HQ): it runs bm-a's own work bank and bm-a's SatEngine revive recipe, and there is a separate bmb_idleguard.pyw for bm-b, so the two machines have two tasks and no shared lane"
+  }
+ ]
+}

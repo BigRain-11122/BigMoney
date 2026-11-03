@@ -1,0 +1,173 @@
+{
+ "decision": "D-20261104-05",
+ "declared_tasks": 8,
+ "generated": "deterministic",
+ "lanes": {
+  "idle-guard-bm-a": [
+   "bm-a"
+  ],
+  "intraday-marks": [
+   "bm-b"
+  ],
+  "iteration-loop": [
+   "*per-machine*"
+  ],
+  "loop-watchdog": [
+   "*per-machine*"
+  ],
+  "pool-autofill": [
+   "*per-machine*"
+  ],
+  "pool-worker": [
+   "*per-machine*"
+  ],
+  "resident-dispatcher": [
+   "*per-machine*"
+  ],
+  "saturation-engine": [
+   "*per-machine*"
+  ]
+ },
+ "name_pins_host_rows": [
+  {
+   "mode": "per-machine",
+   "note": "per-machine engine (each machine burns its own queue), but the task name is the fleet-shared local name and pins bm-b: found Disabled on bm-a, a name-keyed restore would enable bm-b's engine on the wrong machine and leave bm-a's own engine without a task -- so the enable action must resolve the host from fleet/machine.json, never from the task name",
+   "pins": "bm-b",
+   "task": "Bigmoney-SatEngine-bm-b"
+  }
+ ],
+ "per_machine_tasks": 6,
+ "problems": [],
+ "rows": [
+  {
+   "host": null,
+   "lane": "pool-autofill",
+   "mode": "per-machine",
+   "name_pins_host": null,
+   "note": "the watchdog C8 supply driver; each machine fills its own share of the pool, so one instance per machine is the design, two instances on one machine is the defect",
+   "ok": true,
+   "per_machine_arm": "machine_id_at_runtime",
+   "pinmap_hosts": [],
+   "problems": [],
+   "register_exists": true,
+   "target_exists": true,
+   "task": "Bigmoney-Autofill"
+  },
+  {
+   "host": "bm-b",
+   "lane": "intraday-marks",
+   "mode": "single-host",
+   "name_pins_host": null,
+   "note": "the only one of the eight that is a single-host lane in code: LANE_OWNER = bm-b and the script's own lane guard turns every other machine into a stdout-only no-op",
+   "ok": true,
+   "owner_constants": [
+    {
+     "host": "bm-b",
+     "line": 75
+    }
+   ],
+   "problems": [],
+   "register_exists": true,
+   "single_host_arm": "lane_owner_constant",
+   "target_exists": true,
+   "task": "Bigmoney-IntradayMarks"
+  },
+  {
+   "host": null,
+   "lane": "iteration-loop",
+   "mode": "per-machine",
+   "name_pins_host": null,
+   "note": "the register script carries the pinned start offsets bm-a=8 / bm-b=2 / bm-c=5, which only makes sense if all three machines run it",
+   "ok": true,
+   "per_machine_arm": "pinmap_all_hosts",
+   "pinmap_hosts": [
+    "bm-a",
+    "bm-b",
+    "bm-c"
+   ],
+   "problems": [],
+   "register_exists": true,
+   "target_exists": true,
+   "task": "Bigmoney-IterationLoop"
+  },
+  {
+   "host": null,
+   "lane": "loop-watchdog",
+   "mode": "per-machine",
+   "name_pins_host": null,
+   "note": "a per-machine watchdog can only revive the loop on the machine it runs on, so it must exist everywhere the loop does",
+   "ok": true,
+   "per_machine_arm": "machine_id_at_runtime",
+   "pinmap_hosts": [],
+   "problems": [],
+   "register_exists": true,
+   "target_exists": true,
+   "task": "Bigmoney-LoopWatchdog"
+  },
+  {
+   "host": null,
+   "lane": "pool-worker",
+   "mode": "per-machine",
+   "name_pins_host": null,
+   "note": "register script spreads worker start offsets over all three hosts (bm-a=7 / bm-b=12 / bm-c=17)",
+   "ok": true,
+   "per_machine_arm": "pinmap_all_hosts",
+   "pinmap_hosts": [
+    "bm-a",
+    "bm-b",
+    "bm-c"
+   ],
+   "problems": [],
+   "register_exists": true,
+   "target_exists": true,
+   "task": "Bigmoney-PoolWorker"
+  },
+  {
+   "host": null,
+   "lane": "resident-dispatcher",
+   "mode": "per-machine",
+   "name_pins_host": null,
+   "note": "writes a machine-suffixed state face (results/dispatcher_state.<mid>.json), so instances are meant to coexist",
+   "ok": true,
+   "per_machine_arm": "machine_id_at_runtime",
+   "pinmap_hosts": [],
+   "problems": [],
+   "register_exists": true,
+   "target_exists": true,
+   "task": "Bigmoney-ResidentDispatcher"
+  },
+  {
+   "host": null,
+   "lane": "saturation-engine",
+   "mode": "per-machine",
+   "name_pins_host": "bm-b",
+   "note": "per-machine engine (each machine burns its own queue), but the task name is the fleet-shared local name and pins bm-b: found Disabled on bm-a, a name-keyed restore would enable bm-b's engine on the wrong machine and leave bm-a's own engine without a task -- so the enable action must resolve the host from fleet/machine.json, never from the task name",
+   "ok": true,
+   "per_machine_arm": "machine_id_at_runtime",
+   "pinmap_hosts": [],
+   "problems": [],
+   "register_exists": true,
+   "target_exists": true,
+   "task": "Bigmoney-SatEngine-bm-b"
+  },
+  {
+   "host": "bm-a",
+   "lane": "idle-guard-bm-a",
+   "mode": "single-host",
+   "name_pins_host": null,
+   "note": "the eighth owner=@BigMoney row is this one, not HQ-Patrol-BigMoney (that row's owner is @HQ): it runs bm-a's own work bank and bm-a's SatEngine revive recipe, and there is a separate bmb_idleguard.pyw for bm-b, so the two machines have two tasks and no shared lane",
+   "ok": true,
+   "owner_constants": [],
+   "problems": [],
+   "register_exists": true,
+   "single_host_arm": "no_constant",
+   "target_exists": true,
+   "task": "BmaIdleGuard"
+  }
+ ],
+ "schema": "lane-host-ownership/v1",
+ "single_host_tasks": 2,
+ "verdict": "every_whitelisted_task_is_per_machine_or_names_one_host_and_no_lane_is_claimed_twice",
+ "whitelist_source": "Tools/task-expected-disabled.json@origin/main",
+ "whitelisted_tasks": 8
+}

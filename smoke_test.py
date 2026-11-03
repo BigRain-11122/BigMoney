@@ -14887,5 +14887,47 @@ except Exception as _e398lf:
 check(_name398lf, not _bad398lf, "; ".join(_bad398lf)[:240]
       or "verdict %s" % str((_f398lf or {}).get("verdict"))[:90])
 
+# D-20261104-05: before the 2026-11-08 whitelist review turns eight EXPECTED-DISABLED
+# Bigmoney tasks back on, each has to name the machine that owns it. This leg refuses the
+# ways a hand-written ownership table rots: a whitelisted task with no row, a row for a task
+# nobody whitelisted, a single-host row whose target script declares a different owner, a
+# per-machine row that neither pins all three hosts nor resolves its machine at runtime, a
+# lane claimed on two hosts, an evidence path that is not on disk, and a face whose prose
+# does not re-render from it.
+_name_lho = ("product: a whitelist that says EXPECTED-DISABLED never says who owns the lane -- %s "
+             "task(s) declared, %s single-host / %s per-machine, %s lane(s) mapped, %s problem(s)")
+_bad_lho = []
+_f_lho = None
+try:
+    _p_lho = os.path.join("results", "lane_host_ownership_latest.json")
+    _f_lho = json.load(open(_p_lho, encoding="utf-8")) if os.path.exists(_p_lho) else None
+    if _f_lho is None:
+        _bad_lho.append("no published lane-host-ownership face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m_lho = __import__("importlib").import_module("lane_host_ownership")
+        _fresh_lho = _m_lho.derive(
+            json.load(open("fleet/lane_host_ownership.json", encoding="utf-8")),
+            _m_lho.group_whitelist())
+        for _k in ("verdict", "problems", "rows", "lanes", "declared_tasks", "whitelisted_tasks"):
+            if _f_lho.get(_k) != _fresh_lho.get(_k):
+                _bad_lho.append("published %s does not re-derive" % _k)
+        if _fresh_lho.get("problems"):
+            _bad_lho.append("the declaration does not hold: %s" % _fresh_lho["problems"][:2])
+        if _f_lho.get("whitelisted_tasks") != len(_fresh_lho.get("rows") or []):
+            _bad_lho.append("whitelisted %r vs declared rows %d"
+                            % (_f_lho.get("whitelisted_tasks"), len(_fresh_lho.get("rows") or [])))
+        if len(_m_lho.read_constants(_m_lho.ROOT / "scripts" / "update_intraday_marks.py")) == 0:
+            _bad_lho.append("the intraday-marks lane owner constant is no longer readable")
+        _name_lho = _name_lho % (_f_lho.get("declared_tasks"),
+                                 _f_lho.get("single_host_tasks"),
+                                 _f_lho.get("per_machine_tasks"),
+                                 len(_f_lho.get("lanes") or {}),
+                                 len(_f_lho.get("problems") or []))
+except Exception as _e_lho:
+    _bad_lho.append(repr(_e_lho)[:160])
+check(_name_lho, not _bad_lho, "; ".join(_bad_lho)[:240]
+      or "verdict %s" % str((_f_lho or {}).get("verdict"))[:90])
+
 if __name__ == "__main__":
     sys.exit(main())
