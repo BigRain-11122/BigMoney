@@ -8426,3 +8426,48 @@ rather than published from a moving corpus -- the numbers here are one snapshot,
 Wiring: `scripts/e382_key_projection_delta.py` (run / verify problems=[] / selftest 16/16); smoke leg
 E382 (`scripts/run_e382_smoke_leg.py` execs it verbatim, 1/1); S6 chain leg `key_projection_delta`;
 face `results/state_tilt/KEYDELTA-2026-11-03.json` + `keydelta_latest.json`.
+
+## E383 -- a key that names two files is a merged face, and the census that lists it once consumes it
+
+E381 named the keying defect, E382 priced repairing it. E383 asks the question both left open:
+**when the key falls back to a bare basename, how many distinct files does one key name, and does a
+published face read that key as one face?** The population is the union the published key set is
+built from (load bindings + `json.dump` sinks, the writer half keeping `e350._dump_sinks`'s "target
+must be a Name" condition); every face-shaped value gets `e350._face_key`; each key keeps its distinct
+normalised values and every `source:line` that produced one.
+
+Readings (2,423 sources): 878 keys, 24 carrying more than one value -- **3 merge two or more
+identified files (40 files in all)**, 5 are coarser than any one file, 15 are one file written two
+ways, 1 resolves to nothing. The identified merges are one family: `prep_state.json` 20 files,
+`judge_state.json` 18, `_summary.json` 2. The coarse keys arrive with a bare basename beside a
+specific value: `latest.json` 28 files, `manifest.json` 20, `probe.json` 14, `state.json` 6,
+`state-bm-c.json` 4. Of 346 published census faces walked, 226 rows quote a merged key and **112 sit
+in a list that also holds another key** -- E350's own `FIELDBRANCH` face lists `judge_state.json`,
+`_summary.json`, `manifest.json`, `state-bm-c.json` and `probe.json` once each as single faces.
+
+Four rules this face measures rather than asserts:
+
+1. **Normalise before counting a collision.** Two spellings of one file (`./results/a.json`,
+   `results\a.json`, the absolute path) are 15 of the 24 multi-value keys; counting them as collisions
+   would have tripled the bill with spelling.
+2. **Resolve by suffix against one tree index, and publish the hit count.** A folded value is relative
+   to whichever directory its producer was writing into; root-only resolution called 21 merges
+   "unresolved". A value with two or more hits is ambiguous and is never counted as one identified
+   file.
+3. **Four states, not one, because they are four repairs.** `two_identified_files` (split the key),
+   `a_value_names_many_files` (fix the join that produced the bare basename), `one_file_two_spellings`
+   (normalise), `no_value_names_a_file` (nothing to do here). A single "collisions" count would have
+   billed a normalisation bug as a census bug.
+4. **A quote is a mention until it is in a key list.** Consumption requires the key to sit in a list
+   that also holds another key (key strings, or row dicts carrying a `face`). Sentences stay in
+   `consumer_rows` with their pointer and field name and stay out of the headline.
+
+Bound published, not claimed: several consuming faces are themselves keying studies (E380/E381 quote
+the same key set, and E381 quotes `latest.json` as evidence), so the count says who *lists* the key as
+one identity, not that many independent production readers rely on the merge; an ambiguous or
+unresolved value is never promoted into an identified file, so the headline under-reports. The
+published E350/E353/E377 faces are read as published and never rebuilt.
+
+Wiring: `scripts/e383_shared_key_collision.py` (run / verify problems=[] / selftest 26/26); smoke leg
+E383 (`scripts/run_e383_smoke_leg.py` execs it verbatim, 1/1); S6 chain leg `shared_key_collision`;
+face `results/state_tilt/COLLISIONKEY-2026-11-03.json` + `collisionkey_latest.json`.

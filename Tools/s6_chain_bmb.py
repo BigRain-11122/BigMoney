@@ -1230,6 +1230,12 @@ LEGS = [
     # 131 -> 148, so the fix is a republish decision. Verify re-derives every delta from the
     # stored rows (~1 s, no corpus scan).
     ("key_projection_delta", ["python", "scripts/e382_key_projection_delta.py", "verify"]),
+    # E383: the same key set asked the collision question -- how many distinct files on disk one key
+    # names. Three keys merge 40 identified files (the trial-labor family alone puts 20
+    # prep_state.json under one key), five keys are coarser than any one file, and seven merged keys
+    # are quoted from a published face's key list. Verify re-adds the four states and the table
+    # (~0 s, no corpus scan, no disk walk).
+    ("shared_key_collision", ["python", "scripts/e383_shared_key_collision.py", "verify"]),
 ]
 
 

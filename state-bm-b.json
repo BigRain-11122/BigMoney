@@ -4362,6 +4362,24 @@
   "ts": "2026-11-03T08:27:35+08:00",
   "verified": "git ls-remote equals local HEAD"
  },
+ "r1402": {
+  "dept": "research+engineering",
+  "face": "results/state_tilt/COLLISIONKEY-2026-11-03.json",
+  "finding": "878 keys; 24 carry more than one value: 3 merge 40 identified files (prep_state.json 20, judge_state.json 18, _summary.json 2), 5 are coarser than any one file (latest.json 28, manifest.json 20, probe.json 14, state.json 6, state-bm-c.json 4), 15 are one file written two ways, 1 resolves to nothing; of 346 published census faces, 226 rows quote a merged key and 112 sit in a list that also holds another key, E350's FIELDBRANCH listing five merged keys once each",
+  "pit": "(1) spelling is not a collision -- normalising with the key helper's own rule turned 21 would-be collisions into 15 absolute-vs-relative aliases; (2) root-only resolution calls every results/-relative value unresolved, a suffix match against one tree index moves them, and a value with two or more hits is ambiguous and must never be counted as one file; (3) a list of row dicts carrying a face field IS a list of keys, so a strict parent test would have called every real consumption a mention; (4) a break in the verify loop turned four re-add checks into false failures -- the break belonged to one structural check, not to the partition",
+  "product": [
+   "scripts/e383_shared_key_collision.py (run / verify problems=[] / selftest 26/26)",
+   "results/state_tilt/COLLISIONKEY-2026-11-03.json + collisionkey_latest.json",
+   "scripts/run_e383_smoke_leg.py + smoke_test.py leg E383 (exec'd verbatim: PASS)",
+   "Tools/s6_chain_bmb.py leg shared_key_collision (rc 0, 0.06 s)",
+   "knowledge/METHODOLOGY_ASSETS.md card E383",
+   "research/digests/DIGEST-20261103-r1402-e383-shared-key-collision.md",
+   "results/runnable_pool.json E383 done with result_ref; E385/E386 seeded (ready 3)"
+  ],
+  "study": "E383_shared_key_collision",
+  "ts": "2026-11-03T08:58:12+08:00",
+  "verdict": "three_keys_merge_forty_files_and_seven_merged_keys_are_read_from_a_published_key_list_so_the_census_treats_up_to_twenty_files_as_one_face"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -4372,8 +4390,8 @@
  "ram_total_gb": 23.9,
  "reds_open": [],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1401,
- "round_no": 1401,
+ "round": 1402,
+ "round_no": 1402,
  "round_no_label": "r1401",
  "round_no_note": "r1393 healed another mirror split: cyc_round/cycle_round/did_round/last_round/cycl_round read 1391/1378 while round/round_no said 1392. All eight keys now move together.",
  "round_no_ts": "2026-11-03T08:24:31+08:00",
@@ -4417,7 +4435,7 @@
   "next_milestone": "E383 keys-share question (which distinct files one key names) <=48h"
  },
  "timestamp": "2026-11-03T08:24:31+08:00",
- "ts": "2026-11-03T08:24:31+08:00",
+ "ts": "2026-11-03T08:58:12+08:00",
  "ts_utc_ms": 1793658122000,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-03T08:24:31+08:00",

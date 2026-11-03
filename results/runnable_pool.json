@@ -26879,70 +26879,73 @@
    "status": "done"
   },
   {
+   "claimed_at": "2026-11-03T05:20:00+08:00",
+   "claimed_by": "bm-b",
+   "closed_by": "bm-b r1399",
+   "done_at": "2026-11-03T06:22:02+08:00",
    "entered_at": "2026-11-03T04:40:00+08:00",
    "entered_by": "bm-b r1397",
    "id": "E380-WHICH-OF-THE-TWO-INSTRUMENTS-NAMES-THE-SAME-BALLAST",
    "lane": "cpu-only",
    "notes": "static only, zero network; reuse e377 resolved-sink universe; exclude this study own face from its own population (E319/E328 family)",
    "owner": "bm-b",
+   "owner_since": "2026-11-03T05:20:00+08:00",
    "priority": 3,
    "question": "E378 measured 108 store members that move neither E353 pairs nor any E350 headline number, and 17 that move only the field count by adding new keys. Decide whether those 17 keys are read anywhere (a static name test over the same corpus, no execution): rows that no reader names are dead weight in a face, rows that a reader names are why the store had to exist. Publish reader/unread per new key.",
-   "status": "done",
-   "owner_since": "2026-11-03T05:20:00+08:00",
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-11-03T05:20:00+08:00",
-   "done_at": "2026-11-03T06:22:02+08:00",
    "result_ref": "results/state_tilt/BALLASTKEYS-2026-11-03.json",
-   "verdict": "five_keys_are_read_by_more_than_one_store_member_so_the_store_is_a_channel_between_files_no_commit_holds",
-   "closed_by": "bm-b r1399"
+   "status": "done",
+   "verdict": "five_keys_are_read_by_more_than_one_store_member_so_the_store_is_a_channel_between_files_no_commit_holds"
   },
   {
+   "claimed_at": "2026-11-03T06:31:00+08:00",
+   "claimed_by": "bm-b",
+   "closed_by": "bm-b r1400",
+   "done_at": "2026-11-03T06:47:00+08:00",
    "entered_at": "2026-11-03T05:00:00+08:00",
    "entered_by": "bm-b r1398",
    "id": "E381-WHY-DOES-THE-UPSTREAM-READER-CENSUS-MISS-A-LITERAL-READ",
    "lane": "cpu-only",
    "notes": "static only, zero network; consume E377's published face and E379's rows by reading them, never recompute the upstream claim from a docstring; a face is only 'within the census universe' when the load is assigned AND the why is literal/bound/joined_constants",
    "owner": null,
+   "owner_since": "2026-11-03T06:31:00+08:00",
    "priority": 3,
    "question": "scripts/etf_book_bridge.py:369 reads results/etf_book_production/latest.json through an assigned load whose path is joined from constants, which is inside the census's own universe (literal/bound/joined_constants), yet E377 published that face as keyed by no resolved sink. Decide which side is wrong: re-derive E377's reader half over the same corpus and publish whether the face is excluded (source filter, scratch-file rule, MAX limit) or was keyed differently (e350._face_key vs the reader's resolved path). The bill is one named exclusion or one defect, never 'unkeyed' by decree.",
-   "status": "done",
-   "owner_since": "2026-11-03T06:31:00+08:00",
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-11-03T06:31:00+08:00",
-   "done_at": "2026-11-03T06:47:00+08:00",
    "result_ref": "results/state_tilt/COMPONENTKEY-2026-11-03.json",
-   "verdict": "the_census_keys_a_join_by_its_operands_so_a_face_it_reads_is_filed_under_a_basename_and_a_jsonl_read_is_never_keyed_at_all",
-   "closed_by": "bm-b r1400"
+   "status": "done",
+   "verdict": "the_census_keys_a_join_by_its_operands_so_a_face_it_reads_is_filed_under_a_basename_and_a_jsonl_read_is_never_keyed_at_all"
   },
   {
    "claimed_at": "2026-11-03T07:54:02+08:00",
    "claimed_by": "bm-b",
+   "closed_by": "bm-b r1401",
+   "done_at": "2026-11-03T08:24:31+08:00",
    "entered_at": "2026-11-03T06:47:00+08:00",
    "entered_by": "bm-b r1400",
    "id": "E382-WHAT-MOVES-IF-THE-KEY-PROJECTION-IS-FIXED",
    "lane": "cpu-only",
    "notes": "static only, zero network; in-memory arms, do not rewrite the published E350/E353/E377 faces; read them as published and publish the delta beside them",
-   "owner": null,
-   "priority": 3,
-   "question": "E381 named two defects in the face keying shared by E350/E353/E377: a join is keyed by its operands (so a multi-component path lands under a bare basename) and both helpers accept only paths ending .json (so a .jsonl read is never keyed). Before anyone patches e350, price the republish: build the repaired keying in memory and publish which published numbers move -- E350's field/unwritten counts, E353's pair count, E377's blind-spot list length and the E381 moved set -- and whether any published verdict flips. A repair that silently changes a headline is a republish decision, not a bugfix, so the bill is the delta itself.",
    "owner": "bm-b",
    "owner_since": "2026-11-03T07:54:02+08:00",
-   "status": "done",
-   "done_at": "2026-11-03T08:24:31+08:00",
+   "priority": 3,
+   "question": "E381 named two defects in the face keying shared by E350/E353/E377: a join is keyed by its operands (so a multi-component path lands under a bare basename) and both helpers accept only paths ending .json (so a .jsonl read is never keyed). Before anyone patches e350, price the republish: build the repaired keying in memory and publish which published numbers move -- E350's field/unwritten counts, E353's pair count, E377's blind-spot list length and the E381 moved set -- and whether any published verdict flips. A repair that silently changes a headline is a republish decision, not a bugfix, so the bill is the delta itself.",
    "result_ref": "results/state_tilt/KEYDELTA-2026-11-03.json",
-   "verdict": "at_least_one_published_verdict_string_changes_under_the_repair_so_the_faces_must_be_republished_together",
-   "closed_by": "bm-b r1401"
+   "status": "done",
+   "verdict": "at_least_one_published_verdict_string_changes_under_the_repair_so_the_faces_must_be_republished_together"
   },
   {
+   "claimed_by": "bm-b",
+   "done_at": "2026-11-03T08:54:50+08:00",
    "entered_at": "2026-11-03T06:47:00+08:00",
    "entered_by": "bm-b r1400",
    "id": "E383-HOW-MANY-PUBLISHED-FACES-SHARE-ONE-KEY",
    "lane": "cpu-only",
    "notes": "static only, zero network; read the published faces as they stand, publish collisions beside the paths that cause them, never split a key by decree",
-   "owner": null,
+   "owner": "bm-b",
+   "owner_since": "2026-11-03T08:5x+08:00",
    "priority": 3,
    "question": "e350._face_key falls back to the basename when no recognised root survives, and its own docstring calls that the unsafe direction because two files sharing a basename merge. E381 showed the fallback firing on a path that did resolve. Ask the collision question directly: over the same corpus, how many DISTINCT files on disk are named by one key, which sites produce each collision (source:line), and does any published study consume a collided key as if it were one face? A collision is two faces a census cannot tell apart, so the bill is the collision table and the sentence that consumes it, not a count.",
-   "status": "ready"
+   "result_ref": "results/state_tilt/COLLISIONKEY-2026-11-03.json",
+   "status": "done"
   },
   {
    "entered_at": "2026-11-03T06:47:00+08:00",
@@ -26953,6 +26956,26 @@
    "owner": null,
    "priority": 3,
    "question": "The keying helpers take face-shaped strings out of a source, and a string in a source is not a decision to open a file: a path assembled for a print, a banner, or a log can enter the keyed set and make a face look read. Take the published key set and, for each key, ask whether the site that named it is a load or a dump at all (E377's own classification) or a bare literal carried for some other purpose. Publish the keys with no opening site, the source:line each came from, and whether removing them changes any published count -- a key that no site opens is the reverse of E381's defect and it inflates the same census.",
+   "status": "ready"
+  },
+  {
+   "entered_at": "2026-11-03T08:54:50+08:00",
+   "entered_by": "bm-b r1402",
+   "id": "E385-DOES-SPLITTING-A-MERGED-KEY-MOVE-ANY-PUBLISHED-COUNT",
+   "lane": "cpu-only",
+   "notes": "static only, zero network; in-memory arms, never rewrite the published E350/E353/E377/E381 faces; a merged key whose files cannot all be identified is priced as a floor, not as a count",
+   "priority": 3,
+   "question": "E383 found three keys that each merge two or more identified files (prep_state.json 20, judge_state.json 18, _summary.json 2) and five keys coarser than any one file, and it found seven of them quoted from a published face's key list. The open question a reader actually has: would splitting those keys change any published NUMBER? Take the published counts that are functions of the key set -- E350's faces_named/fields, E353's pair count, E377's blind-spot list, E381's joined-only count -- and re-run each with the merged keys split into their identified files. Publish per headline: the published number, the re-derived number under the split, and whether any verdict string moves. A split that moves a headline is a republish decision (E382's rule), not a cleanup.",
+   "status": "ready"
+  },
+  {
+   "entered_at": "2026-11-03T08:54:50+08:00",
+   "entered_by": "bm-b r1402",
+   "id": "E386-IS-A-MERGED-KEY-COSTING-ANYTHING-IN-THE-TRIAL-LABOR-FAMILY",
+   "lane": "cpu-only",
+   "notes": "static only, zero network; follow the load site's own path expression through the module's __file__/dirname constants rather than assuming the cwd; a script whose path does not fold is published as unresolved, not as safe",
+   "priority": 3,
+   "question": "The largest identified merge is the trial-labor family: 20 prep_state.json and 18 judge_state.json files share one key each, produced by trial_labor_w*.py. E383 cannot say whether that merge is harmful or benign, and the difference is load-bearing: if each script joins its own sibling directory before opening, the files are never confused and the merge only inflates a census; if any script opens a bare basename from the process working directory, two waves can read each other's state. For each of the 38 files, publish the site that opens it, whether that site's path expression resolves to its own directory, and whether any two scripts can name the same file through the merged key. The bill is the cross-read table, not the count of waves.",
    "status": "ready"
   }
  ],
@@ -26968,6 +26991,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-03T06:22:02+08:00",
+ "updated_at": "2026-11-03T08:54:50+08:00",
  "version": 1
 }

@@ -13324,6 +13324,91 @@ check(_name382, not _bad382, "; ".join(_bad382)[:220]
             str((_f382 or {}).get("verdict"))[:80]))
 
 
+# E383: how many distinct files on disk one face key names, and whether a published face consumes
+# the merge.  This leg refuses the shapes that would let the collision be asserted instead of
+# measured: a verdict outside the frozen vocabulary, rows that do not re-add, four states that do
+# not partition the multi-value keys, a two-file row whose file list disagrees with its count, a
+# merged-key table that does not cover the merged rows or whose consumptions do not sum back, a
+# consumer quoting a key that is not merged, and the study's own verify not coming back clean.
+_name383 = "product: one face key names more than one file on disk, and the merge is consumed"
+_bad383 = []
+try:
+    _p383 = os.path.join("results", "state_tilt", "collisionkey_latest.json")
+    _f383 = json.load(open(_p383, encoding="utf-8")) if os.path.exists(_p383) else None
+    if _f383 is None:
+        _bad383.append("no published collision-key face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m383 = __import__("importlib").import_module("e383_shared_key_collision")
+        _s383 = _f383.get("summary") or {}
+        if _f383.get("verdict") not in {_m383.V_CONSUMED, _m383.V_MERGED_UNREAD,
+                                        _m383.V_NO_COLLISION, _m383.V_EMPTY}:
+            _bad383.append("verdict %r is outside the frozen vocabulary"
+                           % str(_f383.get("verdict"))[:60])
+        _rows383 = _f383.get("collisions") or []
+        if len(_rows383) + (_f383.get("collisions_truncated") or 0) \
+                != _s383.get("keys_with_multiple_values"):
+            _bad383.append("the collision rows do not re-add to the multi-value key count")
+        for _r383 in _rows383:
+            if not _r383.get("sites"):
+                _bad383.append("a collision row names no site: %s" % _r383.get("key"))
+                break
+            if _r383.get("state") == _m383.STATE_TWO_FILES:
+                if (_r383.get("files_on_disk") or 0) < 2:
+                    _bad383.append("a two-file row names fewer than two files: %s"
+                                   % _r383.get("key"))
+                    break
+                if len(_r383.get("identified_files") or []) \
+                        + (_r383.get("identified_files_truncated") or 0) \
+                        != _r383.get("files_on_disk"):
+                    _bad383.append("a two-file row's file list does not match its count: %s"
+                                   % _r383.get("key"))
+                    break
+            if _r383.get("state") == _m383.STATE_MANY and not _r383.get("ambiguous_values"):
+                _bad383.append("an ambiguous row names no ambiguous value: %s" % _r383.get("key"))
+                break
+        if sum(_s383.get(k) or 0 for k in ("keys_merging_two_identified_files",
+                                           "keys_coarser_than_any_one_file",
+                                           "keys_alias_only",
+                                           "keys_unresolved_values")) \
+                != _s383.get("keys_with_multiple_values"):
+            _bad383.append("the four states do not partition the multi-value keys")
+        if (_s383.get("keys_merging_two_identified_files") or 0) \
+                + (_s383.get("keys_coarser_than_any_one_file") or 0) \
+                != _s383.get("keys_naming_two_or_more_files"):
+            _bad383.append("the merged count is not the two merged states")
+        _table383 = _f383.get("merged_key_table") or []
+        if len(_table383) != _s383.get("keys_naming_two_or_more_files"):
+            _bad383.append("the merged-key table does not hold one row per merged key")
+        if sum(_t383.get("counted_consumptions") or 0 for _t383 in _table383) \
+                != _s383.get("merged_keys_listed_beside_other_keys"):
+            _bad383.append("the table's counted consumptions do not re-add to the summary")
+        _merged383 = {_r383.get("key") for _r383 in _rows383
+                      if _r383.get("state") in (_m383.STATE_TWO_FILES, _m383.STATE_MANY)}
+        for _c383 in (_f383.get("consumer_rows") or []):
+            if _c383.get("key") not in _merged383:
+                _bad383.append("a consumer quotes a key that is not merged: %s" % _c383.get("key"))
+                break
+        if _f383.get("verdict") != _m383.decide(_s383):
+            _bad383.append("the verdict does not re-derive from the summary")
+        if _m383.verify() != 0:
+            _bad383.append("the study's own verify does not come back clean")
+        _name383 = ("product: one face key names %d file(s) (%d keys merging %d identified files), "
+                    "and %d key(s) are consumed from a published key list"
+                    % (_s383.get("keys_naming_two_or_more_files") or 0,
+                       _s383.get("keys_merging_two_identified_files") or 0,
+                       _s383.get("files_merged_by_a_key") or 0,
+                       _s383.get("distinct_merged_keys_consumed") or 0))
+except Exception as _e383:
+    _bad383.append(repr(_e383)[:160])
+check(_name383, not _bad383, "; ".join(_bad383)[:220]
+      or "%d keys, %d naming 2+ files, %d quoting rows (%d in a key list); verdict %s"
+         % ((_s383 or {}).get("keys") or 0, (_s383 or {}).get("keys_naming_two_or_more_files") or 0,
+            (_s383 or {}).get("merged_keys_quoted_by_a_published_face") or 0,
+            (_s383 or {}).get("merged_keys_listed_beside_other_keys") or 0,
+            str((_f383 or {}).get("verdict"))[:80]))
+
+
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass
