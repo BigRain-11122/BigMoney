@@ -1,15 +1,14 @@
 {
  "asof": "2026-10-27",
- "clock_cell": "ORANGE_COOL",
+ "clock_cell": "RED_COOL",
  "regime_v3": {
-  "state": "ORANGE",
-  "asof": "2026-10-29",
-  "days_in_state": 10,
+  "state": "RED",
+  "asof": "2026-11-03",
+  "days_in_state": 3,
   "triggers": [
-   "breadth 0.88>=80% slope -0.0417<0",
    "hs300<MA200 (#10 collected)",
-   "breadth 0.88>=65%",
-   "event window (appendix A)"
+   "breadth 0.73>=65%",
+   "breadth 0.88>=65%"
   ]
  },
  "heat_composite": {
@@ -18,98 +17,23 @@
   "rolling250_p80_rows": 96.0,
   "heat": "COOL"
  },
- "sector_board_top8": [
-  {
-   "symbol": "sh560150",
-   "r5": -0.0085,
-   "r20": 0.0265,
-   "r60": 0.0431
-  },
-  {
-   "symbol": "sh563980",
-   "r5": -0.005,
-   "r20": 0.0226,
-   "r60": 0.0174
-  },
-  {
-   "symbol": "sz159355",
-   "r5": -0.0241,
-   "r20": 0.0105,
-   "r60": 0.0125
-  },
-  {
-   "symbol": "sz159332",
-   "r5": -0.0416,
-   "r20": 0.0024,
-   "r60": 0.0551
-  },
-  {
-   "symbol": "sh513820",
-   "r5": -0.0265,
-   "r20": -0.044,
-   "r60": -0.054
-  },
-  {
-   "symbol": "sh516720",
-   "r5": -0.0238,
-   "r20": -0.0967,
-   "r60": -0.1245
-  },
-  {
-   "symbol": "sh560510",
-   "r5": -0.0387,
-   "r20": -0.1344,
-   "r60": -0.1524
-  }
- ],
- "sector_board_bottom5": [
-  {
-   "symbol": "sz159355",
-   "r5": -0.0241,
-   "r20": 0.0105,
-   "r60": 0.0125
-  },
-  {
-   "symbol": "sz159332",
-   "r5": -0.0416,
-   "r20": 0.0024,
-   "r60": 0.0551
-  },
-  {
-   "symbol": "sh513820",
-   "r5": -0.0265,
-   "r20": -0.044,
-   "r60": -0.054
-  },
-  {
-   "symbol": "sh516720",
-   "r5": -0.0238,
-   "r20": -0.0967,
-   "r60": -0.1245
-  },
-  {
-   "symbol": "sh560510",
-   "r5": -0.0387,
-   "r20": -0.1344,
-   "r60": -0.1524
-  }
- ],
- "fresh_universe_n": 7,
- "breadth_r20_pos": 0.571,
+ "sector_board_top8": [],
+ "sector_board_bottom5": [],
+ "fresh_universe_n": 0,
+ "breadth_r20_pos": null,
  "active_sleeves": [
-  "grid sleeve (grid) NOT activated (NOT_ACTIVATED_FALSIFIED; FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative))",
-  "mean-reversion range sleeve (mean_reversion) NOT activated (NOT_ACTIVATED_NO_EVIDENCE)",
-  "dividend-lowvol base position (divlowvol) NOT activated (NOT_ACTIVATED_JUDGED_NEGATIVE; JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2))",
-  "zero evidence-backed sleeves activate in this cell (fail-closed, O-20260926-1342 sec.1.4)"
+  "air-defense cash leg ACTIVATED (structural cash >=80%; strategy risk-leg NOT activated -- no RED-state evidence)"
  ],
  "l3_evidence": {
-  "activated": [],
+  "activated": [
+   "airdefense_cash"
+  ],
   "evidence_face": "results/strategy_scorecard.json profile_cards",
   "evidence_cutoff": "2026-09-24",
   "prereg": "research/L3_ACTIVATION_EVIDENCE.md",
   "prereg_sha256_16": "3304f84f60826cd6"
  },
- "position_cap_ladder": 0.5,
+ "position_cap_ladder": 0.2,
  "canon": "research/MARKET_CLOCK_COMBO.md s0 v1.2 (L3 evidence-driven per O-20260926-1342 sec.3; L1/L2/L5 v1.0 lines)",
  "lane_machine": "bm-b"
 }

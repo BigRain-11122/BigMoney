@@ -2,7 +2,7 @@
  "ticket": "T-2026-09-25-63",
  "order": "O-20260925-1755",
  "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
- "generated": "2026-10-29T08:39:42",
+ "generated": "2026-11-03T21:18:37",
  "naming_reconciliation": "charter sec.4 names strategy_scorecard.py/json; T-07 delivered the strategy face as scripts/scorecard.py -> results/scorecard_v1.json (disclosed in that file). This v2 file IS the charter-named three-card artifact: strategy face = reused engine (zero rebuild), trader/portfolio cards = new.",
  "calibration_state": "calibrated (SCORECARD_CALIB_P1 frozen; evidence_cutoff 2026-09-22): trader/portfolio composite totals & grades emitted from frozen weight/band values (results/strategy_scorecard_calib.json); strategy-face totals = v1.0 frozen; discipline veto faces gate the grade (sec 8.2). Evaluation never overrides gates (sec 8.3).",
  "unified_law": {
@@ -136,9 +136,9 @@
      "8": {
       "score": 0.0,
       "weight": 0.0,
-      "status": "untested",
+      "status": "pending_first_month",
       "reads": {
-       "paper_months_tracked": 0
+       "paper_months_tracked": 1
       },
       "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
      }
@@ -260,9 +260,9 @@
      "8": {
       "score": 0.0,
       "weight": 0.0,
-      "status": "untested",
+      "status": "pending_first_month",
       "reads": {
-       "paper_months_tracked": 0
+       "paper_months_tracked": 1
       },
       "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
      }
@@ -384,9 +384,9 @@
      "8": {
       "score": 0.0,
       "weight": 0.0,
-      "status": "untested",
+      "status": "pending_first_month",
       "reads": {
-       "paper_months_tracked": 0
+       "paper_months_tracked": 1
       },
       "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
      }
@@ -508,9 +508,9 @@
      "8": {
       "score": 0.0,
       "weight": 0.0,
-      "status": "untested",
+      "status": "pending_first_month",
       "reads": {
-       "paper_months_tracked": 0
+       "paper_months_tracked": 1
       },
       "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
      }
@@ -633,9 +633,9 @@
      "8": {
       "score": 0.0,
       "weight": 0.0,
-      "status": "untested",
+      "status": "pending_first_month",
       "reads": {
-       "paper_months_tracked": 0
+       "paper_months_tracked": 1
       },
       "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
      }
@@ -757,9 +757,9 @@
      "8": {
       "score": 0.0,
       "weight": 0.0,
-      "status": "untested",
+      "status": "pending_first_month",
       "reads": {
-       "paper_months_tracked": 0
+       "paper_months_tracked": 1
       },
       "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
      }
@@ -794,14 +794,14 @@
    },
    "live_paper": {
     "state": "tested",
-    "months_tracked": 0,
-    "n_monthly_returns": 0,
-    "current_dd": -0.0182,
+    "months_tracked": 1,
+    "n_monthly_returns": 1,
+    "current_dd": -0.0195,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 994659.77,
-     "positions_value_cny": 765586.14,
-     "cash_cny": 229073.63,
+     "equity_cny": 985807.36,
+     "positions_value_cny": 756733.72,
+     "cash_cny": 229073.64,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
     },
@@ -811,10 +811,10 @@
     },
     "cost_x2_check": {
      "status": "ok",
-     "paper_window_sharpe_x2": -1.3837,
+     "paper_window_sharpe_x2": -4.1326,
      "skill_bar": 0.4004,
      "survive": false,
-     "margin": -1.7841,
+     "margin": -4.533,
      "note": "rolling x2-cost safety on paper window to date"
     }
    },
@@ -851,11 +851,11 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 78.0,
+    "total": 78.8,
     "grade": "S",
     "face_scores": {
      "inherited": 77.4,
-     "live_paper": 28.9,
+     "live_paper": 37.2,
      "progress": 0.0,
      "profile": 88.3
     },
@@ -896,13 +896,13 @@
    },
    "live_paper": {
     "state": "tested",
-    "months_tracked": 0,
-    "n_monthly_returns": 0,
-    "current_dd": -0.0245,
+    "months_tracked": 1,
+    "n_monthly_returns": 1,
+    "current_dd": -0.0261,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 989313.68,
-     "positions_value_cny": 659094.24,
+     "equity_cny": 980277.34,
+     "positions_value_cny": 650057.9,
      "cash_cny": 330219.44,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
@@ -913,10 +913,10 @@
     },
     "cost_x2_check": {
      "status": "ok",
-     "paper_window_sharpe_x2": -2.3472,
+     "paper_window_sharpe_x2": -4.7379,
      "skill_bar": 0.4004,
      "survive": false,
-     "margin": -2.7476,
+     "margin": -5.1383,
      "note": "rolling x2-cost safety on paper window to date"
     }
    },
@@ -953,11 +953,11 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 75.0,
+    "total": 75.8,
     "grade": "S",
     "face_scores": {
      "inherited": 72.8,
-     "live_paper": 28.5,
+     "live_paper": 36.8,
      "progress": 0.0,
      "profile": 86.1
     },
@@ -998,14 +998,14 @@
    },
    "live_paper": {
     "state": "tested",
-    "months_tracked": 0,
-    "n_monthly_returns": 0,
-    "current_dd": -0.0061,
+    "months_tracked": 1,
+    "n_monthly_returns": 1,
+    "current_dd": -0.0081,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 994149.51,
-     "positions_value_cny": 47924.91,
-     "cash_cny": 946224.6,
+     "equity_cny": 991898.53,
+     "positions_value_cny": 49784.63,
+     "cash_cny": 942113.9,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
     },
@@ -1015,10 +1015,10 @@
     },
     "cost_x2_check": {
      "status": "ok",
-     "paper_window_sharpe_x2": -6.5527,
+     "paper_window_sharpe_x2": -8.0136,
      "skill_bar": 0.4004,
      "survive": false,
-     "margin": -6.9531,
+     "margin": -8.414,
      "note": "rolling x2-cost safety on paper window to date"
     }
    },
@@ -1055,11 +1055,11 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 79.2,
+    "total": 80.0,
     "grade": "S",
     "face_scores": {
      "inherited": 86.5,
-     "live_paper": 29.6,
+     "live_paper": 37.8,
      "progress": 0.0,
      "profile": 83.3
     },
@@ -1100,14 +1100,14 @@
    },
    "live_paper": {
     "state": "tested",
-    "months_tracked": 0,
-    "n_monthly_returns": 0,
-    "current_dd": -0.0082,
+    "months_tracked": 1,
+    "n_monthly_returns": 1,
+    "current_dd": -0.017,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 994573.51,
-     "positions_value_cny": 48106.06,
-     "cash_cny": 946467.45,
+     "equity_cny": 983016.19,
+     "positions_value_cny": 96123.1,
+     "cash_cny": 886893.09,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
     },
@@ -1117,10 +1117,10 @@
     },
     "cost_x2_check": {
      "status": "ok",
-     "paper_window_sharpe_x2": -2.6265,
+     "paper_window_sharpe_x2": -5.7731,
      "skill_bar": 0.4004,
      "survive": false,
-     "margin": -3.0269,
+     "margin": -6.1735,
      "note": "rolling x2-cost safety on paper window to date"
     }
    },
@@ -1157,11 +1157,11 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 71.1,
+    "total": 71.9,
     "grade": "S",
     "face_scores": {
      "inherited": 66.7,
-     "live_paper": 29.5,
+     "live_paper": 37.3,
      "progress": 0.0,
      "profile": 83.0
     },
@@ -1202,8 +1202,8 @@
    },
    "live_paper": {
     "state": "tested",
-    "months_tracked": 0,
-    "n_monthly_returns": 0,
+    "months_tracked": 1,
+    "n_monthly_returns": 1,
     "current_dd": 0.0,
     "capital": {
      "initial_cash_cny": 1000000.0,
@@ -1259,11 +1259,11 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 75.2,
+    "total": 76.0,
     "grade": "S",
     "face_scores": {
      "inherited": 77.1,
-     "live_paper": 30.0,
+     "live_paper": 38.3,
      "progress": 0.0,
      "profile": 82.7
     },
@@ -1304,13 +1304,13 @@
    },
    "live_paper": {
     "state": "tested",
-    "months_tracked": 0,
-    "n_monthly_returns": 0,
+    "months_tracked": 1,
+    "n_monthly_returns": 1,
     "current_dd": -0.0078,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 994417.07,
-     "positions_value_cny": 401530.69,
+     "equity_cny": 993176.05,
+     "positions_value_cny": 400289.67,
      "cash_cny": 592886.38,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
@@ -1321,10 +1321,10 @@
     },
     "cost_x2_check": {
      "status": "ok",
-     "paper_window_sharpe_x2": -4.9266,
+     "paper_window_sharpe_x2": -5.5042,
      "skill_bar": 0.4004,
      "survive": false,
-     "margin": -5.327,
+     "margin": -5.9046,
      "note": "rolling x2-cost safety on paper window to date"
     }
    },
@@ -1361,11 +1361,11 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 79.7,
+    "total": 80.5,
     "grade": "S",
     "face_scores": {
      "inherited": 87.0,
-     "live_paper": 29.5,
+     "live_paper": 37.9,
      "progress": 20.0,
      "profile": 83.8
     },
@@ -8374,7 +8374,7 @@
   "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
  },
  "audit": {
-  "elapsed_sec": 85.5,
+  "elapsed_sec": 92.0,
   "zero_new_backtests": true,
   "zero_engine_runs": true,
   "ledger_delta": 0,

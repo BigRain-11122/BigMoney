@@ -21,13 +21,15 @@
     }
   },
   "evidence_cutoff": "2026-09-22",
-  "cutoff": "2026-10-28",
-  "updated": "2026-10-28 16:36:49",
+  "cutoff": "2026-11-03",
+  "updated": "2026-11-03 21:13:57",
   "paper_start": "2026-09-24",
-  "bars": 19,
-  "months_tracked": 0,
-  "monthly_returns": [],
-  "current_dd": -0.0177,
+  "bars": 23,
+  "months_tracked": 1,
+  "monthly_returns": [
+    -0.0098
+  ],
+  "current_dd": -0.017,
   "months_detail": [
     {
       "month": "2026-09",
@@ -39,17 +41,29 @@
     },
     {
       "month": "2026-10",
-      "return": -0.0121,
-      "bars": 15,
+      "return": -0.0098,
+      "bars": 17,
+      "month_ended": true,
+      "full_from_hire": true,
+      "counted": true
+    },
+    {
+      "month": "2026-11",
+      "return": -0.002,
+      "bars": 2,
       "month_ended": false,
       "full_from_hire": true,
       "counted": false
     }
   ],
   "window_metrics": {
-    "win_rate": 0.2222,
-    "num_trades": 9,
-    "avg_hold_days": 4.89,
+    "annual_return": -0.0906,
+    "sharpe": -2.2256,
+    "max_drawdown": -0.017,
+    "win_rate": 0.1818,
+    "profit_factor": 0.2481,
+    "num_trades": 11,
+    "avg_hold_days": 4.18,
     "fill_guard_buy_dropped": 0,
     "fill_guard_sell_deferred_events": 0,
     "fill_guard_deferred_days_total": 0,
@@ -59,10 +73,7 @@
       "sell_deferred": 0,
       "violations": 0
     },
-    "status": "insufficient_data",
-    "bars": 19,
-    "floor": 20,
-    "note": "annualized/Sharpe-class stats suppressed (bars<20, D-20260930-27 Q3) -- must not be quoted"
+    "scaled_entries": 10
   },
   "recorded_evidence": {
     "recorded_full_sharpe": 0.2553,
@@ -73,13 +84,10 @@
     "recorded_max_dd": -0.2207
   },
   "regime_guard": {
-    "mode": "shadow",
-    "state": "ORANGE",
-    "state_cn": "橙·高危",
-    "asof": "2026-10-27",
-    "raw_level": "ORANGE",
-    "days_in_state": 8,
-    "note": "shadow = log-only; enforce needs calibration PASS + GM approval (T-05)"
+    "mode": "enforce",
+    "approved": true,
+    "active_from": "2026-10-01",
+    "note": "v3 response matrix wired (T-21); per-date semantics governed by the date gate -- pre-active_from window dates stay legacy"
   },
   "forward_guard": {
     "enabled": true,
