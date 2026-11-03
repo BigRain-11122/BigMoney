@@ -4483,7 +4483,7 @@
  "round_pit": "(1) a subscript store is a write -- face['x'] = ... was published as a wrong-side read; (2) a neighbour directory is not the family -- trial_labor_w22_confirm is wave 22 of nothing; (3) a key name that matches is not evidence of a face read -- the literal must be attributed to the path the read actually opens",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
  "s1": "the full ~330-leg suite was not re-run this window (~30 min); the new E394 leg was extracted verbatim from smoke_test.py and executed standalone (PASS 1/1)",
- "s6": "chain leg phantom_why wired and its exact command run (verify, problems=[], 0.07 s) | orphan probe py_faces=17 orphans=0 residents=0 | attrition guard CLEAN (4 ledgers) | dualrun, compute_audit, py_watermark, the lane collectors and the paper/scorecard faces were NOT re-run this window (wall budget, stated plainly)",
+ "s6": "chain leg phantom_why wired and its exact command run (verify, problems=[], 0.07 s) | orphan probe py_faces=17 orphans=0 residents=0 | attrition guard CLEAN (4 ledgers) | pool dualrun ZERO-DRIFT (877 entries, drift-free streak 39) | py_watermark verdict insufficient_history (window n=1, 3 pool-ready) | compute_audit FLAG gpu_unauthorized+supply_gap: the GPU is held by external MCP/Blender python processes started 16:52-17:08, not by a bm-b burn (GPU production stays parked, C-20261014-01); supply floor breach=false | the lane collectors, market_regime/clock, update_* and the paper/scorecard/dashboard faces were NOT re-run this window (wall budget, stated plainly)",
  "s6_leg": "schema_accretion rc=0 0.95s (Tools/s6_chain_bmb.py 1405 --only)",
  "s6_note": "the S6 maintenance chain was NOT re-run this window",
  "s7": "orders scan at open: no unacked bigmoney row found in this window's check | loop task / watchdog / claws not re-registered this window (their own ticks cover it) | delivery goes to machine/bm-b-r1411 because local main stays diverged from origin/main",
@@ -4523,7 +4523,7 @@
  "ts_utc_ms": 1793676365000,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-03T17:22:00+08:00",
- "updated_at": "2026-11-03T17:22:00+08:00",
+ "updated_at": "2026-11-03T17:31:00+08:00",
  "verdict": "no_residual_read_is_a_broken_reader_it_is_depth_producer_or_moved_name",
  "verdict_line": "E393's cap left 218 reads on a face lacking their key; all of them are a producer that can write the key (131), a key another read witnesses in another face (69), counted-but-unwitnessed (16) or unparsed (2) -- zero broken readers, zero at another depth",
  "verify": "e388 selftest 33/33 | verify problems=[] | smoke leg exec verbatim PASS",
@@ -4568,5 +4568,10 @@
   ],
   "not_run": "full smoke suite, remaining S6 legs, update_* collectors, paper/scorecard faces; GPU and cloud untouched",
   "ts": "2026-11-03T17:22:00+08:00"
- }
+ },
+ "audit_flags": [
+  "gpu_unauthorized",
+  "supply_gap"
+ ],
+ "audit_flag_note": "gpu_unauthorized = 4 uv python.exe on the GPU, all MCP/Blender children started 16:52-17:08 by the interactive environment, none of them a bm-b batch; supply_gap = pool ready 3 vs floor 3, breach=false"
 }
