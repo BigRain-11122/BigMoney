@@ -1,9 +1,21 @@
 {
  "evidence_cutoff": "2026-11-01",
- "members": 2415,
- "pin_id": "37f8cc35998b72df67510b2421ed87baebaa356a463ba6ee9c151ec22e0c3bbc",
+ "members": 2460,
+ "pin_id": "3c7251e86e58b8e1b6c757674532b776600d9d83b7b77fe710f96c1e8baf1c20",
  "rule": "sha256 over LF-normalised text, one line per `path<TAB>digest`, order-free",
  "sources": [
+  {
+   "path": "scripts/_closeout_r1422.py",
+   "sha256": "07dcb58ddd00f59763d752d50660bdf6e96be6dde0b73f891037f7b320480f3a"
+  },
+  {
+   "path": "scripts/_insert_e401_leg.py",
+   "sha256": "0a9c0c76b21952488da966cb19faaf571f61785b0cbd526b994c003bd802d089"
+  },
+  {
+   "path": "scripts/_postscript_r1422.py",
+   "sha256": "2c03af60ea41bf402b492c49dc11d2545cb82e58343a8154998c6db10038d7e1"
+  },
   {
    "path": "scripts/_probe_688_raw.py",
    "sha256": "57af7d68f2e7c3b7a31de35f2db282d40eca2b8d85049a80905ae24a4c3edc69"
@@ -151,6 +163,18 @@
   {
    "path": "scripts/_r1392bmb_probe_read.py",
    "sha256": "57cbbf3c4b5110f9bfb19fd83450f1fd06067d1bc9774dd8a0e6e6f58abc5843"
+  },
+  {
+   "path": "scripts/_r1421bmb_card_seed.py",
+   "sha256": "b1ed394be29cc14675cfc9ab0d21bfc9ae3a3166881cfcb0ea93ef43a5e1da72"
+  },
+  {
+   "path": "scripts/_r1421bmb_closeout.py",
+   "sha256": "3dde8fcb0c89dbc05ce78101b53ca43b690e90a551f66531391f5e5761a32af5"
+  },
+  {
+   "path": "scripts/_r1421bmb_pool_flip.py",
+   "sha256": "d91eb24ae8dfde140a8c1369ee2776e0188c4f71a3fcdd67a24d856dc149bdcc"
   },
   {
    "path": "scripts/_r853bma_oss_ledger_append.py",
@@ -1293,16 +1317,96 @@
    "sha256": "2515fb878bd24bf542e7ae9de45f658e4e59e1d820fb1b299e61a3cccc029b82"
   },
   {
+   "path": "scripts/e384_never_opened_key.py",
+   "sha256": "53437e185ef8f722525e7a78ccd1ca6e9b7578f8ec6971b362c2d06b089e27df"
+  },
+  {
+   "path": "scripts/e385_merged_key_split.py",
+   "sha256": "1b7ecb5f7e210f5a74a3fae2116cf7adf1a622f99ab86b95cb599de51f847c45"
+  },
+  {
+   "path": "scripts/e386_merged_key_cost.py",
+   "sha256": "c24e98ffab9ea5780869e8a4636a849b1efdff26769b72971365396ba4af2a47"
+  },
+  {
    "path": "scripts/e387_republish_audit.py",
    "sha256": "748279d55951e62f029f9290233f11dfb3134bf42399d3b04bc169eca8901285"
+  },
+  {
+   "path": "scripts/e388_schema_accretion.py",
+   "sha256": "63cf8db973838a528fcd17b3d2d2167e85c7c05ef95e6c31d3d4c358a2280413"
+  },
+  {
+   "path": "scripts/e389_family_glob_readers.py",
+   "sha256": "69ec416cfbde8eb28042181c3da3291f53cea1ebb25f965dc66e819cf0ab65df"
   },
   {
    "path": "scripts/e38_panel_drift_census.py",
    "sha256": "bf30cba1199555a1d4e747efaacecd43b3610fff741340d7f0e6adfd134daf41"
   },
   {
+   "path": "scripts/e390_wrong_side_reader.py",
+   "sha256": "83f70e490c9067b7172a77b72069dc2bd14ab91f8232549af910519a9c60ad2b"
+  },
+  {
+   "path": "scripts/e391_key_name_two_meanings.py",
+   "sha256": "632ba8a35ff70f1bc34af555f525be737949017c3a09ffdf8298df667f2bacac"
+  },
+  {
+   "path": "scripts/e392_read_resolve.py",
+   "sha256": "33d028c7ec77ddaf882a8a054500f334c8e653f59ed33ff8bf58b13eed9938c9"
+  },
+  {
+   "path": "scripts/e393_read_cap_price.py",
+   "sha256": "9bce8c2fe30d23e734e34a5bbc4331f5f6ffcbddd52224d775c445067505ba16"
+  },
+  {
+   "path": "scripts/e394_phantom_why.py",
+   "sha256": "32f9f6a6246c70ecf5a417d3af2d46f01866ec743ca3fe5569ab91c8d2775376"
+  },
+  {
+   "path": "scripts/e395_conditional_write.py",
+   "sha256": "e8a1034bae95ce255363f4db26770f3221525dee54c28d9b3f1bc4b0778d9b3b"
+  },
+  {
+   "path": "scripts/e396_face_basename_suffix.py",
+   "sha256": "af7ed11e62d10966c7503101a0dbc9653b9fc9df3b48e2d9f3f5110f814c8fe2"
+  },
+  {
+   "path": "scripts/e396_last_tick.py",
+   "sha256": "e58c5aceb240e9a47015c2ed154405d83a89377d343fa5377bbfc15507418b49"
+  },
+  {
+   "path": "scripts/e397_walk_ambiguity.py",
+   "sha256": "167b74a47ece5ae5c5c950bdab9a241a360599d2a1121e8728e7ac20a9f9f287"
+  },
+  {
+   "path": "scripts/e398_latest_family.py",
+   "sha256": "c076fb94de268ef01a4e1b612037f89b5253b628f95bb27286eb15077c8f91df"
+  },
+  {
+   "path": "scripts/e399_unresolved_names.py",
+   "sha256": "7c2db539b489d1f14c82e492ef04ac57115a2c24c5eda59c003512ee835aaa10"
+  },
+  {
    "path": "scripts/e39_panel_census.py",
    "sha256": "c99b2e6c38d2b5fe7a256ea45d2b663aebed739765c4ce2eeaa2eb55891d961f"
+  },
+  {
+   "path": "scripts/e401_local_reader.py",
+   "sha256": "f55b7b831a7e1b494553aa34b848af324259266c4cd6c37eea8f9909206f1d8f"
+  },
+  {
+   "path": "scripts/e402_fragment_producers.py",
+   "sha256": "b4bfc7731a87e95c982950036b4c13e069710337abe1641983862da644e9bfbd"
+  },
+  {
+   "path": "scripts/e404_constant_directory_resolution.py",
+   "sha256": "e4881a0be168d7a068e58cd652b96b8d0dfd9ad468be7acaff1f800d825537ce"
+  },
+  {
+   "path": "scripts/e405_dead_read_failure_mode.py",
+   "sha256": "cf847e4b2bd6ed6fb9f910126da825d9c867f89e62b60bae3ad1eea3c0c8856d"
   },
   {
    "path": "scripts/e79_face_screen_matrix.py",
@@ -1943,6 +2047,10 @@
   {
    "path": "scripts/j13v2_mill.py",
    "sha256": "21a8558b3453ebbefa884b09f3725a91ae8817af77022de038fc94dcdbedfc3e"
+  },
+  {
+   "path": "scripts/lane_host_ownership.py",
+   "sha256": "3b0a781dd101beff1960b5729f092b7be9e7362e305e2ad7f622f5cf9209c720"
   },
   {
    "path": "scripts/lfc_p1_screen.py",
@@ -2697,8 +2805,80 @@
    "sha256": "dda4f99eee667cf80079cadf4df6b116d12b04ba14e86ac49276aa14d0b6657f"
   },
   {
+   "path": "scripts/run_e385_smoke_leg.py",
+   "sha256": "4d96e09abd2a32b685c2f9c33fd4b6b746e1ee967e3c002fc9d417aeef95fdaf"
+  },
+  {
+   "path": "scripts/run_e386_smoke_leg.py",
+   "sha256": "09662de5bb07ba6bb0085baeffaf611c049c5cb647a72c3559c2163b6afa37a5"
+  },
+  {
    "path": "scripts/run_e387_smoke_leg.py",
    "sha256": "c16044b8f5e9f7167c73d24dc77829e937e4993c9b4d8d4eb944f4f22ebda68b"
+  },
+  {
+   "path": "scripts/run_e388_smoke_leg.py",
+   "sha256": "e8e9c8543972e4106dc42f17d67246b2ccd4191d1f297d6b08502c45ea12c321"
+  },
+  {
+   "path": "scripts/run_e390_smoke_leg.py",
+   "sha256": "ac48068667c11d72210d5423fd76af2f3653af3bc2faed849f9343b0c12a2880"
+  },
+  {
+   "path": "scripts/run_e391_smoke_leg.py",
+   "sha256": "37f50313b44ff70c2cc0f373a51f154592b1b2d9ce669a731ca986b3bf55378c"
+  },
+  {
+   "path": "scripts/run_e392_smoke_leg.py",
+   "sha256": "ea9e7682d7c5bb7eeb81a35698f9e31258c85dfddf5be9e06f56b6a1a8f2cb87"
+  },
+  {
+   "path": "scripts/run_e393_smoke_leg.py",
+   "sha256": "89e4f2c40dcf07571617a9288102a0f9cb85ba5a4b77ea2f3c6e80cc3f54966f"
+  },
+  {
+   "path": "scripts/run_e394_smoke_leg.py",
+   "sha256": "1f3f3c640e9983cb97258e7ceb36e19f88b42dbcf313b5d37b7713337cc9b227"
+  },
+  {
+   "path": "scripts/run_e395_smoke_leg.py",
+   "sha256": "401ed2cd8af96da87ab42b3d0555f729df09429ca44876706c8346e7ed1800b0"
+  },
+  {
+   "path": "scripts/run_e396_smoke_leg.py",
+   "sha256": "1d1c3b2eb4c61c8acdd9610b18175d75650e77ae82ad39e2963545221b9b21d2"
+  },
+  {
+   "path": "scripts/run_e397_smoke_leg.py",
+   "sha256": "46986ecbdb9f40887f9c0642501320c119a61e6d1927727c10638bb575af069b"
+  },
+  {
+   "path": "scripts/run_e398_smoke_leg.py",
+   "sha256": "973c44e111122a6f95081d28fcb5275c2090fe57d31c3473e3a1ebb8d940dacf"
+  },
+  {
+   "path": "scripts/run_e399_smoke_leg.py",
+   "sha256": "f661aa4fc9f2bb2fabad27248510f30cb7418ccf97f14379395abdd4e2203608"
+  },
+  {
+   "path": "scripts/run_e401_smoke_leg.py",
+   "sha256": "60a5ece063c33224c71a0680b46d1104230c77e91ec26c138609e62cf9ff5e12"
+  },
+  {
+   "path": "scripts/run_e402_smoke_leg.py",
+   "sha256": "8257ac839be37d11d6eafd13f3247792df1f7c25b84ac4954f73080194f6421d"
+  },
+  {
+   "path": "scripts/run_e404_smoke_leg.py",
+   "sha256": "7ff3236fcdef393cf50cd223f38dfbe692e67d1da2f8be956376c52a05f6f662"
+  },
+  {
+   "path": "scripts/run_e405_smoke_leg.py",
+   "sha256": "6afe71baebd7f19606585947bc2c1c58b82743c21c7bcfca75599ad963fd678b"
+  },
+  {
+   "path": "scripts/run_lane_host_ownership_smoke_leg.py",
+   "sha256": "280e7cfe07a40009b7b7744edb86e41e9407b2c45b8c6b1b92adebc4e26e6763"
   },
   {
    "path": "scripts/saturation_engine.py",
@@ -9574,7 +9754,7 @@
   },
   {
    "path": "Tools/s6_chain_bmb.py",
-   "sha256": "49233eea62f47197982c0b4d60c7053a54cbbc8da0ed52e71546282d9fd832f8"
+   "sha256": "c6f2946981403ff5cb18e27029daeb72024df37fb02eeafedbd63bed398790f3"
   },
   {
    "path": "Tools/s6_chain_bmc.py",
