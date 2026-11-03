@@ -57,13 +57,20 @@
    "shipped": true
   },
   "new_name_is_exported": true,
-  "sources_read": 2365,
-  "sources_where_the_readings_differ": 1425
+  "sources_read": 2415,
+  "sources_where_the_readings_differ": 1471
  },
  "corpus": {
-  "members": 2365,
-  "pin_id": "bdea39e8163f354607b0b8b30dbde59ff0a074551f8ad879a25ebd972d318f36",
+  "members": 2415,
+  "pin_id": "37f8cc35998b72df67510b2421ed87baebaa356a463ba6ee9c151ec22e0c3bbc",
   "rule": "sha256 over LF-normalised text, one line per `path<TAB>digest`, order-free"
+ },
+ "corpus_source": {
+  "members": 2415,
+  "pin_file": "CORPUSPIN-SIBLINGENTRY-2026-11-01.json",
+  "pin_id": "37f8cc35998b72df67510b2421ed87baebaa356a463ba6ee9c151ec22e0c3bbc",
+  "rule": "sha256 over LF-normalised text, one line per `path<TAB>digest`, order-free",
+  "written_at_build": true
  },
  "decision": {
   "inputs": {
@@ -136,8 +143,8 @@
    "source": "scripts/trial_labor_w16.py"
   }
  ],
- "differing_sources_total": 1425,
- "differing_sources_truncated": 1417,
+ "differing_sources_total": 1471,
+ "differing_sources_truncated": 1463,
  "e326_bindings": {
   "bindings": [
    {
@@ -834,17 +841,11 @@
   "mentions_of_the_new_name_that_are_not_reads": 1,
   "modules_that_rebind_a_reading_name": 0,
   "reading_names_added": 2,
-  "sources_read": 2365,
-  "sources_where_the_readings_differ": 1425,
+  "sources_read": 2415,
+  "sources_where_the_readings_differ": 1471,
   "studies_that_patch_and_restore_in_a_finally": 16,
   "unlisted_consumers_of_the_new_name": 0
  },
  "verdict": "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce",
- "verdict_reason": "the_published_delta_does_not_reproduce_through_the_new_name",
- "corpus_source": {
-  "pin_file": "CORPUSPIN-2026-11-02.json",
-  "pin_id_of_pin": "535be1fe6cc7445c98495e8282e7ae626cfc5575b176a7836a7bd33b993a3c9f",
-  "git_commit": "1244ee231290e6ed13979acf474feb14dddd0dd0",
-  "replay": "e362 blob_texts + content store, working tree not read"
- }
+ "verdict_reason": "the_published_delta_does_not_reproduce_through_the_new_name"
 }

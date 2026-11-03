@@ -1,5 +1,5 @@
 {
-  "corpus_files": 2326,
+  "corpus_files": 2426,
   "evidence_cutoff": "2026-11-01",
   "generated": "2026-11-01",
   "producers": [
@@ -1636,6 +1636,7 @@
         "scripts/census_w2b_d8_export.py",
         "scripts/census_w2b_roster.py",
         "scripts/daily_source_probe.py",
+        "scripts/exchange_calendar_audit.py",
         "scripts/exclusion_marginal_scan.py",
         "scripts/mf_ic_p1.py",
         "scripts/open_market_readiness.py",
@@ -1758,6 +1759,7 @@
           "external_readers": [
             "Tools/_r779bmc_close.py",
             "monitor/build_status.py",
+            "scripts/exchange_calendar_audit.py",
             "scripts/science_audit.py",
             "scripts/update_futures.py",
             "scripts/update_repo.py"
@@ -1791,6 +1793,7 @@
             "Tools/_r551bmc_merge_resolve.py",
             "Tools/_r552bmc_merge_resolve.py",
             "scripts/daily_source_probe.py",
+            "scripts/exchange_calendar_audit.py",
             "scripts/update_futures.py",
             "scripts/update_repo.py"
           ],
@@ -2110,11 +2113,12 @@
           "declared_in_literal": true,
           "external_readers": [
             "Tools/_r779bmc_close.py",
-            "monitor/build_status.py"
+            "monitor/build_status.py",
+            "scripts/exchange_calendar_audit.py"
           ],
           "key": "total_new_rows",
           "latch": false,
-          "reader_tier": "display_only",
+          "reader_tier": "live",
           "self_decision_reads": 4,
           "self_reads": 5,
           "write_bases": [
@@ -2131,6 +2135,7 @@
           "external_readers": [
             "Tools/_r648bmc_close.py",
             "Tools/_r688bmc_rebase_resolve.py",
+            "scripts/exchange_calendar_audit.py",
             "scripts/rev_osc_signal_export.py",
             "scripts/system_v1_paper.py",
             "scripts/update_heat.py",
@@ -2259,6 +2264,7 @@
         "scripts/daily_source_probe.py",
         "scripts/daily_validate.py",
         "scripts/e346_status_writer_unread.py",
+        "scripts/exchange_calendar_audit.py",
         "scripts/exclusion_marginal_scan.py",
         "scripts/fund_avail_notice.py",
         "scripts/fund_h_unlock_eval.py",
@@ -2341,8 +2347,8 @@
       "self_fed_only": 19
     },
     "by_reader_tier": {
-      "display_only": 20,
-      "live": 8,
+      "display_only": 19,
+      "live": 9,
       "merge_only": 2,
       "no_reader": 44,
       "self_fed_only": 19
@@ -2354,7 +2360,6 @@
       "mode",
       "overlap_mismatches",
       "symbols",
-      "total_new_rows",
       "ts"
     ],
     "face_sizes": {
@@ -2616,6 +2621,7 @@
       "error",
       "mode",
       "symbol",
+      "total_new_rows",
       "ts",
       "updated"
     ],

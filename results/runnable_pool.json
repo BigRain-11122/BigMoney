@@ -26979,14 +26979,18 @@
    "status": "ready"
   },
   {
+   "done_at": "2026-11-03T10:52:26+08:00",
    "entered_at": "2026-11-03T09:01:27+08:00",
    "entered_by": "bm-b r1402",
    "id": "E387-REPUBLISH-THE-SIX-FACES-THAT-NO-LONGER-RE-DERIVE",
    "lane": "cpu-only",
    "notes": "static only, zero network; never widen a leg's assertion to make it pass, and never regenerate a face without publishing the delta beside it (E382's rule); the pinned replay is the only address that reproduces a face (E363)",
+   "owner": "bm-b",
    "priority": 1,
    "question": "The 08:59 smoke run is pass=277 fail=7. One red was this round's own heartbeat artifact and is fixed. The other six all compare a face published over an older corpus with a fresh build over today's: E305/E299 priced rows, E330 or_lines_offered_and_rejected_as_one_sided, E334/E335 the repaired-reading face that names no corpus, E363/E364 the census inventory whose siblingentry_latest.json names no pin on disk, E346 the status-key summary, and its runner-head leg. For each, publish three columns -- the number the face carries, the number a rebuild re-derives today, and the number a replay at the pin the face was built on re-derives -- then decide per face whether the corpus moved (republish) or the face was never reproducible (seam it, E368's rule). A face that cannot name its own corpus gets one before it is republished; a face whose replay reproduces parks until its next scheduled refresh.",
-   "status": "ready"
+   "result_note": "4 faces / 5 red legs priced as carried-at-HEAD vs fresh-today vs replay-at-pin; e335 now publishes its own corpus pin so the E363 address exists, E346 and E305 republished, E364 re-inventoried",
+   "result_ref": "results/state_tilt/REPUBLISH-2026-11-03.json",
+   "status": "done"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27001,6 +27005,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-03T09:01:27+08:00",
+ "updated_at": "2026-11-03T10:52:26+08:00",
  "version": 1
 }

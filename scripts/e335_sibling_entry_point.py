@@ -361,7 +361,30 @@ def e326_face_state():
     return {"source": E326_REL, "bindings": rows}
 
 
+def _corpus_address(files_used, target):
+    """E363/E387: the face names the population it counted, and the pin file is on disk.
+
+    The pin is written by this build from the same file list the numbers were computed over, so
+    the address cannot describe a different population. A pin whose digest is not what the face
+    stamped is never referenced: the face then says so instead of naming a stale address.
+    """
+    stamp = e361.stamp(files_used, root=ROOT)
+    sources = [{"path": e361.relpath(p, ROOT), "sha256": e361.digest(t)} for p, t in files_used]
+    name = "CORPUSPIN-SIBLINGENTRY-%s.json" % TODAY
+    pin = {"study": STUDY, "pin_id": stamp["pin_id"], "members": stamp["members"],
+           "rule": stamp["rule"], "sources": sources, "evidence_cutoff": TODAY,
+           "written_by": "scripts/e335_sibling_entry_point.py build()"}
+    if not os.path.isdir(target):
+        os.makedirs(target)
+    with io.open(os.path.join(target, name), "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(pin, fh, ensure_ascii=False, indent=1, sort_keys=True)
+        fh.write("\n")
+    return {"pin_file": name, "pin_id": stamp["pin_id"], "members": stamp["members"],
+            "rule": stamp["rule"], "written_at_build": True}
+
+
 def build(outdir=None, files=None):
+    files_used = files if files is not None else [(p, t) for p, t in e326.corpus()]
     texts = corpus_texts(files)
     coex = coexist(texts)
     delta = redelta(texts)
@@ -375,13 +398,14 @@ def build(outdir=None, files=None):
                 and delta["max_abs_diff"] <= TOL)
     verdict, reason = decide(delta_ok, inert["rebinds"], inert["unlisted_consumers"], coexist_ok,
                              allowlisted=len(inert["allowlisted_consumers"]))
+    target = outdir or OUTDIR
     doc = {
         "study": STUDY,
         "evidence_cutoff": TODAY,
         "verdict": verdict,
         "verdict_reason": reason,
-        "corpus": e361.stamp(files if files is not None else
-                             [(p, t) for p, t in e326.corpus()], root=ROOT),
+        "corpus": e361.stamp(files_used, root=ROOT),
+        "corpus_source": _corpus_address(files_used, target),
         "recommendation": "the tokenizer reading is available as a sibling entry point; switching a "
                           "consumer is a separate decision with its own republish cost (E334)",
         "summary": {

@@ -8471,3 +8471,46 @@ published E350/E353/E377 faces are read as published and never rebuilt.
 Wiring: `scripts/e383_shared_key_collision.py` (run / verify problems=[] / selftest 26/26); smoke leg
 E383 (`scripts/run_e383_smoke_leg.py` execs it verbatim, 1/1); S6 chain leg `shared_key_collision`;
 face `results/state_tilt/COLLISIONKEY-2026-11-03.json` + `collisionkey_latest.json`.
+
+## E388 -- a drifting leg has two causes, and the face that names no corpus cannot be republished at all
+
+The 08:59 suite was 277 pass / 7 fail. Six of the reds compared a face published over an older
+corpus with a fresh build over today's tree, so each red meant one of two things and the leg could
+not say which: the corpus moved (republish) or the face was never reproducible (a seam, E368). The
+third possibility -- the face cannot say what corpus it counted -- was the actual cause of two of
+them, and no amount of regeneration would have fixed it.
+
+Three columns are what separates the three cases, and the middle one alone is worthless:
+
+* **carried** -- `git show HEAD:<face>`. Not a remembered copy of the face, not the working file:
+  the published numbers.
+* **fresh** -- the study's own `build()` over today's tree. Equal to carried means the face still
+  reproduces and should be parked, not touched.
+* **replay** -- a build over the corpus the face pins. This is the column that decides. A `pin_id`
+  that is a digest over members is an *address*, not a corpus: it can prove two runs counted the same
+  bytes and it can prove this run counted different ones, but it cannot rebuild anything (E372: 128
+  members are held by no commit). A face whose pin stores only digests has a seam, not a replay --
+  publish that as the verdict instead of calling the face republished.
+
+Readings (4 faces / 5 red legs): 3 had moved since HEAD, 0 could be replayed from their pins, 3
+open a seam, 1 reproduced at HEAD and was parked. `siblingentry_latest.json` carried a `corpus`
+stamp with a `pin_id` and a member count that matched its own `sources_read` -- and no
+`corpus_source.pin_file`, so E363's inventory classified it STAMPED and then named no pin on disk.
+The repair is inside the builder: the same file list the numbers were computed over is written out as
+a pin beside the face, and the face references it. Nothing about the leg moved.
+
+The pit that cost the most: **a census over the live tree is self-perturbing.** The study's own new
+scripts join the corpus it counts, so a `pin_id` taken before the last script was written can never
+match the corpus after it -- the E387 fan-out has to rebuild the chain (pin owner -> inventory ->
+audit) on the settled tree and only then compare. The first E387 leg failed exactly this way, on
+`corpus_source.pin_id`, not on any number a reader cares about.
+
+Bound published, not claimed: the E364 inventory was rebuilt in place (it keeps one frozen face name
+by design, so its date is not a wall-clock vintage); E364's own count did not move, which localises
+its red to the missing pin rather than to the tree. Republishing a face is not widening its leg --
+`frozen_legs_edited: 0` is published in the face and asserted by the leg.
+
+Wiring: `scripts/e387_republish_audit.py` (run / verify problems=[] / selftest 11/11); smoke leg E387
+(`scripts/run_e387_smoke_leg.py` execs it verbatim, 1/1); face
+`results/state_tilt/REPUBLISH-2026-11-03.json` + `republish_latest.json`; the pin now written by
+`scripts/e335_sibling_entry_point.py` is `results/state_tilt/CORPUSPIN-SIBLINGENTRY-2026-11-01.json`.

@@ -1,0 +1,287 @@
+{
+ "evidence_cutoff": "2026-11-03",
+ "face": "REPUBLISH-2026-11-03.json",
+ "rows": [
+  {
+   "carried_at_head": {
+    "summary.census_face": "precisioncensus_latest.json",
+    "summary.census_published_face_level_rows": 8,
+    "summary.faces_read": 9,
+    "summary.n_at_risk_after": 0,
+    "summary.n_withdrawn": 8,
+    "summary.rows_priced": 8,
+    "summary.statement": "of the 8 at-risk rows E299 could only bound at face level, 8 are withdrawn: 4 rest on a value that is a container or a label rather than a printed number, 3 read a key that lives in a sibling face the same leg names, 1 name a key the producer writes inside per-record lists that are empty on this vintage; 0 stay at risk once the printed number is found. A face-level bound is an upper bound on resolution, not a measurement of the field.",
+    "verdict": "none_of_the_face_level_rows_is_at_risk"
+   },
+   "columns": {
+    "keys": 8,
+    "moved": 5,
+    "moved_detail": {
+     "summary.census_published_face_level_rows": {
+      "carried": 8,
+      "fresh": 14
+     },
+     "summary.faces_read": {
+      "carried": 9,
+      "fresh": 13
+     },
+     "summary.n_withdrawn": {
+      "carried": 8,
+      "fresh": 14
+     },
+     "summary.rows_priced": {
+      "carried": 8,
+      "fresh": 14
+     },
+     "summary.statement": {
+      "carried": "of the 8 at-risk rows E299 could only bound at face level, 8 are withdrawn: 4 rest on a value that is a container or a label rather than a printed number, 3 read a key that lives in a sibling face the same leg names, 1 name a key the producer writes inside per-record lists that are empty on this vintage; 0 stay at risk once the printed number is found. A face-level bound is an upper bound on resolution, not a measurement of the field.",
+      "fresh": "of the 14 at-risk rows E299 could only bound at face level, 14 are withdrawn: 10 rest on a value that is a container or a label rather than a printed number, 3 read a key that lives in a sibling face the same leg names, 1 name a key the producer writes inside per-record lists that are empty on this vintage; 0 stay at risk once the printed number is found. A face-level bound is an upper bound on resolution, not a measurement of the field."
+     }
+    }
+   },
+   "face": "precisiongap_latest.json",
+   "fresh_today": {
+    "summary.census_face": "precisioncensus_latest.json",
+    "summary.census_published_face_level_rows": 14,
+    "summary.faces_read": 13,
+    "summary.n_at_risk_after": 0,
+    "summary.n_withdrawn": 14,
+    "summary.rows_priced": 14,
+    "summary.statement": "of the 14 at-risk rows E299 could only bound at face level, 14 are withdrawn: 10 rest on a value that is a container or a label rather than a printed number, 3 read a key that lives in a sibling face the same leg names, 1 name a key the producer writes inside per-record lists that are empty on this vintage; 0 stay at risk once the printed number is found. A face-level bound is an upper bound on resolution, not a measurement of the field.",
+    "verdict": "none_of_the_face_level_rows_is_at_risk"
+   },
+   "leg": "product: a face-level bound is not a measurement",
+   "replay_at_pin": {
+    "available": false,
+    "reason": "no_corpus_address_declared",
+    "verdict": "address_added_but_the_bytes_are_not_stored_so_only_the_address_replays"
+   },
+   "study": "E305_face_level_row_pricing",
+   "verdict": "address_added_but_the_bytes_are_not_stored_so_only_the_address_replays"
+  },
+  {
+   "carried_at_head": {
+    "corpus_source.pin_file": "CORPUSPIN-2026-11-02.json",
+    "corpus_source.pin_id": null,
+    "summary.consumers_named_by_a_published_opt_in": 1,
+    "summary.consumers_of_the_new_name": 1,
+    "summary.consumers_switched": 0,
+    "summary.e334_delta_candidates_published": 30,
+    "summary.e334_delta_candidates_reproduced": 29,
+    "summary.max_abs_diff_vs_published": 4.0,
+    "summary.mentions_of_the_new_name_that_are_not_reads": 1,
+    "summary.modules_that_rebind_a_reading_name": 0,
+    "summary.reading_names_added": 2,
+    "summary.sources_read": 2365,
+    "summary.sources_where_the_readings_differ": 1425,
+    "summary.studies_that_patch_and_restore_in_a_finally": 16,
+    "summary.unlisted_consumers_of_the_new_name": 0,
+    "verdict": "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce"
+   },
+   "columns": {
+    "keys": 16,
+    "moved": 4,
+    "moved_detail": {
+     "corpus_source.pin_file": {
+      "carried": "CORPUSPIN-2026-11-02.json",
+      "fresh": "CORPUSPIN-SIBLINGENTRY-2026-11-01.json"
+     },
+     "corpus_source.pin_id": {
+      "carried": null,
+      "fresh": "37f8cc35998b72df67510b2421ed87baebaa356a463ba6ee9c151ec22e0c3bbc"
+     },
+     "summary.sources_read": {
+      "carried": 2365,
+      "fresh": 2415
+     },
+     "summary.sources_where_the_readings_differ": {
+      "carried": 1425,
+      "fresh": 1471
+     }
+    }
+   },
+   "face": "siblingentry_latest.json",
+   "fresh_today": {
+    "corpus_source.pin_file": "CORPUSPIN-SIBLINGENTRY-2026-11-01.json",
+    "corpus_source.pin_id": "37f8cc35998b72df67510b2421ed87baebaa356a463ba6ee9c151ec22e0c3bbc",
+    "summary.consumers_named_by_a_published_opt_in": 1,
+    "summary.consumers_of_the_new_name": 1,
+    "summary.consumers_switched": 0,
+    "summary.e334_delta_candidates_published": 30,
+    "summary.e334_delta_candidates_reproduced": 29,
+    "summary.max_abs_diff_vs_published": 4.0,
+    "summary.mentions_of_the_new_name_that_are_not_reads": 1,
+    "summary.modules_that_rebind_a_reading_name": 0,
+    "summary.reading_names_added": 2,
+    "summary.sources_read": 2415,
+    "summary.sources_where_the_readings_differ": 1471,
+    "summary.studies_that_patch_and_restore_in_a_finally": 16,
+    "summary.unlisted_consumers_of_the_new_name": 0,
+    "verdict": "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce"
+   },
+   "leg": "product: the repaired corpus reading lands beside the shipped one",
+   "replay_at_pin": {
+    "available": false,
+    "members": 2415,
+    "pin_file": "CORPUSPIN-SIBLINGENTRY-2026-11-01.json",
+    "pin_id": "37f8cc35998b72df67510b2421ed87baebaa356a463ba6ee9c151ec22e0c3bbc",
+    "reason": "the_pin_stores_digests_only_so_the_population_can_be_checked_but_not_rebuilt",
+    "verdict": "address_added_but_the_bytes_are_not_stored_so_only_the_address_replays"
+   },
+   "study": "E335_sibling_entry_point",
+   "verdict": "address_added_but_the_bytes_are_not_stored_so_only_the_address_replays"
+  },
+  {
+   "carried_at_head": {
+    "summary.census_over_the_published_faces": 23,
+    "summary.census_over_the_source_corpus": 11,
+    "summary.census_studies": 28,
+    "summary.census_studies_exposing_a_files_seam": 4,
+    "summary.censuses_that_enumerate_but_quote_nothing": 13,
+    "summary.censuses_that_name_their_corpus": 2,
+    "summary.censuses_that_quote_a_population": 15,
+    "summary.censuses_whose_population_cannot_be_rechecked": 13,
+    "summary.faces_seen": 121,
+    "summary.needs_a_seam_before_replay": 11,
+    "summary.populations_over_2000_sources": 6,
+    "summary.quoted_populations_beyond_the_directory_they_name": 1,
+    "summary.stampable_today": 2,
+    "summary.stamps_that_do_not_cover_the_declared_key": 0,
+    "summary.studies_resolved_to_a_producer": 117,
+    "summary.studies_unresolved": 3,
+    "summary.studies_with_a_published_face": 120,
+    "verdict": "a_published_census_population_cannot_be_rechecked_until_its_producer_exposes_a_files_seam"
+   },
+   "columns": {
+    "keys": 18,
+    "moved": 13,
+    "moved_detail": {
+     "summary.census_over_the_published_faces": {
+      "carried": 23,
+      "fresh": 24
+     },
+     "summary.census_over_the_source_corpus": {
+      "carried": 11,
+      "fresh": 15
+     },
+     "summary.census_studies": {
+      "carried": 28,
+      "fresh": 33
+     },
+     "summary.census_studies_exposing_a_files_seam": {
+      "carried": 4,
+      "fresh": 7
+     },
+     "summary.censuses_that_enumerate_but_quote_nothing": {
+      "carried": 13,
+      "fresh": 15
+     },
+     "summary.censuses_that_quote_a_population": {
+      "carried": 15,
+      "fresh": 18
+     },
+     "summary.censuses_whose_population_cannot_be_rechecked": {
+      "carried": 13,
+      "fresh": 16
+     },
+     "summary.faces_seen": {
+      "carried": 121,
+      "fresh": 140
+     },
+     "summary.populations_over_2000_sources": {
+      "carried": 6,
+      "fresh": 9
+     },
+     "summary.quoted_populations_beyond_the_directory_they_name": {
+      "carried": 1,
+      "fresh": 2
+     },
+     "summary.stampable_today": {
+      "carried": 2,
+      "fresh": 5
+     },
+     "summary.studies_resolved_to_a_producer": {
+      "carried": 117,
+      "fresh": 135
+     },
+     "summary.studies_with_a_published_face": {
+      "carried": 120,
+      "fresh": 138
+     }
+    }
+   },
+   "face": "UNSTAMPEDCENSUS-2026-11-02.json",
+   "fresh_today": {
+    "summary.census_over_the_published_faces": 24,
+    "summary.census_over_the_source_corpus": 15,
+    "summary.census_studies": 33,
+    "summary.census_studies_exposing_a_files_seam": 7,
+    "summary.censuses_that_enumerate_but_quote_nothing": 15,
+    "summary.censuses_that_name_their_corpus": 2,
+    "summary.censuses_that_quote_a_population": 18,
+    "summary.censuses_whose_population_cannot_be_rechecked": 16,
+    "summary.faces_seen": 140,
+    "summary.needs_a_seam_before_replay": 11,
+    "summary.populations_over_2000_sources": 9,
+    "summary.quoted_populations_beyond_the_directory_they_name": 2,
+    "summary.stampable_today": 5,
+    "summary.stamps_that_do_not_cover_the_declared_key": 0,
+    "summary.studies_resolved_to_a_producer": 135,
+    "summary.studies_unresolved": 3,
+    "summary.studies_with_a_published_face": 138,
+    "verdict": "a_published_census_population_cannot_be_rechecked_until_its_producer_exposes_a_files_seam"
+   },
+   "leg": "product: the published census family is inventoried",
+   "replay_at_pin": {
+    "available": false,
+    "reason": "no_corpus_address_declared",
+    "verdict": "address_added_but_the_bytes_are_not_stored_so_only_the_address_replays"
+   },
+   "study": "E364_unstamped_census",
+   "verdict": "address_added_but_the_bytes_are_not_stored_so_only_the_address_replays"
+  },
+  {
+   "carried_at_head": {
+    "summary.keys": 93,
+    "summary.producers": 10
+   },
+   "columns": {
+    "keys": 2,
+    "moved": 0,
+    "moved_detail": {}
+   },
+   "face": "unreadstatus_latest.json",
+   "fresh_today": {
+    "summary.keys": 93,
+    "summary.producers": 10
+   },
+   "leg": "product: a status key nobody reads is published as unread",
+   "replay_at_pin": {
+    "available": false,
+    "reason": "no_corpus_address_declared",
+    "verdict": "address_added_but_the_bytes_are_not_stored_so_only_the_address_replays"
+   },
+   "study": "E346_status_writer_unread",
+   "verdict": "reproduced_at_head_parked_for_its_next_refresh"
+  }
+ ],
+ "rule": {
+  "carried": "git show HEAD:<face> -- the published numbers, not a remembered copy",
+  "fresh": "the study's own build() into a temp dir so results/ is never touched",
+  "no_assertion_widened": "the smoke legs were not edited; the faces moved under them",
+  "replay": "only possible when the pin stores the bytes, not just their digests (E372)"
+ },
+ "study": "E387_republish_six",
+ "summary": {
+  "faces": 4,
+  "faces_reproducible_at_head": 1,
+  "faces_that_now_name_a_corpus": 1,
+  "faces_whose_numbers_moved_since_head": 3,
+  "faces_whose_pin_stores_the_bytes": 0,
+  "frozen_legs_edited": 0,
+  "legs": 5,
+  "republished": 0,
+  "seams_opened": 3
+ },
+ "verdict": "address_added_but_the_bytes_are_not_stored_so_only_the_address_replays"
+}

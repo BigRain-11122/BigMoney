@@ -1236,6 +1236,10 @@ LEGS = [
     # are quoted from a published face's key list. Verify re-adds the four states and the table
     # (~0 s, no corpus scan, no disk walk).
     ("shared_key_collision", ["python", "scripts/e383_shared_key_collision.py", "verify"]),
+    # E387: a red that compares a published face with a fresh build has two causes -- the corpus
+    # moved (republish) or the face never reproduced (seam). Verify re-derives the frozen verdict
+    # set and the tally from the published face (~0 s, no corpus scan, no disk walk).
+    ("republish_audit", ["python", "scripts/e387_republish_audit.py", "verify"]),
 ]
 
 

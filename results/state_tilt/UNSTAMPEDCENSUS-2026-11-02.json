@@ -1,6 +1,6 @@
 {
  "study": "E364_which_census_faces_quote_a_population_with_no_stamp",
- "evidence_cutoff": "2026-11-02",
+ "evidence_cutoff": "2026-11-03",
  "verdict": "a_published_census_population_cannot_be_rechecked_until_its_producer_exposes_a_files_seam",
  "rules": {
   "domain gates the count vocabulary": "a count key is only read as a population inside a study already measured to enumerate a directory -- E207/E208 showed the name alone is not evidence",
@@ -16,6 +16,16 @@
  },
  "queue": [
   {
+   "study": "E366_pinable_queue_size",
+   "class": "STAMPABLE_NOW",
+   "population_kind": "published_faces",
+   "largest_quoted_population": 3009139,
+   "needs": "a pin over the published faces it counted",
+   "producer": [
+    "scripts\\e366_pinable_queue_size.py"
+   ]
+  },
+  {
    "study": "E340_who_authorizes_whose_allowance",
    "class": "NEEDS_A_SEAM",
    "population_kind": "published_faces",
@@ -26,8 +36,28 @@
    ]
   },
   {
-   "study": "E350_field_level_branch_census",
+   "study": "E383_shared_key_collision",
    "class": "NEEDS_A_SEAM",
+   "population_kind": "source_corpus",
+   "largest_quoted_population": 2423,
+   "needs": "a pin over the source corpus it counted",
+   "producer": [
+    "scripts\\e383_shared_key_collision.py"
+   ]
+  },
+  {
+   "study": "E382_key_projection_delta",
+   "class": "NEEDS_A_SEAM",
+   "population_kind": "source_corpus",
+   "largest_quoted_population": 2422,
+   "needs": "a pin over the source corpus it counted",
+   "producer": [
+    "scripts\\e382_key_projection_delta.py"
+   ]
+  },
+  {
+   "study": "E350_field_level_branch_census",
+   "class": "STAMPABLE_NOW",
    "population_kind": "source_corpus",
    "largest_quoted_population": 2343,
    "needs": "a pin over the source corpus it counted",
@@ -129,7 +159,7 @@
   },
   {
    "study": "E353_unwritten_guard_presence",
-   "class": "NEEDS_A_SEAM",
+   "class": "STAMPABLE_NOW",
    "population_kind": "published_faces",
    "largest_quoted_population": 45,
    "needs": "a pin over the published faces it counted",
@@ -149,23 +179,23 @@
   }
  ],
  "summary": {
-  "faces_seen": 121,
-  "studies_with_a_published_face": 120,
-  "studies_resolved_to_a_producer": 117,
+  "faces_seen": 140,
+  "studies_with_a_published_face": 138,
+  "studies_resolved_to_a_producer": 135,
   "studies_unresolved": 3,
-  "census_studies": 28,
-  "census_over_the_source_corpus": 11,
-  "census_over_the_published_faces": 23,
-  "censuses_that_quote_a_population": 15,
-  "censuses_that_enumerate_but_quote_nothing": 13,
+  "census_studies": 33,
+  "census_over_the_source_corpus": 15,
+  "census_over_the_published_faces": 24,
+  "censuses_that_quote_a_population": 18,
+  "censuses_that_enumerate_but_quote_nothing": 15,
   "censuses_that_name_their_corpus": 2,
-  "censuses_whose_population_cannot_be_rechecked": 13,
-  "census_studies_exposing_a_files_seam": 4,
+  "censuses_whose_population_cannot_be_rechecked": 16,
+  "census_studies_exposing_a_files_seam": 7,
   "needs_a_seam_before_replay": 11,
-  "stampable_today": 2,
+  "stampable_today": 5,
   "stamps_that_do_not_cover_the_declared_key": 0,
-  "quoted_populations_beyond_the_directory_they_name": 1,
-  "populations_over_2000_sources": 6
+  "quoted_populations_beyond_the_directory_they_name": 2,
+  "populations_over_2000_sources": 9
  },
  "rows": [
   {
@@ -2360,11 +2390,11 @@
      "face": "unpinnedchoice_latest.json",
      "address": null,
      "quoted_populations": {
-      "sources_scanned": 2363
+      "sources_scanned": 2415
      },
      "rejected_keys": {},
      "implausible_populations": {},
-     "largest_quoted_population": 2363,
+     "largest_quoted_population": 2415,
      "declared_key": null,
      "address_covers_the_declared_population": null
     }
@@ -2505,16 +2535,16 @@
     {
      "face": "siblingentry_latest.json",
      "address": {
-      "pin_id": "bdea39e8163f354607b0b8b30dbde59ff0a074551f8ad879a25ebd972d318f36",
-      "members": 2365
+      "pin_id": "37f8cc35998b72df67510b2421ed87baebaa356a463ba6ee9c151ec22e0c3bbc",
+      "members": 2415
      },
      "quoted_populations": {
-      "sources_read": 2365,
-      "sources_where_the_readings_differ": 1425
+      "sources_read": 2415,
+      "sources_where_the_readings_differ": 1471
      },
      "rejected_keys": {},
      "implausible_populations": {},
-     "largest_quoted_population": 2365,
+     "largest_quoted_population": 2415,
      "declared_key": "sources_read",
      "address_covers_the_declared_population": true
     }
@@ -2652,7 +2682,7 @@
      "implausible_populations": {
       "faces_parsed": {
        "value": 12519,
-       "published_faces_on_disk": 121
+       "published_faces_on_disk": 140
       }
      },
      "largest_quoted_population": 12519,
@@ -2880,7 +2910,7 @@
    "domains": [
     "source_corpus"
    ],
-   "files_seam": false,
+   "files_seam": true,
    "faces": [
     {
      "face": "fieldbranch_latest.json",
@@ -2898,7 +2928,7 @@
      "address_covers_the_declared_population": null
     }
    ],
-   "class": "NEEDS_A_SEAM",
+   "class": "STAMPABLE_NOW",
    "addressed_faces": 0,
    "population_kind": "source_corpus"
   },
@@ -2976,7 +3006,7 @@
     "source_corpus",
     "published_faces"
    ],
-   "files_seam": false,
+   "files_seam": true,
    "faces": [
     {
      "face": "guardpresence_latest.json",
@@ -2991,7 +3021,7 @@
      "address_covers_the_declared_population": null
     }
    ],
-   "class": "NEEDS_A_SEAM",
+   "class": "STAMPABLE_NOW",
    "addressed_faces": 0,
    "population_kind": "published_faces"
   },
@@ -3126,6 +3156,505 @@
    "population_kind": "published_faces"
   },
   {
+   "study": "E365_face_population_pin",
+   "producer": [
+    "scripts\\e365_face_population_pin.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "facepoppin_latest.json",
+     "address": null,
+     "quoted_populations": {
+      "faces": 591
+     },
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": 591,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    },
+    {
+     "face": "facererun_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": "published_faces"
+  },
+  {
+   "study": "E366_pinable_queue_size",
+   "producer": [
+    "scripts\\e366_pinable_queue_size.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [
+    "source_corpus"
+   ],
+   "files_seam": true,
+   "faces": [
+    {
+     "face": "pinqueue_latest.json",
+     "address": null,
+     "quoted_populations": {
+      "corpus_family_union": 2377,
+      "corpus_family_intersection": 2371,
+      "source_population_members": 2387,
+      "source_members_needing_store": 112,
+      "source_store_bytes": 518154,
+      "face_population_members": 593,
+      "face_members_needing_store": 65,
+      "face_store_bytes": 3009139
+     },
+     "rejected_keys": {},
+     "implausible_populations": {
+      "face_store_bytes": {
+       "value": 3009139,
+       "published_faces_on_disk": 140
+      }
+     },
+     "largest_quoted_population": 3009139,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "STAMPABLE_NOW",
+   "addressed_faces": 0,
+   "population_kind": "published_faces"
+  },
+  {
+   "study": "E368_seam_replay",
+   "producer": [
+    "scripts\\e368_seam_replay.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [
+    "source_corpus"
+   ],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "seamreplay_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NO_QUOTED_POPULATION",
+   "addressed_faces": 0,
+   "population_kind": "source_corpus"
+  },
+  {
+   "study": "E369_pin_at_publishing_commit",
+   "producer": [
+    "scripts\\e369_pin_at_publishing_commit.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "publishpin_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": null
+  },
+  {
+   "study": "E370_which_numbers_move_with_the_population",
+   "producer": [
+    "scripts\\e370_key_sensitivity.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [
+    "source_corpus"
+   ],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "keysens_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NO_QUOTED_POPULATION",
+   "addressed_faces": 0,
+   "population_kind": "source_corpus"
+  },
+  {
+   "study": "E371_store_member_cost",
+   "producer": [
+    "scripts\\e371_store_member_cost.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "storemembercost_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": null
+  },
+  {
+   "study": "E372_store_the_absent_members",
+   "producer": [
+    "scripts\\e372_store_the_absent_members.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "pinplusstore_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": null
+  },
+  {
+   "study": "E373_two_pins_one_replay",
+   "producer": [
+    "scripts\\e373_two_pins_one_replay.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "twopins_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": null
+  },
+  {
+   "study": "E374_store_load_bearing_members",
+   "producer": [
+    "scripts\\e374_store_load_bearing_members.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "storeload_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": null
+  },
+  {
+   "study": "E377_unresolved_destination",
+   "producer": [
+    "scripts\\e377_unresolved_destination.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "unresolveddest_latest.json",
+     "address": null,
+     "quoted_populations": {
+      "corpus_sources": 2411,
+      "faces_named_by_unnameable_writers": 62,
+      "faces_no_census_keys": 36,
+      "keyed_faces_in_corpus": 856,
+      "sources_parsed": 2393
+     },
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": 2411,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": "source_corpus"
+  },
+  {
+   "study": "E378_store_load_bearing_e350_arm",
+   "producer": [
+    "scripts\\e378_store_load_bearing_e350_arm.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "e350arm_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": null
+  },
+  {
+   "study": "E379_unkeyed_face_reader",
+   "producer": [
+    "scripts\\e379_unkeyed_face_reader.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "unkeyedreader_latest.json",
+     "address": null,
+     "quoted_populations": {
+      "corpus_sources": 2413,
+      "corpus_unresolved_load_sites": 2630,
+      "sources_parsed": 2395,
+      "target_faces": 36
+     },
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": 2630,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": "source_corpus"
+  },
+  {
+   "study": "E380_ballast_keys_and_readers",
+   "producer": [
+    "scripts\\e380_ballast_keys_and_readers.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "ballastkeys_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": null
+  },
+  {
+   "study": "E381_component_key_blind_spot",
+   "producer": [
+    "scripts\\e381_component_key_blind_spot.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "componentkey_latest.json",
+     "address": null,
+     "quoted_populations": {
+      "corpus_sources": 2418,
+      "sources_parsed": 2400
+     },
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": 2418,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": "source_corpus"
+  },
+  {
+   "study": "E382_key_projection_delta",
+   "producer": [
+    "scripts\\e382_key_projection_delta.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [
+    "source_corpus"
+   ],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "keydelta_latest.json",
+     "address": null,
+     "quoted_populations": {
+      "corpus_sources": 2422
+     },
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": 2422,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NEEDS_A_SEAM",
+   "addressed_faces": 0,
+   "population_kind": "source_corpus"
+  },
+  {
+   "study": "E382_key_projection_repair_price",
+   "producer": [
+    "scripts\\e382_key_projection_repair_price.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "keyprojrepair_latest.json",
+     "address": null,
+     "quoted_populations": {
+      "arm_a_faces_named": 857,
+      "arm_b_faces_named": 843,
+      "corpus_sources": 2420,
+      "e377_published_blind_spot_faces": 36,
+      "faces_moved_by_basename": 39,
+      "faces_moved_by_jsonl": 22
+     },
+     "rejected_keys": {
+      "faces_named_only_by_the_repaired_keying": "names a data population, not the corpus"
+     },
+     "implausible_populations": {},
+     "largest_quoted_population": 2420,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": "source_corpus"
+  },
+  {
+   "study": "E383_shared_key_collision",
+   "producer": [
+    "scripts\\e383_shared_key_collision.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [
+    "published_faces"
+   ],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "collisionkey_latest.json",
+     "address": null,
+     "quoted_populations": {
+      "corpus_sources": 2423,
+      "files_merged_by_a_key": 40,
+      "merged_keys_quoted_by_a_published_face": 226,
+      "published_faces_scanned": 346,
+      "sources_parsed": 2405
+     },
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": 2423,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NEEDS_A_SEAM",
+   "addressed_faces": 0,
+   "population_kind": "source_corpus"
+  },
+  {
+   "study": "E387_republish_six",
+   "producer": [
+    "scripts\\e387_republish_audit.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "republish_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NOT_A_CENSUS",
+   "addressed_faces": 0,
+   "population_kind": null
+  },
+  {
    "study": "e271_donor_choice_sensitivity",
    "producer": [
     "scripts\\e271_donor_choice_sensitivity.py"
@@ -3250,5 +3779,5 @@
    "population_kind": "source_corpus"
   }
  ],
- "ts": "2026-11-02T17:21:44"
+ "ts": "2026-11-03T11:19:53"
 }

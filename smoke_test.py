@@ -13409,6 +13409,59 @@ check(_name383, not _bad383, "; ".join(_bad383)[:220]
             str((_f383 or {}).get("verdict"))[:80]))
 
 
+# E387: the five drifting legs were two things at once -- a corpus that moved and, for two of
+# them, a face that named no corpus at all. This leg refuses an audit that only lists failures:
+# every covered face must be published at exactly the headline the audit's fresh column records
+# (a republish, not a promise), every row must carry a frozen verdict, and the audit must state
+# that no assertion was widened.
+_name387 = ("product: the drifting legs are priced as three columns per face and every covered "
+            "face is published at the number the audit re-derived")
+_bad387 = []
+_f387 = None
+try:
+    _p387 = os.path.join("results", "state_tilt", "REPUBLISH-2026-11-03.json")
+    _f387 = json.load(open(_p387, encoding="utf-8")) if os.path.exists(_p387) else None
+    if _f387 is None:
+        _bad387.append("no published republish face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m387 = __import__("importlib").import_module("e387_republish_audit")
+        _bad387 += list(_m387.verify(_p387))
+        _s387 = _f387.get("summary") or {}
+        if int(_s387.get("legs") or 0) != len(_m387.LEGS):
+            _bad387.append("the audit does not cover the failing leg set")
+        if int(_s387.get("frozen_legs_edited") or 0) != 0:
+            _bad387.append("an assertion was widened to make a leg pass")
+        for _r387 in _f387.get("rows") or []:
+            _fp387 = os.path.join("results", "state_tilt", _r387.get("face"))
+            if not os.path.exists(_fp387):
+                _bad387.append("%s is not on disk" % (_r387.get("face"),))
+                continue
+            _disk387 = json.load(open(_fp387, encoding="utf-8"))
+            _now387 = _m387.headline(_disk387)
+            _fresh387 = _r387.get("fresh_today") or {}
+            _moved387 = [k for k in _fresh387
+                         if k != "corpus_source.pin_file" and _fresh387[k] != _now387.get(k)]
+            if _moved387:
+                _bad387.append("%s is not published at the re-derived number (%s)"
+                               % (_r387.get("face"), _moved387[0]))
+                break
+            if _r387.get("verdict") not in _m387.VERDICTS:
+                _bad387.append("%s carries a verdict outside the frozen set"
+                               % (_r387.get("face"),))
+                break
+except Exception as _e387:
+    _bad387.append(repr(_e387)[:160])
+
+check(_name387, not _bad387, "; ".join(_bad387)[:220]
+          or "%d face(s) over %d leg(s): %d moved since head, %d seam(s), %d parked"
+             % (((_f387 or {}).get("summary") or {}).get("faces") or 0,
+                ((_f387 or {}).get("summary") or {}).get("legs") or 0,
+                ((_f387 or {}).get("summary") or {}).get("faces_whose_numbers_moved_since_head") or 0,
+                ((_f387 or {}).get("summary") or {}).get("seams_opened") or 0,
+                ((_f387 or {}).get("summary") or {}).get("faces_reproducible_at_head") or 0))
+
+
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass
