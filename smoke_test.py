@@ -14505,5 +14505,72 @@ except Exception as _e398g:
 check(_name398g, not _bad398g, "; ".join(_bad398g)[:220]
       or "verdict %s" % str((_f398g or {}).get("verdict"))[:80])
 
+# E399: E397 left "98 published keys resolve to no file" as a bare residual. This leg prices it per
+# NAME. It refuses the ways "no file" could be asserted instead of measured: a class outside the
+# frozen set, classes that do not sum to the residual, a wider-index count that does not equal its
+# own class, a residual the arms cannot partition (never-a-path + wider + real absences + history),
+# a never-a-path or real-absence total that is not the sum of its classes, an unavailable arm that
+# reports deletions or does not say why, a verdict that does not re-derive from the summary, and a
+# study whose own verify is not clean.
+_name399 = ("product: which published keys name no file, and why -- %s of %s are not path claims at "
+            "all (fragments/templates/tokens), %s is a tree the index skips, %s are real absences")
+_bad399 = []
+_f399 = None
+try:
+    _p399 = os.path.join("results", "state_tilt", "unresolved_latest.json")
+    _f399 = json.load(open(_p399, encoding="utf-8")) if os.path.exists(_p399) else None
+    if _f399 is None:
+        _bad399.append("no published unresolved-name face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m399 = __import__("importlib").import_module("e399_unresolved_names")
+        _s399 = _f399.get("summary") or {}
+        _cls399 = _s399.get("by_class") or {}
+        if _f399.get("verdict") not in (_m399.V_INSTRUMENT, _m399.V_NOT_A_PATH, _m399.V_ABSENT,
+                                        _m399.V_HISTORY, _m399.V_MIXED, _m399.V_UNMEASURED,
+                                        _m399.V_EMPTY):
+            _bad399.append("verdict %r is outside the frozen set" % str(_f399.get("verdict")))
+        _unknown399 = sorted(set(_cls399) - set(_m399.CLASSES))
+        if _unknown399:
+            _bad399.append("classes outside the frozen set: %s" % _unknown399)
+        _res399 = _s399.get("names_resolving_to_no_file") or 0
+        if sum(_cls399.values()) != _res399:
+            _bad399.append("classes sum to %d but the residual is %d"
+                           % (sum(_cls399.values()), _res399))
+        if _s399.get("names_found_by_a_wider_index") != _cls399.get(_m399.CL_WIDER, 0):
+            _bad399.append("the wider-index count is not its own class")
+        _never399 = (_cls399.get(_m399.CL_TEMPLATE, 0) + _cls399.get(_m399.CL_NOT_PATH, 0)
+                     + _cls399.get(_m399.CL_FRAGMENT, 0) + _cls399.get(_m399.CL_ABSOLUTE, 0)
+                     + _cls399.get(_m399.CL_DIRECTORY, 0))
+        if _s399.get("names_that_were_never_path_claims") != _never399:
+            _bad399.append("the never-a-path total is not the sum of its classes")
+        if _s399.get("names_that_are_basename_fragments_only") != _cls399.get(_m399.CL_FRAGMENT, 0):
+            _bad399.append("the fragment count is not its own class")
+        _real399 = (_cls399.get(_m399.CL_ABSENT, 0) + _cls399.get(_m399.CL_ABSENT_DIR, 0)
+                    + _cls399.get(_m399.CL_DIR_IS_A_FILE, 0))
+        if _s399.get("names_that_are_real_repo_relative_absences") != _real399:
+            _bad399.append("the real-absence total is not the sum of its classes")
+        _parts399 = (_never399 + _cls399.get(_m399.CL_WIDER, 0) + _real399
+                     + _cls399.get(_m399.CL_HISTORY, 0))
+        if _parts399 != _res399:
+            _bad399.append("never-a-path + wider + real absences + history = %d, residual %d"
+                           % (_parts399, _res399))
+        if _s399.get("history_arm_available") is False:
+            if _s399.get("history_deleted_paths"):
+                _bad399.append("an arm that did not run reports deletions")
+            if not str(_s399.get("history_arm_why") or ""):
+                _bad399.append("an unavailable arm does not say why")
+        if _s399.get("classes_sum_to_the_residual") is not True:
+            _bad399.append("the face does not claim its classes sum to the residual")
+        if _m399.decide(_s399) != _s399.get("verdict"):
+            _bad399.append("the verdict does not re-derive from the summary")
+        if _m399.verify() != []:
+            _bad399.append("the study's own verify does not come back clean")
+        _name399 = _name399 % (_never399, _res399, _cls399.get(_m399.CL_WIDER, 0), _real399)
+except Exception as _e399:
+    _bad399.append(repr(_e399)[:160])
+check(_name399, not _bad399, "; ".join(_bad399)[:240]
+      or "verdict %s" % str((_f399 or {}).get("verdict"))[:90])
+
 if __name__ == "__main__":
     sys.exit(main())

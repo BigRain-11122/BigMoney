@@ -27170,15 +27170,18 @@
   },
   {
    "deliverable": "results/state_tilt/UNRESOLVED-2026-11-04.json",
+   "done_at": "2026-11-04T01:4x+08:00",
+   "done_by": "bm-b r1418",
    "entered_at": "2026-11-03T22:21+08:00",
    "entered_by": "bm-b r1416 (supply floor refill after E397)",
    "id": "E399-WHICH-PUBLISHED-KEYS-NAME-NO-FILE-AND-WOULD-A-WIDER-INDEX-FIND-IT",
    "lane": "cpu-only",
    "lane_note": "cpu-only; static; never rewrite a published face",
-   "note": "E397 resolved all 884 published keys and found 98 that name no file at all -- 11% of the key population. A key that a source opens and no file answers is either a face this checkout does not carry (a lane that has not run here) or a name the resolver cannot reach (a directory prefix that moved, a value folded from a join, a file inside a skip tree). Ask it per key: does the value carry a directory prefix, which sources read it and which write it, would a wider index (skip trees included, glob-style last-segment match) find a file, and does that file live under a tree the census deliberately excludes? Publish the repair list (names that WOULD resolve under the widened index, with the path) and the honest list (names no checkout here ever had), plus the sentence a reader needs: what such a read reports today. Do not create, rename or delete a file to make a name resolve -- the bill is the list and the reader sentence, not a tree edit.",
+   "note": "98 unresolved keys -> 66 never path claims (52 basename fragments, 13 templates, 1 token), 1 hidden by a skipped tree, 31 real repo-relative absences (16 in an existing dir, 14 no such dir, 1 whose \"dir\" is a file), 0 dated siblings; git-history arm published unavailable (promisor clone)",
    "owner": null,
    "priority": 3,
-   "status": "ready"
+   "result_ref": "results/state_tilt/UNRESOLVED-2026-11-04.json",
+   "status": "done"
   },
   {
    "deliverable": "results/state_tilt/LOCALREADER-2026-11-04.json",
@@ -27191,6 +27194,15 @@
    "priority": 3,
    "question": "E384 classified every published key's sites by the stdlib call family that surrounds them and found exactly one residue: results/perpetual_faces/n1_w192_results.json, named only at Tools/_r789bmc_post_rebase_verify.py:12 inside json.loads(show(...)), where show() is a project-local helper that reads a blob. A call table built from stdlib names cannot see such a reader, so the same blind spot could hide a whole population behind one helper. Ask it per helper: enumerate every project-local callable whose body opens or dumps a file (transitively, to a bounded depth), then re-run the E384 classification with those names added and publish which keys change class and how many sites the table was missing. The bill is the helper table plus the sentence that says what the old table would have called those keys -- never a rewrite of the classifier.",
    "status": "ready"
+  },
+  {
+   "deliverable": "results/state_tilt/FRAGMENTPRODUCERS-2026-11-05.json",
+   "entered_at": "2026-11-04T01:4x+08:00",
+   "entered_by": "bm-b r1418 (supply floor refill after E399)",
+   "id": "E402-WHICH-SITES-COMPOSE-A-BASENAME-FRAGMENT-AND-CAN-THE-JOIN-EVER-RESOLVE",
+   "lane": "cpu-only",
+   "status": "ready",
+   "title": "E399 found that 52 of the 884 published keys (5.9%) are bare basenames -- a filename whose directory is supplied by a runtime variable, so \"resolves to no file\" is their normal state. Measure the producer side: for each fragment, find the site that writes it and the expression that supplies the directory, then classify whether that join can ever produce an existing file (constant existing dir / constant missing dir / dir built from another key / dir built from a date or symbol not in the tree). The bill separates fragments that are legitimate runtime names from fragments that will never resolve anywhere -- and says how much of any \"faces named\" headline is fragments."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

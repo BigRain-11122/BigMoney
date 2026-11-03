@@ -9062,3 +9062,58 @@ Wiring: ``scripts/e384_never_opened_key.py`` (run / verify problems=[] / selftes
 E384; S6 leg ``never_opened_key``; face ``results/state_tilt/NEVEROPENED-2026-11-03.json`` plus
 ``neveropened_latest.json``; successor card E401 (a project-local reader is invisible to a stdlib
 call table); no published face and no key renamed.
+
+### E399 -- "no file" is six bills, and 52 of 98 names were never path claims (r1418 bm-b)
+
+E397 resolved the 884 published keys and published `names_resolved_to_no_file = 98` as a bare
+residual.  A residual count is not a statement about the instrument until each name is asked *why*.
+E399 classifies all 98 against four arms: **A0** the resolver actually in use (`e383._resolve`, whose
+index skips `Money02`/`legacy`/`media`/`.codely-cli`), **A1** a wider index that skips only
+`.git`/`__pycache__`, **A3** form (repo-relative path vs *bare basename* vs bare token vs template vs
+absolute), and **A4** neighbourhood for the repo-relative ones (does the directory exist, is the
+"directory" in fact a FILE, is there a same-stem sibling under another date).  **A2** (git history)
+is published unavailable -- see lesson 4.
+
+| what the 98 are | n |
+|---|---|
+| bare basenames whose directory is a runtime variable (a fragment, not a path) | **52** |
+| templates / globs (`FOO-%s.json`) | 13 |
+| bare tokens (`arm`) | 1 |
+| found only by the wider index (a `Money02` file) | 1 |
+| repo-relative, absent inside an existing directory | 16 |
+| repo-relative, directory does not exist | 14 |
+| repo-relative, but its "directory" path is a FILE | 1 |
+
+Lessons:
+
+(1) **A residual is not one bill.** 66 of 98 were never path claims at all, so "the census cannot
+see 98 of its own faces" is the wrong reading by two thirds; the instrument gap is exactly **1**.
+
+(2) **A bare basename is a fragment, and the census counts it as a face.** `bad.json`, `cells.jsonl`,
+`_judge.json`: no directory in the string because the directory is a variable at the writing site.
+52 of 884 keys (5.9%) are that shape, so any "faces named" headline must say whether it includes
+fragments -- and a fragment that resolves to no file is in its normal state, not broken.
+
+(3) **Rule the alternative hypothesis out mechanically.** The obvious story for the 31 real absences
+is date-shifted republishing (`FACE-2026-09-01.json` -> `FACE-2026-11-01.json`).  Measured: **0** of
+31 have a same-stem sibling under another date inside their directory, so that story is dead rather
+than plausible-and-unpublished.
+
+(4) **An arm that did not run is not a zero.** `git log --all --diff-filter=D` wedged the round: this
+checkout is a promisor/partial clone, so any history walk starts a lazy `git fetch`/`index-pack` that
+never returns (r1224 family), and pinning to `HEAD` did not help (two orphan fetches were left behind
+and had to be killed).  The arm now runs only with `BIGMONEY_E399_HISTORY=1` on a complete clone and
+otherwise publishes `available: false` plus the reason, and the verdict downgrades to
+`...the_deletion_arm_could_not_run...` instead of reading "no deletions".  Verify stays fast and
+deterministic precisely because the arm is off.
+
+(5) **A join through a file path cannot produce a face.** One row names
+`results/autofill_state.json.tmp/autofill_state.json`: `autofill_state.json.tmp` is a *file* in the
+tree, and the census published paths under it as if it were a directory.  That is a producer bug
+visible only because A4 asks "is the parent a file?" as a separate question from "does it exist?".
+
+Wiring: ``scripts/e399_unresolved_names.py`` (run / verify problems=[] / selftest 28/28); smoke leg
+E399 (1/1, exec'd verbatim by ``scripts/run_e399_smoke_leg.py``); S6 leg ``unresolved_names`` (rc 0,
+0.6 s); face ``results/state_tilt/UNRESOLVED-2026-11-04.json`` + ``unresolved_latest.json``; sibling
+check against WALKAMBIG-2026-11-03 reproduces its 98 exactly (different cutoff disclosed); no
+published face, pointer or key rewritten.

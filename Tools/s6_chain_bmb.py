@@ -1331,6 +1331,20 @@ LEGS = [
     # re-resolves every published row from the tree and re-derives the classes and the gate.
     ("walk_ambiguity", ["python", "scripts/e397_walk_ambiguity.py", "verify"]),
 
+    # E399 prices the residual E397 left as a bare count: 98 published keys resolve to no file, and
+    # "no file" is not one bill.  Each one is tested against a wider index (only .git/__pycache__
+    # skipped), a form test (repo-relative path vs bare basename vs bare token vs template vs
+    # absolute), and -- for the repo-relative ones -- a neighbourhood test (does the directory
+    # exist, is the "directory" in fact a FILE, is there a same-stem sibling under another date).
+    # 66 of the 98 were never path claims (52 basename fragments whose directory is a runtime
+    # variable, 13 templates, 1 bare token), 1 is a Money02 file the census index skips, and 31 are
+    # real repo-relative absences (16 in an existing directory, 14 with no such directory, 1 whose
+    # "directory" is a file).  0 dated siblings, so the date-shift hypothesis is ruled out rather
+    # than assumed.  The git-history arm is published unavailable, not as zero deletions: this clone
+    # is a promisor/partial clone and any history walk starts a lazy fetch (r1224 family).  Verify
+    # re-derives every published row's class from the tree.
+    ("unresolved_names", ["python", "scripts/e399_unresolved_names.py", "verify"]),
+
     # E384 asks the reverse question of E381: a published key is only "read" if some site actually
     # opens or dumps a file.  A string in a source is not a decision to open one -- the same literal
     # can feed a caption, a comparison or a Path that is never read.  The leg classifies each key's
