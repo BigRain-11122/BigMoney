@@ -9117,3 +9117,55 @@ E399 (1/1, exec'd verbatim by ``scripts/run_e399_smoke_leg.py``); S6 leg ``unres
 0.6 s); face ``results/state_tilt/UNRESOLVED-2026-11-04.json`` + ``unresolved_latest.json``; sibling
 check against WALKAMBIG-2026-11-03 reproduces its 98 exactly (different cutoff disclosed); no
 published face, pointer or key rewritten.
+
+### E398 -- a latest.json pointer names a convention, not a family; the reader's family is the measurement (r1419 bm-b)
+
+E385 found 28 files under the name ``latest.json`` and left it as a name collision.  The question that
+matters is a *reader* question: every call that opens a ``latest.json`` path is a site, and what
+matters about a site is where its **family directory** comes from.  187 read sites in 39 files, each
+classified by the static origin of the family:
+
+| class | sites | reading |
+|---|---|---|
+| ``family_stated_at_the_site`` | 162 | the site's literals or a resolvable module constant build the directory |
+| ``family_required_by_the_signature`` | 17 | the family is a parameter of the enclosing function |
+| ``family_from_the_value_the_site_itself_wrote`` | 7 | read-after-write of the pointer the same function dumped |
+| ``family_not_supplied_anywhere`` | 1 | a bare relative name (``smoke_test.py:7952``) |
+
+Live tooling (``scripts/``/``Tools/``/``monitor/``/``Money02/``) is 36 sites with **0 unsupplied**:
+the pointer convention is safe where the caller is.  The cost of a wrong landing is measured, not
+asserted -- the 28 bare pointers carry 27 distinct top-level signatures and only 1 of 378 pairs shares
+the same key set (0.26%), so a reader that lands one family off reads a different document and the
+only reason it does not crash is that the file exists.
+
+Lessons:
+
+(1) **A name collision is not the defect; the reader's base is.**  ``latest.json`` being 28 files is
+harmless while every reader either names its family or is handed one.  Publish the class split, not
+the collision count.
+
+(2) **A family statement is not one literal.**  ``os.path.join(ROOT, "results", "state_tilt", "x.json")``
+names the family as plainly as one string with slashes.  A rule that only accepts a single
+slash-bearing literal reported 136 of 187 sites "unsupplied" on the first burn -- the instrument was
+wrong, not the tree.  Read the trailing run of literal path components and stop at the first runtime
+name; accept ``A.b`` chains through in-tree imports (``D.LIVE_DIR``).
+
+(3) **One-argument wrappers and if-expressions pass the path through.**  ``read(os.path.join(...))``
+is a read of that path; ``a if cond else os.path.join("results", ..., "latest.json")`` must be read
+through the branch that carries the pointer, not the first branch.  Both were misclassified before
+the descent rules were added.
+
+(4) **Tier the census before reading the headline.**  142 of the 187 sites are one smoke harness and
+9 are scratch estate; the live-tooling subset (36) is the sentence a production reader should be held
+to, and it publishes its own verdict beside the global one.
+
+(5) **Performance is part of correctness here.**  Re-walking the enclosing function per site made
+``smoke_test.py`` take 62 s (the whole corpus ~9 s after precomputing one ``[(lineno, name, expr)]``
+per function).  A ``verify`` that takes five minutes and prints nothing looks hung, and a hung
+``verify`` is indistinguishable from a failing one in a chain.
+
+Wiring: ``scripts/e398_latest_family.py`` (run / verify problems=[] / selftest 23/23); smoke leg E398
+(1/1, exec'd verbatim by ``scripts/run_e398_smoke_leg.py``); S6 leg ``latest_family``; face
+``results/state_tilt/LATESTFAMILY-2026-11-04.json`` + ``latestfamily_latest.json``; successor card
+E403 (do the *callers* of a family-parameter reader pass the right family -- 17 sites, 0 checked
+here); no pointer, reader or face edited.

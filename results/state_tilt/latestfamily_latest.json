@@ -1,0 +1,5423 @@
+{
+ "bounds": {
+  "measured": "every in-repo call that opens a path ending in latest.json, classified by the static origin of its family directory (literal, resolvable module constant, function parameter, read-after-write of the same function's pointer, or a free runtime name); the 28 bare pointers' top-level signatures; the fan-out each unsupplied reader could reach",
+  "no_rewrites": "no pointer, reader or face is edited here",
+  "not_measured": "callers of a CL_SIGNATURE site (the family is a call-site fact, so whether every caller passes the right one is a separate census); paths assembled from a name bound in another module and never resolvable in-tree; dynamic getattr-style opens",
+  "self_excluded": [
+   "scripts/e398_latest_family.py",
+   "scripts/run_e398_smoke_leg.py"
+  ]
+ },
+ "classes": [
+  "family_stated_at_the_site",
+  "family_required_by_the_signature",
+  "family_from_the_value_the_site_itself_wrote",
+  "family_not_supplied_anywhere"
+ ],
+ "evidence_cutoff": "2026-11-04",
+ "families": [
+  {
+   "family": "docs/live_book",
+   "keys": [
+    "generated_for_date",
+    "json",
+    "page"
+   ],
+   "n_keys": 3,
+   "path": "docs/live_book/latest.json",
+   "readable": true,
+   "signature": "generated_for_date|json|page"
+  },
+  {
+   "family": "results/alphagen_rg",
+   "keys": [
+    "audit",
+    "batch",
+    "census",
+    "descriptive",
+    "evidence_cutoff",
+    "grammar",
+    "prereg_ref",
+    "probe",
+    "queue_row",
+    "riders",
+    "roster_ref",
+    "seeds",
+    "shard_files",
+    "trials_ledger",
+    "verdict"
+   ],
+   "n_keys": 15,
+   "path": "results/alphagen_rg/latest.json",
+   "readable": true,
+   "signature": "audit|batch|census|descriptive|evidence_cutoff|grammar|prereg_ref|probe|queue_row|riders|roster_ref|seeds|shard_files|trials_ledger|verdict"
+  },
+  {
+   "family": "results/div_event_census",
+   "keys": [
+    "disclosures",
+    "dividend_face",
+    "elapsed_sec",
+    "evidence_cutoff",
+    "face",
+    "generated_at",
+    "method",
+    "panel",
+    "results",
+    "status",
+    "windows"
+   ],
+   "n_keys": 11,
+   "path": "results/div_event_census/latest.json",
+   "readable": true,
+   "signature": "disclosures|dividend_face|elapsed_sec|evidence_cutoff|face|generated_at|method|panel|results|status|windows"
+  },
+  {
+   "family": "results/divex_harvest",
+   "keys": [
+    "cost",
+    "disclosures",
+    "dividend_face",
+    "elapsed_sec",
+    "events",
+    "evidence_cutoff",
+    "face",
+    "generated_at",
+    "method",
+    "panel",
+    "readout",
+    "status",
+    "windows"
+   ],
+   "n_keys": 13,
+   "path": "results/divex_harvest/latest.json",
+   "readable": true,
+   "signature": "cost|disclosures|dividend_face|elapsed_sec|events|evidence_cutoff|face|generated_at|method|panel|readout|status|windows"
+  },
+  {
+   "family": "results/divlowvol_live",
+   "keys": [
+    "as_of",
+    "census_window_frozen",
+    "disclosures",
+    "entry_date",
+    "face",
+    "holdings",
+    "n_firing_months",
+    "n_holdings",
+    "next_entry_date",
+    "nulls_evidence",
+    "panel",
+    "prereg",
+    "rule",
+    "sha16",
+    "signal_window",
+    "status",
+    "t0_date",
+    "turnover",
+    "universe",
+    "weight"
+   ],
+   "n_keys": 20,
+   "path": "results/divlowvol_live/latest.json",
+   "readable": true,
+   "signature": "as_of|census_window_frozen|disclosures|entry_date|face|holdings|n_firing_months|n_holdings|next_entry_date|nulls_evidence|panel|prereg|rule|sha16|signal_window|status|t0_date|turnover|universe|weight"
+  },
+  {
+   "family": "results/divlowvol_nulls",
+   "keys": [
+    "batch",
+    "cell",
+    "cutoff_meta",
+    "evidence_cutoff",
+    "face",
+    "judged_note",
+    "kind",
+    "machine",
+    "nulls",
+    "realized",
+    "single_source",
+    "stats",
+    "status",
+    "verdict",
+    "window"
+   ],
+   "n_keys": 15,
+   "path": "results/divlowvol_nulls/latest.json",
+   "readable": true,
+   "signature": "batch|cell|cutoff_meta|evidence_cutoff|face|judged_note|kind|machine|nulls|realized|single_source|stats|status|verdict|window"
+  },
+  {
+   "family": "results/e24_breadth_h20_entry",
+   "keys": [
+    "decision",
+    "decision_rule",
+    "evidence_cutoff",
+    "face",
+    "generated_at",
+    "horizon_bars",
+    "labels",
+    "primary",
+    "sensitivity",
+    "window_start"
+   ],
+   "n_keys": 10,
+   "path": "results/e24_breadth_h20_entry/latest.json",
+   "readable": true,
+   "signature": "decision|decision_rule|evidence_cutoff|face|generated_at|horizon_bars|labels|primary|sensitivity|window_start"
+  },
+  {
+   "family": "results/e24_dispersion_h60_entry",
+   "keys": [
+    "decision",
+    "decision_rule",
+    "diagnostics",
+    "evidence_cutoff",
+    "face",
+    "generated_at",
+    "horizon_bars",
+    "labels",
+    "primary",
+    "sensitivity",
+    "window_start"
+   ],
+   "n_keys": 11,
+   "path": "results/e24_dispersion_h60_entry/latest.json",
+   "readable": true,
+   "signature": "decision|decision_rule|diagnostics|evidence_cutoff|face|generated_at|horizon_bars|labels|primary|sensitivity|window_start"
+  },
+  {
+   "family": "results/e24_overlay_breath",
+   "keys": [
+    "always_on_ladder",
+    "cost_bp_per_side",
+    "edge_vs_always_on_bp_per_year",
+    "evidence_cutoff",
+    "exposure_share",
+    "face",
+    "generated_at",
+    "labels",
+    "n_days",
+    "overlay",
+    "tail_q",
+    "window_start"
+   ],
+   "n_keys": 12,
+   "path": "results/e24_overlay_breath/latest.json",
+   "readable": true,
+   "signature": "always_on_ladder|cost_bp_per_side|edge_vs_always_on_bp_per_year|evidence_cutoff|exposure_share|face|generated_at|labels|n_days|overlay|tail_q|window_start"
+  },
+  {
+   "family": "results/e25_whipsaw",
+   "keys": [
+    "evidence_cutoff",
+    "face",
+    "forward_bars",
+    "generated_at",
+    "labels",
+    "members",
+    "per_member",
+    "per_window",
+    "start",
+    "years"
+   ],
+   "n_keys": 10,
+   "path": "results/e25_whipsaw/latest.json",
+   "readable": true,
+   "signature": "evidence_cutoff|face|forward_bars|generated_at|labels|members|per_member|per_window|start|years"
+  },
+  {
+   "family": "results/e33_ladder_baseline",
+   "keys": [
+    "faces",
+    "generated",
+    "tag"
+   ],
+   "n_keys": 3,
+   "path": "results/e33_ladder_baseline/latest.json",
+   "readable": true,
+   "signature": "faces|generated|tag"
+  },
+  {
+   "family": "results/etf_book_order",
+   "keys": [
+    "as_of",
+    "beta_target",
+    "file",
+    "k_now"
+   ],
+   "n_keys": 4,
+   "path": "results/etf_book_order/latest.json",
+   "readable": true,
+   "signature": "as_of|beta_target|file|k_now"
+  },
+  {
+   "family": "results/etf_book_order_fresh",
+   "keys": [
+    "as_of",
+    "beta_target",
+    "file",
+    "k_now"
+   ],
+   "n_keys": 4,
+   "path": "results/etf_book_order_fresh/latest.json",
+   "readable": true,
+   "signature": "as_of|beta_target|file|k_now"
+  },
+  {
+   "family": "results/etf_book_production",
+   "keys": [
+    "backtest",
+    "caveats",
+    "commodity",
+    "config",
+    "evidence_cutoff",
+    "feed_status",
+    "hysteresis",
+    "passive_mix",
+    "premium_phases",
+    "preperiod",
+    "script",
+    "sheet",
+    "spanning",
+    "spanning_pre2020",
+    "ts",
+    "vol_delivery",
+    "window_decomp"
+   ],
+   "n_keys": 17,
+   "path": "results/etf_book_production/latest.json",
+   "readable": true,
+   "signature": "backtest|caveats|commodity|config|evidence_cutoff|feed_status|hysteresis|passive_mix|premium_phases|preperiod|script|sheet|spanning|spanning_pre2020|ts|vol_delivery|window_decomp"
+  },
+  {
+   "family": "results/etf_book_split_audit",
+   "keys": [
+    "arms",
+    "card_agreement",
+    "config",
+    "curves_identical",
+    "delta_repaired_minus_raw",
+    "event_count",
+    "events_held_by_book",
+    "evidence_cutoff",
+    "flip_attribution",
+    "repair_completeness",
+    "script",
+    "verdict"
+   ],
+   "n_keys": 12,
+   "path": "results/etf_book_split_audit/latest.json",
+   "readable": true,
+   "signature": "arms|card_agreement|config|curves_identical|delta_repaired_minus_raw|event_count|events_held_by_book|evidence_cutoff|flip_attribution|repair_completeness|script|verdict"
+  },
+  {
+   "family": "results/m6_regime5",
+   "keys": [
+    "asof",
+    "disclosures",
+    "distribution",
+    "features",
+    "mode",
+    "n_days_scored",
+    "state",
+    "state_cn",
+    "thresholds_fp",
+    "transitions_last_30",
+    "verdicts_last_10"
+   ],
+   "n_keys": 11,
+   "path": "results/m6_regime5/latest.json",
+   "readable": true,
+   "signature": "asof|disclosures|distribution|features|mode|n_days_scored|state|state_cn|thresholds_fp|transitions_last_30|verdicts_last_10"
+  },
+  {
+   "family": "results/obs_rate",
+   "keys": [
+    "arms",
+    "evidence_cutoff",
+    "honest",
+    "ladder",
+    "spec",
+    "study",
+    "ts"
+   ],
+   "n_keys": 7,
+   "path": "results/obs_rate/latest.json",
+   "readable": true,
+   "signature": "arms|evidence_cutoff|honest|ladder|spec|study|ts"
+  },
+  {
+   "family": "results/overnight_gap_census",
+   "keys": [
+    "by_board",
+    "by_era_board",
+    "by_year",
+    "coverage",
+    "definition",
+    "disclosures",
+    "evidence_cutoff",
+    "law_ref",
+    "overall",
+    "probe",
+    "stock_year_face",
+    "ts",
+    "universe"
+   ],
+   "n_keys": 13,
+   "path": "results/overnight_gap_census/latest.json",
+   "readable": true,
+   "signature": "by_board|by_era_board|by_year|coverage|definition|disclosures|evidence_cutoff|law_ref|overall|probe|stock_year_face|ts|universe"
+  },
+  {
+   "family": "results/paper_export",
+   "keys": [
+    "audit",
+    "deliverable",
+    "display_law",
+    "evidence_cutoff",
+    "export_date",
+    "generated_from_state_updated",
+    "law_ref",
+    "marks_face",
+    "missing_faces",
+    "no_future_data",
+    "prior_diff_source",
+    "prospect_note",
+    "schema",
+    "summary",
+    "ticket",
+    "traders"
+   ],
+   "n_keys": 16,
+   "path": "results/paper_export/latest.json",
+   "readable": true,
+   "signature": "audit|deliverable|display_law|evidence_cutoff|export_date|generated_from_state_updated|law_ref|marks_face|missing_faces|no_future_data|prior_diff_source|prospect_note|schema|summary|ticket|traders"
+  },
+  {
+   "family": "results/regime_gate_dualarm",
+   "keys": [
+    "asof",
+    "asof_mismatch",
+    "contract_receipt",
+    "emotion_arm",
+    "face",
+    "honesty",
+    "index_arm",
+    "provenance",
+    "ticket"
+   ],
+   "n_keys": 9,
+   "path": "results/regime_gate_dualarm/latest.json",
+   "readable": true,
+   "signature": "asof|asof_mismatch|contract_receipt|emotion_arm|face|honesty|index_arm|provenance|ticket"
+  },
+  {
+   "family": "results/regime_matrix_p0",
+   "keys": [
+    "cutoff",
+    "generated",
+    "matrix",
+    "md"
+   ],
+   "n_keys": 4,
+   "path": "results/regime_matrix_p0/latest.json",
+   "readable": true,
+   "signature": "cutoff|generated|matrix|md"
+  },
+  {
+   "family": "results/seasonal_calendar_census",
+   "keys": [
+    "baseline",
+    "by_board",
+    "by_year",
+    "coverage",
+    "definition",
+    "disclosures",
+    "evidence_cutoff",
+    "holiday_breaks",
+    "law_ref",
+    "probe",
+    "ts",
+    "universe",
+    "variants"
+   ],
+   "n_keys": 13,
+   "path": "results/seasonal_calendar_census/latest.json",
+   "readable": true,
+   "signature": "baseline|by_board|by_year|coverage|definition|disclosures|evidence_cutoff|holiday_breaks|law_ref|probe|ts|universe|variants"
+  },
+  {
+   "family": "results/seasonal_horizon_stability",
+   "keys": [
+    "baseline_h1",
+    "batch",
+    "cells",
+    "evidence_cutoff",
+    "face",
+    "generated",
+    "horizon_table",
+    "horizons",
+    "per_variant",
+    "scope",
+    "series",
+    "variants",
+    "years_span"
+   ],
+   "n_keys": 13,
+   "path": "results/seasonal_horizon_stability/latest.json",
+   "readable": true,
+   "signature": "baseline_h1|batch|cells|evidence_cutoff|face|generated|horizon_table|horizons|per_variant|scope|series|variants|years_span"
+  },
+  {
+   "family": "results/stagestyle_combo_p1",
+   "keys": [
+    "batch",
+    "blocked_candidates",
+    "cutoff_meta",
+    "d6_disclosure",
+    "data_gaps",
+    "evidence_cutoff",
+    "gates",
+    "machine",
+    "mapping_v1",
+    "nulls",
+    "p4_predictive_check",
+    "panel",
+    "prereg",
+    "prereg_state",
+    "results",
+    "single_source",
+    "sleeve_notes",
+    "stage_labels",
+    "status",
+    "window"
+   ],
+   "n_keys": 20,
+   "path": "results/stagestyle_combo_p1/latest.json",
+   "readable": true,
+   "signature": "batch|blocked_candidates|cutoff_meta|d6_disclosure|data_gaps|evidence_cutoff|gates|machine|mapping_v1|nulls|p4_predictive_check|panel|prereg|prereg_state|results|single_source|sleeve_notes|stage_labels|status|window"
+  },
+  {
+   "family": "results/state_tilt",
+   "keys": [
+    "accounting_comparison",
+    "answer",
+    "drift_split",
+    "episode_lock_reference",
+    "evidence_cutoff",
+    "frozen_spec",
+    "generated",
+    "panels",
+    "resolution_comparison",
+    "study",
+    "title"
+   ],
+   "n_keys": 11,
+   "path": "results/state_tilt/latest.json",
+   "readable": true,
+   "signature": "accounting_comparison|answer|drift_split|episode_lock_reference|evidence_cutoff|frozen_spec|generated|panels|resolution_comparison|study|title"
+  },
+  {
+   "family": "results/t23_census",
+   "keys": [
+    "audit",
+    "census",
+    "evidence_cutoff",
+    "frozen_readout",
+    "grammar",
+    "machine",
+    "panel_face",
+    "probe",
+    "queue_row",
+    "riders",
+    "seeds",
+    "slice1_ref",
+    "trials_ledger"
+   ],
+   "n_keys": 13,
+   "path": "results/t23_census/latest.json",
+   "readable": true,
+   "signature": "audit|census|evidence_cutoff|frozen_readout|grammar|machine|panel_face|probe|queue_row|riders|seeds|slice1_ref|trials_ledger"
+  },
+  {
+   "family": "results/tom_overlay",
+   "keys": [
+    "arms",
+    "evidence_cutoff",
+    "honest",
+    "primary_arm",
+    "primary_power",
+    "primary_x2",
+    "spec",
+    "study",
+    "ts",
+    "verdict",
+    "verdict_reason"
+   ],
+   "n_keys": 11,
+   "path": "results/tom_overlay/latest.json",
+   "readable": true,
+   "signature": "arms|evidence_cutoff|honest|primary_arm|primary_power|primary_x2|spec|study|ts|verdict|verdict_reason"
+  },
+  {
+   "family": "results/vol_gate",
+   "keys": [
+    "answer",
+    "calendar_reference",
+    "evidence_cutoff",
+    "frozen_spec",
+    "generated",
+    "observation_ceiling",
+    "panels",
+    "resolution_comparison",
+    "study",
+    "title"
+   ],
+   "n_keys": 10,
+   "path": "results/vol_gate/latest.json",
+   "readable": true,
+   "signature": "answer|calendar_reference|evidence_cutoff|frozen_spec|generated|observation_ceiling|panels|resolution_comparison|study|title"
+  }
+ ],
+ "question": "does a reader of a latest.json pointer know which family wrote last, and what does it report when a different one did",
+ "read_sites": [
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "D.LIVE_DIR",
+    "expr": "D.LIVE_DIR / 'latest.json'",
+    "family_dir": "data/live",
+    "how": "an imported constant names the directory"
+   },
+   "expr": "D.LIVE_DIR / 'latest.json'",
+   "file": "Money02/live_pull.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 12,
+   "site": "Money02/live_pull.py:12",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "D.LIVE_DIR",
+    "expr": "D.LIVE_DIR / 'latest.json'",
+    "family_dir": "data/live",
+    "how": "an imported constant names the directory"
+   },
+   "expr": "D.LIVE_DIR / 'latest.json'",
+   "file": "Money02/live_view.py",
+   "function": "main",
+   "kind": "read",
+   "line": 16,
+   "site": "Money02/live_view.py:16",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "D.LIVE_DIR",
+    "expr": "D.LIVE_DIR / 'latest.json'",
+    "family_dir": "data/live",
+    "how": "an imported constant names the directory"
+   },
+   "expr": "D.LIVE_DIR / 'latest.json'",
+   "file": "Money02/preflight_data.py",
+   "function": "main",
+   "kind": "read",
+   "line": 58,
+   "site": "Money02/preflight_data.py:58",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "D.LIVE_DIR",
+    "expr": "D.LIVE_DIR / 'latest.json'",
+    "family_dir": "data/live",
+    "how": "an imported constant names the directory"
+   },
+   "expr": "D.LIVE_DIR / 'latest.json'",
+   "file": "Money02/preflight_data.py",
+   "function": "main",
+   "kind": "read",
+   "line": 59,
+   "site": "Money02/preflight_data.py:59",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'pointeronly_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'pointeronly_latest.json')",
+   "file": "_e363_probe3.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 38,
+   "site": "_e363_probe3.py:38",
+   "tier": "scratch_or_estate"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "read(os.path.join(ROOT, 'results', 'vol_gate', 'latest.json'))",
+    "family_suffix": "results/vol_gate",
+    "how": "a literal component names the family directory",
+    "root_from": "a runtime value not resolvable here"
+   },
+   "expr": "read(os.path.join(ROOT, 'results', 'vol_gate', 'latest.json'))",
+   "file": "_tmp_r1251_close_state.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 29,
+   "site": "_tmp_r1251_close_state.py:29",
+   "tier": "scratch_or_estate"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "read(os.path.join(ROOT, 'results', 'vol_gate', 'latest.json'))",
+    "family_suffix": "results/vol_gate",
+    "how": "a literal component names the family directory",
+    "root_from": "a runtime value not resolvable here"
+   },
+   "expr": "read(os.path.join(ROOT, 'results', 'vol_gate', 'latest.json'))",
+   "file": "_tmp_r1251_report.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 23,
+   "site": "_tmp_r1251_report.py:23",
+   "tier": "scratch_or_estate"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'results/state_tilt/starown_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/starown_latest.json'",
+   "file": "_tmp_r1277_nums.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 4,
+   "site": "_tmp_r1277_nums.py:4",
+   "tier": "scratch_or_estate"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'results/state_tilt/starown_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/starown_latest.json'",
+   "file": "_tmp_r1277_view.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 4,
+   "site": "_tmp_r1277_view.py:4",
+   "tier": "scratch_or_estate"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'results/state_tilt/bookecho_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/bookecho_latest.json'",
+   "file": "_tmp_r1277_view.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 5,
+   "site": "_tmp_r1277_view.py:5",
+   "tier": "scratch_or_estate"
+  },
+  {
+   "carried_by": "p",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "p",
+    "expr": "os.path.join(RESULTS, 'paper_export', 'latest.json')",
+    "family_suffix": "paper_export",
+    "how": "a literal component names the family directory",
+    "root_from": "a runtime value not resolvable here"
+   },
+   "expr": "os.path.join(RESULTS, 'paper_export', 'latest.json')",
+   "file": "results/_r234bmb_monday_ready_probe.py",
+   "function": "_e",
+   "kind": "read",
+   "line": 101,
+   "site": "results/_r234bmb_monday_ready_probe.py:101",
+   "tier": "scratch_or_estate"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'docs/live_usage/LIVE-latest.json'",
+    "family_dir": "docs/live_usage",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'docs/live_usage/LIVE-latest.json'",
+   "file": "results/_r793bmb_rebase_resolve.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 115,
+   "site": "results/_r793bmb_rebase_resolve.py:115",
+   "tier": "scratch_or_estate"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'docs/live_usage/LIVE-latest.json'",
+    "family_dir": "docs/live_usage",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'docs/live_usage/LIVE-latest.json'",
+   "file": "results/_r795bmb_rebase_resolve.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 114,
+   "site": "results/_r795bmb_rebase_resolve.py:114",
+   "tier": "scratch_or_estate"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "latest",
+    "expr": "os.path.join(OUT_DIR, 'latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(OUT_DIR, 'latest.json')"
+   },
+   "expr": "os.path.join(OUT_DIR, 'latest.json')",
+   "file": "scripts/divlowvol_live_picks.py",
+   "function": "_write",
+   "kind": "read",
+   "line": 301,
+   "site": "scripts/divlowvol_live_picks.py:301",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "path",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "path",
+    "constant": "OUTDIR",
+    "expr": "os.path.join(OUTDIR, 'per_member_gamma_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUTDIR, 'per_member_gamma_latest.json')",
+   "file": "scripts/e235_charge_granularity.py",
+   "function": "_family_gamma",
+   "kind": "read",
+   "line": 683,
+   "site": "scripts/e235_charge_granularity.py:683",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "path",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "path",
+    "constant": "OUTDIR",
+    "expr": "os.path.join(OUTDIR, 'granularity_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUTDIR, 'granularity_latest.json')",
+   "file": "scripts/e236_share_difference.py",
+   "function": "_load_e235",
+   "kind": "read",
+   "line": 636,
+   "site": "scripts/e236_share_difference.py:636",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "path",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "path",
+    "constant": "OUTDIR",
+    "expr": "os.path.join(outdir or OUTDIR, 'loobook_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(outdir or OUTDIR, 'loobook_latest.json')",
+   "file": "scripts/e239_own_vs_cross.py",
+   "function": "_e238_reference",
+   "kind": "read",
+   "line": 262,
+   "site": "scripts/e239_own_vs_cross.py:262",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "path",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "path",
+    "constant": "OUTDIR",
+    "expr": "os.path.join(OUTDIR, 'starlagband_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUTDIR, 'starlagband_latest.json')",
+   "file": "scripts/e249_lead_counterfactual.py",
+   "function": "e248_reproduction",
+   "kind": "read",
+   "line": 379,
+   "site": "scripts/e249_lead_counterfactual.py:379",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "path",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "path",
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'starself_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'starself_latest.json')",
+   "file": "scripts/e252_star_prices_itself.py",
+   "function": "verify",
+   "kind": "read",
+   "line": 749,
+   "site": "scripts/e252_star_prices_itself.py:749",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "face_path",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "face_path",
+    "expr": "os.path.join(td, 'starself_latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(td, 'starself_latest.json')"
+   },
+   "expr": "os.path.join(td, 'starself_latest.json')",
+   "file": "scripts/e252_star_prices_itself.py",
+   "function": "selftest",
+   "kind": "read",
+   "line": 713,
+   "site": "scripts/e252_star_prices_itself.py:713",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "other",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "other",
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "same if same and os.path.exists(same) else os.path.join(outdir, 'starown_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "same if same and os.path.exists(same) else os.path.join(outdir, 'starown_latest.json')",
+   "file": "scripts/e252_star_prices_itself.py",
+   "function": "verify",
+   "kind": "read",
+   "line": 795,
+   "site": "scripts/e252_star_prices_itself.py:795",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "latest",
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'selfres_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'selfres_latest.json')",
+   "file": "scripts/e253_self_row_resolution.py",
+   "function": "verify",
+   "kind": "read",
+   "line": 638,
+   "site": "scripts/e253_self_row_resolution.py:638",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "latest",
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'bandexp_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'bandexp_latest.json')",
+   "file": "scripts/e254_band_exponent_inside_cell.py",
+   "function": "verify",
+   "kind": "read",
+   "line": 576,
+   "site": "scripts/e254_band_exponent_inside_cell.py:576",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "latest",
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'banddraw_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'banddraw_latest.json')",
+   "file": "scripts/e255_band_draw_starvation.py",
+   "function": "verify",
+   "kind": "read",
+   "line": 539,
+   "site": "scripts/e255_band_draw_starvation.py:539",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "latest",
+    "default_dir": null,
+    "default_expr": "",
+    "expr": "os.path.join(outdir, 'bandtopflip_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'bandtopflip_latest.json')",
+   "file": "scripts/e257_band_at_top_flips.py",
+   "function": "_write",
+   "kind": "read",
+   "line": 544,
+   "site": "scripts/e257_band_at_top_flips.py:544",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "latest",
+    "default_dir": null,
+    "default_expr": "",
+    "expr": "os.path.join(outdir, 'bandwinmult_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'bandwinmult_latest.json')",
+   "file": "scripts/e258_band_multiplier_per_window.py",
+   "function": "_write",
+   "kind": "read",
+   "line": 585,
+   "site": "scripts/e258_band_multiplier_per_window.py:585",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "latest",
+    "default_dir": null,
+    "default_expr": "",
+    "expr": "os.path.join(outdir, 'bandwindist_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'bandwindist_latest.json')",
+   "file": "scripts/e259_band_multiplier_distribution.py",
+   "function": "_write",
+   "kind": "read",
+   "line": 612,
+   "site": "scripts/e259_band_multiplier_distribution.py:612",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "latest",
+    "default_dir": null,
+    "default_expr": "",
+    "expr": "os.path.join(outdir, 'bandarrival_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'bandarrival_latest.json')",
+   "file": "scripts/e260_band_endpoint_arrival.py",
+   "function": "_write",
+   "kind": "read",
+   "line": 408,
+   "site": "scripts/e260_band_endpoint_arrival.py:408",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "latest",
+    "default_dir": null,
+    "default_expr": "",
+    "expr": "os.path.join(outdir, 'bandbucket_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'bandbucket_latest.json')",
+   "file": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+   "function": "_write",
+   "kind": "read",
+   "line": 534,
+   "site": "scripts/e261_degenerate_seeds_leave_one_bucket.py:534",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "latest",
+    "default_dir": null,
+    "default_expr": "",
+    "expr": "os.path.join(outdir, 'bandarrivalate_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'bandarrivalate_latest.json')",
+   "file": "scripts/e263_arrival_vs_cell_size.py",
+   "function": "_write",
+   "kind": "read",
+   "line": 577,
+   "site": "scripts/e263_arrival_vs_cell_size.py:577",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "summary",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "summary",
+    "expr": "summarize(['results/x/call_latest.json'], [], [], [], 10)",
+    "how": "carried from this function's own write",
+    "written_expr": "summarize(['results/x/call_latest.json'], [], [{'source': 's.py', 'binding': 'd', 'line': 1, 'load_name': 'load', 'channel': 'named', 'files': ['call_latest.json'], 'kinds': ['mirror']}], [], 10)"
+   },
+   "expr": "summarize(['results/x/call_latest.json'], [], [], [], 10)",
+   "file": "scripts/e349_latest_mirror_census.py",
+   "function": "selftest",
+   "kind": "read",
+   "line": 702,
+   "site": "scripts/e349_latest_mirror_census.py:702",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "path",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "path",
+    "constant": "OUTDIR",
+    "expr": "os.path.join(OUTDIR, 'fieldbranch_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUTDIR, 'fieldbranch_latest.json')",
+   "file": "scripts/e353_unwritten_guard_presence.py",
+   "function": "_upstream_published_count",
+   "kind": "read",
+   "line": 383,
+   "site": "scripts/e353_unwritten_guard_presence.py:383",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "binding": "out_dir",
+    "expr": "os.path.join(out_dir, 'redtriage_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "a local binding names the directory"
+   },
+   "expr": "os.path.join(out_dir, 'redtriage_latest.json')",
+   "file": "scripts/e356_census_red_triage.py",
+   "function": "main",
+   "kind": "read",
+   "line": 504,
+   "site": "scripts/e356_census_red_triage.py:504",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "OUTDIR",
+    "expr": "os.path.join(OUTDIR, 'fieldbranch_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUTDIR, 'fieldbranch_latest.json')",
+   "file": "scripts/e371_store_member_cost.py",
+   "function": "build",
+   "kind": "read",
+   "line": 257,
+   "site": "scripts/e371_store_member_cost.py:257",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "path",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "path",
+    "constant": "OUTDIR",
+    "expr": "os.path.join(OUTDIR, 'fieldbranch_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUTDIR, 'fieldbranch_latest.json')",
+   "file": "scripts/e377_unresolved_destination.py",
+   "function": "build",
+   "kind": "read",
+   "line": 396,
+   "site": "scripts/e377_unresolved_destination.py:396",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "p",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "p",
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "path or os.path.join(PATHS.results_dir, 'etf_book_production', 'latest.json')",
+    "how": "signature parameter",
+    "parameter": "path"
+   },
+   "expr": "path or os.path.join(PATHS.results_dir, 'etf_book_production', 'latest.json')",
+   "file": "scripts/etf_book_bakeoff.py",
+   "function": "published_control_cagr",
+   "kind": "read",
+   "line": 148,
+   "site": "scripts/etf_book_bakeoff.py:148",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join(OUT_DIR, 'etf_book_production', 'latest.json')",
+    "family_suffix": "etf_book_production",
+    "how": "a literal component names the family directory",
+    "root_from": "a runtime value not resolvable here"
+   },
+   "expr": "os.path.join(OUT_DIR, 'etf_book_production', 'latest.json')",
+   "file": "scripts/etf_book_bridge.py",
+   "function": "run",
+   "kind": "read",
+   "line": 369,
+   "site": "scripts/etf_book_bridge.py:369",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(d, 'latest.json')",
+    "how": "signature parameter",
+    "local_alias": "d",
+    "local_expr": "card_dir or CARD_DIR",
+    "parameter": "card_dir"
+   },
+   "expr": "os.path.join(d, 'latest.json')",
+   "file": "scripts/etf_book_order.py",
+   "function": "card_width",
+   "kind": "read",
+   "line": 584,
+   "site": "scripts/etf_book_order.py:584",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(d, 'latest.json')",
+    "how": "signature parameter",
+    "local_alias": "d",
+    "local_expr": "card_dir or CARD_DIR",
+    "parameter": "card_dir"
+   },
+   "expr": "os.path.join(d, 'latest.json')",
+   "file": "scripts/etf_book_order.py",
+   "function": "card_book",
+   "kind": "read",
+   "line": 605,
+   "site": "scripts/etf_book_order.py:605",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(d, 'latest.json')",
+    "how": "signature parameter",
+    "local_alias": "d",
+    "local_expr": "card_dir or CARD_DIR",
+    "parameter": "card_dir"
+   },
+   "expr": "os.path.join(d, 'latest.json')",
+   "file": "scripts/etf_book_order.py",
+   "function": "card_rule",
+   "kind": "read",
+   "line": 638,
+   "site": "scripts/etf_book_order.py:638",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(d, 'latest.json')",
+    "how": "signature parameter",
+    "local_alias": "d",
+    "local_expr": "card_dir or CARD_DIR",
+    "parameter": "card_dir"
+   },
+   "expr": "os.path.join(d, 'latest.json')",
+   "file": "scripts/etf_book_order.py",
+   "function": "_read_card",
+   "kind": "read",
+   "line": 658,
+   "site": "scripts/etf_book_order.py:658",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "p",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "p",
+    "expr": "os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'results', 'etf_book_production', 'latest.json')",
+    "family_suffix": "results/etf_book_production",
+    "how": "a literal component names the family directory",
+    "root_from": "a runtime value not resolvable here"
+   },
+   "expr": "os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'results', 'etf_book_production', 'latest.json')",
+   "file": "scripts/etf_book_spanning.py",
+   "function": "card_config",
+   "kind": "read",
+   "line": 65,
+   "site": "scripts/etf_book_spanning.py:65",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "p",
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "carried_by": "p",
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "path or os.path.join(PATHS.results_dir, 'etf_book_production', 'latest.json')",
+    "how": "signature parameter",
+    "parameter": "path"
+   },
+   "expr": "path or os.path.join(PATHS.results_dir, 'etf_book_production', 'latest.json')",
+   "file": "scripts/etf_book_tsmom.py",
+   "function": "published_control_cagr",
+   "kind": "read",
+   "line": 184,
+   "site": "scripts/etf_book_tsmom.py:184",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "OUT_DIR",
+    "expr": "os.path.join(OUT_DIR, 'pack_latest.json')",
+    "family_dir": "o2115_acceptance",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUT_DIR, 'pack_latest.json')",
+   "file": "scripts/o2115_acceptance_pack.py",
+   "function": "cmd_run",
+   "kind": "read",
+   "line": 306,
+   "site": "scripts/o2115_acceptance_pack.py:306",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "latest",
+    "constant": "FACE_DIR",
+    "expr": "os.path.join(FACE_DIR, 'leg_isolation_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(FACE_DIR, 'leg_isolation_latest.json')",
+   "file": "scripts/prove_smoke_leg_isolation.py",
+   "function": "verify_face",
+   "kind": "read",
+   "line": 243,
+   "site": "scripts/prove_smoke_leg_isolation.py:243",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'results/etf_book_order/latest.json'",
+    "family_dir": "results/etf_book_order",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/etf_book_order/latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 680,
+   "site": "smoke_test.py:680",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'docs/live_book/latest.json'",
+    "family_dir": "docs/live_book",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'docs/live_book/latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 681,
+   "site": "smoke_test.py:681",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_ptr",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_ptr",
+    "expr": "'docs/live_book/latest.json'",
+    "family_dir": "docs/live_book",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'docs/live_book/latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 682,
+   "site": "smoke_test.py:682",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'results/etf_book_order/latest.json'",
+    "family_dir": "results/etf_book_order",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/etf_book_order/latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 1587,
+   "site": "smoke_test.py:1587",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'docs/live_book/latest.json'",
+    "family_dir": "docs/live_book",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'docs/live_book/latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 1588,
+   "site": "smoke_test.py:1588",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_ptr",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_ptr",
+    "expr": "'docs/live_book/latest.json'",
+    "family_dir": "docs/live_book",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'docs/live_book/latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 1589,
+   "site": "smoke_test.py:1589",
+   "tier": "smoke_harness"
+  },
+  {
+   "candidate_families": [
+    "docs/live_book",
+    "results/alphagen_rg",
+    "results/div_event_census",
+    "results/divex_harvest",
+    "results/divlowvol_live",
+    "results/divlowvol_nulls",
+    "results/e24_breadth_h20_entry",
+    "results/e24_dispersion_h60_entry",
+    "results/e24_overlay_breath",
+    "results/e25_whipsaw",
+    "results/e33_ladder_baseline",
+    "results/etf_book_order",
+    "results/etf_book_order_fresh",
+    "results/etf_book_production",
+    "results/etf_book_split_audit",
+    "results/m6_regime5",
+    "results/obs_rate",
+    "results/overnight_gap_census",
+    "results/paper_export",
+    "results/regime_gate_dualarm",
+    "results/regime_matrix_p0",
+    "results/seasonal_calendar_census",
+    "results/seasonal_horizon_stability",
+    "results/stagestyle_combo_p1",
+    "results/state_tilt",
+    "results/t23_census",
+    "results/tom_overlay",
+    "results/vol_gate"
+   ],
+   "carried_by": null,
+   "class": "family_not_supplied_anywhere",
+   "evidence": {
+    "expr": "'replaycensus_latest.json'",
+    "how": "no literal, constant, parameter or prior write"
+   },
+   "expr": "'replaycensus_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 7952,
+   "n_candidate_families": 28,
+   "n_distinct_signatures_among_candidates": 27,
+   "site": "smoke_test.py:7952",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p43",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p43",
+    "expr": "'results/state_tilt/addos_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/addos_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3466,
+   "site": "smoke_test.py:3466",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p44",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p44",
+    "expr": "'results/state_tilt/pairhet_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/pairhet_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3513,
+   "site": "smoke_test.py:3513",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p95",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p95",
+    "expr": "os.path.join('results', 'state_tilt', 'precisioncensus_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'precisioncensus_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 8321,
+   "site": "smoke_test.py:8321",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p97",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p97",
+    "expr": "os.path.join('results', 'state_tilt', 'precisiongap_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'precisiongap_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 8397,
+   "site": "smoke_test.py:8397",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p96",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p96",
+    "expr": "os.path.join('results', 'state_tilt', 'bandswitch_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandswitch_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 8462,
+   "site": "smoke_test.py:8462",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p306",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p306",
+    "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9167,
+   "site": "smoke_test.py:9167",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p307",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p307",
+    "expr": "os.path.join('results', 'state_tilt', 'refusalcause_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'refusalcause_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9219,
+   "site": "smoke_test.py:9219",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p308",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p308",
+    "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9288,
+   "site": "smoke_test.py:9288",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p310",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p310",
+    "expr": "os.path.join('results', 'state_tilt', 'unpublishedkey_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'unpublishedkey_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9360,
+   "site": "smoke_test.py:9360",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p312",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p312",
+    "expr": "os.path.join('results', 'state_tilt', 'orphangateface_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'orphangateface_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9427,
+   "site": "smoke_test.py:9427",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9458,
+   "site": "smoke_test.py:9458",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p314",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p314",
+    "expr": "os.path.join('results', 'state_tilt', 'templateparam_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'templateparam_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9497,
+   "site": "smoke_test.py:9497",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p327",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p327",
+    "expr": "os.path.join('results', 'state_tilt', 'pointerread_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'pointerread_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9558,
+   "site": "smoke_test.py:9558",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p328",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p328",
+    "expr": "os.path.join('results', 'state_tilt', 'stalecutoff_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'stalecutoff_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9628,
+   "site": "smoke_test.py:9628",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p329",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p329",
+    "expr": "os.path.join('results', 'state_tilt', 'twovintage_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'twovintage_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9694,
+   "site": "smoke_test.py:9694",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p330",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p330",
+    "expr": "os.path.join('results', 'state_tilt', 'unpinnedchoice_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'unpinnedchoice_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9776,
+   "site": "smoke_test.py:9776",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p331",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p331",
+    "expr": "os.path.join('results', 'state_tilt', 'pointeronly_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'pointeronly_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9854,
+   "site": "smoke_test.py:9854",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p332",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p332",
+    "expr": "os.path.join('results', 'state_tilt', 'invisibletail_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'invisibletail_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9940,
+   "site": "smoke_test.py:9940",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p333",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p333",
+    "expr": "os.path.join('results', 'state_tilt', 'survivingconclusions_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'survivingconclusions_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 10047,
+   "site": "smoke_test.py:10047",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p334",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p334",
+    "expr": "os.path.join('results', 'state_tilt', 'helperrepair_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'helperrepair_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 10162,
+   "site": "smoke_test.py:10162",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p335",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p335",
+    "expr": "os.path.join('results', 'state_tilt', 'siblingentry_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'siblingentry_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 10289,
+   "site": "smoke_test.py:10289",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p336",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p336",
+    "expr": "os.path.join('results', 'state_tilt', 'optinrank_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'optinrank_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 10489,
+   "site": "smoke_test.py:10489",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p337",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p337",
+    "expr": "os.path.join('results', 'state_tilt', 'optinswitch_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'optinswitch_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 10581,
+   "site": "smoke_test.py:10581",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p338",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p338",
+    "expr": "os.path.join('results', 'state_tilt', 'greenwindow_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'greenwindow_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 10676,
+   "site": "smoke_test.py:10676",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p339",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p339",
+    "expr": "os.path.join('results', 'state_tilt', 'guardloosen_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'guardloosen_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 10776,
+   "site": "smoke_test.py:10776",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p340",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p340",
+    "expr": "os.path.join('results', 'state_tilt', 'allowance_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'allowance_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 10868,
+   "site": "smoke_test.py:10868",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p341",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p341",
+    "expr": "os.path.join('results', 'state_tilt', 'siblingcloser_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'siblingcloser_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 10945,
+   "site": "smoke_test.py:10945",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p342",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p342",
+    "expr": "os.path.join('results', 'state_tilt', 'repairrecord_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'repairrecord_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 11037,
+   "site": "smoke_test.py:11037",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p343",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p343",
+    "expr": "os.path.join('results', 'state_tilt', 'boundgrant_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'boundgrant_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 11122,
+   "site": "smoke_test.py:11122",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p344",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p344",
+    "expr": "os.path.join('results', 'state_tilt', 'consumercensus_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'consumercensus_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 11187,
+   "site": "smoke_test.py:11187",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p345",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p345",
+    "expr": "os.path.join('results', 'state_tilt', 'gateabsence_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'gateabsence_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 11248,
+   "site": "smoke_test.py:11248",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p346",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p346",
+    "expr": "os.path.join('results', 'state_tilt', 'unreadstatus_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'unreadstatus_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 11315,
+   "site": "smoke_test.py:11315",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p347",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p347",
+    "expr": "os.path.join('results', 'state_tilt', 'decidegate_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'decidegate_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 11372,
+   "site": "smoke_test.py:11372",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p348",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p348",
+    "expr": "os.path.join('results', 'state_tilt', 'restoredgate_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'restoredgate_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 11444,
+   "site": "smoke_test.py:11444",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p349",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p349",
+    "expr": "os.path.join('results', 'state_tilt', 'mirror_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'mirror_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 11516,
+   "site": "smoke_test.py:11516",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p350",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p350",
+    "expr": "os.path.join('results', 'state_tilt', 'fieldbranch_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'fieldbranch_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 11579,
+   "site": "smoke_test.py:11579",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p351",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p351",
+    "expr": "os.path.join('results', 'state_tilt', 'gatestate_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'gatestate_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 11645,
+   "site": "smoke_test.py:11645",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p352",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p352",
+    "expr": "os.path.join('results', 'state_tilt', 'stalewin_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'stalewin_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 11721,
+   "site": "smoke_test.py:11721",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p353",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p353",
+    "expr": "os.path.join('results', 'state_tilt', 'guardpresence_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'guardpresence_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 11801,
+   "site": "smoke_test.py:11801",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p356",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p356",
+    "expr": "os.path.join('results', 'state_tilt', 'redtriage_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'redtriage_latest.json')",
+   "file": "smoke_test.py",
+   "function": "_r39",
+   "kind": "read",
+   "line": 11933,
+   "site": "smoke_test.py:11933",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p357",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p357",
+    "expr": "os.path.join('results', 'state_tilt', 'chwrcad_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'chwrcad_latest.json')",
+   "file": "smoke_test.py",
+   "function": "_r39",
+   "kind": "read",
+   "line": 11995,
+   "site": "smoke_test.py:11995",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_rr365",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_rr365",
+    "expr": "os.path.join('results', 'state_tilt', 'facererun_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'facererun_latest.json')",
+   "file": "smoke_test.py",
+   "function": "_r39",
+   "kind": "read",
+   "line": 12170,
+   "site": "smoke_test.py:12170",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p366",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p366",
+    "expr": "os.path.join('results', 'state_tilt', 'pinqueue_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'pinqueue_latest.json')",
+   "file": "smoke_test.py",
+   "function": "_r39",
+   "kind": "read",
+   "line": 12230,
+   "site": "smoke_test.py:12230",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p368",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p368",
+    "expr": "os.path.join('results', 'state_tilt', 'seamreplay_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'seamreplay_latest.json')",
+   "file": "smoke_test.py",
+   "function": "_r39",
+   "kind": "read",
+   "line": 12317,
+   "site": "smoke_test.py:12317",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p369",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p369",
+    "expr": "os.path.join('results', 'state_tilt', 'publishpin_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'publishpin_latest.json')",
+   "file": "smoke_test.py",
+   "function": "_r39",
+   "kind": "read",
+   "line": 12429,
+   "site": "smoke_test.py:12429",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p372",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p372",
+    "expr": "os.path.join('results', 'state_tilt', 'pinplusstore_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'pinplusstore_latest.json')",
+   "file": "smoke_test.py",
+   "function": "_r39",
+   "kind": "read",
+   "line": 12507,
+   "site": "smoke_test.py:12507",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p358",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p358",
+    "expr": "os.path.join('results', 'state_tilt', 'subjres_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'subjres_latest.json')",
+   "file": "smoke_test.py",
+   "function": "_r39",
+   "kind": "read",
+   "line": 12593,
+   "site": "smoke_test.py:12593",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p359",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p359",
+    "expr": "os.path.join('results', 'state_tilt', 'scaffold_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'scaffold_latest.json')",
+   "file": "smoke_test.py",
+   "function": "_r39",
+   "kind": "read",
+   "line": 12649,
+   "site": "smoke_test.py:12649",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p373",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p373",
+    "expr": "os.path.join('results', 'state_tilt', 'twopins_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'twopins_latest.json')",
+   "file": "smoke_test.py",
+   "function": "_r39",
+   "kind": "read",
+   "line": 12701,
+   "site": "smoke_test.py:12701",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p370",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p370",
+    "expr": "os.path.join('results', 'state_tilt', 'keysens_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'keysens_latest.json')",
+   "file": "smoke_test.py",
+   "function": "_r39",
+   "kind": "read",
+   "line": 12814,
+   "site": "smoke_test.py:12814",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p371",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p371",
+    "expr": "os.path.join('results', 'state_tilt', 'storemembercost_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'storemembercost_latest.json')",
+   "file": "smoke_test.py",
+   "function": "_r39",
+   "kind": "read",
+   "line": 12872,
+   "site": "smoke_test.py:12872",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_face",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "_face",
+    "expr": "os.path.join('results', 'tom_overlay', 'latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join('results', 'vol_gate', 'latest.json')"
+   },
+   "expr": "os.path.join('results', 'tom_overlay', 'latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2146,
+   "site": "smoke_test.py:2146",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_face",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "_face",
+    "expr": "os.path.join('results', 'vol_gate', 'latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join('results', 'vol_gate', 'latest.json')"
+   },
+   "expr": "os.path.join('results', 'vol_gate', 'latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2320,
+   "site": "smoke_test.py:2320",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_face26",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_face26",
+    "expr": "'results/state_tilt/breakeven_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/breakeven_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2384,
+   "site": "smoke_test.py:2384",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_face28",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_face28",
+    "expr": "'results/state_tilt/matched_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/matched_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2455,
+   "site": "smoke_test.py:2455",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_face29",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_face29",
+    "expr": "'results/state_tilt/timingsel_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/timingsel_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2526,
+   "site": "smoke_test.py:2526",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_face30",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_face30",
+    "expr": "'results/state_tilt/hysteresis_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/hysteresis_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2603,
+   "site": "smoke_test.py:2603",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_face31",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_face31",
+    "expr": "'results/state_tilt/bandpath_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/bandpath_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2689,
+   "site": "smoke_test.py:2689",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p32",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p32",
+    "expr": "'results/state_tilt/costcurve_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/costcurve_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2794,
+   "site": "smoke_test.py:2794",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p33",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p33",
+    "expr": "'results/state_tilt/empirical_gamma_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/empirical_gamma_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2837,
+   "site": "smoke_test.py:2837",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p34",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p34",
+    "expr": "'results/state_tilt/per_member_gamma_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/per_member_gamma_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2907,
+   "site": "smoke_test.py:2907",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p35",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p35",
+    "expr": "'results/state_tilt/granularity_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/granularity_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2970,
+   "site": "smoke_test.py:2970",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p36",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p36",
+    "expr": "'results/state_tilt/sharediff_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/sharediff_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3032,
+   "site": "smoke_test.py:3032",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p37",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p37",
+    "expr": "'results/state_tilt/infostruct_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/infostruct_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3081,
+   "site": "smoke_test.py:3081",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p38",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p38",
+    "expr": "'results/state_tilt/loobook_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/loobook_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3137,
+   "site": "smoke_test.py:3137",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p39",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p39",
+    "expr": "'results/state_tilt/owncross_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/owncross_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3194,
+   "site": "smoke_test.py:3194",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p40",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p40",
+    "expr": "'results/state_tilt/aggatt_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/aggatt_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3265,
+   "site": "smoke_test.py:3265",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p41",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p41",
+    "expr": "'results/state_tilt/repro_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/repro_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3327,
+   "site": "smoke_test.py:3327",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p42",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p42",
+    "expr": "'results/state_tilt/omission_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/omission_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3399,
+   "site": "smoke_test.py:3399",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p45",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p45",
+    "expr": "os.path.join('results', 'state_tilt', 'slopematrix_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'slopematrix_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3557,
+   "site": "smoke_test.py:3557",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p46",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p46",
+    "expr": "os.path.join('results', 'state_tilt', 'stardir_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'stardir_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3610,
+   "site": "smoke_test.py:3610",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p48",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p48",
+    "expr": "os.path.join('results', 'state_tilt', 'starlagband_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'starlagband_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3698,
+   "site": "smoke_test.py:3698",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p49",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p49",
+    "expr": "os.path.join('results', 'state_tilt', 'leadcounter_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'leadcounter_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3766,
+   "site": "smoke_test.py:3766",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p50",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p50",
+    "expr": "os.path.join('results', 'state_tilt', 'bookecho_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bookecho_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3864,
+   "site": "smoke_test.py:3864",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p51",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p51",
+    "expr": "os.path.join('results', 'state_tilt', 'starown_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'starown_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3930,
+   "site": "smoke_test.py:3930",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p52",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p52",
+    "expr": "os.path.join('results', 'state_tilt', 'starself_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'starself_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4019,
+   "site": "smoke_test.py:4019",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p80",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p80",
+    "expr": "os.path.join('results', 'state_tilt', 'starownrepin_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'starownrepin_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4121,
+   "site": "smoke_test.py:4121",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p53",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p53",
+    "expr": "os.path.join('results', 'state_tilt', 'selfres_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'selfres_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4164,
+   "site": "smoke_test.py:4164",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p54",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p54",
+    "expr": "os.path.join('results', 'state_tilt', 'bandexp_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandexp_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4257,
+   "site": "smoke_test.py:4257",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p55",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p55",
+    "expr": "os.path.join('results', 'state_tilt', 'banddraw_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'banddraw_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4373,
+   "site": "smoke_test.py:4373",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p56",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p56",
+    "expr": "os.path.join('results', 'state_tilt', 'banddraw-d1920_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'banddraw-d1920_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4471,
+   "site": "smoke_test.py:4471",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p56s",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p56s",
+    "expr": "os.path.join('results', 'state_tilt', 'banddraw-d960_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'banddraw-d960_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4473,
+   "site": "smoke_test.py:4473",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p57",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p57",
+    "expr": "os.path.join('results', 'state_tilt', 'bandtopflip_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandtopflip_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4569,
+   "site": "smoke_test.py:4569",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p59",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p59",
+    "expr": "os.path.join('results', 'state_tilt', 'bandwindist_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandwindist_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4658,
+   "site": "smoke_test.py:4658",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p60",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p60",
+    "expr": "os.path.join('results', 'state_tilt', 'bandarrival_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandarrival_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4747,
+   "site": "smoke_test.py:4747",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p61",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p61",
+    "expr": "os.path.join('results', 'state_tilt', 'bandbucket_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandbucket_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4838,
+   "site": "smoke_test.py:4838",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p63",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p63",
+    "expr": "os.path.join('results', 'state_tilt', 'bandarrivalate_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandarrivalate_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4941,
+   "site": "smoke_test.py:4941",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p62",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p62",
+    "expr": "os.path.join('results', 'state_tilt', 'bandtransfer_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandtransfer_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 5051,
+   "site": "smoke_test.py:5051",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p64",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p64",
+    "expr": "os.path.join('results', 'state_tilt', 'bandnear1_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandnear1_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 5187,
+   "site": "smoke_test.py:5187",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p66",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p66",
+    "expr": "os.path.join('results', 'state_tilt', 'bandscreen_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandscreen_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 5286,
+   "site": "smoke_test.py:5286",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p67",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p67",
+    "expr": "os.path.join('results', 'state_tilt', 'bandmargin_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandmargin_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 5369,
+   "site": "smoke_test.py:5369",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p68",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p68",
+    "expr": "os.path.join('results', 'state_tilt', 'bandpooled_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandpooled_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 5482,
+   "site": "smoke_test.py:5482",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p69",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p69",
+    "expr": "os.path.join('results', 'state_tilt', 'bandtight_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandtight_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 5596,
+   "site": "smoke_test.py:5596",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p274",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p274",
+    "expr": "os.path.join('results', 'state_tilt', 'bandstraddlesweep_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandstraddlesweep_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 5746,
+   "site": "smoke_test.py:5746",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p72",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p72",
+    "expr": "os.path.join('results', 'state_tilt', 'bandflipbudget_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandflipbudget_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 5836,
+   "site": "smoke_test.py:5836",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p70",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p70",
+    "expr": "os.path.join('results', 'state_tilt', 'bandfields_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandfields_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 5959,
+   "site": "smoke_test.py:5959",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p58",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p58",
+    "expr": "os.path.join('results', 'state_tilt', 'bandwinmult_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandwinmult_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 6069,
+   "site": "smoke_test.py:6069",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p73",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p73",
+    "expr": "os.path.join('results', 'state_tilt', 'bandthreshguard_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandthreshguard_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 6146,
+   "site": "smoke_test.py:6146",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p74",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p74",
+    "expr": "os.path.join('results', 'state_tilt', 'banddonorchoice_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'banddonorchoice_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 6246,
+   "site": "smoke_test.py:6246",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p75",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p75",
+    "expr": "os.path.join('results', 'state_tilt', 'bandscreenbudget_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandscreenbudget_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 6347,
+   "site": "smoke_test.py:6347",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p77",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p77",
+    "expr": "os.path.join('results', 'state_tilt', 'bandfloor_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandfloor_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 6439,
+   "site": "smoke_test.py:6439",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p78",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p78",
+    "expr": "os.path.join('results', 'state_tilt', 'bandspreadfloor_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandspreadfloor_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 6508,
+   "site": "smoke_test.py:6508",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p79",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p79",
+    "expr": "os.path.join('results', 'state_tilt', 'bandsubstitute_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandsubstitute_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 6582,
+   "site": "smoke_test.py:6582",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p81",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p81",
+    "expr": "os.path.join('results', 'state_tilt', 'bandsubstituteaudit_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandsubstituteaudit_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 6663,
+   "site": "smoke_test.py:6663",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p82",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p82",
+    "expr": "os.path.join('results', 'state_tilt', 'banddisagree_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'banddisagree_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 6734,
+   "site": "smoke_test.py:6734",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p83",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p83",
+    "expr": "os.path.join('results', 'state_tilt', 'banddeflate_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'banddeflate_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 6818,
+   "site": "smoke_test.py:6818",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p84",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p84",
+    "expr": "os.path.join('results', 'state_tilt', 'banddisagreescope_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'banddisagreescope_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 6912,
+   "site": "smoke_test.py:6912",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p85",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p85",
+    "expr": "os.path.join('results', 'state_tilt', 'bandgapceiling_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandgapceiling_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 6998,
+   "site": "smoke_test.py:6998",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p86",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p86",
+    "expr": "os.path.join('results', 'state_tilt', 'bandcountscope_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandcountscope_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 7099,
+   "site": "smoke_test.py:7099",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p87",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p87",
+    "expr": "os.path.join('results', 'state_tilt', 'bandselfaudit_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandselfaudit_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 7192,
+   "site": "smoke_test.py:7192",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p88",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p88",
+    "expr": "os.path.join('results', 'state_tilt', 'bandambient_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandambient_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 7301,
+   "site": "smoke_test.py:7301",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p89",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p89",
+    "expr": "os.path.join('results', 'state_tilt', 'bandsupply_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandsupply_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 7407,
+   "site": "smoke_test.py:7407",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p90",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p90",
+    "expr": "os.path.join('results', 'state_tilt', 'bandfloormirror_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandfloormirror_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 7528,
+   "site": "smoke_test.py:7528",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p91",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p91",
+    "expr": "os.path.join('results', 'state_tilt', 'banddupes_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'banddupes_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 7639,
+   "site": "smoke_test.py:7639",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p92",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p92",
+    "expr": "os.path.join('results', 'state_tilt', 'bandclosure_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandclosure_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 7729,
+   "site": "smoke_test.py:7729",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p93",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p93",
+    "expr": "os.path.join('results', 'state_tilt', 'bandmarginwindow_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandmarginwindow_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 7831,
+   "site": "smoke_test.py:7831",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p94",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p94",
+    "expr": "os.path.join('results', 'state_tilt', 'bandscopefix_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandscopefix_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 8094,
+   "site": "smoke_test.py:8094",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p94",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p94",
+    "expr": "os.path.join('results', 'state_tilt', 'bandfrozen_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandfrozen_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 8215,
+   "site": "smoke_test.py:8215",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p99",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p99",
+    "expr": "os.path.join('results', 'state_tilt', 'gatetol_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'gatetol_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 8567,
+   "site": "smoke_test.py:8567",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p100",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p100",
+    "expr": "os.path.join('results', 'state_tilt', 'gateoperands_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'gateoperands_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 8632,
+   "site": "smoke_test.py:8632",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p101",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p101",
+    "expr": "os.path.join('results', 'state_tilt', 'gateclamp_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'gateclamp_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 8697,
+   "site": "smoke_test.py:8697",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p102",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p102",
+    "expr": "os.path.join('results', 'state_tilt', 'legeps_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'legeps_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 8779,
+   "site": "smoke_test.py:8779",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p103",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p103",
+    "expr": "os.path.join('results', 'state_tilt', 'gateprint_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'gateprint_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 8843,
+   "site": "smoke_test.py:8843",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p104",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p104",
+    "expr": "os.path.join('results', 'state_tilt', 'printcov_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'printcov_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 8916,
+   "site": "smoke_test.py:8916",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p105",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p105",
+    "expr": "os.path.join('results', 'state_tilt', 'zerotolprune_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'zerotolprune_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 8993,
+   "site": "smoke_test.py:8993",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p301",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p301",
+    "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9259,
+   "site": "smoke_test.py:9259",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p309",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p309",
+    "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9331,
+   "site": "smoke_test.py:9331",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p311",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p311",
+    "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 9388,
+   "site": "smoke_test.py:9388",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_face",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "_face",
+    "expr": "os.path.join('results', 'obs_rate', 'latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join('results', 'vol_gate', 'latest.json')"
+   },
+   "expr": "os.path.join('results', 'obs_rate', 'latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2192,
+   "site": "smoke_test.py:2192",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_face",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "_face",
+    "expr": "os.path.join('results', 'vol_gate', 'latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join('results', 'vol_gate', 'latest.json')"
+   },
+   "expr": "os.path.join('results', 'vol_gate', 'latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2244,
+   "site": "smoke_test.py:2244",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'results/state_tilt/hysteresis_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/hysteresis_latest.json'",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 2750,
+   "site": "smoke_test.py:2750",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_src69",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_src69",
+    "expr": "os.path.join('results', 'state_tilt', 'bandtransfer_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandtransfer_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 5651,
+   "site": "smoke_test.py:5651",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_bid51",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_bid51",
+    "expr": "os.path.join('results', 'state_tilt', 'bookecho_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bookecho_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 3977,
+   "site": "smoke_test.py:3977",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p51b",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p51b",
+    "expr": "_same52 if _same52 and os.path.exists(_same52) else os.path.join('results', 'state_tilt', 'starown_latest.json')",
+    "family_suffix": "results/state_tilt",
+    "how": "a literal component names the family directory",
+    "root_from": "a runtime value not resolvable here"
+   },
+   "expr": "_same52 if _same52 and os.path.exists(_same52) else os.path.join('results', 'state_tilt', 'starown_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 4077,
+   "site": "smoke_test.py:4077",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": "_p66r",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "_p66r",
+    "expr": "os.path.join('results', 'state_tilt', 'bandscreen_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'bandscreen_latest.json')",
+   "file": "smoke_test.py",
+   "function": "main",
+   "kind": "read",
+   "line": 5408,
+   "site": "smoke_test.py:5408",
+   "tier": "smoke_harness"
+  }
+ ],
+ "report_if_a_different_family_wrote_last": "A reader whose base is a free runtime name opens whichever family last wrote that directory's latest.json, so on a night when a different family published last it reports that family's document under its own heading: the numbers, the evidence_cutoff and the verdict all change, and nothing in the read itself can tell -- the file exists, it parses, and every key the reader asks for may even be present. The mistake is silent in the healthy direction, which is why a pointer convention needs the family in the path, not in the caller's head.",
+ "source": "scripts/e398_latest_family.py",
+ "study": "E398_latest_family",
+ "summary": {
+  "by_class": {
+   "family_from_the_value_the_site_itself_wrote": 7,
+   "family_not_supplied_anywhere": 1,
+   "family_required_by_the_signature": 17,
+   "family_stated_at_the_site": 162
+  },
+  "by_tier": {
+   "live_tooling": {
+    "family_from_the_value_the_site_itself_wrote": 3,
+    "family_not_supplied_anywhere": 0,
+    "family_required_by_the_signature": 17,
+    "family_stated_at_the_site": 16,
+    "total": 36
+   },
+   "scratch_or_estate": {
+    "family_from_the_value_the_site_itself_wrote": 0,
+    "family_not_supplied_anywhere": 0,
+    "family_required_by_the_signature": 0,
+    "family_stated_at_the_site": 9,
+    "total": 9
+   },
+   "smoke_harness": {
+    "family_from_the_value_the_site_itself_wrote": 4,
+    "family_not_supplied_anywhere": 1,
+    "family_required_by_the_signature": 0,
+    "family_stated_at_the_site": 137,
+    "total": 142
+   }
+  },
+  "classes_sum_to_the_read_sites": true,
+  "families_publishing_a_bare_latest_json": 28,
+  "files_with_a_read_site": [
+   "Money02/live_pull.py",
+   "Money02/live_view.py",
+   "Money02/preflight_data.py",
+   "_e363_probe3.py",
+   "_tmp_r1251_close_state.py",
+   "_tmp_r1251_report.py",
+   "_tmp_r1277_nums.py",
+   "_tmp_r1277_view.py",
+   "results/_r234bmb_monday_ready_probe.py",
+   "results/_r793bmb_rebase_resolve.py",
+   "results/_r795bmb_rebase_resolve.py",
+   "scripts/divlowvol_live_picks.py",
+   "scripts/e235_charge_granularity.py",
+   "scripts/e236_share_difference.py",
+   "scripts/e239_own_vs_cross.py",
+   "scripts/e249_lead_counterfactual.py",
+   "scripts/e252_star_prices_itself.py",
+   "scripts/e253_self_row_resolution.py",
+   "scripts/e254_band_exponent_inside_cell.py",
+   "scripts/e255_band_draw_starvation.py",
+   "scripts/e257_band_at_top_flips.py",
+   "scripts/e258_band_multiplier_per_window.py",
+   "scripts/e259_band_multiplier_distribution.py",
+   "scripts/e260_band_endpoint_arrival.py",
+   "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+   "scripts/e263_arrival_vs_cell_size.py",
+   "scripts/e349_latest_mirror_census.py",
+   "scripts/e353_unwritten_guard_presence.py",
+   "scripts/e356_census_red_triage.py",
+   "scripts/e371_store_member_cost.py",
+   "scripts/e377_unresolved_destination.py",
+   "scripts/etf_book_bakeoff.py",
+   "scripts/etf_book_bridge.py",
+   "scripts/etf_book_order.py",
+   "scripts/etf_book_spanning.py",
+   "scripts/etf_book_tsmom.py",
+   "scripts/o2115_acceptance_pack.py",
+   "scripts/prove_smoke_leg_isolation.py",
+   "smoke_test.py"
+  ],
+  "live_tooling_only": {
+   "named": 36,
+   "read_sites": 36,
+   "unsupplied": 0,
+   "verdict": "every_latest_pointer_reader_names_its_family_at_the_site_or_in_its_signature_so_a_wrong_family_needs_a_wrong_caller_not_a_wrong_name"
+  },
+  "max_families_a_single_unsupplied_reader_could_land_on": 28,
+  "pointer_files_named_<family>_latest_json": 175,
+  "pointer_files_named_latest_json": 28,
+  "pointer_files_with_another_latest_shape": 11,
+  "read_sites_in_files": 39,
+  "read_sites_total": 187,
+  "schema_cost_of_a_wrong_landing": {
+   "distinct_top_level_signatures": 27,
+   "families": 28,
+   "families_sharing_the_largest_signature": 2,
+   "pairs_compared": 378,
+   "pairs_with_the_same_top_level_keys": 1,
+   "share_of_confusable_pairs_that_are_the_same_document": 0.0026,
+   "signature_groups": [
+    {
+     "families": [
+      "results/etf_book_order",
+      "results/etf_book_order_fresh"
+     ],
+     "n_families": 2,
+     "signature": [
+      "as_of",
+      "beta_tar",
+      "file",
+      "k_now"
+     ]
+    },
+    {
+     "families": [
+      "docs/live_book"
+     ],
+     "n_families": 1,
+     "signature": [
+      "generate",
+      "json",
+      "page"
+     ]
+    },
+    {
+     "families": [
+      "results/alphagen_rg"
+     ],
+     "n_families": 1,
+     "signature": [
+      "audit",
+      "batch",
+      "census",
+      "descript",
+      "evidence",
+      "grammar",
+      "prereg_r",
+      "probe",
+      "queue_ro",
+      "riders",
+      "roster_r",
+      "seeds",
+      "shard_fi",
+      "trials_l",
+      "verdict"
+     ]
+    },
+    {
+     "families": [
+      "results/div_event_census"
+     ],
+     "n_families": 1,
+     "signature": [
+      "disclosu",
+      "dividend",
+      "elapsed_",
+      "evidence",
+      "face",
+      "generate",
+      "method",
+      "panel",
+      "results",
+      "status",
+      "windows"
+     ]
+    },
+    {
+     "families": [
+      "results/divex_harvest"
+     ],
+     "n_families": 1,
+     "signature": [
+      "cost",
+      "disclosu",
+      "dividend",
+      "elapsed_",
+      "events",
+      "evidence",
+      "face",
+      "generate",
+      "method",
+      "panel",
+      "readout",
+      "status",
+      "windows"
+     ]
+    },
+    {
+     "families": [
+      "results/divlowvol_live"
+     ],
+     "n_families": 1,
+     "signature": [
+      "as_of",
+      "census_w",
+      "disclosu",
+      "entry_da",
+      "face",
+      "holdings",
+      "n_firing",
+      "n_holdin",
+      "next_ent",
+      "nulls_ev",
+      "panel",
+      "prereg",
+      "rule",
+      "sha16",
+      "signal_w",
+      "status",
+      "t0_date",
+      "turnover",
+      "universe",
+      "weight"
+     ]
+    },
+    {
+     "families": [
+      "results/divlowvol_nulls"
+     ],
+     "n_families": 1,
+     "signature": [
+      "batch",
+      "cell",
+      "cutoff_m",
+      "evidence",
+      "face",
+      "judged_n",
+      "kind",
+      "machine",
+      "nulls",
+      "realized",
+      "single_s",
+      "stats",
+      "status",
+      "verdict",
+      "window"
+     ]
+    },
+    {
+     "families": [
+      "results/e24_breadth_h20_entry"
+     ],
+     "n_families": 1,
+     "signature": [
+      "decision",
+      "decision",
+      "evidence",
+      "face",
+      "generate",
+      "horizon_",
+      "labels",
+      "primary",
+      "sensitiv",
+      "window_s"
+     ]
+    },
+    {
+     "families": [
+      "results/e24_dispersion_h60_entry"
+     ],
+     "n_families": 1,
+     "signature": [
+      "decision",
+      "decision",
+      "diagnost",
+      "evidence",
+      "face",
+      "generate",
+      "horizon_",
+      "labels",
+      "primary",
+      "sensitiv",
+      "window_s"
+     ]
+    },
+    {
+     "families": [
+      "results/e24_overlay_breath"
+     ],
+     "n_families": 1,
+     "signature": [
+      "always_o",
+      "cost_bp_",
+      "edge_vs_",
+      "evidence",
+      "exposure",
+      "face",
+      "generate",
+      "labels",
+      "n_days",
+      "overlay",
+      "tail_q",
+      "window_s"
+     ]
+    },
+    {
+     "families": [
+      "results/e25_whipsaw"
+     ],
+     "n_families": 1,
+     "signature": [
+      "evidence",
+      "face",
+      "forward_",
+      "generate",
+      "labels",
+      "members",
+      "per_memb",
+      "per_wind",
+      "start",
+      "years"
+     ]
+    },
+    {
+     "families": [
+      "results/e33_ladder_baseline"
+     ],
+     "n_families": 1,
+     "signature": [
+      "faces",
+      "generate",
+      "tag"
+     ]
+    },
+    {
+     "families": [
+      "results/etf_book_production"
+     ],
+     "n_families": 1,
+     "signature": [
+      "backtest",
+      "caveats",
+      "commodit",
+      "config",
+      "evidence",
+      "feed_sta",
+      "hysteres",
+      "passive_",
+      "premium_",
+      "preperio",
+      "script",
+      "sheet",
+      "spanning",
+      "spanning",
+      "ts",
+      "vol_deli",
+      "window_d"
+     ]
+    },
+    {
+     "families": [
+      "results/etf_book_split_audit"
+     ],
+     "n_families": 1,
+     "signature": [
+      "arms",
+      "card_agr",
+      "config",
+      "curves_i",
+      "delta_re",
+      "event_co",
+      "events_h",
+      "evidence",
+      "flip_att",
+      "repair_c",
+      "script",
+      "verdict"
+     ]
+    },
+    {
+     "families": [
+      "results/m6_regime5"
+     ],
+     "n_families": 1,
+     "signature": [
+      "asof",
+      "disclosu",
+      "distribu",
+      "features",
+      "mode",
+      "n_days_s",
+      "state",
+      "state_cn",
+      "threshol",
+      "transiti",
+      "verdicts"
+     ]
+    },
+    {
+     "families": [
+      "results/obs_rate"
+     ],
+     "n_families": 1,
+     "signature": [
+      "arms",
+      "evidence",
+      "honest",
+      "ladder",
+      "spec",
+      "study",
+      "ts"
+     ]
+    },
+    {
+     "families": [
+      "results/overnight_gap_census"
+     ],
+     "n_families": 1,
+     "signature": [
+      "by_board",
+      "by_era_b",
+      "by_year",
+      "coverage",
+      "definiti",
+      "disclosu",
+      "evidence",
+      "law_ref",
+      "overall",
+      "probe",
+      "stock_ye",
+      "ts",
+      "universe"
+     ]
+    },
+    {
+     "families": [
+      "results/paper_export"
+     ],
+     "n_families": 1,
+     "signature": [
+      "audit",
+      "delivera",
+      "display_",
+      "evidence",
+      "export_d",
+      "generate",
+      "law_ref",
+      "marks_fa",
+      "missing_",
+      "no_futur",
+      "prior_di",
+      "prospect",
+      "schema",
+      "summary",
+      "ticket",
+      "traders"
+     ]
+    },
+    {
+     "families": [
+      "results/regime_gate_dualarm"
+     ],
+     "n_families": 1,
+     "signature": [
+      "asof",
+      "asof_mis",
+      "contract",
+      "emotion_",
+      "face",
+      "honesty",
+      "index_ar",
+      "provenan",
+      "ticket"
+     ]
+    },
+    {
+     "families": [
+      "results/regime_matrix_p0"
+     ],
+     "n_families": 1,
+     "signature": [
+      "cutoff",
+      "generate",
+      "matrix",
+      "md"
+     ]
+    },
+    {
+     "families": [
+      "results/seasonal_calendar_census"
+     ],
+     "n_families": 1,
+     "signature": [
+      "baseline",
+      "by_board",
+      "by_year",
+      "coverage",
+      "definiti",
+      "disclosu",
+      "evidence",
+      "holiday_",
+      "law_ref",
+      "probe",
+      "ts",
+      "universe",
+      "variants"
+     ]
+    },
+    {
+     "families": [
+      "results/seasonal_horizon_stability"
+     ],
+     "n_families": 1,
+     "signature": [
+      "baseline",
+      "batch",
+      "cells",
+      "evidence",
+      "face",
+      "generate",
+      "horizon_",
+      "horizons",
+      "per_vari",
+      "scope",
+      "series",
+      "variants",
+      "years_sp"
+     ]
+    },
+    {
+     "families": [
+      "results/stagestyle_combo_p1"
+     ],
+     "n_families": 1,
+     "signature": [
+      "batch",
+      "blocked_",
+      "cutoff_m",
+      "d6_discl",
+      "data_gap",
+      "evidence",
+      "gates",
+      "machine",
+      "mapping_",
+      "nulls",
+      "p4_predi",
+      "panel",
+      "prereg",
+      "prereg_s",
+      "results",
+      "single_s",
+      "sleeve_n",
+      "stage_la",
+      "status",
+      "window"
+     ]
+    },
+    {
+     "families": [
+      "results/state_tilt"
+     ],
+     "n_families": 1,
+     "signature": [
+      "accounti",
+      "answer",
+      "drift_sp",
+      "episode_",
+      "evidence",
+      "frozen_s",
+      "generate",
+      "panels",
+      "resoluti",
+      "study",
+      "title"
+     ]
+    },
+    {
+     "families": [
+      "results/t23_census"
+     ],
+     "n_families": 1,
+     "signature": [
+      "audit",
+      "census",
+      "evidence",
+      "frozen_r",
+      "grammar",
+      "machine",
+      "panel_fa",
+      "probe",
+      "queue_ro",
+      "riders",
+      "seeds",
+      "slice1_r",
+      "trials_l"
+     ]
+    },
+    {
+     "families": [
+      "results/tom_overlay"
+     ],
+     "n_families": 1,
+     "signature": [
+      "arms",
+      "evidence",
+      "honest",
+      "primary_",
+      "primary_",
+      "primary_",
+      "spec",
+      "study",
+      "ts",
+      "verdict",
+      "verdict_"
+     ]
+    },
+    {
+     "families": [
+      "results/vol_gate"
+     ],
+     "n_families": 1,
+     "signature": [
+      "answer",
+      "calendar",
+      "evidence",
+      "frozen_s",
+      "generate",
+      "observat",
+      "panels",
+      "resoluti",
+      "study",
+      "title"
+     ]
+    }
+   ]
+  },
+  "sites_handed_their_family_by_the_signature": 17,
+  "sites_that_name_their_family_at_the_site": 162,
+  "sites_that_read_the_pointer_they_just_wrote": 7,
+  "sites_whose_family_is_not_supplied_anywhere": 1,
+  "stone": null,
+  "unsupplied_sites_could_land_on_this_many_families": [
+   28
+  ],
+  "verdict": "some_latest_pointer_readers_are_handed_their_family_and_some_take_whatever_the_base_holds_so_the_pointer_convention_is_safe_only_where_the_caller_is",
+  "write_sites_by_class": {
+   "family_from_the_value_the_site_itself_wrote": 29,
+   "family_not_supplied_anywhere": 2,
+   "family_required_by_the_signature": 12,
+   "family_stated_at_the_site": 16
+  },
+  "write_sites_total": 59
+ },
+ "ts": "2026-11-04T02:42:55+08:00",
+ "verdict": "some_latest_pointer_readers_are_handed_their_family_and_some_take_whatever_the_base_holds_so_the_pointer_convention_is_safe_only_where_the_caller_is",
+ "write_sites": [
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "LIVE_DIR",
+    "expr": "LIVE_DIR / 'latest.json'",
+    "family_dir": "data/live",
+    "how": "a module constant names the directory"
+   },
+   "expr": "LIVE_DIR / 'latest.json'",
+   "file": "Money02/data.py",
+   "function": "pull_live_snapshot",
+   "kind": "write",
+   "line": 290,
+   "site": "Money02/data.py:290"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'results/state_tilt/starown_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/starown_latest.json'",
+   "file": "_tmp_r1277_nums.py",
+   "function": "<module>",
+   "kind": "write",
+   "line": 4,
+   "site": "_tmp_r1277_nums.py:4"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'results/state_tilt/starown_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/starown_latest.json'",
+   "file": "_tmp_r1277_view.py",
+   "function": "<module>",
+   "kind": "write",
+   "line": 4,
+   "site": "_tmp_r1277_view.py:4"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "'results/state_tilt/bookecho_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/bookecho_latest.json'",
+   "file": "_tmp_r1277_view.py",
+   "function": "<module>",
+   "kind": "write",
+   "line": 5,
+   "site": "_tmp_r1277_view.py:5"
+  },
+  {
+   "carried_by": "payload",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "payload",
+    "expr": "{'ticket': 'T-2026-09-24-29', 'evidence_cutoff': cutoff, 'generated_from': ['results/paper', 'results/shortline/o1600_market_fit.json', 'results/paper_export/latest.json', 'results/strategy_scorecard.json (T-63 three-car",
+    "how": "carried from this function's own write",
+    "written_expr": "{'ticket': 'T-2026-09-24-29', 'evidence_cutoff': cutoff, 'generated_from': ['results/paper', 'results/shortline/o1600_market_fit.json', 'results/paper_export/latest.json', 'results/strategy_scorecard."
+   },
+   "expr": "{'ticket': 'T-2026-09-24-29', 'evidence_cutoff': cutoff, 'generated_from': ['results/paper', 'results/shortline/o1600_market_fit.json', 'results/paper_export/latest.json', 'results/strategy_scorecard.json (T-63 three-card face)', 'results/s",
+   "file": "results/_r1024bma_rollback_side/scripts__daily_scorecard.py",
+   "function": "build",
+   "kind": "write",
+   "line": 571,
+   "site": "results/_r1024bma_rollback_side/scripts__daily_scorecard.py:571"
+  },
+  {
+   "carried_by": "payload",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "payload",
+    "expr": "{'ticket': 'T-2026-09-24-29', 'evidence_cutoff': cutoff, 'generated_from': ['results/paper', 'results/shortline/o1600_market_fit.json', 'results/paper_export/latest.json', 'results/strategy_scorecard.json (T-63 three-car",
+    "how": "carried from this function's own write",
+    "written_expr": "{'ticket': 'T-2026-09-24-29', 'evidence_cutoff': cutoff, 'generated_from': ['results/paper', 'results/shortline/o1600_market_fit.json', 'results/paper_export/latest.json', 'results/strategy_scorecard."
+   },
+   "expr": "{'ticket': 'T-2026-09-24-29', 'evidence_cutoff': cutoff, 'generated_from': ['results/paper', 'results/shortline/o1600_market_fit.json', 'results/paper_export/latest.json', 'results/strategy_scorecard.json (T-63 three-card face)', 'results/s",
+   "file": "results/_r1024bma_rollback_side/scripts__daily_scorecard.py",
+   "function": "build",
+   "kind": "write",
+   "line": 572,
+   "site": "results/_r1024bma_rollback_side/scripts__daily_scorecard.py:572"
+  },
+  {
+   "carried_by": "row",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "row",
+    "expr": "ts + ' | ' + ROUND_LABEL + \" | WHAT CHANGED: burned the pool head E268 end-to-end -- a new runner (selftest 41/41, verify 0 problems) swaps ONLY the own-end slot of E267's guarded screen (the row's own p95, the one numbe",
+    "how": "carried from this function's own write",
+    "written_expr": "ts + ' | ' + ROUND_LABEL + \" | WHAT CHANGED: burned the pool head E268 end-to-end -- a new runner (selftest 41/41, verify 0 problems) swaps ONLY the own-end slot of E267's guarded screen (the row's ow"
+   },
+   "expr": "ts + ' | ' + ROUND_LABEL + \" | WHAT CHANGED: burned the pool head E268 end-to-end -- a new runner (selftest 41/41, verify 0 problems) swaps ONLY the own-end slot of E267's guarded screen (the row's own p95, the one number a table reader lac",
+   "file": "results/_r1294bmb_closeout.py",
+   "function": "append_round_report",
+   "kind": "write",
+   "line": 82,
+   "site": "results/_r1294bmb_closeout.py:82"
+  },
+  {
+   "carried_by": "take",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "take",
+    "expr": "resolve_snapshot(p, group_probe_paths=['docs/live_usage/LIVE-2026-10-07.json', 'docs/live_usage/LIVE-latest.json'])",
+    "how": "carried from this function's own write",
+    "written_expr": "resolve_snapshot(p, group_probe_paths=['docs/live_usage/LIVE-2026-10-07.json', 'docs/live_usage/LIVE-latest.json'])"
+   },
+   "expr": "resolve_snapshot(p, group_probe_paths=['docs/live_usage/LIVE-2026-10-07.json', 'docs/live_usage/LIVE-latest.json'])",
+   "file": "results/_r801bmb_s0_rebase_resolve.py",
+   "function": "main",
+   "kind": "write",
+   "line": 132,
+   "site": "results/_r801bmb_s0_rebase_resolve.py:132"
+  },
+  {
+   "carried_by": "rows",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "rows",
+    "expr": "['| %s | r%d | %s | **watermark: pool floor 3/3 at open (E351/E352/E353, py idle) -- burned the ready head in-window** | **CURRENT: E351 executed -- a green `product:` gate is not evidence when its subject never moved, b",
+    "how": "carried from this function's own write",
+    "written_expr": "['| %s | r%d | %s | **watermark: pool floor 3/3 at open (E351/E352/E353, py idle) -- burned the ready head in-window** | **CURRENT: E351 executed -- a green `product:` gate is not evidence when its su"
+   },
+   "expr": "['| %s | r%d | %s | **watermark: pool floor 3/3 at open (E351/E352/E353, py idle) -- burned the ready head in-window** | **CURRENT: E351 executed -- a green `product:` gate is not evidence when its subject never moved, but in this window it",
+   "file": "scripts/_r1372_closeout.py",
+   "function": "main",
+   "kind": "write",
+   "line": 360,
+   "site": "scripts/_r1372_closeout.py:360"
+  },
+  {
+   "carried_by": "payload",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "payload",
+    "expr": "{'ticket': 'T-2026-09-24-29', 'evidence_cutoff': cutoff, 'generated_from': ['results/paper', 'results/shortline/o1600_market_fit.json', 'results/paper_export/latest.json', 'results/strategy_scorecard.json (T-63 three-car",
+    "how": "carried from this function's own write",
+    "written_expr": "{'ticket': 'T-2026-09-24-29', 'evidence_cutoff': cutoff, 'generated_from': ['results/paper', 'results/shortline/o1600_market_fit.json', 'results/paper_export/latest.json', 'results/strategy_scorecard."
+   },
+   "expr": "{'ticket': 'T-2026-09-24-29', 'evidence_cutoff': cutoff, 'generated_from': ['results/paper', 'results/shortline/o1600_market_fit.json', 'results/paper_export/latest.json', 'results/strategy_scorecard.json (T-63 three-card face)', 'results/s",
+   "file": "scripts/daily_scorecard.py",
+   "function": "build",
+   "kind": "write",
+   "line": 575,
+   "site": "scripts/daily_scorecard.py:575"
+  },
+  {
+   "carried_by": "payload",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "payload",
+    "expr": "{'ticket': 'T-2026-09-24-29', 'evidence_cutoff': cutoff, 'generated_from': ['results/paper', 'results/shortline/o1600_market_fit.json', 'results/paper_export/latest.json', 'results/strategy_scorecard.json (T-63 three-car",
+    "how": "carried from this function's own write",
+    "written_expr": "{'ticket': 'T-2026-09-24-29', 'evidence_cutoff': cutoff, 'generated_from': ['results/paper', 'results/shortline/o1600_market_fit.json', 'results/paper_export/latest.json', 'results/strategy_scorecard."
+   },
+   "expr": "{'ticket': 'T-2026-09-24-29', 'evidence_cutoff': cutoff, 'generated_from': ['results/paper', 'results/shortline/o1600_market_fit.json', 'results/paper_export/latest.json', 'results/strategy_scorecard.json (T-63 three-card face)', 'results/s",
+   "file": "scripts/daily_scorecard.py",
+   "function": "build",
+   "kind": "write",
+   "line": 576,
+   "site": "scripts/daily_scorecard.py:576"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "latest",
+    "expr": "os.path.join(OUT_DIR, 'latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(OUT_DIR, 'latest.json')"
+   },
+   "expr": "os.path.join(OUT_DIR, 'latest.json')",
+   "file": "scripts/div_event_census.py",
+   "function": "main",
+   "kind": "write",
+   "line": 315,
+   "site": "scripts/div_event_census.py:315"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "OUT_DIR",
+    "expr": "os.path.join(OUT_DIR, 'latest.json')",
+    "family_dir": "results/divex_harvest",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUT_DIR, 'latest.json')",
+   "file": "scripts/divex_harvest_probe.py",
+   "function": "main",
+   "kind": "write",
+   "line": 414,
+   "site": "scripts/divex_harvest_probe.py:414"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "latest",
+    "expr": "os.path.join(OUT_DIR, 'latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(OUT_DIR, 'latest.json')"
+   },
+   "expr": "os.path.join(OUT_DIR, 'latest.json')",
+   "file": "scripts/divlowvol_live_picks.py",
+   "function": "_write",
+   "kind": "write",
+   "line": 304,
+   "site": "scripts/divlowvol_live_picks.py:304"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "OUT_DIR",
+    "expr": "os.path.join(OUT_DIR, 'latest.json')",
+    "family_dir": "results/divlowvol_nulls",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUT_DIR, 'latest.json')",
+   "file": "scripts/divlowvol_nulls_face.py",
+   "function": "cmd_run",
+   "kind": "write",
+   "line": 214,
+   "site": "scripts/divlowvol_nulls_face.py:214"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "OUT_DIR",
+    "expr": "os.path.join(OUT_DIR, 'consume-latest.json')",
+    "family_dir": "results/divlowvol_nulls",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUT_DIR, 'consume-latest.json')",
+   "file": "scripts/divlowvol_nulls_face.py",
+   "function": "cmd_consume",
+   "kind": "write",
+   "line": 283,
+   "site": "scripts/divlowvol_nulls_face.py:283"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "latest",
+    "expr": "os.path.join(FACE_DIR, 'HELDCURVE-latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(FACE_DIR, 'HELDCURVE-latest.json')"
+   },
+   "expr": "os.path.join(FACE_DIR, 'HELDCURVE-latest.json')",
+   "file": "scripts/e107_heldcurve.py",
+   "function": "main",
+   "kind": "write",
+   "line": 530,
+   "site": "scripts/e107_heldcurve.py:530"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "latest",
+    "expr": "os.path.join(FACE_DIR, 'HELDCURVE-latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(FACE_DIR, 'HELDCURVE-latest.json')"
+   },
+   "expr": "os.path.join(FACE_DIR, 'HELDCURVE-latest.json')",
+   "file": "scripts/e107_heldcurve.py",
+   "function": "main",
+   "kind": "write",
+   "line": 533,
+   "site": "scripts/e107_heldcurve.py:533"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "latest",
+    "expr": "os.path.join(outdir, 'latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(outdir, 'latest.json')"
+   },
+   "expr": "os.path.join(outdir, 'latest.json')",
+   "file": "scripts/e224_vol_gate.py",
+   "function": "run",
+   "kind": "write",
+   "line": 446,
+   "site": "scripts/e224_vol_gate.py:446"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'latest.json')",
+   "file": "scripts/e225_state_tilt.py",
+   "function": "run",
+   "kind": "write",
+   "line": 543,
+   "site": "scripts/e225_state_tilt.py:543"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'breakeven_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'breakeven_latest.json')",
+   "file": "scripts/e226_tilt_breakeven.py",
+   "function": "run",
+   "kind": "write",
+   "line": 387,
+   "site": "scripts/e226_tilt_breakeven.py:387"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'matched_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'matched_latest.json')",
+   "file": "scripts/e228_matched_exposure.py",
+   "function": "run",
+   "kind": "write",
+   "line": 445,
+   "site": "scripts/e228_matched_exposure.py:445"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'timingsel_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'timingsel_latest.json')",
+   "file": "scripts/e229_timing_selection.py",
+   "function": "run",
+   "kind": "write",
+   "line": 431,
+   "site": "scripts/e229_timing_selection.py:431"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'hysteresis_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'hysteresis_latest.json')",
+   "file": "scripts/e230_hysteresis_toll.py",
+   "function": "run",
+   "kind": "write",
+   "line": 504,
+   "site": "scripts/e230_hysteresis_toll.py:504"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'costcurve_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'costcurve_latest.json')",
+   "file": "scripts/e232_cost_curvature.py",
+   "function": "run",
+   "kind": "write",
+   "line": 366,
+   "site": "scripts/e232_cost_curvature.py:366"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'empirical_gamma_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'empirical_gamma_latest.json')",
+   "file": "scripts/e233_empirical_gamma.py",
+   "function": "run",
+   "kind": "write",
+   "line": 554,
+   "site": "scripts/e233_empirical_gamma.py:554"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'per_member_gamma_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'per_member_gamma_latest.json')",
+   "file": "scripts/e234_per_member_gamma.py",
+   "function": "run",
+   "kind": "write",
+   "line": 546,
+   "site": "scripts/e234_per_member_gamma.py:546"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "None",
+    "expr": "os.path.join(outdir, 'granularity_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'granularity_latest.json')",
+   "file": "scripts/e235_charge_granularity.py",
+   "function": "run",
+   "kind": "write",
+   "line": 654,
+   "site": "scripts/e235_charge_granularity.py:654"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "OUTDIR",
+    "expr": "os.path.join(OUTDIR, 'latest.json')",
+    "family_dir": "results/e24_overlay_breath",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUTDIR, 'latest.json')",
+   "file": "scripts/e24_overlay_feasibility.py",
+   "function": "main",
+   "kind": "write",
+   "line": 319,
+   "site": "scripts/e24_overlay_feasibility.py:319"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": null,
+    "default_expr": "",
+    "expr": "os.path.join(outdir, 'starown_latest.json')",
+    "how": "signature parameter",
+    "parameter": "outdir"
+   },
+   "expr": "os.path.join(outdir, 'starown_latest.json')",
+   "file": "scripts/e252_star_prices_itself.py",
+   "function": "_stub",
+   "kind": "write",
+   "line": 731,
+   "site": "scripts/e252_star_prices_itself.py:731"
+  },
+  {
+   "carried_by": "face_path",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "face_path",
+    "expr": "os.path.join(td, 'starself_latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(td, 'starself_latest.json')"
+   },
+   "expr": "os.path.join(td, 'starself_latest.json')",
+   "file": "scripts/e252_star_prices_itself.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 716,
+   "site": "scripts/e252_star_prices_itself.py:716"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "latest",
+    "expr": "os.path.join(outdir, 'banddraw%s_latest.json' % tag)",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(outdir, 'banddraw%s_latest.json' % tag)"
+   },
+   "expr": "os.path.join(outdir, 'banddraw%s_latest.json' % tag)",
+   "file": "scripts/e256_band_draw_continuation.py",
+   "function": "_write",
+   "kind": "write",
+   "line": 339,
+   "site": "scripts/e256_band_draw_continuation.py:339"
+  },
+  {
+   "carried_by": "doc",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "doc",
+    "expr": "{'study': STUDY, 'evidence_cutoff': TODAY, 'verdict': verdict, 'verdict_reason': reason, 'corpus': e361.stamp(files, root=root), 'summary': summary, 'rules': {'population': 'a source names <stem>_latest.json outside its ",
+    "how": "carried from this function's own write",
+    "written_expr": "{'study': STUDY, 'evidence_cutoff': TODAY, 'verdict': verdict, 'verdict_reason': reason, 'corpus': e361.stamp(files, root=root), 'summary': summary, 'rules': {'population': 'a source names <stem>_late"
+   },
+   "expr": "{'study': STUDY, 'evidence_cutoff': TODAY, 'verdict': verdict, 'verdict_reason': reason, 'corpus': e361.stamp(files, root=root), 'summary': summary, 'rules': {'population': 'a source names <stem>_latest.json outside its selftest region and ",
+   "file": "scripts/e331_pointer_only_readers.py",
+   "function": "build",
+   "kind": "write",
+   "line": 635,
+   "site": "scripts/e331_pointer_only_readers.py:635"
+  },
+  {
+   "carried_by": "body",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "body",
+    "expr": "'PATH = \"results/state_tilt/KKK_latest.json\"\\ndef selftest():\\n    return True\\n'",
+    "how": "carried from this function's own write",
+    "written_expr": "'PATH = \"results/state_tilt/KKK_latest.json\"\\ndef selftest():\\n    return True\\n'"
+   },
+   "expr": "'PATH = \"results/state_tilt/KKK_latest.json\"\\ndef selftest():\\n    return True\\n'",
+   "file": "scripts/e331_pointer_only_readers.py",
+   "function": "cmd_selftest",
+   "kind": "write",
+   "line": 924,
+   "site": "scripts/e331_pointer_only_readers.py:924"
+  },
+  {
+   "carried_by": "blind_body",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "blind_body",
+    "expr": "'\"\"\"A study.\\nMore prose.\\n\"\"\"\\nPATH = \"results/state_tilt/LLL_latest.json\"\\n\"\"\"a stray opener that never closes\\n' + ''.join(('X%d = %d\\n' % (i, i) for i in range(20)))",
+    "how": "carried from this function's own write",
+    "written_expr": "'\"\"\"A study.\\nMore prose.\\n\"\"\"\\nPATH = \"results/state_tilt/LLL_latest.json\"\\n\"\"\"a stray opener that never closes\\n' + ''.join(('X%d = %d\\n' % (i, i) for i in range(20)))"
+   },
+   "expr": "'\"\"\"A study.\\nMore prose.\\n\"\"\"\\nPATH = \"results/state_tilt/LLL_latest.json\"\\n\"\"\"a stray opener that never closes\\n' + ''.join(('X%d = %d\\n' % (i, i) for i in range(20)))",
+   "file": "scripts/e331_pointer_only_readers.py",
+   "function": "cmd_selftest",
+   "kind": "write",
+   "line": 942,
+   "site": "scripts/e331_pointer_only_readers.py:942"
+  },
+  {
+   "carried_by": "doc",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "doc",
+    "expr": "{'study': STUDY, 'evidence_cutoff': TODAY, 'verdict': verdict, 'verdict_reason': reason, 'corpus': e361.stamp(files_used, root=ROOT), 'corpus_source': _corpus_address(files_used, target), 'recommendation': 'the tokenizer",
+    "how": "carried from this function's own write",
+    "written_expr": "{'study': STUDY, 'evidence_cutoff': TODAY, 'verdict': verdict, 'verdict_reason': reason, 'corpus': e361.stamp(files_used, root=ROOT), 'corpus_source': _corpus_address(files_used, target), 'recommendat"
+   },
+   "expr": "{'study': STUDY, 'evidence_cutoff': TODAY, 'verdict': verdict, 'verdict_reason': reason, 'corpus': e361.stamp(files_used, root=ROOT), 'corpus_source': _corpus_address(files_used, target), 'recommendation': 'the tokenizer reading is availabl",
+   "file": "scripts/e335_sibling_entry_point.py",
+   "function": "build",
+   "kind": "write",
+   "line": 477,
+   "site": "scripts/e335_sibling_entry_point.py:477"
+  },
+  {
+   "carried_by": "ptr",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "ptr",
+    "expr": "os.path.join(OUTDIR, 'latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(OUTDIR, 'latest.json')"
+   },
+   "expr": "os.path.join(OUTDIR, 'latest.json')",
+   "file": "scripts/e33_ladder_baseline.py",
+   "function": "write_faces",
+   "kind": "write",
+   "line": 258,
+   "site": "scripts/e33_ladder_baseline.py:258"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "latest",
+    "expr": "os.path.join(FACE_DIR, 'unreadstatus_latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(FACE_DIR, 'unreadstatus_latest.json')"
+   },
+   "expr": "os.path.join(FACE_DIR, 'unreadstatus_latest.json')",
+   "file": "scripts/e346_status_writer_unread.py",
+   "function": "build",
+   "kind": "write",
+   "line": 585,
+   "site": "scripts/e346_status_writer_unread.py:585"
+  },
+  {
+   "carried_by": "summary",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "summary",
+    "expr": "summarize(['results/x/call_latest.json'], [], [], [], 10)",
+    "how": "carried from this function's own write",
+    "written_expr": "summarize(['results/x/call_latest.json'], [], [{'source': 's.py', 'binding': 'd', 'line': 1, 'load_name': 'load', 'channel': 'named', 'files': ['call_latest.json'], 'kinds': ['mirror']}], [], 10)"
+   },
+   "expr": "summarize(['results/x/call_latest.json'], [], [], [], 10)",
+   "file": "scripts/e349_latest_mirror_census.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 702,
+   "site": "scripts/e349_latest_mirror_census.py:702"
+  },
+  {
+   "carried_by": "ptr",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "ptr",
+    "expr": "os.path.join(OUT_DIR, 'latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(OUT_DIR, 'latest.json')"
+   },
+   "expr": "os.path.join(OUT_DIR, 'latest.json')",
+   "file": "scripts/etf_book_ceo_page.py",
+   "function": "run",
+   "kind": "write",
+   "line": 929,
+   "site": "scripts/etf_book_ceo_page.py:929"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "binding": "cd",
+    "expr": "os.path.join(cd, 'latest.json')",
+    "family_dir": "prod",
+    "how": "a local binding names the directory"
+   },
+   "expr": "os.path.join(cd, 'latest.json')",
+   "file": "scripts/etf_book_order.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 1258,
+   "site": "scripts/etf_book_order.py:1258"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "binding": "cd2",
+    "expr": "os.path.join(cd2, 'latest.json')",
+    "family_dir": "prod2",
+    "how": "a local binding names the directory"
+   },
+   "expr": "os.path.join(cd2, 'latest.json')",
+   "file": "scripts/etf_book_order.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 1270,
+   "site": "scripts/etf_book_order.py:1270"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "binding": "cd_arm",
+    "expr": "os.path.join(cd_arm, 'latest.json')",
+    "family_dir": "prod_arm",
+    "how": "a local binding names the directory"
+   },
+   "expr": "os.path.join(cd_arm, 'latest.json')",
+   "file": "scripts/etf_book_order.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 1297,
+   "site": "scripts/etf_book_order.py:1297"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "binding": "cd3",
+    "expr": "os.path.join(cd3, 'latest.json')",
+    "family_dir": "prod3",
+    "how": "a local binding names the directory"
+   },
+   "expr": "os.path.join(cd3, 'latest.json')",
+   "file": "scripts/etf_book_order.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 1329,
+   "site": "scripts/etf_book_order.py:1329"
+  },
+  {
+   "carried_by": null,
+   "class": "family_not_supplied_anywhere",
+   "evidence": {
+    "expr": "os.path.join(cdt, 'latest.json')",
+    "how": "no literal, constant, parameter or prior write"
+   },
+   "expr": "os.path.join(cdt, 'latest.json')",
+   "file": "scripts/etf_book_order.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 1384,
+   "site": "scripts/etf_book_order.py:1384"
+  },
+  {
+   "carried_by": null,
+   "class": "family_not_supplied_anywhere",
+   "evidence": {
+    "expr": "os.path.join(cdt, 'latest.json')",
+    "how": "no literal, constant, parameter or prior write"
+   },
+   "expr": "os.path.join(cdt, 'latest.json')",
+   "file": "scripts/etf_book_order.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 1428,
+   "site": "scripts/etf_book_order.py:1428"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "OUT_DIR",
+    "expr": "os.path.join(OUT_DIR, 'latest.json')",
+    "family_dir": "etf_book_production",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUT_DIR, 'latest.json')",
+   "file": "scripts/etf_book_production.py",
+   "function": "run",
+   "kind": "write",
+   "line": 649,
+   "site": "scripts/etf_book_production.py:649"
+  },
+  {
+   "carried_by": "ptr",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "ptr",
+    "expr": "os.path.join(tmpd, 'latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(tmpd, 'latest.json')"
+   },
+   "expr": "os.path.join(tmpd, 'latest.json')",
+   "file": "scripts/etf_book_registry.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 577,
+   "site": "scripts/etf_book_registry.py:577"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "latest",
+    "expr": "os.path.join(OUT_DIR, 'call_latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(OUT_DIR, 'call_latest.json')"
+   },
+   "expr": "os.path.join(OUT_DIR, 'call_latest.json')",
+   "file": "scripts/market_clock_call.py",
+   "function": "run",
+   "kind": "write",
+   "line": 406,
+   "site": "scripts/market_clock_call.py:406"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join(tmp, 'results', 'paper_export', 'latest.json')",
+    "family_suffix": "results/paper_export",
+    "how": "a literal component names the family directory",
+    "root_from": "a runtime value not resolvable here"
+   },
+   "expr": "os.path.join(tmp, 'results', 'paper_export', 'latest.json')",
+   "file": "scripts/month_exam_readiness.py",
+   "function": "_mkfixture",
+   "kind": "write",
+   "line": 379,
+   "site": "scripts/month_exam_readiness.py:379"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": "results/overnight_gap_census",
+    "default_expr": "OUT_DIR",
+    "expr": "os.path.join(out_dir, 'latest.json')",
+    "how": "signature parameter with a constant default",
+    "parameter": "out_dir"
+   },
+   "expr": "os.path.join(out_dir, 'latest.json')",
+   "file": "scripts/overnight_gap_census.py",
+   "function": "write_outputs",
+   "kind": "write",
+   "line": 332,
+   "site": "scripts/overnight_gap_census.py:332"
+  },
+  {
+   "carried_by": "fp",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "fp",
+    "expr": "os.path.join(PATHS.results_dir, '_n3r1_probe_latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(PATHS.results_dir, '_n3r1_probe_latest.json')"
+   },
+   "expr": "os.path.join(PATHS.results_dir, '_n3r1_probe_latest.json')",
+   "file": "scripts/perpetual_faces_n3.py",
+   "function": "cmd_probe",
+   "kind": "write",
+   "line": 551,
+   "site": "scripts/perpetual_faces_n3.py:551"
+  },
+  {
+   "carried_by": "fp",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "fp",
+    "expr": "os.path.join(PATHS.results_dir, '_n3r2_probe_latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(PATHS.results_dir, '_n3r2_probe_latest.json')"
+   },
+   "expr": "os.path.join(PATHS.results_dir, '_n3r2_probe_latest.json')",
+   "file": "scripts/perpetual_faces_n3.py",
+   "function": "cmd_probe_r2",
+   "kind": "write",
+   "line": 844,
+   "site": "scripts/perpetual_faces_n3.py:844"
+  },
+  {
+   "carried_by": "fp",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "fp",
+    "expr": "os.path.join(PATHS.results_dir, '_n3r2_probe_latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(PATHS.results_dir, '_n3r2_probe_latest.json')"
+   },
+   "expr": "os.path.join(PATHS.results_dir, '_n3r2_probe_latest.json')",
+   "file": "scripts/perpetual_faces_n3.py",
+   "function": "cmd_probe_r2",
+   "kind": "write",
+   "line": 785,
+   "site": "scripts/perpetual_faces_n3.py:785"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "OUT_DIR",
+    "expr": "os.path.join(OUT_DIR, 'REC-latest.json')",
+    "family_dir": "docs/portfolio_recommendation",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUT_DIR, 'REC-latest.json')",
+   "file": "scripts/portfolio_recommend.py",
+   "function": "run",
+   "kind": "write",
+   "line": 286,
+   "site": "scripts/portfolio_recommend.py:286"
+  },
+  {
+   "carried_by": "latest_path",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "latest_path",
+    "expr": "os.path.join(OUT_DIR, 'evidence_latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(OUT_DIR, 'evidence_latest.json')"
+   },
+   "expr": "os.path.join(OUT_DIR, 'evidence_latest.json')",
+   "file": "scripts/regime_gate_evidence.py",
+   "function": "run",
+   "kind": "write",
+   "line": 165,
+   "site": "scripts/regime_gate_evidence.py:165"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "latest",
+    "expr": "os.path.join(OUT_DIR, 'latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(OUT_DIR, 'latest.json')"
+   },
+   "expr": "os.path.join(OUT_DIR, 'latest.json')",
+   "file": "scripts/regime_matrix_p0.py",
+   "function": "run",
+   "kind": "write",
+   "line": 712,
+   "site": "scripts/regime_matrix_p0.py:712"
+  },
+  {
+   "carried_by": null,
+   "class": "family_required_by_the_signature",
+   "evidence": {
+    "default_dir": "results/seasonal_calendar_census",
+    "default_expr": "OUT_DIR",
+    "expr": "os.path.join(out_dir, 'latest.json')",
+    "how": "signature parameter with a constant default",
+    "parameter": "out_dir"
+   },
+   "expr": "os.path.join(out_dir, 'latest.json')",
+   "file": "scripts/seasonal_calendar_census.py",
+   "function": "write_outputs",
+   "kind": "write",
+   "line": 501,
+   "site": "scripts/seasonal_calendar_census.py:501"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "constant": "OUT_DIR",
+    "expr": "os.path.join(OUT_DIR, 'latest.json')",
+    "family_dir": "results/stagestyle_combo_p1",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUT_DIR, 'latest.json')",
+   "file": "scripts/stagestyle_combo_p1_backtest.py",
+   "function": "cmd_run",
+   "kind": "write",
+   "line": 633,
+   "site": "scripts/stagestyle_combo_p1_backtest.py:633"
+  }
+ ]
+}

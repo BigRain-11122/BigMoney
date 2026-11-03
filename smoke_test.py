@@ -14572,5 +14572,94 @@ except Exception as _e399:
 check(_name399, not _bad399, "; ".join(_bad399)[:240]
       or "verdict %s" % str((_f399 or {}).get("verdict"))[:90])
 
+# E398: E385 found 28 files under the name latest.json. This leg asks who READS such a pointer and
+# whether the reader knows which family wrote last. It refuses the ways a reader census can flatter
+# or indict itself: a class outside the frozen set, classes that do not sum to the read sites, a
+# verdict that does not re-derive from the summary, a tier table whose rows do not re-add, a
+# live-tooling summary that disagrees with its own tier row, an unsupplied row whose candidate
+# count is not the length of its candidate list, a write published as a read, a family row whose
+# key list does not match its own signature, a pair count that is not n*(n-1)/2, and a study whose
+# own verify is not clean.
+_name398lf = ("product: latest.json is a convention with %s readers -- %s name their family at the "
+              "site, %s are handed it by the signature, %s read the pointer they just wrote, %s "
+              "supply nothing; a wrong landing is a different document in %s of %s pairs")
+_bad398lf = []
+_f398lf = None
+try:
+    _p398lf = os.path.join("results", "state_tilt", "latestfamily_latest.json")
+    _f398lf = json.load(open(_p398lf, encoding="utf-8")) if os.path.exists(_p398lf) else None
+    if _f398lf is None:
+        _bad398lf.append("no published latest-family face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m398lf = __import__("importlib").import_module("e398_latest_family")
+        _s398lf = _f398lf.get("summary") or {}
+        _cls398lf = _s398lf.get("by_class") or {}
+        if _f398lf.get("verdict") not in (_m398lf.V_ALL_NAMED, _m398lf.V_MIXED,
+                                          _m398lf.V_ALL_UNSUPPLIED, _m398lf.V_NO_READS):
+            _bad398lf.append("verdict %r is outside the frozen set" % str(_f398lf.get("verdict")))
+        _unknown398lf = sorted(set(_cls398lf) - set(_m398lf.CLASSES))
+        if _unknown398lf:
+            _bad398lf.append("classes outside the frozen set: %s" % _unknown398lf)
+        _tot398lf = _s398lf.get("read_sites_total") or 0
+        if sum(_cls398lf.values()) != _tot398lf:
+            _bad398lf.append("classes sum to %d but the read sites total is %d"
+                             % (sum(_cls398lf.values()), _tot398lf))
+        if _m398lf.decide(_s398lf) != _s398lf.get("verdict"):
+            _bad398lf.append("the verdict does not re-derive from the summary")
+        _tiers398lf = _s398lf.get("by_tier") or {}
+        if sum((row.get("total") or 0) for row in _tiers398lf.values()) != _tot398lf:
+            _bad398lf.append("the tier rows do not re-add to the read sites")
+        for _tn398lf, _row398lf in _tiers398lf.items():
+            _sum398lf = sum(_row398lf.get(_k398lf, 0) for _k398lf in _m398lf.CLASSES)
+            if _sum398lf != (_row398lf.get("total") or 0):
+                _bad398lf.append("tier %s: classes sum to %d, row total %s"
+                                 % (_tn398lf, _sum398lf, _row398lf.get("total")))
+        _live398lf = _s398lf.get("live_tooling_only") or {}
+        _ltier398lf = _tiers398lf.get("live_tooling") or {}
+        if _live398lf.get("unsupplied") != _ltier398lf.get(_m398lf.CL_UNSUPPLIED, 0):
+            _bad398lf.append("the live-tooling summary disagrees with its own tier row")
+        if _live398lf.get("read_sites") != (_ltier398lf.get("total") or 0):
+            _bad398lf.append("the live-tooling read count disagrees with its own tier row")
+        for _r398lf in _f398lf.get("read_sites") or []:
+            if _r398lf.get("kind") != "read":
+                _bad398lf.append("%s: a read row is not a read" % _r398lf.get("site"))
+                break
+            if _r398lf.get("class") == _m398lf.CL_UNSUPPLIED:
+                _cl398lf = _r398lf.get("candidate_families") or []
+                if len(_cl398lf) != (_r398lf.get("n_candidate_families") or 0):
+                    _bad398lf.append("%s: the candidate count is not its own list"
+                                     % _r398lf.get("site"))
+                    break
+        for _r398lf in _f398lf.get("write_sites") or []:
+            if _r398lf.get("kind") != "write":
+                _bad398lf.append("%s: a write row is not a write" % _r398lf.get("site"))
+                break
+        if len(_f398lf.get("families") or []) != (_s398lf.get("pointer_files_named_latest_json")
+                                                  or 0):
+            _bad398lf.append("the family rows do not match the bare pointer count")
+        for _r398lf in _f398lf.get("families") or []:
+            if _r398lf.get("signature") != _m398lf.signature(_r398lf.get("keys")):
+                _bad398lf.append("%s: the signature does not follow from its own keys"
+                                 % _r398lf.get("path"))
+                break
+        _cost398lf = _s398lf.get("schema_cost_of_a_wrong_landing") or {}
+        _n398lf = _cost398lf.get("families") or 0
+        if (_cost398lf.get("pairs_compared") or 0) != _n398lf * (_n398lf - 1) // 2:
+            _bad398lf.append("the pair count is not n*(n-1)/2")
+        if not _bad398lf and _m398lf.verify() != []:
+            _bad398lf.append("the study's own verify does not come back clean")
+        _name398lf = _name398lf % (_s398lf.get("read_sites_total"),
+                                   _cls398lf.get(_m398lf.CL_STATIC, 0),
+                                   _cls398lf.get(_m398lf.CL_SIGNATURE, 0),
+                                   _cls398lf.get(_m398lf.CL_WRITTEN, 0),
+                                   _cls398lf.get(_m398lf.CL_UNSUPPLIED, 0),
+                                   _cost398lf.get("pairs_with_the_same_top_level_keys"),
+                                   _cost398lf.get("pairs_compared"))
+except Exception as _e398lf:
+    _bad398lf.append(repr(_e398lf)[:160])
+check(_name398lf, not _bad398lf, "; ".join(_bad398lf)[:240]
+      or "verdict %s" % str((_f398lf or {}).get("verdict"))[:90])
+
 if __name__ == "__main__":
     sys.exit(main())

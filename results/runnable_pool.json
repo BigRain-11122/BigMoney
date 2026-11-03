@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r705 bm-c O-20261007-2245 ① OSS-import pool schema extension: +entries[].source/permit/adapt_status (AGPL-forbidden gate, OSS- id prefix namespace reserved 0-collision verified, rejected->negative_ref anti-resurrection linkage; receipt results/_r705bmc_oss_pool_schema.json); superseded: r705 bm-a N2-W15 JUDGE enrollment note (+12 SHARD-0..11, judge-prep PASS 01:10:23, git history preserved)",
+ "_stamp_note": "r1419 bm-b: E398 closed with result_ref; E403 seeded (ready floor 3)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27158,15 +27158,18 @@
   },
   {
    "deliverable": "results/state_tilt/LATESTFAMILY-2026-11-03.json",
+   "done_at": "2026-11-04T02:0x+08:00",
+   "done_by": "bm-b r1419",
    "entered_at": "2026-11-03T21:5x+08:00",
    "entered_by": "bm-b r1415 (supply floor refill after E385)",
    "id": "E398-DOES-A-LATEST-POINTER-READER-DEPEND-ON-WHICH-FAMILY-WROTE-LAST",
    "lane": "cpu-only",
    "lane_note": "cpu-only; static; read the published faces as they stand",
-   "note": "E385's largest merged name is ``latest.json`` with 28 files under it: the name is a pointer convention, not a face, and a reader that resolves ``latest.json`` without the family directory in front of it is reading whichever family published last. Ask it as a reader census: every read site that opens a ``*_latest.json`` (or bare ``latest.json``) path, classified by whether the family is supplied by the site's own constant, by the value it just wrote, or by nothing at all -- and for the last class, publish which families' pointers that site could actually land on. The bill is the site list plus the sentence that says what such a reader would report if a different family wrote last; never rewrite a pointer to fix it.",
+   "note": "the reader census: 187 read sites in 39 files, family supplied by literals/constants (162), by the function signature (17), by the pointer the same function just wrote (7), and not at all (1: a bare relative name in the smoke harness); live tooling is 36/36 supplied; the 28 bare pointers carry 27 distinct top-level signatures and only 1 of 378 pairs shares the same key set, so a wrong landing is a different document",
    "owner": null,
    "priority": 3,
-   "status": "ready"
+   "result_ref": "results/state_tilt/LATESTFAMILY-2026-11-04.json",
+   "status": "done"
   },
   {
    "deliverable": "results/state_tilt/UNRESOLVED-2026-11-04.json",
@@ -27203,6 +27206,18 @@
    "lane": "cpu-only",
    "status": "ready",
    "title": "E399 found that 52 of the 884 published keys (5.9%) are bare basenames -- a filename whose directory is supplied by a runtime variable, so \"resolves to no file\" is their normal state. Measure the producer side: for each fragment, find the site that writes it and the expression that supplies the directory, then classify whether that join can ever produce an existing file (constant existing dir / constant missing dir / dir built from another key / dir built from a date or symbol not in the tree). The bill separates fragments that are legitimate runtime names from fragments that will never resolve anywhere -- and says how much of any \"faces named\" headline is fragments."
+  },
+  {
+   "deliverable": "results/state_tilt/FAMILYARG-2026-11-04.json",
+   "entered_at": "2026-11-04T02:0x+08:00",
+   "entered_by": "bm-b r1419 (supply floor refill after E398)",
+   "id": "E403-DO-THE-CALLERS-OF-A-FAMILY-PARAMETER-READER-PASS-THE-RIGHT-FAMILY",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static; call sites only, never rewrite a reader",
+   "note": "E398 classified 17 read sites whose family is a function parameter and published nothing about their callers: ``os.path.join(outdir, 'x_latest.json')`` is only safe if every caller passes the family it means. Ask it as a call-site census -- for each family-parameter reader, every in-repo call, what the argument resolves to (a literal family, another parameter, a loop variable over a family list, or an unresolvable runtime value), and which families that set of calls can actually reach. The bill is the per-reader call list plus the sentence that says which reader is one call away from a wrong family; never edit a caller to fix it.",
+   "owner": null,
+   "priority": 3,
+   "status": "ready"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27217,6 +27232,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-03T22:21+08:00",
+ "updated_at": "2026-11-04T02:53+08:00",
  "version": 1
 }

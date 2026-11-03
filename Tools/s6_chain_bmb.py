@@ -1345,6 +1345,16 @@ LEGS = [
     # re-derives every published row's class from the tree.
     ("unresolved_names", ["python", "scripts/e399_unresolved_names.py", "verify"]),
 
+    # E398 asks who reads a latest.json pointer and whether the reader knows which family wrote
+    # last.  E385 found 28 files under the name latest.json; a reader that resolves the pointer
+    # against a free runtime base opens whichever family published last and looks healthy doing it
+    # (the file exists, it parses).  The leg classifies every in-repo read site by where its family
+    # comes from -- literal/constant at the site, a function parameter, a value the same function
+    # just wrote, or nothing at all -- and publishes the fan-out each unsupplied reader can reach
+    # plus the schema cost of a wrong landing.  Verify re-derives every published row and its class
+    # from the tree.
+    ("latest_family", ["python", "scripts/e398_latest_family.py", "verify"]),
+
     # E384 asks the reverse question of E381: a published key is only "read" if some site actually
     # opens or dumps a file.  A string in a source is not a decision to open one -- the same literal
     # can feed a caption, a comparison or a Path that is never read.  The leg classifies each key's
