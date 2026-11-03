@@ -26969,6 +26969,18 @@
    "status": "ready"
   },
   {
+   "deliverable": "results/state_tilt/PHANTOMWHY-2026-11-03.json",
+   "entered_at": "2026-11-03T17:05:00+08:00",
+   "entered_by": "bm-b r1410 (supply floor refill after E393 close)",
+   "id": "E394-WHY-DO-READS-OPEN-A-FACE-THAT-DOES-NOT-STORE-THE-KEY",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static; no GPU, no cloud",
+   "note": "E393 showed the cap was hiding faces that almost all store the key (3,241 of 3,271), so the residue is the other direction: 188 reads E392 resolved do open a face that does not store the key, plus the 30 cap-hidden reads whose face lacks it. Price what those are -- a key the site builds at a different depth, a name that moved between two faces, a face whose producer renamed it -- by following each one to its face and its producer, and publish how many are real broken readers.",
+   "owner": null,
+   "priority": 3,
+   "status": "ready"
+  },
+  {
    "done_at": "2026-11-03T11:56:00+08:00",
    "entered_at": "2026-11-03T08:54:50+08:00",
    "entered_by": "bm-b r1402",
@@ -27035,44 +27047,47 @@
    "status": "done"
   },
   {
+   "claimed_by": "bm-b",
+   "close_note": "deliverable landed on disk 1.49h after entry; closed by the reconciliation audit",
+   "closed_at": "2026-11-03T14:52:00+08:00",
+   "closed_by": "bm-b r1408",
    "deliverable": "results/state_tilt/TWOMEANINGS-2026-11-03.json",
    "entered_at": "2026-11-03T13:20:00+08:00",
    "entered_by": "bm-b r1407 (supply floor refill after E390 close)",
    "id": "E391-WHICH-KEY-NAME-CARRIES-TWO-MEANINGS-ACROSS-PUBLISHED-FACES",
    "lane": "cpu-only",
    "note": "E390 charged 45 reads to a face they do not open, every one of them because a key name matched: build_status reads 'generated' from portfolio_ew6.json, which has nothing to do with the trial-labor schema. E383 priced key->file collisions; this is the other axis -- one key name meaning different things in different published faces. For every key that appears in more than one published face under results/, publish the faces, the value type and the observed value range/set per face, and classify: same meaning (same type, comparable range), different type, or different meaning (same type, disjoint ranges). Static read of published JSON only, zero network, no face rewritten. A reader that keys by name alone is the consumer this census prices.",
-   "status": "done",
-   "result_ref": "results/state_tilt/TWOMEANINGS-2026-11-03.json + scripts/e391_key_name_two_meanings.py (run / verify problems=[] / selftest 43/43 / smoke leg 1/1)",
-   "closed_by": "bm-b r1408",
-   "closed_at": "2026-11-03T14:52:00+08:00",
-   "close_note": "deliverable landed on disk 1.49h after entry; closed by the reconciliation audit",
    "owner": "bm-b",
-   "claimed_by": "bm-b"
+   "result_ref": "results/state_tilt/TWOMEANINGS-2026-11-03.json + scripts/e391_key_name_two_meanings.py (run / verify problems=[] / selftest 43/43 / smoke leg 1/1)",
+   "status": "done"
   },
   {
-   "id": "E392-WHICH-NAME-MATCHED-READ-ACTUALLY-OPENS-THE-FACE-THAT-CARRIES-THE-KEY",
-   "lane": "cpu-only",
-   "status": "done",
-   "priority": 3,
-   "owner": "bm-b",
+   "closed_at": "2026-11-03T16:10:00+08:00",
+   "closed_by": "bm-b r1409",
+   "deliverable": "results/state_tilt/READRESOLVE-2026-11-03.json",
    "entered_at": "2026-11-03T14:52:00+08:00",
    "entered_by": "bm-b r1408 (supply floor refill after E391 close)",
-   "deliverable": "results/state_tilt/READRESOLVE-2026-11-03.json",
+   "id": "E392-WHICH-NAME-MATCHED-READ-ACTUALLY-OPENS-THE-FACE-THAT-CARRIES-THE-KEY",
+   "lane": "cpu-only",
    "note": "E391 published 132,604 in-repo literal sites that name a field-shaped key with two structural meanings, and said plainly that a name match is not a face read. That bound is what a reader has to act on, so price it: take the conflicted keys whose read sites are fewest and most distinct, follow each site's load expression (E390's resolver, do not re-implement it) to the face it opens, and publish per key the name-matched count against the resolved count -- how many of those sites actually open a face that stores the key, and with which of the two structures. Static only, zero network, no published face rewritten; keys whose sites cannot be resolved statically are published as unresolvable rather than dropped.",
+   "owner": "bm-b",
+   "priority": 3,
    "result_ref": "results/state_tilt/READRESOLVE-2026-11-03.json + scripts/e392_read_resolve.py (run / verify problems=[] / selftest 23/23 / smoke leg 1/1)",
-   "closed_at": "2026-11-03T16:10:00+08:00",
-   "closed_by": "bm-b r1409"
+   "status": "done"
   },
   {
-   "id": "E393-DOES-THE-READ-CAP-HIDE-THE-FACES-A-READER-ACTUALLY-OPENS",
-   "lane": "cpu-only",
-   "status": "ready",
-   "priority": 3,
-   "owner": null,
+   "closed_at": "2026-11-03T17:05:00+08:00",
+   "deliverable": "results/state_tilt/READCAP-2026-11-03.json",
    "entered_at": "2026-11-03T16:10:00+08:00",
    "entered_by": "bm-b r1409 (supply floor refill after E392 close)",
-   "deliverable": "results/state_tilt/READCAP-2026-11-03.json",
-   "note": "E392 published that 3,271 of its 3,292 unreadable resolutions land on a face above the 1 MB read cap, i.e. the check is blind exactly where the aggregate faces live, and it published 5.1% as a bound rather than a ceiling because of it. Price that cap: read those faces in a streaming/bounded-shape pass (count keys and their shapes per top-level container without materialising the whole document, or raise the cap for this one measurement and report the memory it costs), then republish E392's storing count with and without the capped faces and say how much of the 5.1% was a size refusal rather than a structure answer. Static only, zero network, no published face rewritten; a face that still cannot be read is published by reason, never counted as a miss."
+   "id": "E393-DOES-THE-READ-CAP-HIDE-THE-FACES-A-READER-ACTUALLY-OPENS",
+   "lane": "cpu-only",
+   "note": "E392 published that 3,271 of its 3,292 unreadable resolutions land on a face above the 1 MB read cap, i.e. the check is blind exactly where the aggregate faces live, and it published 5.1% as a bound rather than a ceiling because of it. Price that cap: read those faces in a streaming/bounded-shape pass (count keys and their shapes per top-level container without materialising the whole document, or raise the cap for this one measurement and report the memory it costs), then republish E392's storing count with and without the capped faces and say how much of the 5.1% was a size refusal rather than a structure answer. Static only, zero network, no published face rewritten; a face that still cannot be read is published by reason, never counted as a miss.",
+   "owner": "bm-b",
+   "priority": 3,
+   "result_note": "3,271 of the 3,292 refusals were size refusals; a byte-level presence scan over the 195 faces those reads open (270 MB, 7.1 s) finds 3,241 of them store the key and 30 do not, so the published share moves 0.051 -> 0.0797 on an identical name-matched total (tree_drift 0). 21 JSONDecodeError faces stay refused as the control.",
+   "result_ref": "results/state_tilt/READCAP-2026-11-03.json",
+   "status": "done"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27087,6 +27102,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-03T16:10:00+08:00",
+ "updated_at": "2026-11-03T17:05:00+08:00",
  "version": 1
 }

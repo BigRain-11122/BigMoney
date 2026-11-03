@@ -8721,3 +8721,43 @@ upper bound: a key found deeper than the site indexes still counts as a hit, and
 
 Wiring: `scripts/e392_read_resolve.py` (run / verify problems=[] / selftest 23/23); smoke leg E392
 (1/1); S6 leg `read_resolve`; face `results/state_tilt/READRESOLVE-2026-11-03.json`.
+
+### E393 — a size cap is a biased sample, not a method limit
+
+E392 published `share = 0.051` and named its own cap in the summary: 3,271 of its 3,292 unreadable
+resolutions were `too_large` at `MAX_FACE_BYTES = 1 MB`. Pricing the cap needs no parser: E392's own
+`scan` was re-run with `face_key_index` swapped for a reader that, above the cap, streams the file in
+8 MB chunks and asks the same question byte-wise (`"<key>"` followed by `:`), intersected with the
+population. 195 faces, 270 MB, **7.1 s**.
+
+Readings, on a **byte-identical** name-matched total (112,910, drift 0 — which is what proves the
+delta is the cap and not tree drift):
+
+* 3,271 hidden reads → **3,241 store the key / 30 do not**;
+* share **0.051 → 0.0797**; 21 `JSONDecodeError` faces stay refused as the control.
+
+Three rules.
+
+(1) **Refusing on size and still publishing a ratio publishes a biased lower bound.** The refused
+population was 99.1% positive against an aggregate of 5.1% — size correlates with the very thing
+being counted (a big judge file stores many keys). "Upper bound, disclosed" in the prose does not
+stop the headline from being read as the answer.
+
+(2) **Check whether the refusal is a method limit or an implementation limit before disclosing it as
+a bound.** `json.load` needs memory linear in the file; the question only needs a buffer. A cap that
+exists because of `json.load` should never appear in a methodology section as a reason the
+measurement cannot be made.
+
+(3) **Escapes make the byte matcher honest where it matters.** `[^"\\]` between the quotes means a
+key name carried inside a string value cannot match (valid JSON must escape it), so the
+false-positive surface is exactly the "any depth" upper bound E392 already discloses — same
+direction, already named.
+
+Two mechanics: `e392.scan` resolves `face_key_index` in its own globals, so assigning the module
+attribute is enough to re-derive the whole census in one walk — **but save the original in a name
+first**, or the wrapper calls itself and dies in `ntpath.join` with `RecursionError` three seconds
+in. And a leg spliced into `smoke_test.py` must be run through its extracted-verbatim runner
+(`scripts/run_e393_smoke_leg.py`) so the leg that passed is the leg that is published.
+
+Wiring: `scripts/e393_read_cap_price.py` (run / verify problems=[] / selftest 15/15); smoke leg E393
+(1/1); S6 leg `read_cap_price`; face `results/state_tilt/READCAP-2026-11-03.json`.

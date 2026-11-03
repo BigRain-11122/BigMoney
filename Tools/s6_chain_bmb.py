@@ -1269,6 +1269,12 @@ LEGS = [
     # reads and only 29 of them are confirmed sightings. Verify re-adds every published count from
     # the per-key rows (~0 s, no corpus walk).
     ("read_resolve", ["python", "scripts/e392_read_resolve.py", "verify"]),
+    # E393: prices the 1 MB read cap E392 named as the reason 3,292 of its resolved reads were
+    # unreadable. 3,271 of those were size refusals; a byte-level presence scan over the 195 faces
+    # they open finds 3,241 store the key and 30 do not, on a byte-identical name-matched total, so
+    # the 0.051 share is a lower bound and becomes 0.0797. Verify re-adds the cap arithmetic and
+    # both shares from the per-key rows (~0 s, no corpus walk, no byte scan).
+    ("read_cap_price", ["python", "scripts/e393_read_cap_price.py", "verify"]),
 ]
 
 

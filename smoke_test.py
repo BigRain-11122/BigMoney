@@ -13900,5 +13900,84 @@ except Exception as _e392:
 check(_name392, not _bad392, "; ".join(_bad392)[:220]
       or "verdict %s" % str((_f392 or {}).get("verdict"))[:80])
 
+# E393: E392 named the 1 MB read cap as the reason 3,292 resolved reads opened a face it could not
+# read. This leg refuses the ways the price could be asserted instead of measured: a published face
+# that does not re-derive, a cap arithmetic that does not close, a "hidden" count that is not the
+# sum of its two legs, a share that does not re-divide, an example naming a key the rows do not
+# carry, a verdict outside the frozen set, and size refusals surviving the byte scan.
+_name393 = ("product: what the 1 MB read cap cost E392's ratio -- the refused faces priced by a byte "
+            "scan, with the capped and uncapped shares published side by side")
+_bad393 = []
+_f393 = None
+try:
+    _p393 = os.path.join("results", "state_tilt", "readcap_latest.json")
+    _f393 = json.load(open(_p393, encoding="utf-8")) if os.path.exists(_p393) else None
+    if _f393 is None:
+        _bad393.append("no published read-cap face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m393 = __import__("importlib").import_module("e393_read_cap_price")
+        _pr393 = _f393.get("cap_pricing") or {}
+        _eff393 = _pr393.get("cap_effect") or {}
+        _fr393 = _pr393.get("fresh") or {}
+        _r393 = _f393.get("rows") or []
+        if _f393.get("verdict") not in (
+                "the_read_cap_was_hiding_reads_that_do_open_a_face_storing_the_key",
+                "the_read_cap_was_hiding_reads_but_none_of_those_faces_stores_the_key",
+                "no_read_was_refused_on_size_so_the_published_share_was_not_a_bound"):
+            _bad393.append("verdict %r is outside the frozen set"
+                           % str(_f393.get("verdict"))[:60])
+        if sum(r.get("name_matched_reads") or 0 for r in _r393) != _fr393.get("name_matched_reads"):
+            _bad393.append("the name-matched total does not re-add from the rows")
+        if sum(r.get("resolved_stores") or 0 for r in _r393) != \
+                _fr393.get("resolved_reads_storing_the_key"):
+            _bad393.append("the storing count does not re-add from the rows")
+        if (_eff393.get("storing_with_the_cap") or 0) + \
+                (_eff393.get("of_those_storing_the_key") or 0) != \
+                (_eff393.get("storing_without_the_cap") or 0):
+            _bad393.append("the cap arithmetic does not close on stores")
+        if (_eff393.get("reads_the_cap_hid") or 0) != \
+                (_eff393.get("of_those_storing_the_key") or 0) + \
+                (_eff393.get("of_those_lacking_the_key") or 0):
+            _bad393.append("the hidden reads do not split into stores + lacks")
+        if (_eff393.get("refused_with_the_cap") or 0) != \
+                (_eff393.get("reads_the_cap_hid") or 0) + \
+                (_eff393.get("still_unreadable_after_the_scan") or 0):
+            _bad393.append("the refusal arithmetic does not close")
+        _named393 = _fr393.get("name_matched_reads") or 0
+        if _named393:
+            for _side393 in ("with", "without"):
+                _share393 = round((_eff393.get("storing_%s_the_cap" % _side393) or 0)
+                                  / _named393, 4)
+                if _share393 != _eff393.get("share_%s_the_cap" % _side393):
+                    _bad393.append("the share %s the cap does not re-divide" % _side393)
+                    break
+        _keys393 = {r.get("key") for r in _r393}
+        for _ex393 in _pr393.get("examples_storing_without_the_cap") or []:
+            if _ex393.get("key") not in _keys393:
+                _bad393.append("an example names a key with no per-key row")
+                break
+        if (_f393.get("size_refusals_left") or 0) and (_eff393.get("reads_the_cap_hid") or 0):
+            _bad393.append("size refusals survive the swap, so the delta is not the cap")
+        if _bad393:
+            pass
+        elif _m393.verify() != []:
+            _bad393.append("the study's own verify does not come back clean")
+        _name393 = ("product: %d of %d refused reads were size refusals, %d of those open a face "
+                    "that stores the key (%d lack it), so the share rises %s -> %s over %d faces "
+                    "and %d MB scanned in %ss"
+                    % (_eff393.get("reads_the_cap_hid") or 0,
+                       _eff393.get("refused_with_the_cap") or 0,
+                       _eff393.get("of_those_storing_the_key") or 0,
+                       _eff393.get("of_those_lacking_the_key") or 0,
+                       _eff393.get("share_with_the_cap"), _eff393.get("share_without_the_cap"),
+                       _eff393.get("faces_opened_by_byte_scan") or 0,
+                       int((_eff393.get("bytes_opened_by_byte_scan") or 0) / 1048576),
+                       _eff393.get("scan_seconds")))
+except Exception as _e393:
+    _bad393.append(repr(_e393)[:160])
+check(_name393, not _bad393, "; ".join(_bad393)[:220]
+      or "verdict %s" % str((_f393 or {}).get("verdict"))[:80])
+
 if __name__ == "__main__":
     sys.exit(main())
