@@ -26969,14 +26969,17 @@
    "status": "ready"
   },
   {
+   "done_at": "2026-11-03T11:56:00+08:00",
    "entered_at": "2026-11-03T08:54:50+08:00",
    "entered_by": "bm-b r1402",
    "id": "E386-IS-A-MERGED-KEY-COSTING-ANYTHING-IN-THE-TRIAL-LABOR-FAMILY",
    "lane": "cpu-only",
    "notes": "static only, zero network; follow the load site's own path expression through the module's __file__/dirname constants rather than assuming the cwd; a script whose path does not fold is published as unresolved, not as safe",
+   "outcome": "2 merged keys over 39 members; 2 of 2 carry more than one schema (31 distinct top-level key sets across the family); n_survivors is absent from 5 of 19 judge_state members and n_distinct from 6 of 20 prep_state members; 0 readers read the basename bare (60 name their wave, 57 carry a display label, 7 iterate a file-name list, 1 is the E383 keying census itself). SUCCESSOR to E383's headline: the family-level cost is schema, not a number read by a reader.",
    "priority": 3,
    "question": "The largest identified merge is the trial-labor family: 20 prep_state.json and 18 judge_state.json files share one key each, produced by trial_labor_w*.py. E383 cannot say whether that merge is harmful or benign, and the difference is load-bearing: if each script joins its own sibling directory before opening, the files are never confused and the merge only inflates a census; if any script opens a bare basename from the process working directory, two waves can read each other's state. For each of the 38 files, publish the site that opens it, whether that site's path expression resolves to its own directory, and whether any two scripts can name the same file through the merged key. The bill is the cross-read table, not the count of waves.",
-   "status": "ready"
+   "result_ref": "results/state_tilt/MERGEDCOST-2026-11-03.json",
+   "status": "done"
   },
   {
    "done_at": "2026-11-03T10:52:26+08:00",
@@ -26991,6 +26994,24 @@
    "result_note": "4 faces / 5 red legs priced as carried-at-HEAD vs fresh-today vs replay-at-pin; e335 now publishes its own corpus pin so the E363 address exists, E346 and E305 republished, E364 re-inventoried",
    "result_ref": "results/state_tilt/REPUBLISH-2026-11-03.json",
    "status": "done"
+  },
+  {
+   "deliverable": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
+   "entered_at": "2026-11-03T11:56:00+08:00",
+   "entered_by": "bm-b r1404 (supply floor refill after E386 close)",
+   "id": "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
+   "lane": "cpu-only",
+   "note": "r1404: the trial-labor family holds 31 distinct top-level key sets under two basenames. Decide from rows whether that is monotone field accretion (each wave adds fields, so a later reader sees every earlier field) or a genuine break (a field appears and later disappears, or a block schema replaces a flat one). Publish, per key, the removal edges and the waves on the wrong side of them, so 'the merge loses a number' and 'the merge loses a schema' stop being one flag.",
+   "status": "ready"
+  },
+  {
+   "deliverable": "results/state_tilt/FAMILYGLOB-2026-11-03.json",
+   "entered_at": "2026-11-03T11:56:00+08:00",
+   "entered_by": "bm-b r1404 (supply floor refill after E386 close)",
+   "id": "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE",
+   "lane": "cpu-only",
+   "note": "r1404: 18 in-repo .py files glob results/trial_labor_w*. None of them reads a merged basename, but an aggregate that takes the latest member by mtime would answer a different question than a sum over members. Read each glob site, classify what it computes (latest / sum / per-wave fan-out / existence probe), and publish the arithmetic gap for the ones that aggregate: the family-wide sum of n_survivors against the single latest value.",
+   "status": "ready"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27005,6 +27026,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-03T10:52:26+08:00",
+ "updated_at": "2026-11-03T11:56:00+08:00",
  "version": 1
 }

@@ -8514,3 +8514,44 @@ Wiring: `scripts/e387_republish_audit.py` (run / verify problems=[] / selftest 1
 (`scripts/run_e387_smoke_leg.py` execs it verbatim, 1/1); face
 `results/state_tilt/REPUBLISH-2026-11-03.json` + `republish_latest.json`; the pin now written by
 `scripts/e335_sibling_entry_point.py` is `results/state_tilt/CORPUSPIN-SIBLINGENTRY-2026-11-01.json`.
+## E386 -- a merged key costs the family a schema, not a number a reader reads
+
+E383 counted the merge: one key, twenty files. That count says nothing about a bill, because a file
+count is not a reader. E386 asks the reader-side question on the family where the merge is widest --
+`results/trial_labor_w*/` -- and comes back with a different loss than expected.
+
+Measurements, none asserted. (a) *Field census*: per top-level field, how many distinct values it
+takes across the members, so a field that is constant (identity free) is separated from one that is
+literally the wave label. (b) *Schema variants*: the distinct top-level key sets under one basename.
+(c) *Cross-read table*: the answer-bearing scalars per member, published as a CSV, with each field's
+`present` / `absent` counts kept rather than dropped -- dropping a field a member lacks is exactly
+how a schema break gets hidden. (d) *Reader census*: every string literal equal to a merged basename
+in the in-repo `.py` corpus, classified by the expression it is joined to.
+
+Readings: two merged keys over 39 members; **both carry more than one schema** -- 31 distinct key
+sets (judge_state 15 variants of 8..21 fields, prep_state 16 of 6..24), because each wave accreted
+fields; `n_survivors` is absent from 5 of 19 judge_state members (W1's old prep shape and the
+W17/W18/W19/W21 block shape) and `n_distinct` from 6 of 20 prep_state members; where present it
+takes 14 distinct values. Of 134 literal sites in 34 files, **zero read the basename bare**: 60 name
+their wave, 57 carry a display label beside the path, 7 iterate a file-name list inside their own
+wave script, 1 is E383's own keying dict. So the merge hides a *shape* from the census while costing
+no in-repo reader a *number* -- and the headline of E383 stands, with its family-level bill corrected
+from "20 files" to "16 key sets".
+
+Two pits, both the same shape (a classifier that is too coarse turns a rule into an assertion).
+**The wave token excluded underscore as a separator**, so `results/trial_labor_w11` did not match
+`(?:^|[^A-Za-z0-9_])w\d+` and 62 wave-scoped constants were published as unresolved joins; widening
+to `[^A-Za-z0-9]` moved them where they belong. In the other direction, a literal in a tuple beside
+a Name is a *label* for a path, not a read -- treating it as a read put 58 display labels into the
+bill. And the mechanical cost: `ast.get_source_segment` rebuilds the module source on every call, so
+resolving constants through it made the walk quadratic; the first run was killed at five minutes
+with no output. Line-slicing plus a substring pre-check before parsing takes the same walk to 24 s.
+
+Wiring: `scripts/e386_merged_key_cost.py` (run / verify problems=[] / selftest 29/29); smoke leg E386
+(exec'd verbatim by `scripts/run_e386_smoke_leg.py`, 1/1); faces
+`results/state_tilt/MERGEDCOST-2026-11-03.json`, `mergedcost_latest.json`,
+`mergedcost_crossread.csv` (39 rows). Frozen verdicts: `V_COSTLY` / `V_SCHEMA_BREAK` / `V_ZERO_COST`
+/ `V_MEMBERS_AGREE` / `V_EMPTY`, re-derived by `decide()` and refused by the leg if a stored verdict
+disagrees. Successors seeded: E388 (is the accretion a chain or a break?) and E389 (what do the 18
+family-glob readers actually compute?).
+

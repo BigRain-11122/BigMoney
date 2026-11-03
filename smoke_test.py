@@ -13477,5 +13477,89 @@ def _finish() -> int:
         pass
     return 1 if n_fail else 0
 
+# E386: does the merged trial-labor key cost a reader a number, or only an identity?  This leg
+# refuses the shapes that would let the bill be asserted instead of measured: a verdict outside the
+# frozen vocabulary, a schema-variant count that disagrees with its own size list, a presence break
+# that disagrees with the scalar row it comes from, a member list that disagrees with its count, a
+# cost row on a key whose members do not diverge, a reader whose class is outside the frozen set,
+# and the study's own verify not coming back clean.
+_name386 = "product: a merged key's cost is measured on readers, not on the file count"
+_bad386 = []
+_s386 = {}
+_f386 = None
+try:
+    _p386 = os.path.join("results", "state_tilt", "mergedcost_latest.json")
+    _f386 = json.load(open(_p386, encoding="utf-8")) if os.path.exists(_p386) else None
+    if _f386 is None:
+        _bad386.append("no published merged-key cost face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m386 = __import__("importlib").import_module("e386_merged_key_cost")
+        _s386 = _f386.get("summary") or {}
+        if _f386.get("verdict") not in {_m386.V_COSTLY, _m386.V_ZERO_COST, _m386.V_SCHEMA_BREAK,
+                                        _m386.V_MEMBERS_AGREE, _m386.V_EMPTY}:
+            _bad386.append("verdict %r is outside the frozen vocabulary"
+                           % str(_f386.get("verdict"))[:60])
+        _keys386 = _f386.get("merged_key_table") or []
+        if len(_keys386) != _s386.get("merged_keys"):
+            _bad386.append("the key table does not hold one row per merged key")
+        if sum(_k386.get("members_read") or 0 for _k386 in _keys386) \
+                != _s386.get("merged_members_total"):
+            _bad386.append("the member total does not re-add")
+        if sum(1 for _k386 in _keys386 if (_k386.get("schema_variants") or 0) > 1) \
+                != _s386.get("keys_with_more_than_one_schema"):
+            _bad386.append("the schema-break count does not re-derive from the rows")
+        for _k386 in _keys386:
+            if len(_k386.get("schema_variant_sizes") or []) != _k386.get("schema_variants"):
+                _bad386.append("a key's schema variant count disagrees with its sizes: %s"
+                               % _k386.get("key"))
+                break
+            if len(_k386.get("members") or []) != _k386.get("members_read"):
+                _bad386.append("a key's member list disagrees with its count: %s" % _k386.get("key"))
+                break
+            for _pb386 in _k386.get("presence_breaks") or []:
+                _info386 = (_k386.get("answer_scalars") or {}).get(_pb386["field"]) or {}
+                if _info386.get("absent") != _pb386.get("absent"):
+                    _bad386.append("a presence break disagrees with its scalar row: %s"
+                                   % _pb386.get("field"))
+                    break
+        _frozen386 = {_m386.CLASS_WAVE_EXPR, _m386.CLASS_CONST_DIR, _m386.CLASS_OPEN_CONST,
+                      _m386.CLASS_BARE, _m386.CLASS_LABEL, _m386.CLASS_NAME_LIST,
+                      _m386.CLASS_KEY_LOOKUP, _m386.CLASS_COMMENT}
+        for _r386 in _f386.get("reader_rows") or []:
+            if _r386.get("class") not in _frozen386:
+                _bad386.append("a reader class is outside the frozen set: %s" % _r386.get("class"))
+                break
+        _bykey386 = {_k386.get("key"): _k386 for _k386 in _keys386}
+        for _c386 in _f386.get("cost_table") or []:
+            _k386 = _bykey386.get(_c386.get("key"))
+            if not _k386 or not ((_k386.get("members_disagree_on_headline")
+                                  or (_k386.get("schema_variants") or 0) > 1)):
+                _bad386.append("a cost row names a key whose members do not diverge")
+                break
+        if sum(1 for _r386 in (_f386.get("reader_rows") or [])
+               if _r386.get("class") == _m386.CLASS_BARE) \
+                != _s386.get("readers_that_read_the_merged_basename"):
+            _bad386.append("the bare-key reader count does not re-add")
+        if _f386.get("verdict") != _m386.decide(_s386):
+            _bad386.append("the verdict does not re-derive from the summary")
+        if _m386.verify() != 0:
+            _bad386.append("the study's own verify does not come back clean")
+        _name386 = ("product: %d merged key(s) over %d members, %d with more than one schema, "
+                    "%d reader(s) reading the basename bare, %d naming their wave"
+                    % (_s386.get("merged_keys") or 0, _s386.get("merged_members_total") or 0,
+                       _s386.get("keys_with_more_than_one_schema") or 0,
+                       _s386.get("readers_that_read_the_merged_basename") or 0,
+                       _s386.get("readers_naming_their_wave") or 0))
+except Exception as _e386:
+    _bad386.append(repr(_e386)[:160])
+check(_name386, not _bad386, "; ".join(_bad386)[:220]
+      or "%d schemas, %d breaks, %d labels, %d name lists; verdict %s"
+         % (_s386.get("schema_variants_total") or 0,
+            _s386.get("keys_with_more_than_one_schema") or 0,
+            _s386.get("readers_carrying_a_label") or 0,
+            (_s386.get("readers_by_class") or {}).get("file_name_list", 0),
+            str((_f386 or {}).get("verdict"))[:80]))
+
 if __name__ == "__main__":
     sys.exit(main())
