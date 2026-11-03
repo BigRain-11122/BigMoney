@@ -1361,6 +1361,14 @@ LEGS = [
     ("constant_directory_resolution",
      ["python", "scripts/e404_constant_directory_resolution.py", "verify"]),
 
+    # E401 re-runs E384's own key-site classifier with every project-local callable that opens a
+    # file added to the call table (patched for one run, restored in a finally).  It publishes the
+    # keys that change class, the site lines the stdlib table could not see, and the other arm:
+    # every site the stdlib table calls "other" is a git-object read.  Verify re-derives every
+    # count, the from->to tally and the verdict, and refuses a classifier left patched.
+    ("local_reader_table",
+     ["python", "scripts/e401_local_reader.py", "verify"]),
+
     # E398 asks who reads a latest.json pointer and whether the reader knows which family wrote
     # last.  E385 found 28 files under the name latest.json; a reader that resolves the pointer
     # against a free runtime base opens whichever family published last and looks healthy doing it

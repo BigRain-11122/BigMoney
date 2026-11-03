@@ -14728,6 +14728,76 @@ except Exception as _e404:
 check(_name404, not _bad404, "; ".join(_bad404)[:240]
       or "verdict %s" % str((_f404 or {}).get("verdict"))[:90])
 
+# E401: E384 classified key sites by the stdlib call family and left one residue behind a
+# project-local helper. This leg refuses the ways a helper table can flatter itself: a helper
+# headline that is not its own table, a moved-site headline that is not its list plus truncation, a
+# from->to tally that does not re-add, a classifier left patched outside a run, an 'other' site that
+# is not priced, a verdict that does not re-derive from the summary, and a study whose own verify is
+# not clean.
+_name401 = ("product: %s project-local callables open a file and the stdlib table reads %s site "
+            "lines as 'other'; %s keys move class and %s of %s 'other' sites are git-object reads "
+            "(no file table can see those)")
+_bad401 = []
+_f401 = None
+try:
+    _p401 = os.path.join("results", "state_tilt", "localreader_latest.json")
+    _f401 = json.load(open(_p401, encoding="utf-8")) if os.path.exists(_p401) else None
+    if _f401 is None:
+        _bad401.append("no published local-reader face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m401 = __import__("importlib").import_module("e401_local_reader")
+        _s401 = _f401.get("summary") or {}
+        if _f401.get("verdict") not in (_m401.V_NO_HELPER, _m401.V_NO_SITE, _m401.V_KEYS_MOVED,
+                                        _m401.V_SITES_ONLY):
+            _bad401.append("verdict %r is outside the frozen set" % str(_f401.get("verdict")))
+        if _s401.get("helpers_that_open_a_file") != (len(_f401.get("helper_table") or [])
+                                                     + _s401.get("helpers_beyond_the_published_rows", 0)):
+            _bad401.append("the helper headline is not its own table plus truncation")
+        if _s401.get("site_lines_the_stdlib_table_could_not_see") != (
+                len(_f401.get("site_lines_the_stdlib_table_could_not_see") or [])
+                + _s401.get("site_lines_beyond_the_published_rows", 0)):
+            _bad401.append("the moved-site headline is not its list plus truncation")
+        if sum((_s401.get("site_line_moves_by_from_to") or {}).values()) != _s401.get(
+                "site_lines_the_stdlib_table_could_not_see"):
+            _bad401.append("the from->to tally does not re-add to the moved-site headline")
+        for _side401 in ("stdlib", "with_helpers"):
+            _t401 = _s401.get("by_class_%s" % _side401) or {}
+            if sum(_t401.values()) != _s401.get("keys_total"):
+                _bad401.append("by_class_%s does not sum to the key population" % _side401)
+        if not _s401.get("classifier_restored_after_the_run"):
+            _bad401.append("the classifier was left patched after the run")
+        if _m401.e384.classify_call.__name__ != "classify_call":
+            _bad401.append("e384.classify_call is patched outside a run")
+        for _r401 in _f401.get("keys_that_move_class") or []:
+            if _r401.get("stdlib_class") == _r401.get("with_helpers"):
+                _bad401.append("%s is listed as moved but did not move" % _r401.get("key"))
+            if _r401.get("with_helpers") != _m401.e384.CLASS_OPENED:
+                _bad401.append("%s moved but is not opened" % _r401.get("key"))
+        _rows401 = _f401.get("other_sites_priced") or []
+        if len(_rows401) != _s401.get("sites_the_stdlib_table_calls_other"):
+            _bad401.append("the 'other' headline is not the length of its own list")
+        if sum(1 for _r401 in _rows401 if _r401.get("is_a_git_object_read")) != _s401.get(
+                "of_which_a_git_object_read"):
+            _bad401.append("the git-object split does not re-derive from the priced rows")
+        _d401 = _s401.get("direct_only_arm") or {}
+        if _d401.get("keys_that_move_class", 0) > _s401.get("keys_that_move_class", 0):
+            _bad401.append("the direct-only arm moves more keys than the transitive arm")
+        if _m401.decide(_s401) != _s401.get("verdict"):
+            _bad401.append("the verdict does not re-derive from the summary")
+        if _m401.verify() != []:
+            _bad401.append("the study's own verify does not come back clean")
+        _name401 = _name401 % (_s401.get("helpers_that_open_a_file"),
+                               _s401.get("site_lines_the_stdlib_table_could_not_see"),
+                               _s401.get("keys_that_move_class"),
+                               _s401.get("of_which_a_git_object_read"),
+                               _s401.get("sites_the_stdlib_table_calls_other"))
+except Exception as _e401:
+    _bad401.append(repr(_e401)[:160])
+check(_name401, not _bad401, "; ".join(_bad401)[:240]
+      or "verdict %s" % str((_f401 or {}).get("verdict"))[:90])
+
+
 # E398: E385 found 28 files under the name latest.json. This leg asks who READS such a pointer and
 # whether the reader knows which family wrote last. It refuses the ways a reader census can flatter
 # or indict itself: a class outside the frozen set, classes that do not sum to the read sites, a
