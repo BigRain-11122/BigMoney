@@ -138,7 +138,12 @@
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "decisions_sha": "1150963b",
  "decisions_watermark": "1150963b",
- "delivery": "machine/bm-b-r1429",
+ "delivery": {
+  "branch": "machine/bm-b-r1434",
+  "sha": "550785427f911f9d5144f83244189c915d6dc7b1",
+  "verified": true,
+  "at": "2026-11-04T17:26:00+08:00"
+ },
  "delivery_note": "ls-remote equals local HEAD on machine/bm-b-r1425 @ 11a78359d7f21075fce6f9d9fadf11d063d0e1e0",
  "delivery_sha": "05fe30270a47f0e2b317f8fd722bb1601f209189",
  "delivery_verified": "git ls-remote origin refs/heads/machine/bm-b-r1429 == HEAD",
@@ -4772,7 +4777,7 @@
  "s6_leg": "cwd_accident rc=0 10.9s",
  "s6_note": "only the cwd_accident leg, the orphan probe and the orders scan ran this window; the rest of the S6 chain (update_*, regime, scorecards, papers, dashboards, token_meter, sat engine) did NOT run and is not claimed",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
- "s7": "ordrs 114 files / 115 acks / 0 unacked by the loop preflight at 16:52 | loop task and watchdog and claws not re-registered this window",
+ "s7": "round 1434 postscript: Bigmoney-IterationLoop re-registered idempotently (machine=bm-b pin=2 current=2, no-op) | attrition ledger guard CLEAN (4 ledgers, both shrinks historical/healed) | watchdog and the two git claws not re-tested this window",
  "sat_engine": "not re-run this window -- stated, not claimed",
  "selftest": "e409_unfloored_faces 12/12, verify problems=[]; run_e410_freshness_legs 3/3 cases",
  "seq": 1434,
@@ -4809,13 +4814,13 @@
   ]
  },
  "sync": {
-  "ahead": 342,
+  "ahead": 346,
   "behind_origin_main": 288,
-  "branch": "machine/bm-b-r1432",
-  "sha": "54459a9b8fe74d1df92755247843cab7f91b3c98",
-  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1432 == HEAD"
+  "branch": "machine/bm-b-r1434",
+  "sha": "550785427f911f9d5144f83244189c915d6dc7b1",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1434 == HEAD"
  },
- "sync_note": "r1432: local main stays diverged from origin/main (two blood lines, promisor lazy fetch); delivery goes to the machine branch, no unattended rebase per r1243",
+ "sync_note": "r1434: local main stays diverged from origin/main (two blood lines, promisor lazy fetch); delivery goes to the machine branch, no unattended rebase per r1243",
  "task": "bare-path reads and the launch directory",
  "task_short": "cwd-accident read",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
