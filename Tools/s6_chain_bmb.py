@@ -1481,6 +1481,11 @@ LEGS = [
     # is joined against. Verify re-scans the module corpus (~900 files, one AST pass each) and
     # refuses a summary, a control arm or a verdict that no longer re-derives.
     ("name_resolve", ["python", "scripts/e421_strong_basis_resolution.py", "verify"]),
+    # E422 (r1440): the same bare-basename question asked of the other three basename-keyed
+    # censuses. Verify re-reads all four faces and one-pass-parses the python corpus, so a row
+    # whose reading would change, a tally that stopped adding up or a verdict that no longer
+    # derives from the summary all refuse the chain.
+    ("basename_census", ["python", "scripts/e422_basename_census_audit.py", "verify"]),
 ]
 
 

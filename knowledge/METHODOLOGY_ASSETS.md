@@ -10038,3 +10038,43 @@ directory**, and a bare basename cannot resolve to a file.
 -> `results/state_tilt/NAMERESOLVE-2026-11-04.json` + `nameresolve_latest.json` (byte-identical on
 re-run); smoke leg `# E421 (r1439 bm-b)` (1/1, proved red on a doctored summary then restored
 byte-identical); S6 leg `name_resolve`; read-only -- no reader, leg or face edited.
+
+## E422 -- the bare-basename defect is one census of four, and it costs no row
+
+**Question.** E421 showed that E406 stored 32 of its 33 unresolved names as a bare basename, so
+"resolves to no file" was a property of the census's path construction. Does the same defect sit in
+the other basename-keyed censuses (E402 fragments / E404 constant directories / E409 unfloored /
+E411 reader tiers), and how many rows does it change if the directory is rejoined?
+
+**Finding.** Of 276 rows across the four censuses, 70 carry a bare name and 206 spell a directory.
+Exactly one census stores bare names with no directory anywhere in the row -- E402, where 52 of 52
+names are fragments and 12 have no directory field at all. But rejoining changes **0 rows**: 0 of
+the 52 names exist anywhere in the repo, 0 of the 55 directories the corpus spells in front of them
+holds the file, and 0 published booleans are true. They are design names, selftest fixtures and
+pieces of computed names, not faces the tree lost. The control arm keeps the zero honest: applying
+the same instrument to the 206 path-spelled rows finds 189 whose file is on disk, so this is a
+measurement rather than a blind count.
+
+**Pits.**
+
+1. A directory can be spelled as separate `join()` arguments, not only as one literal. The first
+   burn only read `'results/sample/x.json'` and missed `os.path.join('results','sample','x.json')`;
+   the join-chain walk is what makes the 55 spellings visible at all.
+2. A spelling with a variable head is not a place on disk: 48 of the 55 spellings name a fixture
+   base (`fx/results/grid_paper`). Published as a separate column so "55 rows have a directory" is
+   not read as 55 resolvable locations -- and the 7 literal ones still land on nothing.
+3. Parse the corpus once. A per-name `ast.parse` of 2.5k modules costs minutes (the run was killed
+   at 5 min); an index built in one pass costs 18 s for the whole study. E419's per-call
+   `get_source_segment` is the same lesson.
+4. A field named `resolved_directory` that holds a file path is a semantic defect even when no row
+   changes: 11 of E404's 18 rows do it, and all 11 would compose `x.json/x.json` if joined. It is
+   published as an incidental finding and seeded as card E423, not counted as one of the 0.
+5. Growing the corpus moved two pinned summaries (E421's and E419's) in the same window, third
+   recurrence of E420's law. Both producers were re-derived rather than the assertions loosened,
+   and this study's own leg compares everything except the three corpus-count keys -- which are
+   instead re-derived from the row list carried inside the same face.
+
+**Delivered.** `scripts/e422_basename_census_audit.py` (run / verify problems=0 / selftest 16/16)
+-> `results/state_tilt/BASENAMECENSUS-2026-11-03.json` + `basenamecensus_latest.json`; smoke leg
+`# E422 (r1440 bm-b)` (1/1, proved red on a doctored face then restored); S6 leg
+`basename_census`; read-only -- no census, face or reader edited.

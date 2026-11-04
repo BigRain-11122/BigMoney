@@ -1,13 +1,17 @@
 {
- "_stamp_note": "r1433 bm-b: E414 closed (verify problems=[], selftest 14/14, S6 leg unsupplied_read 0.34s); E415 seeded, ready floor 3",
+ "_stamp_note": "r1440 bm-b: E422 closed (verify problems=[], selftest 16/16, S6 leg basename_census rc=0); E423 seeded, ready floor 3",
  "entries": [
   {
    "id": "E422-WHICH-OTHER-CENSUS-RECORDS-A-BARE-BASENAME",
-   "status": "ready",
+   "status": "done",
    "title": "E421 found that 32 of the 33 unresolved rows were stored with no directory at all, so 'resolves to no file' was a property of the census's path construction. Ask it of the other basename-keyed censuses (E402 fragment producers / E404 constant directories / E409 unfloored / E411 reader tiers): does any of them record a face without the directory its reader spells, and how many rows does that change",
    "target": "scripts/e402_fragment_producers.py + scripts/e404_constant_directory_resolution.py + scripts/e409_unfloored_faces.py + scripts/e411_reader_tiers.py",
    "deliverable": "results/state_tilt/BASENAMECENSUS-<cutoff>.json",
-   "source": "bm-b r1439 E421: unresolved_census_directory = {'.': 32} -- the census recorded a basename where the reader spells a path"
+   "source": "bm-b r1439 E421: unresolved_census_directory = {'.': 32} -- the census recorded a basename where the reader spells a path",
+   "owner": "bm-b",
+   "claimed_at": "2026-11-04T21:22+08:00",
+   "done_at": "2026-11-04T21:52+08:00",
+   "result_ref": "results/state_tilt/BASENAMECENSUS-2026-11-03.json + scripts/e422_basename_census_audit.py (selftest 16/16, verify problems=[], S6 leg basename_census rc=0)"
   },
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27546,6 +27550,20 @@
    "source": "bm-b r1437 E419: 3 of 9 rows are no-writer-in-the-tree, and 2 of those are composed through a helper argument",
    "entered_at": "2026-11-04T19:2x+08:00",
    "entered_by": "bm-b r1437 (supply floor refill after E419)"
+  },
+  {
+   "id": "E423-WHICH-CONSUMER-JOINS-A-DIRECTORY-FIELD-THAT-HOLDS-A-FILE-PATH",
+   "title": "E422 found 11 of the 18 E404 rows publish a FILE path in a field named resolved_directory, so a reader that joins the field with the row's name composes <face>.json/<face>.json. Ask the corpus: does any consumer read resolved_directory and join it, and how many of those joins can exist",
+   "question": "For every read of `resolved_directory` (and of any similarly named directory field: resolved_directory, directory_expression) in the python corpus, follow the value one hop: is the read joined with a name, opened as a directory, or only printed? Publish the class movement and the number of joins whose composed path cannot exist by construction (the doubled-name shape). Do not edit any face.",
+   "deliverable": "results/state_tilt/DIRFIELD-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static AST joins, no writer runs",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "source": "bm-b r1440 E422: named_directory_field_holding_a_file_path = 11, and all 11 would compose a doubled name if joined",
+   "entered_at": "2026-11-04T21:52+08:00",
+   "entered_by": "bm-b r1440 (supply floor refill after E422)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27560,6 +27578,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-04T19:25:00+08:00",
+ "updated_at": "2026-11-04T21:52:00+08:00",
  "version": 1
 }

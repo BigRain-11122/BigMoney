@@ -15914,5 +15914,92 @@ except Exception as _e421:
     _bad421.append(repr(_e421)[:160])
 check(_name421, not _bad421, "; ".join(_bad421)[:240] or _d421)
 
+# E422 (r1440 bm-b): E421 showed that E406 stored 32 of 33 unresolved names as a bare basename, so
+# "resolves to no file" was a property of the census, not of the tree.  This leg asks it of the
+# other three basename-keyed censuses and holds the bill: (a) every row's name form is bare or
+# path -- never missing, (b) bare rows plus path rows re-add to the census rows, (c) a row called
+# "reading changes if rejoined" must name a join or a repo file that exists, (d) a row that does
+# not change must say why, (e) the summary and the verdict re-derive on the live tree, and (f) the
+# control arm still discriminates: path-spelled rows do resolve, so the zero is a measurement and
+# not a blind instrument.
+_name422 = ("product: the bare-basename defect E421 found in E406 is asked of the other three "
+            "basename-keyed censuses and priced in rows whose reading would change")
+_bad422, _d422 = [], ""
+try:
+    _m422 = __import__("importlib").import_module("e422_basename_census_audit")
+    _f422 = json.load(open(os.path.join("results", "state_tilt", "basenamecensus_latest.json"),
+                           encoding="utf-8"))
+    _s422 = _f422.get("summary") or {}
+    _rows422 = _f422.get("rows") or []
+    _cens422 = _f422.get("censuses") or []
+    if len(_cens422) != len(_m422.CENSUSES):
+        _bad422.append("the face does not cover every census the study names")
+    if sum(c.get("rows", 0) for c in _cens422) != _s422.get("rows_in_population"):
+        _bad422.append("the population does not re-add from the per-census rows")
+    if sum(c.get("bare_rows", 0) for c in _cens422) != _s422.get("rows_recording_a_bare_name"):
+        _bad422.append("the bare-row tally does not re-add")
+    for _c422 in _cens422:
+        if _c422.get("bare_rows", 0) + _c422.get("path_rows", 0) != _c422.get("rows"):
+            _bad422.append("%s: bare+path != rows" % _c422.get("study"))
+            break
+        if _c422.get("rows_whose_reading_changes_if_rejoined", 0) > _c422.get("bare_rows", 0):
+            _bad422.append("%s: more changing rows than bare rows" % _c422.get("study"))
+            break
+    _forms422 = set()
+    _changed422 = 0
+    for _r422 in _rows422:
+        _forms422.add(_r422.get("name_form"))
+        if _r422.get("name_form") not in ("bare", "path"):
+            _bad422.append("%s: name form is not bare or path" % _r422.get("name"))
+            break
+        if _r422.get("reading_changes_if_rejoined"):
+            _changed422 += 1
+            if not (_r422.get("joins_that_exist") or _r422.get("files_in_repo_with_this_name")):
+                _bad422.append("%s: called a reading change with no landing evidence"
+                               % _r422.get("name"))
+                break
+        elif _r422.get("name_form") == "bare" and not _r422.get("why_not"):
+            _bad422.append("%s: a bare row that changes nothing states no reason" % _r422.get("name"))
+            break
+    if _changed422 != _s422.get("rows_whose_reading_changes_if_rejoined"):
+        _bad422.append("the changing-row tally does not re-derive from the row list")
+    if "missing" in _forms422:
+        _bad422.append("a row carries no name at all")
+    # the control arm is the falsification test: a path row that exists must be seen to exist
+    if int(_s422.get("control_path_rows_whose_file_exists") or 0) <= 0:
+        _bad422.append("the control arm prices nothing, so the zero is not a measurement")
+    if int(_s422.get("control_path_rows") or 0) != len(
+            [r for r in _rows422 if r.get("name_form") == "path"]):
+        _bad422.append("the control arm does not re-derive from the row list")
+    _fresh422 = _m422.build()
+    if _fresh422.get("verdict") != _f422.get("verdict"):
+        _bad422.append("the verdict does not re-derive")
+    # E420/E421 family: three of these keys are counts over the python corpus, which grows every
+    # round, so they MUST move on an honest rebuild and cannot sit in an equality gate. They are
+    # still checked -- against the row list carried by the same face, which is what makes the face
+    # self-consistent -- while everything a reader acts on is compared to the live tree.
+    _acc422 = ("bare_rows_with_a_directory_spelled_in_the_corpus",
+               "bare_rows_with_a_literal_directory_spelling",
+               "bare_rows_with_only_a_variable_head_spelling")
+    _s422_cmp = {k: v for k, v in _s422.items() if k not in _acc422}
+    _fresh422_cmp = {k: v for k, v in (_fresh422.get("summary") or {}).items() if k not in _acc422}
+    if _fresh422_cmp != _s422_cmp:
+        _bad422.append("the published summary does not re-derive from the live tree")
+    if sum(1 for r in _rows422 if r.get("directories_the_corpus_spells")) \
+            != _s422.get("bare_rows_with_a_directory_spelled_in_the_corpus"):
+        _bad422.append("the spelled-directory tally does not re-derive from the row list")
+    if sum(1 for r in _rows422 if r.get("directories_spelled_with_a_literal_head")) \
+            != _s422.get("bare_rows_with_a_literal_directory_spelling"):
+        _bad422.append("the literal-spelling tally does not re-derive from the row list")
+    _d422 = "%d rows / %d bare in %d census(es): %d change | control %s/%s | %s" % (
+        _s422.get("rows_in_population"), _s422.get("rows_recording_a_bare_name"),
+        _s422.get("censuses"),
+        _s422.get("rows_whose_reading_changes_if_rejoined"),
+        _s422.get("control_path_rows_whose_file_exists"), _s422.get("control_path_rows"),
+        _f422.get("verdict"))
+except Exception as _e422:
+    _bad422.append(repr(_e422)[:160])
+check(_name422, not _bad422, "; ".join(_bad422)[:240] or _d422)
+
 if __name__ == "__main__":
     sys.exit(main())
