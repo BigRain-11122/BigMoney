@@ -9872,3 +9872,49 @@ own chain leg is forbidden to move it; a manual `run` is the only way forward an
 bm-b)` executed verbatim by `scripts/run_e416_smoke_leg.py` (1/1 green); S6 leg `fresh_aim`
 (rc 0, 0.35 s). No reader and no leg was edited -- the fix (a real age bound on the faces that can
 stale) stays a separate card.
+
+#### E418 -- a green sentence can name a number that only held at one cutoff
+
+**Question.** E416 published 45 faces that no reader can turn red on and no writer on the round
+chain refreshes. How old is each of them today, and does the sentence its leg prints when green
+still hold -- or does it name a number that could only have been true at the cutoff the author
+wrote it for?
+
+**Answer, measured.** Population 45: 44 come straight out of E411's published rows (blind = no
+reader in a red-capable tier AND no writer run per round), and 1 (`results/dashboard_status.json`)
+is added from E416's reclassification; every row carries its `population_source`, so the 44/45 gap
+is visible rather than smoothed. Of the 45, 36 carry a date-bearing stamp, 3 are older than 5
+trading bars, and the oldest are 25 bars:
+
+| face | stamp | age (bars) | what its leg prints when green |
+|---|---|---|---|
+| `results/state_tilt/schemaaccrete_latest.json` | `evidence_cutoff` 2026-09-22 | 25 | no number (a property) |
+| `results/state_tilt/wrongside_latest.json` | `evidence_cutoff` 2026-09-22 | 25 | no number |
+| `results/system_v1_paper/SYSTEM-V1_paper.json` | `evidence_cutoff` 2026-09-24 | 23 | no number |
+
+Verdict: **no blind face prints a frozen number as green.** Across 51 sentences, 21 recompute
+their numbers at read (f-string braces or `%s`/`%d` placeholders filled from the face) and 30 name
+no number at all. 9 rows are unknowable: 8 carry no stamp field, 1 (`results/lane_host_ownership
+_latest.json`) carries `generated` whose value is not a date -- a writer bug, priced separately
+from the absent-stamp faces rather than folded into them.
+
+**What this cost to get right.**
+
+1. Interpolation beats digits. The first classifier called 2 rows "decayed claims" because
+   `[:220]` (a slice bound) and `"%d keys"` (a placeholder) tripped the digit rule -- both
+   sentences recompute from the face and cannot go stale. A sentence class must price
+   interpolation *before* it prices digit runs.
+2. A zero has to be shown able to fire. The same classifier run over the whole suite flags 18 of
+   464 `check()` calls as frozen literal numbers (e.g. `"511880 T+0, 510300 T+1"`), so "0 of 51"
+   is a measurement of these faces, not a rule that cannot speak.
+3. Unknowable is two bills, not one. "No stamp field" is a face nobody dated; "stamp present but
+   not a readable date" is a writer that meant to date it and failed. Merging them hides the one
+   that is fixable in code.
+4. Old and green are compatible. A 25-bar-old face passes because its reader asks nothing about
+   age -- invisibility is not safety, and no reader was edited to make this card true.
+
+**Wiring.** `scripts/e418_face_age.py` (run / verify problems=[] / selftest 13/13); faces
+`results/state_tilt/FACEAGE-2026-11-04.json` + `faceage_latest.json`; smoke leg `# E418 (r1436
+bm-b)` executed verbatim by `scripts/run_e418_smoke_leg.py` (1/1 green, and proved red on a
+doctored face then restored byte-identical); S6 leg `face_age` (rc 0). Read-only: no reader was
+edited and no face was refreshed relative to the campaign.

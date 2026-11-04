@@ -27496,11 +27496,30 @@
    "lane": "cpu-only",
    "lane_note": "cpu-only; reads the published faces plus the suite and the exchange calendar; no writer runs",
    "priority": 3,
-   "status": "ready",
+   "status": "done",
    "owner": null,
    "source": "bm-b r1435 E416: 0 of 4 red-capable sites prices age; 45 blind faces have no chain writer; only 2 of 200 faces declare a freshness expectation",
    "entered_at": "2026-11-04T18:07:34+08:00",
-   "entered_by": "bm-b r1435 (supply floor refill after E416)"
+   "entered_by": "bm-b r1435 (supply floor refill after E416)",
+   "result_ref": "results/state_tilt/FACEAGE-2026-11-04.json",
+   "closed_by": "Tools/pool_deliverable_audit.py apply",
+   "closed_at": "2026-11-04T18:38:28+0800",
+   "close_note": "deliverable landed on disk 0.47h after entry; closed by the reconciliation audit"
+  },
+  {
+   "id": "E419-WHICH-UNSTAMPED-FACE-HAS-A-WRITER-HOLDING-A-DATE-IT-NEVER-WRITES",
+   "title": "E418 could age 36 of the 45 blind faces and left 9 unknowable: 8 carry no stamp field and 1 carries `generated` whose value is not a date. Name the in-repo writer behind each and say whether it already holds a date it never writes",
+   "question": "For each of the 9 faces E418 published as age-unknowable: which script writes it, does that writer have a cutoff/date in hand at write time, and if the field were written would a reader that already reads the face be able to go red on age? Classify each row as 'writer holds a date it does not write', 'writer has no date in hand', or 'no writer in the tree'. Never edit a writer or a reader; publish the classification.",
+   "target": "the 9 age-unknowable rows of results/state_tilt/faceage_latest.json + their writers",
+   "deliverable": "results/state_tilt/UNSTAMPABLE-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; reads published faces and script sources, runs no writer",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "source": "bm-b r1436 E418: 8 blind faces have no stamp field, 1 has a stamp that is not a date",
+   "entered_at": "2026-11-04T18:47:08+08:00",
+   "entered_by": "bm-b r1436 (supply floor refill after E418)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27515,6 +27534,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-04T18:08:20+08:00",
+ "updated_at": "2026-11-04T18:47:35+08:00",
  "version": 1
 }

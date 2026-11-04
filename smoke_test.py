@@ -15712,5 +15712,49 @@ except Exception as _e416:
     _bad416.append(repr(_e416)[:160])
 check(_name416, not _bad416, "; ".join(_bad416)[:240] or _d416)
 
+# E418 (r1436 bm-b): E416 named 45 faces that no reader can turn red on and no writer on the
+# round chain refreshes, and asked how old they are and whether the sentence their leg prints
+# when green still holds.  This leg holds the invoice: (a) every published verdict and sentence
+# class is in the frozen vocabulary, (b) a row published as "no claim that decays" carries no
+# frozen literal number, (c) an age is published only where a date-bearing stamp exists, and
+# (d) population, verdict tally and sentence-class tally re-derive from the live tree.
+_name418 = ("product: the 45 blind faces are priced by stamp age in bars, and no leg prints a "
+            "frozen number as green")
+_bad418, _d418 = [], ""
+try:
+    _m418 = __import__("importlib").import_module("e418_face_age")
+    _f418 = json.load(open(os.path.join("results", "state_tilt", "faceage_latest.json"),
+                           encoding="utf-8"))
+    _s418 = _f418.get("summary") or {}
+    if set(_s418.get("by_verdict") or {}) - _m418.VERDICT_VOCAB:
+        _bad418.append("a published verdict is outside the frozen vocabulary")
+    if set(_s418.get("by_sentence_class") or {}) - _m418.CLASS_VOCAB:
+        _bad418.append("a published sentence class is outside the frozen vocabulary")
+    if sum((_s418.get("by_verdict") or {}).values()) != _s418.get("faces_in_population"):
+        _bad418.append("the verdict tally does not re-add to the population")
+    for _r418 in _f418.get("rows") or []:
+        if _r418.get("verdict") not in _m418.VERDICT_VOCAB:
+            _bad418.append("%s: verdict outside the vocabulary" % _r418.get("face"))
+            break
+        if _r418.get("verdict") == _m418.V_CLEAN and \
+                _m418.C_FROZEN in (_r418.get("sentence_classes") or []):
+            _bad418.append("%s: called clean while printing a frozen number" % _r418.get("face"))
+            break
+        if _r418.get("age_bars") is not None and not _r418.get("stamp_date"):
+            _bad418.append("%s: an age without a stamp date" % _r418.get("face"))
+            break
+    _fresh418 = _m418.build()
+    if _fresh418.get("verdict") != _f418.get("verdict"):
+        _bad418.append("the verdict does not re-derive")
+    if (_fresh418.get("summary") or {}) != _s418:
+        _bad418.append("the published summary does not re-derive from the live tree")
+    _d418 = "%d face(s), %d stamped, %d older than 5 bars (max %s) | verdicts %s | sentences %s" % (
+        _s418.get("faces_in_population"), _s418.get("faces_with_a_stamp"),
+        _s418.get("faces_older_than_5_bars"), _s418.get("max_age_bars"),
+        _s418.get("by_verdict"), _s418.get("by_sentence_class"))
+except Exception as _e418:
+    _bad418.append(repr(_e418)[:160])
+check(_name418, not _bad418, "; ".join(_bad418)[:240] or _d418)
+
 if __name__ == "__main__":
     sys.exit(main())

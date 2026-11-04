@@ -1463,6 +1463,12 @@ LEGS = [
     # no date comparison at all. A verify leg costs one suite pass plus a bounded writer scan over
     # scripts/, and refuses a summary that no longer re-derives.
     ("fresh_aim", ["python", "scripts/e416_fresh_aim.py", "verify"]),
+    # E418 (r1436): the 45 faces E416 left blind (no reader that can go red, no chain writer) are
+    # priced by stamp age in bars against the exchange calendar, and each leg's green sentence is
+    # classified as a frozen literal number / a value recomputed at read / no number. Verify
+    # re-reads the 45 faces, the calendar and the suite lines and refuses a summary or verdict that
+    # no longer re-derives. Read-only: no face is refreshed and no reader is edited.
+    ("face_age", ["python", "scripts/e418_face_age.py", "verify"]),
 ]
 
 
