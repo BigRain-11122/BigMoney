@@ -1405,6 +1405,12 @@ LEGS = [
     # the leg and re-committing the face without it does not.  Verify re-derives the leg census,
     # the movers and the order pairs from source.
     ("leg_input_stability", ["python", "scripts/e407_leg_input_stability.py", "verify"]),
+    # E408: E407 proved the writer exists in the tree; this asks on WHICH signal it runs.  The
+    # seed's writer list is name-based (its own docstring says a face is "written by the module
+    # that names its basename"), so 7 of the 26 named modules only read the face.  Of the 14 that
+    # really write, 12 run on this chain and 2 only run from a session script -- and 0 run on the
+    # signal that reads them (the suite).  Verify re-derives every role and count from source.
+    ("writer_refresh_signal", ["python", "scripts/e408_writer_refresh_signal.py", "verify"]),
 ]
 
 

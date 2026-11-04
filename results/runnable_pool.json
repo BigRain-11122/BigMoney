@@ -27298,18 +27298,37 @@
    "title": "E305's leg re-reds inside every suite run because earlier legs move its inputs"
   },
   {
+   "claimed_at": "2026-11-04T08:55:00+08:00",
    "deliverable": "results/state_tilt/WRITERTRIGGER-<cutoff>.json",
+   "done_note": "answer is no for all 13, and the seed population had to be repaired first: E407's writer list is a name census (its own docstring: 'written by the module that names its basename'), so of 26 named modules 14 write, 7 only read, 5 are round-scoped one-off tools. Of the 14 real writers 12 run on the standing round chain, 2 only from a session script, 0 on a registered task -- and 0 run on the signal that reads them (the suite, whose 54 dispatch tuples are all selftest-shaped). Deliverable name changed from WRITERTRIGGER-<cutoff>.json to REFRESHSIGNAL-<cutoff>.json because the measurement is the refresh surface, not the writer's period; disclosed on the face.",
    "entered_at": "2026-11-04T08:25:00+08:00",
    "entered_by": "bm-b r1425",
+   "evidence_cutoff": "2026-11-04",
    "id": "E408-DOES-EVERY-IN-TREE-WRITER-OF-A-FACE-ALSO-REFRESH-IT-ON-THE-SAME-SIGNAL",
    "lane": "cpu-only",
-   "owner": null,
+   "owner": "bm-b",
    "priority": 3,
    "question": "E407 published, per input face, the modules that name it. A face with a writer is not a face that stays fresh: ask, for each of those 13 faces, which task/chain leg invokes its writer, how often, and whether the face's staleness window is shorter than the writer's period. The bill is the per-face writer->trigger->period table and the faces whose readers can legally see them older than their own tolerance.",
+   "result_ref": "results/state_tilt/REFRESHSIGNAL-2026-11-04.json",
    "source": "bm-b r1425 E407: 13/13 input faces have writers, 0 legs execute them",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e407_leg_input_stability.py",
    "title": "E407 found 13 of 13 input faces have a writer in the tree; nobody asked whether those writers run on the same trigger as the readers of those faces"
+  },
+  {
+   "deliverable": "results/state_tilt/UNFLOORED-<cutoff>.json",
+   "entered_at": "2026-11-04T09:05:00+08:00",
+   "entered_by": "bm-b r1426",
+   "id": "E409-DO-THE-TWO-SESSION-ONLY-WRITERS-LEAVE-THEIR-READERS-UNFLOORED",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; git history plus the two readers, no rewrite of either",
+   "owner": null,
+   "priority": 3,
+   "question": "E408 classified the surface that runs every real writer and found 2 of 14 are executed only from a session script: e321 writes quantityname_latest.json and t35_open_fill_verify writes results/t35_open_fill_verify.json. Both are read by legs of the standing suite, so on any round where no session happened to run them the reader compares against a face nobody refreshed. Ask it per face: how old is each face now, how many suite runs since it last changed, what would the reader conclude if it were stale rather than fresh (does it fail, or silently pass), and which of the two is the cheaper fix -- a chain leg or a reader that prices its own staleness. The bill is the two-face staleness ledger with the reader's behaviour under staleness -- never a face written by a leg to make the read pass.",
+   "source": "bm-b r1426 E408: 2 of 14 real writers are session-only (e321, t35_open_fill_verify)",
+   "status": "ready",
+   "target": "results/state_tilt/REFRESHSIGNAL-2026-11-04.json",
+   "title": "two faces read by suite legs have no standing refresh: what does a reader see when nothing ran"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27324,6 +27343,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-04T08:25:00+08:00",
+ "updated_at": "2026-11-04T09:05:00+08:00",
  "version": 1
 }

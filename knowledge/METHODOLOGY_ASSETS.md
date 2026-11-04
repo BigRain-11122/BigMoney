@@ -9453,3 +9453,54 @@ E407 (1/1, exec'd verbatim by `scripts/run_e407_smoke_leg.py`); S6 leg `leg_inpu
 faces `results/state_tilt/LEGINPUT-2026-11-04.json` + `leginput_latest.json`. The card's deliverable
 name said `LEGINPUT-2026-11-05.json`; the face is dated today because a future-dated face is future
 data. No reader, writer, face or pointer was edited.
+
+## E408 -- a writer in the tree is not a refresh on the signal that reads the face
+
+Card (pool, seeded by r1425): "E407 found 13 of 13 input faces have a writer in the tree; nobody
+asked whether those writers run on the same signal as the reader." **The answer is no for all 13,
+and finding that out required fixing the seed's own population first.**
+
+Measurement, in two passes:
+
+1. **The seed's writer list is a name census, not a write census.** E407's `writers_of` docstring
+   says it outright: "A face is written by the module that names its basename." Re-testing the 26
+   named modules for a write call that actually reaches a path naming the face gives **14 writers, 7
+   mention-only, 5 round-scoped one-off tools** -- so 7 of the 26 "writers" only read the face
+   (`e327` reads `banddeflate`, `e356` reads `reachwide`, `e407` reads `bookecho`, and the four
+   `t35` readers `build_status`/`e308`/`e313`/`e407` are all readers). Every one of the 13 faces
+   still has at least one real writer, so the seed's conclusion survives while its arithmetic does
+   not.
+2. **Refresh and read are different schedulers.** 12 of the 14 real writers are legs of the standing
+   round chain (`Tools/s6_chain_bmb.py`), 2 run only from a session script (`e321` for
+   `quantityname`, `t35_open_fill_verify`), and **0 run on a registered task**. The readers are 13
+   legs of `smoke_test.py`, which open the faces in-process and execute **no** script except
+   `--selftest` (54 dispatch tuples, all selftest-shaped, 0 publishing). So a face can be read at any
+   moment between rounds, and 2 faces have no standing refresh at all. Verdict recomputed by the
+   gate: `the_seed_population_counts_mentions_as_writes_and_no_face_in_this_set_is_refreshed_on_the_signal_that_reads_it`.
+
+Four rules measured, not assumed:
+
+- **Re-test an inherited population before extending it.** E407's 13/13 was true under its own
+  definition and misleading under the question E408 asks. A downstream study that had simply
+  inherited the list would have published "all 26 writers are wired into the chain" when 5 of them
+  are one-off round tools and 7 never write.
+- **A write is a dataflow, not a string.** The publish shapes here are `LATEST = "x_latest.json"` +
+  `with io.open(os.path.join(outdir, LATEST), "w")`, aliased locals (`path = os.path.join(outdir,
+  FACE)`), and loop bindings (`for name in (FACE, LATEST):`). Taint must be scope-aware: a
+  module-wide name map turned `e407`'s local loop variable `face` into a writer.
+- **A believer's own docstring is evidence.** The defect was stated in the code's first line ("written
+  by the module that names its basename") -- the finding is that nobody read the sentence against
+  the question being asked.
+- **Cost belongs in the wiring decision.** The first version scanned every `.py`/`.ps1` against every
+  module name: 81 s per chain round. Scanning only the 26 basenames the seed names costs 3 s. A leg
+  that is correct but costs 81 s every round is a leg that gets disabled.
+
+How to apply: when a card says "writer W of face F exists", ask (a) does W actually write F, by
+dataflow, not by name, and (b) which surface executes W. If the answer is "the round chain" and the
+reader is "the suite", then the reader must treat a face as possibly one round stale, and a leg that
+demands exact equality with a live re-derivation will re-red by construction (E387/E305 family).
+
+Wiring: `scripts/e408_writer_refresh_signal.py` (run / verify problems=[] / selftest 20/20); smoke leg
+E408 (1/1, `scripts/run_e408_smoke_leg.py`); S6 leg `writer_refresh_signal` (rc 0, 3.0 s after the
+scan was narrowed); faces `results/state_tilt/REFRESHSIGNAL-2026-11-04.json` +
+`refreshsignal_latest.json`. No reader, writer, face or pointer was edited.

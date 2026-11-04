@@ -15059,5 +15059,58 @@ except Exception as _e407:
 check(_name407, not _bad407, "; ".join(_bad407)[:240]
       or "verdict %s" % str((_f407 or {}).get("verdict"))[:90])
 
+
+# E408: E407 left the card's real question open -- a writer exists in the tree, but on WHICH
+# signal does it run?  The published census re-tests the seed population (E407's writer list is
+# name-based, and its own docstring says so, so 7 of the 26 it names only read the face) and
+# classifies the surface that runs each real writer: the standing round chain, a registered task,
+# a session script, or nothing.  The leg refuses a stored verdict/role table that no longer
+# re-derives, and it refuses a headline that flips without the face being re-read.
+_name408 = ("product: refresh and read never share a signal -- %s face(s) read by a suite leg, "
+            "%s with a real writer, %s real writer(s) on the round chain, %s session-only, "
+            "%s of %s seed-named writer(s) only mention the face, %s refreshed on the reading "
+            "surface")
+_bad408 = []
+_f408 = None
+try:
+    _p408 = os.path.join("results", "state_tilt", "refreshsignal_latest.json")
+    _f408 = json.load(open(_p408, encoding="utf-8")) if os.path.exists(_p408) else None
+    if _f408 is None:
+        _bad408.append("no published refresh-surface face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m408 = __import__("importlib").import_module("e408_writer_refresh_signal")
+        _s408 = _f408.get("summary") or {}
+        _fresh408 = _m408.build()
+        if _fresh408["summary"] != _s408:
+            _bad408.append("the published summary does not re-derive from the live tree")
+        if _fresh408.get("verdict") != _f408.get("verdict"):
+            _bad408.append("the stored verdict is not the one the live trees produce")
+        _rows408 = _f408.get("faces") or []
+        if len(_rows408) != _s408.get("faces"):
+            _bad408.append("the published rows do not re-add to the headline")
+        _roles408 = [w.get("role") for r_ in _rows408 for w in r_.get("writers") or []]
+        if len(_roles408) != _s408.get("writers_named_by_the_seed"):
+            _bad408.append("the writer rows do not re-add to the seed-named headline")
+        if _roles408.count("writer") != _s408.get("writers_that_actually_write"):
+            _bad408.append("the writer-role rows do not re-add to the write headline")
+        if _roles408.count("mention_only") != _s408.get("writers_mention_only"):
+            _bad408.append("the mention-only rows do not re-add to their headline")
+        if _s408.get("faces_refreshed_on_the_reading_surface") != 0:
+            _bad408.append("a face is refreshed on its reading surface -- re-read the claim")
+        if "no_face_in_this_set_is_refreshed" not in (_f408.get("verdict") or ""):
+            _bad408.append("the verdict does not carry the headline")
+        _name408 = _name408 % (_s408.get("faces_read_by_a_leg"),
+                               _s408.get("faces_with_a_real_writer"),
+                               _s408.get("real_writers_on_the_chain"),
+                               _s408.get("real_writers_session_only"),
+                               _s408.get("writers_mention_only"),
+                               _s408.get("writers_named_by_the_seed"),
+                               _s408.get("faces_refreshed_on_the_reading_surface"))
+except Exception as _e408:
+    _bad408.append(repr(_e408)[:160])
+check(_name408, not _bad408, "; ".join(_bad408)[:240]
+      or "verdict %s" % str((_f408 or {}).get("verdict"))[:90])
+
 if __name__ == "__main__":
     sys.exit(main())
