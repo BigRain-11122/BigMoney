@@ -1,0 +1,7036 @@
+{
+ "study": "E421_a_name_that_resolves_to_no_file_is_a_join_not_a_basis",
+ "card": "E413-DOES-THE-STRONG-BASIS-FACE-NAME-RESOLVE-TO-A-FILE",
+ "title": "the 33 names E406 could not resolve, resolved by the directory their literal is joined against",
+ "evidence_cutoff": "2026-11-04",
+ "source_face": "results/state_tilt/blobread_latest.json",
+ "source_study": "E406_blob_vs_tree_readers",
+ "source_rev": "c54a3a237436036a774b8a35f0148113e7d92bdb",
+ "rule": {
+  "population": "every face E406 named from a blob reader (58): 33 unresolved + 25 compared as a control arm",
+  "resolution": "a name resolves when the literal at its site is joined against a repo root; a name that is only ever joined against a tempfile.mkdtemp() root is a selftest fixture",
+  "temp_taint": "a name carries a temp root when it is assigned from tempfile.mkdtemp / TemporaryDirectory / mkstemp, or from a join one of whose arguments carries one",
+  "face_taint": "a name carries the face when it is assigned from, loop-bound over, or built out of a literal that spells the basename",
+  "verdict_order": "temp_join > on_disk > repo join > repo-shaped literal > literal only",
+  "stem_arm": "a sibling with the same alphabetic stem is published and is NOT counted as resolution: a fixture name and the family it copies share a stem",
+  "no_rewrite": "no reader, leg or face is edited by this study",
+  "self_exclusion": "scripts/e421_strong_basis_resolution.py is removed from the candidate corpus: this study's own selftest spells the names it resolves"
+ },
+ "summary": {
+  "faces_in_population": 58,
+  "faces_unresolved_in_e406": 33,
+  "faces_in_the_control_arm": 25,
+  "unresolved_by_source_state": {
+   "name_resolved_to_no_file": 32,
+   "absent_at_head": 1
+  },
+  "unresolved_by_basis": {
+   "module_face_literal": 31,
+   "literal_in_body": 2
+  },
+  "weak_basis_unresolved": 31,
+  "strong_basis_unresolved": 2,
+  "strong_basis_names": [
+   "CORPUSPIN-2026-01-01.json",
+   "CORPUSPIN-2026-01-02.json"
+  ],
+  "strong_basis_resolving_to_a_fixture": 2,
+  "strong_basis_resolving_to_a_file": 0,
+  "weak_basis_resolving_to_a_fixture": 7,
+  "weak_basis_resolving_to_a_file": 1,
+  "by_verdict": {
+   "joined_into_the_repo_and_the_file_is_there": 26,
+   "resolves_inside_a_selftest_temp_dir": 9,
+   "the_reader_spells_a_repo_path_the_file_exists_at": 18,
+   "named_only_by_the_census_own_selftest": 5
+  },
+  "by_verdict_unresolved": {
+   "resolves_inside_a_selftest_temp_dir": 9,
+   "the_reader_spells_a_repo_path_the_file_exists_at": 18,
+   "named_only_by_the_census_own_selftest": 5,
+   "joined_into_the_repo_and_the_file_is_there": 1
+  },
+  "by_verdict_control": {
+   "joined_into_the_repo_and_the_file_is_there": 25
+  },
+  "unresolved_joined_into_a_temp_dir": 9,
+  "unresolved_joined_into_the_repo_and_missing": 0,
+  "unresolved_resolving_at_the_spelled_path": 18,
+  "unresolved_resolving_under_another_directory": 0,
+  "unresolved_with_no_join_at_all": 0,
+  "unresolved_named_only_by_the_census_own_selftest": 5,
+  "unresolved_resolving_to_a_file_somewhere": 18,
+  "unresolved_directories_the_readers_actually_spell": {
+   "docs/live_usage": 9,
+   "docs/daily_report": 9,
+   "results/state_tilt": 1
+  },
+  "unresolved_census_directory": {
+   ".": 32,
+   "results/state_tilt": 1
+  },
+  "unresolved_whose_literal_is_repo_shaped": 27,
+  "unresolved_with_a_site_in_the_tree": 33,
+  "unresolved_with_no_site_in_the_tree": 0,
+  "unresolved_carrying_a_stem_sibling": 19,
+  "control_resolving_to_a_temp_dir": 0,
+  "control_resolving_to_a_file": 25,
+  "classifier_discriminates": true,
+  "census_module": "scripts/e406_blob_vs_tree_readers.py",
+  "self_excluded": "scripts/e421_strong_basis_resolution.py",
+  "self_excluded_in_corpus": true
+ },
+ "corpus": {
+  "modules_read": 2487,
+  "self_excluded": true,
+  "census_module": "scripts/e406_blob_vs_tree_readers.py"
+ },
+ "rows": [
+  {
+   "face": "ALLOWANCE-2099-01-01.json",
+   "face_name": "ALLOWANCE-2099-01-01.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/state_tilt/ALLOWANCE-2099-01-01.json"
+   ],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 31,
+   "site_modules": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "site_scope": [
+    "scripts/e340_who_authorizes_whose_allowance.py::_cmp",
+    "scripts/e340_who_authorizes_whose_allowance.py::build",
+    "scripts/e340_who_authorizes_whose_allowance.py::check",
+    "scripts/e340_who_authorizes_whose_allowance.py::classify"
+   ],
+   "join_kinds": [
+    "join",
+    "open",
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "module",
+     "lines": [
+      722
+     ],
+     "joins": [
+      [
+       148,
+       "join"
+      ],
+      [
+       148,
+       "open"
+      ],
+      [
+       328,
+       "join"
+      ],
+      [
+       540,
+       "join"
+      ],
+      [
+       540,
+       "open"
+      ],
+      [
+       541,
+       "open"
+      ],
+      [
+       724,
+       "temp_join"
+      ],
+      [
+       753,
+       "join"
+      ],
+      [
+       763,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open",
+      "temp_join"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/ALLOWANCE-2099-01-01.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    },
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "say",
+     "lines": [
+      722
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/ALLOWANCE-2099-01-01.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    },
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "relp",
+     "lines": [
+      722
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/ALLOWANCE-2099-01-01.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    },
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "family_of",
+     "lines": [
+      722
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/ALLOWANCE-2099-01-01.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "resolves_inside_a_selftest_temp_dir"
+  },
+  {
+   "face": "B-2026-01-01.json",
+   "face_name": "B-2026-01-01.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/A/B-2026-01-01.json",
+    "results/B-2026-01-01.json"
+   ],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 55,
+   "site_modules": [
+    "scripts/e325_orphan_gate_faces.py",
+    "scripts/e365_face_population_pin.py"
+   ],
+   "site_scope": [
+    "scripts/e325_orphan_gate_faces.py::build",
+    "scripts/e325_orphan_gate_faces.py::check",
+    "scripts/e325_orphan_gate_faces.py::class_at_rung",
+    "scripts/e325_orphan_gate_faces.py::cmd_run"
+   ],
+   "join_kinds": [
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e325_orphan_gate_faces.py",
+     "scope": "module",
+     "lines": [
+      541,
+      542
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/B-2026-01-01.json"
+     ],
+     "temp_names": [
+      "a",
+      "absent",
+      "b",
+      "basename",
+      "c",
+      "comp"
+     ]
+    },
+    {
+     "module": "scripts/e325_orphan_gate_faces.py",
+     "scope": "relp",
+     "lines": [
+      541,
+      542
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/B-2026-01-01.json"
+     ],
+     "temp_names": [
+      "a",
+      "absent",
+      "b",
+      "basename",
+      "c",
+      "comp"
+     ]
+    },
+    {
+     "module": "scripts/e325_orphan_gate_faces.py",
+     "scope": "read_json",
+     "lines": [
+      541,
+      542
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/B-2026-01-01.json"
+     ],
+     "temp_names": [
+      "a",
+      "absent",
+      "b",
+      "basename",
+      "c",
+      "comp"
+     ]
+    },
+    {
+     "module": "scripts/e325_orphan_gate_faces.py",
+     "scope": "corpus",
+     "lines": [
+      541,
+      542
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/B-2026-01-01.json"
+     ],
+     "temp_names": [
+      "a",
+      "absent",
+      "b",
+      "basename",
+      "c",
+      "comp"
+     ]
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "resolves_inside_a_selftest_temp_dir"
+  },
+  {
+   "face": "B-2026-01-02.json",
+   "face_name": "B-2026-01-02.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/A/B-2026-01-02.json"
+   ],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 33,
+   "site_modules": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "site_scope": [
+    "scripts/e365_face_population_pin.py::_write",
+    "scripts/e365_face_population_pin.py::blob_bytes",
+    "scripts/e365_face_population_pin.py::build",
+    "scripts/e365_face_population_pin.py::cmd_check"
+   ],
+   "join_kinds": [
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "module",
+     "lines": [
+      554
+     ],
+     "joins": [
+      [
+       112,
+       "temp_join"
+      ],
+      [
+       211,
+       "temp_join"
+      ],
+      [
+       247,
+       "temp_join"
+      ],
+      [
+       315,
+       "temp_join"
+      ],
+      [
+       316,
+       "temp_join"
+      ],
+      [
+       317,
+       "temp_join"
+      ],
+      [
+       349,
+       "temp_join"
+      ],
+      [
+       384,
+       "temp_join"
+      ],
+      [
+       463,
+       "temp_join"
+      ],
+      [
+       464,
+       "temp_join"
+      ],
+      [
+       465,
+       "temp_join"
+      ],
+      [
+       559,
+       "temp_join"
+      ],
+      [
+       560,
+       "temp_join"
+      ],
+      [
+       561,
+       "temp_join"
+      ]
+     ],
+     "kinds": [
+      "temp_join"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/A/B-2026-01-02.json"
+     ],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "norm_bytes",
+     "lines": [
+      554
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/A/B-2026-01-02.json"
+     ],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "digest_bytes",
+     "lines": [
+      554
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/A/B-2026-01-02.json"
+     ],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "encoding_class",
+     "lines": [
+      554
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/A/B-2026-01-02.json"
+     ],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "resolves_inside_a_selftest_temp_dir"
+  },
+  {
+   "face": "CORPUSPIN-2026-01-01.json",
+   "face_name": "CORPUSPIN-2026-01-01.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "literal_in_body",
+   "read_by": [
+    "scripts/e362_corpus_replay.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 14,
+   "site_modules": [
+    "scripts/e362_corpus_replay.py"
+   ],
+   "site_scope": [
+    "scripts/e362_corpus_replay.py::blob_texts",
+    "scripts/e362_corpus_replay.py::corpus_texts",
+    "scripts/e362_corpus_replay.py::decode_text",
+    "scripts/e362_corpus_replay.py::encode_text"
+   ],
+   "join_kinds": [
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e362_corpus_replay.py",
+     "scope": "module",
+     "lines": [
+      252
+     ],
+     "joins": [
+      [
+       91,
+       "temp_join"
+      ],
+      [
+       92,
+       "temp_join"
+      ],
+      [
+       100,
+       "temp_join"
+      ],
+      [
+       128,
+       "temp_join"
+      ],
+      [
+       209,
+       "temp_join"
+      ],
+      [
+       210,
+       "temp_join"
+      ],
+      [
+       252,
+       "temp_join"
+      ],
+      [
+       253,
+       "temp_join"
+      ],
+      [
+       254,
+       "temp_join"
+      ],
+      [
+       269,
+       "temp_join"
+      ],
+      [
+       276,
+       "temp_join"
+      ]
+     ],
+     "kinds": [
+      "temp_join"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_p",
+      "_path",
+      "b",
+      "bad",
+      "blob",
+      "buf"
+     ]
+    },
+    {
+     "module": "scripts/e362_corpus_replay.py",
+     "scope": "store_path",
+     "lines": [
+      252
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_p",
+      "_path",
+      "b",
+      "bad",
+      "blob",
+      "buf"
+     ]
+    },
+    {
+     "module": "scripts/e362_corpus_replay.py",
+     "scope": "encode_text",
+     "lines": [
+      252
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_p",
+      "_path",
+      "b",
+      "bad",
+      "blob",
+      "buf"
+     ]
+    },
+    {
+     "module": "scripts/e362_corpus_replay.py",
+     "scope": "decode_text",
+     "lines": [
+      252
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_p",
+      "_path",
+      "b",
+      "bad",
+      "blob",
+      "buf"
+     ]
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "resolves_inside_a_selftest_temp_dir"
+  },
+  {
+   "face": "CORPUSPIN-2026-01-02.json",
+   "face_name": "CORPUSPIN-2026-01-02.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "literal_in_body",
+   "read_by": [
+    "scripts/e362_corpus_replay.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 14,
+   "site_modules": [
+    "scripts/e362_corpus_replay.py"
+   ],
+   "site_scope": [
+    "scripts/e362_corpus_replay.py::blob_texts",
+    "scripts/e362_corpus_replay.py::corpus_texts",
+    "scripts/e362_corpus_replay.py::decode_text",
+    "scripts/e362_corpus_replay.py::encode_text"
+   ],
+   "join_kinds": [
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e362_corpus_replay.py",
+     "scope": "module",
+     "lines": [
+      267
+     ],
+     "joins": [
+      [
+       267,
+       "temp_join"
+      ],
+      [
+       268,
+       "temp_join"
+      ],
+      [
+       275,
+       "temp_join"
+      ]
+     ],
+     "kinds": [
+      "temp_join"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_p",
+      "_path",
+      "b",
+      "bad",
+      "blob",
+      "buf"
+     ]
+    },
+    {
+     "module": "scripts/e362_corpus_replay.py",
+     "scope": "store_path",
+     "lines": [
+      267
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_p",
+      "_path",
+      "b",
+      "bad",
+      "blob",
+      "buf"
+     ]
+    },
+    {
+     "module": "scripts/e362_corpus_replay.py",
+     "scope": "encode_text",
+     "lines": [
+      267
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_p",
+      "_path",
+      "b",
+      "bad",
+      "blob",
+      "buf"
+     ]
+    },
+    {
+     "module": "scripts/e362_corpus_replay.py",
+     "scope": "decode_text",
+     "lines": [
+      267
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_p",
+      "_path",
+      "b",
+      "bad",
+      "blob",
+      "buf"
+     ]
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "resolves_inside_a_selftest_temp_dir"
+  },
+  {
+   "face": "D-2026-01-05.json",
+   "face_name": "D-2026-01-05.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/C/D-2026-01-05.json"
+   ],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 33,
+   "site_modules": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "site_scope": [
+    "scripts/e365_face_population_pin.py::_write",
+    "scripts/e365_face_population_pin.py::blob_bytes",
+    "scripts/e365_face_population_pin.py::build",
+    "scripts/e365_face_population_pin.py::cmd_check"
+   ],
+   "join_kinds": [
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "module",
+     "lines": [
+      555
+     ],
+     "joins": [
+      [
+       112,
+       "temp_join"
+      ],
+      [
+       211,
+       "temp_join"
+      ],
+      [
+       247,
+       "temp_join"
+      ],
+      [
+       315,
+       "temp_join"
+      ],
+      [
+       316,
+       "temp_join"
+      ],
+      [
+       317,
+       "temp_join"
+      ],
+      [
+       349,
+       "temp_join"
+      ],
+      [
+       384,
+       "temp_join"
+      ],
+      [
+       463,
+       "temp_join"
+      ],
+      [
+       464,
+       "temp_join"
+      ],
+      [
+       465,
+       "temp_join"
+      ],
+      [
+       559,
+       "temp_join"
+      ],
+      [
+       560,
+       "temp_join"
+      ],
+      [
+       561,
+       "temp_join"
+      ]
+     ],
+     "kinds": [
+      "temp_join"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/C/D-2026-01-05.json"
+     ],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "norm_bytes",
+     "lines": [
+      555
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/C/D-2026-01-05.json"
+     ],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "digest_bytes",
+     "lines": [
+      555
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/C/D-2026-01-05.json"
+     ],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "encoding_class",
+     "lines": [
+      555
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/C/D-2026-01-05.json"
+     ],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "resolves_inside_a_selftest_temp_dir"
+  },
+  {
+   "face": "LIVE-2026-09-29.json",
+   "face_name": "LIVE-2026-09-29.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r212_rebase_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/live_usage/LIVE-2026-09-29.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/live_usage/LIVE-2026-09-29.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 7,
+   "site_modules": [
+    "Tools/_r212_rebase_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r212_rebase_resolve.py::deep_ts",
+    "Tools/_r212_rebase_resolve.py::main",
+    "Tools/_r212_rebase_resolve.py::module",
+    "Tools/_r212_rebase_resolve.py::resolve_snapshot"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "Tools/_r212_rebase_resolve.py",
+     "scope": "module",
+     "lines": [
+      28
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-09-29.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r212_rebase_resolve.py",
+     "scope": "stage",
+     "lines": [
+      28
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-09-29.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r212_rebase_resolve.py",
+     "scope": "deep_ts",
+     "lines": [
+      28
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-09-29.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r212_rebase_resolve.py",
+     "scope": "take_side",
+     "lines": [
+      28
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-09-29.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/etf_composite_live/LIVE-2026-10-23.json"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "LIVE-2026-09-30.json",
+   "face_name": "LIVE-2026-09-30.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r291_rebase_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/live_usage/LIVE-2026-09-30.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/live_usage/LIVE-2026-09-30.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 7,
+   "site_modules": [
+    "Tools/_r291_rebase_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r291_rebase_resolve.py::deep_ts",
+    "Tools/_r291_rebase_resolve.py::main",
+    "Tools/_r291_rebase_resolve.py::module",
+    "Tools/_r291_rebase_resolve.py::resolve_snapshot"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "Tools/_r291_rebase_resolve.py",
+     "scope": "module",
+     "lines": [
+      29
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-09-30.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r291_rebase_resolve.py",
+     "scope": "stage",
+     "lines": [
+      29
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-09-30.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r291_rebase_resolve.py",
+     "scope": "deep_ts",
+     "lines": [
+      29
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-09-30.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r291_rebase_resolve.py",
+     "scope": "take_side",
+     "lines": [
+      29
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-09-30.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/etf_composite_live/LIVE-2026-10-23.json"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "LIVE-2026-10-01.json",
+   "face_name": "LIVE-2026-10-01.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r306bmc_s6_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/live_usage/LIVE-2026-10-01.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/live_usage/LIVE-2026-10-01.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 5,
+   "site_modules": [
+    "Tools/_r306bmc_s6_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r306bmc_s6_resolve.py::blob",
+    "Tools/_r306bmc_s6_resolve.py::fmt_probe",
+    "Tools/_r306bmc_s6_resolve.py::load",
+    "Tools/_r306bmc_s6_resolve.py::module"
+   ],
+   "join_kinds": [
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "Tools/_r306bmc_s6_resolve.py",
+     "scope": "module",
+     "lines": [
+      42
+     ],
+     "joins": [
+      [
+       62,
+       "open"
+      ],
+      [
+       76,
+       "open"
+      ],
+      [
+       95,
+       "open"
+      ],
+      [
+       111,
+       "open"
+      ],
+      [
+       116,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-01.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r306bmc_s6_resolve.py",
+     "scope": "blob",
+     "lines": [
+      42
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-01.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r306bmc_s6_resolve.py",
+     "scope": "load",
+     "lines": [
+      42
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-01.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r306bmc_s6_resolve.py",
+     "scope": "fmt_probe",
+     "lines": [
+      42
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-01.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/etf_composite_live/LIVE-2026-10-23.json"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "LIVE-2026-10-03.json",
+   "face_name": "LIVE-2026-10-03.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r630bma_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/live_usage/LIVE-2026-10-03.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/live_usage/LIVE-2026-10-03.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 6,
+   "site_modules": [
+    "Tools/_r421bmc_close2.py",
+    "Tools/_r630bma_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r421bmc_close2.py::git",
+    "Tools/_r421bmc_close2.py::main",
+    "Tools/_r421bmc_close2.py::module",
+    "Tools/_r630bma_resolve.py::deep_ts"
+   ],
+   "join_kinds": [
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "Tools/_r421bmc_close2.py",
+     "scope": "module",
+     "lines": [
+      13
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-03.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r421bmc_close2.py",
+     "scope": "git",
+     "lines": [
+      13
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-03.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r421bmc_close2.py",
+     "scope": "main",
+     "lines": [
+      13
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-03.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r630bma_resolve.py",
+     "scope": "module",
+     "lines": [
+      35
+     ],
+     "joins": [
+      [
+       64,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-03.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/etf_composite_live/LIVE-2026-10-23.json"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "LIVE-2026-10-05.json",
+   "face_name": "LIVE-2026-10-05.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r515bmc_merge_resolve2.py",
+    "Tools/_r544bmc_merge_resolve.py",
+    "Tools/_r549bmc_merge_resolve.py",
+    "Tools/_r551bmc_merge_resolve.py",
+    "Tools/_r552bmc_merge_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/live_usage/LIVE-2026-10-05.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/live_usage/LIVE-2026-10-05.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 263,
+   "site_modules": [
+    "Tools/_r505bmc_merge_resolve.py",
+    "Tools/_r506bmc_rebase_resolve.py",
+    "Tools/_r507bmc_rebase_resolve.py",
+    "Tools/_r509bmc_merge_resolve.py",
+    "Tools/_r511bmc_rebase_resolve.py",
+    "Tools/_r512bmc_merge_resolve.py",
+    "Tools/_r515bmc_merge_resolve.py",
+    "Tools/_r515bmc_merge_resolve2.py",
+    "Tools/_r517bmc_rebase_resolve.py",
+    "Tools/_r518bmc_rebase_resolve.py",
+    "Tools/_r544bmc_merge_resolve.py",
+    "Tools/_r549bmc_merge_resolve.py",
+    "Tools/_r551bmc_merge_resolve.py",
+    "Tools/_r552bmc_merge_resolve.py",
+    "Tools/_r553bmc_close.py",
+    "Tools/_r554bmc_close.py",
+    "Tools/_r554bmc_merge_resolve.py",
+    "Tools/_r555bmc_close.py",
+    "Tools/_r556bmc_merge_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r505bmc_merge_resolve.py::main",
+    "Tools/_r505bmc_merge_resolve.py::max_ts",
+    "Tools/_r505bmc_merge_resolve.py::merge",
+    "Tools/_r505bmc_merge_resolve.py::module"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "Tools/_r505bmc_merge_resolve.py",
+     "scope": "module",
+     "lines": [
+      29
+     ],
+     "joins": [
+      [
+       47,
+       "join"
+      ],
+      [
+       47,
+       "open"
+      ],
+      [
+       154,
+       "join"
+      ],
+      [
+       154,
+       "open"
+      ],
+      [
+       163,
+       "join"
+      ],
+      [
+       163,
+       "open"
+      ],
+      [
+       178,
+       "join"
+      ],
+      [
+       178,
+       "open"
+      ],
+      [
+       184,
+       "join"
+      ],
+      [
+       184,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-05.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r505bmc_merge_resolve.py",
+     "scope": "read",
+     "lines": [
+      29
+     ],
+     "joins": [
+      [
+       47,
+       "join"
+      ],
+      [
+       47,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-05.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r505bmc_merge_resolve.py",
+     "scope": "max_ts",
+     "lines": [
+      29
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-05.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r505bmc_merge_resolve.py",
+     "scope": "take_side",
+     "lines": [
+      29
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-05.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/etf_composite_live/LIVE-2026-10-23.json"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "LIVE-2026-10-07.json",
+   "face_name": "LIVE-2026-10-07.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r668bmc_uu_resolve2.py",
+    "Tools/_r669bmc_pushrace_resolver.py",
+    "Tools/_r690bmc_rebase_resolve.py",
+    "Tools/_r690bmc_uu_probe.py",
+    "Tools/_r701bmc_uu_resolve.py",
+    "Tools/_r840bma_rebase_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/live_usage/LIVE-2026-10-07.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/live_usage/LIVE-2026-10-07.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 47,
+   "site_modules": [
+    "Tools/_r654bmc_rebase_resolve.py",
+    "Tools/_r668bmc_uu_probe.py",
+    "Tools/_r668bmc_uu_resolve.py",
+    "Tools/_r668bmc_uu_resolve2.py",
+    "Tools/_r669bmc_pushrace_resolver.py",
+    "Tools/_r675bmc_merge_resolve.py",
+    "Tools/_r678bmc_rebase_resolve.py",
+    "Tools/_r690bmc_rebase_resolve.py",
+    "Tools/_r690bmc_uu_probe.py",
+    "Tools/_r701bmc_uu_resolve.py",
+    "Tools/_r840bma_rebase_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r654bmc_rebase_resolve.py::git",
+    "Tools/_r654bmc_rebase_resolve.py::module",
+    "Tools/_r668bmc_uu_probe.py::module",
+    "Tools/_r668bmc_uu_probe.py::side_ts"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "Tools/_r654bmc_rebase_resolve.py",
+     "scope": "module",
+     "lines": [
+      26
+     ],
+     "joins": [
+      [
+       57,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-07.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r654bmc_rebase_resolve.py",
+     "scope": "git",
+     "lines": [
+      26
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-07.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r668bmc_uu_probe.py",
+     "scope": "module",
+     "lines": [
+      12
+     ],
+     "joins": [
+      [
+       49,
+       "open"
+      ],
+      [
+       54,
+       "join"
+      ],
+      [
+       55,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-07.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r668bmc_uu_probe.py",
+     "scope": "side_ts",
+     "lines": [
+      12
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-07.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/etf_composite_live/LIVE-2026-10-23.json"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "LIVE-2026-10-08.json",
+   "face_name": "LIVE-2026-10-08.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r738bmc_rebase_resolve.py",
+    "scripts/_r855bma_conflict_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/live_usage/LIVE-2026-10-08.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/live_usage/LIVE-2026-10-08.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 42,
+   "site_modules": [
+    "Tools/_r738bmc_rebase_resolve.py",
+    "Tools/_r739bmc_commit.py",
+    "Tools/_r740bmc_commit.py",
+    "Tools/_r741bmc_commit.py",
+    "Tools/_r742bmc_commit.py",
+    "Tools/_r742bmc_merge_gates2.py",
+    "Tools/_r742bmc_merge_resolve.py",
+    "Tools/_r743bmc_merge_gates2.py",
+    "Tools/_r743bmc_merge_resolve.py",
+    "Tools/_r746bmc_addendum.py",
+    "scripts/_r855bma_conflict_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r738bmc_rebase_resolve.py::blob_bytes",
+    "Tools/_r738bmc_rebase_resolve.py::main",
+    "Tools/_r738bmc_rebase_resolve.py::marker_scan",
+    "Tools/_r738bmc_rebase_resolve.py::module"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "Tools/_r738bmc_rebase_resolve.py",
+     "scope": "module",
+     "lines": [
+      35,
+      48
+     ],
+     "joins": [
+      [
+       121,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-08.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r738bmc_rebase_resolve.py",
+     "scope": "stage_sha",
+     "lines": [
+      35,
+      48
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-08.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r738bmc_rebase_resolve.py",
+     "scope": "blob_bytes",
+     "lines": [
+      35,
+      48
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-08.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r738bmc_rebase_resolve.py",
+     "scope": "marker_scan",
+     "lines": [
+      35,
+      48
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-08.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/etf_composite_live/LIVE-2026-10-23.json"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "LIVE-2026-10-09.json",
+   "face_name": "LIVE-2026-10-09.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r789bmc_rebase_resolver.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/live_usage/LIVE-2026-10-09.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/live_usage/LIVE-2026-10-09.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 18,
+   "site_modules": [
+    "Tools/_r789bmc_adopt.py",
+    "Tools/_r789bmc_rebase_resolver.py",
+    "Tools/_r805bmc_resolver.py"
+   ],
+   "site_scope": [
+    "Tools/_r789bmc_adopt.py::git",
+    "Tools/_r789bmc_adopt.py::main",
+    "Tools/_r789bmc_adopt.py::module",
+    "Tools/_r789bmc_rebase_resolver.py::catfile"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "Tools/_r789bmc_adopt.py",
+     "scope": "module",
+     "lines": [
+      20
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-09.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r789bmc_adopt.py",
+     "scope": "git",
+     "lines": [
+      20
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-09.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r789bmc_adopt.py",
+     "scope": "main",
+     "lines": [
+      20
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-09.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r789bmc_rebase_resolver.py",
+     "scope": "module",
+     "lines": [
+      39
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-09.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/etf_composite_live/LIVE-2026-10-23.json"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "LIVE-2026-10-11.json",
+   "face_name": "LIVE-2026-10-11.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r844bmc_rebase_resolver.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/live_usage/LIVE-2026-10-11.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/live_usage/LIVE-2026-10-11.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 4,
+   "site_modules": [
+    "Tools/_r844bmc_rebase_resolver.py"
+   ],
+   "site_scope": [
+    "Tools/_r844bmc_rebase_resolver.py::extract_ts",
+    "Tools/_r844bmc_rebase_resolver.py::main",
+    "Tools/_r844bmc_rebase_resolver.py::module",
+    "Tools/_r844bmc_rebase_resolver.py::stage_bytes"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "Tools/_r844bmc_rebase_resolver.py",
+     "scope": "module",
+     "lines": [
+      18
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-11.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r844bmc_rebase_resolver.py",
+     "scope": "stage_bytes",
+     "lines": [
+      18
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-11.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r844bmc_rebase_resolver.py",
+     "scope": "extract_ts",
+     "lines": [
+      18
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-11.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r844bmc_rebase_resolver.py",
+     "scope": "main",
+     "lines": [
+      18
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/live_usage/LIVE-2026-10-11.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/etf_composite_live/LIVE-2026-10-23.json"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "OTHER-2026-11-01.json",
+   "face_name": "OTHER-2026-11-01.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/y/OTHER-2026-11-01.json"
+   ],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 81,
+   "site_modules": [
+    "scripts/e334_helper_repair_blast_radius.py",
+    "scripts/e336_consumer_optin_ranking.py",
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "site_scope": [
+    "scripts/e334_helper_repair_blast_radius.py::_fake_build",
+    "scripts/e334_helper_repair_blast_radius.py::attribute",
+    "scripts/e334_helper_repair_blast_radius.py::boom",
+    "scripts/e334_helper_repair_blast_radius.py::build"
+   ],
+   "join_kinds": [
+    "join",
+    "open",
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e334_helper_repair_blast_radius.py",
+     "scope": "module",
+     "lines": [
+      716,
+      718
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_n",
+      "_t",
+      "a",
+      "after",
+      "attributed",
+      "b"
+     ]
+    },
+    {
+     "module": "scripts/e334_helper_repair_blast_radius.py",
+     "scope": "say",
+     "lines": [
+      716,
+      718
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_n",
+      "_t",
+      "a",
+      "after",
+      "attributed",
+      "b"
+     ]
+    },
+    {
+     "module": "scripts/e334_helper_repair_blast_radius.py",
+     "scope": "true_lines",
+     "lines": [
+      716,
+      718
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_n",
+      "_t",
+      "a",
+      "after",
+      "attributed",
+      "b"
+     ]
+    },
+    {
+     "module": "scripts/e334_helper_repair_blast_radius.py",
+     "scope": "priced",
+     "lines": [
+      716,
+      718
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_n",
+      "_t",
+      "a",
+      "after",
+      "attributed",
+      "b"
+     ]
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "resolves_inside_a_selftest_temp_dir"
+  },
+  {
+   "face": "REPORT-2026-09-29.json",
+   "face_name": "REPORT-2026-09-29.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r212_rebase_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/daily_report/REPORT-2026-09-29.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/daily_report/REPORT-2026-09-29.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 7,
+   "site_modules": [
+    "Tools/_r212_rebase_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r212_rebase_resolve.py::deep_ts",
+    "Tools/_r212_rebase_resolve.py::main",
+    "Tools/_r212_rebase_resolve.py::module",
+    "Tools/_r212_rebase_resolve.py::resolve_snapshot"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "Tools/_r212_rebase_resolve.py",
+     "scope": "module",
+     "lines": [
+      27
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-09-29.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r212_rebase_resolve.py",
+     "scope": "stage",
+     "lines": [
+      27
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-09-29.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r212_rebase_resolve.py",
+     "scope": "deep_ts",
+     "lines": [
+      27
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-09-29.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r212_rebase_resolve.py",
+     "scope": "take_side",
+     "lines": [
+      27
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-09-29.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/_r1012bmb_s0_backup/REPORT-20261018.md",
+    "results/market_clock/backtest/REPORT-S2-v1.1.md",
+    "results/post_review/REPORT-20260924.md",
+    "results/post_review/REPORT-20260925.md",
+    "results/post_review/REPORT-20260926.md"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "REPORT-2026-09-30.json",
+   "face_name": "REPORT-2026-09-30.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r291_rebase_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/daily_report/REPORT-2026-09-30.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/daily_report/REPORT-2026-09-30.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 7,
+   "site_modules": [
+    "Tools/_r291_rebase_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r291_rebase_resolve.py::deep_ts",
+    "Tools/_r291_rebase_resolve.py::main",
+    "Tools/_r291_rebase_resolve.py::module",
+    "Tools/_r291_rebase_resolve.py::resolve_snapshot"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "Tools/_r291_rebase_resolve.py",
+     "scope": "module",
+     "lines": [
+      28
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-09-30.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r291_rebase_resolve.py",
+     "scope": "stage",
+     "lines": [
+      28
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-09-30.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r291_rebase_resolve.py",
+     "scope": "deep_ts",
+     "lines": [
+      28
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-09-30.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r291_rebase_resolve.py",
+     "scope": "take_side",
+     "lines": [
+      28
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-09-30.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/_r1012bmb_s0_backup/REPORT-20261018.md",
+    "results/market_clock/backtest/REPORT-S2-v1.1.md",
+    "results/post_review/REPORT-20260924.md",
+    "results/post_review/REPORT-20260925.md",
+    "results/post_review/REPORT-20260926.md"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "REPORT-2026-10-01.json",
+   "face_name": "REPORT-2026-10-01.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r306bmc_s6_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/daily_report/REPORT-2026-10-01.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/daily_report/REPORT-2026-10-01.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 5,
+   "site_modules": [
+    "Tools/_r306bmc_s6_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r306bmc_s6_resolve.py::blob",
+    "Tools/_r306bmc_s6_resolve.py::fmt_probe",
+    "Tools/_r306bmc_s6_resolve.py::load",
+    "Tools/_r306bmc_s6_resolve.py::module"
+   ],
+   "join_kinds": [
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "Tools/_r306bmc_s6_resolve.py",
+     "scope": "module",
+     "lines": [
+      41
+     ],
+     "joins": [
+      [
+       62,
+       "open"
+      ],
+      [
+       76,
+       "open"
+      ],
+      [
+       95,
+       "open"
+      ],
+      [
+       111,
+       "open"
+      ],
+      [
+       116,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-01.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r306bmc_s6_resolve.py",
+     "scope": "blob",
+     "lines": [
+      41
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-01.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r306bmc_s6_resolve.py",
+     "scope": "load",
+     "lines": [
+      41
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-01.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r306bmc_s6_resolve.py",
+     "scope": "fmt_probe",
+     "lines": [
+      41
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-01.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/_r1012bmb_s0_backup/REPORT-20261018.md",
+    "results/market_clock/backtest/REPORT-S2-v1.1.md",
+    "results/post_review/REPORT-20260924.md",
+    "results/post_review/REPORT-20260925.md",
+    "results/post_review/REPORT-20260926.md"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "REPORT-2026-10-03.json",
+   "face_name": "REPORT-2026-10-03.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r630bma_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/daily_report/REPORT-2026-10-03.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/daily_report/REPORT-2026-10-03.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 6,
+   "site_modules": [
+    "Tools/_r421bmc_close2.py",
+    "Tools/_r630bma_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r421bmc_close2.py::git",
+    "Tools/_r421bmc_close2.py::main",
+    "Tools/_r421bmc_close2.py::module",
+    "Tools/_r630bma_resolve.py::deep_ts"
+   ],
+   "join_kinds": [
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "Tools/_r421bmc_close2.py",
+     "scope": "module",
+     "lines": [
+      11
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-03.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r421bmc_close2.py",
+     "scope": "git",
+     "lines": [
+      11
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-03.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r421bmc_close2.py",
+     "scope": "main",
+     "lines": [
+      11
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-03.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r630bma_resolve.py",
+     "scope": "module",
+     "lines": [
+      34
+     ],
+     "joins": [
+      [
+       64,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-03.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/_r1012bmb_s0_backup/REPORT-20261018.md",
+    "results/market_clock/backtest/REPORT-S2-v1.1.md",
+    "results/post_review/REPORT-20260924.md",
+    "results/post_review/REPORT-20260925.md",
+    "results/post_review/REPORT-20260926.md"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "REPORT-2026-10-05.json",
+   "face_name": "REPORT-2026-10-05.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r515bmc_merge_resolve2.py",
+    "Tools/_r544bmc_merge_resolve.py",
+    "Tools/_r549bmc_merge_resolve.py",
+    "Tools/_r551bmc_merge_resolve.py",
+    "Tools/_r552bmc_merge_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/daily_report/REPORT-2026-10-05.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/daily_report/REPORT-2026-10-05.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 263,
+   "site_modules": [
+    "Tools/_r505bmc_merge_resolve.py",
+    "Tools/_r506bmc_rebase_resolve.py",
+    "Tools/_r507bmc_rebase_resolve.py",
+    "Tools/_r509bmc_merge_resolve.py",
+    "Tools/_r511bmc_rebase_resolve.py",
+    "Tools/_r512bmc_merge_resolve.py",
+    "Tools/_r515bmc_merge_resolve.py",
+    "Tools/_r515bmc_merge_resolve2.py",
+    "Tools/_r517bmc_rebase_resolve.py",
+    "Tools/_r518bmc_rebase_resolve.py",
+    "Tools/_r544bmc_merge_resolve.py",
+    "Tools/_r549bmc_merge_resolve.py",
+    "Tools/_r551bmc_merge_resolve.py",
+    "Tools/_r552bmc_merge_resolve.py",
+    "Tools/_r553bmc_close.py",
+    "Tools/_r554bmc_close.py",
+    "Tools/_r554bmc_merge_resolve.py",
+    "Tools/_r555bmc_close.py",
+    "Tools/_r556bmc_merge_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r505bmc_merge_resolve.py::main",
+    "Tools/_r505bmc_merge_resolve.py::max_ts",
+    "Tools/_r505bmc_merge_resolve.py::merge",
+    "Tools/_r505bmc_merge_resolve.py::module"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "Tools/_r505bmc_merge_resolve.py",
+     "scope": "module",
+     "lines": [
+      27
+     ],
+     "joins": [
+      [
+       47,
+       "join"
+      ],
+      [
+       47,
+       "open"
+      ],
+      [
+       154,
+       "join"
+      ],
+      [
+       154,
+       "open"
+      ],
+      [
+       163,
+       "join"
+      ],
+      [
+       163,
+       "open"
+      ],
+      [
+       178,
+       "join"
+      ],
+      [
+       178,
+       "open"
+      ],
+      [
+       184,
+       "join"
+      ],
+      [
+       184,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-05.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r505bmc_merge_resolve.py",
+     "scope": "read",
+     "lines": [
+      27
+     ],
+     "joins": [
+      [
+       47,
+       "join"
+      ],
+      [
+       47,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-05.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r505bmc_merge_resolve.py",
+     "scope": "max_ts",
+     "lines": [
+      27
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-05.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r505bmc_merge_resolve.py",
+     "scope": "take_side",
+     "lines": [
+      27
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-05.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/_r1012bmb_s0_backup/REPORT-20261018.md",
+    "results/market_clock/backtest/REPORT-S2-v1.1.md",
+    "results/post_review/REPORT-20260924.md",
+    "results/post_review/REPORT-20260925.md",
+    "results/post_review/REPORT-20260926.md"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "REPORT-2026-10-07.json",
+   "face_name": "REPORT-2026-10-07.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r668bmc_uu_resolve2.py",
+    "Tools/_r669bmc_pushrace_resolver.py",
+    "Tools/_r690bmc_rebase_resolve.py",
+    "Tools/_r690bmc_uu_probe.py",
+    "Tools/_r701bmc_uu_resolve.py",
+    "Tools/_r840bma_rebase_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/daily_report/REPORT-2026-10-07.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/daily_report/REPORT-2026-10-07.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 47,
+   "site_modules": [
+    "Tools/_r654bmc_rebase_resolve.py",
+    "Tools/_r668bmc_uu_probe.py",
+    "Tools/_r668bmc_uu_resolve.py",
+    "Tools/_r668bmc_uu_resolve2.py",
+    "Tools/_r669bmc_pushrace_resolver.py",
+    "Tools/_r675bmc_merge_resolve.py",
+    "Tools/_r678bmc_rebase_resolve.py",
+    "Tools/_r690bmc_rebase_resolve.py",
+    "Tools/_r690bmc_uu_probe.py",
+    "Tools/_r701bmc_uu_resolve.py",
+    "Tools/_r840bma_rebase_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r654bmc_rebase_resolve.py::git",
+    "Tools/_r654bmc_rebase_resolve.py::module",
+    "Tools/_r668bmc_uu_probe.py::module",
+    "Tools/_r668bmc_uu_probe.py::side_ts"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "Tools/_r654bmc_rebase_resolve.py",
+     "scope": "module",
+     "lines": [
+      24
+     ],
+     "joins": [
+      [
+       57,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-07.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r654bmc_rebase_resolve.py",
+     "scope": "git",
+     "lines": [
+      24
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-07.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r668bmc_uu_probe.py",
+     "scope": "module",
+     "lines": [
+      10
+     ],
+     "joins": [
+      [
+       49,
+       "open"
+      ],
+      [
+       54,
+       "join"
+      ],
+      [
+       55,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-07.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r668bmc_uu_probe.py",
+     "scope": "side_ts",
+     "lines": [
+      10
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-07.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/_r1012bmb_s0_backup/REPORT-20261018.md",
+    "results/market_clock/backtest/REPORT-S2-v1.1.md",
+    "results/post_review/REPORT-20260924.md",
+    "results/post_review/REPORT-20260925.md",
+    "results/post_review/REPORT-20260926.md"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "REPORT-2026-10-08.json",
+   "face_name": "REPORT-2026-10-08.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r738bmc_rebase_resolve.py",
+    "scripts/_r855bma_conflict_resolve.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/daily_report/REPORT-2026-10-08.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/daily_report/REPORT-2026-10-08.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 42,
+   "site_modules": [
+    "Tools/_r738bmc_rebase_resolve.py",
+    "Tools/_r739bmc_commit.py",
+    "Tools/_r740bmc_commit.py",
+    "Tools/_r741bmc_commit.py",
+    "Tools/_r742bmc_commit.py",
+    "Tools/_r742bmc_merge_gates2.py",
+    "Tools/_r742bmc_merge_resolve.py",
+    "Tools/_r743bmc_merge_gates2.py",
+    "Tools/_r743bmc_merge_resolve.py",
+    "Tools/_r746bmc_addendum.py",
+    "scripts/_r855bma_conflict_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r738bmc_rebase_resolve.py::blob_bytes",
+    "Tools/_r738bmc_rebase_resolve.py::main",
+    "Tools/_r738bmc_rebase_resolve.py::marker_scan",
+    "Tools/_r738bmc_rebase_resolve.py::module"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "Tools/_r738bmc_rebase_resolve.py",
+     "scope": "module",
+     "lines": [
+      33,
+      46
+     ],
+     "joins": [
+      [
+       121,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-08.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r738bmc_rebase_resolve.py",
+     "scope": "stage_sha",
+     "lines": [
+      33,
+      46
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-08.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r738bmc_rebase_resolve.py",
+     "scope": "blob_bytes",
+     "lines": [
+      33,
+      46
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-08.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r738bmc_rebase_resolve.py",
+     "scope": "marker_scan",
+     "lines": [
+      33,
+      46
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-08.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/_r1012bmb_s0_backup/REPORT-20261018.md",
+    "results/market_clock/backtest/REPORT-S2-v1.1.md",
+    "results/post_review/REPORT-20260924.md",
+    "results/post_review/REPORT-20260925.md",
+    "results/post_review/REPORT-20260926.md"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "REPORT-2026-10-09.json",
+   "face_name": "REPORT-2026-10-09.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r789bmc_rebase_resolver.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/daily_report/REPORT-2026-10-09.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/daily_report/REPORT-2026-10-09.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 21,
+   "site_modules": [
+    "Tools/_r789bmc_adopt.py",
+    "Tools/_r789bmc_rebase_resolver.py",
+    "Tools/_r796bmc_merge_resolver.py",
+    "Tools/_r805bmc_resolver.py"
+   ],
+   "site_scope": [
+    "Tools/_r789bmc_adopt.py::git",
+    "Tools/_r789bmc_adopt.py::main",
+    "Tools/_r789bmc_adopt.py::module",
+    "Tools/_r789bmc_rebase_resolver.py::catfile"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "Tools/_r789bmc_adopt.py",
+     "scope": "module",
+     "lines": [
+      18
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-09.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r789bmc_adopt.py",
+     "scope": "git",
+     "lines": [
+      18
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-09.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r789bmc_adopt.py",
+     "scope": "main",
+     "lines": [
+      18
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-09.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r789bmc_rebase_resolver.py",
+     "scope": "module",
+     "lines": [
+      37
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-09.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/_r1012bmb_s0_backup/REPORT-20261018.md",
+    "results/market_clock/backtest/REPORT-S2-v1.1.md",
+    "results/post_review/REPORT-20260924.md",
+    "results/post_review/REPORT-20260925.md",
+    "results/post_review/REPORT-20260926.md"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "REPORT-2026-10-11.json",
+   "face_name": "REPORT-2026-10-11.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r844bmc_rebase_resolver.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "docs/daily_report/REPORT-2026-10-11.json"
+   ],
+   "literal_paths_on_disk": [
+    "docs/daily_report/REPORT-2026-10-11.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 4,
+   "site_modules": [
+    "Tools/_r844bmc_rebase_resolver.py"
+   ],
+   "site_scope": [
+    "Tools/_r844bmc_rebase_resolver.py::extract_ts",
+    "Tools/_r844bmc_rebase_resolver.py::main",
+    "Tools/_r844bmc_rebase_resolver.py::module",
+    "Tools/_r844bmc_rebase_resolver.py::stage_bytes"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "Tools/_r844bmc_rebase_resolver.py",
+     "scope": "module",
+     "lines": [
+      16
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-11.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r844bmc_rebase_resolver.py",
+     "scope": "stage_bytes",
+     "lines": [
+      16
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-11.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r844bmc_rebase_resolver.py",
+     "scope": "extract_ts",
+     "lines": [
+      16
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-11.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r844bmc_rebase_resolver.py",
+     "scope": "main",
+     "lines": [
+      16
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "docs/daily_report/REPORT-2026-10-11.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/_r1012bmb_s0_backup/REPORT-20261018.md",
+    "results/market_clock/backtest/REPORT-S2-v1.1.md",
+    "results/post_review/REPORT-20260924.md",
+    "results/post_review/REPORT-20260925.md",
+    "results/post_review/REPORT-20260926.md"
+   ],
+   "verdict": "the_reader_spells_a_repo_path_the_file_exists_at"
+  },
+  {
+   "face": "TOKEN-2026-11-01.json",
+   "face_name": "TOKEN-2026-11-01.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/x/TOKEN-2026-11-01.json"
+   ],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 31,
+   "site_modules": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "site_scope": [
+    "scripts/e340_who_authorizes_whose_allowance.py::_cmp",
+    "scripts/e340_who_authorizes_whose_allowance.py::build",
+    "scripts/e340_who_authorizes_whose_allowance.py::check",
+    "scripts/e340_who_authorizes_whose_allowance.py::classify"
+   ],
+   "join_kinds": [
+    "join",
+    "open",
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "module",
+     "lines": [
+      677,
+      680
+     ],
+     "joins": [
+      [
+       148,
+       "join"
+      ],
+      [
+       148,
+       "open"
+      ],
+      [
+       328,
+       "join"
+      ],
+      [
+       540,
+       "join"
+      ],
+      [
+       540,
+       "open"
+      ],
+      [
+       541,
+       "open"
+      ],
+      [
+       724,
+       "temp_join"
+      ],
+      [
+       753,
+       "join"
+      ],
+      [
+       763,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open",
+      "temp_join"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/x/TOKEN-2026-11-01.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    },
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "say",
+     "lines": [
+      677,
+      680
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/x/TOKEN-2026-11-01.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    },
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "relp",
+     "lines": [
+      677,
+      680
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/x/TOKEN-2026-11-01.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    },
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "family_of",
+     "lines": [
+      677,
+      680
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/x/TOKEN-2026-11-01.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "resolves_inside_a_selftest_temp_dir"
+  },
+  {
+   "face": "U-2026-01-06.json",
+   "face_name": "U-2026-01-06.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/C/U-2026-01-06.json"
+   ],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 33,
+   "site_modules": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "site_scope": [
+    "scripts/e365_face_population_pin.py::_write",
+    "scripts/e365_face_population_pin.py::blob_bytes",
+    "scripts/e365_face_population_pin.py::build",
+    "scripts/e365_face_population_pin.py::cmd_check"
+   ],
+   "join_kinds": [
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "module",
+     "lines": [
+      556,
+      580,
+      593
+     ],
+     "joins": [
+      [
+       112,
+       "temp_join"
+      ],
+      [
+       211,
+       "temp_join"
+      ],
+      [
+       247,
+       "temp_join"
+      ],
+      [
+       315,
+       "temp_join"
+      ],
+      [
+       316,
+       "temp_join"
+      ],
+      [
+       317,
+       "temp_join"
+      ],
+      [
+       349,
+       "temp_join"
+      ],
+      [
+       384,
+       "temp_join"
+      ],
+      [
+       463,
+       "temp_join"
+      ],
+      [
+       464,
+       "temp_join"
+      ],
+      [
+       465,
+       "temp_join"
+      ],
+      [
+       559,
+       "temp_join"
+      ],
+      [
+       560,
+       "temp_join"
+      ],
+      [
+       561,
+       "temp_join"
+      ]
+     ],
+     "kinds": [
+      "temp_join"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/C/U-2026-01-06.json"
+     ],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "norm_bytes",
+     "lines": [
+      556,
+      580,
+      593
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/C/U-2026-01-06.json"
+     ],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "digest_bytes",
+     "lines": [
+      556,
+      580,
+      593
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/C/U-2026-01-06.json"
+     ],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "encoding_class",
+     "lines": [
+      556,
+      580,
+      593
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/C/U-2026-01-06.json"
+     ],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "resolves_inside_a_selftest_temp_dir"
+  },
+  {
+   "face": "alpha_latest.json",
+   "face_name": "alpha_latest.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 21,
+   "site_modules": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "site_scope": [
+    "scripts/e406_blob_vs_tree_readers.py::_face_tail",
+    "scripts/e406_blob_vs_tree_readers.py::_no_window",
+    "scripts/e406_blob_vs_tree_readers.py::_report",
+    "scripts/e406_blob_vs_tree_readers.py::_str_constants"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "module",
+     "lines": [
+      510
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "say",
+     "lines": [
+      510
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "_no_window",
+     "lines": [
+      510
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "git_show_text",
+     "lines": [
+      510
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "named_only_by_the_census_own_selftest"
+  },
+  {
+   "face": "beta_latest.json",
+   "face_name": "beta_latest.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 21,
+   "site_modules": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "site_scope": [
+    "scripts/e406_blob_vs_tree_readers.py::_face_tail",
+    "scripts/e406_blob_vs_tree_readers.py::_no_window",
+    "scripts/e406_blob_vs_tree_readers.py::_report",
+    "scripts/e406_blob_vs_tree_readers.py::_str_constants"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "module",
+     "lines": [
+      523,
+      524
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "say",
+     "lines": [
+      523,
+      524
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "_no_window",
+     "lines": [
+      523,
+      524
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "git_show_text",
+     "lines": [
+      523,
+      524
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "named_only_by_the_census_own_selftest"
+  },
+  {
+   "face": "results/state_tilt/blobread_latest.json",
+   "face_name": "blobread_latest.json",
+   "source_state": "absent_at_head",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/state_tilt/blobread_latest.json"
+   ],
+   "literal_paths_on_disk": [
+    "results/state_tilt/blobread_latest.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 56,
+   "site_modules": [
+    "scripts/e406_blob_vs_tree_readers.py",
+    "scripts/e412_blob_guard_decision.py"
+   ],
+   "site_scope": [
+    "scripts/e406_blob_vs_tree_readers.py::_face_tail",
+    "scripts/e406_blob_vs_tree_readers.py::_no_window",
+    "scripts/e406_blob_vs_tree_readers.py::_report",
+    "scripts/e406_blob_vs_tree_readers.py::_str_constants"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "module",
+     "lines": [
+      40
+     ],
+     "joins": [
+      [
+       445,
+       "join"
+      ],
+      [
+       445,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "say",
+     "lines": [
+      40
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "_no_window",
+     "lines": [
+      40
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "git_show_text",
+     "lines": [
+      40
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/blobread_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "delta_latest.json",
+   "face_name": "delta_latest.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 21,
+   "site_modules": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "site_scope": [
+    "scripts/e406_blob_vs_tree_readers.py::_face_tail",
+    "scripts/e406_blob_vs_tree_readers.py::_no_window",
+    "scripts/e406_blob_vs_tree_readers.py::_report",
+    "scripts/e406_blob_vs_tree_readers.py::_str_constants"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "module",
+     "lines": [
+      553
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "say",
+     "lines": [
+      553
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "_no_window",
+     "lines": [
+      553
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "git_show_text",
+     "lines": [
+      553
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "named_only_by_the_census_own_selftest"
+  },
+  {
+   "face": "gamma_latest.json",
+   "face_name": "gamma_latest.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 21,
+   "site_modules": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "site_scope": [
+    "scripts/e406_blob_vs_tree_readers.py::_face_tail",
+    "scripts/e406_blob_vs_tree_readers.py::_no_window",
+    "scripts/e406_blob_vs_tree_readers.py::_report",
+    "scripts/e406_blob_vs_tree_readers.py::_str_constants"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "module",
+     "lines": [
+      535
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "say",
+     "lines": [
+      535
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "_no_window",
+     "lines": [
+      535
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "git_show_text",
+     "lines": [
+      535
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "named_only_by_the_census_own_selftest"
+  },
+  {
+   "face": "x_latest.json",
+   "face_name": "x_latest.json",
+   "source_state": "name_resolved_to_no_file",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "on_disk": false,
+   "at_head": false,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/state_tilt/x_latest.json"
+   ],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 21,
+   "site_modules": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "site_scope": [
+    "scripts/e406_blob_vs_tree_readers.py::_face_tail",
+    "scripts/e406_blob_vs_tree_readers.py::_no_window",
+    "scripts/e406_blob_vs_tree_readers.py::_report",
+    "scripts/e406_blob_vs_tree_readers.py::_str_constants"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "module",
+     "lines": [
+      501,
+      561
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/x_latest.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "say",
+     "lines": [
+      501,
+      561
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/x_latest.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "_no_window",
+     "lines": [
+      501,
+      561
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/x_latest.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "git_show_text",
+     "lines": [
+      501,
+      561
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/x_latest.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [],
+   "verdict": "named_only_by_the_census_own_selftest"
+  },
+  {
+   "face": "results/state_tilt/ALLOWANCE-2026-11-01.json",
+   "face_name": "ALLOWANCE-2026-11-01.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/state_tilt/ALLOWANCE-2026-11-01.json"
+   ],
+   "literal_paths_on_disk": [
+    "results/state_tilt/ALLOWANCE-2026-11-01.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 31,
+   "site_modules": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "site_scope": [
+    "scripts/e340_who_authorizes_whose_allowance.py::_cmp",
+    "scripts/e340_who_authorizes_whose_allowance.py::build",
+    "scripts/e340_who_authorizes_whose_allowance.py::check",
+    "scripts/e340_who_authorizes_whose_allowance.py::classify"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "module",
+     "lines": [
+      671
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/ALLOWANCE-2026-11-01.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    },
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "say",
+     "lines": [
+      671
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/ALLOWANCE-2026-11-01.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    },
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "relp",
+     "lines": [
+      671
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/ALLOWANCE-2026-11-01.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    },
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "family_of",
+     "lines": [
+      671
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/ALLOWANCE-2026-11-01.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/ALLOWANCE-2026-11-01.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/CORPUSPIN-2026-11-02.json",
+   "face_name": "CORPUSPIN-2026-11-02.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e368_seam_replay.py",
+    "scripts/e369_pin_at_publishing_commit.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/state_tilt/CORPUSPIN-2026-11-02.json"
+   ],
+   "literal_paths_on_disk": [
+    "results/state_tilt/CORPUSPIN-2026-11-02.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 59,
+   "site_modules": [
+    "scripts/_r1383_stage.py",
+    "scripts/e368_seam_replay.py",
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e373_two_pins_one_replay.py"
+   ],
+   "site_scope": [
+    "scripts/_r1383_stage.py::main",
+    "scripts/_r1383_stage.py::module",
+    "scripts/_r1383_stage.py::run",
+    "scripts/e368_seam_replay.py::_delta"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/_r1383_stage.py",
+     "scope": "module",
+     "lines": [
+      26,
+      49
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/CORPUSPIN-2026-11-02.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/_r1383_stage.py",
+     "scope": "run",
+     "lines": [
+      26,
+      49
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/CORPUSPIN-2026-11-02.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/_r1383_stage.py",
+     "scope": "main",
+     "lines": [
+      26,
+      49
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/CORPUSPIN-2026-11-02.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e368_seam_replay.py",
+     "scope": "module",
+     "lines": [
+      60
+     ],
+     "joins": [
+      [
+       60,
+       "join"
+      ],
+      [
+       88,
+       "open"
+      ],
+      [
+       122,
+       "open"
+      ],
+      [
+       162,
+       "open"
+      ],
+      [
+       305,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/CORPUSPIN-2026-11-02.json",
+    "results/state_tilt/CORPUSPIN-AT-COMMIT-daf9a897.json",
+    "results/state_tilt/CORPUSPIN-AT-COMMIT-e847e099.json",
+    "results/state_tilt/CORPUSPIN-SIBLINGENTRY-2026-11-01.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/FACEVINTAGE-2026-11-02.json",
+   "face_name": "FACEVINTAGE-2026-11-02.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 18,
+   "site_modules": [
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "site_scope": [
+    "scripts/e363_corpus_vintage.py::_fixture",
+    "scripts/e363_corpus_vintage.py::build",
+    "scripts/e363_corpus_vintage.py::classify",
+    "scripts/e363_corpus_vintage.py::corpus_paths"
+   ],
+   "join_kinds": [
+    "join",
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "scope": "module",
+     "lines": [
+      42
+     ],
+     "joins": [
+      [
+       90,
+       "join"
+      ],
+      [
+       270,
+       "temp_join"
+      ],
+      [
+       324,
+       "temp_join"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "temp_join"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "body",
+      "doc",
+      "fresh",
+      "hits",
+      "key",
+      "n"
+     ]
+    },
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "scope": "corpus_paths",
+     "lines": [
+      42
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "body",
+      "doc",
+      "fresh",
+      "hits",
+      "key",
+      "n"
+     ]
+    },
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "scope": "files_from",
+     "lines": [
+      42
+     ],
+     "joins": [
+      [
+       90,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "body",
+      "doc",
+      "fresh",
+      "hits",
+      "key",
+      "n"
+     ]
+    },
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "scope": "live_texts",
+     "lines": [
+      42
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "body",
+      "doc",
+      "fresh",
+      "hits",
+      "key",
+      "n"
+     ]
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/FACEVINTAGE-2026-11-02.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/PRINTCOV-2026-10-31.json",
+   "face_name": "PRINTCOV-2026-10-31.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e320_decoy_resolution.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 40,
+   "site_modules": [
+    "scripts/e318_count_named_gate_leaves.py",
+    "scripts/e320_decoy_resolution.py"
+   ],
+   "site_scope": [
+    "scripts/e318_count_named_gate_leaves.py::_fixture_rows",
+    "scripts/e318_count_named_gate_leaves.py::_words",
+    "scripts/e318_count_named_gate_leaves.py::block_shape",
+    "scripts/e318_count_named_gate_leaves.py::build"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e318_count_named_gate_leaves.py",
+     "scope": "module",
+     "lines": [
+      44
+     ],
+     "joins": [
+      [
+       316,
+       "join"
+      ],
+      [
+       317,
+       "open"
+      ],
+      [
+       366,
+       "join"
+      ],
+      [
+       368,
+       "open"
+      ],
+      [
+       528,
+       "join"
+      ],
+      [
+       549,
+       "open"
+      ],
+      [
+       581,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e318_count_named_gate_leaves.py",
+     "scope": "count_word",
+     "lines": [
+      44
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e318_count_named_gate_leaves.py",
+     "scope": "resolve_block",
+     "lines": [
+      44
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e318_count_named_gate_leaves.py",
+     "scope": "numeric_children",
+     "lines": [
+      44
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/PRINTCOV-2026-10-31.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/REPUBLISH-2026-11-03.json",
+   "face_name": "REPUBLISH-2026-11-03.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 32,
+   "site_modules": [
+    "scripts/e406_blob_vs_tree_readers.py",
+    "scripts/e420_corpus_pin_instability.py"
+   ],
+   "site_scope": [
+    "scripts/e406_blob_vs_tree_readers.py::_face_tail",
+    "scripts/e406_blob_vs_tree_readers.py::_no_window",
+    "scripts/e406_blob_vs_tree_readers.py::_report",
+    "scripts/e406_blob_vs_tree_readers.py::_str_constants"
+   ],
+   "join_kinds": [
+    "join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "module",
+     "lines": [
+      499
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "say",
+     "lines": [
+      499
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "_no_window",
+     "lines": [
+      499
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e406_blob_vs_tree_readers.py",
+     "scope": "git_show_text",
+     "lines": [
+      499
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/REPUBLISH-2026-11-03.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/allowance_latest.json",
+   "face_name": "allowance_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/state_tilt/allowance_latest.json"
+   ],
+   "literal_paths_on_disk": [
+    "results/state_tilt/allowance_latest.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 31,
+   "site_modules": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "site_scope": [
+    "scripts/e340_who_authorizes_whose_allowance.py::_cmp",
+    "scripts/e340_who_authorizes_whose_allowance.py::build",
+    "scripts/e340_who_authorizes_whose_allowance.py::check",
+    "scripts/e340_who_authorizes_whose_allowance.py::classify"
+   ],
+   "join_kinds": [
+    "join",
+    "open",
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "module",
+     "lines": [
+      54,
+      723
+     ],
+     "joins": [
+      [
+       148,
+       "join"
+      ],
+      [
+       148,
+       "open"
+      ],
+      [
+       328,
+       "join"
+      ],
+      [
+       540,
+       "join"
+      ],
+      [
+       540,
+       "open"
+      ],
+      [
+       541,
+       "open"
+      ],
+      [
+       724,
+       "temp_join"
+      ],
+      [
+       753,
+       "join"
+      ],
+      [
+       763,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open",
+      "temp_join"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/allowance_latest.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    },
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "say",
+     "lines": [
+      54,
+      723
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/allowance_latest.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    },
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "relp",
+     "lines": [
+      54,
+      723
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/allowance_latest.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    },
+    {
+     "module": "scripts/e340_who_authorizes_whose_allowance.py",
+     "scope": "family_of",
+     "lines": [
+      54,
+      723
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/state_tilt/allowance_latest.json"
+     ],
+     "temp_names": [
+      "_entries",
+      "_stats",
+      "tmp"
+     ]
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/allowance_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/market_clock/call_latest.json",
+   "face_name": "call_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/daily_report.py",
+    "scripts/merge_lane_views.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/market_clock/call_latest.json",
+    "results/state_tilt/call_latest.json",
+    "results/x/call_latest.json"
+   ],
+   "literal_paths_on_disk": [
+    "results/market_clock/call_latest.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 108,
+   "site_modules": [
+    "scripts/ceo_live_usage.py",
+    "scripts/daily_report.py",
+    "scripts/e349_latest_mirror_census.py",
+    "scripts/market_clock_call.py",
+    "scripts/system_v1_paper.py"
+   ],
+   "site_scope": [
+    "scripts/ceo_live_usage.py::_classify",
+    "scripts/ceo_live_usage.py::_effective_rung",
+    "scripts/ceo_live_usage.py::_fmt_cny",
+    "scripts/ceo_live_usage.py::_intraday_face"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/ceo_live_usage.py",
+     "scope": "module",
+     "lines": [
+      93
+     ],
+     "joins": [
+      [
+       93,
+       "join"
+      ],
+      [
+       646,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/ceo_live_usage.py",
+     "scope": "_read_json",
+     "lines": [
+      93
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/ceo_live_usage.py",
+     "scope": "_effective_rung",
+     "lines": [
+      93
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/ceo_live_usage.py",
+     "scope": "_classify",
+     "lines": [
+      93
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/market_clock/call_latest.bm-a.json",
+    "results/market_clock/call_latest.bm-b.json",
+    "results/market_clock/call_latest.bm-c.json",
+    "results/market_clock/call_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/decoyresolve_latest.json",
+   "face_name": "decoyresolve_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e320_decoy_resolution.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 19,
+   "site_modules": [
+    "scripts/e320_decoy_resolution.py"
+   ],
+   "site_scope": [
+    "scripts/e320_decoy_resolution.py::_fixture",
+    "scripts/e320_decoy_resolution.py::_residual_ok",
+    "scripts/e320_decoy_resolution.py::base_commit",
+    "scripts/e320_decoy_resolution.py::block_candidates"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "scripts/e320_decoy_resolution.py",
+     "scope": "module",
+     "lines": [
+      53
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e320_decoy_resolution.py",
+     "scope": "leaves",
+     "lines": [
+      53
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e320_decoy_resolution.py",
+     "scope": "block_candidates",
+     "lines": [
+      53
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e320_decoy_resolution.py",
+     "scope": "span",
+     "lines": [
+      53
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/decoyresolve_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/paper_export/export-2026-09-30.json",
+   "face_name": "export-2026-09-30.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "Tools/_r423bmc_marker_repair.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/paper_export/export-2026-09-30.json"
+   ],
+   "literal_paths_on_disk": [
+    "results/paper_export/export-2026-09-30.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 85,
+   "site_modules": [
+    "Tools/_r423bmc_marker_repair.py",
+    "Tools/_r506bmc_rebase_resolve.py",
+    "Tools/_r517bmc_rebase_resolve.py",
+    "Tools/_r518bmc_rebase_resolve.py"
+   ],
+   "site_scope": [
+    "Tools/_r423bmc_marker_repair.py::main",
+    "Tools/_r423bmc_marker_repair.py::module",
+    "Tools/_r423bmc_marker_repair.py::show",
+    "Tools/_r423bmc_marker_repair.py::ts_of"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "Tools/_r423bmc_marker_repair.py",
+     "scope": "module",
+     "lines": [
+      17
+     ],
+     "joins": [
+      [
+       55,
+       "join"
+      ],
+      [
+       55,
+       "open"
+      ],
+      [
+       64,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/paper_export/export-2026-09-30.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r423bmc_marker_repair.py",
+     "scope": "show",
+     "lines": [
+      17
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/paper_export/export-2026-09-30.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r423bmc_marker_repair.py",
+     "scope": "ts_of",
+     "lines": [
+      17
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/paper_export/export-2026-09-30.json"
+     ],
+     "temp_names": []
+    },
+    {
+     "module": "Tools/_r423bmc_marker_repair.py",
+     "scope": "main",
+     "lines": [
+      17
+     ],
+     "joins": [
+      [
+       55,
+       "join"
+      ],
+      [
+       55,
+       "open"
+      ],
+      [
+       64,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": true,
+     "literal_paths": [
+      "results/paper_export/export-2026-09-30.json"
+     ],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/paper_export/export-2026-09-24.json",
+    "results/paper_export/export-2026-09-28.json",
+    "results/paper_export/export-2026-09-29.json",
+    "results/paper_export/export-2026-09-30.json",
+    "results/paper_export/export-2026-10-08.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/facenamesuffix_latest.json",
+   "face_name": "facenamesuffix_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e396_face_basename_suffix.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 30,
+   "site_modules": [
+    "scripts/e396_face_basename_suffix.py"
+   ],
+   "site_scope": [
+    "scripts/e396_face_basename_suffix.py::_fixture",
+    "scripts/e396_face_basename_suffix.py::_run_arm",
+    "scripts/e396_face_basename_suffix.py::_verdict_total",
+    "scripts/e396_face_basename_suffix.py::ab_rerun"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "scripts/e396_face_basename_suffix.py",
+     "scope": "module",
+     "lines": [
+      64
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e396_face_basename_suffix.py",
+     "scope": "segs",
+     "lines": [
+      64
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e396_face_basename_suffix.py",
+     "scope": "string_constants",
+     "lines": [
+      64
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e396_face_basename_suffix.py",
+     "scope": "name_class",
+     "lines": [
+      64
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/facenamesuffix_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/facepoppin_latest.json",
+   "face_name": "facepoppin_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 33,
+   "site_modules": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "site_scope": [
+    "scripts/e365_face_population_pin.py::_write",
+    "scripts/e365_face_population_pin.py::blob_bytes",
+    "scripts/e365_face_population_pin.py::build",
+    "scripts/e365_face_population_pin.py::cmd_check"
+   ],
+   "join_kinds": [
+    "join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "module",
+     "lines": [
+      129,
+      305,
+      672
+     ],
+     "joins": [
+      [
+       305,
+       "join"
+      ],
+      [
+       672,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "norm_bytes",
+     "lines": [
+      129,
+      305,
+      672
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "digest_bytes",
+     "lines": [
+      129,
+      305,
+      672
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "encoding_class",
+     "lines": [
+      129,
+      305,
+      672
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/facepoppin_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/facererun_latest.json",
+   "face_name": "facererun_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 33,
+   "site_modules": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "site_scope": [
+    "scripts/e365_face_population_pin.py::_write",
+    "scripts/e365_face_population_pin.py::blob_bytes",
+    "scripts/e365_face_population_pin.py::build",
+    "scripts/e365_face_population_pin.py::cmd_check"
+   ],
+   "join_kinds": [
+    "join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "module",
+     "lines": [
+      129,
+      700
+     ],
+     "joins": [
+      [
+       700,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "norm_bytes",
+     "lines": [
+      129,
+      700
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "digest_bytes",
+     "lines": [
+      129,
+      700
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    },
+    {
+     "module": "scripts/e365_face_population_pin.py",
+     "scope": "encoding_class",
+     "lines": [
+      129,
+      700
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_d",
+      "_n",
+      "_p",
+      "_path",
+      "b",
+      "bad"
+     ]
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/facererun_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/facevintage_latest.json",
+   "face_name": "facevintage_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 18,
+   "site_modules": [
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "site_scope": [
+    "scripts/e363_corpus_vintage.py::_fixture",
+    "scripts/e363_corpus_vintage.py::build",
+    "scripts/e363_corpus_vintage.py::classify",
+    "scripts/e363_corpus_vintage.py::corpus_paths"
+   ],
+   "join_kinds": [
+    "join",
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "scope": "module",
+     "lines": [
+      43
+     ],
+     "joins": [
+      [
+       90,
+       "join"
+      ],
+      [
+       157,
+       "temp_join"
+      ],
+      [
+       260,
+       "temp_join"
+      ],
+      [
+       270,
+       "temp_join"
+      ],
+      [
+       324,
+       "temp_join"
+      ],
+      [
+       332,
+       "join"
+      ],
+      [
+       334,
+       "temp_join"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "temp_join"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "body",
+      "doc",
+      "fresh",
+      "hits",
+      "key",
+      "n"
+     ]
+    },
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "scope": "corpus_paths",
+     "lines": [
+      43
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "body",
+      "doc",
+      "fresh",
+      "hits",
+      "key",
+      "n"
+     ]
+    },
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "scope": "files_from",
+     "lines": [
+      43
+     ],
+     "joins": [
+      [
+       90,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "body",
+      "doc",
+      "fresh",
+      "hits",
+      "key",
+      "n"
+     ]
+    },
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "scope": "live_texts",
+     "lines": [
+      43
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "body",
+      "doc",
+      "fresh",
+      "hits",
+      "key",
+      "n"
+     ]
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/facevintage_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/fieldbranch_latest.json",
+   "face_name": "fieldbranch_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e368_seam_replay.py",
+    "scripts/e369_pin_at_publishing_commit.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/state_tilt/fieldbranch_latest.json"
+   ],
+   "literal_paths_on_disk": [
+    "results/state_tilt/fieldbranch_latest.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 184,
+   "site_modules": [
+    "scripts/e350_field_branch_census.py",
+    "scripts/e353_unwritten_guard_presence.py",
+    "scripts/e368_seam_replay.py",
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e370_key_sensitivity.py",
+    "scripts/e371_store_member_cost.py",
+    "scripts/e377_unresolved_destination.py",
+    "scripts/e382_key_projection_delta.py",
+    "scripts/e382_key_projection_repair_price.py"
+   ],
+   "site_scope": [
+    "scripts/e350_field_branch_census.py::_basename",
+    "scripts/e350_field_branch_census.py::_dump_sinks",
+    "scripts/e350_field_branch_census.py::_exit_only",
+    "scripts/e350_field_branch_census.py::_face_bindings"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e350_field_branch_census.py",
+     "scope": "module",
+     "lines": [
+      50
+     ],
+     "joins": [
+      [
+       468,
+       "join"
+      ],
+      [
+       470,
+       "open"
+      ],
+      [
+       471,
+       "open"
+      ],
+      [
+       481,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e350_field_branch_census.py",
+     "scope": "say",
+     "lines": [
+      50
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e350_field_branch_census.py",
+     "scope": "_basename",
+     "lines": [
+      50
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e350_field_branch_census.py",
+     "scope": "_face_key",
+     "lines": [
+      50
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/fieldbranch_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/greenwindow_latest.json",
+   "face_name": "greenwindow_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e338_census_green_window.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 29,
+   "site_modules": [
+    "scripts/e338_census_green_window.py"
+   ],
+   "site_scope": [
+    "scripts/e338_census_green_window.py::_cmp",
+    "scripts/e338_census_green_window.py::_ev",
+    "scripts/e338_census_green_window.py::_git",
+    "scripts/e338_census_green_window.py::build"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e338_census_green_window.py",
+     "scope": "module",
+     "lines": [
+      46
+     ],
+     "joins": [
+      [
+       202,
+       "join"
+      ],
+      [
+       213,
+       "join"
+      ],
+      [
+       228,
+       "join"
+      ],
+      [
+       228,
+       "open"
+      ],
+      [
+       477,
+       "join"
+      ],
+      [
+       477,
+       "open"
+      ],
+      [
+       478,
+       "open"
+      ],
+      [
+       641,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e338_census_green_window.py",
+     "scope": "say",
+     "lines": [
+      46
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e338_census_green_window.py",
+     "scope": "relp",
+     "lines": [
+      46
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e338_census_green_window.py",
+     "scope": "_git",
+     "lines": [
+      46
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/greenwindow_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/guardloosen_latest.json",
+   "face_name": "guardloosen_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e339_literal_count_guards.py",
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/state_tilt/guardloosen_latest.json"
+   ],
+   "literal_paths_on_disk": [
+    "results/state_tilt/guardloosen_latest.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 58,
+   "site_modules": [
+    "scripts/e339_literal_count_guards.py",
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "site_scope": [
+    "scripts/e339_literal_count_guards.py::_cmp",
+    "scripts/e339_literal_count_guards.py::_countish",
+    "scripts/e339_literal_count_guards.py::_g",
+    "scripts/e339_literal_count_guards.py::_git"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e339_literal_count_guards.py",
+     "scope": "module",
+     "lines": [
+      46
+     ],
+     "joins": [
+      [
+       491,
+       "join"
+      ],
+      [
+       491,
+       "open"
+      ],
+      [
+       492,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e339_literal_count_guards.py",
+     "scope": "say",
+     "lines": [
+      46
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e339_literal_count_guards.py",
+     "scope": "relp",
+     "lines": [
+      46
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e339_literal_count_guards.py",
+     "scope": "_git",
+     "lines": [
+      46
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/guardloosen_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/guardpresence_latest.json",
+   "face_name": "guardpresence_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e368_seam_replay.py",
+    "scripts/e369_pin_at_publishing_commit.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/state_tilt/guardpresence_latest.json"
+   ],
+   "literal_paths_on_disk": [
+    "results/state_tilt/guardpresence_latest.json"
+   ],
+   "same_basename_elsewhere": [],
+   "site_count": 115,
+   "site_modules": [
+    "scripts/e353_unwritten_guard_presence.py",
+    "scripts/e368_seam_replay.py",
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e370_key_sensitivity.py",
+    "scripts/e382_key_projection_delta.py",
+    "scripts/e382_key_projection_repair_price.py"
+   ],
+   "site_scope": [
+    "scripts/e353_unwritten_guard_presence.py::_fixture",
+    "scripts/e353_unwritten_guard_presence.py::_head",
+    "scripts/e353_unwritten_guard_presence.py::_population",
+    "scripts/e353_unwritten_guard_presence.py::_upstream_published_count"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e353_unwritten_guard_presence.py",
+     "scope": "module",
+     "lines": [
+      55
+     ],
+     "joins": [
+      [
+       111,
+       "join"
+      ],
+      [
+       127,
+       "join"
+      ],
+      [
+       131,
+       "open"
+      ],
+      [
+       370,
+       "join"
+      ],
+      [
+       372,
+       "open"
+      ],
+      [
+       373,
+       "open"
+      ],
+      [
+       383,
+       "open"
+      ],
+      [
+       393,
+       "open"
+      ],
+      [
+       438,
+       "open"
+      ],
+      [
+       439,
+       "open"
+      ],
+      [
+       443,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e353_unwritten_guard_presence.py",
+     "scope": "say",
+     "lines": [
+      55
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e353_unwritten_guard_presence.py",
+     "scope": "build_index",
+     "lines": [
+      55
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e353_unwritten_guard_presence.py",
+     "scope": "resolve",
+     "lines": [
+      55
+     ],
+     "joins": [
+      [
+       111,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/guardpresence_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/lane_host_ownership_latest.json",
+   "face_name": "lane_host_ownership_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/lane_host_ownership.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 30,
+   "site_modules": [
+    "scripts/lane_host_ownership.py"
+   ],
+   "site_scope": [
+    "scripts/lane_host_ownership.py::_fixture",
+    "scripts/lane_host_ownership.py::_git_show_group",
+    "scripts/lane_host_ownership.py::build",
+    "scripts/lane_host_ownership.py::check_row"
+   ],
+   "join_kinds": [],
+   "sites": [
+    {
+     "module": "scripts/lane_host_ownership.py",
+     "scope": "module",
+     "lines": [
+      302
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "fresh",
+      "scratch"
+     ]
+    },
+    {
+     "module": "scripts/lane_host_ownership.py",
+     "scope": "_git_show_group",
+     "lines": [
+      302
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "fresh",
+      "scratch"
+     ]
+    },
+    {
+     "module": "scripts/lane_host_ownership.py",
+     "scope": "group_whitelist",
+     "lines": [
+      302
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "fresh",
+      "scratch"
+     ]
+    },
+    {
+     "module": "scripts/lane_host_ownership.py",
+     "scope": "read_constants",
+     "lines": [
+      302
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "fresh",
+      "scratch"
+     ]
+    }
+   ],
+   "stem_siblings": [
+    "results/lane_host_ownership.json",
+    "results/lane_host_ownership_latest.json",
+    "results/lane_liveness.bm-a.json",
+    "results/lane_liveness.bm-b.json",
+    "results/lane_liveness.bm-c.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/lasttick_latest.json",
+   "face_name": "lasttick_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e396_last_tick.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 19,
+   "site_modules": [
+    "scripts/e396_last_tick.py"
+   ],
+   "site_scope": [
+    "scripts/e396_last_tick.py::_literal_strings",
+    "scripts/e396_last_tick.py::_norm",
+    "scripts/e396_last_tick.py::_verdict",
+    "scripts/e396_last_tick.py::boundary_detail"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e396_last_tick.py",
+     "scope": "module",
+     "lines": [
+      53
+     ],
+     "joins": [
+      [
+       608,
+       "join"
+      ],
+      [
+       608,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "moved",
+      "tmpd"
+     ]
+    },
+    {
+     "module": "scripts/e396_last_tick.py",
+     "scope": "_norm",
+     "lines": [
+      53
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "moved",
+      "tmpd"
+     ]
+    },
+    {
+     "module": "scripts/e396_last_tick.py",
+     "scope": "classify_target",
+     "lines": [
+      53
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "moved",
+      "tmpd"
+     ]
+    },
+    {
+     "module": "scripts/e396_last_tick.py",
+     "scope": "_literal_strings",
+     "lines": [
+      53
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "moved",
+      "tmpd"
+     ]
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/lasttick_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/pointeronly_latest.json",
+   "face_name": "pointeronly_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 67,
+   "site_modules": [
+    "scripts/e331_pointer_only_readers.py",
+    "scripts/e356_census_red_triage.py",
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "site_scope": [
+    "scripts/e331_pointer_only_readers.py::_clean",
+    "scripts/e331_pointer_only_readers.py::_fixture",
+    "scripts/e331_pointer_only_readers.py::_function_span",
+    "scripts/e331_pointer_only_readers.py::_paren_balance"
+   ],
+   "join_kinds": [
+    "join",
+    "open",
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e331_pointer_only_readers.py",
+     "scope": "module",
+     "lines": [
+      66
+     ],
+     "joins": [
+      [
+       168,
+       "temp_join"
+      ],
+      [
+       382,
+       "temp_join"
+      ],
+      [
+       634,
+       "temp_join"
+      ],
+      [
+       637,
+       "temp_join"
+      ],
+      [
+       649,
+       "temp_join"
+      ],
+      [
+       685,
+       "temp_join"
+      ],
+      [
+       686,
+       "open"
+      ],
+      [
+       702,
+       "temp_join"
+      ],
+      [
+       819,
+       "temp_join"
+      ],
+      [
+       820,
+       "temp_join"
+      ],
+      [
+       899,
+       "temp_join"
+      ],
+      [
+       901,
+       "temp_join"
+      ],
+      [
+       906,
+       "temp_join"
+      ],
+      [
+       909,
+       "temp_join"
+      ],
+      [
+       919,
+       "temp_join"
+      ],
+      [
+       923,
+       "temp_join"
+      ],
+      [
+       939,
+       "temp_join"
+      ],
+      [
+       940,
+       "temp_join"
+      ],
+      [
+       941,
+       "temp_join"
+      ],
+      [
+       966,
+       "temp_join"
+      ],
+      [
+       967,
+       "temp_join"
+      ],
+      [
+       968,
+       "temp_join"
+      ],
+      [
+       969,
+       "temp_join"
+      ],
+      [
+       1009,
+       "temp_join"
+      ]
+     ],
+     "kinds": [
+      "open",
+      "temp_join"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_dirnames",
+      "_n",
+      "_spellings",
+      "absorbers",
+      "absorbs",
+      "ahead"
+     ]
+    },
+    {
+     "module": "scripts/e331_pointer_only_readers.py",
+     "scope": "_clean",
+     "lines": [
+      66
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_dirnames",
+      "_n",
+      "_spellings",
+      "absorbers",
+      "absorbs",
+      "ahead"
+     ]
+    },
+    {
+     "module": "scripts/e331_pointer_only_readers.py",
+     "scope": "is_write_line",
+     "lines": [
+      66
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_dirnames",
+      "_n",
+      "_spellings",
+      "absorbers",
+      "absorbs",
+      "ahead"
+     ]
+    },
+    {
+     "module": "scripts/e331_pointer_only_readers.py",
+     "scope": "is_prose",
+     "lines": [
+      66
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": [
+      "_dirnames",
+      "_n",
+      "_spellings",
+      "absorbers",
+      "absorbs",
+      "ahead"
+     ]
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/pointeronly_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/publishpin_latest.json",
+   "face_name": "publishpin_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e369_pin_at_publishing_commit.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 44,
+   "site_modules": [
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e372_store_the_absent_members.py"
+   ],
+   "site_scope": [
+    "scripts/e369_pin_at_publishing_commit.py::_git",
+    "scripts/e369_pin_at_publishing_commit.py::_norm",
+    "scripts/e369_pin_at_publishing_commit.py::_replayed_numbers",
+    "scripts/e369_pin_at_publishing_commit.py::_sha256"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "scope": "module",
+     "lines": [
+      52
+     ],
+     "joins": [
+      [
+       259,
+       "open"
+      ],
+      [
+       297,
+       "join"
+      ],
+      [
+       298,
+       "open"
+      ],
+      [
+       299,
+       "open"
+      ],
+      [
+       395,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "scope": "say",
+     "lines": [
+      52
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "scope": "_sha256",
+     "lines": [
+      52
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "scope": "_norm",
+     "lines": [
+      52
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/publishpin_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/repairrecord_latest.json",
+   "face_name": "repairrecord_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e342_guard_rewrite_records.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 33,
+   "site_modules": [
+    "scripts/e342_guard_rewrite_records.py"
+   ],
+   "site_scope": [
+    "scripts/e342_guard_rewrite_records.py::_added_lines",
+    "scripts/e342_guard_rewrite_records.py::_cmp",
+    "scripts/e342_guard_rewrite_records.py::_git",
+    "scripts/e342_guard_rewrite_records.py::_lt"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e342_guard_rewrite_records.py",
+     "scope": "module",
+     "lines": [
+      57
+     ],
+     "joins": [
+      [
+       96,
+       "join"
+      ],
+      [
+       189,
+       "join"
+      ],
+      [
+       245,
+       "join"
+      ],
+      [
+       534,
+       "join"
+      ],
+      [
+       534,
+       "open"
+      ],
+      [
+       657,
+       "join"
+      ],
+      [
+       657,
+       "open"
+      ],
+      [
+       658,
+       "open"
+      ],
+      [
+       698,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e342_guard_rewrite_records.py",
+     "scope": "say",
+     "lines": [
+      57
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e342_guard_rewrite_records.py",
+     "scope": "relp",
+     "lines": [
+      57
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e342_guard_rewrite_records.py",
+     "scope": "_git",
+     "lines": [
+      57
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/repairrecord_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/seamreplay_latest.json",
+   "face_name": "seamreplay_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e368_seam_replay.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 18,
+   "site_modules": [
+    "scripts/e368_seam_replay.py"
+   ],
+   "site_scope": [
+    "scripts/e368_seam_replay.py::_delta",
+    "scripts/e368_seam_replay.py::_published",
+    "scripts/e368_seam_replay.py::_sha256",
+    "scripts/e368_seam_replay.py::build"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e368_seam_replay.py",
+     "scope": "module",
+     "lines": [
+      56
+     ],
+     "joins": [
+      [
+       88,
+       "open"
+      ],
+      [
+       122,
+       "open"
+      ],
+      [
+       162,
+       "open"
+      ],
+      [
+       270,
+       "open"
+      ],
+      [
+       303,
+       "join"
+      ],
+      [
+       304,
+       "open"
+      ],
+      [
+       305,
+       "open"
+      ],
+      [
+       406,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e368_seam_replay.py",
+     "scope": "say",
+     "lines": [
+      56
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e368_seam_replay.py",
+     "scope": "_sha256",
+     "lines": [
+      56
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e368_seam_replay.py",
+     "scope": "load_pin",
+     "lines": [
+      56
+     ],
+     "joins": [
+      [
+       88,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/seamreplay_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/siblingcloser_latest.json",
+   "face_name": "siblingcloser_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e341_sibling_closer_what_changed.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 26,
+   "site_modules": [
+    "scripts/e341_sibling_closer_what_changed.py"
+   ],
+   "site_scope": [
+    "scripts/e341_sibling_closer_what_changed.py::_cmp",
+    "scripts/e341_sibling_closer_what_changed.py::_count",
+    "scripts/e341_sibling_closer_what_changed.py::_share",
+    "scripts/e341_sibling_closer_what_changed.py::_write"
+   ],
+   "join_kinds": [
+    "join",
+    "open"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e341_sibling_closer_what_changed.py",
+     "scope": "module",
+     "lines": [
+      57
+     ],
+     "joins": [
+      [
+       185,
+       "join"
+      ],
+      [
+       518,
+       "join"
+      ],
+      [
+       518,
+       "open"
+      ],
+      [
+       519,
+       "open"
+      ],
+      [
+       558,
+       "open"
+      ],
+      [
+       655,
+       "open"
+      ],
+      [
+       663,
+       "join"
+      ],
+      [
+       663,
+       "open"
+      ],
+      [
+       686,
+       "join"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e341_sibling_closer_what_changed.py",
+     "scope": "say",
+     "lines": [
+      57
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e341_sibling_closer_what_changed.py",
+     "scope": "relp",
+     "lines": [
+      57
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e341_sibling_closer_what_changed.py",
+     "scope": "stems",
+     "lines": [
+      57
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/siblingcloser_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  },
+  {
+   "face": "results/state_tilt/siblingentry_latest.json",
+   "face_name": "siblingentry_latest.json",
+   "source_state": "compared",
+   "source_basis": "module_face_literal",
+   "read_by": [
+    "scripts/e363_corpus_vintage.py",
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "on_disk": true,
+   "at_head": true,
+   "repo_shaped_literal": false,
+   "literal_paths": [],
+   "literal_paths_on_disk": [],
+   "same_basename_elsewhere": [],
+   "site_count": 108,
+   "site_modules": [
+    "scripts/e335_sibling_entry_point.py",
+    "scripts/e356_census_red_triage.py",
+    "scripts/e363_corpus_vintage.py",
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "site_scope": [
+    "scripts/e335_sibling_entry_point.py::_corpus_address",
+    "scripts/e335_sibling_entry_point.py::_enclosing_scopes",
+    "scripts/e335_sibling_entry_point.py::_fixture",
+    "scripts/e335_sibling_entry_point.py::_read_or_mention"
+   ],
+   "join_kinds": [
+    "join",
+    "open",
+    "temp_join"
+   ],
+   "sites": [
+    {
+     "module": "scripts/e335_sibling_entry_point.py",
+     "scope": "module",
+     "lines": [
+      54
+     ],
+     "joins": [
+      [
+       479,
+       "join"
+      ],
+      [
+       482,
+       "open"
+      ]
+     ],
+     "kinds": [
+      "join",
+      "open"
+     ],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e335_sibling_entry_point.py",
+     "scope": "say",
+     "lines": [
+      54
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e335_sibling_entry_point.py",
+     "scope": "corpus_texts",
+     "lines": [
+      54
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    },
+    {
+     "module": "scripts/e335_sibling_entry_point.py",
+     "scope": "readings",
+     "lines": [
+      54
+     ],
+     "joins": [],
+     "kinds": [],
+     "repo_shaped": false,
+     "literal_paths": [],
+     "temp_names": []
+    }
+   ],
+   "stem_siblings": [
+    "results/state_tilt/siblingentry_latest.json"
+   ],
+   "verdict": "joined_into_the_repo_and_the_file_is_there"
+  }
+ ],
+ "verdict": "no unresolved name is a face the tree reads and lacks: 18 resolve to a file the reader itself spells, 0 exist under another directory than the census recorded, 1 are on disk, 9 are written only into a selftest temp dir, and 5 are named only by the census's own selftest"
+}

@@ -2,6 +2,14 @@
  "_stamp_note": "r1433 bm-b: E414 closed (verify problems=[], selftest 14/14, S6 leg unsupplied_read 0.34s); E415 seeded, ready floor 3",
  "entries": [
   {
+   "id": "E422-WHICH-OTHER-CENSUS-RECORDS-A-BARE-BASENAME",
+   "status": "ready",
+   "title": "E421 found that 32 of the 33 unresolved rows were stored with no directory at all, so 'resolves to no file' was a property of the census's path construction. Ask it of the other basename-keyed censuses (E402 fragment producers / E404 constant directories / E409 unfloored / E411 reader tiers): does any of them record a face without the directory its reader spells, and how many rows does that change",
+   "target": "scripts/e402_fragment_producers.py + scripts/e404_constant_directory_resolution.py + scripts/e409_unfloored_faces.py + scripts/e411_reader_tiers.py",
+   "deliverable": "results/state_tilt/BASENAMECENSUS-<cutoff>.json",
+   "source": "bm-b r1439 E421: unresolved_census_directory = {'.': 32} -- the census recorded a basename where the reader spells a path"
+  },
+  {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
    "entered_at": "2026-10-21T05:40:00+08:00",
    "entered_by": "bm-b r1118",
@@ -27411,8 +27419,10 @@
    "priority": 3,
    "question": "E412 found that every face E406 could measure on disk was attributed by a module literal, and that no call in the measured set hands its face to a git reader. E406 also published 32 face names that a blob reader names with a strong basis (literal_in_body / literal_at_call_site) and that resolve to no file -- fixtures, renamed families, or a face under a directory the locator does not search. For each of those 32 names: what is it (a fixture in a selftest, a face that moved, a name built at runtime), and is there a real published file it refers to? The bill is a per-name verdict with the search that decided it and the count that are a real face nobody has measured yet. Never edit a reader.",
    "source": "bm-b r1431 E412: 25 of 25 measured faces carry basis=module_face_literal; 18 have no call that hands the face to a git reader",
-   "status": "ready",
-   "title": "E406 named 58 faces from blob readers and 32 resolved to no file; E412 showed the 25 it could measure are the weak-basis ones -- so resolve the strong-basis names"
+   "status": "done",
+   "title": "E406 named 58 faces from blob readers and 32 resolved to no file; E412 showed the 25 it could measure are the weak-basis ones -- so resolve the strong-basis names",
+   "result_ref": "results/state_tilt/NAMERESOLVE-2026-11-04.json",
+   "done_note": "no unresolved name is a face the tree lacks: 18 resolve at the path the reader spells, 9 are selftest temp-dir fixtures, 5 are census-self names, 1 is on disk; 0 missing. E406 recorded 32 of 33 rows as a bare basename with no directory."
   },
   {
    "deliverable": "results/state_tilt/UNSUPPLIED-<cutoff>.json",

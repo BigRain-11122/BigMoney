@@ -10000,3 +10000,41 @@ against a smaller corpus than the audit re-derived), and republishing them moved
 -> `results/state_tilt/PININSTABILITY-2026-11-04.json` + `pininstability_latest.json`; smoke leg
 `# E420 (r1438 bm-b)`; the E387 leg itself narrowed to the invariants above (disclosed in the round
 report); the two stale producers republished (`e335` 2491 -> 2492 sources, `e364` census).
+
+## E421 -- a name that resolves to no file is a join, not a basis
+
+**Question.** E406 named 58 faces from blob readers and 32 of those names resolved to no file; E412
+priced the 25 it could measure and disclosed that every one carries the *weak* attribution basis, so
+the strong-basis names were left as the outstanding question.
+
+**Finding.** The attribution basis does not predict resolution -- the directory the literal is joined
+against does. Of the 33 unresolved names: 18 resolve to a file the reader itself spells
+(`docs/live_usage/` 9, `docs/daily_report/` 9, `results/state_tilt/` 1), 9 are written only into a
+selftest `tempfile.mkdtemp()` tree, 5 are named only by the census's own selftest, 1 is on disk and
+absent only at the census's HEAD, and **0 are joined into the repo and genuinely missing**. The two
+strong-basis names are both fixtures: 0 of 2 resolve. The control arm (the 25 faces E406 compared)
+resolves 25 of 25, so the classifier discriminates rather than calling everything a fixture. The
+mechanism is upstream of both: E406 recorded 32 of the 33 rows as a **bare basename with no
+directory**, and a bare basename cannot resolve to a file.
+
+**Pits.**
+
+1. `endswith(base)` is not "names the base": `delta_latest.json` sits inside `keydelta_latest.json`,
+   so three names came out as genuinely missing repo files on the first burn. Exact-or-`/`-prefixed
+   matching moved all three back to where they belong (E330 family).
+2. Self-inclusion again (fourth in this family): after that fix the same three names reappeared as
+   repo reads because *this study's own selftest* spells them. The study excludes itself and
+   publishes `corpus.self_excluded` plus a leg; alpha/beta/delta/gamma/x are all census-self names.
+3. A count over a growing corpus cannot sit in an equality gate -- E420's law, met again one round
+   later: `modules_scanned` moved the moment the smoke-leg runner file appeared. Corpus size now
+   lives outside the pinned summary.
+4. Order the rule by evidence, not by intuition: putting a temp join above existence called 5 of the
+   25 control faces fixtures (real faces whose basename is also spelled by some round script's
+   fixture). Existence at the recorded path is a fact about that path.
+5. A same-stem sibling is not a resolution: `ALLOWANCE-2099-01-01.json` has siblings, which makes a
+   fixture look like a renamed face. Published as its own column, never counted.
+
+**Delivered.** `scripts/e421_strong_basis_resolution.py` (run / verify problems=0 / selftest 27/27)
+-> `results/state_tilt/NAMERESOLVE-2026-11-04.json` + `nameresolve_latest.json` (byte-identical on
+re-run); smoke leg `# E421 (r1439 bm-b)` (1/1, proved red on a doctored summary then restored
+byte-identical); S6 leg `name_resolve`; read-only -- no reader, leg or face edited.

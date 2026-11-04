@@ -1474,6 +1474,13 @@ LEGS = [
     # spell the basename, in the face's own directory, and must not be a fixture). Verify
     # re-derives every class from the AST of the census corpus (~30 s over 2.4k modules).
     ("unstampable", ["python", "scripts/e419_unstampable.py", "verify"]),
+    # E420 (r1438): the E387 leg used to pin a corpus fingerprint as if it were a decision number.
+    # Verify re-derives the audited faces' accretion / down / verdict-move split from the live tree.
+    ("corpus_pin", ["python", "scripts/e420_corpus_pin_instability.py", "verify"]),
+    # E421 (r1439): the 33 names E406 could not resolve are resolved by the directory their literal
+    # is joined against. Verify re-scans the module corpus (~900 files, one AST pass each) and
+    # refuses a summary, a control arm or a verdict that no longer re-derives.
+    ("name_resolve", ["python", "scripts/e421_strong_basis_resolution.py", "verify"]),
 ]
 
 

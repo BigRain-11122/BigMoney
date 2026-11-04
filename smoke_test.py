@@ -15854,5 +15854,65 @@ except Exception as _e419:
     _bad419.append(repr(_e419)[:160])
 check(_name419, not _bad419, "; ".join(_bad419)[:240] or _d419)
 
+# E421 (r1439 bm-b): E406 named 58 faces from blob readers and 32 resolved to no file, which read
+# as 32 faces the tree reads and lacks.  This leg holds the invoice for the resolution: (a) every
+# published verdict is in the frozen vocabulary, (b) a name graded "resolves inside a selftest
+# temp dir" is not on disk, (c) a name graded present is on disk, (d) a name graded resolved-at-the
+# spelled-path carries a path that is on disk, (e) the row tally re-derives, (f) the control arm
+# really discriminates -- no face that exists is called a fixture -- and (g) the summary and the
+# verdict re-derive on the live tree.
+_name421 = ("product: every face name the blob census could not resolve is priced by the directory "
+            "its literal is joined against, and the census's control arm still discriminates")
+_bad421, _d421 = [], ""
+try:
+    _m421 = __import__("importlib").import_module("e421_strong_basis_resolution")
+    _f421 = json.load(open(os.path.join("results", "state_tilt", "nameresolve_latest.json"),
+                           encoding="utf-8"))
+    _s421 = _f421.get("summary") or {}
+    _rows421 = _f421.get("rows") or []
+    if set(_s421.get("by_verdict") or {}) - _m421.VERDICT_VOCAB:
+        _bad421.append("a published verdict is outside the frozen vocabulary")
+    if set(_s421.get("by_verdict_unresolved") or {}) - _m421.VERDICT_VOCAB:
+        _bad421.append("an unresolved verdict is outside the frozen vocabulary")
+    if sum((_s421.get("by_verdict") or {}).values()) != _s421.get("faces_in_population"):
+        _bad421.append("the verdict tally does not re-add to the population")
+    _by421 = {}
+    for _r421 in _rows421:
+        _by421[_r421.get("verdict")] = _by421.get(_r421.get("verdict"), 0) + 1
+        if _r421.get("verdict") not in _m421.VERDICT_VOCAB:
+            _bad421.append("%s: verdict outside the vocabulary" % _r421.get("face_name"))
+            break
+        if _r421.get("verdict") == _m421.V_FIXTURE and _r421.get("on_disk"):
+            _bad421.append("%s: called a fixture while the file is on disk" % _r421.get("face_name"))
+            break
+        if _r421.get("verdict") in (_m421.V_REPO_PRESENT, _m421.V_ABSENT_AT_HEAD) \
+                and not _r421.get("on_disk"):
+            _bad421.append("%s: called present while the file is not on disk" % _r421.get("face_name"))
+            break
+        if _r421.get("verdict") == _m421.V_SPELLED and not _r421.get("literal_paths_on_disk"):
+            _bad421.append("%s: resolved at a spelled path with no path on disk"
+                           % _r421.get("face_name"))
+            break
+    if _by421 != (_s421.get("by_verdict") or {}):
+        _bad421.append("the row tally does not re-derive: %s" % _by421)
+    # the control arm is the falsification test: 25 faces that exist must never be called fixtures
+    _ctl421 = [r for r in _rows421 if r.get("source_state") == "compared"]
+    if any(r.get("verdict") in (_m421.V_FIXTURE, _m421.V_CENSUS_SELF) for r in _ctl421):
+        _bad421.append("the control arm calls an existing face a fixture")
+    if _m421.SELF_MODULE in (_m421.module_texts() or {}):
+        _bad421.append("the study did not exclude itself from the corpus it scans")
+    _fresh421 = _m421.build()
+    if _fresh421.get("verdict") != _f421.get("verdict"):
+        _bad421.append("the verdict does not re-derive")
+    if (_fresh421.get("summary") or {}) != _s421:
+        _bad421.append("the published summary does not re-derive from the live tree")
+    _d421 = "%d face(s) / %d unresolved: %s | control %s | %s" % (
+        _s421.get("faces_in_population"), _s421.get("faces_unresolved_in_e406"),
+        _s421.get("by_verdict_unresolved"), _s421.get("by_verdict_control"),
+        "discriminates" if _s421.get("classifier_discriminates") else "BLIND")
+except Exception as _e421:
+    _bad421.append(repr(_e421)[:160])
+check(_name421, not _bad421, "; ".join(_bad421)[:240] or _d421)
+
 if __name__ == "__main__":
     sys.exit(main())
