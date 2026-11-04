@@ -10327,3 +10327,55 @@ problems=[], selftest 13/13); face `results/state_tilt/NO_CALLER-2026-11-04.json
 `scripts/run_e428_smoke_leg.py` (1/1, red on a doctored population, face restored byte-identical);
 S6 leg `no_caller` (verify problems=[], rc 0); digest
 `research/digests/DIGEST-20261105-r1448-e428-no-caller.md`; pool card closed and the next seeded.
+
+## E423 -- a leg that re-walks the tree per read never finishes, and a verify gate with its own copy of the grader reds on correct data (r1449 bm-b, card E423)
+
+**The question.** E422 found 11 of E404's 18 rows put a FILE path in a field named `resolved_directory`,
+so a reader that joins that field with the row's own name composes `<face>.json/<name>`. Ask the tree:
+does any consumer join such a field, and how many published rows would double if one did?
+
+**The readings.** 12,861 published JSON faces (<=3 MB each) carry 822 directory-named fields, of which
+**44 hold a file path**, spread over 8 faces and 42 rows. Against 3,401 in-repo python sources there are
+**29 read sites** of a directory-named field: 19 read the field as a whole path, 8 republish it into
+another payload, 1 joins it with a prefix/root, and **1 joins it with a NAME** --
+`scripts/e347_published_number_gate_census.py:372` (`face["dir"].rstrip("/") + "/" + face["name"]`).
+That one join is applied to a face listing whose rows hold a real directory, so the intersection of
+join keys and doubling keys is **empty**: the join exists, and no published row can double under it.
+The counterfactual is priced at the row, not at the call site: **34 rows** carry a name field beside a
+file-valued directory field (`resolved_directory` 22, `parent_dir` 10, `directory_expression` 2).
+
+**Rules (measured, not assumed).**
+1. *A re-derivation that re-walks the tree once per read never finishes.* `read_sites` called
+   `ast.walk(tree)` for every read node to answer the one-hop rebinding question, and priced containment
+   with `any(sub is node for sub in ast.walk(outer))`. On `scripts/e39_panel_census.py` (230,290 nodes,
+   7,430 reads) the leg and `verify` both ran past five minutes without a line of output, which is how a
+   leg committed by r1446 came to be published unproven. The linear replacements -- a parent-index climb
+   for containment, one index of `ast.Name` by identifier, and a bisect interval index for the enclosing
+   definition -- bring the same scan to **36 s over 3,401 sources**. The proof that this is a speed change
+   and not a reading change is that the live class tally is byte-identical to the published one
+   (19/8/1/1) and `verify` is clean; a containment test that climbs from the node must also test the
+   node itself, or the receiver chain `face["dir"].rstrip("/")` silently drops from a name join to a
+   whole-path read (that regression was caught by the diff against the published rows, not by selftest).
+2. *A verify gate must call the grader the build used.* The "value is not a file path anymore" check
+   re-implemented the extension test with its own list, so it raised **18 problems** on values the build
+   had graded correctly (`.../train_log.jsonl`, `results/autofill_state.json.tmp`, and the expression
+   `ROOT / "results" / "idle_trigger.bm-c.json"`). Two copies of a gate can only disagree in the
+   direction of reddening correct data. The check now re-derives with `value_class()` and the smoke leg
+   calls the same function.
+3. *The hazard lives at the row, not at the join.* One name join exists in the whole corpus and it lands
+   on a field whose rows hold a directory; the 34 rows where a join *could* double are published by faces
+   whose readers take the field whole. "A field named `dir` holds a file path" is a landing strip;
+   "a name-join consumed such a row" is the defect, and this tree has none today -- which is a statement
+   about the join census, not a promise that no future consumer will.
+
+**Why it matters.** Both defects are invisible to a green selftest: one is a cost that only shows up on
+the largest file in the corpus, the other a gate that fires on data the instrument itself called correct.
+Together they turned the E422 -> E423 chain into a card that looked closed (producer, face, leg, S6 row)
+and was never once re-derived end to end.
+
+**Delivered.** `scripts/e423_dirfield_join.py` (linear scan; run + `verify problems=[]`, selftest 17/17);
+face `results/state_tilt/DIRFIELD-2026-11-03.json` + `dirfield_latest.json` (29 read sites, 44 fields,
+re-published from the live tree: 12,861 faces); smoke leg `# E423 (r1446 bm-b)` with
+`scripts/run_e423_smoke_leg.py` (1/1, 1/1 red on a doctored tally, face restored byte-identical); S6 leg
+`dirfield_join` (`verify problems=0`, rc 0, 34.6 s); digest
+`research/digests/DIGEST-20261105-r1449-e423-dirfield-join.md`; pool card closed and the next seeded.

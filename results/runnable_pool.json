@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1448 bm-b: E428 published (face NO_CALLER-2026-11-04, verify problems=[], selftest 13/13, smoke leg 1/1, S6 leg rc=0) -- 33 of the 35 unplaced sites were unplaced only because the call index never registered their helper name; E432 seeded, ready floor held at 3",
+ "_stamp_note": "r1449 bm-b: E423 published (face DIRFIELD-2026-11-03 re-derived from the live tree, verify problems=[], selftest 17/17, smoke leg 1/1 + 1/1 red doctored, S6 leg dirfield_join rc=0 34.6s) -- the leg was unprovable because the scan was quadratic (36s now) and verify kept its own copy of the file-path gate (18 false problems); E433 seeded, ready floor held at 3",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27565,11 +27565,15 @@
    "lane": "cpu-only",
    "lane_note": "cpu-only; static AST joins, no writer runs",
    "priority": 3,
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "bm-b r1440 E422: named_directory_field_holding_a_file_path = 11, and all 11 would compose a doubled name if joined",
    "entered_at": "2026-11-04T21:52+08:00",
-   "entered_by": "bm-b r1440 (supply floor refill after E422)"
+   "entered_by": "bm-b r1440 (supply floor refill after E422)",
+   "done_by": "bm-b r1449",
+   "done_at": "2026-11-05T07:2x+08:00",
+   "result_ref": "results/state_tilt/DIRFIELD-2026-11-03.json + scripts/e423_dirfield_join.py (run+verify problems=[] selftest 17/17; scan made linear 36s; S6 leg dirfield_join rc=0 34.6s)",
+   "done_note": "the one name join in the corpus (e347:372 face[dir] joined with face[name]) lands on a listing whose rows hold a directory, so 0 published rows can double; 34 rows carry a name field beside a file-valued directory field and are the population a future join would double. The leg r1446 shipped had never re-derived: verify re-walked the AST per read (>5min on e39_panel_census, 230k nodes) and its file-path gate used a private extension list that red on .jsonl/.tmp. Both fixed; live class tally byte-identical to the published one."
   },
   {
    "id": "E426-WHICH-READER-BUILDS-A-FACE-NAME-FROM-A-VARIABLE-SO-NO-LITERAL-NAMES-IT",
@@ -27633,6 +27637,20 @@
    "source": "bm-b r1448 E428: fixture_shaped_sites = 21 of 310 parameter-directory write sites, counted but not priced",
    "entered_at": "2026-11-05T06:25:01+08:00",
    "entered_by": "bm-b r1448 (supply floor refill after closing E428)"
+  },
+  {
+   "id": "E433-WHICH-REPUBLICATION-SITE-CARRIES-A-FILE-VALUED-DIRECTORY-FIELD-INTO-A-NEW-FACE",
+   "title": "E423 found 8 read sites that republish a directory-named field into another payload without joining it, and 44 published fields that hold a FILE path under a directory name. Ask whether a republication site writes that value into a published face, and whether the new row also carries a name field -- i.e. does the defective name propagate one face further, creating a fresh doubling candidate",
+   "question": "For each of the 8 republication rows in results/state_tilt/dirfield_latest.json (class republishes_the_field_without_joining_it): follow the payload the read is copied into -- is it returned or written to a file under results/, does the new row keep the same key name, and does that row also carry a name-vocabulary field. Publish per site: writer function, whether a json.dump/write of that payload exists in the same function, the new row key, and whether the new row would double if a consumer joined it. Refuse to grade a republish as propagation unless a write exists in the same function; read-only, no face edited.",
+   "deliverable": "results/state_tilt/REPUBLISHCHAIN-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static AST joins, no writer runs",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "source": "bm-b r1449 E423: by_class republishes_the_field_without_joining_it = 8, file-valued directory fields = 44 across 8 faces",
+   "entered_at": "2026-11-05T07:2x+08:00",
+   "entered_by": "bm-b r1449 (supply floor refill after E423)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27647,6 +27665,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-05T01:5x+08:00",
+ "updated_at": "2026-11-05T07:2x+0800",
  "version": 1
 }

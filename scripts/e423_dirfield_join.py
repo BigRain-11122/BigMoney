@@ -23,6 +23,7 @@ Usage:
 from __future__ import annotations
 
 import ast
+import bisect
 import collections
 import io
 import json
@@ -303,8 +304,19 @@ RECEIVER_METHODS = {"rstrip", "lstrip", "strip", "lower", "upper", "replace", "f
                     "removesuffix", "removelast"}
 
 
-def _contains(outer: ast.AST, node: ast.AST) -> bool:
-    return any(sub is node for sub in ast.walk(outer))
+def _contains(outer: ast.AST, node: ast.AST, parents: dict[int, list[ast.AST]] | None = None) -> bool:
+    """Is `node` inside `outer`? Walk up from the node when the parent table is available:
+    a containment test that re-walks the outer subtree is quadratic on a 230k-node file."""
+    if parents is None:
+        return any(sub is node for sub in ast.walk(outer))
+    cur: ast.AST = node
+    while True:
+        if cur is outer:
+            return True
+        ups = parents.get(id(cur)) or []
+        if not ups:
+            return False
+        cur = ups[0]
 
 
 def _join_context(node: ast.AST, parents: dict[int, list[ast.AST]]) -> ast.AST | None:
@@ -334,7 +346,7 @@ def _join_context(node: ast.AST, parents: dict[int, list[ast.AST]]) -> ast.AST |
             # `face["dir"].rstrip("/") + "/" + face["name"]`: the read is the RECEIVER of a
             # string/path method, so the join sits further up. A read handed in as an ARGUMENT
             # is consumed there and is not part of the join (it would be a different claim).
-            if isinstance(up.func, ast.Attribute) and _contains(up.func, cur):
+            if isinstance(up.func, ast.Attribute) and _contains(up.func, cur, parents):
                 if up.func.attr in RECEIVER_METHODS:
                     cur = up
                     continue
@@ -363,13 +375,35 @@ def read_sites(path: str) -> list[dict]:
     for n in ast.walk(tree):
         if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)):
             funcs.append((n, n.lineno, getattr(n, "end_lineno", 10 ** 9)))
+    # Interval index for `enclosing`: the innermost function is the smallest span containing the
+    # line, so only candidates whose start is <= the line are walked, and each line is resolved
+    # once (`_enclosing_cache`). The previous form scanned all 566 defs for each of 7430 reads.
+    funcs.sort(key=lambda f: f[1])
+    _starts = [f[1] for f in funcs]
+    _enclosing_cache: dict[int, str] = {}
 
     def enclosing(lineno: int) -> str:
+        hit = _enclosing_cache.get(lineno)
+        if hit is not None:
+            return hit
         best = (10 ** 9, "<module>")
-        for node, start, end in funcs:
-            if start <= lineno <= end and (end - start) < best[0]:
-                best = (end - start, node.name)
+        i = bisect.bisect_right(_starts, lineno) - 1
+        while i >= 0:
+            node, start, end = funcs[i]
+            if end >= lineno:
+                span = end - start
+                if span < best[0]:
+                    best = (span, node.name)
+            i -= 1
+        _enclosing_cache[lineno] = best[1]
         return best[1]
+
+    # Every ast.Name by identifier, built once. The one-hop rebinding question used to re-walk
+    # the whole tree per bound read, which is what made the leg unusable on this corpus.
+    names_by_id: dict[str, list[ast.Name]] = collections.defaultdict(list)
+    for n in ast.walk(tree):
+        if isinstance(n, ast.Name):
+            names_by_id[n.id].append(n)
 
     sites: list[dict] = []
     for node in ast.walk(tree):
@@ -388,9 +422,7 @@ def read_sites(path: str) -> list[dict]:
             target = _dotted(assign.targets[0]) if assign.targets else ""
             # One hop: is the bound name later joined with a name?
             hops = []
-            for sub in ast.walk(tree):
-                if not isinstance(sub, ast.Name) or sub.id != target:
-                    continue
+            for sub in names_by_id.get(target, []):
                 ctx2 = _join_context(sub, parents)
                 if ctx2 is None or isinstance(ctx2, tuple):
                     continue
@@ -534,7 +566,10 @@ def verify(face: dict | None = None) -> list[str]:
     for f in face["published_fields_holding_a_file_path"]:
         if f["value_class"] != V_FILE:
             problems.append(f"{f['face']}:{f['key']} published as a file path but graded {f['value_class']}")
-        if not str(f["value"]).lower().endswith(FILE_EXTS) and "..." not in str(f["value"]):
+        # Re-derive the shape from the stored value with the SAME grader the build used. Testing
+        # it against a private extension list made verify red on .jsonl/.tmp spellings that the
+        # build had correctly graded as file paths -- a second copy of the gate, disagreeing.
+        if value_class(str(f["value"])) != V_FILE:
             problems.append(f"{f['face']}:{f['key']} value is not a file path anymore: {f['value']!r}")
     # The counterfactual must re-derive from the published row, not from a stored flag.
     can = sorted({f["key"] for f in face["published_fields_holding_a_file_path"]

@@ -16389,7 +16389,7 @@ try:
             _bad423.append("a field published as a file path is graded otherwise")
             break
         _v423 = str(_p423.get("value") or "")
-        if "..." not in _v423 and not _v423.lower().endswith(_m423.FILE_EXTS):
+        if _m423.value_class(_v423) != _m423.V_FILE:
             _bad423.append("%s:%s value is no longer a file path" %
                            (_p423.get("face"), _p423.get("key")))
             break
