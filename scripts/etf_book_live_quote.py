@@ -205,6 +205,51 @@ def verdict_of(panel_date, quote_date, n_joined, share_bad):
     return "QUOTE_AHEAD"
 
 
+RECHECK_TOL_HELD = 5e-7
+RECHECK_TOL_RET = 1e-9
+
+
+def recheck(face):
+    """Re-derive a published quote face from its own rows.
+
+    Single implementation of "does this face still say what its rows say": the chain gate
+    (`check`) and the reader page both call it, so the page cannot grow a second copy of the
+    arithmetic that silently disagrees the day the first one changes (E289 lineage).
+    """
+    rows = face.get("rows") or []
+    n_joined = sum(1 for r in rows if r.get("joined"))
+    share_bad = ((len(rows) - n_joined) / len(rows)) if rows else 1.0
+    verdict = verdict_of(face.get("panel_bar"), face.get("quote_bar"), n_joined, share_bad)
+    out = {"ok": True, "reason": None, "verdict": verdict, "n_joined": n_joined,
+           "held_leg_return": None, "book_change": None}
+    if verdict != face.get("verdict"):
+        out.update(ok=False, reason="verdict %r is not the %r its rows give"
+                   % (face.get("verdict"), verdict))
+        return out
+    if verdict != "QUOTE_AHEAD":
+        out["reason"] = "nothing to re-derive (%s)" % verdict
+        return out
+    held = sum(r["weight"] * r["ret"] for r in rows if r.get("ret") is not None)
+    out["held_leg_return"] = held
+    out["book_change"] = float(face.get("book_weight") or 0.0) * held
+    if face.get("held_leg_return") is None or abs(held - float(face["held_leg_return"])) > RECHECK_TOL_HELD:
+        out.update(ok=False, reason="held_leg_return %r is not the %.6f its rows give"
+                   % (face.get("held_leg_return"), held))
+        return out
+    for r in rows:
+        if not r.get("joined"):
+            continue
+        expect = r["quote_last"] / r["quote_prev_close"] - 1.0
+        if abs(expect - float(r["ret"])) > RECHECK_TOL_RET:
+            out.update(ok=False, reason="%s ret %r is not the %.10f it quotes"
+                       % (r.get("symbol"), r.get("ret"), expect))
+            return out
+    if n_joined != face.get("n_joined"):
+        out.update(ok=False, reason="n_joined %r is not the %d its rows carry"
+                   % (face.get("n_joined"), n_joined))
+    return out
+
+
 def build(ticket, quotes, cal_path=CAL):
     """Pure assembly: no network, no disk writes. Used by run() and by --check."""
     book = ticket["ticket"]
@@ -427,24 +472,11 @@ def check():
     path = os.path.join(OUT_DIR, ptr["file"])
     with open(path, encoding="utf-8") as fh:
         face = json.load(fh)
-    rows = face.get("rows") or []
-    if face["verdict"] == "QUOTE_AHEAD":
-        held = sum(r["weight"] * r["ret"] for r in rows if r.get("ret") is not None)
-        if abs(held - face["held_leg_return"]) > 5e-7:
-            print("DRIFT held_leg_return %r != %r" % (held, face["held_leg_return"]))
-            return 2
-        for r in rows:
-            if not r.get("joined"):
-                continue
-            expect = r["quote_last"] / r["quote_prev_close"] - 1.0
-            if abs(expect - r["ret"]) > 1e-9:
-                print("DRIFT %s ret %r != %r" % (r["symbol"], expect, r["ret"]))
-                return 2
-        n_joined = sum(1 for r in rows if r.get("joined"))
-        if n_joined != face["n_joined"]:
-            print("DRIFT n_joined %r != %r" % (n_joined, face["n_joined"]))
-            return 2
-    print("check OK (%s, %d rows)" % (face["verdict"], len(rows)))
+    rc = recheck(face)
+    if not rc["ok"]:
+        print("DRIFT " + str(rc["reason"]))
+        return 2
+    print("check OK (%s, %d rows)" % (face["verdict"], len(face.get("rows") or [])))
     return 0
 
 

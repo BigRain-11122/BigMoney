@@ -571,7 +571,6 @@ LEGS = [
     # relabels that row; it runs BEFORE the page, which quotes it (r1318 ordering law). ~2s.
     ("etf_book_window_label", ["python", "scripts/etf_book_window_label.py", "check"],
      ["python", "scripts/etf_book_window_label.py", "run"]),
-    ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1249: the page can only be priced on the last CLOSED panel bar, and the panel moves
     # one day behind the exchange while sina's daily endpoint catches up. So every evening
     # between the close and the panel taking the bar, the operator's page says the book is
@@ -579,7 +578,10 @@ LEGS = [
     # each quote's own previous close equals the panel's last bar close, and reports the
     # weighted move of the held leg -- no forecast, no ledger write, no ticket change.
     # bm-a is the writer; other hosts print an honest no-op.
+    # r1251: it MUST sit ahead of the page that quotes it -- it was placed one slot after,
+    # so the page kept printing yesterday's silence for a full round (r1318 ordering law).
     ("etf_book_live_quote", ["python", "scripts/etf_book_live_quote.py"]),
+    ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1150: the four-tier ticket menu is the same book sold at four betas, and it
     # lived a full round with no scheduled producer -- the r1290 two-face class. bm-a
     # is the writer; other hosts print an honest no-op. ~2s warm / ~30s on a new bar.

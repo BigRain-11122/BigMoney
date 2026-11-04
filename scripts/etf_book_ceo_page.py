@@ -67,6 +67,11 @@ MIN_CAPITAL_JSON = os.path.join(ROOT, "results", "etf_book_min_capital.json")
 # inheritance, nor that what sits on it is the book's CAPACITY (how many names it may hold),
 # not its return.
 ENTRY_GATE_JSON = os.path.join(ROOT, "results", "etf_book_entry_gate.json")
+# r1251: for a few hours every evening the daily panel is still a bar behind, and this page
+# answered "what is the book worth" with yesterday's close. The snapshot face fills exactly
+# that gap; the page must carry it, and must refuse it the moment its own rows stop
+# reproducing it (a quote the chain gate would reject is not something to print here).
+LIVE_QUOTE_DIR = os.path.join(ROOT, "results", "etf_book_live_quote")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -1208,6 +1213,131 @@ def entry_gate_block(eg):
                 eg.get("evidence_cutoff"), eg.get("panel_last_bar"), shipped_m,
                 float((eg.get("control") or {}).get("delta_pp") or 0.0),
                 float((eg.get("control") or {}).get("tol_pp") or 0.0)))
+    L.append("")
+    return L
+
+
+def live_quote_face(dir_path=LIVE_QUOTE_DIR):
+    """What is this book worth today, while the daily panel is still a bar behind? (r1251)
+
+    The snapshot face already answers that question (scripts/etf_book_live_quote.py, with its
+    own selftest). This reads the published payload and re-derives both the verdict and the
+    arithmetic through that script's single `recheck()` -- a second copy of the join here
+    would disagree with the chain gate the first time either one changed.
+
+    Refused rather than softened:
+      * no payload / unreadable          -> the page says it cannot answer
+      * rows no longer reproduce         -> same, because a quote the chain gate would
+                                            reject is not something to print at a reader
+      * a snapshot OLDER than the panel  -> nothing here is new information
+    """
+    latest = os.path.join(dir_path, "latest.json")
+    if not os.path.exists(latest):
+        return {"status": "absent", "artifact": _rel(latest, ROOT),
+                "detail": "no published quote face"}
+    try:
+        ptr = _load(latest)
+        fname = ptr.get("file")
+        path = os.path.join(dir_path, fname) if fname else None
+        if not path or not os.path.exists(path):
+            return {"status": "unreadable", "artifact": _rel(latest, ROOT),
+                    "detail": "the pointer names no payload on disk"}
+        face = _load(path)
+        import etf_book_live_quote as _LQ
+        rc = _LQ.recheck(face)
+        if not rc.get("ok"):
+            return {"status": "drifted", "artifact": _rel(path, ROOT),
+                    "detail": rc.get("reason")}
+        rows = []
+        for r in face.get("rows") or []:
+            rows.append({"symbol": r.get("symbol"), "weight": r.get("weight"),
+                         "panel_bar": r.get("panel_bar"),
+                         "panel_close": r.get("panel_close"),
+                         "quote_date": r.get("quote_date"),
+                         "quote_prev_close": r.get("quote_prev_close"),
+                         "quote_last": r.get("quote_last"),
+                         "joined": bool(r.get("joined")), "ret": r.get("ret")})
+        out = {"status": "ok", "artifact": _rel(path, ROOT),
+               "verdict": rc.get("verdict"),
+               "panel_bar": face.get("panel_bar"), "quote_bar": face.get("quote_bar"),
+               "quote_time": face.get("quote_time"),
+               "lag_trading_days": face.get("lag_trading_days"),
+               "n_held": face.get("n_held"), "n_joined": rc.get("n_joined"),
+               "mismatch_share": face.get("mismatch_share"),
+               "mismatch_share_max": (face.get("thresholds") or {}).get("mismatch_share_max"),
+               "book_weight": face.get("book_weight"), "cash_weight": face.get("cash_weight"),
+               "held_leg_return": rc.get("held_leg_return"),
+               "book_change": rc.get("book_change"),
+               "ticket_priced_bar": face.get("ticket_priced_bar"),
+               "rows": rows}
+        if out["quote_bar"] and out["panel_bar"] and out["quote_bar"] < out["panel_bar"]:
+            return dict(out, status="behind",
+                        detail="the snapshot %s is older than the panel %s"
+                               % (out["quote_bar"], out["panel_bar"]))
+        return out
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": _rel(latest, ROOT), "detail": repr(exc)}
+
+
+def live_quote_block(lq):
+    L = []
+    L.append("## 面板还停在昨天的时候，这本书今天值多少？")
+    L.append("")
+    st = lq.get("status")
+    if st != "ok":
+        why = {"behind": "快照比数据面还旧，这里没有新信息",
+               "drifted": "快照自己的行已经复现不出它发布的数字",
+               "unreadable": "证据件读不出来",
+               "absent": "还没有发布过快照面"}.get(st, str(lq.get("detail") or st))
+        L.append("**这一问现在答不了。** %s（%s）——所以本页仍按面板最后一根已收 bar 讲故事，"
+                 "不印今天的涨跌。" % (why, lq.get("detail") or st))
+        L.append("")
+        return L
+    v = lq.get("verdict")
+    if v == "NO_NEW_BAR":
+        L.append("数据面已经吃到 **%s** 这一根 bar，快照里没有更新的东西可加——这一问今天没有新答案。"
+                 % lq.get("panel_bar"))
+        L.append("")
+        return L
+    if v != "QUOTE_AHEAD":
+        L.append("**整面拒发。** 快照与面板衔接不上的名字占 **%.0f%%**（上限 %.0f%%），"
+                 "用剩下几个名字加权出来的是一个没有分母的数。"
+                 % (100.0 * float(lq.get("mismatch_share") or 0.0),
+                    100.0 * float(lq.get("mismatch_share_max") or 0.0)))
+        L.append("")
+        return L
+    lag = lq.get("lag_trading_days")
+    L.append("日线面板还停在 **%s**（源端收盘后要几小时才补当天那根），而交易所快照已经有 **%s %s** "
+             "的收盘价——领先 **%s** 个交易日。逐只证明快照接得上面板最后一根（快照昨收 = 面板收盘，"
+             "容差半个最小变动价位），再按票面自己的权重报今天："
+             % (lq.get("panel_bar"), lq.get("quote_bar"), lq.get("quote_time") or "",
+                "?" if lag is None else str(lag)))
+    L.append("")
+    L.append("| 名字 | 权重 | 面板末根 | 快照昨收 | 今日收盘 | 当日变动 |")
+    L.append("|---|---|---|---|---|---|")
+    for r in lq.get("rows") or []:
+        ret = r.get("ret")
+        L.append("| %s | %.2f%% | %s | %s | %s | %s |"
+                 % (r.get("symbol"), 100.0 * float(r.get("weight") or 0.0),
+                    r.get("panel_bar") or "—",
+                    "—" if r.get("quote_prev_close") is None else "%.3f" % r["quote_prev_close"],
+                    "—" if r.get("quote_last") is None else "%.3f" % r["quote_last"],
+                    ("—（未衔接）" if not r.get("joined") else
+                     "—" if ret is None else "%+.2f%%" % (100.0 * float(ret)))))
+    L.append("")
+    L.append("**持仓腿今天 %+.2f%%**，按票面的持仓权重折算到整本账是 **%+.2f%%**。"
+             "现金腿 **%.2f%%** 一动不动——快照里没有逆回购报价，"
+             "写成 0 息或补一个历史均值都是给账面编钱。"
+             % (100.0 * float(lq.get("held_leg_return") or 0.0),
+                100.0 * float(lq.get("book_change") or 0.0),
+                100.0 * float(lq.get("cash_weight") or 0.0)))
+    L.append("")
+    L.append("> 快照面：`%s` ｜ 明细头衔：%d/%d 只衔接 ｜ 定价票面 bar %s。"
+             "这条数字**不进账本、不进票面、不产生交易指令**——它只回答「今天涨没涨」，"
+             "第二个交易日的收盘 bar 一到，账本自己会给同一个答案。"
+             % (str(lq.get("artifact") or "").replace(os.sep, "/"),
+                int(lq.get("n_joined") or 0), int(lq.get("n_held") or 0),
+                lq.get("ticket_priced_bar") or "—"))
     L.append("")
     return L
 
@@ -2991,7 +3121,13 @@ def today_action(p):
     return out
 
 
-def build(with_stress=False):
+def build(with_stress=False, window_label=None):
+    """Assemble the page. `window_label` lets a caller pin the row-label face.
+
+    r1251: without it, a selftest that checks "the full column carries the full window"
+    could only be written against whatever the artifact happened to hold that morning -- the
+    legs then pass on a coincidence and go red the day the panel re-prices the book.
+    """
     ptr, tk, tk_path = _load_ticket()
     card = _load(CARD) if os.path.exists(CARD) else {}
     ledger = _load(LEDGER) if os.path.exists(LEDGER) else {}
@@ -3035,7 +3171,7 @@ def build(with_stress=False):
         }
 
     bt = (card.get("backtest") or {})
-    page_window_label = window_label_face()
+    page_window_label = window_label if window_label is not None else window_label_face()
     band = {}
     # the executable ticket prices its own book; quote that口径 first, from the ticket itself
     tk_book = (tk.get("metrics") or {}).get("book") or {}
@@ -3161,6 +3297,7 @@ def build(with_stress=False):
     page["sample_window"] = sample_window_face()
     page["universe_lock"] = universe_lock_face()
     page["entry_gate"] = entry_gate_face()
+    page["live_quote"] = live_quote_face()
     page["sellability"] = sellability_face()
     page["capital"] = capital_face()
     page["gap"] = gap_face()
@@ -4085,6 +4222,10 @@ def render_md(p):
     # came from, and say that what sits on it is the book's capacity, not its return.
     for _eg_line in entry_gate_block(p.get("entry_gate") or {}):
         add(_eg_line)
+    # r1251: the panel is a bar behind for a few hours every evening. Say what the book is
+    # worth today, and say it only when the quote's own rows still reproduce it.
+    for _lq_line in live_quote_block(p.get("live_quote") or {}):
+        add(_lq_line)
     # r1238: the gate is on the way in only -- can the desk get out of what it holds?
     for _sf_line in sellability_block(p.get("sellability") or {}):
         add(_sf_line)
@@ -4152,14 +4293,22 @@ def selftest():
     ok = 0
     total = 0
 
+    def _p(s):
+        # The page quotes money as "¥..." and a GBK console cannot encode U+00A5;
+        # a leg that prints a yuan figure must not fail the suite for that reason.
+        try:
+            print(s)
+        except UnicodeEncodeError:
+            print(s.encode("ascii", "backslashreplace").decode("ascii"))
+
     def chk(name, cond, detail=""):
         nonlocal ok, total
         total += 1
         if cond:
             ok += 1
-            print("[%d/%d] PASS %s%s" % (ok, total, name, (" | " + detail) if detail else ""))
+            _p("[%d/%d] PASS %s%s" % (ok, total, name, (" | " + detail) if detail else ""))
         else:
-            print("[%d/%d] FAIL %s%s" % (ok, total, name, (" | " + detail) if detail else ""))
+            _p("[%d/%d] FAIL %s%s" % (ok, total, name, (" | " + detail) if detail else ""))
         return cond
 
     # 1. next-rebalance arithmetic on a hand fixture: the 3rd trading day after Fri
@@ -5067,7 +5216,7 @@ def selftest():
     chk("L94 window label: absent or identity-failed prints no window number at all",
         "7.71" not in _md_wl_gone and "7.71" not in _md_wl_bad
         and "12.78" not in _md_wl_gone and "12.78" not in _md_wl_bad, "")
-    _p_wl, _ = build(with_stress=False)
+    _p_wl, _ = build(with_stress=False, window_label=_wl_ok)
     _p_wl["window_label"] = _wl_ok
     _md_page_ok = render_md(_p_wl)
     _first_row = [ln for ln in _md_page_ok.splitlines()
@@ -5084,7 +5233,7 @@ def selftest():
                                  **{"is": {"cagr_pct": 3.71, "sharpe": 0.90,
                                           "maxdd_pct": -3.97},
                                     "middle_window_bars": 842})}
-    _p_wl2, _ = build(with_stress=False)
+    _p_wl2, _ = build(with_stress=False, window_label=_wl_mid)
     _p_wl2["window_label"] = _wl_mid
     _md_wl2 = render_md(_p_wl2)
     _row2 = [ln for ln in _md_wl2.splitlines()
@@ -5569,6 +5718,78 @@ def selftest():
          and "答不了" in _eg_absent and "容量来源" not in _eg_absent),
         "width_sentence=%s return_sentence=%s absent_says_unmeasured=%s"
         % ("容量来源" in _eg_lines, "±0.50 pp" in _eg_lines, "答不了" in _eg_absent))
+    # r1251: the evening quote face -- what the book is worth while the panel lags one bar.
+    # The arithmetic here is downstream of etf_book_live_quote.recheck (never a second copy).
+    _ql_dir = tempfile.mkdtemp()
+    _ql_rows = [
+        {"symbol": "510300", "weight": 0.5, "panel_bar": "2026-11-03", "panel_close": 4.0,
+         "quote_date": "2026-11-04", "quote_prev_close": 4.0, "quote_last": 4.08,
+         "joined": True, "ret": 0.02},
+        {"symbol": "518880", "weight": 0.3, "panel_bar": "2026-11-03", "panel_close": 1.5,
+         "quote_date": "2026-11-04", "quote_prev_close": 1.5, "quote_last": 1.485,
+         "joined": True, "ret": -0.01},
+    ]
+    _ql_held = 0.5 * 0.02 + 0.3 * -0.01
+    _ql_face = {"verdict": "QUOTE_AHEAD", "panel_bar": "2026-11-03", "quote_bar": "2026-11-04",
+                "quote_time": "15:35:00", "lag_trading_days": 1, "n_held": 2, "n_joined": 2,
+                "mismatch_share": 0.0, "book_weight": 0.8, "cash_weight": 0.2,
+                "held_leg_return": round(_ql_held, 6),
+                "book_change": round(0.8 * _ql_held, 6),
+                "ticket_priced_bar": "2026-11-03", "rows": _ql_rows,
+                "thresholds": {"prev_tol_abs": 0.0011, "mismatch_share_max": 0.2}}
+    with open(os.path.join(_ql_dir, "QUOTE-fixture.json"), "w", encoding="utf-8") as _fh:
+        json.dump(_ql_face, _fh, ensure_ascii=False)
+    with open(os.path.join(_ql_dir, "latest.json"), "w", encoding="utf-8") as _fh:
+        json.dump({"as_of": "2026-11-04", "file": "QUOTE-fixture.json",
+                   "verdict": "QUOTE_AHEAD"}, _fh, ensure_ascii=False)
+    _ql_ok = live_quote_face(_ql_dir)
+    _ql_lied_dir = tempfile.mkdtemp()
+    with open(os.path.join(_ql_lied_dir, "QUOTE-lied.json"), "w", encoding="utf-8") as _fh:
+        json.dump(dict(_ql_face, held_leg_return=0.05), _fh, ensure_ascii=False)
+    with open(os.path.join(_ql_lied_dir, "latest.json"), "w", encoding="utf-8") as _fh:
+        json.dump({"file": "QUOTE-lied.json"}, _fh, ensure_ascii=False)
+    _ql_lied = live_quote_face(_ql_lied_dir)
+    chk("L141 live quote: today's move is re-derived from the payload's own rows through the "
+        "single recheck, and a payload whose rows disagree with it is refused",
+        _ql_ok.get("status") == "ok"
+        and abs(float(_ql_ok.get("held_leg_return") or 0.0) - _ql_held) < 1e-9
+        and _ql_lied.get("status") == "drifted"
+        and "its rows give" in (_ql_lied.get("detail") or ""),
+        "ok=%s held=%r lied=%s" % (_ql_ok.get("status"), _ql_ok.get("held_leg_return"),
+                                   _ql_lied.get("status")))
+    _behind_rows = [dict(r, quote_date="2026-11-01") for r in _ql_rows]
+    _ql_behind_dir = tempfile.mkdtemp()
+    with open(os.path.join(_ql_behind_dir, "QUOTE-behind.json"), "w", encoding="utf-8") as _fh:
+        json.dump(dict(_ql_face, quote_bar="2026-11-01", rows=_behind_rows,
+                       lag_trading_days=None), _fh, ensure_ascii=False)
+    with open(os.path.join(_ql_behind_dir, "latest.json"), "w", encoding="utf-8") as _fh:
+        json.dump({"file": "QUOTE-behind.json"}, _fh, ensure_ascii=False)
+    _ql_behind = live_quote_face(_ql_behind_dir)
+    _no_new_dir = tempfile.mkdtemp()
+    with open(os.path.join(_no_new_dir, "QUOTE-same.json"), "w", encoding="utf-8") as _fh:
+        json.dump(dict(_ql_face, verdict="NO_NEW_BAR", quote_bar="2026-11-03",
+                       held_leg_return=None, book_change=None), _fh, ensure_ascii=False)
+    with open(os.path.join(_no_new_dir, "latest.json"), "w", encoding="utf-8") as _fh:
+        json.dump({"file": "QUOTE-same.json"}, _fh, ensure_ascii=False)
+    _ql_same = live_quote_face(_no_new_dir)
+    _behind_txt = "\n".join(live_quote_block(_ql_behind))
+    _absent_txt = "\n".join(live_quote_block({"status": "absent"}))
+    _same_txt = "\n".join(live_quote_block(_ql_same))
+    _ok_txt = "\n".join(live_quote_block(_ql_ok))
+    chk("L142 live quote block: a snapshot older than the panel, a missing payload, and a "
+        "panel that already ate the day each say so instead of printing a move",
+        _ql_behind.get("status") == "behind"
+        and _ql_same.get("verdict") == "NO_NEW_BAR"
+        and "答不了" in _behind_txt and "答不了" in _absent_txt
+        and "没有新答案" in _same_txt
+        and "持仓腿今天" not in _behind_txt and "持仓腿今天" not in _absent_txt
+        and "持仓腿今天" not in _same_txt,
+        "behind=%s same=%s" % (_ql_behind.get("status"), _ql_same.get("verdict")))
+    chk("L143 live quote block: the reader sees both the held leg and what it is worth on the "
+        "whole book, plus the cash leg declining to be re-priced",
+        ("+0.70%" in _ok_txt and "+0.56%" in _ok_txt and "20.00%" in _ok_txt
+         and "2/2" in _ok_txt),
+        "txt=%s" % " | ".join(x for x in _ok_txt.splitlines() if "持仓腿" in x)[:120])
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

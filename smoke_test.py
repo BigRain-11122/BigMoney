@@ -1651,6 +1651,78 @@ def main() -> int:
     except Exception as e:
         check("product: whose disk the lane numbers are on reaches both human faces",
               False, str(e))
+    # r1251: the group decides on 2026-11-08 whether to re-enable the lane tasks
+    # from this row, so the row's numbers must BE the declaration's numbers. Two
+    # facts travel together and must not be merged: OWNERSHIP (unique/conflicting)
+    # and OBSERVATION (an owned lane nobody has been seen producing is warning,
+    # never ok). The negative direction is asserted too -- a green row with an
+    # unobserved lane and no caveat sentence is the defect this leg hunts.
+    try:
+        import importlib.util as _ilu
+        _spec = _ilu.spec_from_file_location(
+            "lane_ownership_declaration",
+            os.path.join("scripts", "lane_ownership_declaration.py"))
+        _lom = _ilu.module_from_spec(_spec)
+        _spec.loader.exec_module(_lom)
+        _decl = _lom.build()
+        _s = _decl.get("summary") or {}
+        _html = open("dashboard.html", encoding="utf-8").read()
+        _dash = "lane_ownership" in _html
+        _st = json.load(open(os.path.join("results", "dashboard_status.json"),
+                             encoding="utf-8"))
+        _blk = ((_st.get("data") or {}).get("lane_ownership") or {})
+        _nu = len(_s.get("declared_but_unobserved") or [])
+        _ret = [l.get("lane") for l in (_decl.get("lanes") or [])
+                if l.get("observation") == "retired"]
+        _live = [x for x in (_s.get("declared_but_unobserved") or [])
+                 if x not in _ret]
+        _same = (_blk.get("n_lanes") == _s.get("n_lanes")
+                 and _blk.get("n_owned") == _s.get("n_owned")
+                 and _blk.get("n_declared_but_unobserved") == _nu
+                 and _blk.get("n_live_declared_but_unobserved") == len(_live)
+                 and _blk.get("retired") == _ret
+                 and _blk.get("verdict") == _s.get("verdict"))
+        _caveat = (len(_live) == 0) or (
+            "\u8bfb\u4e0d\u5230\u5b83\u7684\u4ea7\u51fa\u5c01\u5957" in _html)
+        _retired_named = (not _ret) or ("\u5df2\u9000\u5f79" in _html)
+        # "seven lanes nobody has seen" is not actionable; naming the host that
+        # owes the evidence is. The grouping must be recomputed here, not trusted.
+        _bh = _blk.get("by_host") or {}
+        _exp_bh = {}
+        for _l in (_decl.get("lanes") or []):
+            if _l.get("lane") not in _live:
+                continue
+            _k = _l.get("declared_host") or "?"
+            _e = _exp_bh.setdefault(_k, [])
+            _e.append(_l.get("lane"))
+        _bh_ok = (set(_bh) == set(_exp_bh)
+                  and all(sorted(_bh[k].get("lanes") or []) == sorted(_exp_bh[k])
+                          for k in _exp_bh))
+        # The row is data-driven: the page composes the host list from the published
+        # block at render time, so demanding the literal host keys inside
+        # dashboard.html would only pass if the hosts were hard-coded there -- the
+        # pattern this suite forbids everywhere else. Name the host on the two faces
+        # a reader actually opens: the page must carry the grouping (`by_host`), and
+        # the declaration document must spell out every host that owes evidence.
+        _decl_md = ""
+        _decl_p = os.path.join("docs", "lane_ownership",
+                               "DECLARATION-%s.md"
+                               % ((_decl.get("source_freshness_as_of") or "")[:10]))
+        if os.path.exists(_decl_p):
+            _decl_md = open(_decl_p, encoding="utf-8").read()
+        _who_named = (not _exp_bh) or (("by_host" in _html)
+                                       and all(k in _decl_md for k in _exp_bh))
+        check("product: the row the 11-08 enable decision reads agrees with the declaration",
+              _same and _dash and _caveat and _retired_named and _bh_ok and _who_named,
+              f'recomputed={_same} dashboard-wired={_dash} caveat={_caveat} '
+              f"retired_named={_retired_named} by_host={_bh_ok} who_named={_who_named} "
+              f"hosts={sorted(_exp_bh)} lanes={_blk.get('n_lanes')} "
+              f"unobserved={_blk.get('n_declared_but_unobserved')} "
+              f"live_unobserved={_blk.get('n_live_declared_but_unobserved')} "
+              f"decl_live={len(_live)} retired={_ret} verdict={_blk.get('verdict')}")
+    except Exception as e:
+        check("product: the row the 11-08 enable decision reads agrees with the declaration",
+              False, str(e))
     try:
         # r1156: the lane-freshness board must agree with the lanes' OWN bytes and
         # with the official calendar. Re-reading the published JSON would only prove
@@ -2151,6 +2223,17 @@ def main() -> int:
         check("fleet: panel carries the machine-health verdict, not a row count",
               False, str(e))
         check("fleet: machine-health gate leg wired into the S6 chain", False, str(e))
+    # r1251: the evening quote is what lets the page say what today is worth while the
+    # panel is still a bar behind. It was wired one slot AFTER the page, so the page
+    # printed yesterday's silence and the reader never saw the face (r1318 class).
+    try:
+        _lq_order = [t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        check("product: the live quote is priced before the page that prints it",
+              _lq_order.index("etf_book_live_quote") < _lq_order.index("etf_book_ceo_page"),
+              "quote=%d page=%d" % (_lq_order.index("etf_book_live_quote"),
+                                    _lq_order.index("etf_book_ceo_page")))
+    except Exception as e:
+        check("product: the live quote is priced before the page that prints it", False, str(e))
     try:
         _dq_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
         _dq_after = (_dq_order.index("docquotes") > _dq_order.index("daily_report")
