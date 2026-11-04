@@ -16171,5 +16171,203 @@ except Exception as _e426:
     _bad426.append(repr(_e426)[:160])
 check(_name426, not _bad426, "; ".join(_bad426)[:240] or _d426)
 
+# E429 (r1445 bm-b): E419 declared in its own method limits that a face composed from a variable
+# and written by a shared helper is out of reach, and its three no-writer rows were exactly that
+# shape.  This leg reads the face that follows the directory one hop further and refuses (a) a
+# verdict/class/hop outside the vocabulary its producer declares, (b) a population-key or
+# vocabulary declaration the producer does not make, (c) a row whose one-hop grade was not
+# "no writer" or whose name tokens do not re-derive from the face name, (d) a writer row with no
+# published supply site or with an opener that is not a path write, (e) a date flag or tally that
+# does not re-derive from the rows, and (f) a corpus split that does not re-add.  The ~4 minute
+# corpus re-derivation belongs to the chain leg; this leg keeps the published face internally
+# honest.
+_bad420, _d420 = [], ""
+try:
+    _m420 = __import__("importlib").import_module("e429_two_hop_writer")
+    _f420 = json.load(open(os.path.join("results", "state_tilt", "twohop_latest.json"),
+                           encoding="utf-8"))
+    _s420 = _f420.get("summary") or {}
+    # r1446 bm-b: the title used to spell three numbers as literals, so it kept printing
+    # "1,964 of 2,422 / 458" after the face moved to 1,968 of 2,431 / 463 -- a frozen
+    # number printed as green (E424/E420 law: a published count must re-derive, and a leg
+    # name is published in every round report).
+    _c420t = _s420.get("corpus") or {}
+    _name420 = ("product: E419's three no-writer faces all have a writer one hop away -- the "
+                "directory arrives from a module constant or a caller, %d of %d write sites are "
+                "visible once constants are followed and %d still need the caller hop"
+                % (_c420t.get("visible_after_a_constant_hop", -1),
+                   _c420t.get("write_sites", -1),
+                   _c420t.get("still_needs_the_caller_hop", -1)))
+    _rows420 = _f420.get("rows") or []
+    if _f420.get("verdict") not in _m420.VERDICT_VOCAB:
+        _bad420.append("the stored verdict is outside the vocabulary")
+    if list(_f420.get("population_keys") or []) != list(_m420.POPULATION_KEYS):
+        _bad420.append("the face declares population keys its producer does not")
+    if list(_f420.get("class_vocab") or []) != list(_m420.CLASS_VOCAB):
+        _bad420.append("the face declares a class vocabulary its producer does not")
+    if list(_f420.get("hop_vocab") or []) != [ _m420.HOP_CONST, _m420.HOP_CALLER, _m420.HOP_NONE ]:
+        _bad420.append("the face declares a hop vocabulary its producer does not")
+    _tally420 = {}
+    for _r420 in _rows420:
+        _tally420[_r420.get("classification")] = _tally420.get(_r420.get("classification"), 0) + 1
+    if _tally420 != _s420.get("by_class"):
+        _bad420.append("by_class does not re-derive from the rows")
+    if _s420.get("faces_in_population") != len(_rows420):
+        _bad420.append("faces_in_population does not count the rows")
+    if _s420.get("rows_that_became_writers") != (_s420.get("rows_with_a_date", 0)
+                                                 + _s420.get("rows_without_a_date", 0)):
+        _bad420.append("rows_that_became_writers does not re-add")
+    if _s420.get("rows_whose_name_encodes_a_date") != sum(
+            1 for _r420 in _rows420
+            if (_r420.get("date_basis") or {}).get("date_in_the_composed_name")):
+        _bad420.append("the rows whose name encodes a date do not re-derive")
+    for _r420 in _rows420:
+        if _r420.get("classification") not in _m420.CLASS_VOCAB:
+            _bad420.append("%s: class outside the vocabulary" % _r420.get("face"))
+            break
+        if _r420.get("hop_kind") not in (_m420.HOP_CONST, _m420.HOP_CALLER, _m420.HOP_NONE):
+            _bad420.append("%s: hop kind outside the vocabulary" % _r420.get("face"))
+            break
+        if _r420.get("one_hop_classification") != _m420.E419_MISSING:
+            _bad420.append("%s: a row that E419 did not grade no-writer" % _r420.get("face"))
+            break
+        _base420, _dir420, _ = __import__("e419_unstampable").name_pattern(_r420.get("face") or "")
+        if (_r420.get("name_token"), _r420.get("directory_token")) != (_base420, _dir420):
+            _bad420.append("%s: the published name tokens do not re-derive" % _r420.get("face"))
+            break
+        if _r420.get("classification") in (_m420.W_DATE, _m420.W_NODATE):
+            if not _r420.get("opener"):
+                _bad420.append("%s: graded a writer at a site that does not open for writing"
+                               % _r420.get("face"))
+                break
+            if _r420.get("hop_kind") == _m420.HOP_NONE:
+                _bad420.append("%s: graded a writer with no hop followed" % _r420.get("face"))
+                break
+            if not (_r420.get("supplied_at") and _r420.get("resolved_path")):
+                _bad420.append("%s: a writer with no published supply site" % _r420.get("face"))
+                break
+        if _r420.get("classification") in (_m420.W_STILL, _m420.W_HELPER) \
+                and _r420.get("writer"):
+            _bad420.append("%s: a non-writer row carries writer rows" % _r420.get("face"))
+            break
+    _c420 = _s420.get("corpus") or {}
+    if sum(int(_c420.get(_k420) or 0) for _k420 in
+           ("path_spells_a_literal_only", "path_is_parameter_derived_only",
+            "literal_and_parameter", "neither")) != _s420.get("write_sites"):
+        _bad420.append("the corpus split does not re-add to the write sites")
+    if int(_c420.get("visible_after_a_constant_hop") or 0) != (
+            int(_c420.get("path_spells_a_literal_only") or 0)
+            + int(_c420.get("literal_and_parameter") or 0)
+            + int(_c420.get("neither_resolved_by_a_constant_hop") or 0)):
+        _bad420.append("the constant-hop reach does not re-add")
+    if int(_c420.get("still_needs_the_caller_hop") or 0) != (
+            int(_s420.get("write_sites") or 0) - int(_c420.get("visible_after_a_constant_hop") or 0)):
+        _bad420.append("the caller-hop remainder does not re-derive")
+    if int(_c420.get("neither_resolved_by_a_constant_hop") or 0) > int(_c420.get("neither") or 0):
+        _bad420.append("more constant-hop rescues than there are undecided sites")
+    _reach420 = _s420.get("two_hop_reach") or {}
+    if sum(int(_reach420.get(_k420) or 0) for _k420 in
+           ("caller_supplies_a_literal_directory", "caller_supplies_a_constant_directory",
+            "no_caller_found_in_the_corpus")) != _reach420.get("parameter_derived_sites"):
+        _bad420.append("the caller-hop reach does not re-add to the parameter-derived sites")
+    if _f420.get("verdict") == _m420.V_ALL and _tally420 and len(_rows420) != _tally420.get(
+            _m420.W_DATE, 0) + _tally420.get(_m420.W_NODATE, 0):
+        _bad420.append("published as every-row-moved while a row did not move")
+    if _f420.get("verdict") == _m420.V_NONE and (_tally420.get(_m420.W_DATE, 0)
+                                                 + _tally420.get(_m420.W_NODATE, 0)):
+        _bad420.append("published as nothing-moved while a writer was found")
+    _d420 = "%d rows: %d became writers (%d with a date, %d without, %d name-encode a date) | " \
+            "%d write sites, %d literal-visible, %d visible after a constant hop, %d need the " \
+            "caller hop | %d parameter-derived sites | %s" % (
+                len(_rows420), _s420.get("rows_that_became_writers", 0),
+                _s420.get("rows_with_a_date", 0), _s420.get("rows_without_a_date", 0),
+                _s420.get("rows_whose_name_encodes_a_date", 0),
+                _s420.get("write_sites", 0), int(_c420.get("path_spells_a_literal_only") or 0)
+                + int(_c420.get("literal_and_parameter") or 0),
+                _c420.get("visible_after_a_constant_hop", 0),
+                _c420.get("still_needs_the_caller_hop", 0),
+                _reach420.get("parameter_derived_sites", 0), _f420.get("verdict"))
+except Exception as _e420:
+    _bad420.append(repr(_e420)[:160])
+check(_name420, not _bad420, "; ".join(_bad420)[:240] or _d420)
+
+# E423 (r1446 bm-b): E422 priced 11 published rows that put a FILE path in a field named
+# resolved_directory, so a reader that joins that field with the row's own name composes
+# <face>.json/<name>. This leg holds the measurement and refuses it if: (a) a published read
+# site carries a class outside the frozen vocabulary, (b) the class tally does not re-add,
+# (c) a site graded a name join names no name-vocab sibling, (d) a field published as holding
+# a file path no longer ends with a file extension or its face vanished, (e) the doubling
+# intersection stops re-deriving from the rows (a stored flag is not a measurement), or
+# (f) the live read-site classes stop re-deriving from the corpus.
+_name423 = ("product: a directory-named field that holds a file path is joined with a row name "
+            "by exactly the consumers named in the face, and the rows where such a join could "
+            "double are counted from the rows' own name fields")
+_bad423, _d423 = [], ""
+try:
+    _m423 = __import__("importlib").import_module("e423_dirfield_join")
+    _f423 = json.load(open(os.path.join("results", "state_tilt", "dirfield_latest.json"),
+                           encoding="utf-8"))
+    _s423 = _f423.get("summary") or {}
+    if _f423.get("verdict") not in _m423.VERDICT_VOCAB:
+        _bad423.append("verdict outside the frozen vocabulary")
+    if _s423.get("read_sites") != len(_f423.get("read_sites") or []):
+        _bad423.append("the published site count is not the number of published sites")
+    _t423 = {}
+    for _r423 in _f423.get("read_sites") or []:
+        if _r423.get("class") not in _m423.CLASS_VOCAB:
+            _bad423.append("a published class is outside the vocabulary")
+            break
+        _t423[_r423["class"]] = _t423.get(_r423["class"], 0) + 1
+        if _r423["class"] == _m423.C_NAME and not any(
+                _s in _m423.NAME_KEYS for _s in (_r423.get("joined_siblings") or [])):
+            _bad423.append("%s:%s graded a name join with no name sibling" %
+                           (_r423.get("file"), _r423.get("line")))
+            break
+        if not os.path.exists(_r423.get("file") or ""):
+            _bad423.append("a published site's file no longer exists: %s" % _r423.get("file"))
+            break
+    if _t423 != (_s423.get("by_class") or {}):
+        _bad423.append("the class tally does not re-add to the published by_class")
+    _fp423 = _f423.get("published_fields_holding_a_file_path") or []
+    for _p423 in _fp423:
+        if _p423.get("value_class") != _m423.V_FILE:
+            _bad423.append("a field published as a file path is graded otherwise")
+            break
+        _v423 = str(_p423.get("value") or "")
+        if "..." not in _v423 and not _v423.lower().endswith(_m423.FILE_EXTS):
+            _bad423.append("%s:%s value is no longer a file path" %
+                           (_p423.get("face"), _p423.get("key")))
+            break
+        if bool(_p423.get("could_compose_a_doubled_name")) != bool(
+                _p423.get("name_fields_in_the_same_row")):
+            _bad423.append("a row publishes a doubling flag without a name field to join")
+            break
+    _keys423 = sorted({_p423["key"] for _p423 in _fp423
+                       if _p423.get("name_fields_in_the_same_row")})
+    if _keys423 != (_s423.get("keys_that_double") or []):
+        _bad423.append("keys_that_double does not re-derive from the published rows")
+    _joins423 = sorted(set(_s423.get("join_keys") or []) & set(_keys423))
+    if _joins423 != (_s423.get("joins_that_can_double") or []):
+        _bad423.append("joins_that_can_double is not the intersection of join keys and doubling keys")
+    _fresh423 = {}
+    for _p423 in _m423.corpus():
+        for _site423 in _m423.read_sites(os.path.join(_m423.ROOT, _p423)):
+            if _site423["key"] in _m423.DIR_KEYS:
+                _fresh423[_site423["class"]] = _fresh423.get(_site423["class"], 0) + 1
+    if _fresh423 != _t423:
+        _bad423.append("the live read-site classes do not re-derive: %s vs %s" %
+                       (_fresh423, _t423))
+    _d423 = "%d site(s) over %d source(s): %s | join_keys=%s keys_that_double=%s | %d " \
+            "file-valued field(s), %d row(s) could double" % (
+                _s423.get("read_sites"), _s423.get("corpus_sources"),
+                " ".join("%s=%s" % (k, v) for k, v in sorted(_t423.items())),
+                ",".join(_s423.get("join_keys") or []) or "none",
+                ",".join(_s423.get("keys_that_double") or []) or "none",
+                _s423.get("directory_named_fields_holding_a_file_path"),
+                _s423.get("published_rows_where_a_join_could_double"))
+except Exception as _e423:
+    _bad423.append(repr(_e423)[:160])
+check(_name423, not _bad423, "; ".join(_bad423)[:240] or _d423)
+
 if __name__ == "__main__":
     sys.exit(main())

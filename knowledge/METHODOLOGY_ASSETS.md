@@ -10193,3 +10193,91 @@ name, so a literal-built population undercounts by two thirds. That bill is now 
 
 **Delivered.** `scripts/e426_dynamic_face_names.py` (selftest 27/27); `DYNAMICNAME-2026-11-05.json`
 + `dynamicname_latest.json`; smoke leg `# E426 (r1444 bm-b)`; S6 leg `dynamic_face_names`; read-only.
+
+## E429 -- the directory a face is composed with is one hop from the name, and a one-hop census calls it no writer (r1445 bm-b, card E429)
+
+**The question.** E419 graded 3 of 9 undated faces `no_writer_in_the_tree` and declared the limit:
+*a face composed from a variable and written by a shared helper is out of reach.* All three rows
+were that shape. So: follow the directory one hop further -- through a module constant, or through
+a helper parameter resolved at its call sites -- and bill the class movement.
+
+**The measurement.** 3 of 3 became writers: `CARD.md` behind the module constant
+`OUT_DIR = join(results_dir, "etf_book_production")`, `TSMOM-%s.md` behind a local alias whose value
+is `join(DOC_DIR, ...)`, and `AGGATT-%s.json` behind `_write(face, outdir)` whose `outdir` arrives
+from `run()`'s `outdir = outdir or OUTDIR`. **0 of the 3 writes a payload date**; 1 (AGGATT) encodes
+a date in the *name* (`"%s" % cutoff`) while its payload dict carries none -- a fact a payload-key
+census cannot see and one no reader tests.
+
+Corpus half, measured rather than estimated: of 2,422 path write sites, **409 (16.9%) spell a
+literal in the path expression**, 1,555 more are rescued by a constant hop (1,964 = 81.1% visible),
+and **458 still need the caller hop**. 310 sites take their directory from a helper parameter: 254
+resolved to a literal directory at some caller, 21 to a constant, 35 have no caller in the corpus.
+
+**Rules (measured, not assumed).**
+1. *A whole-line source slice is not an expression.* e419 slices lines; reused for a VALUE it put the
+   assignment back into every substitution -- `name = "AGG-%s.json" % face` became
+   `join(outdir, name = 'AGG-%s.json' % face)` inside the resolved path. Exact column slices fixed
+   it and cost nothing (the cost e419 avoided was `get_source_segment`'s full re-scan, not slicing).
+2. *A literal-only binding rule hides the default argument.* `outdir = outdir or OUTDIR` carries no
+   quote of its own, so the alias that supplies the directory was invisible and a helper that *does*
+   receive its directory graded "no caller supplies it". Bindings that are a Name/Attribute/BoolOp
+   count too; the self-reference terminates because hops are bounded.
+3. *Opening for reading is not writing.* The first draft made `etf_book_production.py:1050` -- which
+   reads a CARD.md out of a temp directory -- the author of that face. The instrument now admits only
+   open-in-a-write-mode, `write_text`/`write_bytes`, and `to_csv`/`to_parquet`/`savefig`.
+4. *A helper name shared by two files admits a foreign call site.* The caller hop is name-based, so
+   the fixture had to separate "no caller" from "a caller of a same-named helper elsewhere"; the
+   limit is published rather than papered over.
+5. *A payload census cannot see a date in the name.* `date_in_the_composed_name` is a separate,
+   published signal -- 1 of the 3 rows carries it -- and it is not folded into the class.
+
+**Why it matters.** Every name census here undercounts producers; E426 priced the naming side (6,716
+of 10,034 faces reachable only through a variable-built name). This card prices the *attribution*
+side: 83% of write sites do not spell their path, so a literal write census does not merely miss
+names -- it invents "no writer" for faces that have one. A "this face has no writer" verdict is only
+as strong as the hop budget behind it.
+
+**Delivered.** `scripts/e429_two_hop_writer.py` (selftest 11/11, verify problems=0);
+`TWOHOP-2026-11-04.json` + `twohop_latest.json`; smoke leg `# E429 (r1445 bm-b)` (+ red on a doctored
+tally, face restored byte-identical); `scripts/run_e429_smoke_leg.py`; S6 leg `two_hop_writer`;
+read-only -- no face, writer or reader was edited.
+
+## E430 -- a ledger guard that selects its population by heading level is guarding the formatting, not the ledger (r1446 bm-b, card E430)
+
+**The question.** `Tools/card_ledger_guard.py` (r1332 bm-c) exists because this ledger was once
+published as two cards. It watched for dropped cards and for *new* duplicate numbers. Was its
+population the whole ledger?
+
+**The measurement.** No. Its selector was `^## E(\d{3})\b` -- literally two hashes. Widening to
+`^#{2,6}\s*E(\d{3})\b` moves the same file from **242 cards to 330** at HEAD and **243 to 331** in
+the tree: **88 of 331 cards (26.6%) were written as `###`/`####` headings and were invisible to
+both checks** -- card loss and duplicate introduction alike. The cost is not theoretical: the r1445
+card was appended as `## E420 -- the directory a face is composed with...`, an id already carried by
+the r1438 card `#### E420 -- a corpus fingerprint is not an equality gate`. The old guard printed
+`CLEAN head=242 tree=243 max=426->426 lost=[]`; the widened one prints `ACTIVE_LOSS ... duplicate
+card numbers introduced: [420]`. One character class (`#{2,6}`) separates "no duplicates" from a
+26.6% blind spot.
+
+**Rules.**
+1. *A guard's population selector is part of its claim.* If the selector keys on a presentation
+   token (heading depth, list marker, bold), the check grades formatting. Legitimate duplicates are
+   the ones a reader would find ambiguous, and a reader does not care whether a card is h2 or h4.
+2. *Widen the selector and keep the ratchet.* 26 duplicate numbers already sit in HEAD from past
+   union merges; making them fatal would make the guard permanently red and invite the cheap fix of
+   loosening it. Only duplicates **new against HEAD** stay fatal; the inherited set is published as
+   a warning on every run.
+3. *Renumber the newcomer, never the published card.* The r1438 E420 carries cross-references in
+   digests and legs; the r1445 card was uncommitted, so its whole chain (module, runner, face,
+   digest, pool id, S6 leg) could move atomically to E429 -- and `grep` proved which consumers had to
+   move with it (`e428_no_caller.py` imports the module; the S6 chain spelled the path).
+4. *A leg name is a published count.* The E429 leg's title still spelled `1,964 of 2,422 ... 458`
+   after the re-run moved the face to `1,968 of 2,431 ... 463`. A frozen number in a name is the
+   same defect as a frozen number in a summary (E424), so the title now formats the face's own
+   `corpus` block; a leg may not print a number it did not re-derive.
+
+**Delivered.** `Tools/card_ledger_guard.py` widened + 3 selftest legs (`######`/`###` are cards, a
+duplicate introduced at `####` is caught, an `#` document title is not a card; selftest 10/10) and
+now `CLEAN head=330 tree=331 max=426->429 lost=[]`; the r1445 study renumbered **E420 -> E429**
+across `scripts/e429_two_hop_writer.py`, `scripts/run_e429_smoke_leg.py`, `# E429 (r1445 bm-b)` in
+smoke, `results/state_tilt/TWOHOP-2026-11-04.json` (re-derived, verify problems=0),
+`results/runnable_pool.json` card id and the digest; the leg's title derives from the face.

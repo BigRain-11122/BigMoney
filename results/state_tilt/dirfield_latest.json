@@ -1,0 +1,1071 @@
+{
+ "study": "E423_which_consumer_joins_a_directory_named_field_that_holds_a_file_path",
+ "card": "E423-WHICH-CONSUMER-JOINS-A-DIRECTORY-FIELD-THAT-HOLDS-A-FILE-PATH",
+ "title": "price whether any consumer joins a directory-named field with a row name, and how many published rows would compose a doubled name if one did",
+ "generated": "2026-11-05",
+ "evidence_cutoff": "2026-11-03",
+ "verdict": "a_consumer_joins_a_directory_named_field_with_a_name_but_no_published_row_could_double",
+ "summary": {
+  "published_faces_scanned": 12857,
+  "directory_named_fields": 822,
+  "directory_named_fields_holding_a_file_path": 44,
+  "faces_carrying_a_file_valued_directory_field": 8,
+  "corpus_sources": 3398,
+  "read_sites": 29,
+  "by_class": {
+   "reads_the_field_as_a_whole_path": 19,
+   "joins_the_field_with_a_name": 1,
+   "republishes_the_field_without_joining_it": 8,
+   "joins_the_field_with_a_prefix_or_root": 1
+  },
+  "join_sites": 1,
+  "join_keys": [
+   "dir"
+  ],
+  "keys_that_double": [
+   "directory_expression",
+   "parent_dir",
+   "resolved_directory"
+  ],
+  "doubling_rows_by_key": {
+   "resolved_directory": 22,
+   "directory_expression": 2,
+   "parent_dir": 10
+  },
+  "published_rows_where_a_join_could_double": 34,
+  "joins_that_can_double": []
+ },
+ "population_keys": [
+  "corpus_sources",
+  "published_faces_scanned"
+ ],
+ "read_sites": [
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools/_r698bmc_s3_probe.py",
+   "line": 101,
+   "function": "main",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path",
+   "binding": "w14[][]"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\_r1440_probe3.py",
+   "line": 55,
+   "function": "<module>",
+   "key": "resolved_directory",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e294_live_universe_drift.py",
+   "line": 451,
+   "function": "call",
+   "key": "outdir",
+   "class": "reads_the_field_as_a_whole_path",
+   "binding": "kwargs[]"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e347_published_number_gate_census.py",
+   "line": 372,
+   "function": "admitted_faces",
+   "key": "dir",
+   "joined_siblings": [
+    "name"
+   ],
+   "class": "joins_the_field_with_a_name"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e347_published_number_gate_census.py",
+   "line": 385,
+   "function": "measure_corpus",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path",
+   "binding": "face_dirs"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e347_published_number_gate_census.py",
+   "line": 668,
+   "function": "summarize",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e347_published_number_gate_census.py",
+   "line": 746,
+   "function": "build",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e361_census_corpus_pin.py",
+   "line": 231,
+   "function": "face_population",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path",
+   "binding": "s[]"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e399_unresolved_names.py",
+   "line": 222,
+   "function": "neighbourhood",
+   "key": "parent_dir",
+   "class": "reads_the_field_as_a_whole_path",
+   "binding": "facts[]"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e399_unresolved_names.py",
+   "line": 315,
+   "function": "name_row",
+   "key": "parent_dir",
+   "class": "republishes_the_field_without_joining_it"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e402_fragment_producers.py",
+   "line": 547,
+   "function": "build",
+   "key": "directory_expression",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e403_family_arg.py",
+   "line": 431,
+   "function": "_classify",
+   "key": "dir",
+   "class": "republishes_the_field_without_joining_it"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e403_family_arg.py",
+   "line": 445,
+   "function": "_classify",
+   "key": "resolved_dir",
+   "class": "republishes_the_field_without_joining_it"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e403_family_arg.py",
+   "line": 455,
+   "function": "_classify",
+   "key": "dir",
+   "class": "republishes_the_field_without_joining_it"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e403_family_arg.py",
+   "line": 671,
+   "function": "build",
+   "key": "dir",
+   "class": "republishes_the_field_without_joining_it"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e403_family_arg.py",
+   "line": 685,
+   "function": "build",
+   "key": "resolved_dir",
+   "class": "republishes_the_field_without_joining_it"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e403_family_arg.py",
+   "line": 699,
+   "function": "build",
+   "key": "resolved_dir",
+   "class": "reads_the_field_as_a_whole_path",
+   "binding": "d"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e403_family_arg.py",
+   "line": 745,
+   "function": "build",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e403_family_arg.py",
+   "line": 878,
+   "function": "verify",
+   "key": "resolved_dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e403_family_arg.py",
+   "line": 883,
+   "function": "verify",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e404_constant_directory_resolution.py",
+   "line": 555,
+   "function": "load_population",
+   "key": "directory_expression",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e404_constant_directory_resolution.py",
+   "line": 608,
+   "function": "build_site_row",
+   "key": "directory_expression",
+   "class": "republishes_the_field_without_joining_it"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e404_constant_directory_resolution.py",
+   "line": 611,
+   "function": "build_site_row",
+   "key": "directory_expression",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e404_constant_directory_resolution.py",
+   "line": 616,
+   "function": "build_site_row",
+   "key": "directory_expression",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e404_constant_directory_resolution.py",
+   "line": 617,
+   "function": "build_site_row",
+   "key": "directory_expression",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e404_constant_directory_resolution.py",
+   "line": 677,
+   "function": "build",
+   "key": "directory_expression",
+   "class": "republishes_the_field_without_joining_it"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e422_basename_census_audit.py",
+   "line": 417,
+   "function": "build",
+   "key": "resolved_directory",
+   "class": "reads_the_field_as_a_whole_path",
+   "binding": "v"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e426_dynamic_face_names.py",
+   "line": 426,
+   "function": "build",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/fund_vq_p2_plan.py",
+   "line": 282,
+   "function": "cmd_plan",
+   "key": "out_dir",
+   "joined_siblings": [],
+   "class": "joins_the_field_with_a_prefix_or_root"
+  }
+ ],
+ "published_fields_holding_a_file_path": [
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\trial_labor_w20\\w20_screen.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\trial_labor_w20\\w20_reform_face.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\mktcap_raw.meta.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "key": "directory_expression",
+   "value": "ROOT / \"results\" / \"idle_trigger.bm-c.json\"",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\idle_trigger.bm-c.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\firm\\traders\\COMPOSITE-001.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261103.json",
+   "key": "dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261103.json",
+   "key": "resolved_dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261103.json",
+   "key": "dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261103.json",
+   "key": "resolved_dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/FRAGMENTPRODUCERS-2026-11-04.json",
+   "key": "directory_expression",
+   "value": "ROOT / \"results\" / \"idle_trigger.bm-c.json\"",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/UNRESOLVED-2026-11-04.json",
+   "key": "parent_dir",
+   "value": "results/t36_stale_takeover_drill.json.tmp",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "key"
+   ],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/UNRESOLVED-2026-11-04.json",
+   "key": "parent_dir",
+   "value": "results/etf_book_spanning.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "key"
+   ],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/UNRESOLVED-2026-11-04.json",
+   "key": "parent_dir",
+   "value": "results/autofill_state.json.tmp",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "key"
+   ],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/UNRESOLVED-2026-11-04.json",
+   "key": "parent_dir",
+   "value": "results/autofill_state.json.tmp",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "key"
+   ],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/UNRESOLVED-2026-11-04.json",
+   "key": "parent_dir",
+   "value": "results/autofill_state.json.tmp",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "key"
+   ],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\trial_labor_w20\\w20_screen.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\trial_labor_w20\\w20_reform_face.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\mktcap_raw.meta.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "directory_expression",
+   "value": "ROOT / \"results\" / \"idle_trigger.bm-c.json\"",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\idle_trigger.bm-c.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\firm\\traders\\COMPOSITE-001.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/familyarg_latest.json",
+   "key": "dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/familyarg_latest.json",
+   "key": "resolved_dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/familyarg_latest.json",
+   "key": "dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/familyarg_latest.json",
+   "key": "resolved_dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/fragmentproducers_latest.json",
+   "key": "directory_expression",
+   "value": "ROOT / \"results\" / \"idle_trigger.bm-c.json\"",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/unresolved_latest.json",
+   "key": "parent_dir",
+   "value": "results/t36_stale_takeover_drill.json.tmp",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "key"
+   ],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/unresolved_latest.json",
+   "key": "parent_dir",
+   "value": "results/etf_book_spanning.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "key"
+   ],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/unresolved_latest.json",
+   "key": "parent_dir",
+   "value": "results/autofill_state.json.tmp",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "key"
+   ],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/unresolved_latest.json",
+   "key": "parent_dir",
+   "value": "results/autofill_state.json.tmp",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "key"
+   ],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": true
+  },
+  {
+   "face": "results/state_tilt/unresolved_latest.json",
+   "key": "parent_dir",
+   "value": "results/autofill_state.json.tmp",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [
+    "key"
+   ],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": true
+  }
+ ],
+ "fields_by_key": {
+  "dir": {
+   "fields": 452,
+   "file_paths": 4
+  },
+  "directory_expression": {
+   "fields": 262,
+   "file_paths": 4
+  },
+  "resolved_directory": {
+   "fields": 22,
+   "file_paths": 22
+  },
+  "resolved_dir": {
+   "fields": 22,
+   "file_paths": 4
+  },
+  "parent_dir": {
+   "fields": 64,
+   "file_paths": 10
+  }
+ },
+ "rows_with_a_file_valued_field": [
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/CONSTDIRS-2026-11-04.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261103.json",
+   "keys": [
+    "dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261103.json",
+   "keys": [
+    "resolved_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261103.json",
+   "keys": [
+    "dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261103.json",
+   "keys": [
+    "resolved_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FRAGMENTPRODUCERS-2026-11-04.json",
+   "keys": [
+    "directory_expression"
+   ]
+  },
+  {
+   "face": "results/state_tilt/UNRESOLVED-2026-11-04.json",
+   "keys": [
+    "parent_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/UNRESOLVED-2026-11-04.json",
+   "keys": [
+    "parent_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/UNRESOLVED-2026-11-04.json",
+   "keys": [
+    "parent_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/UNRESOLVED-2026-11-04.json",
+   "keys": [
+    "parent_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/UNRESOLVED-2026-11-04.json",
+   "keys": [
+    "parent_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "keys": [
+    "directory_expression",
+    "resolved_directory"
+   ]
+  },
+  {
+   "face": "results/state_tilt/familyarg_latest.json",
+   "keys": [
+    "dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/familyarg_latest.json",
+   "keys": [
+    "resolved_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/familyarg_latest.json",
+   "keys": [
+    "dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/familyarg_latest.json",
+   "keys": [
+    "resolved_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/fragmentproducers_latest.json",
+   "keys": [
+    "directory_expression"
+   ]
+  },
+  {
+   "face": "results/state_tilt/unresolved_latest.json",
+   "keys": [
+    "parent_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/unresolved_latest.json",
+   "keys": [
+    "parent_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/unresolved_latest.json",
+   "keys": [
+    "parent_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/unresolved_latest.json",
+   "keys": [
+    "parent_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/unresolved_latest.json",
+   "keys": [
+    "parent_dir"
+   ]
+  }
+ ],
+ "method_limits": [
+  "a read is classified by the expression it sits in (one hop through a bound name); a value stored on an object attribute and joined two functions later is out of reach and would be graded reads_the_field_as_a_whole_path",
+  "the doubling counterfactual is priced at the row (a name field beside the value), not proven at a call site: no consumer may ever be handed such a row",
+  "faces larger than 3 MB are not scanned, so a big census that carries such a field is outside this population"
+ ]
+}

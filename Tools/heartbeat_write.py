@@ -70,11 +70,28 @@ def _load(path):
         return json.load(fh)
 
 
+def _eol(path):
+    """The line ending the face already uses.
+
+    r1447 bm-b: fleet/machines/<id>.json is committed with CRLF on this machine,
+    and this writer used to hardcode LF. A 44-field heartbeat edit then landed as
+    an 1,180-line whole-file flip -- the r1390/E366 family where a newline
+    conversion masquerades as an edit and hides what actually changed.
+    """
+    try:
+        with io.open(path, "rb") as fh:
+            head = fh.read(65536)
+    except OSError:
+        return "\n"
+    return "\r\n" if b"\r\n" in head else "\n"
+
+
 def _dump_atomic(path, obj):
+    eol = _eol(path)
     tmp = path + ".tmp"
-    with io.open(tmp, "w", encoding="utf-8", newline="\n") as fh:
-        json.dump(obj, fh, ensure_ascii=False, indent=1, sort_keys=True)
-        fh.write("\n")
+    body = json.dumps(obj, ensure_ascii=False, indent=1, sort_keys=True) + "\n"
+    with io.open(tmp, "w", encoding="utf-8", newline="") as fh:
+        fh.write(body.replace("\n", eol))
     os.replace(tmp, path)
 
 

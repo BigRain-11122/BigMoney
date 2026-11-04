@@ -27541,18 +27541,21 @@
    "result_ref": "results/state_tilt/UNSTAMPABLE-2026-11-04.json"
   },
   {
-   "id": "E420-WHICH-NO-WRITER-FACE-IS-COMPOSED-BY-A-HELPER-THE-CENSUS-CANNOT-SEE",
+   "id": "E429-WHICH-NO-WRITER-FACE-IS-COMPOSED-BY-A-HELPER-THE-CENSUS-CANNOT-SEE",
    "title": "E419 left 3 of 9 faces as no-writer-in-the-tree, and 2 of them are written through a directory argument (CARD.md via OUT_DIR, AGGATT-%s via a stem join). Extend the one-hop constant walk to a two-hop call-graph hop and say how many of the 6 no-writer rows become writers, without editing anything",
    "question": "Rebuild the attribution with a second hop: for each face E419 graded no_writer_in_the_tree, follow the write-call into the helper that receives the path and resolve its parameter from every call site in the tree. Publish per face: hop found or not, the call sites that supply the name, and the fraction of the corpus that a two-hop walk would reach. Bill the class movement (no-writer -> writer-with/without-a-date), and refuse to call a two-hop hit a writer unless the helper actually opens for writing.",
    "deliverable": "results/state_tilt/TWOHOP-<cutoff>.json",
    "lane": "cpu-only",
    "lane_note": "cpu-only; static AST joins, no writer runs",
    "priority": 3,
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "bm-b r1437 E419: 3 of 9 rows are no-writer-in-the-tree, and 2 of those are composed through a helper argument",
    "entered_at": "2026-11-04T19:2x+08:00",
-   "entered_by": "bm-b r1437 (supply floor refill after E419)"
+   "entered_by": "bm-b r1437 (supply floor refill after E419)",
+   "result_ref": "results/state_tilt/TWOHOP-2026-11-04.json",
+   "done_at": "2026-11-05T01:5x+08:00",
+   "result_line": "3/3 no-writer rows became writers one hop away (1 encodes a date in its name, none in its payload); 1,964 of 2,422 write sites visible after a constant hop, 458 still need the caller hop"
   },
   {
    "id": "E423-WHICH-CONSUMER-JOINS-A-DIRECTORY-FIELD-THAT-HOLDS-A-FILE-PATH",
@@ -27599,6 +27602,20 @@
    "source": "bm-b r1444 E426: in_an_opener is the nearest enclosing function containing any opener call -- a location, not a dataflow (stated as a method limit)",
    "entered_at": "2026-11-05T00:5x+08:00",
    "entered_by": "bm-b r1444 (supply floor refill after E426)"
+  },
+  {
+   "id": "E428-WHICH-PARAMETER-DIRECTORY-HELPER-HAS-NO-CALLER-IN-THE-CENSUS",
+   "title": "E420 followed 310 write sites whose directory is a helper parameter and found no caller in the corpus for 35 of them. Say for each whether the helper is called from outside the census roots, is called only with a runtime-built directory, or has no caller at all",
+   "question": "For each of the 35 parameter-directory write sites E420 could not place: (a) does the helper name appear in any file outside the python census roots (Tools/*.ps1, docs, smoke fixtures, subprocess argv strings); (b) are all its in-corpus calls supplied a directory that resolves to no literal after three substitutions; (c) or is there no call site anywhere, i.e. a writer nothing reaches. Publish per site: file/function/line, parameter, call count, the reason class, and refuse to call a site dead while it is reachable from a non-python caller. Read-only; no writer edited.",
+   "deliverable": "results/state_tilt/NO_CALLER-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static AST + text joins, no writer runs",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "source": "bm-b r1445 E420: 35 of 310 parameter-directory write sites have no caller in the corpus",
+   "entered_at": "2026-11-05T01:5x+08:00",
+   "entered_by": "bm-b r1445 (supply floor refill after E420)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27613,6 +27630,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-05T00:5x+08:00",
+ "updated_at": "2026-11-05T01:5x+08:00",
  "version": 1
 }

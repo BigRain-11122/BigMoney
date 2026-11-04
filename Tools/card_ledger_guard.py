@@ -24,7 +24,12 @@ import re
 import subprocess
 import sys
 
-CARD = re.compile(r"^## E(\d{3})\b")
+# r1446 bm-b: the heading depth used to decide whether the ledger could see a
+# card at all. Cards are written as "## E<n> -- title", but 88 of them were
+# appended as "### E<n> -- ..." (and one as "####"), and those were invisible to
+# every check below -- which is how E420 ended up naming two different studies
+# (r1438 h4 card + r1445 h2 card) with head/tree counts that still looked clean.
+CARD = re.compile(r"^#{2,6}\s*E(\d{3})\b")
 PATH = os.path.join("knowledge", "METHODOLOGY_ASSETS.md")
 
 
@@ -123,6 +128,18 @@ def _selftest():
                   tree_text="## E196 B\n\n## E195 A\n\n## E197 C\n")
     cases.append(("pre-existing disorder inherited from HEAD is reported, not "
                   "enforced", rc == 0 and bool(p["warnings"])))
+    rc, p = check(path="<mem>", head_text=base,
+                  tree_text=base + "\n### E197 C\n\nz\n")
+    cases.append(("a card written as a level-3 heading is counted",
+                  rc == 0 and p["tree_cards"] == 3))
+    rc, p = check(path="<mem>", head_text=base,
+                  tree_text=base + "\n#### E196 again\n\nz\n")
+    cases.append(("a duplicate introduced by a level-4 heading is caught",
+                  rc == 1 and p["new_duplicates"] == [196]))
+    rc, p = check(path="<mem>", head_text=base,
+                  tree_text=base + "\n# E197 C\n\nz\n")
+    cases.append(("a level-1 heading is a document title, not a card",
+                  rc == 0 and p["tree_cards"] == 2))
     rc, p = check(path="<mem>", head_text=None, tree_text=base)
     cases.append(("a git failure reports rc 2 rather than a clean bill", rc == 2))
     ok = sum(1 for _, c in cases if c)

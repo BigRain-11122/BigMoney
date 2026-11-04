@@ -1498,6 +1498,19 @@ LEGS = [
     # that grew (a new literal legitimately reclassifies a face) refuses the chain instead of
     # leaving a stale reading in place.
     ("dynamic_face_names", ["python", "scripts/e426_dynamic_face_names.py", "verify"]),
+    # E420 (r1445): E419's own method limit -- "a face composed from a variable and written by a
+    # shared helper is out of reach" -- was exactly the shape of all three of its no-writer rows.
+    # Verify re-derives every class from the live tree: the constant hop (module/function bindings,
+    # three substitutions) and the caller hop (every call site of the helper, resolved with the
+    # caller's own constants), plus the corpus split and the two reach tables (~4 min over 3.4k
+    # modules).
+    ("two_hop_writer", ["python", "scripts/e429_two_hop_writer.py", "verify"]),
+    # E423 (r1446): E422 priced 11 rows that publish a FILE path in a field named
+    # resolved_directory. Verify re-derives the read-site classes over the live corpus (one AST
+    # pass) and re-checks the doubling intersection against the published rows, so a new consumer
+    # that joins such a field with a row name refuses the chain instead of leaving a stale "no
+    # consumer joins it" reading in place.
+    ("dirfield_join", ["python", "scripts/e423_dirfield_join.py", "verify"]),
 ]
 
 
