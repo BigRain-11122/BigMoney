@@ -1,0 +1,2288 @@
+{
+ "study": "E428_which_parameter_directory_helper_has_no_caller_in_the_census",
+ "card": "E428-WHICH-PARAMETER-DIRECTORY-HELPER-HAS-NO-CALLER-IN-THE-CENSUS",
+ "title": "price the 35 parameter-directory write sites the E420 call index could not place, splitting the instrument's blind spot from the tree's silence",
+ "generated": "2026-11-05",
+ "evidence_cutoff": "2026-11-04",
+ "verdict": "most_unplaced_sites_are_unplaced_by_the_index_and_not_by_the_corpus",
+ "class_vocab": [
+  "unplaced_only_because_the_helper_was_not_in_the_call_index",
+  "call_sites_exist_but_never_supply_the_parameter",
+  "no_call_site_anywhere",
+  "named_only_outside_the_python_corpus"
+ ],
+ "population_keys": [
+  "corpus_sources",
+  "parameter_write_sites"
+ ],
+ "summary": {
+  "parameter_write_sites": 310,
+  "unplaced_under_the_producer_instrument": 35,
+  "unplaced_after_the_index_covers_every_parameter_helper": 2,
+  "by_class": {
+   "call_sites_exist_but_never_supply_the_parameter": 1,
+   "named_only_outside_the_python_corpus": 1,
+   "unplaced_only_because_the_helper_was_not_in_the_call_index": 33
+  },
+  "fixture_shaped_sites": 21,
+  "helper_names_narrow": 75,
+  "helper_names_wide": 97,
+  "helper_names_never_indexed_by_the_producer": 22,
+  "corpus_sources": 3442,
+  "population": {
+   "narrow_index": 35,
+   "wide_index": 2
+  }
+ },
+ "correction": {
+  "face": "results/state_tilt/twohop_latest.json",
+  "block": "summary.two_hop_reach",
+  "published_by_e420": {
+   "parameter_derived_sites": 311,
+   "caller_supplies_a_literal_directory": 255,
+   "caller_supplies_a_constant_directory": 21,
+   "no_caller_found_in_the_corpus": 35,
+   "helper_names_resolved": 75
+  },
+  "re_derived_with_the_wide_index": {
+   "parameter_derived_sites": 310,
+   "caller_supplies_a_literal_directory": 279,
+   "caller_supplies_a_constant_directory": 29,
+   "no_caller_found_in_the_corpus": 2,
+   "helper_names_resolved": 97
+  },
+  "note": "E420's own three face rows are untouched by this study; only its corpus half moves, because the call index it offered them to was built from non-literal parameter helper names only"
+ },
+ "rows": [
+  {
+   "file": "scripts/p4_ext_tilt.py",
+   "function": "universe_probe",
+   "line": 360,
+   "write_call": "open",
+   "parameters": [
+    "write"
+   ],
+   "literal_in_the_site_path": false,
+   "calls_in_the_narrow_index": 4,
+   "calls_in_the_wide_index": 4,
+   "call_sites": [
+    {
+     "file": "scripts/p4_ext_tilt.py",
+     "caller": "run_all_gates",
+     "line": 392,
+     "args": [
+      "elig",
+      "grids"
+     ]
+    },
+    {
+     "file": "scripts/xstock_tilt.py",
+     "caller": "run_selftest",
+     "line": 998,
+     "args": [
+      "np.zeros((T_f, N_f), dtype=bool)",
+      "proj_f"
+     ]
+    },
+    {
+     "file": "scripts/xstock_tilt.py",
+     "caller": "run_selftest",
+     "line": 985,
+     "args": [
+      "elig_f",
+      "proj_f"
+     ]
+    },
+    {
+     "file": "scripts/xstock_tilt.py",
+     "caller": "_gates_leg",
+     "line": 469,
+     "args": [
+      "elig",
+      "proj"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "scripts/xstock_tilt.py"
+   ],
+   "fixture_shaped": false,
+   "class": "call_sites_exist_but_never_supply_the_parameter"
+  },
+  {
+   "file": "content/drama/runner_assets/anchor_precheck.py",
+   "function": "emit_frame_check",
+   "line": 101,
+   "write_call": "open",
+   "parameters": [
+    "out_json"
+   ],
+   "literal_in_the_site_path": false,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 0,
+   "call_sites": [],
+   "non_python_mentions": [
+    "content/drama/outbox/ST-004-ANCHOR-PRECHECK-RECEIPT.md"
+   ],
+   "python_files_naming_it": [
+    "Tools/content_loop_step.py"
+   ],
+   "fixture_shaped": false,
+   "class": "named_only_outside_the_python_corpus"
+  },
+  {
+   "file": "Tools/_r1029bmc_rebase_resolve.py",
+   "function": "resolve_union_by_ts",
+   "line": 29,
+   "write_call": "open",
+   "parameters": [
+    "path"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 1,
+   "call_sites": [
+    {
+     "file": "Tools/_r1029bmc_rebase_resolve.py",
+     "caller": "main",
+     "line": 71,
+     "args": [
+      "path"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [],
+   "fixture_shaped": false,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "Tools/_r1029bmc_rebase_resolve.py",
+   "function": "resolve_line_union",
+   "line": 52,
+   "write_call": "open",
+   "parameters": [
+    "path"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 1,
+   "call_sites": [
+    {
+     "file": "Tools/_r1029bmc_rebase_resolve.py",
+     "caller": "main",
+     "line": 73,
+     "args": [
+      "path"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [],
+   "fixture_shaped": false,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "Tools/orders_ack_append.py",
+   "function": "_mk_fixture",
+   "line": 197,
+   "write_call": "open",
+   "parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 23,
+   "call_sites": [
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 285,
+     "args": [
+      "f8",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 274,
+     "args": [
+      "f6",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 267,
+     "args": [
+      "f5",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 253,
+     "args": [
+      "f4",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 246,
+     "args": [
+      "f3",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 229,
+     "args": [
+      "f1",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_scan.py",
+     "caller": "selftest",
+     "line": 334,
+     "args": [
+      "f13",
+      "\"bm-b\"",
+      "[\"O-1.md\"]"
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_scan.py",
+     "caller": "selftest",
+     "line": 327,
+     "args": [
+      "f12",
+      "\"bm-x\"",
+      "[\"O-1.md\"]"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "Tools/orders_ack_scan.py",
+    "_tmp_e428_probe2.py",
+    "scripts/cn_kline_pattern_p1.py",
+    "scripts/cn_mkneutral_p1.py",
+    "scripts/cn_sector_leader_p1.py",
+    "scripts/fund_quality_p1_probe.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "Tools/orders_ack_scan.py",
+   "function": "_mk_fixture",
+   "line": 197,
+   "write_call": "open",
+   "parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 23,
+   "call_sites": [
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 285,
+     "args": [
+      "f8",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 274,
+     "args": [
+      "f6",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 267,
+     "args": [
+      "f5",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 253,
+     "args": [
+      "f4",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 246,
+     "args": [
+      "f3",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 229,
+     "args": [
+      "f1",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_scan.py",
+     "caller": "selftest",
+     "line": 334,
+     "args": [
+      "f13",
+      "\"bm-b\"",
+      "[\"O-1.md\"]"
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_scan.py",
+     "caller": "selftest",
+     "line": 327,
+     "args": [
+      "f12",
+      "\"bm-x\"",
+      "[\"O-1.md\"]"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "Tools/orders_ack_append.py",
+    "_tmp_e428_probe2.py",
+    "scripts/cn_kline_pattern_p1.py",
+    "scripts/cn_mkneutral_p1.py",
+    "scripts/cn_sector_leader_p1.py",
+    "scripts/fund_quality_p1_probe.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/alphagen_rl_p1.py",
+   "function": "_mk_ckpt_face",
+   "line": 2326,
+   "write_call": "open",
+   "parameters": [
+    "d"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 3,
+   "call_sites": [
+    {
+     "file": "scripts/alphagen_rl_p1.py",
+     "caller": "selftest",
+     "line": 2357,
+     "args": [
+      "ckD",
+      "LEG3_COMPLETE_EPS",
+      "LEG3_COMPLETE_EPS"
+     ]
+    },
+    {
+     "file": "scripts/alphagen_rl_p1.py",
+     "caller": "selftest",
+     "line": 2348,
+     "args": [
+      "ckB",
+      "4400",
+      "4352"
+     ]
+    },
+    {
+     "file": "scripts/alphagen_rl_p1.py",
+     "caller": "selftest",
+     "line": 2342,
+     "args": [
+      "ckA",
+      "300",
+      "300"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/cn_kline_pattern_p1.py",
+   "function": "_mk_fixture",
+   "line": 1009,
+   "write_call": "to_csv+to_parquet",
+   "parameters": [
+    "tmp"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 23,
+   "call_sites": [
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 285,
+     "args": [
+      "f8",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 274,
+     "args": [
+      "f6",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 267,
+     "args": [
+      "f5",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 253,
+     "args": [
+      "f4",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 246,
+     "args": [
+      "f3",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 229,
+     "args": [
+      "f1",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_scan.py",
+     "caller": "selftest",
+     "line": 334,
+     "args": [
+      "f13",
+      "\"bm-b\"",
+      "[\"O-1.md\"]"
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_scan.py",
+     "caller": "selftest",
+     "line": 327,
+     "args": [
+      "f12",
+      "\"bm-x\"",
+      "[\"O-1.md\"]"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "Tools/orders_ack_append.py",
+    "Tools/orders_ack_scan.py",
+    "_tmp_e428_probe2.py",
+    "scripts/cn_mkneutral_p1.py",
+    "scripts/cn_sector_leader_p1.py",
+    "scripts/fund_quality_p1_probe.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/cn_mkneutral_p1.py",
+   "function": "_mk_fixture",
+   "line": 1166,
+   "write_call": "open+to_csv+to_parquet",
+   "parameters": [
+    "tmp"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 23,
+   "call_sites": [
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 285,
+     "args": [
+      "f8",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 274,
+     "args": [
+      "f6",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 267,
+     "args": [
+      "f5",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 253,
+     "args": [
+      "f4",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 246,
+     "args": [
+      "f3",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 229,
+     "args": [
+      "f1",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_scan.py",
+     "caller": "selftest",
+     "line": 334,
+     "args": [
+      "f13",
+      "\"bm-b\"",
+      "[\"O-1.md\"]"
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_scan.py",
+     "caller": "selftest",
+     "line": 327,
+     "args": [
+      "f12",
+      "\"bm-x\"",
+      "[\"O-1.md\"]"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "Tools/orders_ack_append.py",
+    "Tools/orders_ack_scan.py",
+    "_tmp_e428_probe2.py",
+    "scripts/cn_kline_pattern_p1.py",
+    "scripts/cn_sector_leader_p1.py",
+    "scripts/fund_quality_p1_probe.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/cn_sector_leader_p1.py",
+   "function": "_mk_fixture",
+   "line": 1253,
+   "write_call": "open+to_csv+to_parquet",
+   "parameters": [
+    "tmp"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 23,
+   "call_sites": [
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 285,
+     "args": [
+      "f8",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 274,
+     "args": [
+      "f6",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 267,
+     "args": [
+      "f5",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 253,
+     "args": [
+      "f4",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 246,
+     "args": [
+      "f3",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_append.py",
+     "caller": "selftest",
+     "line": 229,
+     "args": [
+      "f1",
+      "\"bm-a\"",
+      "\"state-bm-a.json\""
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_scan.py",
+     "caller": "selftest",
+     "line": 334,
+     "args": [
+      "f13",
+      "\"bm-b\"",
+      "[\"O-1.md\"]"
+     ]
+    },
+    {
+     "file": "Tools/orders_ack_scan.py",
+     "caller": "selftest",
+     "line": 327,
+     "args": [
+      "f12",
+      "\"bm-x\"",
+      "[\"O-1.md\"]"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "Tools/orders_ack_append.py",
+    "Tools/orders_ack_scan.py",
+    "_tmp_e428_probe2.py",
+    "scripts/cn_kline_pattern_p1.py",
+    "scripts/cn_mkneutral_p1.py",
+    "scripts/fund_quality_p1_probe.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/decision_chain_e2e.py",
+   "function": "cmd_run",
+   "line": 162,
+   "write_call": "open",
+   "parameters": [
+    "args"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 144,
+   "call_sites": [
+    {
+     "file": "Tools/post_review.py",
+     "caller": "main",
+     "line": 343,
+     "args": []
+    },
+    {
+     "file": "scripts/a158_gate_recheck.py",
+     "caller": "main",
+     "line": 452,
+     "args": []
+    },
+    {
+     "file": "scripts/a158_gate_recheck.py",
+     "caller": "cmd_selftest",
+     "line": 441,
+     "args": []
+    },
+    {
+     "file": "scripts/a158_tsgate_probe.py",
+     "caller": "main",
+     "line": 839,
+     "args": [
+      "shard",
+      "shards",
+      "workers"
+     ]
+    },
+    {
+     "file": "scripts/a6_corr_regime_probe.py",
+     "caller": "main",
+     "line": 367,
+     "args": []
+    },
+    {
+     "file": "scripts/account_cost_tax.py",
+     "caller": "main",
+     "line": 258,
+     "args": []
+    },
+    {
+     "file": "scripts/aggr_capacity_probe.py",
+     "caller": "main",
+     "line": 505,
+     "args": []
+    },
+    {
+     "file": "scripts/alloc_backtest.py",
+     "caller": "main",
+     "line": 878,
+     "args": [
+      "args"
+     ]
+    }
+   ],
+   "non_python_mentions": [
+    "fleet/inbox/processed/MSG-20260924-1748-bm-a-t22-runner-fix-x2-invalidation.md",
+    "fleet/inbox/processed/MSG-20261001-095x-bma-to-bmb-N3-R1-resolved.md",
+    "fleet/inbox/processed/MSG-20261001-1331-bmc-bmb.md",
+    "fleet/tasks/T-2026-10-03-151-P1.json",
+    "research/INNOVATION_QUOTA_W8_PREREG.md",
+    "research/LANE_MIGRATION_S1.md",
+    "research/PERPETUAL_N4_B1_PREREG.md",
+    "research/digests/DIGEST-20261102-r1381-e359-scaffolding-split.md",
+    "research/pit-engine.md",
+    "research/pit-pool-edit.md",
+    "research/pit-tooling.md",
+    "research/shortline/T22_VIRTUAL_TIMEPOINTS.md"
+   ],
+   "python_files_naming_it": [
+    "Tools/post_review.py",
+    "scripts/a158_gate_recheck.py",
+    "scripts/a158_tsgate_probe.py",
+    "scripts/a6_corr_regime_probe.py",
+    "scripts/account_cost_tax.py",
+    "scripts/aggr_capacity_probe.py"
+   ],
+   "fixture_shaped": false,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/e252_star_prices_itself.py",
+   "function": "_stub",
+   "line": 730,
+   "write_call": "open",
+   "parameters": [
+    "outdir"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 4,
+   "call_sites": [
+    {
+     "file": "scripts/e252_star_prices_itself.py",
+     "caller": "selftest",
+     "line": 710,
+     "args": [
+      "td",
+      "{\"cells\": [{\"label\": \"all_five\", \"star\": \"s0\",\n                              \"star_residual\": {\"b1\": hc}}]}"
+     ]
+    },
+    {
+     "file": "scripts/e252_star_prices_itself.py",
+     "caller": "selftest",
+     "line": 703,
+     "args": [
+      "td",
+      "{\"evidence_cutoff\": \"1999-01-01\",\n                   \"cells\": [{\"label\": \"all_five\", \"star\": \"s0\",\n                              \"star_residual\": {\"b1\": (hc or 0.0) + 0.5}}]}"
+     ]
+    },
+    {
+     "file": "scripts/e252_star_prices_itself.py",
+     "caller": "selftest",
+     "line": 695,
+     "args": [
+      "td",
+      "{\"cells\": [{\"label\": \"all_five\", \"star\": \"s0\",\n                              \"star_residual\": {\"b1\": (hc or 0.0) + 0.5}}]}"
+     ]
+    },
+    {
+     "file": "scripts/e252_star_prices_itself.py",
+     "caller": "selftest",
+     "line": 690,
+     "args": [
+      "td",
+      "{\"cells\": [{\"label\": \"all_five\", \"star\": \"s0\",\n                              \"star_residual\": {\"b1\": hc}}]}"
+     ]
+    }
+   ],
+   "non_python_mentions": [
+    "research/memory-archive/202610.md"
+   ],
+   "python_files_naming_it": [
+    "scripts/etf_book_forward.py",
+    "scripts/innovation_quota_w1.py",
+    "scripts/innovation_quota_w2.py",
+    "scripts/innovation_quota_w3.py",
+    "scripts/innovation_quota_w4.py",
+    "scripts/innovation_quota_w5.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/e39_panel_census.py",
+   "function": "_e197_fixture",
+   "line": 20269,
+   "write_call": "open",
+   "parameters": [
+    "root"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 2,
+   "call_sites": [
+    {
+     "file": "scripts/e39_panel_census.py",
+     "caller": "selftest",
+     "line": 20300,
+     "args": [
+      "_e197_hot_root"
+     ]
+    },
+    {
+     "file": "scripts/e39_panel_census.py",
+     "caller": "selftest",
+     "line": 20286,
+     "args": [
+      "_e197_root"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/etf_book_ceo_page.py",
+   "function": "_panel",
+   "line": 1146,
+   "write_call": "open",
+   "parameters": [
+    "dirpath",
+    "symbol"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 17,
+   "call_sites": [
+    {
+     "file": "scripts/e222_tom_overlay.py",
+     "caller": "selftest",
+     "line": 568,
+     "args": [
+      "os.path.join(tmp, \"e\")",
+      "\"short\"",
+      "cal12"
+     ]
+    },
+    {
+     "file": "scripts/e222_tom_overlay.py",
+     "caller": "selftest",
+     "line": 502,
+     "args": [
+      "os.path.join(tmp, \"b\")",
+      "\"rich60\"",
+      "cal60"
+     ]
+    },
+    {
+     "file": "scripts/e222_tom_overlay.py",
+     "caller": "selftest",
+     "line": 466,
+     "args": [
+      "os.path.join(tmp, \"a\")",
+      "\"sh510300\"",
+      "cal"
+     ]
+    },
+    {
+     "file": "scripts/etf_book_ceo_page.py",
+     "caller": "selftest",
+     "line": 1194,
+     "args": [
+      "_lad3",
+      "\"GC007\"",
+      "[(d.isoformat(), 2.10) for d in _days]"
+     ]
+    },
+    {
+     "file": "scripts/etf_book_ceo_page.py",
+     "caller": "selftest",
+     "line": 1193,
+     "args": [
+      "_lad3",
+      "\"GC001\"",
+      "[(d.isoformat(), 2.0) for d in _days]"
+     ]
+    },
+    {
+     "file": "scripts/etf_book_ceo_page.py",
+     "caller": "selftest",
+     "line": 1183,
+     "args": [
+      "_lad2",
+      "\"GC007\"",
+      "[(d.isoformat(), 2.60) for d in _days]"
+     ]
+    },
+    {
+     "file": "scripts/etf_book_ceo_page.py",
+     "caller": "selftest",
+     "line": 1182,
+     "args": [
+      "_lad2",
+      "\"GC001\"",
+      "[(d.isoformat(), 2.0) for d in _days]"
+     ]
+    },
+    {
+     "file": "scripts/etf_book_ceo_page.py",
+     "caller": "selftest",
+     "line": 1167,
+     "args": [
+      "_lad",
+      "_sym",
+      "[(d.isoformat(), 2.0) for d in _days]"
+     ]
+    }
+   ],
+   "non_python_mentions": [
+    "CODELY.md",
+    "HQ-FEEDBACK.md",
+    "Money0923/codely_memory_archive_20260922_codely_full.md",
+    "Tools/_r580bmb_s6_chain.ps1",
+    "Tools/iteration_prompt.txt",
+    "Tools/run_e93_spread_bmb.ps1",
+    "Tools/run_screentilt_bmb.ps1",
+    "Tools/skills/bigmoney-data-gate-wiring/SKILL.md",
+    "Tools/watchdog_c7_selftest.ps1",
+    "_r1000bmb_s6chain.ps1",
+    "_r1002bmb_s6chain.ps1",
+    "_r1005bmb_s6chain.ps1"
+   ],
+   "python_files_naming_it": [
+    "Money0923/quant/arena.py",
+    "Money0923/quant/audit.py",
+    "Money0923/quant/data.py",
+    "Money0923/quant/decide.py",
+    "Money0923/quant/evolve.py",
+    "Money0923/quant/gpu_screen.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/etf_ops_bp1.py",
+   "function": "write_fixture",
+   "line": 943,
+   "write_call": "to_csv",
+   "parameters": [
+    "d"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 29,
+   "call_sites": [
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1074,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1062,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1050,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1026,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1013,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1000,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 989,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 970,
+     "args": [
+      "tmp"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "scripts/etf_ops_bp2.py",
+    "scripts/grid_dualface_backtest.py",
+    "scripts/lu_prem_census.py",
+    "scripts/mass_trial_report.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/etf_ops_bp2.py",
+   "function": "write_fixture",
+   "line": 1138,
+   "write_call": "to_csv",
+   "parameters": [
+    "d"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 29,
+   "call_sites": [
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1074,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1062,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1050,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1026,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1013,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1000,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 989,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 970,
+     "args": [
+      "tmp"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "scripts/etf_ops_bp1.py",
+    "scripts/grid_dualface_backtest.py",
+    "scripts/lu_prem_census.py",
+    "scripts/mass_trial_report.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/grid_dualface_backtest.py",
+   "function": "write_fixture",
+   "line": 1293,
+   "write_call": "to_csv",
+   "parameters": [
+    "d"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 29,
+   "call_sites": [
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1074,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1062,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1050,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1026,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1013,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 1000,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 989,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/etf_ops_bp1.py",
+     "caller": "cmd_selftest",
+     "line": 970,
+     "args": [
+      "tmp"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "scripts/etf_ops_bp1.py",
+    "scripts/etf_ops_bp2.py",
+    "scripts/lu_prem_census.py",
+    "scripts/mass_trial_report.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/innovation_quota_w7.py",
+   "function": "_mk_core48_fixture",
+   "line": 1005,
+   "write_call": "to_csv",
+   "parameters": [
+    "tmp"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 2,
+   "call_sites": [
+    {
+     "file": "scripts/innovation_quota_w7.py",
+     "caller": "cmd_selftest",
+     "line": 1069,
+     "args": [
+      "daily"
+     ]
+    },
+    {
+     "file": "scripts/innovation_quota_w9.py",
+     "caller": "cmd_selftest",
+     "line": 1074,
+     "args": [
+      "daily"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "scripts/innovation_quota_w9.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/innovation_quota_w9.py",
+   "function": "_mk_core48_fixture",
+   "line": 1009,
+   "write_call": "to_csv",
+   "parameters": [
+    "tmp"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 2,
+   "call_sites": [
+    {
+     "file": "scripts/innovation_quota_w7.py",
+     "caller": "cmd_selftest",
+     "line": 1069,
+     "args": [
+      "daily"
+     ]
+    },
+    {
+     "file": "scripts/innovation_quota_w9.py",
+     "caller": "cmd_selftest",
+     "line": 1074,
+     "args": [
+      "daily"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "scripts/innovation_quota_w7.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/month_exam_readiness.py",
+   "function": "_mkfixture",
+   "line": 364,
+   "write_call": "open",
+   "parameters": [
+    "tmp"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 3,
+   "call_sites": [
+    {
+     "file": "scripts/month_exam_readiness.py",
+     "caller": "cmd_selftest",
+     "line": 427,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/open_market_readiness.py",
+     "caller": "cmd_selftest",
+     "line": 481,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/self_review.py",
+     "caller": "cmd_selftest",
+     "line": 809,
+     "args": [
+      "td"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "scripts/e404_constant_directory_resolution.py",
+    "scripts/open_market_readiness.py",
+    "scripts/self_review.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/open_market_readiness.py",
+   "function": "_mkfixture",
+   "line": 428,
+   "write_call": "open",
+   "parameters": [
+    "tmp"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 3,
+   "call_sites": [
+    {
+     "file": "scripts/month_exam_readiness.py",
+     "caller": "cmd_selftest",
+     "line": 427,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/open_market_readiness.py",
+     "caller": "cmd_selftest",
+     "line": 481,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/self_review.py",
+     "caller": "cmd_selftest",
+     "line": 809,
+     "args": [
+      "td"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "scripts/e404_constant_directory_resolution.py",
+    "scripts/month_exam_readiness.py",
+    "scripts/self_review.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/p1e_ic_batch.py",
+   "function": "_save",
+   "line": 464,
+   "write_call": "open",
+   "parameters": [
+    "nm"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 3,
+   "call_sites": [
+    {
+     "file": "Tools/machine_health_face.py",
+     "caller": "rebuild_face",
+     "line": 237,
+     "args": [
+      "machines",
+      "path"
+     ]
+    },
+    {
+     "file": "Tools/machine_health_face.py",
+     "caller": "write_face",
+     "line": 206,
+     "args": [
+      "machines",
+      "path"
+     ]
+    },
+    {
+     "file": "scripts/p1e_ic_batch.py",
+     "caller": "_on_cell",
+     "line": 485,
+     "args": [
+      "item[\"nm\"]",
+      "item[\"rec\"]"
+     ]
+    }
+   ],
+   "non_python_mentions": [
+    "content/drama/outbox/ST-012-VOICE-FINETUNE-RECEIPT.md",
+    "fleet/inbox/processed/MSG-20260927-1407-bmc-autofill-cc-strip.md",
+    "research/LANE_MIGRATION_S1.md"
+   ],
+   "python_files_naming_it": [
+    "Money0923/quant/data.py",
+    "Money0923/quant/validation.py",
+    "Money0923/tests/test_pollution_purge.py",
+    "Tools/_r201_memory_reorg.py",
+    "Tools/autofill.py",
+    "Tools/machine_health_face.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/prospect_regime_segments.py",
+   "function": "cmd_run",
+   "line": 216,
+   "write_call": "open",
+   "parameters": [
+    "args"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 144,
+   "call_sites": [
+    {
+     "file": "Tools/post_review.py",
+     "caller": "main",
+     "line": 343,
+     "args": []
+    },
+    {
+     "file": "scripts/a158_gate_recheck.py",
+     "caller": "main",
+     "line": 452,
+     "args": []
+    },
+    {
+     "file": "scripts/a158_gate_recheck.py",
+     "caller": "cmd_selftest",
+     "line": 441,
+     "args": []
+    },
+    {
+     "file": "scripts/a158_tsgate_probe.py",
+     "caller": "main",
+     "line": 839,
+     "args": [
+      "shard",
+      "shards",
+      "workers"
+     ]
+    },
+    {
+     "file": "scripts/a6_corr_regime_probe.py",
+     "caller": "main",
+     "line": 367,
+     "args": []
+    },
+    {
+     "file": "scripts/account_cost_tax.py",
+     "caller": "main",
+     "line": 258,
+     "args": []
+    },
+    {
+     "file": "scripts/aggr_capacity_probe.py",
+     "caller": "main",
+     "line": 505,
+     "args": []
+    },
+    {
+     "file": "scripts/alloc_backtest.py",
+     "caller": "main",
+     "line": 878,
+     "args": [
+      "args"
+     ]
+    }
+   ],
+   "non_python_mentions": [
+    "fleet/inbox/processed/MSG-20260924-1748-bm-a-t22-runner-fix-x2-invalidation.md",
+    "fleet/inbox/processed/MSG-20261001-095x-bma-to-bmb-N3-R1-resolved.md",
+    "fleet/inbox/processed/MSG-20261001-1331-bmc-bmb.md",
+    "fleet/tasks/T-2026-10-03-151-P1.json",
+    "research/INNOVATION_QUOTA_W8_PREREG.md",
+    "research/LANE_MIGRATION_S1.md",
+    "research/PERPETUAL_N4_B1_PREREG.md",
+    "research/digests/DIGEST-20261102-r1381-e359-scaffolding-split.md",
+    "research/pit-engine.md",
+    "research/pit-pool-edit.md",
+    "research/pit-tooling.md",
+    "research/shortline/T22_VIRTUAL_TIMEPOINTS.md"
+   ],
+   "python_files_naming_it": [
+    "Tools/post_review.py",
+    "scripts/a158_gate_recheck.py",
+    "scripts/a158_tsgate_probe.py",
+    "scripts/a6_corr_regime_probe.py",
+    "scripts/account_cost_tax.py",
+    "scripts/aggr_capacity_probe.py"
+   ],
+   "fixture_shaped": false,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/refine_bench_rev_p2.py",
+   "function": "cmd_run_shard",
+   "line": 306,
+   "write_call": "open",
+   "parameters": [
+    "args"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 2,
+   "call_sites": [
+    {
+     "file": "scripts/perpetual_faces_n4.py",
+     "caller": "main",
+     "line": 1373,
+     "args": [
+      "args.shard",
+      "nsh",
+      "args.workers"
+     ]
+    },
+    {
+     "file": "scripts/refine_bench_rev_p2.py",
+     "caller": "main",
+     "line": 754,
+     "args": [
+      "args"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "scripts/perpetual_faces_n4.py"
+   ],
+   "fixture_shaped": false,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/rev_osc_stock_p1.py",
+   "function": "_mk_panel",
+   "line": 812,
+   "write_call": "open+to_csv+to_parquet",
+   "parameters": [
+    "tmp"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 17,
+   "call_sites": [
+    {
+     "file": "scripts/cn_div_lowvol_rot_p1.py",
+     "caller": "selftest",
+     "line": 1500,
+     "args": []
+    },
+    {
+     "file": "scripts/cn_div_lowvol_rot_p1.py",
+     "caller": "selftest",
+     "line": 1485,
+     "args": []
+    },
+    {
+     "file": "scripts/cn_div_lowvol_rot_p1.py",
+     "caller": "selftest",
+     "line": 1445,
+     "args": []
+    },
+    {
+     "file": "scripts/cn_div_lowvol_rot_p1.py",
+     "caller": "selftest",
+     "line": 1426,
+     "args": []
+    },
+    {
+     "file": "scripts/cn_div_lowvol_rot_p1.py",
+     "caller": "_mini",
+     "line": 1404,
+     "args": []
+    },
+    {
+     "file": "scripts/cn_div_lowvol_rot_p1.py",
+     "caller": "selftest",
+     "line": 1328,
+     "args": []
+    },
+    {
+     "file": "scripts/cn_div_lowvol_rot_p1.py",
+     "caller": "selftest",
+     "line": 1235,
+     "args": []
+    },
+    {
+     "file": "scripts/cn_div_lowvol_rot_p1.py",
+     "caller": "selftest",
+     "line": 1188,
+     "args": []
+    }
+   ],
+   "non_python_mentions": [
+    "research/pit-pool-burn.md"
+   ],
+   "python_files_naming_it": [
+    "Money0923/tests/test_repo.py",
+    "scripts/cn_div_lowvol_rot_p1.py",
+    "scripts/cn_rev_tilt_p1.py",
+    "scripts/national_team_s3_review.py",
+    "scripts/p5c_virtual_timepoint.py",
+    "scripts/refine_bench_rev_census.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/seasonal_horizon_stability.py",
+   "function": "_toy_panel",
+   "line": 356,
+   "write_call": "open",
+   "parameters": [
+    "tmp"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 1,
+   "call_sites": [
+    {
+     "file": "scripts/seasonal_horizon_stability.py",
+     "caller": "selftest",
+     "line": 419,
+     "args": [
+      "tmp"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/sina_construct_ic.py",
+   "function": "_toy",
+   "line": 504,
+   "write_call": "open+to_csv+to_parquet",
+   "parameters": [
+    "tmp"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 4,
+   "call_sites": [
+    {
+     "file": "scripts/mf_ic_p1.py",
+     "caller": "selftest",
+     "line": 542,
+     "args": [
+      "tmp2"
+     ]
+    },
+    {
+     "file": "scripts/mf_ic_p1.py",
+     "caller": "selftest",
+     "line": 497,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/sina_construct_ic.py",
+     "caller": "selftest",
+     "line": 581,
+     "args": [
+      "tmp"
+     ]
+    },
+    {
+     "file": "scripts/sina_mf_ic_p1.py",
+     "caller": "selftest",
+     "line": 514,
+     "args": [
+      "tmp"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [
+    "scripts/mf_ic_p1.py",
+    "scripts/seasonal_horizon_stability.py",
+    "scripts/sina_mf_ic_p1.py",
+    "scripts/t73_s2_policy_cycle.py"
+   ],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/t22_virtual_timepoints.py",
+   "function": "cmd_run",
+   "line": 280,
+   "write_call": "open",
+   "parameters": [
+    "args"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 144,
+   "call_sites": [
+    {
+     "file": "Tools/post_review.py",
+     "caller": "main",
+     "line": 343,
+     "args": []
+    },
+    {
+     "file": "scripts/a158_gate_recheck.py",
+     "caller": "main",
+     "line": 452,
+     "args": []
+    },
+    {
+     "file": "scripts/a158_gate_recheck.py",
+     "caller": "cmd_selftest",
+     "line": 441,
+     "args": []
+    },
+    {
+     "file": "scripts/a158_tsgate_probe.py",
+     "caller": "main",
+     "line": 839,
+     "args": [
+      "shard",
+      "shards",
+      "workers"
+     ]
+    },
+    {
+     "file": "scripts/a6_corr_regime_probe.py",
+     "caller": "main",
+     "line": 367,
+     "args": []
+    },
+    {
+     "file": "scripts/account_cost_tax.py",
+     "caller": "main",
+     "line": 258,
+     "args": []
+    },
+    {
+     "file": "scripts/aggr_capacity_probe.py",
+     "caller": "main",
+     "line": 505,
+     "args": []
+    },
+    {
+     "file": "scripts/alloc_backtest.py",
+     "caller": "main",
+     "line": 878,
+     "args": [
+      "args"
+     ]
+    }
+   ],
+   "non_python_mentions": [
+    "fleet/inbox/processed/MSG-20260924-1748-bm-a-t22-runner-fix-x2-invalidation.md",
+    "fleet/inbox/processed/MSG-20261001-095x-bma-to-bmb-N3-R1-resolved.md",
+    "fleet/inbox/processed/MSG-20261001-1331-bmc-bmb.md",
+    "fleet/tasks/T-2026-10-03-151-P1.json",
+    "research/INNOVATION_QUOTA_W8_PREREG.md",
+    "research/LANE_MIGRATION_S1.md",
+    "research/PERPETUAL_N4_B1_PREREG.md",
+    "research/digests/DIGEST-20261102-r1381-e359-scaffolding-split.md",
+    "research/pit-engine.md",
+    "research/pit-pool-edit.md",
+    "research/pit-tooling.md",
+    "research/shortline/T22_VIRTUAL_TIMEPOINTS.md"
+   ],
+   "python_files_naming_it": [
+    "Tools/post_review.py",
+    "scripts/a158_gate_recheck.py",
+    "scripts/a158_tsgate_probe.py",
+    "scripts/a6_corr_regime_probe.py",
+    "scripts/account_cost_tax.py",
+    "scripts/aggr_capacity_probe.py"
+   ],
+   "fixture_shaped": false,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/t24_prospect_paper.py",
+   "function": "_save_member",
+   "line": 66,
+   "write_call": "open",
+   "parameters": [
+    "t",
+    "traders_dir"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 1,
+   "call_sites": [
+    {
+     "file": "scripts/t24_prospect_paper.py",
+     "caller": "_run_lane",
+     "line": 193,
+     "args": [
+      "t",
+      "traders_dir"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [],
+   "fixture_shaped": true,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/t24_prospect_paper.py",
+   "function": "_run_lane",
+   "line": 154,
+   "write_call": "open",
+   "parameters": [
+    "out_dir"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 3,
+   "call_sites": [
+    {
+     "file": "scripts/t24_prospect_paper.py",
+     "caller": "cmd_selftest",
+     "line": 439,
+     "args": [
+      "[tA, tB]",
+      "prices",
+      "td"
+     ]
+    },
+    {
+     "file": "scripts/t24_prospect_paper.py",
+     "caller": "cmd_selftest",
+     "line": 429,
+     "args": [
+      "[tA, tB]",
+      "prices",
+      "td"
+     ]
+    },
+    {
+     "file": "scripts/t24_prospect_paper.py",
+     "caller": "cmd_run",
+     "line": 294,
+     "args": [
+      "members",
+      "prices_full",
+      "TRADERS_DIR"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [],
+   "fixture_shaped": false,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/t24_prospect_promotion.py",
+   "function": "_run_eval",
+   "line": 154,
+   "write_call": "open",
+   "parameters": [
+    "out_dir"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 2,
+   "call_sites": [
+    {
+     "file": "scripts/t24_prospect_promotion.py",
+     "caller": "cmd_selftest",
+     "line": 324,
+     "args": [
+      "[m1]",
+      "traders",
+      "t22"
+     ]
+    },
+    {
+     "file": "scripts/t24_prospect_promotion.py",
+     "caller": "cmd_run",
+     "line": 221,
+     "args": [
+      "members",
+      "TRADERS_DIR",
+      "T22_DIR"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [],
+   "fixture_shaped": false,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/t24_prospect_promotion.py",
+   "function": "_write_trader",
+   "line": 252,
+   "write_call": "open",
+   "parameters": [
+    "d",
+    "t"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 1,
+   "call_sites": [
+    {
+     "file": "scripts/t24_prospect_promotion.py",
+     "caller": "cmd_selftest",
+     "line": 289,
+     "args": [
+      "traders",
+      "m1"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [],
+   "fixture_shaped": false,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/t35_paper_export.py",
+   "function": "state",
+   "line": 306,
+   "write_call": "open",
+   "parameters": [
+    "tid"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 4,
+   "call_sites": [
+    {
+     "file": "scripts/t35_paper_export.py",
+     "caller": "selftest",
+     "line": 350,
+     "args": [
+      "\"T-B\"",
+      "[{\"symbol\": \"511010\", \"quantity\": 20.0,\n                       \"cost_price\": 140.0, \"hold_days\": 1,\n                       \"last_close\": 140.0, \"market_value_cny\": 2800.0,\n                       \"unrealized_pnl_cny\": 0.0}]",
+      "cap"
+     ]
+    },
+    {
+     "file": "scripts/t35_paper_export.py",
+     "caller": "selftest",
+     "line": 345,
+     "args": [
+      "\"T-A\"",
+      "[{\"symbol\": \"510300\", \"quantity\": 10.0,\n                       \"cost_price\": 4.0, \"hold_days\": 6,\n                       \"last_close\": 4.0, \"market_value_cny\": 40.0,\n                       \"unrealized_pnl_cny\": 0.0}]",
+      "cap"
+     ]
+    },
+    {
+     "file": "scripts/t35_paper_export.py",
+     "caller": "selftest",
+     "line": 330,
+     "args": [
+      "\"T-B\"",
+      "[]",
+      "cap"
+     ]
+    },
+    {
+     "file": "scripts/t35_paper_export.py",
+     "caller": "selftest",
+     "line": 320,
+     "args": [
+      "\"T-A\"",
+      "[{\"symbol\": \"159980\", \"quantity\": 100.0,\n                       \"cost_price\": 2.0, \"hold_days\": 1,\n                       \"last_close\": 2.0, \"market_value_cny\": 200.0,\n                       \"unrealized_pnl_cny\": 0.0},\n                      {\"symbol\": \"510300\", \"quantity\": 10.0,\n                       \"cost_price\": 4.0, \"hold_days\": 5,\n                       \"last_close\": 4.0, \"market_value_cny\": 40.0,\n                       \"unrealized_pnl_cny\": 0.0}]",
+      "{**cap, \"equity_cny\": 1_000_240.0,\n               \"positions_value_cny\": 240.0, \"cash_cny\": 999_760.0}"
+     ]
+    }
+   ],
+   "non_python_mentions": [
+    "CODELY.md",
+    "HQ-FEEDBACK.md",
+    "Money0923/CODELY.md",
+    "Money0923/DEV_NOTES.md",
+    "Money0923/HANDOFF.md",
+    "Money0923/MoneyViz/README.md",
+    "Money0923/MoneyViz/README_使用说明.md",
+    "Money0923/README.md",
+    "Money0923/SYSTEM_AUDIT.md",
+    "Money0923/codely_memory_archive_20260922_codely_full.md",
+    "Money0923/tools/install_watchdog.ps1",
+    "Money0923/tools/watchdog.ps1"
+   ],
+   "python_files_naming_it": [
+    "Money0923/quant/arena.py",
+    "Money0923/quant/audit.py",
+    "Money0923/quant/backtest.py",
+    "Money0923/quant/config.py",
+    "Money0923/quant/decide.py",
+    "Money0923/quant/evolve.py"
+   ],
+   "fixture_shaped": false,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/t54_prospect_grid.py",
+   "function": "cmd_run",
+   "line": 141,
+   "write_call": "open",
+   "parameters": [
+    "args"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 144,
+   "call_sites": [
+    {
+     "file": "Tools/post_review.py",
+     "caller": "main",
+     "line": 343,
+     "args": []
+    },
+    {
+     "file": "scripts/a158_gate_recheck.py",
+     "caller": "main",
+     "line": 452,
+     "args": []
+    },
+    {
+     "file": "scripts/a158_gate_recheck.py",
+     "caller": "cmd_selftest",
+     "line": 441,
+     "args": []
+    },
+    {
+     "file": "scripts/a158_tsgate_probe.py",
+     "caller": "main",
+     "line": 839,
+     "args": [
+      "shard",
+      "shards",
+      "workers"
+     ]
+    },
+    {
+     "file": "scripts/a6_corr_regime_probe.py",
+     "caller": "main",
+     "line": 367,
+     "args": []
+    },
+    {
+     "file": "scripts/account_cost_tax.py",
+     "caller": "main",
+     "line": 258,
+     "args": []
+    },
+    {
+     "file": "scripts/aggr_capacity_probe.py",
+     "caller": "main",
+     "line": 505,
+     "args": []
+    },
+    {
+     "file": "scripts/alloc_backtest.py",
+     "caller": "main",
+     "line": 878,
+     "args": [
+      "args"
+     ]
+    }
+   ],
+   "non_python_mentions": [
+    "fleet/inbox/processed/MSG-20260924-1748-bm-a-t22-runner-fix-x2-invalidation.md",
+    "fleet/inbox/processed/MSG-20261001-095x-bma-to-bmb-N3-R1-resolved.md",
+    "fleet/inbox/processed/MSG-20261001-1331-bmc-bmb.md",
+    "fleet/tasks/T-2026-10-03-151-P1.json",
+    "research/INNOVATION_QUOTA_W8_PREREG.md",
+    "research/LANE_MIGRATION_S1.md",
+    "research/PERPETUAL_N4_B1_PREREG.md",
+    "research/digests/DIGEST-20261102-r1381-e359-scaffolding-split.md",
+    "research/pit-engine.md",
+    "research/pit-pool-edit.md",
+    "research/pit-tooling.md",
+    "research/shortline/T22_VIRTUAL_TIMEPOINTS.md"
+   ],
+   "python_files_naming_it": [
+    "Tools/post_review.py",
+    "scripts/a158_gate_recheck.py",
+    "scripts/a158_tsgate_probe.py",
+    "scripts/a6_corr_regime_probe.py",
+    "scripts/account_cost_tax.py",
+    "scripts/aggr_capacity_probe.py"
+   ],
+   "fixture_shaped": false,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  },
+  {
+   "file": "scripts/wild_route_lab.py",
+   "function": "_wr_run_meta",
+   "line": 796,
+   "write_call": "open",
+   "parameters": [
+    "shard",
+    "of"
+   ],
+   "literal_in_the_site_path": true,
+   "calls_in_the_narrow_index": 0,
+   "calls_in_the_wide_index": 2,
+   "call_sites": [
+    {
+     "file": "scripts/wild_route_lab.py",
+     "caller": "run_shard",
+     "line": 887,
+     "args": [
+      "shard",
+      "of",
+      "1"
+     ]
+    },
+    {
+     "file": "scripts/wild_route_lab.py",
+     "caller": "run_shard",
+     "line": 857,
+     "args": [
+      "shard",
+      "of",
+      "res.get(\"__workers__\", workers)"
+     ]
+    }
+   ],
+   "non_python_mentions": [],
+   "python_files_naming_it": [],
+   "fixture_shaped": false,
+   "class": "unplaced_only_because_the_helper_was_not_in_the_call_index"
+  }
+ ],
+ "method_limits": [
+  "the wide index is still name-based: a helper name shared by two files admits a foreign call site, so a hit is a place the directory could come from, not proof of which call produced the face on disk",
+  "the mention scan covers text extensions under 300 KB and prunes data/, results/, legacy/, Money02/ and .codely-cli/; a helper named only in a file it skipped reads as no_call_site_anywhere",
+  "fixture_shaped is a name heuristic (func or path contains fixture/_mk/_toy/_stub/_panel/_save), not a measurement of whether the code is a test",
+  "no writer was edited and no face on disk was read: this is a census of source text, so a site deleted in the tree since the last scan is invisible"
+ ]
+}

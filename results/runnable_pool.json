@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1444 bm-b: E426 closed (1 row; verify problems=[] twice, selftest 27/27, smoke leg 1/1, S6 leg rc=0); E427 seeded, ready floor held at 3",
+ "_stamp_note": "r1448 bm-b: E428 published (face NO_CALLER-2026-11-04, verify problems=[], selftest 13/13, smoke leg 1/1, S6 leg rc=0) -- 33 of the 35 unplaced sites were unplaced only because the call index never registered their helper name; E432 seeded, ready floor held at 3",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27611,11 +27611,28 @@
    "lane": "cpu-only",
    "lane_note": "cpu-only; static AST + text joins, no writer runs",
    "priority": 3,
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "bm-b r1445 E420: 35 of 310 parameter-directory write sites have no caller in the corpus",
    "entered_at": "2026-11-05T01:5x+08:00",
-   "entered_by": "bm-b r1445 (supply floor refill after E420)"
+   "entered_by": "bm-b r1445 (supply floor refill after E420)",
+   "done_at": "2026-11-05T06:25:01+08:00",
+   "result_ref": "results/state_tilt/NO_CALLER-2026-11-04.json",
+   "done_by": "bm-b r1448"
+  },
+  {
+   "id": "E432-WHICH-FIXTURE-SHAPED-PARAMETER-WRITE-SITE-IS-READ-BY-A-PUBLISHED-READER",
+   "title": "E428 counts 21 fixture-shaped parameter-directory write sites among its 310 and never prices them: say whether any of the 21 writes a path a published reader opens, or whether every one of them writes only into a temp directory a selftest invented",
+   "question": "For each of the 21 fixture-shaped rows in results/state_tilt/no_caller_latest.json (summary.fixture_shaped_sites): resolve the directory the callers actually pass (temp-dir constructors, mkdtemp, selftest-local paths) and check two things -- (a) is the composed path ever handed to a reader in this tree, and (b) is the writing function reachable from anything other than a selftest/fixture caller. Publish per site: file/function/line, the caller kind, the resolved directory class (temp / repo-relative / runtime-only), and whether any reader in the corpus opens the composed name. Refuse to call a fixture writer dead: a temp-dir writer is unreachable on disk but still executes. Read-only; no writer or reader edited.",
+   "deliverable": "results/state_tilt/FIXTUREWRITE-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static AST + text joins, no writer runs",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "source": "bm-b r1448 E428: fixture_shaped_sites = 21 of 310 parameter-directory write sites, counted but not priced",
+   "entered_at": "2026-11-05T06:25:01+08:00",
+   "entered_by": "bm-b r1448 (supply floor refill after closing E428)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

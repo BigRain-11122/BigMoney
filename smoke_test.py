@@ -16090,6 +16090,61 @@ except Exception as _e425:
     _bad425.append(repr(_e425)[:160])
 check(_name425, not _bad425, "; ".join(_bad425)[:240] or _d425)
 
+# E428 (r1448 bm-b): E429 billed 35 parameter-directory write sites as having "no caller found in
+# the corpus".  That 35 was never a statement about the corpus: E429's call-site index was built
+# only for helper names whose path spells no literal at all, and a function that writes
+# os.path.join(outdir, "x.json") takes its directory as a parameter AND spells a literal, so its
+# name never entered the index and every lookup for it returned an empty list.  This leg reads the
+# face that separates the two -- a site the narrow index never looked for, a site whose calls never
+# supply the parameter, a site named only outside python, and a site nothing reaches -- and refuses
+# (a) a face whose own gate does not re-derive, (b) a class outside the vocabulary, (c) a narrow
+# population that does not match the row list, (d) a wide population that contradicts the class
+# table, (e) a correction block that disagrees with the wide population, and (f) a verdict outside
+# the vocabulary or one that does not re-derive from the rows.
+_name428 = ("product: E429's 35 'no caller found' parameter-directory sites are almost all a hole in "
+            "the call index, not a hole in the corpus")
+_bad428, _d428 = [], ""
+try:
+    _m428 = __import__("importlib").import_module("e428_no_caller")
+    _f428 = json.load(open(os.path.join("results", "state_tilt", "no_caller_latest.json"),
+                           encoding="utf-8"))
+    _s428 = _f428.get("summary") or {}
+    _rows428 = _f428.get("rows") or []
+    _bad428.extend(_m428.tally_problems(_f428))
+    _by428 = {}
+    for _r428 in _rows428:
+        _c428 = _r428.get("class")
+        if _c428 not in _m428.CLASS_VOCAB:
+            _bad428.append("%s:%s carries a class outside the vocabulary"
+                           % (_r428.get("file"), _r428.get("line")))
+            break
+        _by428[_c428] = _by428.get(_c428, 0) + 1
+    _pop428 = _s428.get("population") or {}
+    if _pop428.get("narrow_index") != len(_rows428):
+        _bad428.append("narrow population %r does not match %d rows"
+                       % (_pop428.get("narrow_index"), len(_rows428)))
+    if _pop428.get("wide_index") != len(_rows428) - _by428.get(_m428.C_NARROW_ONLY, 0):
+        _bad428.append("wide population %r contradicts the class table"
+                       % (_pop428.get("wide_index"),))
+    if (_f428.get("correction") or {}).get("re_derived_with_the_wide_index", {}) \
+            .get("no_caller_found_in_the_corpus") != _pop428.get("wide_index"):
+        _bad428.append("the correction block disagrees with the wide population")
+    if (_f428.get("correction") or {}).get("published_by_e420", {}) \
+            .get("no_caller_found_in_the_corpus") != _pop428.get("narrow_index"):
+        _bad428.append("the correction block misstates what the producer published")
+    if _f428.get("verdict") not in _m428.VERDICT_VOCAB:
+        _bad428.append("verdict outside the vocabulary")
+    if _f428.get("verdict") != _m428.verdict_for(_rows428):
+        _bad428.append("verdict does not re-derive from the rows")
+    _d428 = "%d unplaced under the narrow index, %d under the wide one " \
+            "(%d index-only / %d calls-never-supply / %d named-outside-python) | %s" % (
+                _pop428.get("narrow_index", 0), _pop428.get("wide_index", 0),
+                _by428.get(_m428.C_NARROW_ONLY, 0), _by428.get(_m428.C_DEFAULT_ONLY, 0),
+                _by428.get(_m428.C_OUTSIDE, 0), _f428.get("verdict"))
+except Exception as _e428x:
+    _bad428.append(repr(_e428x)[:160])
+check(_name428, not _bad428, "; ".join(_bad428)[:240] or _d428)
+
 # E426 (r1444 bm-b): E417 declared the method limit "a reader that builds the name from a
 # variable is invisible to a literal census" and moved on.  This leg reads the face that prices
 # it: every template that builds a *.json name from a non-constant part, kept only when some

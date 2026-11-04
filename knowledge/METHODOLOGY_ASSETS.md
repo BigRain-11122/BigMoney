@@ -10281,3 +10281,49 @@ now `CLEAN head=330 tree=331 max=426->429 lost=[]`; the r1445 study renumbered *
 across `scripts/e429_two_hop_writer.py`, `scripts/run_e429_smoke_leg.py`, `# E429 (r1445 bm-b)` in
 smoke, `results/state_tilt/TWOHOP-2026-11-04.json` (re-derived, verify problems=0),
 `results/runnable_pool.json` card id and the digest; the leg's title derives from the face.
+## E431 -- a call index built from the wrong predicate turns a hole in the index into a hole in the corpus (r1448 bm-b, card E431)
+
+**The question.** E429 published `no_caller_found_in_the_corpus: 35` out of 311 parameter-directory
+write sites -- a number that reads as a claim about the tree. Re-bill it: which of those 35 does a
+call actually not reach?
+
+**The measurement.** The index behind the 35 was built only for helper names whose persisted path
+spells *no* literal at all -- 75 names. A function that writes `os.path.join(outdir, "x.json")`
+takes its directory as a parameter **and** spells a literal, so its name never entered the index,
+`index.get(name)` returned an empty list, and the site was billed as one nothing calls. Built instead
+for every helper that takes its directory as a parameter (97 names), the same 310 sites split: **33 of
+the 35 are unplaced only because the helper was never indexed**, 1 has calls that never supply the
+parameter (a `write=None` default), 1 is named only outside the python corpus (a receipt document),
+and the wide index leaves **2**. The corpus half of E429's own face moves with it: literal suppliers
+255 -> 279, constant 21 -> 29, no-caller 35 -> **2** (311 -> 310 sites: one site left the population
+since that cutoff).
+
+**Rules (measured, not assumed).**
+1. *A registration predicate is part of the claim.* The index asked "does this helper's path spell no
+   literal?" when the question was "does this helper take its directory as a parameter?". The two
+   predicates differ on exactly the functions that write a named file into a passed-in directory --
+   the commonest writer shape in this tree.
+2. *A dict key is a quote.* `open(os.path.join(outdir, face['name']))` spells no file name at all,
+   yet `spells_a_literal` is true because the subscript carries `'name'`. The blind spot is wider than
+   the file-name case the rule was written for; a fixture settles it.
+3. *A missing key and a missing caller read the same.* `index.get(name) or []` collapses "this helper
+   was never indexed" into "no call site exists". The two facts need different repairs -- widen the
+   index, versus conclude the writer is unreachable -- so the face must never let them share a bucket.
+4. *A committed producer with no face is an unclaimed card.* This window built a second E428 producer
+   before finding `scripts/e428_no_caller.py` already committed by r1447 with no face, no card, no
+   leg: the duplicate scan looked for the artifact (`NO_CALLER-*.json`), found nothing, and read the
+   card as open. A dedup check must search for the **producer**, not the deliverable; when both
+   exist, keep the wired one and ship the half it lacks.
+
+**Why it matters.** A census number is quoted far more often than its instrument is read. Here the
+headline was wrong by a factor of 17 (35 vs 2) while every line of code was correct -- the defect
+lived in which names the index was built for, one hop away from the number it produced. E368's rule
+("provenance is not reproduction") has a twin: **a published zero is a claim about the instrument
+until the instrument's selector is audited.**
+
+**Delivered.** `scripts/e428_no_caller.py` (r1447 producer, published here: run + verify
+problems=[], selftest 13/13); face `results/state_tilt/NO_CALLER-2026-11-04.json` +
+`no_caller_latest.json` (35 rows, 4 classes); smoke leg `# E428 (r1448 bm-b)` with
+`scripts/run_e428_smoke_leg.py` (1/1, red on a doctored population, face restored byte-identical);
+S6 leg `no_caller` (verify problems=[], rc 0); digest
+`research/digests/DIGEST-20261105-r1448-e428-no-caller.md`; pool card closed and the next seeded.
