@@ -30,7 +30,10 @@ CLI:
   python Tools/gpu_face.py audit      # disagreements on the live heartbeat
   python Tools/gpu_face.py apply      # probe -> heartbeat (merge-only writer)
   python Tools/gpu_face.py selftest
-Exit: 0 ok, 2 probe/mechanism fault, 3 face refused by writer.
+Exit: 0 ok, 2 probe/mechanism fault, 3 face refused by writer / audit found a
+disagreement (r1439: audit used to print findings and exit 0, so the only guard
+against a mixed face was the 20-minute smoke; a 1-second gate is what a round
+can actually afford to run).
 """
 from __future__ import unicode_literals
 
@@ -48,6 +51,11 @@ FREE_KEYS = (
     "gpu_free_mib", "gpu_free_mb", "gpu_free_vram_mb", "gpu_free_vram_mib",
     "gpu_free_mem_mib", "gpu_free_vram_gb", "gpu_free_gb", "gpu_idle_mb",
     "gpu_idle_mib", "gpu_idle_vram_mb", "gpu_idle_vram_mib",
+    # r1314: the same three words in the third order. `gpu_mem_free_mib` sat outside
+    # the table and outside the unowned detector (which matches a 'gpu' prefix), so the
+    # face audited 3586 MiB beside 3577 MiB left by an older round and the smoke leg
+    # called bm-b's own heartbeat inconsistent. Same defect as r1278/r1299, new order.
+    "gpu_mem_free_mib",
     # r1278: the same words in the other order. apply() covered the face but left
     # these two at a random round's snapshot, which is how a fleet audit could read
     # 2008 MiB used beside a 1354 MiB probe -- a half-owned face is still unowned.
@@ -146,7 +154,14 @@ def _mb(key, value):
 
 
 def parse_smi(text):
-    """Parse 'util, used, total' CSV. Raises ValueError on anything else."""
+    """Parse 'util, used, total[, free]' CSV. Raises ValueError on anything else.
+
+    r1392: the optional 4th field is nvidia-smi's own ``memory.free``. It is NOT
+    ``total - used``: the driver reserves a slice (173 MiB on the RTX 3070 here,
+    176.8 MiB at the 20:21 sample), so the two spellings of "free" differ by a
+    constant. Reading both is what lets the face publish the reservation instead of
+    being caught between two definitions that both look like a stale sample.
+    """
     line = [l for l in (text or "").splitlines() if l.strip()]
     if not line:
         raise ValueError("empty nvidia-smi output")
@@ -158,7 +173,14 @@ def parse_smi(text):
     total = int(float(nums[2].replace("MiB", "").strip()))
     if total <= 0 or used < 0 or used > total:
         raise ValueError("incoherent memory: used=%d total=%d" % (used, total))
-    return {"util_pct": util, "used_mib": used, "total_mib": total}
+    out = {"util_pct": util, "used_mib": used, "total_mib": total}
+    if len(nums) >= 4 and nums[3] != "":
+        free_smi = int(float(nums[3].replace("MiB", "").strip()))
+        if free_smi < 0 or free_smi > total:
+            raise ValueError("incoherent memory.free: %d of total=%d"
+                             % (free_smi, total))
+        out["free_smi_mib"] = free_smi
+    return out
 
 
 def _run_smi(smi=None):
@@ -166,7 +188,7 @@ def _run_smi(smi=None):
     if exe != "nvidia-smi" and not os.path.exists(exe):
         raise RuntimeError("nvidia-smi not found: %s" % exe)
     out = subprocess.run(
-        [exe, "--query-gpu=utilization.gpu,memory.used,memory.total",
+        [exe, "--query-gpu=utilization.gpu,memory.used,memory.total,memory.free",
          "--format=csv,noheader"],
         capture_output=True, text=True, timeout=30)
     if out.returncode != 0:
@@ -187,7 +209,15 @@ def fields_from(probe, stamp):
                        probe["total_mib"]),
         "gpu_face_ts": stamp,
         "gpu_face_source": "nvidia-smi",
+        # r1392: the canonical free is total - used. Publishing which definition
+        # the face uses, and the driver reservation that separates it from
+        # nvidia-smi's memory.free, is what stops the 176.8 MiB gap from being
+        # re-diagnosed as "a stale sample" every time it surfaces.
+        "gpu_memory_semantics": "free=total-used (memory.free excludes the driver "
+                                "reservation, published as gpu_reserved_mib)",
     }
+    if "free_smi_mib" in probe:
+        f["gpu_reserved_mib"] = free - probe["free_smi_mib"]
     for k in FREE_KEYS:
         f[k] = round(free / 1024.0, 1) if key_unit(k) == "gb" else free
     for k in USED_KEYS:
@@ -251,6 +281,22 @@ def audit(face):
     spread(FREE_KEYS, "free")
     spread(USED_KEYS, "used")
     spread(TOTAL_KEYS, "total")
+    # r1392: a free-family spread that equals the published driver reservation is
+    # not a stale sample -- it is the other definition of "free". Say so on the
+    # finding (the face is still red: two numbers with one name is the defect),
+    # because four earlier rounds (r1177/r1284/r1363/r1314) each chased this same
+    # ~174 MiB gap as an aging key and each "healed" it with a probe that rewrote
+    # the canonical spelling while the memory.free spelling came back next round.
+    reserved = face.get("gpu_reserved_mib")
+    if isinstance(reserved, (int, float)) and not isinstance(reserved, bool):
+        for finding in out:
+            if finding.get("family") != "free":
+                continue
+            if abs(finding["spread_mib"] - float(reserved)) < TOL_MIB:
+                finding["definition_note"] = (
+                    "spread matches gpu_reserved_mib=%s: the low key carries "
+                    "nvidia-smi memory.free, the high key total-used"
+                    % reserved)
     free = [(_mb(k, face[k]), k) for k in FREE_KEYS
             if isinstance(face.get(k), (int, float))]
     used = [(_mb(k, face[k]), k) for k in USED_KEYS
@@ -266,7 +312,8 @@ def audit(face):
                         "used_mib": round(u, 1), "total_mib": round(t, 1),
                         "gap_mib": round((f + u) - t, 1)})
     known = set(FREE_KEYS) | set(USED_KEYS) | set(TOTAL_KEYS) | set(PAIR_FREE_TOTAL) | {
-        "gpu_util_pct", "gpu_face", "gpu_face_ts", "gpu_face_source"}
+        "gpu_util_pct", "gpu_face", "gpu_face_ts", "gpu_face_source",
+        "gpu_reserved_mib", "gpu_memory_semantics"}
     # r1177: ownership is "apply() will refresh it", not "somebody tabulated it".
     # A numeric spelling with a derivable family is restated by the probe, so it
     # can no longer age; what still ages is a GPU-memory key whose value is a
@@ -340,7 +387,12 @@ def cmd_audit(project=ROOT):
     print(json.dumps({"machine_id": mid, "findings": findings,
                       "n_gpu_keys": len([k for k in face if k.startswith("gpu")])},
                      sort_keys=True))
-    return 0
+    # r1439: a report that always exits 0 is not a gate. The defect this tool
+    # exists for (one number under two names) reaches the tree through a
+    # round-scoped script writing the heartbeat with json.dump instead of through
+    # heartbeat_write, and 976 dirty files make the smoke's verdict arrive too late
+    # to be acted on in the same round.
+    return 3 if findings else 0
 
 
 def cmd_apply(project=ROOT, smi=None):
@@ -534,6 +586,49 @@ def selftest():
     leg("L9d a heartbeat carrying the GB spells audits clean",
         [], [x["family"] for x in audit(dict(_f9, free_ram_mb=8000,
                                              ram_free_mb=8000))])
+
+    # L10 r1392: memory.free is not total-used. The driver reservation is a
+    #     constant, so a face carrying one spelling from each definition disagreed
+    #     by 176.8 MiB and four rounds read that as an aging key.
+    p10 = parse_smi("100 %, 6131 MiB, 8192 MiB, 1884 MiB\n")
+    leg("L10 parse reads nvidia-smi memory.free as a 4th field", 1884,
+        p10.get("free_smi_mib"))
+    leg("L10a a 3-field probe still parses (no reservation to publish)", None,
+        parse_smi("100 %, 6131 MiB, 8192 MiB\n").get("free_smi_mib"))
+    f10 = fields_from(p10, "2026-11-03T00:40:00+08:00")
+    leg("L10b the reservation is published, not absorbed", 177,
+        f10.get("gpu_reserved_mib"))
+    leg("L10b canonical free is still total-used", 2061, f10["gpu_free_mib"])
+    leg("L10c the two new keys are not GPU-memory spellings", (False, False),
+        (gpu_mem_key("gpu_reserved_mib"), gpu_mem_key("gpu_memory_semantics")))
+    leg("L10d a fresh face audits clean", [], audit(f10))
+    # the live defect: one key taken from memory.free beside the canonical face
+    mixed = dict(f10, vram_free_gb=round(1884 / 1024.0, 1))
+    fam10 = [x for x in audit(mixed) if x.get("family") == "free"]
+    leg("L10e a memory.free spelling is still reported as a disagreement", True,
+        bool(fam10), fam10[0] if fam10 else "")
+    leg("L10f ...and the finding names the definition, not a stale sample", True,
+        bool(fam10 and "definition_note" in fam10[0]))
+
+    # L11 r1439: audit is a gate, not a report. The live defect that motivated it
+    # (a round script writing vram_free_gb from memory.free straight to the file)
+    # was found by a 20-minute smoke; an auditor that returns 0 whatever it says
+    # cannot be run at the top of a round.
+    tmp11 = tempfile.mkdtemp(prefix="gpuface_gate_")
+    os.makedirs(os.path.join(tmp11, "fleet", "machines"))
+    with io.open(os.path.join(tmp11, "fleet", "machine.json"), "w",
+                 encoding="utf-8") as fh:
+        json.dump({"machine_id": "bm-z"}, fh)
+    hp11 = os.path.join(tmp11, "fleet", "machines", "bm-z.json")
+    with io.open(hp11, "w", encoding="utf-8") as fh:
+        json.dump(dict(f10, vram_free_gb=round(1884 / 1024.0, 1)), fh)
+    leg("L11 audit exits 3 on a mixed face", 3, cmd_audit(tmp11))
+    with io.open(hp11, "w", encoding="utf-8") as fh:
+        json.dump(f10, fh)
+    leg("L11a audit exits 0 on a consistent face", 0, cmd_audit(tmp11))
+    with io.open(hp11, "w", encoding="utf-8") as fh:
+        json.dump({"machine_id": "bm-z"}, fh)
+    leg("L11b audit exits 0 when the face carries no GPU keys", 0, cmd_audit(tmp11))
 
     ok = sum(1 for _, p in legs if p)
     print("\nselftest %d/%d %s" % (ok, len(legs), "PASS" if ok == len(legs) else "FAIL"))

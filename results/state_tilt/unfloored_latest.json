@@ -1,10 +1,10 @@
 {
  "evidence_cutoff": "2026-11-03",
- "generated": "2026-11-04T19:41:23+08:00",
+ "generated": "2026-11-04T22:21:09+08:00",
  "ledger": [
   {
-   "age_days_since_commit": 0.927,
-   "age_days_since_mtime": 0.936,
+   "age_days_since_commit": 1.038,
+   "age_days_since_mtime": 1.047,
    "carries_its_own_date": true,
    "cheaper_fix": "no reader-side gate is available for this face (smoke_test.py:593-597 -- a hard day gate was already litigated and removed (E185: an assertion that assumes a deployment layout)); the fix is a chain leg or a bounded-lag allowance",
    "claimed_dates": {
@@ -92,16 +92,16 @@
     }
    ],
    "readers_that_price_the_age": 0,
-   "round_rows_total": 352,
-   "rounds_since_change": 17,
+   "round_rows_total": 356,
+   "rounds_since_change": 21,
    "stale_detail": null,
    "stale_vs_panel": false,
    "writer": "scripts/t35_open_fill_verify.py",
    "writer_surface": "session"
   },
   {
-   "age_days_since_commit": 3.168,
-   "age_days_since_mtime": 3.187,
+   "age_days_since_commit": 3.279,
+   "age_days_since_mtime": 3.298,
    "carries_its_own_date": true,
    "cheaper_fix": "reader prices the age it already reads (one comparison; the face is self-dated)",
    "claimed_dates": {
@@ -182,8 +182,8 @@
     }
    ],
    "readers_that_price_the_age": 0,
-   "round_rows_total": 352,
-   "rounds_since_change": 43,
+   "round_rows_total": 356,
+   "rounds_since_change": 47,
    "stale_detail": {
     "face": "2026-10-31",
     "field": "evidence_cutoff",
@@ -211,7 +211,7 @@
   "panel_cutoff": "2026-11-03",
   "reader_sites": 5,
   "reader_sites_that_price_the_age": 0,
-  "round_rows_parsed": 352,
+  "round_rows_parsed": 356,
   "stale_and_no_reader_prices_it": 1,
   "stale_vs_panel": 1,
   "suite_practice": {
@@ -222,10 +222,10 @@
     "check(\"product: the star lag band is re-derived from its own shuffled "
    ],
    "legs_excluded_as_this_study_reading_itself": 2,
-   "legs_opening_a_face_by_the_narrow_rule": 43,
-   "legs_opening_a_face_or_page": 202,
+   "legs_opening_a_face_by_the_narrow_rule": 44,
+   "legs_opening_a_face_or_page": 205,
    "legs_pricing_the_age": 6,
-   "share": 0.0297
+   "share": 0.0293
   }
  },
  "title": "two faces read by suite legs have no standing refresh",

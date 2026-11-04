@@ -1463,6 +1463,22 @@
    "carried_by": null,
    "class": "family_stated_at_the_site",
    "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'pininstability_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'pininstability_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 13529,
+   "site": "smoke_test.py:13529",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
     "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
     "family_dir": "results/state_tilt",
     "how": "the literals at the site build the directory"
@@ -1471,8 +1487,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15407,
-   "site": "smoke_test.py:15407",
+   "line": 15461,
+   "site": "smoke_test.py:15461",
    "tier": "smoke_harness"
   },
   {
@@ -1487,8 +1503,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15554,
-   "site": "smoke_test.py:15554",
+   "line": 15608,
+   "site": "smoke_test.py:15608",
    "tier": "smoke_harness"
   },
   {
@@ -1503,8 +1519,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15600,
-   "site": "smoke_test.py:15600",
+   "line": 15654,
+   "site": "smoke_test.py:15654",
    "tier": "smoke_harness"
   },
   {
@@ -1519,8 +1535,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15657,
-   "site": "smoke_test.py:15657",
+   "line": 15711,
+   "site": "smoke_test.py:15711",
    "tier": "smoke_harness"
   },
   {
@@ -1535,8 +1551,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15726,
-   "site": "smoke_test.py:15726",
+   "line": 15780,
+   "site": "smoke_test.py:15780",
    "tier": "smoke_harness"
   },
   {
@@ -1551,8 +1567,40 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15769,
-   "site": "smoke_test.py:15769",
+   "line": 15823,
+   "site": "smoke_test.py:15823",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'nameresolve_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'nameresolve_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 15869,
+   "site": "smoke_test.py:15869",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'basenamecensus_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'basenamecensus_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 15930,
+   "site": "smoke_test.py:15930",
    "tier": "smoke_harness"
   },
   {
@@ -3887,8 +3935,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15775,
-   "site": "smoke_test.py:15775",
+   "line": 15829,
+   "site": "smoke_test.py:15829",
    "tier": "smoke_harness"
   },
   {
@@ -4019,7 +4067,7 @@
    "family_from_the_value_the_site_itself_wrote": 8,
    "family_not_supplied_anywhere": 1,
    "family_required_by_the_signature": 17,
-   "family_stated_at_the_site": 172
+   "family_stated_at_the_site": 175
   },
   "by_tier": {
    "live_tooling": {
@@ -4040,8 +4088,8 @@
     "family_from_the_value_the_site_itself_wrote": 4,
     "family_not_supplied_anywhere": 1,
     "family_required_by_the_signature": 0,
-    "family_stated_at_the_site": 144,
-    "total": 149
+    "family_stated_at_the_site": 147,
+    "total": 152
    }
   },
   "classes_sum_to_the_read_sites": true,
@@ -4097,11 +4145,11 @@
    "verdict": "every_latest_pointer_reader_names_its_family_at_the_site_or_in_its_signature_so_a_wrong_family_needs_a_wrong_caller_not_a_wrong_name"
   },
   "max_families_a_single_unsupplied_reader_could_land_on": 28,
-  "pointer_files_named_<family>_latest_json": 194,
+  "pointer_files_named_<family>_latest_json": 197,
   "pointer_files_named_latest_json": 28,
   "pointer_files_with_another_latest_shape": 11,
   "read_sites_in_files": 42,
-  "read_sites_total": 198,
+  "read_sites_total": 201,
   "schema_cost_of_a_wrong_landing": {
    "distinct_top_level_signatures": 27,
    "families": 28,
@@ -4637,7 +4685,7 @@
    ]
   },
   "sites_handed_their_family_by_the_signature": 17,
-  "sites_that_name_their_family_at_the_site": 172,
+  "sites_that_name_their_family_at_the_site": 175,
   "sites_that_read_the_pointer_they_just_wrote": 8,
   "sites_whose_family_is_not_supplied_anywhere": 1,
   "stone": null,
@@ -4653,7 +4701,7 @@
   },
   "write_sites_total": 67
  },
- "ts": "2026-11-04T19:37:25+08:00",
+ "ts": "2026-11-04T22:21:05+08:00",
  "verdict": "some_latest_pointer_readers_are_handed_their_family_and_some_take_whatever_the_base_holds_so_the_pointer_convention_is_safe_only_where_the_caller_is",
  "write_sites": [
   {

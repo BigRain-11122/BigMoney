@@ -2,7 +2,7 @@
  "study": "E412_blob_guard_decision",
  "card": "E412-WHICH-LEG-SHOULD-FAIL-WHEN-A-BLOB-READERS-FACE-MOVED",
  "evidence_cutoff": "2026-11-05",
- "census_rev": "c4ac64cbe231118352e731b7b801549602ad3759",
+ "census_rev": "f9a0ad59bccd732e29a858176ec921458f1bbd33",
  "source_face": "results/state_tilt/blobread_latest.json",
  "rule": {
   "population": "every face E406 measured both at HEAD and on disk (state=compared)",
@@ -21,8 +21,8 @@
  },
  "summary": {
   "faces_measured": 25,
-  "faces_whose_blob_and_file_differ": 3,
-  "faces_newer_than_head_right_now": 3,
+  "faces_whose_blob_and_file_differ": 4,
+  "faces_newer_than_head_right_now": 4,
   "faces_by_choice": {
    "c": 25
   },
@@ -102,7 +102,7 @@
    ],
    "legs_opening_the_face": [
     {
-     "leg": "check@15157",
+     "leg": "check@15211",
      "tier": "no_freshness_test"
     }
    ],
@@ -225,7 +225,9 @@
    "writers": [
     "scripts/e340_who_authorizes_whose_allowance.py"
    ],
-   "writers_excluded_as_one_off": [],
+   "writers_excluded_as_one_off": [
+    "scripts/_r1439_closeout.py"
+   ],
    "writer_evidence": {
     "scripts/e340_who_authorizes_whose_allowance.py": "writes the family mirror and names this file"
    },
@@ -1218,11 +1220,11 @@
   {
    "face": "results/state_tilt/siblingentry_latest.json",
    "face_name": "siblingentry_latest.json",
-   "differ": false,
-   "keys_moved": 0,
+   "differ": true,
+   "keys_moved": 6,
    "verdict_disk": "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce",
    "verdict_blob": "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce",
-   "face_newer_than_head": false,
+   "face_newer_than_head": true,
    "sites": 4,
    "sites_self_read": 4,
    "sites_read_by_round_scoped_tools": 0,
