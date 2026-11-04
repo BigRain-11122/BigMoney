@@ -4822,9 +4822,9 @@
   "ahead": 352,
   "behind_origin_main": 288,
   "peer": "origin",
-  "ts": "2026-11-04T19:52:00+08:00"
+  "ts": "2026-11-04T19:5x+08:00"
  },
- "sync_note": "delivery blocked: fetch/push rc=128 Permission denied (publickey); count is against the cached origin/main",
+ "sync_note": "main is 288 behind origin/main so a direct push is rejected; delivery goes out on machine/bm-b-r1437 (verified by ls-remote)",
  "task": "E419 writer attribution for the 9 unageable faces closed; E420 seeded",
  "task_short": "who writes the unageable faces",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
@@ -4936,10 +4936,11 @@
  },
  "decisions_note": "hash read from the cached origin/main blob; fetch rc=128 so the ref may not be the newest",
  "r1437_delivery": {
-  "sha": null,
-  "ts": "2026-11-04T19:52:00+08:00",
-  "verified": false,
-  "blocker": "push rc=128 Permission denied (publickey) in this window; r1435 and r1436 commits also undelivered",
-  "next_window_action": "push r1435, r1436 and r1437 before any new research once the key is accepted"
+  "sha": "0361c164f09dffaafcabfeb1eff560ecc4c37761",
+  "ts": "2026-11-04T19:5x+08:00",
+  "branch_intended": "machine/bm-b-r1437",
+  "verified": true,
+  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1437 == HEAD",
+  "note": "push of HEAD:main was rejected non-fast-forward (288 behind); the round went out on the machine branch per the no-force rule, and that branch also carries the undelivered r1435/r1436 commits"
  }
 }

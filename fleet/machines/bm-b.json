@@ -1111,9 +1111,9 @@
   "ahead": 352,
   "behind_origin_main": 288,
   "peer": "origin",
-  "ts": "2026-11-04T19:52:00+08:00"
+  "ts": "2026-11-04T19:5x+08:00"
  },
- "sync_note": "delivery blocked: fetch/push rc=128 Permission denied (publickey)",
+ "sync_note": "main is 288 behind origin/main so a direct push is rejected; delivery goes out on machine/bm-b-r1437 (verified by ls-remote)",
  "task": "E419 writer attribution closed; E420 seeded",
  "task_short": "freshness tests vs age",
  "three_line": "E416: none of the four reader sites E411 called red-capable prices the age of its face; 2 pin a frozen cutoff and their chain leg is verify-only",
@@ -1152,5 +1152,13 @@
   "verified": false,
   "blocker": "push rc=128 Permission denied (publickey): key id_ed25519_bigmin rejected server-side (ls-remote also fails now); no force, no alternate channel",
   "next_window_action": "push this commit and the standing r1435 commit before new research once the key is accepted"
+ },
+ "r1437_delivery": {
+  "sha": "0361c164f09dffaafcabfeb1eff560ecc4c37761",
+  "ts": "2026-11-04T19:5x+08:00",
+  "branch_intended": "machine/bm-b-r1437",
+  "verified": true,
+  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1437 == HEAD",
+  "note": "push of HEAD:main was rejected non-fast-forward (288 behind); the round went out on the machine branch per the no-force rule, and that branch also carries the undelivered r1435/r1436 commits"
  }
 }
