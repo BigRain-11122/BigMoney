@@ -15419,6 +15419,61 @@ except Exception as _e410b:
     _d410b = ""
 check(_name410b, not _bad410b, "; ".join(_bad410b)[:240] or _d410b)
 
+# E411: E409 priced five reader sites over two faces and E410 floored those two. This prices
+# every face the suite opens -- the reader tier at each site, and which faces have no reader that
+# can go red on age. The leg re-derives the reader half from the live suite (0.35 s) and refuses a
+# bill whose rows, blind count or verdict no longer follow. The writer half (46 s: 2.5k modules
+# priced one by one) is checked for internal consistency instead of re-run here.
+_name411 = ("product: the suite opens %s faces/pages through %s reader sites, of which %s can go "
+            "red when the face is stale; %s faces have no reader that can go red and %s of those "
+            "have no writer on the round chain")
+_bad411 = []
+_f411 = None
+try:
+    _p411 = os.path.join("results", "state_tilt", "readertiers_latest.json")
+    _f411 = json.load(open(_p411, encoding="utf-8")) if os.path.exists(_p411) else None
+    if _f411 is None:
+        _bad411.append("no published reader-tier bill")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m411 = __import__("importlib").import_module("e411_reader_tiers")
+        _s411 = _f411.get("summary") or {}
+        _fresh411 = _m411.build(write=False, skip_writers=True)
+        if _fresh411["summary"] != _s411:
+            _bad411.append("the published summary does not re-derive from the live tree")
+        if _fresh411.get("verdict") != _f411.get("verdict"):
+            _bad411.append("the stored verdict is not the one the live tree produces")
+        _rows411 = _f411.get("faces") or []
+        if len(_rows411) != _s411.get("faces"):
+            _bad411.append("the published face rows do not re-add to the headline")
+        _sites411 = [r_ for f_ in _rows411 for r_ in f_.get("readers") or []]
+        if len(_sites411) != _s411.get("reader_sites"):
+            _bad411.append("the reader sites do not re-add to the headline")
+        _reds411 = [r_ for r_ in _sites411 if r_.get("tier") in _m411.RED_TIERS]
+        if len(_reds411) != _s411.get("reader_sites_that_can_go_red"):
+            _bad411.append("the red-tier sites do not re-add to the headline")
+        _blind411 = [f_ for f_ in _rows411 if f_.get("no_reader_that_can_go_red")]
+        if len(_blind411) != _s411.get("faces_with_no_reader_that_can_go_red"):
+            _bad411.append("the blind-face count does not re-derive from the rows")
+        if any(f_.get("readers_that_can_go_red") for f_ in _blind411):
+            _bad411.append("a face published as blind carries a reader that can go red")
+        _wj411 = _f411.get("writer_join") or {}
+        _wsum411 = sum(v_ for v_ in (_wj411.get("faces_with_a_chain_writer"),
+                                     _wj411.get("faces_session_only"),
+                                     _wj411.get("faces_with_no_writer_found"))
+                       if isinstance(v_, int))
+        if _wsum411 != len(_rows411):
+            _bad411.append("the writer classes sum to %d but the bill has %d faces"
+                           % (_wsum411, len(_rows411)))
+        _name411 = _name411 % (_s411.get("faces"), _s411.get("reader_sites"),
+                               _s411.get("reader_sites_that_can_go_red"),
+                               _s411.get("faces_with_no_reader_that_can_go_red"),
+                               _wj411.get("blind_faces_with_no_chain_writer"))
+except Exception as _e411:
+    _bad411.append(repr(_e411)[:160])
+check(_name411, not _bad411, "; ".join(_bad411)[:240]
+      or "verdict %s" % str((_f411 or {}).get("verdict"))[:90])
+
 # E403: E398 stopped at "somebody must pass the directory" for the 17 read sites whose family is
 # a function parameter.  This walks the callers.  The leg refuses a published call table that no
 # longer re-derives from the live tree, a reader the seed names that has left the tree, a call
@@ -15527,6 +15582,65 @@ try:
 except Exception as _e414:
     _bad414.append(repr(_e414)[:160])
 check(_name414, not _bad414, "; ".join(_bad414)[:240] or _d414)
+
+# E415 (r1434 bm-b): E414 named the accident shape -- a bare basename read is correct only while
+# the process is started in the directory that holds the face -- and left it unpriced.  This leg
+# holds the census: (a) every site's class must agree with whether its callee supplies a
+# directory, (b) the by_class tally must re-add to the site count, (c) a site published as
+# shadowed must name at least one surface that holds a DIFFERENT document with the same basename,
+# and that surface must still hold it now, and (d) no site may be published as resolver-directed
+# unless the resolver joins a directory -- the false positive this study hit first, where the
+# callee was bound through importlib and a same-file search found nothing.
+_name415 = ("product: every bare-basename read in the durable corpus is directed either by its "
+            "callee or by the launch directory, and the shadowed ones are named with the "
+            "surface that holds a foreign document")
+_bad415, _d415 = [], ""
+try:
+    _m415 = __import__("importlib").import_module("e415_cwd_accident")
+    _f415 = json.load(open(os.path.join("results", "state_tilt", "cwdaccident_latest.json"),
+                           encoding="utf-8"))
+    _s415 = _f415.get("summary") or {}
+    if _f415.get("verdict") not in _m415.VERDICT_VOCAB:
+        _bad415.append("verdict outside the frozen vocabulary")
+    _bc415 = _s415.get("by_class") or {}
+    if set(_bc415) != set(_m415.CLASS_VOCAB):
+        _bad415.append("the class vocabulary in the face is not the frozen one")
+    if sum(_bc415.values()) != _s415.get("bare_path_read_sites"):
+        _bad415.append("the class tally does not re-add to the site count")
+    for _r415 in _f415.get("sites") or []:
+        if _r415.get("class") not in _m415.CLASS_VOCAB:
+            _bad415.append("a published class is outside the vocabulary")
+            break
+        if bool(_r415.get("callee_supplies_a_directory")) != (
+                _r415.get("class") == _m415.C_RESOLVED):
+            _bad415.append("%s:%s published class disagrees with its resolver" %
+                           (_r415.get("file"), _r415.get("line")))
+            break
+        if _r415.get("class") == _m415.C_SHADOWED and not \
+                _r415.get("surfaces_with_a_different_document"):
+            _bad415.append("a shadowed site names no surface holding a foreign document")
+            break
+    _fresh415 = _m415.build(write=False)
+    if (_fresh415.get("summary") or {}).get("by_class") != _bc415:
+        _bad415.append("the class tally does not re-derive")
+    if _fresh415.get("verdict") != _f415.get("verdict"):
+        _bad415.append("the verdict does not re-derive")
+    for _sh415 in _f415.get("shadowing_sites") or []:
+        _rows415 = _m415.resolve_at_surfaces({"basename": _sh415.get("basename")}, _m415.ROOT)
+        _named415 = set(_sh415.get("surfaces_holding_a_different_document") or [])
+        _now415 = {r["cwd"] for r in _rows415 if r["different_document"]}
+        if not (_named415 & _now415):
+            _bad415.append("surface %s no longer holds a different document for %s" %
+                           (sorted(_named415)[:1], _sh415.get("basename")))
+            break
+    _d415 = "%d bare-path read site(s) | %s | shadowed=%s" % (
+        _s415.get("bare_path_read_sites"),
+        " ".join("%s=%s" % (k, v) for k, v in sorted(_bc415.items())),
+        ",".join("%s:%s" % (s.get("file"), s.get("line"))
+                 for s in (_f415.get("shadowing_sites") or [])) or "none")
+except Exception as _e415:
+    _bad415.append(repr(_e415)[:160])
+check(_name415, not _bad415, "; ".join(_bad415)[:240] or _d415)
 
 if __name__ == "__main__":
     sys.exit(main())

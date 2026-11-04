@@ -1444,6 +1444,19 @@ LEGS = [
     # reads it fails red rather than skipping. Verify re-runs the callee at each surface instead
     # of re-deriving the join here.
     ("unsupplied_read", ["python", "scripts/e414_unsupplied_read.py", "verify"]),
+    # E411: E409 priced five reader sites over two faces; this prices every face the suite opens
+    # (199 faces / 231 sites, 4 of which can go red on age). It legs `run` rather than `verify`
+    # on purpose: the population *is* smoke_test.py, so every leg added or moved changes the
+    # summary, and a verify-only leg would go red on any suite edit and stay red until someone
+    # republished by hand. It republishes from the live tree in ~46 s (2.5k modules priced).
+    ("reader_tiers", ["python", "scripts/e411_reader_tiers.py", "run"]),
+    # E415 (r1434): E414 named the accident shape and left it unpriced. This censuses every read
+    # in the durable corpus whose path argument is a bare basename (2 sites): 1 is directed by its
+    # callee (E414's), 1 is directed by the launch directory and would read a DIFFERENT document of
+    # the same basename from another surface -- CODELY.md, which exists with different content in
+    # the CLI home. Verify re-scans the corpus (cheap: one AST pass over ~900 files) and re-checks
+    # every published class against its resolver.
+    ("cwd_accident", ["python", "scripts/e415_cwd_accident.py", "verify"]),
 ]
 
 

@@ -9781,3 +9781,51 @@ is `except Exception ... check(name, False, ...)`, so it goes **red**, not silen
 (green on the live tree, red on a doctored copy with a wrong verdict and a missing surface, face
 restored byte-identical); S6 leg `unsupplied_read` (rc 0, 0.34 s). The leg at `smoke_test.py:7971`
 was **not** edited -- the fix, if any, is a separate card.
+
+## E415 -- the accident shape E414 named, priced: two bare-path reads, one of which would measure another repository's memory file (r1434 bm-b)
+
+**Question.** E414 left one shape unpriced. A read of a bare basename with no directory joined at
+the call lands in whatever directory the process was started in, so the leg's greenness is a
+property of the launch directory rather than of the tree. How many such reads exist in the durable
+corpus, and would any of them find a *different document* with the same name?
+
+**Answer, measured over six surfaces.** Two sites. `smoke_test.py:7971`
+(`replaycensus_latest.json`) is **directed by its callee**: E414's `load()` joins `OUTDIR`, which
+bottoms out at `__file__`, so it cannot move. `smoke_test.py:1175`
+(`open("CODELY.md", encoding="utf-8-sig")`, which asserts the memory file is intact: >=55 lines, no
+private-use characters, at least one list row) is **cwd-relative with no resolver**. It is correct
+only while the suite is started in the repo root. Nine `CODELY.md` files exist in this machine's
+tree and four of them satisfy that assertion, so launched from another repository's directory the
+leg goes **green having measured that repository's memory file**; the CLI home copy
+(`~/.codely-cli/CODELY.md`, 50,804 B, 65 list rows) is the one this surface actually reaches.
+
+**Three rules.**
+
+1. **A shadowed read is worse than a missing one.** A missing face fails loudly and someone fixes
+   the launch directory. A face with the same basename elsewhere passes while measuring the wrong
+   document, and nothing in the output says so -- the leg prints `lines=81 pua=0 list_rows=65`,
+   which looks like success. Classify by *what the read would resolve to*, not by whether it
+   resolves.
+2. **A resolver can be bound through `importlib`.** The first run published site 7971 as
+   `cwd_relative_face_missing` because `load` is not defined in `smoke_test.py` -- it is
+   `__import__("importlib").import_module("e298_replay_control_census")` bound to a local name two
+   lines earlier. A same-file search for the callee returns "no such function" and the site is then
+   graded as if it had no resolver at all. The fix is to follow the binding (an `Assign` whose
+   value is `import_module("<mod>")`, or an `import ... as`), resolve `<mod>` in `scripts/`,
+   `Tools/` and the root, and read *that* file's body. This is E403's rule one hop further out.
+3. **"A different document" needs this tree's own copy to compare against.** The first version
+   marked `results/state_tilt` as holding a different `replaycensus_latest.json` simply because the
+   repo root does not hold that name at all (`own_sha is None` -> every comparison false). A
+   comparison with nothing is not a measurement; the row now carries `this_tree_holds_the_name` and
+   `different_document` separately.
+
+**Bound, published not claimed.** The census sees a read whose path argument is a literal basename
+*at the call*. A basename held in a variable first, built by an f-string, or passed through a
+wrapper that does not join a directory is outside it -- that is E398's population (families
+supplied nowhere) and E403's (parameter pass-through), and neither is claimed here.
+
+**Wiring.** `scripts/e415_cwd_accident.py` (run / verify problems=[] / selftest 19/19); faces
+`results/state_tilt/CWDACCIDENT-2026-11-04.json` + `cwdaccident_latest.json`; smoke leg
+`# E415 (r1434 bm-b)` executed verbatim by `scripts/run_e415_smoke_leg.py` (1/1 green, red on a
+doctored verdict + tally and restored byte-identical); S6 leg `cwd_accident` (rc 0, 10.9 s, one AST
+pass over ~900 files). The readers were **not** edited -- the fix, if any, is a separate card.

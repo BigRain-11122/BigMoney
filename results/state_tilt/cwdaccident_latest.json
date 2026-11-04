@@ -1,0 +1,187 @@
+{
+ "study": "E415_cwd_accident",
+ "card": "E415-DO-BARE-BASENAME-READS-WORK-ONLY-BECAUSE-THE-CWD-HOLDS-THE-FACE",
+ "evidence_cutoff": "2026-11-04",
+ "generated": "2026-11-04T17:07:44+08:00",
+ "verdict": "every_bare_path_read_is_directed_but_at_least_one_would_read_a_different_document_of_the_same_basename_from_another_launch_directory",
+ "summary": {
+  "bare_path_read_sites": 2,
+  "surfaces": [
+   ".",
+   "scripts",
+   "Tools",
+   "docs",
+   "results/state_tilt",
+   "C:\\Users\\Administrator\\.codely-cli"
+  ],
+  "by_class": {
+   "resolved_by_its_callee": 1,
+   "cwd_relative_face_in_cwd": 0,
+   "cwd_relative_face_shadowed": 1,
+   "cwd_relative_face_missing": 0
+  },
+  "directed_by_callee": 1,
+  "directed_by_launch_directory": 0,
+  "would_read_a_different_document": 1,
+  "would_fail_because_the_directory_lacks_the_name": 0,
+  "sites_that_only_work_from_the_launch_directory": 0,
+  "corpus_files_with_a_bare_path_read": 1,
+  "own_faces_excluded": 0,
+  "bound": "the census sees a read whose path argument is a literal basename at the call.  A basename held in a variable first, built by an f-string, or passed through a wrapper that does not join a directory is outside it; that population is E398's (families supplied nowhere) and E403's (parameter pass-through), and neither is claimed here."
+ },
+ "sites": [
+  {
+   "file": "smoke_test.py",
+   "line": 7971,
+   "callee": "load",
+   "callee_module": "e298_replay_control_census",
+   "basename": "replaycensus_latest.json",
+   "class": "resolved_by_its_callee",
+   "callee_supplies_a_directory": true,
+   "callee_evidence": "e298_replay_control_census.load(): join() joins 2 arguments into the caller's name",
+   "surfaces": [
+    {
+     "cwd": ".",
+     "exists": false,
+     "this_tree_holds_the_name": false,
+     "different_document": false,
+     "bytes": null,
+     "own_face": false
+    },
+    {
+     "cwd": "scripts",
+     "exists": false,
+     "this_tree_holds_the_name": false,
+     "different_document": false,
+     "bytes": null,
+     "own_face": false
+    },
+    {
+     "cwd": "Tools",
+     "exists": false,
+     "this_tree_holds_the_name": false,
+     "different_document": false,
+     "bytes": null,
+     "own_face": false
+    },
+    {
+     "cwd": "docs",
+     "exists": false,
+     "this_tree_holds_the_name": false,
+     "different_document": false,
+     "bytes": null,
+     "own_face": false
+    },
+    {
+     "cwd": "results/state_tilt",
+     "exists": true,
+     "this_tree_holds_the_name": false,
+     "different_document": false,
+     "bytes": 34575,
+     "own_face": false
+    },
+    {
+     "cwd": "../../../../Users/Administrator/.codely-cli",
+     "exists": false,
+     "this_tree_holds_the_name": false,
+     "different_document": false,
+     "bytes": null,
+     "own_face": false
+    }
+   ],
+   "surfaces_missing_the_name": [
+    ".",
+    "scripts",
+    "Tools",
+    "docs",
+    "../../../../Users/Administrator/.codely-cli"
+   ],
+   "surfaces_with_a_different_document": []
+  },
+  {
+   "file": "smoke_test.py",
+   "line": 1175,
+   "callee": "open",
+   "callee_module": "",
+   "basename": "CODELY.md",
+   "class": "cwd_relative_face_shadowed",
+   "callee_supplies_a_directory": false,
+   "callee_evidence": "no such function in file",
+   "surfaces": [
+    {
+     "cwd": ".",
+     "exists": true,
+     "this_tree_holds_the_name": true,
+     "different_document": false,
+     "bytes": 38945,
+     "own_face": false
+    },
+    {
+     "cwd": "scripts",
+     "exists": false,
+     "this_tree_holds_the_name": true,
+     "different_document": false,
+     "bytes": null,
+     "own_face": false
+    },
+    {
+     "cwd": "Tools",
+     "exists": false,
+     "this_tree_holds_the_name": true,
+     "different_document": false,
+     "bytes": null,
+     "own_face": false
+    },
+    {
+     "cwd": "docs",
+     "exists": false,
+     "this_tree_holds_the_name": true,
+     "different_document": false,
+     "bytes": null,
+     "own_face": false
+    },
+    {
+     "cwd": "results/state_tilt",
+     "exists": false,
+     "this_tree_holds_the_name": true,
+     "different_document": false,
+     "bytes": null,
+     "own_face": false
+    },
+    {
+     "cwd": "../../../../Users/Administrator/.codely-cli",
+     "exists": true,
+     "this_tree_holds_the_name": true,
+     "different_document": true,
+     "bytes": 50804,
+     "own_face": false
+    }
+   ],
+   "surfaces_missing_the_name": [
+    "scripts",
+    "Tools",
+    "docs",
+    "results/state_tilt"
+   ],
+   "surfaces_with_a_different_document": [
+    "../../../../Users/Administrator/.codely-cli"
+   ]
+  }
+ ],
+ "shadowing_sites": [
+  {
+   "file": "smoke_test.py",
+   "line": 1175,
+   "basename": "CODELY.md",
+   "surfaces_holding_a_different_document": [
+    "../../../../Users/Administrator/.codely-cli"
+   ]
+  }
+ ],
+ "why": "a bare basename read is directed by the callee when the callee joins a directory onto the name it is given (E414's rule); when it does not, the read lands in whatever directory the process was started in, and the leg then measures that directory's copy of the document rather than this tree's.  The shadowed class is the one that goes green on a foreign document; the missing class at least fails loudly.",
+ "law_ref": "E414 (resolver rule) + E398 (family supplied nowhere) + O-20261002-2100",
+ "not_run": [
+  "the readers were not edited",
+  "no surface was launched to prove the shadow empirically: the resolution is a static join against the cwd"
+ ]
+}

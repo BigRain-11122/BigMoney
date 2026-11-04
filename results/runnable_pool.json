@@ -27370,13 +27370,17 @@
    "id": "E411-DO-EVERY-FACE-THE-SUITE-READS-CARRY-A-READER-THAT-CAN-GO-RED",
    "lane": "cpu-only",
    "lane_note": "cpu-only; static classification plus the published faces; no writer is run",
-   "owner": null,
+   "owner": "bm-b",
    "priority": 3,
    "question": "E409 published a reader tier per site for two faces and E410 floored both. The rest of the corpus is unmeasured: for every published face or page a suite leg opens (the 193 legs E409 counted), what tier is each reader, and which faces have ALL of their readers in `no_freshness_test` or `compares_the_face_to_itself` -- i.e. no reader that can go red on age. The bill is a per-face table plus the faces whose only reader is blind, ranked by how often the face's writer runs (E408's writer census is the join). Never edit a reader; the fix stays a separate card.",
    "source": "bm-b r1429 E410: 5 pre-existing reader sites, 0 price the age; the two floored faces are 2 of the 193 legs that open a face",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e409_unfloored_faces.py",
-   "title": "E409's tier table prices two faces; extend it to every face the suite opens and ask which ones have no reader that can go red"
+   "title": "E409's tier table prices two faces; extend it to every face the suite opens and ask which ones have no reader that can go red",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-04T13:47:00+08:00",
+   "done_at": "2026-11-04T15:05:00+08:00",
+   "result_ref": "results/state_tilt/READERTIERS-2026-11-04.json"
   },
   {
    "claimed_at": "2026-11-04T11:58:00+08:00",
@@ -27437,11 +27441,45 @@
    "lane": "cpu-only",
    "lane_note": "cpu-only; static parse plus one import per resolver; no writer runs",
    "priority": 3,
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "bm-b r1433 E414: the only surface where a cwd-relative read of replaycensus_latest.json would also have worked is the face directory itself",
    "entered_at": "2026-11-04T13:2x+08:00",
-   "entered_by": "bm-b r1433 (supply floor refill after E414)"
+   "entered_by": "bm-b r1433 (supply floor refill after E414)",
+   "result_ref": "results/state_tilt/CWDACCIDENT-2026-11-04.json",
+   "closed_by": "bm-b r1434",
+   "closed_at": "2026-11-04T17:2x+08:00",
+   "close_note": "two bare-path reads in the durable corpus: smoke_test.py:7971 is supplied by its callee (E414, re-derived); smoke_test.py:1175 opens CODELY.md against the launch directory and the CLI home holds a DIFFERENT document of that name (50,804 B, 65 list rows) that satisfies the leg's own assertion -> a non-repo launch goes green measuring another repository's memory file"
+  },
+  {
+   "deliverable": "results/state_tilt/FRESHAIM-<cutoff>.json",
+   "entered_at": "2026-11-04T15:05:00+08:00",
+   "entered_by": "bm-b r1434 (supply floor refill after E411)",
+   "id": "E416-DO-THE-FOUR-FRESHNESS-TESTS-SIT-ON-THE-FACES-THAT-NEED-THEM-MOST",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; reads the four red-capable reader sites E411 published, the faces behind them and their writer's chain membership; no writer runs",
+   "owner": null,
+   "priority": 3,
+   "question": "E411 priced every reader the suite uses on a face: 231 sites over 199 faces, and only 4 can go red on age (1 asks_the_clock, 3 dates_the_face_in_a_gate). The rest of the bill is the wrong 195 faces. The question is whether the 4 are aimed where age matters: for each red-capable site, name the face it prices, that face's declared freshness expectation (E409 recorded two), and whether the face's writer runs on the round chain (E408's census, and E411's writer_join). A freshness test on a face the chain rewrites every round can never fire; a face with no chain writer and no pricing reader is blind. The bill is the four sites priced against their faces, plus the ranking of faces whose only protection is a test that cannot fire. Never edit a reader; the fix stays a separate card.",
+   "source": "bm-b r1434 E411: 4 of 231 reader sites can go red on age; 195 faces have no reader that can, and 44 of those have no writer on the round chain",
+   "status": "ready",
+   "target": "scripts/e411_reader_tiers.py",
+   "title": "E411 found only four reader sites can go red; ask whether those four guard the faces that can actually go stale"
+  },
+  {
+   "id": "E417-WHICH-READER-WOULD-FIND-A-FOREIGN-COPY-OF-ITS-FACE",
+   "title": "E415 priced the two bare-path reads and found one shadowed. Ask it of every face the suite opens: for each of the 199 faces E411 priced, does any directory a reader could be started from hold a different file with that basename",
+   "question": "E415 found that a bare read of CODELY.md would measure another repository's memory file. Its population was reads whose path argument is a literal basename at the call -- 2 sites. The wider question is about the FACE NAME, not the call shape: for each face the suite reads (E411's 199), enumerate the directories that could serve it (the corpus walk, every directory holding a *latest.json pointer, the CLI home, the sibling repositories under the fleet root) and ask how many hold a DIFFERENT file of the same basename. The bill is the shadow population ranked by what the reading leg would print when it lands on the foreign copy (green, red, or a comparison of two different quantities). A name held in only one directory is the answer for most; the interesting row is a name that exists in two places with different content and is read without a pin.",
+   "target": "smoke_test.py reader sites + results/state_tilt",
+   "deliverable": "results/state_tilt/SHADOWFACE-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static joins against directories on disk, no writer runs",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "source": "bm-b r1434 E415: 1 of 2 bare-path reads lands on a different document of the same basename from another launch directory",
+   "entered_at": "2026-11-04T17:2x+08:00",
+   "entered_by": "bm-b r1434 (supply floor refill after E415)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27456,6 +27494,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-04T13:02:11+08:00",
+ "updated_at": "2026-11-04T15:05:00+08:00",
  "version": 1
 }
