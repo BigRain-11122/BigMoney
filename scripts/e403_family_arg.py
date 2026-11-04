@@ -29,6 +29,8 @@ import re
 import sys
 from datetime import datetime, timezone
 
+import population_keys
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "results", "state_tilt")
 PANEL = os.path.join(ROOT, "data", "daily", "sh510300.csv")
@@ -62,6 +64,11 @@ SEED_READERS = [
     ("scripts/etf_book_order.py", "card_rule", "card_dir", 1),
     ("scripts/etf_book_order.py", "_read_card", "card_dir", 1),
 ]
+
+# Counts of the corpus this study scanned. They move whenever a .py file appears or is deleted,
+# so they are declared (and published) instead of sitting in a leg's equality gate -- see
+# scripts/population_keys.py for the r1441 recurrence that made this a mechanism.
+POPULATION_KEYS = ("corpus_py_files",)
 
 CLASSES = [
     "default_uses_the_module_family",
@@ -805,6 +812,7 @@ def build(write: bool = True, root: str | None = None,
             "delta_vs_the_published_face": _seed_delta(root),
         },
         "summary": summary,
+        "population_keys": list(POPULATION_KEYS),
         "readers": ledger,
         "method_limits": [
             "static only: a call reached through getattr/setattr, a dict of callables, or a "
@@ -850,11 +858,9 @@ def verify() -> list[str]:
                         % (old.get("evidence_cutoff"), new["evidence_cutoff"]))
     if old.get("verdict") != new["verdict"]:
         problems.append("verdict moved: %r vs %r" % (old.get("verdict"), new["verdict"]))
-    for key in sorted(set(new["summary"]) | set(old.get("summary") or {})):
-        a = (old.get("summary") or {}).get(key)
-        b = new["summary"].get(key)
-        if a != b:
-            problems.append("summary.%s moved: %r vs %r" % (key, a, b))
+    keys, kproblems = population_keys.keys_of(old, sys.modules[__name__])
+    problems.extend(kproblems)
+    problems.extend(population_keys.compare(old.get("summary") or {}, new["summary"], keys))
     delta = (new["seed"].get("delta_vs_the_published_face") or {}).get("delta")
     if delta and (delta.get("added") or delta.get("dropped") or delta.get("count_moved")):
         problems.append("the seed population moved against E398's face: %r" % (delta,))

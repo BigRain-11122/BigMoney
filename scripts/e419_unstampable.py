@@ -25,6 +25,8 @@ import re
 import sys
 from datetime import date
 
+import population_keys
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ST = os.path.join(ROOT, "results", "state_tilt")
 E418 = os.path.join(ST, "faceage_latest.json")
@@ -35,6 +37,11 @@ W_NONE = "writer_has_no_date_in_hand"
 W_MISSING = "no_writer_in_the_tree"
 W_ALREADY = "writer_already_writes_a_date"
 CLASS_VOCAB = {W_DIR, W_NONE, W_MISSING, W_ALREADY}
+
+# Counts of the corpus this study scanned: they move when a .py file appears or is deleted, so
+# they are declared (and published) instead of sitting in a leg's equality gate (scripts/
+# population_keys.py; the r1441 recurrence of the E420/E421 law).
+POPULATION_KEYS = ("corpus_sources",)
 
 # A write call is any call whose name (or attribute) promises a persisted face.
 WRITE_ATTRS = {
@@ -464,6 +471,7 @@ def build(cutoff: str | None = None) -> dict:
         "evidence_cutoff": cut,
         "verdict": verdict,
         "summary": summary,
+        "population_keys": list(POPULATION_KEYS),
         "rows": rows,
         "method_limits": [
             "a writer is a function that contains both a write call and the face name; a face "

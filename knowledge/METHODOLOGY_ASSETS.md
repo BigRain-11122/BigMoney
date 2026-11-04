@@ -10078,3 +10078,37 @@ measurement rather than a blind count.
 -> `results/state_tilt/BASENAMECENSUS-2026-11-03.json` + `basenamecensus_latest.json`; smoke leg
 `# E422 (r1440 bm-b)` (1/1, proved red on a doctored face then restored); S6 leg
 `basename_census`; read-only -- no census, face or reader edited.
+
+## E424 -- a population count is not a reading: declare it, or the leg reds on the tree moving (r1441 bm-b)
+
+**The defect.** A face that counts the corpus it scanned ("3487 python files") pins a number that
+moves whenever a .py file appears or is deleted, including files the fixing round itself creates.
+A smoke leg that demands a byte-identical summary therefore goes red for the wrong reason every
+few rounds -- E420's law, fifth recurrence: r1441 found four legs (E403/E412/E419/E422) red, and the
+one live number that had moved was `corpus_py_files 3488 -> 3487` and `corpus_sources 3424 ->
+3423` while every number a reader acts on was identical. The tempting fix -- delete the equality
+assertion -- throws the gate away; the correct fix keeps it for readings and names the rest.
+
+**The mechanism.** `scripts/population_keys.py`: a producer declares `POPULATION_KEYS`, publishes
+the same list inside the face (`population_keys`), and a leg calls `keys_of(face, module)` +
+`compare(published_summary, fresh_summary, keys)`. Readings are still byte-equal; declared counts
+must be present on both sides and be plain ints (a bool or float in a count column is its own
+defect) but are allowed to move, and `drift()` returns the movement so it can be published instead
+of hidden. Both sides must agree, so neither can the leg widen the gate nor the face exclude a key
+it does not publish.
+
+**Why declaration and not a looser assertion.** r1441 doctored tests: a face with `readers 17 ->
+16` still reds ("summary.readers moved: 17 vs 16"), a face that grows `corpus_py_files 10 -> 11`
+passes and discloses the drift, and a leg handed an empty key set still catches the moved count
+(`scripts/population_keys.py` selftest 10/10). E422's leg proved the declaration gate in the live
+tree: run against a face without `population_keys` it reds with "the face does not declare
+population_keys, so every summary key is treated as a reading" -- not a silent pass.
+
+**Corollary for writers.** The same closure applies inside a producer's own `verify()` (E403's was
+still looping over `set(summary) | set(summary)` and would have reded for the same reason). `verify()`
+and the smoke leg must take the exclusion from ONE declaration, never two copies.
+
+**Delivered.** `scripts/population_keys.py` (selftest 10/10); `POPULATION_KEYS` + a published
+`population_keys` list in `e403_family_arg`, `e419_unstampable`, `e422_basename_census_audit`;
+E403/E419/E422 legs read the declaration (E422's hardcoded triple deleted), E403's `verify()` routed
+through the helper; legs re-run green: E403 1/1, E412 1/1, E419 1/1, E422 1/1.

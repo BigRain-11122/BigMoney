@@ -43,6 +43,13 @@ SELF = "scripts/e422_basename_census_audit.py"
 STATE_TILT = os.path.join(ROOT, "results", "state_tilt")
 LATEST = os.path.join(STATE_TILT, "basenamecensus_latest.json")
 
+# Counts over the python corpus (which grows every round), re-derived by a leg from the row list
+# instead of compared to a fresh build -- declared here so no leg carries its own copy of the
+# list (scripts/population_keys.py, r1441).
+POPULATION_KEYS = ("bare_rows_with_a_directory_spelled_in_the_corpus",
+                   "bare_rows_with_a_literal_directory_spelling",
+                   "bare_rows_with_only_a_variable_head_spelling")
+
 CENSUSES = [
     {
         "study": "E402_fragment_producers",
@@ -471,6 +478,7 @@ def build(cutoff=None, faces=None, texts=None, repo_index=None, tree_root=ROOT) 
             "no_rewrites": "no published face, census or reader is edited here",
         },
         "summary": summary,
+        "population_keys": list(POPULATION_KEYS),
         "verdict": summary["verdict"],
     }
 

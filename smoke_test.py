@@ -15549,8 +15549,12 @@ try:
         _m403 = __import__("importlib").import_module("e403_family_arg")
         _s403 = _f403.get("summary") or {}
         _fresh403 = _m403.build(write=False)
-        if _fresh403["summary"] != _s403:
-            _bad403.append("the published summary does not re-derive from the live tree")
+        # r1441: corpus_py_files counts the python corpus and moves when a .py file appears or is
+        # deleted, so it is a declared population key rather than an equality-gated reading.
+        import population_keys as _pk403
+        _pkeys403, _pkbad403 = _pk403.keys_of(_f403, _m403)
+        _bad403.extend(_pkbad403)
+        _bad403.extend(_pk403.compare(_s403, _fresh403.get("summary") or {}, _pkeys403))
         if _fresh403.get("verdict") != _f403.get("verdict"):
             _bad403.append("the stored verdict is not the one the live tree produces")
         _rows403 = _f403.get("readers") or []
@@ -15845,8 +15849,12 @@ try:
     _fresh419 = _m419.build()
     if _fresh419.get("verdict") != _f419.get("verdict"):
         _bad419.append("the verdict does not re-derive")
-    if (_fresh419.get("summary") or {}) != _s419:
-        _bad419.append("the published summary does not re-derive from the live tree")
+    # r1441: corpus_sources counts the python corpus, which moves when a .py file appears or is
+    # deleted. The producer declares it; only the declared key leaves the equality gate.
+    import population_keys as _pk419
+    _pkeys419, _pkbad419 = _pk419.keys_of(_f419, _m419)
+    _bad419.extend(_pkbad419)
+    _bad419.extend(_pk419.compare(_s419, _fresh419.get("summary") or {}, _pkeys419))
     _d419 = "%d face(s): %s | readers that could go red on age today: %d" % (
         _s419.get("faces_in_population"), _s419.get("by_class"),
         _s419.get("readers_that_could_go_red_on_age_today"))
@@ -15977,14 +15985,17 @@ try:
     # E420/E421 family: three of these keys are counts over the python corpus, which grows every
     # round, so they MUST move on an honest rebuild and cannot sit in an equality gate. They are
     # still checked -- against the row list carried by the same face, which is what makes the face
-    # self-consistent -- while everything a reader acts on is compared to the live tree.
-    _acc422 = ("bare_rows_with_a_directory_spelled_in_the_corpus",
-               "bare_rows_with_a_literal_directory_spelling",
-               "bare_rows_with_only_a_variable_head_spelling")
+    # self-consistent -- while everything a reader acts on is compared to the live tree.  r1441:
+    # the list is no longer typed here; the producer declares it and the leg may not widen it.
+    import population_keys as _pk422
+    _acc422, _pkbad422 = _pk422.keys_of(_f422, _m422)
+    if _pkbad422:
+        _bad422.append(_pkbad422[0])
     _s422_cmp = {k: v for k, v in _s422.items() if k not in _acc422}
     _fresh422_cmp = {k: v for k, v in (_fresh422.get("summary") or {}).items() if k not in _acc422}
     if _fresh422_cmp != _s422_cmp:
         _bad422.append("the published summary does not re-derive from the live tree")
+    _bad422.extend(_pk422.compare(_s422, _fresh422.get("summary") or {}, _acc422))
     if sum(1 for r in _rows422 if r.get("directories_the_corpus_spells")) \
             != _s422.get("bare_rows_with_a_directory_spelled_in_the_corpus"):
         _bad422.append("the spelled-directory tally does not re-derive from the row list")
