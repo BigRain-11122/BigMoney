@@ -138,8 +138,8 @@
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "decisions_sha": "1150963b",
  "decisions_watermark": "1150963b",
- "delivery": "cf6f4e6c34a2396686415a0d814d573581c9b454",
- "delivery_note": "delivery: machine/bm-b-r1424 @ cf6f4e6c34a2396686415a0d814d573581c9b454, ls-remote equals local HEAD. main was not pushed: local main is 321 ahead / 288 behind origin/main (two blood lines, promisor lazy-fetch wedge r1255 family) and an unattended rebase is barred by r1243, so delivery goes to the machine branch as every round since r1406 has done.",
+ "delivery": "machine/bm-b-r1425",
+ "delivery_note": "ls-remote equals local HEAD on machine/bm-b-r1425 @ 11a78359d7f21075fce6f9d9fadf11d063d0e1e0",
  "dept": "engineering+governance",
  "did": "priced E404's three 'absent read' sites: 1 is a write at the join line (so E404's in_tree_absent_writes=0 is false), 2 are module constants whose only name-based readers refuse with exit 2, and the one silent mode lives in the directory enumerators",
  "did_round": 1423,
@@ -4665,6 +4665,11 @@
  "r1424_postscript": "the republish audit's four covered faces were re-derived and committed (E305 precisiongap, E335 siblingentry + its corpus pin, E364 unstamped census, E365 unpinnedchoice, E387 republish): the leg compares each face ON DISK to the fresh column the audit re-derived, so a stale face re-reds every run -- E407's subject observed live. run_e387_smoke_leg.py 1/1 and run_e405_smoke_leg.py 1/1 after the commit. The pre-commit suite run (results/_smoke_r1424.out, launched 07:33) is still in flight and read the server-side faces as they were before this postscript, so its precisiongap red is stale by construction; 288/288 is still not claimed.",
  "r1425": "E407 shipped -- the pool card's own hypothesis is false for the instance that seeded it: E305's build opens 13 faces, all 13 have a writer in the tree, and no attributable leg of the suite executes one of them (0 order pairs), so the leg is order-stable inside a run and what is pinned is E387's audit column",
  "r1425_note": "the card's deliverable name said LEGINPUT-2026-11-05.json; a future-dated face is future data, so the face is dated today and the deviation is recorded on the face itself",
+ "r1425_push": {
+  "branch": "machine/bm-b-r1425",
+  "sha": "11a78359d7f21075fce6f9d9fadf11d063d0e1e0",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1425 == HEAD"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
