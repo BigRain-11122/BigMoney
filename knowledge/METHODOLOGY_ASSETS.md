@@ -9694,3 +9694,54 @@ to blind may not exist.
 `results/state_tilt/BLOBGUARD-2026-11-05.json` + `blobguard_latest.json`; smoke leg `# E412:` in
 `smoke_test.py` proved standalone by `scripts/run_e412_smoke_leg.py` (1/1); S6 leg `blob_guard_decision`
 (rc 0, 0.05 s). No reader and no leg was edited; git was only read.
+
+## E403 -- a family-parameter reader is safe where the call passes its family or a scratch directory it just wrote; the rest inherit the decision from their caller (r1432 bm-b)
+
+**Question.** E398 published 17 read sites whose family is not stated at the site but required by the
+signature (`os.path.join(outdir, 'starself_latest.json')`). The face name is literal there, so the
+pointer convention is only safe if every caller passes the directory the reader means. Nobody had
+walked the callers.
+
+**Answer, measured over 16 distinct readers / 38 in-repo call sites.** 11 calls omit the argument
+(and each of those readers resolves it with `param or DEFAULT`), 13 pass a scratch directory the
+caller just created, 14 forward their own caller's parameter, **0 pass a different published family**,
+0 remain unresolvable. Eight readers are reached only through a forwarded parameter; six of those
+eight have a caller whose own default is a measured published family (`results/state_tilt`). The seed
+population re-derives exactly against E398's face (0 added / 0 dropped / 0 moved).
+
+**Four rules, each bought with a wrong draft.**
+
+1. **Price the fallback, not just the supplied argument.** 11 of 38 calls pass nothing, and the
+   reader then runs `outdir = outdir or OUTDIR`. A census that only classifies the supplied arguments
+   leaves 30% of its population as "unknown" -- which is exactly the hole the seed class was published
+   with. A call row must name where the *omitted* argument lands, and that has to be read off the body
+   (10 readers carry such a line, all 10 resolved to a directory).
+2. **Scratch detection needs `with` bindings and path-shaped propagation.** `etf_book_order` does
+   `with tempfile.TemporaryDirectory() as td:` and later `cd = os.path.join(td, "prod")`; an
+   implementation that only looks for a literal `mkdtemp()` inside an `Assign` publishes those rows as
+   `runtime_value` (7 of 38 here). The tempting fix -- propagate through any assignment that mentions
+   a scratch name -- marks `rc`, `spent` and `tot_w` as directories, i.e. it manufactures a
+   false-clean, which is worse than an honest unknown. Propagate only through path-shaped values:
+   `Name`, `join/Path/str(...)`, `a / b`.
+3. **Corpus scope is a cost decision that must carry its own falsification test.** Parsing every `.py`
+   in the repo is 3337 files and 77 s per chain leg. Excluding `results/` (8621 artefact copies --
+   fixture clones and scratch probes -- which are not importable modules) is only defensible if the
+   published answer does not move: re-publishing the same 38 call sites *is* that test, and the leg
+   then runs in 3.07 s. A prefilter that parses only files whose text mentions a reader module stem is
+   sound for the same reason an import requires the name.
+4. **One hop of forwarding is not the answer.** Six `_write(face, outdir)` readers first read as
+   "unsafe, its safety lives in its caller" -- and the caller is `run(save=True, outdir=None)` whose
+   first line is `outdir = outdir or OUTDIR`. Publishing only the first hop would have produced six
+   false alarms about readers that cannot reach a foreign family on the chain. Trace the forwarding
+   parameter to *its* fallback and publish that directory as the conditional landing.
+
+**How to apply.** For any reader that takes its family (or its date, or its corpus) as a parameter,
+the safe population is "callers that pass their own family or a directory they just wrote". The bill
+is the per-call class table plus the number of calls that omit the argument with the fallback resolved
+off the body; a reader published as safe while forwarding an unmeasured parameter is a defect in the
+*face*, not in the reader, and the smoke leg refuses exactly that shape.
+
+**Wiring.** `scripts/e403_family_arg.py` (run / verify problems=[] / selftest 11/11); faces
+`results/state_tilt/FAMILYARG-20261103.json` + `familyarg_latest.json`; smoke leg `# E403:` in
+`smoke_test.py` (green on the live tree, red on a doctored copy, face restored byte-identical); S6 leg
+`family_arg` (rc 0, 3.07 s). No reader and no caller was edited.

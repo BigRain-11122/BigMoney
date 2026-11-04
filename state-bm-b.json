@@ -4719,6 +4719,30 @@
   "sha": "66e76f3496af6c525a6079eaea91b7875fbd0d63",
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1426 == HEAD"
  },
+ "r1432": {
+  "card": "E403-DO-THE-CALLERS-OF-A-FAMILY-PARAMETER-READER-PASS-THE-RIGHT-FAMILY",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/FAMILYARG-20261103.json",
+  "findings": {
+   "by_class": {
+    "default_uses_the_module_family": 11,
+    "forwarded_parameter": 14,
+    "scratch_directory_of_the_caller": 13
+   },
+   "call_sites": 38,
+   "foreign_family_calls": 0,
+   "readers_depending_on_their_caller": 8,
+   "readers_whose_caller_default_is_a_family": 6,
+   "runtime_values_left": 0
+  },
+  "pits": [
+   "a call-site census that only prices supplied arguments leaves 30% unknown -- the omitted argument's landing must be read off `param or DEFAULT` in the body",
+   "scratch detection needs `with ... as td` bindings, and propagation must be restricted to path-shaped values or rc/spent become directories (a false-clean is worse than unknown)",
+   "corpus scope needs its own falsification test: excluding results/ (8621 artefact .py) moved 0 of 38 call sites and cut the leg from 77s to 3.07s",
+   "one hop of forwarding produced six false alarms; the caller's own fallback is the answer"
+  ],
+  "verify": "e403 verify problems=[] | selftest 11/11 | smoke leg E403 1/1 (red on a doctored copy, face restored byte-identical) | S6 leg family_arg rc=0 3.07s"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -4727,29 +4751,29 @@
  "ram_free_pct": 45.1,
  "ram_load_pct": 54.0,
  "ram_total_gb": 25.7,
- "recent_artifact": "results/state_tilt/FRESHNESSBOUND-2026-11-03.json",
+ "recent_artifact": "results/state_tilt/FAMILYARG-20261103.json",
  "reds_fixed": {},
  "reds_open": [],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1429,
- "round_no": 1431,
+ "round": 1430,
+ "round_no": 1432,
  "round_no_label": "r1422",
  "round_no_note": "r1416: every round key moves together (the r1393 heal does not survive a lane that writes one face)",
- "round_no_ts": "2026-11-04T10:51:34+08:00",
+ "round_no_ts": "2026-11-04T13:02:11+08:00",
  "round_no_ts_note": "r1411 closeout",
  "round_pit": "5371 project-local callables open a file and they sit on up to 86616 site lines the stdlib table reads as 'other', but every key they open is opened by a stdlib call somewhere too, so no published key class moves: the keys named only by non-opening sites stay at 1 of 883.  The residue is a cohort, not a hidden file reader: of the 10 sites the stdlib table calls 'other', 10 are git-object reads (`git show`/`cat-file` through subprocess, 63 such helpers), so no table of file-opening callables could ever classify them; they span 4 keys and 1 key is named only that way",
  "round_report_line_ts": "2026-11-04T06:28:39+08:00",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
  "s1": "the full ~305-leg suite was launched detached at 10:47 (pid 16344, results/_smoke_r1429.out) and had not finished at close; the two new legs were exercised verbatim from smoke_test.py by scripts/run_e410_freshness_legs.py (3/3) and through the S6 leg",
  "s4": "E410 card appended to knowledge/METHODOLOGY_ASSETS.md (55 lines, numstat 55/0); two memory-worthy lessons: line-numbered reader sites are layout claims, and a card's deliverable name can collide with an existing face",
- "s6": "leg freshness_bound rc=0 0.6s (Tools/s6_chain_bmb.py 1429 --only freshness_bound) | orphan probe py_faces=7 orphans=0 residents=0 | attrition guard CLEAN (4 ledgers) | pool dualrun ZERO-DRIFT (892 entries, streak 51) | the rest of the S6 chain not run this window and not claimed",
+ "s6": "leg family_arg rc=0 3.07s | orphan probe py_faces=6 orphans=0 residents=0 | the rest of the S6 chain not run this window and not claimed",
  "s6_leg": "writer_refresh_signal rc=0 3.0s (Tools/s6_chain_bmb.py 1426 --only)",
  "s6_note": "the rest of the S6 chain (update_*, regime, scorecards, papers, dashboards) not run this window -- stated, not claimed",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
- "s7": "orders 114 files / 115 acks / 0 unacked by filename | decisions blob sha256 1bbbb7e3 == last round's reading -> zero new rows owed, watermark recorded | loop task / watchdog / claws not re-registered this window (their own ticks cover the gap; stated plainly) | delivery goes to machine/bm-b-r1429",
+ "s7": "orders 114 files / 115 acks / 0 unacked by filename | decisions blob sha256 1bbbb7e3 == last round's reading -> zero new rows owed | loop task / watchdog / claws not re-registered this window",
  "sat_engine": "not re-run this window -- stated, not claimed",
  "selftest": "e409_unfloored_faces 12/12, verify problems=[]; run_e410_freshness_legs 3/3 cases",
- "seq": 1428,
+ "seq": 1431,
  "side_effect_on_neighbour": "publishing fragmentproducers_latest.json added one family-named pointer, so E398's named_pointers moved 175 -> 176 and the E398 smoke leg failed; the face was re-derived from the live build (e398 run + verify problems=[]) rather than the leg loosened -- read sites 187 and bare pointers 28 unchanged",
  "smoke": "full suite launched detached at r1425 close (results/_smoke_r1425.out, pid recorded in the round report); no 305/305 claim",
  "smoke_note": "the in-flight suite carried one FAIL (E305 precisiongap) which was a 12-second-stale snapshot: the live build now equals the published face (n_at_risk_after 1 == 1, verdicts equal)",
@@ -4769,16 +4793,17 @@
  "snapshot": {},
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "ok",
- "study": "E410_bounded_lag_readers_for_two_session_written_faces",
+ "study": "E403_family_parameter_callers",
  "supply_floor": {
   "floor": 3,
   "ready_at_close": 3,
   "seeded": [
-   "E411-DO-EVERY-FACE-THE-SUITE-READS-CARRY-A-READER-THAT-CAN-GO-RED"
+   "E414-WHAT-DOES-THE-ONE-BARE-BASENAME-READ-RESOLVE-TO"
   ],
   "still_ready_untouched": [
-   "E403-DO-THE-CALLERS-OF-A-FAMILY-PARAMETER-READER-PASS-THE-RIGHT-FAMILY",
-   "E406-DOES-A-READER-OF-A-COMMITTED-BLOB-KNOW-IT-CAN-DIFFER-FROM-THE-FILE"
+   "E406-DOES-A-READER-OF-A-COMMITTED-BLOB-KNOW-IT-CAN-DIFFER-FROM-THE-FILE",
+   "E411-DO-EVERY-FACE-THE-SUITE-READS-CARRY-A-READER-THAT-CAN-GO-RED",
+   "E413-DOES-THE-STRONG-BASIS-FACE-NAME-RESOLVE-TO-A-FILE"
   ]
  },
  "sync": {
@@ -4788,21 +4813,21 @@
   "peer": "origin"
  },
  "sync_note": "r1401: local commits not on origin/main stay large (two blood lines, promisor lazy-fetch wedge); delivery goes to machine/bm-b-r1416 and is verified by ls-remote",
- "task": "bounded freshness readers",
- "task_short": "freshness bound",
+ "task": "family-parameter callers",
+ "task_short": "family arg",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
- "three_line": "E408: refresh and read never share a signal -- 12 of 14 real writers run on the round chain, the 13 readers run in the suite, 0 faces are refreshed on the surface that reads them | results/state_tilt/REFRESHSIGNAL-2026-11-04.json @ 2026-11-04T09:25:04+08:00 | E409 two session-only writers leave their readers unfloored / E403 family parameter callers / E406 committed-blob reader gap -- cpu-only, due <=48h",
- "three_line_artifact": "results/state_tilt/FRESHNESSBOUND-2026-11-03.json @ 2026-11-04T10:51:34+08:00",
- "three_line_current": "E410: two bounded freshness readers live -- 1 bar on the open-fill face, 5 on the source census; both red on a doctored copy, green on the live one",
- "three_line_next": "E411 extend the reader-tier table to every face the suite opens (193 legs) and name the faces whose only reader is blind -- cpu-only, due <=48h",
- "timestamp": "2026-11-04T10:51:34+08:00",
- "ts": "2026-11-04T11:45:00+08:00",
- "ts_utc_ms": 1793755504046,
+ "three_line": "E403: 38 calls of 16 family-parameter readers -- 0 land on a foreign family, 8 inherit the decision from their caller | results/state_tilt/FAMILYARG-20261103.json | E414 the one bare-basename read in the corpus (smoke_test.py:7971, 28 candidate families) / E411 reader tiers for every face the suite opens / E413 strong-basis name resolution -- cpu-only, due <=48h",
+ "three_line_artifact": "results/state_tilt/FAMILYARG-20261103.json @ 2026-11-04T13:02:11+08:00",
+ "three_line_current": "E403: 38 calls of 16 family-parameter readers -- 0 land on a foreign family, 8 inherit the decision from their caller",
+ "three_line_next": "E414 the one bare-basename read in the corpus (smoke_test.py:7971, 28 candidate families) / E411 reader tiers for every face the suite opens / E413 strong-basis name resolution -- cpu-only, due <=48h",
+ "timestamp": "2026-11-04T13:02:11+08:00",
+ "ts": "2026-11-04T13:02:11+08:00",
+ "ts_utc_ms": 1793768531000,
  "ts_utc_offset": "+08:00",
- "updated": "2026-11-04T10:51:34+08:00",
- "updated_at": "2026-11-04T10:51:34+08:00",
- "verdict": "two_freshness_bounds_live_and_each_shown_red_on_a_doctored_copy",
- "verdict_line": "open-fill face 1 bar off the panel (lag 0 today), census 5 bars (lag 2 today); each bound proved red in a scratch workspace and green on the live tree, inputs sha256 unchanged",
+ "updated": "2026-11-04T13:02:11+08:00",
+ "updated_at": "2026-11-04T13:02:11+08:00",
+ "verdict": "every_call_passes_its_own_family_or_a_scratch_dir_and_the_rest_inherit_the_decision",
+ "verdict_line": "16 readers / 38 call sites: 11 omit the argument (fallback read off the body), 13 pass a scratch dir, 14 forward a parameter, 0 pass a foreign published family",
  "verdict_watermark": "red=true lane=pool-batch-runnable-idle-low-cpu (escalate: round-report P0 + dashboard red; GM waiver per O-1612)",
  "verify": "e408 verify problems=[] | selftest 20/20 | smoke leg E408 1/1 | S6 leg writer_refresh_signal rc=0 3.0s",
  "vram_free_gb": 0.66,
@@ -4810,7 +4835,7 @@
  "vram_total_gb": 8.0,
  "vram_used_gb": 7.17,
  "watermark_note": "3 ready cards at open (E403/E406/E408); this round closed E408 and seeded E409, leaving 3 ready -- a research round on a CPU card, not an unclaimed board",
- "watermark_red": "py not re-probed this window; pool had 3 ready unowned cards at open, E410 burned in-window, floor restored to 3",
+ "watermark_red": "py not re-probed this window; pool had 3 ready unowned cards at open, E403 burned in-window, floor restored to 3",
  "watermark_verdict": "red=true lane=pool-batch-runnable-idle-low-cpu",
- "work": "E410: two bounded freshness readers (1 bar open-fill, 5 bars census) with a three-case prover; E409's line-numbered reader sites replaced by anchors after three of them silently pointed at the wrong blocks"
+ "work": "E403: walked the callers of the 17 read sites whose family is a function parameter. No caller passes a foreign family; 8 readers depend on their own caller's parameter and 6 of those 8 have a measured default of results/state_tilt. Three drafts were wrong on the way: the fallback was unpriced in v1, scratch detection missed `with TemporaryDirectory() as td` and then over-propagated (rc/spent read as directories), and one forward hop produced six false alarms until run()'s own `outdir or OUTDIR` was read."
 }

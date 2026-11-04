@@ -1432,6 +1432,11 @@ LEGS = [
     # the row it was made from and refuses a face called guard-free while a consumer reads it at
     # HEAD; it re-measures blob-vs-file per face, so it belongs after `blob_readers`.
     ("blob_guard_decision", ["python", "scripts/e412_blob_guard_decision.py", "verify"]),
+    # E403: E398 stopped at "somebody must pass the directory" for the 17 read sites whose family
+    # is a function parameter. This walks the callers: 38 call sites, 11 land on a published
+    # family, 13 on a scratch directory the caller just wrote, 14 forward their own caller's
+    # parameter (8 readers), 0 pass a foreign family. Verify re-derives every call row from source.
+    ("family_arg", ["python", "scripts/e403_family_arg.py", "verify"]),
 ]
 
 

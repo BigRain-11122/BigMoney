@@ -15419,5 +15419,68 @@ except Exception as _e410b:
     _d410b = ""
 check(_name410b, not _bad410b, "; ".join(_bad410b)[:240] or _d410b)
 
+# E403: E398 stopped at "somebody must pass the directory" for the 17 read sites whose family is
+# a function parameter.  This walks the callers.  The leg refuses a published call table that no
+# longer re-derives from the live tree, a reader the seed names that has left the tree, a call
+# class outside the published vocabulary, and the dishonest claim the card warns about: a reader
+# published as passing its own family while one of its calls only forwards its caller's parameter
+# with no measured default behind it.
+_name403 = ("product: family-parameter callers -- %s reader(s) / %s call site(s); %s land on a "
+            "published family, %s on a scratch directory the caller wrote, %s forwarded; %s "
+            "reader(s) pass a foreign family")
+_bad403 = []
+_f403 = None
+try:
+    _p403 = os.path.join("results", "state_tilt", "familyarg_latest.json")
+    _f403 = json.load(open(_p403, encoding="utf-8")) if os.path.exists(_p403) else None
+    if _f403 is None:
+        _bad403.append("no published family-argument ledger")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m403 = __import__("importlib").import_module("e403_family_arg")
+        _s403 = _f403.get("summary") or {}
+        _fresh403 = _m403.build(write=False)
+        if _fresh403["summary"] != _s403:
+            _bad403.append("the published summary does not re-derive from the live tree")
+        if _fresh403.get("verdict") != _f403.get("verdict"):
+            _bad403.append("the stored verdict is not the one the live tree produces")
+        _rows403 = _f403.get("readers") or []
+        if len(_rows403) != _s403.get("readers"):
+            _bad403.append("the published reader rows do not re-add to the headline")
+        _calls403 = [c_ for r_ in _rows403 for c_ in r_.get("calls") or []]
+        if len(_calls403) != _s403.get("call_sites"):
+            _bad403.append("the call rows do not re-add to the headline")
+        _vocab403 = set(_m403.CLASSES)
+        for _c403 in _calls403:
+            if _c403.get("class") not in _vocab403:
+                _bad403.append("call %s has a class outside the vocabulary"
+                               % _c403.get("caller"))
+        for _r403 in _rows403:
+            if not _r403.get("found_in_tree"):
+                _bad403.append("the seed names a reader that is no longer in the tree: %s"
+                               % _r403.get("reader"))
+            if _r403.get("verdict") == "every_call_passes_the_family_or_a_scratch_dir":
+                for _c403 in _r403.get("calls") or []:
+                    if _c403.get("class") == "forwarded_parameter" \
+                            and not _c403.get("forwarded_default_dir"):
+                        _bad403.append("%s is published as safe but forwards an unmeasured "
+                                       "parameter" % _r403.get("reader"))
+        _byclass403 = {}
+        for _c403 in _calls403:
+            _byclass403[_c403.get("class")] = _byclass403.get(_c403.get("class"), 0) + 1
+        if _byclass403 != (_s403.get("by_class") or {}):
+            _bad403.append("the call classes do not re-add to their headline")
+        if "E398" not in json.dumps(_f403.get("seed") or {}):
+            _bad403.append("the face does not name the seed population it came from")
+        _name403 = _name403 % (_s403.get("readers"), _s403.get("call_sites"),
+                               _s403.get("calls_resolving_to_a_published_family"),
+                               _s403.get("calls_landing_on_a_scratch_directory"),
+                               _s403.get("by_class", {}).get("forwarded_parameter"),
+                               _s403.get("readers_where_a_caller_passes_a_different_family"))
+except Exception as _e403:
+    _bad403.append(repr(_e403)[:160])
+check(_name403, not _bad403, "; ".join(_bad403)[:240]
+      or "verdict %s" % str((_f403 or {}).get("verdict"))[:90])
+
 if __name__ == "__main__":
     sys.exit(main())

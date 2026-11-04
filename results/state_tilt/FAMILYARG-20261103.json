@@ -1,0 +1,1207 @@
+{
+ "evidence_cutoff": "2026-11-03",
+ "generated": "2026-11-04T13:00:23+08:00",
+ "method_limits": [
+  "static only: a call reached through getattr/setattr, a dict of callables, or a subprocess command line is not a call site here. The S6 chain invokes these scripts as CLIs, which lands on the in-file `main()` call and is counted.",
+  "a forwarded parameter is traced one level (the caller's own parameter is named); it is not chased to the top, so 'safe here' means 'the caller decides'.",
+  "scratch directories are recognised from the assignment that created them (mkdtemp / TemporaryDirectory / a *_tmp* name); a scratch dir passed under another spelling reads as runtime_value rather than being assumed safe.",
+  "the family universe is every directory under results/, docs/ and data/ that holds a *latest.json pointer today; a family that publishes no pointer is not a family for this census.",
+  "corpus = 3453 python files under scripts/, Tools/ and the repo root; results/ and logs/ are excluded because they hold artefacts, not importable modules (excluding them moved 0 of the call sites). Only files whose text mentions a reader module stem are parsed, so a caller that reaches a reader through a name built at runtime is not in this census."
+ ],
+ "question": "does every caller of a family-parameter reader pass the family the reader means, or can one of them land on a different published family",
+ "readers": [
+  {
+   "calls": [
+    {
+     "bound_by": "keyword",
+     "caller": "scripts/e252_star_prices_itself.py:selftest:697",
+     "caller_file": "scripts/e252_star_prices_itself.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "a directory this caller created",
+     "expr": "td",
+     "forwarded_default_dir": null,
+     "line": 697,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "keyword",
+     "caller": "scripts/e252_star_prices_itself.py:selftest:706",
+     "caller_file": "scripts/e252_star_prices_itself.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "a directory this caller created",
+     "expr": "td",
+     "forwarded_default_dir": null,
+     "line": 706,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "keyword",
+     "caller": "scripts/e252_star_prices_itself.py:selftest:718",
+     "caller_file": "scripts/e252_star_prices_itself.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "a directory this caller created",
+     "expr": "td",
+     "forwarded_default_dir": null,
+     "line": 718,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "omitted",
+     "caller": "scripts/e252_star_prices_itself.py:main:842",
+     "caller_file": "scripts/e252_star_prices_itself.py",
+     "caller_function": "main",
+     "class": "default_uses_the_module_family",
+     "detail": "argument omitted -> OUTDIR",
+     "expr": null,
+     "forwarded_default_dir": null,
+     "line": 842,
+     "resolved_dir": "results/state_tilt",
+     "resolved_family": true,
+     "resolved_family_dir": "results/state_tilt"
+    },
+    {
+     "bound_by": "keyword",
+     "caller": "scripts/e252_star_prices_itself.py:selftest:692",
+     "caller_file": "scripts/e252_star_prices_itself.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "a directory this caller created",
+     "expr": "td",
+     "forwarded_default_dir": null,
+     "line": 692,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "keyword",
+     "caller": "scripts/e252_star_prices_itself.py:selftest:694",
+     "caller_file": "scripts/e252_star_prices_itself.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "a directory this caller created",
+     "expr": "td",
+     "forwarded_default_dir": null,
+     "line": 694,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 1,
+   "calls_through_a_forwarded_parameter": [],
+   "face_basename": "starself_latest.json",
+   "fallback": {
+    "dir": "results/state_tilt",
+    "expr": "OUTDIR",
+    "found": true
+   },
+   "file": "scripts/e252_star_prices_itself.py",
+   "found_in_tree": true,
+   "function": "verify",
+   "own_family_dir": "results/state_tilt",
+   "parameter": "outdir",
+   "parameter_shape": "directory",
+   "reachable_dirs": [
+    "<scratch: a directory the caller just wrote>",
+    "results/state_tilt"
+   ],
+   "reachable_dirs_if_callers_default": [],
+   "reachable_families": [
+    "results/state_tilt"
+   ],
+   "reachable_families_if_callers_default": [],
+   "reader": "scripts/e252_star_prices_itself.py:verify",
+   "seed_sites": 2,
+   "signature_has_the_parameter": true,
+   "verdict": "every_call_passes_the_family_or_a_scratch_dir"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "omitted",
+     "caller": "scripts/e253_self_row_resolution.py:main:682",
+     "caller_file": "scripts/e253_self_row_resolution.py",
+     "caller_function": "main",
+     "class": "default_uses_the_module_family",
+     "detail": "argument omitted -> OUTDIR",
+     "expr": null,
+     "forwarded_default_dir": null,
+     "line": 682,
+     "resolved_dir": "results/state_tilt",
+     "resolved_family": true,
+     "resolved_family_dir": "results/state_tilt"
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 1,
+   "calls_through_a_forwarded_parameter": [],
+   "face_basename": "selfres_latest.json",
+   "fallback": {
+    "dir": "results/state_tilt",
+    "expr": "OUTDIR",
+    "found": true
+   },
+   "file": "scripts/e253_self_row_resolution.py",
+   "found_in_tree": true,
+   "function": "verify",
+   "own_family_dir": "results/state_tilt",
+   "parameter": "outdir",
+   "parameter_shape": "directory",
+   "reachable_dirs": [
+    "results/state_tilt"
+   ],
+   "reachable_dirs_if_callers_default": [],
+   "reachable_families": [
+    "results/state_tilt"
+   ],
+   "reachable_families_if_callers_default": [],
+   "reader": "scripts/e253_self_row_resolution.py:verify",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "every_call_passes_the_family_or_a_scratch_dir"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "omitted",
+     "caller": "scripts/e254_band_exponent_inside_cell.py:main:625",
+     "caller_file": "scripts/e254_band_exponent_inside_cell.py",
+     "caller_function": "main",
+     "class": "default_uses_the_module_family",
+     "detail": "argument omitted -> OUTDIR",
+     "expr": null,
+     "forwarded_default_dir": null,
+     "line": 625,
+     "resolved_dir": "results/state_tilt",
+     "resolved_family": true,
+     "resolved_family_dir": "results/state_tilt"
+    },
+    {
+     "bound_by": "omitted",
+     "caller": "smoke_test.py:main:4293",
+     "caller_file": "smoke_test.py",
+     "caller_function": "main",
+     "class": "default_uses_the_module_family",
+     "detail": "argument omitted -> OUTDIR",
+     "expr": null,
+     "forwarded_default_dir": null,
+     "line": 4293,
+     "resolved_dir": "results/state_tilt",
+     "resolved_family": true,
+     "resolved_family_dir": "results/state_tilt"
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 2,
+   "calls_through_a_forwarded_parameter": [],
+   "face_basename": "bandexp_latest.json",
+   "fallback": {
+    "dir": "results/state_tilt",
+    "expr": "OUTDIR",
+    "found": true
+   },
+   "file": "scripts/e254_band_exponent_inside_cell.py",
+   "found_in_tree": true,
+   "function": "verify",
+   "own_family_dir": "results/state_tilt",
+   "parameter": "outdir",
+   "parameter_shape": "directory",
+   "reachable_dirs": [
+    "results/state_tilt"
+   ],
+   "reachable_dirs_if_callers_default": [],
+   "reachable_families": [
+    "results/state_tilt"
+   ],
+   "reachable_families_if_callers_default": [],
+   "reader": "scripts/e254_band_exponent_inside_cell.py:verify",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "every_call_passes_the_family_or_a_scratch_dir"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "omitted",
+     "caller": "scripts/e255_band_draw_starvation.py:main:718",
+     "caller_file": "scripts/e255_band_draw_starvation.py",
+     "caller_function": "main",
+     "class": "default_uses_the_module_family",
+     "detail": "argument omitted -> OUTDIR",
+     "expr": null,
+     "forwarded_default_dir": null,
+     "line": 718,
+     "resolved_dir": "results/state_tilt",
+     "resolved_family": true,
+     "resolved_family_dir": "results/state_tilt"
+    },
+    {
+     "bound_by": "omitted",
+     "caller": "smoke_test.py:main:4408",
+     "caller_file": "smoke_test.py",
+     "caller_function": "main",
+     "class": "default_uses_the_module_family",
+     "detail": "argument omitted -> OUTDIR",
+     "expr": null,
+     "forwarded_default_dir": null,
+     "line": 4408,
+     "resolved_dir": "results/state_tilt",
+     "resolved_family": true,
+     "resolved_family_dir": "results/state_tilt"
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 2,
+   "calls_through_a_forwarded_parameter": [],
+   "face_basename": "banddraw_latest.json",
+   "fallback": {
+    "dir": "results/state_tilt",
+    "expr": "OUTDIR",
+    "found": true
+   },
+   "file": "scripts/e255_band_draw_starvation.py",
+   "found_in_tree": true,
+   "function": "verify",
+   "own_family_dir": "results/state_tilt",
+   "parameter": "outdir",
+   "parameter_shape": "directory",
+   "reachable_dirs": [
+    "results/state_tilt"
+   ],
+   "reachable_dirs_if_callers_default": [],
+   "reachable_families": [
+    "results/state_tilt"
+   ],
+   "reachable_families_if_callers_default": [],
+   "reader": "scripts/e255_band_draw_starvation.py:verify",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "every_call_passes_the_family_or_a_scratch_dir"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "positional",
+     "caller": "scripts/e257_band_at_top_flips.py:run:466",
+     "caller_file": "scripts/e257_band_at_top_flips.py",
+     "caller_function": "run",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'outdir' (run); it defaults to OUTDIR",
+     "expr": "outdir",
+     "forwarded_default_dir": "results/state_tilt",
+     "line": 466,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/e257_band_at_top_flips.py:run:434",
+     "caller_file": "scripts/e257_band_at_top_flips.py",
+     "caller_function": "run",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'outdir' (run); it defaults to OUTDIR",
+     "expr": "outdir",
+     "forwarded_default_dir": "results/state_tilt",
+     "line": 434,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 0,
+   "calls_through_a_forwarded_parameter": [
+    "scripts/e257_band_at_top_flips.py:run:466",
+    "scripts/e257_band_at_top_flips.py:run:434"
+   ],
+   "face_basename": "bandtopflip_latest.json",
+   "fallback": {
+    "dir": null,
+    "expr": null,
+    "found": false
+   },
+   "file": "scripts/e257_band_at_top_flips.py",
+   "found_in_tree": true,
+   "function": "_write",
+   "own_family_dir": "results/state_tilt",
+   "parameter": "outdir",
+   "parameter_shape": "directory",
+   "reachable_dirs": [],
+   "reachable_dirs_if_callers_default": [
+    "results/state_tilt"
+   ],
+   "reachable_families": [],
+   "reachable_families_if_callers_default": [
+    "results/state_tilt"
+   ],
+   "reader": "scripts/e257_band_at_top_flips.py:_write",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "safe_here_but_its_own_caller_decides"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "positional",
+     "caller": "scripts/e258_band_multiplier_per_window.py:run:510",
+     "caller_file": "scripts/e258_band_multiplier_per_window.py",
+     "caller_function": "run",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'outdir' (run); it defaults to OUTDIR",
+     "expr": "outdir",
+     "forwarded_default_dir": "results/state_tilt",
+     "line": 510,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/e258_band_multiplier_per_window.py:run:462",
+     "caller_file": "scripts/e258_band_multiplier_per_window.py",
+     "caller_function": "run",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'outdir' (run); it defaults to OUTDIR",
+     "expr": "outdir",
+     "forwarded_default_dir": "results/state_tilt",
+     "line": 462,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 0,
+   "calls_through_a_forwarded_parameter": [
+    "scripts/e258_band_multiplier_per_window.py:run:510",
+    "scripts/e258_band_multiplier_per_window.py:run:462"
+   ],
+   "face_basename": "bandwinmult_latest.json",
+   "fallback": {
+    "dir": null,
+    "expr": null,
+    "found": false
+   },
+   "file": "scripts/e258_band_multiplier_per_window.py",
+   "found_in_tree": true,
+   "function": "_write",
+   "own_family_dir": "results/state_tilt",
+   "parameter": "outdir",
+   "parameter_shape": "directory",
+   "reachable_dirs": [],
+   "reachable_dirs_if_callers_default": [
+    "results/state_tilt"
+   ],
+   "reachable_families": [],
+   "reachable_families_if_callers_default": [
+    "results/state_tilt"
+   ],
+   "reader": "scripts/e258_band_multiplier_per_window.py:_write",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "safe_here_but_its_own_caller_decides"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "positional",
+     "caller": "scripts/e259_band_multiplier_distribution.py:run:514",
+     "caller_file": "scripts/e259_band_multiplier_distribution.py",
+     "caller_function": "run",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'outdir' (run); it defaults to OUTDIR",
+     "expr": "outdir",
+     "forwarded_default_dir": "results/state_tilt",
+     "line": 514,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/e259_band_multiplier_distribution.py:run:474",
+     "caller_file": "scripts/e259_band_multiplier_distribution.py",
+     "caller_function": "run",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'outdir' (run); it defaults to OUTDIR",
+     "expr": "outdir",
+     "forwarded_default_dir": "results/state_tilt",
+     "line": 474,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 0,
+   "calls_through_a_forwarded_parameter": [
+    "scripts/e259_band_multiplier_distribution.py:run:514",
+    "scripts/e259_band_multiplier_distribution.py:run:474"
+   ],
+   "face_basename": "bandwindist_latest.json",
+   "fallback": {
+    "dir": null,
+    "expr": null,
+    "found": false
+   },
+   "file": "scripts/e259_band_multiplier_distribution.py",
+   "found_in_tree": true,
+   "function": "_write",
+   "own_family_dir": "results/state_tilt",
+   "parameter": "outdir",
+   "parameter_shape": "directory",
+   "reachable_dirs": [],
+   "reachable_dirs_if_callers_default": [
+    "results/state_tilt"
+   ],
+   "reachable_families": [],
+   "reachable_families_if_callers_default": [
+    "results/state_tilt"
+   ],
+   "reader": "scripts/e259_band_multiplier_distribution.py:_write",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "safe_here_but_its_own_caller_decides"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "positional",
+     "caller": "scripts/e260_band_endpoint_arrival.py:run:361",
+     "caller_file": "scripts/e260_band_endpoint_arrival.py",
+     "caller_function": "run",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'outdir' (run); it defaults to OUTDIR",
+     "expr": "outdir",
+     "forwarded_default_dir": "results/state_tilt",
+     "line": 361,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/e260_band_endpoint_arrival.py:run:322",
+     "caller_file": "scripts/e260_band_endpoint_arrival.py",
+     "caller_function": "run",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'outdir' (run); it defaults to OUTDIR",
+     "expr": "outdir",
+     "forwarded_default_dir": "results/state_tilt",
+     "line": 322,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 0,
+   "calls_through_a_forwarded_parameter": [
+    "scripts/e260_band_endpoint_arrival.py:run:361",
+    "scripts/e260_band_endpoint_arrival.py:run:322"
+   ],
+   "face_basename": "bandarrival_latest.json",
+   "fallback": {
+    "dir": null,
+    "expr": null,
+    "found": false
+   },
+   "file": "scripts/e260_band_endpoint_arrival.py",
+   "found_in_tree": true,
+   "function": "_write",
+   "own_family_dir": "results/state_tilt",
+   "parameter": "outdir",
+   "parameter_shape": "directory",
+   "reachable_dirs": [],
+   "reachable_dirs_if_callers_default": [
+    "results/state_tilt"
+   ],
+   "reachable_families": [],
+   "reachable_families_if_callers_default": [
+    "results/state_tilt"
+   ],
+   "reader": "scripts/e260_band_endpoint_arrival.py:_write",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "safe_here_but_its_own_caller_decides"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "positional",
+     "caller": "scripts/e261_degenerate_seeds_leave_one_bucket.py:run:481",
+     "caller_file": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+     "caller_function": "run",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'outdir' (run); it defaults to OUTDIR",
+     "expr": "outdir",
+     "forwarded_default_dir": "results/state_tilt",
+     "line": 481,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/e261_degenerate_seeds_leave_one_bucket.py:run:438",
+     "caller_file": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+     "caller_function": "run",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'outdir' (run); it defaults to OUTDIR",
+     "expr": "outdir",
+     "forwarded_default_dir": "results/state_tilt",
+     "line": 438,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 0,
+   "calls_through_a_forwarded_parameter": [
+    "scripts/e261_degenerate_seeds_leave_one_bucket.py:run:481",
+    "scripts/e261_degenerate_seeds_leave_one_bucket.py:run:438"
+   ],
+   "face_basename": "bandbucket_latest.json",
+   "fallback": {
+    "dir": null,
+    "expr": null,
+    "found": false
+   },
+   "file": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+   "found_in_tree": true,
+   "function": "_write",
+   "own_family_dir": "results/state_tilt",
+   "parameter": "outdir",
+   "parameter_shape": "directory",
+   "reachable_dirs": [],
+   "reachable_dirs_if_callers_default": [
+    "results/state_tilt"
+   ],
+   "reachable_families": [],
+   "reachable_families_if_callers_default": [
+    "results/state_tilt"
+   ],
+   "reader": "scripts/e261_degenerate_seeds_leave_one_bucket.py:_write",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "safe_here_but_its_own_caller_decides"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "positional",
+     "caller": "scripts/e263_arrival_vs_cell_size.py:run:530",
+     "caller_file": "scripts/e263_arrival_vs_cell_size.py",
+     "caller_function": "run",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'outdir' (run); it defaults to OUTDIR",
+     "expr": "outdir",
+     "forwarded_default_dir": "results/state_tilt",
+     "line": 530,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/e263_arrival_vs_cell_size.py:run:470",
+     "caller_file": "scripts/e263_arrival_vs_cell_size.py",
+     "caller_function": "run",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'outdir' (run); it defaults to OUTDIR",
+     "expr": "outdir",
+     "forwarded_default_dir": "results/state_tilt",
+     "line": 470,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 0,
+   "calls_through_a_forwarded_parameter": [
+    "scripts/e263_arrival_vs_cell_size.py:run:530",
+    "scripts/e263_arrival_vs_cell_size.py:run:470"
+   ],
+   "face_basename": "bandarrivalate_latest.json",
+   "fallback": {
+    "dir": null,
+    "expr": null,
+    "found": false
+   },
+   "file": "scripts/e263_arrival_vs_cell_size.py",
+   "found_in_tree": true,
+   "function": "_write",
+   "own_family_dir": "results/state_tilt",
+   "parameter": "outdir",
+   "parameter_shape": "directory",
+   "reachable_dirs": [],
+   "reachable_dirs_if_callers_default": [
+    "results/state_tilt"
+   ],
+   "reachable_families": [],
+   "reachable_families_if_callers_default": [
+    "results/state_tilt"
+   ],
+   "reader": "scripts/e263_arrival_vs_cell_size.py:_write",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "safe_here_but_its_own_caller_decides"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "omitted",
+     "caller": "scripts/etf_book_bakeoff.py:main:253",
+     "caller_file": "scripts/etf_book_bakeoff.py",
+     "caller_function": "main",
+     "class": "default_uses_the_module_family",
+     "detail": "argument omitted -> os.path.join(PATHS.results_dir, 'etf_book_production', 'latest.json')",
+     "expr": null,
+     "forwarded_default_dir": null,
+     "line": 253,
+     "resolved_dir": "results/etf_book_production/latest.json",
+     "resolved_family": true,
+     "resolved_family_dir": "results/etf_book_production"
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 1,
+   "calls_through_a_forwarded_parameter": [],
+   "face_basename": null,
+   "fallback": {
+    "dir": "results/etf_book_production/latest.json",
+    "expr": "os.path.join(PATHS.results_dir, 'etf_book_production', 'latest.json')",
+    "found": true
+   },
+   "file": "scripts/etf_book_bakeoff.py",
+   "found_in_tree": true,
+   "function": "published_control_cagr",
+   "own_family_dir": null,
+   "parameter": "path",
+   "parameter_shape": "path_like",
+   "reachable_dirs": [
+    "results/etf_book_production"
+   ],
+   "reachable_dirs_if_callers_default": [],
+   "reachable_families": [
+    "results/etf_book_production"
+   ],
+   "reachable_families_if_callers_default": [],
+   "reader": "scripts/etf_book_bakeoff.py:published_control_cagr",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "every_call_passes_the_family_or_a_scratch_dir"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "positional",
+     "caller": "scripts/etf_book_order.py:card_config_ticket:697",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "card_config_ticket",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'card_dir' (card_config_ticket)",
+     "expr": "card_dir",
+     "forwarded_default_dir": null,
+     "line": 697,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 0,
+   "calls_through_a_forwarded_parameter": [
+    "scripts/etf_book_order.py:card_config_ticket:697"
+   ],
+   "face_basename": "latest.json",
+   "fallback": {
+    "dir": "results/etf_book_production",
+    "expr": "CARD_DIR",
+    "found": true
+   },
+   "file": "scripts/etf_book_order.py",
+   "found_in_tree": true,
+   "function": "_read_card",
+   "own_family_dir": [
+    "docs/live_book",
+    "results/alphagen_rg",
+    "results/div_event_census",
+    "results/divex_harvest",
+    "results/divlowvol_live",
+    "results/divlowvol_nulls",
+    "results/e24_breadth_h20_entry",
+    "results/e24_dispersion_h60_entry",
+    "results/e24_overlay_breath",
+    "results/e25_whipsaw",
+    "results/e33_ladder_baseline",
+    "results/etf_book_order",
+    "results/etf_book_order_fresh",
+    "results/etf_book_production",
+    "results/etf_book_split_audit",
+    "results/m6_regime5",
+    "results/obs_rate",
+    "results/overnight_gap_census",
+    "results/paper_export",
+    "results/regime_gate_dualarm",
+    "results/regime_matrix_p0",
+    "results/seasonal_calendar_census",
+    "results/seasonal_horizon_stability",
+    "results/stagestyle_combo_p1",
+    "results/state_tilt",
+    "results/t23_census",
+    "results/tom_overlay",
+    "results/vol_gate"
+   ],
+   "parameter": "card_dir",
+   "parameter_shape": "path_like",
+   "reachable_dirs": [],
+   "reachable_dirs_if_callers_default": [],
+   "reachable_families": [],
+   "reachable_families_if_callers_default": [],
+   "reader": "scripts/etf_book_order.py:_read_card",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "safe_here_but_its_own_caller_decides"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "omitted",
+     "caller": "scripts/etf_book_order.py:run:486",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "run",
+     "class": "default_uses_the_module_family",
+     "detail": "argument omitted -> CARD_DIR",
+     "expr": null,
+     "forwarded_default_dir": null,
+     "line": 486,
+     "resolved_dir": "results/etf_book_production",
+     "resolved_family": true,
+     "resolved_family_dir": "results/etf_book_production"
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/etf_book_order.py:selftest:1335",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "a directory this caller created",
+     "expr": "cd3",
+     "forwarded_default_dir": null,
+     "line": 1335,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/etf_book_order.py:selftest:1388",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "a directory this caller created",
+     "expr": "cdt",
+     "forwarded_default_dir": null,
+     "line": 1388,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/etf_book_order.py:selftest:1338",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "created inline",
+     "expr": "os.path.join(td, 'absent')",
+     "forwarded_default_dir": null,
+     "line": 1338,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 1,
+   "calls_through_a_forwarded_parameter": [],
+   "face_basename": "latest.json",
+   "fallback": {
+    "dir": "results/etf_book_production",
+    "expr": "CARD_DIR",
+    "found": true
+   },
+   "file": "scripts/etf_book_order.py",
+   "found_in_tree": true,
+   "function": "card_book",
+   "own_family_dir": [
+    "docs/live_book",
+    "results/alphagen_rg",
+    "results/div_event_census",
+    "results/divex_harvest",
+    "results/divlowvol_live",
+    "results/divlowvol_nulls",
+    "results/e24_breadth_h20_entry",
+    "results/e24_dispersion_h60_entry",
+    "results/e24_overlay_breath",
+    "results/e25_whipsaw",
+    "results/e33_ladder_baseline",
+    "results/etf_book_order",
+    "results/etf_book_order_fresh",
+    "results/etf_book_production",
+    "results/etf_book_split_audit",
+    "results/m6_regime5",
+    "results/obs_rate",
+    "results/overnight_gap_census",
+    "results/paper_export",
+    "results/regime_gate_dualarm",
+    "results/regime_matrix_p0",
+    "results/seasonal_calendar_census",
+    "results/seasonal_horizon_stability",
+    "results/stagestyle_combo_p1",
+    "results/state_tilt",
+    "results/t23_census",
+    "results/tom_overlay",
+    "results/vol_gate"
+   ],
+   "parameter": "card_dir",
+   "parameter_shape": "path_like",
+   "reachable_dirs": [
+    "<scratch: a directory the caller just wrote>",
+    "results/etf_book_production"
+   ],
+   "reachable_dirs_if_callers_default": [],
+   "reachable_families": [
+    "results/etf_book_production"
+   ],
+   "reachable_families_if_callers_default": [],
+   "reader": "scripts/etf_book_order.py:card_book",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "every_call_passes_the_family_or_a_scratch_dir"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "positional",
+     "caller": "scripts/etf_book_order.py:width_disclosure:1082",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "width_disclosure",
+     "class": "forwarded_parameter",
+     "detail": "the caller's own parameter 'card_dir' (width_disclosure)",
+     "expr": "card_dir",
+     "forwarded_default_dir": null,
+     "line": 1082,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 0,
+   "calls_through_a_forwarded_parameter": [
+    "scripts/etf_book_order.py:width_disclosure:1082"
+   ],
+   "face_basename": "latest.json",
+   "fallback": {
+    "dir": "results/etf_book_production",
+    "expr": "CARD_DIR",
+    "found": true
+   },
+   "file": "scripts/etf_book_order.py",
+   "found_in_tree": true,
+   "function": "card_rule",
+   "own_family_dir": [
+    "docs/live_book",
+    "results/alphagen_rg",
+    "results/div_event_census",
+    "results/divex_harvest",
+    "results/divlowvol_live",
+    "results/divlowvol_nulls",
+    "results/e24_breadth_h20_entry",
+    "results/e24_dispersion_h60_entry",
+    "results/e24_overlay_breath",
+    "results/e25_whipsaw",
+    "results/e33_ladder_baseline",
+    "results/etf_book_order",
+    "results/etf_book_order_fresh",
+    "results/etf_book_production",
+    "results/etf_book_split_audit",
+    "results/m6_regime5",
+    "results/obs_rate",
+    "results/overnight_gap_census",
+    "results/paper_export",
+    "results/regime_gate_dualarm",
+    "results/regime_matrix_p0",
+    "results/seasonal_calendar_census",
+    "results/seasonal_horizon_stability",
+    "results/stagestyle_combo_p1",
+    "results/state_tilt",
+    "results/t23_census",
+    "results/tom_overlay",
+    "results/vol_gate"
+   ],
+   "parameter": "card_dir",
+   "parameter_shape": "path_like",
+   "reachable_dirs": [],
+   "reachable_dirs_if_callers_default": [],
+   "reachable_families": [],
+   "reachable_families_if_callers_default": [],
+   "reader": "scripts/etf_book_order.py:card_rule",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "safe_here_but_its_own_caller_decides"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "omitted",
+     "caller": "scripts/etf_book_order.py:width_disclosure:1081",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "width_disclosure",
+     "class": "default_uses_the_module_family",
+     "detail": "argument omitted -> CARD_DIR",
+     "expr": null,
+     "forwarded_default_dir": null,
+     "line": 1081,
+     "resolved_dir": "results/etf_book_production",
+     "resolved_family": true,
+     "resolved_family_dir": "results/etf_book_production"
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/etf_book_order.py:selftest:1264",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "a directory this caller created",
+     "expr": "cd",
+     "forwarded_default_dir": null,
+     "line": 1264,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/etf_book_order.py:selftest:1273",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "a directory this caller created",
+     "expr": "cd2",
+     "forwarded_default_dir": null,
+     "line": 1273,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/etf_book_order.py:selftest:1273",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "a directory this caller created",
+     "expr": "cd2",
+     "forwarded_default_dir": null,
+     "line": 1273,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/etf_book_order.py:selftest:1263",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "a directory this caller created",
+     "expr": "cd",
+     "forwarded_default_dir": null,
+     "line": 1263,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "positional",
+     "caller": "scripts/etf_book_order.py:selftest:1263",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "selftest",
+     "class": "scratch_directory_of_the_caller",
+     "detail": "created inline",
+     "expr": "os.path.join(td, 'absent')",
+     "forwarded_default_dir": null,
+     "line": 1263,
+     "resolved_dir": null,
+     "resolved_family_dir": null
+    },
+    {
+     "bound_by": "omitted",
+     "caller": "scripts/etf_book_order.py:selftest:1276",
+     "caller_file": "scripts/etf_book_order.py",
+     "caller_function": "selftest",
+     "class": "default_uses_the_module_family",
+     "detail": "argument omitted -> CARD_DIR",
+     "expr": null,
+     "forwarded_default_dir": null,
+     "line": 1276,
+     "resolved_dir": "results/etf_book_production",
+     "resolved_family": true,
+     "resolved_family_dir": "results/etf_book_production"
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 2,
+   "calls_through_a_forwarded_parameter": [],
+   "face_basename": "latest.json",
+   "fallback": {
+    "dir": "results/etf_book_production",
+    "expr": "CARD_DIR",
+    "found": true
+   },
+   "file": "scripts/etf_book_order.py",
+   "found_in_tree": true,
+   "function": "card_width",
+   "own_family_dir": [
+    "docs/live_book",
+    "results/alphagen_rg",
+    "results/div_event_census",
+    "results/divex_harvest",
+    "results/divlowvol_live",
+    "results/divlowvol_nulls",
+    "results/e24_breadth_h20_entry",
+    "results/e24_dispersion_h60_entry",
+    "results/e24_overlay_breath",
+    "results/e25_whipsaw",
+    "results/e33_ladder_baseline",
+    "results/etf_book_order",
+    "results/etf_book_order_fresh",
+    "results/etf_book_production",
+    "results/etf_book_split_audit",
+    "results/m6_regime5",
+    "results/obs_rate",
+    "results/overnight_gap_census",
+    "results/paper_export",
+    "results/regime_gate_dualarm",
+    "results/regime_matrix_p0",
+    "results/seasonal_calendar_census",
+    "results/seasonal_horizon_stability",
+    "results/stagestyle_combo_p1",
+    "results/state_tilt",
+    "results/t23_census",
+    "results/tom_overlay",
+    "results/vol_gate"
+   ],
+   "parameter": "card_dir",
+   "parameter_shape": "path_like",
+   "reachable_dirs": [
+    "<scratch: a directory the caller just wrote>",
+    "results/etf_book_production"
+   ],
+   "reachable_dirs_if_callers_default": [],
+   "reachable_families": [
+    "results/etf_book_production"
+   ],
+   "reachable_families_if_callers_default": [],
+   "reader": "scripts/etf_book_order.py:card_width",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "every_call_passes_the_family_or_a_scratch_dir"
+  },
+  {
+   "calls": [
+    {
+     "bound_by": "omitted",
+     "caller": "scripts/etf_book_tsmom.py:main:322",
+     "caller_file": "scripts/etf_book_tsmom.py",
+     "caller_function": "main",
+     "class": "default_uses_the_module_family",
+     "detail": "argument omitted -> os.path.join(PATHS.results_dir, 'etf_book_production', 'latest.json')",
+     "expr": null,
+     "forwarded_default_dir": null,
+     "line": 322,
+     "resolved_dir": "results/etf_book_production/latest.json",
+     "resolved_family": true,
+     "resolved_family_dir": "results/etf_book_production"
+    }
+   ],
+   "calls_passing_a_foreign_family": [],
+   "calls_that_omit_the_argument": 1,
+   "calls_through_a_forwarded_parameter": [],
+   "face_basename": null,
+   "fallback": {
+    "dir": "results/etf_book_production/latest.json",
+    "expr": "os.path.join(PATHS.results_dir, 'etf_book_production', 'latest.json')",
+    "found": true
+   },
+   "file": "scripts/etf_book_tsmom.py",
+   "found_in_tree": true,
+   "function": "published_control_cagr",
+   "own_family_dir": null,
+   "parameter": "path",
+   "parameter_shape": "path_like",
+   "reachable_dirs": [
+    "results/etf_book_production"
+   ],
+   "reachable_dirs_if_callers_default": [],
+   "reachable_families": [
+    "results/etf_book_production"
+   ],
+   "reachable_families_if_callers_default": [],
+   "reader": "scripts/etf_book_tsmom.py:published_control_cagr",
+   "seed_sites": 1,
+   "signature_has_the_parameter": true,
+   "verdict": "every_call_passes_the_family_or_a_scratch_dir"
+  }
+ ],
+ "seed": {
+  "delta_vs_the_published_face": {
+   "delta": {
+    "added": [],
+    "count_moved": [],
+    "dropped": []
+   },
+   "face_present": true,
+   "frozen_sites": 17,
+   "live_sites": 17
+  },
+  "frozen_readers": 16,
+  "frozen_sites": 17,
+  "source": "scripts/e398_latest_family.py (E398 read_sites class family_required_by_the_signature)"
+ },
+ "study": "E403_family_parameter_callers",
+ "summary": {
+  "by_class": {
+   "default_uses_the_module_family": 11,
+   "forwarded_parameter": 14,
+   "scratch_directory_of_the_caller": 13
+  },
+  "call_sites": 38,
+  "calls_landing_on_a_scratch_directory": 13,
+  "calls_resolving_to_a_published_family": 11,
+  "calls_that_omit_the_argument": 11,
+  "corpus_excludes": [
+   ".codely-cli",
+   ".git",
+   "Money02",
+   "__pycache__",
+   "legacy",
+   "logs",
+   "node_modules",
+   "results"
+  ],
+  "corpus_files_parsed": 31,
+  "corpus_py_files": 3453,
+  "faces_whose_basename_is_ambiguous": 4,
+  "families_in_the_tree": 52,
+  "panel_cutoff": "2026-11-03",
+  "reader_sites_in_the_seed": 17,
+  "readers": 16,
+  "readers_depending_on_their_own_caller": 8,
+  "readers_found_in_tree": 16,
+  "readers_reaching_a_published_family": 8,
+  "readers_reaching_a_published_family_if_their_callers_default": 6,
+  "readers_where_a_caller_passes_a_different_family": 0,
+  "readers_whose_forwarded_parameter_has_a_known_default": 6,
+  "readers_whose_signature_has_the_parameter": 16,
+  "readers_with_a_directory_parameter": 10,
+  "readers_with_a_fallback_dir": 10,
+  "readers_with_a_file_path_parameter": 6,
+  "readers_with_a_measured_fallback": 10,
+  "readers_with_no_in_repo_call": 0
+ },
+ "title": "call-site census of the 17 read sites whose family is a function parameter",
+ "verdict": "every_measured_family_is_passed_or_omitted_but_some_readers_inherit_their_family_from_their_own_caller",
+ "verdict_reason": "0 call passes a foreign family; 8 of 16 readers are reached through a forwarded parameter, so their safety is a property of the caller one level up: scripts/e257_band_at_top_flips.py:_write, scripts/e258_band_multiplier_per_window.py:_write, scripts/e259_band_multiplier_distribution.py:_write, scripts/e260_band_endpoint_arrival.py:_write"
+}
