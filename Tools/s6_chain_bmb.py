@@ -1486,6 +1486,11 @@ LEGS = [
     # whose reading would change, a tally that stopped adding up or a verdict that no longer
     # derives from the summary all refuse the chain.
     ("basename_census", ["python", "scripts/e422_basename_census_audit.py", "verify"]),
+    # E417 (r1443): the shadow question of E415 asked of every face E411 priced -- which faces
+    # have a same-named copy with different bytes in a directory a reader could be launched from,
+    # and which of those names is actually read as a bare literal. Verify re-derives the
+    # population, the class table, the generic/specific split and the verdict from the live tree.
+    ("shadow_face", ["python", "scripts/e417_shadow_face.py", "verify"]),
 ]
 
 

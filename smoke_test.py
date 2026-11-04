@@ -16012,5 +16012,83 @@ except Exception as _e422:
     _bad422.append(repr(_e422)[:160])
 check(_name422, not _bad422, "; ".join(_bad422)[:240] or _d422)
 
+# E417 (r1443 bm-b): E415 priced TWO bare-path reads and found one would measure another
+# repository's document.  This leg asks the question of the NAME across every face E411 priced:
+# which faces have a same-named copy with different bytes in a directory a reader could be
+# launched from, and which of those names is read as a bare literal in this suite.  It refuses
+# (a) a class table that does not re-add to the literal faces, (b) a row whose class is outside
+# the vocabulary or a unique row that carries shadows, (c) a different-document copy with no
+# impact class, (d) tallies that do not re-derive from the row list, (e) a verdict outside the
+# vocabulary or one that disagrees with the live tree, and (f) a face whose declared population
+# keys do not agree with its producer.
+_name425 = ("product: the E415 shadow shape asked of every face the suite opens -- the names with "
+            "a different-document copy are named, and none of them is read as a bare literal")
+_bad425, _d425 = [], ""
+try:
+    _m425 = __import__("importlib").import_module("e417_shadow_face")
+    _f425 = json.load(open(os.path.join("results", "state_tilt", "shadowface_latest.json"),
+                           encoding="utf-8"))
+    _s425 = _f425.get("summary") or {}
+    _rows425 = _f425.get("rows") or []
+    if int(_s425.get("faces_literal") or 0) + int(_s425.get("faces_templated") or 0) \
+            != int(_s425.get("faces") or 0):
+        _bad425.append("literal + templated faces do not re-add to the population")
+    if sum((_f425.get("by_class") or {}).values()) != _s425.get("faces_literal"):
+        _bad425.append("the class table does not re-add to the literal faces")
+    _exposed425, _bare425 = 0, 0
+    for _r425 in _rows425:
+        if _r425.get("class") not in _m425.CLASS_VOCAB:
+            _bad425.append("%s: class outside the vocabulary" % _r425.get("face"))
+            break
+        if _r425.get("class") == _m425.C_UNIQUE and _r425.get("shadow_count"):
+            _bad425.append("%s: a unique row carries shadows" % _r425.get("face"))
+            break
+        if _r425.get("shadow_count") != len(_r425.get("shadows") or []):
+            _bad425.append("%s: the shadow count does not match its list" % _r425.get("face"))
+            break
+        if _r425.get("class") == _m425.C_DIFFERENT:
+            _exposed425 += 1
+            if _r425.get("read_as_a_bare_literal"):
+                _bare425 += 1
+            for _sh425 in _r425.get("shadows") or []:
+                if _sh425.get("class") == _m425.C_DIFFERENT \
+                        and _sh425.get("impact") not in _m425.IMPACT_VOCAB:
+                    _bad425.append("%s: a different copy carries no impact class"
+                                   % _r425.get("face"))
+                    break
+        if _r425.get("generic_basename") != (int(_r425.get("basename_faces_in_population") or 0) > 1):
+            _bad425.append("%s: the generic flag disagrees with the basename population"
+                           % _r425.get("face"))
+            break
+    if _exposed425 != _s425.get("faces_with_a_different_document_copy"):
+        _bad425.append("the different-document tally does not re-derive from the row list")
+    if (_s425.get("different_document_copies_on_a_generic_basename", 0)
+            + _s425.get("different_document_copies_on_a_specific_basename", 0)) != _exposed425:
+        _bad425.append("the generic/specific split does not re-add to the exposed rows")
+    if _bare425 != _s425.get("bare_literal_faces_that_would_read_a_foreign_document"):
+        _bad425.append("the bare-literal exposure tally does not re-derive from the row list")
+    if _s425.get("faces_read_as_a_bare_literal") != sum(
+            1 for _r425 in _rows425 if _r425.get("read_as_a_bare_literal")):
+        _bad425.append("the bare-literal face count does not re-derive from the row list")
+    _fresh425 = _m425.build(write=False)
+    if _fresh425.get("verdict") not in _m425.VERDICT_VOCAB:
+        _bad425.append("the live verdict is outside the vocabulary")
+    if _fresh425.get("verdict") != _f425.get("verdict"):
+        _bad425.append("the verdict does not re-derive on the live tree")
+    import population_keys as _pk425
+    _keys425, _p425 = _pk425.keys_of(_f425, _m425)
+    _bad425.extend(_p425)
+    _bad425.extend(_pk425.compare(_s425, _fresh425.get("summary") or {}, _keys425, "summary"))
+    _d425 = "%d faces (%d literal / %d templated): %d names carry a different document copy " \
+            "(%d generic / %d specific), %d read as a bare literal | %s" % (
+                _s425.get("faces", 0), _s425.get("faces_literal", 0),
+                _s425.get("faces_templated", 0), _exposed425,
+                _s425.get("different_document_copies_on_a_generic_basename", 0),
+                _s425.get("different_document_copies_on_a_specific_basename", 0), _bare425,
+                _f425.get("verdict"))
+except Exception as _e425:
+    _bad425.append(repr(_e425)[:160])
+check(_name425, not _bad425, "; ".join(_bad425)[:240] or _d425)
+
 if __name__ == "__main__":
     sys.exit(main())

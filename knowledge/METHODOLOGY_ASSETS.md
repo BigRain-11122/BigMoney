@@ -10112,3 +10112,45 @@ and the smoke leg must take the exclusion from ONE declaration, never two copies
 `population_keys` list in `e403_family_arg`, `e419_unstampable`, `e422_basename_census_audit`;
 E403/E419/E422 legs read the declaration (E422's hardcoded triple deleted), E403's `verify()` routed
 through the helper; legs re-run green: E403 1/1, E412 1/1, E419 1/1, E422 1/1.
+
+## E425 -- a shared basename is not a duplicate; the shadow only bites the shape that reads it bare (r1443 bm-b, card E417)
+
+**The question.** E415 priced the two bare-path reads in the durable corpus and found one would
+measure a *different* document of the same basename from another launch directory. That is one
+call shape. E417 asks it of the NAME across all 208 faces E411 priced: for each face, which
+directories could serve a bare read of its basename (the repo root, every directory holding a
+`*latest.json` pointer, the CLI home, the fleet siblings), and does any of them hold different bytes.
+
+**The measurement.** 194 literal faces (14 are templates and are excluded, listed separately).
+10 have at least one same-named copy with different bytes in a candidate directory -- and **zero of
+them is read as a bare literal** in `smoke_test.py`. 6 of the 10 are the generic basename
+`latest.json`, shared by six faces by design: each of the six "shadows" the other five. The other 4
+are `gateclamp_latest.json`, `gateoperands_latest.json`, `gateprint_latest.json` and
+`legeps_latest.json`, whose copies sit in `results/_e31x_verify/` and carry the **same top-level
+keys** -- the shape a verify fixture is supposed to have. Verdict: foreign copies exist, every
+exposed name is read with a directory component.
+
+**Rules (measured, not assumed).**
+1. *A string constant is not a read.* The first draft joined bare literals on every `ast.Constant`
+   equal to the basename and reported `latest.json` as read bare -- because the name appears in
+   globs and suffix tests. The join now requires the literal to be the path argument of a real read
+   call (`open`/`load`/`read_*`); the bare count fell 159 -> 0, which is the honest number.
+2. *Generic vs specific must be split, or the bill is one item long.* A name several faces share
+   (counted from the population, never from a word list) produces copies that are other faces, not
+   duplicates. Publishing one number would have read as "10 shadowed faces" when the actionable
+   population is 4, and 0 of those is read bare.
+3. *Counts over a growing corpus go in the declaration, not the equality gate.* Every results
+   directory that gains a `*latest.json` pointer adds a candidate, so `faces_with_a_foreign_copy`
+   and the split move on an honest rebuild; they are declared via `population_keys` (E424) and the
+   readings (`faces`, `faces_literal`, `faces_templated`, `faces_read_as_a_bare_literal`) are still
+   compared byte-equal.
+
+**Why it matters.** The E415 accident does not generalise: this tree's 194 literal faces are all
+read with a directory component, so the cluster of `latest.json` files is a naming habit, not a
+live hazard -- but the names are now published, so a future reader that builds a bare path from a
+variable has its bill in advance.
+
+**Delivered.** `scripts/e417_shadow_face.py` (run / verify problems=[] / selftest 13/13);
+`results/state_tilt/SHADOWFACE-2026-11-04.json` + `shadowface_latest.json`; smoke leg
+`# E417 (r1443 bm-b)` (1/1, proved red on a doctored tally then restored byte-identically);
+`scripts/run_e417_smoke_leg.py`; S6 leg `shadow_face`; read-only -- no face, census or reader edited.
