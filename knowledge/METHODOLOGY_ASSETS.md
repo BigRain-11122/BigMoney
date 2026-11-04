@@ -9829,3 +9829,46 @@ supplied nowhere) and E403's (parameter pass-through), and neither is claimed he
 `# E415 (r1434 bm-b)` executed verbatim by `scripts/run_e415_smoke_leg.py` (1/1 green, red on a
 doctored verdict + tally and restored byte-identical); S6 leg `cwd_accident` (rc 0, 10.9 s, one AST
 pass over ~900 files). The readers were **not** edited -- the fix, if any, is a separate card.
+
+#### E416 -- a tier name is not a measurement: read the gate's own block
+
+**Question.** E411 priced 232 reader sites over 200 faces and put four of them in a red-capable
+tier (`asks_the_clock` / `dates_the_face_in_a_gate`). Are those four aimed where age matters -- do
+they actually fail when the face they read gets old, and do they sit on faces that can go stale?
+
+**Answer, measured.** None of the four prices the age of its own face. Each site's source block was
+re-read (not its tier label) and classified:
+
+| face | block | what the gate compares | kind |
+|---|---|---|---|
+| `results/dashboard_status.json` | `smoke_test.py:932-964` | `getmtime(fleet/machine-health.json) > getmtime(panel)` | copy lag |
+| `results/state_tilt/printcov_latest.json` | `:8929-9005` | `evidence_cutoff != "2026-10-31"` | frozen constant |
+| `results/state_tilt/zerotolprune_latest.json` | `:9006-9066` | `evidence_cutoff != "2026-10-31"` | frozen constant |
+| `results/state_tilt/starlagband_latest.json` | `:3712-3779` | `len(lag_column) < 6` (E411 read the `<` as a date compare) | no date logic |
+
+Consequences that only show up once the block is read: the mtime arm reds when the panel is BEHIND
+its input, so an arbitrarily old panel stays green; the two frozen-constant arms red when the
+producer REFRESHES the face, i.e. the guard punishes the heal; and after reclassification **0 of
+200 faces** have a reader that can go red on age (E411 published 4 protected, 196 blind).
+
+**Second hop: the chain does not rescue them.** E411's `writers_on_chain` counts "this writer's
+script appears in the chain", and the standing chain runs most study scripts with `verify`, which
+refuses a moved face instead of republishing it. Measured on `Tools/s6_chain_bmb.py` LEG argv:
+of 13 priced faces the chain RUNS a writer for 3 and only VERIFIES 6 -- and both frozen gates sit
+on faces in the verify-only set. The face is held at `2026-10-31` by an equality gate while its
+own chain leg is forbidden to move it; a manual `run` is the only way forward and it reds the suite.
+
+**Three rules worth keeping.**
+1. A tier is a claim about a gate; the gate's own lines are the measurement. Whenever a census
+   publishes "N tests can go red", price at least one of them from source before quoting N.
+2. "The chain refreshes it" needs the argv, not the script name: `verify` is a refusal to move a
+   face, and counting it as a refresh turns a frozen face into a protected one.
+3. A gate that pins a date literal protects the literal, not the data. Declared freshness
+   expectations exist for 2 of these 200 faces (E410's bounds); the other 198 declare nothing, so
+   no reader could know what "stale" would even mean for them.
+
+**Wiring.** `scripts/e416_fresh_aim.py` (run / verify problems=[] / selftest 21/21); faces
+`results/state_tilt/FRESHAIM-2026-11-04.json` + `freshaim_latest.json`; smoke leg `# E416 (r1435
+bm-b)` executed verbatim by `scripts/run_e416_smoke_leg.py` (1/1 green); S6 leg `fresh_aim`
+(rc 0, 0.35 s). No reader and no leg was edited -- the fix (a real age bound on the faces that can
+stale) stays a separate card.

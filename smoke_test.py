@@ -15642,5 +15642,75 @@ except Exception as _e415:
     _bad415.append(repr(_e415)[:160])
 check(_name415, not _bad415, "; ".join(_bad415)[:240] or _d415)
 
+# E416: E411 named four reader sites that can go red on age and 196 blind faces. This leg re-reads
+# each of the four sites' own source block instead of trusting the tier name, and refuses the face
+# if (a) any site's measured kind is outside the vocabulary, (b) the headline "none prices age"
+# stops re-deriving, (c) a frozen-date gate's literal no longer matches the face on disk while the
+# face still publishes `pinned_matches_disk`, (d) the reclassification delta stops re-adding, or
+# (e) a face is published both as refreshed by the chain and as only verified by it.
+_name416 = ("product: none of the four reader sites E411 called red-capable prices the age of its "
+            "face -- two pin a frozen date literal, one prices a copy lag by mtime, one carries no "
+            "date comparison at all")
+_bad416, _d416 = [], ""
+try:
+    _m416 = __import__("importlib").import_module("e416_fresh_aim")
+    _f416 = json.load(open(os.path.join("results", "state_tilt", "freshaim_latest.json"),
+                           encoding="utf-8"))
+    _s416 = _f416.get("summary") or {}
+    _kinds416 = {"prices_age", "copy_lag_mtime", "frozen_constant_identity", "no_date_logic"}
+    for _r416 in _f416.get("sites") or []:
+        if (_r416.get("gate") or {}).get("kind") not in _kinds416:
+            _bad416.append("site %s publishes a kind outside the vocabulary" % _r416.get("site"))
+            break
+        if _r416["gate"]["can_go_red_on_age"] != (_r416["gate"]["kind"] == "prices_age"):
+            _bad416.append("site %s claims age pricing from a non-age kind" % _r416.get("site"))
+            break
+    if sum(1 for _r416 in (_f416.get("sites") or [])
+           if _r416["gate"]["can_go_red_on_age"]) != _s416.get("red_capable_sites_that_price_age"):
+        _bad416.append("the age-pricing count does not re-add")
+    if _s416.get("red_capable_sites_that_price_age") != 0:
+        _bad416.append("the headline moved: a red-capable site now prices age")
+    _delta416 = (_s416.get("faces_published_protected_by_a_red_capable_site") or 0) - \
+                (_s416.get("faces_still_protected_after_reclassification") or 0)
+    if _delta416 != (_s416.get("faces_blind_after_reclassification") or 0) - \
+            (_s416.get("faces_published_blind") or 0):
+        _bad416.append("the reclassification delta does not re-add")
+    for _g416 in _f416.get("frozen_date_gates") or []:
+        if not _g416.get("field") or not _g416.get("pinned_literal"):
+            _bad416.append("a frozen gate names no field or literal")
+            break
+        if not _g416.get("reds_on_refresh"):
+            _bad416.append("a frozen gate claims it does not red on a refresh")
+            break
+        _p416 = os.path.join("results", "state_tilt", "%s_latest.json" % os.path.basename(
+            _g416["face"]).split("_latest")[0])
+        _v416 = None
+        if os.path.exists(_p416):
+            _v416 = json.load(open(_p416, encoding="utf-8")).get(_g416["field"])
+        if (str(_v416) == _g416["pinned_literal"]) != bool(_g416.get("pinned_matches_disk")):
+            _bad416.append("gate %s does not match its face as published" % _g416["face"])
+            break
+    for _c416 in _f416.get("chain_bounded") or []:
+        if _c416.get("chain_runs_a_writer") and _c416.get("chain_only_verifies"):
+            _bad416.append("face %s is both refreshed and only verified" % _c416.get("face"))
+            break
+    _fresh416 = _m416.build(write=False)
+    if _fresh416.get("verdict") != _f416.get("verdict"):
+        _bad416.append("the verdict does not re-derive")
+    if (_fresh416.get("summary") or {}) != _s416:
+        _bad416.append("the published summary does not re-derive from the live tree")
+    _d416 = "%d red-capable site(s), %d pricing age | blind %s -> %s | frozen gates %s " \
+            "(chain verifies only %s) | declared expectations %s" % (
+                _s416.get("red_capable_sites_published"),
+                _s416.get("red_capable_sites_that_price_age"),
+                _s416.get("faces_published_blind"),
+                _s416.get("faces_blind_after_reclassification"),
+                _s416.get("frozen_date_gates"),
+                _s416.get("frozen_gates_whose_chain_only_verifies_the_face"),
+                _s416.get("faces_with_a_declared_freshness_expectation"))
+except Exception as _e416:
+    _bad416.append(repr(_e416)[:160])
+check(_name416, not _bad416, "; ".join(_bad416)[:240] or _d416)
+
 if __name__ == "__main__":
     sys.exit(main())

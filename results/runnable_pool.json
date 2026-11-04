@@ -27458,13 +27458,19 @@
    "id": "E416-DO-THE-FOUR-FRESHNESS-TESTS-SIT-ON-THE-FACES-THAT-NEED-THEM-MOST",
    "lane": "cpu-only",
    "lane_note": "cpu-only; reads the four red-capable reader sites E411 published, the faces behind them and their writer's chain membership; no writer runs",
-   "owner": null,
+   "owner": "bm-b",
    "priority": 3,
    "question": "E411 priced every reader the suite uses on a face: 231 sites over 199 faces, and only 4 can go red on age (1 asks_the_clock, 3 dates_the_face_in_a_gate). The rest of the bill is the wrong 195 faces. The question is whether the 4 are aimed where age matters: for each red-capable site, name the face it prices, that face's declared freshness expectation (E409 recorded two), and whether the face's writer runs on the round chain (E408's census, and E411's writer_join). A freshness test on a face the chain rewrites every round can never fire; a face with no chain writer and no pricing reader is blind. The bill is the four sites priced against their faces, plus the ranking of faces whose only protection is a test that cannot fire. Never edit a reader; the fix stays a separate card.",
    "source": "bm-b r1434 E411: 4 of 231 reader sites can go red on age; 195 faces have no reader that can, and 44 of those have no writer on the round chain",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e411_reader_tiers.py",
-   "title": "E411 found only four reader sites can go red; ask whether those four guard the faces that can actually go stale"
+   "title": "E411 found only four reader sites can go red; ask whether those four guard the faces that can actually go stale",
+   "result_ref": "results/state_tilt/FRESHAIM-2026-11-04.json",
+   "closed_by": "Tools/pool_deliverable_audit.py apply",
+   "closed_at": "2026-11-04T17:54:30+0800",
+   "close_note": "deliverable landed on disk 2.72h after entry; closed by the reconciliation audit",
+   "done_at": "2026-11-04T18:08:20+08:00",
+   "result_note": "0 of 4 red-capable sites prices age (1 copy lag by mtime, 2 frozen evidence_cutoff==2026-10-31 pins that red on an honest refresh, 1 no date logic); 0 of 200 faces carry an age-pricing reader after reclassification; of 13 priced faces the chain runs a writer for 3 and only verifies 6 (both frozen gates in the verify-only set); 45 blind faces have no chain writer; 2 of 200 declare a freshness expectation. No reader/leg edited."
   },
   {
    "id": "E417-WHICH-READER-WOULD-FIND-A-FOREIGN-COPY-OF-ITS-FACE",
@@ -27480,6 +27486,21 @@
    "source": "bm-b r1434 E415: 1 of 2 bare-path reads lands on a different document of the same basename from another launch directory",
    "entered_at": "2026-11-04T17:2x+08:00",
    "entered_by": "bm-b r1434 (supply floor refill after E415)"
+  },
+  {
+   "id": "E418-HOW-OLD-ARE-THE-UNPROTECTED-FACES-RIGHT-NOW",
+   "title": "E416 left 45 faces with no reader that can go red on age and no writer on the round chain. Ask how old each of them is today and whether any leg's green message asserts something that decays",
+   "question": "E416 re-read E411's four red-capable sites from source and found none prices the age of its face; it then found the chain only VERIFIES most of the study scripts it counted as refreshers. The population that matters is the 45 faces with neither an age-pricing reader nor a chain writer. For each: its stamp field and age in bars against data/exchange_calendar.csv, the leg(s) that read it and the sentence their check() prints when green, and whether that sentence names a number that can only have been true for one cutoff (a frozen headline) or a property (a tautology). The bill is the 45 rows ranked by age, with a verdict per row: 'decayed claim printed as green', 'no claim that decays', or 'stamp absent so age is unknowable'. Never edit a reader and never refresh a face relative to the campaign.",
+   "target": "results/state_tilt/*_latest.json + smoke_test.py check() text",
+   "deliverable": "results/state_tilt/FACEAGE-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; reads the published faces plus the suite and the exchange calendar; no writer runs",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "source": "bm-b r1435 E416: 0 of 4 red-capable sites prices age; 45 blind faces have no chain writer; only 2 of 200 faces declare a freshness expectation",
+   "entered_at": "2026-11-04T18:07:34+08:00",
+   "entered_by": "bm-b r1435 (supply floor refill after E416)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27494,6 +27515,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-04T15:05:00+08:00",
+ "updated_at": "2026-11-04T18:08:20+08:00",
  "version": 1
 }

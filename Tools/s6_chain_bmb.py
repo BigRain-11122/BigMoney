@@ -1457,6 +1457,12 @@ LEGS = [
     # the CLI home. Verify re-scans the corpus (cheap: one AST pass over ~900 files) and re-checks
     # every published class against its resolver.
     ("cwd_accident", ["python", "scripts/e415_cwd_accident.py", "verify"]),
+    # E416 (r1435): E411's four red-capable sites are re-read from their own source blocks and none
+    # of them prices the AGE of the face it reads -- two pin a frozen date literal (so an honest
+    # refresh is what reds the suite), one prices a copy lag against an upstream mtime, one carries
+    # no date comparison at all. A verify leg costs one suite pass plus a bounded writer scan over
+    # scripts/, and refuses a summary that no longer re-derives.
+    ("fresh_aim", ["python", "scripts/e416_fresh_aim.py", "verify"]),
 ]
 
 
