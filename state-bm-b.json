@@ -4768,7 +4768,7 @@
  "s4": "E410 card appended to knowledge/METHODOLOGY_ASSETS.md (55 lines, numstat 55/0); two memory-worthy lessons: line-numbered reader sites are layout claims, and a card's deliverable name can collide with an existing face",
  "s6": "leg family_arg rc=0 3.07s | orphan probe py_faces=6 orphans=0 residents=0 | the rest of the S6 chain not run this window and not claimed",
  "s6_leg": "writer_refresh_signal rc=0 3.0s (Tools/s6_chain_bmb.py 1426 --only)",
- "s6_note": "the rest of the S6 chain (update_*, regime, scorecards, papers, dashboards) not run this window -- stated, not claimed",
+ "s6_note": "only the family_arg leg and the orphan probe ran this window; the full S6 chain (update_*, regime, scorecards, papers, dashboards, token_meter) did NOT run and is not claimed",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
  "s7": "orders 114 files / 115 acks / 0 unacked by filename | decisions blob sha256 1bbbb7e3 == last round's reading -> zero new rows owed | loop task / watchdog / claws not re-registered this window",
  "sat_engine": "not re-run this window -- stated, not claimed",
@@ -4776,7 +4776,7 @@
  "seq": 1431,
  "side_effect_on_neighbour": "publishing fragmentproducers_latest.json added one family-named pointer, so E398's named_pointers moved 175 -> 176 and the E398 smoke leg failed; the face was re-derived from the live build (e398 run + verify problems=[]) rather than the leg loosened -- read sites 187 and bare pointers 28 unchanged",
  "smoke": "full suite launched detached at r1425 close (results/_smoke_r1425.out, pid recorded in the round report); no 305/305 claim",
- "smoke_note": "the in-flight suite carried one FAIL (E305 precisiongap) which was a 12-second-stale snapshot: the live build now equals the published face (n_at_risk_after 1 == 1, verdicts equal)",
+ "smoke_note": "the E403 leg was proved standalone (1/1) and proved red on a doctored face, then the face was restored byte-identical; the full ~305-leg suite was NOT run this window and no 305/305 is claimed",
  "smoke_r1417": {
   "dashboard_leg": "fixed in-window: the marks-gap leg demanded fill_verify_day equality against a face another host writes (bm-a single-writer law); the day may now lag and staleness is printed instead of failed",
   "drift": [
@@ -4807,12 +4807,13 @@
   ]
  },
  "sync": {
-  "ahead": 336,
+  "ahead": 342,
   "behind_origin_main": 288,
-  "branch": "machine/bm-b-r1429",
-  "peer": "origin"
+  "branch": "machine/bm-b-r1432",
+  "sha": "54459a9b8fe74d1df92755247843cab7f91b3c98",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1432 == HEAD"
  },
- "sync_note": "r1401: local commits not on origin/main stay large (two blood lines, promisor lazy-fetch wedge); delivery goes to machine/bm-b-r1416 and is verified by ls-remote",
+ "sync_note": "r1432: local main stays diverged from origin/main (two blood lines, promisor lazy fetch); delivery goes to the machine branch, no unattended rebase per r1243",
  "task": "family-parameter callers",
  "task_short": "family arg",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
