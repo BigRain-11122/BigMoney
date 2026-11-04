@@ -40,6 +40,14 @@ LEGS = [
     # envelope does not name the machine that wrote it. It must run BEFORE
     # build_status (the dashboard renders it) -- r1290 class otherwise.
     ("data_lane_freshness", ["python", "scripts/data_lane_freshness.py", "run"]),
+    # r1249 (bm-a): D-20261104-05 asks @BigMoney, by 2026-11-06 12:00, to name ONE host per lane
+    # with evidence, or the 2026-11-08 task re-enable stays refused (a double-run on the money
+    # side is worse than a stopped lane). The answer already exists but in two places that
+    # disagree -- config/lane_hosts.json (the 2026-10-21 redline) and the `owner` defaults inside
+    # data_lane_freshness.LANES -- and only the audit's private precedence knows which wins. This
+    # leg writes the winner down once, with its authority. Reads the freshness face, so it goes
+    # after it; its own gate compares ownership only (liveness stays the freshness face's).
+    ("lane_ownership_declaration", ["python", "scripts/lane_ownership_declaration.py", "run"]),
     # r1205: every freshness face on this line reads the INSTANT -- "is the
     # newest heartbeat/round younger than N minutes" -- so a round that writes
     # its heartbeat right after a four-hour stall reads green and the stall
@@ -360,6 +368,13 @@ LEGS = [
     # machine with one number replaced, and the identity arm must reproduce the engine's nav.
     ("etf_book_exposure_timing", ["python", "scripts/etf_book_exposure_timing.py", "--check"],
      ["python", "scripts/etf_book_exposure_timing.py", "run"]),
+    # r1249 (bm-a): the ladder face existed only as a hand-run artifact -- it was not in this
+    # table at all, so nothing checked it and nothing could rebuild it, and it sat on the
+    # 2026-10-30 panel while the book priced 2026-11-03 (the r1248 pointer-3 finding). The
+    # stamp gate now lives inside every book face's --check; a leg that is not in the table
+    # can still never fire it.
+    ("etf_book_exposure_ladder", ["python", "scripts/etf_book_exposure_ladder.py", "--check"],
+     ["python", "scripts/etf_book_exposure_ladder.py", "run"]),
     # r1209 (bm-a) / E325: the card's extra bar was priced at 1.14pp/yr, which leaves the
     # operator's question unanswered -- is that lost information, or an unachievable fill?
     # This face prices the same signal at the only two fills a real order can get (the closing
@@ -557,6 +572,14 @@ LEGS = [
     ("etf_book_window_label", ["python", "scripts/etf_book_window_label.py", "check"],
      ["python", "scripts/etf_book_window_label.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
+    # r1249: the page can only be priced on the last CLOSED panel bar, and the panel moves
+    # one day behind the exchange while sina's daily endpoint catches up. So every evening
+    # between the close and the panel taking the bar, the operator's page says the book is
+    # worth what it was yesterday. This leg reads one snapshot quote per held name, proves
+    # each quote's own previous close equals the panel's last bar close, and reports the
+    # weighted move of the held leg -- no forecast, no ledger write, no ticket change.
+    # bm-a is the writer; other hosts print an honest no-op.
+    ("etf_book_live_quote", ["python", "scripts/etf_book_live_quote.py"]),
     # r1150: the four-tier ticket menu is the same book sold at four betas, and it
     # lived a full round with no scheduled producer -- the r1290 two-face class. bm-a
     # is the writer; other hosts print an honest no-op. ~2s warm / ~30s on a new bar.
@@ -618,6 +641,13 @@ LEGS = [
     # then build the panel from the judged face.
     ("machine_health_write", ["python", "Tools/machine_health_face.py", "rebuild"]),
     ("machine_health_face", ["python", "Tools/machine_health_face.py", "check"]),
+    # r1249 (bm-a): the panel prints the open-fill verdict and tier as one of its paper rows,
+    # but the producer was not in this table at all -- it ran wherever a round happened to
+    # call it, and on 2026-11-03 that was 22 SECONDS AFTER build_status (panel 23:03:09 read
+    # tier=none / day 10-30 while the gate wrote daily_bar_open / 11-03 at 23:03:31). Same
+    # producer-before-consumer rule as r1318 above; the smoke leg that compares the two faces
+    # is the tripwire, and it went red on exactly this ordering.
+    ("t35_open_fill_verify", ["python", "scripts/t35_open_fill_verify.py"]),
     ("build_status", ["python", "-m", "monitor.build_status"]),
     ("token_meter", ["python", "scripts/token_meter.py"]),
     # O-20261026-0810-bm-a 4 handed this side the fix: the heartbeat carried 25 GPU

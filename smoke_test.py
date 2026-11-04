@@ -405,6 +405,15 @@ def main() -> int:
              "scripts/lane_task_survival.py", ["selftest"]),
             ("product: etf_book_production card (exit-code contract)",
              "scripts/etf_book_production.py", ["--selftest"]),
+            # r1249: the evening quote face must not price a name whose snapshot does not
+            # provably join the panel, and it must never print a book number on a failed
+            # join. The selftest pins the tolerance boundary, the mismatch-share gate, the
+            # NO_NEW_BAR branch and the 5xx->SH mapping (a wrong prefix silently read two
+            # held names as unreadable in the first real run).
+            ("product: etf_book_live_quote (join gate, never a zero on a failed join)",
+             "scripts/etf_book_live_quote.py", ["selftest"]),
+            ("product: etf_book_live_quote verdict recomputed from its published rows",
+             "scripts/etf_book_live_quote.py", ["--check"]),
             ("product: etf_vol_delivery_audit (exit-code contract)",
              "scripts/etf_vol_delivery_audit.py", ["--selftest"]),
             ("product: etf_vol_calibration (exit-code contract)",
@@ -950,6 +959,50 @@ def main() -> int:
                   "ruler/order absent -- face soft-fails by design")
     except Exception as e:
         check("product: E271 the width ruler reaches both order documents", False, str(e))
+    # r1249 (bm-a): the live-width gate went red three times in two days, every time on a ticket
+    # RE-ISSUE, and each repair was pinned only by the script's own selftest. The rule that picks
+    # the branch -- identity is the ticket's square fingerprint, not its date -- is asked here on
+    # the PUBLISHED face, offline: two payloads differing in nothing but one cell, once under the
+    # same fingerprint (an edit, must stay red) and once under a changed one (a re-issue, must
+    # read stale so the chain pays the declared refresh). A face that publishes no fingerprint
+    # silently degrades this gate to the date test that already failed, so that is red too.
+    try:
+        _sp49b = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+        if _sp49b not in sys.path:
+            sys.path.insert(0, _sp49b)
+        _A49 = importlib.import_module("etf_book_phase_atlas_arms")
+        _lw49 = None
+        _lwp49 = os.path.join("results", "etf_book_live_width_ruler.json")
+        if os.path.exists(_lwp49):
+            _lw49 = json.load(open(_lwp49, encoding="utf-8"))
+        _bad49b = []
+        _ai49 = (_lw49 or {}).get("as_issued") or {}
+        if not _ai49.get("square_fingerprint"):
+            _bad49b.append("the published face carries no square fingerprint, so the re-issue "
+                           "test falls back to the ticket date that already failed")
+        _base49 = json.loads(json.dumps(_lw49 or {}))
+        _moved49 = json.loads(json.dumps(_base49))
+        _cell49 = (_moved49.get("as_issued") or {}).get("cells_cagr_pp") or {}
+        if not _cell49:
+            _bad49b.append("the published face carries no as-issued cells")
+        else:
+            _k49 = sorted(_cell49)[0]
+            _cell49[_k49] = round(float(_cell49[_k49]) - 0.03, 3)
+            if _A49._ticket_repriced(_base49, _moved49) is not None:
+                _bad49b.append("a moved cell under the SAME square fingerprint was read as a "
+                               "re-issue -- a hand edit must stay red")
+            _re49 = json.loads(json.dumps(_moved49))
+            _re49["as_issued"]["square_fingerprint"] = "0" * 16
+            _re49["as_issued"]["ticket_asof"] = _ai49.get("ticket_asof")
+            if not isinstance(_A49._ticket_repriced(_base49, _re49), str):
+                _bad49b.append("a same-day re-issue with a changed square fingerprint was read "
+                               "as an edit -- the exact defect r1248 fixed")
+        check("product: the live-width gate tells a re-issued ticket from a hand edit",
+              not _bad49b, "; ".join(_bad49b)[:200]
+              or "same fingerprint + moved cell = edit; changed fingerprint = re-issue")
+    except Exception as e:
+        check("product: the live-width gate tells a re-issued ticket from a hand edit",
+              False, repr(e)[:180])
     # r1358 / E272: a paired gap is only readable against the resolution of its own pairing.
     # Recompute z*sd/sqrt(n) here from the face's published sd and phase count -- never read the
     # stored mde -- and require the same floor on BOTH documents. If the face moves, both pages
@@ -1693,6 +1746,48 @@ def main() -> int:
     except Exception as e:
         check("product: data lane freshness board agrees with the lanes and the calendar",
               False, str(e))
+    # r1249 (bm-a): D-20261104-05 -- before any scheduled task may be re-enabled on 2026-11-08,
+    # every lane must name ONE host. Two sources answer it today (config/lane_hosts.json and the
+    # `owner` defaults in data_lane_freshness.LANES) and they disagree on five lanes; only the
+    # audit's private precedence knows which wins. The leg asks the DECLARATION the same question
+    # the audit asks, from the same inputs, and refuses to let a lane be owned by nobody or by
+    # two machines; it also refuses to let the declaration's authority be silently re-labelled.
+    try:
+        _sp49c = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+        if _sp49c not in sys.path:
+            sys.path.insert(0, _sp49c)
+        _LO49 = importlib.import_module("lane_ownership_declaration")
+        _bad49c = []
+        _pub49 = os.path.join("docs", "lane_ownership", "DECLARATION-latest.json")
+        if not os.path.exists(_pub49):
+            _bad49c.append("no declaration on disk")
+        else:
+            _p49d = json.load(open(_pub49, encoding="utf-8"))
+            _f49d = _LO49.build()
+            _rc49, _why49 = _LO49.check_payload(_p49d, _f49d)
+            if _rc49:
+                _bad49c.append(_why49)
+            _s49 = _f49d.get("summary") or {}
+            if _s49.get("verdict") != "OWNERSHIP_UNIQUE":
+                _bad49c.append("conflicts: %s" % (_s49.get("conflict_lanes"),))
+            # the authority must reflect the actual precedence: a lane the config reassigned
+            # cannot claim the code default decided it (that is the number that was wrong)
+            _cfg49 = json.load(open(os.path.join("config", "lane_hosts.json"),
+                                    encoding="utf-8")).get("lane_hosts") or {}
+            for _r49 in _p49d.get("lanes") or []:
+                _w49 = (_LO49.load_inputs()[3] or {}).get(_r49.get("lane"))
+                if _w49 in _cfg49 and _r49.get("declared_host") != _cfg49[_w49]:
+                    _bad49c.append("%s: config says %s, declaration says %s"
+                                   % (_r49.get("lane"), _cfg49[_w49],
+                                      _r49.get("declared_host")))
+                if _r49.get("verdict") == "TWO_WRITERS":
+                    _bad49c.append("%s: two machines" % _r49.get("lane"))
+        check("product: every lane names one host before any task is re-enabled",
+              not _bad49c, "; ".join(_bad49c)[:200]
+              or "ownership unique; config precedence published per lane")
+    except Exception as e:
+        check("product: every lane names one host before any task is re-enabled",
+              False, repr(e)[:180])
     try:
         _ofv = json.load(open("results/t35_open_fill_verify.json",
                               encoding="utf-8"))
@@ -7021,6 +7116,67 @@ def main() -> int:
     except Exception as e:
         check("product: CPU work-hours are recomputable and every batch names a file",
               False, repr(e)[:160])
+    # ---- r1249: a check that re-derives from its own rows is green on ANY panel ----
+    # exposure_timing / exposure_ladder / sleeve_paths sat on the 2026-10-30 panel with green
+    # checks while the book priced 2026-11-03. The gate must be inside all three, must say
+    # STALE (the chain's refresh arm fires on that word), and must not be able to fire on a
+    # verdict/identity disagreement -- rebuilding there would launder the disagreement.
+    try:
+        import contextlib as _ctx49
+        import io as _io49
+        _sp49 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+        if _sp49 not in sys.path:
+            sys.path.insert(0, _sp49)
+        _F49 = importlib.import_module("etf_book_forward")
+        _X49 = importlib.import_module("etf_book_exposure_timing")
+        _L49 = importlib.import_module("etf_book_exposure_ladder")
+        _S49 = importlib.import_module("etf_book_sleeve_paths")
+        _bad49 = []
+        _orig49 = _F49.panel_stamp
+        _F49.panel_stamp = lambda load=True: {"digest": "cafdf7d5"}   # never load the panel
+        try:
+            for _mod49, _nm49, _face49 in (
+                    (_X49, "timing", "results/etf_book_exposure_timing.json"),
+                    (_L49, "ladder", "results/etf_book_exposure_ladder.json"),
+                    (_S49, "sleeve", "results/etf_book_sleeve_paths.json")):
+                _pub49 = json.load(open(_face49, encoding="utf-8"))
+                if not ((_pub49.get("panel") or {}).get("digest")):
+                    _bad49.append("%s publishes no panel stamp" % _nm49)
+                _stale49 = json.loads(json.dumps(_pub49))
+                _stale49.setdefault("panel", {})["digest"] = "0ld0dead"
+                _fx49 = os.path.join(".codely-cli", "tmp", "_smoke_r1249_stale_%s.json" % _nm49)
+                os.makedirs(os.path.dirname(_fx49), exist_ok=True)
+                json.dump(_stale49, open(_fx49, "w", encoding="utf-8"))
+                _buf49 = _io49.StringIO()
+                with _ctx49.redirect_stdout(_buf49):
+                    _rc49 = _mod49.check(_fx49)
+                _txt49 = _buf49.getvalue().lower()
+                if _rc49 != 2:
+                    _bad49.append("%s: a face left on an older panel returned %r, not 2"
+                                  % (_nm49, _rc49))
+                if "stale" not in _txt49:
+                    _bad49.append("%s: the stale message does not say 'stale', so the "
+                                  "chain's refresh arm never fires" % _nm49)
+            if _F49.check_panel_stamp({"panel": {"digest": "cafdf7d5"}},
+                                      stamp={"digest": None}) != 0:
+                _bad49.append("an unreadable current panel is reported as a moved one")
+            _tools49 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Tools")
+            if _tools49 not in sys.path:
+                sys.path.insert(0, _tools49)
+            _legs49 = dict((t[0], t)
+                           for t in importlib.import_module("s6_chain_bmc").LEGS)
+            for _nm49 in ("etf_book_exposure_timing", "etf_book_exposure_ladder",
+                          "etf_book_sleeve_paths"):
+                if len(_legs49.get(_nm49) or ()) < 3:
+                    _bad49.append("%s has no declared refresh command in the chain" % _nm49)
+        finally:
+            _F49.panel_stamp = _orig49
+        check("product: a book face cannot be green on a panel it no longer measures",
+              not _bad49, "; ".join(_bad49)[:200]
+              or "3 faces return 2 + 'stale' on an older stamp; chain holds their refresh arm")
+    except Exception as e:
+        check("product: a book face cannot be green on a panel it no longer measures",
+              False, repr(e)[:180])
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 _SMOKE_GC = None

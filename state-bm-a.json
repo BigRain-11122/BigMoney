@@ -20,15 +20,15 @@
  "current_task": "r1248: etf_book_live_widths green on the 2026-11-03 bar (square fingerprint identity + vanished-note branch, selftest 126 legs, card E371)",
  "current_task_short": "r1248 live-width identity = content fingerprint",
  "d19_watermark_guard": {
-  "advance": true,
-  "method_decisions": "sha256",
-  "method_orders": "sha256",
+  "tool": "scripts/d19_watermark.py",
   "probe": "results/_r686bmb_d19_check.py",
   "probe_evidence": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-a.json",
-  "round_ref": 1248,
-  "tool": "scripts/d19_watermark.py",
-  "ts": "2026-11-03T21:29:27+08:00",
-  "verbatim": true
+  "method_decisions": "sha256",
+  "method_orders": "sha256",
+  "verbatim": true,
+  "advance": true,
+  "round_ref": 1250,
+  "ts": "2026-11-04T20:40:12+08:00"
  },
  "d19_watermark_guard_round_ref": 1085,
  "d19_watermark_v2": {
@@ -135,7 +135,7 @@
  "last_artifact": "research/digests/DIGEST-20261103-r1248-inert-row-and-settled-identity.md",
  "last_artifact_at": "2026-11-03T22:36:33+08:00",
  "last_commit": "0652cbf757",
- "last_decisions_at": "2026-11-03T21:29:27+08:00",
+ "last_decisions_at": "2026-11-04T20:11:00+08:00",
  "last_decisions_consumed": [
   {
    "action": "no new quant obligation; watermark advanced",
@@ -164,22 +164,22 @@
    ]
   }
  ],
- "last_decisions_read_at": "2026-11-03T22:34:36+08:00",
+ "last_decisions_read_at": "2026-11-04T20:40:12+08:00",
  "last_decisions_seen": "2026-11-02T07:0x",
- "last_decisions_sha": "2ebb457c870359d06c904d7d4e92bb4e3d21fc424d2d5cdd6f2a3366a28c7cae",
+ "last_decisions_sha": "0bdbf0d3564dc4ce0230ffa7027ff47993b321c253422189252b8f5bbf263c3a",
  "last_decisions_src": "group origin/main via C: real-path (C:/Users/sjs20/Desktop/FluxGroup) fetch + git show (python subprocess raw-bytes canonical)",
  "last_decisions_ts": "2026-10-29T23:24:57+08:00",
- "last_decisions_watermark": "2ebb457c870359d0@f7a7153/151776",
- "last_decisions_watermark_v2": "v2:BigRain-11122/FluxGroup@f7a7153054ce8a0f161bbf129d27dcb32b38442e/151776#2ebb457c870359d06c904d7d4e92bb4e3d21fc424d2d5cdd6f2a3366a28c7cae",
+ "last_decisions_watermark": "0bdbf0d3564dc4ce@904babd/173124",
+ "last_decisions_watermark_v2": "v2:BigRain-11122/FluxGroup@904babd319269024a7c6b5f0a367718ada06271d/173124#0bdbf0d3564dc4ce0230ffa7027ff47993b321c253422189252b8f5bbf263c3a",
  "last_delivery_verified_at": "2026-11-02T06:52:55+08:00",
  "last_heartbeat_epoch_utc": 1792420245,
  "last_orders_at": "2026-11-02T07:25:23+08:00",
- "last_orders_read_at": "2026-11-03T22:34:36+08:00",
+ "last_orders_read_at": "2026-11-04T20:40:12+08:00",
  "last_orders_seen": "r1186: orders.md origin sha 4348aa21 (190253 B) advanced from 1351271 -- five new CEO rows (subsidiary master @bm-m / all bans lifted except cloud-token thrift / NATS restored / MV fleet auto-dispatch / master single-writer). None scopes to this repo mechanism -> zero action, watermark advanced. O-file ack diff CLEAN 114/123/0.",
- "last_orders_sha": "eb446f1b6eb619c79c7d85901a4727f7539e44674a202fdf3aa5da890fd7a511",
+ "last_orders_sha": "98ce35941b37f01e2303cdd1d372d70b09a359a6ea7775d29d66c71afd724912",
  "last_orders_ts": "2026-10-31T09:06:11+08:00",
- "last_orders_watermark": "eb446f1b6eb619c7@f7a7153/202514",
- "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@f7a7153054ce8a0f161bbf129d27dcb32b38442e/202514#eb446f1b6eb619c79c7d85901a4727f7539e44674a202fdf3aa5da890fd7a511",
+ "last_orders_watermark": "98ce35941b37f01e@904babd/215223",
+ "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@904babd319269024a7c6b5f0a367718ada06271d/215223#98ce35941b37f01e2303cdd1d372d70b09a359a6ea7775d29d66c71afd724912",
  "last_pool_close_r1163": "E256-PHASE-ATLAS-BUFFER-K05/COST05/COST20 -> done",
  "last_product": "results/etf_book_live_width_ruler.json (re-issue branch repaired) + results/etf_book_band_ruler.json (identity arms pass again) + docs/live_book/LIVE-BOOK-20261103.md (all faces on 11-03)",
  "last_push_at": "2026-11-02T17:52:42+08:00",
@@ -474,7 +474,7 @@
  "ram_load_pct": 51.1,
  "recent_artifact": "results/etf_book_bootstrap/BLOCKS-2026-10-30.json",
  "round": "r1246",
- "round_no": 1249,
+ "round_no": 1251,
  "round_no_label": "r1246",
  "round_note_r1239": "the fee break-even is a closed form in the sample's median traded leg: 67737 (2020-2026) / 55929 (2015-2019) / 49849 (2015-2026) = 26.41% spread, now printed on the operator page with the window table (card E356)",
  "round_note_r1243": "r1243 (inherited estate, machine-checked): the coverage gate already refused 2026-11-02 (12 of 1,613 closes) but said nothing, so three faces stayed wrong. (1) etf_composite_pf.drop_hollow_tail now records the refusal in PANEL_TAIL (rows refused / refused date / reference coverage / floor) and every face that reports which panel it priced republishes it -- the ledger's panel block prints refused_trailing_rows=1, refused_last_bar=2026-11-02, reference_coverage=1611. (2) series_lag_bars is signed three-state (+1 behind / -1 AHEAD / 0 same / None unknown); the old `>= 0` read 'the series is one bar longer than the book' as 'no lag', so the envelope bootstrapped the phantom bar and published 9.59% beside the book's 9.60% while judging same_object. run() now heals both directions and prints direction=behind|ahead. (3) new withdraw_provisional() + published_bars(): restate_provisional only covered 'the bar settles to a different number'; the other ending is 'that date was never a priceable session', whose face is missing forever, so it stays the newest published bar forever and every later real bar is called provisional too -- the ledger could never close a bar again. The mark keeps its published nav/dd/cash, gains withdrawn=true + reason + panel last date, and leaves the settled/provisional partition (single reader published_bars(), imported by the settle audit). PRE-EXISTING r1241/r1242 ESTATE (dead windows, uncommitted, machine-checked not trusted): min_capital ladder_width/wind",
@@ -648,5 +648,9 @@
  "what_is_live": "etf_book_order ticket on 2026-11-03 (5 names, book 458,971 CNY, cash 541,029 to GC001, next rebalance 2026-11-11) + band ruler control arms reproducing the published 12.56/9.60/18.33",
  "work": "r1248 (inherited estate + two reds of my own): the live-width face froze a ticket 2x2 into as_issued and whitelisted a re-issue by path prefix; today's ticket re-issue also rewrote the one verdict sentence that restates those numbers, so the whole re-issue read as a hand edit and the chain leg went rc=1. The gate now admits that sentence only when substituting each side's own numbers makes the two strings identical, with a reverse fixture proving a semantic edit still fails. Then the panel takeover to 11-03 exposed three smoke legs: faces frozen on 10-30. Re-stamping them surfaced a second code defect -- the band ruler's ticket arm compared a 685-bar number to the 1527-bar 'full' column after r1247 split the row into 全窗/2020-2023/2024+, so it declared its own control arm unreproducible; the arm now reads the 2024+ column, pinned by a fixture where the two columns differ.",
  "work_r1248": "r1248 (inherited estate, machine-checked): the gate that freezes the executable ticket's own 2x2 inside the live-width face had the wrong identity for the thing it froze, and it went red for the third time in two days on a legitimate re-issue. Fixed by keying identity on CONTENT (the ticket square's fingerprint) instead of the date, and by admitting the one structural diff the echo rule could not see (a verdict-reason sentence vanishing with the collision that produced it). Product: the operator's live-width page is green again on the 2026-11-03 bar, and the book itself was re-priced end to end on that bar (order 5 names, book 458,971 / cash 541,029 CNY, next rebalance 2026-11).",
- "orders_ack_note_r1248": "114 orders / 123 acks / 0 unacked / 0 face divergence (scan re-run this round)"
+ "orders_ack_note_r1248": "114 orders / 123 acks / 0 unacked / 0 face divergence (scan re-run this round)",
+ "verify_r1249": "INHERITED ESTATE, MACHINE-CHECKED (the window that wrote it died before close-out; its own green was a hint): etf_book_forward --selftest SELFTEST OK including the 5 new stamp-gate legs; exposure_timing/exposure_ladder/sleeve_paths --check all rc0 against their published panel digest; s6 chain 130/131 rc0 (results/_r1249bma_s6_chain.json, 20:09:07), the one non-zero being tree_shrink_group=1 mid-fetch (re-run immediately after: CLEAN, origin/main 4898 files) -- reported as transient, not healed. New faces of this round: lane_ownership_declaration --selftest 15/15 + --check rc0 + chain --only rc0 (0.2s) -> docs/lane_ownership/DECLARATION-2026-11-04.md (10 lanes, OWNERSHIP_UNIQUE, config overrides code on options/moneyflow/heat/repo/zt_pool). Other faces: update_daily rc0 0 new rows (cutoff 2026-11-03; cal_audit expected 2026-11-04 = source_lag) | update_futures +1 row to 2026-11-04 | dualrun ZERO-DRIFT | compute_audit rc0 | py_watermark rc0 | data_lane_freshness verdict=host_down (7 unverifiable, worst moneyflow; both machines' heartbeats stale at 19:34) | attrition CLEAN 4 ledgers (3 historical shrinks healed) | orphan 0/30 | card_ledger_guard CLEAN head=315 tree=317 max=371->373 | orders_ack CLEAN 114/123/0/0 | D-19 advanced after consuming today's rows (dec 0bdbf0d3 / ord 98ce3594, read-back full-string equality, heartbeat mirrors 9)",
+ "work_r1249": "r1249: a --check that re-derives from its own published rows is green on ANY panel, so exposure_timing/exposure_ladder/sleeve_paths sat on the 2026-10-30 panel while the book priced 2026-11-03. The stamp gate asks the one question the rows cannot answer (is this still the panel I measured), answers 'stale' in rc 2 so the chain's refresh arm fires, and deliberately keeps verdict/identity disagreements in rc 1 where a rebuild would launder them. Then D-20261104-05: the group asked which machine owns each lane before the 2026-11-08 task re-enable, and the answer exists in two places that disagree -- the declaration writes the winner down per lane with its authority, and the gate that guards it compares OWNERSHIP only, because host liveness belongs to the freshness face.",
+ "orders_ack_note_r1249": "114 orders / 123 acks / 0 unacked / 0 face divergence (scan re-run this round)",
+ "d19_note_r1249": "decisions 2ebb457c -> 0bdbf0d3 (D-20261104-10/11/12 + D-05), orders eb446f1b -> 98ce3594. Consumed: D-20261104-05 (BigMoney 8-task ownership declaration, due 2026-11-06 12:00) = this round's product + HQ-FEEDBACK F-20261104-01. No BigMoney action: D-20261104-07 (task-health whitelist, @HQ mechanism seat), D-10/11/12 (group governance). Watermark advanced."
 }
