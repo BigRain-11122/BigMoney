@@ -1396,6 +1396,15 @@ LEGS = [
     # first burn), then prints how many published census faces carry each never-opened key.  Verify
     # re-classifies every published row and re-derives the gate without the corpus walk.
     ("never_opened_key", ["python", "scripts/e384_never_opened_key.py", "verify"]),
+
+    # E407 answers the pool card seeded after E305 re-red twice in one window.  The hypothesis was
+    # that the E305 leg reads a face an earlier leg of the same suite republishes.  Measured: the
+    # build opens exactly the 13 faces its census names, all 13 have a writer in the tree, and no
+    # attributable leg of the suite executes one of those writers -- the input is stable inside a
+    # run, and what is pinned is the audit column (E387), which is why re-running the audit clears
+    # the leg and re-committing the face without it does not.  Verify re-derives the leg census,
+    # the movers and the order pairs from source.
+    ("leg_input_stability", ["python", "scripts/e407_leg_input_stability.py", "verify"]),
 ]
 
 

@@ -15005,5 +15005,59 @@ except Exception as _e_lho:
 check(_name_lho, not _bad_lho, "; ".join(_bad_lho)[:240]
       or "verdict %s" % str((_f_lho or {}).get("verdict"))[:90])
 
+
+# E407: the card asked whether a leg reads a face an earlier leg of the same suite republishes.
+# The answer for the motivating instance is measured, not assumed: E305's build opens exactly the
+# 13 faces its census names, every one of them has a writer in the tree, and NO attributable leg of
+# this suite executes one of those writers -- so the leg is order-stable inside a run, and what was
+# pinned is the audit column (E387), which is why re-running the audit clears it.  The leg refuses
+# a stored table that no longer re-derives and a mover count that is not the length of its own rows.
+_name407 = ("product: a leg's input is stable inside a run -- %s input face(s) of the E305 build, "
+            "%s with a writer in the tree, %s leg(s) of the suite execute one of them, %s ordered "
+            "pair(s); what is pinned is the audit column, not the run")
+_bad407 = []
+_f407 = None
+try:
+    _p407 = os.path.join("results", "state_tilt", "leginput_latest.json")
+    _f407 = json.load(open(_p407, encoding="utf-8")) if os.path.exists(_p407) else None
+    if _f407 is None:
+        _bad407.append("no published leg-input face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m407 = __import__("importlib").import_module("e407_leg_input_stability")
+        _s407 = _f407.get("summary") or {}
+        if _f407.get("verdict") not in _m407.VERDICTS:
+            _bad407.append("verdict %r is outside the frozen set" % str(_f407.get("verdict")))
+        if _m407.decide(_s407) != _f407.get("verdict"):
+            _bad407.append("the verdict does not re-derive from the summary")
+        _legs407 = _f407.get("legs") or []
+        if len(_legs407) != _s407.get("attributable_legs"):
+            _bad407.append("the leg rows do not re-add to the headline")
+        _mv407 = [l for l in _legs407 if l.get("moves")]
+        if len(_mv407) != _s407.get("legs_that_execute_a_writer_of_an_input_face"):
+            _bad407.append("the mover count is not the length of its own rows")
+        if len(_f407.get("input_faces") or []) != _s407.get("input_faces"):
+            _bad407.append("the input rows do not re-add to the headline")
+        for _row407 in _f407.get("input_faces") or []:
+            _nm407 = (_row407.get("face") or "").split("/")[-1]
+            if not _row407.get("writers") and _nm407 in {
+                    (_mv or "").split("/")[-1] for _mv in
+                    [m for l in _legs407 for m in l.get("moves") or []]}:
+                _bad407.append("%s is reported moved but has no writer" % _row407.get("face"))
+                break
+        _fresh407 = _m407.build()
+        if len(_fresh407.get("legs") or []) != len(_legs407):
+            _bad407.append("the leg census does not re-derive")
+        if _fresh407["summary"].get("order_pairs") != _s407.get("order_pairs"):
+            _bad407.append("the order-pair count does not re-derive")
+        _name407 = _name407 % (_s407.get("input_faces"),
+                               _s407.get("faces_with_a_writer_in_the_tree"),
+                               _s407.get("legs_that_execute_a_writer_of_an_input_face"),
+                               _s407.get("order_pairs"))
+except Exception as _e407:
+    _bad407.append(repr(_e407)[:160])
+check(_name407, not _bad407, "; ".join(_bad407)[:240]
+      or "verdict %s" % str((_f407 or {}).get("verdict"))[:90])
+
 if __name__ == "__main__":
     sys.exit(main())

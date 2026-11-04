@@ -1,0 +1,2569 @@
+{
+ "bound": "legs executed from helper functions and loops are outside the static census; the suite's own leg count and this census are published side by side and the gap is not folded into either; the within-run claim rests on this static analysis, and the 13 input hashes are published so a pre/post probe can confirm it",
+ "card": "E407-DOES-A-SMELL-TEST-LEG-READ-A-FACE-AN-EARLIER-LEG-REPUBLISHES",
+ "evidence_cutoff": "2026-11-04",
+ "input_faces": [
+  {
+   "face": "results/state_tilt/banddeflate_latest.json",
+   "on_disk": {
+    "bytes": 15904,
+    "sha16": "28e2b31eab1e4394"
+   },
+   "writers": [
+    "scripts/e283_degenerate_range_reachable.py",
+    "scripts/e327_who_reads_a_face_through_a_pointer.py"
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "on_disk": {
+    "bytes": 17716,
+    "sha16": "61d7b084f7ac0ebf"
+   },
+   "writers": [
+    "scripts/e285_interrange_gap_ceiling.py"
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandstraddlesweep_latest.json",
+   "on_disk": {
+    "bytes": 19622,
+    "sha16": "cc26916b2564c13c"
+   },
+   "writers": [
+    "scripts/e274_spread_straddle_sweep.py"
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandtight_latest.json",
+   "on_disk": {
+    "bytes": 30641,
+    "sha16": "59a0f9d00e521282"
+   },
+   "writers": [
+    "scripts/e269_tight_end_transfer.py"
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "on_disk": {
+    "bytes": 33795,
+    "sha16": "2a0d95849c82e563"
+   },
+   "writers": [
+    "scripts/e262_p95_transfer_across_windows.py"
+   ]
+  },
+  {
+   "face": "results/state_tilt/bookecho_latest.json",
+   "on_disk": {
+    "bytes": 36658,
+    "sha16": "eb143b71b6f15562"
+   },
+   "writers": [
+    "scripts/e250_book_turnover_echo.py",
+    "scripts/e407_leg_input_stability.py"
+   ]
+  },
+  {
+   "face": "results/state_tilt/quantityname_latest.json",
+   "on_disk": {
+    "bytes": 118717,
+    "sha16": "c104fe92c10f8af8"
+   },
+   "writers": [
+    "scripts/e321_quantity_name_reach.py"
+   ]
+  },
+  {
+   "face": "results/state_tilt/reachwide_latest.json",
+   "on_disk": {
+    "bytes": 543046,
+    "sha16": "3543ad6685164589"
+   },
+   "writers": [
+    "scripts/e323_reach_under_wider_needle.py",
+    "scripts/e356_census_red_triage.py"
+   ]
+  },
+  {
+   "face": "results/state_tilt/refusalcause_latest.json",
+   "on_disk": {
+    "bytes": 4498,
+    "sha16": "820d11d09553a74d"
+   },
+   "writers": [
+    "scripts/e322_residual_refusal_causes.py"
+   ]
+  },
+  {
+   "face": "results/state_tilt/starown_latest.json",
+   "on_disk": {
+    "bytes": 29541,
+    "sha16": "8898bc839b5cbaca"
+   },
+   "writers": [
+    "scripts/e251_star_own_component.py",
+    "scripts/e252_star_prices_itself.py"
+   ]
+  },
+  {
+   "face": "results/state_tilt/starself_latest.json",
+   "on_disk": {
+    "bytes": 20439,
+    "sha16": "8e032db5ce64c630"
+   },
+   "writers": [
+    "scripts/e252_star_prices_itself.py"
+   ]
+  },
+  {
+   "face": "results/state_tilt/unpublishedkey_latest.json",
+   "on_disk": {
+    "bytes": 49719,
+    "sha16": "1bbb1a0e45f164d8"
+   },
+   "writers": [
+    "scripts/e324_unpublished_key_causes.py"
+   ]
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "on_disk": {
+    "bytes": 1272,
+    "sha16": "631ba7eed0917ace"
+   },
+   "writers": [
+    "Tools/_r506bmc_rebase_resolve.py",
+    "Tools/_r517bmc_rebase_resolve.py",
+    "Tools/_r518bmc_rebase_resolve.py",
+    "Tools/_r808bmc_close.py",
+    "monitor/build_status.py",
+    "scripts/_postscript_r1422.py",
+    "scripts/e308_leg_vs_producer_tolerance.py",
+    "scripts/e313_gate_form_and_scale.py",
+    "scripts/e407_leg_input_stability.py",
+    "scripts/t35_open_fill_verify.py"
+   ]
+  }
+ ],
+ "legs": [
+  {
+   "index": 1,
+   "line": 111,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 2,
+   "line": 122,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 3,
+   "line": 127,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 4,
+   "line": 129,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 5,
+   "line": 131,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 6,
+   "line": 135,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 7,
+   "line": 139,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 8,
+   "line": 156,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 9,
+   "line": 161,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 10,
+   "line": 165,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 11,
+   "line": 168,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 12,
+   "line": 174,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 13,
+   "line": 176,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 14,
+   "line": 177,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 15,
+   "line": 179,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 16,
+   "line": 192,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 17,
+   "line": 193,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 18,
+   "line": 197,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 19,
+   "line": 204,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 20,
+   "line": 219,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 21,
+   "line": 227,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 22,
+   "line": 229,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 23,
+   "line": 238,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 24,
+   "line": 252,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 25,
+   "line": 257,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 26,
+   "line": 275,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 27,
+   "line": 279,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 28,
+   "line": 282,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 29,
+   "line": 287,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 30,
+   "line": 304,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 31,
+   "line": 331,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 32,
+   "line": 339,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 33,
+   "line": 346,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 34,
+   "line": 350,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 35,
+   "line": 354,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 36,
+   "line": 358,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 37,
+   "line": 380,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 38,
+   "line": 386,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 39,
+   "line": 406,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 40,
+   "line": 408,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 41,
+   "line": 410,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 42,
+   "line": 412,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 43,
+   "line": 427,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 44,
+   "line": 441,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 45,
+   "line": 457,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 46,
+   "line": 468,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 47,
+   "line": 480,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 48,
+   "line": 500,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 49,
+   "line": 513,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 50,
+   "line": 522,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 51,
+   "line": 533,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 52,
+   "line": 549,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 53,
+   "line": 566,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 54,
+   "line": 584,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/t35_open_fill_verify.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 55,
+   "line": 618,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/t35_open_fill_verify.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 56,
+   "line": 665,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 57,
+   "line": 679,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 58,
+   "line": 767,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 59,
+   "line": 785,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 60,
+   "line": 798,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 61,
+   "line": 811,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 62,
+   "line": 820,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 63,
+   "line": 833,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 64,
+   "line": 856,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 65,
+   "line": 897,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 66,
+   "line": 946,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 67,
+   "line": 957,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 68,
+   "line": 975,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 69,
+   "line": 1000,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 70,
+   "line": 1028,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 71,
+   "line": 1057,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 72,
+   "line": 1089,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 73,
+   "line": 1130,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 74,
+   "line": 1155,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 75,
+   "line": 1165,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 76,
+   "line": 1180,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 77,
+   "line": 1189,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 78,
+   "line": 1231,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 79,
+   "line": 1455,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 80,
+   "line": 1486,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 81,
+   "line": 1517,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 82,
+   "line": 1560,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 83,
+   "line": 1577,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 84,
+   "line": 1586,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 85,
+   "line": 1792,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 86,
+   "line": 1806,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 87,
+   "line": 1838,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 88,
+   "line": 1865,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 89,
+   "line": 1896,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 90,
+   "line": 1937,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 91,
+   "line": 1988,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 92,
+   "line": 2040,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 93,
+   "line": 2091,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 94,
+   "line": 2135,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 95,
+   "line": 2313,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 96,
+   "line": 2377,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 97,
+   "line": 2448,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 98,
+   "line": 2519,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 99,
+   "line": 2596,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 100,
+   "line": 2682,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 101,
+   "line": 2786,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 102,
+   "line": 2829,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 103,
+   "line": 2900,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 104,
+   "line": 2963,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 105,
+   "line": 3025,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 106,
+   "line": 3074,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 107,
+   "line": 3130,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 108,
+   "line": 3187,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 109,
+   "line": 3257,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 110,
+   "line": 3320,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 111,
+   "line": 3392,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 112,
+   "line": 3459,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 113,
+   "line": 3506,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 114,
+   "line": 3552,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 115,
+   "line": 3605,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 116,
+   "line": 3693,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 117,
+   "line": 3761,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 118,
+   "line": 3859,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/bookecho_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 119,
+   "line": 3925,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/bookecho_latest.json",
+    "results/state_tilt/starown_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 120,
+   "line": 4014,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/starown_latest.json",
+    "results/state_tilt/starself_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 121,
+   "line": 4116,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 122,
+   "line": 4157,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 123,
+   "line": 4250,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 124,
+   "line": 4366,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 125,
+   "line": 4462,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 126,
+   "line": 4562,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 127,
+   "line": 4651,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 128,
+   "line": 4740,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 129,
+   "line": 4831,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 130,
+   "line": 4934,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 131,
+   "line": 5044,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 132,
+   "line": 5180,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 133,
+   "line": 5279,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 134,
+   "line": 5362,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 135,
+   "line": 5475,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 136,
+   "line": 5589,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/bandtight_latest.json",
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 137,
+   "line": 5742,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/bandstraddlesweep_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 138,
+   "line": 5821,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 139,
+   "line": 5950,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 140,
+   "line": 6062,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 141,
+   "line": 6139,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 142,
+   "line": 6239,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 143,
+   "line": 6338,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 144,
+   "line": 6430,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 145,
+   "line": 6499,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 146,
+   "line": 6573,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 147,
+   "line": 6654,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 148,
+   "line": 6725,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 149,
+   "line": 6809,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/banddeflate_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 150,
+   "line": 6903,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 151,
+   "line": 6989,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/bandgapceiling_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 152,
+   "line": 7090,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 153,
+   "line": 7183,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 154,
+   "line": 7292,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 155,
+   "line": 7398,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 156,
+   "line": 7519,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 157,
+   "line": 7630,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 158,
+   "line": 7719,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 159,
+   "line": 7821,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 160,
+   "line": 7947,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 161,
+   "line": 8027,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 162,
+   "line": 8084,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 163,
+   "line": 8205,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 164,
+   "line": 8314,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 165,
+   "line": 8390,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 166,
+   "line": 8455,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 167,
+   "line": 8558,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 168,
+   "line": 8623,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 169,
+   "line": 8688,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 170,
+   "line": 8770,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 171,
+   "line": 8833,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 172,
+   "line": 8907,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 173,
+   "line": 8984,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 174,
+   "line": 9045,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 175,
+   "line": 9114,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 176,
+   "line": 9160,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/quantityname_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 177,
+   "line": 9213,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/refusalcause_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 178,
+   "line": 9283,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/quantityname_latest.json",
+    "results/state_tilt/reachwide_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 179,
+   "line": 9355,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/reachwide_latest.json",
+    "results/state_tilt/unpublishedkey_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 180,
+   "line": 9422,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [
+    "results/state_tilt/reachwide_latest.json"
+   ],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 181,
+   "line": 9492,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 182,
+   "line": 9553,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 183,
+   "line": 9623,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 184,
+   "line": 9689,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 185,
+   "line": 9752,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 186,
+   "line": 9771,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 187,
+   "line": 9829,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 188,
+   "line": 9849,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 189,
+   "line": 9912,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 190,
+   "line": 9935,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 191,
+   "line": 10016,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 192,
+   "line": 10042,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 193,
+   "line": 10137,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 194,
+   "line": 10157,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 195,
+   "line": 10262,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 196,
+   "line": 10283,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 197,
+   "line": 10394,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 198,
+   "line": 10410,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 199,
+   "line": 10463,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 200,
+   "line": 10483,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 201,
+   "line": 10557,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 202,
+   "line": 10576,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 203,
+   "line": 10651,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 204,
+   "line": 10670,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 205,
+   "line": 10745,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 206,
+   "line": 10770,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 207,
+   "line": 10840,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 208,
+   "line": 10862,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 209,
+   "line": 10924,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 210,
+   "line": 10940,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 211,
+   "line": 11010,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 212,
+   "line": 11031,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 213,
+   "line": 11098,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 214,
+   "line": 11116,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 215,
+   "line": 11166,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 216,
+   "line": 11181,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 217,
+   "line": 11226,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 218,
+   "line": 11242,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 219,
+   "line": 11293,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 220,
+   "line": 11309,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 221,
+   "line": 11348,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 222,
+   "line": 11366,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 223,
+   "line": 11416,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 224,
+   "line": 11438,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 225,
+   "line": 11486,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 226,
+   "line": 11510,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 227,
+   "line": 11551,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 228,
+   "line": 11574,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 229,
+   "line": 11619,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 230,
+   "line": 11639,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 231,
+   "line": 11693,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 232,
+   "line": 11715,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 233,
+   "line": 11769,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 234,
+   "line": 11795,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 235,
+   "line": 11861,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  },
+  {
+   "index": 236,
+   "line": 11883,
+   "modules": [],
+   "moves": [],
+   "reads_literal": [],
+   "script_runs": [],
+   "selftest_runs": [],
+   "write_modules": []
+  }
+ ],
+ "method": "input set from the census the build consumes; writers from a literal scan of scripts/Tools/monitor/live/firm; legs from the statically attributable groups inside main(); a leg moves an input only if it imports a writer and calls a write verb on it, or runs that writer as a non-selftest subprocess",
+ "order_pairs": [],
+ "study": "E407_leg_input",
+ "subject_leg": "E305 (product: a face-level bound is not a measurement)",
+ "summary": {
+  "attributable_legs": 236,
+  "code_legs_without_a_trailing_statement": 1,
+  "faces_with_a_writer_in_the_tree": 13,
+  "faces_with_no_writer_in_the_tree": [],
+  "input_faces": 13,
+  "input_faces_present_on_disk": 13,
+  "input_rows_in_census": 14,
+  "legs_reading_an_input_face_literally": 15,
+  "legs_that_are_writers_but_not_of_an_input_face": 0,
+  "legs_that_execute_a_writer_of_an_input_face": 0,
+  "order_pairs": 0,
+  "script_runs_that_are_not_selftests": 0,
+  "verdict": "no_leg_in_the_suite_executes_a_writer_of_any_input_face_so_the_leg_is_order_stable_and_the_pinned_columns_are_the_audit"
+ },
+ "verdict": "no_leg_in_the_suite_executes_a_writer_of_any_input_face_so_the_leg_is_order_stable_and_the_pinned_columns_are_the_audit",
+ "writers_that_are_legs": []
+}

@@ -9407,3 +9407,49 @@ leg E405 (1/1, exec'd verbatim by `scripts/run_e405_smoke_leg.py`); S6 leg `dead
 faces `results/state_tilt/DEADREAD-2026-11-04.json` + `deadread_latest.json`; population machine-read
 from E404's published `summary.dead_joins` (never hand-copied); no reader, constant, face or pointer was
 edited. Successor card E406 stays queued (the committed-blob reader).
+
+## E407 -- a leg's input is stable inside a run, and the pinned thing is the column
+
+Card (pool, seeded by the r1422 postscript after E305 re-red twice in one window): "The E305 leg
+checks 'is precisiongap_latest.json published at the number the audit re-derives' by calling the
+study's own build() at check time. That build reads sibling faces which OTHER legs of the same suite
+republish earlier in the run." The card asked whether a leg's input changes during the suite, which
+leg changes it, and whether the leg re-derives before comparing. **The hypothesis is false for its
+own motivating instance, and the measurement is cheap once you stop asserting it.**
+
+Measurement: the input set is read out of the census the build consumes (14 at-risk rows -> 13
+distinct faces, all 13 on disk), not guessed. Writers are a literal scan of
+scripts/Tools/monitor/live/firm: **13 of 13 faces have a writer in the tree**, so the set is
+genuinely mutable across rounds. The in-suite question is narrower and decidable: 236 statically
+attributable leg groups inside main() (statements up to the check() each leg ends with), and of
+those **0 import one of those writers and call a write verb on it, 0 run one as a non-selftest
+subprocess** -- 0 ordered (writer, reader) pairs. Verdict recomputed by the gate:
+`no_leg_in_the_suite_executes_a_writer_of_any_input_face_so_the_leg_is_order_stable_and_the_pinned_columns_are_the_audit`.
+
+Three rules measured, not assumed:
+
+- **Ask the object for its inputs, not the prose for them.** The card's premise came from reading the
+  symptom (a face stale inside a suite, fresh at rest). The face-level answer is one import away:
+  `e305.build()` reads exactly the `faces_named` of its at-risk rows. A census of "inputs" assembled
+  by recollection would have been wrong in either direction and uncheckable.
+- **A writer in the tree is not a writer in the run.** The two populations differ by 13 modules: the
+  drift is cross-round (a producer that reruns between rounds changes the face the next suite reads),
+  which is why re-running the audit clears the leg and re-committing the face without re-running it
+  does not. Publishing only "13 faces have writers" would have indicted the suite; publishing only
+  "0 legs move them" would have hidden that the input is unstable at all.
+- **The leg count is two numbers.** The suite reports more legs than the code census attributes
+  (legs executed from helper functions and loops are outside a static region model). Both are
+  published; the difference is disclosed rather than folded into either, and the within-run claim is
+  stated as resting on the static analysis, with the 13 input hashes published so a pre/post probe
+  can confirm it.
+
+How to apply: when a leg re-reds inside the suite and passes at rest, do not start by widening or
+narrowing it -- first name the exact input set (machine-read from the artefact the leg consumes),
+then ask whether any earlier leg executes a writer of it, and only then decide between (a) the run
+moved it, (b) the round moved it, (c) the audit column is what is pinned. E387's columns are case (c).
+
+Wiring: `scripts/e407_leg_input_stability.py` (run / verify problems=[] / selftest 11/11); smoke leg
+E407 (1/1, exec'd verbatim by `scripts/run_e407_smoke_leg.py`); S6 leg `leg_input_stability`;
+faces `results/state_tilt/LEGINPUT-2026-11-04.json` + `leginput_latest.json`. The card's deliverable
+name said `LEGINPUT-2026-11-05.json`; the face is dated today because a future-dated face is future
+data. No reader, writer, face or pointer was edited.
