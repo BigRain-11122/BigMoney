@@ -4857,6 +4857,7 @@
    "research/digests/DIGEST-20261105-r1448-e428-no-caller.md",
    "results/runnable_pool.json E428 done + E432 seeded (ready 3)"
   ],
+  "s7_correction": "the committed round report said the loop task, watchdog and claws were not re-registered; the window then ran both registrations and the watchdog was in fact absent and is now registered",
   "summary": {
    "calls_never_supply": 1,
    "helper_names_narrow": 75,
@@ -4904,7 +4905,7 @@
  "s6_leg": "no_caller",
  "s6_note": "only the new S6 leg (verify) ran this window; the rest of the S6 chain was not re-run and is not claimed",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
- "s7": "orders 114 files / 115 acks / 0 unacked; loop task, watchdog and claws not re-registered this window (their ticks cover the gap)",
+ "s7": "orders 114 files / 115 acks / 0 unacked; loop task re-checked -> no-op (machine=bm-b pin=2 current=2); Bigmoney-LoopWatchdog was ABSENT and was re-registered in-window (S4U, SWA=false, first fire 06:30); pre-commit/pre-push claws not re-checked this window",
  "s7_r1439": "loop pin=2 no-op | LoopWatchdog RE-REGISTERED (absent on this box; S4U, SWA=false) | pre-commit + pre-push claws reinstalled | attrition CLEAN 4 ledgers (3 healed) | sat engine status rc=0 idle",
  "sat_engine": "status read: exit 0, last_verdict=idle; not restarted",
  "selftest": "e428_no_caller 13/13; extracted smoke leg 1/1; doctor 1/1 red",
