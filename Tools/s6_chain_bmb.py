@@ -1411,6 +1411,11 @@ LEGS = [
     # really write, 12 run on this chain and 2 only run from a session script -- and 0 run on the
     # signal that reads them (the suite).  Verify re-derives every role and count from source.
     ("writer_refresh_signal", ["python", "scripts/e408_writer_refresh_signal.py", "verify"]),
+    # E409: E408 named the two writers that only run from a session script.  This prices what
+    # a reader sees when nobody ran them: 5 reader sites open the two faces and 0 ask how old
+    # they are, while the suite prices the age of 6 of 192 faces it opens.  Verify re-derives
+    # the ledger and refuses a reader site it can no longer find.
+    ("unfloored_faces", ["python", "scripts/e409_unfloored_faces.py", "verify"]),
 ]
 
 

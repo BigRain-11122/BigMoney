@@ -9504,3 +9504,51 @@ Wiring: `scripts/e408_writer_refresh_signal.py` (run / verify problems=[] / self
 E408 (1/1, `scripts/run_e408_smoke_leg.py`); S6 leg `writer_refresh_signal` (rc 0, 3.0 s after the
 scan was narrowed); faces `results/state_tilt/REFRESHSIGNAL-2026-11-04.json` +
 `refreshsignal_latest.json`. No reader, writer, face or pointer was edited.
+
+#### E409 — a reader that never asks how old the face is will re-assert a stale reading as current
+
+**Question.** E408 found two writers that run only from a session script; both write faces that
+legs of the standing suite read. What does a reader actually see on a round where nobody ran them?
+
+**Answer, measured.** `results/t35_open_fill_verify.json` was 0.52 days old and current
+(`day=2026-11-03`); `results/state_tilt/quantityname_latest.json` was 2.76 days old and **behind**
+the panel (`evidence_cutoff=2026-10-31` vs 2026-11-03). Five reader sites open them and **0** ask
+how old they are. Across the suite, **6 of 192** legs that open a face or page price the age.
+
+Reader tiers, each backed by the lines that produced the call:
+
+| tier | what it means under staleness |
+|---|---|
+| `asks_the_clock` | probes mtime/now; the age cannot pass unnoticed |
+| `dates_the_face_in_a_gate` | the face's own date in a comparison that can go red |
+| `prints_staleness_without_gating` | the reader knows and does not act |
+| `compares_the_face_to_itself` | passes as long as the face is internally consistent |
+| `no_freshness_test` | passes at any age |
+
+**Verdict.** `a_stale_face_passes_every_reader_that_never_asks_how_old_it_is`.
+
+**Why the fix is not one fix.** The card offered "chain leg" or "reader prices its age". For the
+t35 face the reader-side gate was already litigated and removed (`smoke_test.py:593-597`, E185: a
+hard day assertion assumed a deployment layout and reddened a healthy non-writer host). The same
+file does it correctly 60 lines later with a **bounded one-bar allowance** derived from the
+exchange calendar (`smoke_test.py:679-700`). So the available fix for that face is that bounded
+form, not a bare equality — or the writer goes on the chain. For the census face, `evidence_cutoff`
+against the panel date is one comparison with no layout ambiguity.
+
+**How to apply.**
+1. Classify a reader by the block the suite *reports as one leg* — the enclosing `try:`/`except`,
+   never a fixed ±N window; a window bled the dashboard leg's `STALE` print into the tier leg 30
+   lines below and produced one wrong row in the first build.
+2. `"results/"` as a literal is not "opens a face" — `os.path.join("results", ...)` misses it.
+   Narrow said 42 legs, correct said 192. Publish both counts so the undercount stays visible.
+3. Exclude the study's own leg when counting the suite it lives in, and publish the exclusion
+   count (E180/E207/E319 family, third occurrence).
+4. When you add a guard against "the study writes its own input", scope it: banning `open(...,"w")`
+   outright is false for a study that legitimately writes its deliverable.
+
+**Wiring.** `scripts/e409_unfloored_faces.py` (run / verify problems=[] / selftest 12/12); smoke leg
+E409 appended to `smoke_test.py` and executed verbatim (1/1, `scripts/run_e409_smoke_leg.py`); S6
+leg `unfloored_faces` (registration confirmed by reading the leg table and running its command, not
+by `--list`, which produced no output for five minutes and was cancelled); faces
+`results/state_tilt/UNFLOORED-2026-11-03.json` + `unfloored_latest.json`. Neither input face was
+read into a write; no reader or producer was edited.

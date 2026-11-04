@@ -15112,5 +15112,79 @@ except Exception as _e408:
 check(_name408, not _bad408, "; ".join(_bad408)[:240]
       or "verdict %s" % str((_f408 or {}).get("verdict"))[:90])
 
+# E409: E408 named the two writers that only run from a session script.  This prices what a
+# reader sees on a round where nobody ran them -- the face's age against the panel clock, the
+# reader tier that opens it, and what that tier does when the face is stale.  The leg refuses a
+# published ledger that no longer re-derives, refuses a reader site it can no longer find, and
+# refuses the cheat the card forbids: a module that writes either input face to make its own
+# read pass.
+_name409 = ("product: unfloored faces -- %s face(s), %s stale against the panel, %s with no "
+            "reader that prices the age, %s reader site(s) of which %s ask how old the face "
+            "is; the suite prices the age of %s of %s faces it opens")
+_bad409 = []
+_f409 = None
+try:
+    _p409 = os.path.join("results", "state_tilt", "unfloored_latest.json")
+    _f409 = json.load(open(_p409, encoding="utf-8")) if os.path.exists(_p409) else None
+    if _f409 is None:
+        _bad409.append("no published unfloored-face ledger")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m409 = __import__("importlib").import_module("e409_unfloored_faces")
+        _s409 = _f409.get("summary") or {}
+        _fresh409 = _m409.build(write=False)
+        if _fresh409["summary"] != _s409:
+            _bad409.append("the published summary does not re-derive from the live tree")
+        if _fresh409.get("verdict") != _f409.get("verdict"):
+            _bad409.append("the stored verdict is not the one the live tree produces")
+        _led409 = _f409.get("ledger") or []
+        if len(_led409) != _s409.get("faces"):
+            _bad409.append("the published ledger rows do not re-add to the headline")
+        _sites409 = [r_ for f_ in _led409 for r_ in f_.get("readers") or []]
+        if len(_sites409) != _s409.get("reader_sites"):
+            _bad409.append("the reader sites do not re-add to the headline")
+        if sum(1 for r_ in _sites409 if r_.get("tier") == "site_not_found"):
+            _bad409.append("a reader site the ledger names can no longer be found")
+        if any(not r_.get("behaviour_under_staleness")
+               or r_.get("behaviour_under_staleness") == "unmeasured" for r_ in _sites409):
+            _bad409.append("a reader site has no measured behaviour under staleness")
+        _tier409 = {}
+        for r_ in _sites409:
+            _tier409[r_.get("tier")] = _tier409.get(r_.get("tier"), 0) + 1
+        if _tier409 != (_s409.get("by_reader_tier") or {}):
+            _bad409.append("the reader tiers do not re-add to their headline")
+        _practice409 = _s409.get("suite_practice") or {}
+        if _practice409.get("legs_pricing_the_age", 0) > _practice409.get(
+                "legs_opening_a_face_or_page", 0):
+            _bad409.append("more legs price the age than open a face")
+        if _practice409.get("legs_opening_a_face_or_page", 0) < _practice409.get(
+                "legs_opening_a_face_by_the_narrow_rule", 0):
+            _bad409.append("the wide face-count rule is narrower than the literal one")
+        # The card forbids the shortcut: nothing in the module may write either input face.
+        # The study does write its own deliverable, so the rule is scope-limited by a window
+        # around each write-mode open rather than by banning open() outright.
+        _src409 = open(os.path.join("scripts", "e409_unfloored_faces.py"),
+                       encoding="utf-8").read().splitlines()
+        for _i409, _ln409 in enumerate(_src409):
+            if "open(" in _ln409 and ("\"w\"" in _ln409 or "'w'" in _ln409):
+                _win409 = "\n".join(_src409[max(0, _i409 - 4):_i409 + 3])
+                if ("t35_open_fill_verify" in _win409
+                        or "quantityname" in _win409):
+                    _bad409.append("a write-mode open reaches an input face at line %d"
+                                   % (_i409 + 1))
+        if "UNFLOORED-" not in "\n".join(_src409):
+            _bad409.append("the study does not name its own deliverable")
+        _name409 = _name409 % (_s409.get("faces"),
+                               _s409.get("stale_vs_panel"),
+                               _s409.get("stale_and_no_reader_prices_it"),
+                               _s409.get("reader_sites"),
+                               _s409.get("reader_sites_that_price_the_age"),
+                               _practice409.get("legs_pricing_the_age"),
+                               _practice409.get("legs_opening_a_face_or_page"))
+except Exception as _e409:
+    _bad409.append(repr(_e409)[:160])
+check(_name409, not _bad409, "; ".join(_bad409)[:240]
+      or "verdict %s" % str((_f409 or {}).get("verdict"))[:90])
+
 if __name__ == "__main__":
     sys.exit(main())
