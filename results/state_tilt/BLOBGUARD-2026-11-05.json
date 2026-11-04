@@ -1,0 +1,1308 @@
+{
+ "study": "E412_blob_guard_decision",
+ "card": "E412-WHICH-LEG-SHOULD-FAIL-WHEN-A-BLOB-READERS-FACE-MOVED",
+ "evidence_cutoff": "2026-11-05",
+ "census_rev": "c4ac64cbe231118352e731b7b801549602ad3759",
+ "source_face": "results/state_tilt/blobread_latest.json",
+ "rule": {
+  "population": "every face E406 measured both at HEAD and on disk (state=compared)",
+  "rev_kind": {
+   "pinned_commit": "the call passes a commit/sha/pin token -- the vintage is the point",
+   "head_now": "the call passes HEAD or a helper that resolves it at call time",
+   "unresolved_argument": "no revision token on the call line; not evidence of pinning"
+  },
+  "choice": {
+   "a": "a suite leg re-derives the face and compares it to the published one (E387 shape)",
+   "b": "a leg refuses a HEAD blob read whose face file is newer than HEAD",
+   "c": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)"
+  },
+  "self_read": "a site inside a module that also writes this face is not a consumer",
+  "no_rewrite": "no reader and no leg is edited; the repair stays a separate card"
+ },
+ "summary": {
+  "faces_measured": 25,
+  "faces_whose_blob_and_file_differ": 3,
+  "faces_newer_than_head_right_now": 3,
+  "faces_by_choice": {
+   "c": 25
+  },
+  "external_sites_by_choice": {
+   "c": 0
+  },
+  "faces_all_consumers_pin_a_commit": 0,
+  "faces_read_only_by_their_own_writer": 6,
+  "faces_read_only_by_round_scoped_tools": 1,
+  "faces_no_call_carries": 18,
+  "faces_owed_a_guard": 0,
+  "owed_faces_whose_file_is_newer_than_head": 0,
+  "owed_faces_whose_blob_and_file_differ": 0,
+  "faces_opened_by_a_suite_leg": 16,
+  "moving_faces_no_leg_opens": 0,
+  "legs_that_should_have_been_red": 0,
+  "consumer_sites_total": 0,
+  "reader_rows_consumed": 307,
+  "faces_attributed_by_a_module_literal": 25,
+  "source_faces_by_basis": {
+   "literal_in_body": [
+    "CORPUSPIN-2026-01-01.json",
+    "CORPUSPIN-2026-01-02.json"
+   ],
+   "module_face_literal": [
+    "ALLOWANCE-2026-11-01.json",
+    "ALLOWANCE-2099-01-01.json",
+    "B-2026-01-01.json",
+    "B-2026-01-02.json",
+    "CORPUSPIN-2026-11-02.json",
+    "D-2026-01-05.json",
+    "FACEVINTAGE-2026-11-02.json",
+    "LIVE-2026-09-29.json",
+    "LIVE-2026-09-30.json",
+    "LIVE-2026-10-01.json",
+    "LIVE-2026-10-03.json",
+    "LIVE-2026-10-05.json",
+    "LIVE-2026-10-07.json",
+    "LIVE-2026-10-08.json",
+    "LIVE-2026-10-09.json",
+    "LIVE-2026-10-11.json",
+    "OTHER-2026-11-01.json",
+    "PRINTCOV-2026-10-31.json",
+    "REPORT-2026-09-29.json",
+    "REPORT-2026-09-30.json"
+   ]
+  },
+  "source_study": "E406_blob_vs_tree_readers",
+  "source_rev": "c54a3a237436036a774b8a35f0148113e7d92bdb"
+ },
+ "rows": [
+  {
+   "face": "results/lane_host_ownership_latest.json",
+   "face_name": "lane_host_ownership_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "every_whitelisted_task_is_per_machine_or_names_one_host_and_no_lane_is_claimed_twice",
+   "verdict_blob": "every_whitelisted_task_is_per_machine_or_names_one_host_and_no_lane_is_claimed_twice",
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/lane_host_ownership.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/lane_host_ownership.py": "a write call reaches the face in write_faces()"
+   },
+   "net_free_writers": [
+    "scripts/lane_host_ownership.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "check@15157",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/market_clock/call_latest.json",
+   "face_name": "call_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": null,
+   "verdict_blob": null,
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e349_latest_mirror_census.py",
+    "scripts/market_clock_call.py",
+    "scripts/system_v1_paper.py"
+   ],
+   "writers_excluded_as_one_off": [
+    "Tools/_r749bmc_pit_append.py"
+   ],
+   "writer_evidence": {
+    "scripts/e349_latest_mirror_census.py": "a write call reaches the face in _same()",
+    "scripts/market_clock_call.py": "taint: a name carrying the face (latest, bound at line 405) reaches a write call in run()",
+    "scripts/system_v1_paper.py": "a write call reaches the face in write_if_changed()"
+   },
+   "net_free_writers": [
+    "scripts/e349_latest_mirror_census.py",
+    "scripts/market_clock_call.py",
+    "scripts/system_v1_paper.py"
+   ],
+   "legs_opening_the_face": [],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/paper_export/export-2026-09-30.json",
+   "face_name": "export-2026-09-30.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": null,
+   "verdict_blob": null,
+   "face_newer_than_head": false,
+   "sites": 2,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 2,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [],
+   "writers_excluded_as_one_off": [
+    "Tools/_r423bmc_marker_repair.py"
+   ],
+   "writer_evidence": {},
+   "net_free_writers": [],
+   "legs_opening_the_face": [],
+   "reader_sites": [
+    {
+     "module": "Tools/_r423bmc_marker_repair.py",
+     "line": 36,
+     "callee": "show",
+     "scope": "module",
+     "args": "OURS_COMMIT, path",
+     "rev_kind": "pinned_commit",
+     "self_read": false,
+     "round_scoped_reader": true
+    },
+    {
+     "module": "Tools/_r423bmc_marker_repair.py",
+     "line": 37,
+     "callee": "show",
+     "scope": "module",
+     "args": "'origin/main', path",
+     "rev_kind": "head_now",
+     "self_read": false,
+     "round_scoped_reader": true
+    }
+   ],
+   "choice": "c",
+   "why": "read_only_by_round_scoped_tools",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/ALLOWANCE-2026-11-01.json",
+   "face_name": "ALLOWANCE-2026-11-01.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "the_tree_awards_itself_allowances_by_reading_its_own_faces_and_some_of_those_grants_are_only_customary",
+   "verdict_blob": "the_tree_awards_itself_allowances_by_reading_its_own_faces_and_some_of_those_grants_are_only_customary",
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e340_who_authorizes_whose_allowance.py": "writes the family mirror and names this file"
+   },
+   "net_free_writers": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "legs_opening_the_face": [],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/CORPUSPIN-2026-11-02.json",
+   "face_name": "CORPUSPIN-2026-11-02.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": null,
+   "verdict_blob": null,
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e368_seam_replay.py"
+   ],
+   "writers_excluded_as_one_off": [
+    "scripts/_r1383_report.py",
+    "scripts/_r1384_closeout.py"
+   ],
+   "writer_evidence": {
+    "scripts/e368_seam_replay.py": "taint: a name carrying the face (face, bound at line 275) reaches a write call in build()"
+   },
+   "net_free_writers": [
+    "scripts/e368_seam_replay.py"
+   ],
+   "legs_opening_the_face": [],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/FACEVINTAGE-2026-11-02.json",
+   "face_name": "FACEVINTAGE-2026-11-02.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "every_published_population_is_reproducible_from_the_pin_the_face_names",
+   "verdict_blob": "every_published_population_is_reproducible_from_the_pin_the_face_names",
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e363_corpus_vintage.py": "taint: a name carrying the face (name, bound at line 323) reaches a write call in build()"
+   },
+   "net_free_writers": [
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "legs_opening_the_face": [],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/PRINTCOV-2026-10-31.json",
+   "face_name": "PRINTCOV-2026-10-31.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "the_unit_is_missing_on_1047_of_1108_gates_and_33_of_them_are_readable_in_place_on_two_faces_both_of_them_gate_tables",
+   "verdict_blob": "the_unit_is_missing_on_1047_of_1108_gates_and_33_of_them_are_readable_in_place_on_two_faces_both_of_them_gate_tables",
+   "face_newer_than_head": false,
+   "sites": 1,
+   "sites_self_read": 1,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e318_count_named_gate_leaves.py",
+    "scripts/e320_decoy_resolution.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e318_count_named_gate_leaves.py": "a write call reaches the face in build()",
+    "scripts/e320_decoy_resolution.py": "a write call reaches the face in run()"
+   },
+   "net_free_writers": [
+    "scripts/e320_decoy_resolution.py"
+   ],
+   "legs_opening_the_face": [],
+   "reader_sites": [
+    {
+     "module": "scripts/e320_decoy_resolution.py",
+     "line": 247,
+     "callee": "read_face",
+     "scope": "module",
+     "args": "face, commit, cache",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    }
+   ],
+   "choice": "c",
+   "why": "only_its_own_writer_reads_it",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/REPUBLISH-2026-11-03.json",
+   "face_name": "REPUBLISH-2026-11-03.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "address_added_but_the_bytes_are_not_stored_so_only_the_address_replays",
+   "verdict_blob": "address_added_but_the_bytes_are_not_stored_so_only_the_address_replays",
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [],
+   "writers_excluded_as_one_off": [
+    "scripts/_r1430_report_row.py"
+   ],
+   "writer_evidence": {},
+   "net_free_writers": [],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: the drifting legs are priced as three columns per face and every covered  face is published at the number the a",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/allowance_latest.json",
+   "face_name": "allowance_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "the_tree_awards_itself_allowances_by_reading_its_own_faces_and_some_of_those_grants_are_only_customary",
+   "verdict_blob": "the_tree_awards_itself_allowances_by_reading_its_own_faces_and_some_of_those_grants_are_only_customary",
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e340_who_authorizes_whose_allowance.py": "taint: a name carrying the face (name, bound at line 539) reaches a write call in write_face()"
+   },
+   "net_free_writers": [
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: every permission-shaped field in the tree is counted with its access shape,  and the grants a producer reads ba",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/decoyresolve_latest.json",
+   "face_name": "decoyresolve_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "23_of_219_substitution_span_gates_are_avoidable_by_a_reader_who_reads_the_whole_block_and_134_are_not",
+   "verdict_blob": "23_of_219_substitution_span_gates_are_avoidable_by_a_reader_who_reads_the_whole_block_and_134_are_not",
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e320_decoy_resolution.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e320_decoy_resolution.py": "taint: a name carrying the face (LATEST, bound at line 53) reaches a write call in run()"
+   },
+   "net_free_writers": [
+    "scripts/e320_decoy_resolution.py"
+   ],
+   "legs_opening_the_face": [],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/facenamesuffix_latest.json",
+   "face_name": "facenamesuffix_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "the_one_unconditional_same_document_pair_is_a_basename_substring_artifact_so_all_20_unconditional_pairs_write_another_document",
+   "verdict_blob": "the_one_unconditional_same_document_pair_is_a_basename_substring_artifact_so_all_20_unconditional_pairs_write_another_document",
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {},
+   "net_free_writers": [],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: %d same-document pair(s) over %d face(s) split %d moved / %d held  under an exact test, %d suffix collision(s);",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/facepoppin_latest.json",
+   "face_name": "facepoppin_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": null,
+   "verdict_blob": null,
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e365_face_population_pin.py": "a write call reaches the face in build()"
+   },
+   "net_free_writers": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "legs_opening_the_face": [],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/facererun_latest.json",
+   "face_name": "facererun_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "reran_the_rule_over_the_pinned_vintage_and_the_summary_moved",
+   "verdict_blob": "reran_the_rule_over_the_pinned_vintage_and_the_summary_moved",
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e365_face_population_pin.py": "a write call reaches the face in cmd_rerun()"
+   },
+   "net_free_writers": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: a published-face population is pinned by byte digest, the store covers  exactly the members git cannot supply, ",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/facevintage_latest.json",
+   "face_name": "facevintage_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "every_published_population_is_reproducible_from_the_pin_the_face_names",
+   "verdict_blob": "every_published_population_is_reproducible_from_the_pin_the_face_names",
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e363_corpus_vintage.py": "taint: a name carrying the face (name, bound at line 323) reaches a write call in build()"
+   },
+   "net_free_writers": [
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "legs_opening_the_face": [],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/fieldbranch_latest.json",
+   "face_name": "fieldbranch_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "the_fields_that_stop_an_operation_are_read_by_guards_and_131_of_them_have_no_writer_in_the_corpus_so_the_guard_can_only_fire_on_a_missing_value",
+   "verdict_blob": "the_fields_that_stop_an_operation_are_read_by_guards_and_131_of_them_have_no_writer_in_the_corpus_so_the_guard_can_only_fire_on_a_missing_value",
+   "face_newer_than_head": false,
+   "sites": 5,
+   "sites_self_read": 5,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e350_field_branch_census.py",
+    "scripts/e353_unwritten_guard_presence.py",
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e370_key_sensitivity.py",
+    "scripts/e377_unresolved_destination.py",
+    "scripts/e382_key_projection_delta.py",
+    "scripts/e382_key_projection_repair_price.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e350_field_branch_census.py": "taint: a name carrying the face (target, bound at line 469) reaches a write call in write()",
+    "scripts/e353_unwritten_guard_presence.py": "a write call reaches the face in _fixture()",
+    "scripts/e369_pin_at_publishing_commit.py": "a write call reaches the face in build()",
+    "scripts/e370_key_sensitivity.py": "a write call reaches the face in run()",
+    "scripts/e377_unresolved_destination.py": "a write call reaches the face in census()",
+    "scripts/e382_key_projection_delta.py": "taint: a name carrying the face (face, bound at line 362) reaches a write call in build()",
+    "scripts/e382_key_projection_repair_price.py": "a write call reaches the face in arm()"
+   },
+   "net_free_writers": [
+    "scripts/e350_field_branch_census.py",
+    "scripts/e353_unwritten_guard_presence.py",
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e370_key_sensitivity.py",
+    "scripts/e377_unresolved_destination.py",
+    "scripts/e382_key_projection_delta.py",
+    "scripts/e382_key_projection_repair_price.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: the field-level branch census re-derives, and a blast radius is choices only",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "line": 139,
+     "callee": "read_blobs",
+     "scope": "module",
+     "args": "commit, paths",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "line": 213,
+     "callee": "read_blobs",
+     "scope": "module",
+     "args": "commit, paths",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "line": 261,
+     "callee": "read_blobs",
+     "scope": "module",
+     "args": "target, [row['path']]",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "line": 371,
+     "callee": "read_blobs",
+     "scope": "module",
+     "args": "head, members[:3]",
+     "rev_kind": "head_now",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "line": 381,
+     "callee": "read_blobs",
+     "scope": "module",
+     "args": "head, members",
+     "rev_kind": "head_now",
+     "self_read": true,
+     "round_scoped_reader": false
+    }
+   ],
+   "choice": "c",
+   "why": "only_its_own_writer_reads_it",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/greenwindow_latest.json",
+   "face_name": "greenwindow_latest.json",
+   "differ": true,
+   "keys_moved": 11,
+   "verdict_disk": "every_window_is_closed_by_the_next_census_sibling_and_the_two_readings_coincide_because_research_ships_its_wiring_in_the_same_commit",
+   "verdict_blob": "every_window_is_closed_by_the_next_census_sibling_and_the_two_readings_coincide_because_research_ships_its_wiring_in_the_same_commit",
+   "face_newer_than_head": true,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e338_census_green_window.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e338_census_green_window.py": "taint: a name carrying the face (name, bound at line 476) reaches a write call in build()"
+   },
+   "net_free_writers": [
+    "scripts/e338_census_green_window.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: the census green window is measured on the repo's own history, and the  two readings that were meant to separat",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/guardloosen_latest.json",
+   "face_name": "guardloosen_latest.json",
+   "differ": true,
+   "keys_moved": 4,
+   "verdict_disk": "relaxations_were_paid_for_by_a_face_being_touched_but_not_by_a_number_moving",
+   "verdict_blob": "relaxations_were_paid_for_by_a_face_being_touched_but_not_by_a_number_moving",
+   "face_newer_than_head": true,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e339_literal_count_guards.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e339_literal_count_guards.py": "taint: a name carrying the face (name, bound at line 490) reaches a write call in build()"
+   },
+   "net_free_writers": [
+    "scripts/e339_literal_count_guards.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: literal-count guards are counted at head and their relaxations read out of  git history, and the 'was it paid f",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/guardpresence_latest.json",
+   "face_name": "guardpresence_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "of_131_guards_on_a_field_no_source_writes_23_raise_before_the_guard_runs_5_read_a_missing_or_null_field_and_103_read_a_value_of_which_34_read_falsy",
+   "verdict_blob": "of_131_guards_on_a_field_no_source_writes_23_raise_before_the_guard_runs_5_read_a_missing_or_null_field_and_103_read_a_value_of_which_34_read_falsy",
+   "face_newer_than_head": false,
+   "sites": 5,
+   "sites_self_read": 5,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e353_unwritten_guard_presence.py",
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e370_key_sensitivity.py",
+    "scripts/e382_key_projection_delta.py",
+    "scripts/e382_key_projection_repair_price.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e353_unwritten_guard_presence.py": "taint: a name carrying the face (target, bound at line 371) reaches a write call in write()",
+    "scripts/e369_pin_at_publishing_commit.py": "a write call reaches the face in build()",
+    "scripts/e370_key_sensitivity.py": "a write call reaches the face in run()",
+    "scripts/e382_key_projection_delta.py": "taint: a name carrying the face (face, bound at line 362) reaches a write call in build()",
+    "scripts/e382_key_projection_repair_price.py": "a write call reaches the face in arm()"
+   },
+   "net_free_writers": [
+    "scripts/e353_unwritten_guard_presence.py",
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e370_key_sensitivity.py",
+    "scripts/e382_key_projection_delta.py",
+    "scripts/e382_key_projection_repair_price.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: the unwritten-guard presence face re-derives, and an unresolvable face  is never called a readable one",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "line": 139,
+     "callee": "read_blobs",
+     "scope": "module",
+     "args": "commit, paths",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "line": 213,
+     "callee": "read_blobs",
+     "scope": "module",
+     "args": "commit, paths",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "line": 261,
+     "callee": "read_blobs",
+     "scope": "module",
+     "args": "target, [row['path']]",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "line": 371,
+     "callee": "read_blobs",
+     "scope": "module",
+     "args": "head, members[:3]",
+     "rev_kind": "head_now",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e369_pin_at_publishing_commit.py",
+     "line": 381,
+     "callee": "read_blobs",
+     "scope": "module",
+     "args": "head, members",
+     "rev_kind": "head_now",
+     "self_read": true,
+     "round_scoped_reader": false
+    }
+   ],
+   "choice": "c",
+   "why": "only_its_own_writer_reads_it",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/lasttick_latest.json",
+   "face_name": "lasttick_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": {
+    "name": "the_same_document_claim_is_a_suffix_match_not_a_path_match",
+    "suffix_only_targets_published": 1,
+    "face_ever_carried_the_key": true,
+    "same_document_pairs_that_move": 1,
+    "read_sites_seen": 1
+   },
+   "verdict_blob": {
+    "name": "the_same_document_claim_is_a_suffix_match_not_a_path_match",
+    "suffix_only_targets_published": 1,
+    "face_ever_carried_the_key": true,
+    "same_document_pairs_that_move": 1,
+    "read_sites_seen": 1
+   },
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e396_last_tick.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e396_last_tick.py": "taint: a name carrying the face (LATEST, bound at line 53) reaches a write call in main()"
+   },
+   "net_free_writers": [
+    "scripts/e396_last_tick.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: the one same-document pair is a proper-suffix match, and re-running the  claim as an exact test moves every pai",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/pointeronly_latest.json",
+   "face_name": "pointeronly_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+   "verdict_blob": "every_pointer_only_reader_raises_at_the_file_or_guards_it_and_every_pointer_it_names_resolves_today",
+   "face_newer_than_head": false,
+   "sites": 4,
+   "sites_self_read": 4,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e331_pointer_only_readers.py",
+    "scripts/e356_census_red_triage.py",
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e331_pointer_only_readers.py": "taint: a name carrying the face (name, bound at line 636) reaches a write call in build()",
+    "scripts/e356_census_red_triage.py": "a write call reaches the face in triage()",
+    "scripts/e363_corpus_vintage.py": "taint: a name carrying the face (name, bound at line 269) reaches a write call in stamp_faces()"
+   },
+   "net_free_writers": [
+    "scripts/e331_pointer_only_readers.py",
+    "scripts/e356_census_red_triage.py",
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: every reader that reaches a face only through a pointer is counted with  what a missing pointer does to it, and",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "line": 107,
+     "callee": "blob_texts",
+     "scope": "module",
+     "args": "commit, [s['path'] for s in gits]",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "line": 128,
+     "callee": "git_paths",
+     "scope": "module",
+     "args": "commit",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "line": 129,
+     "callee": "blob_texts",
+     "scope": "module",
+     "args": "commit, paths",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "line": 189,
+     "callee": "face_commit",
+     "scope": "module",
+     "args": "entry['face']",
+     "rev_kind": "unresolved_argument",
+     "self_read": true,
+     "round_scoped_reader": false
+    }
+   ],
+   "choice": "c",
+   "why": "only_its_own_writer_reads_it",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/publishpin_latest.json",
+   "face_name": "publishpin_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "a_pin_taken_at_the_publishing_commit_does_not_reproduce_the_published_corpus_size_2251_against_2343_so_the_face_was_built_from_a_tree_no_commit_holds_and_the_bill_is_a_pin_plus_a_store_per_vintage",
+   "verdict_blob": "a_pin_taken_at_the_publishing_commit_does_not_reproduce_the_published_corpus_size_2251_against_2343_so_the_face_was_built_from_a_tree_no_commit_holds_and_the_bill_is_a_pin_plus_a_store_per_vintage",
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e372_store_the_absent_members.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e369_pin_at_publishing_commit.py": "taint: a name carrying the face (target_path, bound at line 297) reaches a write call in build()",
+    "scripts/e372_store_the_absent_members.py": "a write call reaches the face in write_store()"
+   },
+   "net_free_writers": [
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e372_store_the_absent_members.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: a pin taken at the graded face's own commit publishes its bill and its  deltas without borrowing either from to",
+     "tier": "no_freshness_test"
+    },
+    {
+     "leg": "product: a store of the members no commit holds pays exactly E369's bill, keeps  only bytes that hash to the pin, and br",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/repairrecord_latest.json",
+   "face_name": "repairrecord_latest.json",
+   "differ": true,
+   "keys_moved": 4,
+   "verdict_disk": "rewritten_gates_are_recorded_by_a_moving_face_more_often_than_by_any_statement_and_the_remainder_survives_on_custom",
+   "verdict_blob": "rewritten_gates_are_recorded_by_a_moving_face_more_often_than_by_any_statement_and_the_remainder_survives_on_custom",
+   "face_newer_than_head": true,
+   "sites": 2,
+   "sites_self_read": 2,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e342_guard_rewrite_records.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e342_guard_rewrite_records.py": "taint: a name carrying the face (name, bound at line 656) reaches a write call in build()"
+   },
+   "net_free_writers": [
+    "scripts/e342_guard_rewrite_records.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: every rewritten gate is split by whether the commit left the new  acceptance set where a machine can read it, a",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [
+    {
+     "module": "scripts/e342_guard_rewrite_records.py",
+     "line": 409,
+     "callee": "show_many",
+     "scope": "module",
+     "args": "['%s:%s' % (sha, p) for p in pys]",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e342_guard_rewrite_records.py",
+     "line": 543,
+     "callee": "show_many",
+     "scope": "module",
+     "args": "[q for row, path in planned for q in ('%s:%s' % (row['sha'], path), '%s^:%s' % (row['sha'], path))]",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    }
+   ],
+   "choice": "c",
+   "why": "only_its_own_writer_reads_it",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/seamreplay_latest.json",
+   "face_name": "seamreplay_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "a_pinned_replay_reproduces_the_published_number_yet_the_pin_is_not_the_publishing_commit_so_the_reproduction_is_stability_not_provenance_and_a_pin_must_be_taken_at_the_face_it_serves",
+   "verdict_blob": "a_pinned_replay_reproduces_the_published_number_yet_the_pin_is_not_the_publishing_commit_so_the_reproduction_is_stability_not_provenance_and_a_pin_must_be_taken_at_the_face_it_serves",
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e368_seam_replay.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e368_seam_replay.py": "taint: a name carrying the face (target, bound at line 303) reaches a write call in build()"
+   },
+   "net_free_writers": [
+    "scripts/e368_seam_replay.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: a pinned replay reproduces the published number, and the arm that did it  is the arm whose measured delta is ze",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/siblingcloser_latest.json",
+   "face_name": "siblingcloser_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "the_closing_commit_is_in_two_halves_the_added_member_moves_the_name_census_and_the_wiring_edit_moves_only_counts_so_the_two_readings_could_not_separate_them_and_excluding_the_family_leaves_most_of_these_names_with_no_writer_at_all",
+   "verdict_blob": "the_closing_commit_is_in_two_halves_the_added_member_moves_the_name_census_and_the_wiring_edit_moves_only_counts_so_the_two_readings_could_not_separate_them_and_excluding_the_family_leaves_most_of_these_names_with_no_writer_at_all",
+   "face_newer_than_head": false,
+   "sites": 0,
+   "sites_self_read": 0,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e341_sibling_closer_what_changed.py"
+   ],
+   "writers_excluded_as_one_off": [],
+   "writer_evidence": {
+    "scripts/e341_sibling_closer_what_changed.py": "taint: a name carrying the face (name, bound at line 517) reaches a write call in _write()"
+   },
+   "net_free_writers": [
+    "scripts/e341_sibling_closer_what_changed.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: the census family's closing commit is split into its added half and its  wiring half, and the price of excludin",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [],
+   "choice": "c",
+   "why": "no_call_carries_the_face",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  },
+  {
+   "face": "results/state_tilt/siblingentry_latest.json",
+   "face_name": "siblingentry_latest.json",
+   "differ": false,
+   "keys_moved": 0,
+   "verdict_disk": "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce",
+   "verdict_blob": "the_new_name_is_not_the_reading_e334_priced_because_the_published_delta_does_not_reproduce",
+   "face_newer_than_head": false,
+   "sites": 4,
+   "sites_self_read": 4,
+   "sites_read_by_round_scoped_tools": 0,
+   "sites_external": 0,
+   "source_basis": "module_face_literal",
+   "sites_head_now": 0,
+   "sites_unresolved_argument": 0,
+   "sites_pinned": 0,
+   "writers": [
+    "scripts/e335_sibling_entry_point.py",
+    "scripts/e356_census_red_triage.py",
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "writers_excluded_as_one_off": [
+    "scripts/_r1430_report_row.py"
+   ],
+   "writer_evidence": {
+    "scripts/e335_sibling_entry_point.py": "taint: a name carrying the face (latest, bound at line 479) reaches a write call in build()",
+    "scripts/e356_census_red_triage.py": "a write call reaches the face in triage()",
+    "scripts/e363_corpus_vintage.py": "taint: a name carrying the face (name, bound at line 269) reaches a write call in stamp_faces()"
+   },
+   "net_free_writers": [
+    "scripts/e335_sibling_entry_point.py",
+    "scripts/e356_census_red_triage.py",
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "legs_opening_the_face": [
+    {
+     "leg": "product: the repaired corpus reading lands beside the shipped one and nothing moves  -- both readings coexisting, E334's",
+     "tier": "no_freshness_test"
+    }
+   ],
+   "reader_sites": [
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "line": 107,
+     "callee": "blob_texts",
+     "scope": "module",
+     "args": "commit, [s['path'] for s in gits]",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "line": 128,
+     "callee": "git_paths",
+     "scope": "module",
+     "args": "commit",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "line": 129,
+     "callee": "blob_texts",
+     "scope": "module",
+     "args": "commit, paths",
+     "rev_kind": "pinned_commit",
+     "self_read": true,
+     "round_scoped_reader": false
+    },
+    {
+     "module": "scripts/e363_corpus_vintage.py",
+     "line": 189,
+     "callee": "face_commit",
+     "scope": "module",
+     "args": "entry['face']",
+     "rev_kind": "unresolved_argument",
+     "self_read": true,
+     "round_scoped_reader": false
+    }
+   ],
+   "choice": "c",
+   "why": "only_its_own_writer_reads_it",
+   "choice_rule": "nothing -- no consumer can be blinded (every consumer pins a commit, or the only reader is the face's own producer)",
+   "legs_that_could_notice_age": [],
+   "leg_that_should_have_been_red": null
+  }
+ ],
+ "verdict": "every_measured_face_was_attributed_by_a_module_literal_and_no_call_hands_it_to_a_git_reader_so_the_gap_describes_no_consumer"
+}

@@ -1428,6 +1428,10 @@ LEGS = [
     # the published rows and refuses a face that was published at a midpoint; it is read-only and
     # one `git show` per measured face, so it stays cheap enough for the chain.
     ("blob_readers", ["python", "scripts/e406_blob_vs_tree_readers.py", "verify"]),
+    # E412: the guard decision over E406's measured faces. `verify` re-derives every choice from
+    # the row it was made from and refuses a face called guard-free while a consumer reads it at
+    # HEAD; it re-measures blob-vs-file per face, so it belongs after `blob_readers`.
+    ("blob_guard_decision", ["python", "scripts/e412_blob_guard_decision.py", "verify"]),
 ]
 
 

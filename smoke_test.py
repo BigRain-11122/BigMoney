@@ -14893,6 +14893,88 @@ check(_name401, not _bad401, "; ".join(_bad401)[:240]
       or "verdict %s" % str((_f401 or {}).get("verdict"))[:90])
 
 
+# E412: E406 measured the blob-vs-file gap but never asked who is blinded by it. This leg asks
+# the decision, not the census: for every measured face, does a call actually hand that face to a
+# git reader, at which revision, and could the suite have gone red. It refuses the ways the table
+# can flatter itself -- a choice histogram that is not its own rows, a site column that does not
+# re-add, a face called guard-free while a consumer reads it at HEAD, a re-derive leg claimed with
+# no writer on hand, a refusal claimed while a writer is on hand, a verdict outside the frozen set,
+# a table published with no revision, and a study whose own verify is not clean.
+_name412 = ("product: of %s blob-read faces E406 measured, %s have no call that hands them to a git "
+            "reader, %s are read only by their own writer and %s only by a round-scoped tool, so "
+            "%s face(s) owe a guard (%s) and %s leg should have been red; %s differ from HEAD now")
+_bad412 = []
+_f412 = None
+try:
+    _p412 = os.path.join("results", "state_tilt", "blobguard_latest.json")
+    _f412 = json.load(open(_p412, encoding="utf-8")) if os.path.exists(_p412) else None
+    if _f412 is None:
+        _bad412.append("no published blob-guard decision table")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m412 = __import__("importlib").import_module("e412_blob_guard_decision")
+        _s412 = _f412.get("summary") or {}
+        _r412 = _f412.get("rows") or []
+        if _f412.get("verdict") not in _m412.VERDICTS:
+            _bad412.append("verdict %r is outside the frozen set" % str(_f412.get("verdict")))
+        if _s412.get("faces_measured") != len(_r412):
+            _bad412.append("the face headline is not its own table")
+        _bc412 = {}
+        for _row412 in _r412:
+            _bc412[_row412.get("choice")] = _bc412.get(_row412.get("choice"), 0) + 1
+            if _row412.get("choice") not in _m412.CHOICES:
+                _bad412.append("%s: unknown choice %r" % (_row412.get("face"),
+                                                         _row412.get("choice")))
+            if _row412.get("why") not in _m412.WHY:
+                _bad412.append("%s: unknown reason %r" % (_row412.get("face"),
+                                                          _row412.get("why")))
+            _sites412 = _row412.get("sites") or 0
+            _ext412 = _row412.get("sites_external") or 0
+            if (_ext412 + (_row412.get("sites_self_read") or 0)
+                    + (_row412.get("sites_read_by_round_scoped_tools") or 0)) != _sites412:
+                _bad412.append("%s: the site columns do not re-add" % _row412.get("face"))
+            if ((_row412.get("sites_head_now") or 0)
+                    + (_row412.get("sites_unresolved_argument") or 0)
+                    + (_row412.get("sites_pinned") or 0)) != _ext412:
+                _bad412.append("%s: the vintage columns do not re-add" % _row412.get("face"))
+            if _row412.get("choice") == "c" and _ext412 and (
+                    _row412.get("sites_head_now")
+                    or _row412.get("sites_unresolved_argument")):
+                _bad412.append("%s: called guard-free with a non-pinned consumer"
+                               % _row412.get("face"))
+            if _row412.get("choice") == "a" and not _row412.get("net_free_writers"):
+                _bad412.append("%s: re-derive leg claimed with no writer on hand"
+                               % _row412.get("face"))
+            if _row412.get("choice") == "b" and _row412.get("net_free_writers"):
+                _bad412.append("%s: refusal claimed while a writer is on hand" % _row412.get("face"))
+        if _s412.get("faces_by_choice") != _bc412:
+            _bad412.append("the choice histogram does not re-derive from the rows")
+        if _s412.get("faces_owed_a_guard") != sum(
+                1 for _r in _r412 if _r.get("choice") in ("a", "b")):
+            _bad412.append("the owed-guard headline does not re-derive")
+        if _s412.get("faces_whose_blob_and_file_differ") != sum(
+                1 for _r in _r412 if _r.get("differ")):
+            _bad412.append("the disagreement headline does not re-derive")
+        if _s412.get("legs_that_should_have_been_red") != sum(
+                1 for _r in _r412 if _r.get("leg_that_should_have_been_red")):
+            _bad412.append("the would-have-been-red headline does not re-derive")
+        if _r412 and not (_f412.get("census_rev") or "").strip():
+            _bad412.append("a decision table was published with no revision")
+        if _m412.verify(_p412) != []:
+            _bad412.append("the study's own verify does not come back clean")
+        _name412 = _name412 % (_s412.get("faces_measured"),
+                               _s412.get("faces_no_call_carries"),
+                               _s412.get("faces_read_only_by_their_own_writer"),
+                               _s412.get("faces_read_only_by_round_scoped_tools"),
+                               _s412.get("faces_owed_a_guard"),
+                               _s412.get("faces_by_choice"),
+                               _s412.get("legs_that_should_have_been_red"),
+                               _s412.get("faces_whose_blob_and_file_differ"))
+except Exception as _e412:
+    _bad412.append(repr(_e412)[:160])
+check(_name412, not _bad412, "; ".join(_bad412)[:240]
+      or "verdict %s" % str((_f412 or {}).get("verdict"))[:90])
+
 # E406: E401 found the whole 'other' residue is git-object reads. This leg asks the consequence: a
 # reader of a committed blob and a reader of the file beside it disagree whenever the face is newer
 # than the last commit. It refuses the ways the bill can flatter itself: a site count that is not

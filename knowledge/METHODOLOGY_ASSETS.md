@@ -9650,3 +9650,47 @@ population implausibly larger than the number of modules, suspect the name resol
 faces `results/state_tilt/BLOBREAD-2026-11-05.json` + `blobread_latest.json`; smoke leg `# E406:` in
 `smoke_test.py` proved standalone by `scripts/run_e406_smoke_leg.py` (1/1); S6 leg `blob_readers`
 (rc 0, 0.06 s). No reader was rewritten and git was only read.
+
+## E412 -- the gap E406 measured belongs to faces no call hands to a git reader, and the weak basis is why (r1431 bm-b)
+
+Card (pool, seeded by the r1430 postscript after E406): "for each of the 25 measured faces, is the
+right guard (a) a suite leg that re-derives the face and compares it to the published one, (b) a leg
+that refuses a blob read whose face is newer than HEAD, or (c) nothing, because the blob reader wants
+the committed vintage on purpose?" The card expected a mixed decision table. The measured answer was
+25 of 25 on (c) -- and the reason was upstream of the guards.
+
+- **E406's reader rows are module-level, and that is not the same as site-level.** A module's whole
+  face list is repeated on every one of its site rows, so `scripts/e340_who_authorizes_whose_allowance.py:430`
+  arrives carrying `guardloosen_latest.json` while the call at that line is `head_sha(root)`. Reading
+  the rows as sites would have published 41 "consumers" where a taint-resolved census finds 0.
+- **Resolve the site, then decide.** A site counts only if an argument of a git-object call actually
+  carries the face (literal, alias, or loop binding). On that test: 18 of 25 faces have no call that
+  hands them to a git reader at all, 6 are read only by the module that writes them, 1 only by a
+  round-scoped tool (`Tools/_r423bmc_marker_repair.py` reading `origin/main` on purpose). Zero faces
+  have a consumer that could be blinded. The 5-face gap E406 published is reproducible arithmetic
+  over faces nothing reads from a blob.
+- **All 25 measured faces carry `module_face_literal`** -- E406's weakest basis, the one that made the
+  face count go from 2 to 58. The strong-basis names are the 32 that resolve to no file. So a census
+  measured on disk is, by construction, a census of the weak basis: the faces it can see are the ones
+  nobody hands to a reader at a call site.
+- **A mention is not a write, and "a write call somewhere in the module" is not a writer of this
+  face.** The first version of `writers_for` (basename present + any `dump`/`write` in the module)
+  classified every reader as its own writer: 25 of 25 faces came back "only its own writer reads it".
+  Taint from the face name into a write call is the test. E408's `write_evidence` covers it for
+  `json.dump`, but not for a module-local helper (`_write(os.path.join(outdir, "<face>"), doc)`,
+  which is how `e365` publishes `facepoppin_latest.json`) or a `Path` receiver (`p2.write_text(...)`,
+  how `lane_host_ownership.py` publishes); both are needed or the writer column silently empties.
+- **Drift that no consumer can see is still worth publishing as a number.** 3 faces differ from HEAD
+  right now (`greenwindow_latest`, `guardloosen_latest`, `repairrecord_latest`) and all three are
+  producer-owned: the producer rewrote its own face after the last commit. That is a freshness
+  question for its own leg, not a blob-vs-file question for a reader.
+
+How to apply: before writing a guard for a face, ask which call hands that face to a reader -- not
+which module names it. A census whose population is every face present both at HEAD and on disk is a
+census of module-literal attributions; say so on the face, because the reader that a "gap" is supposed
+to blind may not exist.
+
+**Wiring.** `scripts/e412_blob_guard_decision.py` (run / verify problems=[] / selftest 19/19); faces
+`results/state_tilt/BLOBGUARD-2026-11-05.json` + `blobguard_latest.json`; smoke leg `# E412:` in
+`smoke_test.py` proved standalone by `scripts/run_e412_smoke_leg.py` (1/1); S6 leg `blob_guard_decision`
+(rc 0, 0.05 s). No reader and no leg was edited; git was only read.
