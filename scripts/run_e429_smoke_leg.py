@@ -24,7 +24,12 @@ END = 'if __name__ == "__main__":'
 def run_leg(quiet=False):
     lines = io.open(SRC, encoding="utf-8").read().splitlines()
     start = next(i for i, ln in enumerate(lines) if ln.startswith(START))
-    end = next(i for i, ln in enumerate(lines[start:], start) if ln.startswith(END))
+    # r1447 bm-b: the slice used to run to the end of the file, so this runner also
+    # executed every leg appended after it (the r1446 E423 leg made a 2-second check
+    # take ~16 minutes and reported "1/2 legs passed" under one card's name).
+    end = next((i for i, ln in enumerate(lines[start + 1:], start + 1)
+                if ln.startswith("# E")), None) or next(
+        i for i, ln in enumerate(lines[start:], start) if ln.startswith(END))
     body = lines[start:end]
     harness = [
         "import json, os, sys",

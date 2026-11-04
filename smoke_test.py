@@ -16196,7 +16196,7 @@ try:
                 "directory arrives from a module constant or a caller, %d of %d write sites are "
                 "visible once constants are followed and %d still need the caller hop"
                 % (_c420t.get("visible_after_a_constant_hop", -1),
-                   _c420t.get("write_sites", -1),
+                   _s420.get("write_sites", -1),
                    _c420t.get("still_needs_the_caller_hop", -1)))
     _rows420 = _f420.get("rows") or []
     if _f420.get("verdict") not in _m420.VERDICT_VOCAB:
