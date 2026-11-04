@@ -16090,5 +16090,86 @@ except Exception as _e425:
     _bad425.append(repr(_e425)[:160])
 check(_name425, not _bad425, "; ".join(_bad425)[:240] or _d425)
 
+# E426 (r1444 bm-b): E417 declared the method limit "a reader that builds the name from a
+# variable is invisible to a literal census" and moved on.  This leg reads the face that prices
+# it: every template that builds a *.json name from a non-constant part, kept only when some
+# fragment still names a face, matched against the published tree and the faces E411 priced.
+# It refuses (a) a verdict or class outside the vocabulary, (b) a population-key or class-vocab
+# declaration that disagrees with its producer, (c) a class table that does not close against the
+# faces on disk or a row list carrying a literal-named face, (d) an E411 row whose kind is not
+# one of file/directory/templated, or a dynamic-only row that is also literal-named, and (e) a
+# tally that does not re-derive from the rows.  The full re-derivation (a ~50 s corpus re-parse)
+# belongs to the chain leg; this leg keeps the published face internally honest.
+_name426 = ("product: face names that only a variable-built string reaches -- every file face a "
+            "reader opens is spelled as a literal, while 6,700+ of 10,000 published faces are "
+            "reached only through a template, so a literal census describes what is read, not "
+            "what is written")
+_bad426, _d426 = [], ""
+try:
+    _m426 = __import__("importlib").import_module("e426_dynamic_face_names")
+    _f426 = json.load(open(os.path.join("results", "state_tilt", "dynamicname_latest.json"),
+                           encoding="utf-8"))
+    _s426 = _f426.get("summary") or {}
+    _bc426 = _f426.get("by_class_all_faces") or {}
+    _be426 = _f426.get("by_class_e411") or {}
+    _rows426 = _f426.get("rows") or []
+    _e411_426 = _f426.get("e411_rows") or []
+    if _f426.get("verdict") not in _m426.VERDICT_VOCAB:
+        _bad426.append("the stored verdict is outside the vocabulary")
+    if list(_f426.get("population_keys") or []) != list(_m426.POPULATION_KEYS):
+        _bad426.append("the face declares population keys its producer does not")
+    if list(_f426.get("class_vocab") or []) != list(_m426.CLASS_VOCAB):
+        _bad426.append("the face declares a class vocabulary its producer does not")
+    if sum(_bc426.values()) != _s426.get("faces_on_disk"):
+        _bad426.append("the class table does not re-add to the faces on disk")
+    if _s426.get("faces_literal_named") != (_bc426.get(_m426.C_LITERAL, 0)
+                                            + _bc426.get(_m426.C_BOTH, 0)):
+        _bad426.append("the literal-named count does not re-add")
+    if _s426.get("faces_on_disk", 0) - _s426.get("faces_literal_named", 0) \
+            != _bc426.get(_m426.C_DYNAMIC, 0) + _bc426.get(_m426.C_NONE, 0):
+        _bad426.append("literal-named, dynamic-only and unmasked do not close the books")
+    if sum(_be426.values()) != _s426.get("e411_file_faces"):
+        _bad426.append("the E411 class table does not re-add to its file population")
+    for _r426 in _rows426:
+        if _r426.get("class") not in _m426.CLASS_VOCAB:
+            _bad426.append("%s: class outside the vocabulary" % _r426.get("face"))
+            break
+        if _r426.get("class") == _m426.C_LITERAL:
+            _bad426.append("%s: a literal-named face is in the non-literal row list"
+                           % _r426.get("face"))
+            break
+        if int(_r426.get("match_count") or 0) <= 4 \
+                and int(_r426.get("match_count") or 0) != len(_r426.get("matches") or []):
+            _bad426.append("%s: the match count does not match its list" % _r426.get("face"))
+            break
+    for _r426 in _e411_426:
+        if _r426.get("kind") not in ("file", "directory", "templated"):
+            _bad426.append("%s: unknown E411 row kind" % _r426.get("face"))
+            break
+        if _r426.get("class") == _m426.C_DYNAMIC and _r426.get("literal_named"):
+            _bad426.append("%s: dynamic-only while named by a literal" % _r426.get("face"))
+            break
+    _dyn426 = [r for r in _e411_426
+               if r.get("kind") == "file" and r.get("class") == _m426.C_DYNAMIC]
+    _read426 = [r for r in _dyn426 if r.get("any_match_in_an_opener")]
+    if _s426.get("e411_faces_only_dynamically_reachable") != len(_dyn426):
+        _bad426.append("the dynamic-only tally does not re-derive from the E411 rows")
+    if _s426.get("e411_faces_dynamic_and_in_an_opener") != len(_read426):
+        _bad426.append("the dynamic-and-read tally does not re-derive from the E411 rows")
+    if _f426.get("verdict") == _m426.V_DYNAMIC_ONLY_READ and not _read426:
+        _bad426.append("published as dynamic-and-read with no such row")
+    if _f426.get("verdict") == _m426.V_READERS_LITERAL_WRITERS_DYNAMIC and _dyn426:
+        _bad426.append("published as readers-literal/writers-dynamic while a read name is dynamic")
+    _d426 = "%d faces on disk (%d literal-named, %d dynamic-only), %d templates (%d in an opener) " \
+            "| %d E411 files (%d dir / %d templated): %d dynamic-only | %s" % (
+                _s426.get("faces_on_disk", 0), _s426.get("faces_literal_named", 0),
+                _s426.get("faces_only_dynamically_reachable", 0),
+                _s426.get("specific_templates", 0), _s426.get("templates_in_an_opener", 0),
+                _s426.get("e411_file_faces", 0), _s426.get("e411_directory_rows", 0),
+                _s426.get("e411_templated_rows", 0), len(_dyn426), _f426.get("verdict"))
+except Exception as _e426:
+    _bad426.append(repr(_e426)[:160])
+check(_name426, not _bad426, "; ".join(_bad426)[:240] or _d426)
+
 if __name__ == "__main__":
     sys.exit(main())

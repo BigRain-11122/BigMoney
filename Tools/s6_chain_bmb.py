@@ -1491,6 +1491,13 @@ LEGS = [
     # and which of those names is actually read as a bare literal. Verify re-derives the
     # population, the class table, the generic/specific split and the verdict from the live tree.
     ("shadow_face", ["python", "scripts/e417_shadow_face.py", "verify"]),
+    # E426 (r1444): E417 wrote the method limit "a reader that builds the name from a variable is
+    # invisible to it".  This leg prices it -- every template that produces a *.json name from a
+    # non-constant part, made specific enough to name a face, matched against the published tree
+    # and against the faces E411 priced.  Verify re-parses the whole python corpus, so a corpus
+    # that grew (a new literal legitimately reclassifies a face) refuses the chain instead of
+    # leaving a stale reading in place.
+    ("dynamic_face_names", ["python", "scripts/e426_dynamic_face_names.py", "verify"]),
 ]
 
 

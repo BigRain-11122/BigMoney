@@ -10154,3 +10154,42 @@ variable has its bill in advance.
 `results/state_tilt/SHADOWFACE-2026-11-04.json` + `shadowface_latest.json`; smoke leg
 `# E417 (r1443 bm-b)` (1/1, proved red on a doctored tally then restored byte-identically);
 `scripts/run_e417_smoke_leg.py`; S6 leg `shadow_face`; read-only -- no face, census or reader edited.
+
+## E426 -- a literal census describes what is read, not what is written (r1444 bm-b, card E426)
+
+**The question.** Every name census here (E402/E404/E422/E417) declares the same limit: *a reader
+that builds the name from a variable is invisible to it*. E426 prices that limit -- which names can
+only be reached through a non-constant string, and does the string that reaches them sit in a
+function that opens a file.
+
+**The measurement.** 10,034 published faces (basenames not starting with `_`): 3,054 are spelled by
+a literal (every one of them also has a template), **6,716 (67%) are reachable only through a
+variable-built name**, 264 have no mask at all. Of the 189 file faces a reader opens, **0** are
+dynamic-only -- consumers spell names, producers do not. Two clusters carry the blind spot:
+`results/p2cal_ext` (3,946 non-literal, 2,635 dynamic-only) and `results/wild_route` (1,572/1,569),
+each a per-symbol `"%s.json" % key` sweep, and every one of those files sits in an opener.
+
+**Rules (measured, not assumed).**
+1. *A wildcard that names a directory is not a name.* Treating every template as a mask reported
+   essentially every face as dynamically reachable -- true and useless. A template counts only if a
+   fragment keeps a non-empty stem after the last `/` and the `.json` suffix are stripped; 218 of
+   5,551 templates were discarded and the discard list is published.
+2. *A scanner that publishes changes the population it counts.* Counting its own `DYNAMICNAME-*`
+   face (and the round's `results/_r*.json` receipts) moved the population on every rebuild and
+   reddened `verdict_reason` twice. Own faces and `_`-prefixed receipts are excluded by pattern,
+   stated in `method_limits` (E180/E207 family).
+3. *A population row is three kinds.* E411's "names the suite opens" carries directories and
+   templated names as well as files; read as one kind, seven rows looked like faces with no mask.
+   Labelling `file`/`directory`/`templated` left one real unmasked face.
+4. *Publishing every row is not publishing the finding.* The all-rows face was 13.3 MB for 12,997
+   rows; a 60-row sample plus a per-directory tally is 243 KB and the gate reads the tally.
+5. *A two-way verdict was available and wrong in the flattering direction.* "0 dynamic-only among
+   the faces readers open" would have published as census-adequate while 67% of the corpus is
+   invisible to the census. The verdict is four-way; the readers/writers split is its own sentence.
+
+**Why it matters.** The censuses are correct about the read side -- which is what a gate needs -- but
+they cannot answer "how many faces exist": a producer that writes `"%s.json" % key` never spells a
+name, so a literal-built population undercounts by two thirds. That bill is now published.
+
+**Delivered.** `scripts/e426_dynamic_face_names.py` (selftest 27/27); `DYNAMICNAME-2026-11-05.json`
++ `dynamicname_latest.json`; smoke leg `# E426 (r1444 bm-b)`; S6 leg `dynamic_face_names`; read-only.
