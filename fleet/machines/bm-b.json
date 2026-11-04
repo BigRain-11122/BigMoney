@@ -11,7 +11,7 @@
  "clock_offset_age_s": 0,
  "clock_offset_ms": 152.9,
  "clock_offset_trusted": false,
- "clock_read": "2026-11-04T19:45:38+08:00",
+ "clock_read": "2026-11-04T21:05:00+08:00",
  "clock_rtt_ms": 264.6,
  "clock_source": "NATS KV FLEET_STATE state.bm-b (FluxGroup-NatsHB v2, 1/min)",
  "codely_live_count": 2,
@@ -124,7 +124,7 @@
  "last_round_summary": "E418: all 45 faces nothing can turn red on were aged by their own stamp -- 36 carry a date (3 older than 5 bars, max 25), 9 are unknowable (8 undated, 1 dated by a non-date); 0 of 51 green sentences print a frozen number",
  "last_round_ts": "2026-11-04T18:47:35+08:00",
  "last_run": "2026-10-31T08:02:00+08:00",
- "last_seen": "2026-11-04T19:52:00+08:00",
+ "last_seen": "2026-11-04T21:05:00+08:00",
  "last_seen_epoch_utc": 1793789255,
  "latest_artifact": "results/lane_host_ownership.json",
  "local_not_on_origin": 321,
@@ -1073,6 +1073,30 @@
   "sha": "66e76f3496af6c525a6079eaea91b7875fbd0d63",
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1426 == HEAD"
  },
+ "r1435_delivery": {
+  "blocker": "push rc=128 and fetch rc=128 in this window: the remote is unreachable from this host (ssh endpoint not answering); no force and no alternate channel attempted",
+  "branch_intended": "machine/bm-b-r1435",
+  "next_window_action": "push this commit before any new research once the remote answers",
+  "sha": "6af36eb9196173a20eda9c0a1d13e1edafa80a71",
+  "ts": "2026-11-04T18:18:14+08:00",
+  "verified": false
+ },
+ "r1436_delivery": {
+  "blocker": "push rc=128 Permission denied (publickey): key id_ed25519_bigmin rejected server-side (ls-remote also fails now); no force, no alternate channel",
+  "branch_intended": "machine/bm-b-r1436",
+  "next_window_action": "push this commit and the standing r1435 commit before new research once the key is accepted",
+  "sha": "10092fb9272cd434d5d5ffe9b55e371a5f85bac4",
+  "ts": "2026-11-04T18:50:00+08:00",
+  "verified": false
+ },
+ "r1437_delivery": {
+  "branch_intended": "machine/bm-b-r1437",
+  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1437 == HEAD",
+  "note": "push of HEAD:main was rejected non-fast-forward (288 behind); the round went out on the machine branch per the no-force rule, and that branch also carries the undelivered r1435/r1436 commits",
+  "sha": "0361c164f09dffaafcabfeb1eff560ecc4c37761",
+  "ts": "2026-11-04T19:5x+08:00",
+  "verified": true
+ },
  "ram_free_gb": 10.9,
  "ram_free_mb": 11899.4,
  "ram_free_pct": 48.6,
@@ -1083,7 +1107,7 @@
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1437,
  "round_entries_tail": null,
- "round_no": 1435,
+ "round_no": 1438,
  "round_no_label": "r1435",
  "round_no_ts": "2026-11-04T18:10:32+08:00",
  "s1": "red at open: E387 refused siblingentry_latest.json (E335 corpus grew 2466->2467 after E402); republished E335, then E387, then E364 (the audit's own publish moved the census family), then E387 again -> 0 moved keys",
@@ -1114,14 +1138,14 @@
   "ts": "2026-11-04T19:5x+08:00"
  },
  "sync_note": "main is 288 behind origin/main so a direct push is rejected; delivery goes out on machine/bm-b-r1437 (verified by ls-remote)",
- "task": "E419 writer attribution closed; E420 seeded",
+ "task": "E420 corpus-pin gate closed (accretion, not equality); E413/E417 ready",
  "task_short": "freshness tests vs age",
  "three_line": "E416: none of the four reader sites E411 called red-capable prices the age of its face; 2 pin a frozen cutoff and their chain leg is verify-only",
  "three_line_artifact": "results/state_tilt/FRESHAIM-2026-11-04.json @ 2026-11-04T18:10:32+08:00",
  "three_line_current": "E416: none of the four reader sites E411 called red-capable prices the age of its face; 2 pin a frozen cutoff and their chain leg is verify-only",
  "three_line_next": "E418 age the 45 unprotected faces and say whether their green sentences decay, cpu-only, due <=48h",
  "timestamp": "2026-11-04T07:25:32+08:00",
- "ts": "2026-11-04T19:52:00+08:00",
+ "ts": "2026-11-04T21:05:00+08:00",
  "ts_utc_ms": 1793736329000,
  "updated": "2026-11-04T04:08:05+08:00",
  "updated_at": "2026-11-04T07:25:32+08:00",
@@ -1136,29 +1160,5 @@
  "watermark_note": "3 ready cards at open (E413/E415/E416); E416 closed and E418 seeded, still 3 ready -- a research round on a CPU card, not an unclaimed board",
  "watermark_red": true,
  "watermark_verdict": "red=true lane=pool-batch-runnable-idle-low-cpu",
- "work": "E416: 4 red-capable sites re-read from their own blocks -- 1 copy lag by mtime, 2 frozen evidence_cutoff pins that red on an honest refresh, 1 with no date logic; 0 of 200 faces keep an age-pricing reader; of 13 priced faces the chain runs a writer for 3 and only verifies 6; 45 blind faces have no chain writer",
- "r1435_delivery": {
-  "sha": "6af36eb9196173a20eda9c0a1d13e1edafa80a71",
-  "ts": "2026-11-04T18:18:14+08:00",
-  "branch_intended": "machine/bm-b-r1435",
-  "verified": false,
-  "blocker": "push rc=128 and fetch rc=128 in this window: the remote is unreachable from this host (ssh endpoint not answering); no force and no alternate channel attempted",
-  "next_window_action": "push this commit before any new research once the remote answers"
- },
- "r1436_delivery": {
-  "sha": "10092fb9272cd434d5d5ffe9b55e371a5f85bac4",
-  "ts": "2026-11-04T18:50:00+08:00",
-  "branch_intended": "machine/bm-b-r1436",
-  "verified": false,
-  "blocker": "push rc=128 Permission denied (publickey): key id_ed25519_bigmin rejected server-side (ls-remote also fails now); no force, no alternate channel",
-  "next_window_action": "push this commit and the standing r1435 commit before new research once the key is accepted"
- },
- "r1437_delivery": {
-  "sha": "0361c164f09dffaafcabfeb1eff560ecc4c37761",
-  "ts": "2026-11-04T19:5x+08:00",
-  "branch_intended": "machine/bm-b-r1437",
-  "verified": true,
-  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1437 == HEAD",
-  "note": "push of HEAD:main was rejected non-fast-forward (288 behind); the round went out on the machine branch per the no-force rule, and that branch also carries the undelivered r1435/r1436 commits"
- }
+ "work": "E416: 4 red-capable sites re-read from their own blocks -- 1 copy lag by mtime, 2 frozen evidence_cutoff pins that red on an honest refresh, 1 with no date logic; 0 of 200 faces keep an age-pricing reader; of 13 priced faces the chain runs a writer for 3 and only verifies 6; 45 blind faces have no chain writer"
 }

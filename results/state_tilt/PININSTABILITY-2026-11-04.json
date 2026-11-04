@@ -1,0 +1,205 @@
+{
+ "study": "E420_corpus_pin_instability",
+ "evidence_cutoff": "2026-11-04",
+ "audit_face": "results/state_tilt/REPUBLISH-2026-11-03.json",
+ "rows": [
+  {
+   "face": "precisiongap_latest.json",
+   "on_disk": true,
+   "moved_columns": [],
+   "moved_fingerprints": [],
+   "moved_numbers": [],
+   "moved_numbers_up": [],
+   "moved_numbers_down": [],
+   "carried_vs_audit_fingerprints": {},
+   "self": {
+    "names_a_pin_file": false,
+    "pin_file_exists": false,
+    "pin_id_agrees": false,
+    "members_agree": false,
+    "members": null
+   },
+   "pin_on_disk": null
+  },
+  {
+   "face": "siblingentry_latest.json",
+   "on_disk": true,
+   "moved_columns": [
+    "corpus_source.pin_id",
+    "summary.sources_read",
+    "summary.sources_where_the_readings_differ"
+   ],
+   "moved_fingerprints": [
+    "corpus_source.pin_id"
+   ],
+   "moved_numbers": [
+    "summary.sources_read",
+    "summary.sources_where_the_readings_differ"
+   ],
+   "moved_numbers_up": [
+    "summary.sources_read",
+    "summary.sources_where_the_readings_differ"
+   ],
+   "moved_numbers_down": [],
+   "carried_vs_audit_fingerprints": {
+    "corpus_source.pin_id": {
+     "carried": "da2a7e689ace4ca67f132b5fd078c07c290f56ba4008858f546557d96ae19673",
+     "fresh": "5d535d1f490df60fba928c18997dd907da288b83cc5037ddedc533f107f59350"
+    },
+    "summary.sources_read": {
+     "carried": 2467,
+     "fresh": 2491
+    },
+    "summary.sources_where_the_readings_differ": {
+     "carried": 1506,
+     "fresh": 1526
+    }
+   },
+   "self": {
+    "names_a_pin_file": true,
+    "pin_file_exists": true,
+    "pin_id_agrees": true,
+    "members_agree": true,
+    "members": 2492,
+    "pin_file_members": 2492
+   },
+   "pin_on_disk": "95c8d05c876b89109ef0999c80a1586f7df16c3325126cebe7f2746d25e80fc2"
+  },
+  {
+   "face": "UNSTAMPEDCENSUS-2026-11-02.json",
+   "on_disk": true,
+   "moved_columns": [
+    "summary.census_over_the_source_corpus",
+    "summary.census_studies",
+    "summary.censuses_that_quote_a_population",
+    "summary.censuses_whose_population_cannot_be_rechecked",
+    "summary.faces_seen",
+    "summary.needs_a_seam_before_replay",
+    "summary.populations_over_2000_sources",
+    "summary.studies_resolved_to_a_producer",
+    "summary.studies_with_a_published_face"
+   ],
+   "moved_fingerprints": [],
+   "moved_numbers": [
+    "summary.census_over_the_source_corpus",
+    "summary.census_studies",
+    "summary.censuses_that_quote_a_population",
+    "summary.censuses_whose_population_cannot_be_rechecked",
+    "summary.faces_seen",
+    "summary.needs_a_seam_before_replay",
+    "summary.populations_over_2000_sources",
+    "summary.studies_resolved_to_a_producer",
+    "summary.studies_with_a_published_face"
+   ],
+   "moved_numbers_up": [
+    "summary.census_over_the_source_corpus",
+    "summary.census_studies",
+    "summary.censuses_that_quote_a_population",
+    "summary.censuses_whose_population_cannot_be_rechecked",
+    "summary.faces_seen",
+    "summary.needs_a_seam_before_replay",
+    "summary.populations_over_2000_sources",
+    "summary.studies_resolved_to_a_producer",
+    "summary.studies_with_a_published_face"
+   ],
+   "moved_numbers_down": [],
+   "carried_vs_audit_fingerprints": {
+    "summary.census_over_the_published_faces": {
+     "carried": 36,
+     "fresh": 40
+    },
+    "summary.census_studies": {
+     "carried": 46,
+     "fresh": 50
+    },
+    "summary.censuses_that_enumerate_but_quote_nothing": {
+     "carried": 21,
+     "fresh": 22
+    },
+    "summary.censuses_that_quote_a_population": {
+     "carried": 25,
+     "fresh": 28
+    },
+    "summary.censuses_whose_population_cannot_be_rechecked": {
+     "carried": 23,
+     "fresh": 26
+    },
+    "summary.faces_seen": {
+     "carried": 164,
+     "fresh": 173
+    },
+    "summary.needs_a_seam_before_replay": {
+     "carried": 18,
+     "fresh": 21
+    },
+    "summary.studies_resolved_to_a_producer": {
+     "carried": 157,
+     "fresh": 163
+    },
+    "summary.studies_unresolved": {
+     "carried": 5,
+     "fresh": 8
+    },
+    "summary.studies_with_a_published_face": {
+     "carried": 162,
+     "fresh": 171
+    }
+   },
+   "self": {
+    "names_a_pin_file": false,
+    "pin_file_exists": false,
+    "pin_id_agrees": false,
+    "members_agree": false,
+    "members": null
+   },
+   "pin_on_disk": null
+  },
+  {
+   "face": "unreadstatus_latest.json",
+   "on_disk": true,
+   "moved_columns": [],
+   "moved_fingerprints": [],
+   "moved_numbers": [],
+   "moved_numbers_up": [],
+   "moved_numbers_down": [],
+   "carried_vs_audit_fingerprints": {},
+   "self": {
+    "names_a_pin_file": false,
+    "pin_file_exists": false,
+    "pin_id_agrees": false,
+    "members_agree": false,
+    "members": null
+   },
+   "pin_on_disk": null
+  }
+ ],
+ "pin_vintages": [
+  {
+   "source": "audit_carried_at_head",
+   "pin_id": "da2a7e689ace4ca67f132b5fd078c07c290f56ba4008858f546557d96ae19673"
+  },
+  {
+   "source": "audit_re_derived_today",
+   "pin_id": "5d535d1f490df60fba928c18997dd907da288b83cc5037ddedc533f107f59350"
+  },
+  {
+   "source": "face_on_disk_now",
+   "pin_id": "95c8d05c876b89109ef0999c80a1586f7df16c3325126cebe7f2746d25e80fc2"
+  }
+ ],
+ "summary": {
+  "audited_rows": 4,
+  "rows_on_disk": 4,
+  "rows_the_leg_flags_today": 2,
+  "rows_flagged_only_by_a_corpus_fingerprint": 0,
+  "rows_where_a_published_number_moved": 2,
+  "rows_where_a_number_went_down": 0,
+  "rows_whose_verdict_moved": 0,
+  "rows_whose_face_agrees_with_its_own_pin_file": 1,
+  "distinct_pin_vintages_for_one_face": 3,
+  "corpus_members_now": 2492,
+  "corpus_pin_id_now": "d9306102c9b5c2c78978d079a17a7f68cde8ee428c9cc29365a91ae092b6cdf8",
+  "corpus_pin_id_equals_any_recorded_vintage": false
+ },
+ "verdict": "the_only_fields_that_moved_are_population_counts_that_grew_with_the_corpus_and_every_face_agrees_with_its_own_pin_so_the_old_equality_assertion_was_unsatisfiable_on_an_honest_rebuild"
+}

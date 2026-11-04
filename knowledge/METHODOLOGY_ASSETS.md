@@ -9960,3 +9960,43 @@ protection is a reader, not a field.
 `results/state_tilt/UNSTAMPABLE-2026-11-04.json` + `unstampable_latest.json`; smoke leg
 `# E419 (r1437 bm-b)` executed verbatim by `scripts/run_e419_smoke_leg.py` (1/1 green); S6 leg
 `unstampable` (rc 0). Read-only: no writer and no reader was edited.
+
+#### E420 -- a corpus fingerprint is not an equality gate: the two reds it produced were accretion
+
+**Question.** The E387 smoke leg required every audited face to still carry *the exact number the
+audit re-derived on 11-03*, while the audit's own verdict is `corpus_moved_republished` -- it
+re-runs the producers, so its numbers are a snapshot of a tree that grows every round. Can that
+assertion ever hold again?
+
+**Answer, measured.** Four faces are audited. Two are flagged today and both carry *moved numbers*,
+not just a moved pin, so the first hypothesis (only the fingerprint moves) was wrong and had to be
+measured rather than argued:
+
+| reading | value |
+|---|---|
+| distinct `corpus_source.pin_id` vintages for one face in one day | 3 (`da2a...` carried at head, `5d53...` the audit's re-derivation, `c5df...` the face on disk at 16:15) |
+| corpus members at each vintage | 2467 -> 2491 -> 2479, and 2492 now |
+| after republishing the two stale producers | `siblingentry` 3 fields moved, `UNSTAMPEDCENSUS` 9 moved, **0 went down**, 0 verdicts moved, both faces agree with their own pin file |
+
+The pin is `e361.stamp(e326.corpus())` -- a sha256 over every in-repo python source -- and the
+face's own producer is what writes it, so *the thing that keeps the face honest is what moves the
+number the leg pins*. The two flagged rows were one round of accretion (the faces had been built
+against a smaller corpus than the audit re-derived), and republishing them moved every number up.
+
+**Pits.**
+
+1. `int(summary.get(k) or -1)` reds on a legitimate **0** -- my own first selftest did exactly that.
+   A count must be read with a missing-key test, never with `or`.
+2. Deleting the assertion is not the repair. Replace stasis with the invariants that *can* hold: the
+   verdict is unchanged, no published number went **down** (a silent revert), the face agrees with
+   the pin file it names, and its counts re-derive. A weaker check must be named as weaker.
+3. Fingerprint and number must be split mechanically (64-hex under `corpus_source.`), or "the pin
+   moved" is published as "a published number moved" and the headline is wrong.
+4. A verdict must be re-derived from the split (up / down / flip), not from the story: the first
+   verdict shipped here said "unsatisfiable, so a red row is a defect", which the same run's zeros
+   contradicted.
+
+**Delivered.** `scripts/e420_corpus_pin_instability.py` (run / verify problems=[] / selftest 10/10)
+-> `results/state_tilt/PININSTABILITY-2026-11-04.json` + `pininstability_latest.json`; smoke leg
+`# E420 (r1438 bm-b)`; the E387 leg itself narrowed to the invariants above (disclosed in the round
+report); the two stale producers republished (`e335` 2491 -> 2492 sources, `e364` census).

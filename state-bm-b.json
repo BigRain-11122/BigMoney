@@ -1,4 +1,5 @@
 {
+ "absorb": "the 19:52 window wrote the E420 script, face, smoke correction, digest and card, then died before any closeout; every artefact was re-verified on this run (selftest 10/10, verify 0 problems, leg 2/2) before the number 1438 was carried",
  "agenda_starved": false,
  "ahead_of_origin_main": 332,
  "audit_flag_note": "gpu_unauthorized = 8 drama voicegen + uv MCP children hold the GPU, none of them a bm-b burn (production GPU parked per C-20261014-01); this round took no GPU work",
@@ -7,7 +8,8 @@
   "gpu_idle"
  ],
  "behind_origin_main": 288,
- "clock_read": "2026-11-04T09:44:58+08:00",
+ "card": "E419-WHICH-UNSTAMPED-FACE-HAS-A-WRITER-HOLDING-A-DATE-IT-NEVER-WRITES",
+ "clock_read": "2026-11-04T21:05:00+08:00",
  "concurrency_note": "Tools/iteration_loop.ps1 pid 31396 (started 02:07) was live in this repo for the whole window and its own ticks reported 'previous round still running'; no queue head, task card or shared lane face was claimed, and loop/watchdog/claw re-registration was deliberately not attempted",
  "cpu_current_pct": 33.4,
  "cpu_pct": 33.4,
@@ -134,15 +136,16 @@
  "decisions_consumed_r1424": "decisions.md origin blob sha256 1150963b7fd3d0ce == state watermark (batch 42, D-20261104-01..05 already consumed at r1423): zero rows owed",
  "decisions_consumed_r1425": "decisions.md origin blob sha256 1150963b7fd3d0ce == state watermark (no new batch): zero rows owed",
  "decisions_delta_pending": 0,
+ "decisions_note": "hash read from the cached origin/main blob; fetch rc=128 so the ref may not be the newest",
  "decisions_pit_r1425": "computing that hash through PowerShell `git show | Out-String` yields fd6a7f41... because Out-String rewrites LF as CRLF; the watermark must be computed on raw bytes (python subprocess), or every round will believe a new batch landed",
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "decisions_sha": "1150963b",
  "decisions_watermark": "1150963b",
  "delivery": {
+  "at": "2026-11-04T17:26:00+08:00",
   "branch": "machine/bm-b-r1434",
   "sha": "550785427f911f9d5144f83244189c915d6dc7b1",
-  "verified": true,
-  "at": "2026-11-04T17:26:00+08:00"
+  "verified": true
  },
  "delivery_note": "ls-remote equals local HEAD on machine/bm-b-r1425 @ 11a78359d7f21075fce6f9d9fadf11d063d0e1e0",
  "delivery_sha": "05fe30270a47f0e2b317f8fd722bb1601f209189",
@@ -150,7 +153,7 @@
  "dept": "research+engineering",
  "did": "priced E404's three 'absent read' sites: 1 is a write at the join line (so E404's in_tree_absent_writes=0 is false), 2 are module constants whose only name-based readers refuse with exit 2, and the one silent mode lives in the directory enumerators",
  "did_round": 1423,
- "face": "results/state_tilt/UNSUPPLIED-2026-11-04.json",
+ "face": "results/state_tilt/PININSTABILITY-2026-11-04.json",
  "finding": "E409: the two writers E408 found to be session-only leave five reader sites that never ask how old the face is. The t35 face was 0.52d old and current; the E321 census face was 2.76d old and behind the panel (evidence_cutoff 2026-10-31 vs 2026-11-03) with 35 round rows since it changed. 0 of 5 reader sites price the age (one prints STALE and passes, one compares the face to itself, three have no freshness test at all); suite-wide only 6 of 192 legs that open a face or page price the age. The card's fix question splits: a hard day gate for the t35 face was already litigated away (E185, smoke_test.py:593-597) and the available shape is the bounded one-bar allowance the same file already uses 60 lines later (smoke_test.py:679-700); the census face needs one comparison because it carries evidence_cutoff.",
  "free_ram_gb": 10.1,
  "free_ram_mb": 10342,
@@ -289,7 +292,7 @@
  "next_pick": null,
  "next_pointer": "results/runnable_pool.json (E403/E405/E406/E407 ready)",
  "next_task": "E405 never-produced read target",
- "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted; no cleanup or quarantine action; the rest of the S6 chain and the S7 task/claw checks were not run",
+ "not_run": "full smoke suite, rest of the S6 chain, dualrun/compute_audit/py_watermark, lane collectors, GPU (parked), cloud",
  "not_run_note": "full smoke suite / S6 chain / update_* collectors / paper+scorecard not run this window; GPU parked; cloud untouched",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "note_r1269": "the S6 chain was not run as a suite this round: the smoke suite alone holds the window (a full pass is ~8 minutes and two attempts were cut at the 5-minute no-output limit before it was moved to a redirected child). The cheap lane legs that did run: attrition CLEAN (4 ledgers, 3 historical shrinks healed) | idle_trigger declared worked (idle_rounds 0) | d19 zero delta",
@@ -493,13 +496,11 @@
  "pool_claims": null,
  "pool_ready_unclaimed": 3,
  "product": [
-  "scripts/e409_unfloored_faces.py (run / verify problems=[] / selftest 12/12)",
-  "results/state_tilt/UNFLOORED-2026-11-03.json + unfloored_latest.json",
-  "smoke_test.py leg E409 (appended; executed verbatim 1/1 by scripts/run_e409_smoke_leg.py)",
-  "Tools/s6_chain_bmb.py leg unfloored_faces",
-  "knowledge/METHODOLOGY_ASSETS.md card E409 (48 lines, numstat 48/0)",
-  "research/digests/DIGEST-20261104-r1428-e409-unfloored-faces.md",
-  "results/runnable_pool.json E409 done + E410 seeded (891 entries, 3 ready)"
+  "scripts/e420_corpus_pin_instability.py (selftest 10/10, verify problems=0)",
+  "results/state_tilt/PININSTABILITY-2026-11-04.json + pininstability_latest.json",
+  "smoke_test.py E420 correction (3 hunks, E387 leg only)",
+  "knowledge/METHODOLOGY_ASSETS.md card E420",
+  "research/digests/DIGEST-20261104-r1438-e420-corpus-pin-gate.md"
  ],
  "push": "machine/bm-b-r1394",
  "push_note": "ls-remote origin refs/heads/machine/bm-b-r1423 == local HEAD (verified)",
@@ -4748,108 +4749,6 @@
   ],
   "verify": "e403 verify problems=[] | selftest 11/11 | smoke leg E403 1/1 (red on a doctored copy, face restored byte-identical) | S6 leg family_arg rc=0 3.07s"
  },
- "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
- "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
- "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "ram_free_gb": 11.6,
- "ram_free_mb": 11899.4,
- "ram_free_pct": 48.6,
- "ram_load_pct": 51.0,
- "ram_total_gb": 23.9,
- "recent_artifact": "results/state_tilt/FACEAGE-2026-11-04.json",
- "reds_fixed": {
-  "E387": "re-derived (run+verify rc=0)",
-  "E398": "re-derived",
-  "E408": "re-derived",
-  "E409": "re-derived",
-  "E411": "re-derived",
-  "E403": "re-derived",
-  "E330": "re-derived"
- },
- "reds_open": [],
- "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1437,
- "round_no": 1437,
- "round_no_label": "r1437",
- "round_no_note": "r1416: every round key moves together (the r1393 heal does not survive a lane that writes one face)",
- "round_no_ts": "2026-11-04T19:52:00+08:00",
- "round_no_ts_note": "r1411 closeout",
- "round_pit": "a resolver can be bound through importlib: the first run graded site 7971 as cwd_relative_face_missing because load is not defined in smoke_test.py -- it is __import__('importlib').import_module('e298_replay_control_census') bound two lines earlier, so a same-file search says 'no such function'",
- "round_report_line_ts": "2026-11-04T06:28:39+08:00",
- "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
- "s1": "full suite finished 312/319 with 7 FAILs (published-summary drift); all 7 producers re-run, run rc=0 + verify rc=0 each (results/_heal_r1437.log); the suite itself was NOT re-run, so 319/319 is NOT claimed",
- "s4": "E410 card appended to knowledge/METHODOLOGY_ASSETS.md (55 lines, numstat 55/0); two memory-worthy lessons: line-numbered reader sites are layout claims, and a card's deliverable name can collide with an existing face",
- "s6": "orphan probe py_faces=7 orphans=0 residents=0; new S6 leg face_age rc=0; the rest of the S6 chain not run this window and not claimed",
- "s6_leg": "unstampable rc=0",
- "s6_note": "only the new S6 leg (verify) ran this window; the rest of the S6 chain was not re-run and is not claimed",
- "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
- "s7": "not run this window -- stated, not claimed",
- "sat_engine": "status read: exit 0, last_verdict=idle; not restarted",
- "selftest": "e418 selftest 13/13; extracted smoke leg 1/1",
- "seq": 1437,
- "side_effect_on_neighbour": "publishing fragmentproducers_latest.json added one family-named pointer, so E398's named_pointers moved 175 -> 176 and the E398 smoke leg failed; the face was re-derived from the live build (e398 run + verify problems=[]) rather than the leg loosened -- read sites 187 and bare pointers 28 unchanged",
- "smoke": "full suite ran this window: 312/319 PASS; the E419 leg is 1/1 green standalone (scripts/run_e419_smoke_leg.py)",
- "smoke_note": "the E403 leg was proved standalone (1/1) and proved red on a doctored face, then the face was restored byte-identical; the full ~305-leg suite was NOT run this window and no 305/305 is claimed",
- "smoke_r1417": {
-  "dashboard_leg": "fixed in-window: the marks-gap leg demanded fill_verify_day equality against a face another host writes (bm-a single-writer law); the day may now lag and staleness is printed instead of failed",
-  "drift": [
-   "leg 95: 402 -> 409 legs",
-   "leg 298: 138 -> 225 files",
-   "leg 308: 2341 -> 2442 files"
-  ],
-  "fail": "E305 leg: precisiongap_latest.json was stale -- session_open moved to in_priced_face because t35_open_fill_verify.json now prints it at 3 dp against a 1e-9 epsilon; the face was re-published from the live build (verdict none_of... -> some_face_level_rows_stay_at_risk, 13 withdrawn / 1 at risk) rather than the leg being loosened",
-  "own_leg": "PASS: of 883 published keys 882 are opened by a load or dump, 1 named only by non-opening sites, 0 carried by a published face",
-  "result": "298/299 PASS, 1 FAIL",
-  "ts": "2026-11-04T00:21:34+08:00"
- },
- "smoke_r1424": "full suite launched detached at 07:33 (results/_smoke_r1424.out) and still running at close: 1 FAIL seen, the E387 republish leg reading precisiongap at HEAD -- that red is the commit itself, so 288/288 is NOT claimed this window",
- "snapshot": {},
- "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
- "status": "ok",
- "study": "E419_which_unstamped_face_has_a_writer_holding_a_date_it_never_writes",
- "supply_floor": {
-  "floor": 3,
-  "ready_at_close": 3,
-  "seeded": [
-   "E419-WHICH-UNSTAMPED-FACE-HAS-A-WRITER-HOLDING-A-DATE-IT-NEVER-WRITES"
-  ],
-  "still_ready_untouched": [
-   "E413-DOES-THE-STRONG-BASIS-FACE-NAME-RESOLVE-TO-A-FILE",
-   "E417-WHICH-READER-WOULD-FIND-A-FOREIGN-COPY-OF-ITS-FACE"
-  ]
- },
- "sync": {
-  "ahead": 352,
-  "behind_origin_main": 288,
-  "peer": "origin",
-  "ts": "2026-11-04T19:5x+08:00"
- },
- "sync_note": "main is 288 behind origin/main so a direct push is rejected; delivery goes out on machine/bm-b-r1437 (verified by ls-remote)",
- "task": "E419 writer attribution for the 9 unageable faces closed; E420 seeded",
- "task_short": "who writes the unageable faces",
- "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
- "three_line": "E419: 1 of 9 unageable faces has a writer holding an unwritten date, 1 already writes one, 4 have no date in hand, 3 have no writer -- and none of the 9 faces has a reader that could go red on age",
- "three_line_artifact": "results/state_tilt/UNSTAMPABLE-2026-11-04.json @ 2026-11-04T19:52:00+08:00",
- "three_line_current": "E418: all 45 faces nothing can turn red on were aged by their own stamp -- 36 carry a date (3 older than 5 bars, max 25), 9 are unknowable (8 undated, 1 dated by a non-date); 0 of 51 green sentences print a frozen number",
- "three_line_next": "E420 price a two-hop attribution for the 6 no-writer rows (helper-argument composition), cpu-only, due <=48h",
- "timestamp": "2026-11-04T19:52:00+08:00",
- "ts": "2026-11-04T19:52:00+08:00",
- "ts_utc_ms": 1793792738000,
- "ts_utc_offset": "+08:00",
- "updated": "2026-11-04T19:52:00+08:00",
- "updated_at": "2026-11-04T19:52:00+08:00",
- "verdict": "green: round r1437 delivered a product (1 of 9 unageable faces has an unwritten date in its writer's hand; no reader of any of the 9 could go red on age)",
- "verdict_line": "E419 published; verify problems=[], selftest 10/10, smoke leg 1/1, S6 leg rc=0",
- "verdict_watermark": "red=true lane=pool-batch-runnable-idle-low-cpu",
- "verify": "e419 verify problems=[] | selftest 10/10 | smoke leg 1/1 | S6 leg unstampable rc=0",
- "vram_free_gb": 0.82,
- "vram_probe": "nvidia-smi",
- "vram_total_gb": 8.0,
- "vram_used_gb": 7.181,
- "watermark_note": "4 ready cards at open (E413/E417/E418); E418 closed and E419 seeded, still 3 ready",
- "watermark_red": true,
- "watermark_verdict": "red=true lane=pool-batch-runnable-idle-low-cpu",
- "work": "E419: of E418's 9 unageable faces 1 writer holds a date it never writes, 1 already writes one, 4 have no date in hand, 3 have no writer in the tree -- and 0 of the 9 has a reader that could go red on age",
  "r1433": {
   "card": "E414-WHAT-DOES-THE-ONE-BARE-BASENAME-READ-RESOLVE-TO",
   "dept": "research+engineering",
@@ -4871,23 +4770,23 @@
    "results/runnable_pool.json E414 done + E415 seeded (ready 3)"
   ],
   "summary": {
-   "surfaces_probed": 4,
-   "distinct_resolved_paths": 1,
+   "behaviour": "leg_fails_red",
    "cwd_independent": true,
    "directories_holding_this_name": 1,
+   "distinct_resolved_paths": 1,
+   "own_faces_excluded": 2,
    "pointer_directories": 52,
    "pointer_files": 230,
-   "behaviour": "leg_fails_red",
-   "own_faces_excluded": 2
+   "surfaces_probed": 4
   },
   "ts": "2026-11-04T13:18:40+08:00"
  },
- "card": "E419-WHICH-UNSTAMPED-FACE-HAS-A-WRITER-HOLDING-A-DATE-IT-NEVER-WRITES",
  "r1434": {
   "card": "E415-DO-BARE-BASENAME-READS-WORK-ONLY-BECAUSE-THE-CWD-HOLDS-THE-FACE",
   "dept": "research+engineering",
   "face": "results/state_tilt/CWDACCIDENT-2026-11-04.json",
   "finding": "1 of 2 bare-path read sites relies on the process cwd, and from the CLI home it resolves to a different document that passes the leg's assertion",
+  "inherited": "E411's product (scripts/e411_reader_tiers.py + READERTIERS-2026-11-04.json + its smoke and S6 legs) was produced by the r1434 attempt that died at ~15:05 before closeout; this window re-ran it because the E415 leg changes its population (232 sites / 200 faces), verify problems=[], and it ships with the note that its methodology card is still owed and is NOT claimed here",
   "pits": [
    "a resolver can be bound through importlib: the first run graded site 7971 as cwd_relative_face_missing because load is not defined in smoke_test.py -- it is __import__('importlib').import_module('e298_replay_control_census') bound two lines earlier, so a same-file search says 'no such function'",
    "comparing against nothing is not a measurement: the first version marked results/state_tilt as holding a different document because the repo root does not hold that basename at all (own sha None -> every comparison false); rows now carry this_tree_holds_the_name and different_document separately",
@@ -4905,42 +4804,142 @@
   ],
   "summary": {
    "bare_path_read_sites": 2,
-   "surfaces": 6,
    "by_class": {
-    "resolved_by_its_callee": 1,
     "cwd_relative_face_in_cwd": 0,
+    "cwd_relative_face_missing": 0,
     "cwd_relative_face_shadowed": 1,
-    "cwd_relative_face_missing": 0
+    "resolved_by_its_callee": 1
    },
-   "different_document_surfaces": 1
+   "different_document_surfaces": 1,
+   "surfaces": 6
   },
-  "verify": "e415 verify problems=[] | selftest 19/19 | smoke leg 1/1 (red on a doctored copy, face restored byte-identical) | S6 leg cwd_accident rc=0 10.9s",
-  "inherited": "E411's product (scripts/e411_reader_tiers.py + READERTIERS-2026-11-04.json + its smoke and S6 legs) was produced by the r1434 attempt that died at ~15:05 before closeout; this window re-ran it because the E415 leg changes its population (232 sites / 200 faces), verify problems=[], and it ships with the note that its methodology card is still owed and is NOT claimed here"
+  "verify": "e415 verify problems=[] | selftest 19/19 | smoke leg 1/1 (red on a doctored copy, face restored byte-identical) | S6 leg cwd_accident rc=0 10.9s"
  },
- "supply_floor_ready": 3,
  "r1435_delivery": {
+  "blocker": "push rc=128 and fetch rc=128 in this window: the remote is unreachable from this host (ssh endpoint not answering); no force and no alternate channel attempted",
+  "branch_intended": "machine/bm-b-r1435",
+  "next_window_action": "push this commit before any new research once the remote answers",
   "sha": "6af36eb9196173a20eda9c0a1d13e1edafa80a71",
   "ts": "2026-11-04T18:18:14+08:00",
-  "branch_intended": "machine/bm-b-r1435",
-  "verified": false,
-  "blocker": "push rc=128 and fetch rc=128 in this window: the remote is unreachable from this host (ssh endpoint not answering); no force and no alternate channel attempted",
-  "next_window_action": "push this commit before any new research once the remote answers"
+  "verified": false
  },
  "r1436_delivery": {
+  "blocker": "push rc=128 Permission denied (publickey): key id_ed25519_bigmin rejected server-side (ls-remote also fails now); no force, no alternate channel",
+  "branch_intended": "machine/bm-b-r1436",
+  "next_window_action": "push this commit and the standing r1435 commit before new research once the key is accepted",
   "sha": "10092fb9272cd434d5d5ffe9b55e371a5f85bac4",
   "ts": "2026-11-04T18:50:00+08:00",
-  "branch_intended": "machine/bm-b-r1436",
-  "verified": false,
-  "blocker": "push rc=128 Permission denied (publickey): key id_ed25519_bigmin rejected server-side (ls-remote also fails now); no force, no alternate channel",
-  "next_window_action": "push this commit and the standing r1435 commit before new research once the key is accepted"
+  "verified": false
  },
- "decisions_note": "hash read from the cached origin/main blob; fetch rc=128 so the ref may not be the newest",
  "r1437_delivery": {
+  "branch_intended": "machine/bm-b-r1437",
+  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1437 == HEAD",
+  "note": "push of HEAD:main was rejected non-fast-forward (288 behind); the round went out on the machine branch per the no-force rule, and that branch also carries the undelivered r1435/r1436 commits",
   "sha": "0361c164f09dffaafcabfeb1eff560ecc4c37761",
   "ts": "2026-11-04T19:5x+08:00",
-  "branch_intended": "machine/bm-b-r1437",
-  "verified": true,
-  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1437 == HEAD",
-  "note": "push of HEAD:main was rejected non-fast-forward (288 behind); the round went out on the machine branch per the no-force rule, and that branch also carries the undelivered r1435/r1436 commits"
- }
+  "verified": true
+ },
+ "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
+ "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
+ "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
+ "ram_free_gb": 11.6,
+ "ram_free_mb": 11899.4,
+ "ram_free_pct": 48.6,
+ "ram_load_pct": 51.0,
+ "ram_total_gb": 23.9,
+ "recent_artifact": "results/state_tilt/PININSTABILITY-2026-11-04.json",
+ "reds_fixed": {
+  "E330": "re-derived",
+  "E387": "re-derived (run+verify rc=0)",
+  "E398": "re-derived",
+  "E403": "re-derived",
+  "E408": "re-derived",
+  "E409": "re-derived",
+  "E411": "re-derived"
+ },
+ "reds_open": [],
+ "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
+ "round": 1438,
+ "round_no": 1438,
+ "round_no_label": "r1438",
+ "round_no_note": "r1416: every round key moves together (the r1393 heal does not survive a lane that writes one face)",
+ "round_no_ts": "2026-11-04T21:05:00+08:00",
+ "round_no_ts_note": "r1411 closeout",
+ "round_pit": "a resolver can be bound through importlib: the first run graded site 7971 as cwd_relative_face_missing because load is not defined in smoke_test.py -- it is __import__('importlib').import_module('e298_replay_control_census') bound two lines earlier, so a same-file search says 'no such function'",
+ "round_report_line_ts": "2026-11-04T06:28:39+08:00",
+ "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
+ "s1": "the full ~319-leg suite was not re-run this window; the corrected E387 leg was executed verbatim from smoke_test.py (scripts/run_e387_smoke_leg.py, 2/2 PASS)",
+ "s4": "E410 card appended to knowledge/METHODOLOGY_ASSETS.md (55 lines, numstat 55/0); two memory-worthy lessons: line-numbered reader sites are layout claims, and a card's deliverable name can collide with an existing face",
+ "s6": "orphan probe py_faces=7 orphans=0 residents=0 | attrition guard CLEAN (4 ledgers, 2 historical shrinks healed) | saturation engine rc=0 idle | dualrun, compute_audit, py_watermark and the lane collectors were NOT re-run this window (wall budget, stated plainly)",
+ "s6_leg": "unstampable rc=0",
+ "s6_note": "only the new S6 leg (verify) ran this window; the rest of the S6 chain was not re-run and is not claimed",
+ "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
+ "s7": "orders 114 files / 115 acks / 0 unacked | queue head collision probe CLEAR on tech+explore | round took a dead window's E420 estate instead of the ready head E413 (cheaper, disclosed) | loop task / watchdog / claws not re-registered this window (their own ticks cover the gap; stated plainly)",
+ "sat_engine": "status read: exit 0, last_verdict=idle; not restarted",
+ "selftest": "e420_corpus_pin_instability 10/10; verify problems=0; E387 leg 2/2 PASS",
+ "seq": 1438,
+ "side_effect_on_neighbour": "publishing fragmentproducers_latest.json added one family-named pointer, so E398's named_pointers moved 175 -> 176 and the E398 smoke leg failed; the face was re-derived from the live build (e398 run + verify problems=[]) rather than the leg loosened -- read sites 187 and bare pointers 28 unchanged",
+ "smoke": "E387 leg extracted verbatim and run standalone with the E420 split: PASS (2/2)",
+ "smoke_note": "the E403 leg was proved standalone (1/1) and proved red on a doctored face, then the face was restored byte-identical; the full ~305-leg suite was NOT run this window and no 305/305 is claimed",
+ "smoke_r1417": {
+  "dashboard_leg": "fixed in-window: the marks-gap leg demanded fill_verify_day equality against a face another host writes (bm-a single-writer law); the day may now lag and staleness is printed instead of failed",
+  "drift": [
+   "leg 95: 402 -> 409 legs",
+   "leg 298: 138 -> 225 files",
+   "leg 308: 2341 -> 2442 files"
+  ],
+  "fail": "E305 leg: precisiongap_latest.json was stale -- session_open moved to in_priced_face because t35_open_fill_verify.json now prints it at 3 dp against a 1e-9 epsilon; the face was re-published from the live build (verdict none_of... -> some_face_level_rows_stay_at_risk, 13 withdrawn / 1 at risk) rather than the leg being loosened",
+  "own_leg": "PASS: of 883 published keys 882 are opened by a load or dump, 1 named only by non-opening sites, 0 carried by a published face",
+  "result": "298/299 PASS, 1 FAIL",
+  "ts": "2026-11-04T00:21:34+08:00"
+ },
+ "smoke_r1424": "full suite launched detached at 07:33 (results/_smoke_r1424.out) and still running at close: 1 FAIL seen, the E387 republish leg reading precisiongap at HEAD -- that red is the commit itself, so 288/288 is NOT claimed this window",
+ "snapshot": {},
+ "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
+ "status": "ok",
+ "study": "E420_corpus_pin_instability",
+ "supply_floor": {
+  "floor": 3,
+  "ready_at_close": 3,
+  "seeded": [
+   "E419-WHICH-UNSTAMPED-FACE-HAS-A-WRITER-HOLDING-A-DATE-IT-NEVER-WRITES"
+  ],
+  "still_ready_untouched": [
+   "E413-DOES-THE-STRONG-BASIS-FACE-NAME-RESOLVE-TO-A-FILE",
+   "E417-WHICH-READER-WOULD-FIND-A-FOREIGN-COPY-OF-ITS-FACE"
+  ]
+ },
+ "supply_floor_ready": 3,
+ "sync": {
+  "ahead": 354,
+  "behind": 288,
+  "branch": "machine/bm-b-r1438",
+  "peer": "origin"
+ },
+ "sync_note": "main is 288 behind origin/main so a direct push is rejected; delivery goes out on machine/bm-b-r1437 (verified by ls-remote)",
+ "task": "r1438 E420: the corpus-pin equality gate was unsatisfiable -- price accretion, not equality",
+ "task_short": "r1438 E420 corpus pin gate",
+ "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
+ "three_line": "E419: 1 of 9 unageable faces has a writer holding an unwritten date, 1 already writes one, 4 have no date in hand, 3 have no writer -- and none of the 9 faces has a reader that could go red on age",
+ "three_line_artifact": "results/state_tilt/PININSTABILITY-2026-11-04.json @ 2026-11-04T21:05+08:00",
+ "three_line_current": "E420: the corpus-pin equality gate reds on growth and can never go green -- it now prices accretion, a downward number, and self-agreement with the face's own pin",
+ "three_line_next": "E413 strong-basis names resolved to no file (ready, cpu-only) or E417 shadow faces -- due <=48h",
+ "timestamp": "2026-11-04T21:05:00+08:00",
+ "ts": "2026-11-04T21:05:00+08:00",
+ "ts_utc_ms": 1793792738000,
+ "ts_utc_offset": "+08:00",
+ "updated": "2026-11-04T21:05:00+08:00",
+ "updated_at": "2026-11-04T21:05:00+08:00",
+ "verdict": "the_only_fields_that_moved_are_population_counts_that_grew_with_the_corpus_so_an_equality_assertion_on_them_is_unsatisfiable_on_an_honest_rebuild",
+ "verdict_line": "E419 published; verify problems=[], selftest 10/10, smoke leg 1/1, S6 leg rc=0",
+ "verdict_watermark": "red=true lane=pool-batch-runnable-idle-low-cpu",
+ "verify": "e419 verify problems=[] | selftest 10/10 | smoke leg 1/1 | S6 leg unstampable rc=0",
+ "vram_free_gb": 0.82,
+ "vram_probe": "nvidia-smi",
+ "vram_total_gb": 8.0,
+ "vram_used_gb": 7.181,
+ "watermark_note": "4 ready cards at open (E413/E417/E418); E418 closed and E419 seeded, still 3 ready",
+ "watermark_red": "pool floor 3/3 ready at open (E413/E417/E420-no-writer); none claimed -- the round finished a dead window's E420 estate instead",
+ "watermark_verdict": "pool floor 3/3 met at open; no card consumed, floor unchanged",
+ "work": "E419: of E418's 9 unageable faces 1 writer holds a date it never writes, 1 already writes one, 4 have no date in hand, 3 have no writer in the tree -- and 0 of the 9 has a reader that could go red on age"
 }

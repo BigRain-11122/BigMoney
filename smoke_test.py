@@ -13455,6 +13455,7 @@ try:
     else:
         sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
         _m387 = __import__("importlib").import_module("e387_republish_audit")
+        _m420 = __import__("importlib").import_module("e420_corpus_pin_instability")
         _bad387 += list(_m387.verify(_p387))
         _s387 = _f387.get("summary") or {}
         if int(_s387.get("legs") or 0) != len(_m387.LEGS):
@@ -13472,9 +13473,32 @@ try:
             _moved387 = [k for k in _fresh387
                          if k != "corpus_source.pin_file" and _fresh387[k] != _now387.get(k)]
             if _moved387:
-                _bad387.append("%s is not published at the re-derived number (%s)"
-                               % (_r387.get("face"), _moved387[0]))
-                break
+                # E420 (r1438 bm-b): `fresh_today` is what the audit re-derived by re-running the
+                # producers, so its numbers are a snapshot of a corpus that grows every round. A
+                # count over that corpus (corpus_source.pin_id, summary.sources_read, census
+                # populations) MUST move on an honest rebuild -- three distinct pin vintages were
+                # measured for one face inside one day (results/state_tilt/PININSTABILITY-2026-11-04.json).
+                # Demanding byte-equality reds on growth and can never go green again. What must not
+                # happen: a verdict flip, a published number going DOWN (a silent revert), or a face
+                # naming a pin file that disagrees with it.
+                _self387 = _m420._self_agreement(_disk387)
+                if "verdict" in _moved387:
+                    _bad387.append("%s: the verdict moved since the audit" % (_r387.get("face"),))
+                    break
+                _down387 = [k for k in _moved387
+                            if isinstance(_fresh387[k], (int, float))
+                            and isinstance(_now387.get(k), (int, float))
+                            and _now387[k] < _fresh387[k]]
+                if _down387:
+                    _bad387.append("%s: a published number went down (%s)"
+                                   % (_r387.get("face"), _down387[0]))
+                    break
+                if [k for k in _moved387 if k.startswith("corpus_source.")] and \
+                        not (_self387["pin_file_exists"] and _self387["pin_id_agrees"]
+                             and _self387["members_agree"]):
+                    _bad387.append("%s names a pin file that disagrees with it"
+                                   % (_r387.get("face"),))
+                    break
             if _r387.get("verdict") not in _m387.VERDICTS:
                 _bad387.append("%s carries a verdict outside the frozen set"
                                % (_r387.get("face"),))
@@ -13489,6 +13513,36 @@ check(_name387, not _bad387, "; ".join(_bad387)[:220]
                 ((_f387 or {}).get("summary") or {}).get("faces_whose_numbers_moved_since_head") or 0,
                 ((_f387 or {}).get("summary") or {}).get("seams_opened") or 0,
                 ((_f387 or {}).get("summary") or {}).get("faces_reproducible_at_head") or 0))
+
+
+# E420 (r1438 bm-b): the leg above used to demand that every audited face still carry the exact
+# number the audit re-derived on 11-03, while the audit's own verdict is "the corpus moved and I
+# republished". A count over the live in-repo corpus moves on every honest rebuild -- measured
+# three distinct pin vintages for one face inside one day. This leg holds the account of that:
+# (a) the study's verdict follows from its own split, (b) a number that only grew is accretion,
+# (c) a face that names a pin file agrees with it, (d) the counts re-derive from the row list.
+_name420 = ("product: a corpus fingerprint is not an equality gate -- an audited face is priced for "
+            "accretion and self-agreement with its own pin, and a number that went down is a defect")
+_bad420, _d420 = [], ""
+try:
+    _m420b = __import__("importlib").import_module("e420_corpus_pin_instability")
+    _f420 = json.load(open(os.path.join("results", "state_tilt", "pininstability_latest.json"),
+                           encoding="utf-8"))
+    _dest420 = os.path.join("results", "state_tilt",
+                            "PININSTABILITY-%s.json" % (_f420.get("evidence_cutoff"),))
+    _bad420 += list(_m420b.verify(_dest420))
+    _s420 = _f420.get("summary") or {}
+    _d420 = ("%d audited / %d flagged / %d numbers moved / %d went down / %d verdicts moved / "
+             "%d faces agree with their pin / %d pin vintages"
+             % (_s420.get("audited_rows") or 0, _s420.get("rows_the_leg_flags_today") or 0,
+                _s420.get("rows_where_a_published_number_moved") or 0,
+                _s420.get("rows_where_a_number_went_down") or 0,
+                _s420.get("rows_whose_verdict_moved") or 0,
+                _s420.get("rows_whose_face_agrees_with_its_own_pin_file") or 0,
+                _s420.get("distinct_pin_vintages_for_one_face") or 0))
+except Exception as _e420:
+    _bad420.append(repr(_e420)[:160])
+check(_name420, not _bad420, "; ".join(_bad420)[:220] or _d420)
 
 
 def _finish() -> int:
