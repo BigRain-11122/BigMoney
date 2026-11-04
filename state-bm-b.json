@@ -143,10 +143,10 @@
  "decisions_watermark": "1150963b",
  "decisions_watermark_note": "fetch rc!=0 (cannot lock refs/remotes/origin/main); read origin/main:docs/decisions.md from the existing ref, 239 lines, newest D-20261104-01/02, bigmoney rows = no-op",
  "delivery": {
-  "at": "2026-11-04T21:25:00+08:00",
-  "branch": "machine/bm-b-r1439",
-  "sha": "6ae8a2198e8d19e38e9977002372703886c53b2a",
-  "verified": true
+  "branch": "machine/bm-b-r1450",
+  "sha": "8199ec580e20011699835c4266017c3e794fdba4",
+  "verified": true,
+  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1450 == HEAD"
  },
  "delivery_note": "pool faces were rewritten once with sort_keys and then restored with git checkout, which dropped about 1.1 KB of uncommitted lane fields and no entries (906 before, 906 after); the targeted re-apply is an append plus one stamp line",
  "delivery_sha": "6ae8a2198e8d19e38e9977002372703886c53b2a",
@@ -5042,5 +5042,11 @@
    "results/runnable_pool.json E432 done + E434 seeded (ready 3: E427/E433/E434)"
   ],
   "ts": "2026-11-05T07:53:07+08:00"
+ },
+ "r1450_delivery": {
+  "branch": "machine/bm-b-r1450",
+  "sha": "8199ec580e20011699835c4266017c3e794fdba4",
+  "verified": true,
+  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1450 == HEAD"
  }
 }
