@@ -1469,6 +1469,11 @@ LEGS = [
     # re-reads the 45 faces, the calendar and the suite lines and refuses a summary or verdict that
     # no longer re-derives. Read-only: no face is refreshed and no reader is edited.
     ("face_age", ["python", "scripts/e418_face_age.py", "verify"]),
+    # E419 (r1437): the 9 faces E418 could not age are attributed to a writer, and each row says
+    # whether that writer holds a date it never writes (strong basis only: a write target must
+    # spell the basename, in the face's own directory, and must not be a fixture). Verify
+    # re-derives every class from the AST of the census corpus (~30 s over 2.4k modules).
+    ("unstampable", ["python", "scripts/e419_unstampable.py", "verify"]),
 ]
 
 

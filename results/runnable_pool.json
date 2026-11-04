@@ -27515,11 +27515,27 @@
    "lane": "cpu-only",
    "lane_note": "cpu-only; reads published faces and script sources, runs no writer",
    "priority": 3,
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "bm-b r1436 E418: 8 blind faces have no stamp field, 1 has a stamp that is not a date",
    "entered_at": "2026-11-04T18:47:08+08:00",
-   "entered_by": "bm-b r1436 (supply floor refill after E418)"
+   "entered_by": "bm-b r1436 (supply floor refill after E418)",
+   "closed_at": "2026-11-04T19:2x+08:00",
+   "result_ref": "results/state_tilt/UNSTAMPABLE-2026-11-04.json"
+  },
+  {
+   "id": "E420-WHICH-NO-WRITER-FACE-IS-COMPOSED-BY-A-HELPER-THE-CENSUS-CANNOT-SEE",
+   "title": "E419 left 3 of 9 faces as no-writer-in-the-tree, and 2 of them are written through a directory argument (CARD.md via OUT_DIR, AGGATT-%s via a stem join). Extend the one-hop constant walk to a two-hop call-graph hop and say how many of the 6 no-writer rows become writers, without editing anything",
+   "question": "Rebuild the attribution with a second hop: for each face E419 graded no_writer_in_the_tree, follow the write-call into the helper that receives the path and resolve its parameter from every call site in the tree. Publish per face: hop found or not, the call sites that supply the name, and the fraction of the corpus that a two-hop walk would reach. Bill the class movement (no-writer -> writer-with/without-a-date), and refuse to call a two-hop hit a writer unless the helper actually opens for writing.",
+   "deliverable": "results/state_tilt/TWOHOP-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static AST joins, no writer runs",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "source": "bm-b r1437 E419: 3 of 9 rows are no-writer-in-the-tree, and 2 of those are composed through a helper argument",
+   "entered_at": "2026-11-04T19:2x+08:00",
+   "entered_by": "bm-b r1437 (supply floor refill after E419)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27534,6 +27550,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-04T18:47:35+08:00",
+ "updated_at": "2026-11-04T19:25:00+08:00",
  "version": 1
 }

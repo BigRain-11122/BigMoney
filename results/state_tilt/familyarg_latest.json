@@ -1,12 +1,12 @@
 {
  "evidence_cutoff": "2026-11-03",
- "generated": "2026-11-04T13:00:23+08:00",
+ "generated": "2026-11-04T19:42:06+08:00",
  "method_limits": [
   "static only: a call reached through getattr/setattr, a dict of callables, or a subprocess command line is not a call site here. The S6 chain invokes these scripts as CLIs, which lands on the in-file `main()` call and is counted.",
   "a forwarded parameter is traced one level (the caller's own parameter is named); it is not chased to the top, so 'safe here' means 'the caller decides'.",
   "scratch directories are recognised from the assignment that created them (mkdtemp / TemporaryDirectory / a *_tmp* name); a scratch dir passed under another spelling reads as runtime_value rather than being assumed safe.",
   "the family universe is every directory under results/, docs/ and data/ that holds a *latest.json pointer today; a family that publishes no pointer is not a family for this census.",
-  "corpus = 3453 python files under scripts/, Tools/ and the repo root; results/ and logs/ are excluded because they hold artefacts, not importable modules (excluding them moved 0 of the call sites). Only files whose text mentions a reader module stem are parsed, so a caller that reaches a reader through a name built at runtime is not in this census."
+  "corpus = 3471 python files under scripts/, Tools/ and the repo root; results/ and logs/ are excluded because they hold artefacts, not importable modules (excluding them moved 0 of the call sites). Only files whose text mentions a reader module stem are parsed, so a caller that reaches a reader through a name built at runtime is not in this census."
  ],
  "question": "does every caller of a family-parameter reader pass the family the reader means, or can one of them land on a different published family",
  "readers": [
@@ -1182,9 +1182,9 @@
    "results"
   ],
   "corpus_files_parsed": 31,
-  "corpus_py_files": 3453,
+  "corpus_py_files": 3471,
   "faces_whose_basename_is_ambiguous": 4,
-  "families_in_the_tree": 52,
+  "families_in_the_tree": 53,
   "panel_cutoff": "2026-11-03",
   "reader_sites_in_the_seed": 17,
   "readers": 16,

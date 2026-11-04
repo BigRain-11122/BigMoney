@@ -9918,3 +9918,45 @@ from the absent-stamp faces rather than folded into them.
 bm-b)` executed verbatim by `scripts/run_e418_smoke_leg.py` (1/1 green, and proved red on a
 doctored face then restored byte-identical); S6 leg `face_age` (rc 0). Read-only: no reader was
 edited and no face was refreshed relative to the campaign.
+
+#### E419 -- a face with no stamp is usually a face whose writer was matched by the wrong rule
+
+**Question.** E418 aged 36 of its 45 blind faces and left 9 impossibly old: 8 carry no stamp field
+at all, 1 carries `generated` whose value is `deterministic`. Before dating them, name the writer
+behind each and ask whether it already holds a date it never writes.
+
+**Answer, measured.** Population 9 (E418's age-unknowable rows, taken by machine). Attribution at
+the strongest basis -- a write target that spells the basename, inside the face's own directory,
+and is not a fixture path:
+
+| class | n | what it means |
+|---|---|---|
+| writer holds a date it does not write | 1 | `scripts/futures_tsmom_signal.py run` computes `datetime.now()` and writes no date key |
+| writer already writes a date | 1 | `scripts/e221_dom_profile.py run` writes `evidence_cutoff` + `ts` (the E418 row is the `PROFILE-*.json` template, so no single file could be aged) |
+| writer has no date in hand | 4 | `monitor/build_status.py main`, `etf_book_registry.py run`, `etf_book_window_decomp.py run`, `lane_host_ownership.write_faces` (the last writes `generated: "deterministic"`) |
+| no writer in the tree | 3 | `TSMOM-%s.md`, `CARD.md`, `AGGATT-%s.json` |
+
+The second half is the load-bearing one: **0 of the 9 faces has a reader that could go red on age
+today** (E418's tiers). Writing the missing date would therefore change no behaviour; the
+protection is a reader, not a field.
+
+**Pits (both cost a wrong headline in the same run).**
+
+1. *Attribution by file* graded **9 of 9** faces as "already writes a date". A file that mentions a
+   name and writes any other face was read as this face's writer -- closeout scripts and
+   `etf_book_production.py` supply the date, the face is someone else's.
+2. *Attribution by function* still graded **8 of 9** the same way, because `smoke_test.main()` is a
+   single function that names every face and writes temporary fixtures: it manufactures a writer
+   for every face the suite reads. The fix is a fixture-path veto (`tmp|tempfile|scratch`) plus a
+   directory token (`CARD` alone is not a name).
+3. Two vendor-free traps in the same lane: a name that *is* a date word (`update` ends with
+   `date`, `exists` ends with `ts`) must be tested by token, not suffix -- 2 of 9 rows carried a
+   fake date until that changed; and `ast.get_source_segment` per call node made the walk take
+   over five minutes (killed at CPU 125 s), a line slice costs 30 s.
+4. A one-off script in `Tools/_r746bmc_addendum.py` still "writes" `results/dashboard_status.json`;
+   ranking scratch names last is what surfaces the real producer `monitor/build_status.py`.
+
+**Delivered.** `scripts/e419_unstampable.py` (run / verify problems=[] / selftest 10/10) ->
+`results/state_tilt/UNSTAMPABLE-2026-11-04.json` + `unstampable_latest.json`; smoke leg
+`# E419 (r1437 bm-b)` executed verbatim by `scripts/run_e419_smoke_leg.py` (1/1 green); S6 leg
+`unstampable` (rc 0). Read-only: no writer and no reader was edited.

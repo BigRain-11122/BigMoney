@@ -15756,5 +15756,49 @@ except Exception as _e418:
     _bad418.append(repr(_e418)[:160])
 check(_name418, not _bad418, "; ".join(_bad418)[:240] or _d418)
 
+# E419 (r1437 bm-b): E418 left 9 faces age-unknowable. This leg holds the invoice for naming
+# their writers: (a) every published class is in the frozen vocabulary, (b) a row graded
+# "holds a date it never writes" has a graded writer carrying a date name and no stamp key,
+# (c) a row graded "no writer" publishes no writer rows at all, (d) the population is exactly
+# E418's age-unknown rows, and (e) the verdict and the tally re-derive on the live tree.
+_name419 = ("product: the 9 age-unknowable faces are priced by writer, and a face whose writer "
+            "holds a date is never called undateable without saying where the date is")
+_bad419, _d419 = [], ""
+try:
+    _m419 = __import__("importlib").import_module("e419_unstampable")
+    _f419 = json.load(open(os.path.join("results", "state_tilt", "unstampable_latest.json"),
+                           encoding="utf-8"))
+    _s419 = _f419.get("summary") or {}
+    for _c419 in (_s419.get("by_class") or {}):
+        if _c419 not in _m419.CLASS_VOCAB:
+            _bad419.append("class outside the frozen vocabulary: %s" % _c419)
+    _e418rows = json.load(open(os.path.join("results", "state_tilt", "faceage_latest.json"),
+                               encoding="utf-8")).get("rows") or []
+    _unk419 = {r.get("face") for r in _e418rows if r.get("age_bars") is None}
+    if {r.get("face") for r in _f419.get("rows") or []} != _unk419:
+        _bad419.append("the population is not E418's age-unknown rows")
+    for _r419 in _f419.get("rows") or []:
+        _g419 = (_r419.get("writers") or [{}])[0]
+        _holds419 = bool(_g419.get("date_variables_in_scope") or _g419.get("date_calls_in_scope"))
+        if _r419.get("classification") == _m419.W_DIR and \
+                not (_holds419 and not _g419.get("payload_keys_with_a_date")):
+            _bad419.append("%s: holds-a-date graded without a graded writer that holds one"
+                           % _r419.get("face"))
+            break
+        if _r419.get("classification") == _m419.W_MISSING and _r419.get("writers"):
+            _bad419.append("%s: no-writer graded while writer rows are published" % _r419.get("face"))
+            break
+    _fresh419 = _m419.build()
+    if _fresh419.get("verdict") != _f419.get("verdict"):
+        _bad419.append("the verdict does not re-derive")
+    if (_fresh419.get("summary") or {}) != _s419:
+        _bad419.append("the published summary does not re-derive from the live tree")
+    _d419 = "%d face(s): %s | readers that could go red on age today: %d" % (
+        _s419.get("faces_in_population"), _s419.get("by_class"),
+        _s419.get("readers_that_could_go_red_on_age_today"))
+except Exception as _e419:
+    _bad419.append(repr(_e419)[:160])
+check(_name419, not _bad419, "; ".join(_bad419)[:240] or _d419)
+
 if __name__ == "__main__":
     sys.exit(main())

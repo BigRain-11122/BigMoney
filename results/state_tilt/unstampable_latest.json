@@ -1,0 +1,334 @@
+{
+ "study": "E419_which_unstamped_face_has_a_writer_holding_a_date_it_never_writes",
+ "card": "E419-WHICH-UNSTAMPED-FACE-HAS-A-WRITER-HOLDING-A-DATE-IT-NEVER-WRITES",
+ "title": "name the writer behind each of E418's 9 age-unknowable faces and say whether it already holds a date it never writes",
+ "generated": "2026-11-04",
+ "evidence_cutoff": "2026-11-04",
+ "verdict": "some_writer_already_emits_a_date_the_face_still_cannot_be_aged_by",
+ "summary": {
+  "faces_in_population": 9,
+  "by_class": {
+   "no_writer_in_the_tree": 3,
+   "writer_already_writes_a_date": 1,
+   "writer_has_no_date_in_hand": 4,
+   "writer_holds_a_date_it_does_not_write": 1
+  },
+  "faces_with_a_writer_in_the_tree": 6,
+  "faces_where_the_writer_already_holds_a_date": 2,
+  "faces_where_writing_the_date_is_enough_to_reach_a_reader": 0,
+  "readers_that_could_go_red_on_age_today": 0,
+  "corpus_sources": 3407
+ },
+ "rows": [
+  {
+   "face": "docs/futures_lane/TSMOM-%s.md",
+   "name_token": "TSMOM-",
+   "directory_token": "futures_lane",
+   "template": true,
+   "files_mentioning_the_name": 3,
+   "classification": "no_writer_in_the_tree",
+   "writers": [],
+   "weaker_sites_not_counted_as_writers": 2,
+   "of_which_write_only_fixtures": 0,
+   "on_disk": false,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": null,
+   "stamp_value_e418_saw": null
+  },
+  {
+   "face": "results/etf_book_production/CARD.md",
+   "name_token": "CARD",
+   "directory_token": "etf_book_production",
+   "template": false,
+   "files_mentioning_the_name": 85,
+   "classification": "no_writer_in_the_tree",
+   "writers": [],
+   "weaker_sites_not_counted_as_writers": 32,
+   "of_which_write_only_fixtures": 0,
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": null,
+   "stamp_value_e418_saw": null
+  },
+  {
+   "face": "results/state_tilt/AGGATT-%s.json",
+   "name_token": "AGGATT-",
+   "directory_token": "state_tilt",
+   "template": true,
+   "files_mentioning_the_name": 2,
+   "classification": "no_writer_in_the_tree",
+   "writers": [],
+   "weaker_sites_not_counted_as_writers": 2,
+   "of_which_write_only_fixtures": 0,
+   "on_disk": false,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": null,
+   "stamp_value_e418_saw": null
+  },
+  {
+   "face": "results/dom_profile/PROFILE-*.json",
+   "name_token": "PROFILE-",
+   "directory_token": "dom_profile",
+   "template": true,
+   "files_mentioning_the_name": 9,
+   "classification": "writer_already_writes_a_date",
+   "writers": [
+    {
+     "file": "scripts/e221_dom_profile.py",
+     "function": "run",
+     "line": 250,
+     "payload_keys_with_a_date": [
+      "evidence_cutoff",
+      "ts"
+     ],
+     "date_variables_in_scope": [
+      "cutoff",
+      "now",
+      "session_means"
+     ],
+     "date_calls_in_scope": [
+      "datetime.now",
+      "isoformat"
+     ],
+     "write_targets": [
+      "        with open(os.path.join(OUTDIR, stem + \".json\"), \"w\", encoding=\"utf-8\") as fh:",
+      "OUTDIR = os.path.join(ROOT, \"results\", \"dom_profile\")",
+      "        stem = \"PROFILE-%s\" % cutoff.replace(\"-\", \"\")",
+      "        with open(os.path.join(OUTDIR, stem + \".json\"), \"w\", encoding=\"utf-8\") as fh:"
+     ],
+     "basis": "write_target_names_the_face"
+    }
+   ],
+   "on_disk": false,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": null,
+   "stamp_value_e418_saw": null
+  },
+  {
+   "face": "results/dashboard_status.json",
+   "name_token": "dashboard_status",
+   "directory_token": null,
+   "template": false,
+   "files_mentioning_the_name": 72,
+   "classification": "writer_has_no_date_in_hand",
+   "writers": [
+    {
+     "file": "monitor/build_status.py",
+     "function": "main",
+     "line": 2950,
+     "payload_keys_with_a_date": [],
+     "date_variables_in_scope": [],
+     "date_calls_in_scope": [],
+     "write_targets": [
+      "    with open(out_js, \"w\", encoding=\"utf-8\") as f:",
+      "    out_js = os.path.join(PATHS.results_dir, \"dashboard_status.js\")",
+      "    with open(out_js, \"w\", encoding=\"utf-8\") as f:",
+      "    with open(out_js, \"w\", encoding=\"utf-8\") as f:"
+     ],
+     "basis": "write_target_names_the_face"
+    },
+    {
+     "file": "Tools/_r746bmc_addendum.py",
+     "function": "main",
+     "line": 77,
+     "payload_keys_with_a_date": [],
+     "date_variables_in_scope": [
+      "NOW",
+      "max_ts",
+      "ts_o",
+      "ts_t"
+     ],
+     "date_calls_in_scope": [],
+     "write_targets": [
+      "    with open(outp, \"w\", encoding=\"utf-8\") as fh:",
+      "    outp = os.path.join(ROOT, \"results\", \"_r746bmc_merge_gates.json\")",
+      "    with open(outp, \"w\", encoding=\"utf-8\") as fh:",
+      "    with open(outp, \"w\", encoding=\"utf-8\") as fh:"
+     ],
+     "basis": "write_target_names_the_face"
+    },
+    {
+     "file": "Tools/_r505bmc_merge_resolve.py",
+     "function": "main",
+     "line": 149,
+     "payload_keys_with_a_date": [],
+     "date_variables_in_scope": [],
+     "date_calls_in_scope": [],
+     "write_targets": [
+      "    json.dump(receipt, io.open(out, \"w\", encoding=\"utf-8\", newline=\"\\n\"),",
+      "    json.dump(receipt, io.open(out, \"w\", encoding=\"utf-8\", newline=\"\\n\"),",
+      "receipt = {\"round\": \"r505\", \"strategies\": {}, \"sides\": {}}",
+      "    json.dump(receipt, io.open(out, \"w\", encoding=\"utf-8\", newline=\"\\n\"),"
+     ],
+     "basis": "write_target_names_the_face"
+    }
+   ],
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": null,
+   "stamp_value_e418_saw": null
+  },
+  {
+   "face": "results/etf_book_registry.json",
+   "name_token": "etf_book_registry",
+   "directory_token": null,
+   "template": false,
+   "files_mentioning_the_name": 3,
+   "classification": "writer_has_no_date_in_hand",
+   "writers": [
+    {
+     "file": "scripts/etf_book_registry.py",
+     "function": "run",
+     "line": 409,
+     "payload_keys_with_a_date": [],
+     "date_variables_in_scope": [],
+     "date_calls_in_scope": [],
+     "write_targets": [
+      "    with open(JSON_OUT, \"w\", encoding=\"utf-8\") as f:",
+      "JSON_OUT = os.path.join(PATHS.results_dir, \"etf_book_registry.json\")",
+      "    with open(JSON_OUT, \"w\", encoding=\"utf-8\") as f:",
+      "    with open(JSON_OUT, \"w\", encoding=\"utf-8\") as f:"
+     ],
+     "basis": "write_target_names_the_face"
+    }
+   ],
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": null,
+   "stamp_value_e418_saw": null
+  },
+  {
+   "face": "results/etf_book_window_decomp.json",
+   "name_token": "etf_book_window_decomp",
+   "directory_token": null,
+   "template": false,
+   "files_mentioning_the_name": 6,
+   "classification": "writer_has_no_date_in_hand",
+   "writers": [
+    {
+     "file": "scripts/etf_book_window_decomp.py",
+     "function": "run",
+     "line": 126,
+     "payload_keys_with_a_date": [],
+     "date_variables_in_scope": [],
+     "date_calls_in_scope": [],
+     "write_targets": [
+      "    with open(OUT, \"w\", encoding=\"utf-8\") as fh:",
+      "OUT = os.path.join(E.PATHS.results_dir, \"etf_book_window_decomp.json\")",
+      "    with open(OUT, \"w\", encoding=\"utf-8\") as fh:",
+      "    with open(OUT, \"w\", encoding=\"utf-8\") as fh:"
+     ],
+     "basis": "write_target_names_the_face"
+    }
+   ],
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": null,
+   "stamp_value_e418_saw": null
+  },
+  {
+   "face": "results/lane_host_ownership_latest.json",
+   "name_token": "lane_host_ownership_latest",
+   "directory_token": null,
+   "template": false,
+   "files_mentioning_the_name": 2,
+   "classification": "writer_has_no_date_in_hand",
+   "writers": [
+    {
+     "file": "scripts/lane_host_ownership.py",
+     "function": "write_faces",
+     "line": 297,
+     "payload_keys_with_a_date": [
+      "generated"
+     ],
+     "date_variables_in_scope": [],
+     "date_calls_in_scope": [],
+     "write_targets": [
+      "    p1.write_text(json.dumps(face, ensure_ascii=False, indent=1, sort_keys=True) + \"\\n\",",
+      "    p1 = out_dir / \"lane_host_ownership.json\"",
+      "    p1.write_text(json.dumps(face, ensure_ascii=False, indent=1, sort_keys=True) + \"\\n\",",
+      "                  encoding=\"utf-8\", newline=\"\\n\")"
+     ],
+     "basis": "write_target_names_the_face"
+    }
+   ],
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": "generated",
+   "stamp_value_e418_saw": "deterministic"
+  },
+  {
+   "face": "results/futures_tsmom_signal.json",
+   "name_token": "futures_tsmom_signal",
+   "directory_token": null,
+   "template": false,
+   "files_mentioning_the_name": 8,
+   "classification": "writer_holds_a_date_it_does_not_write",
+   "writers": [
+    {
+     "file": "scripts/futures_tsmom_signal.py",
+     "function": "run",
+     "line": 381,
+     "payload_keys_with_a_date": [],
+     "date_variables_in_scope": [
+      "now"
+     ],
+     "date_calls_in_scope": [
+      "datetime.now",
+      "isoformat"
+     ],
+     "write_targets": [
+      "    with open(OUT_JSON, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+      "OUT_JSON = os.path.join(ROOT, \"results\", \"futures_tsmom_signal.json\")",
+      "    with open(OUT_JSON, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+      "    with open(OUT_JSON, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:"
+     ],
+     "basis": "write_target_names_the_face"
+    }
+   ],
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": null,
+   "stamp_value_e418_saw": null
+  }
+ ],
+ "method_limits": [
+  "a writer is a function that contains both a write call and the face name; a face composed from a variable and written by a shared helper is out of reach and would be graded no_writer_in_the_tree",
+  "date-in-hand is a name or call in the same function, not a proof the value is the panel cutoff the face should carry",
+  "reader_can_go_red_on_age_today reuses E418's reader tiers; no reader was read again"
+ ]
+}

@@ -1206,6 +1206,24 @@
    "evidence": {
     "carried_by": "published",
     "constant": "OUT_DIR",
+    "expr": "os.path.join(OUT_DIR, 'familyarg_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUT_DIR, 'familyarg_latest.json')",
+   "file": "scripts/e403_family_arg.py",
+   "function": "verify",
+   "kind": "read",
+   "line": 846,
+   "site": "scripts/e403_family_arg.py:846",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "published",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "published",
+    "constant": "OUT_DIR",
     "expr": "os.path.join(OUT_DIR, 'unfloored_latest.json')",
     "family_dir": "results/state_tilt",
     "how": "a module constant names the directory"
@@ -1389,6 +1407,24 @@
    "tier": "live_tooling"
   },
   {
+   "carried_by": "published",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "published",
+    "constant": "OUT_DIR",
+    "expr": "os.path.join(OUT_DIR, 'declaration_latest.json')",
+    "family_dir": "results/lane_hosts",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUT_DIR, 'declaration_latest.json')",
+   "file": "scripts/lane_host_declaration.py",
+   "function": "verify",
+   "kind": "read",
+   "line": 356,
+   "site": "scripts/lane_host_declaration.py:356",
+   "tier": "live_tooling"
+  },
+  {
    "carried_by": null,
    "class": "family_stated_at_the_site",
    "evidence": {
@@ -1435,8 +1471,88 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15246,
-   "site": "smoke_test.py:15246",
+   "line": 15407,
+   "site": "smoke_test.py:15407",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'unsupplied_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'unsupplied_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 15554,
+   "site": "smoke_test.py:15554",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'cwdaccident_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'cwdaccident_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 15600,
+   "site": "smoke_test.py:15600",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'freshaim_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'freshaim_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 15657,
+   "site": "smoke_test.py:15657",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'faceage_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'faceage_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 15726,
+   "site": "smoke_test.py:15726",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'unstampable_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'unstampable_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 15769,
+   "site": "smoke_test.py:15769",
    "tier": "smoke_harness"
   },
   {
@@ -3760,6 +3876,22 @@
    "tier": "smoke_harness"
   },
   {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'faceage_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'faceage_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 15775,
+   "site": "smoke_test.py:15775",
+   "tier": "smoke_harness"
+  },
+  {
    "carried_by": "_face",
    "class": "family_from_the_value_the_site_itself_wrote",
    "evidence": {
@@ -3887,15 +4019,15 @@
    "family_from_the_value_the_site_itself_wrote": 8,
    "family_not_supplied_anywhere": 1,
    "family_required_by_the_signature": 17,
-   "family_stated_at_the_site": 164
+   "family_stated_at_the_site": 172
   },
   "by_tier": {
    "live_tooling": {
     "family_from_the_value_the_site_itself_wrote": 4,
     "family_not_supplied_anywhere": 0,
     "family_required_by_the_signature": 17,
-    "family_stated_at_the_site": 17,
-    "total": 38
+    "family_stated_at_the_site": 19,
+    "total": 40
    },
    "scratch_or_estate": {
     "family_from_the_value_the_site_itself_wrote": 0,
@@ -3908,8 +4040,8 @@
     "family_from_the_value_the_site_itself_wrote": 4,
     "family_not_supplied_anywhere": 1,
     "family_required_by_the_signature": 0,
-    "family_stated_at_the_site": 138,
-    "total": 143
+    "family_stated_at_the_site": 144,
+    "total": 149
    }
   },
   "classes_sum_to_the_read_sites": true,
@@ -3946,28 +4078,30 @@
    "scripts/e356_census_red_triage.py",
    "scripts/e371_store_member_cost.py",
    "scripts/e377_unresolved_destination.py",
+   "scripts/e403_family_arg.py",
    "scripts/e409_unfloored_faces.py",
    "scripts/etf_book_bakeoff.py",
    "scripts/etf_book_bridge.py",
    "scripts/etf_book_order.py",
    "scripts/etf_book_spanning.py",
    "scripts/etf_book_tsmom.py",
+   "scripts/lane_host_declaration.py",
    "scripts/o2115_acceptance_pack.py",
    "scripts/prove_smoke_leg_isolation.py",
    "smoke_test.py"
   ],
   "live_tooling_only": {
-   "named": 38,
-   "read_sites": 38,
+   "named": 40,
+   "read_sites": 40,
    "unsupplied": 0,
    "verdict": "every_latest_pointer_reader_names_its_family_at_the_site_or_in_its_signature_so_a_wrong_family_needs_a_wrong_caller_not_a_wrong_name"
   },
   "max_families_a_single_unsupplied_reader_could_land_on": 28,
-  "pointer_files_named_<family>_latest_json": 184,
+  "pointer_files_named_<family>_latest_json": 194,
   "pointer_files_named_latest_json": 28,
   "pointer_files_with_another_latest_shape": 11,
-  "read_sites_in_files": 40,
-  "read_sites_total": 190,
+  "read_sites_in_files": 42,
+  "read_sites_total": 198,
   "schema_cost_of_a_wrong_landing": {
    "distinct_top_level_signatures": 27,
    "families": 28,
@@ -4503,7 +4637,7 @@
    ]
   },
   "sites_handed_their_family_by_the_signature": 17,
-  "sites_that_name_their_family_at_the_site": 164,
+  "sites_that_name_their_family_at_the_site": 172,
   "sites_that_read_the_pointer_they_just_wrote": 8,
   "sites_whose_family_is_not_supplied_anywhere": 1,
   "stone": null,
@@ -4512,14 +4646,14 @@
   ],
   "verdict": "some_latest_pointer_readers_are_handed_their_family_and_some_take_whatever_the_base_holds_so_the_pointer_convention_is_safe_only_where_the_caller_is",
   "write_sites_by_class": {
-   "family_from_the_value_the_site_itself_wrote": 31,
-   "family_not_supplied_anywhere": 2,
+   "family_from_the_value_the_site_itself_wrote": 33,
+   "family_not_supplied_anywhere": 4,
    "family_required_by_the_signature": 12,
-   "family_stated_at_the_site": 16
+   "family_stated_at_the_site": 18
   },
-  "write_sites_total": 61
+  "write_sites_total": 67
  },
- "ts": "2026-11-04T10:53:22+08:00",
+ "ts": "2026-11-04T19:37:25+08:00",
  "verdict": "some_latest_pointer_readers_are_handed_their_family_and_some_take_whatever_the_base_holds_so_the_pointer_convention_is_safe_only_where_the_caller_is",
  "write_sites": [
   {
@@ -4662,6 +4796,22 @@
    "kind": "write",
    "line": 360,
    "site": "scripts/_r1372_closeout.py:360"
+  },
+  {
+   "carried_by": "row",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "row",
+    "expr": "'| %s | r%d | bm-b | **watermark: red=true lane=pool-batch-runnable-idle-low-cpu** (escalation lane; the round took the ready head E418 in-window). %s. PRODUCT: `scripts/e418_face_age.py` + `%s` (+`faceage_latest.json`),",
+    "how": "carried from this function's own write",
+    "written_expr": "'| %s | r%d | bm-b | **watermark: red=true lane=pool-batch-runnable-idle-low-cpu** (escalation lane; the round took the ready head E418 in-window). %s. PRODUCT: `scripts/e418_face_age.py` + `%s` (+`fa"
+   },
+   "expr": "'| %s | r%d | bm-b | **watermark: red=true lane=pool-batch-runnable-idle-low-cpu** (escalation lane; the round took the ready head E418 in-window). %s. PRODUCT: `scripts/e418_face_age.py` + `%s` (+`faceage_latest.json`), smoke leg `# E418 (",
+   "file": "scripts/_r1436bmb_closeout.py",
+   "function": "append_report",
+   "kind": "write",
+   "line": 146,
+   "site": "scripts/_r1436bmb_closeout.py:146"
   },
   {
    "carried_by": "payload",
@@ -5154,6 +5304,22 @@
    "site": "scripts/e349_latest_mirror_census.py:702"
   },
   {
+   "carried_by": "result",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "result",
+    "expr": "{'study': 'E403_family_parameter_callers', 'question': 'does every caller of a family-parameter reader pass the family the reader means, or can one of them land on a different published family', 'title': 'call-site censu",
+    "how": "carried from this function's own write",
+    "written_expr": "{'study': 'E403_family_parameter_callers', 'question': 'does every caller of a family-parameter reader pass the family the reader means, or can one of them land on a different published family', 'titl"
+   },
+   "expr": "{'study': 'E403_family_parameter_callers', 'question': 'does every caller of a family-parameter reader pass the family the reader means, or can one of them land on a different published family', 'title': 'call-site census of the 17 read sit",
+   "file": "scripts/e403_family_arg.py",
+   "function": "build",
+   "kind": "write",
+   "line": 834,
+   "site": "scripts/e403_family_arg.py:834"
+  },
+  {
    "carried_by": "latest",
    "class": "family_from_the_value_the_site_itself_wrote",
    "evidence": {
@@ -5184,6 +5350,66 @@
    "kind": "write",
    "line": 572,
    "site": "scripts/e409_unfloored_faces.py:572"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join(tmp, 'fam1', 'a_latest.json')",
+    "family_suffix": "fam1",
+    "how": "a literal component names the family directory",
+    "root_from": "a runtime value not resolvable here"
+   },
+   "expr": "os.path.join(tmp, 'fam1', 'a_latest.json')",
+   "file": "scripts/e414_unsupplied_read.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 535,
+   "site": "scripts/e414_unsupplied_read.py:535"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join(tmp, 'fam2', 'b_latest.json')",
+    "family_suffix": "fam2",
+    "how": "a literal component names the family directory",
+    "root_from": "a runtime value not resolvable here"
+   },
+   "expr": "os.path.join(tmp, 'fam2', 'b_latest.json')",
+   "file": "scripts/e414_unsupplied_read.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 536,
+   "site": "scripts/e414_unsupplied_read.py:536"
+  },
+  {
+   "carried_by": null,
+   "class": "family_not_supplied_anywhere",
+   "evidence": {
+    "expr": "'\\n'.join(['import json, os', 'def load(name, outdir=None):', \"    return json.load(open(os.path.join(outdir or 'results', name)))\", 'def a():', \"    return open('CODELY.md', encoding='utf-8').read()\", 'def b():', \"    r",
+    "how": "no literal, constant, parameter or prior write"
+   },
+   "expr": "'\\n'.join(['import json, os', 'def load(name, outdir=None):', \"    return json.load(open(os.path.join(outdir or 'results', name)))\", 'def a():', \"    return open('CODELY.md', encoding='utf-8').read()\", 'def b():', \"    return load('face_lat",
+   "file": "scripts/e415_cwd_accident.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 472,
+   "site": "scripts/e415_cwd_accident.py:472"
+  },
+  {
+   "carried_by": null,
+   "class": "family_not_supplied_anywhere",
+   "evidence": {
+    "expr": "'\\n'.join(['import json, os', 'def c():', \"    m = __import__('importlib').import_module('e298_census')\", \"    return m.load('replaycensus_latest.json')\"]) + '\\n'",
+    "how": "no literal, constant, parameter or prior write"
+   },
+   "expr": "'\\n'.join(['import json, os', 'def c():', \"    m = __import__('importlib').import_module('e298_census')\", \"    return m.load('replaycensus_latest.json')\"]) + '\\n'",
+   "file": "scripts/e415_cwd_accident.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 510,
+   "site": "scripts/e415_cwd_accident.py:510"
   },
   {
    "carried_by": "ptr",
