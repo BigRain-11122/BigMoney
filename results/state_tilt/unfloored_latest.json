@@ -1,10 +1,10 @@
 {
  "evidence_cutoff": "2026-11-03",
- "generated": "2026-11-04T09:57:03+08:00",
+ "generated": "2026-11-04T10:59:23+08:00",
  "ledger": [
   {
-   "age_days_since_commit": 0.522,
-   "age_days_since_mtime": 0.53,
+   "age_days_since_commit": 0.565,
+   "age_days_since_mtime": 0.574,
    "carries_its_own_date": true,
    "cheaper_fix": "no reader-side gate is available for this face (smoke_test.py:593-597 -- a hard day gate was already litigated and removed (E185: an assertion that assumes a deployment layout)); the fix is a chain leg or a bounded-lag allowance",
    "claimed_dates": {
@@ -35,16 +35,16 @@
      "behaviour_under_staleness": "prints STALE and passes -- the reader knows and does not act",
      "evidence": {
       "block": [
-       584,
-       616
+       603,
+       635
       ],
       "date_comparison_lines": [
        {
-        "line": 598,
+        "line": 617,
         "text": "_dash_day_ok = bool(_dash_day) and (_dash_day == _fv_day or _dash_day < _fv_day)"
        },
        {
-        "line": 613,
+        "line": 632,
         "text": "f\"{' STALE(another host writes the dashboard)' if _dash_day and _dash_day < _fv_day else ''}\""
        }
       ],
@@ -53,16 +53,17 @@
       "probe_lines": [],
       "stale_word_lines": [
        {
-        "line": 597,
+        "line": 616,
         "text": "# is required either way, and staleness is printed rather than failed."
        },
        {
-        "line": 613,
+        "line": 632,
         "text": "f\"{' STALE(another host writes the dashboard)' if _dash_day and _dash_day < _fv_day else ''}\""
        }
       ]
      },
-     "site": "smoke_test.py:589",
+     "resolved_by": "anchor",
+     "site": "smoke_test.py:608",
      "tier": "prints_staleness_without_gating",
      "what": "dashboard/verify counter agreement"
     },
@@ -70,12 +71,12 @@
      "behaviour_under_staleness": "passes on a stale face as long as it is internally consistent",
      "evidence": {
       "block": [
-       618,
-       662
+       637,
+       681
       ],
       "date_comparison_lines": [
        {
-        "line": 645,
+        "line": 664,
         "text": "if _row.get(\"date\") == _d:"
        }
       ],
@@ -84,22 +85,23 @@
       "probe_lines": [],
       "stale_word_lines": []
      },
-     "site": "smoke_test.py:619",
+     "resolved_by": "anchor",
+     "site": "smoke_test.py:638",
      "tier": "compares_the_face_to_itself",
      "what": "evidence tier and per-trader detail shape"
     }
    ],
    "readers_that_price_the_age": 0,
-   "round_rows_total": 344,
-   "rounds_since_change": 9,
+   "round_rows_total": 346,
+   "rounds_since_change": 11,
    "stale_detail": null,
    "stale_vs_panel": false,
    "writer": "scripts/t35_open_fill_verify.py",
    "writer_surface": "session"
   },
   {
-   "age_days_since_commit": 2.763,
-   "age_days_since_mtime": 2.781,
+   "age_days_since_commit": 2.806,
+   "age_days_since_mtime": 2.824,
    "carries_its_own_date": true,
    "cheaper_fix": "reader prices the age it already reads (one comparison; the face is self-dated)",
    "claimed_dates": {
@@ -128,8 +130,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       9163,
-       9205
+       9182,
+       9224
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -137,7 +139,8 @@
       "probe_lines": [],
       "stale_word_lines": []
      },
-     "site": "smoke_test.py:9164",
+     "resolved_by": "anchor",
+     "site": "smoke_test.py:9183",
      "tier": "no_freshness_test",
      "what": "E306 producer-name leg"
     },
@@ -145,8 +148,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       9217,
-       9275
+       9236,
+       9294
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -154,7 +157,8 @@
       "probe_lines": [],
       "stale_word_lines": []
      },
-     "site": "smoke_test.py:9257",
+     "resolved_by": "anchor",
+     "site": "smoke_test.py:9276",
      "tier": "no_freshness_test",
      "what": "E307 refused-population leg"
     },
@@ -162,8 +166,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       9286,
-       9347
+       9305,
+       9366
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -171,14 +175,15 @@
       "probe_lines": [],
       "stale_word_lines": []
      },
-     "site": "smoke_test.py:9329",
+     "resolved_by": "anchor",
+     "site": "smoke_test.py:9348",
      "tier": "no_freshness_test",
      "what": "E309 rejected-name leg"
     }
    ],
    "readers_that_price_the_age": 0,
-   "round_rows_total": 344,
-   "rounds_since_change": 35,
+   "round_rows_total": 346,
+   "rounds_since_change": 37,
    "stale_detail": {
     "face": "2026-10-31",
     "field": "evidence_cutoff",
@@ -206,7 +211,7 @@
   "panel_cutoff": "2026-11-03",
   "reader_sites": 5,
   "reader_sites_that_price_the_age": 0,
-  "round_rows_parsed": 344,
+  "round_rows_parsed": 346,
   "stale_and_no_reader_prices_it": 1,
   "stale_vs_panel": 1,
   "suite_practice": {
@@ -217,10 +222,10 @@
     "check(\"product: the star lag band is re-derived from its own shuffled "
    ],
    "legs_excluded_as_this_study_reading_itself": 2,
-   "legs_opening_a_face_by_the_narrow_rule": 42,
-   "legs_opening_a_face_or_page": 191,
+   "legs_opening_a_face_by_the_narrow_rule": 43,
+   "legs_opening_a_face_or_page": 193,
    "legs_pricing_the_age": 6,
-   "share": 0.0314
+   "share": 0.0311
   }
  },
  "title": "two faces read by suite legs have no standing refresh",

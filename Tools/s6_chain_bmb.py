@@ -1416,6 +1416,14 @@ LEGS = [
     # they are, while the suite prices the age of 6 of 192 faces it opens.  Verify re-derives
     # the ledger and refuses a reader site it can no longer find.
     ("unfloored_faces", ["python", "scripts/e409_unfloored_faces.py", "verify"]),
+    # E410: E409 found nobody prices those two faces' age; this is the implementation, not
+    # another census.  Two different forms because the faces answer different questions: the
+    # open-fill face gets one bar of allowance (the shape the suite already uses for the ETF
+    # book page -- a hard day gate is excluded by E185 at :593-597), the source census gets a
+    # week.  Both bounds come off the exchange calendar, so a weekend cannot red the suite.
+    # The leg runs the prover, which requires each bound red on a doctored copy and green on
+    # the live tree -- a gate only ever seen green is not yet a gate.
+    ("freshness_bound", ["python", "scripts/run_e410_freshness_legs.py"]),
 ]
 
 

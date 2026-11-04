@@ -13,7 +13,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 2,
    "stamp": {
-    "age_days": 4.1,
+    "age_days": 4.16,
     "kind": "generated",
     "value": "2026-10-31T07:04:32"
    },
@@ -108,7 +108,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 4.08,
+    "age_days": 4.15,
     "kind": "generated",
     "value": "2026-10-31T07:24:25"
    },
@@ -168,7 +168,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 4.23,
+    "age_days": 4.29,
     "kind": "generated",
     "value": "2026-10-31T03:57:28"
    },
@@ -226,7 +226,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 4.29,
+    "age_days": 4.35,
     "kind": "generated",
     "value": "2026-10-31T02:30:19"
    },
@@ -285,7 +285,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 4.42,
+    "age_days": 4.49,
     "kind": "generated",
     "value": "2026-10-30T23:15:36"
    },
@@ -345,9 +345,9 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 2,
    "stamp": {
-    "age_days": 0.4,
+    "age_days": 0.04,
     "kind": "generated",
-    "value": "2026-11-03T23:48:59"
+    "value": "2026-11-04T09:57:59"
    },
    "writers": [
     {
@@ -449,10 +449,12 @@
    "writers": [
     {
      "adhoc_refs_sample": [
+      "smoke_test.py",
+      "scripts/run_e410_freshness_legs.py",
       "scripts/_r1383_postscript.py",
       "scripts/_r1383_report.py"
      ],
-     "adhoc_refs_total": 2,
+     "adhoc_refs_total": 4,
      "on_chain": [],
      "on_suite_literal": false,
      "path": "scripts/e321_quantity_name_reach.py",
@@ -637,9 +639,9 @@
    "real_writers_on_chain": 2,
    "seed_writer_count": 2,
    "stamp": {
-    "age_days": 0.4,
+    "age_days": 0.04,
     "kind": "generated",
-    "value": "2026-11-03T23:49:05"
+    "value": "2026-11-04T09:58:03"
    },
    "writers": [
     {
@@ -730,7 +732,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 4.82,
+    "age_days": 4.88,
     "kind": "generated",
     "value": "2026-10-30T13:48:56"
    },
@@ -843,7 +845,7 @@
    "real_writers_on_chain": 0,
    "seed_writer_count": 10,
    "stamp": {
-    "age_days": 0.51,
+    "age_days": 0.57,
     "kind": "ts",
     "value": "2026-11-03 21:13:23"
    },
@@ -1092,7 +1094,7 @@
       "_r1142bmb_s6chain.py",
       "_tmp_e103_s6.py"
      ],
-     "adhoc_refs_total": 572,
+     "adhoc_refs_total": 574,
      "on_chain": [],
      "on_suite_literal": false,
      "path": "scripts/t35_open_fill_verify.py",
@@ -1127,12 +1129,12 @@
    ]
   }
  ],
- "generated": "2026-11-04T09:22:35+08:00",
+ "generated": "2026-11-04T10:59:27+08:00",
  "method": "per-leg read attribution is taken from E407's census; the writer list is E407's, then re-tested here -- a module counts as a writer only when a write call reaches a path naming the face, directly or through a name assigned from a face-naming expression, so a mention is not a write; an executor counts only when the surface lists the module basename inside a literal argv or dispatch tuple",
  "study": "E408_writer_refresh_signal",
  "subject_face": "results\\state_tilt\\LEGINPUT-2026-11-04.json",
  "summary": {
-  "chain_legs": 183,
+  "chain_legs": 185,
   "faces": 13,
   "faces_read_by_a_leg": 13,
   "faces_refreshed_on_the_reading_surface": 0,
@@ -1156,7 +1158,7 @@
  },
  "supply_floor": null,
  "surfaces": {
-  "chain_legs_total": 183,
+  "chain_legs_total": 185,
   "suite_bounds": [
    "helper _selftest_run(script, args, timeout) takes the script as a variable; every call site in this suite passes a literal and the literal args are always --selftest, so no call publishes a face -- verified by counting the call sites that carry a non-selftest arg (0)",
    "helper _selftest_run(script, args, timeout) takes the script as a variable; 54 dispatch tuples in this suite name a literal script, and the flag list of 28 of them carries --selftest"

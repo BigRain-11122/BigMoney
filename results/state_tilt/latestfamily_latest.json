@@ -1201,6 +1201,41 @@
    "tier": "live_tooling"
   },
   {
+   "carried_by": "published",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "published",
+    "constant": "OUT_DIR",
+    "expr": "os.path.join(OUT_DIR, 'unfloored_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "a module constant names the directory"
+   },
+   "expr": "os.path.join(OUT_DIR, 'unfloored_latest.json')",
+   "file": "scripts/e409_unfloored_faces.py",
+   "function": "verify",
+   "kind": "read",
+   "line": 492,
+   "site": "scripts/e409_unfloored_faces.py:492",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "face_rel",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "face_rel",
+    "expr": "'results/state_tilt/fixture_latest.json'",
+    "how": "carried from this function's own write",
+    "written_expr": "'results/state_tilt/fixture_latest.json'"
+   },
+   "expr": "'results/state_tilt/fixture_latest.json'",
+   "file": "scripts/e409_unfloored_faces.py",
+   "function": "selftest",
+   "kind": "read",
+   "line": 601,
+   "site": "scripts/e409_unfloored_faces.py:601",
+   "tier": "live_tooling"
+  },
+  {
    "carried_by": "p",
    "class": "family_required_by_the_signature",
    "evidence": {
@@ -1392,6 +1427,22 @@
    "carried_by": null,
    "class": "family_stated_at_the_site",
    "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 15246,
+   "site": "smoke_test.py:15246",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
     "expr": "'results/etf_book_order/latest.json'",
     "family_dir": "results/etf_book_order",
     "how": "the literals at the site build the directory"
@@ -1400,8 +1451,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 680,
-   "site": "smoke_test.py:680",
+   "line": 699,
+   "site": "smoke_test.py:699",
    "tier": "smoke_harness"
   },
   {
@@ -1416,8 +1467,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 681,
-   "site": "smoke_test.py:681",
+   "line": 700,
+   "site": "smoke_test.py:700",
    "tier": "smoke_harness"
   },
   {
@@ -1433,8 +1484,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 682,
-   "site": "smoke_test.py:682",
+   "line": 701,
+   "site": "smoke_test.py:701",
    "tier": "smoke_harness"
   },
   {
@@ -1449,8 +1500,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 1587,
-   "site": "smoke_test.py:1587",
+   "line": 1606,
+   "site": "smoke_test.py:1606",
    "tier": "smoke_harness"
   },
   {
@@ -1465,8 +1516,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 1588,
-   "site": "smoke_test.py:1588",
+   "line": 1607,
+   "site": "smoke_test.py:1607",
    "tier": "smoke_harness"
   },
   {
@@ -1482,8 +1533,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 1589,
-   "site": "smoke_test.py:1589",
+   "line": 1608,
+   "site": "smoke_test.py:1608",
    "tier": "smoke_harness"
   },
   {
@@ -1527,10 +1578,10 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 7952,
+   "line": 7971,
    "n_candidate_families": 28,
    "n_distinct_signatures_among_candidates": 27,
-   "site": "smoke_test.py:7952",
+   "site": "smoke_test.py:7971",
    "tier": "smoke_harness"
   },
   {
@@ -1546,8 +1597,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3466,
-   "site": "smoke_test.py:3466",
+   "line": 3485,
+   "site": "smoke_test.py:3485",
    "tier": "smoke_harness"
   },
   {
@@ -1563,8 +1614,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3513,
-   "site": "smoke_test.py:3513",
+   "line": 3532,
+   "site": "smoke_test.py:3532",
    "tier": "smoke_harness"
   },
   {
@@ -1580,8 +1631,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 8321,
-   "site": "smoke_test.py:8321",
+   "line": 8340,
+   "site": "smoke_test.py:8340",
    "tier": "smoke_harness"
   },
   {
@@ -1597,8 +1648,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 8397,
-   "site": "smoke_test.py:8397",
+   "line": 8416,
+   "site": "smoke_test.py:8416",
    "tier": "smoke_harness"
   },
   {
@@ -1614,8 +1665,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 8462,
-   "site": "smoke_test.py:8462",
+   "line": 8481,
+   "site": "smoke_test.py:8481",
    "tier": "smoke_harness"
   },
   {
@@ -1631,8 +1682,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9167,
-   "site": "smoke_test.py:9167",
+   "line": 9186,
+   "site": "smoke_test.py:9186",
    "tier": "smoke_harness"
   },
   {
@@ -1648,8 +1699,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9219,
-   "site": "smoke_test.py:9219",
+   "line": 9238,
+   "site": "smoke_test.py:9238",
    "tier": "smoke_harness"
   },
   {
@@ -1665,8 +1716,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9288,
-   "site": "smoke_test.py:9288",
+   "line": 9307,
+   "site": "smoke_test.py:9307",
    "tier": "smoke_harness"
   },
   {
@@ -1682,8 +1733,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9360,
-   "site": "smoke_test.py:9360",
+   "line": 9379,
+   "site": "smoke_test.py:9379",
    "tier": "smoke_harness"
   },
   {
@@ -1699,8 +1750,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9427,
-   "site": "smoke_test.py:9427",
+   "line": 9446,
+   "site": "smoke_test.py:9446",
    "tier": "smoke_harness"
   },
   {
@@ -1715,8 +1766,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9458,
-   "site": "smoke_test.py:9458",
+   "line": 9477,
+   "site": "smoke_test.py:9477",
    "tier": "smoke_harness"
   },
   {
@@ -1732,8 +1783,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9497,
-   "site": "smoke_test.py:9497",
+   "line": 9516,
+   "site": "smoke_test.py:9516",
    "tier": "smoke_harness"
   },
   {
@@ -1749,8 +1800,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9558,
-   "site": "smoke_test.py:9558",
+   "line": 9577,
+   "site": "smoke_test.py:9577",
    "tier": "smoke_harness"
   },
   {
@@ -1766,8 +1817,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9628,
-   "site": "smoke_test.py:9628",
+   "line": 9647,
+   "site": "smoke_test.py:9647",
    "tier": "smoke_harness"
   },
   {
@@ -1783,8 +1834,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9694,
-   "site": "smoke_test.py:9694",
+   "line": 9713,
+   "site": "smoke_test.py:9713",
    "tier": "smoke_harness"
   },
   {
@@ -1800,8 +1851,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9776,
-   "site": "smoke_test.py:9776",
+   "line": 9795,
+   "site": "smoke_test.py:9795",
    "tier": "smoke_harness"
   },
   {
@@ -1817,8 +1868,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9854,
-   "site": "smoke_test.py:9854",
+   "line": 9873,
+   "site": "smoke_test.py:9873",
    "tier": "smoke_harness"
   },
   {
@@ -1834,8 +1885,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9940,
-   "site": "smoke_test.py:9940",
+   "line": 9959,
+   "site": "smoke_test.py:9959",
    "tier": "smoke_harness"
   },
   {
@@ -1851,8 +1902,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 10047,
-   "site": "smoke_test.py:10047",
+   "line": 10066,
+   "site": "smoke_test.py:10066",
    "tier": "smoke_harness"
   },
   {
@@ -1868,8 +1919,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 10162,
-   "site": "smoke_test.py:10162",
+   "line": 10181,
+   "site": "smoke_test.py:10181",
    "tier": "smoke_harness"
   },
   {
@@ -1885,8 +1936,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 10289,
-   "site": "smoke_test.py:10289",
+   "line": 10308,
+   "site": "smoke_test.py:10308",
    "tier": "smoke_harness"
   },
   {
@@ -1902,8 +1953,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 10489,
-   "site": "smoke_test.py:10489",
+   "line": 10508,
+   "site": "smoke_test.py:10508",
    "tier": "smoke_harness"
   },
   {
@@ -1919,8 +1970,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 10581,
-   "site": "smoke_test.py:10581",
+   "line": 10600,
+   "site": "smoke_test.py:10600",
    "tier": "smoke_harness"
   },
   {
@@ -1936,8 +1987,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 10676,
-   "site": "smoke_test.py:10676",
+   "line": 10695,
+   "site": "smoke_test.py:10695",
    "tier": "smoke_harness"
   },
   {
@@ -1953,8 +2004,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 10776,
-   "site": "smoke_test.py:10776",
+   "line": 10795,
+   "site": "smoke_test.py:10795",
    "tier": "smoke_harness"
   },
   {
@@ -1970,8 +2021,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 10868,
-   "site": "smoke_test.py:10868",
+   "line": 10887,
+   "site": "smoke_test.py:10887",
    "tier": "smoke_harness"
   },
   {
@@ -1987,8 +2038,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 10945,
-   "site": "smoke_test.py:10945",
+   "line": 10964,
+   "site": "smoke_test.py:10964",
    "tier": "smoke_harness"
   },
   {
@@ -2004,8 +2055,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 11037,
-   "site": "smoke_test.py:11037",
+   "line": 11056,
+   "site": "smoke_test.py:11056",
    "tier": "smoke_harness"
   },
   {
@@ -2021,8 +2072,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 11122,
-   "site": "smoke_test.py:11122",
+   "line": 11141,
+   "site": "smoke_test.py:11141",
    "tier": "smoke_harness"
   },
   {
@@ -2038,8 +2089,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 11187,
-   "site": "smoke_test.py:11187",
+   "line": 11206,
+   "site": "smoke_test.py:11206",
    "tier": "smoke_harness"
   },
   {
@@ -2055,8 +2106,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 11248,
-   "site": "smoke_test.py:11248",
+   "line": 11267,
+   "site": "smoke_test.py:11267",
    "tier": "smoke_harness"
   },
   {
@@ -2072,8 +2123,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 11315,
-   "site": "smoke_test.py:11315",
+   "line": 11334,
+   "site": "smoke_test.py:11334",
    "tier": "smoke_harness"
   },
   {
@@ -2089,8 +2140,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 11372,
-   "site": "smoke_test.py:11372",
+   "line": 11391,
+   "site": "smoke_test.py:11391",
    "tier": "smoke_harness"
   },
   {
@@ -2106,8 +2157,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 11444,
-   "site": "smoke_test.py:11444",
+   "line": 11463,
+   "site": "smoke_test.py:11463",
    "tier": "smoke_harness"
   },
   {
@@ -2123,8 +2174,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 11516,
-   "site": "smoke_test.py:11516",
+   "line": 11535,
+   "site": "smoke_test.py:11535",
    "tier": "smoke_harness"
   },
   {
@@ -2140,8 +2191,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 11579,
-   "site": "smoke_test.py:11579",
+   "line": 11598,
+   "site": "smoke_test.py:11598",
    "tier": "smoke_harness"
   },
   {
@@ -2157,8 +2208,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 11645,
-   "site": "smoke_test.py:11645",
+   "line": 11664,
+   "site": "smoke_test.py:11664",
    "tier": "smoke_harness"
   },
   {
@@ -2174,8 +2225,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 11721,
-   "site": "smoke_test.py:11721",
+   "line": 11740,
+   "site": "smoke_test.py:11740",
    "tier": "smoke_harness"
   },
   {
@@ -2191,8 +2242,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 11801,
-   "site": "smoke_test.py:11801",
+   "line": 11820,
+   "site": "smoke_test.py:11820",
    "tier": "smoke_harness"
   },
   {
@@ -2208,8 +2259,8 @@
    "file": "smoke_test.py",
    "function": "_r39",
    "kind": "read",
-   "line": 11933,
-   "site": "smoke_test.py:11933",
+   "line": 11952,
+   "site": "smoke_test.py:11952",
    "tier": "smoke_harness"
   },
   {
@@ -2225,8 +2276,8 @@
    "file": "smoke_test.py",
    "function": "_r39",
    "kind": "read",
-   "line": 11995,
-   "site": "smoke_test.py:11995",
+   "line": 12014,
+   "site": "smoke_test.py:12014",
    "tier": "smoke_harness"
   },
   {
@@ -2242,8 +2293,8 @@
    "file": "smoke_test.py",
    "function": "_r39",
    "kind": "read",
-   "line": 12170,
-   "site": "smoke_test.py:12170",
+   "line": 12189,
+   "site": "smoke_test.py:12189",
    "tier": "smoke_harness"
   },
   {
@@ -2259,8 +2310,8 @@
    "file": "smoke_test.py",
    "function": "_r39",
    "kind": "read",
-   "line": 12230,
-   "site": "smoke_test.py:12230",
+   "line": 12249,
+   "site": "smoke_test.py:12249",
    "tier": "smoke_harness"
   },
   {
@@ -2276,8 +2327,8 @@
    "file": "smoke_test.py",
    "function": "_r39",
    "kind": "read",
-   "line": 12317,
-   "site": "smoke_test.py:12317",
+   "line": 12336,
+   "site": "smoke_test.py:12336",
    "tier": "smoke_harness"
   },
   {
@@ -2293,8 +2344,8 @@
    "file": "smoke_test.py",
    "function": "_r39",
    "kind": "read",
-   "line": 12429,
-   "site": "smoke_test.py:12429",
+   "line": 12448,
+   "site": "smoke_test.py:12448",
    "tier": "smoke_harness"
   },
   {
@@ -2310,8 +2361,8 @@
    "file": "smoke_test.py",
    "function": "_r39",
    "kind": "read",
-   "line": 12507,
-   "site": "smoke_test.py:12507",
+   "line": 12526,
+   "site": "smoke_test.py:12526",
    "tier": "smoke_harness"
   },
   {
@@ -2327,8 +2378,8 @@
    "file": "smoke_test.py",
    "function": "_r39",
    "kind": "read",
-   "line": 12593,
-   "site": "smoke_test.py:12593",
+   "line": 12612,
+   "site": "smoke_test.py:12612",
    "tier": "smoke_harness"
   },
   {
@@ -2344,8 +2395,8 @@
    "file": "smoke_test.py",
    "function": "_r39",
    "kind": "read",
-   "line": 12649,
-   "site": "smoke_test.py:12649",
+   "line": 12668,
+   "site": "smoke_test.py:12668",
    "tier": "smoke_harness"
   },
   {
@@ -2361,8 +2412,8 @@
    "file": "smoke_test.py",
    "function": "_r39",
    "kind": "read",
-   "line": 12701,
-   "site": "smoke_test.py:12701",
+   "line": 12720,
+   "site": "smoke_test.py:12720",
    "tier": "smoke_harness"
   },
   {
@@ -2378,8 +2429,8 @@
    "file": "smoke_test.py",
    "function": "_r39",
    "kind": "read",
-   "line": 12814,
-   "site": "smoke_test.py:12814",
+   "line": 12833,
+   "site": "smoke_test.py:12833",
    "tier": "smoke_harness"
   },
   {
@@ -2395,8 +2446,8 @@
    "file": "smoke_test.py",
    "function": "_r39",
    "kind": "read",
-   "line": 12872,
-   "site": "smoke_test.py:12872",
+   "line": 12891,
+   "site": "smoke_test.py:12891",
    "tier": "smoke_harness"
   },
   {
@@ -2412,8 +2463,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2146,
-   "site": "smoke_test.py:2146",
+   "line": 2165,
+   "site": "smoke_test.py:2165",
    "tier": "smoke_harness"
   },
   {
@@ -2429,8 +2480,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2320,
-   "site": "smoke_test.py:2320",
+   "line": 2339,
+   "site": "smoke_test.py:2339",
    "tier": "smoke_harness"
   },
   {
@@ -2446,8 +2497,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2384,
-   "site": "smoke_test.py:2384",
+   "line": 2403,
+   "site": "smoke_test.py:2403",
    "tier": "smoke_harness"
   },
   {
@@ -2463,8 +2514,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2455,
-   "site": "smoke_test.py:2455",
+   "line": 2474,
+   "site": "smoke_test.py:2474",
    "tier": "smoke_harness"
   },
   {
@@ -2480,8 +2531,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2526,
-   "site": "smoke_test.py:2526",
+   "line": 2545,
+   "site": "smoke_test.py:2545",
    "tier": "smoke_harness"
   },
   {
@@ -2497,8 +2548,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2603,
-   "site": "smoke_test.py:2603",
+   "line": 2622,
+   "site": "smoke_test.py:2622",
    "tier": "smoke_harness"
   },
   {
@@ -2514,8 +2565,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2689,
-   "site": "smoke_test.py:2689",
+   "line": 2708,
+   "site": "smoke_test.py:2708",
    "tier": "smoke_harness"
   },
   {
@@ -2531,8 +2582,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2794,
-   "site": "smoke_test.py:2794",
+   "line": 2813,
+   "site": "smoke_test.py:2813",
    "tier": "smoke_harness"
   },
   {
@@ -2548,8 +2599,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2837,
-   "site": "smoke_test.py:2837",
+   "line": 2856,
+   "site": "smoke_test.py:2856",
    "tier": "smoke_harness"
   },
   {
@@ -2565,8 +2616,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2907,
-   "site": "smoke_test.py:2907",
+   "line": 2926,
+   "site": "smoke_test.py:2926",
    "tier": "smoke_harness"
   },
   {
@@ -2582,8 +2633,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2970,
-   "site": "smoke_test.py:2970",
+   "line": 2989,
+   "site": "smoke_test.py:2989",
    "tier": "smoke_harness"
   },
   {
@@ -2599,8 +2650,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3032,
-   "site": "smoke_test.py:3032",
+   "line": 3051,
+   "site": "smoke_test.py:3051",
    "tier": "smoke_harness"
   },
   {
@@ -2616,8 +2667,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3081,
-   "site": "smoke_test.py:3081",
+   "line": 3100,
+   "site": "smoke_test.py:3100",
    "tier": "smoke_harness"
   },
   {
@@ -2633,8 +2684,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3137,
-   "site": "smoke_test.py:3137",
+   "line": 3156,
+   "site": "smoke_test.py:3156",
    "tier": "smoke_harness"
   },
   {
@@ -2650,8 +2701,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3194,
-   "site": "smoke_test.py:3194",
+   "line": 3213,
+   "site": "smoke_test.py:3213",
    "tier": "smoke_harness"
   },
   {
@@ -2667,8 +2718,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3265,
-   "site": "smoke_test.py:3265",
+   "line": 3284,
+   "site": "smoke_test.py:3284",
    "tier": "smoke_harness"
   },
   {
@@ -2684,8 +2735,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3327,
-   "site": "smoke_test.py:3327",
+   "line": 3346,
+   "site": "smoke_test.py:3346",
    "tier": "smoke_harness"
   },
   {
@@ -2701,8 +2752,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3399,
-   "site": "smoke_test.py:3399",
+   "line": 3418,
+   "site": "smoke_test.py:3418",
    "tier": "smoke_harness"
   },
   {
@@ -2718,8 +2769,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3557,
-   "site": "smoke_test.py:3557",
+   "line": 3576,
+   "site": "smoke_test.py:3576",
    "tier": "smoke_harness"
   },
   {
@@ -2735,8 +2786,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3610,
-   "site": "smoke_test.py:3610",
+   "line": 3629,
+   "site": "smoke_test.py:3629",
    "tier": "smoke_harness"
   },
   {
@@ -2752,8 +2803,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3698,
-   "site": "smoke_test.py:3698",
+   "line": 3717,
+   "site": "smoke_test.py:3717",
    "tier": "smoke_harness"
   },
   {
@@ -2769,8 +2820,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3766,
-   "site": "smoke_test.py:3766",
+   "line": 3785,
+   "site": "smoke_test.py:3785",
    "tier": "smoke_harness"
   },
   {
@@ -2786,8 +2837,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3864,
-   "site": "smoke_test.py:3864",
+   "line": 3883,
+   "site": "smoke_test.py:3883",
    "tier": "smoke_harness"
   },
   {
@@ -2803,8 +2854,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3930,
-   "site": "smoke_test.py:3930",
+   "line": 3949,
+   "site": "smoke_test.py:3949",
    "tier": "smoke_harness"
   },
   {
@@ -2820,8 +2871,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4019,
-   "site": "smoke_test.py:4019",
+   "line": 4038,
+   "site": "smoke_test.py:4038",
    "tier": "smoke_harness"
   },
   {
@@ -2837,8 +2888,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4121,
-   "site": "smoke_test.py:4121",
+   "line": 4140,
+   "site": "smoke_test.py:4140",
    "tier": "smoke_harness"
   },
   {
@@ -2854,8 +2905,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4164,
-   "site": "smoke_test.py:4164",
+   "line": 4183,
+   "site": "smoke_test.py:4183",
    "tier": "smoke_harness"
   },
   {
@@ -2871,8 +2922,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4257,
-   "site": "smoke_test.py:4257",
+   "line": 4276,
+   "site": "smoke_test.py:4276",
    "tier": "smoke_harness"
   },
   {
@@ -2888,8 +2939,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4373,
-   "site": "smoke_test.py:4373",
+   "line": 4392,
+   "site": "smoke_test.py:4392",
    "tier": "smoke_harness"
   },
   {
@@ -2905,8 +2956,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4471,
-   "site": "smoke_test.py:4471",
+   "line": 4490,
+   "site": "smoke_test.py:4490",
    "tier": "smoke_harness"
   },
   {
@@ -2922,8 +2973,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4473,
-   "site": "smoke_test.py:4473",
+   "line": 4492,
+   "site": "smoke_test.py:4492",
    "tier": "smoke_harness"
   },
   {
@@ -2939,8 +2990,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4569,
-   "site": "smoke_test.py:4569",
+   "line": 4588,
+   "site": "smoke_test.py:4588",
    "tier": "smoke_harness"
   },
   {
@@ -2956,8 +3007,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4658,
-   "site": "smoke_test.py:4658",
+   "line": 4677,
+   "site": "smoke_test.py:4677",
    "tier": "smoke_harness"
   },
   {
@@ -2973,8 +3024,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4747,
-   "site": "smoke_test.py:4747",
+   "line": 4766,
+   "site": "smoke_test.py:4766",
    "tier": "smoke_harness"
   },
   {
@@ -2990,8 +3041,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4838,
-   "site": "smoke_test.py:4838",
+   "line": 4857,
+   "site": "smoke_test.py:4857",
    "tier": "smoke_harness"
   },
   {
@@ -3007,8 +3058,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4941,
-   "site": "smoke_test.py:4941",
+   "line": 4960,
+   "site": "smoke_test.py:4960",
    "tier": "smoke_harness"
   },
   {
@@ -3024,8 +3075,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 5051,
-   "site": "smoke_test.py:5051",
+   "line": 5070,
+   "site": "smoke_test.py:5070",
    "tier": "smoke_harness"
   },
   {
@@ -3041,8 +3092,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 5187,
-   "site": "smoke_test.py:5187",
+   "line": 5206,
+   "site": "smoke_test.py:5206",
    "tier": "smoke_harness"
   },
   {
@@ -3058,8 +3109,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 5286,
-   "site": "smoke_test.py:5286",
+   "line": 5305,
+   "site": "smoke_test.py:5305",
    "tier": "smoke_harness"
   },
   {
@@ -3075,8 +3126,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 5369,
-   "site": "smoke_test.py:5369",
+   "line": 5388,
+   "site": "smoke_test.py:5388",
    "tier": "smoke_harness"
   },
   {
@@ -3092,8 +3143,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 5482,
-   "site": "smoke_test.py:5482",
+   "line": 5501,
+   "site": "smoke_test.py:5501",
    "tier": "smoke_harness"
   },
   {
@@ -3109,8 +3160,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 5596,
-   "site": "smoke_test.py:5596",
+   "line": 5615,
+   "site": "smoke_test.py:5615",
    "tier": "smoke_harness"
   },
   {
@@ -3126,8 +3177,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 5746,
-   "site": "smoke_test.py:5746",
+   "line": 5765,
+   "site": "smoke_test.py:5765",
    "tier": "smoke_harness"
   },
   {
@@ -3143,8 +3194,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 5836,
-   "site": "smoke_test.py:5836",
+   "line": 5855,
+   "site": "smoke_test.py:5855",
    "tier": "smoke_harness"
   },
   {
@@ -3160,8 +3211,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 5959,
-   "site": "smoke_test.py:5959",
+   "line": 5978,
+   "site": "smoke_test.py:5978",
    "tier": "smoke_harness"
   },
   {
@@ -3177,8 +3228,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 6069,
-   "site": "smoke_test.py:6069",
+   "line": 6088,
+   "site": "smoke_test.py:6088",
    "tier": "smoke_harness"
   },
   {
@@ -3194,8 +3245,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 6146,
-   "site": "smoke_test.py:6146",
+   "line": 6165,
+   "site": "smoke_test.py:6165",
    "tier": "smoke_harness"
   },
   {
@@ -3211,8 +3262,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 6246,
-   "site": "smoke_test.py:6246",
+   "line": 6265,
+   "site": "smoke_test.py:6265",
    "tier": "smoke_harness"
   },
   {
@@ -3228,8 +3279,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 6347,
-   "site": "smoke_test.py:6347",
+   "line": 6366,
+   "site": "smoke_test.py:6366",
    "tier": "smoke_harness"
   },
   {
@@ -3245,8 +3296,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 6439,
-   "site": "smoke_test.py:6439",
+   "line": 6458,
+   "site": "smoke_test.py:6458",
    "tier": "smoke_harness"
   },
   {
@@ -3262,8 +3313,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 6508,
-   "site": "smoke_test.py:6508",
+   "line": 6527,
+   "site": "smoke_test.py:6527",
    "tier": "smoke_harness"
   },
   {
@@ -3279,8 +3330,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 6582,
-   "site": "smoke_test.py:6582",
+   "line": 6601,
+   "site": "smoke_test.py:6601",
    "tier": "smoke_harness"
   },
   {
@@ -3296,8 +3347,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 6663,
-   "site": "smoke_test.py:6663",
+   "line": 6682,
+   "site": "smoke_test.py:6682",
    "tier": "smoke_harness"
   },
   {
@@ -3313,8 +3364,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 6734,
-   "site": "smoke_test.py:6734",
+   "line": 6753,
+   "site": "smoke_test.py:6753",
    "tier": "smoke_harness"
   },
   {
@@ -3330,8 +3381,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 6818,
-   "site": "smoke_test.py:6818",
+   "line": 6837,
+   "site": "smoke_test.py:6837",
    "tier": "smoke_harness"
   },
   {
@@ -3347,8 +3398,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 6912,
-   "site": "smoke_test.py:6912",
+   "line": 6931,
+   "site": "smoke_test.py:6931",
    "tier": "smoke_harness"
   },
   {
@@ -3364,8 +3415,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 6998,
-   "site": "smoke_test.py:6998",
+   "line": 7017,
+   "site": "smoke_test.py:7017",
    "tier": "smoke_harness"
   },
   {
@@ -3381,8 +3432,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 7099,
-   "site": "smoke_test.py:7099",
+   "line": 7118,
+   "site": "smoke_test.py:7118",
    "tier": "smoke_harness"
   },
   {
@@ -3398,8 +3449,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 7192,
-   "site": "smoke_test.py:7192",
+   "line": 7211,
+   "site": "smoke_test.py:7211",
    "tier": "smoke_harness"
   },
   {
@@ -3415,8 +3466,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 7301,
-   "site": "smoke_test.py:7301",
+   "line": 7320,
+   "site": "smoke_test.py:7320",
    "tier": "smoke_harness"
   },
   {
@@ -3432,8 +3483,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 7407,
-   "site": "smoke_test.py:7407",
+   "line": 7426,
+   "site": "smoke_test.py:7426",
    "tier": "smoke_harness"
   },
   {
@@ -3449,8 +3500,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 7528,
-   "site": "smoke_test.py:7528",
+   "line": 7547,
+   "site": "smoke_test.py:7547",
    "tier": "smoke_harness"
   },
   {
@@ -3466,8 +3517,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 7639,
-   "site": "smoke_test.py:7639",
+   "line": 7658,
+   "site": "smoke_test.py:7658",
    "tier": "smoke_harness"
   },
   {
@@ -3483,8 +3534,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 7729,
-   "site": "smoke_test.py:7729",
+   "line": 7748,
+   "site": "smoke_test.py:7748",
    "tier": "smoke_harness"
   },
   {
@@ -3500,8 +3551,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 7831,
-   "site": "smoke_test.py:7831",
+   "line": 7850,
+   "site": "smoke_test.py:7850",
    "tier": "smoke_harness"
   },
   {
@@ -3517,8 +3568,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 8094,
-   "site": "smoke_test.py:8094",
+   "line": 8113,
+   "site": "smoke_test.py:8113",
    "tier": "smoke_harness"
   },
   {
@@ -3534,8 +3585,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 8215,
-   "site": "smoke_test.py:8215",
+   "line": 8234,
+   "site": "smoke_test.py:8234",
    "tier": "smoke_harness"
   },
   {
@@ -3551,8 +3602,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 8567,
-   "site": "smoke_test.py:8567",
+   "line": 8586,
+   "site": "smoke_test.py:8586",
    "tier": "smoke_harness"
   },
   {
@@ -3568,8 +3619,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 8632,
-   "site": "smoke_test.py:8632",
+   "line": 8651,
+   "site": "smoke_test.py:8651",
    "tier": "smoke_harness"
   },
   {
@@ -3585,8 +3636,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 8697,
-   "site": "smoke_test.py:8697",
+   "line": 8716,
+   "site": "smoke_test.py:8716",
    "tier": "smoke_harness"
   },
   {
@@ -3602,8 +3653,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 8779,
-   "site": "smoke_test.py:8779",
+   "line": 8798,
+   "site": "smoke_test.py:8798",
    "tier": "smoke_harness"
   },
   {
@@ -3619,8 +3670,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 8843,
-   "site": "smoke_test.py:8843",
+   "line": 8862,
+   "site": "smoke_test.py:8862",
    "tier": "smoke_harness"
   },
   {
@@ -3636,8 +3687,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 8916,
-   "site": "smoke_test.py:8916",
+   "line": 8935,
+   "site": "smoke_test.py:8935",
    "tier": "smoke_harness"
   },
   {
@@ -3653,8 +3704,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 8993,
-   "site": "smoke_test.py:8993",
+   "line": 9012,
+   "site": "smoke_test.py:9012",
    "tier": "smoke_harness"
   },
   {
@@ -3670,8 +3721,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9259,
-   "site": "smoke_test.py:9259",
+   "line": 9278,
+   "site": "smoke_test.py:9278",
    "tier": "smoke_harness"
   },
   {
@@ -3687,8 +3738,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9331,
-   "site": "smoke_test.py:9331",
+   "line": 9350,
+   "site": "smoke_test.py:9350",
    "tier": "smoke_harness"
   },
   {
@@ -3704,8 +3755,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 9388,
-   "site": "smoke_test.py:9388",
+   "line": 9407,
+   "site": "smoke_test.py:9407",
    "tier": "smoke_harness"
   },
   {
@@ -3721,8 +3772,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2192,
-   "site": "smoke_test.py:2192",
+   "line": 2211,
+   "site": "smoke_test.py:2211",
    "tier": "smoke_harness"
   },
   {
@@ -3738,8 +3789,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2244,
-   "site": "smoke_test.py:2244",
+   "line": 2263,
+   "site": "smoke_test.py:2263",
    "tier": "smoke_harness"
   },
   {
@@ -3754,8 +3805,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 2750,
-   "site": "smoke_test.py:2750",
+   "line": 2769,
+   "site": "smoke_test.py:2769",
    "tier": "smoke_harness"
   },
   {
@@ -3771,8 +3822,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 5651,
-   "site": "smoke_test.py:5651",
+   "line": 5670,
+   "site": "smoke_test.py:5670",
    "tier": "smoke_harness"
   },
   {
@@ -3788,8 +3839,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 3977,
-   "site": "smoke_test.py:3977",
+   "line": 3996,
+   "site": "smoke_test.py:3996",
    "tier": "smoke_harness"
   },
   {
@@ -3806,8 +3857,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 4077,
-   "site": "smoke_test.py:4077",
+   "line": 4096,
+   "site": "smoke_test.py:4096",
    "tier": "smoke_harness"
   },
   {
@@ -3823,8 +3874,8 @@
    "file": "smoke_test.py",
    "function": "main",
    "kind": "read",
-   "line": 5408,
-   "site": "smoke_test.py:5408",
+   "line": 5427,
+   "site": "smoke_test.py:5427",
    "tier": "smoke_harness"
   }
  ],
@@ -3833,18 +3884,18 @@
  "study": "E398_latest_family",
  "summary": {
   "by_class": {
-   "family_from_the_value_the_site_itself_wrote": 7,
+   "family_from_the_value_the_site_itself_wrote": 8,
    "family_not_supplied_anywhere": 1,
    "family_required_by_the_signature": 17,
-   "family_stated_at_the_site": 162
+   "family_stated_at_the_site": 164
   },
   "by_tier": {
    "live_tooling": {
-    "family_from_the_value_the_site_itself_wrote": 3,
+    "family_from_the_value_the_site_itself_wrote": 4,
     "family_not_supplied_anywhere": 0,
     "family_required_by_the_signature": 17,
-    "family_stated_at_the_site": 16,
-    "total": 36
+    "family_stated_at_the_site": 17,
+    "total": 38
    },
    "scratch_or_estate": {
     "family_from_the_value_the_site_itself_wrote": 0,
@@ -3857,8 +3908,8 @@
     "family_from_the_value_the_site_itself_wrote": 4,
     "family_not_supplied_anywhere": 1,
     "family_required_by_the_signature": 0,
-    "family_stated_at_the_site": 137,
-    "total": 142
+    "family_stated_at_the_site": 138,
+    "total": 143
    }
   },
   "classes_sum_to_the_read_sites": true,
@@ -3895,6 +3946,7 @@
    "scripts/e356_census_red_triage.py",
    "scripts/e371_store_member_cost.py",
    "scripts/e377_unresolved_destination.py",
+   "scripts/e409_unfloored_faces.py",
    "scripts/etf_book_bakeoff.py",
    "scripts/etf_book_bridge.py",
    "scripts/etf_book_order.py",
@@ -3905,17 +3957,17 @@
    "smoke_test.py"
   ],
   "live_tooling_only": {
-   "named": 36,
-   "read_sites": 36,
+   "named": 38,
+   "read_sites": 38,
    "unsupplied": 0,
    "verdict": "every_latest_pointer_reader_names_its_family_at_the_site_or_in_its_signature_so_a_wrong_family_needs_a_wrong_caller_not_a_wrong_name"
   },
   "max_families_a_single_unsupplied_reader_could_land_on": 28,
-  "pointer_files_named_<family>_latest_json": 180,
+  "pointer_files_named_<family>_latest_json": 184,
   "pointer_files_named_latest_json": 28,
   "pointer_files_with_another_latest_shape": 11,
-  "read_sites_in_files": 39,
-  "read_sites_total": 187,
+  "read_sites_in_files": 40,
+  "read_sites_total": 190,
   "schema_cost_of_a_wrong_landing": {
    "distinct_top_level_signatures": 27,
    "families": 28,
@@ -4451,8 +4503,8 @@
    ]
   },
   "sites_handed_their_family_by_the_signature": 17,
-  "sites_that_name_their_family_at_the_site": 162,
-  "sites_that_read_the_pointer_they_just_wrote": 7,
+  "sites_that_name_their_family_at_the_site": 164,
+  "sites_that_read_the_pointer_they_just_wrote": 8,
   "sites_whose_family_is_not_supplied_anywhere": 1,
   "stone": null,
   "unsupplied_sites_could_land_on_this_many_families": [
@@ -4460,14 +4512,14 @@
   ],
   "verdict": "some_latest_pointer_readers_are_handed_their_family_and_some_take_whatever_the_base_holds_so_the_pointer_convention_is_safe_only_where_the_caller_is",
   "write_sites_by_class": {
-   "family_from_the_value_the_site_itself_wrote": 29,
+   "family_from_the_value_the_site_itself_wrote": 31,
    "family_not_supplied_anywhere": 2,
    "family_required_by_the_signature": 12,
    "family_stated_at_the_site": 16
   },
-  "write_sites_total": 59
+  "write_sites_total": 61
  },
- "ts": "2026-11-04T08:10:20+08:00",
+ "ts": "2026-11-04T10:53:22+08:00",
  "verdict": "some_latest_pointer_readers_are_handed_their_family_and_some_take_whatever_the_base_holds_so_the_pointer_convention_is_safe_only_where_the_caller_is",
  "write_sites": [
   {
@@ -5100,6 +5152,38 @@
    "kind": "write",
    "line": 702,
    "site": "scripts/e349_latest_mirror_census.py:702"
+  },
+  {
+   "carried_by": "latest",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "latest",
+    "expr": "os.path.join(OUT_DIR, 'unfloored_latest.json')",
+    "how": "carried from this function's own write",
+    "written_expr": "os.path.join(OUT_DIR, 'unfloored_latest.json')"
+   },
+   "expr": "os.path.join(OUT_DIR, 'unfloored_latest.json')",
+   "file": "scripts/e409_unfloored_faces.py",
+   "function": "build",
+   "kind": "write",
+   "line": 479,
+   "site": "scripts/e409_unfloored_faces.py:479"
+  },
+  {
+   "carried_by": "face_rel",
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "evidence": {
+    "carried_by": "face_rel",
+    "expr": "'results/state_tilt/fixture_latest.json'",
+    "how": "carried from this function's own write",
+    "written_expr": "'results/state_tilt/fixture_latest.json'"
+   },
+   "expr": "'results/state_tilt/fixture_latest.json'",
+   "file": "scripts/e409_unfloored_faces.py",
+   "function": "selftest",
+   "kind": "write",
+   "line": 572,
+   "site": "scripts/e409_unfloored_faces.py:572"
   },
   {
    "carried_by": "ptr",

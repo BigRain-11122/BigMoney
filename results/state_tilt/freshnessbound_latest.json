@@ -1,0 +1,123 @@
+{
+ "evidence_cutoff": "2026-11-03",
+ "generated": "2026-11-04T10:43:56+08:00",
+ "study": "E410_bounded_lag_readers_for_two_session_written_faces",
+ "seed": "E409: 5 reader sites over 2 faces, 0 price the age; suite-wide 6 of 192 legs do",
+ "held_fixed": [
+  "scripts/t35_open_fill_verify.py",
+  "results/t35_open_fill_verify.json",
+  "results/state_tilt/quantityname_latest.json",
+  "scripts/e321_quantity_name_reach.py"
+ ],
+ "why_two_forms": "the open-fill face verifies one session's opens, so one missed bar is already stale; the census counts a corpus of sources, not a bar, so a week is the bound at which its numbers describe a different tree",
+ "bounds": [
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "leg": "product: the open-fill verification face is at most one bar behind the panel",
+   "bound_bars": 1,
+   "shape": "bounded allowance, the same shape smoke_test.py already uses for the ETF book page; a hard day gate is excluded by E185 at :593-597",
+   "red_when": "lag > 1 bar, or no day to price, or the face is ahead of the panel",
+   "closes_by": "rerun scripts/t35_open_fill_verify.py"
+  },
+  {
+   "face": "results/state_tilt/quantityname_latest.json",
+   "leg": "product: the quantity-name census prints its lag against the panel and reddens past a week of bars",
+   "bound_bars": 5,
+   "shape": "one comparison against the panel date; the lag is printed every run",
+   "red_when": "lag > 5 bars, or no evidence_cutoff, or the cutoff is ahead of the panel",
+   "closes_by": "rerun scripts/e321_quantity_name_reach.py"
+  }
+ ],
+ "calendar": "data/exchange_calendar.csv (bars, not wall-clock days: a weekend cannot red it)",
+ "cases": [
+  {
+   "case": "real",
+   "doctored": null,
+   "legs": [
+    {
+     "leg": "product: the open-fill verification face is at most one bar behind the panel",
+     "expected_red": false,
+     "observed_red": false,
+     "as_expected": true,
+     "detail": "face_day=2026-11-03 panel=2026-11-03 lag_td=0"
+    },
+    {
+     "leg": "product: the quantity-name census prints its lag against the panel and reddens past a week of bars",
+     "expected_red": false,
+     "observed_red": false,
+     "as_expected": true,
+     "detail": "face_cutoff=2026-10-31 panel=2026-11-03 lag_td=2 (bound=5 bars)"
+    }
+   ]
+  },
+  {
+   "case": "stale_openfill",
+   "doctored": {
+    "field": "day",
+    "value": "2026-10-29"
+   },
+   "legs": [
+    {
+     "leg": "product: the open-fill verification face is at most one bar behind the panel",
+     "expected_red": true,
+     "observed_red": true,
+     "as_expected": true,
+     "detail": "lag_td=3 (bound=1 bar; nothing on the chain re-derives this face, rerun scripts/t35_open_fill_verify.py)"
+    },
+    {
+     "leg": "product: the quantity-name census prints its lag against the panel and reddens past a week of bars",
+     "expected_red": false,
+     "observed_red": false,
+     "as_expected": true,
+     "detail": "face_cutoff=2026-10-31 panel=2026-11-03 lag_td=2 (bound=5 bars)"
+    }
+   ]
+  },
+  {
+   "case": "stale_census",
+   "doctored": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-20"
+   },
+   "legs": [
+    {
+     "leg": "product: the open-fill verification face is at most one bar behind the panel",
+     "expected_red": false,
+     "observed_red": false,
+     "as_expected": true,
+     "detail": "face_day=2026-11-03 panel=2026-11-03 lag_td=0"
+    },
+    {
+     "leg": "product: the quantity-name census prints its lag against the panel and reddens past a week of bars",
+     "expected_red": true,
+     "observed_red": true,
+     "as_expected": true,
+     "detail": "lag_td=10 (bound=5 bars; rerun scripts/e321_quantity_name_reach.py)"
+    }
+   ]
+  }
+ ],
+ "inputs_untouched": {
+  "measured": true,
+  "sha256_before": {
+   "t35_open_fill_verify.json": "631ba7eed0917acead201965de88ab9a7e21e792fb815d12f61f5f831ee07872",
+   "quantityname_latest.json": "c104fe92c10f8af82ffc0c135e934a286472c39b8e98911702f48b7800e7bcf8"
+  },
+  "sha256_after": {
+   "t35_open_fill_verify.json": "631ba7eed0917acead201965de88ab9a7e21e792fb815d12f61f5f831ee07872",
+   "quantityname_latest.json": "c104fe92c10f8af82ffc0c135e934a286472c39b8e98911702f48b7800e7bcf8"
+  }
+ },
+ "staged_stale_dates": {
+  "openfill_three_bars_back": "2026-10-29",
+  "census_ten_bars_back": "2026-10-20"
+ },
+ "verdict": "both_bounds_fire_on_a_doctored_face_and_stay_green_on_the_live_one",
+ "summary": {
+  "legs": 6,
+  "cases_as_expected": 3,
+  "cases": 3,
+  "green_on_live_tree": 2
+ },
+ "no_bill": "two smoke legs and one prover; no engine, no backtest, no network"
+}

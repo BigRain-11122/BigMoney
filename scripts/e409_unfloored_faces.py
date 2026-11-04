@@ -53,8 +53,10 @@ FACES = [
                            "and removed (E185: an assertion that assumes a deployment layout)",
         "readers": [
             {"file": "smoke_test.py", "line": 589,
+             "anchor": '_fv2 = json.load(open("results/t35_open_fill_verify.json"',
              "what": "dashboard/verify counter agreement"},
             {"file": "smoke_test.py", "line": 619,
+             "anchor": '_ofv = json.load(open("results/t35_open_fill_verify.json"',
              "what": "evidence tier and per-trader detail shape"},
         ],
     },
@@ -66,9 +68,15 @@ FACES = [
         "date_fields": ["evidence_cutoff"],
         "expected_refresh": "only when the E321 study is re-derived",
         "readers": [
-            {"file": "smoke_test.py", "line": 9164, "what": "E306 producer-name leg"},
-            {"file": "smoke_test.py", "line": 9257, "what": "E307 refused-population leg"},
-            {"file": "smoke_test.py", "line": 9329, "what": "E309 rejected-name leg"},
+            {"file": "smoke_test.py", "line": 9164,
+             "anchor": '_p306 = os.path.join("results", "state_tilt", "quantityname_latest.json")',
+             "what": "E306 producer-name leg"},
+            {"file": "smoke_test.py", "line": 9257,
+             "anchor": '_p301 = os.path.join("results", "state_tilt", "quantityname_latest.json")',
+             "what": "E307 refused-population leg"},
+            {"file": "smoke_test.py", "line": 9329,
+             "anchor": '_p309 = os.path.join("results", "state_tilt", "quantityname_latest.json")',
+             "what": "E309 rejected-name leg"},
         ],
     },
 ]
@@ -155,6 +163,32 @@ def _face_dates(face: dict) -> dict:
     except Exception as exc:  # noqa: BLE001
         out["error"] = repr(exc)[:120]
     return out
+
+
+def _locate(site: dict) -> tuple:
+    """Resolve a reader site to a line number from its anchor text.
+
+    r1429: the sites were hard-coded line numbers, so inserting 19 lines at the top of
+    smoke_test.py moved every one of them -- and the E306 leg was then classified as
+    `dates_the_face_in_a_gate` from whatever happened to sit at its old line (E305's check
+    call). An anchor is a claim about the code; a line number is a claim about the file's
+    layout. When the anchor does not resolve to exactly one line the published `line` is kept
+    as a hint and `how` says so, so verify() can refuse rather than mislead.
+    """
+    anchor = site.get("anchor")
+    if not anchor:
+        return site.get("line"), "line_hint"
+    try:
+        lines = open(os.path.join(ROOT, site["file"]), encoding="utf-8",
+                     errors="replace").read().splitlines()
+    except Exception:  # noqa: BLE001
+        return site.get("line"), "file_unreadable"
+    hits = [i + 1 for i, ln in enumerate(lines) if anchor in ln]
+    if not hits:
+        return site.get("line"), "anchor_not_found"
+    if len(hits) > 1:
+        return site.get("line"), "anchor_ambiguous"
+    return hits[0], "anchor"
 
 
 def _reader_block(path: str, line: int) -> dict:
@@ -330,9 +364,11 @@ def build(now: datetime | None = None, faces: list[dict] | None = None,
                  if changed_epoch and r["ts"][:19] > git["ts"][:19]] if git.get("ts") else []
         readers = []
         for rd in face["readers"]:
-            blk = _reader_block(rd["file"], rd["line"])
+            line, how = _locate(rd)
+            blk = _reader_block(rd["file"], line or rd.get("line"))
             cls = _classify(blk)
-            readers.append({"site": f'{rd["file"]}:{rd["line"]}', "what": rd["what"],
+            readers.append({"site": f'{rd["file"]}:{line}', "what": rd["what"],
+                            "resolved_by": how,
                             "tier": cls["tier"],
                             "behaviour_under_staleness": BEHAVIOUR.get(cls["tier"], "unmeasured"),
                             "evidence": {k: v for k, v in cls.items() if k != "tier"}})
@@ -472,6 +508,9 @@ def verify() -> list[str]:
         for r in face["readers"]:
             if r["tier"] == "site_not_found":
                 problems.append("reader site not found: %s" % r["site"])
+            if r.get("resolved_by") not in (None, "anchor"):
+                problems.append("reader site %s did not resolve from its anchor (%s)"
+                                % (r["site"], r.get("resolved_by")))
             if not r["behaviour_under_staleness"] or r["behaviour_under_staleness"] == "unmeasured":
                 problems.append("reader %s has no measured behaviour" % r["site"])
     # an unfloored face that has no dated field must be flagged as a producer problem

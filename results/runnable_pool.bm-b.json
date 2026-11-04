@@ -27326,9 +27326,13 @@
    "priority": 3,
    "question": "E408 classified the surface that runs every real writer and found 2 of 14 are executed only from a session script: e321 writes quantityname_latest.json and t35_open_fill_verify writes results/t35_open_fill_verify.json. Both are read by legs of the standing suite, so on any round where no session happened to run them the reader compares against a face nobody refreshed. Ask it per face: how old is each face now, how many suite runs since it last changed, what would the reader conclude if it were stale rather than fresh (does it fail, or silently pass), and which of the two is the cheaper fix -- a chain leg or a reader that prices its own staleness. The bill is the two-face staleness ledger with the reader's behaviour under staleness -- never a face written by a leg to make the read pass.",
    "source": "bm-b r1426 E408: 2 of 14 real writers are session-only (e321, t35_open_fill_verify)",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/REFRESHSIGNAL-2026-11-04.json",
-   "title": "two faces read by suite legs have no standing refresh: what does a reader see when nothing ran"
+   "title": "two faces read by suite legs have no standing refresh: what does a reader see when nothing ran",
+   "result_ref": "results/state_tilt/UNFLOORED-2026-11-03.json",
+   "closed_by": "Tools/pool_deliverable_audit.py apply",
+   "closed_at": "2026-11-04T09:50:04+0800",
+   "close_note": "deliverable landed on disk 0.75h after entry; closed by the reconciliation audit"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27343,7 +27347,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-04T09:05:00+08:00",
+ "updated_at": "2026-11-04T09:50:04+0800",
  "version": 1,
  "lane_machine": "bm-b"
 }

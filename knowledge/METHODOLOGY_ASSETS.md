@@ -9552,3 +9552,58 @@ leg `unfloored_faces` (registration confirmed by reading the leg table and runni
 by `--list`, which produced no output for five minutes and was cancelled); faces
 `results/state_tilt/UNFLOORED-2026-11-03.json` + `unfloored_latest.json`. Neither input face was
 read into a write; no reader or producer was edited.
+
+#### E410 — two stale faces need two freshness forms, and the proof is a doctored copy
+
+**Question.** E409 priced five reader sites over two faces that only a session script writes and
+found none of them asks how old the face is. What is the cheapest honest reader for each, and how
+do you know it fires?
+
+**Answer, implemented.** Not another census — two gates, each bounded off
+`data/exchange_calendar.csv` (bars, not wall-clock days, so a weekend or a holiday cannot red the
+suite):
+
+| face | bound | shape | red when | closes by |
+|---|---|---|---|---|
+| `results/t35_open_fill_verify.json` | 1 bar | bounded allowance, the same shape the file already uses for the ETF book page (`:679-700`) | lag > 1 bar, no `day`, or the face is ahead of the panel | rerun `scripts/t35_open_fill_verify.py` |
+| `results/state_tilt/quantityname_latest.json` | 5 bars | one comparison of `evidence_cutoff` against the panel date, lag printed every run | lag > 5 bars, no cutoff, or the cutoff is ahead | rerun `scripts/e321_*` |
+
+Two forms because the faces answer different questions. The open-fill face verifies one session's
+opens against that session's marks — one missed bar already means the verification describes a
+different day, and a hard day gate is excluded (`:593-597`, E185: the assertion assumed a deployment
+layout and reddened a healthy non-writer host). The census counts a corpus of sources, not a bar;
+its honest red is "the corpus it names is a different corpus", which one re-derive closes, so a week
+is the outer bound of the re-derivation cadence.
+
+**Three lessons, all measured this window.**
+
+1. **A reader site written as a line number is a claim about layout, not about code.** E409's
+   `FACES` table held `smoke_test.py:9164/9257/9329`. Inserting 19 lines for the helper moved all
+   three; the E306 leg was then classified `dates_the_face_in_a_gate` from whatever sat at its old
+   line (E305's `check(...)` call) and the published "0 of 5 price the age" became a false "1 of 5".
+   Fixed by resolving every site from an anchor string and letting `verify()` refuse any site whose
+   anchor does not resolve to exactly one line (`resolved_by` is published per reader). Re-derived:
+   back to 0 of 5 — the fixture verdict, not the one I hoped for.
+2. **A card's deliverable name can collide with an existing face.** The card said `UNFLOORED-<cutoff>`;
+   that is already E409's ledger on the same cutoff, and the first version of this runner overwrote
+   it in place (restored from git, `treasure_guard.py prescan` clean). The face is named for what it
+   measures (`FRESHNESSBOUND-<cutoff>.json`) and the writer now refuses to overwrite a face whose
+   published `study` is not its own. Disclose a rename on the face; do not discover it in a diff.
+3. **A gate only ever seen green is not yet a gate.** The prover runs three cases in a scratch
+   workspace: real (both green), open-fill moved three bars back (A red, B green), census moved ten
+   bars back (A green, B red). Each leg is checked in isolation so one red cannot hide behind the
+   other, and the two input faces' sha256 are compared before/after — "untouched" is measured, not
+   asserted. Keep it out of the real tree: a doctored copy costs a copy, a doctored original costs
+   an incident.
+
+**Also learned (dosage).** The suite's own freshness classifier (`E409._suite_practice`) looks for a
+date token and a comparison operator *on the same line*; these gates split them across two lines
+(`_fv_lag = ...` then `_fv_ok = ... <= 1`), so the new legs do not move `legs_pricing_the_age` (still
+6 of 193). That is the detector's shape, not a defect — reported here so the next reader of that
+number knows the counter undercounts the bounded form.
+
+**Wiring.** `smoke_test.py` module-level block `# E410:` + helper `_bar_lag_td` ;
+`scripts/run_e410_freshness_legs.py` (3/3 cases, writes its own face); S6 leg `freshness_bound`
+(rc 0, 0.6 s); faces `results/state_tilt/FRESHNESSBOUND-2026-11-03.json` +
+`freshnessbound_latest.json`; `scripts/e409_unfloored_faces.py` anchor resolution + `verify()`
+refusal. Neither input face, no writer, and no engine or backtest was touched.

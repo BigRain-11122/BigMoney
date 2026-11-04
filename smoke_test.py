@@ -24,6 +24,25 @@ def _lan_ok(lag, st) -> bool:
     if lag == 0:
         return st.get("stale") is False and "NOT current" not in str(st.get("reason"))
     return st.get("stale") is True and "NOT current" in str(st.get("reason"))
+def _bar_lag_td(face_day, panel_day):
+    """Trading days from face_day (exclusive) to panel_day (inclusive), off the local calendar.
+
+    E410: a face written only from a session script has no chain leg to re-derive it, so the
+    only honest freshness reader is a bound on how many bars it may sit behind the panel.
+    Returns 0 when the dates match and None when either date is unusable or the face is AHEAD
+    of the panel -- a caller that guessed a number there would price an age it never measured.
+    """
+    try:
+        import pandas as _pd
+        a, b = _pd.Timestamp(face_day), _pd.Timestamp(panel_day)
+        if a == b:
+            return 0
+        if a > b:
+            return None
+        _cal = _pd.to_datetime(_pd.read_csv("data/exchange_calendar.csv")["date"])
+        return int(((_cal > a) & (_cal <= b)).sum())
+    except Exception:
+        return None
 CENSUS_DRIFT = []
 
 
@@ -15185,6 +15204,59 @@ except Exception as _e409:
     _bad409.append(repr(_e409)[:160])
 check(_name409, not _bad409, "; ".join(_bad409)[:240]
       or "verdict %s" % str((_f409 or {}).get("verdict"))[:90])
+
+# E410: E409 priced five reader sites over two faces written only from a session script and found
+# that none asks how old the face is.  This puts the cheapest honest reader on each one -- and the
+# two faces need two different forms.  The open-fill face verifies a session's opens against that
+# session's marks, so it is stale after a single missed bar: a hard day gate was litigated and
+# removed at :593-597 (E185: an assertion that assumes a deployment layout), so the available shape
+# is the bounded one-bar allowance this file already uses for the ETF book page -- one bar behind
+# the panel is the lane's refresh to make and is printed, two bars is stale and stays red.  The
+# quantity-name census counts a corpus of sources, not a bar, and its honest red is "the corpus it
+# names is a different corpus", which one re-derive closes -- so it gets a week of bars as its outer
+# bound and prints the lag either way.  Both bounds are derived from data/exchange_calendar.csv, not
+# from the wall clock, so a weekend or a holiday never reddens the suite.
+_name410a = "product: the open-fill verification face is at most one bar behind the panel"
+_name410b = ("product: the quantity-name census prints its lag against the panel and reddens past "
+             "a week of bars")
+_bad410a, _bad410b = [], []
+try:
+    import pandas as _pd410
+    _panel410 = str(_pd410.to_datetime(
+        _pd410.read_csv("data/daily/sh510300.csv")["date"]).iloc[-1].date())
+except Exception as _e410p:
+    _panel410 = None
+    _bad410a.append(repr(_e410p)[:120])
+    _bad410b.append(repr(_e410p)[:120])
+try:
+    _fv410 = json.load(open("results/t35_open_fill_verify.json", encoding="utf-8"))
+    _lag410a = _bar_lag_td(_fv410.get("day"), _panel410)
+    if not _fv410.get("day"):
+        _bad410a.append("the face carries no day to price")
+    elif _lag410a is None or not (0 <= _lag410a <= 1):
+        _bad410a.append("lag_td=%s (bound=1 bar; nothing on the chain re-derives this face, "
+                        "rerun scripts/t35_open_fill_verify.py)" % (_lag410a,))
+    _d410a = "face_day=%s panel=%s lag_td=%s" % (_fv410.get("day") or "absent",
+                                                 _panel410, _lag410a)
+except Exception as _e410a:
+    _bad410a.append(repr(_e410a)[:160])
+    _d410a = ""
+check(_name410a, not _bad410a, "; ".join(_bad410a)[:240] or _d410a)
+try:
+    _qn410 = json.load(open(os.path.join("results", "state_tilt", "quantityname_latest.json"),
+                            encoding="utf-8"))
+    _lag410b = _bar_lag_td(_qn410.get("evidence_cutoff"), _panel410)
+    if not _qn410.get("evidence_cutoff"):
+        _bad410b.append("the census carries no evidence_cutoff to price")
+    elif _lag410b is None or not (0 <= _lag410b <= 5):
+        _bad410b.append("lag_td=%s (bound=5 bars; rerun scripts/e321_quantity_name_reach.py)"
+                        % (_lag410b,))
+    _d410b = "face_cutoff=%s panel=%s lag_td=%s (bound=5 bars)" % (
+        _qn410.get("evidence_cutoff") or "absent", _panel410, _lag410b)
+except Exception as _e410b:
+    _bad410b.append(repr(_e410b)[:160])
+    _d410b = ""
+check(_name410b, not _bad410b, "; ".join(_bad410b)[:240] or _d410b)
 
 if __name__ == "__main__":
     sys.exit(main())
