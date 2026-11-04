@@ -16090,6 +16090,74 @@ except Exception as _e425:
     _bad425.append(repr(_e425)[:160])
 check(_name425, not _bad425, "; ".join(_bad425)[:240] or _d425)
 
+# E432 (r1450 bm-b): E428 counted 21 of its 35 unplaced parameter-directory write sites as
+# "fixture-shaped" by a name heuristic and published the count without asking what those sites
+# write.  This leg reads the face that prices them -- where the caller points the write (temp /
+# repo-relative / runtime name / never supplied), whether any reader in the corpus spells the
+# composed name as a path segment, and whether the helper is reachable from anything but a
+# selftest -- and refuses (a) a face whose own gate does not re-derive, (b) a class, reader or
+# reach class outside the frozen vocabularies, (c) a class or reach table that does not close
+# against the row list or a live+missing split that does not equal the population E428 published,
+# (d) a reader claimed without a reader site named, (e) a "reader opens it" count that includes a
+# site whose directory the caller does not spell (a shared file name is not a shared file, the
+# defect the first draft of this study shipped), and (f) a verdict outside the vocabulary or one
+# that does not re-derive from the rows.
+_name432 = ("product: E432's 21 fixture-shaped write sites are priced by where their callers point "
+            "them, and a shared file name is never read as a shared file")
+_bad432, _d432 = [], ""
+try:
+    _m432 = __import__("importlib").import_module("e432_fixture_write")
+    _f432 = json.load(open(os.path.join("results", "state_tilt", "fixturewrite_latest.json"),
+                           encoding="utf-8"))
+    _s432 = _f432.get("summary") or {}
+    _rows432 = _f432.get("rows") or []
+    _bad432.extend(_m432.tally_problems(_f432))
+    _by432, _reach432 = {}, {}
+    for _r432 in _rows432:
+        _c432 = _r432.get("class")
+        if _c432 not in _m432.CLASS_VOCAB:
+            _bad432.append("%s:%s carries a class outside the vocabulary"
+                           % (_r432.get("file"), _r432.get("line")))
+            break
+        _by432[_c432] = _by432.get(_c432, 0) + 1
+        _reach432[_r432.get("reachable")] = _reach432.get(_r432.get("reachable"), 0) + 1
+    if _by432 != (_s432.get("by_class") or {}):
+        _bad432.append("the class table does not close against the row list")
+    if _reach432 != (_s432.get("by_reachable") or {}):
+        _bad432.append("the reach table does not close against the row list")
+    if _s432.get("fixture_sites") != len(_rows432):
+        _bad432.append("fixture_sites %r does not match %d rows"
+                       % (_s432.get("fixture_sites"), len(_rows432)))
+    if _s432.get("fixture_sites", 0) + _s432.get("rows_that_are_no_longer_a_live_site", 0) != \
+            _s432.get("fixture_sites_published_by_e428"):
+        _bad432.append("live rows plus missing rows do not equal the published population")
+    _opened432 = sum(1 for _r432 in _rows432
+                     if _r432.get("class") == _m432.C_REPO
+                     and _r432.get("reader") == _m432.R_OPENS)
+    if _opened432 != _s432.get("sites_where_a_reader_could_open_the_written_file"):
+        _bad432.append("a reader-openable count includes a directory the caller does not spell")
+    for _r432 in _rows432:
+        if _r432.get("reader") == _m432.R_OPENS and not _r432.get("reader_sites"):
+            _bad432.append("%s:%s claims a reader and names none"
+                           % (_r432.get("file"), _r432.get("function")))
+            break
+    if _f432.get("verdict") not in _m432.VERDICT_VOCAB:
+        _bad432.append("verdict outside the vocabulary")
+    if _f432.get("verdict") != _m432.verdict_for(_rows432):
+        _bad432.append("verdict does not re-derive from the rows")
+    _d432 = "%d site(s): %d temp / %d runtime / %d never supplied | %d reached only from a " \
+            "selftest, %d from a production caller | %d spell a reader name, %d could be opened " \
+            "| %s" % (
+                len(_rows432), _by432.get(_m432.C_TEMP, 0), _by432.get(_m432.C_RUNTIME, 0),
+                _by432.get(_m432.C_NEVER, 0), _reach432.get(_m432.REACH_TEST, 0),
+                _reach432.get(_m432.REACH_PROD, 0),
+                _s432.get("sites_where_a_reader_spells_the_same_name_only", 0),
+                _s432.get("sites_where_a_reader_could_open_the_written_file", 0),
+                _f432.get("verdict"))
+except Exception as _e432x:
+    _bad432.append(repr(_e432x)[:160])
+check(_name432, not _bad432, "; ".join(_bad432)[:240] or _d432)
+
 # E428 (r1448 bm-b): E429 billed 35 parameter-directory write sites as having "no caller found in
 # the corpus".  That 35 was never a statement about the corpus: E429's call-site index was built
 # only for helper names whose path spells no literal at all, and a function that writes

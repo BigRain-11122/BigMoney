@@ -1,0 +1,1145 @@
+{
+ "card": "E432-WHICH-FIXTURE-SHAPED-PARAMETER-WRITE-SITE-IS-READ-BY-A-PUBLISHED-READER",
+ "class_vocab": [
+  "temp",
+  "repo_relative",
+  "runtime_constant",
+  "never_supplied"
+ ],
+ "evidence_cutoff": "2026-11-04",
+ "generated": "2026-11-05",
+ "method_limits": [
+  "directory_class reads the text a caller supplies, not the value at runtime: a caller that builds a temp directory through a helper named something else is graded runtime_constant, which is why that class is published rather than dropped",
+  "reader detection is AST over read calls whose first argument spells the composed file name; a reader that composes the same name from parts does not match, so R_NO_READER means 'no reader spells this name', not 'nobody opens it'",
+  "composed_names come from the literal segments of the write site's own path expression and may be a format template, in which case only the fixed chunks match",
+  "reachability is a caller-file/function name heuristic on the same fixture hints the population used; no writer and no reader was run or edited"
+ ],
+ "missing_rows": [],
+ "population_keys": [
+  "corpus_sources",
+  "fixture_sites"
+ ],
+ "reach_vocab": [
+  "reached_from_a_production_caller",
+  "reached_only_from_a_selftest_caller",
+  "no_python_caller_in_the_corpus"
+ ],
+ "reader_vocab": [
+  "a_reader_in_the_corpus_opens_the_composed_name",
+  "no_reader_in_the_corpus_opens_the_composed_name"
+ ],
+ "rows": [
+  {
+   "caller_sites": [
+    {
+     "arg": "_e197_hot_root",
+     "caller": "selftest",
+     "file": "scripts/e39_panel_census.py",
+     "line": 20300
+    },
+    {
+     "arg": "_e197_root",
+     "caller": "selftest",
+     "file": "scripts/e39_panel_census.py",
+     "line": 20286
+    }
+   ],
+   "class": "runtime_constant",
+   "composed_names": [],
+   "file": "scripts/e39_panel_census.py",
+   "function": "_e197_fixture",
+   "line": 20269,
+   "parameters": [
+    "root"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "tmp",
+     "caller": "cmd_selftest",
+     "file": "scripts/month_exam_readiness.py",
+     "line": 427
+    },
+    {
+     "arg": "tmp",
+     "caller": "cmd_selftest",
+     "file": "scripts/open_market_readiness.py",
+     "line": 481
+    },
+    {
+     "arg": "td",
+     "caller": "cmd_selftest",
+     "file": "scripts/self_review.py",
+     "line": 809
+    }
+   ],
+   "class": "runtime_constant",
+   "composed_names": [
+    "sh510300.csv",
+    "SPM_REGISTER.md",
+    "current_market_stable_profit.json",
+    "latest.json",
+    "GRID-X_paper.json",
+    "report_card.json"
+   ],
+   "file": "scripts/month_exam_readiness.py",
+   "function": "_mkfixture",
+   "line": 364,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "a_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [
+    {
+     "arg": "os.path.join(ROOT, \"data\", \"daily\", \"sh510300.csv\")",
+     "call": "read_csv",
+     "file": "Tools/_r788bmc_w17_freeze_facts.py"
+    },
+    {
+     "arg": "read(os.path.join(ROOT, \"results\", \"vol_gate\", \"latest.json\"))",
+     "call": "loads",
+     "file": "_tmp_r1251_close_state.py"
+    },
+    {
+     "arg": "read(os.path.join(ROOT, \"results\", \"vol_gate\", \"latest.json\"))",
+     "call": "loads",
+     "file": "_tmp_r1251_report.py"
+    },
+    {
+     "arg": "open(os.path.join(OUT_DIR, \"etf_book_production\", \"latest.json\"),                               encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/etf_book_bridge.py"
+    },
+    {
+     "arg": "os.path.join(ROOT, \"data\", \"daily\", \"sh510300.csv\")",
+     "call": "read_csv",
+     "file": "scripts/parking_p1.py"
+    },
+    {
+     "arg": "os.path.join(ROOT, \"data\", \"daily\", \"sh510300.csv\")",
+     "call": "read_csv",
+     "file": "scripts/run_e410_freshness_legs.py"
+    }
+   ],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "tmp",
+     "caller": "cmd_selftest",
+     "file": "scripts/month_exam_readiness.py",
+     "line": 427
+    },
+    {
+     "arg": "tmp",
+     "caller": "cmd_selftest",
+     "file": "scripts/open_market_readiness.py",
+     "line": 481
+    },
+    {
+     "arg": "td",
+     "caller": "cmd_selftest",
+     "file": "scripts/self_review.py",
+     "line": 809
+    }
+   ],
+   "class": "runtime_constant",
+   "composed_names": [
+    "sh510300.csv",
+    "moneyflow_update_status.json",
+    "GRID-X_paper.json",
+    "regime_enforce_approved.json",
+    "face_bm-a.json"
+   ],
+   "file": "scripts/open_market_readiness.py",
+   "function": "_mkfixture",
+   "line": 428,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "a_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [
+    {
+     "arg": "os.path.join(ROOT, \"data\", \"daily\", \"sh510300.csv\")",
+     "call": "read_csv",
+     "file": "Tools/_r788bmc_w17_freeze_facts.py"
+    },
+    {
+     "arg": "os.path.join(ROOT, \"data\", \"daily\", \"sh510300.csv\")",
+     "call": "read_csv",
+     "file": "scripts/parking_p1.py"
+    },
+    {
+     "arg": "os.path.join(ROOT, \"data\", \"daily\", \"sh510300.csv\")",
+     "call": "read_csv",
+     "file": "scripts/run_e410_freshness_legs.py"
+    },
+    {
+     "arg": "os.path.join(\"data\", \"daily\", \"sh510300.csv\")",
+     "call": "read_csv",
+     "file": "scripts/trial_labor_w20.py"
+    },
+    {
+     "arg": "os.path.join(\"data\", \"daily\", \"sh510300.csv\")",
+     "call": "read_csv",
+     "file": "scripts/trial_labor_w21.py"
+    },
+    {
+     "arg": "\"data/daily/sh510300.csv\"",
+     "call": "read_csv",
+     "file": "smoke_test.py"
+    }
+   ],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "machines",
+     "caller": "rebuild_face",
+     "file": "Tools/machine_health_face.py",
+     "line": 237
+    },
+    {
+     "arg": "machines",
+     "caller": "write_face",
+     "file": "Tools/machine_health_face.py",
+     "line": 206
+    },
+    {
+     "arg": "item[\"nm\"]",
+     "caller": "_on_cell",
+     "file": "scripts/p1e_ic_batch.py",
+     "line": 485
+    }
+   ],
+   "class": "runtime_constant",
+   "composed_names": [],
+   "file": "scripts/p1e_ic_batch.py",
+   "function": "_save",
+   "line": 464,
+   "parameters": [
+    "nm"
+   ],
+   "production_callers": 3,
+   "reachable": "reached_from_a_production_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tmp, \"ok\")",
+     "caller": "selftest",
+     "file": "scripts/mf_ic_p1.py",
+     "line": 542
+    },
+    {
+     "arg": "tmp",
+     "caller": "selftest",
+     "file": "scripts/mf_ic_p1.py",
+     "line": 497
+    },
+    {
+     "arg": "tmp",
+     "caller": "selftest",
+     "file": "scripts/sina_construct_ic.py",
+     "line": 581
+    },
+    {
+     "arg": "tmp",
+     "caller": "selftest",
+     "file": "scripts/sina_mf_ic_p1.py",
+     "line": 514
+    }
+   ],
+   "class": "runtime_constant",
+   "composed_names": [
+    "elig.csv",
+    "mask.csv",
+    "status.json",
+    "accept.json"
+   ],
+   "file": "scripts/sina_construct_ic.py",
+   "function": "_toy",
+   "line": 504,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open+to_csv+to_parquet"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "t",
+     "caller": "_run_lane",
+     "file": "scripts/t24_prospect_paper.py",
+     "line": 193
+    },
+    {
+     "arg": "traders_dir",
+     "caller": "_run_lane",
+     "file": "scripts/t24_prospect_paper.py",
+     "line": 193
+    }
+   ],
+   "class": "runtime_constant",
+   "composed_names": [],
+   "file": "scripts/t24_prospect_paper.py",
+   "function": "_save_member",
+   "line": 66,
+   "parameters": [
+    "t",
+    "traders_dir"
+   ],
+   "production_callers": 2,
+   "reachable": "reached_from_a_production_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L8\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 285
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L6\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 274
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L5\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 267
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L4\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 253
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "machine.json"
+   ],
+   "file": "Tools/orders_ack_append.py",
+   "function": "_mk_fixture",
+   "line": 197,
+   "parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "a_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [
+    {
+     "arg": "os.path.join(ROOT, \"fleet\", \"machine.json\")",
+     "call": "read_json",
+     "file": "Tools/lane_round_liveness.py"
+    },
+    {
+     "arg": "os.path.join(ROOT, \"fleet\", \"machine.json\")",
+     "call": "read_json",
+     "file": "Tools/lane_round_liveness.py"
+    },
+    {
+     "arg": "open(os.path.join(ROOT, \"fleet\", \"machine.json\"),                               encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/alphagen_rg_census.py"
+    },
+    {
+     "arg": "open(os.path.join(ROOT, \"fleet\", \"machine.json\"),                               encoding=\"utf-8-sig\")",
+     "call": "load",
+     "file": "scripts/cn_core_sat_p1.py"
+    },
+    {
+     "arg": "open(os.path.join(ROOT, \"fleet\", \"machine.json\"),                               encoding=\"utf-8-sig\")",
+     "call": "load",
+     "file": "scripts/cn_div_lowvol_rot_p1.py"
+    },
+    {
+     "arg": "open(os.path.join(             ROOT, \"fleet\", \"machine.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/cn_regime_policy_p1.py"
+    }
+   ],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L8\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 285
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L6\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 274
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L5\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 267
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L4\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 253
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "machine.json"
+   ],
+   "file": "Tools/orders_ack_scan.py",
+   "function": "_mk_fixture",
+   "line": 197,
+   "parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "a_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [
+    {
+     "arg": "os.path.join(ROOT, \"fleet\", \"machine.json\")",
+     "call": "read_json",
+     "file": "Tools/lane_round_liveness.py"
+    },
+    {
+     "arg": "os.path.join(ROOT, \"fleet\", \"machine.json\")",
+     "call": "read_json",
+     "file": "Tools/lane_round_liveness.py"
+    },
+    {
+     "arg": "open(os.path.join(ROOT, \"fleet\", \"machine.json\"),                               encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/alphagen_rg_census.py"
+    },
+    {
+     "arg": "open(os.path.join(ROOT, \"fleet\", \"machine.json\"),                               encoding=\"utf-8-sig\")",
+     "call": "load",
+     "file": "scripts/cn_core_sat_p1.py"
+    },
+    {
+     "arg": "open(os.path.join(ROOT, \"fleet\", \"machine.json\"),                               encoding=\"utf-8-sig\")",
+     "call": "load",
+     "file": "scripts/cn_div_lowvol_rot_p1.py"
+    },
+    {
+     "arg": "open(os.path.join(             ROOT, \"fleet\", \"machine.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/cn_regime_policy_p1.py"
+    }
+   ],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"rlp1_selftest_\"), \"ck_done\")",
+     "caller": "selftest",
+     "file": "scripts/alphagen_rl_p1.py",
+     "line": 2357
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"rlp1_selftest_\"), \"ck_reclaim\")",
+     "caller": "selftest",
+     "file": "scripts/alphagen_rl_p1.py",
+     "line": 2348
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"rlp1_selftest_\"), \"ck_partial\")",
+     "caller": "selftest",
+     "file": "scripts/alphagen_rl_p1.py",
+     "line": 2342
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "train_log.json",
+    "train_log.jsonl"
+   ],
+   "file": "scripts/alphagen_rl_p1.py",
+   "function": "_mk_ckpt_face",
+   "line": 2326,
+   "parameters": [
+    "d"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L8\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 285
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L6\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 274
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L5\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 267
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L4\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 253
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "mask.csv",
+    "sse.parquet"
+   ],
+   "file": "scripts/cn_kline_pattern_p1.py",
+   "function": "_mk_fixture",
+   "line": 1009,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "to_csv+to_parquet"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L8\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 285
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L6\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 274
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L5\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 267
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L4\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 253
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "mask.csv",
+    "sse.parquet",
+    "meta.json"
+   ],
+   "file": "scripts/cn_mkneutral_p1.py",
+   "function": "_mk_fixture",
+   "line": 1166,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "a_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [
+    {
+     "arg": "open(os.path.join(CACHE, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/cn_mkneutral_p1.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/cn_sector_leader_p1.py"
+    },
+    {
+     "arg": "open(os.path.join(PANEL, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/newlist_census.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE_DIR, \"meta.json\"),                           encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/p1c_bigpanel_ops.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE_DIR, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/p1c_stage_b_probe.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE_DIR, \"meta.json\"),                           encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/p1c_stage_b_probe.py"
+    }
+   ],
+   "write_call": "open+to_csv+to_parquet"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L8\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 285
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L6\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 274
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L5\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 267
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L4\")",
+     "caller": "selftest",
+     "file": "Tools/orders_ack_append.py",
+     "line": 253
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "mask.csv",
+    "sse.parquet",
+    "meta.json"
+   ],
+   "file": "scripts/cn_sector_leader_p1.py",
+   "function": "_mk_fixture",
+   "line": 1253,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "a_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [
+    {
+     "arg": "open(os.path.join(CACHE, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/cn_mkneutral_p1.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/cn_sector_leader_p1.py"
+    },
+    {
+     "arg": "open(os.path.join(PANEL, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/newlist_census.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE_DIR, \"meta.json\"),                           encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/p1c_bigpanel_ops.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE_DIR, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/p1c_stage_b_probe.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE_DIR, \"meta.json\"),                           encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/p1c_stage_b_probe.py"
+    }
+   ],
+   "write_call": "open+to_csv+to_parquet"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"e252\")",
+     "caller": "selftest",
+     "file": "scripts/e252_star_prices_itself.py",
+     "line": 710
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"e252\")",
+     "caller": "selftest",
+     "file": "scripts/e252_star_prices_itself.py",
+     "line": 703
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"e252\")",
+     "caller": "selftest",
+     "file": "scripts/e252_star_prices_itself.py",
+     "line": 695
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"e252\")",
+     "caller": "selftest",
+     "file": "scripts/e252_star_prices_itself.py",
+     "line": 690
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "starown_latest.json"
+   ],
+   "file": "scripts/e252_star_prices_itself.py",
+   "function": "_stub",
+   "line": 730,
+   "parameters": [
+    "outdir"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "a_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [
+    {
+     "arg": "io.open(\"results/state_tilt/starown_latest.json\", encoding=\"utf-8\")",
+     "call": "load",
+     "file": "_tmp_r1277_nums.py"
+    },
+    {
+     "arg": "io.open(\"results/state_tilt/starown_latest.json\", encoding=\"utf-8\")",
+     "call": "load",
+     "file": "_tmp_r1277_view.py"
+    }
+   ],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"e222_\"), \"e\")",
+     "caller": "selftest",
+     "file": "scripts/e222_tom_overlay.py",
+     "line": 568
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"e222_\"), \"b\")",
+     "caller": "selftest",
+     "file": "scripts/e222_tom_overlay.py",
+     "line": 502
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"e222_\"), \"a\")",
+     "caller": "selftest",
+     "file": "scripts/e222_tom_overlay.py",
+     "line": 466
+    },
+    {
+     "arg": "_lad3",
+     "caller": "selftest",
+     "file": "scripts/etf_book_ceo_page.py",
+     "line": 1194
+    }
+   ],
+   "class": "temp",
+   "composed_names": [],
+   "file": "scripts/etf_book_ceo_page.py",
+   "function": "_panel",
+   "line": 1146,
+   "parameters": [
+    "dirpath",
+    "symbol"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/etf_ops_bp1.py",
+     "line": 1074
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/etf_ops_bp1.py",
+     "line": 1062
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/etf_ops_bp1.py",
+     "line": 1050
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/etf_ops_bp1.py",
+     "line": 1026
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "st.csv"
+   ],
+   "file": "scripts/etf_ops_bp1.py",
+   "function": "write_fixture",
+   "line": 943,
+   "parameters": [
+    "d"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "to_csv"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/etf_ops_bp1.py",
+     "line": 1074
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/etf_ops_bp1.py",
+     "line": 1062
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/etf_ops_bp1.py",
+     "line": 1050
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/etf_ops_bp1.py",
+     "line": 1026
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "st.csv"
+   ],
+   "file": "scripts/etf_ops_bp2.py",
+   "function": "write_fixture",
+   "line": 1138,
+   "parameters": [
+    "d"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "to_csv"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/etf_ops_bp1.py",
+     "line": 1074
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/etf_ops_bp1.py",
+     "line": 1062
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/etf_ops_bp1.py",
+     "line": 1050
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/etf_ops_bp1.py",
+     "line": 1026
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "st.csv"
+   ],
+   "file": "scripts/grid_dualface_backtest.py",
+   "function": "write_fixture",
+   "line": 1293,
+   "parameters": [
+    "d"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "to_csv"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"innovation_quota_w7_selftest_\"), \"daily\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/innovation_quota_w7.py",
+     "line": 1069
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"innovation_quota_w9_selftest_\"), \"daily\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/innovation_quota_w9.py",
+     "line": 1074
+    }
+   ],
+   "class": "temp",
+   "composed_names": [],
+   "file": "scripts/innovation_quota_w7.py",
+   "function": "_mk_core48_fixture",
+   "line": 1005,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "to_csv"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"innovation_quota_w7_selftest_\"), \"daily\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/innovation_quota_w7.py",
+     "line": 1069
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"innovation_quota_w9_selftest_\"), \"daily\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/innovation_quota_w9.py",
+     "line": 1074
+    }
+   ],
+   "class": "temp",
+   "composed_names": [],
+   "file": "scripts/innovation_quota_w9.py",
+   "function": "_mk_core48_fixture",
+   "line": 1009,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "to_csv"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"rev_census_selftest_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/refine_bench_rev_census.py",
+     "line": 373
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"rev_p2_selftest_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/refine_bench_rev_p2.py",
+     "line": 617
+    },
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"rev_osc_selftest_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/rev_osc_stock_p1.py",
+     "line": 857
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "mask.csv",
+    "sse.parquet",
+    "meta.json"
+   ],
+   "file": "scripts/rev_osc_stock_p1.py",
+   "function": "_mk_panel",
+   "line": 812,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "a_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [
+    {
+     "arg": "open(os.path.join(CACHE, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/cn_mkneutral_p1.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/cn_sector_leader_p1.py"
+    },
+    {
+     "arg": "open(os.path.join(PANEL, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/newlist_census.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE_DIR, \"meta.json\"),                           encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/p1c_bigpanel_ops.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE_DIR, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/p1c_stage_b_probe.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE_DIR, \"meta.json\"),                           encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/p1c_stage_b_probe.py"
+    }
+   ],
+   "write_call": "open+to_csv+to_parquet"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"shs_selftest_\")",
+     "caller": "selftest",
+     "file": "scripts/seasonal_horizon_stability.py",
+     "line": 419
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "symbols.json",
+    "meta.json"
+   ],
+   "file": "scripts/seasonal_horizon_stability.py",
+   "function": "_toy_panel",
+   "line": 356,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "a_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [
+    {
+     "arg": "open(os.path.join(CACHE, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/cn_mkneutral_p1.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/cn_sector_leader_p1.py"
+    },
+    {
+     "arg": "open(os.path.join(PANEL, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/newlist_census.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE_DIR, \"meta.json\"),                           encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/p1c_bigpanel_ops.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE_DIR, \"meta.json\"), encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/p1c_stage_b_probe.py"
+    },
+    {
+     "arg": "open(os.path.join(CACHE_DIR, \"meta.json\"),                           encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/p1c_stage_b_probe.py"
+    }
+   ],
+   "write_call": "open"
+  }
+ ],
+ "study": "E432_which_fixture_shaped_parameter_write_site_is_read_by_a_published_reader",
+ "summary": {
+  "by_class": {
+   "runtime_constant": 6,
+   "temp": 15
+  },
+  "by_reachable": {
+   "reached_from_a_production_caller": 2,
+   "reached_only_from_a_selftest_caller": 19
+  },
+  "by_reader": {
+   "a_reader_in_the_corpus_opens_the_composed_name": 9,
+   "no_reader_in_the_corpus_opens_the_composed_name": 12
+  },
+  "corpus_sources": 3436,
+  "fixture_sites": 21,
+  "fixture_sites_published_by_e428": 21,
+  "population_premise_correction": {
+   "measured": "the 21 are a subset of the 35 rows E428 could not place",
+   "note": "E428 counted fixture_shaped over rows (the 35 unplaced), not over the 310",
+   "pool_card_says": "21 fixture-shaped parameter-directory write sites among its 310"
+  },
+  "reader_calls_scanned": 3276,
+  "rows_that_are_no_longer_a_live_site": 0,
+  "runtime_sites": 6,
+  "sites_where_a_reader_could_open_the_written_file": 0,
+  "sites_where_a_reader_spells_the_same_name_only": 9,
+  "temp_sites": 15
+ },
+ "title": "price the 21 fixture-shaped parameter-directory write sites: where their callers point them, and whether any reader in the corpus opens what they write",
+ "verdict": "no_fixture_site_writes_into_a_directory_a_reader_in_the_corpus_opens_and_the_sites_that_share_a_reader_name_share_only_the_name"
+}

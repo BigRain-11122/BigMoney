@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1449 bm-b: E423 published (face DIRFIELD-2026-11-03 re-derived from the live tree, verify problems=[], selftest 17/17, smoke leg 1/1 + 1/1 red doctored, S6 leg dirfield_join rc=0 34.6s) -- the leg was unprovable because the scan was quadratic (36s now) and verify kept its own copy of the file-path gate (18 false problems); E433 seeded, ready floor held at 3",
+ "_stamp_note": "r1450 bm-b: E432 published (face FIXTUREWRITE-2026-11-04: 21 fixture-shaped sites priced -- 15 temp / 6 runtime / 0 repo-relative, 0 openable, 9 share only a name; the first draft produced a false verdict from a substring name match and a quote-inside-an-argument path test, both now selftest legs) -- E432 closed, E434 seeded, supply floor restored to 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27632,11 +27632,16 @@
    "lane": "cpu-only",
    "lane_note": "cpu-only; static AST + text joins, no writer runs",
    "priority": 3,
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "bm-b r1448 E428: fixture_shaped_sites = 21 of 310 parameter-directory write sites, counted but not priced",
    "entered_at": "2026-11-05T06:25:01+08:00",
-   "entered_by": "bm-b r1448 (supply floor refill after closing E428)"
+   "entered_by": "bm-b r1448 (supply floor refill after closing E428)",
+   "claimed_at": "2026-11-05T07:20+08:00",
+   "closed_at": "2026-11-05T07:5x+08:00",
+   "closed_by": "bm-b r1450",
+   "result_ref": "results/state_tilt/FIXTUREWRITE-2026-11-04.json",
+   "result_note": "21/21 live: 15 temp / 6 runtime / 0 repo-relative; 19 selftest-only callers, 2 production; 9 sites share a reader's file name and 0 can be opened by one. Two instrument defects were caught in-window (substring name match, quote-in-argument graded as a path) and are now selftest legs."
   },
   {
    "id": "E433-WHICH-REPUBLICATION-SITE-CARRIES-A-FILE-VALUED-DIRECTORY-FIELD-INTO-A-NEW-FACE",
@@ -27651,6 +27656,20 @@
    "source": "bm-b r1449 E423: by_class republishes_the_field_without_joining_it = 8, file-valued directory fields = 44 across 8 faces",
    "entered_at": "2026-11-05T07:2x+08:00",
    "entered_by": "bm-b r1449 (supply floor refill after E423)"
+  },
+  {
+   "id": "E434-WHICH-PARAMETER-SITE-OUTSIDE-E428-UNPLACED-SET-IS-FIXTURE-SHAPED",
+   "title": "E428 counted fixture_shaped over its 35 unplaced rows, not over the 310 parameter-directory write sites it scanned, so nobody knows how many of the other 289 are fixtures: count them with the same heuristic and price where their callers point them",
+   "question": "Apply E428's own fixture heuristic (function or path contains fixture/_mk/_toy/_stub/_panel/_save) to the parameter-directory write sites that are NOT in no_caller_latest.json's 35 rows, and for each fixture-shaped site publish the directory class and reader class exactly as E432 does for the 21 (temp / repo_relative / runtime_constant / never_supplied; reader segment match; reach class). Bill how many the fixture population really has and say whether E432's 'no fixture writer is openable' survives once the placable sites join the population. Read-only.",
+   "deliverable": "results/state_tilt/FIXTUREPOP-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static AST over the python corpus, no writer runs",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "source": "bm-b r1450 E432: fixture_shaped was computed over rows (the 35 unplaced), so the 275 placed sites were never tested with the same heuristic",
+   "entered_at": "2026-11-05T07:5x+08:00",
+   "entered_by": "bm-b r1450 (supply floor refill after E432)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27665,6 +27684,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-05T07:2x+0800",
+ "updated_at": "2026-11-05T07:5x+08:00",
  "version": 1
 }

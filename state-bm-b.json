@@ -8,14 +8,14 @@
   "gpu_idle"
  ],
  "behind_origin_main": 294,
- "card": "E423-A-QUDADRATIC-RE-DERIVATION-AND-A-GATE-WITH-ITS-OWN-GRADER",
- "clock_read": "2026-11-05T06:26:16+08:00",
+ "card": "E432",
+ "clock_read": "2026-11-05T07:53:07+08:00",
  "concurrency_note": "Tools/iteration_loop.ps1 pid 31396 (started 02:07) was live in this repo for the whole window and its own ticks reported 'previous round still running'; no queue head, task card or shared lane face was claimed, and loop/watchdog/claw re-registration was deliberately not attempted",
  "cpu_current_pct": 0.0,
  "cpu_pct": 0.0,
- "current": "r1448 E428 published (card E431 written)",
- "current_task": "E428 the 35 unplaced parameter-directory sites, billed against a wide index",
- "current_work": "33 of 35 unplaced only because the helper name was never indexed; 1 calls never supply the parameter; 1 named only outside python; wide index leaves 2",
+ "current": "E432: the 21 fixture-shaped parameter-directory write sites E428 counted and never priced are resolved to where their callers point them -- 15 temp, 6 runtime names, 0 repository literals; 19 are reached only from a selftest and 2 from a production caller; 9 share a file name with a reader in the corpus and 0 of those can be the file the reader opens.",
+ "current_task": "E432 published: no fixture writer lands in a directory a reader in the corpus opens",
+ "current_work": "E432: the 21 fixture-shaped parameter-directory write sites E428 counted and never priced are resolved to where their callers point them -- 15 temp, 6 runtime names, 0 repository literals; 19 are reached only from a selftest and 2 from a production caller; 9 share a file name with a reader in the corpus and 0 of those can be the file the reader opens.",
  "cyc_round": 1448,
  "cycl_round": 1448,
  "cycle_round": 1439,
@@ -195,7 +195,7 @@
  "gpu_vram_free_mib": 851.0,
  "gpu_vram_used_mb": 7341.0,
  "gpu_vram_used_mib": 7341.0,
- "heartbeat_epoch_utc": 1793831176,
+ "heartbeat_epoch_utc": 1793836387,
  "heartbeat_epoch_utc_face": "int",
  "heartbeat_note": "cpu_pct from two GetSystemTimes samples, not the memory-load field (E235 pit)",
  "history": [
@@ -4888,14 +4888,26 @@
   "E409": "re-derived",
   "E411": "re-derived"
  },
- "reds_open": [],
+ "reds_open": [
+  "E411_family_red_capable_reader_sites_do_not_price_age",
+  "E417_suite_readers_that_go_red_on_a_stale_face",
+  "E419_unfloored_faces_and_blind_face_ages",
+  "E403_family_parameter_callers",
+  "E402_bare_basename_fragment",
+  "E398_latest_json_reader_convention",
+  "refresh_and_read_signal_census",
+  "face_level_bound_not_a_measurement",
+  "two_reference_decision_census",
+  "corpus_helper_invisible_text",
+  "fleet_gpu_face_self_consistency_bm_b"
+ ],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1449,
- "round_no": 1449,
- "round_no_label": "r1449",
+ "round": 1450,
+ "round_no": 1450,
+ "round_no_label": "r1450",
  "round_no_note": "r1416: every round key moves together (the r1393 heal does not survive a lane that writes one face)",
- "round_no_ts": "2026-11-05T07:13:39+08:00",
- "round_no_ts_note": "r1449 closeout",
+ "round_no_ts": "2026-11-05T07:53:07+08:00",
+ "round_no_ts_note": "r1450 closeout",
  "round_pit": "a containment test that climbs from the node must test the node itself: without it the receiver chain face[\"dir\"].rstrip(\"/\") dropped from a name join to a whole-path read, and only the diff against the published rows caught it",
  "round_report_line_ts": "2026-11-04T06:28:39+08:00",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
@@ -4909,9 +4921,9 @@
  "s7_r1439": "loop pin=2 no-op | LoopWatchdog RE-REGISTERED (absent on this box; S4U, SWA=false) | pre-commit + pre-push claws reinstalled | attrition CLEAN 4 ledgers (3 healed) | sat engine status rc=0 idle",
  "sat_engine": "status read: exit 0, last_verdict=idle; not restarted",
  "selftest": "e423_dirfield_join 17/17; extracted smoke leg 1/1; doctor 1/1 red",
- "seq": 1449,
+ "seq": 1450,
  "side_effect_on_neighbour": "publishing fragmentproducers_latest.json added one family-named pointer, so E398's named_pointers moved 175 -> 176 and the E398 smoke leg failed; the face was re-derived from the live build (e398 run + verify problems=[]) rather than the leg loosened -- read sites 187 and bare pointers 28 unchanged",
- "smoke": "full suite NOT run this window -- stated, not claimed",
+ "smoke": "full suite run this window: 316/328 PASS, 12 FAIL (see reds_open); 1 new leg PASS",
  "smoke_note": "the E423 leg was proved standalone (1/1) and proved red on a doctored class tally, then the face was restored byte-identical",
  "smoke_r1417": {
   "dashboard_leg": "fixed in-window: the marks-gap leg demanded fill_verify_day equality against a face another host writes (bm-a single-writer law); the day may now lag and staleness is printed instead of failed",
@@ -4929,43 +4941,43 @@
  "snapshot": {},
  "state_face_note": "authoritative face for bm-b",
  "status": "ok",
- "study": "E423_which_consumer_joins_a_directory_named_field_that_holds_a_file_path",
+ "study": "E432_which_fixture_shaped_parameter_write_site_is_read_by_a_published_reader",
  "supply_floor": {
   "floor": 3,
   "ready_at_close": 3,
   "seeded": [
-   "E433-WHICH-REPUBLICATION-SITE-CARRIES-A-FILE-VALUED-DIRECTORY-FIELD-INTO-A-NEW-FACE"
+   "E434-WHICH-PARAMETER-SITE-OUTSIDE-E428-UNPLACED-SET-IS-FIXTURE-SHAPED"
   ],
   "still_ready_untouched": [
    "E427-WHICH-TEMPLATE-IN-AN-OPENER-IS-NOT-THE-NAME-THAT-OPENER-READS",
-   "E432-WHICH-FIXTURE-SHAPED-PARAMETER-WRITE-SITE-IS-READ-BY-A-PUBLISHED-READER"
+   "E433-WHICH-REPUBLICATION-SITE-CARRIES-A-FILE-VALUED-DIRECTORY-FIELD-INTO-A-NEW-FACE"
   ]
  },
  "supply_floor_ready": 3,
  "sync": {
-  "ahead": 370,
+  "ahead": 374,
   "behind_origin_main": 294,
   "peer": "origin",
-  "ts": "2026-11-05T07:13:39+08:00"
+  "ts": "2026-11-05T07:53:07+08:00"
  },
- "sync_note": "main is far behind origin/main so a direct push is rejected; delivery goes out on machine/bm-b-r1449",
- "task": "E423 published: one name-join exists in the corpus and no published row can double under it",
- "task_short": "the leg that could not finish",
+ "sync_note": "main is far behind origin/main so a direct push is rejected; delivery goes out on machine/bm-b-r1450",
+ "task": "E432 published: no fixture writer lands in a directory a reader in the corpus opens",
+ "task_short": "21 fixture-shaped write sites priced",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
- "three_line": "E423 published: one name-join exists in the whole corpus (e347:372) and it lands on rows whose dir is a real directory, so no published row can double",
- "three_line_artifact": "results/state_tilt/DIRFIELD-2026-11-03.json @ 2026-11-05T07:13:39+08:00",
- "three_line_current": "E423 published: one name-join exists in the whole corpus (e347:372) and it lands on rows whose dir is a real directory, so no published row can double",
- "three_line_next": "E427 prices how many of the 2,818 templates inside an opener are actually read by that opener (ready card, cpu-only, <=48h)",
- "timestamp": "2026-11-05T07:13:39+08:00",
- "ts": "2026-11-05T07:13:39+08:00",
- "ts_utc_ms": 1793834019608,
+ "three_line": "E432 published: of the 21 fixture-shaped write sites, 15 land in temp dirs and 6 on runtime names, 0 on a repository literal, so no reader in the corpus can open one of them",
+ "three_line_artifact": "results/state_tilt/FIXTUREWRITE-2026-11-04.json @ 2026-11-05T07:53:07+08:00",
+ "three_line_current": "E432 published: of the 21 fixture-shaped write sites, 15 land in temp dirs and 6 on runtime names, 0 on a repository literal, so no reader in the corpus can open one of them",
+ "three_line_next": "the 12 open smoke reds (E411/E417/E419 family summaries no longer re-derive from the live tree) are next round's mission; E427/E433/E434 stay ready on the cpu-only floor",
+ "timestamp": "2026-11-05T07:53:07+08:00",
+ "ts": "2026-11-05T07:53:07+08:00",
+ "ts_utc_ms": 1793836387000,
  "ts_utc_offset": "+08:00",
- "updated": "2026-11-05T07:13:39+08:00",
- "updated_at": "2026-11-05T07:13:39+08:00",
- "verdict": "green",
- "verdict_line": "e423 run re-published the face (faces=12861); verify problems=0; selftest 17/17; smoke leg 1/1 (+1/1 red doctored, face restored byte-identical); S6 leg dirfield_join rc=0 34.6s",
+ "updated": "2026-11-05T07:53:07+08:00",
+ "updated_at": "2026-11-05T07:53:07+08:00",
+ "verdict": "red",
+ "verdict_line": "e432 run + verify problems=0 (~3 min, re-derived) | selftest 22/22 | smoke leg 1/1 and 1/1 red doctored (face restored byte-identical) | S6 leg fixture_write rc=0 163.4s | full smoke 316/328 PASS 12 FAIL (all pre-existing: 8 E411/E417/E419-family 'summary does not re-derive', 1 fleet GPU face, 3 other product legs)",
  "verdict_watermark": "red=true lane=pool-batch-runnable-idle-low-cpu",
- "verify": "e423_dirfield_join run + verify problems=[] (~60 s) | selftest 17/17 | run_e423_smoke_leg 1/1 and 1/1 red on a doctored tally | s6_chain_bmb 1449 --only dirfield_join rc=0 34.6 s",
+ "verify": "e432_fixture_write run + verify problems=[] (~3 min) | selftest 22/22 | run_e432_smoke_leg 1/1 and 1/1 red on a doctored by_class | s6_chain_bmb 1450 --only fixture_write rc=0 163.4 s",
  "vram_free_gb": 0.82,
  "vram_probe": "nvidia-smi",
  "vram_total_gb": 8.0,
@@ -4973,7 +4985,7 @@
  "watermark_note": "3 ready cards at open (E423/E427/E432); E423 closed in-window and E433 seeded, still 3 ready -- a research round on a CPU card, not an unclaimed board",
  "watermark_red": true,
  "watermark_verdict": "red=true lane=pool-batch-runnable-idle-low-cpu",
- "work": "E423: 44 published fields named like a directory hold a file path; of 29 reads, 1 joins such a field with a name and its rows hold real directories, so 0 rows can double -- 34 rows are the population a future join would hit. The leg r1446 shipped had never re-derived: the scan was quadratic (36 s now) and verify kept its own copy of the file-path gate.",
+ "work": "E432: the 21 fixture-shaped parameter-directory write sites E428 counted and never priced are resolved to where their callers point them -- 15 temp, 6 runtime names, 0 repository literals; 19 are reached only from a selftest and 2 from a production caller; 9 share a file name with a reader in the corpus and 0 of those can be the file the reader opens.",
  "r1449": {
   "card": "E423",
   "dept": "research+engineering",
@@ -5008,5 +5020,27 @@
   "honest_note": "Set-Content -Encoding utf8 flattened METHODOLOGY_ASSETS.md (407+/857-) and was reverted; the card was re-appended with newline=\"\\n\" (52+/0). The pool was first rewritten with sort_keys=True (624/603) and was restored and rewritten in its own format (23/5).",
   "ts": "2026-11-05T07:13:39+08:00"
  },
- "out_of_scope_this_window": "GPU untouched (C-20261014-01 parking), zero cloud calls, zero deletions"
+ "out_of_scope_this_window": "GPU untouched (C-20261014-01 parking), zero cloud calls, zero deletions",
+ "reds_open_note": "all 12 were already red before this window (r1446's run showed 13; the E423 one closed in r1449); none is caused by this round's files -- the new E432 leg passes in the same suite",
+ "r1450": {
+  "card": "E432",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/FIXTUREWRITE-2026-11-04.json",
+  "finding": "21 fixture-shaped parameter-directory write sites: 15 temp (a tempdir constructor in the caller's argument), 6 runtime_constant, 0 repo_relative; 19 reached only from a selftest caller, 2 from a production caller; 9 spell a reader's file name as a segment and 0 of those can be the file that reader opens (tmp/sh510300.csv vs data/daily/sh510300.csv).",
+  "self_caught": [
+   "a substring name test matched status.json inside dashboard_status.json and invented 9 'a reader opens this' rows; now a path-segment regex",
+   "a quote anywhere in the supplied argument graded os.path.join(tmp,'ok') and item['nm'] as repo_relative, which produced a false verdict in the first published face; only a lone quoted literal is a path now",
+   "the pool card said '21 among its 310'; the 21 are a subset of the 35 unplaced rows -- published as summary.population_premise_correction"
+  ],
+  "product": [
+   "scripts/e432_fixture_write.py (bulk index narrowed to the 21 helpers; readers prefiltered by name before parsing: build ~3 min instead of a timeout)",
+   "results/state_tilt/FIXTUREWRITE-2026-11-04.json + fixturewrite_latest.json (21 rows)",
+   "smoke_test.py leg '# E432 (r1450 bm-b)' + scripts/run_e432_smoke_leg.py (1/1, 1/1 red doctored, face restored byte-identical 1f84eeda)",
+   "Tools/s6_chain_bmb.py leg fixture_write (rc=0, 163.4 s)",
+   "knowledge/METHODOLOGY_ASSETS.md card E432 (+46/-1, newline='\\n', no flattening)",
+   "research/digests/DIGEST-20261105-r1450-e432-fixture-write.md",
+   "results/runnable_pool.json E432 done + E434 seeded (ready 3: E427/E433/E434)"
+  ],
+  "ts": "2026-11-05T07:53:07+08:00"
+ }
 }

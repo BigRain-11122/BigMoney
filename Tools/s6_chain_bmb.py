@@ -1515,6 +1515,12 @@ LEGS = [
     # that joins such a field with a row name refuses the chain instead of leaving a stale "no
     # consumer joins it" reading in place.
     ("dirfield_join", ["python", "scripts/e423_dirfield_join.py", "verify"]),
+    # E432 (r1450): E428 counted 21 fixture-shaped parameter-directory write sites and never asked
+    # where their callers point them. Verify re-derives the class table over the live corpus (one
+    # AST pass for the sites, one prefiltered pass for readers) and re-checks that live rows plus
+    # rows no longer a live site still equal the population E428 published, so a fixture helper
+    # that moves or disappears refuses the chain instead of leaving a stale tally.
+    ("fixture_write", ["python", "scripts/e432_fixture_write.py", "verify"]),
 ]
 
 

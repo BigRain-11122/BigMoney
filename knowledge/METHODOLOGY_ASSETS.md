@@ -10379,3 +10379,48 @@ re-published from the live tree: 12,861 faces); smoke leg `# E423 (r1446 bm-b)` 
 `scripts/run_e423_smoke_leg.py` (1/1, 1/1 red on a doctored tally, face restored byte-identical); S6 leg
 `dirfield_join` (`verify problems=0`, rc 0, 34.6 s); digest
 `research/digests/DIGEST-20261105-r1449-e423-dirfield-join.md`; pool card closed and the next seeded.
+
+### E432 -- a fixture name is not a landing site: 21 "fixture-shaped" writers, 0 a reader can open (r1450 bm-b)
+
+**The count that was never a question.** E428 published `fixture_shaped_sites = 21` for its 35
+unplaced parameter-directory writers and moved on. The 21 were a name heuristic (function or path
+contains fixture/_mk/_toy/_stub/_panel/_save) over rows the *index* had failed to place, not a
+statement about where those writers put their files. The pool card repeated the premise as "21 of
+its 310"; the 21 are a subset of the 35, and that correction is published in the face rather than
+silently repaired.
+
+**What the 21 actually do** (`results/state_tilt/FIXTUREWRITE-2026-11-04.json`, 21/21 live,
+3,436 sources, 3,276 read calls):
+
+* 15 `temp` -- a temporary-directory constructor appears in the argument the caller supplies;
+* 6 `runtime_constant` -- the directory arrives as a name (a module constant, a forwarded
+  parameter, `os.path.join(tmp, "ok")`);
+* 0 `repo_relative` -- *no* fixture writer spells a quoted directory the census could point at;
+* 19 reached only from a selftest caller, 2 from a production caller
+  (`p1e_ic_batch._save`, `t24_prospect_paper._save_member`) -- and those two are reached with a
+  name, so the census still cannot say where they land.
+
+**Three rules measured, not assumed.**
+
+1. A shared file name is not a shared file. Nine sites "have a reader that opens the composed
+   name", and every one of them is a coincidence: `month_exam_readiness._mkfixture` writes
+   `sh510300.csv` into a temp dir while `Tools/_r788bmc_w17_freeze_facts.py` reads
+   `data/daily/sh510300.csv`. The published class is `sites_where_a_reader_could_open_the_written_file = 0`
+   and `...spells_the_same_name_only = 9`; only a repository directory can be opened.
+2. A quote inside an argument is not a directory the caller spells. The first draft graded
+   `os.path.join(tmp, "ok")` and `item["nm"]` as `repo_relative` -- the quote was a suffix and a
+   subscript key -- and that alone produced a false verdict ("some fixture sites write into
+   repository paths a reader opens"). Only a lone quoted literal is a path.
+3. A name match needs a segment boundary. Substring matching put `status.json` inside
+   `dashboard_status.json` and invented nine "open" rows. Both defects are now selftest legs
+   (22/22), not comments.
+
+**A writer in a temp directory is unreachable on disk, not dead.** It still executes; the reach
+classes are about call sites, so the study refuses to grade any of the 21 as dead.
+
+**Delivered.** `scripts/e432_fixture_write.py` (bulk index narrowed to the 21 helpers: rebuilding
+E428's 97-name index costs minutes for call sites this study never reads; readers prefiltered by
+name before parsing); face `FIXTUREWRITE-2026-11-04.json` + `fixturewrite_latest.json`;
+smoke leg `# E432 (r1450 bm-b)` with `scripts/run_e432_smoke_leg.py` (1/1, 1/1 red on a doctored
+tally, face restored byte-identical `1f84eeda…`); S6 leg `fixture_write`; digest
+`research/digests/DIGEST-20261105-r1450-e432-fixture-write.md`.
