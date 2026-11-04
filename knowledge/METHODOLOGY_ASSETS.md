@@ -9745,3 +9745,39 @@ off the body; a reader published as safe while forwarding an unmeasured paramete
 `results/state_tilt/FAMILYARG-20261103.json` + `familyarg_latest.json`; smoke leg `# E403:` in
 `smoke_test.py` (green on the live tree, red on a doctored copy, face restored byte-identical); S6 leg
 `family_arg` (rc 0, 3.07 s). No reader and no caller was edited.
+## E414 -- the last unsupplied read in the pointer census is supplied after all: by the reader's own module location (r1433 bm-b)
+
+**Question.** E398 published exactly one read of a `*latest.json` pointer classified
+`family_not_supplied_anywhere`: `smoke_test.py:7971` calls `_m298.load("replaycensus_latest.json")`,
+and no literal, constant, parameter or prior write names a directory at the site. Does that bare
+basename land somewhere nobody meant, at some surface other than the suite's?
+
+**Answer, measured over four process cwds.** It cannot move. `load(name, outdir=None)` resolves
+`os.path.join(outdir or OUTDIR, name)`, and `OUTDIR` is `join(ROOT, "results", "state_tilt")` with
+`ROOT = dirname(dirname(abspath(__file__)))` -- a two-hop constant chain that bottoms out at
+`__file__`. Running the real callee (its reader replaced by a recorder) from repo root, `scripts/`,
+`results/state_tilt/` and `docs/` returns **one** absolute path at all four, and it exists
+(34,575 B, its own `evidence_cutoff` 2026-11-01). Of 52 directories holding a `*latest.json` pointer
+(230 files), exactly **1** holds a file with this basename. When the face is absent the leg handler
+is `except Exception ... check(name, False, ...)`, so it goes **red**, not silent.
+
+**Three rules.**
+
+1. **A bare basename is not an unsupplied family.** E398's classifier grades the *site*; the
+   directory can be supplied one hop away in the callee (here by `OUTDIR`, previously by
+   `param or DEFAULT` in E403). Reading a census class as a property of the read is the error; the
+   class is a property of the *site plus its resolver*.
+2. **"Could it land elsewhere" is answered by the holder population, not by intuition.** The
+   counterfactual is checkable: at each surface, ask whether a cwd-relative read *would* have found
+   something. Here 1 of 4 surfaces (`results/state_tilt` itself) happens to hold the file, so a
+   cwd-relative reader would be **accidentally correct there and broken everywhere else** -- which
+   is the real defect shape this population can still carry, and it is not present at this site.
+3. **A census that publishes a pointer counts itself.** The first run reported 231 pointer files
+   instead of 230 because `unsupplied_latest.json` ends with `latest.json`; the face now excludes
+   its own two names and publishes `own_faces_excluded` (E180/E207 family, third recurrence).
+
+**Wiring.** `scripts/e414_unsupplied_read.py` (run / verify problems=[] / selftest 14/14); faces
+`results/state_tilt/UNSUPPLIED-2026-11-04.json` + `unsupplied_latest.json`; smoke leg `# E414:`
+(green on the live tree, red on a doctored copy with a wrong verdict and a missing surface, face
+restored byte-identical); S6 leg `unsupplied_read` (rc 0, 0.34 s). The leg at `smoke_test.py:7971`
+was **not** edited -- the fix, if any, is a separate card.

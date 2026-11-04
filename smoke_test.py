@@ -15482,5 +15482,51 @@ except Exception as _e403:
 check(_name403, not _bad403, "; ".join(_bad403)[:240]
       or "verdict %s" % str((_f403 or {}).get("verdict"))[:90])
 
+# E414 (r1433 bm-b): E398 published exactly ONE read of a `*latest.json` pointer whose family is
+# supplied nowhere -- smoke_test.py:7971 opens the bare basename `replaycensus_latest.json`, and no
+# literal, constant, parameter or prior write names a directory there.  E403's rule says the
+# landing must be read off the callee body (`param or DEFAULT`), not off the site.  This leg holds
+# both halves of that answer: (a) the callee is run at four process cwds and every surface must
+# resolve to the SAME absolute path, which must be on disk and must be the only file carrying that
+# basename anywhere in the corpus; (b) the leg that performs the read must FAIL when the face is
+# absent -- a silent skip is the shape that would let a wrong family's document pass.  The leg at
+# :7971 is not edited: the fix, if any, is a separate card.
+_name414 = ("product: the one bare-basename read resolves to one absolute path at every cwd, and "
+            "the leg that performs it goes red rather than reading another family")
+_bad414, _d414 = [], ""
+try:
+    _m414 = __import__("importlib").import_module("e414_unsupplied_read")
+    _f414 = json.load(open(os.path.join("results", "state_tilt", "unsupplied_latest.json"),
+                           encoding="utf-8"))
+    _s414 = _f414.get("summary") or {}
+    if _f414.get("verdict") not in _m414.VERDICT_VOCAB:
+        _bad414.append("verdict outside the frozen vocabulary")
+    _paths414 = {r.get("resolved") for r in (_f414.get("resolutions") or [])}
+    if len(_paths414) != _s414.get("distinct_resolved_paths"):
+        _bad414.append("the surfaced paths do not re-add to the distinct count")
+    if _s414.get("cwd_independent") and _s414.get("distinct_resolved_paths") != 1:
+        _bad414.append("published as cwd-independent with more than one resolved path")
+    for _r414 in _f414.get("resolutions") or []:
+        if not _r414.get("exists"):
+            _bad414.append("surface %s resolves to a path that is not on disk" % _r414.get("cwd"))
+    _hold414 = (_f414.get("candidate_families") or {}).get("holders_of_the_name") or []
+    if len(_hold414) != _s414.get("directories_holding_this_name"):
+        _bad414.append("the holder list does not re-add to its count")
+    if _s414.get("behaviour") == "silent_skip":
+        _bad414.append("the reading leg skips silently when the face is absent")
+    # the resolution must come from the callee itself, not from a join re-derived here
+    _re414 = {_m414._rel(_p) for _p in
+              (_m414.capture_resolution(os.path.join(_m414.ROOT, "scripts",
+                                                     "e298_replay_control_census.py"), _c)
+               for _c in _m414.resolution_surfaces(_m414.ROOT)) if _p}
+    if _re414 != _paths414:
+        _bad414.append("the live callee does not resolve to the published path set")
+    _d414 = "%d surface(s) -> %s | behaviour=%s | %d directory(ies) hold the name" % (
+        _s414.get("surfaces_probed"), "/".join(sorted(str(p) for p in _paths414)),
+        _s414.get("behaviour"), _s414.get("directories_holding_this_name"))
+except Exception as _e414:
+    _bad414.append(repr(_e414)[:160])
+check(_name414, not _bad414, "; ".join(_bad414)[:240] or _d414)
+
 if __name__ == "__main__":
     sys.exit(main())

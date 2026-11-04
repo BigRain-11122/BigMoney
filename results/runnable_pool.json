@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1432 bm-b: E403 closed on its call-site census (verify problems=[], selftest 11/11, S6 leg family_arg 3.07s); E414 seeded, ready floor 3",
+ "_stamp_note": "r1433 bm-b: E414 closed (verify problems=[], selftest 14/14, S6 leg unsupplied_read 0.34s); E415 seeded, ready floor 3",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27421,8 +27421,27 @@
    "priority": 3,
    "question": "smoke_test.py's replay-census leg opens the bare name 'replaycensus_latest.json' against the process cwd, and E398 refused to attribute a family because no literal, constant, parameter or prior write names one -- 28 published families hold a pointer with that shape. For that site: which directories are on the resolved path at each surface that runs it (suite cwd, S6 cwd, a session cwd), does the face exist today in any of them, and what does the leg do when it lands on a directory that does not hold it (skip, red, or silently read the wrong family's document)? The bill is a per-candidate verdict with the search that decided it plus the sentence that says whether this is the one read in the corpus that can land somewhere nobody meant. Never edit the leg relative to a campaign: the fix, if any, is a separate card.",
    "source": "bm-b r1432 E403: 0 of 38 signature-parameter calls pass a foreign family, so the only unconstrained read left in E398's population is its one family_not_supplied_anywhere site",
+   "status": "done",
+   "title": "E398 published exactly one read site whose family is supplied nowhere: a bare basename at smoke_test.py:7971 with 28 candidate family directories. Resolve it",
+   "result_ref": "results/state_tilt/UNSUPPLIED-2026-11-04.json",
+   "closed_by": "bm-b r1433",
+   "closed_at": "2026-11-04T13:2x+08:00",
+   "close_note": "the family IS supplied, by the callee: load() -> join(outdir or OUTDIR, name) with OUTDIR derived from __file__; one absolute path at four cwds, exists, and 1 of 52 pointer directories holds the basename; absence goes red, not silent"
+  },
+  {
+   "id": "E415-DO-BARE-BASENAME-READS-WORK-ONLY-BECAUSE-THE-CWD-HOLDS-THE-FACE",
+   "title": "E414 found the accident shape: a cwd-relative read of a bare basename would have been correct at results/state_tilt and broken at every other surface. Count the reads that are correct only because the process cwd happens to be the face directory",
+   "question": "For every in-repo read of a bare basename (no directory component at the call or in the resolver), resolve it against the cwd each surface actually uses (suite, S6 chain, session) and classify: pinned by a module constant / resolved by an explicit directory / cwd-relative and the face is in that cwd / cwd-relative and the face is NOT in that cwd (a read that only ever works from one launch directory). Publish the fourth class by name -- that is the population whose greenness is a property of where it was started, and it is the class E399/E414 kept narrowing to without naming. Never edit a reader relative to the campaign.",
+   "target": "smoke_test.py (read sites only) + scripts/ resolvers",
+   "deliverable": "results/state_tilt/CWDACCIDENT-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static parse plus one import per resolver; no writer runs",
+   "priority": 3,
    "status": "ready",
-   "title": "E398 published exactly one read site whose family is supplied nowhere: a bare basename at smoke_test.py:7971 with 28 candidate family directories. Resolve it"
+   "owner": null,
+   "source": "bm-b r1433 E414: the only surface where a cwd-relative read of replaycensus_latest.json would also have worked is the face directory itself",
+   "entered_at": "2026-11-04T13:2x+08:00",
+   "entered_by": "bm-b r1433 (supply floor refill after E414)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

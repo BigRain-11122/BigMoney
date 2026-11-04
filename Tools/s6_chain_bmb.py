@@ -1437,6 +1437,13 @@ LEGS = [
     # family, 13 on a scratch directory the caller just wrote, 14 forward their own caller's
     # parameter (8 readers), 0 pass a foreign family. Verify re-derives every call row from source.
     ("family_arg", ["python", "scripts/e403_family_arg.py", "verify"]),
+    # E414 (r1433): E398 published exactly one read of a `*latest.json` pointer whose family is
+    # supplied nowhere -- a bare basename at smoke_test.py:7971. E403's rule (read the landing off
+    # `param or DEFAULT` in the callee body) answers it: the callee pins its OUTDIR to its own
+    # module directory, so four process cwds resolve to one path that exists, and the leg that
+    # reads it fails red rather than skipping. Verify re-runs the callee at each surface instead
+    # of re-deriving the join here.
+    ("unsupplied_read", ["python", "scripts/e414_unsupplied_read.py", "verify"]),
 ]
 
 

@@ -1,0 +1,474 @@
+{
+ "study": "E414_unsupplied_read",
+ "title": "the one read site E398 could not attribute: the name is bare, the directory is supplied by the reader's own module location",
+ "evidence_cutoff": "2026-11-04",
+ "verdict": "the_bare_name_resolves_against_the_readers_own_module_directory_so_no_cwd_can_move_it_onto_another_family",
+ "verdict_vocab": [
+  "the_bare_name_resolves_against_the_readers_own_module_directory_so_no_cwd_can_move_it_onto_another_family",
+  "the_bare_name_resolves_against_the_process_cwd_and_no_candidate_directory_holds_it_so_the_leg_fails_rather_than_reads_a_foreign_document",
+  "the_bare_name_resolves_against_the_process_cwd_and_at_least_one_other_directory_holds_a_file_with_that_basename_so_another_surface_would_read_a_different_document",
+  "the_site_or_its_resolving_callee_is_not_in_the_tree_so_the_question_is_not_measurable"
+ ],
+ "seed": {
+  "card": "E414-WHAT-DOES-THE-ONE-BARE-BASENAME-READ-RESOLVE-TO",
+  "population": "E398 (FAMILYGLOBREAD) class family_not_supplied_anywhere -- 1 site",
+  "rule_applied": "E403: an omitted argument's landing is read off `param or DEFAULT` in the callee body, never off the call site",
+  "candidate_count_claimed_by_seed": 28,
+  "candidate_count_measured_note": "the seed's 28 is E385's file count under the merged name `latest.json`; this census counts directories holding any `*latest.json` pointer, so the two numbers answer different questions and are both published rather than reconciled"
+ },
+ "site": {
+  "found": true,
+  "line": 7971,
+  "text": "_f298 = _m298.load(\"replaycensus_latest.json\")",
+  "receiver": "_m298",
+  "callee_module": "e298_replay_control_census",
+  "import_line": null
+ },
+ "callee": {
+  "found": true,
+  "rel": "scripts/e298_replay_control_census.py",
+  "outdir_constant": {
+   "line": 46,
+   "text": "OUTDIR = os.path.join(ROOT, \"results\", \"state_tilt\")"
+  },
+  "outdir_derives_from_file": true,
+  "outdir_constant_chain": [
+   "ROOT",
+   "HERE",
+   "OUTDIR",
+   "ROOT",
+   "HERE"
+  ],
+  "load": {
+   "found": true,
+   "line": 93,
+   "signature": "def load(name, outdir=None):",
+   "params": [
+    "name",
+    "outdir=None"
+   ],
+   "returns": "return _read(os.path.join(outdir or OUTDIR, name))",
+   "calls_a_reader": true,
+   "joins_a_directory": true,
+   "omitted_param_fallback": true
+  }
+ },
+ "resolutions": [
+  {
+   "cwd": ".",
+   "resolved": "results/state_tilt/replaycensus_latest.json",
+   "exists": true
+  },
+  {
+   "cwd": "scripts",
+   "resolved": "results/state_tilt/replaycensus_latest.json",
+   "exists": true
+  },
+  {
+   "cwd": "results/state_tilt",
+   "resolved": "results/state_tilt/replaycensus_latest.json",
+   "exists": true
+  },
+  {
+   "cwd": "docs",
+   "resolved": "results/state_tilt/replaycensus_latest.json",
+   "exists": true
+  }
+ ],
+ "counterfactual_cwd_reads": [
+  {
+   "cwd": ".",
+   "cwd_relative_path": "replaycensus_latest.json",
+   "exists": false
+  },
+  {
+   "cwd": "scripts",
+   "cwd_relative_path": "scripts/replaycensus_latest.json",
+   "exists": false
+  },
+  {
+   "cwd": "results/state_tilt",
+   "cwd_relative_path": "results/state_tilt/replaycensus_latest.json",
+   "exists": true
+  },
+  {
+   "cwd": "docs",
+   "cwd_relative_path": "docs/replaycensus_latest.json",
+   "exists": false
+  }
+ ],
+ "candidate_families": {
+  "directories": {
+   "docs/live_book": [
+    "latest.json"
+   ],
+   "docs/live_usage": [
+    "LIVE-latest.json"
+   ],
+   "docs/portfolio_recommendation": [
+    "REC-latest.json"
+   ],
+   "results": [
+    "_n3r1_probe_latest.json",
+    "_n3r2_probe_latest.json",
+    "lane_host_ownership_latest.json"
+   ],
+   "results/alphagen_rg": [
+    "latest.json"
+   ],
+   "results/alphagen_rl_p1": [
+    "probe_latest.json"
+   ],
+   "results/alphagen_w18": [
+    "probe_latest.json"
+   ],
+   "results/alphagen_w19": [
+    "probe_latest.json"
+   ],
+   "results/alphagen_w20": [
+    "probe_latest.json"
+   ],
+   "results/divex_harvest": [
+    "latest.json"
+   ],
+   "results/divlowvol_live": [
+    "latest.json"
+   ],
+   "results/divlowvol_nulls": [
+    "consume-latest.json",
+    "latest.json"
+   ],
+   "results/div_event_census": [
+    "latest.json"
+   ],
+   "results/e24_breadth_h20_entry": [
+    "latest.json"
+   ],
+   "results/e24_dispersion_h60_entry": [
+    "latest.json"
+   ],
+   "results/e24_overlay_breath": [
+    "latest.json"
+   ],
+   "results/e25_whipsaw": [
+    "latest.json"
+   ],
+   "results/e33_ladder_baseline": [
+    "latest.json"
+   ],
+   "results/e44_midmonth": [
+    "HELDCURVE-latest.json"
+   ],
+   "results/etf_book_order": [
+    "latest.json"
+   ],
+   "results/etf_book_order_fresh": [
+    "latest.json"
+   ],
+   "results/etf_book_production": [
+    "latest.json"
+   ],
+   "results/etf_book_split_audit": [
+    "latest.json"
+   ],
+   "results/m6_regime5": [
+    "latest.json"
+   ],
+   "results/market_clock": [
+    "call_latest.json"
+   ],
+   "results/model_slots": [
+    "bench-bm-a-latest.json",
+    "bench-bm-c-latest.json"
+   ],
+   "results/o2115_acceptance": [
+    "pack_latest.json"
+   ],
+   "results/obs_rate": [
+    "latest.json"
+   ],
+   "results/overnight_gap_census": [
+    "holdbridge_latest.json",
+    "latest.json"
+   ],
+   "results/paper_export": [
+    "latest.json"
+   ],
+   "results/regime_gate_dualarm": [
+    "latest.json"
+   ],
+   "results/regime_gate_evidence": [
+    "evidence_latest.json"
+   ],
+   "results/regime_matrix_p0": [
+    "latest.json"
+   ],
+   "results/seasonal_calendar_census": [
+    "latest.json"
+   ],
+   "results/seasonal_horizon_stability": [
+    "latest.json"
+   ],
+   "results/stagestyle_combo_p1": [
+    "latest.json"
+   ],
+   "results/state_tilt": [
+    "addos_latest.json",
+    "aggatt_latest.json",
+    "allowance_latest.json",
+    "ballastkeys_latest.json",
+    "bandambient_latest.json",
+    "bandarrival_latest.json",
+    "bandarrivalate_latest.json",
+    "bandbucket_latest.json",
+    "bandclosure_latest.json",
+    "bandcountscope_latest.json",
+    "banddeflate_latest.json",
+    "banddisagree_latest.json",
+    "banddisagreescope_latest.json",
+    "banddonorchoice_latest.json",
+    "banddraw-d1920_latest.json",
+    "banddraw-d960_latest.json",
+    "banddraw_latest.json",
+    "banddupes_latest.json",
+    "bandexp_latest.json",
+    "bandfields_latest.json",
+    "bandflipbudget_latest.json",
+    "bandfloor_latest.json",
+    "bandfloormirror_latest.json",
+    "bandfrozen_latest.json",
+    "bandgapceiling_latest.json",
+    "bandmargin_latest.json",
+    "bandmarginwindow_latest.json",
+    "bandnear1_latest.json",
+    "bandpath_latest.json",
+    "bandpooled_latest.json",
+    "bandscopefix_latest.json",
+    "bandscreen_latest.json",
+    "bandscreenbudget_latest.json",
+    "bandselfaudit_latest.json",
+    "bandspreadfloor_latest.json",
+    "bandstraddlesweep_latest.json",
+    "bandsubstitute_latest.json",
+    "bandsubstituteaudit_latest.json",
+    "bandsupply_latest.json",
+    "bandswitch_latest.json",
+    "bandthreshguard_latest.json",
+    "bandtight_latest.json",
+    "bandtopflip_latest.json",
+    "bandtransfer_latest.json",
+    "bandundatedvintage_latest.json",
+    "bandwindist_latest.json",
+    "bandwinmult_latest.json",
+    "basisrecovery_latest.json",
+    "blobguard_latest.json",
+    "blobread_latest.json",
+    "bookecho_latest.json",
+    "boundgrant_latest.json",
+    "breakeven_latest.json",
+    "chwrcad_latest.json",
+    "collisionkey_latest.json",
+    "componentkey_latest.json",
+    "conditionalwrite_latest.json",
+    "constdirs_latest.json",
+    "consumercensus_latest.json",
+    "costcurve_latest.json",
+    "deadread_latest.json",
+    "decidegate_latest.json",
+    "decoyresolve_latest.json",
+    "e350arm_latest.json",
+    "empirical_gamma_latest.json",
+    "facenamesuffix_latest.json",
+    "facepoppin_latest.json",
+    "facererun_latest.json",
+    "facevintage_latest.json",
+    "familyarg_latest.json",
+    "familyglobread_latest.json",
+    "fieldbranch_latest.json",
+    "fragmentproducers_latest.json",
+    "freshnessbound_latest.json",
+    "gateabsence_latest.json",
+    "gateclamp_latest.json",
+    "gateform_latest.json",
+    "gateoperands_latest.json",
+    "gateprint_latest.json",
+    "gatestate_latest.json",
+    "gatetol_latest.json",
+    "granularity_latest.json",
+    "greenwindow_latest.json",
+    "guardloosen_latest.json",
+    "guardpresence_latest.json",
+    "helperrepair_latest.json",
+    "hysteresis_latest.json",
+    "infostruct_latest.json",
+    "invisibletail_latest.json",
+    "keydelta_latest.json",
+    "keyprojrepair_latest.json",
+    "keysens_latest.json",
+    "lasttick_latest.json",
+    "latest.json",
+    "latestfamily_latest.json",
+    "leadcounter_latest.json",
+    "leg_isolation_latest.json",
+    "legeps_latest.json",
+    "leginput_latest.json",
+    "localreader_latest.json",
+    "loobook_latest.json",
+    "matched_latest.json",
+    "mergedcost_latest.json",
+    "mirror_latest.json",
+    "neveropened_latest.json",
+    "omission_latest.json",
+    "optinrank_latest.json",
+    "optinswitch_latest.json",
+    "orphangateface_latest.json",
+    "owncross_latest.json",
+    "pairhet_latest.json",
+    "per_member_gamma_latest.json",
+    "phantomwhy_latest.json",
+    "pinplusstore_latest.json",
+    "pinqueue_latest.json",
+    "pointeronly_latest.json",
+    "pointerread_latest.json",
+    "precisioncensus_latest.json",
+    "precisiongap_latest.json",
+    "printcov_latest.json",
+    "publishpin_latest.json",
+    "quantityname_latest.json",
+    "reachwide_latest.json",
+    "readcap_latest.json",
+    "readresolve_latest.json",
+    "redtriage_latest.json",
+    "refreshsignal_latest.json",
+    "refusalcause_latest.json",
+    "repairrecord_latest.json",
+    "replaycensus_latest.json",
+    "repro_latest.json",
+    "republish_latest.json",
+    "restoredgate_latest.json",
+    "scaffold_latest.json",
+    "schemaaccrete_latest.json",
+    "seamreplay_latest.json",
+    "selfinclusion_latest.json",
+    "selfres_latest.json",
+    "sharediff_latest.json",
+    "siblingcloser_latest.json",
+    "siblingentry_latest.json",
+    "slopematrix_latest.json",
+    "splitprice_latest.json",
+    "stalecutoff_latest.json",
+    "stalewin_latest.json",
+    "stardir_latest.json",
+    "starlagband_latest.json",
+    "starown_latest.json",
+    "starownrepin_latest.json",
+    "starself_latest.json",
+    "storeload_latest.json",
+    "storemembercost_latest.json",
+    "subjres_latest.json",
+    "survivingconclusions_latest.json",
+    "templateparam_latest.json",
+    "timingsel_latest.json",
+    "twomeanings_latest.json",
+    "twopins_latest.json",
+    "twovintage_latest.json",
+    "unfloored_latest.json",
+    "unkeyedreader_latest.json",
+    "unpinnedchoice_latest.json",
+    "unpublishedkey_latest.json",
+    "unreadstatus_latest.json",
+    "unresolved_latest.json",
+    "unresolveddest_latest.json",
+    "unstampedcensus_latest.json",
+    "walkambig_latest.json",
+    "wrongside_latest.json",
+    "zerotolprune_latest.json"
+   ],
+   "results/t23_census": [
+    "latest.json"
+   ],
+   "results/tom_overlay": [
+    "latest.json"
+   ],
+   "results/vol_gate": [
+    "latest.json"
+   ],
+   "results/_e312_verify": [
+    "gateoperands_latest.json"
+   ],
+   "results/_e313_verify": [
+    "gateform_latest.json"
+   ],
+   "results/_e314_verify": [
+    "gateclamp_latest.json"
+   ],
+   "results/_e315_verify": [
+    "legeps_latest.json"
+   ],
+   "results/_e316_verify": [
+    "gateprint_latest.json"
+   ],
+   "results/_quarantine/20261006T2225_r784bmb_worksnap_r783/_worksnap_r783bmb_merge": [
+    "docs__live_usage__LIVE-latest.json"
+   ],
+   "results/_quarantine/r964-estate-20261013": [
+    "docs__live_usage__LIVE-latest.json",
+    "results__paper_export__latest.json"
+   ],
+   "results/_r1024bma_rollback_side": [
+    "docs__live_usage__LIVE-latest.json",
+    "results__market_clock__call_latest.json",
+    "results__paper_export__latest.json"
+   ],
+   "results/_r399bmc_ring_aside": [
+    "docs__live_usage__LIVE-latest.json"
+   ],
+   "results/_r753bmc_churn_backup": [
+    "docs__live_usage__LIVE-latest.json"
+   ],
+   "results/_r882bmc_sync_backup": [
+    "docs_live_usage_LIVE-latest.json"
+   ],
+   "results/_r903bmc_ff_backup": [
+    "docs__live_usage__LIVE-latest.json",
+    "results__paper_export__latest.json"
+   ]
+  },
+  "holders_of_the_name": [
+   "results/state_tilt"
+  ]
+ },
+ "behaviour": {
+  "class": "leg_fails_red",
+  "handler_line": 8035,
+  "evidence": "except Exception as e: -> check(_name298, False, repr(e)[:160])"
+ },
+ "face_read_by_the_leg": {
+  "bytes": 34575,
+  "mtime": "2026-11-02T00:35:36+08:00",
+  "age_days": 2.53,
+  "own_evidence_cutoff": "2026-11-01",
+  "own_verdict": "controls_that_cannot_state_their_basis_exist"
+ },
+ "summary": {
+  "site_supplied_by_its_own_callee": true,
+  "resolving_function": "def load(name, outdir=None):",
+  "outdir_derives_from_file": true,
+  "surfaces_probed": 4,
+  "distinct_resolved_paths": 1,
+  "cwd_independent": true,
+  "surfaces_where_the_name_exists": 4,
+  "cwd_relative_surfaces_where_the_name_exists": 1,
+  "pointer_directories": 52,
+  "pointer_files": 230,
+  "directories_holding_this_name": 1,
+  "own_faces_excluded": 2,
+  "behaviour": "leg_fails_red"
+ },
+ "honesty": {
+  "not_edited": "smoke_test.py is read, never rewritten -- the fix belongs to a separate card",
+  "static_plus_one_import": "the resolution is measured by importing the callee and replacing its reader with a recorder; no writer runs",
+  "line_numbers_are_advisory": "the site is identified by its call text and its receiver's import; the line number is published but not asserted"
+ },
+ "ts": "2026-11-04T13:13:19+08:00"
+}
