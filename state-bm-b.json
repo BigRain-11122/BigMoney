@@ -4813,7 +4813,7 @@
   ]
  },
  "sync": {
-  "ahead": 347,
+  "ahead": 348,
   "behind_origin_main": 288,
   "peer": "origin",
   "ts": "2026-11-04T18:10:32+08:00"
@@ -4831,7 +4831,7 @@
  "ts_utc_ms": 1793783712108,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-04T17:15:12+08:00",
- "updated_at": "2026-11-04T18:10:32+08:00",
+ "updated_at": "2026-11-04T18:18:14+08:00",
  "verdict": "green: round r1435 delivered a product (0 of the 4 red-capable reader sites prices age; the chain only verifies both frozen-gate faces)",
  "verdict_line": "E416 published; verify problems=[] and the extracted smoke leg passes 1/1",
  "verdict_watermark": "red=true lane=pool-batch-runnable-idle-low-cpu",
@@ -4911,5 +4911,13 @@
   "verify": "e415 verify problems=[] | selftest 19/19 | smoke leg 1/1 (red on a doctored copy, face restored byte-identical) | S6 leg cwd_accident rc=0 10.9s",
   "inherited": "E411's product (scripts/e411_reader_tiers.py + READERTIERS-2026-11-04.json + its smoke and S6 legs) was produced by the r1434 attempt that died at ~15:05 before closeout; this window re-ran it because the E415 leg changes its population (232 sites / 200 faces), verify problems=[], and it ships with the note that its methodology card is still owed and is NOT claimed here"
  },
- "supply_floor_ready": 3
+ "supply_floor_ready": 3,
+ "r1435_delivery": {
+  "sha": "6af36eb9196173a20eda9c0a1d13e1edafa80a71",
+  "ts": "2026-11-04T18:18:14+08:00",
+  "branch_intended": "machine/bm-b-r1435",
+  "verified": false,
+  "blocker": "push rc=128 and fetch rc=128 in this window: the remote is unreachable from this host (ssh endpoint not answering); no force and no alternate channel attempted",
+  "next_window_action": "push this commit before any new research once the remote answers"
+ }
 }

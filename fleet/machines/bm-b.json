@@ -1108,7 +1108,7 @@
  },
  "supply_floor_ready": 3,
  "sync": {
-  "ahead": 347,
+  "ahead": 348,
   "behind_origin_main": 288,
   "peer": "origin",
   "ts": "2026-11-04T18:10:32+08:00"
@@ -1136,5 +1136,13 @@
  "watermark_note": "3 ready cards at open (E413/E415/E416); E416 closed and E418 seeded, still 3 ready -- a research round on a CPU card, not an unclaimed board",
  "watermark_red": true,
  "watermark_verdict": "red=true lane=pool-batch-runnable-idle-low-cpu",
- "work": "E416: 4 red-capable sites re-read from their own blocks -- 1 copy lag by mtime, 2 frozen evidence_cutoff pins that red on an honest refresh, 1 with no date logic; 0 of 200 faces keep an age-pricing reader; of 13 priced faces the chain runs a writer for 3 and only verifies 6; 45 blind faces have no chain writer"
+ "work": "E416: 4 red-capable sites re-read from their own blocks -- 1 copy lag by mtime, 2 frozen evidence_cutoff pins that red on an honest refresh, 1 with no date logic; 0 of 200 faces keep an age-pricing reader; of 13 priced faces the chain runs a writer for 3 and only verifies 6; 45 blind faces have no chain writer",
+ "r1435_delivery": {
+  "sha": "6af36eb9196173a20eda9c0a1d13e1edafa80a71",
+  "ts": "2026-11-04T18:18:14+08:00",
+  "branch_intended": "machine/bm-b-r1435",
+  "verified": false,
+  "blocker": "push rc=128 and fetch rc=128 in this window: the remote is unreachable from this host (ssh endpoint not answering); no force and no alternate channel attempted",
+  "next_window_action": "push this commit before any new research once the remote answers"
+ }
 }
