@@ -150,7 +150,7 @@
    "study": "E398_latest_family",
    "class": "NEEDS_A_SEAM",
    "population_kind": "source_corpus",
-   "largest_quoted_population": 178,
+   "largest_quoted_population": 184,
    "needs": "a pin over the source corpus it counted",
    "producer": [
     "scripts\\e398_latest_family.py"
@@ -198,6 +198,16 @@
    ]
   },
   {
+   "study": "E408_writer_refresh_signal",
+   "class": "NEEDS_A_SEAM",
+   "population_kind": "source_corpus",
+   "largest_quoted_population": 54,
+   "needs": "a pin over the source corpus it counted",
+   "producer": [
+    "scripts\\e408_writer_refresh_signal.py"
+   ]
+  },
+  {
    "study": "E353_unwritten_guard_presence",
    "class": "STAMPABLE_NOW",
    "population_kind": "published_faces",
@@ -239,19 +249,19 @@
   }
  ],
  "summary": {
-  "faces_seen": 160,
-  "studies_with_a_published_face": 158,
-  "studies_resolved_to_a_producer": 155,
-  "studies_unresolved": 3,
-  "census_studies": 44,
+  "faces_seen": 164,
+  "studies_with_a_published_face": 162,
+  "studies_resolved_to_a_producer": 157,
+  "studies_unresolved": 5,
+  "census_studies": 46,
   "census_over_the_source_corpus": 19,
-  "census_over_the_published_faces": 34,
-  "censuses_that_quote_a_population": 24,
-  "censuses_that_enumerate_but_quote_nothing": 20,
+  "census_over_the_published_faces": 36,
+  "censuses_that_quote_a_population": 25,
+  "censuses_that_enumerate_but_quote_nothing": 21,
   "censuses_that_name_their_corpus": 2,
-  "censuses_whose_population_cannot_be_rechecked": 22,
+  "censuses_whose_population_cannot_be_rechecked": 23,
   "census_studies_exposing_a_files_seam": 7,
-  "needs_a_seam_before_replay": 17,
+  "needs_a_seam_before_replay": 18,
   "stampable_today": 5,
   "stamps_that_do_not_cover_the_declared_key": 0,
   "quoted_populations_beyond_the_directory_they_name": 5,
@@ -2450,11 +2460,11 @@
      "face": "unpinnedchoice_latest.json",
      "address": null,
      "quoted_populations": {
-      "sources_scanned": 2456
+      "sources_scanned": 2467
      },
      "rejected_keys": {},
      "implausible_populations": {},
-     "largest_quoted_population": 2456,
+     "largest_quoted_population": 2467,
      "declared_key": null,
      "address_covers_the_declared_population": null
     }
@@ -2595,16 +2605,16 @@
     {
      "face": "siblingentry_latest.json",
      "address": {
-      "pin_id": "3c7251e86e58b8e1b6c757674532b776600d9d83b7b77fe710f96c1e8baf1c20",
-      "members": 2460
+      "pin_id": "da2a7e689ace4ca67f132b5fd078c07c290f56ba4008858f546557d96ae19673",
+      "members": 2467
      },
      "quoted_populations": {
-      "sources_read": 2460,
-      "sources_where_the_readings_differ": 1501
+      "sources_read": 2467,
+      "sources_where_the_readings_differ": 1506
      },
      "rejected_keys": {},
      "implausible_populations": {},
-     "largest_quoted_population": 2460,
+     "largest_quoted_population": 2467,
      "declared_key": "sources_read",
      "address_covers_the_declared_population": true
     }
@@ -2742,7 +2752,7 @@
      "implausible_populations": {
       "faces_parsed": {
        "value": 12519,
-       "published_faces_on_disk": 160
+       "published_faces_on_disk": 164
       }
      },
      "largest_quoted_population": 12519,
@@ -3279,7 +3289,7 @@
      "implausible_populations": {
       "face_store_bytes": {
        "value": 3009139,
-       "published_faces_on_disk": 160
+       "published_faces_on_disk": 164
       }
      },
      "largest_quoted_population": 3009139,
@@ -3905,7 +3915,7 @@
      "implausible_populations": {
       "faces_scanned": {
        "value": 12313,
-       "published_faces_on_disk": 160
+       "published_faces_on_disk": 164
       }
      },
      "largest_quoted_population": 12313,
@@ -3944,11 +3954,11 @@
      "implausible_populations": {
       "face_container_reads": {
        "value": 25461,
-       "published_faces_on_disk": 160
+       "published_faces_on_disk": 164
       },
       "resolved_reads_unreadable_face": {
        "value": 3292,
-       "published_faces_on_disk": 160
+       "published_faces_on_disk": 164
       }
      },
      "largest_quoted_population": 25461,
@@ -3985,11 +3995,11 @@
      "implausible_populations": {
       "face_container_reads": {
        "value": 25461,
-       "published_faces_on_disk": 160
+       "published_faces_on_disk": 164
       },
       "sites_that_open_a_face_storing_a_key": {
        "value": 1799,
-       "published_faces_on_disk": 160
+       "published_faces_on_disk": 164
       }
      },
      "largest_quoted_population": 25461,
@@ -4144,13 +4154,13 @@
      "face": "latestfamily_latest.json",
      "address": null,
      "quoted_populations": {
-      "pointer_files_named_<family>_latest_json": 178,
+      "pointer_files_named_<family>_latest_json": 184,
       "pointer_files_named_latest_json": 28,
-      "read_sites_in_files": 39
+      "read_sites_in_files": 40
      },
      "rejected_keys": {},
      "implausible_populations": {},
-     "largest_quoted_population": 178,
+     "largest_quoted_population": 184,
      "declared_key": null,
      "address_covers_the_declared_population": null
     }
@@ -4296,6 +4306,104 @@
    "population_kind": "published_faces"
   },
   {
+   "study": "E407_leg_input",
+   "producer": [
+    "scripts\\e407_leg_input_stability.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [
+    "published_faces"
+   ],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "leginput_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NO_QUOTED_POPULATION",
+   "addressed_faces": 0,
+   "population_kind": "published_faces"
+  },
+  {
+   "study": "E408_writer_refresh_signal",
+   "producer": [
+    "scripts\\e408_writer_refresh_signal.py"
+   ],
+   "resolved_by": "study_const",
+   "domains": [
+    "published_faces"
+   ],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "refreshsignal_latest.json",
+     "address": null,
+     "quoted_populations": {
+      "suite_dispatch_scripts": 54
+     },
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": 54,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "NEEDS_A_SEAM",
+   "addressed_faces": 0,
+   "population_kind": "source_corpus"
+  },
+  {
+   "study": "E409_session_only_writers_leave_their_readers_unfloored",
+   "producer": [],
+   "resolved_by": "unresolved",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "unfloored_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "UNRESOLVED",
+   "addressed_faces": 0,
+   "population_kind": null
+  },
+  {
+   "study": "E410_bounded_lag_readers_for_two_session_written_faces",
+   "producer": [],
+   "resolved_by": "unresolved",
+   "domains": [],
+   "files_seam": false,
+   "faces": [
+    {
+     "face": "freshnessbound_latest.json",
+     "address": null,
+     "quoted_populations": {},
+     "rejected_keys": {},
+     "implausible_populations": {},
+     "largest_quoted_population": null,
+     "declared_key": null,
+     "address_covers_the_declared_population": null
+    }
+   ],
+   "class": "UNRESOLVED",
+   "addressed_faces": 0,
+   "population_kind": null
+  },
+  {
    "study": "e271_donor_choice_sensitivity",
    "producer": [
     "scripts\\e271_donor_choice_sensitivity.py"
@@ -4420,5 +4528,5 @@
    "population_kind": "source_corpus"
   }
  ],
- "ts": "2026-11-04T07:53:12"
+ "ts": "2026-11-04T11:21:05"
 }

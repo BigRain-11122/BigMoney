@@ -14893,6 +14893,85 @@ check(_name401, not _bad401, "; ".join(_bad401)[:240]
       or "verdict %s" % str((_f401 or {}).get("verdict"))[:90])
 
 
+# E406: E401 found the whole 'other' residue is git-object reads. This leg asks the consequence: a
+# reader of a committed blob and a reader of the file beside it disagree whenever the face is newer
+# than the last commit. It refuses the ways the bill can flatter itself: a site count that is not
+# its own table, a module count that is not the distinct modules, a face table that does not re-add,
+# a disagreement count that is not its own rows, a comparing module that names no paired face, a
+# gap row whose samples do not match its moved count, a face published at a midpoint with no
+# revision, and a study whose own verify is not clean.
+_name406 = ("product: %s call sites over %s modules read a committed blob, %s of %s faces measured "
+            "differ from the file right now (%s verdict string(s) moved, largest delta %s keys), "
+            "and %s module compares the two arms")
+_bad406 = []
+_f406 = None
+try:
+    _p406 = os.path.join("results", "state_tilt", "blobread_latest.json")
+    _f406 = json.load(open(_p406, encoding="utf-8")) if os.path.exists(_p406) else None
+    if _f406 is None:
+        _bad406.append("no published blob-read face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m406 = __import__("importlib").import_module("e406_blob_vs_tree_readers")
+        _s406 = _f406.get("summary") or {}
+        if _f406.get("verdict") not in _m406.VERDICTS:
+            _bad406.append("verdict %r is outside the frozen set" % str(_f406.get("verdict")))
+        _r406 = _f406.get("reader_rows") or []
+        if _s406.get("call_sites") != len(_r406):
+            _bad406.append("the site count is not its own table")
+        if _s406.get("modules_holding_a_reader") != len({r.get("module") for r in _r406}):
+            _bad406.append("the module count is not the distinct modules")
+        _g406 = _f406.get("faces") or []
+        if _s406.get("faces_measured") != len(_g406):
+            _bad406.append("the face headline is not its own table")
+        _cmp406 = [g for g in _g406 if g.get("state") == "compared"]
+        if _s406.get("faces_compared") != len(_cmp406):
+            _bad406.append("the compared-face headline does not re-derive")
+        _dif406 = [g for g in _cmp406 if g.get("keys_moved") or g.get("headline_moved")
+                   or g.get("bytes_differ")]
+        if _s406.get("faces_whose_blob_and_file_differ") != len(_dif406):
+            _bad406.append("the disagreement headline does not re-derive from its rows")
+        _vm406 = [g for g in _cmp406 if g.get("verdict_disk") is not None
+                  and g.get("verdict_disk") != g.get("verdict_blob")]
+        if _s406.get("faces_whose_verdict_string_moved") != len(_vm406):
+            _bad406.append("the moved-verdict headline does not re-derive")
+        if _s406.get("faces_absent_at_head") != sum(1 for g in _g406
+                                                    if g.get("state") == "absent_at_head"):
+            _bad406.append("the absent-at-head headline does not re-derive")
+        if _s406.get("modules_that_compare_both_arms") != len(
+                {r.get("module") for r in _r406 if r.get("compares_the_two_arms")}):
+            _bad406.append("the comparing-module headline does not re-derive")
+        for _row406 in _r406:
+            if _row406.get("compares_the_two_arms") and not _row406.get("paired_faces"):
+                _bad406.append("%s claims a comparison with no paired face"
+                               % _row406.get("module"))
+                break
+        for _gp406 in _g406:
+            if (_gp406.get("headline_moved") or 0) <= 6 and _gp406.get("headline_moved") != len(
+                    _gp406.get("headline_samples") or []) and _gp406.get("state") == "compared":
+                _bad406.append("%s: samples do not match the moved count" % _gp406.get("face"))
+                break
+            if _gp406.get("basis") not in ("literal_in_body", "literal_at_call_site",
+                                           "module_face_literal", None):
+                _bad406.append("%s: undeclared basis %r" % (_gp406.get("face"),
+                                                            _gp406.get("basis")))
+                break
+        if _cmp406 and not (_f406.get("rev") or "").strip():
+            _bad406.append("a comparison was published with no revision")
+        if _m406.verify(_p406) != []:
+            _bad406.append("the study's own verify does not come back clean")
+        _name406 = _name406 % (_s406.get("call_sites"), _s406.get("modules_holding_a_reader"),
+                               _s406.get("faces_whose_blob_and_file_differ"),
+                               _s406.get("faces_measured"),
+                               _s406.get("faces_whose_verdict_string_moved"),
+                               _s406.get("largest_key_delta"),
+                               _s406.get("modules_that_compare_both_arms"))
+except Exception as _e406:
+    _bad406.append(repr(_e406)[:160])
+check(_name406, not _bad406, "; ".join(_bad406)[:240]
+      or "verdict %s" % str((_f406 or {}).get("verdict"))[:90])
+
+
 # E398: E385 found 28 files under the name latest.json. This leg asks who READS such a pointer and
 # whether the reader knows which family wrote last. It refuses the ways a reader census can flatter
 # or indict itself: a class outside the frozen set, classes that do not sum to the read sites, a

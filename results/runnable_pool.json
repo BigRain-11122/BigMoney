@@ -27276,8 +27276,12 @@
    "owner": null,
    "priority": 3,
    "question": "E401 priced every site the stdlib call table calls 'other' and found all 10 are git-object reads: `subprocess.run([\"git\",\"show\",\"HEAD:\"+path])` and family, across 4 keys and 63 direct helpers. A working-tree read and a committed-blob read of the same published face can disagree whenever the face is newer than the last commit (it is, all day). Ask it per reader: does the site read the working tree or a git object, does it ever compare the two, and for each published face it reads, how large is the blob-vs-tree disagreement right now. The bill is the reader table plus the measured disagreement per face -- never a rewrite of a reader and never a git write.",
-   "status": "ready",
-   "title": "E401 found the whole 'other' residue is git-object reads; price the gap between the two readers"
+   "status": "done",
+   "title": "E401 found the whole 'other' residue is git-object reads; price the gap between the two readers",
+   "done_by": "bm-b",
+   "done_at": "2026-11-05T10:05:00+08:00",
+   "result_ref": "results/state_tilt/BLOBREAD-2026-11-05.json",
+   "result_note": "307 attributed sites / 126 modules; 58 faces named, 25 compared, 5 differ at census time; 1 module compares the two arms; 2,504 name-only calls published as unresolved"
   },
   {
    "claimed_at": "2026-11-04T08:20:00+08:00",
@@ -27369,6 +27373,18 @@
    "source": "bm-b r1429 E410: 5 pre-existing reader sites, 0 price the age; the two floored faces are 2 of the 193 legs that open a face",
    "entered_at": "2026-11-04T10:48:42+08:00",
    "entered_by": "bm-b r1429 (supply floor refill after E410)"
+  },
+  {
+   "id": "E412-WHICH-LEG-SHOULD-FAIL-WHEN-A-BLOB-READERS-FACE-MOVED",
+   "title": "E406 found 5 of 25 blob-read faces differ from the file right now and 1 module out of 126 ever compares the two; name the leg that should have been red",
+   "question": "E406 published the population: every attributed git-object read site, the face it reads, and the measured blob-vs-file gap. The repair is a decision, not a census: for each of the 25 measured faces, is the right guard (a) a suite leg that re-derives the face and compares it to the published one (E387's shape), (b) a leg that refuses a blob read whose face is newer than HEAD, or (c) nothing, because the blob reader wants the committed vintage on purpose (replay/seam studies: E368/E369)? Publish the per-face choice with the evidence that decided it and the count of sites each choice covers. The bill is the decision table; never edit a reader or a leg in this card.",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; reads E406's face plus git metadata; no writer runs, no leg is edited",
+   "deliverable": "results/state_tilt/BLOBGUARD-2026-11-05.json",
+   "status": "ready",
+   "priority": 3,
+   "entered_at": "2026-11-05T10:05:00+08:00",
+   "entered_by": "bm-b r1430 (supply floor refill after E406)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

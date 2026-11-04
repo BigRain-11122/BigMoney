@@ -9607,3 +9607,46 @@ number knows the counter undercounts the bounded form.
 (rc 0, 0.6 s); faces `results/state_tilt/FRESHNESSBOUND-2026-11-03.json` +
 `freshnessbound_latest.json`; `scripts/e409_unfloored_faces.py` anchor resolution + `verify()`
 refusal. Neither input face, no writer, and no engine or backtest was touched.
+## E406 -- a name-level census of git-object readers is 9 times too big, and the one module that compares the two arms is the one that was built to compare them (r1430 bm-b)
+
+Card (pool, seeded by r1422): "E401 found the whole 'other' residue is git-object reads; price the
+gap between the two readers." The question splits in three: who reads a blob, does anybody notice a
+drift, and how far apart are the two readings *right now*.
+
+Measurement: 66 git-object callables (E401's arm, imported not rewritten), **307 attributed call
+sites over 126 modules**, 58 face names a blob reader can name, 25 of those present both at HEAD and
+on disk, **5 differ at the moment of the census**, 1 verdict string moved, largest top-level key
+delta 11. `siblingentry_latest.json` is on that list because the round republished it minutes before
+the census ran: the blob still says 2,466 sources, the file says 2,467, and no leg went red.
+
+Four rules measured, not assumed:
+
+- **A corpus-wide name match is the wrong instrument, and it errs big.** `_head`, `main`, `raw`,
+  `blob`, `stage`, `close` are reused by unrelated modules; matching by name alone gave 2,811 sites
+  over 1,729 modules (E366's one-name-two-entities, third appearance). Resolving per module -- the
+  callee must be defined as a git-object helper here, or imported here from the module that defines
+  it -- gives 307 over 126. The remaining **2,504** calls carry a name that no import resolves and
+  are published as `unresolved_name_rows` instead of being counted: the site total is a floor.
+- **A helper takes the path as a parameter, so the face name lives at the call site.** Three bases
+  are published per face: `literal_in_body`, `literal_at_call_site`, and `module_face_literal`
+  ("this module names face X and passes a path at runtime"). Without the third basis the census sees
+  2 faces; with it, 58. The weaker basis must be labelled, not merged.
+- **"Compares the two" needs the same name in both arms, not two arms in one module.** Requiring the
+  identical face name on both sides finds exactly one module (`e365_face_population_pin.py`), which
+  is the study that was written to compare readings. 125 modules read a blob and never open the file
+  beside it. Reporting "1 of 126 notices" is the finding; reporting "126 modules are blind" would be
+  the same number read backwards.
+- **A republish is the cheapest way to observe the defect.** The five disagreements are not
+  hypothetical: this round's own republish of `siblingentry_latest.json` created one, and E387's leg
+  was red at round open for exactly this reason. Republish, then measure -- the gap is zero on a
+  freshly committed tree and grows all day, which is why it must be measured on the live tree.
+
+How to apply: before adding a "read the committed blob" helper, ask whether any reader ever compares
+it to the file; if the answer is no, the blob read is a snapshot with no age check, and a leg that
+compares a face to itself will stay green through the drift. When a census of readers returns a
+population implausibly larger than the number of modules, suspect the name resolver before the code.
+
+**Wiring.** `scripts/e406_blob_vs_tree_readers.py` (run / verify problems=[] / selftest 14/14);
+faces `results/state_tilt/BLOBREAD-2026-11-05.json` + `blobread_latest.json`; smoke leg `# E406:` in
+`smoke_test.py` proved standalone by `scripts/run_e406_smoke_leg.py` (1/1); S6 leg `blob_readers`
+(rc 0, 0.06 s). No reader was rewritten and git was only read.

@@ -1424,6 +1424,10 @@ LEGS = [
     # The leg runs the prover, which requires each bound red on a doctored copy and green on
     # the live tree -- a gate only ever seen green is not yet a gate.
     ("freshness_bound", ["python", "scripts/run_e410_freshness_legs.py"]),
+    # E406: the blob-vs-file census behind E401's residue. `verify` re-derives every headline from
+    # the published rows and refuses a face that was published at a midpoint; it is read-only and
+    # one `git show` per measured face, so it stays cheap enough for the chain.
+    ("blob_readers", ["python", "scripts/e406_blob_vs_tree_readers.py", "verify"]),
 ]
 
 
