@@ -1527,6 +1527,12 @@ LEGS = [
     # the bound/read totals and the direct-argument count all re-add from the published rows, so a
     # template whose binding moves refuses the chain instead of leaving a stale read count.
     ("opener_flow", ["python", "scripts/e427_opener_flow.py", "verify"]),
+    # E433 (r1453): E423 named the republish sites and stopped before the chain. Verify re-derives
+    # the code side (the republish sites' own dict literals) AND re-reads only the writer faces the
+    # same modules open for writing, re-checking the headline counts and the verdict, so a site
+    # that starts (or stops) carrying a name beside a file-capable directory field refuses the
+    # chain instead of leaving a stale "the name rides along" claim in place.
+    ("republication_chain", ["python", "scripts/e433_republication_chain.py", "verify"]),
 ]
 
 

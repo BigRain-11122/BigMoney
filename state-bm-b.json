@@ -144,10 +144,10 @@
  "decisions_watermark_note": "fetch rc!=0 (cannot lock refs/remotes/origin/main); read origin/main:docs/decisions.md from the existing ref, 239 lines, newest D-20261104-01/02, bigmoney rows = no-op",
  "delivery": {
   "branch": "machine/bm-b-r1451",
-  "sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
-  "verified": true,
   "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1451 returns the same sha",
-  "note": "main is non-fast-forward (ahead 377 / behind 294); machine branch is the delivery channel (r1243 ruling)"
+  "note": "main is non-fast-forward (ahead 377 / behind 294); machine branch is the delivery channel (r1243 ruling)",
+  "sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
+  "verified": true
  },
  "delivery_note": "pool faces were rewritten once with sort_keys and then restored with git checkout, which dropped about 1.1 KB of uncommitted lane fields and no entries (906 before, 906 after); the targeted re-apply is an append plus one stamp line",
  "delivery_sha": "6ae8a2198e8d19e38e9977002372703886c53b2a",
@@ -489,6 +489,7 @@
   "resident_servers": 0
  },
  "orphans": 0,
+ "out_of_scope_this_window": "GPU untouched (C-20261014-01 parking), zero cloud calls, zero deletions, no cleanup/quarantine",
  "pause_state": "machine-state.flag = 'resumed 2026-10-30T11:13:04', sidecar absent -> work window open (D-20261102-15/16 read live this round)",
  "pending_ops": [
   "D-20261027-08 dead-letter: after 2026-10-27T12:00 verify CODELY.md repaired on origin (LF>=55, PUA=0, both new rows present); if not, bm-b executes the recipe (base = blob da99a6e9ce, re-wrap the two flattened commits).",
@@ -499,6 +500,7 @@
  "pool": "E427 done with result_ref (pool entries 909, only that row moved state); E433/E434 remain ready (supply floor 3 maintained)",
  "pool_claims": null,
  "pool_ready_unclaimed": 3,
+ "postscript_sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
  "product": [
   "scripts/e421_strong_basis_resolution.py (selftest 27/27, verify problems=0)",
   "results/state_tilt/NAMERESOLVE-2026-11-04.json + nameresolve_latest.json",
@@ -4871,6 +4873,78 @@
   },
   "ts": "2026-11-05T06:26:16+08:00"
  },
+ "r1449": {
+  "card": "E423",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/DIRFIELD-2026-11-03.json",
+  "finding": "12,861 faces -> 822 directory-named fields -> 44 hold a file path (8 faces / 42 rows). 29 read sites in 3,401 sources: 19 whole-path, 8 republish, 1 prefix join, 1 NAME join (e347_published_number_gate_census.py:372). The name join lands on rows whose dir is a real directory, so joins_that_can_double is empty; 34 rows carry a name field beside a file-valued directory field and are the population a future join would double.",
+  "honest_note": "Set-Content -Encoding utf8 flattened METHODOLOGY_ASSETS.md (407+/857-) and was reverted; the card was re-appended with newline=\"\\n\" (52+/0). The pool was first rewritten with sort_keys=True (624/603) and was restored and rewritten in its own format (23/5).",
+  "product": [
+   "scripts/e423_dirfield_join.py made linear (parent-index containment, Name index, bisect enclosing): 36 s / 3,401 sources",
+   "scripts/e423_dirfield_join.py verify now calls value_class() instead of a private extension list (18 false problems gone)",
+   "results/state_tilt/DIRFIELD-2026-11-03.json + dirfield_latest.json re-published from the live tree (12,861 faces)",
+   "smoke_test.py leg # E423 (r1446 bm-b) now re-derives in seconds; scripts/run_e423_smoke_leg.py 1/1 + 1/1 red doctored",
+   "Tools/s6_chain_bmb.py leg dirfield_join rc=0 34.6 s",
+   "knowledge/METHODOLOGY_ASSETS.md card E423 (52 lines)",
+   "research/digests/DIGEST-20261105-r1449-e423-dirfield-join.md",
+   "results/runnable_pool.json E423 done + E433 seeded (ready 3)"
+  ],
+  "summary": {
+   "by_class": {
+    "joins_the_field_with_a_name": 1,
+    "joins_the_field_with_a_prefix_or_root": 1,
+    "reads_the_field_as_a_whole_path": 19,
+    "republishes_the_field_without_joining_it": 8
+   },
+   "corpus_sources": 3401,
+   "directory_named_fields": 822,
+   "faces_with_a_file_valued_field": 8,
+   "file_valued_fields": 44,
+   "joins_that_can_double": [],
+   "published_faces_scanned": 12861,
+   "read_sites": 29,
+   "rows_where_a_join_could_double": 34
+  },
+  "ts": "2026-11-05T07:13:39+08:00"
+ },
+ "r1450": {
+  "card": "E432",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/FIXTUREWRITE-2026-11-04.json",
+  "finding": "21 fixture-shaped parameter-directory write sites: 15 temp (a tempdir constructor in the caller's argument), 6 runtime_constant, 0 repo_relative; 19 reached only from a selftest caller, 2 from a production caller; 9 spell a reader's file name as a segment and 0 of those can be the file that reader opens (tmp/sh510300.csv vs data/daily/sh510300.csv).",
+  "product": [
+   "scripts/e432_fixture_write.py (bulk index narrowed to the 21 helpers; readers prefiltered by name before parsing: build ~3 min instead of a timeout)",
+   "results/state_tilt/FIXTUREWRITE-2026-11-04.json + fixturewrite_latest.json (21 rows)",
+   "smoke_test.py leg '# E432 (r1450 bm-b)' + scripts/run_e432_smoke_leg.py (1/1, 1/1 red doctored, face restored byte-identical 1f84eeda)",
+   "Tools/s6_chain_bmb.py leg fixture_write (rc=0, 163.4 s)",
+   "knowledge/METHODOLOGY_ASSETS.md card E432 (+46/-1, newline='\\n', no flattening)",
+   "research/digests/DIGEST-20261105-r1450-e432-fixture-write.md",
+   "results/runnable_pool.json E432 done + E434 seeded (ready 3: E427/E433/E434)"
+  ],
+  "self_caught": [
+   "a substring name test matched status.json inside dashboard_status.json and invented 9 'a reader opens this' rows; now a path-segment regex",
+   "a quote anywhere in the supplied argument graded os.path.join(tmp,'ok') and item['nm'] as repo_relative, which produced a false verdict in the first published face; only a lone quoted literal is a path now",
+   "the pool card said '21 among its 310'; the 21 are a subset of the 35 unplaced rows -- published as summary.population_premise_correction"
+  ],
+  "ts": "2026-11-05T07:53:07+08:00"
+ },
+ "r1450_delivery": {
+  "branch": "machine/bm-b-r1450",
+  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1450 == HEAD",
+  "sha": "8199ec580e20011699835c4266017c3e794fdba4",
+  "verified": true
+ },
+ "r1451_delivery": {
+  "branch": "machine/bm-b-r1451",
+  "sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
+  "verified": true
+ },
+ "r1452_delivery": {
+  "branch": "machine/bm-b-r1452",
+  "postscript_pending": true,
+  "sha": "3d04d738111c792c047cc3879e4fff15bc9265ac",
+  "verified": true
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -4902,9 +4976,10 @@
   "corpus_helper_invisible_text",
   "fleet_gpu_face_self_consistency_bm_b"
  ],
+ "reds_open_note": "all 12 were already red before this window (r1446's run showed 13; the E423 one closed in r1449); none is caused by this round's files -- the new E432 leg passes in the same suite",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1452,
- "round_no": 1452,
+ "round_no": 1453,
  "round_no_label": "r1452",
  "round_no_note": "r1451: E427 shipped; every round key moves together (r1393 lesson)",
  "round_no_ts": "2026-11-05T10:00:40+08:00",
@@ -4919,6 +4994,9 @@
  "s6_note": "only the new S6 leg (verify) ran this window; the rest of the S6 chain was not re-run and is not claimed",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
  "s7": "loop task no-op (pin=2/current=2) | Bigmoney-LoopWatchdog RE-REGISTERED again (absent at window start, S4U, SWA=false, first fire 10:03) -- two windows in a row, so next round must find what removes it | pre-commit and pre-push claws byte-identical to Tools/git-hooks (zero action) | orphan probe py_faces=6 orphans=0 residents=0",
+ "s7_checked_at": "2026-11-05T10:01:36+08:00",
+ "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
+ "s7_note": "watchdog disappearance is now a repeating defect, not a one-off",
  "s7_r1439": "loop pin=2 no-op | LoopWatchdog RE-REGISTERED (absent on this box; S4U, SWA=false) | pre-commit + pre-push claws reinstalled | attrition CLEAN 4 ledgers (3 healed) | sat engine status rc=0 idle",
  "sat_engine": "status rc=0, last_verdict=idle, not restarted",
  "selftest": "not run this window (no code change)",
@@ -4986,83 +5064,5 @@
  "watermark_note": "3 ready cards at close (E433/E434/E435); the round spent its wall budget on closing the E398 red rather than burning a card",
  "watermark_red": true,
  "watermark_verdict": "red=true lane=pool-batch-runnable-idle-low-cpu",
- "work": "E398 latest-family face re-derived and verified clean after the r1451 pointer landed; pool refilled to floor 3 with E435; dualrun ZERO-DRIFT streak 51 on 910 entries; attrition CLEAN",
- "r1449": {
-  "card": "E423",
-  "dept": "research+engineering",
-  "face": "results/state_tilt/DIRFIELD-2026-11-03.json",
-  "finding": "12,861 faces -> 822 directory-named fields -> 44 hold a file path (8 faces / 42 rows). 29 read sites in 3,401 sources: 19 whole-path, 8 republish, 1 prefix join, 1 NAME join (e347_published_number_gate_census.py:372). The name join lands on rows whose dir is a real directory, so joins_that_can_double is empty; 34 rows carry a name field beside a file-valued directory field and are the population a future join would double.",
-  "product": [
-   "scripts/e423_dirfield_join.py made linear (parent-index containment, Name index, bisect enclosing): 36 s / 3,401 sources",
-   "scripts/e423_dirfield_join.py verify now calls value_class() instead of a private extension list (18 false problems gone)",
-   "results/state_tilt/DIRFIELD-2026-11-03.json + dirfield_latest.json re-published from the live tree (12,861 faces)",
-   "smoke_test.py leg # E423 (r1446 bm-b) now re-derives in seconds; scripts/run_e423_smoke_leg.py 1/1 + 1/1 red doctored",
-   "Tools/s6_chain_bmb.py leg dirfield_join rc=0 34.6 s",
-   "knowledge/METHODOLOGY_ASSETS.md card E423 (52 lines)",
-   "research/digests/DIGEST-20261105-r1449-e423-dirfield-join.md",
-   "results/runnable_pool.json E423 done + E433 seeded (ready 3)"
-  ],
-  "summary": {
-   "published_faces_scanned": 12861,
-   "directory_named_fields": 822,
-   "file_valued_fields": 44,
-   "faces_with_a_file_valued_field": 8,
-   "corpus_sources": 3401,
-   "read_sites": 29,
-   "by_class": {
-    "reads_the_field_as_a_whole_path": 19,
-    "joins_the_field_with_a_name": 1,
-    "republishes_the_field_without_joining_it": 8,
-    "joins_the_field_with_a_prefix_or_root": 1
-   },
-   "rows_where_a_join_could_double": 34,
-   "joins_that_can_double": []
-  },
-  "honest_note": "Set-Content -Encoding utf8 flattened METHODOLOGY_ASSETS.md (407+/857-) and was reverted; the card was re-appended with newline=\"\\n\" (52+/0). The pool was first rewritten with sort_keys=True (624/603) and was restored and rewritten in its own format (23/5).",
-  "ts": "2026-11-05T07:13:39+08:00"
- },
- "out_of_scope_this_window": "GPU untouched (C-20261014-01 parking), zero cloud calls, zero deletions, no cleanup/quarantine",
- "reds_open_note": "all 12 were already red before this window (r1446's run showed 13; the E423 one closed in r1449); none is caused by this round's files -- the new E432 leg passes in the same suite",
- "r1450": {
-  "card": "E432",
-  "dept": "research+engineering",
-  "face": "results/state_tilt/FIXTUREWRITE-2026-11-04.json",
-  "finding": "21 fixture-shaped parameter-directory write sites: 15 temp (a tempdir constructor in the caller's argument), 6 runtime_constant, 0 repo_relative; 19 reached only from a selftest caller, 2 from a production caller; 9 spell a reader's file name as a segment and 0 of those can be the file that reader opens (tmp/sh510300.csv vs data/daily/sh510300.csv).",
-  "self_caught": [
-   "a substring name test matched status.json inside dashboard_status.json and invented 9 'a reader opens this' rows; now a path-segment regex",
-   "a quote anywhere in the supplied argument graded os.path.join(tmp,'ok') and item['nm'] as repo_relative, which produced a false verdict in the first published face; only a lone quoted literal is a path now",
-   "the pool card said '21 among its 310'; the 21 are a subset of the 35 unplaced rows -- published as summary.population_premise_correction"
-  ],
-  "product": [
-   "scripts/e432_fixture_write.py (bulk index narrowed to the 21 helpers; readers prefiltered by name before parsing: build ~3 min instead of a timeout)",
-   "results/state_tilt/FIXTUREWRITE-2026-11-04.json + fixturewrite_latest.json (21 rows)",
-   "smoke_test.py leg '# E432 (r1450 bm-b)' + scripts/run_e432_smoke_leg.py (1/1, 1/1 red doctored, face restored byte-identical 1f84eeda)",
-   "Tools/s6_chain_bmb.py leg fixture_write (rc=0, 163.4 s)",
-   "knowledge/METHODOLOGY_ASSETS.md card E432 (+46/-1, newline='\\n', no flattening)",
-   "research/digests/DIGEST-20261105-r1450-e432-fixture-write.md",
-   "results/runnable_pool.json E432 done + E434 seeded (ready 3: E427/E433/E434)"
-  ],
-  "ts": "2026-11-05T07:53:07+08:00"
- },
- "r1450_delivery": {
-  "branch": "machine/bm-b-r1450",
-  "sha": "8199ec580e20011699835c4266017c3e794fdba4",
-  "verified": true,
-  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1450 == HEAD"
- },
- "postscript_sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
- "r1451_delivery": {
-  "branch": "machine/bm-b-r1451",
-  "sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
-  "verified": true
- },
- "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
- "s7_checked_at": "2026-11-05T10:01:36+08:00",
- "s7_note": "watchdog disappearance is now a repeating defect, not a one-off",
- "r1452_delivery": {
-  "branch": "machine/bm-b-r1452",
-  "sha": "3d04d738111c792c047cc3879e4fff15bc9265ac",
-  "verified": true,
-  "postscript_pending": true
- }
+ "work": "E398 latest-family face re-derived and verified clean after the r1451 pointer landed; pool refilled to floor 3 with E435; dualrun ZERO-DRIFT streak 51 on 910 entries; attrition CLEAN"
 }

@@ -16158,6 +16158,72 @@ except Exception as _e432x:
     _bad432.append(repr(_e432x)[:160])
 check(_name432, not _bad432, "; ".join(_bad432)[:240] or _d432)
 
+# E433 (r1453 bm-b): E423 named 6-8 read sites that republish a directory-named field without
+# joining it, and left the chain open: does the republished row carry a name too, so a reader of
+# the NEW face can compose a doubled name exactly as in the face the value came from?  This leg
+# re-derives the whole study (0.5 s) and refuses (a) a verdict outside the vocabulary or one that
+# does not re-derive, (b) a stored count that a fresh build does not come back with, (c) a site
+# claimed as binding a name beside a file-capable key without both key kinds, (d) a name key that
+# is not a name key, (e) a writer face named but absent on disk, (f) a row list that does not
+# close against the file-valued row count, and (g) a "double ready" count that exceeds the rows
+# actually carrying a name.
+_name433 = ("product: a republished directory value carries its row's name into the next face, "
+            "so the doubling defect is not contained by the republication")
+_bad433, _d433 = [], ""
+try:
+    _m433 = __import__("importlib").import_module("e433_republication_chain")
+    _f433 = json.load(open(os.path.join("results", "state_tilt", "republishchain_latest.json"),
+                           encoding="utf-8"))
+    _s433 = _f433.get("summary") or {}
+    _sites433 = _f433.get("republish_sites") or []
+    _rows433 = _f433.get("rows") or []
+    if _f433.get("verdict") not in _m433.VERDICT_VOCAB:
+        _bad433.append("verdict outside the vocabulary")
+    if _f433.get("verdict") != _m433.decide(_s433):
+        _bad433.append("verdict does not re-derive from the summary")
+    _live433 = _m433.build()["summary"]
+    for _k433 in ("republish_sites", "sites_binding_a_name_beside_a_file_capable_key",
+                  "writer_faces", "file_valued_rows_in_writer_faces",
+                  "double_ready_rows_in_writer_faces"):
+        if _s433.get(_k433) != _live433.get(_k433):
+            _bad433.append("%s stored=%r live=%r" % (_k433, _s433.get(_k433), _live433.get(_k433)))
+    _bound433 = 0
+    for _st433 in _sites433:
+        if _st433.get("binds_a_name_beside_a_file_capable_key"):
+            _bound433 += 1
+            if not (_st433.get("file_capable_keys") and _st433.get("name_keys")):
+                _bad433.append("%s:%s is bound with only one of the two key kinds"
+                               % (_st433.get("file"), _st433.get("line")))
+        for _nk433 in _st433.get("name_keys") or []:
+            if _nk433 not in _m433.base.NAME_KEYS:
+                _bad433.append("%s: %r is not a name key" % (_st433.get("file"), _nk433))
+    if _bound433 != _s433.get("sites_binding_a_name_beside_a_file_capable_key"):
+        _bad433.append("the bound-site table does not close against the site list")
+    if len(_sites433) != _s433.get("republish_sites"):
+        _bad433.append("republish_sites %r does not match %d site rows"
+                       % (_s433.get("republish_sites"), len(_sites433)))
+    for _wf433 in _f433.get("writer_faces") or []:
+        if not os.path.exists(os.path.join(_wf433.replace("/", os.sep))):
+            _bad433.append("writer face absent on disk: %s" % _wf433)
+    if len(_rows433) > _s433.get("file_valued_rows_in_writer_faces", 0):
+        _bad433.append("the published row list exceeds the counted file-valued rows")
+    _named433 = sum(1 for _r433 in _rows433 if _r433.get("name_fields_in_the_same_row"))
+    if _s433.get("double_ready_rows_in_writer_faces") != _named433:
+        _bad433.append("double-ready %r does not close against %d named rows"
+                       % (_s433.get("double_ready_rows_in_writer_faces"), _named433))
+    if _s433.get("rows_whose_name_already_equals_the_value_basename", 0) > _named433:
+        _bad433.append("more names equal the basename than carry a name at all")
+    _d433 = "%d site(s) republish a directory field, %d bind a name beside a file-capable key " \
+            "| %d writer face(s), %d file-valued row(s), %d carry a name, %d already equal the " \
+            "basename | %s" % (
+                len(_sites433), _bound433, _s433.get("writer_faces", 0),
+                _s433.get("file_valued_rows_in_writer_faces", 0), _named433,
+                _s433.get("rows_whose_name_already_equals_the_value_basename", 0),
+                _f433.get("verdict"))
+except Exception as _e433x:
+    _bad433.append(repr(_e433x)[:160])
+check(_name433, not _bad433, "; ".join(_bad433)[:240] or _d433)
+
 # E428 (r1448 bm-b): E429 billed 35 parameter-directory write sites as having "no caller found in
 # the corpus".  That 35 was never a statement about the corpus: E429's call-site index was built
 # only for helper names whose path spells no literal at all, and a function that writes

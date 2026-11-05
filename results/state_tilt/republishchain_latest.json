@@ -1,0 +1,865 @@
+{
+ "study": "E433_whether_a_republished_directory_value_carries_a_name_one_face_further",
+ "card": "E433-WHICH-REPUBLICATION-SITE-CARRIES-A-FILE-VALUED-DIRECTORY-FIELD-INTO-A-NEW-FACE",
+ "title": "price whether a republication row binds a name beside a file-capable directory field, and whether the new face's rows stay double-ready",
+ "generated": "2026-11-05",
+ "evidence_cutoff": "2026-11-03",
+ "verdict": "a_republication_row_binds_a_name_beside_a_file_capable_directory_field_and_its_published_rows_are_still_double_ready",
+ "summary": {
+  "republish_sites": 8,
+  "sites_by_file": {
+   "scripts/e399_unresolved_names.py": 1,
+   "scripts/e403_family_arg.py": 5,
+   "scripts/e404_constant_directory_resolution.py": 2
+  },
+  "sites_binding_a_name_beside_a_file_capable_key": 3,
+  "file_capable_keys": [
+   "dir",
+   "directory_expression",
+   "parent_dir",
+   "resolved_dir",
+   "resolved_directory"
+  ],
+  "bound_key_pairs": [
+   [
+    "directory_expression",
+    "fragment"
+   ],
+   [
+    "parent_dir",
+    "key"
+   ]
+  ],
+  "writer_faces": 2,
+  "writer_faces_scanned": 2,
+  "republish_files_without_a_writer_face": [
+   "scripts/e399_unresolved_names.py"
+  ],
+  "file_valued_rows_in_writer_faces": 16,
+  "rows_carrying_a_name_beside_the_value": 12,
+  "rows_whose_name_already_equals_the_value_basename": 11,
+  "double_ready_rows_in_writer_faces": 12,
+  "rows_by_key": {
+   "resolved_directory": 11,
+   "directory_expression": 1,
+   "dir": 2,
+   "resolved_dir": 2
+  },
+  "name_keys_by_row": {
+   "fragment": 12
+  }
+ },
+ "republish_sites": [
+  {
+   "file": "scripts/e399_unresolved_names.py",
+   "line": 315,
+   "function": "name_row",
+   "key": "parent_dir",
+   "scope": "name_row",
+   "literals": [
+    {
+     "keys": [
+      "class",
+      "form",
+      "history_arm_ran",
+      "history_path",
+      "is_directory",
+      "key",
+      "n_files_baseline",
+      "n_files_wider",
+      "norm",
+      "parent_dir",
+      "parent_exists",
+      "parent_is_a_file",
+      "same_stem_other_date",
+      "wide_files"
+     ],
+     "lineno": 305
+    },
+    {
+     "keys": [
+      "parent_dir",
+      "parent_exists",
+      "parent_is_a_file",
+      "same_stem_other_date"
+     ],
+     "lineno": 291
+    }
+   ],
+   "file_capable_keys": [
+    "parent_dir"
+   ],
+   "name_keys": [
+    "key"
+   ],
+   "binds_a_name_beside_a_file_capable_key": true
+  },
+  {
+   "file": "scripts/e403_family_arg.py",
+   "line": 431,
+   "function": "_classify",
+   "key": "dir",
+   "scope": "_classify",
+   "literals": [
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 475
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 416
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 420
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 466
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 470
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 473
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 424
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 464
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "forwarded_default_dir",
+      "forwarded_default_expr",
+      "resolved_dir"
+     ],
+     "lineno": 430
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 444
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 450
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "forwarded_default_dir",
+      "forwarded_default_expr",
+      "resolved_dir"
+     ],
+     "lineno": 454
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 460
+    }
+   ],
+   "file_capable_keys": [
+    "resolved_dir"
+   ],
+   "name_keys": [],
+   "binds_a_name_beside_a_file_capable_key": false
+  },
+  {
+   "file": "scripts/e403_family_arg.py",
+   "line": 445,
+   "function": "_classify",
+   "key": "resolved_dir",
+   "scope": "_classify",
+   "literals": [
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 475
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 416
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 420
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 466
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 470
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 473
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 424
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 464
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "forwarded_default_dir",
+      "forwarded_default_expr",
+      "resolved_dir"
+     ],
+     "lineno": 430
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 444
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 450
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "forwarded_default_dir",
+      "forwarded_default_expr",
+      "resolved_dir"
+     ],
+     "lineno": 454
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 460
+    }
+   ],
+   "file_capable_keys": [
+    "resolved_dir"
+   ],
+   "name_keys": [],
+   "binds_a_name_beside_a_file_capable_key": false
+  },
+  {
+   "file": "scripts/e403_family_arg.py",
+   "line": 455,
+   "function": "_classify",
+   "key": "dir",
+   "scope": "_classify",
+   "literals": [
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 475
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 416
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 420
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 466
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 470
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 473
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 424
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 464
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "forwarded_default_dir",
+      "forwarded_default_expr",
+      "resolved_dir"
+     ],
+     "lineno": 430
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 444
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 450
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "forwarded_default_dir",
+      "forwarded_default_expr",
+      "resolved_dir"
+     ],
+     "lineno": 454
+    },
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 460
+    }
+   ],
+   "file_capable_keys": [
+    "resolved_dir"
+   ],
+   "name_keys": [],
+   "binds_a_name_beside_a_file_capable_key": false
+  },
+  {
+   "file": "scripts/e403_family_arg.py",
+   "line": 671,
+   "function": "build",
+   "key": "dir",
+   "scope": "build",
+   "literals": [
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 670
+    },
+    {
+     "keys": [
+      "bound_by",
+      "caller",
+      "caller_file",
+      "caller_function",
+      "class",
+      "detail",
+      "expr",
+      "forwarded_default_dir",
+      "line",
+      "resolved_dir"
+     ],
+     "lineno": 677
+    },
+    {
+     "keys": [
+      "call",
+      "dir",
+      "own_family_dir"
+     ],
+     "lineno": 708
+    }
+   ],
+   "file_capable_keys": [
+    "dir",
+    "resolved_dir"
+   ],
+   "name_keys": [],
+   "binds_a_name_beside_a_file_capable_key": false
+  },
+  {
+   "file": "scripts/e403_family_arg.py",
+   "line": 685,
+   "function": "build",
+   "key": "resolved_dir",
+   "scope": "build",
+   "literals": [
+    {
+     "keys": [
+      "class",
+      "detail",
+      "expr",
+      "resolved_dir"
+     ],
+     "lineno": 670
+    },
+    {
+     "keys": [
+      "bound_by",
+      "caller",
+      "caller_file",
+      "caller_function",
+      "class",
+      "detail",
+      "expr",
+      "forwarded_default_dir",
+      "line",
+      "resolved_dir"
+     ],
+     "lineno": 677
+    },
+    {
+     "keys": [
+      "call",
+      "dir",
+      "own_family_dir"
+     ],
+     "lineno": 708
+    }
+   ],
+   "file_capable_keys": [
+    "dir",
+    "resolved_dir"
+   ],
+   "name_keys": [],
+   "binds_a_name_beside_a_file_capable_key": false
+  },
+  {
+   "file": "scripts/e404_constant_directory_resolution.py",
+   "line": 608,
+   "function": "build_site_row",
+   "key": "directory_expression",
+   "scope": "build_site_row",
+   "literals": [
+    {
+     "keys": [
+      "constants",
+      "directory_expression",
+      "fragment",
+      "fragment_write_sites",
+      "site",
+      "source"
+     ],
+     "lineno": 607
+    },
+    {
+     "keys": [
+      "class",
+      "composed_path",
+      "detail",
+      "path_exists",
+      "resolved_directory",
+      "resolved_inside_tree"
+     ],
+     "lineno": 645
+    },
+    {
+     "keys": [
+      "class",
+      "composed_path",
+      "detail",
+      "path_exists",
+      "resolved_directory"
+     ],
+     "lineno": 621
+    },
+    {
+     "keys": [
+      "class",
+      "composed_path",
+      "detail",
+      "path_exists",
+      "resolved_directory"
+     ],
+     "lineno": 625
+    },
+    {
+     "keys": [
+      "class",
+      "composed_path",
+      "detail",
+      "path_exists",
+      "resolved_directory",
+      "trace"
+     ],
+     "lineno": 613
+    }
+   ],
+   "file_capable_keys": [
+    "directory_expression",
+    "resolved_directory"
+   ],
+   "name_keys": [
+    "fragment"
+   ],
+   "binds_a_name_beside_a_file_capable_key": true
+  },
+  {
+   "file": "scripts/e404_constant_directory_resolution.py",
+   "line": 677,
+   "function": "build",
+   "key": "directory_expression",
+   "scope": "build",
+   "literals": [
+    {
+     "keys": [
+      "class",
+      "constants",
+      "detail",
+      "directory_expression",
+      "fragment",
+      "site",
+      "source",
+      "trace"
+     ],
+     "lineno": 676
+    }
+   ],
+   "file_capable_keys": [
+    "directory_expression"
+   ],
+   "name_keys": [
+    "fragment"
+   ],
+   "binds_a_name_beside_a_file_capable_key": true
+  }
+ ],
+ "writer_faces": [
+  "results/state_tilt/constdirs_latest.json",
+  "results/state_tilt/familyarg_latest.json"
+ ],
+ "rows": [
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\trial_labor_w20\\w20_screen.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\trial_labor_w20\\w20_reform_face.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\mktcap_raw.meta.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "directory_expression",
+   "value": "ROOT / \"results\" / \"idle_trigger.bm-c.json\"",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": []
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\idle_trigger.bm-c.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\firm\\traders\\COMPOSITE-001.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/familyarg_latest.json",
+   "key": "dir",
+   "value": "results/etf_book_production/latest.json",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": []
+  },
+  {
+   "face": "results/state_tilt/familyarg_latest.json",
+   "key": "resolved_dir",
+   "value": "results/etf_book_production/latest.json",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": []
+  },
+  {
+   "face": "results/state_tilt/familyarg_latest.json",
+   "key": "dir",
+   "value": "results/etf_book_production/latest.json",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": []
+  },
+  {
+   "face": "results/state_tilt/familyarg_latest.json",
+   "key": "resolved_dir",
+   "value": "results/etf_book_production/latest.json",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": []
+  }
+ ],
+ "method_limits": [
+  "a writer is owned only when the module names the face as a bare *.json literal; a face composed from a stem prefix is not attributed and is published as unattributed",
+  "a literal is graded by its own key set; a row assembled from **kwargs or by mutating a dict after the literal is out of reach and is listed with the keys the AST saw",
+  "the name test is E423's row test (a name key holding the value's basename), so it prices the row, not the key"
+ ]
+}

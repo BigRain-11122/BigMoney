@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1450 bm-b: E432 published (face FIXTUREWRITE-2026-11-04: 21 fixture-shaped sites priced -- 15 temp / 6 runtime / 0 repo-relative, 0 openable, 9 share only a name; the first draft produced a false verdict from a substring name match and a quote-inside-an-argument path test, both now selftest legs) -- E432 closed, E434 seeded, supply floor restored to 3.",
+ "_stamp_note": "r1453 bm-b: E433 published (face REPUBLISHCHAIN-2026-11-03: 8 republish sites, 3 bind a name beside a file-capable directory key, 12 of 16 file-valued rows in the writer faces stay double-ready; the first draft counted every *.json literal and published 32 writer faces, fixed to read the open(...,'w') call) -- E433 closed, E436 seeded, floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27658,11 +27658,17 @@
    "lane": "cpu-only",
    "lane_note": "cpu-only; static AST joins, no writer runs",
    "priority": 3,
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "bm-b r1449 E423: by_class republishes_the_field_without_joining_it = 8, file-valued directory fields = 44 across 8 faces",
    "entered_at": "2026-11-05T07:2x+08:00",
-   "entered_by": "bm-b r1449 (supply floor refill after E423)"
+   "entered_by": "bm-b r1449 (supply floor refill after E423)",
+   "claimed_at": "2026-11-05T10:2x+08:00",
+   "claimed_by": "bm-b",
+   "closed_at": "2026-11-05T10:27:14+08:00",
+   "closed_by": "bm-b r1453",
+   "result_ref": "results/state_tilt/REPUBLISHCHAIN-2026-11-03.json",
+   "outcome": "8 republish sites; 3 bind a name key beside a file-capable directory key (directory_expression+fragment, parent_dir+key). The 2 writer faces the same modules open carry 16 file-valued directory rows, 12 with a sibling name and 11 whose name already equals the value's basename -- the doubling defect travels one face further instead of being contained. First draft published 32 'writer faces' by counting every *.json literal; fixed to read the write call."
   },
   {
    "id": "E434-WHICH-PARAMETER-SITE-OUTSIDE-E428-UNPLACED-SET-IS-FIXTURE-SHAPED",
@@ -27687,6 +27693,20 @@
    "source": "bm-b r1452: E398 latest-family face republished after the r1451 pointer moved the population 203->204 (named_pointers=204, verify problems=[]); E423 summary stands at 822 directory-named fields / 44 file-valued",
    "entered_at": "2026-11-05T10:0x+08:00",
    "entered_by": "bm-b r1452 (supply floor refill: ready was 2 after E427/E432 closed)"
+  },
+  {
+   "id": "E436-WHICH-CONSUMER-JOINS-THE-DOUBLE-READY-ROWS-THAT-E433-FOUND",
+   "title": "E433 found 11 published rows whose directory field holds a file path and whose sibling name already equals that basename -- the composition is armed -- but nobody has asked whether any consumer actually joins them",
+   "question": "Take the 12 double-ready rows E433 published (constdirs_latest.json, key resolved_directory, name fragment). For each row ask: is there a read site in the corpus that joins resolved_directory with fragment (or with a fragment read from the same row), and does the composed path exist on disk? Publish the read sites by class (whole-path / name join / prefix join / republish) and the count of compositions that would land on a file that does not exist. Re-derive in verify.",
+   "deliverable": "results/state_tilt/DOUBLEJOIN-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "cpu-only; static AST read-site census, no writer runs",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "source": "bm-b r1453 E433: 12 double-ready rows in constdirs_latest.json (11 names already equal the basename), 0 consumers measured",
+   "entered_at": "2026-11-05T10:27:14+08:00",
+   "entered_by": "bm-b r1453 (supply floor refill after E433)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

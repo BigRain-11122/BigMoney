@@ -10474,3 +10474,45 @@ unreadable); face `OPENERFLOW-2026-11-05.json` + `openerflow_latest.json`; smoke
 `# E427 (r1451 bm-b)` with `scripts/run_e427_smoke_leg.py` (1/1 green, 1/1 red on a doctored
 `by_state`, face restored byte-identical `78ec8c2868c748be`); S6 leg `opener_flow` (rc=0, 67s);
 digest `research/digests/DIGEST-20261105-r1451-e427-opener-flow.md`.
+
+### E433 -- a republished directory value carries its row's name into the next face, so the
+doubling defect is not contained by the republication (r1453 bm-b)
+
+E423 named 8 read sites that republish a directory-named field without joining it, and 44
+published fields that hold a FILE path under a directory name, then stopped at the first face. The
+chain question was left open: when such a value is republished, does the new row carry a name too?
+If it does, a reader of the NEW face can compose a doubled name exactly as it could in the face the
+value came from -- the defect travels one face further instead of being contained.
+
+**Measured, both sides machine-derived.** Code side: the 8 republish sites, parsed with AST, each
+priced by the dict literals its own enclosing function writes -- 3 of them bind a name key beside a
+file-capable directory key (pairs `directory_expression`+`fragment`, `parent_dir`+`key`). Face
+side: the writer faces those same modules open for writing -- 2 faces, 16 file-valued directory
+rows, 12 carrying a sibling name, 11 of those names already equal the value's basename. Verdict,
+recomputed by the gate: `a_republication_row_binds_a_name_beside_a_file_capable_directory_field_
+and_its_published_rows_are_still_double_ready`.
+
+**Three rules, measured not assumed.** (a) *Naming a face is not writing it*: e403 names
+`latestfamily_latest.json` as its SEED face and only reads it; attributing every `*.json` literal in
+a module published 32 "writer faces", most never opened for writing. The fix reads the
+`open(..., 'w')` call and follows module constants and one level of for-loop bindings
+(`for name in (FACE, LATEST)`), which is how these faces are actually addressed. (b) *A republication
+site that emits no name is not a null result*: e403's five republish rows carry only
+class/expr/dir keys, so its face's 4 file-valued rows are published as NOT double-ready -- folding
+them in would have priced the key instead of the row. (c) *The counting unit is the row*: the name
+is what makes a join possible, so every count is per row (name present / name equals basename),
+never per key.
+
+**Bounds, published not claimed.** A writer is owned only when the module spells the face as a bare
+`*.json` literal under a write call -- e399's republish row is published with
+`republish_files_without_a_writer_face` naming it rather than silently dropped. A literal is graded
+by its own key set, so a row assembled from `**kwargs` or mutated after the literal is out of
+reach. The near-identity of name and basename (11 of 12) is structural here: in constdirs the name
+IS the fragment being resolved, which is exactly why a later join would double it.
+
+**Delivered.** `scripts/e433_republication_chain.py` (imports E423's vocabulary -- a second
+detector would make the two faces unreadable); face `REPUBLISHCHAIN-2026-11-03.json` +
+`republishchain_latest.json`; smoke leg `# E433 (r1453 bm-b)` with `scripts/run_e433_smoke_leg.py`
+(1/1 green, 1/1 red on a doctored double-ready count, face restored byte-identical
+`595c19613dcd4be9`); S6 leg `republication_chain` (rc=0, 0.5 s); digest
+`research/digests/DIGEST-20261105-r1453-e433-republication-chain.md`.
