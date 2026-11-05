@@ -1164,8 +1164,8 @@
  "round_no_label": "r1451",
  "round_no_ts": "2026-11-05T07:53:37+08:00",
  "s1": "full suite RUN this window (results/_smoke_r1450.out): 316/328, 12 pre-existing FAIL",
- "s6": "only the new leg fixture_write ran (rc=0, 163.4 s); dualrun / compute_audit / py_watermark / update_* / market_regime / scorecards / paper faces NOT run this window and not claimed",
- "s7": "orders 114 files / 115 acks / 0 unacked; orphan probe py_faces=9 orphans=0; loop and watchdog registrations not re-checked this window (r1449 registered both)",
+ "s6": "only the new leg opener_flow was exercised standalone (rc=0, 66.96s, receipt results/_r1451bmb_s6_chain.json) plus saturation_engine status rc=0 (idle, not restarted); dualrun / compute_audit / py_watermark / update_* / market_regime / scorecards / paper faces NOT run this window -- nothing claimed about them. E398 latest-family face was REPUBLISHED (this round's new latest pointer moved the population 203 -> 204) but its verify was still running at closeout, so the E398 red is NOT claimed fixed.",
+ "s7": "orphan probe py_faces=9 orphans=0 residents=0; attrition_ledger_guard scan CLEAN (4 ledgers, 3 historical shrinks healed, evidence results/_attrition_guard_scan.json); register_loop_task.ps1 no-op (machine=bm-b pin=2 current=2); register_watchdog_task.ps1 REGISTERED (Bigmoney-LoopWatchdog was absent again -- S4U, SWA=false); pre-commit and pre-push claws both reinstalled from Tools/git-hooks (both were missing or mismatched); saturation_engine status rc=0.",
  "sat_engine": "not re-run this window -- stated, not claimed",
  "selftest": "e406 selftest 14/14; extracted smoke leg 1/1",
  "seq": 1450,
@@ -1219,5 +1219,6 @@
   "branch": "machine/bm-b-r1451",
   "sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
   "verified": true
- }
+ },
+ "s7_checked_at": "2026-11-05T10:08:00+08:00"
 }
