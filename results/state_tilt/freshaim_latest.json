@@ -1,10 +1,10 @@
 {
  "study": "E416_do_the_four_freshness_tests_sit_where_age_matters",
  "card": "E416-DO-THE-FOUR-FRESHNESS-TESTS-SIT-ON-THE-FACES-THAT-NEED-THEM-MOST",
- "generated": "2026-11-05T21:45:33+08:00",
- "evidence_cutoff": "2026-11-05",
+ "generated": "2026-11-06T04:39:10+08:00",
+ "evidence_cutoff": "2026-11-06",
  "verdict": "none_of_the_four_red_capable_sites_prices_the_age_of_the_face_it_reads",
- "verdict_reason": "6 of 257 red-capable sites were re-read from their own source: 1 measures a copy lag (an upstream mtime, so an arbitrarily old face stays green while the panel is behind its input), 2 pin a face field to a frozen date literal and therefore red on an honest refresh, 3 carry no date comparison at all and the line E411 called a date comparison compares a column count. After reclassification 0 of 224 faces have a reader that can go red on age (published: 6 protected), 45 blind faces have no writer on the round chain, and 2 of the faces the suite reads declare any freshness expectation at all -- both of the declared ones sit on faces this tier table never priced. The chain does not save them either: of 15 priced faces it RUNS a writer for 3 and only VERIFIES 9, so each frozen gate sits on a face whose refresh the chain deliberately refuses.",
+ "verdict_reason": "6 of 265 red-capable sites were re-read from their own source: 1 measures a copy lag (an upstream mtime, so an arbitrarily old face stays green while the panel is behind its input), 2 pin a face field to a frozen date literal and therefore red on an honest refresh, 3 carry no date comparison at all and the line E411 called a date comparison compares a column count. After reclassification 0 of 232 faces have a reader that can go red on age (published: 6 protected), 49 blind faces have no writer on the round chain, and 2 of the faces the suite reads declare any freshness expectation at all -- both of the declared ones sit on faces this tier table never priced. The chain does not save them either: of 15 priced faces it RUNS a writer for 3 and only VERIFIES 9, so each frozen gate sits on a face whose refresh the chain deliberately refuses.",
  "summary": {
   "red_capable_sites_published": 6,
   "red_capable_sites_that_price_age": 0,
@@ -16,12 +16,12 @@
   "frozen_gates_whose_face_has_a_chain_writer": 2,
   "faces_published_protected_by_a_red_capable_site": 6,
   "faces_still_protected_after_reclassification": 0,
-  "faces_published_blind": 218,
-  "faces_blind_after_reclassification": 224,
-  "blind_faces_with_no_chain_writer": 45,
-  "blind_faces_with_no_declared_freshness_expectation": 222,
+  "faces_published_blind": 226,
+  "faces_blind_after_reclassification": 232,
+  "blind_faces_with_no_chain_writer": 49,
+  "blind_faces_with_no_declared_freshness_expectation": 230,
   "faces_with_a_declared_freshness_expectation": 2,
-  "reader_sites_total_published": 257,
+  "reader_sites_total_published": 265,
   "chain_faces_priced": 15,
   "chain_faces_whose_writer_it_runs": 3,
   "chain_faces_it_only_verifies": 9,
@@ -301,9 +301,9 @@
    "reader_tiers": [
     "no_freshness_test"
    ],
-   "writers_on_chain": 110,
-   "writer_runs_per_round": 111,
-   "session_only_writers": 57,
+   "writers_on_chain": 114,
+   "writer_runs_per_round": 115,
+   "session_only_writers": 62,
    "declared_expectation": null,
    "protection": "chain_rewrites_it"
   },
@@ -532,9 +532,9 @@
    "reader_tiers": [
     "no_freshness_test"
    ],
-   "writers_on_chain": 170,
-   "writer_runs_per_round": 171,
-   "session_only_writers": 103,
+   "writers_on_chain": 176,
+   "writer_runs_per_round": 177,
+   "session_only_writers": 108,
    "declared_expectation": null,
    "protection": "chain_rewrites_it"
   },
@@ -545,9 +545,9 @@
    "reader_tiers": [
     "no_freshness_test"
    ],
-   "writers_on_chain": 170,
-   "writer_runs_per_round": 171,
-   "session_only_writers": 103,
+   "writers_on_chain": 176,
+   "writer_runs_per_round": 177,
+   "session_only_writers": 108,
    "declared_expectation": null,
    "protection": "chain_rewrites_it"
   },
@@ -733,7 +733,7 @@
   },
   {
    "face": "results/state_tilt",
-   "scripts_naming_the_face": 224,
+   "scripts_naming_the_face": 236,
    "chain_entries": [
     {
      "script": "scripts/e225_state_tilt.py",
@@ -1506,6 +1506,36 @@
      "mode": "verify"
     },
     {
+     "script": "scripts/e445_facehome_target.py",
+     "leg": "face_home_target",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e446_frozen_writer.py",
+     "leg": "frozen_writer",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e447_abandoned_read.py",
+     "leg": "abandoned_read",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e448_dropped_path.py",
+     "leg": "dropped_path_open",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e449_dead_document_pointer.py",
+     "leg": "dead_prereg_pointer",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e452_abandoned_guard.py",
+     "leg": "abandoned_guard",
+     "mode": "verify"
+    },
+    {
      "script": "scripts/run_e410_freshness_legs.py",
      "leg": "freshness_bound",
      "mode": ""
@@ -1516,11 +1546,21 @@
   },
   {
    "face": "results/state_tilt/facehome_latest.json",
-   "scripts_naming_the_face": 2,
+   "scripts_naming_the_face": 4,
    "chain_entries": [
     {
      "script": "scripts/e441_facehome_family.py",
      "leg": "face_home_family",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e445_facehome_target.py",
+     "leg": "face_home_target",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e446_frozen_writer.py",
+     "leg": "frozen_writer",
      "mode": "verify"
     }
    ],

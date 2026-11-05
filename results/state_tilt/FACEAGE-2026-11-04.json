@@ -2,26 +2,26 @@
  "study": "E418_how_old_are_the_unprotected_faces_right_now",
  "card": "E418-HOW-OLD-ARE-THE-UNPROTECTED-FACES-RIGHT-NOW",
  "title": "the 45 blind faces, priced by stamp age in bars and by the sentence their legs print when green",
- "generated": "2026-11-05",
+ "generated": "2026-11-06",
  "evidence_cutoff": "2026-11-04",
  "verdict": "no_blind_face_prints_a_frozen_number_as_green",
  "summary": {
-  "faces_in_population": 45,
-  "faces_from_e411_rows": 44,
+  "faces_in_population": 49,
+  "faces_from_e411_rows": 48,
   "faces_from_e416_reclassification": 1,
-  "faces_on_disk": 42,
-  "faces_with_a_stamp": 37,
+  "faces_on_disk": 46,
+  "faces_with_a_stamp": 41,
   "faces_with_an_age": 34,
   "median_age_bars": 2.0,
   "max_age_bars": 25,
   "faces_older_than_5_bars": 3,
-  "sentences_read": 51,
+  "sentences_read": 55,
   "by_sentence_class": {
-   "recomputed_at_read": 20,
-   "no_number": 31
+   "recomputed_at_read": 22,
+   "no_number": 33
   },
   "by_verdict": {
-   "no claim that decays": 37,
+   "no claim that decays": 41,
    "stamp absent so age is unknowable": 7,
    "stamp present but not a readable date so age is unknowable": 1
   },
@@ -910,7 +910,7 @@
    "age_bars": 0,
    "sentences": [
     {
-     "leg_line": 17090,
+     "leg_line": 17349,
      "site": "smoke_test.py:3",
      "sentence": "check(_name435, not _bad435, \"; \".join(_bad435)[:240] or _d435)",
      "class": "no_number"
@@ -955,8 +955,8 @@
     "no_freshness_test"
    ],
    "stamp_field": "ts",
-   "stamp_value": "2026-11-05T12:25:47",
-   "stamp_date": "2026-11-05",
+   "stamp_value": "2026-11-06T03:16:45",
+   "stamp_date": "2026-11-06",
    "age_bars": null,
    "sentences": [
     {
@@ -994,8 +994,8 @@
     "no_freshness_test"
    ],
    "stamp_field": "as_of",
-   "stamp_value": "2026-11-05T12:25:38",
-   "stamp_date": "2026-11-05",
+   "stamp_value": "2026-11-06T03:16:36",
+   "stamp_date": "2026-11-06",
    "age_bars": null,
    "sentences": [
     {
@@ -1151,8 +1151,8 @@
     "no_freshness_test"
    ],
    "stamp_field": "ts",
-   "stamp_value": "2026-11-05T12:25:22+0800",
-   "stamp_date": "2026-11-05",
+   "stamp_value": "2026-11-06T03:16:07+0800",
+   "stamp_date": "2026-11-06",
    "age_bars": null,
    "sentences": [
     {
@@ -1191,6 +1191,106 @@
     "no_number"
    ],
    "verdict": "stamp absent so age is unknowable"
+  },
+  {
+   "face": "results/state_tilt/abandonedguard_latest.json",
+   "on_disk": true,
+   "population_source": "e411_row",
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "stamp_field": "evidence_cutoff",
+   "stamp_value": "2026-11-06",
+   "stamp_date": "2026-11-06",
+   "age_bars": null,
+   "sentences": [
+    {
+     "leg_line": 16957,
+     "site": "smoke_test.py:3",
+     "sentence": "check(_name445, not _bad445, \"; \".join(_bad445)[:240] or \"%d live composable rows over %d bases: %d already exist, %d are the carrier, %d would \" \"be new; %d compositions repeat the base\" % (_s445.get(\"live_composable_rows\", 0), _s445.get(\"distinct_live_bases\", 0), _by445.get(_m445.T_EXISTS, 0), _by",
+     "class": "recomputed_at_read"
+    }
+   ],
+   "sentence_classes": [
+    "recomputed_at_read"
+   ],
+   "verdict": "no claim that decays"
+  },
+  {
+   "face": "results/state_tilt/abandonedread_latest.json",
+   "on_disk": true,
+   "population_source": "e411_row",
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "stamp_field": "evidence_cutoff",
+   "stamp_value": "2026-11-06",
+   "stamp_date": "2026-11-06",
+   "age_bars": null,
+   "sentences": [
+    {
+     "leg_line": 17002,
+     "site": "smoke_test.py:3",
+     "sentence": "check(_name452, not _bad452, \"; \".join(_bad452)[:240] or \"%d abandoned bases x %d harness read sites: %d guarded, %d unguarded (%d present, %d gone); \" \"guard shapes %s\" % (_s452.get(\"bases_with_a_live_reader\", 0), len(_sites452), _s452.get(\"guarded_sites\", 0), _s452.get(\"unguarded_sites\", 0), (_s45",
+     "class": "recomputed_at_read"
+    }
+   ],
+   "sentence_classes": [
+    "recomputed_at_read"
+   ],
+   "verdict": "no claim that decays"
+  },
+  {
+   "face": "results/state_tilt/deadpath_latest.json",
+   "on_disk": true,
+   "population_source": "e411_row",
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "stamp_field": "evidence_cutoff",
+   "stamp_value": "2026-11-06",
+   "stamp_date": "2026-11-06",
+   "age_bars": null,
+   "sentences": [
+    {
+     "leg_line": 17220,
+     "site": "smoke_test.py:3",
+     "sentence": "check(_name443, not _bad443, \"; \".join(_bad443)[:240] or _d443)",
+     "class": "no_number"
+    }
+   ],
+   "sentence_classes": [
+    "no_number"
+   ],
+   "verdict": "no claim that decays"
+  },
+  {
+   "face": "results/state_tilt/droppedpath_latest.json",
+   "on_disk": true,
+   "population_source": "e411_row",
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "stamp_field": "evidence_cutoff",
+   "stamp_value": "2026-11-06",
+   "stamp_date": "2026-11-06",
+   "age_bars": null,
+   "sentences": [
+    {
+     "leg_line": 17428,
+     "site": "smoke_test.py:3",
+     "sentence": "check(_name436, not _bad436, \"; \".join(_bad436)[:240] or _d436)",
+     "class": "no_number"
+    }
+   ],
+   "sentence_classes": [
+    "no_number"
+   ],
+   "verdict": "no claim that decays"
   }
  ],
  "method_limits": [

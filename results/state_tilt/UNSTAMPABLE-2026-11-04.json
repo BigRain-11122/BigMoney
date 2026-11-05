@@ -2,28 +2,88 @@
  "study": "E419_which_unstamped_face_has_a_writer_holding_a_date_it_never_writes",
  "card": "E419-WHICH-UNSTAMPED-FACE-HAS-A-WRITER-HOLDING-A-DATE-IT-NEVER-WRITES",
  "title": "name the writer behind each of E418's 9 age-unknowable faces and say whether it already holds a date it never writes",
- "generated": "2026-11-04",
+ "generated": "2026-11-06",
  "evidence_cutoff": "2026-11-04",
  "verdict": "some_writer_already_emits_a_date_the_face_still_cannot_be_aged_by",
  "summary": {
-  "faces_in_population": 9,
+  "faces_in_population": 15,
   "by_class": {
-   "no_writer_in_the_tree": 3,
-   "writer_already_writes_a_date": 1,
-   "writer_has_no_date_in_hand": 4,
+   "no_writer_in_the_tree": 4,
+   "writer_already_writes_a_date": 2,
+   "writer_has_no_date_in_hand": 8,
    "writer_holds_a_date_it_does_not_write": 1
   },
-  "faces_with_a_writer_in_the_tree": 6,
-  "faces_where_the_writer_already_holds_a_date": 2,
+  "faces_with_a_writer_in_the_tree": 11,
+  "faces_where_the_writer_already_holds_a_date": 3,
   "faces_where_writing_the_date_is_enough_to_reach_a_reader": 0,
   "readers_that_could_go_red_on_age_today": 0,
-  "corpus_sources": 3424
+  "corpus_sources": 3506
  },
+ "population_keys": [
+  "corpus_sources"
+ ],
  "rows": [
   {
    "face": "docs/futures_lane/TSMOM-%s.md",
    "name_token": "TSMOM-",
    "directory_token": "futures_lane",
+   "template": true,
+   "files_mentioning_the_name": 5,
+   "classification": "no_writer_in_the_tree",
+   "writers": [],
+   "weaker_sites_not_counted_as_writers": 2,
+   "of_which_write_only_fixtures": 0,
+   "on_disk": false,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": null,
+   "stamp_value_e418_saw": null
+  },
+  {
+   "face": "results/data_lag_audit.json",
+   "name_token": "data_lag_audit",
+   "directory_token": null,
+   "template": false,
+   "files_mentioning_the_name": 5,
+   "classification": "no_writer_in_the_tree",
+   "writers": [],
+   "weaker_sites_not_counted_as_writers": 2,
+   "of_which_write_only_fixtures": 0,
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": "as_of",
+   "stamp_value_e418_saw": "2026-11-06T03:16:36"
+  },
+  {
+   "face": "results/pool_deliverable_audit.json",
+   "name_token": "pool_deliverable_audit",
+   "directory_token": null,
+   "template": false,
+   "files_mentioning_the_name": 11,
+   "classification": "no_writer_in_the_tree",
+   "writers": [],
+   "weaker_sites_not_counted_as_writers": 4,
+   "of_which_write_only_fixtures": 0,
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": "ts",
+   "stamp_value_e418_saw": "2026-11-06T03:16:07+0800"
+  },
+  {
+   "face": "results/state_tilt/AGGATT-%s.json",
+   "name_token": "AGGATT-",
+   "directory_token": "state_tilt",
    "template": true,
    "files_mentioning_the_name": 3,
    "classification": "no_writer_in_the_tree",
@@ -40,49 +100,48 @@
    "stamp_value_e418_saw": null
   },
   {
-   "face": "results/etf_book_production/CARD.md",
-   "name_token": "CARD",
-   "directory_token": "etf_book_production",
+   "face": "results/astock_daily_update_status.json",
+   "name_token": "astock_daily_update_status",
+   "directory_token": null,
    "template": false,
-   "files_mentioning_the_name": 86,
-   "classification": "no_writer_in_the_tree",
-   "writers": [],
-   "weaker_sites_not_counted_as_writers": 32,
-   "of_which_write_only_fixtures": 0,
+   "files_mentioning_the_name": 15,
+   "classification": "writer_already_writes_a_date",
+   "writers": [
+    {
+     "file": "scripts/census_w2_roster.py",
+     "function": "build",
+     "line": 112,
+     "payload_keys_with_a_date": [
+      "evidence_cutoff"
+     ],
+     "date_variables_in_scope": [],
+     "date_calls_in_scope": [
+      "strftime"
+     ],
+     "write_targets": [
+      "    s = json.dumps(doc, ensure_ascii=False, indent=1)",
+      "    s = json.dumps(doc, ensure_ascii=False, indent=1)",
+      "    doc = {\n        \"batch\": \"CENSUS_FUS_S2_W2-ROSTER\",\n        \"ticket\": \"T-2026-09-26-86-P1 s2 wave-2 (CEO O-20260926-",
+      "    s = json.dumps(doc, ensure_ascii=False, indent=1)"
+     ],
+     "basis": "write_target_names_the_face"
+    }
+   ],
    "on_disk": true,
    "reader_sites": 1,
    "reader_tiers": [
     "no_freshness_test"
    ],
    "reader_can_go_red_on_age_today": false,
-   "stamp_field_e418_saw": null,
-   "stamp_value_e418_saw": null
-  },
-  {
-   "face": "results/state_tilt/AGGATT-%s.json",
-   "name_token": "AGGATT-",
-   "directory_token": "state_tilt",
-   "template": true,
-   "files_mentioning_the_name": 2,
-   "classification": "no_writer_in_the_tree",
-   "writers": [],
-   "weaker_sites_not_counted_as_writers": 2,
-   "of_which_write_only_fixtures": 0,
-   "on_disk": false,
-   "reader_sites": 1,
-   "reader_tiers": [
-    "no_freshness_test"
-   ],
-   "reader_can_go_red_on_age_today": false,
-   "stamp_field_e418_saw": null,
-   "stamp_value_e418_saw": null
+   "stamp_field_e418_saw": "ts",
+   "stamp_value_e418_saw": "2026-11-06T03:16:45"
   },
   {
    "face": "results/dom_profile/PROFILE-*.json",
    "name_token": "PROFILE-",
    "directory_token": "dom_profile",
    "template": true,
-   "files_mentioning_the_name": 9,
+   "files_mentioning_the_name": 10,
    "classification": "writer_already_writes_a_date",
    "writers": [
     {
@@ -125,7 +184,7 @@
    "name_token": "dashboard_status",
    "directory_token": null,
    "template": false,
-   "files_mentioning_the_name": 72,
+   "files_mentioning_the_name": 73,
    "classification": "writer_has_no_date_in_hand",
    "writers": [
     {
@@ -286,6 +345,138 @@
    "reader_can_go_red_on_age_today": false,
    "stamp_field_e418_saw": "generated",
    "stamp_value_e418_saw": "deterministic"
+  },
+  {
+   "face": "results/state_tilt/abandonedguard_latest.json",
+   "name_token": "abandonedguard_latest",
+   "directory_token": "state_tilt",
+   "template": false,
+   "files_mentioning_the_name": 2,
+   "classification": "writer_has_no_date_in_hand",
+   "writers": [
+    {
+     "file": "scripts/run_e452_smoke_leg.py",
+     "function": "main",
+     "line": 54,
+     "payload_keys_with_a_date": [],
+     "date_variables_in_scope": [],
+     "date_calls_in_scope": [],
+     "write_targets": [
+      "    body = json.dumps(face, ensure_ascii=False, indent=1, sort_keys=True) + \"\\n\"",
+      "    body = json.dumps(face, ensure_ascii=False, indent=1, sort_keys=True) + \"\\n\"",
+      "    body = json.dumps(face, ensure_ascii=False, indent=1, sort_keys=True) + \"\\n\"",
+      "    body = json.dumps(face, ensure_ascii=False, indent=1, sort_keys=True) + \"\\n\""
+     ],
+     "basis": "write_target_names_the_face"
+    }
+   ],
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": "evidence_cutoff",
+   "stamp_value_e418_saw": "2026-11-06"
+  },
+  {
+   "face": "results/state_tilt/abandonedread_latest.json",
+   "name_token": "abandonedread_latest",
+   "directory_token": "state_tilt",
+   "template": false,
+   "files_mentioning_the_name": 3,
+   "classification": "writer_has_no_date_in_hand",
+   "writers": [
+    {
+     "file": "scripts/run_e447_smoke_leg.py",
+     "function": "main",
+     "line": 54,
+     "payload_keys_with_a_date": [],
+     "date_variables_in_scope": [],
+     "date_calls_in_scope": [],
+     "write_targets": [
+      "        with open(FACE, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+      "FACE = os.path.join(ROOT, \"results\", \"state_tilt\", \"abandonedread_latest.json\")",
+      "        with open(FACE, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+      "        with open(FACE, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:"
+     ],
+     "basis": "write_target_names_the_face"
+    }
+   ],
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": "evidence_cutoff",
+   "stamp_value_e418_saw": "2026-11-06"
+  },
+  {
+   "face": "results/state_tilt/deadpath_latest.json",
+   "name_token": "deadpath_latest",
+   "directory_token": "state_tilt",
+   "template": false,
+   "files_mentioning_the_name": 4,
+   "classification": "writer_has_no_date_in_hand",
+   "writers": [
+    {
+     "file": "scripts/run_e442_smoke_leg.py",
+     "function": "main",
+     "line": 53,
+     "payload_keys_with_a_date": [],
+     "date_variables_in_scope": [],
+     "date_calls_in_scope": [],
+     "write_targets": [
+      "        with open(FACE, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+      "FACE = os.path.join(ROOT, \"results\", \"state_tilt\", \"deadpath_latest.json\")",
+      "        with open(FACE, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+      "        with open(FACE, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:"
+     ],
+     "basis": "write_target_names_the_face"
+    }
+   ],
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": "evidence_cutoff",
+   "stamp_value_e418_saw": "2026-11-06"
+  },
+  {
+   "face": "results/state_tilt/droppedpath_latest.json",
+   "name_token": "droppedpath_latest",
+   "directory_token": "state_tilt",
+   "template": false,
+   "files_mentioning_the_name": 4,
+   "classification": "writer_has_no_date_in_hand",
+   "writers": [
+    {
+     "file": "scripts/run_e448_smoke_leg.py",
+     "function": "main",
+     "line": 51,
+     "payload_keys_with_a_date": [],
+     "date_variables_in_scope": [],
+     "date_calls_in_scope": [],
+     "write_targets": [
+      "        with io.open(FACE, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+      "        with io.open(FACE, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+      "FACE = os.path.join(ROOT, \"results\", \"state_tilt\", \"droppedpath_latest.json\")",
+      "        with io.open(FACE, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:"
+     ],
+     "basis": "write_target_names_the_face"
+    }
+   ],
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": "evidence_cutoff",
+   "stamp_value_e418_saw": "2026-11-06"
   },
   {
    "face": "results/futures_tsmom_signal.json",

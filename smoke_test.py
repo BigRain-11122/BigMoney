@@ -15819,9 +15819,9 @@ check(_name418, not _bad418, "; ".join(_bad418)[:240] or _d418)
 # "holds a date it never writes" has a graded writer carrying a date name and no stamp key,
 # (c) a row graded "no writer" publishes no writer rows at all, (d) the population is exactly
 # E418's age-unknown rows, and (e) the verdict and the tally re-derive on the live tree.
-_name419 = ("product: the 9 age-unknowable faces are priced by writer, and a face whose writer "
+_name419 = ("product: the %s age-unknowable faces are priced by writer, and a face whose writer "
             "holds a date is never called undateable without saying where the date is")
-_bad419, _d419 = [], ""
+_bad419, _d419, _s419 = [], "", {}
 try:
     _m419 = __import__("importlib").import_module("e419_unstampable")
     _f419 = json.load(open(os.path.join("results", "state_tilt", "unstampable_latest.json"),
@@ -15860,7 +15860,8 @@ try:
         _s419.get("readers_that_could_go_red_on_age_today"))
 except Exception as _e419:
     _bad419.append(repr(_e419)[:160])
-check(_name419, not _bad419, "; ".join(_bad419)[:240] or _d419)
+check(_name419 % (_s419.get("faces_in_population"),), not _bad419,
+      "; ".join(_bad419)[:240] or _d419)
 
 # E421 (r1439 bm-b): E406 named 58 faces from blob readers and 32 resolved to no file, which read
 # as 32 faces the tree reads and lacks.  This leg holds the invoice for the resolution: (a) every

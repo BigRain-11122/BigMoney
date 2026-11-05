@@ -11180,3 +11180,30 @@ Face: `results/state_tilt/abandonedguard_latest.json` (`ABANDONEDGUARD-<cutoff>.
 S6 leg `abandoned_guard` (`verify`, one corpus walk ~60 s); smoke leg `e452 abandoned base harness
 guard` with a doctored control that must stay red. Digest
 `research/digests/DIGEST-20261106-r1470-e452-abandoned-guard.md`.
+
+## E454 -- a site address that is a line number in a file that grows every round is not an address (r1471 bm-b)
+
+* **Question.** A census publishes each read site as `file:line` and its `verify` re-walks the tree
+  and requires that exact string to still be there. What happens to a face whose only growing member
+  is the suite itself?
+* **Answer.** It goes red for reasons that have nothing to do with the defect it measures. E398
+  published 216 read sites; `smoke_test.py` gained legs in three rounds and the same face now
+  re-derives 222 sites and 7 of its published addresses resolve to nothing. The suite leg reported
+  `smoke_test.py:16977: the site is gone` -- a site that still exists, six thousand lines above where
+  it used to be. **Nothing about the pointer convention changed; only the line numbers did.**
+* **The durable key.** A site's identity is its own text: `(file, kind, expr)` plus the occurrence
+  index of that exact `(kind, expr)` inside that file. `file:line` stays in the face for humans, and
+  `anchor` becomes what `verify` matches on. An address that moved is then a published count
+  (`address moves=N`) instead of a problem, and the checks that matter -- the expression, the class,
+  the guard -- still run on the live row.
+* **How to apply.** Any face that indexes sites by line number must either (a) publish a
+  content-anchored key beside the human address and verify on the key, or (b) stop verifying
+  addresses at all and verify derived classifications only. Applies to every census in this repo
+  whose corpus includes `smoke_test.py`, the round reports, or any append-only file -- which is most
+  of them. Consequence for the round: 9 of the 10 standing suite FAILs this window were the
+  "published summary does not re-derive from the live tree" class, and the repair is a republish from
+  the producer, never a loosened leg.
+
+Face: `results/state_tilt/latestfamily_latest.json`; producer `scripts/e398_latest_family.py`
+(`verify problems=[] (address moves=0)`). Republished in the same window: WRONGSIDE, REFRESHSIGNAL,
+UNFLOORED, READERTIERS, FRESHAIM, FACEAGE, UNSTAMPABLE, BASENAMECENSUS, SHADOWFACE, DIRISFACE.

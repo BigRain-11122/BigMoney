@@ -823,7 +823,17 @@ def scan_file(rel, with_nodes=False):
             record["_node"] = core
             record["_fnode"] = fnode
         found[key] = record
-    return list(found.values())
+    rows = sorted(found.values(), key=lambda r: (r["line"], r["kind"]))
+    # A ``file:line`` address rots the moment anybody appends above the site -- and smoke_test.py
+    # grows every round.  The address stays for humans, but the durable key is the site's own
+    # text plus its occurrence index among identical (kind, expr) sites in that file.
+    seen = {}
+    for row in rows:
+        stem = (row["kind"], row["expr"])
+        row["anchor"] = "%s|%s|%s|%d" % (row["file"], row["kind"], row["expr"][:120],
+                                         seen.get(stem, 0))
+        seen[stem] = seen.get(stem, 0) + 1
+    return rows
 
 
 def _carried_path(call, fnode):
@@ -1098,16 +1108,20 @@ def verify():
         problems.append("family-named pointer count moved: %d vs %s"
                         % (len(named), summary.get("pointer_files_named_<family>_latest_json")))
 
-    # re-derive every published read site from the tree as it stands
+    # re-derive every published read site from the tree as it stands -- by its content anchor,
+    # because the human address is a line number and this tree grows under it every round
     live_reads, live_writes = {}, {}
     for rel in _walk():
         for site in scan_file(rel):
-            (live_reads if site["kind"] == "read" else live_writes)[site["site"]] = site
+            (live_reads if site["kind"] == "read" else live_writes)[site["anchor"]] = site
+    moved = 0
     for row in face.get("read_sites") or []:
-        live = live_reads.get(row["site"])
+        live = live_reads.get(row.get("anchor"))
         if live is None:
             problems.append("%s: the site is gone" % row["site"])
             continue
+        if live["site"] != row["site"]:
+            moved += 1
         if live["expr"] != row["expr"]:
             problems.append("%s: the expression moved" % row["site"])
             continue
@@ -1116,14 +1130,19 @@ def verify():
             problems.append("%s: class %r re-derives %r"
                             % (row["site"], row["class"], again["class"]))
     for row in face.get("write_sites") or []:
-        if row["site"] not in live_writes:
+        live = live_writes.get(row.get("anchor"))
+        if live is None:
             problems.append("%s: the write site is gone" % row["site"])
+            continue
+        if live["site"] != row["site"]:
+            moved += 1
     for row in face.get("families") or []:
         keys = top_keys(row["path"])
         if keys != row["keys"]:
             problems.append("%s: top-level keys moved" % row["path"])
 
-    say("verify problems=%s" % json.dumps(problems[:10], ensure_ascii=False))
+    say("verify problems=%s (address moves=%d)" % (json.dumps(problems[:10], ensure_ascii=False),
+                                                   moved))
     return problems
 
 
