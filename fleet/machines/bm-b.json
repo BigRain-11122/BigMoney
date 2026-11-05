@@ -1214,6 +1214,15 @@
   "ts": "2026-11-05T17:50:41+08:00",
   "verdict": "nobody_performs_the_doubling_read_and_the_readers_that_name_the_file_recompose_it_from_the_parent"
  },
+ "r1459_delivery": {
+  "ahead_of_origin_main": 393,
+  "behind_origin_main": 294,
+  "branch": "machine/bm-b-r1459",
+  "main_push_blocker": "local main is 294 behind / 393 ahead of origin/main (two blood lines, promisor lazy-fetch wedge r1255 family) and the tree is dirty from other lanes, so `pull --rebase` is refused by git; no unattended rebase per r1243 -- the machine branch is the delivery channel",
+  "sha": "33f81aa80869a90ba135fae8c1719a32ed3cdf20",
+  "ts": "2026-11-05T17:52:41+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1459 == HEAD (33f81aa80869a90ba135fae8c1719a32ed3cdf20)"
+ },
  "ram_free_gb": 11.7,
  "ram_free_mb": 11711.8,
  "ram_free_pct": 49.0,
@@ -1227,6 +1236,12 @@
  "round_no": 1459,
  "round_no_label": "r1459",
  "round_no_ts": "2026-11-05T17:50:41+08:00",
+ "s0_sync": {
+  "ahead": 393,
+  "behind_origin_main": 294,
+  "note": "pull --rebase refused (unstaged changes from other lanes); no forced rebase",
+  "ts": "2026-11-05T17:52:41+08:00"
+ },
  "s1": "the full ~330-leg suite was NOT run this window (a silent 30-minute run cannot survive the CLI no-output window); the E436 leg was extracted verbatim and run standalone, and its doctor run went red with the face restored byte-identical -- the settled-tree run stays owed",
  "s6": "S6 subset run this window: pool_dualrun_reconcile run (ZERO-DRIFT, 917 entries, streak 51), compute_audit (FLAG:supply_gap, 3 ready unclaimed), py_watermark probe (insufficient_history n=1). update_*/scorecards/papers/dualarm NOT run -- stated, not inherited",
  "s7": "orphan probe only (py_faces=18, orphans=0, residents=0); loop task / watchdog / claws / attrition guard NOT re-registered this window -- stated, not claimed",
