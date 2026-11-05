@@ -10931,3 +10931,44 @@ Face: `results/state_tilt/frozenwriter_latest.json` (`FROZENWRITER-<cutoff>.json
 producer `scripts/e446_frozen_writer.py` (selftest 31/31, verify problems=[]); S6 leg
 `frozen_writer`; smoke leg `e446 frozen base writer`. Digest
 `research/digests/DIGEST-20261106-r1463-e446-frozen-base-writer.md`.
+
+### E442 -- a composition that cannot be followed is not a composition that is dropped: 85 of 16,611 path compositions are provably composed and never used, 2,001 cannot be followed at all (r1464 bm-b)
+
+E436 named 18 sites that compose a path and grade nothing downstream, and left the question open.
+This study takes **every** `os.path.join` / `Path / "x"` site in the corpus (3,493 parsed sources,
+2,501 files, 16,611 sites) and follows the composed value inside the scope that built it.
+
+READINGS. 13,856 sites reach a consumer from where they are composed (3,153 handed straight to an
+opener, 2,415 to another call, 3,995 through a bound name into an open/read/write, 3,415 only
+inside a nested def, 530 passed on, 221 returned, 127 into a dict literal). **85 are composed and
+never used in their scope, and 2,001 cannot be followed at all** — the value is never bound to a
+plain name (f-string, subscript, comparison, an assignment target the reader cannot resolve), so
+the method has no name to follow. E436's own residue grades 30 of 30 sites, 3 of them dropped.
+
+THREE RULES MEASURED, NOT ASSUMED.
+
+* **An unfollowable site is not a dropped site, and the two must not be summed into one number.**
+  `dropped_sites` (2,086 = 12.56%) is the sum of `composed_and_never_used` (85) and
+  `composed_where_no_name_can_be_followed` (2,001); only the first is evidence of a dead
+  composition, and a headline that printed 12.56% would indict 24x the population the study
+  actually proved. Both counts are published separately, and the verdict vocabulary says "some
+  composed paths are dropped" rather than pricing the sum.
+* **A guard that demands a bound name for every "flows into X" class accuses the cases the card
+  names.** The tally required a `binding` for `flows_into_a_return` and `flows_into_a_dict_literal`,
+  which is exactly the direct-reach shape (`return join(...)`, `{"p": join(...)}`): 30 legitimate
+  rows were reported as "flows out of a name it never bound". The guard now holds only
+  `flows_into_an_open_read_or_write` / `another_call` / `a_nested_scope` to a binding (those are
+  defined as flows of a bound name), and the direct-reach count is published as
+  `sites_reaching_without_a_bound_name` (293) so the shape is visible instead of silently legal.
+* **`ast.get_source_segment` splits the whole source on every call.** Asking for one segment per
+  composition site re-split each file once per site; the first build was killed at 898 s of CPU
+  with no output. A per-file splitter that copies ast's own `_splitlines_no_ff` + byte-slice join
+  (lines keep their terminators, columns are byte offsets) cuts the build to **44 s** with a
+  8,625-segment / 0-mismatch equivalence check against `ast.get_source_segment` over 80 sampled
+  files. Any scan that quotes source text per AST node pays this tax.
+
+Face: `results/state_tilt/deadpath_latest.json` (`DEADPATH-<cutoff>.json`), verdict
+`some_composed_paths_are_dropped_inside_the_scope_that_composes_them`; producer
+`scripts/e442_deadpath.py` (selftest 26/26, verify problems=[], check problems=[]); S6 leg
+`dead_path_composition`; smoke leg `e442 which path composition is never consumed`. Digest
+`research/digests/DIGEST-20261106-r1464-e442-dead-path.md`.

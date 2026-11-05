@@ -1,6 +1,6 @@
 {
  "card": "E411-DO-EVERY-FACE-THE-SUITE-READS-CARRY-A-READER-THAT-CAN-GO-RED",
- "evidence_cutoff": "2026-11-05",
+ "evidence_cutoff": "2026-11-06",
  "faces": [
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -158,7 +158,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "scripts/seasonal_calendar_census.py",
     "scripts/stagestyle_combo_p1_backtest.py",
     "Tools/_r306bmc_s6_resolve.py",
@@ -188,8 +190,8 @@
     "Tools/_r749bmc_pit_append.py",
     "Tools/_r840bma_rebase_resolve.py"
    ],
-   "writer_runs_per_round": 171,
-   "writers_on_chain": 170
+   "writer_runs_per_round": 173,
+   "writers_on_chain": 172
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -757,7 +759,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "scripts/seasonal_calendar_census.py",
     "scripts/stagestyle_combo_p1_backtest.py",
     "Tools/_r306bmc_s6_resolve.py",
@@ -787,8 +791,8 @@
     "Tools/_r749bmc_pit_append.py",
     "Tools/_r840bma_rebase_resolve.py"
    ],
-   "writer_runs_per_round": 171,
-   "writers_on_chain": 170
+   "writer_runs_per_round": 173,
+   "writers_on_chain": 172
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -1317,7 +1321,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "scripts/seasonal_calendar_census.py",
     "scripts/stagestyle_combo_p1_backtest.py",
     "Tools/_r306bmc_s6_resolve.py",
@@ -1347,8 +1353,8 @@
     "Tools/_r749bmc_pit_append.py",
     "Tools/_r840bma_rebase_resolve.py"
    ],
-   "writer_runs_per_round": 171,
-   "writers_on_chain": 170
+   "writer_runs_per_round": 173,
+   "writers_on_chain": 172
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -1634,7 +1640,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "Tools/_r1334bmb_closeout.py",
     "Tools/_r1353bmb_card.py",
     "Tools/_r1353bmb_pool.py",
@@ -1642,8 +1650,8 @@
     "Tools/_r1390_closeout.py",
     "Tools/_r1390_memory.py"
    ],
-   "writer_runs_per_round": 111,
-   "writers_on_chain": 110
+   "writer_runs_per_round": 113,
+   "writers_on_chain": 112
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -3719,8 +3727,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16967,
-       17019
+       17080,
+       17130
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -4233,6 +4241,41 @@
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
+   "face": "results/state_tilt/deadpath_latest.json",
+   "no_reader_that_can_go_red": true,
+   "on_disk": false,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "readers": [
+    {
+     "behaviour_under_staleness": "passes on any age at all",
+     "evidence": {
+      "block": [
+       17131,
+       17179
+      ],
+      "date_comparison_lines": [],
+      "fresh_gate_lines": [],
+      "gate_lines": 8,
+      "probe_lines": [],
+      "stale_word_lines": []
+     },
+     "site": "smoke_test.py:3",
+     "tier": "no_freshness_test",
+     "tier_leg": "no_freshness_test"
+    }
+   ],
+   "readers_that_can_go_red": 0,
+   "session_only_writers": [
+    "scripts/run_e442_smoke_leg.py"
+   ],
+   "writer_runs_per_round": 0,
+   "writers_on_chain": 0
+  },
+  {
+   "all_readers_in_the_two_blind_tiers": true,
    "face": "results/state_tilt/deadread_latest.json",
    "no_reader_that_can_go_red": true,
    "on_disk": true,
@@ -4346,8 +4389,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17020,
-       17100
+       17180,
+       17260
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -4381,8 +4424,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17102,
-       17172
+       17262,
+       17332
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -4541,6 +4584,39 @@
    "session_only_writers": [
     "scripts/run_e441_smoke_leg.py"
    ],
+   "writer_runs_per_round": 1,
+   "writers_on_chain": 1
+  },
+  {
+   "all_readers_in_the_two_blind_tiers": true,
+   "face": "results/state_tilt/facehometarget_latest.json",
+   "no_reader_that_can_go_red": true,
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "readers": [
+    {
+     "behaviour_under_staleness": "passes on any age at all",
+     "evidence": {
+      "block": [
+       16918,
+       16974
+      ],
+      "date_comparison_lines": [],
+      "fresh_gate_lines": [],
+      "gate_lines": 10,
+      "probe_lines": [],
+      "stale_word_lines": []
+     },
+     "site": "smoke_test.py:3",
+     "tier": "no_freshness_test",
+     "tier_leg": "no_freshness_test"
+    }
+   ],
+   "readers_that_can_go_red": 0,
+   "session_only_writers": [],
    "writer_runs_per_round": 1,
    "writers_on_chain": 1
   },
@@ -4842,6 +4918,41 @@
    ],
    "readers_that_can_go_red": 0,
    "session_only_writers": [],
+   "writer_runs_per_round": 1,
+   "writers_on_chain": 1
+  },
+  {
+   "all_readers_in_the_two_blind_tiers": true,
+   "face": "results/state_tilt/frozenwriter_latest.json",
+   "no_reader_that_can_go_red": true,
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "readers": [
+    {
+     "behaviour_under_staleness": "passes on any age at all",
+     "evidence": {
+      "block": [
+       16975,
+       17030
+      ],
+      "date_comparison_lines": [],
+      "fresh_gate_lines": [],
+      "gate_lines": 11,
+      "probe_lines": [],
+      "stale_word_lines": []
+     },
+     "site": "smoke_test.py:3",
+     "tier": "no_freshness_test",
+     "tier_leg": "no_freshness_test"
+    }
+   ],
+   "readers_that_can_go_red": 0,
+   "session_only_writers": [
+    "scripts/run_e446_smoke_leg.py"
+   ],
    "writer_runs_per_round": 1,
    "writers_on_chain": 1
   },
@@ -5544,7 +5655,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "scripts/seasonal_calendar_census.py",
     "scripts/stagestyle_combo_p1_backtest.py",
     "Tools/_r306bmc_s6_resolve.py",
@@ -5574,8 +5687,8 @@
     "Tools/_r749bmc_pit_append.py",
     "Tools/_r840bma_rebase_resolve.py"
    ],
-   "writer_runs_per_round": 171,
-   "writers_on_chain": 170
+   "writer_runs_per_round": 173,
+   "writers_on_chain": 172
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -7307,8 +7420,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16918,
-       16966
+       17031,
+       17079
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -8849,7 +8962,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "scripts/seasonal_calendar_census.py",
     "scripts/stagestyle_combo_p1_backtest.py",
     "Tools/_r306bmc_s6_resolve.py",
@@ -8879,8 +8994,8 @@
     "Tools/_r749bmc_pit_append.py",
     "Tools/_r840bma_rebase_resolve.py"
    ],
-   "writer_runs_per_round": 171,
-   "writers_on_chain": 170
+   "writer_runs_per_round": 173,
+   "writers_on_chain": 172
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -8986,7 +9101,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "scripts/seasonal_calendar_census.py",
     "scripts/stagestyle_combo_p1_backtest.py",
     "Tools/_r306bmc_s6_resolve.py",
@@ -9016,8 +9133,8 @@
     "Tools/_r749bmc_pit_append.py",
     "Tools/_r840bma_rebase_resolve.py"
    ],
-   "writer_runs_per_round": 171,
-   "writers_on_chain": 170
+   "writer_runs_per_round": 173,
+   "writers_on_chain": 172
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -9063,7 +9180,7 @@
    "writers_on_chain": 3
   }
  ],
- "generated": "2026-11-05T21:44:51+08:00",
+ "generated": "2026-11-06T01:17:15+08:00",
  "method_limits": [
   "the primary tier is windowed at the read site (from 5 lines before the path literal to the next literal in the same leg, capped at 80 lines); the leg-level tier is published as tier_leg and the two disagree on 4 sites, so a face's tier is auditable rather than asserted.",
   "a path built at runtime (a constant map, a loop over names) does not resolve to a file here; those legs are counted as unresolved and published, never guessed.",
@@ -10090,6 +10207,41 @@
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
+   "face": "results/state_tilt/deadpath_latest.json",
+   "no_reader_that_can_go_red": true,
+   "on_disk": false,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "readers": [
+    {
+     "behaviour_under_staleness": "passes on any age at all",
+     "evidence": {
+      "block": [
+       17131,
+       17179
+      ],
+      "date_comparison_lines": [],
+      "fresh_gate_lines": [],
+      "gate_lines": 8,
+      "probe_lines": [],
+      "stale_word_lines": []
+     },
+     "site": "smoke_test.py:3",
+     "tier": "no_freshness_test",
+     "tier_leg": "no_freshness_test"
+    }
+   ],
+   "readers_that_can_go_red": 0,
+   "session_only_writers": [
+    "scripts/run_e442_smoke_leg.py"
+   ],
+   "writer_runs_per_round": 0,
+   "writers_on_chain": 0
+  },
+  {
+   "all_readers_in_the_two_blind_tiers": true,
    "face": "results/state_tilt/deadread_latest.json",
    "no_reader_that_can_go_red": true,
    "on_disk": true,
@@ -10135,8 +10287,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17102,
-       17172
+       17262,
+       17332
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -12841,8 +12993,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16967,
-       17019
+       17080,
+       17130
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -13319,8 +13471,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17020,
-       17100
+       17180,
+       17260
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -13360,6 +13512,39 @@
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
       "gate_lines": 15,
+      "probe_lines": [],
+      "stale_word_lines": []
+     },
+     "site": "smoke_test.py:3",
+     "tier": "no_freshness_test",
+     "tier_leg": "no_freshness_test"
+    }
+   ],
+   "readers_that_can_go_red": 0,
+   "session_only_writers": [],
+   "writer_runs_per_round": 1,
+   "writers_on_chain": 1
+  },
+  {
+   "all_readers_in_the_two_blind_tiers": true,
+   "face": "results/state_tilt/facehometarget_latest.json",
+   "no_reader_that_can_go_red": true,
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "readers": [
+    {
+     "behaviour_under_staleness": "passes on any age at all",
+     "evidence": {
+      "block": [
+       16918,
+       16974
+      ],
+      "date_comparison_lines": [],
+      "fresh_gate_lines": [],
+      "gate_lines": 10,
       "probe_lines": [],
       "stale_word_lines": []
      },
@@ -13572,6 +13757,41 @@
    ],
    "readers_that_can_go_red": 0,
    "session_only_writers": [],
+   "writer_runs_per_round": 1,
+   "writers_on_chain": 1
+  },
+  {
+   "all_readers_in_the_two_blind_tiers": true,
+   "face": "results/state_tilt/frozenwriter_latest.json",
+   "no_reader_that_can_go_red": true,
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "readers": [
+    {
+     "behaviour_under_staleness": "passes on any age at all",
+     "evidence": {
+      "block": [
+       16975,
+       17030
+      ],
+      "date_comparison_lines": [],
+      "fresh_gate_lines": [],
+      "gate_lines": 11,
+      "probe_lines": [],
+      "stale_word_lines": []
+     },
+     "site": "smoke_test.py:3",
+     "tier": "no_freshness_test",
+     "tier_leg": "no_freshness_test"
+    }
+   ],
+   "readers_that_can_go_red": 0,
+   "session_only_writers": [
+    "scripts/run_e446_smoke_leg.py"
+   ],
    "writer_runs_per_round": 1,
    "writers_on_chain": 1
   },
@@ -15086,8 +15306,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16918,
-       16966
+       17031,
+       17079
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -16918,7 +17138,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "Tools/_r1334bmb_closeout.py",
     "Tools/_r1353bmb_card.py",
     "Tools/_r1353bmb_pool.py",
@@ -16926,8 +17148,8 @@
     "Tools/_r1390_closeout.py",
     "Tools/_r1390_memory.py"
    ],
-   "writer_runs_per_round": 111,
-   "writers_on_chain": 110
+   "writer_runs_per_round": 113,
+   "writers_on_chain": 112
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -17050,7 +17272,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "scripts/seasonal_calendar_census.py",
     "scripts/stagestyle_combo_p1_backtest.py",
     "Tools/_r306bmc_s6_resolve.py",
@@ -17080,8 +17304,8 @@
     "Tools/_r749bmc_pit_append.py",
     "Tools/_r840bma_rebase_resolve.py"
    ],
-   "writer_runs_per_round": 171,
-   "writers_on_chain": 170
+   "writer_runs_per_round": 173,
+   "writers_on_chain": 172
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -17214,7 +17438,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "scripts/seasonal_calendar_census.py",
     "scripts/stagestyle_combo_p1_backtest.py",
     "Tools/_r306bmc_s6_resolve.py",
@@ -17244,8 +17470,8 @@
     "Tools/_r749bmc_pit_append.py",
     "Tools/_r840bma_rebase_resolve.py"
    ],
-   "writer_runs_per_round": 171,
-   "writers_on_chain": 170
+   "writer_runs_per_round": 173,
+   "writers_on_chain": 172
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -17351,7 +17577,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "scripts/seasonal_calendar_census.py",
     "scripts/stagestyle_combo_p1_backtest.py",
     "Tools/_r306bmc_s6_resolve.py",
@@ -17381,8 +17609,8 @@
     "Tools/_r749bmc_pit_append.py",
     "Tools/_r840bma_rebase_resolve.py"
    ],
-   "writer_runs_per_round": 171,
-   "writers_on_chain": 170
+   "writer_runs_per_round": 173,
+   "writers_on_chain": 172
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -17488,7 +17716,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "scripts/seasonal_calendar_census.py",
     "scripts/stagestyle_combo_p1_backtest.py",
     "Tools/_r306bmc_s6_resolve.py",
@@ -17518,8 +17748,8 @@
     "Tools/_r749bmc_pit_append.py",
     "Tools/_r840bma_rebase_resolve.py"
    ],
-   "writer_runs_per_round": 171,
-   "writers_on_chain": 170
+   "writer_runs_per_round": 173,
+   "writers_on_chain": 172
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -17625,7 +17855,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "scripts/seasonal_calendar_census.py",
     "scripts/stagestyle_combo_p1_backtest.py",
     "Tools/_r306bmc_s6_resolve.py",
@@ -17655,8 +17887,8 @@
     "Tools/_r749bmc_pit_append.py",
     "Tools/_r840bma_rebase_resolve.py"
    ],
-   "writer_runs_per_round": 171,
-   "writers_on_chain": 170
+   "writer_runs_per_round": 173,
+   "writers_on_chain": 172
   },
   {
    "all_readers_in_the_two_blind_tiers": true,
@@ -17762,7 +17994,9 @@
     "scripts/run_e437_smoke_leg.py",
     "scripts/run_e440_smoke_leg.py",
     "scripts/run_e441_smoke_leg.py",
+    "scripts/run_e442_smoke_leg.py",
     "scripts/run_e443_smoke_leg.py",
+    "scripts/run_e446_smoke_leg.py",
     "scripts/seasonal_calendar_census.py",
     "scripts/stagestyle_combo_p1_backtest.py",
     "Tools/_r306bmc_s6_resolve.py",
@@ -17792,8 +18026,8 @@
     "Tools/_r749bmc_pit_append.py",
     "Tools/_r840bma_rebase_resolve.py"
    ],
-   "writer_runs_per_round": 171,
-   "writers_on_chain": 170
+   "writer_runs_per_round": 173,
+   "writers_on_chain": 172
   }
  ],
  "study": "E411_reader_tiers_for_every_face_the_suite_opens",
@@ -17802,21 +18036,21 @@
    "asks_the_clock": 1,
    "compares_the_face_to_itself": 3,
    "dates_the_face_in_a_gate": 5,
-   "no_freshness_test": 247,
+   "no_freshness_test": 250,
    "prints_staleness_without_gating": 1
   },
-  "faces": 224,
-  "faces_on_disk": 208,
-  "faces_whose_readers_are_all_in_the_two_blind_tiers": 217,
-  "faces_with_no_reader_that_can_go_red": 218,
+  "faces": 227,
+  "faces_on_disk": 210,
+  "faces_whose_readers_are_all_in_the_two_blind_tiers": 220,
+  "faces_with_no_reader_that_can_go_red": 221,
   "legs_excluded_as_this_study_reading_itself": 4,
-  "legs_opening_a_face": 218,
+  "legs_opening_a_face": 221,
   "legs_opening_more_than_one_face": 36,
-  "legs_scanned": 224,
+  "legs_scanned": 227,
   "legs_that_mention_a_face_but_resolve_to_none": 2,
-  "reader_sites": 257,
+  "reader_sites": 260,
   "reader_sites_that_can_go_red": 6,
-  "share_of_sites_that_can_go_red": 0.0233,
+  "share_of_sites_that_can_go_red": 0.0231,
   "site_tier_and_leg_tier_disagree": 4
  },
  "title": "the suite's reader tiers, priced on every face it opens",
@@ -17836,13 +18070,13 @@
    ]
   }
  ],
- "verdict": "218_of_224_faces_the_suite_opens_have_no_reader_that_can_go_red",
- "verdict_reason": "257 reader sites open 224 published faces/pages from 218 suite legs; 6 of those sites can go red when the face is stale (asks_the_clock, dates_the_face_in_a_gate), and 218 faces have no reader that can. The two faces E409/E410 floored are not outliers.",
+ "verdict": "221_of_227_faces_the_suite_opens_have_no_reader_that_can_go_red",
+ "verdict_reason": "260 reader sites open 227 published faces/pages from 221 suite legs; 6 of those sites can go red when the face is stale (asks_the_clock, dates_the_face_in_a_gate), and 221 faces have no reader that can. The two faces E409/E410 floored are not outliers.",
  "writer_join": {
-  "blind_faces_with_no_chain_writer": 44,
-  "faces_session_only": 28,
+  "blind_faces_with_no_chain_writer": 45,
+  "faces_session_only": 29,
   "faces_unmeasured": 0,
-  "faces_with_a_chain_writer": 179,
+  "faces_with_a_chain_writer": 181,
   "faces_with_no_writer_found": 17
  }
 }

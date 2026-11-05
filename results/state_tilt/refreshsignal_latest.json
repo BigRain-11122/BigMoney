@@ -1,7 +1,7 @@
 {
  "bound": "the chain surface is matched on a literal argv list, so a leg that builds its script name at runtime would be missed; the suite bound is narrower still -- its only dynamic arm is a selftest helper whose call sites all pass --selftest",
  "card": "E408-DOES-EVERY-IN-TREE-WRITER-OF-A-FACE-ALSO-REFRESH-IT-ON-THE-SAME-SIGNAL",
- "evidence_cutoff": "2026-11-05",
+ "evidence_cutoff": "2026-11-06",
  "faces": [
   {
    "face": "results/state_tilt/banddeflate_latest.json",
@@ -13,7 +13,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 3,
    "stamp": {
-    "age_days": 5.59,
+    "age_days": 5.76,
     "kind": "generated",
     "value": "2026-10-31T07:04:32"
    },
@@ -142,7 +142,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 5.58,
+    "age_days": 5.74,
     "kind": "generated",
     "value": "2026-10-31T07:24:25"
    },
@@ -202,7 +202,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 5.72,
+    "age_days": 5.89,
     "kind": "generated",
     "value": "2026-10-31T03:57:28"
    },
@@ -260,7 +260,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 5.78,
+    "age_days": 5.95,
     "kind": "generated",
     "value": "2026-10-31T02:30:19"
    },
@@ -319,7 +319,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 5.92,
+    "age_days": 6.08,
     "kind": "generated",
     "value": "2026-10-30T23:15:36"
    },
@@ -379,9 +379,9 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 3,
    "stamp": {
-    "age_days": 0.37,
+    "age_days": 0.06,
     "kind": "generated",
-    "value": "2026-11-05T12:31:06"
+    "value": "2026-11-05T23:50:54"
    },
    "writers": [
     {
@@ -784,9 +784,9 @@
    "real_writers_on_chain": 2,
    "seed_writer_count": 2,
    "stamp": {
-    "age_days": 0.37,
+    "age_days": 0.06,
     "kind": "generated",
-    "value": "2026-11-05T12:31:10"
+    "value": "2026-11-05T23:51:00"
    },
    "writers": [
     {
@@ -878,7 +878,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 2,
    "stamp": {
-    "age_days": 6.31,
+    "age_days": 6.48,
     "kind": "generated",
     "value": "2026-10-30T13:48:56"
    },
@@ -1059,9 +1059,9 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 12,
    "stamp": {
-    "age_days": 2.0,
+    "age_days": 0.01,
     "kind": "ts",
-    "value": "2026-11-03 21:13:23"
+    "value": "2026-11-06 01:09:39"
    },
    "writers": [
     {
@@ -1408,7 +1408,7 @@
      "write_evidence": {
       "how": "a name carrying the face (OUT_PATH, bound at line 62) reaches a write call in run()",
       "lines": [
-       316
+       329
       ],
       "scope": "run",
       "tainted": [
@@ -1420,12 +1420,12 @@
    ]
   }
  ],
- "generated": "2026-11-05T21:20:20+08:00",
+ "generated": "2026-11-06T01:17:10+08:00",
  "method": "per-leg read attribution is taken from E407's census; the writer list is E407's, then re-tested here -- a module counts as a writer only when a write call reaches a path naming the face, directly or through a name assigned from a face-naming expression, so a mention is not a write; an executor counts only when the surface lists the module basename inside a literal argv or dispatch tuple",
  "study": "E408_writer_refresh_signal",
  "subject_face": "results\\state_tilt\\LEGINPUT-2026-11-04.json",
  "summary": {
-  "chain_legs": 213,
+  "chain_legs": 216,
   "faces": 13,
   "faces_read_by_a_leg": 13,
   "faces_refreshed_on_the_reading_surface": 0,
@@ -1449,7 +1449,7 @@
  },
  "supply_floor": null,
  "surfaces": {
-  "chain_legs_total": 213,
+  "chain_legs_total": 216,
   "suite_bounds": [
    "helper _selftest_run(script, args, timeout) takes the script as a variable; every call site in this suite passes a literal and the literal args are always --selftest, so no call publishes a face -- verified by counting the call sites that carry a non-selftest arg (0)",
    "helper _selftest_run(script, args, timeout) takes the script as a variable; 54 dispatch tuples in this suite name a literal script, and the flag list of 28 of them carries --selftest"

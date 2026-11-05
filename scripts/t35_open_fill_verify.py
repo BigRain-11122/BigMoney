@@ -184,6 +184,7 @@ def verify(states: dict, marks_pw: dict | None,
     """Join -> report dict. Per trader: matched/dropped/breached detail.
     marks_pw None = marks file missing for the day (no-evidence)."""
     per_trader, n_breach, n_matched, n_dropped, n_zero, n_nomarks = {}, 0, 0, 0, 0, 0
+    n_unpriced = 0
     n_refire = n_nobar = 0
     for tid, st in sorted(states.items()):
         pw = (marks_pw or {}).get(tid)
@@ -215,6 +216,16 @@ def verify(states: dict, marks_pw: dict | None,
                                    "hold_days": hd})
                     n_refire += 1
                     continue
+                if not isinstance(session_open, (int, float)) or session_open <= 0 \
+                        or session_open != session_open:
+                    # a zero/absent open is not a price: the fill cannot be
+                    # priced, so it is unmeasured -- never a matched pass
+                    # (a ZeroDivisionError here used to abort the whole run).
+                    detail.append({"symbol": sym, "outcome": "no_price",
+                                   "cost_price": cost,
+                                   "session_open": session_open})
+                    n_unpriced += 1
+                    continue
                 rel = abs(cost - session_open) / session_open
                 row = {"symbol": sym, "outcome": "filled",
                        "cost_price": cost, "session_open": session_open,
@@ -234,11 +245,13 @@ def verify(states: dict, marks_pw: dict | None,
             row["detail"] = [{"symbol": s, "outcome": "no_bar"} for s in gone]
         per_trader[tid] = row
     verdict = ("BREACH" if n_breach else
-               "NO_EVIDENCE" if (n_nomarks or (n_nobar and not n_matched))
+               "NO_EVIDENCE" if (n_nomarks or (n_nobar and not n_matched)
+                                 or (n_unpriced and not n_matched))
                else "PASS")
     return {"verdict": verdict, "rel_tol": REL_TOL,
             "counters": {"matched": n_matched, "dropped": n_dropped,
                          "breach": n_breach, "zero_pending_traders": n_zero,
+                         "unpriced": n_unpriced,
                          "no_marks_traders": n_nomarks,
                          "no_bar_traders": n_nobar,
                          "refire_held": n_refire},
@@ -396,6 +409,15 @@ def _selftest() -> bool:
     rep = verify(st8, {"T-X": {"510300": 4.1}})
     ok &= rep["verdict"] == "PASS" and rep["counters"]["matched"] == 1
     ok &= rep["counters"]["refire_held"] == 0
+    # F14: a zero session open is not a price -- the fill is unmeasured
+    # (NO_EVIDENCE), not a 0-relative matched pass and not a crash.
+    st14 = {"T-X": {"cutoff": "2026-09-24", "positions": {"510300": 4.1},
+                    "held_since": {"510300": 1}}}
+    rep = verify(st14, {"T-X": {"510300": 0.0}})
+    ok &= rep["verdict"] == "NO_EVIDENCE"
+    ok &= rep["counters"]["unpriced"] == 1
+    ok &= rep["counters"]["matched"] == 0 and rep["counters"]["breach"] == 0
+    ok &= rep["per_trader"]["T-X"]["detail"][0]["outcome"] == "no_price"
     # F6: earliest-tick precedence in marks parsing (temp file)
     tmp = tempfile.mkdtemp(prefix="ofv_st_")
     try:

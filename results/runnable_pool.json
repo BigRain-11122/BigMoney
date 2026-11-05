@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1455 bm-b: E434 published (face FIXTUREBEYOND-2026-11-04: 310 parameter-directory write sites -> 30 fixture-shaped, not 21; 9 outside the rows E428 could not place, all temp/runtime, 0 openable by a reader, 5 production-reached) -- E434 closed, E437 seeded (the name heuristic recall), floor 3.",
+ "_stamp_note": "r1464 bm-b: E442 published (face DEADPATH-2026-11-06: 16611 composition sites, 85 composed and never used, 2001 unfollowable, E436 residue 30/30) -- E442 closed, E448 seeded, floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27821,11 +27821,14 @@
    "lane": "cpu-only",
    "lane_note": "static AST dataflow within one function scope; nothing is run or written outside results/",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E436 (r1459 bm-b): 18 of 37 fragment-naming sites are path-only and were never graded as consumed or dropped",
    "entered_at": "2026-11-05T17:5x+08:00",
-   "entered_by": "bm-b r1459 (supply floor refill after E436)"
+   "entered_by": "bm-b r1459 (supply floor refill after E436)",
+   "done_at": "2026-11-06T01:41:00+08:00",
+   "result_ref": "results/state_tilt/DEADPATH-2026-11-06.json",
+   "result_note": "16611 composition sites over 3493 sources: 13856 reach a consumer from the scope that composes them, 85 are composed and never used, 2001 cannot be followed at all; E436 residue 30/30 graded, 3 dropped. selftest 26/26, verify problems=[], check problems=[]."
   },
   {
    "id": "E443-WHICH-DEFINITION-A-BARE-CALL-TO-A-SHARED-NAME-RESOLVES-TO",
@@ -27904,6 +27907,20 @@
    "source": "E446 (r1463 bm-b): 23 of 51 frozen bases have no write site in the corpus, and 3 of them are rollback/backup dirs that are supposed to have none",
    "entered_at": "2026-11-06T01:2x+08:00",
    "entered_by": "bm-b r1463 (supply floor refill after E446)"
+  },
+  {
+   "id": "E448-WHICH-COMPOSED-AND-DROPPED-PATH-IS-STILL-WRITTEN-BY-ANOTHER-BRANCH",
+   "title": "E442 graded 16611 path compositions and found 85 that are composed and never used in the scope that composed them. A dropped composition is harmless when it was superseded (the same file opens a wider path later) and wrong when the intended write never happens. Ask, per dropped site, whether the same file opens a sibling/wider path under the same parent and publish the class (superseded / orphan / cannot_tell)",
+   "question": "Take the 85 rows E442 published as composed_and_never_used_in_the_scope. For each, resolve the parent directory implied by the composition (the first argument that is a string literal or a module constant) and publish whether any opener in the same file opens a path under that parent, which one, and the resulting class: superseded_by_a_wider_open / opened_nowhere_in_the_file / parent_not_resolvable. Re-derive the class tally and the parent resolution from the published rows in check.",
+   "deliverable": "results/state_tilt/DROPPEDPATH-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST scan plus the published E442 face; nothing is run and nothing outside results/ is written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E442 (r1463 bm-b card, built r1464): 85 of 16611 compositions are composed and never used, and the drop is not yet graded as supersession or loss",
+   "entered_at": "2026-11-06T01:4x+08:00",
+   "entered_by": "bm-b r1464 (supply floor refill after E442)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27918,6 +27935,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T01:2x+08:00",
+ "updated_at": "2026-11-06T01:4x+08:00",
  "version": 1
 }
