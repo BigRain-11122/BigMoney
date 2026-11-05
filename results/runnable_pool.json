@@ -27781,15 +27781,19 @@
    "id": "E440-WHICH-WRAPPER-NAME-IS-SHARED-BY-MORE-THAN-ONE-DEFINITION",
    "title": "E439 dropped 24,891 of 24,931 name-index rows as same-name calls and kept 33 rows under an ambiguous wrapper name; ask how many distinct definitions each priced wrapper name has across the corpus, how many call rows are ambiguous between two definitions, and whether the 33 kept ambiguous rows resolve to the right definition",
    "question": "For each of the 11 wrapper names E438/E439 priced, enumerate every function definition in the corpus carrying that name, publish per name the definition count and the call rows that cannot be attributed to one definition, and re-attribute the 33 ambiguous rows E439 kept one hop at a time. Refuse to grade an attribution as correct unless the caller can see exactly one definition",
-   "deliverable": "results/state_tilt/SAMENAMEWRAP-<cutoff>.json",
+   "deliverable": "results/state_tilt/SHAREDNAME-<cutoff>.json",
    "lane": "cpu-only",
    "lane_note": "static AST over the same corpus; no writer or reader is run",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "owner": null,
    "source": "E439 (r1458 bm-b): 24,891 of 24,931 name-index rows dropped by reachability and 33 rows kept under an ambiguous wrapper name",
    "entered_at": "2026-11-05T16:5x+08:00",
-   "entered_by": "bm-b r1458 (supply floor refill after E435/E439)"
+   "entered_by": "bm-b r1458 (supply floor refill after E435/E439)",
+   "done_by": "bm-b",
+   "done_at": "2026-11-05T18:5x+08:00",
+   "result_ref": "results/state_tilt/sharedname_latest.json",
+   "note": "published as SHAREDNAME (the card text said SAMENAMEWRAP); 25,015 dropped rows graded on two axes - 24,308 attribute calls, 707 bare calls to shared names, 0 residue"
   },
   {
    "id": "E441-WHICH-FACE-HOME-BASE-IS-A-LIVE-WRITER-DIRECTORY",
@@ -27818,6 +27822,20 @@
    "source": "E436 (r1459 bm-b): 18 of 37 fragment-naming sites are path-only and were never graded as consumed or dropped",
    "entered_at": "2026-11-05T17:5x+08:00",
    "entered_by": "bm-b r1459 (supply floor refill after E436)"
+  },
+  {
+   "id": "E443-WHICH-DEFINITION-A-BARE-CALL-TO-A-SHARED-NAME-RESOLVES-TO",
+   "title": "E440 found 707 dropped call rows that are bare calls to a wrapper name more than one module defines. For each, resolve the definition statically: does the caller import exactly one of the defining modules, more than one, or none, and does the surviving definition still write the parameter path itself",
+   "question": "of the 707 rows whose name is ambiguous, how many resolve to exactly one defining module and how many stay ambiguous after the import test",
+   "deliverable": "results/state_tilt/BARECALLRESOLVE-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the same corpus; nothing is run",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E440 (r1460 bm-b): 707 of 25,015 dropped rows are bare calls to a name more than one module defines",
+   "entered_at": "2026-11-05T18:5x+08:00",
+   "entered_by": "bm-b r1460 (supply floor refill after E440)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27832,6 +27850,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-05T17:5x+08:00",
+ "updated_at": "2026-11-05T18:5x+08:00",
  "version": 1
 }

@@ -1534,6 +1534,29 @@ LEGS = [
     # cells still add up to the call rows and that every published row still supplies a temp
     # directory, so a row that drops back to a site-level aggregate refuses the chain.
     ("name_recall", ["python", "scripts/e437_name_recall.py", "verify"]),
+    # E438 (r1457, wired at r1458): the grading of temp-supplying rows against what the callee
+    # writes had no chain leg when it shipped.  Verify re-derives the live class table and refuses
+    # a face whose inside count, share or file-path block no longer re-adds from the rows.
+    ("temp_write_base", ["python", "scripts/e438_temp_write_base.py", "verify"]),
+    # E439 (r1458): E438's 56 rows were counted by callee name, and a name-keyed index counts
+    # every `lst.append(x)` as a call to a wrapper named `append`.  Verify re-derives the call-slot
+    # shapes over the live corpus, re-runs the wrapper recheck, and re-closes the attribution
+    # (kept + dropped == name-index total) and the E438 re-pricing, so a face that keeps the old
+    # denominator refuses the chain instead of publishing a share of same-name calls.
+    ("file_slot_callers", ["python", "scripts/e439_file_slot_callers.py", "verify"]),
+    # E440 (r1460): E439 called the rows it dropped "overstated" without reading them.  A dropped
+    # row is either an attribute call (the receiver is an object, not a module wrapper) or a bare
+    # call to a name several modules define -- and the difference decides whether the reachability
+    # rule was right.  Verify re-derives both axes over the live corpus and refuses a published
+    # class that no longer follows from its own axes, so a face carrying a carried verdict or a
+    # name block that does not close refuses the chain instead of republishing the old label.
+    ("shared_wrapper_names", ["python", "scripts/e440_shared_wrapper_names.py", "verify"]),
+    # E435 (r1458): E423 priced where a directory-named field points but never asked whether the
+    # value is itself the name of a published face.  Verify re-derives the three value classes over
+    # the live tree and refuses a published join whose target no longer resolves, so a face holding
+    # a stale population (or a landing row whose file has since disappeared) refuses the chain
+    # instead of republishing the old zero.
+    ("dir_is_a_face", ["python", "scripts/e435_dir_is_a_face.py", "verify"]),
     # E427 (r1451): E426 published 2,818 templates as "inside a function that opens a file" and
     # stopped at location. Verify re-derives the state table over the live corpus (the scanner's own
     # AST walk plus E426's collector for the unfiltered base) and re-checks that the state table,

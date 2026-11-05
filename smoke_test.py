@@ -16847,6 +16847,55 @@ except Exception as _e439:
 check(_name439, not _bad439, "; ".join(_bad439)[:240] or _d439)
 
 
+# E440 (r1460 bm-b): E439 called the 24,911 rows it dropped "overstated" -- a claim, not a
+# reading.  A dropped row can be a method call that shares the wrapper's name, or a bare call to a
+# name several modules define.  This leg reads the two-axis face and refuses (a) a class that does
+# not re-derive from its own axes, (b) a verdict that does not re-derive from the rows, (c) a
+# per-name block whose kept-plus-shadow does not close against the name index, (d) a row whose
+# definition axis contradicts its own name's definition count, and (e) a doctored copy.
+_name440 = "e440 shared wrapper names (r1460 bm-b)"
+_bad440 = []
+try:
+    _m440 = __import__("importlib").import_module("e440_shared_wrapper_names")
+    _f440 = json.load(open(os.path.join("results", "state_tilt", "sharedname_latest.json"),
+                           encoding="utf-8"))
+    _s440 = _f440.get("summary") or {}
+    _rows440 = _f440.get("rows") or []
+    _bad440.extend(_m440.tally_problems(_f440))
+    if _f440.get("verdict") not in _m440.VERDICT_VOCAB:
+        _bad440.append("verdict outside the frozen vocabulary")
+    if _f440.get("verdict") != _m440.verdict_for(_rows440):
+        _bad440.append("the verdict does not re-derive from the rows")
+    _res440 = _s440.get("residue_rows") or 0
+    if (_res440 > 0) != (_f440.get("verdict") == _m440.V_SOME_RESIDUE):
+        _bad440.append("the residue count and the verdict disagree")
+    if (_s440.get("distance_check") or {}).get("recomputed_dropped") \
+            != _s440.get("shadow_rows"):
+        _bad440.append("the drop count does not restate the shadow total")
+    for _b440 in (_s440.get("per_name") or []):
+        _mine440 = [_r for _r in _rows440 if _r.get("wrapper_name") == _b440.get("name")]
+        if _b440.get("shadow_rows") != sum(_r.get("rows") or 0 for _r in _mine440):
+            _bad440.append("%s: the name block does not re-derive" % _b440.get("name"))
+            break
+    _doctor440 = json.loads(json.dumps(_f440))
+    if _rows440:
+        _doctor440["rows"][0]["row_class"] = _m440.R_RESIDUE \
+            if _rows440[0].get("row_class") != _m440.R_RESIDUE else _m440.R_METHOD
+        if not _m440.tally_problems(_doctor440):
+            _bad440.append("a doctored row class was accepted")
+    _classes440 = _s440.get("shadow_by_row_class") or {}
+    _d440 = "%d dropped row(s) over %d source(s), %d wrapper name(s): method %d, shared-name %d, " \
+            "residue %d | %d of %d names defined by more than one module" % (
+                _s440.get("shadow_rows"), _s440.get("corpus_sources"),
+                _s440.get("distinct_wrapper_names"),
+                _classes440.get(_m440.R_METHOD, 0), _classes440.get(_m440.R_SHARED, 0),
+                _classes440.get(_m440.R_RESIDUE, 0),
+                _s440.get("names_defined_more_than_once"), _s440.get("distinct_wrapper_names"))
+except Exception as _e440:
+    _bad440.append(repr(_e440)[:160])
+check(_name440, not _bad440, "; ".join(_bad440)[:240] or _d440)
+
+
 # E435 (r1458 bm-b): E423 priced where a directory-named field points, but never asked whether that
 # value is itself the NAME of a published face -- a join on a face-named base silently picks a face
 # as its parent.  This leg re-reads the published face and refuses (a) a verdict outside the frozen

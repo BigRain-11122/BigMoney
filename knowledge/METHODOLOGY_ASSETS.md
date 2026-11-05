@@ -10726,3 +10726,41 @@ absent. Bases resolve one hop through module constants (string literal, `__file_
 another name) and stay `base_unresolved` (21 sites) instead of being guessed from spelling.
 Existence is tested on the current work tree, so another machine's face reads as absent exactly
 like a mis-composed in-tree path.
+
+### E440 -- "dropped by a rule" is not "overstated": 24,308 of 25,015 dropped call rows are method calls, 707 are ambiguous names, 0 are unjustified (r1460 bm-b)
+
+E439 kept 40 of its call rows and published the other 24,911 under one word -- *overstated* -- because
+it required the caller file to be the defining module or one of its importers. That word is a claim
+about the dropped rows, not a reading of them, and the two reasons a row can fall outside that rule
+point in opposite directions: a method call that merely shares the wrapper's name (`f.write(p)`,
+`lst.append(x)`) says the name index invented the row, while a bare call to a name several modules
+define says the tree has ambiguous helper names. Nothing in E439 could tell them apart.
+
+**Measured on two independent axes, neither inferred from the other.** Axis 1, definitions per name,
+imported from E439's own scan: `_judge_lock_acquire` 1, `_syn_file` 3, `_write_csv` 8, `append` 2,
+`apply_close` 1, `dump` 11, `run` 300, `save` 18, `write` 26, `write_face` 41, `write_json` 28 --
+**9 of 11 names are defined by more than one module**. Axis 2, how the call is spelled at its own
+line, re-read from the caller's AST: `attribute_qualified` / `bare_name` / both / not-found. Of
+25,015 dropped rows (the corpus grew; E439 published 24,911):
+
+* **24,308 (97.2%) are attribute calls.** The receiver is an object; no module-level wrapper is that
+  receiver, so these rows were never evidence about the wrapper at all.
+* **707 (2.8%) are bare calls to a name more than one module defines.** Ambiguity, published as its
+  own class instead of being folded into the method mass.
+* **0 are bare calls to a name with a single definition** -- the residue the rule cannot justify.
+* 0 rows had moved off their indexed line (the second axis re-reads live source, so drift is a
+  class, not an assumption).
+
+**Three lessons.** (a) A drop is a claim until both axes are read: a reachability rule that is right
+in effect can be right for two different reasons, and only one of them says the name index lied. (b)
+The name index cannot distinguish `obj.write(p)` from `write(p)` -- that is a property of the index,
+so the spelling must be recovered from the caller's AST rather than from the row the index produced
+(one parse per file, indexed by `(line, name)`, turns 25k questions into dictionary hits). (c) The
+residue needs its own published class even when it is zero: "0 of 25,015" is a finding, while a zero
+that exists only as the absence of the other two classes is indistinguishable from a scan that
+measured nothing -- so the selftest carries a leg where a residue row *would* flip the verdict.
+
+Face: `results/state_tilt/sharedname_latest.json` (`SHAREDNAME-<cutoff>.json`), verdict
+`every_dropped_row_is_either_a_method_call_or_a_bare_call_to_a_name_that_more_than_one_module_defines`;
+selftest 19/19; smoke leg extracted verbatim 1/1 with a doctored class 1/1 red and the face restored
+byte-identical (7abee58ed9b97d4d).
