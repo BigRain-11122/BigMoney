@@ -1279,7 +1279,7 @@
   "behind_origin_main": 295,
   "note": "not rebased: 408 local commits across two blood lines on a promisor clone; delivery goes to machine/bm-b-r1467 per r1243"
  },
- "s1": "full suite launched detached at round close (results/_smoke_r1475.out, pid 2640) -- no suite total claimed; the r1474 detached suite (pid 13352) was stopped rather than left to certify a smoke_test.py it no longer contained; the new leg was exec'd standalone 1/1 green and 1/1 red doctored",
+ "s1": "full suite COMPLETE: 341/351 PASS, 10 FAIL, plus 9 [DRIFT] observations (legs 95/96/298/308/311/327/328/329/332), all of them growth-only. The new E450 leg is inside that total; it was also exec'd standalone 1/1 green and 1/1 red doctored. The r1474 detached suite (pid 13352) was stopped rather than left to certify a smoke_test.py it no longer contained",
  "s6": "dualrun ZERO-DRIFT (931 entries, streak 51) then attrition CLEAN 4 ledgers (3 historical shrinks healed); compute_audit / py_watermark / update_* lanes / scorecards / paper faces / daily report not run this window (stated, not claimed)",
  "s7": "loop task / watchdog / claws not re-registered this window (r1474 re-registered all three at 06:34)",
  "s7_checked_at": "2026-11-05T18:43:10+08:00",
@@ -1287,7 +1287,12 @@
  "sat_engine": "not re-run this window -- stated, not claimed",
  "selftest": "e450_caller_class 46/46",
  "seq": 1475,
- "smoke": "full suite detached at close, no total claimed; e450 leg standalone PASS with its doctored control red",
+ "smoke": "341/351 PASS, 10 FAIL (results/_smoke_r1475.out, complete). 8 of the 10 are `the published summary does not re-derive from the live tree` -- census faces pinned to an older population, the E455 class only partly wired; the other two are the known dashboard coverage gap (single-writer on bm-a) and one E346 runner-leg check",
+ "smoke_drift_observations": 9,
+ "smoke_failures": 10,
+ "smoke_passes": 341,
+ "smoke_red_class": "8 census faces pinned to an older population (E455 class, partly wired) + the bm-a single-writer dashboard gap + one E346 runner-leg check",
+ "smoke_total": 351,
  "status": "ok",
  "study": "E450_which_bound_receiver_names_a_method_of_a_class_in_the_callers_own_module",
  "supply_floor": {
