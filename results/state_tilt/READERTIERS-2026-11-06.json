@@ -128,6 +128,7 @@
     "scripts/e386_merged_key_cost.py",
     "scripts/e389_family_glob_readers.py",
     "scripts/e436_double_join.py",
+    "scripts/e453_abandoned_stale.py",
     "scripts/etf_book_ceo_page.py",
     "scripts/etf_book_order.py",
     "scripts/etf_book_production.py",
@@ -732,6 +733,7 @@
     "scripts/e386_merged_key_cost.py",
     "scripts/e389_family_glob_readers.py",
     "scripts/e436_double_join.py",
+    "scripts/e453_abandoned_stale.py",
     "scripts/etf_book_ceo_page.py",
     "scripts/etf_book_order.py",
     "scripts/etf_book_production.py",
@@ -1297,6 +1299,7 @@
     "scripts/e386_merged_key_cost.py",
     "scripts/e389_family_glob_readers.py",
     "scripts/e436_double_join.py",
+    "scripts/e453_abandoned_stale.py",
     "scripts/etf_book_ceo_page.py",
     "scripts/etf_book_order.py",
     "scripts/etf_book_production.py",
@@ -2178,8 +2181,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16974,
-       17017
+       17039,
+       17082
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -2213,8 +2216,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17018,
-       17073
+       17083,
+       17138
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -2231,6 +2234,56 @@
    "session_only_writers": [
     "scripts/run_e447_smoke_leg.py"
    ],
+   "writer_runs_per_round": 0,
+   "writers_on_chain": 0
+  },
+  {
+   "all_readers_in_the_two_blind_tiers": true,
+   "face": "results/state_tilt/abandonedstale_latest.json",
+   "no_reader_that_can_go_red": true,
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "readers": [
+    {
+     "behaviour_under_staleness": "passes on any age at all",
+     "evidence": {
+      "block": [
+       16975,
+       17038
+      ],
+      "date_comparison_lines": [],
+      "fresh_gate_lines": [],
+      "gate_lines": 11,
+      "probe_lines": [],
+      "stale_word_lines": [
+       {
+        "line": 16976,
+        "text": "_m453 = __import__(\"importlib\").import_module(\"e453_abandoned_stale\")"
+       },
+       {
+        "line": 16977,
+        "text": "_f453 = json.load(open(os.path.join(\"results\", \"state_tilt\", \"abandonedstale_latest.json\"),"
+       },
+       {
+        "line": 17006,
+        "text": "and _age453 > (_f453.get(\"staleness_threshold_days\") or 0):"
+       },
+       {
+        "line": 17010,
+        "text": "# doctored control: a stale target read by a plain open must NOT be called fresh, and a floor"
+       }
+      ]
+     },
+     "site": "smoke_test.py:3",
+     "tier": "no_freshness_test",
+     "tier_leg": "no_freshness_test"
+    }
+   ],
+   "readers_that_can_go_red": 0,
+   "session_only_writers": [],
    "writer_runs_per_round": 0,
    "writers_on_chain": 0
   },
@@ -2349,8 +2402,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17495,
-       17540
+       17560,
+       17605
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -3842,8 +3895,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17179,
-       17229
+       17244,
+       17294
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -3877,8 +3930,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       15936,
-       16016
+       15937,
+       16017
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -4368,8 +4421,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17230,
-       17278
+       17295,
+       17343
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -4403,8 +4456,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17541,
-       17577
+       17606,
+       17642
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -4502,8 +4555,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16711,
-       16786
+       16712,
+       16787
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -4537,8 +4590,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17279,
-       17359
+       17344,
+       17424
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -4572,8 +4625,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17361,
-       17437
+       17426,
+       17502
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -4608,8 +4661,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17438,
-       17494
+       17503,
+       17559
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -4731,26 +4784,26 @@
      "behaviour_under_staleness": "fails when the face's own date falls behind",
      "evidence": {
       "block": [
-       16860,
-       16917
+       16861,
+       16918
       ],
       "date_comparison_lines": [
        {
-        "line": 16889,
+        "line": 16890,
         "text": "if _r441[\"carrier_class\"] == _m441.R_LIVE and _r441.get(\"newest_member_ts\") \\"
        },
        {
-        "line": 16890,
+        "line": 16891,
         "text": "and _r441.get(\"carrier_ts\") and _r441[\"newest_member_ts\"] <= _r441[\"carrier_ts\"]:"
        }
       ],
       "fresh_gate_lines": [
        {
-        "line": 16886,
+        "line": 16887,
         "text": "_bad441.append(\"%s is graded live but no carrier was outlived\" % _d441[\"base\"])"
        },
        {
-        "line": 16891,
+        "line": 16892,
         "text": "_bad441.append(\"%s:%s is live but its newest member is not newer\""
        }
       ],
@@ -4784,14 +4837,23 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16918,
-       16973
+       16919,
+       16974
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
       "gate_lines": 10,
       "probe_lines": [],
-      "stale_word_lines": []
+      "stale_word_lines": [
+       {
+        "line": 16968,
+        "text": "# (a) a class that does not re-derive from the site's own age and age-check forms, (b) a stale target"
+       },
+       {
+        "line": 16973,
+        "text": "_name453 = \"e453 abandoned base target staleness (r1471.1 bm-b)\""
+       }
+      ]
      },
      "site": "smoke_test.py:3",
      "tier": "no_freshness_test",
@@ -4949,8 +5011,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16787,
-       16859
+       16788,
+       16860
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -4982,8 +5044,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16242,
-       16303
+       16243,
+       16304
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -5017,8 +5079,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16108,
-       16172
+       16109,
+       16173
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -5118,8 +5180,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17074,
-       17129
+       17139,
+       17194
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -5808,6 +5870,7 @@
     "scripts/e386_merged_key_cost.py",
     "scripts/e389_family_glob_readers.py",
     "scripts/e436_double_join.py",
+    "scripts/e453_abandoned_stale.py",
     "scripts/etf_book_ceo_page.py",
     "scripts/etf_book_order.py",
     "scripts/etf_book_production.py",
@@ -6194,8 +6257,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16441,
-       16496
+       16442,
+       16497
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -6229,8 +6292,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       15875,
-       15935
+       15876,
+       15936
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -6297,8 +6360,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16304,
-       16359
+       16305,
+       16360
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -6365,8 +6428,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16554,
-       16589
+       16555,
+       16590
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -7330,8 +7393,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16173,
-       16241
+       16174,
+       16242
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -7538,8 +7601,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16027,
-       16107
+       16028,
+       16108
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -7606,8 +7669,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17130,
-       17178
+       17195,
+       17243
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -8251,8 +8314,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16497,
-       16553
+       16498,
+       16554
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -8317,34 +8380,34 @@
      "behaviour_under_staleness": "fails when the face's own date falls behind",
      "evidence": {
       "block": [
-       16590,
-       16670
+       16591,
+       16671
       ],
       "date_comparison_lines": [
        {
-        "line": 16622,
+        "line": 16623,
         "text": "if _s420.get(\"rows_that_became_writers\") != (_s420.get(\"rows_with_a_date\", 0)"
        },
        {
-        "line": 16625,
+        "line": 16626,
         "text": "if _s420.get(\"rows_whose_name_encodes_a_date\") != sum("
        }
       ],
       "fresh_gate_lines": [
        {
-        "line": 16619,
+        "line": 16620,
         "text": "_bad420.append(\"by_class does not re-derive from the rows\")"
        },
        {
-        "line": 16621,
+        "line": 16622,
         "text": "_bad420.append(\"faces_in_population does not count the rows\")"
        },
        {
-        "line": 16624,
+        "line": 16625,
         "text": "_bad420.append(\"rows_that_became_writers does not re-add\")"
        },
        {
-        "line": 16628,
+        "line": 16629,
         "text": "_bad420.append(\"the rows whose name encodes a date do not re-derive\")"
        }
       ],
@@ -8697,7 +8760,7 @@
      "evidence": {
       "block": [
        15825,
-       15874
+       15875
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -9118,6 +9181,7 @@
     "scripts/e386_merged_key_cost.py",
     "scripts/e389_family_glob_readers.py",
     "scripts/e436_double_join.py",
+    "scripts/e453_abandoned_stale.py",
     "scripts/etf_book_ceo_page.py",
     "scripts/etf_book_order.py",
     "scripts/etf_book_production.py",
@@ -9260,6 +9324,7 @@
     "scripts/e386_merged_key_cost.py",
     "scripts/e389_family_glob_readers.py",
     "scripts/e436_double_join.py",
+    "scripts/e453_abandoned_stale.py",
     "scripts/etf_book_ceo_page.py",
     "scripts/etf_book_order.py",
     "scripts/etf_book_production.py",
@@ -9372,7 +9437,7 @@
    "writers_on_chain": 3
   }
  ],
- "generated": "2026-11-06T04:38:09+08:00",
+ "generated": "2026-11-06T06:04:29+08:00",
  "method_limits": [
   "the primary tier is windowed at the read site (from 5 lines before the path literal to the next literal in the same leg, capped at 80 lines); the leg-level tier is published as tier_leg and the two disagree on 4 sites, so a face's tier is auditable rather than asserted.",
   "a path built at runtime (a constant map, a loop over names) does not resolve to a file here; those legs are counted as unresolved and published, never guessed.",
@@ -10143,8 +10208,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16974,
-       17017
+       17039,
+       17082
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -10178,8 +10243,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17018,
-       17073
+       17083,
+       17138
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -10196,6 +10261,56 @@
    "session_only_writers": [
     "scripts/run_e447_smoke_leg.py"
    ],
+   "writer_runs_per_round": 0,
+   "writers_on_chain": 0
+  },
+  {
+   "all_readers_in_the_two_blind_tiers": true,
+   "face": "results/state_tilt/abandonedstale_latest.json",
+   "no_reader_that_can_go_red": true,
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "readers": [
+    {
+     "behaviour_under_staleness": "passes on any age at all",
+     "evidence": {
+      "block": [
+       16975,
+       17038
+      ],
+      "date_comparison_lines": [],
+      "fresh_gate_lines": [],
+      "gate_lines": 11,
+      "probe_lines": [],
+      "stale_word_lines": [
+       {
+        "line": 16976,
+        "text": "_m453 = __import__(\"importlib\").import_module(\"e453_abandoned_stale\")"
+       },
+       {
+        "line": 16977,
+        "text": "_f453 = json.load(open(os.path.join(\"results\", \"state_tilt\", \"abandonedstale_latest.json\"),"
+       },
+       {
+        "line": 17006,
+        "text": "and _age453 > (_f453.get(\"staleness_threshold_days\") or 0):"
+       },
+       {
+        "line": 17010,
+        "text": "# doctored control: a stale target read by a plain open must NOT be called fresh, and a floor"
+       }
+      ]
+     },
+     "site": "smoke_test.py:3",
+     "tier": "no_freshness_test",
+     "tier_leg": "no_freshness_test"
+    }
+   ],
+   "readers_that_can_go_red": 0,
+   "session_only_writers": [],
    "writer_runs_per_round": 0,
    "writers_on_chain": 0
   },
@@ -10481,8 +10596,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17230,
-       17278
+       17295,
+       17343
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -10549,8 +10664,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17361,
-       17437
+       17426,
+       17502
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -10585,8 +10700,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17438,
-       17494
+       17503,
+       17559
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -12130,8 +12245,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17495,
-       17540
+       17560,
+       17605
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -13323,8 +13438,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17179,
-       17229
+       17244,
+       17294
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -13358,8 +13473,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       15936,
-       16016
+       15937,
+       16017
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -13733,8 +13848,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17541,
-       17577
+       17606,
+       17642
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -13799,8 +13914,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16711,
-       16786
+       16712,
+       16787
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -13834,8 +13949,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17279,
-       17359
+       17344,
+       17424
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -13902,14 +14017,23 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16918,
-       16973
+       16919,
+       16974
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
       "gate_lines": 10,
       "probe_lines": [],
-      "stale_word_lines": []
+      "stale_word_lines": [
+       {
+        "line": 16968,
+        "text": "# (a) a class that does not re-derive from the site's own age and age-check forms, (b) a stale target"
+       },
+       {
+        "line": 16973,
+        "text": "_name453 = \"e453 abandoned base target staleness (r1471.1 bm-b)\""
+       }
+      ]
      },
      "site": "smoke_test.py:3",
      "tier": "no_freshness_test",
@@ -13968,8 +14092,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16787,
-       16859
+       16788,
+       16860
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -14001,8 +14125,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16242,
-       16303
+       16243,
+       16304
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -14036,8 +14160,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16108,
-       16172
+       16109,
+       16173
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -14137,8 +14261,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17074,
-       17129
+       17139,
+       17194
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -14786,8 +14910,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16441,
-       16496
+       16442,
+       16497
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -14821,8 +14945,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       15875,
-       15935
+       15876,
+       15936
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -14889,8 +15013,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16304,
-       16359
+       16305,
+       16360
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -14957,8 +15081,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16554,
-       16589
+       16555,
+       16590
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -15463,8 +15587,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16173,
-       16241
+       16174,
+       16242
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -15601,8 +15725,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16027,
-       16107
+       16028,
+       16108
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -15669,8 +15793,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       17130,
-       17178
+       17195,
+       17243
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -16099,8 +16223,8 @@
      "behaviour_under_staleness": "passes on any age at all",
      "evidence": {
       "block": [
-       16497,
-       16553
+       16498,
+       16554
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -16381,7 +16505,7 @@
      "evidence": {
       "block": [
        15825,
-       15874
+       15875
       ],
       "date_comparison_lines": [],
       "fresh_gate_lines": [],
@@ -17608,6 +17732,7 @@
     "scripts/e386_merged_key_cost.py",
     "scripts/e389_family_glob_readers.py",
     "scripts/e436_double_join.py",
+    "scripts/e453_abandoned_stale.py",
     "scripts/etf_book_ceo_page.py",
     "scripts/etf_book_order.py",
     "scripts/etf_book_production.py",
@@ -17777,6 +17902,7 @@
     "scripts/e386_merged_key_cost.py",
     "scripts/e389_family_glob_readers.py",
     "scripts/e436_double_join.py",
+    "scripts/e453_abandoned_stale.py",
     "scripts/etf_book_ceo_page.py",
     "scripts/etf_book_order.py",
     "scripts/etf_book_production.py",
@@ -17919,6 +18045,7 @@
     "scripts/e386_merged_key_cost.py",
     "scripts/e389_family_glob_readers.py",
     "scripts/e436_double_join.py",
+    "scripts/e453_abandoned_stale.py",
     "scripts/etf_book_ceo_page.py",
     "scripts/etf_book_order.py",
     "scripts/etf_book_production.py",
@@ -18061,6 +18188,7 @@
     "scripts/e386_merged_key_cost.py",
     "scripts/e389_family_glob_readers.py",
     "scripts/e436_double_join.py",
+    "scripts/e453_abandoned_stale.py",
     "scripts/etf_book_ceo_page.py",
     "scripts/etf_book_order.py",
     "scripts/etf_book_production.py",
@@ -18203,6 +18331,7 @@
     "scripts/e386_merged_key_cost.py",
     "scripts/e389_family_glob_readers.py",
     "scripts/e436_double_join.py",
+    "scripts/e453_abandoned_stale.py",
     "scripts/etf_book_ceo_page.py",
     "scripts/etf_book_order.py",
     "scripts/etf_book_production.py",
@@ -18345,6 +18474,7 @@
     "scripts/e386_merged_key_cost.py",
     "scripts/e389_family_glob_readers.py",
     "scripts/e436_double_join.py",
+    "scripts/e453_abandoned_stale.py",
     "scripts/etf_book_ceo_page.py",
     "scripts/etf_book_order.py",
     "scripts/etf_book_production.py",
@@ -18420,19 +18550,19 @@
    "asks_the_clock": 1,
    "compares_the_face_to_itself": 3,
    "dates_the_face_in_a_gate": 5,
-   "no_freshness_test": 255,
+   "no_freshness_test": 256,
    "prints_staleness_without_gating": 1
   },
-  "faces": 232,
-  "faces_on_disk": 216,
-  "faces_whose_readers_are_all_in_the_two_blind_tiers": 225,
-  "faces_with_no_reader_that_can_go_red": 226,
+  "faces": 233,
+  "faces_on_disk": 217,
+  "faces_whose_readers_are_all_in_the_two_blind_tiers": 226,
+  "faces_with_no_reader_that_can_go_red": 227,
   "legs_excluded_as_this_study_reading_itself": 4,
-  "legs_opening_a_face": 226,
+  "legs_opening_a_face": 227,
   "legs_opening_more_than_one_face": 36,
-  "legs_scanned": 232,
+  "legs_scanned": 233,
   "legs_that_mention_a_face_but_resolve_to_none": 2,
-  "reader_sites": 265,
+  "reader_sites": 266,
   "reader_sites_that_can_go_red": 6,
   "share_of_sites_that_can_go_red": 0.0226,
   "site_tier_and_leg_tier_disagree": 4
@@ -18454,13 +18584,13 @@
    ]
   }
  ],
- "verdict": "226_of_232_faces_the_suite_opens_have_no_reader_that_can_go_red",
- "verdict_reason": "265 reader sites open 232 published faces/pages from 226 suite legs; 6 of those sites can go red when the face is stale (asks_the_clock, dates_the_face_in_a_gate), and 226 faces have no reader that can. The two faces E409/E410 floored are not outliers.",
+ "verdict": "227_of_233_faces_the_suite_opens_have_no_reader_that_can_go_red",
+ "verdict_reason": "266 reader sites open 233 published faces/pages from 227 suite legs; 6 of those sites can go red when the face is stale (asks_the_clock, dates_the_face_in_a_gate), and 227 faces have no reader that can. The two faces E409/E410 floored are not outliers.",
  "writer_join": {
-  "blind_faces_with_no_chain_writer": 48,
+  "blind_faces_with_no_chain_writer": 49,
   "faces_session_only": 32,
   "faces_unmeasured": 0,
   "faces_with_a_chain_writer": 183,
-  "faces_with_no_writer_found": 17
+  "faces_with_no_writer_found": 18
  }
 }

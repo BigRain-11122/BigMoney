@@ -27997,17 +27997,31 @@
   },
   {
    "id": "E453-WHICH-GUARDED-HARNESS-OPEN-FINDS-A-STALE-ARTIFACT",
+   "done_note": "r1472 published E453 (11 targets over 6 bases; staleness not identifiable on this clone, mtime floor 21 d vs a 180 d bar; 0 readers compare st_mtime). The shared pool flip was left undone by that window -- this window performed it, reading the ref from disk.",
    "title": "E452 showed that 8 of the 12 harness opens under an abandoned base are guarded, so a missing artifact would be announced. A guard tests existence and says nothing about age: an artifact nobody produces can sit on disk for months and every guard in the suite stays green. Ask which of those present targets is stale relative to the clock the face itself runs on, and whether any reader checks an age at all",
    "question": "For each E452 site whose artifact is present, publish the target mtime and age in days at the face cutoff, the age of the newest member of its base, and whether the reading function performs any age/mtime check (a comparison against now(), a max age constant, or a freshness guard of its own). Class each site fresh_artifact / stale_artifact_with_an_age_check / stale_artifact_with_no_age_check, and publish the stale sites by consumer (smoke suite vs lane host). Re-derive the ages, the classes and the verdict from the published rows in check, and state the staleness threshold as a named constant rather than an implicit 30/90 days",
    "deliverable": "results/state_tilt/ABANDONEDSTALE-<cutoff>.json",
    "lane": "cpu-only",
    "lane_note": "os.stat on the targets E452 published plus a static AST scan of the readers; nothing is executed and nothing outside results/state_tilt is written",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/state_tilt/abandonedstale_latest.json",
+   "done_note": "r1472 published E453 (11 targets over 6 bases; 11 fresh / 0 stale-checked / 0 stale-bare; 6 read the clock, 4 name a max-age constant, 0 compare st_mtime; mtime floor 21 d against a 180 d bar). The shared pool flip was left undone by that window; this window performed it reading the ref off disk.",
    "owner": null,
    "source": "E452 (r1470 bm-b): 8 of 12 harness opens are guarded and 11 of 12 targets exist, so existence is the wrong question where absence is already announced",
    "entered_at": "2026-11-06T05:20:00+08:00",
    "entered_by": "bm-b r1470 (supply floor refill after E452)"
+  },
+  {
+   "id": "E455-WHY-A-CENSUS-OVER-A-GROWING-TREE-RE-REDS-ONE-ROUND-AFTER-REPUBLISH",
+   "title": "r1471 republished nine census faces whose summary had stopped re-deriving; one round later three of them (E398 latest-family readers, E409 unfloored faces, E411 reader tiers) are red again with the same sentence. A census over a tree that gains a dozen files every round cannot be byte-stable at suite time, so the leg as written guarantees a red every round and a republish is a one-round purchase. Ask, for each of those legs, whether the live recomputation differs only by GROWTH (a superset of the published population with an unchanged verdict) or by a real change, and publish how many rounds a republish actually buys",
+   "question": "For each census leg that recomputes from the live tree and demands equality with a published face, measure the delta between publication and the next round's suite run: is it (a) a strict superset of the published rows with the verdict preserved, (b) a changed row/verdict, or (c) a shrink? Publish the per-leg class, the number of new rows per round, and the smallest growth-tolerance rule that would still catch (b) and (c)",
+   "lane": "cpu-only",
+   "deliverable": "results/state_tilt/GROWTHRED-<cutoff>.json",
+   "priority": "normal",
+   "status": "ready",
+   "entered_at": "2026-11-06T06:2x:00+08:00",
+   "entered_by": "bm-b r1473 (three republished faces went red again in one round)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
