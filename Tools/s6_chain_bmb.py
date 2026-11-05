@@ -1597,6 +1597,13 @@ LEGS = [
     # so a base that gained a writer (or lost its last one) refuses the chain instead of
     # republishing the old class.  Read-only; cost is one AST walk of the corpus (~25s).
     ("frozen_writer", ["python", "scripts/e446_frozen_writer.py", "verify"]),
+    # E447 (r1469): E446 called a base with no writer "abandoned" and stopped at the write side, so
+    # an abandoned base a harness-launched reader still opens was published as harmless.  Verify
+    # re-derives every read site under each of the 23 bases over the live tree and refuses a base
+    # whose class, site count or live-reader count has moved, so a base that lost its last reader
+    # (or gained one) refuses the chain instead of republishing the old class.  Read-only; cost is
+    # one AST walk of the corpus plus E446's writer pass (~60s).
+    ("abandoned_read", ["python", "scripts/e447_abandoned_read.py", "verify"]),
     # E435 (r1458): E423 priced where a directory-named field points but never asked whether the
     # value is itself the name of a published face.  Verify re-derives the three value classes over
     # the live tree and refuses a published join whose target no longer resolves, so a face holding

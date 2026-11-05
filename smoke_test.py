@@ -16962,6 +16962,61 @@ check(_name445, not _bad445, "; ".join(_bad445)[:240]
          _by445.get(_m445.T_NEW, 0), _s445.get("rows_where_the_composition_repeats_the_base", 0)))
 
 
+# E447 (r1469 bm-b): E446 published 23 face-home bases with no writer in the corpus and called the
+# split useful only if the abandoned ones are harmless.  A base nobody writes to is harmless only if
+# nobody reads there either.  This leg refuses (a) a class that does not re-derive from the row's own
+# read sites, (b) a suffix reading published as a resolved hit, (c) a summary counter that does not
+# re-derive from the rows, (d) a verdict that does not re-derive from the rows, (e) a population that
+# no longer matches E446's published count without saying so, and (f) a reader with a live consumer
+# on a base that is not classed read.
+_name447 = "e447 abandoned base read (r1469 bm-b)"
+_bad447 = []
+try:
+    _m447 = __import__("importlib").import_module("e447_abandoned_read")
+    _f447 = json.load(open(os.path.join("results", "state_tilt", "abandonedread_latest.json"),
+                           encoding="utf-8"))
+    _s447 = _f447.get("summary") or {}
+    _rows447 = _f447.get("rows") or []
+    _bad447.extend(_m447.tally_problems(_f447))
+    if _f447.get("verdict") != _m447.verdict_for(_rows447):
+        _bad447.append("the verdict does not re-derive from the rows")
+    if sum((_s447.get("class_counts") or {}).values()) != len(_rows447):
+        _bad447.append("the class table does not add up to the rows")
+    if not (_s447.get("population_check") or {}).get("agrees"):
+        _bad447.append("the population no longer matches E446's published count")
+    for _r447 in _rows447:
+        if _r447.get("class") not in _m447.CLASSES:
+            _bad447.append("%s class outside the vocabulary" % _r447.get("base"))
+            break
+        _sites447 = _r447.get("read_sites") or []
+        if _r447.get("read_site_count", 0) and not _sites447:
+            _bad447.append("%s publishes a count with no site" % _r447.get("base"))
+            break
+        if [x for x in _sites447
+                if x.get("match") == "resolved_under_the_base"
+                and str(x.get("resolved_path")).startswith("?")]:
+            _bad447.append("%s publishes a suffix reading as a resolved hit" % _r447.get("base"))
+            break
+        if _r447.get("class") == _m447.C_UNREAD and _r447.get("read_site_count"):
+            _bad447.append("%s is unread but carries a read site" % _r447.get("base"))
+            break
+        if _r447.get("reader_faces_with_a_live_consumer") and _r447.get("class") != _m447.C_READ:
+            _bad447.append("%s has a live reader but is not classed read" % _r447.get("base"))
+            break
+except Exception as _e447:  # noqa: BLE001
+    _bad447.append("leg crashed: %s" % _e447)
+check(_name447, not _bad447, "; ".join(_bad447)[:240]
+      or "%d abandoned bases: %d unread, %d still read (%d by a harness-launched reader), "
+         "%d backup-only; %d read sites over %d reader faces"
+      % (_s447.get("abandoned_bases", 0),
+         (_s447.get("class_counts") or {}).get("abandoned_and_unread", 0),
+         (_s447.get("class_counts") or {}).get("abandoned_but_still_read", 0),
+         _s447.get("bases_read_by_a_live_consumer", 0),
+         (_s447.get("class_counts") or {}).get("abandoned_and_only_a_backup", 0),
+         _s447.get("read_sites_under_abandoned_bases", 0),
+         _s447.get("distinct_reader_faces", 0)))
+
+
 # E446 (r1463 bm-b): E441 published 51 frozen face-home bases, where frozen only means no member
 # was written after the carrier.  That silence is either DORMANT (a writer exists in the corpus and
 # simply has not run) or ABANDONED (no code in this repo would ever write there again).  This leg

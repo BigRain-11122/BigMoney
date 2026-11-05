@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1468 bm-b: E449 published (DEADPREREG-2026-11-06: 30 orphan drops -> 7 research notes, 0 opened by any opener in 12,197 .py, 7 constants never loaded again) -- E449 closed, E451 seeded, floor 3.",
+ "_stamp_note": "r1469 bm-b: E447 published (ABANDONEDREAD-2026-11-06: 23 bases with no writer -> 9 read by nobody, 11 still read, 3 backup-only, 7 read by harness-launched code) -- E447 closed, E452 seeded, floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27905,8 +27905,11 @@
    "lane": "cpu-only",
    "lane_note": "static AST scan of the corpus; nothing is run and nothing outside results/ is written",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
+   "result_ref": "results/state_tilt/ABANDONEDREAD-2026-11-06.json",
+   "completed_at": "2026-11-06T04:05:00+08:00",
+   "result_note": "23 abandoned bases: 9 read by nobody, 11 still read, 3 backup-only; 7 are read by code a harness launches (4 by smoke_test.py, plus strategy_scorecard and trial_labor_w21)",
    "source": "E446 (r1463 bm-b): 23 of 51 frozen bases have no write site in the corpus, and 3 of them are rollback/backup dirs that are supposed to have none",
    "entered_at": "2026-11-06T01:2x+08:00",
    "entered_by": "bm-b r1463 (supply floor refill after E446)"
@@ -27974,6 +27977,19 @@
    "source": "E449 (r1468 bm-b): the prereg constant is assigned and never loaded, so the claim rests on text alone",
    "entered_at": "2026-11-06T03:2x+08:00",
    "entered_by": "bm-b r1468 (supply floor refill after E449)"
+  },
+  {
+   "deliverable": "results/state_tilt/ABANDONEDGUARD-<cutoff>.json",
+   "entered_at": "2026-11-06T04:05:00+08:00",
+   "entered_by": "bm-b r1469 (supply floor refill after E447)",
+   "id": "E452-WHICH-HARNESS-OPEN-OF-AN-ABANDONED-BASE-IS-UNGUARDED",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the readers E447 named plus the artifacts on disk; nothing is executed and nothing outside results/state_tilt is written",
+   "priority": "normal",
+   "question": "E447 published 7 abandoned bases still read by code a harness launches, and 4 of those readers are the smoke suite itself (smoke_test.py opens results/etf_book_production/CARD.md, results/etf_book_order/latest.json twice and results/e79/DOCQUOTES-BASELINE.json). For each such read site publish whether the open is guarded (a try/except, an exists() test, or a default) and whether the artifact it opens is on disk today, then classify the site: unguarded_and_the_artifact_is_gone / unguarded_but_the_artifact_is_present / guarded_so_a_missing_artifact_is_announced. Re-derive the tally and the class from the published rows in check and name the guard shapes you count.",
+   "source": "E447 (r1469 bm-b): the bases nobody writes to are still opened by the smoke suite and two lane hosts, so the harness depends on artifacts no producer would recreate",
+   "status": "ready",
+   "title": "E447 found abandoned bases still opened by smoke_test.py, strategy_scorecard and trial_labor_w21. A harness that opens a file nobody writes is only safe if the open is guarded or the artifact still exists: ask which of those opens would raise today"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27988,6 +28004,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T03:2x+08:00",
+ "updated_at": "2026-11-06T04:05:00+08:00",
  "version": 1
 }

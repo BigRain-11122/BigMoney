@@ -1,0 +1,1582 @@
+{
+ "card": "E447-WHICH-ABANDONED-BASE-IS-STILL-NAMED-BY-A-LIVE-READER",
+ "class_vocab": [
+  "abandoned_and_unread",
+  "abandoned_but_still_read",
+  "abandoned_and_only_a_backup"
+ ],
+ "evidence_cutoff": "2026-11-06",
+ "generated": "2026-11-06",
+ "method_limits": [
+  "a reader is a CALL that takes bytes or a listing FROM a path (open in a reading mode, read_text/read_bytes, read_csv/read_parquet/read_json and the other pandas loaders, np.loadtxt/genfromtxt, os.listdir/scandir/walk, glob/rglob, and the SOURCE argument of copy/move). A call that merely names the directory is neither a reader nor a writer and is out of this population",
+  "resolution is E446's resolver verbatim (literals, module-scope constants, os.path.join chains, f-string heads, constant concatenation). A join whose head cannot be followed publishes only its literal tail and is classed match=literal_tail_only, never as a resolved hit",
+  "liveness is read from the harnesses, not guessed from filenames: smoke_leg = named in smoke_test.py, chain_leg = named in Tools/s6_chain_bmb.py, task_referenced = named in a Tools/*.ps1|cmd|bat wrapper, runnable_script = the module has a __main__ guard, face_writing_census = the module writes a face (E446's write vocabulary), library_module = none of the above. A runnable_script with a __main__ guard counts as live even if nothing schedules it today: this face answers 'would a launch read there'",
+  "the population is E446's published 23 no_writer_in_the_corpus rows, read from its summary; a base whose class changed since E446 shows up in population_check.agrees instead of being silently re-graded",
+  "the corpus is every .py under the repo root minus ['.codely-cli', '.git', 'Money02', '__pycache__', '_quarantine', '_smoke', 'legacy', 'node_modules'] and this study's own faces; files over 2097152 bytes are skipped",
+  "no file outside results/state_tilt is written and nothing in the repository is executed"
+ ],
+ "rows": [
+  {
+   "base": "results/etf_book_production",
+   "carriers": 35,
+   "class": "abandoned_but_still_read",
+   "exact_read_site_count": 2,
+   "is_backup_or_rollback": false,
+   "live_readers": [
+    "smoke_test.py"
+   ],
+   "members_in_the_base": 5,
+   "newest_member": "results/etf_book_production/latest.json",
+   "newest_member_ts": "2026-10-29T10:01:12",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 2,
+   "read_sites": [
+    {
+     "face": "scripts/etf_book_bridge.py",
+     "how": "join(constant:OUT_DIR,literal,literal)",
+     "kind": "open",
+     "line": 369,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/etf_book_production/latest.json"
+    },
+    {
+     "face": "smoke_test.py",
+     "how": "constant:_card",
+     "kind": "open",
+     "line": 450,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/etf_book_production/CARD.md"
+    }
+   ],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {
+    "face_writing_census": 1,
+    "smoke_leg": 1
+   },
+   "reader_classes": [
+    "face_writing_census",
+    "smoke_leg"
+   ],
+   "reader_face_names": [
+    "scripts/etf_book_bridge.py",
+    "smoke_test.py"
+   ],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 2,
+   "reader_faces_with_a_live_consumer": 1,
+   "readers": [
+    {
+     "face": "scripts/etf_book_bridge.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "smoke_test.py",
+     "live": true,
+     "reader_class": "smoke_leg",
+     "sites": 1,
+     "writes_faces": false
+    }
+   ],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/etf_book_order_fresh",
+   "carriers": 14,
+   "class": "abandoned_and_unread",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 3,
+   "newest_member": "results/etf_book_order_fresh/state.json",
+   "newest_member_ts": "2026-10-27T01:24:56",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 0,
+   "read_sites": [],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {},
+   "reader_classes": [],
+   "reader_face_names": [],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 0,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/etf_book_split_audit",
+   "carriers": 14,
+   "class": "abandoned_and_unread",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 2,
+   "newest_member": "results/etf_book_split_audit/AUDIT-2026-10-23.json",
+   "newest_member_ts": "2026-10-27T01:24:56",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 0,
+   "read_sites": [],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {},
+   "reader_classes": [],
+   "reader_face_names": [],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 0,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/m6_regime5",
+   "carriers": 14,
+   "class": "abandoned_and_unread",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 1,
+   "newest_member": "results/m6_regime5/latest.json",
+   "newest_member_ts": "2026-10-17T09:08:48",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 0,
+   "read_sites": [],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {},
+   "reader_classes": [],
+   "reader_face_names": [],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 0,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/overnight_gap_census",
+   "carriers": 14,
+   "class": "abandoned_but_still_read",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": false,
+   "live_readers": [
+    "scripts/trial_labor_w21.py"
+   ],
+   "members_in_the_base": 5,
+   "newest_member": "results/overnight_gap_census/LEG3-2026-10-19.json",
+   "newest_member_ts": "2026-10-20T17:27:01",
+   "read_only_through_a_literal_tail": true,
+   "read_site_count": 1,
+   "read_sites": [
+    {
+     "face": "scripts/trial_labor_w21.py",
+     "how": "constant:LEG3_FILE",
+     "kind": "open",
+     "line": 473,
+     "match": "literal_tail_only",
+     "mode": "read_mode:rb",
+     "resolved_path": "?overnight_gap_census/LEG3-2026-10-19.json"
+    }
+   ],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {
+    "task_referenced": 1
+   },
+   "reader_classes": [
+    "task_referenced"
+   ],
+   "reader_face_names": [
+    "scripts/trial_labor_w21.py"
+   ],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 1,
+   "reader_faces_with_a_live_consumer": 1,
+   "readers": [
+    {
+     "face": "scripts/trial_labor_w21.py",
+     "live": true,
+     "reader_class": "task_referenced",
+     "sites": 1,
+     "writes_faces": false
+    }
+   ],
+   "suffix_only_read_sites": 1
+  },
+  {
+   "base": "results/seasonal_calendar_census",
+   "carriers": 14,
+   "class": "abandoned_and_unread",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 2,
+   "newest_member": "results/seasonal_calendar_census/latest.json",
+   "newest_member_ts": "2026-10-20T20:26:52",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 0,
+   "read_sites": [],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {},
+   "reader_classes": [],
+   "reader_face_names": [],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 0,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/seasonal_horizon_stability",
+   "carriers": 14,
+   "class": "abandoned_and_unread",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 2,
+   "newest_member": "results/seasonal_horizon_stability/CENSUS-2026-10-19.json",
+   "newest_member_ts": "2026-10-20T20:26:52",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 0,
+   "read_sites": [],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {},
+   "reader_classes": [],
+   "reader_face_names": [],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 0,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/t23_census",
+   "carriers": 14,
+   "class": "abandoned_but_still_read",
+   "exact_read_site_count": 4,
+   "is_backup_or_rollback": false,
+   "live_readers": [
+    "scripts/alphagen_beam_w18.py",
+    "scripts/alphagen_beam_w19.py",
+    "scripts/alphagen_beam_w20.py"
+   ],
+   "members_in_the_base": 2,
+   "newest_member": "results/t23_census/latest.json",
+   "newest_member_ts": "2026-10-17T09:08:55",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 4,
+   "read_sites": [
+    {
+     "face": "results/_r865bmb_n2w20_draft_probe.py",
+     "how": "constant:CENSUS_PRODUCT",
+     "kind": "open",
+     "line": 142,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/t23_census/CENSUS-2026-10-09.json"
+    },
+    {
+     "face": "scripts/alphagen_beam_w18.py",
+     "how": "constant:CENSUS_PRODUCT",
+     "kind": "open",
+     "line": 480,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/t23_census/CENSUS-"
+    },
+    {
+     "face": "scripts/alphagen_beam_w19.py",
+     "how": "constant:CENSUS_PRODUCT",
+     "kind": "open",
+     "line": 569,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/t23_census/CENSUS-"
+    },
+    {
+     "face": "scripts/alphagen_beam_w20.py",
+     "how": "constant:CENSUS_PRODUCT",
+     "kind": "open",
+     "line": 600,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/t23_census/CENSUS-"
+    }
+   ],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {
+    "face_writing_census": 1,
+    "runnable_script": 3
+   },
+   "reader_classes": [
+    "face_writing_census",
+    "runnable_script"
+   ],
+   "reader_face_names": [
+    "results/_r865bmb_n2w20_draft_probe.py",
+    "scripts/alphagen_beam_w18.py",
+    "scripts/alphagen_beam_w19.py",
+    "scripts/alphagen_beam_w20.py"
+   ],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 4,
+   "reader_faces_with_a_live_consumer": 3,
+   "readers": [
+    {
+     "face": "results/_r865bmb_n2w20_draft_probe.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "scripts/alphagen_beam_w18.py",
+     "live": true,
+     "reader_class": "runnable_script",
+     "sites": 1,
+     "writes_faces": false
+    },
+    {
+     "face": "scripts/alphagen_beam_w19.py",
+     "live": true,
+     "reader_class": "runnable_script",
+     "sites": 1,
+     "writes_faces": false
+    },
+    {
+     "face": "scripts/alphagen_beam_w20.py",
+     "live": true,
+     "reader_class": "runnable_script",
+     "sites": 1,
+     "writes_faces": false
+    }
+   ],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/etf_book_order",
+   "carriers": 11,
+   "class": "abandoned_but_still_read",
+   "exact_read_site_count": 2,
+   "is_backup_or_rollback": false,
+   "live_readers": [
+    "smoke_test.py"
+   ],
+   "members_in_the_base": 8,
+   "newest_member": "results/etf_book_order/TICKET-2026-10-28-card.json",
+   "newest_member_ts": "2026-10-29T10:01:12",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 2,
+   "read_sites": [
+    {
+     "face": "smoke_test.py",
+     "how": "literal",
+     "kind": "open",
+     "line": 699,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/etf_book_order/latest.json"
+    },
+    {
+     "face": "smoke_test.py",
+     "how": "literal",
+     "kind": "open",
+     "line": 1606,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/etf_book_order/latest.json"
+    }
+   ],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {
+    "smoke_leg": 1
+   },
+   "reader_classes": [
+    "smoke_leg"
+   ],
+   "reader_face_names": [
+    "smoke_test.py"
+   ],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 1,
+   "reader_faces_with_a_live_consumer": 1,
+   "readers": [
+    {
+     "face": "smoke_test.py",
+     "live": true,
+     "reader_class": "smoke_leg",
+     "sites": 2,
+     "writes_faces": false
+    }
+   ],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/_r1024bma_rollback_side",
+   "carriers": 2,
+   "class": "abandoned_and_only_a_backup",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": true,
+   "live_readers": [],
+   "members_in_the_base": 82,
+   "newest_member": "results/_r1024bma_rollback_side/state-bm-c.json",
+   "newest_member_ts": "2026-10-17T09:00:59",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 0,
+   "read_sites": [],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {},
+   "reader_classes": [],
+   "reader_face_names": [],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 0,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/_r753bmc_churn_backup",
+   "carriers": 2,
+   "class": "abandoned_and_only_a_backup",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": true,
+   "live_readers": [],
+   "members_in_the_base": 19,
+   "newest_member": "results/_r753bmc_churn_backup/results__update_status.bm-c.json",
+   "newest_member_ts": "2026-10-17T09:07:47",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 0,
+   "read_sites": [],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {},
+   "reader_classes": [],
+   "reader_face_names": [],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 0,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/_r903bmc_ff_backup",
+   "carriers": 2,
+   "class": "abandoned_and_only_a_backup",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": true,
+   "live_readers": [],
+   "members_in_the_base": 18,
+   "newest_member": "results/_r903bmc_ff_backup/results__update_status.json",
+   "newest_member_ts": "2026-10-17T09:08:23",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 0,
+   "read_sites": [],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {},
+   "reader_classes": [],
+   "reader_face_names": [],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 0,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/bond_w3a",
+   "carriers": 2,
+   "class": "abandoned_but_still_read",
+   "exact_read_site_count": 7,
+   "is_backup_or_rollback": false,
+   "live_readers": [
+    "scripts/bond_panel_puller.py"
+   ],
+   "members_in_the_base": 8,
+   "newest_member": "results/bond_w3a/shard_5of6.json",
+   "newest_member_ts": "2026-10-17T09:08:43",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 7,
+   "read_sites": [
+    {
+     "face": "scripts/bond_carry_w3a.py",
+     "how": "constant:MANIFEST_JSON",
+     "kind": "open",
+     "line": 166,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/bond_w3a/candidates.json"
+    },
+    {
+     "face": "scripts/bond_carry_w3a.py",
+     "how": "constant:REGISTRY_JSON",
+     "kind": "open",
+     "line": 729,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/bond_w3a/member_registry.json"
+    },
+    {
+     "face": "scripts/bond_carry_w3a.py",
+     "how": "constant:REGISTRY_JSON",
+     "kind": "open",
+     "line": 1117,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/bond_w3a/member_registry.json"
+    },
+    {
+     "face": "scripts/bond_panel_puller.py",
+     "how": "constant:MANIFEST",
+     "kind": "open",
+     "line": 127,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/bond_w3a/candidates.json"
+    },
+    {
+     "face": "scripts/bond_panel_puller.py",
+     "how": "constant:MANIFEST",
+     "kind": "open",
+     "line": 284,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/bond_w3a/candidates.json"
+    },
+    {
+     "face": "scripts/bond_panel_puller.py",
+     "how": "constant:MANIFEST",
+     "kind": "open",
+     "line": 308,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/bond_w3a/candidates.json"
+    },
+    {
+     "face": "scripts/bond_panel_puller.py",
+     "how": "constant:FUSE",
+     "kind": "open",
+     "line": 316,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/bond_w3a/conn_fuse.json"
+    }
+   ],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {
+    "face_writing_census": 1,
+    "runnable_script": 1
+   },
+   "reader_classes": [
+    "face_writing_census",
+    "runnable_script"
+   ],
+   "reader_face_names": [
+    "scripts/bond_carry_w3a.py",
+    "scripts/bond_panel_puller.py"
+   ],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 2,
+   "reader_faces_with_a_live_consumer": 1,
+   "readers": [
+    {
+     "face": "scripts/bond_carry_w3a.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 3,
+     "writes_faces": true
+    },
+    {
+     "face": "scripts/bond_panel_puller.py",
+     "live": true,
+     "reader_class": "runnable_script",
+     "sites": 4,
+     "writes_faces": false
+    }
+   ],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/e27_universe_expansion",
+   "carriers": 2,
+   "class": "abandoned_but_still_read",
+   "exact_read_site_count": 3,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 16,
+   "newest_member": "results/e27_universe_expansion/UNIV-9f9af0-e20260922-xsh511sh518sz159001sz159003-x3-20261021.json",
+   "newest_member_ts": "2026-10-21T01:36:21",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 3,
+   "read_sites": [
+    {
+     "face": "_r1101bmb_read_e30b.py",
+     "how": "concat(constant:base+unresolved)",
+     "kind": "open",
+     "line": 11,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/e27_universe_expansion"
+    },
+    {
+     "face": "_r1101bmb_read_e30c.py",
+     "how": "concat(constant:base+unresolved)",
+     "kind": "open",
+     "line": 11,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/e27_universe_expansion"
+    },
+    {
+     "face": "_r1101bmb_read_e30d.py",
+     "how": "literal",
+     "kind": "open",
+     "line": 3,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/e27_universe_expansion/UNIV-4170ac-e20260922-xsh511sh518sz159001sz159003-20261021.json"
+    }
+   ],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {
+    "library_module": 3
+   },
+   "reader_classes": [
+    "library_module"
+   ],
+   "reader_face_names": [
+    "_r1101bmb_read_e30b.py",
+    "_r1101bmb_read_e30c.py",
+    "_r1101bmb_read_e30d.py"
+   ],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 3,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [
+    {
+     "face": "_r1101bmb_read_e30b.py",
+     "live": false,
+     "reader_class": "library_module",
+     "sites": 1,
+     "writes_faces": false
+    },
+    {
+     "face": "_r1101bmb_read_e30c.py",
+     "live": false,
+     "reader_class": "library_module",
+     "sites": 1,
+     "writes_faces": false
+    },
+    {
+     "face": "_r1101bmb_read_e30d.py",
+     "live": false,
+     "reader_class": "library_module",
+     "sites": 1,
+     "writes_faces": false
+    }
+   ],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/e46_live_span",
+   "carriers": 2,
+   "class": "abandoned_but_still_read",
+   "exact_read_site_count": 1,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 23,
+   "newest_member": "results/e46_live_span/CUTCURVE-20261020.json",
+   "newest_member_ts": "2026-10-21T08:35:54",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 1,
+   "read_sites": [
+    {
+     "face": "_r1130bmb_band_decomp.py",
+     "how": "literal",
+     "kind": "open",
+     "line": 5,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/e46_live_span/LIVESPAN-20261020-x0-p9.json"
+    }
+   ],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {
+    "library_module": 1
+   },
+   "reader_classes": [
+    "library_module"
+   ],
+   "reader_face_names": [
+    "_r1130bmb_band_decomp.py"
+   ],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 1,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [
+    {
+     "face": "_r1130bmb_band_decomp.py",
+     "live": false,
+     "reader_class": "library_module",
+     "sites": 1,
+     "writes_faces": false
+    }
+   ],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/e79",
+   "carriers": 2,
+   "class": "abandoned_but_still_read",
+   "exact_read_site_count": 1,
+   "is_backup_or_rollback": false,
+   "live_readers": [
+    "smoke_test.py"
+   ],
+   "members_in_the_base": 30,
+   "newest_member": "results/e79/PAGEGATE-2026-11-04.json",
+   "newest_member_ts": "2026-11-04T16:38:47",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 1,
+   "read_sites": [
+    {
+     "face": "smoke_test.py",
+     "how": "constant:_pg_path",
+     "kind": "open",
+     "line": 985,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/e79/DOCQUOTES-BASELINE.json"
+    }
+   ],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {
+    "smoke_leg": 1
+   },
+   "reader_classes": [
+    "smoke_leg"
+   ],
+   "reader_face_names": [
+    "smoke_test.py"
+   ],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 1,
+   "reader_faces_with_a_live_consumer": 1,
+   "readers": [
+    {
+     "face": "smoke_test.py",
+     "live": true,
+     "reader_class": "smoke_leg",
+     "sites": 1,
+     "writes_faces": false
+    }
+   ],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/fund_quality_p2",
+   "carriers": 2,
+   "class": "abandoned_and_unread",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 3,
+   "newest_member": "results/fund_quality_p2/fund_quality_p2_results.json",
+   "newest_member_ts": "2026-10-20T13:36:22",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 0,
+   "read_sites": [],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {},
+   "reader_classes": [],
+   "reader_face_names": [],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 0,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/fund_value_p2",
+   "carriers": 2,
+   "class": "abandoned_and_unread",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 3,
+   "newest_member": "results/fund_value_p2/fund_value_p2_results.json",
+   "newest_member_ts": "2026-10-20T13:54:45",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 0,
+   "read_sites": [],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {},
+   "reader_classes": [],
+   "reader_face_names": [],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 0,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/fusion_grid_p1",
+   "carriers": 2,
+   "class": "abandoned_and_unread",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 3,
+   "newest_member": "results/fusion_grid_p1/regime_series.json",
+   "newest_member_ts": "2026-10-17T09:08:46",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 0,
+   "read_sites": [],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {},
+   "reader_classes": [],
+   "reader_face_names": [],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 0,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/member_reinforce",
+   "carriers": 2,
+   "class": "abandoned_and_unread",
+   "exact_read_site_count": 0,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 1,
+   "newest_member": "results/member_reinforce/MEMBER-REINFORCE-P1.json",
+   "newest_member_ts": "2026-10-17T09:08:48",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 0,
+   "read_sites": [],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {},
+   "reader_classes": [],
+   "reader_face_names": [],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 0,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/p2cal_ext",
+   "carriers": 2,
+   "class": "abandoned_but_still_read",
+   "exact_read_site_count": 119,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 4,
+   "newest_member": "results/p2cal_ext/shard-3-of-4.json",
+   "newest_member_ts": "2026-10-17T09:08:51",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 119,
+   "read_sites": [
+    {
+     "face": "results/_r1036bmc_w248_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 48,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w248"
+    },
+    {
+     "face": "results/_r1043bmc_w249_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 49,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w249"
+    },
+    {
+     "face": "results/_r1046bmc_w250_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 48,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w250"
+    },
+    {
+     "face": "results/_r1048bmc_w251_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 50,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w251"
+    },
+    {
+     "face": "results/_r1050bmc_w252_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 49,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w252"
+    },
+    {
+     "face": "results/_r1053bmc_estate_check.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 34,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w253"
+    },
+    {
+     "face": "results/_r1053bmc_w253_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 51,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w253"
+    },
+    {
+     "face": "results/_r1055bmc_w254_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 49,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w254"
+    },
+    {
+     "face": "results/_r1057bmc_w255_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 51,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w255"
+    },
+    {
+     "face": "results/_r1058bmc_w256_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 53,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w256"
+    },
+    {
+     "face": "results/_r1060bmc_w257_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 54,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w257"
+    },
+    {
+     "face": "results/_r1062bmc_w258_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 52,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w258"
+    },
+    {
+     "face": "results/_r1064bmc_w259_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 54,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w259"
+    },
+    {
+     "face": "results/_r1065bmc_w260_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 55,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w260"
+    },
+    {
+     "face": "results/_r1067bmc_w261_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 57,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w261"
+    },
+    {
+     "face": "results/_r1068bmc_w262_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 56,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w262"
+    },
+    {
+     "face": "results/_r1076bmc_sixgate_preface_check.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 19,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w264"
+    },
+    {
+     "face": "results/_r1076bmc_w264_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 60,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w264"
+    },
+    {
+     "face": "results/_r1084bmc_w265_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 60,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w265"
+    },
+    {
+     "face": "results/_r1086bmc_w266_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 67,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w266"
+    },
+    {
+     "face": "results/_r1089bmc_needle_preflight.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 67,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w267"
+    },
+    {
+     "face": "results/_r1089bmc_w267_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 86,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w267"
+    },
+    {
+     "face": "results/_r1091bmc_w268_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 83,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w268"
+    },
+    {
+     "face": "results/_r1093bmc_w269_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 84,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w269"
+    },
+    {
+     "face": "results/_r1095bmc_w270_sixgate.py",
+     "how": "constant:sd",
+     "kind": "listdir",
+     "line": 84,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/p2cal_ext/n1_w270"
+    }
+   ],
+   "read_sites_truncated": 94,
+   "reader_class_counts": {
+    "face_writing_census": 93,
+    "library_module": 24
+   },
+   "reader_classes": [
+    "face_writing_census",
+    "library_module"
+   ],
+   "reader_face_names": [
+    "results/_r1036bmc_w248_sixgate.py",
+    "results/_r1043bmc_w249_sixgate.py",
+    "results/_r1046bmc_w250_sixgate.py",
+    "results/_r1048bmc_w251_sixgate.py",
+    "results/_r1050bmc_w252_sixgate.py",
+    "results/_r1053bmc_estate_check.py",
+    "results/_r1053bmc_w253_sixgate.py",
+    "results/_r1055bmc_w254_sixgate.py",
+    "results/_r1057bmc_w255_sixgate.py",
+    "results/_r1058bmc_w256_sixgate.py",
+    "results/_r1060bmc_w257_sixgate.py",
+    "results/_r1062bmc_w258_sixgate.py",
+    "results/_r1064bmc_w259_sixgate.py",
+    "results/_r1065bmc_w260_sixgate.py",
+    "results/_r1067bmc_w261_sixgate.py",
+    "results/_r1068bmc_w262_sixgate.py",
+    "results/_r1076bmc_sixgate_preface_check.py",
+    "results/_r1076bmc_w264_sixgate.py",
+    "results/_r1084bmc_w265_sixgate.py",
+    "results/_r1086bmc_w266_sixgate.py",
+    "results/_r1089bmc_needle_preflight.py",
+    "results/_r1089bmc_w267_sixgate.py",
+    "results/_r1091bmc_w268_sixgate.py",
+    "results/_r1093bmc_w269_sixgate.py",
+    "results/_r1095bmc_w270_sixgate.py",
+    "results/_r1097bmc_w271_sixgate.py",
+    "results/_r1100bmc_w272_sixgate.py",
+    "results/_r1102bmc_w273_sixgate.py",
+    "results/_r1105bmc_w274_sixgate.py",
+    "results/_r1108bmc_w275_sixgate.py",
+    "results/_r1111bmc_w276_sixgate.py",
+    "results/_r1114bmc_w277_sixgate.py",
+    "results/_r1118bmc_w278_sixgate.py",
+    "results/_r1124bmc_w279_sixgate.py",
+    "results/_r1132bmc_w280_sixgate.py",
+    "results/_r1135bmc_w281_sixgate.py",
+    "results/_r1139bmc_w282_sixgate.py",
+    "results/_r1191bmc_w306_sixgate.py",
+    "results/_r1199bmc_w310_sixgate.py",
+    "results/_r1203bmc_w312_sixgate.py",
+    "results/_r1206bmc_w313_sixgate.py",
+    "results/_r1208bmc_w314_sixgate.py",
+    "results/_r1210bmc_w315_sixgate.py",
+    "results/_r1222bmc_w320_sixgate.py",
+    "results/_r1238bmc_w328_sixgate.py",
+    "results/_r1240bmc_w329_sixgate.py",
+    "results/_r374bmc_s7_writes.py",
+    "results/_r375bmc_close.py",
+    "results/_r479bmb_s2_harvest.py",
+    "results/_r499bmb_n1w3_reburn.py",
+    "results/_r517bmb_closeout_writes.py",
+    "results/_r524bmb_w28_verify.py",
+    "results/_r533bmb_w44_yield.py",
+    "results/_r556bmb_w47.py",
+    "results/_r558bmb_s0.py",
+    "results/_r558bmb_s0_surgical.py",
+    "results/_r566bmb_yield_surgery.py",
+    "results/_r573bmb_close_writes.py",
+    "results/_r575bmb_s0_integrate.py",
+    "results/_r580bma_closeout_surgery.py",
+    "results/_r588bmb_w106_probe.py",
+    "results/_r605bma_n4b1_verify.py",
+    "results/_r684bma_w117_rehearsal_post.py",
+    "results/_r701bma_seat_facts.py",
+    "results/_r736bma_w130_preflight.py",
+    "results/_r737bma_w131_preflight.py",
+    "results/_r763bma_w150_finalize_gates.py",
+    "results/_r764bma_w151_finalize_gates.py",
+    "results/_r782bma_w159_probe.py",
+    "results/_r788bma_w162_preflight.py",
+    "results/_r789bmc_w192_prefinalize_probe.py",
+    "results/_r790bma_w163_preflight.py",
+    "results/_r806bma_w167_three_gate.py",
+    "results/_r809bma_w168_three_gate.py",
+    "results/_r826bma_w174_three_gate.py",
+    "results/_r831bma_w175_prefinalize.py",
+    "results/_r831bma_w175_sec78_backfill.py",
+    "results/_r845bma_w177_three_gate.py",
+    "results/_r846bma_w178_prefinalize.py",
+    "results/_r846bmc_w206_prefinalize_probe.py",
+    "results/_r887bma_w187_prefinalize_probe.py",
+    "results/_r889bma_w188_prefinalize_probe.py",
+    "results/_r891bma_w189_prefinalize_probe.py",
+    "results/_r892bma_w190_prefinalize_probe.py",
+    "results/_r895bma_w191_prefinalize_probe.py",
+    "results/_r906bma_w194_prefinalize_probe.py",
+    "results/_r910bma_w195_prefinalize_probe.py",
+    "results/_r913bma_w196_prefinalize_probe.py",
+    "results/_r914bmc_w216_burncheck.py",
+    "results/_r914bmc_w216_sixgate.py",
+    "results/_r915bma_w197_prefinalize_probe.py",
+    "results/_r917bma_w198_prefinalize_probe.py",
+    "results/_r917bmc_w217_sixgate.py",
+    "results/_r919bmc_w218_sixgate.py",
+    "results/_r921bmc_w219_sixgate.py",
+    "results/_r923bmc_w220_sixgate.py",
+    "results/_r928bmc_w221_sixgate.py",
+    "results/_r932bmc_w222_sixgate.py",
+    "results/_r934bmc_w223_sixgate.py",
+    "results/_r937bmc_w224_sixgate.py",
+    "results/_r939bmc_w225_sixgate.py",
+    "results/_r944bmc_w226_sixgate.py",
+    "results/_r956bmc_w227_sixgate.py",
+    "results/_r959bmc_w228_sixgate.py",
+    "results/_r962bmc_w229_sixgate.py",
+    "results/_r963bmc_w230_sixgate.py",
+    "results/_r966bmc_w231_sixgate.py",
+    "results/_r968bmc_w232_sixgate.py",
+    "results/_r970bma_w235_sixgate.py",
+    "results/_r974bmc_w233_sixgate.py",
+    "results/_r976bmc_w234_sixgate.py",
+    "results/_r985bma_sixgate_receipt.py",
+    "results/_r993bma_sixgate_receipt.py",
+    "results/_w237bmc_sixgate.py",
+    "results/_w239bmc_sixgate.py",
+    "results/_w241bmc_sixgate.py",
+    "results/_w263bma_20261017_probe.py"
+   ],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 117,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [
+    {
+     "face": "results/_r1036bmc_w248_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1043bmc_w249_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1046bmc_w250_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1048bmc_w251_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1050bmc_w252_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1053bmc_estate_check.py",
+     "live": false,
+     "reader_class": "library_module",
+     "sites": 1,
+     "writes_faces": false
+    },
+    {
+     "face": "results/_r1053bmc_w253_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1055bmc_w254_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1057bmc_w255_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1058bmc_w256_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1060bmc_w257_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1062bmc_w258_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1064bmc_w259_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1065bmc_w260_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1067bmc_w261_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1068bmc_w262_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1076bmc_sixgate_preface_check.py",
+     "live": false,
+     "reader_class": "library_module",
+     "sites": 1,
+     "writes_faces": false
+    },
+    {
+     "face": "results/_r1076bmc_w264_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1084bmc_w265_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1086bmc_w266_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1089bmc_needle_preflight.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1089bmc_w267_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1091bmc_w268_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1093bmc_w269_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "results/_r1095bmc_w270_sixgate.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    }
+   ],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/t56_caliber_registry",
+   "carriers": 2,
+   "class": "abandoned_but_still_read",
+   "exact_read_site_count": 2,
+   "is_backup_or_rollback": false,
+   "live_readers": [],
+   "members_in_the_base": 1,
+   "newest_member": "results/t56_caliber_registry/_manifest.json",
+   "newest_member_ts": "2026-10-17T09:08:55",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 2,
+   "read_sites": [
+    {
+     "face": "results/_r256bmb_anchor_probe.py",
+     "how": "join(constant:snap_dir,literal)",
+     "kind": "glob",
+     "line": 126,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/t56_caliber_registry/firm/traders/*.json"
+    },
+    {
+     "face": "scripts/fusion_p1_nav.py",
+     "how": "constant:MANIFEST",
+     "kind": "open",
+     "line": 75,
+     "match": "resolved_under_the_base",
+     "mode": "default_read",
+     "resolved_path": "results/t56_caliber_registry/_manifest.json"
+    }
+   ],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {
+    "face_writing_census": 2
+   },
+   "reader_classes": [
+    "face_writing_census"
+   ],
+   "reader_face_names": [
+    "results/_r256bmb_anchor_probe.py",
+    "scripts/fusion_p1_nav.py"
+   ],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 2,
+   "reader_faces_with_a_live_consumer": 0,
+   "readers": [
+    {
+     "face": "results/_r256bmb_anchor_probe.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    },
+    {
+     "face": "scripts/fusion_p1_nav.py",
+     "live": false,
+     "reader_class": "face_writing_census",
+     "sites": 1,
+     "writes_faces": true
+    }
+   ],
+   "suffix_only_read_sites": 0
+  },
+  {
+   "base": "results/g25",
+   "carriers": 1,
+   "class": "abandoned_but_still_read",
+   "exact_read_site_count": 1,
+   "is_backup_or_rollback": false,
+   "live_readers": [
+    "scripts/strategy_scorecard.py"
+   ],
+   "members_in_the_base": 7,
+   "newest_member": "results/g25/_summary.json",
+   "newest_member_ts": "2026-10-17T09:08:46",
+   "read_only_through_a_literal_tail": false,
+   "read_site_count": 1,
+   "read_sites": [
+    {
+     "face": "scripts/strategy_scorecard.py",
+     "how": "constant:gdir",
+     "kind": "listdir",
+     "line": 1325,
+     "match": "resolved_under_the_base",
+     "mode": "",
+     "resolved_path": "results/g25"
+    }
+   ],
+   "read_sites_truncated": 0,
+   "reader_class_counts": {
+    "task_referenced": 1
+   },
+   "reader_classes": [
+    "task_referenced"
+   ],
+   "reader_face_names": [
+    "scripts/strategy_scorecard.py"
+   ],
+   "reader_face_names_truncated": 0,
+   "reader_faces": 1,
+   "reader_faces_with_a_live_consumer": 1,
+   "readers": [
+    {
+     "face": "scripts/strategy_scorecard.py",
+     "live": true,
+     "reader_class": "task_referenced",
+     "sites": 1,
+     "writes_faces": false
+    }
+   ],
+   "suffix_only_read_sites": 0
+  }
+ ],
+ "study": "E447_which_abandoned_base_is_still_named_by_a_live_reader",
+ "summary": {
+  "abandoned_bases": 23,
+  "backup_or_rollback_bases": 3,
+  "bases_read_at_all": 11,
+  "bases_read_by_a_live_consumer": 7,
+  "bases_read_only_through_a_literal_tail": 1,
+  "class_counts": {
+   "abandoned_and_only_a_backup": 3,
+   "abandoned_and_unread": 9,
+   "abandoned_but_still_read": 11
+  },
+  "corpus": {
+   "max_bytes_per_file": 2097152,
+   "parse_errors": 233,
+   "python_files_walked": 12137,
+   "read_sites_with_a_resolved_path": 19374,
+   "skipped_dir_names": [
+    ".codely-cli",
+    ".git",
+    "Money02",
+    "__pycache__",
+    "_quarantine",
+    "_smoke",
+    "legacy",
+    "node_modules"
+   ],
+   "skipped_over_max_bytes": 2,
+   "total_read_sites": 26271
+  },
+  "distinct_reader_faces": 133,
+  "exact_read_sites_under_abandoned_bases": 142,
+  "population_check": {
+   "agrees": true,
+   "e446_bases_without_a_writer": 23,
+   "e446_frozen_bases": 51,
+   "recomputed_abandoned_population": 23
+  },
+  "read_sites_by_kind": {
+   "glob": 1,
+   "listdir": 26,
+   "open": 22
+  },
+  "read_sites_under_abandoned_bases": 143,
+  "reader_class_counts": {
+   "chain_leg": 0,
+   "face_writing_census": 98,
+   "library_module": 28,
+   "runnable_script": 4,
+   "smoke_leg": 1,
+   "task_referenced": 2
+  }
+ },
+ "title": "for each face-home base E446 published as having no writer, find every read site whose path resolves into that base and publish whether a harness-launched reader, a face-writing census, or nobody at all still opens a file there",
+ "verdict": "at_least_one_abandoned_base_is_still_read_by_code_a_harness_launches"
+}

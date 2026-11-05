@@ -11101,3 +11101,44 @@ problems=[], full walk 8 s after replacing `ast.get_source_segment` with a line-
 `dead_prereg_pointer` (`check`, fast); smoke leg `e449 which dead prereg pointer is a document no
 code ever reads` with a doctored control that must stay red. Digest
 `research/digests/DIGEST-20261106-r1468-e449-dead-prereg-pointer.md`.
+
+## E447 -- a base with no writer is harmless only if nobody reads it either (r1469 bm-b)
+
+* **The mirror of a write scan is not "every path in the file".** E446 asked which frozen base has no
+  write site; the honest complement asks which has no READ site, and that needs its own vocabulary:
+  a call that takes bytes or a listing FROM a path (`open` in a reading mode, `read_text`,
+  `read_csv`/`read_parquet`/`read_json` and the other pandas loaders, `np.loadtxt`, `os.listdir`/
+  `scandir`/`walk`, `glob`/`rglob`, and the SOURCE argument of copy/move). A call that merely names
+  the directory is neither a writer nor a reader and belongs to neither population -- that boundary
+  is the whole difference between E446's table and this one. 143 read sites over 133 reader faces,
+  against E446's 5,972 writes.
+* **A harness name match must be a path, never a basename.** The first build classed 65 of 133
+  readers as smoke legs because a bare basename such as `run.py` occurs somewhere in
+  `smoke_test.py`. Requiring the repo-relative path or the dotted module path (and the Windows
+  backslash spelling for `Tools/*.ps1` wrappers) dropped that to 1 smoke leg and 2 task-referenced
+  readers. **How:** any "is this module launched" test that matches a bare filename is measuring the
+  harness's prose, not its wiring.
+* **A discriminator taken from the population cannot discriminate.** Grading "census vs live
+  consumer" from E446's `writer_faces` column gave `face_writing_census = 0`, because that column
+  only lists writers that touch the 51 frozen bases; `runnable_script` (any `__main__` guard, which
+  is nearly every script here) then swallowed all 43 graded faces. Recomputing "does this module
+  publish a face" over the same AST walk (2,013 of the corpus modules do) moved 98 of 133 readers
+  into the census class. **How:** a class vocabulary must be derived from the whole corpus, not from
+  the rows being graded.
+
+Reading: of E446's 23 bases with no writer, **9 are read by nobody, 11 are still read, and 3 are
+backup/rollback directories that are supposed to have none**. Seven are read by code a harness
+launches, and four of those seven are the smoke suite itself (`smoke_test.py` opens
+`results/etf_book_production/CARD.md`, `results/etf_book_order/latest.json` at two sites and
+`results/e79/DOCQUOTES-BASELINE.json`), plus `strategy_scorecard.py` listing `results/g25` and
+`trial_labor_w21.py` opening an `overnight_gap_census` leg file. Nothing in the repository would
+recreate those artifacts, so the harness depends on bytes no producer owns. `results/p2cal_ext` is
+the other shape: 119 sites, all in per-round builder scripts archived under `results/` itself, and
+zero of them live.
+
+Face: `results/state_tilt/abandonedread_latest.json` (`ABANDONEDREAD-<cutoff>.json`), verdict
+`at_least_one_abandoned_base_is_still_read_by_code_a_harness_launches`; producer
+`scripts/e447_abandoned_read.py` (selftest 30/30, run rc0, check problems=[], verify problems=[]);
+S6 leg `abandoned_read` (`verify`, one corpus AST walk ~60 s); smoke leg `e447 abandoned base read`
+with a doctored control that must stay red. Digest
+`research/digests/DIGEST-20261106-r1469-e447-abandoned-read.md`.
