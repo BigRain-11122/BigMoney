@@ -7,6 +7,13 @@
   "smoke_leg": "e453 abandoned base target staleness",
   "verify": "problems=[]"
  },
+ "E455": {
+  "check": "clean",
+  "face": "results/state_tilt/GROWTHTOL-2026-11-06.json",
+  "finding": "the three census faces that re-red at r1473 are 1 identical / 2 pure growth / 0 unexplained, and the row payloads can never be compared: an E411 row carries its own smoke_test.py line number",
+  "rule": "scripts/growth_tolerance.py (pure_growth tolerated; lost_row/class_moved/shrank/verdict_moved/changed_value refused)",
+  "selftest": "17/17 (growth_tolerance) + 4/4 (e455_growth_census)"
+ },
  "absorb": "r1466 wrote E448; this window took the pool card E444 that nobody had claimed, wrote scripts/e444_attr_method.py, published ATTRMETHOD-2026-11-04 (24618 rows, 0 hits, class census 0 of 6 modules), added the S6 leg attr_call_module_method and the smoke leg e444, wrote card E444 and the digest, and seeded E450 to keep the supply floor at 3",
  "agenda_starved": false,
  "aggregate": "research",
@@ -18,14 +25,14 @@
  ],
  "behind_origin_main": 295,
  "card": "E449-WHICH-DEAD-PREREG-POINTER-IS-A-DOCUMENT-NO-STUDY-CODE-EVER-READS",
- "clock_read": "2026-11-06T05:08:04+08:00",
+ "clock_read": "2026-11-06T06:32:37+08:00",
  "concurrency_note": "Tools/iteration_loop.ps1 pid 6884 (started 02:12) was live in this repo for the whole window; no queue head, task card or shared lane face was claimed and nothing was re-registered",
  "cpu_current_pct": 0.6,
  "cpu_note": "psutil probe (GetSystemTimes via ctypes read 0 deltas on this box)",
  "cpu_pct": 2.0,
  "current": "idle -- r1473 closed, suite in flight",
- "current_task": "E444 published; pool floor 3 (E447/E449/E450)",
- "current_work": "three census faces republished from their producers",
+ "current_task": "E455 done; pool ready 2 (E450/E451); E398 verify is the remaining arm",
+ "current_work": "E455 growth tolerance landed and two census legs wired",
  "cyc_round": 1448,
  "cycl_round": 1448,
  "cycle_round": 1461,
@@ -269,7 +276,7 @@
  "last_decisions_probe_at": "2026-11-01T00:28:21+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
  "last_decisions_read_at": "2026-11-04T10:51:34+08:00",
- "last_decisions_sha": "b8609238434052e27cd718c81f18432321b1b0c0d18000eeb0cb1c79682ac67f",
+ "last_decisions_sha": "38c206e19981f6f7bca397a0ee70b6a217a6b916b3e3fcc6b230daf9bb8101f2",
  "last_decisions_sha_method": "sha256(origin/main:docs/decisions.md)[:16]",
  "last_decisions_sha_prev": "0d09d6e9be1fdd42712d319f85bac5a0db48b1cb138fba8805e7d4293ddcddbc",
  "last_decisions_sha_probe": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
@@ -5174,7 +5181,7 @@
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1472,
  "round_entries_tail": "r1469 E447 abandoned-read face: 7 of 23 no-writer bases are read by launched code",
- "round_no": 1473,
+ "round_no": 1474,
  "round_no_label": "r1472",
  "round_no_note": "r1451: E427 shipped; every round key moves together (r1393 lesson)",
  "round_no_ts": "2026-11-06T05:43:34+08:00",
@@ -5188,6 +5195,7 @@
   "note": "not rebased: two blood lines on a promisor clone over a tree another lane keeps dirty; delivery goes to machine/bm-b-r1469 per r1243"
  },
  "s1": "full suite launched detached (pid 25696, results/_smoke_run.log); at close it was past the E4xx product legs with 0 FAIL and still running -- not claimed green",
+ "s1_note": "results/_smoke_r1473.out detached at 06:05: 22 PASS / 0 FAIL at the last poll with the output buffered mid-run; no suite total is claimed this window",
  "s4": "card appended: ast.get_source_segment re-splits the whole source per call (16min build -> 44s), and a tally guard that demanded a bound name for a direct return/dict-literal reach accused 30 legitimate rows",
  "s6": "pool_dualrun_reconcile run = ZERO-DRIFT (928 entries, streak 51); attrition_ledger_guard scan = CLEAN (4 ledgers, 3 shrinks healed)",
  "s6_leg": "abandoned_guard",
@@ -5269,6 +5277,5 @@
  "watermark_note_2": "no cloud, no GPU, nothing deleted",
  "watermark_red": "red=true lane=pool-batch-runnable-idle-low-cpu at open",
  "watermark_verdict": "red=true lane=pool-batch-runnable-idle-low-cpu",
- "work": "of the 30 drops that resolve to a parent, 30 are opened nowhere in their file and 25 of those name a path that already exists -- a dropped composition is mostly a dead pointer, not a lost write",
- "s1_note": "results/_smoke_r1473.out detached at 06:05: 22 PASS / 0 FAIL at the last poll with the output buffered mid-run; no suite total is claimed this window"
+ "work": "of the 30 drops that resolve to a parent, 30 are opened nowhere in their file and 25 of those name a path that already exists -- a dropped composition is mostly a dead pointer, not a lost write"
 }

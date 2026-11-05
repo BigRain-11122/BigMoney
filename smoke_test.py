@@ -15197,6 +15197,59 @@ except Exception as _e398lf:
 check(_name398lf, not _bad398lf, "; ".join(_bad398lf)[:240]
       or "verdict %s" % str((_f398lf or {}).get("verdict"))[:90])
 
+# E455: the three census faces that re-red at r1473 re-did so on growth alone. This leg prices the
+# published distance with the shared rule and refuses a face that moved for a reason growth cannot
+# explain -- a lost row, a moved class, a shrinking count, a moved verdict. It re-derives from the
+# published rows only (the two live arms that rebuild the census are the E409/E411 legs above).
+_name455 = ("product: %s census face(s) priced against a fresh reading -- %s identical, %s moved by "
+            "growth alone, %s for a reason growth cannot explain; the rule still refuses %s")
+_bad455 = []
+_f455 = None
+try:
+    _p455 = os.path.join("results", "state_tilt", "growthtol_latest.json")
+    _f455 = json.load(open(_p455, encoding="utf-8")) if os.path.exists(_p455) else None
+    if _f455 is None:
+        _bad455.append("no published growth-tolerance census")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _g455 = __import__("growth_tolerance")
+        _rows455 = _f455.get("rows") or []
+        _sum455 = _f455.get("summary") or {}
+        _ident455 = [r_ for r_ in _rows455 if r_["result"]["verdict"] == _g455.IDENTICAL]
+        _tol455 = [r_ for r_ in _rows455 if r_["tolerated"]]
+        _badrow455 = [r_ for r_ in _rows455 if not r_["tolerated"]
+                      and r_["result"]["verdict"] != _g455.IDENTICAL]
+        if _sum455.get("faces_priced") != len(_rows455):
+            _bad455.append("the priced count does not re-add to its rows")
+        if _sum455.get("faces_identical") != len(_ident455):
+            _bad455.append("the identical count does not re-derive from the rows")
+        if _sum455.get("faces_tolerated_as_pure_growth") != len(_tol455):
+            _bad455.append("the tolerated count does not re-derive from the rows")
+        if _sum455.get("faces_failing") != len(_badrow455):
+            _bad455.append("the failing count does not re-derive from the rows")
+        for _r455 in _rows455:
+            if _r455["tolerated"] != _g455.tolerates(_r455["result"]):
+                _bad455.append("%s: the tolerated flag disagrees with its own result"
+                               % _r455.get("card"))
+                break
+        _rule455 = _f455.get("rule") or {}
+        if _rule455.get("tolerated_verdict") != _g455.PURE_GROWTH:
+            _bad455.append("the published rule tolerates a verdict the module does not")
+        for _v455 in _rule455.get("still_refused") or []:
+            if _v455 in (_g455.IDENTICAL, _g455.PURE_GROWTH):
+                _bad455.append("the rule refuses its own tolerance verdict")
+                break
+        if not _bad455 and __import__("importlib").import_module(
+                "e455_growth_census").check() != 0:
+            _bad455.append("the study's own check does not come back clean")
+        _name455 = _name455 % (len(_rows455), len(_ident455), len(_tol455), len(_badrow455),
+                               ", ".join(["lost_row", "class_moved", "shrank", "verdict_moved",
+                                          "changed_value"]))
+except Exception as _e455:
+    _bad455.append(repr(_e455)[:160])
+check(_name455, not _bad455, "; ".join(_bad455)[:240]
+      or "verdict %s" % str((_f455 or {}).get("verdict"))[:90])
+
 # D-20261104-05: before the 2026-11-08 whitelist review turns eight EXPECTED-DISABLED
 # Bigmoney tasks back on, each has to name the machine that owns it. This leg refuses the
 # ways a hand-written ownership table rots: a whitelisted task with no row, a row for a task
@@ -15368,7 +15421,15 @@ try:
         _s409 = _f409.get("summary") or {}
         _fresh409 = _m409.build(write=False)
         if _fresh409["summary"] != _s409:
-            _bad409.append("the published summary does not re-derive from the live tree")
+            # E455: a census over a growing tree re-reds for growth alone. The shared rule tolerates
+            # a superset population whose counts only moved upward, and still refuses a lost row, a
+            # moved class, a shrinking count and a moved verdict.
+            _g455 = __import__("growth_tolerance")
+            _r455 = _g455.classify(_f409, _fresh409, list_key="ledger", row_id="face",
+                                   class_fields=("label",))
+            if not _g455.tolerates(_r455):
+                _bad409.append("the published summary does not re-derive from the live tree (%s)"
+                               % _g455.describe(_r455))
         if _fresh409.get("verdict") != _f409.get("verdict"):
             _bad409.append("the stored verdict is not the one the live tree produces")
         _led409 = _f409.get("ledger") or []
@@ -15494,7 +15555,15 @@ try:
         _s411 = _f411.get("summary") or {}
         _fresh411 = _m411.build(write=False, skip_writers=True)
         if _fresh411["summary"] != _s411:
-            _bad411.append("the published summary does not re-derive from the live tree")
+            # E455: this face carries a line number per reader site, so its rows churn every time
+            # smoke_test.py itself grows. Compare names and classes, and let the counts only rise.
+            _g455 = __import__("growth_tolerance")
+            _r455 = _g455.classify(_f411, _fresh411, list_key="faces", row_id="face",
+                                   class_fields=("no_reader_that_can_go_red",
+                                                 "all_readers_in_the_two_blind_tiers"))
+            if not _g455.tolerates(_r455):
+                _bad411.append("the published summary does not re-derive from the live tree (%s)"
+                               % _g455.describe(_r455))
         if _fresh411.get("verdict") != _f411.get("verdict"):
             _bad411.append("the stored verdict is not the one the live tree produces")
         _rows411 = _f411.get("faces") or []
