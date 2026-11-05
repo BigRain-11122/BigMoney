@@ -145,13 +145,7 @@
  "decisions_sha": "1150963b",
  "decisions_watermark": "abd700a9e1ec0ce2",
  "decisions_watermark_note": "fetch rc!=0 (cannot lock refs/remotes/origin/main); read origin/main:docs/decisions.md from the existing ref, 239 lines, newest D-20261104-01/02, bigmoney rows = no-op",
- "delivery": {
-  "branch": "machine/bm-b-r1451",
-  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1451 returns the same sha",
-  "note": "main is non-fast-forward (ahead 377 / behind 294); machine branch is the delivery channel (r1243 ruling)",
-  "sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
-  "verified": true
- },
+ "delivery": "machine/bm-b-r1463 @ c8e9acce724f51d03da3cc29d2409fd88b9b128d (14 files)",
  "delivery_note": "pool faces were rewritten once with sort_keys and then restored with git checkout, which dropped about 1.1 KB of uncommitted lane fields and no entries (906 before, 906 after); the targeted re-apply is an append plus one stamp line",
  "delivery_sha": "6ae8a2198e8d19e38e9977002372703886c53b2a",
  "delivery_verified": "git ls-remote origin refs/heads/machine/bm-b-r1439 == HEAD",
@@ -270,9 +264,9 @@
  "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
  "last_orders_watermark": "4348aa21bc8f",
  "last_product": "docs/LANE-HOST-OWNERSHIP.md",
- "last_push": "machine/bm-b-r1439",
- "last_push_at": "2026-11-04T21:25:00+08:00",
- "last_push_sha": "6ae8a2198e8d19e38e9977002372703886c53b2a",
+ "last_push": "machine/bm-b-r1463 @ c8e9acce724f51d03da3cc29d2409fd88b9b128d (14 files)",
+ "last_push_at": "2026-11-06T00:52:37+08:00",
+ "last_push_sha": "c8e9acce724f51d03da3cc29d2409fd88b9b128d",
  "last_push_ts": "2026-11-04T07:56:41+08:00",
  "last_round": 1461,
  "last_round_at": "2026-11-05T22:06:45+08:00",
@@ -5024,6 +5018,7 @@
   "ts": "2026-11-05T18:43:10+08:00"
  },
  "r1463": {
+  "delivery": "machine/bm-b-r1463 @ c8e9acce724f51d03da3cc29d2409fd88b9b128d (14 files)",
   "faces": [
    "frozenwriter_latest.json",
    "FROZENWRITER-2026-11-06.json"
@@ -5093,7 +5088,7 @@
  "s6_leg": "fixture_beyond",
  "s6_note": "the new S6 leg was added to Tools/s6_chain_bmb.py; the rest of the S6 chain was not re-run this window and is not claimed",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
- "s7": "orphan probe 0/10 | attrition CLEAN | loop/watchdog/claws not re-registered this window",
+ "s7": "committed and delivered on machine/bm-b-r1463; remote ref verified equal to local HEAD by ls-remote",
  "s7_checked_at": "2026-11-05T18:43:10+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
  "s7_note": "watchdog 'disappearance' is not a repeating defect but a repeating *reading*: the probe verdict is contradicted by the scheduler's own start history, so an absence claim needs an event-log witness before it is written again",
