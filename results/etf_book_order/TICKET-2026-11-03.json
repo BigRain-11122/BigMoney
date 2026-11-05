@@ -18,10 +18,10 @@
  },
  "feed_status": {
   "ticket_bar": "2026-11-03",
-  "expected_bar": "2026-11-03",
-  "lag_days": 0,
-  "status": "current",
-  "detail": "the ticket is priced on the newest official bar that must exist"
+  "expected_bar": "2026-11-05",
+  "lag_days": 2,
+  "status": "feed_broken",
+  "detail": "the maintained panel is missing an official trading day that should already be published -- a stopped feed, not a delay"
  },
  "k_now": 0.460253,
  "book_decided_at": "2026-10-14",
@@ -34,7 +34,7 @@
   "card_priced_bar": "2026-11-03",
   "ticket_priced_bar": "2026-11-03",
   "same_priced_bar": true,
-  "card_feed_status": "current"
+  "card_feed_status": "stale_feed"
  },
  "next_decision_bars": 6,
  "ticket": {
@@ -328,15 +328,15 @@
    "vol": 0.0879
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1098,
-    "card_width_cagr": 0.0951,
-    "pp": -1.47
-   },
    "vol": {
     "ticket_width_cagr": 0.1165,
     "card_width_cagr": 0.1192,
     "pp": 0.27
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1098,
+    "card_width_cagr": 0.0951,
+    "pp": -1.47
    }
   },
   "rules_differ": true,

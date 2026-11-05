@@ -434,6 +434,23 @@ def _takeover_gate(owner):
             "ts": dt.datetime.now().isoformat(timespec="seconds")}
 
 
+def _authority_block(takeover):
+    """Who owns this lane, who wrote this reading, and whether a stand-in is in force.
+
+    The shape update_heat already publishes (T25/r1161): the freshness board reads one
+    key, so a declared takeover has to be visible on every lane that can take one.
+    """
+    return {
+        "lane_owner": LANE_OWNER,
+        "writer_machine": _lane_owner_id(),
+        "data_face_machine": _lane_owner_id(),
+        "declared_takeover": bool(takeover),
+        "took_over_by": (takeover or {}).get("by"),
+        "took_over_at": (takeover or {}).get("ts"),
+        "reason": (takeover or {}).get("reason"),
+    }
+
+
 def run():
     owner = _lane_owner_id()
     takeover = None
@@ -451,6 +468,7 @@ def run():
         st["no_op_reason"] = gate_reason
         st["expected_cutoff"] = expected
         st["data_cutoff"] = local_cut
+        st["authority"] = _authority_block(takeover)
         if takeover:
             st["takeover"] = takeover
         write_status(st)
@@ -524,6 +542,7 @@ def run():
         if i < len(TERMS) - 1:
             time.sleep(SLEEP_S)
 
+    _cut = max([r["last"] for r in per if r.get("last")], default=None)
     st.update({
         "ts": now.isoformat(timespec="seconds"),
         "mode": "full-history pull, append-only local, overlap-verified",
@@ -532,15 +551,22 @@ def run():
             "terms": len(TERMS), "failures": len(failures),
             "mismatches": len(mismatches),
             "total_appended": sum(r.get("appended") or 0 for r in per),
-            "data_cutoff": max([r["last"] for r in per if r.get("last")],
-                               default=None),
+            "data_cutoff": _cut,
         },
+        # r1372: the no-op branch writes these at the top level and the fresh-pull branch
+        # never overwrote them, so a lane that HAD appended kept publishing the cutoff of
+        # an earlier no-op (the board read 2026-10-28 while the panel held 2026-11-05) and
+        # carried a `no_op_reason` contradicting its own rows.
+        "data_cutoff": _cut,
+        "expected_cutoff": expected,
         "claim": "T-2026-09-26-88-bm-a-s3-repo-rates-collector",
         "note": "prices ARE annualized % (close = day's closing annualized rate); "
                 "consumption interest formula belongs to consumer preregs "
                 "(M0923 pattern: amt*rate*pct*days/365, commission 1e-5, "
                 "1000-CNY multiples); collector supplies the rate series only",
     })
+    st.pop("no_op_reason", None)
+    st["authority"] = _authority_block(takeover)
     if takeover:
         st["takeover"] = takeover
     write_status(st)

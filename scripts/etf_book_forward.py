@@ -158,6 +158,76 @@ def build_inputs():
     return close, openp, amt, feats, score, cls, n_flip
 
 
+def panel_stamp(load=True):
+    """The panel identity a face must have priced, read from the LIVE panel (r1249).
+
+    Every face already writes `panel.digest` into its artifact and nothing read it back
+    against the world: a `--check` that re-derives only from its own published rows is green
+    on any panel, so exposure_timing / exposure_ladder / sleeve_paths sat on the 2026-10-30
+    panel with green checks while the book priced 2026-11-03 (r1248 pointer 3). This is the
+    one reader for that gate -- a second copy would drift from `build_inputs()`, which is
+    where the digest is taken.
+    """
+    global PANEL_DIGEST
+    if load and not PANEL_DIGEST:
+        try:
+            build_inputs()
+        except Exception:                                          # noqa: BLE001
+            pass
+    blk = PANEL_DIGEST or {}
+    return {"digest": blk.get("digest"), "last_bar": blk.get("last"),
+            "bars_named": blk.get("dates"), "first_bar": blk.get("first")}
+
+
+def check_panel_stamp(doc, stamp=None, label=""):
+    """rc 0 = this face priced the panel it says it priced; rc 2 = the panel moved.
+
+    Deliberately NOT rc 1: "the world moved under a correct face" is not the same failure as
+    "the numbers stopped following the rows", and the chain's refresh arm rebuilds on the
+    word `stale` while it must never rebuild a verdict / identity disagreement (r1241). So
+    the message carries that word, and only a moved panel produces it.
+    """
+    rec = ((doc or {}).get("panel") or {}).get("digest")
+    cur = (stamp if stamp is not None else panel_stamp()).get("digest")
+    who = (label + ": ") if label else ""
+    if not cur:
+        # An unreadable current panel is not a moved one: say so and let the face stand, the
+        # way every other probe in this repo refuses to read "unknown" as "dead".
+        print("%sCHECK OK (panel stamp not verifiable: current panel digest unavailable)"
+              % who)
+        return 0
+    if not rec:
+        print("%sCHECK FAIL: this face carries no panel stamp -- stale by construction, it "
+              "cannot say which panel it measured (rebuild it on the live panel)" % who)
+        return 2
+    if rec != cur:
+        print("%sCHECK FAIL: the panel moved under this face -- stale: it priced panel %s, "
+              "the live panel is %s (its own rows still re-derive, which is exactly why the "
+              "old check stayed green)" % (who, rec, cur))
+        return 2
+    return 0
+
+
+def check_face_inputs(path, label=""):
+    """(doc, rc) for a `--check`: a face that is not on disk asks for its rebuild, not a traceback.
+
+    r1241: the chain's refresh arm reads the leg's OUTPUT, so a check that dies on a missing
+    file (`FileNotFoundError`, rc 1, no words) looks like a verdict failure and nothing
+    rebuilds it. The absent face says FACE MISSING with rc 2 -- the same vocabulary the
+    runner already keys on.
+    """
+    who = label or "face"
+    if not os.path.exists(path):
+        print("%s: FACE MISSING: %s (stale -- nothing has built it yet)" % (who, path))
+        return None, 2
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            return json.load(fh), 0
+    except Exception as exc:                                       # noqa: BLE001
+        print("%s: face unreadable (%s) -- stale, rebuild it" % (who, str(exc)[:120]))
+        return None, 2
+
+
 def _leg(book, a_ser, b_ser):
     """Weighted portfolio return of `book` between two price faces (engine-identical).
 
@@ -199,6 +269,27 @@ def build_carry(dates, fee_free=False):
     ret = ret.reindex(pd.DatetimeIndex(dates)).fillna(0.0)
     return ret, "ladder3 (%s) commission %s" % (
         "/".join(REPO.LADDERS["ladder3"]), "waived" if fee_free else "charged")
+
+
+def carry_last_bar():
+    """Last bar the repo ladder can actually price, or None when the panel is absent.
+
+    r1372: the settle gate watched only the price panel, so a bar printed while the repo
+    panel was still days behind was published as settled and then froze the ledger when
+    the real GC007/GC014/GC028 rows arrived (2026-10-30 moved 1.7e-07 on a rate print, not
+    on a price). A book bar priced past this date rode a forward-filled rate, so it is
+    filling by definition and must stay provisional. One reader: the settle audit imports
+    this rather than deciding carry coverage a second way.
+    """
+    try:
+        rates = REPO.load_panel()
+    except Exception:                              # pragma: no cover - panel absence only
+        return None
+    lasts = [rates[n].index.max() for n in REPO.LADDERS["ladder3"]
+             if n in rates and len(rates[n])]
+    if not lasts:
+        return None
+    return max(lasts).date().isoformat()
 
 
 class Forward:
@@ -663,7 +754,7 @@ def published_bars(led):
     return [b for b in (led.get("bars") or []) if not b.get("withdrawn")]
 
 
-def partition_settled(bars, panel_last_date):
+def partition_settled(bars, panel_last_date, carry_last=None):
     """(settled, provisional) published bar dates -- the ONE implementation.
 
     A bar is provisional if it is the newest published bar or if its date is the newest
@@ -671,12 +762,18 @@ def partition_settled(bars, panel_last_date):
     older has stopped gaining symbols and must reproduce exactly. The settle audit imports
     this rather than deciding settledness a second time (E270: one rule spelled twice is
     not two rules).
+
+    r1372: `carry_last` extends the same question to the leg that prices the cash -- a bar
+    later than the last bar the repo ladder can price rode a forward-filled rate, so its
+    mark is still filling even when the price panel has moved on.
     """
     bars = list(bars)
     if not bars:
         return [], []
     newest = bars[-1]
-    provisional = [b for b in bars if b == newest or b == panel_last_date]
+    provisional = [b for b in bars
+                   if b == newest or b == panel_last_date
+                   or (carry_last and b > carry_last)]
     settled = [b for b in bars if b not in provisional]
     return settled, provisional
 
@@ -979,8 +1076,10 @@ def run(rebase=False):
     seed_bar = led["seed"]["bar"]
     fresh = {b["bar"]: b for b in _indexed(marks, seed_bar)}
     panel_last = str(dates[-1].date()) if dates else None
+    # a bar past the last priceable repo bar is still filling (r1372)
+    carry_last = carry_last_bar() if fwd.carry is not None else None
     settled, provisional = partition_settled(
-        [b["bar"] for b in published_bars(led)], panel_last)
+        [b["bar"] for b in published_bars(led)], panel_last, carry_last)
 
     # drift gate: every published mark on a SETTLED bar must re-derive exactly. A bar
     # that was published while its panel was still filling and has since settled gets one
@@ -1039,6 +1138,7 @@ def run(rebase=False):
         "gate": "settled_bars_only",
         "settled_bars": settled[-10:],
         "provisional_bars": provisional,
+        "carry_last_bar": carry_last,
         "settled_faces": faces_settled,
         "provisional_faces": faces_prov,
         "benchmark_settled_faces": bench_faces,
@@ -1385,9 +1485,15 @@ def selftest():
     for x in a:
         y = bmap.get(x["bar"])
         if y:
-            ratio.append(round(x["nav"] / y, 9))
-    chk("rebasing is a constant rescale", ratio and len(set(ratio)) == 1,
-        "distinct_ratios=%d" % len(set(ratio)))
+            ratio.append(x["nav"] / y)
+    # r1372: compare the ratios at their own precision instead of rounding them to 9
+    # decimals -- navs are published rounded to 1e-10, so a ratio sitting on a rounding
+    # boundary split into 2 distinct values and failed a constant rescale that was exact
+    # (a knife edge, not a finding).
+    _mean = (sum(ratio) / len(ratio)) if ratio else 0.0
+    _spread = (max(ratio) - min(ratio)) / abs(_mean) if ratio and _mean else 1.0
+    chk("rebasing is a constant rescale", bool(ratio) and _spread < 1e-9,
+        "n=%d rel_spread=%.2e" % (len(ratio), _spread))
     c = _indexed(fwd_vt_marks, last_bar)
     chk("seed bar is 1.0", c[0]["bar"] == last_bar and abs(c[0]["nav"] - 1.0) < 1e-12)
 
@@ -1410,6 +1516,17 @@ def selftest():
     chk("partition: a bar matching the newest panel date is provisional too",
         pv2 == ["2026-10-29"] and st2 == bd[:3], "settled=%s provisional=%s" % (st2, pv2))
     chk("partition: empty ledger has no settled bars", partition_settled([], "2026-10-30") == ([], []))
+    # 7c. r1372: the cash leg has its own coverage. A bar past the last priceable repo bar
+    #     rode a forward-filled rate, so it is still filling even when the price panel has
+    #     moved on -- and its neighbours on the same side of that line stay settled, so the
+    #     leg cannot pass by declaring everything provisional.
+    st3, pv3 = partition_settled(bd, "2026-10-30", carry_last="2026-10-27")
+    chk("partition: a bar past the repo panel's last bar is provisional, older bars are not",
+        pv3 == ["2026-10-28", "2026-10-29"] and st3 == bd[:2],
+        "settled=%s provisional=%s" % (st3, pv3))
+    st4, pv4 = partition_settled(bd, "2026-10-30", carry_last="2026-10-29")
+    chk("partition: carry coverage equal to the newest bar changes nothing",
+        st4 == st and pv4 == pv, "settled=%s provisional=%s" % (st4, pv4))
     blk, prov = split_faces(["2026-10-28:5.064e-06", "2026-10-29:1.0e-07",
                              "2026-10-27:missing"], st)
     chk("faces: only provisional-bar drift is non-blocking",
@@ -1662,6 +1779,26 @@ def selftest():
         nofile["available"] and not nofile["years_for_80pct_power"]
         and (nofile["candidate_sources"].get("missing study") or {}).get("omitted"),
         str(nofile["candidate_sources"].get("missing study")))
+
+    # 5. the panel stamp gate (r1249): a check that re-derives from its own rows is green on
+    #    any panel, so the gate has to be asked a question the rows cannot answer -- is this
+    #    still the panel the face measured? Injected stamps keep the legs offline.
+    _doc_old = {"panel": {"digest": "aaaa1111"}}
+    _doc_cur = {"panel": {"digest": "bbbb2222"}}
+    _doc_bare = {"panel": {}}
+    _live = {"digest": "bbbb2222"}
+    chk("stamp gate: the face that priced the live panel passes",
+        check_panel_stamp(_doc_cur, stamp=_live) == 0)
+    chk("stamp gate: a face left on an older panel is STALE (rc 2, not a verdict failure)",
+        check_panel_stamp(_doc_old, stamp=_live) == 2)
+    chk("stamp gate: a face with no stamp cannot say which panel it measured",
+        check_panel_stamp(_doc_bare, stamp=_live) == 2)
+    chk("stamp gate: an unreadable current panel is unknown, not moved",
+        check_panel_stamp(_doc_old, stamp={"digest": None}) == 0)
+    _absent = os.path.join(PATHS.results_dir, "_selftest_absent_face.json")
+    chk("stamp gate: an absent face asks for its rebuild instead of dying in the runner",
+        check_face_inputs(_absent, label="selftest") == (None, 2),
+        "the chain reads the leg's words, not its traceback (r1241)")
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1

@@ -18,8 +18,8 @@
  },
  "feed_status": {
   "ticket_bar": "2026-10-30",
-  "expected_bar": "2026-11-02",
-  "lag_days": 1,
+  "expected_bar": "2026-11-03",
+  "lag_days": 2,
   "status": "feed_broken",
   "detail": "the maintained panel is missing an official trading day that should already be published -- a stopped feed, not a delay"
  },
@@ -225,95 +225,180 @@
   "rows_added": 0,
   "engine_naive_vs_ledger": null
  },
+ "entry_gate": {
+  "status": "ok",
+  "artifact": "results\\etf_book_entry_gate.json",
+  "evidence_cutoff": "2026-10-30",
+  "panel_last_bar": "2026-10-30",
+  "verdict": "GATE_SITS_ON_PLATEAU",
+  "sentence": "halving or doubling the shipped cut moves the declared arm by at most 0.53pp and no gate beats it by more than 0.21pp, so 20M is a plateau -- the number is not load-bearing and any future line may inherit it safely",
+  "shipped_cny": 20000000.0,
+  "tol_pp": 1.0,
+  "near_max_pp": 0.53,
+  "best_delta_pp": 0.21,
+  "gates": [
+   {
+    "gate_m": 5.0,
+    "gate_cny": 5000000.0,
+    "cagr": 0.0867,
+    "sharpe": 0.891,
+    "maxdd": -0.1651,
+    "median_names": 462,
+    "turnover": 0.958,
+    "delta_pp": 0.21
+   },
+   {
+    "gate_m": 10.0,
+    "gate_cny": 10000000.0,
+    "cagr": 0.0867,
+    "sharpe": 0.891,
+    "maxdd": -0.1651,
+    "median_names": 367,
+    "turnover": 0.958,
+    "delta_pp": 0.21
+   },
+   {
+    "gate_m": 20.0,
+    "gate_cny": 20000000.0,
+    "cagr": 0.0846,
+    "sharpe": 0.874,
+    "maxdd": -0.1656,
+    "median_names": 262,
+    "turnover": 0.953,
+    "delta_pp": 0.0
+   },
+   {
+    "gate_m": 50.0,
+    "gate_cny": 50000000.0,
+    "cagr": 0.0793,
+    "sharpe": 0.832,
+    "maxdd": -0.202,
+    "median_names": 154,
+    "turnover": 0.877,
+    "delta_pp": -0.53
+   },
+   {
+    "gate_m": 100.0,
+    "gate_cny": 100000000.0,
+    "cagr": 0.0865,
+    "sharpe": 0.891,
+    "maxdd": -0.2066,
+    "median_names": 94,
+    "turnover": 0.779,
+    "delta_pp": 0.19
+   },
+   {
+    "gate_m": 200.0,
+    "gate_cny": 200000000.0,
+    "cagr": 0.055,
+    "sharpe": 0.583,
+    "maxdd": -0.2269,
+    "median_names": 56,
+    "turnover": 0.68,
+    "delta_pp": -2.96
+   }
+  ],
+  "widest_names": 462,
+  "narrowest_names": 56,
+  "width_ratio": 8.25,
+  "universe_measured": 1504,
+  "universe_published": 1504,
+  "control": {
+   "published_declared_cagr": 0.0846,
+   "arm_declared_cagr": 0.0846,
+   "delta_pp": 0.0,
+   "tol_pp": 0.25
+  }
+ },
  "width_disclosure": {
   "ticket_names": 5,
   "card_names": 12,
   "ticket_rule": "beta",
   "card_rule": "vol",
   "ticket": {
-   "cagr": 0.1116,
-   "sharpe": 1.369,
+   "cagr": 0.1119,
+   "sharpe": 1.373,
    "maxdd": -0.0601,
    "vol": 0.0815
   },
   "card": {
-   "cagr": 0.1217,
-   "sharpe": 1.386,
+   "cagr": 0.1221,
+   "sharpe": 1.389,
    "maxdd": -0.0795,
-   "vol": 0.0878
+   "vol": 0.0879
   },
   "width_effect": {
    "vol": {
-    "ticket_width_cagr": 0.1194,
-    "card_width_cagr": 0.1217,
-    "pp": 0.23
+    "ticket_width_cagr": 0.1197,
+    "card_width_cagr": 0.1221,
+    "pp": 0.24
    },
    "beta": {
-    "ticket_width_cagr": 0.1116,
-    "card_width_cagr": 0.0963,
+    "ticket_width_cagr": 0.1119,
+    "card_width_cagr": 0.0966,
     "pp": -1.53
    }
   },
   "rules_differ": true,
   "delta_ticket_minus_card": {
-   "cagr_pp": -1.01,
-   "sharpe": -0.017,
+   "cagr_pp": -1.02,
+   "sharpe": -0.016,
    "maxdd_pp": 1.94,
-   "vol_pp": -0.63
+   "vol_pp": -0.64
   },
   "square": {
    "cells": {
     "beta@5": {
-     "cagr": 0.1116,
-     "sharpe": 1.369,
+     "cagr": 0.1119,
+     "sharpe": 1.373,
      "maxdd": -0.0601,
      "turnover": 1.5301,
      "cash_share": 0.5501
     },
     "beta@12": {
-     "cagr": 0.0963,
-     "sharpe": 1.579,
+     "cagr": 0.0966,
+     "sharpe": 1.583,
      "maxdd": -0.0417,
      "turnover": 1.3032,
      "cash_share": 0.6191
     },
     "vol@5": {
-     "cagr": 0.1194,
-     "sharpe": 1.379,
+     "cagr": 0.1197,
+     "sharpe": 1.382,
      "maxdd": -0.0756,
      "turnover": 1.5301,
-     "cash_share": 0.4788
+     "cash_share": 0.4792
     },
     "vol@12": {
-     "cagr": 0.1217,
-     "sharpe": 1.386,
+     "cagr": 0.1221,
+     "sharpe": 1.389,
      "maxdd": -0.0795,
      "turnover": 1.3032,
-     "cash_share": 0.4266
+     "cash_share": 0.4271
     }
    },
    "width_effect_pp": {
     "beta": -1.53,
-    "vol": 0.23
+    "vol": 0.24
    },
    "rule_effect_pp": {
     "n5": 0.78,
-    "n12": 2.54
+    "n12": 2.55
    },
-   "interaction_pp": 1.76,
-   "published_diagonal_pp": 1.01,
+   "interaction_pp": 1.77,
+   "published_diagonal_pp": 1.02,
    "sharpe_width_effect": {
     "beta": 0.21,
     "vol": 0.007
    },
    "sharpe_rule_effect": {
-    "n5": 0.01,
-    "n12": -0.193
+    "n5": 0.009,
+    "n12": -0.194
    }
   },
   "same_accounting": "one ledger (GC001 cash leg, next-open fills, 8bp/side); width and leverage rule each varied in turn",
   "source": "results/etf_book_width_audit.json",
-  "evidence_cutoff": "2026-11-02"
+  "evidence_cutoff": "2026-10-30"
  },
  "live_width_ruler": {
   "state": "inside_disagreement",
@@ -460,7 +545,7 @@
  "concentration": {
   "status": "ok",
   "sentence": "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
-  "evidence_cutoff": "2026-11-02",
+  "evidence_cutoff": "2026-10-30",
   "verdict": "BROAD|SURVIVES_WITHOUT_TOP3"
  },
  "caveats": [
@@ -469,7 +554,7 @@
   "GC001 single tenor, rolling assumed cost-free",
   "k revised every 20 bars so delivered beta still wanders",
   "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it (measured on the 2026-11-02 bar)",
-  "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3） (measured on the 2026-11-02 bar)",
+  "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
   "exploratory: no preregistration, no verdict, no ledger booking",
   "this ticket is the 5-name aggressive end of the book; the production card runs 12 names -- see width_disclosure"
  ]

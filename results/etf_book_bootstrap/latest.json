@@ -2,60 +2,60 @@
  "cagr": {
   "n": 2000,
   "pct": {
-   "1": 0.012250025301939903,
-   "5": 0.03154127986022479,
-   "25": 0.07013307886443498,
-   "50": 0.09564810023137382,
-   "75": 0.1227915836310362,
-   "95": 0.16328250741227956,
-   "99": 0.1972411726426772
+   "1": 0.010421012099453906,
+   "5": 0.030951584950716426,
+   "25": 0.06879217287359218,
+   "50": 0.09474003315723056,
+   "75": 0.12106495255748789,
+   "95": 0.1645188827723973,
+   "99": 0.1930081372535384
   },
-  "mean": 0.0969616102103091,
-  "min": -0.019833976964373168,
-  "max": 0.2643876296152252,
-  "point": 0.096,
-  "point_pctile": 50.3
+  "mean": 0.09596107123079292,
+  "min": -0.026713032398020475,
+  "max": 0.2590885651373238,
+  "point": 0.0953,
+  "point_pctile": 50.6
  },
  "sharpe": {
   "n": 2000,
   "pct": {
-   "1": 0.1662430281769558,
-   "5": 0.3640375711051537,
-   "25": 0.7388605628249005,
-   "50": 0.9739697645156649,
-   "75": 1.219419561267884,
-   "95": 1.5890582285738681,
-   "99": 1.8383778796377839
+   "1": 0.15447461629704579,
+   "5": 0.3593100876210233,
+   "25": 0.7210937147443128,
+   "50": 0.9639817548964803,
+   "75": 1.1968008919028867,
+   "95": 1.5762081684999514,
+   "99": 1.8405689128999807
   },
-  "mean": 0.9772930872614561,
-  "min": -0.13047286405199227,
-  "max": 2.487540406551545,
-  "point": 0.99,
-  "point_pctile": 51.6
+  "mean": 0.9686479160616353,
+  "min": -0.19818806661867489,
+  "max": 2.6209286059230896,
+  "point": 0.984,
+  "point_pctile": 52.5
  },
  "maxdd": {
   "n": 2000,
   "pct": {
-   "1": -0.25390829116136876,
-   "5": -0.20945850572008126,
-   "25": -0.15941558416334398,
-   "50": -0.1323210157769319,
-   "75": -0.11117071409460519,
-   "95": -0.08896607771659984,
-   "99": -0.07658152847507997
+   "1": -0.261896947632252,
+   "5": -0.21454480177985122,
+   "25": -0.1617329399014198,
+   "50": -0.13387336599134664,
+   "75": -0.11097363279162781,
+   "95": -0.0876712839565856,
+   "99": -0.07464883007376176
   },
-  "mean": -0.13802350826274037,
-  "min": -0.3409204998991149,
-  "max": -0.054949232977039686,
+  "mean": -0.13979346739007764,
+  "min": -0.3489325417468121,
+  "max": -0.054751328873095084,
   "point": -0.1177,
-  "point_pctile": 66.1
+  "point_pctile": 66.8
  },
  "shares": {
-  "cagr_le_zero": 0.004,
-  "maxdd_le_line": 0.064,
+  "cagr_le_zero": 0.005,
+  "maxdd_le_line": 0.077,
   "n_resamples": 2000
  },
- "evidence_cutoff": "2026-10-30",
+ "evidence_cutoff": "2026-11-04",
  "script": "scripts/etf_book_nav_envelope.py",
  "criteria": {
   "book": {
@@ -86,23 +86,27 @@
    "frozen": "constants written before the first run; the gate refuses a face that echoes others"
   }
  },
- "series_file": "NAV-2026-10-30.json",
- "bars": 1652,
- "bars_per_year": 241.985,
+ "series_file": "NAV-2026-11-04.json",
+ "bars": 1655,
+ "bars_per_year": 241.94,
  "point_estimate": {
-  "cagr": 0.096,
-  "sharpe": 0.99,
+  "cagr": 0.0953,
+  "sharpe": 0.984,
   "maxdd": -0.1177
  },
- "series_refreshed": null,
+ "series_refreshed": {
+  "from": "2026-11-03",
+  "to": "2026-11-04",
+  "direction": "behind"
+ },
  "book_reconciliation": {
   "production_cell": "n12_vt08",
-  "series_cagr": 0.096,
-  "cell_cagr": 0.096,
+  "series_cagr": 0.0953,
+  "cell_cagr": 0.0953,
   "delta_pp": 0.0,
   "verdict": "same_object",
   "tolerance_pp": 0.25
  },
- "reading": "block bootstrap (2000 resamples, block=20 bars): CAGR p5/p50/p95 = 3.15%/9.56%/16.33% per year, Sharpe 0.36/0.97/1.59, maxDD -20.95%/-13.23%/-8.90%; the published point estimate 9.60% sits at the 50.3 pctile; 0.4% of resamples lose money and 6.4% break a -20% drawdown | these are the published book's own numbers: this series reads 9.60% against the production cell n12_vt08 at 9.60%",
- "file": "ENVELOPE-2026-10-30.json"
+ "reading": "block bootstrap (2000 resamples, block=20 bars): CAGR p5/p50/p95 = 3.10%/9.47%/16.45% per year, Sharpe 0.36/0.96/1.58, maxDD -21.45%/-13.39%/-8.77%; the published point estimate 9.53% sits at the 50.6 pctile; 0.5% of resamples lose money and 7.7% break a -20% drawdown | these are the published book's own numbers: this series reads 9.53% against the production cell n12_vt08 at 9.53%",
+ "file": "ENVELOPE-2026-11-04.json"
 }

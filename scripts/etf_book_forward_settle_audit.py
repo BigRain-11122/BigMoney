@@ -49,7 +49,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
 
 from config import PATHS
-from etf_book_forward import partition_settled, published_bars
+from etf_book_forward import carry_last_bar, partition_settled, published_bars
 
 SCHEMA = "etf-book-forward-settle-audit/v1"
 LEDGER = os.path.join(PATHS.results_dir, "etf_book_forward", "LEDGER.json")
@@ -116,7 +116,10 @@ def _classify(ledger, coverage, universe_total, drift_tol):
     # and is imported, not restated: this audit and the ledger gate must never disagree
     # about which bars are open (E270 -- one rule spelled twice is not two rules).
     panel_last = max(coverage) if coverage else None
-    settled, provisional = partition_settled(bars, panel_last)
+    # r1372: the cash leg has its own coverage -- a bar past the last priceable repo bar
+    # rode a forward-filled rate and is still filling. Read from the engine, never restated
+    # here, so this audit and the ledger gate keep answering the same question.
+    settled, provisional = partition_settled(bars, panel_last, carry_last_bar())
 
     drift = ledger.get("drift") or {}
     faces = drift.get("faces") or []
