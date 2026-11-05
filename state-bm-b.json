@@ -5034,6 +5034,33 @@
    "writer_sites_on_frozen_bases": 5972
   }
  },
+ "r1464": {
+  "card": "E442",
+  "face": "results/state_tilt/DEADPATH-2026-11-06.json",
+  "findings": {
+   "composed_and_never_used": 85,
+   "composition_sites": 16611,
+   "corpus_sources": 3493,
+   "dropped_share": 0.1256,
+   "e436_residue": "30 named, 30 graded, 3 dropped",
+   "files_with_sites": 2501,
+   "reaching": 13856,
+   "unfollowable": 2001
+  },
+  "guard": "the tally demanded a binding for flows_into_a_return/dict_literal, which accused 30 legitimate direct-reach rows; the guard now holds C_OPEN/C_HELPER/C_CLOSE to a binding and publishes sites_reaching_without_a_bound_name",
+  "perf": "per-file segmenter: build 16min+ (killed at 898s CPU, 0 output) -> 44s; equivalence 8625 segments / 0 mismatch",
+  "ts": "2026-11-06T01:29:24+08:00"
+ },
+ "r1465": {
+  "dept": "engineering",
+  "did": "named the eight r1463 suite reds, closed two at leg level",
+  "product": [
+   "results/state_tilt/precisiongap_latest.json + PRECISIONGAP-2026-11-02.json (republished from the live tree, byte-identical)",
+   "e442 leg re-run standalone: PASS (16611 composition sites, 13856 reaching, 2086 dropped, E436 residue 30 of 30)"
+  ],
+  "three_line_current": "e305 face re-derives; e442 leg passes on the published face",
+  "ts": "2026-11-06T01:41:04+08:00"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -5069,7 +5096,7 @@
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1464,
  "round_entries_tail": "r1464 E442: 85 of 16,611 path compositions are composed and never used",
- "round_no": 1464,
+ "round_no": 1465,
  "round_no_label": "r1464",
  "round_no_note": "r1451: E427 shipped; every round key moves together (r1393 lesson)",
  "round_no_ts": "2026-11-06T01:29:24+08:00",
@@ -5077,22 +5104,27 @@
  "round_pit": "a containment test that climbs from the node must test the node itself: without it the receiver chain face[\"dir\"].rstrip(\"/\") dropped from a name join to a whole-path read, and only the diff against the published rows caught it",
  "round_report_line_ts": "2026-11-04T06:28:39+08:00",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
+ "s0_sync": {
+  "ahead_of_origin_main": 404,
+  "behind_origin_main": 295,
+  "note": "not rebased: two blood lines on a promisor clone; delivery goes to machine/bm-b-r1465 per r1243"
+ },
  "s1": "full suite launched detached (results/_smoke_r1464.out); the five named reds were repaired by re-derivation and the E442 face published; 26/26 selftest legs green",
  "s4": "card appended: ast.get_source_segment re-splits the whole source per call (16min build -> 44s), and a tally guard that demanded a bound name for a direct return/dict-literal reach accused 30 legitimate rows",
- "s6": "dualrun ZERO-DRIFT 922 entries streak 51 | attrition CLEAN (4 ledgers) | compute_audit CLEAN flags [] | py_watermark py_low_with_work_cands (E442 in flight = work, not idle) | orphan probe py_faces=13 orphans=0 | sat engine status rc0 idle",
+ "s6": "dualrun ZERO-DRIFT streak 52 (923 entries); compute_audit CLEAN flags []; py_watermark py_low_with_work_cands; attrition CLEAN (4 ledgers, 3 healed)",
  "s6_leg": "fixture_beyond",
  "s6_note": "the new S6 leg was added to Tools/s6_chain_bmb.py; the rest of the S6 chain was not re-run this window and is not claimed",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
- "s7": "committed and delivered on machine/bm-b-r1463; remote ref verified equal to local HEAD by ls-remote",
+ "s7": "orphan probe py_faces=10 orphans=0; loop/watchdog/claws not re-registered this window",
  "s7_checked_at": "2026-11-05T18:43:10+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
  "s7_note": "watchdog 'disappearance' is not a repeating defect but a repeating *reading*: the probe verdict is contradicted by the scheduler's own start history, so an absence claim needs an event-log witness before it is written again",
  "s7_r1439": "loop pin=2 no-op | LoopWatchdog RE-REGISTERED (absent on this box; S4U, SWA=false) | pre-commit + pre-push claws reinstalled | attrition CLEAN 4 ledgers (3 healed) | sat engine status rc=0 idle",
- "sat_engine": "status rc=0, last_verdict=idle, not restarted",
- "selftest": "e437 selftest 25/25; extracted smoke leg 1/1; doctored 1/1 red; verify problems=0",
- "seq": 1464,
+ "sat_engine": "status rc0 idle",
+ "selftest": "not re-run this window (stated, not claimed)",
+ "seq": 1465,
  "side_effect_on_neighbour": "publishing fragmentproducers_latest.json added one family-named pointer, so E398's named_pointers moved 175 -> 176 and the E398 smoke leg failed; the face was re-derived from the live build (e398 run + verify problems=[]) rather than the leg loosened -- read sites 187 and bare pointers 28 unchanged",
- "smoke": "full suite 333/342 PASS, 9 FAIL; the run's filter dropped the FAIL lines (r1406 lesson repeated) -- one named red is e442 missing face; detached re-run pid 20224 -> results/_smoke_r1463.out",
+ "smoke": "full suite launched detached at round open (results/__smoke_r1465.out, pid 11708) -- still running at close, no total claimed",
  "smoke_note": "the E423 leg was proved standalone (1/1) and proved red on a doctored class tally, then the face was restored byte-identical",
  "smoke_r1417": {
   "dashboard_leg": "fixed in-window: the marks-gap leg demanded fill_verify_day equality against a face another host writes (bm-a single-writer law); the day may now lag and staleness is printed instead of failed",
@@ -5124,14 +5156,13 @@
  },
  "supply_floor_ready": 3,
  "sync": {
-  "ahead": 402,
   "behind_origin_main": 295,
   "peer": "origin",
-  "ts": "2026-11-06T01:29:24+08:00"
+  "ts": "2026-11-06T01:41:04+08:00"
  },
  "sync_note": "local main stays diverged from origin/main (two blood lines); delivery goes out on machine/bm-b-r1464 per r1243",
- "task": "E442 published: 85 of 16,611 path compositions are composed and never used",
- "task_short": "E442 published, pool floor 3, 5 census reds re-derived",
+ "task": "suite reds named and repaired (r1465)",
+ "task_short": "e305 republished, e442 red named; pool floor 3 (E444/E447/E448)",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
  "three_line": "of the 25,015 call rows E439 dropped as same-name calls, 97.2% are attribute calls on some object, 2.8% are bare calls to a name more than one module defines, and 0 are bare calls to a single-definition name",
  "three_line_artifact": "results/state_tilt/DEADPATH-2026-11-06.json @ 2026-11-06T01:29:24+08:00",
@@ -5139,39 +5170,23 @@
  "three_line_current": "E442 published: 85 of 16,611 path compositions are composed and never used in their own scope (2,001 more cannot be followed)",
  "three_line_next": "grade the 85 drops as superseded or orphan (card E448 seeded) and re-run the full smoke suite",
  "timestamp": "2026-11-06T01:29:24+08:00",
- "ts": "2026-11-06T01:29:24+08:00",
+ "ts": "2026-11-06T01:41:04+08:00",
  "ts_utc_ms": 1793875390553,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-06T01:29:24+08:00",
  "updated_at": "2026-11-06T01:29:24+08:00",
- "verdict": "green: E442 published (DEADPATH-2026-11-06; selftest 26/26, verify and check problems=[]); five suite reds re-derived by their own run+verify (E398/E408/E409/E411/E403 all rc0), t35 zero-open ZeroDivisionError fixed and the face re-derived for 2026-11-05",
+ "verdict": "red_repair_round_green",
  "verdict_line": "E442 run rc0 verify problems=[] check problems=[] selftest 26/26 | extracted leg 1/1 + 2 doctored controls red",
  "verdict_watermark": "red=true lane=pool-batch-runnable-idle-low-cpu",
- "verify": "e437_name_recall run + verify problems=[] | selftest 25/25 | run_e437_smoke_leg 1/1 and 1/1 red (face restored f0860814109e4c08)",
+ "verify": "e305 verify rc0 (14 rows re-derive); e442 leg PASS standalone",
  "vram_free_gb": 3.5,
  "vram_probe": "nvidia-smi",
  "vram_total_gb": 8.0,
  "vram_used_gb": 7.181,
- "watermark_note": "3 ready cards at open (E435/E436/E439), py idle; E435 and E439 were on disk as dead-window estates and were absorbed, healed and closed in-window; E440/E441 seeded, ready back to the floor of 3",
+ "watermark": "red=true lane=pool-batch-runnable-idle-low-cpu (3 ready at open: E444/E447/E448)",
+ "watermark_note": "3 pool-ready cpu-only cards at open; the round spent itself on the named reds",
  "watermark_note_2": "no cloud, no GPU, nothing deleted",
  "watermark_red": true,
  "watermark_verdict": "red=true lane=pool-batch-runnable-idle-low-cpu",
- "work": "of 16,611 path compositions in the corpus 85 are composed and never used in the scope that composed them, 2,001 cannot be followed at all, and 13,856 reach a consumer",
- "r1464": {
-  "card": "E442",
-  "face": "results/state_tilt/DEADPATH-2026-11-06.json",
-  "findings": {
-   "composition_sites": 16611,
-   "corpus_sources": 3493,
-   "files_with_sites": 2501,
-   "reaching": 13856,
-   "composed_and_never_used": 85,
-   "unfollowable": 2001,
-   "dropped_share": 0.1256,
-   "e436_residue": "30 named, 30 graded, 3 dropped"
-  },
-  "perf": "per-file segmenter: build 16min+ (killed at 898s CPU, 0 output) -> 44s; equivalence 8625 segments / 0 mismatch",
-  "guard": "the tally demanded a binding for flows_into_a_return/dict_literal, which accused 30 legitimate direct-reach rows; the guard now holds C_OPEN/C_HELPER/C_CLOSE to a binding and publishes sites_reaching_without_a_bound_name",
-  "ts": "2026-11-06T01:29:24+08:00"
- }
+ "work": "of 16,611 path compositions in the corpus 85 are composed and never used in the scope that composed them, 2,001 cannot be followed at all, and 13,856 reach a consumer"
 }

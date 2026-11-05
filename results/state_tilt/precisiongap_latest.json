@@ -29,16 +29,9 @@
      "key": "session_open",
      "in_priced_face": [
       {
-       "path": "/per_trader/DROUGHT-CE-01/detail/[]/session_open",
+       "path": "/per_trader/COMPOSITE-CE-02/detail/[]/session_open",
        "kind": "float",
-       "value": 1.393,
-       "container": null,
-       "face": "results/t35_open_fill_verify.json"
-      },
-      {
-       "path": "/per_trader/ENGULF-CE-01/detail/[]/session_open",
-       "kind": "float",
-       "value": 0.727,
+       "value": 0.0,
        "container": null,
        "face": "results/t35_open_fill_verify.json"
       }
@@ -47,10 +40,10 @@
     }
    ],
    "producer_writers": [],
-   "found_decimals": 3,
-   "found_quantum": 0.001,
+   "found_decimals": 0,
+   "found_quantum": 1.0,
    "at_risk_after": true,
-   "reason": "a printed number was found at 3 dp, still coarser than 2x the tolerance"
+   "reason": "a printed number was found at 0 dp, still coarser than 2x the tolerance"
   },
   {
    "leg": "product: the star's residual is decomposed and split from volatility and age",
@@ -81,42 +74,42 @@
        {
         "path": "/cells/[]/columns/sh510050/share_taken_by_vol",
         "kind": "float",
-        "value": -0.002479660350479529,
+        "value": -0.004367900442128203,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh510300/share_taken_by_vol",
         "kind": "float",
-        "value": -0.02076933316883256,
+        "value": -0.022691245133812377,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh510500/share_taken_by_vol",
         "kind": "float",
-        "value": -0.005792792588949824,
+        "value": -0.005855174740523994,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh512100/share_taken_by_vol",
         "kind": "float",
-        "value": -0.011636049151276362,
+        "value": -0.011377832578868707,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh588000/share_taken_by_vol",
         "kind": "float",
-        "value": -0.006981256784900802,
+        "value": -0.006582776270499302,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/star_residual/share_taken_by_vol",
         "kind": "float",
-        "value": -0.006981256784900802,
+        "value": -0.006582776270499302,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
@@ -228,42 +221,42 @@
        {
         "path": "/cells/[]/columns/sh510050/share_taken_by_vol",
         "kind": "float",
-        "value": -6.966671119545964e-05,
+        "value": -0.011315675422411964,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh510300/share_taken_by_vol",
         "kind": "float",
-        "value": -0.022469445913867903,
+        "value": -0.027288248270802118,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh510500/share_taken_by_vol",
         "kind": "float",
-        "value": 0.014455056790103948,
+        "value": 0.014820756645954725,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh512100/share_taken_by_vol",
         "kind": "float",
-        "value": -0.013451905840091705,
+        "value": -0.022054696357248327,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/columns/sh588000/share_taken_by_vol",
         "kind": "float",
-        "value": -0.011527895243631514,
+        "value": -0.00998221647199582,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
        {
         "path": "/cells/[]/star_residual/share_taken_by_vol",
         "kind": "float",
-        "value": -0.011527895243631514,
+        "value": -0.00998221647199582,
         "container": null,
         "face": "results/state_tilt/starown_latest.json"
        },
@@ -1452,5 +1445,5 @@
  },
  "verdict": "some_face_level_rows_stay_at_risk",
  "verdict_reason": "14 row(s) priced; 13 withdrawn as unmeasurable-or-finer, 1 still finer than the quantum of the number actually found.",
- "generated": "2026-11-04T07:40:51"
+ "generated": "2026-11-06T01:38:42"
 }
