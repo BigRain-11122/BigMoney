@@ -16486,6 +16486,60 @@ except Exception as _e437x:
     _bad437.append(repr(_e437x)[:160])
 check(_name437, not _bad437, "; ".join(_bad437)[:240] or _d437)
 
+# E438 (r1457 bm-b): E437 priced which temp-supplying call rows the *name* heuristic misses, but
+# never asked whether the callee writes inside the directory it is handed.  This leg reads the
+# graded face and refuses (a) a verdict that does not re-derive from the rows, (b) a class tally
+# that does not close against the row list, (c) a row classed `inside` that carries a write which
+# names no directory parameter, and (d) a file-path-parameter block whose count does not match the
+# rows in that class.
+_name438 = "e438 temp write base (r1457 bm-b)"
+_bad438 = []
+try:
+    _m438 = __import__("importlib").import_module("e438_temp_write_base")
+    _f438 = json.load(open(os.path.join("results", "state_tilt", "tempwritebase_latest.json"),
+                           encoding="utf-8"))
+    _s438 = _f438.get("summary") or {}
+    _rows438 = _f438.get("rows") or []
+    _bad438.extend(_m438.tally_problems(_f438))
+    if _f438.get("verdict") not in _m438.VERDICT_VOCAB:
+        _bad438.append("verdict outside the frozen vocabulary")
+    if _f438.get("verdict") != _m438.verdict_for(_rows438):
+        _bad438.append("the verdict does not re-derive from the rows")
+    _cls438 = _s438.get("rows_by_write_class") or {}
+    _tempcn = _s438.get("temp_supplying_call_rows")
+    if sum(_cls438.values()) != _tempcn:
+        _bad438.append("the class tally does not close against the temp rows")
+    if _cls438.get(_m438.C_INSIDE, 0) != _s438.get("rows_that_really_spend_the_directory"):
+        _bad438.append("the inside count does not re-derive from the class tally")
+    if _tempcn:
+        _share = round(_cls438.get(_m438.C_INSIDE, 0) / _tempcn, 4)
+        if _s438.get("share_of_rows_that_really_spend_it") != _share:
+            _bad438.append("the published share does not re-derive")
+    _fwp = _s438.get("directory_passed_to_a_file_path_parameter") or {}
+    if _fwp.get("call_rows") != _cls438.get(_m438.C_FILE_WRITER, 0):
+        _bad438.append("the file-path-parameter block does not match its class")
+    if len(_fwp.get("callees") or []) != _fwp.get("distinct_callees"):
+        _bad438.append("the file-path-parameter callee list does not match its count")
+    for _r438 in _rows438:
+        _kinds438 = _r438.get("write_kinds") or []
+        if _r438.get("write_class") == _m438.C_INSIDE and \
+                any(_k != _m438.W_JOINED for _k in _kinds438):
+            _bad438.append("%s:%s claims inside with a write that joins nothing"
+                           % (_r438.get("caller_file"), _r438.get("caller_line")))
+            break
+        if not _kinds438 and _r438.get("write_class") != _m438.C_UNRESOLVED:
+            _bad438.append("%s:%s is classed without a single write path"
+                           % (_r438.get("caller_file"), _r438.get("caller_line")))
+            break
+    _d438 = "temp rows %d over %d source(s) | classes %s | inside %d (share %s) | " \
+            "file-path parameters %d over %d callee(s) | %s" % (
+                _tempcn, _s438.get("corpus_sources"), _cls438,
+                _cls438.get(_m438.C_INSIDE, 0), _s438.get("share_of_rows_that_really_spend_it"),
+                _fwp.get("call_rows"), _fwp.get("distinct_callees"), _f438.get("verdict"))
+except Exception as _e438x:
+    _bad438.append(repr(_e438x)[:160])
+check(_name438, not _bad438, "; ".join(_bad438)[:240] or _d438)
+
 # E427 (r1451 bm-b): E426 located 2,818 templates inside a function that opens a file and
 # published that location as the interesting fact.  Location is not dataflow.  This leg reads the
 # face that follows each template's binding inside its own function and refuses (a) a state

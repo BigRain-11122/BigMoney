@@ -1,0 +1,4620 @@
+{
+ "card": "E438-WHICH-PASSER-SPENDS-A-TEMP-DIRECTORY-THE-CALLEE-NEVER-WRITES",
+ "class_vocab": [
+  "every_write_in_the_callee_composes_onto_the_supplied_directory",
+  "one_write_composes_onto_the_directory_and_one_does_not",
+  "the_callee_names_the_directory_in_a_write_but_composes_nothing_onto_it",
+  "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+  "no_write_in_the_callee_names_the_directory",
+  "the_callee_site_could_not_be_resolved_from_the_scan"
+ ],
+ "evidence_cutoff": "2026-11-04",
+ "generated": "2026-11-05",
+ "method_limits": [
+  "the population is E437's, imported rather than re-derived: same corpus, same parameter sites, same call-row unit, same temp marker text; a disagreement between this face and namerecall_latest.json is a defect in this file, not a new measurement",
+  "write paths are the ones the scan already classified as path writes (open for writing, write_text/write_bytes, the pandas/image save family); a write performed by a callee this function calls is not followed, so C_INSIDE means 'this function spells a path inside the directory', not 'the bytes definitely land there'",
+  "a function that writes nothing is not a write site and never enters the population, so the 'composes a name and someone else writes it' case is outside this scan -- it is published as a blind spot and is NOT counted in C_OUTSIDE",
+  "join detection covers four spellings (os.path.join, Path(p)/x, p + '/x', f'{p}/x'); a path built by a helper that takes the directory as an argument reads as W_NAMED, which is reported as its own class rather than folded into inside or outside",
+  "a callee with several directory parameters is graded over all of them, so a write that composes onto parameter B is counted as inside even when the row supplied A"
+ ],
+ "population_keys": [
+  "corpus_sources",
+  "directory_parameter_call_rows",
+  "temp_supplying_call_rows"
+ ],
+ "rows": [
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"dbg394_\").replace(\"\\\\\", \"/\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "_dbg394.py",
+   "caller_function": "<module>",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 6,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"liveliness_\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/lane_round_liveness.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 327,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"liveliness_\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/lane_round_liveness.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 334,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"liveliness_\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/lane_round_liveness.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 340,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"liveliness_\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/lane_round_liveness.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 345,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"liveliness_\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/lane_round_liveness.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 353,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 361,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"liveliness_\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/lane_round_liveness.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 368,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 369,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 377,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 384,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 392,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 398,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 407,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 414,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 421,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 428,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 436,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 456,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 475,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 499,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e392_\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "scripts/e392_read_resolve.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 682,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e97_\")",
+   "callee_file": "Tools/heartbeat_write.py",
+   "callee_function": "_fixture",
+   "callee_line": 324,
+   "caller_file": "scripts/e97_routing.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 4926,
+   "directory_parameters": [
+    "root"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, \"state-bm-a.json\")",
+    "hp -> os.path.join(root, \"fleet\", \"machines\", \"bm-a.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L1\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_append.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 229,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oas_st_\"), \"L1\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_scan.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 235,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oas_st_\"), \"L2\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_scan.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 242,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L3\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_append.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 246,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oas_st_\"), \"L3\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_scan.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 252,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L4\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_append.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 253,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oas_st_\"), \"L4\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_scan.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 262,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L5\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_append.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 267,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oas_st_\"), \"L5\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_scan.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 268,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L6\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_append.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 274,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oas_st_\"), \"L6\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_scan.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 274,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oas_st_\"), \"L7\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_scan.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 281,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oaa_st_\"), \"L8\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_append.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 285,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oas_st_\"), \"L9\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_scan.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 296,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oas_st_\"), \"L10\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_scan.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 308,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oas_st_\"), \"L11\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_scan.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 320,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oas_st_\"), \"L12\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_scan.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 327,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oas_st_\"), \"L13\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "Tools/orders_ack_scan.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 334,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"innovation_quota_w10_selftest_\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "scripts/innovation_quota_w10.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1034,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"cn_kline_selftest_\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "scripts/cn_kline_pattern_p1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1122,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"cn_mkneutral_selftest_\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "scripts/cn_mkneutral_p1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1314,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"cn_sector_leader_selftest_\")",
+   "callee_file": "Tools/orders_ack_append.py",
+   "callee_function": "_mk_fixture",
+   "callee_line": 197,
+   "caller_file": "scripts/cn_sector_leader_p1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1410,
+   "directory_parameters": [
+    "root",
+    "machine_id",
+    "state_name"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(root, \"fleet\", \"machine.json\")",
+    "os.path.join(root, state_name)",
+    "os.path.join(root, \"fleet\", \"machines\",\n                           machine_id + \".json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"rlp1_selftest_\"), \"ck_partial\")",
+   "callee_file": "scripts/alphagen_rl_p1.py",
+   "callee_function": "_mk_ckpt_face",
+   "callee_line": 2326,
+   "caller_file": "scripts/alphagen_rl_p1.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 2342,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"train_log.jsonl\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"rlp1_selftest_\"), \"ck_reclaim\")",
+   "callee_file": "scripts/alphagen_rl_p1.py",
+   "callee_function": "_mk_ckpt_face",
+   "callee_line": 2326,
+   "caller_file": "scripts/alphagen_rl_p1.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 2348,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"train_log.jsonl\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"rlp1_selftest_\"), \"ck_done\")",
+   "callee_file": "scripts/alphagen_rl_p1.py",
+   "callee_function": "_mk_ckpt_face",
+   "callee_line": 2326,
+   "caller_file": "scripts/alphagen_rl_p1.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 2357,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"train_log.jsonl\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e252\")",
+   "callee_file": "scripts/e225_state_tilt.py",
+   "callee_function": "run",
+   "callee_line": 342,
+   "caller_file": "scripts/e252_star_prices_itself.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 687,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "path -> os.os.os.path.join(outdir, \"TILT-%s.json\" % face[\"evidence_cutoff\"]).join(outdir or OUTDIR, \"TILT-%s.json\" % {\n        \"study\": \"E225\",\n        \"title\": \"the continuously-held state tilt: does",
+    "os.path.join(outdir, \"latest.json\")",
+    "csv_path -> os.os.os.path.join(outdir, \"TILT-%s.json\" % face[\"evidence_cutoff\"]).join(outdir or OUTDIR, \"TILT-%s.json\" % {\n        \"study\": \"E225\",\n        \"title\": \"the continuously-held state tilt: "
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e252\")",
+   "callee_file": "scripts/e252_star_prices_itself.py",
+   "callee_function": "_stub",
+   "callee_line": 730,
+   "caller_file": "scripts/e252_star_prices_itself.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 690,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, \"starown_latest.json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e252\")",
+   "callee_file": "scripts/e252_star_prices_itself.py",
+   "callee_function": "_stub",
+   "callee_line": 730,
+   "caller_file": "scripts/e252_star_prices_itself.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 695,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, \"starown_latest.json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e252\")",
+   "callee_file": "scripts/e252_star_prices_itself.py",
+   "callee_function": "_stub",
+   "callee_line": 730,
+   "caller_file": "scripts/e252_star_prices_itself.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 703,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, \"starown_latest.json\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e252\")",
+   "callee_file": "scripts/e252_star_prices_itself.py",
+   "callee_function": "_stub",
+   "callee_line": 730,
+   "caller_file": "scripts/e252_star_prices_itself.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 710,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, \"starown_latest.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e363_\"), \"live\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "_e363_probe2.py",
+   "caller_function": "<module>",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 26,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e363_\"), \"pinned\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "_e363_probe2.py",
+   "caller_function": "<module>",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 27,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"smoke_census_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "smoke_test.py",
+   "caller_function": "_census_rebuild_scratch",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 93,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e363_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e363_corpus_vintage.py",
+   "caller_function": "reading",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 147,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e363_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e363_corpus_vintage.py",
+   "caller_function": "reading",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 149,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "[tempfile.mkdtemp(prefix=\"e332_base_\"), tempfile.mkdtemp(prefix=\"e332_fix_\")][0]",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e332_invisible_tail_recovery.py",
+   "caller_function": "reprice",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 196,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "[tempfile.mkdtemp(prefix=\"e332_base_\"), tempfile.mkdtemp(prefix=\"e332_fix_\")][1]",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e332_invisible_tail_recovery.py",
+   "caller_function": "reprice",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 200,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"surgery-selftest-\"), \"r\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "Tools/surgery_commit.py",
+   "caller_function": "_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 249,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"surgery-selftest-\"), \"r\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "Tools/surgery_commit.py",
+   "caller_function": "_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 253,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"surgery-selftest-\"), \"r\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "Tools/surgery_commit.py",
+   "caller_function": "_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 265,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"surgery-selftest-\"), \"r\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "Tools/surgery_commit.py",
+   "caller_function": "_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 269,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"surgery-selftest-\"), \"r\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "Tools/surgery_commit.py",
+   "caller_function": "_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 272,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"surgery-selftest-\"), \"r\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "Tools/surgery_commit.py",
+   "caller_function": "_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 276,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"surgery-selftest-\"), \"r\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "Tools/surgery_commit.py",
+   "caller_function": "_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 288,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e337_control_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e337_optin_executed.py",
+   "caller_function": "build",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 298,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e363_verify_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e363_corpus_vintage.py",
+   "caller_function": "verify",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 331,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e332_verify_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e332_invisible_tail_recovery.py",
+   "caller_function": "verify",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 341,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e328_verify_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e328_quoted_number_staleness.py",
+   "caller_function": "verify",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 358,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e336_verify_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e336_consumer_optin_ranking.py",
+   "caller_function": "verify",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 389,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e298_empty_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e298_replay_control_census.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 439,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e298_mirror_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e298_replay_control_census.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 453,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e337_verify_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e337_optin_executed.py",
+   "caller_function": "verify",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 464,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e298_selfvint_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e298_replay_control_census.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 468,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e298_selfvint_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e298_replay_control_census.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 480,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e328_fx_out_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e328_quoted_number_staleness.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 482,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e333_verify_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e333_surviving_e3xx_conclusions.py",
+   "caller_function": "verify",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 483,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e365_rerun_face_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e365_face_population_pin.py",
+   "caller_function": "rerun",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 484,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e332_fx_v_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e332_invisible_tail_recovery.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 493,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e329_verify_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e329_two_vintage_binding.py",
+   "caller_function": "verify",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 494,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e332_fx_v2_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e332_invisible_tail_recovery.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 496,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e336_fx_\"), \"results\", \"state_tilt\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e336_consumer_optin_ranking.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 498,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e332_fx_pub_\"), \"results\", \"state_tilt\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e332_invisible_tail_recovery.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 505,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e332_fx_pub2_\"), \"results\", \"state_tilt\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e332_invisible_tail_recovery.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 517,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e330_verify_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e330_unpinned_choice.py",
+   "caller_function": "verify",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 549,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e334_verify_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e334_helper_repair_blast_radius.py",
+   "caller_function": "verify",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 560,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e333_fx_\"), \"results\", \"state_tilt\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e333_surviving_e3xx_conclusions.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 596,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e331_verify_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e331_pointer_only_readers.py",
+   "caller_function": "verify",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 646,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e329_fx_out_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e329_two_vintage_binding.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 662,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e365_stamp_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e365_face_population_pin.py",
+   "caller_function": "cmd_stamp",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 668,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e334_fx_\"), \"results\", \"state_tilt\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e334_helper_repair_blast_radius.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 692,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e330_fx_out_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e330_unpinned_choice.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 698,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e330_fx_pub_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e330_unpinned_choice.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 763,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e331_fx_out_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e331_pointer_only_readers.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 840,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e331_fx_pub_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e331_pointer_only_readers.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 896,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e331_fx_ns_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e331_pointer_only_readers.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 913,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e331_fx_lo_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e331_pointer_only_readers.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 925,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e331_fx_bl_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e331_pointer_only_readers.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 943,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e331_fx_d_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e331_pointer_only_readers.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 956,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e331_fx_d2_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e331_pointer_only_readers.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 957,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e331_fx_cd_\")",
+   "callee_file": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+   "callee_function": "build",
+   "callee_line": 237,
+   "caller_file": "scripts/e331_pointer_only_readers.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 971,
+   "directory_parameters": [
+    "outdir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(outdir, name)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e222_\"), \"a\")",
+   "callee_file": "scripts/etf_book_ceo_page.py",
+   "callee_function": "_panel",
+   "callee_line": 1146,
+   "caller_file": "scripts/e222_tom_overlay.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 466,
+   "directory_parameters": [
+    "dirpath",
+    "symbol"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(dirpath, \"%s.csv\" % symbol)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e222_\"), \"b\")",
+   "callee_file": "scripts/etf_book_ceo_page.py",
+   "callee_function": "_panel",
+   "callee_line": 1146,
+   "caller_file": "scripts/e222_tom_overlay.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 502,
+   "directory_parameters": [
+    "dirpath",
+    "symbol"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(dirpath, \"%s.csv\" % symbol)"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e222_\"), \"e\")",
+   "callee_file": "scripts/etf_book_ceo_page.py",
+   "callee_function": "_panel",
+   "callee_line": 1146,
+   "caller_file": "scripts/e222_tom_overlay.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 568,
+   "directory_parameters": [
+    "dirpath",
+    "symbol"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(dirpath, \"%s.csv\" % symbol)"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 951,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 961,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 966,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 970,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 989,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1000,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1013,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1026,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1050,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1062,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp1_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1074,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp2_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp2.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1150,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp2_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp2.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1160,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp2_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp2.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1164,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp2_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp2.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1200,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp2_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp2.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1210,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp2_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp2.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1219,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp2_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp2.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1226,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp2_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp2.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1237,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp2_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp2.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1245,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp2_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp2.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1258,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"bp2_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/etf_ops_bp2.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1266,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"grid_df_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/grid_dualface_backtest.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1309,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"grid_df_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/grid_dualface_backtest.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1318,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"grid_df_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/grid_dualface_backtest.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1321,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"grid_df_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/grid_dualface_backtest.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1383,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"grid_df_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/grid_dualface_backtest.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1389,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"grid_df_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/grid_dualface_backtest.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1406,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"grid_df_st_\")",
+   "callee_file": "scripts/etf_ops_bp1.py",
+   "callee_function": "write_fixture",
+   "callee_line": 943,
+   "caller_file": "scripts/grid_dualface_backtest.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1414,
+   "directory_parameters": [
+    "d"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, \"daily\", \"st.csv\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"innovation_quota_w7_selftest_\"), \"daily\")",
+   "callee_file": "scripts/innovation_quota_w7.py",
+   "callee_function": "_mk_core48_fixture",
+   "callee_line": 1005,
+   "caller_file": "scripts/innovation_quota_w7.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1069,
+   "directory_parameters": [
+    "tmp"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(tmp, f\"{code}.csv\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"innovation_quota_w9_selftest_\"), \"daily\")",
+   "callee_file": "scripts/innovation_quota_w7.py",
+   "callee_function": "_mk_core48_fixture",
+   "callee_line": 1005,
+   "caller_file": "scripts/innovation_quota_w9.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1074,
+   "directory_parameters": [
+    "tmp"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(tmp, f\"{code}.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"lu_prem_st_\")",
+   "callee_file": "scripts/mass_trial_report.py",
+   "callee_function": "_write_fixture",
+   "callee_line": 261,
+   "caller_file": "scripts/lu_prem_census.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 424,
+   "directory_parameters": [
+    "mt_dir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "Path(mt_dir) / name"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"oghb_selftest_\"), \"out\")",
+   "callee_file": "scripts/overnight_gap_census.py",
+   "callee_function": "write_outputs",
+   "callee_line": 327,
+   "caller_file": "scripts/overnight_gap_hold_bridge.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 414,
+   "directory_parameters": [
+    "out_dir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "fpath -> os.path.join(out_dir, \"CENSUS-%s.json\" % face[\"evidence_cutoff\"])",
+    "os.path.join(out_dir, \"latest.json\")",
+    "os.path.join(out_dir, \"by_year.csv\")",
+    "os.path.join(out_dir, \"by_board.csv\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"ogc_selftest_\"), \"out\")",
+   "callee_file": "scripts/overnight_gap_census.py",
+   "callee_function": "write_outputs",
+   "callee_line": 327,
+   "caller_file": "scripts/overnight_gap_census.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 451,
+   "directory_parameters": [
+    "out_dir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "fpath -> os.path.join(out_dir, \"CENSUS-%s.json\" % face[\"evidence_cutoff\"])",
+    "os.path.join(out_dir, \"latest.json\")",
+    "os.path.join(out_dir, \"by_year.csv\")",
+    "os.path.join(out_dir, \"by_board.csv\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"scc_selftest_\"), \"out\")",
+   "callee_file": "scripts/overnight_gap_census.py",
+   "callee_function": "write_outputs",
+   "callee_line": 327,
+   "caller_file": "scripts/seasonal_calendar_census.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 649,
+   "directory_parameters": [
+    "out_dir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "fpath -> os.path.join(out_dir, \"CENSUS-%s.json\" % face[\"evidence_cutoff\"])",
+    "os.path.join(out_dir, \"latest.json\")",
+    "os.path.join(out_dir, \"by_year.csv\")",
+    "os.path.join(out_dir, \"by_board.csv\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"rev_census_selftest_\")",
+   "callee_file": "scripts/rev_osc_stock_p1.py",
+   "callee_function": "_mk_panel",
+   "callee_line": 812,
+   "caller_file": "scripts/refine_bench_rev_census.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 373,
+   "directory_parameters": [
+    "tmp"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(tmp, \"mask.csv\")",
+    "os.path.join(tmp, \"sse.parquet\")",
+    "os.path.join(cache, \"meta.json\") -> os.path.join(os.path.join(tmp, \"cache\"), \"meta.json\")",
+    "os.path.join(bars, c + \".parquet\") -> os.path.join(os.path.join(tmp, \"bars\"), c + \".parquet\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"rev_p2_selftest_\")",
+   "callee_file": "scripts/rev_osc_stock_p1.py",
+   "callee_function": "_mk_panel",
+   "callee_line": 812,
+   "caller_file": "scripts/refine_bench_rev_p2.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 617,
+   "directory_parameters": [
+    "tmp"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(tmp, \"mask.csv\")",
+    "os.path.join(tmp, \"sse.parquet\")",
+    "os.path.join(cache, \"meta.json\") -> os.path.join(os.path.join(tmp, \"cache\"), \"meta.json\")",
+    "os.path.join(bars, c + \".parquet\") -> os.path.join(os.path.join(tmp, \"bars\"), c + \".parquet\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"rev_osc_selftest_\")",
+   "callee_file": "scripts/rev_osc_stock_p1.py",
+   "callee_function": "_mk_panel",
+   "callee_line": 812,
+   "caller_file": "scripts/rev_osc_stock_p1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 857,
+   "directory_parameters": [
+    "tmp"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(tmp, \"mask.csv\")",
+    "os.path.join(tmp, \"sse.parquet\")",
+    "os.path.join(cache, \"meta.json\") -> os.path.join(os.path.join(tmp, \"cache\"), \"meta.json\")",
+    "os.path.join(bars, c + \".parquet\") -> os.path.join(os.path.join(tmp, \"bars\"), c + \".parquet\")"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"shs_selftest_\")",
+   "callee_file": "scripts/seasonal_horizon_stability.py",
+   "callee_function": "_toy_panel",
+   "callee_line": 356,
+   "caller_file": "scripts/seasonal_horizon_stability.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 419,
+   "directory_parameters": [
+    "tmp"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(tmp, \"symbols.json\")",
+    "os.path.join(tmp, \"meta.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"t24promo_\"), \"out\")",
+   "callee_file": "scripts/t24_prospect_promotion.py",
+   "callee_function": "_run_eval",
+   "callee_line": 154,
+   "caller_file": "scripts/t24_prospect_promotion.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 324,
+   "directory_parameters": [
+    "out_dir"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter",
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(out_dir, \"_summary.json\")",
+    "os.path.join(out_dir, f\"{t['id']}.json\")"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"t24promo_\"), \"traders\")",
+   "callee_file": "scripts/t24_prospect_promotion.py",
+   "callee_function": "_write_trader",
+   "callee_line": 252,
+   "caller_file": "scripts/t24_prospect_promotion.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 289,
+   "directory_parameters": [
+    "d",
+    "t"
+   ],
+   "write_class": "every_write_in_the_callee_composes_onto_the_supplied_directory",
+   "write_kinds": [
+    "composes_a_name_onto_a_directory_parameter"
+   ],
+   "write_paths": [
+    "os.path.join(d, f\"{t['id']}.json\")"
+   ]
+  },
+  {
+   "argument": "dict(json.load(open(os.path.join(tempfile.mkdtemp(prefix=\"_n4b1_st_\"), \"shard-0-of-6.json\"), encoding=\"utf-8\")))",
+   "callee_file": "Tools/_r1029bmc_close.py",
+   "callee_function": "dump",
+   "callee_line": 100,
+   "caller_file": "scripts/perpetual_faces_n4.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1141,
+   "directory_parameters": [
+    "p"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "p"
+   ]
+  },
+  {
+   "argument": "dict(json.load(open(os.path.join(tempfile.mkdtemp(prefix=\"_n4b1_st_\"), \"shard-0-of-6.json\"), encoding=\"utf-8\")))",
+   "callee_file": "Tools/_r1029bmc_close.py",
+   "callee_function": "dump",
+   "callee_line": 100,
+   "caller_file": "scripts/perpetual_faces_n4.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1145,
+   "directory_parameters": [
+    "p"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "p"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e111_\")",
+   "callee_file": "Tools/_r1164bmb_push.py",
+   "callee_function": "write_json",
+   "callee_line": 18,
+   "caller_file": "scripts/e111_face_factor_stamp.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 183,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "tempfile.mkdtemp(prefix=\"e111_\")",
+   "callee_file": "Tools/_r1164bmb_push.py",
+   "callee_function": "write_json",
+   "callee_line": 18,
+   "caller_file": "scripts/e111_face_factor_stamp.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 189,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"a158_tmp_\", dir=tempfile.gettempdir()), \"mask.npy\")",
+   "callee_file": "Tools/_r1390_addendum.py",
+   "callee_function": "save",
+   "callee_line": 33,
+   "caller_file": "scripts/a158_truegap_ic.py",
+   "caller_function": "run",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 699,
+   "directory_parameters": [
+    "p"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "p"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"a158_tmp_\", dir=tempfile.gettempdir()), \"dates.npy\")",
+   "callee_file": "Tools/_r1390_addendum.py",
+   "callee_function": "save",
+   "callee_line": 33,
+   "caller_file": "scripts/a158_truegap_ic.py",
+   "caller_function": "run",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 701,
+   "directory_parameters": [
+    "p"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "p"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"a158_tmp_\", dir=tempfile.gettempdir()), f\"fwd{h}.npy\")",
+   "callee_file": "Tools/_r1390_addendum.py",
+   "callee_function": "save",
+   "callee_line": 33,
+   "caller_file": "scripts/a158_truegap_ic.py",
+   "caller_function": "run",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 705,
+   "directory_parameters": [
+    "p"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "p"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"xstock_z_test_\"), \"roundtrip.npy\")",
+   "callee_file": "Tools/_r1390_addendum.py",
+   "callee_function": "save",
+   "callee_line": 33,
+   "caller_file": "scripts/xstock_synth.py",
+   "caller_function": "run_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 775,
+   "directory_parameters": [
+    "p"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "p"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"xstock_z_test_\"), nm + \".npy\")",
+   "callee_file": "Tools/_r1390_addendum.py",
+   "callee_function": "save",
+   "callee_line": 33,
+   "caller_file": "scripts/xstock_synth.py",
+   "caller_function": "run_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 793,
+   "directory_parameters": [
+    "p"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "p"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"xstock_z_test_\"), \"close.npy\")",
+   "callee_file": "Tools/_r1390_addendum.py",
+   "callee_function": "save",
+   "callee_line": 33,
+   "caller_file": "scripts/xstock_synth.py",
+   "caller_function": "run_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 805,
+   "directory_parameters": [
+    "p"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "p"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"wild_route_selftest_cache_\"), \"dates.npy\")",
+   "callee_file": "Tools/_r1390_addendum.py",
+   "callee_function": "save",
+   "callee_line": 33,
+   "caller_file": "scripts/wild_route_lab.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1351,
+   "directory_parameters": [
+    "p"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "p"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"wild_route_selftest_cache_\"), f + \".npy\")",
+   "callee_file": "Tools/_r1390_addendum.py",
+   "callee_function": "save",
+   "callee_line": 33,
+   "caller_file": "scripts/wild_route_lab.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 1355,
+   "directory_parameters": [
+    "p"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "p"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 362,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 370,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 378,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 385,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 393,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 399,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 401,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 408,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 415,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 422,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 430,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 444,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 462,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 484,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "Tools/heartbeat_write.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 507,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "\"\\n\".join(open(os.path.join(tempfile.mkdtemp(prefix=\"t54_fin_\"), \"cells_deep_base_dB.jsonl\"), encoding=\"utf-8\").read().splitlines()) + \"\\n\"",
+   "callee_file": "Tools/_r195_rebase_resolve.py",
+   "callee_function": "write",
+   "callee_line": 56,
+   "caller_file": "scripts/t54_prospect_grid.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 625,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"pda_\"), \"results\", \"runnable_pool.json\")",
+   "callee_file": "Tools/pool_deliverable_audit.py",
+   "callee_function": "apply_close",
+   "callee_line": 241,
+   "caller_file": "Tools/pool_deliverable_audit.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 388,
+   "directory_parameters": [
+    "pool_path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "pool_path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"pda_\"), \"results\", \"runnable_pool.json\")",
+   "callee_file": "Tools/pool_deliverable_audit.py",
+   "callee_function": "apply_close",
+   "callee_line": 241,
+   "caller_file": "Tools/pool_deliverable_audit.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 404,
+   "directory_parameters": [
+    "pool_path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "pool_path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"pda_\"), \"results\", \"runnable_pool.json\")",
+   "callee_file": "Tools/pool_deliverable_audit.py",
+   "callee_function": "apply_close",
+   "callee_line": 241,
+   "caller_file": "Tools/pool_deliverable_audit.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 446,
+   "directory_parameters": [
+    "pool_path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "pool_path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e392_\"), \"out\")",
+   "callee_file": "_r1119bmb_closeout.py",
+   "callee_function": "write_face",
+   "callee_line": 94,
+   "caller_file": "scripts/e392_read_resolve.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 737,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e392_\"), \"out\")",
+   "callee_file": "_r1119bmb_closeout.py",
+   "callee_function": "write_face",
+   "callee_line": 94,
+   "caller_file": "scripts/e392_read_resolve.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 742,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"e392_\"), \"out\")",
+   "callee_file": "_r1119bmb_closeout.py",
+   "callee_function": "write_face",
+   "callee_line": 94,
+   "caller_file": "scripts/e392_read_resolve.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 747,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "(\"product written\", os.path.exists(os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"member_reinforce_selftest_\"), \"out\"), \"MEMBER-REINFORCE-P1.json\")))",
+   "callee_file": "_r1191bmb_closeout.py",
+   "callee_function": "append",
+   "callee_line": 42,
+   "caller_file": "scripts/member_reinforce_p1.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 708,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"xstock_z_test_\"), nm + \".npy\")",
+   "callee_file": "_r1191bmb_closeout.py",
+   "callee_function": "append",
+   "callee_line": 42,
+   "caller_file": "scripts/xstock_synth.py",
+   "caller_function": "run_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 794,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "['git', 'commit-tree', tree, '-p', base, '-F', tempfile.mktemp(prefix='r1191bmb_msg_')]",
+   "callee_file": "scripts/e110_burncontrol_close.py",
+   "callee_function": "run",
+   "callee_line": 104,
+   "caller_file": "_r1191bmb_groupcas.py",
+   "caller_function": "<module>",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 58,
+   "directory_parameters": [
+    "out_path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "out_path"
+   ]
+  },
+  {
+   "argument": "[sys.executable, os.path.join(os.path.join(tempfile.mkdtemp(prefix=f'n1w{wave}face_'), 'r'), a.editor)]",
+   "callee_file": "scripts/e110_burncontrol_close.py",
+   "callee_function": "run",
+   "callee_line": 104,
+   "caller_file": "Tools/n1_freeze_face_adjudicate.py",
+   "caller_function": "main",
+   "caller_kind": "reached_from_a_production_caller",
+   "caller_line": 194,
+   "directory_parameters": [
+    "out_path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "out_path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"e221_\"), \"panel\"), \"sh%06d.csv\" % (510000 + s))",
+   "callee_file": "scripts/e221_dom_profile.py",
+   "callee_function": "_write_csv",
+   "callee_line": 327,
+   "caller_file": "scripts/e221_dom_profile.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 365,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"e221_\"), \"mixed\"), \"sh%06d.csv\" % (530000 + s))",
+   "callee_file": "scripts/e221_dom_profile.py",
+   "callee_function": "_write_csv",
+   "callee_line": 327,
+   "caller_file": "scripts/e221_dom_profile.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 410,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"e221_\"), \"holey\"), \"sz%06d.csv\" % (159000 + s))",
+   "callee_file": "scripts/e221_dom_profile.py",
+   "callee_function": "_write_csv",
+   "callee_line": 327,
+   "caller_file": "scripts/e221_dom_profile.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 437,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"e221_\"), \"thin\"), \"sh%06d.csv\" % (520000 + s))",
+   "callee_file": "scripts/e221_dom_profile.py",
+   "callee_function": "_write_csv",
+   "callee_line": 327,
+   "caller_file": "scripts/e221_dom_profile.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 447,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"e222_\"), \"c\"), \"noisy.csv\")",
+   "callee_file": "scripts/e221_dom_profile.py",
+   "callee_function": "_write_csv",
+   "callee_line": 327,
+   "caller_file": "scripts/e222_tom_overlay.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 531,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"e222_\"), \"d\"), \"thin.csv\")",
+   "callee_file": "scripts/e221_dom_profile.py",
+   "callee_function": "_write_csv",
+   "callee_line": 327,
+   "caller_file": "scripts/e222_tom_overlay.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 555,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"e222_\"), \"f\"), \"a.csv\")",
+   "callee_file": "scripts/e221_dom_profile.py",
+   "callee_function": "_write_csv",
+   "callee_line": 327,
+   "caller_file": "scripts/e222_tom_overlay.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 591,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"e222_\"), \"f\"), \"b.csv\")",
+   "callee_file": "scripts/e221_dom_profile.py",
+   "callee_function": "_write_csv",
+   "callee_line": 327,
+   "caller_file": "scripts/e222_tom_overlay.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 592,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"ogc_selftest_\"), \"per\"), \"600000.csv\")",
+   "callee_file": "scripts/overnight_gap_census.py",
+   "callee_function": "_syn_file",
+   "callee_line": 363,
+   "caller_file": "scripts/overnight_gap_census.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 378,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"ogc_selftest_\"), \"per\"), \"000001.csv\")",
+   "callee_file": "scripts/overnight_gap_census.py",
+   "callee_function": "_syn_file",
+   "callee_line": 363,
+   "caller_file": "scripts/overnight_gap_census.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 384,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"oghb_selftest_\"), \"per\"), \"600000.csv\")",
+   "callee_file": "scripts/overnight_gap_census.py",
+   "callee_function": "_syn_file",
+   "callee_line": 363,
+   "caller_file": "scripts/overnight_gap_hold_bridge.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 388,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"oghb_selftest_\"), \"per\"), \"000001.csv\")",
+   "callee_file": "scripts/overnight_gap_census.py",
+   "callee_function": "_syn_file",
+   "callee_line": 363,
+   "caller_file": "scripts/overnight_gap_hold_bridge.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 389,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"ogc_selftest_\"), \"per\"), \"688001.csv\")",
+   "callee_file": "scripts/overnight_gap_census.py",
+   "callee_function": "_syn_file",
+   "callee_line": 363,
+   "caller_file": "scripts/overnight_gap_census.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 391,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"oghb_selftest_\"), \"per2\"), \"600000.csv\")",
+   "callee_file": "scripts/overnight_gap_census.py",
+   "callee_function": "_syn_file",
+   "callee_line": 363,
+   "caller_file": "scripts/overnight_gap_hold_bridge.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 423,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(os.path.join(tempfile.mkdtemp(prefix=\"oghb_selftest_\"), \"per2\"), \"688999.csv\")",
+   "callee_file": "scripts/overnight_gap_census.py",
+   "callee_function": "_syn_file",
+   "callee_line": 363,
+   "caller_file": "scripts/overnight_gap_hold_bridge.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 424,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(tempfile.mkdtemp(prefix=\"leg3st_\"), f\"{code}.csv\")",
+   "callee_file": "scripts/overnight_gap_census.py",
+   "callee_function": "_syn_file",
+   "callee_line": 363,
+   "caller_file": "scripts/overnight_gap_conditioned.py",
+   "caller_function": "selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 503,
+   "directory_parameters": [
+    "path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "path"
+   ]
+  },
+  {
+   "argument": "os.path.join(_tf18.mkdtemp(prefix=\"w14lock_\"), \"judge_shard0of1.lock\")",
+   "callee_file": "scripts/trial_labor_w14.py",
+   "callee_function": "_judge_lock_acquire",
+   "callee_line": 3865,
+   "caller_file": "scripts/trial_labor_w14.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 5319,
+   "directory_parameters": [
+    "lock_path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "lock_path"
+   ]
+  },
+  {
+   "argument": "os.path.join(_tf18.mkdtemp(prefix=\"w14lock_\"), \"judge_shard0of1.lock\")",
+   "callee_file": "scripts/trial_labor_w14.py",
+   "callee_function": "_judge_lock_acquire",
+   "callee_line": 3865,
+   "caller_file": "scripts/trial_labor_w14.py",
+   "caller_function": "cmd_selftest",
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "caller_line": 5323,
+   "directory_parameters": [
+    "lock_path"
+   ],
+   "write_class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+   "write_kinds": [
+    "names_a_directory_parameter_without_composing_onto_it"
+   ],
+   "write_paths": [
+    "lock_path"
+   ]
+  }
+ ],
+ "study": "E438_which_temp_supplying_call_row_spends_a_directory_the_callee_never_writes",
+ "summary": {
+  "callees_by_write_class": {
+   "every_write_in_the_callee_composes_onto_the_supplied_directory": 14,
+   "no_write_in_the_callee_names_the_directory": 0,
+   "one_write_composes_onto_the_directory_and_one_does_not": 0,
+   "the_callee_names_the_directory_in_a_write_but_composes_nothing_onto_it": 0,
+   "the_callee_site_could_not_be_resolved_from_the_scan": 0,
+   "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot": 11
+  },
+  "corpus_sources": 3452,
+  "directory_parameter_call_rows": 27718,
+  "directory_passed_to_a_file_path_parameter": {
+   "call_rows": 56,
+   "callees": [
+    [
+     "Tools/_r1029bmc_close.py",
+     "dump"
+    ],
+    [
+     "Tools/_r1164bmb_push.py",
+     "write_json"
+    ],
+    [
+     "Tools/_r1390_addendum.py",
+     "save"
+    ],
+    [
+     "Tools/_r195_rebase_resolve.py",
+     "write"
+    ],
+    [
+     "Tools/pool_deliverable_audit.py",
+     "apply_close"
+    ],
+    [
+     "_r1119bmb_closeout.py",
+     "write_face"
+    ],
+    [
+     "_r1191bmb_closeout.py",
+     "append"
+    ],
+    [
+     "scripts/e110_burncontrol_close.py",
+     "run"
+    ],
+    [
+     "scripts/e221_dom_profile.py",
+     "_write_csv"
+    ],
+    [
+     "scripts/overnight_gap_census.py",
+     "_syn_file"
+    ],
+    [
+     "scripts/trial_labor_w14.py",
+     "_judge_lock_acquire"
+    ]
+   ],
+   "distinct_callees": 11,
+   "reading": "these call rows hand a directory to a callee whose only write is the parameter path itself (json.dump/save/write_json wrappers); the directory lands on a file slot, so nothing is written inside it and the call would fail if it ever ran against the real path"
+  },
+  "distinct_callees": 25,
+  "non_spending_callees": [
+   [
+    "_judge_lock_acquire",
+    "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot"
+   ],
+   [
+    "_syn_file",
+    "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot"
+   ],
+   [
+    "_write_csv",
+    "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot"
+   ],
+   [
+    "append",
+    "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot"
+   ],
+   [
+    "apply_close",
+    "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot"
+   ],
+   [
+    "dump",
+    "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot"
+   ],
+   [
+    "run",
+    "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot"
+   ],
+   [
+    "save",
+    "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot"
+   ],
+   [
+    "write",
+    "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot"
+   ],
+   [
+    "write_face",
+    "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot"
+   ],
+   [
+    "write_json",
+    "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot"
+   ]
+  ],
+  "non_spending_examples": [
+   {
+    "callee": "dump",
+    "caller_file": "scripts/perpetual_faces_n4.py",
+    "caller_line": 1141,
+    "class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+    "parameters": [
+     "p"
+    ],
+    "writes": [
+     "p"
+    ]
+   },
+   {
+    "callee": "dump",
+    "caller_file": "scripts/perpetual_faces_n4.py",
+    "caller_line": 1145,
+    "class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+    "parameters": [
+     "p"
+    ],
+    "writes": [
+     "p"
+    ]
+   },
+   {
+    "callee": "write_json",
+    "caller_file": "scripts/e111_face_factor_stamp.py",
+    "caller_line": 183,
+    "class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+    "parameters": [
+     "path"
+    ],
+    "writes": [
+     "path"
+    ]
+   },
+   {
+    "callee": "write_json",
+    "caller_file": "scripts/e111_face_factor_stamp.py",
+    "caller_line": 189,
+    "class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+    "parameters": [
+     "path"
+    ],
+    "writes": [
+     "path"
+    ]
+   },
+   {
+    "callee": "save",
+    "caller_file": "scripts/a158_truegap_ic.py",
+    "caller_line": 699,
+    "class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+    "parameters": [
+     "p"
+    ],
+    "writes": [
+     "p"
+    ]
+   },
+   {
+    "callee": "save",
+    "caller_file": "scripts/a158_truegap_ic.py",
+    "caller_line": 701,
+    "class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+    "parameters": [
+     "p"
+    ],
+    "writes": [
+     "p"
+    ]
+   },
+   {
+    "callee": "save",
+    "caller_file": "scripts/a158_truegap_ic.py",
+    "caller_line": 705,
+    "class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+    "parameters": [
+     "p"
+    ],
+    "writes": [
+     "p"
+    ]
+   },
+   {
+    "callee": "save",
+    "caller_file": "scripts/xstock_synth.py",
+    "caller_line": 775,
+    "class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+    "parameters": [
+     "p"
+    ],
+    "writes": [
+     "p"
+    ]
+   },
+   {
+    "callee": "save",
+    "caller_file": "scripts/xstock_synth.py",
+    "caller_line": 793,
+    "class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+    "parameters": [
+     "p"
+    ],
+    "writes": [
+     "p"
+    ]
+   },
+   {
+    "callee": "save",
+    "caller_file": "scripts/xstock_synth.py",
+    "caller_line": 805,
+    "class": "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot",
+    "parameters": [
+     "p"
+    ],
+    "writes": [
+     "p"
+    ]
+   }
+  ],
+  "parameter_write_sites": 310,
+  "rows_by_caller_kind": {
+   "reached_from_a_production_caller": 25,
+   "reached_only_from_a_selftest_caller": 178
+  },
+  "rows_by_write_class": {
+   "every_write_in_the_callee_composes_onto_the_supplied_directory": 147,
+   "no_write_in_the_callee_names_the_directory": 0,
+   "one_write_composes_onto_the_directory_and_one_does_not": 0,
+   "the_callee_names_the_directory_in_a_write_but_composes_nothing_onto_it": 0,
+   "the_callee_site_could_not_be_resolved_from_the_scan": 0,
+   "the_callee_writes_the_parameter_path_itself_so_its_parameter_is_a_file_path_and_the_directory_lands_on_a_file_slot": 56
+  },
+  "rows_that_really_spend_the_directory": 147,
+  "share_of_rows_that_really_spend_it": 0.7241,
+  "temp_supplying_call_rows": 203,
+  "upper_bound_shrink": {
+   "after_grading": 147,
+   "as_published_by_E437": 203,
+   "overstatement": 56
+  }
+ },
+ "title": "grade every temp-supplying directory-parameter call row by whether the callee's write paths compose a name onto the supplied directory",
+ "verdict": "some_temp_supplying_call_rows_reach_a_callee_that_never_writes_inside_the_supplied_directory",
+ "write_kind_vocab": [
+  "composes_a_name_onto_a_directory_parameter",
+  "names_a_directory_parameter_without_composing_onto_it",
+  "does_not_name_any_directory_parameter"
+ ]
+}

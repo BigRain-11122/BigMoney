@@ -27740,11 +27740,30 @@
    "lane": "cpu-only",
    "lane_note": "static AST over the same corpus; no writer or reader is run",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "owner": null,
    "source": "E437 (r1456 bm-b): the temp label is a text test on the argument, so whether the callee writes into it is unmeasured",
    "entered_at": "2026-11-05T13:0x+08:00",
-   "entered_by": "bm-b r1456 (supply floor refill after E437)"
+   "entered_by": "bm-b r1456 (supply floor refill after E437)",
+   "claimed_by": "bm-b",
+   "closed_by": "bm-b",
+   "closed_at": "2026-11-05T14:3x+08:00",
+   "result_ref": "results/state_tilt/tempwritebase_latest.json",
+   "outcome": "E437 203 temp-supplying call rows graded by the write paths inside each callee: 147 (72.4%) write inside the supplied directory, 0 write elsewhere, and 56 hand a directory to a wrapper whose only write is the parameter path itself (a file slot). The temp population is an upper bound by 86 rows. Grading the raw text alone called 30 of those rows partial; resolving through the function bindings moved all 30 inside."
+  },
+  {
+   "id": "E439-WHICH-FILE-PATH-WRAPPER-IS-CALLED-WITH-A-DIRECTORY-AND-FROM-WHERE",
+   "title": "E438 classed 56 call rows that hand a directory to a callee whose only write is the parameter path itself, across 11 wrapper functions (dump/save/write_json/_write_csv). Price that class: for each such wrapper, how many call rows exist in the corpus that pass a directory-shaped argument, how many of those callers are production rather than selftest, and does any of them pass a directory that a temp marker would produce",
+   "question": "how large is the directory-onto-a-file-slot defect once measured at the call slot rather than at the temp rows",
+   "deliverable": "results/state_tilt/FILESLOT-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the same corpus; no writer or reader is run",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E438 (r1457 bm-b): 56 of 203 temp rows land on a file-path parameter; the corpus-wide size of that class is unmeasured",
+   "entered_at": "2026-11-05T14:3x+08:00",
+   "entered_by": "bm-b r1457 (supply floor refill after E438)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27759,6 +27778,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-05T13:0x+08:00",
+ "updated_at": "2026-11-05T14:3x+08:00",
  "version": 1
 }

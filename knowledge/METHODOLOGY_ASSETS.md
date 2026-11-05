@@ -10602,3 +10602,27 @@ verdict, face restored byte-identical `f0860814109e4c08`); S6 leg `name_recall` 
 proven to resolve; the chain invocation itself was cut by the CLI's 5-minute no-output window, not
 by a failure -- the same verify completed standalone with rc=0); digest
 `research/digests/DIGEST-20261105-r1456-e437-name-recall.md`.
+
+## E438 — a population is not spent until the callee writes inside it (r1457 bm-b, card E438)
+
+**Card.** A call row that passes a temp directory says what the *caller* handed over, not what the
+*callee* did with it. E437 had 203 such rows and every later sentence inherited them as writers;
+grading the write paths inside each callee left 147 (72.4 %) and moved 56 into a class the
+population could not name in advance.
+
+**Three rules.** (a) *Price a population at the act, not at the token that describes it*: "supplies
+a temp directory" and "writes inside a temp directory" are different measurements, and the second
+one needs the callee's own body. (b) *Indirection is not absence*: a first draft graded
+`open(hp, "w")` as an outside write although the same function bound `hp = os.path.join(root, ...)`
+five lines above -- resolve the write text through the function's own bindings before calling it
+outside, and the 30 rows that looked partial all resolve to inside. (c) *A class that only exists
+because the instrument is coarse is not a finding*: the 56 residual rows were one repeated pattern
+(a `dump(p)/save(p)/write_json(path)` wrapper whose only write is the parameter path, so a caller
+that passes a directory is passing it to a file slot), and they are published as that class rather
+than as "callees that never write".
+
+**Delivered.** `scripts/e438_temp_write_base.py` (selftest 23/23, `verify problems=[]`, population
+imported from E437 rather than re-derived -- rebuilding reproduces 203 of 27,718 rows, which is the
+check that the two studies share a population); face
+`results/state_tilt/tempwritebase_latest.json`; smoke leg `# E438 (r1457 bm-b)`; digest
+`research/digests/DIGEST-20261105-r1457-e438-temp-write-base.md`.
