@@ -1,0 +1,2497 @@
+{
+ "card": "E448-WHICH-COMPOSED-AND-DROPPED-PATH-IS-STILL-WRITTEN-BY-ANOTHER-BRANCH",
+ "evidence_cutoff": "2026-11-06",
+ "generated": "2026-11-06",
+ "method_limits": [
+  "the parent is a string prefix of the composed key, not a filesystem question: a parent that a `..` segment or a glob pattern defeats is graded as if it were literal",
+  "resolution only follows a string literal or a module-level constant of the same file; a parent built from a parameter, a temp dir or a config read is published as parent_not_resolvable and is never counted as an orphan",
+  "superseded means 'some open in this file lands under that parent' -- it does not mean the intended artifact exists; the basis column separates an exact re-open of the same path from a sibling open, and a file that writes many artifacts under one parent will mark every drop there as superseded",
+  "openers are recognised by a frozen tail vocabulary (open/read_*/write_*/to_*/load/dump/mkdir/remove/...); an opener reached through an alias (`op = open`) is not in it",
+  "a text join is only excluded when the receiver is a string constant; `sep.join(...)` on a variable receiver is still read as a path composition",
+  "static only: nothing is executed, so an open performed inside a helper called from this file is invisible here"
+ ],
+ "rows": [
+  {
+   "basis": null,
+   "binding": "S6LOG",
+   "class": "opened_nowhere_in_the_file",
+   "col": 8,
+   "composed_key": "results/_r504bmc_s6_log.txt",
+   "expression": "os.path.join(ROOT, \"results\", \"_r504bmc_s6_log.txt\")",
+   "file": "Tools/_r504bmc_close.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 17,
+   "on_disk": true,
+   "openers_in_file": 15,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "proc",
+   "class": "parent_not_resolvable",
+   "col": 11,
+   "composed_key": null,
+   "expression": "os.path.join(inbox, \"processed\")",
+   "file": "Tools/_r504bmc_inbox.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 13,
+   "on_disk": null,
+   "openers_in_file": 7,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "main"
+  },
+  {
+   "basis": "sibling_under_parent",
+   "binding": "MSGFILE",
+   "class": "superseded_by_a_wider_open",
+   "col": 10,
+   "composed_key": "K:/Fluxgroup/FluxGroup/quant/bigmoney/_r702bmc_s0j_commitmsg.txt",
+   "expression": "os.path.join(REPO, \"_r702bmc_s0j_commitmsg.txt\")",
+   "file": "Tools/_r702bmc_s0j_pullpush.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "K:/Fluxgroup/FluxGroup/quant/bigmoney/results/_r702bmc_s0i_facts.json",
+     "line": 153,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "K:/Fluxgroup/FluxGroup/quant/bigmoney/results/_r702bmc_s0i_facts.json",
+     "line": 157,
+     "mode": "write"
+    }
+   ],
+   "ignored_hits": [
+    {
+     "callee": "open",
+     "key": "K:/Fluxgroup/FluxGroup/quant/bigmoney/.git/rebase-merge/author-script",
+     "line": 39,
+     "mode": "read"
+    },
+    {
+     "callee": "os.path.isdir",
+     "key": "K:/Fluxgroup/FluxGroup/quant/bigmoney/.git/rebase-merge",
+     "line": 83,
+     "mode": "read"
+    }
+   ],
+   "line": 17,
+   "on_disk": false,
+   "openers_in_file": 9,
+   "parent_key": "K:/Fluxgroup/FluxGroup/quant/bigmoney",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "G1",
+   "class": "opened_nowhere_in_the_file",
+   "col": 5,
+   "composed_key": "K:/Fluxgroup/FluxGroup/quant/bigmoney/results/_r746bmc_merge_gates.json",
+   "expression": "os.path.join(ROOT, \"results\", \"_r746bmc_merge_gates.json\")",
+   "file": "Tools/_r746bmc_merge_close2.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 17,
+   "on_disk": false,
+   "openers_in_file": 8,
+   "parent_key": "K:/Fluxgroup/FluxGroup/quant/bigmoney/results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "text",
+   "class": "not_a_path_composition",
+   "col": 11,
+   "composed_key": null,
+   "expression": "\"\\n\".join(lines_out)",
+   "file": "Tools/_r767bmc_ord_diff.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 70,
+   "note": "the receiver is a string constant: this is a text join, not a path",
+   "on_disk": null,
+   "openers_in_file": 1,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "main"
+  },
+  {
+   "basis": null,
+   "binding": "MASS_JUDGE",
+   "class": "opened_nowhere_in_the_file",
+   "col": 13,
+   "composed_key": "results/mass_trial/w3_judge.json",
+   "expression": "os.path.join(ROOT, \"results\", \"mass_trial\", \"w3_judge.json\")",
+   "file": "Tools/_r788bmc_w17_freeze_facts.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 70,
+   "on_disk": true,
+   "openers_in_file": 40,
+   "parent_key": "results/mass_trial",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "proc_dir",
+   "class": "opened_nowhere_in_the_file",
+   "col": 11,
+   "composed_key": "K:/Fluxgroup/FluxGroup/quant/bigmoney/fleet/inbox/processed",
+   "expression": "os.path.join(inbox_dir, 'processed')",
+   "file": "Tools/_r825bmc_s05.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 45,
+   "on_disk": false,
+   "openers_in_file": 12,
+   "parent_key": "K:/Fluxgroup/FluxGroup/quant/bigmoney/fleet/inbox",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "STRAND",
+   "class": "parent_not_resolvable",
+   "col": 17,
+   "composed_key": null,
+   "expression": "os.path.join(tmp, \"claim_strand.json\")",
+   "file": "Tools/autofill.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 2737,
+   "on_disk": null,
+   "openers_in_file": 479,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "selftest"
+  },
+  {
+   "basis": null,
+   "binding": "RESULTS",
+   "class": "parent_not_resolvable",
+   "col": 18,
+   "composed_key": null,
+   "expression": "os.path.join(tmp, \"results\")",
+   "file": "Tools/lane_round_liveness.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 324,
+   "on_disk": null,
+   "openers_in_file": 26,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "LIVECHECK_EVIDENCE",
+   "class": "opened_nowhere_in_the_file",
+   "col": 21,
+   "composed_key": "results/_r714bmc_oss_import_gate_livecheck.json",
+   "expression": "os.path.join(ROOT, \"results\", \"_r714bmc_oss_import_gate_livecheck.json\")",
+   "file": "Tools/oss_import_gate.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 65,
+   "on_disk": true,
+   "openers_in_file": 24,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "STATE_SHARED",
+   "class": "parent_not_resolvable",
+   "col": 23,
+   "composed_key": null,
+   "expression": "os.path.join(tmp, \"dispatcher_state.json\")",
+   "file": "Tools/resident_dispatcher.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 398,
+   "on_disk": null,
+   "openers_in_file": 35,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "selftest"
+  },
+  {
+   "basis": null,
+   "binding": "block",
+   "class": "not_a_path_composition",
+   "col": 12,
+   "composed_key": null,
+   "expression": "'\\r\\n'.join(sl)",
+   "file": "_r839bmc_pit_protocol_split.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 60,
+   "note": "the receiver is a string constant: this is a text join, not a path",
+   "on_disk": null,
+   "openers_in_file": 8,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "<module>"
+  },
+  {
+   "basis": "sibling_under_parent",
+   "binding": "sheet_p",
+   "class": "superseded_by_a_wider_open",
+   "col": 10,
+   "composed_key": "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r998_ep001_003/AUDITION-SHEET-r999.md",
+   "expression": "os.path.join(BASE, 'AUDITION-SHEET-r999.md')",
+   "file": "_r999bmb_voice_audition.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.remove",
+     "key": "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r998_ep001_003/_sil06.wav",
+     "line": 126,
+     "mode": "write"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 187,
+   "on_disk": true,
+   "openers_in_file": 26,
+   "parent_key": "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r998_ep001_003",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "VOICE_BANK",
+   "class": "opened_nowhere_in_the_file",
+   "col": 13,
+   "composed_key": "content/drama/voice_bank/manifest.json",
+   "expression": "os.path.join(ROOT, 'content', 'drama', 'voice_bank', 'manifest.json')",
+   "file": "content/drama/runner_assets/st012_character_lora_train.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 56,
+   "on_disk": true,
+   "openers_in_file": 74,
+   "parent_key": "content/drama/voice_bank",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "CELLS_DIR",
+   "class": "parent_not_resolvable",
+   "col": 20,
+   "composed_key": null,
+   "expression": "os.path.join(td, \"cells\")",
+   "file": "scripts/alloc_backtest.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 846,
+   "on_disk": null,
+   "openers_in_file": 28,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "CKPT_DIR",
+   "class": "parent_not_resolvable",
+   "col": 15,
+   "composed_key": null,
+   "expression": "os.path.join(tempfile.gettempdir(), \"cnrot_selftest_ckpt\")",
+   "file": "scripts/cn_div_lowvol_rot_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 1442,
+   "on_disk": null,
+   "openers_in_file": 29,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "selftest"
+  },
+  {
+   "basis": null,
+   "binding": "MASK",
+   "class": "parent_not_resolvable",
+   "col": 11,
+   "composed_key": null,
+   "expression": "os.path.join(tmp, \"mask.csv\")",
+   "file": "scripts/cn_kline_pattern_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 1124,
+   "on_disk": null,
+   "openers_in_file": 52,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "SSE",
+   "class": "parent_not_resolvable",
+   "col": 10,
+   "composed_key": null,
+   "expression": "os.path.join(tmp, \"sse.parquet\")",
+   "file": "scripts/cn_kline_pattern_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 1125,
+   "on_disk": null,
+   "openers_in_file": 52,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": "exact_path",
+   "binding": "OUT_CSV",
+   "class": "superseded_by_a_wider_open",
+   "col": 14,
+   "composed_key": "results/cn_kline_pattern/cells_summary.csv",
+   "expression": "os.path.join(OUT_DIR, \"cells_summary.csv\")",
+   "file": "scripts/cn_kline_pattern_p1.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/cn_kline_pattern/p1_results.json",
+     "line": 843,
+     "mode": "read"
+    },
+    {
+     "basis": "exact_path",
+     "callee": "to_csv",
+     "key": "results/cn_kline_pattern/cells_summary.csv",
+     "line": 937,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_kline_pattern/cells",
+     "line": 953,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_kline_pattern/nulls",
+     "line": 954,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_kline_pattern/cells",
+     "line": 1132,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_kline_pattern/nulls",
+     "line": 1133,
+     "mode": "write"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 1130,
+   "on_disk": true,
+   "openers_in_file": 52,
+   "parent_key": "results/cn_kline_pattern",
+   "parent_resolved": true,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "MASK",
+   "class": "parent_not_resolvable",
+   "col": 11,
+   "composed_key": null,
+   "expression": "os.path.join(tmp, \"mask.csv\")",
+   "file": "scripts/cn_mkneutral_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 1317,
+   "on_disk": null,
+   "openers_in_file": 75,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "SSE",
+   "class": "parent_not_resolvable",
+   "col": 10,
+   "composed_key": null,
+   "expression": "os.path.join(tmp, \"sse.parquet\")",
+   "file": "scripts/cn_mkneutral_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 1318,
+   "on_disk": null,
+   "openers_in_file": 75,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": "exact_path",
+   "binding": "OUT_CSV",
+   "class": "superseded_by_a_wider_open",
+   "col": 14,
+   "composed_key": "results/cn_mkneutral/cells_summary.csv",
+   "expression": "os.path.join(OUT_DIR, \"cells_summary.csv\")",
+   "file": "scripts/cn_mkneutral_p1.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_mkneutral/sobol",
+     "line": 870,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/cn_mkneutral/p1_results.json",
+     "line": 953,
+     "mode": "read"
+    },
+    {
+     "basis": "exact_path",
+     "callee": "to_csv",
+     "key": "results/cn_mkneutral/cells_summary.csv",
+     "line": 1084,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_mkneutral/cells",
+     "line": 1102,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_mkneutral/nulls",
+     "line": 1103,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_mkneutral/cells",
+     "line": 1339,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_mkneutral/nulls",
+     "line": 1340,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_mkneutral/sobol",
+     "line": 1341,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.listdir",
+     "key": "results/cn_mkneutral/sobol",
+     "line": 1613,
+     "mode": "dir"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 1337,
+   "on_disk": true,
+   "openers_in_file": 75,
+   "parent_key": "results/cn_mkneutral",
+   "parent_resolved": true,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": "sibling_under_parent",
+   "binding": "PROBE",
+   "class": "superseded_by_a_wider_open",
+   "col": 8,
+   "composed_key": "results/cn_regime_policy_probe.json",
+   "expression": "os.path.join(ROOT, \"results\", \"cn_regime_policy_probe.json\")",
+   "file": "scripts/cn_regime_policy_p1.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_regime_policy",
+     "line": 145,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/cn_regime_policy/runner.log",
+     "line": 146,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_regime_policy",
+     "line": 506,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "np.savez",
+     "key": "results/cn_regime_policy/sims.npz",
+     "line": 514,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "np.load",
+     "key": "results/cn_regime_policy/sims.npz",
+     "line": 549,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/cn_regime_policy/p1_results.json",
+     "line": 574,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/gate_attrition.json",
+     "line": 948,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/gate_attrition.json",
+     "line": 971,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_regime_policy",
+     "line": 1065,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/cn_regime_policy/p1_results.json",
+     "line": 1066,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/cn_regime_policy/variants.csv",
+     "line": 1068,
+     "mode": "write"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 101,
+   "on_disk": true,
+   "openers_in_file": 25,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "CKPT_DIR",
+   "class": "parent_not_resolvable",
+   "col": 15,
+   "composed_key": null,
+   "expression": "os.path.join(tempfile.gettempdir(), \"cnrev_selftest_ckpt\")",
+   "file": "scripts/cn_rev_tilt_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 1382,
+   "on_disk": null,
+   "openers_in_file": 28,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "selftest"
+  },
+  {
+   "basis": null,
+   "binding": "MASK",
+   "class": "parent_not_resolvable",
+   "col": 11,
+   "composed_key": null,
+   "expression": "os.path.join(tmp, \"mask.csv\")",
+   "file": "scripts/cn_sector_leader_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 1413,
+   "on_disk": null,
+   "openers_in_file": 80,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "SSE",
+   "class": "parent_not_resolvable",
+   "col": 10,
+   "composed_key": null,
+   "expression": "os.path.join(tmp, \"sse.parquet\")",
+   "file": "scripts/cn_sector_leader_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 1414,
+   "on_disk": null,
+   "openers_in_file": 80,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": "exact_path",
+   "binding": "OUT_CSV",
+   "class": "superseded_by_a_wider_open",
+   "col": 14,
+   "composed_key": "results/cn_sector_leader/cells_summary.csv",
+   "expression": "os.path.join(OUT_DIR, \"cells_summary.csv\")",
+   "file": "scripts/cn_sector_leader_p1.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_sector_leader/sobol",
+     "line": 1002,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/cn_sector_leader/p1_results.json",
+     "line": 1082,
+     "mode": "read"
+    },
+    {
+     "basis": "exact_path",
+     "callee": "to_csv",
+     "key": "results/cn_sector_leader/cells_summary.csv",
+     "line": 1177,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_sector_leader/cells",
+     "line": 1195,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_sector_leader/nulls",
+     "line": 1196,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_sector_leader/cells",
+     "line": 1430,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_sector_leader/nulls",
+     "line": 1431,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_sector_leader/sobol",
+     "line": 1432,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.listdir",
+     "key": "results/cn_sector_leader/sobol",
+     "line": 1640,
+     "mode": "dir"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 1428,
+   "on_disk": true,
+   "openers_in_file": 80,
+   "parent_key": "results/cn_sector_leader",
+   "parent_resolved": true,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": "exact_path",
+   "binding": "OUT_CSV",
+   "class": "superseded_by_a_wider_open",
+   "col": 14,
+   "composed_key": "results/cn_soe_ETF/cells_summary.csv",
+   "expression": "os.path.join(OUT_DIR, \"cells_summary.csv\")",
+   "file": "scripts/cn_soe_etf_p1.py",
+   "hits": [
+    {
+     "basis": "exact_path",
+     "callee": "to_csv",
+     "key": "results/cn_soe_ETF/cells_summary.csv",
+     "line": 1215,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_soe_ETF/cells",
+     "line": 1227,
+     "mode": "write"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 1404,
+   "on_disk": true,
+   "openers_in_file": 55,
+   "parent_key": "results/cn_soe_ETF",
+   "parent_resolved": true,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": "exact_path",
+   "binding": "CELL_DIR",
+   "class": "superseded_by_a_wider_open",
+   "col": 15,
+   "composed_key": "results/cn_trend_ETF/cells",
+   "expression": "os.path.join(OUT_DIR, \"cells\")",
+   "file": "scripts/cn_trend_etf_p1.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "to_csv",
+     "key": "results/cn_trend_ETF/cells_summary.csv",
+     "line": 1069,
+     "mode": "write"
+    },
+    {
+     "basis": "exact_path",
+     "callee": "os.makedirs",
+     "key": "results/cn_trend_ETF/cells",
+     "line": 1083,
+     "mode": "write"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 1232,
+   "on_disk": true,
+   "openers_in_file": 51,
+   "parent_key": "results/cn_trend_ETF",
+   "parent_resolved": true,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": "exact_path",
+   "binding": "OUT_CSV",
+   "class": "superseded_by_a_wider_open",
+   "col": 14,
+   "composed_key": "results/cn_trend_ETF/cells_summary.csv",
+   "expression": "os.path.join(OUT_DIR, \"cells_summary.csv\")",
+   "file": "scripts/cn_trend_etf_p1.py",
+   "hits": [
+    {
+     "basis": "exact_path",
+     "callee": "to_csv",
+     "key": "results/cn_trend_ETF/cells_summary.csv",
+     "line": 1069,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/cn_trend_ETF/cells",
+     "line": 1083,
+     "mode": "write"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 1234,
+   "on_disk": true,
+   "openers_in_file": 51,
+   "parent_key": "results/cn_trend_ETF",
+   "parent_resolved": true,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": "sibling_under_parent",
+   "binding": "V2_JSON",
+   "class": "superseded_by_a_wider_open",
+   "col": 10,
+   "composed_key": "results/decision_chain_v2.json",
+   "expression": "os.path.join(ROOT, \"results\", \"decision_chain_v2.json\")",
+   "file": "scripts/decision_chain_v3_tournament.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/sentiment_axes/axes_full_history.json",
+     "line": 350,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/shortline/t18_deep_manifest.json",
+     "line": 820,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/decision_chain_e2e.json",
+     "line": 849,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/sentiment_axes/axes_full_history.json",
+     "line": 1253,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/decision_chain_v3_tournament.json",
+     "line": 1586,
+     "mode": "read"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 75,
+   "on_disk": true,
+   "openers_in_file": 33,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "E226_FACE",
+   "class": "parent_not_resolvable",
+   "col": 12,
+   "composed_key": null,
+   "expression": "os.path.join(OUTDIR, \"latest.json\")",
+   "file": "scripts/e228_matched_exposure.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 60,
+   "on_disk": null,
+   "openers_in_file": 9,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "OUTDIR",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "results/state_tilt",
+   "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+   "file": "scripts/e340_who_authorizes_whose_allowance.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 51,
+   "on_disk": true,
+   "openers_in_file": 21,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "OUTDIR",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "results/state_tilt",
+   "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+   "file": "scripts/e347_published_number_gate_census.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 53,
+   "on_disk": true,
+   "openers_in_file": 24,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "OUTDIR",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "results/state_tilt",
+   "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+   "file": "scripts/e351_gate_state_census.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 44,
+   "on_disk": true,
+   "openers_in_file": 9,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "OUTDIR",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "results/state_tilt",
+   "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+   "file": "scripts/e358_subject_resolution.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 45,
+   "on_disk": true,
+   "openers_in_file": 19,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "OUTDIR",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "results/state_tilt",
+   "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+   "file": "scripts/e359_census_scaffolding_split.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 53,
+   "on_disk": true,
+   "openers_in_file": 16,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "E350_FACE",
+   "class": "opened_nowhere_in_the_file",
+   "col": 12,
+   "composed_key": "results/state_tilt/FIELDBRANCH-2026-11-01.json",
+   "expression": "os.path.join(\"results\", \"state_tilt\", \"FIELDBRANCH-2026-11-01.json\")",
+   "file": "scripts/e359_census_scaffolding_split.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 59,
+   "on_disk": true,
+   "openers_in_file": 16,
+   "parent_key": "results/state_tilt",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "OUT_DIR",
+   "class": "opened_nowhere_in_the_file",
+   "col": 10,
+   "composed_key": "results/state_tilt",
+   "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+   "file": "scripts/e386_merged_key_cost.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 46,
+   "on_disk": true,
+   "openers_in_file": 37,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "FAMILY_GLOB",
+   "class": "opened_nowhere_in_the_file",
+   "col": 14,
+   "composed_key": "results/trial_labor_w*",
+   "expression": "os.path.join(ROOT, \"results\", \"trial_labor_w*\")",
+   "file": "scripts/e386_merged_key_cost.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 47,
+   "on_disk": null,
+   "openers_in_file": 37,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "OUT_DIR",
+   "class": "opened_nowhere_in_the_file",
+   "col": 10,
+   "composed_key": "results/state_tilt",
+   "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+   "file": "scripts/e388_schema_accretion.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 42,
+   "on_disk": true,
+   "openers_in_file": 16,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "FAMILY_GLOB",
+   "class": "opened_nowhere_in_the_file",
+   "col": 14,
+   "composed_key": "results/trial_labor_w*",
+   "expression": "os.path.join(ROOT, \"results\", \"trial_labor_w*\")",
+   "file": "scripts/e388_schema_accretion.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 43,
+   "on_disk": null,
+   "openers_in_file": 16,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "SOURCE_FACE",
+   "class": "opened_nowhere_in_the_file",
+   "col": 14,
+   "composed_key": null,
+   "expression": "os.path.join(OUTDIR, \"CONDITIONALWRITE-%s.json\" % TODAY)",
+   "file": "scripts/e396_last_tick.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 54,
+   "on_disk": null,
+   "openers_in_file": 31,
+   "parent_key": "results/state_tilt",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "PANEL",
+   "class": "opened_nowhere_in_the_file",
+   "col": 8,
+   "composed_key": "data/daily/sh510300.csv",
+   "expression": "os.path.join(ROOT, \"data\", \"daily\", \"sh510300.csv\")",
+   "file": "scripts/e403_family_arg.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 36,
+   "on_disk": true,
+   "openers_in_file": 42,
+   "parent_key": "data/daily",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": "exact_path",
+   "binding": "REPORT",
+   "class": "superseded_by_a_wider_open",
+   "col": 17,
+   "composed_key": "logs/iteration-loop/round_reports.md",
+   "expression": "os.path.join(ROOT, \"logs\", \"iteration-loop\", \"round_reports.md\")",
+   "file": "scripts/e409_unfloored_faces.py",
+   "hits": [
+    {
+     "basis": "exact_path",
+     "callee": "open",
+     "key": "logs/iteration-loop/round_reports.md",
+     "line": 134,
+     "mode": "read"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 352,
+   "on_disk": true,
+   "openers_in_file": 26,
+   "parent_key": "logs/iteration-loop",
+   "parent_resolved": true,
+   "scope": "build"
+  },
+  {
+   "basis": "exact_path",
+   "binding": "PANEL",
+   "class": "superseded_by_a_wider_open",
+   "col": 16,
+   "composed_key": "data/daily/sh510300.csv",
+   "expression": "os.path.join(ROOT, \"data\", \"daily\", \"sh510300.csv\")",
+   "file": "scripts/e409_unfloored_faces.py",
+   "hits": [
+    {
+     "basis": "exact_path",
+     "callee": "open",
+     "key": "data/daily/sh510300.csv",
+     "line": 123,
+     "mode": "read"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 353,
+   "on_disk": true,
+   "openers_in_file": 26,
+   "parent_key": "data/daily",
+   "parent_resolved": true,
+   "scope": "build"
+  },
+  {
+   "basis": "sibling_under_parent",
+   "binding": "BW_PATH",
+   "class": "superseded_by_a_wider_open",
+   "col": 10,
+   "composed_key": "results/etf_phase_beta_window.json",
+   "expression": "os.path.join(BASE, \"results\", \"etf_phase_beta_window.json\")",
+   "file": "scripts/etf_book_cash_ladder.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/etf_book_cash_ladder",
+     "line": 574,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/etf_book_cash_ladder.json",
+     "line": 579,
+     "mode": "write"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 58,
+   "on_disk": true,
+   "openers_in_file": 10,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": "sibling_under_parent",
+   "binding": "ATT_JSON",
+   "class": "superseded_by_a_wider_open",
+   "col": 11,
+   "composed_key": "results/gate_attrition.json",
+   "expression": "os.path.join(ROOT, \"results\", \"gate_attrition.json\")",
+   "file": "scripts/etf_ops_bp1.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/etf_ops/bp1_grid.json",
+     "line": 678,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/etf_ops/bp1_grid.json",
+     "line": 688,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/etf_ops/bp1_series",
+     "line": 869,
+     "mode": "write"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 131,
+   "on_disk": true,
+   "openers_in_file": 37,
+   "parent_key": "results",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "LOCK",
+   "class": "parent_not_resolvable",
+   "col": 7,
+   "composed_key": null,
+   "expression": "os.path.join(DATA_DIR, \"_avail_notice.lock\")",
+   "file": "scripts/fund_avail_notice.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 55,
+   "on_disk": null,
+   "openers_in_file": 27,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "PREREG",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "research/FUND-DIVLOWVOL-P1.md",
+   "expression": "os.path.join(ROOT, \"research\", \"FUND-DIVLOWVOL-P1.md\")",
+   "file": "scripts/fund_divlowvol_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 164,
+   "on_disk": true,
+   "openers_in_file": 83,
+   "parent_key": "research",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": "sibling_under_parent",
+   "binding": "q",
+   "class": "superseded_by_a_wider_open",
+   "col": 8,
+   "composed_key": "results/fund_divlowvol_p2/quality_faces.parquet",
+   "expression": "os.path.join(OUT_DIR, \"quality_faces.parquet\")",
+   "file": "scripts/fund_divlowvol_p2_backtest.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/fund_divlowvol_p2/runner.log",
+     "line": 121,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.path.isdir",
+     "key": "results/fund_divlowvol_p2/cells",
+     "line": 393,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.listdir",
+     "key": "results/fund_divlowvol_p2/cells",
+     "line": 394,
+     "mode": "dir"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.path.isdir",
+     "key": "results/fund_divlowvol_p2/cells",
+     "line": 412,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.listdir",
+     "key": "results/fund_divlowvol_p2/cells",
+     "line": 413,
+     "mode": "dir"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 306,
+   "on_disk": false,
+   "openers_in_file": 19,
+   "parent_key": "results/fund_divlowvol_p2",
+   "parent_resolved": true,
+   "scope": "cmd_probe"
+  },
+  {
+   "basis": null,
+   "binding": "PREREG",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "research/FUND-QUALITY-P1.md",
+   "expression": "os.path.join(ROOT, \"research\", \"FUND-QUALITY-P1.md\")",
+   "file": "scripts/fund_quality_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 136,
+   "on_disk": true,
+   "openers_in_file": 75,
+   "parent_key": "research",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "PREREG",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "research/FUND-VALUE-P1.md",
+   "expression": "os.path.join(ROOT, \"research\", \"FUND-VALUE-P1.md\")",
+   "file": "scripts/fund_value_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 128,
+   "on_disk": true,
+   "openers_in_file": 70,
+   "parent_key": "research",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "AUTO_DIR",
+   "class": "parent_not_resolvable",
+   "col": 11,
+   "composed_key": null,
+   "expression": "os.path.join(RESEARCH_DIR, \"auto\")",
+   "file": "scripts/llm_assist.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 90,
+   "on_disk": null,
+   "openers_in_file": 24,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "PREREG",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "research/LOWAMP-DEEP-P1.md",
+   "expression": "os.path.join(ROOT, \"research\", \"LOWAMP-DEEP-P1.md\")",
+   "file": "scripts/lowamp_deep_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 147,
+   "on_disk": true,
+   "openers_in_file": 53,
+   "parent_key": "research",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "PREREG",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "research/LOWAMP-P1.md",
+   "expression": "os.path.join(ROOT, \"research\", \"LOWAMP-P1.md\")",
+   "file": "scripts/lowamp_p1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 102,
+   "on_disk": true,
+   "openers_in_file": 48,
+   "parent_key": "research",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "PREREG",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "research/LOWAMP-P2.md",
+   "expression": "os.path.join(ROOT, \"research\", \"LOWAMP-P2.md\")",
+   "file": "scripts/lowamp_p2.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 111,
+   "on_disk": true,
+   "openers_in_file": 48,
+   "parent_key": "research",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "PREREG",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "research/LOWAMP-P3.md",
+   "expression": "os.path.join(ROOT, \"research\", \"LOWAMP-P3.md\")",
+   "file": "scripts/lowamp_p3.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 123,
+   "on_disk": true,
+   "openers_in_file": 48,
+   "parent_key": "research",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": "sibling_under_parent",
+   "binding": "PREREG_PATH",
+   "class": "superseded_by_a_wider_open",
+   "col": 14,
+   "composed_key": "research/NATIONAL_TEAM_S3_REVIEW_PREREG.md",
+   "expression": "os.path.join(ROOT, PREREG_REL)",
+   "file": "scripts/national_team_s3_review.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/national_team/event_share_windows.json",
+     "line": 244,
+     "mode": "read"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 34,
+   "on_disk": true,
+   "openers_in_file": 13,
+   "parent_key": "",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "SHARD_DIR",
+   "class": "parent_not_resolvable",
+   "col": 16,
+   "composed_key": null,
+   "expression": "os.path.join(PATHS.results_dir, \"p2cal_ext\", cfg[\"shard_subdir\"])",
+   "file": "scripts/perpetual_faces_n1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 14179,
+   "on_disk": null,
+   "openers_in_file": 663,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "_set_wave"
+  },
+  {
+   "basis": null,
+   "binding": "OUT",
+   "class": "parent_not_resolvable",
+   "col": 10,
+   "composed_key": null,
+   "expression": "os.path.join(OUT_DIR, cfg[\"out_name\"])",
+   "file": "scripts/perpetual_faces_n1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 14180,
+   "on_disk": null,
+   "openers_in_file": 663,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "_set_wave"
+  },
+  {
+   "basis": null,
+   "binding": "PROBE_JSON",
+   "class": "parent_not_resolvable",
+   "col": 13,
+   "composed_key": null,
+   "expression": "os.path.join(WAVE_DIR, \"probe.json\")",
+   "file": "scripts/perpetual_faces_n4.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 90,
+   "on_disk": null,
+   "openers_in_file": 43,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "blob",
+   "class": "not_a_path_composition",
+   "col": 11,
+   "composed_key": null,
+   "expression": "\" \".join(str(hb.get(f) or \"\") for f in INTENT_FIELDS)",
+   "file": "scripts/queue_head_collision_probe.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 99,
+   "note": "the receiver is a string constant: this is a text join, not a path",
+   "on_disk": null,
+   "openers_in_file": 8,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "classify_machine"
+  },
+  {
+   "basis": null,
+   "binding": "OUT_JSON",
+   "class": "parent_not_resolvable",
+   "col": 11,
+   "composed_key": null,
+   "expression": "os.path.join(PATHS.results_dir, \"regime_deep_replay.json\")",
+   "file": "scripts/regime_deep_replay.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 54,
+   "on_disk": null,
+   "openers_in_file": 8,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "LABELS_GLOB",
+   "class": "parent_not_resolvable",
+   "col": 22,
+   "composed_key": null,
+   "expression": "os.path.join(tmpd, \"*.json\")",
+   "file": "scripts/regime_gate_evidence.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 183,
+   "on_disk": null,
+   "openers_in_file": 18,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "selftest"
+  },
+  {
+   "basis": null,
+   "binding": "SYSTEM_V1_PAPER",
+   "class": "opened_nowhere_in_the_file",
+   "col": 18,
+   "composed_key": "results/system_v1_paper/SYSTEM-V1_paper.json",
+   "expression": "os.path.join(ROOT, \"results\", \"system_v1_paper\", \"SYSTEM-V1_paper.json\")",
+   "file": "scripts/regime_matrix_p0.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 58,
+   "on_disk": true,
+   "openers_in_file": 40,
+   "parent_key": "results/system_v1_paper",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": "exact_path",
+   "binding": "CELL_DIR",
+   "class": "superseded_by_a_wider_open",
+   "col": 15,
+   "composed_key": "results/rev_osc/cells",
+   "expression": "os.path.join(OUT_DIR, \"cells\")",
+   "file": "scripts/rev_osc_stock_p1.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/rev_osc/p1_results.json",
+     "line": 668,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "to_csv",
+     "key": "results/rev_osc/cells_summary.csv",
+     "line": 758,
+     "mode": "write"
+    },
+    {
+     "basis": "exact_path",
+     "callee": "os.makedirs",
+     "key": "results/rev_osc/cells",
+     "line": 771,
+     "mode": "write"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 865,
+   "on_disk": false,
+   "openers_in_file": 45,
+   "parent_key": "results/rev_osc",
+   "parent_resolved": true,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": "exact_path",
+   "binding": "OUT_CSV",
+   "class": "superseded_by_a_wider_open",
+   "col": 14,
+   "composed_key": "results/rev_osc/cells_summary.csv",
+   "expression": "os.path.join(OUT_DIR, \"cells_summary.csv\")",
+   "file": "scripts/rev_osc_stock_p1.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "open",
+     "key": "results/rev_osc/p1_results.json",
+     "line": 668,
+     "mode": "read"
+    },
+    {
+     "basis": "exact_path",
+     "callee": "to_csv",
+     "key": "results/rev_osc/cells_summary.csv",
+     "line": 758,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.makedirs",
+     "key": "results/rev_osc/cells",
+     "line": 771,
+     "mode": "write"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 867,
+   "on_disk": true,
+   "openers_in_file": 45,
+   "parent_key": "results/rev_osc",
+   "parent_resolved": true,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "CSV_PANEL_DIR",
+   "class": "opened_nowhere_in_the_file",
+   "col": 16,
+   "composed_key": "data/astock_daily/per",
+   "expression": "os.path.join(_ROOT, \"data\", \"astock_daily\", \"per\")",
+   "file": "scripts/seasonal_calendar_census.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 87,
+   "on_disk": true,
+   "openers_in_file": 21,
+   "parent_key": "data/astock_daily",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "DIGEST_DIR",
+   "class": "opened_nowhere_in_the_file",
+   "col": 13,
+   "composed_key": "research/digests",
+   "expression": "os.path.join(_ROOT, \"research\", \"digests\")",
+   "file": "scripts/seasonal_horizon_stability.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 87,
+   "on_disk": true,
+   "openers_in_file": 14,
+   "parent_key": "research",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "INDEX_JSON",
+   "class": "opened_nowhere_in_the_file",
+   "col": 13,
+   "composed_key": "data/cache/p1c_sidecars/_index.json",
+   "expression": "os.path.join(SIDECAR_DIR, \"_index.json\")",
+   "file": "scripts/sscombo_sidecar_local.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 74,
+   "on_disk": true,
+   "openers_in_file": 23,
+   "parent_key": "data/cache/p1c_sidecars",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "LEDGER",
+   "class": "opened_nowhere_in_the_file",
+   "col": 9,
+   "composed_key": "results/susp_resume_forward/ledger.jsonl",
+   "expression": "os.path.join(OUT_DIR, \"ledger.jsonl\")",
+   "file": "scripts/susp_resume_forward.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 52,
+   "on_disk": true,
+   "openers_in_file": 24,
+   "parent_key": "results/susp_resume_forward",
+   "parent_resolved": true,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "CELLS_PATH",
+   "class": "parent_not_resolvable",
+   "col": 25,
+   "composed_key": null,
+   "expression": "os.path.join(td, \"cells.jsonl\")",
+   "file": "scripts/t24_g2_pack.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 697,
+   "on_disk": null,
+   "openers_in_file": 20,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "cmd_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "OUT_MD",
+   "class": "parent_not_resolvable",
+   "col": 13,
+   "composed_key": null,
+   "expression": "os.path.join(tmp, \"d.md\")",
+   "file": "scripts/t70_midterm_dossier.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 320,
+   "on_disk": null,
+   "openers_in_file": 13,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "selftest"
+  },
+  {
+   "basis": null,
+   "binding": "OUT_JSON",
+   "class": "parent_not_resolvable",
+   "col": 51,
+   "composed_key": null,
+   "expression": "os.path.join(tmp, \"d.json\")",
+   "file": "scripts/t70_midterm_dossier.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 320,
+   "on_disk": null,
+   "openers_in_file": 13,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "selftest"
+  },
+  {
+   "basis": null,
+   "binding": "ck_path",
+   "class": "parent_not_resolvable",
+   "col": 14,
+   "composed_key": null,
+   "expression": "os.path.join(CKPT_DIR, \"judge_shard_0of1.jsonl\")",
+   "file": "scripts/trial_labor_w1.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 1594,
+   "on_disk": null,
+   "openers_in_file": 80,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "cmd_intake"
+  },
+  {
+   "basis": null,
+   "binding": "KIN_PROBE_FILE",
+   "class": "parent_not_resolvable",
+   "col": 17,
+   "composed_key": null,
+   "expression": "os.path.join(tl1.PATHS.results_dir, \"_r1027bmc_w21_kin_orthogonality.json\")",
+   "file": "scripts/trial_labor_w21.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 87,
+   "on_disk": null,
+   "openers_in_file": 94,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "<module>"
+  },
+  {
+   "basis": null,
+   "binding": "PROGRESS",
+   "class": "parent_not_resolvable",
+   "col": 19,
+   "composed_key": null,
+   "expression": "os.path.join(td, \"_progress.json\")",
+   "file": "scripts/update_astock_daily.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 1256,
+   "on_disk": null,
+   "openers_in_file": 31,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "_selftest"
+  },
+  {
+   "basis": "sibling_under_parent",
+   "binding": "tmp",
+   "class": "superseded_by_a_wider_open",
+   "col": 10,
+   "composed_key": "data/fund_history/_selftest",
+   "expression": "os.path.join(DATA_DIR, \"_selftest\")",
+   "file": "scripts/update_fund_history.py",
+   "hits": [
+    {
+     "basis": "sibling_under_parent",
+     "callee": "os.remove",
+     "key": "data/fund_history/_refresh.lock",
+     "line": 169,
+     "mode": "write"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "read_json",
+     "key": "data/fund_history/_refresh.lock",
+     "line": 202,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "read_json",
+     "key": "data/fund_history/_refresh.lock",
+     "line": 221,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "read_json",
+     "key": "data/fund_history/_progress.json",
+     "line": 242,
+     "mode": "read"
+    },
+    {
+     "basis": "sibling_under_parent",
+     "callee": "read_json",
+     "key": "data/fund_history/_progress.json",
+     "line": 297,
+     "mode": "read"
+    }
+   ],
+   "ignored_hits": [],
+   "line": 390,
+   "on_disk": false,
+   "openers_in_file": 28,
+   "parent_key": "data/fund_history",
+   "parent_resolved": true,
+   "scope": "selftest"
+  },
+  {
+   "basis": null,
+   "binding": "PROGRESS",
+   "class": "parent_not_resolvable",
+   "col": 23,
+   "composed_key": null,
+   "expression": "os.path.join(td, \"_progress.json\")",
+   "file": "scripts/update_fund_statements.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 824,
+   "on_disk": null,
+   "openers_in_file": 28,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "STATUS",
+   "class": "parent_not_resolvable",
+   "col": 21,
+   "composed_key": null,
+   "expression": "os.path.join(td, \"status.json\")",
+   "file": "scripts/update_fund_statements.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 825,
+   "on_disk": null,
+   "openers_in_file": 28,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "PROGRESS",
+   "class": "parent_not_resolvable",
+   "col": 19,
+   "composed_key": null,
+   "expression": "os.path.join(td, \"_progress.json\")",
+   "file": "scripts/update_moneyflow.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 1157,
+   "on_disk": null,
+   "openers_in_file": 35,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "STATUS",
+   "class": "parent_not_resolvable",
+   "col": 17,
+   "composed_key": null,
+   "expression": "os.path.join(td, \"st.json\")",
+   "file": "scripts/update_moneyflow.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 1253,
+   "on_disk": null,
+   "openers_in_file": 35,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "PROGRESS",
+   "class": "parent_not_resolvable",
+   "col": 23,
+   "composed_key": null,
+   "expression": "os.path.join(td, \"d\", \"_progress.json\")",
+   "file": "scripts/update_sina_mf.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 934,
+   "on_disk": null,
+   "openers_in_file": 30,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "_selftest"
+  },
+  {
+   "basis": null,
+   "binding": "DASH_HTML",
+   "class": "parent_not_resolvable",
+   "col": 12,
+   "composed_key": null,
+   "expression": "os.path.join(ROOT, \"dashboard.html\")",
+   "file": "scripts/ytd_track_record.py",
+   "hits": [],
+   "ignored_hits": [],
+   "line": 47,
+   "on_disk": null,
+   "openers_in_file": 20,
+   "parent_key": null,
+   "parent_resolved": false,
+   "scope": "<module>"
+  }
+ ],
+ "study": "E448_which_composed_and_dropped_path_is_still_written_by_another_branch",
+ "summary": {
+  "by_basis": {
+   "exact_path": 10,
+   "same_basename_under_parent": 0,
+   "sibling_under_parent": 9
+  },
+  "by_class": {
+   "not_a_path_composition": 3,
+   "opened_nowhere_in_the_file": 30,
+   "parent_not_resolvable": 33,
+   "superseded_by_a_wider_open": 19
+  },
+  "files_with_a_dropped_site": 69,
+  "hits_ignored_as_git_plumbing": 2,
+  "not_a_path_composition": [
+   {
+    "expression": "\"\\n\".join(lines_out)",
+    "file": "Tools/_r767bmc_ord_diff.py",
+    "line": 70
+   },
+   {
+    "expression": "'\\r\\n'.join(sl)",
+    "file": "_r839bmc_pit_protocol_split.py",
+    "line": 60
+   },
+   {
+    "expression": "\" \".join(str(hb.get(f) or \"\") for f in INTENT_FIELDS)",
+    "file": "scripts/queue_head_collision_probe.py",
+    "line": 99
+   }
+  ],
+  "not_a_path_composition_sites": 3,
+  "openers_scanned": 4655,
+  "orphan_paths_absent_from_disk": 2,
+  "orphan_paths_already_on_disk": 25,
+  "orphan_paths_not_checkable": 3,
+  "orphan_paths_that_are_a_glob_pattern": 2,
+  "orphan_sites": 30,
+  "orphans": [
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"_r504bmc_s6_log.txt\")",
+    "file": "Tools/_r504bmc_close.py",
+    "line": 17,
+    "openers_in_file": 15,
+    "parent_key": "results"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"_r746bmc_merge_gates.json\")",
+    "file": "Tools/_r746bmc_merge_close2.py",
+    "line": 17,
+    "openers_in_file": 8,
+    "parent_key": "K:/Fluxgroup/FluxGroup/quant/bigmoney/results"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"mass_trial\", \"w3_judge.json\")",
+    "file": "Tools/_r788bmc_w17_freeze_facts.py",
+    "line": 70,
+    "openers_in_file": 40,
+    "parent_key": "results/mass_trial"
+   },
+   {
+    "expression": "os.path.join(inbox_dir, 'processed')",
+    "file": "Tools/_r825bmc_s05.py",
+    "line": 45,
+    "openers_in_file": 12,
+    "parent_key": "K:/Fluxgroup/FluxGroup/quant/bigmoney/fleet/inbox"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"_r714bmc_oss_import_gate_livecheck.json\")",
+    "file": "Tools/oss_import_gate.py",
+    "line": 65,
+    "openers_in_file": 24,
+    "parent_key": "results"
+   },
+   {
+    "expression": "os.path.join(ROOT, 'content', 'drama', 'voice_bank', 'manifest.json')",
+    "file": "content/drama/runner_assets/st012_character_lora_train.py",
+    "line": 56,
+    "openers_in_file": 74,
+    "parent_key": "content/drama/voice_bank"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+    "file": "scripts/e340_who_authorizes_whose_allowance.py",
+    "line": 51,
+    "openers_in_file": 21,
+    "parent_key": "results"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+    "file": "scripts/e347_published_number_gate_census.py",
+    "line": 53,
+    "openers_in_file": 24,
+    "parent_key": "results"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+    "file": "scripts/e351_gate_state_census.py",
+    "line": 44,
+    "openers_in_file": 9,
+    "parent_key": "results"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+    "file": "scripts/e358_subject_resolution.py",
+    "line": 45,
+    "openers_in_file": 19,
+    "parent_key": "results"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+    "file": "scripts/e359_census_scaffolding_split.py",
+    "line": 53,
+    "openers_in_file": 16,
+    "parent_key": "results"
+   },
+   {
+    "expression": "os.path.join(\"results\", \"state_tilt\", \"FIELDBRANCH-2026-11-01.json\")",
+    "file": "scripts/e359_census_scaffolding_split.py",
+    "line": 59,
+    "openers_in_file": 16,
+    "parent_key": "results/state_tilt"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+    "file": "scripts/e386_merged_key_cost.py",
+    "line": 46,
+    "openers_in_file": 37,
+    "parent_key": "results"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"trial_labor_w*\")",
+    "file": "scripts/e386_merged_key_cost.py",
+    "line": 47,
+    "openers_in_file": 37,
+    "parent_key": "results"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+    "file": "scripts/e388_schema_accretion.py",
+    "line": 42,
+    "openers_in_file": 16,
+    "parent_key": "results"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"trial_labor_w*\")",
+    "file": "scripts/e388_schema_accretion.py",
+    "line": 43,
+    "openers_in_file": 16,
+    "parent_key": "results"
+   },
+   {
+    "expression": "os.path.join(OUTDIR, \"CONDITIONALWRITE-%s.json\" % TODAY)",
+    "file": "scripts/e396_last_tick.py",
+    "line": 54,
+    "openers_in_file": 31,
+    "parent_key": "results/state_tilt"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"data\", \"daily\", \"sh510300.csv\")",
+    "file": "scripts/e403_family_arg.py",
+    "line": 36,
+    "openers_in_file": 42,
+    "parent_key": "data/daily"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"research\", \"FUND-DIVLOWVOL-P1.md\")",
+    "file": "scripts/fund_divlowvol_p1.py",
+    "line": 164,
+    "openers_in_file": 83,
+    "parent_key": "research"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"research\", \"FUND-QUALITY-P1.md\")",
+    "file": "scripts/fund_quality_p1.py",
+    "line": 136,
+    "openers_in_file": 75,
+    "parent_key": "research"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"research\", \"FUND-VALUE-P1.md\")",
+    "file": "scripts/fund_value_p1.py",
+    "line": 128,
+    "openers_in_file": 70,
+    "parent_key": "research"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"research\", \"LOWAMP-DEEP-P1.md\")",
+    "file": "scripts/lowamp_deep_p1.py",
+    "line": 147,
+    "openers_in_file": 53,
+    "parent_key": "research"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"research\", \"LOWAMP-P1.md\")",
+    "file": "scripts/lowamp_p1.py",
+    "line": 102,
+    "openers_in_file": 48,
+    "parent_key": "research"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"research\", \"LOWAMP-P2.md\")",
+    "file": "scripts/lowamp_p2.py",
+    "line": 111,
+    "openers_in_file": 48,
+    "parent_key": "research"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"research\", \"LOWAMP-P3.md\")",
+    "file": "scripts/lowamp_p3.py",
+    "line": 123,
+    "openers_in_file": 48,
+    "parent_key": "research"
+   },
+   {
+    "expression": "os.path.join(ROOT, \"results\", \"system_v1_paper\", \"SYSTEM-V1_paper.json\")",
+    "file": "scripts/regime_matrix_p0.py",
+    "line": 58,
+    "openers_in_file": 40,
+    "parent_key": "results/system_v1_paper"
+   },
+   {
+    "expression": "os.path.join(_ROOT, \"data\", \"astock_daily\", \"per\")",
+    "file": "scripts/seasonal_calendar_census.py",
+    "line": 87,
+    "openers_in_file": 21,
+    "parent_key": "data/astock_daily"
+   },
+   {
+    "expression": "os.path.join(_ROOT, \"research\", \"digests\")",
+    "file": "scripts/seasonal_horizon_stability.py",
+    "line": 87,
+    "openers_in_file": 14,
+    "parent_key": "research"
+   },
+   {
+    "expression": "os.path.join(SIDECAR_DIR, \"_index.json\")",
+    "file": "scripts/sscombo_sidecar_local.py",
+    "line": 74,
+    "openers_in_file": 23,
+    "parent_key": "data/cache/p1c_sidecars"
+   },
+   {
+    "expression": "os.path.join(OUT_DIR, \"ledger.jsonl\")",
+    "file": "scripts/susp_resume_forward.py",
+    "line": 52,
+    "openers_in_file": 24,
+    "parent_key": "results/susp_resume_forward"
+   }
+  ],
+  "parent_not_resolvable": [
+   {
+    "expression": "os.path.join(inbox, \"processed\")",
+    "file": "Tools/_r504bmc_inbox.py",
+    "line": 13,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tmp, \"claim_strand.json\")",
+    "file": "Tools/autofill.py",
+    "line": 2737,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tmp, \"results\")",
+    "file": "Tools/lane_round_liveness.py",
+    "line": 324,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tmp, \"dispatcher_state.json\")",
+    "file": "Tools/resident_dispatcher.py",
+    "line": 398,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(td, \"cells\")",
+    "file": "scripts/alloc_backtest.py",
+    "line": 846,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tempfile.gettempdir(), \"cnrot_selftest_ckpt\")",
+    "file": "scripts/cn_div_lowvol_rot_p1.py",
+    "line": 1442,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tmp, \"mask.csv\")",
+    "file": "scripts/cn_kline_pattern_p1.py",
+    "line": 1124,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tmp, \"sse.parquet\")",
+    "file": "scripts/cn_kline_pattern_p1.py",
+    "line": 1125,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tmp, \"mask.csv\")",
+    "file": "scripts/cn_mkneutral_p1.py",
+    "line": 1317,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tmp, \"sse.parquet\")",
+    "file": "scripts/cn_mkneutral_p1.py",
+    "line": 1318,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tempfile.gettempdir(), \"cnrev_selftest_ckpt\")",
+    "file": "scripts/cn_rev_tilt_p1.py",
+    "line": 1382,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tmp, \"mask.csv\")",
+    "file": "scripts/cn_sector_leader_p1.py",
+    "line": 1413,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tmp, \"sse.parquet\")",
+    "file": "scripts/cn_sector_leader_p1.py",
+    "line": 1414,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(OUTDIR, \"latest.json\")",
+    "file": "scripts/e228_matched_exposure.py",
+    "line": 60,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(DATA_DIR, \"_avail_notice.lock\")",
+    "file": "scripts/fund_avail_notice.py",
+    "line": 55,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(RESEARCH_DIR, \"auto\")",
+    "file": "scripts/llm_assist.py",
+    "line": 90,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(PATHS.results_dir, \"p2cal_ext\", cfg[\"shard_subdir\"])",
+    "file": "scripts/perpetual_faces_n1.py",
+    "line": 14179,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(OUT_DIR, cfg[\"out_name\"])",
+    "file": "scripts/perpetual_faces_n1.py",
+    "line": 14180,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(WAVE_DIR, \"probe.json\")",
+    "file": "scripts/perpetual_faces_n4.py",
+    "line": 90,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(PATHS.results_dir, \"regime_deep_replay.json\")",
+    "file": "scripts/regime_deep_replay.py",
+    "line": 54,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tmpd, \"*.json\")",
+    "file": "scripts/regime_gate_evidence.py",
+    "line": 183,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(td, \"cells.jsonl\")",
+    "file": "scripts/t24_g2_pack.py",
+    "line": 697,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tmp, \"d.md\")",
+    "file": "scripts/t70_midterm_dossier.py",
+    "line": 320,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tmp, \"d.json\")",
+    "file": "scripts/t70_midterm_dossier.py",
+    "line": 320,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(CKPT_DIR, \"judge_shard_0of1.jsonl\")",
+    "file": "scripts/trial_labor_w1.py",
+    "line": 1594,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(tl1.PATHS.results_dir, \"_r1027bmc_w21_kin_orthogonality.json\")",
+    "file": "scripts/trial_labor_w21.py",
+    "line": 87,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(td, \"_progress.json\")",
+    "file": "scripts/update_astock_daily.py",
+    "line": 1256,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(td, \"_progress.json\")",
+    "file": "scripts/update_fund_statements.py",
+    "line": 824,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(td, \"status.json\")",
+    "file": "scripts/update_fund_statements.py",
+    "line": 825,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(td, \"_progress.json\")",
+    "file": "scripts/update_moneyflow.py",
+    "line": 1157,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(td, \"st.json\")",
+    "file": "scripts/update_moneyflow.py",
+    "line": 1253,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(td, \"d\", \"_progress.json\")",
+    "file": "scripts/update_sina_mf.py",
+    "line": 934,
+    "parent_key": null
+   },
+   {
+    "expression": "os.path.join(ROOT, \"dashboard.html\")",
+    "file": "scripts/ytd_track_record.py",
+    "line": 47,
+    "parent_key": null
+   }
+  ],
+  "parent_not_resolvable_sites": 33,
+  "parents_by_dropped_sites": {
+   "": 1,
+   "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r998_ep001_003": 1,
+   "K:/Fluxgroup/FluxGroup/quant/bigmoney": 1,
+   "K:/Fluxgroup/FluxGroup/quant/bigmoney/fleet/inbox": 1,
+   "K:/Fluxgroup/FluxGroup/quant/bigmoney/results": 1,
+   "content/drama/voice_bank": 1,
+   "data/astock_daily": 1,
+   "data/cache/p1c_sidecars": 1,
+   "data/daily": 2,
+   "data/fund_history": 1,
+   "logs/iteration-loop": 1,
+   "research": 8,
+   "results": 15,
+   "results/cn_kline_pattern": 1,
+   "results/cn_mkneutral": 1,
+   "results/cn_sector_leader": 1,
+   "results/cn_soe_ETF": 1,
+   "results/cn_trend_ETF": 2,
+   "results/fund_divlowvol_p2": 1,
+   "results/mass_trial": 1,
+   "results/rev_osc": 2,
+   "results/state_tilt": 2,
+   "results/susp_resume_forward": 1,
+   "results/system_v1_paper": 1
+  },
+  "population": 85,
+  "source_face": {
+   "evidence_cutoff": "2026-11-06",
+   "face": "deadpath_latest.json",
+   "population": 85
+  },
+  "superseded_by_a_same_named_open": 0,
+  "superseded_by_a_sibling_open_only": 9,
+  "superseded_by_an_open_of_the_same_path": 10,
+  "superseded_sites": 19
+ },
+ "title": "the 85 dropped path compositions of E442, graded as superseded by another open in the same file or as opened nowhere",
+ "verdict": "some_dropped_path_compositions_are_opened_nowhere_in_their_file"
+}

@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1464 bm-b: E442 published (face DEADPATH-2026-11-06: 16611 composition sites, 85 composed and never used, 2001 unfollowable, E436 residue 30/30) -- E442 closed, E448 seeded, floor 3.",
+ "_stamp_note": "r1466 bm-b: E448 published (face DROPPEDPATH-2026-11-06: 85 dropped compositions -> 19 superseded / 30 opened nowhere / 33 unresolvable / 3 not-a-path; 25 of the 30 orphans name a path already on disk) -- E448 closed, E449 seeded, floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27916,11 +27916,28 @@
    "lane": "cpu-only",
    "lane_note": "static AST scan plus the published E442 face; nothing is run and nothing outside results/ is written",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E442 (r1463 bm-b card, built r1464): 85 of 16611 compositions are composed and never used, and the drop is not yet graded as supersession or loss",
    "entered_at": "2026-11-06T01:4x+08:00",
-   "entered_by": "bm-b r1464 (supply floor refill after E442)"
+   "entered_by": "bm-b r1464 (supply floor refill after E442)",
+   "done_at": "2026-11-06T02:1x+08:00",
+   "result_ref": "results/state_tilt/droppedpath_latest.json",
+   "result_note": "85 dropped compositions graded: 19 superseded (10 exact re-open, 9 sibling under the parent), 30 opened nowhere (25 of them name a path that already exists on disk), 33 parent not resolvable (temp dir / parameter), 3 not path compositions. Producer scripts/e448_dropped_path.py (selftest 19/19), S6 leg dropped_path_open, smoke leg # E448 (r1466 bm-b). Digest DIGEST-20261106-r1466-e448-dropped-path.md"
+  },
+  {
+   "id": "E449-WHICH-DEAD-PREREG-POINTER-IS-A-DOCUMENT-NO-STUDY-CODE-EVER-READS",
+   "title": "E448 graded 30 dropped compositions as opened nowhere in their file, and 25 of them name a path that already exists. The largest family is a research-note pointer: six study scripts compose os.path.join(ROOT, 'research', '<STUDY>-P*.md') as a PREREG constant and never open it. If the note is documentation only that is harmless; if the study claims its requirements were read from that note, the claim rests on a pointer nothing in the code follows",
+   "question": "For every dropped composition whose composed path exists on disk and resolves under research/ or docs/, publish the file, the composed path, whether the note is referenced anywhere else in the same file (a docstring, a comment, a log line, a printed receipt), and the resulting class: declared_and_unread_in_code / cited_in_text_only / cited_and_read_elsewhere_in_the_corpus. Re-derive the class tally and the on-disk presence from the published rows in check, and pin the corpus walk with its exclusions",
+   "deliverable": "results/state_tilt/DEADPREREG-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST scan plus a read-only grep of the note's basename over the corpus; nothing is executed and nothing outside results/state_tilt is written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E448 (r1466 bm-b): 25 of 30 orphan compositions name a path that already exists, and the biggest family is a PREREG note constant that no code in its own file opens",
+   "entered_at": "2026-11-06T02:1x+08:00",
+   "entered_by": "bm-b r1466 (supply floor refill after E448)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27935,6 +27952,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T01:4x+08:00",
+ "updated_at": "2026-11-06T02:1x+08:00",
  "version": 1
 }

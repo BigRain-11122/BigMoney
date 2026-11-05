@@ -10972,3 +10972,44 @@ Face: `results/state_tilt/deadpath_latest.json` (`DEADPATH-<cutoff>.json`), verd
 `scripts/e442_deadpath.py` (selftest 26/26, verify problems=[], check problems=[]); S6 leg
 `dead_path_composition`; smoke leg `e442 which path composition is never consumed`. Digest
 `research/digests/DIGEST-20261106-r1464-e442-dead-path.md`.
+
+### E448 -- a dropped composition is almost never a lost write: 25 of the 30 drops that name a path name one that already exists, and 19 of the 85 are superseded by another open in the same file (r1466 bm-b)
+
+E442 published 85 compositions whose value is never used in the scope that built them and graded
+none of them. This study grades all 85 by resolving each composition's **parent directory** and
+asking whether any opener in the same file lands under it (4,655 opener calls over the 69 files).
+
+READING (85 drops, 69 files): **19 superseded by a wider open** (10 of them an exact re-open of the
+same path, 9 only a sibling under the same parent), **30 opened nowhere in their file**, 33 whose
+parent is a runtime value (a temp dir, a parameter: `mkdtemp`, `td`, `tmp`), and **3 that are not
+path compositions at all** -- `"\n".join(lines)` is a text join and E442's kind detector takes it as
+`os_path_join` because the dotted tail is `join`. Of the 30 dropped-where-resolved: **25 name a path
+that already exists on disk**, 2 name a path that does not exist (both anchored on the `K:` group
+layout, dead code on this host), 2 are glob patterns (`results/trial_labor_w*` defined as
+`FAMILY_GLOB` and never globbed), 1 is not checkable.
+
+THREE RULES MEASURED, NOT ASSUMED.
+
+* **"Opened nowhere in this file" is not "the artifact is missing".** Six studies compose
+  `os.path.join(ROOT, "research", "<STUDY>-P1.md")` as a `PREREG` constant and never open it; all
+  six notes exist on disk (hand-authored). The row is a dead *read* pointer, not a lost write, and
+  the first version of this face read them as orphans without saying so. The disk probe
+  (`on_disk`, read-only `os.path.exists` on the composed key) is what separates the two, and it
+  flipped the headline from "30 dropped writes" to "25 of 30 name a path that is already there".
+* **The anchor of `__file__` is the whole instrument.** The first version resolved `__file__` to the
+  repo root, so `ROOT = dirname(dirname(abspath(__file__)))` landed one level **above** the repo and
+  every parent came out as `.../quant/results` instead of `.../quant/bigmoney/results`; the disk
+  probe reported 1 present instead of 25. Worse, the fixture was written with the same wrong anchor
+  (`dirname(abspath(__file__))` expected to be the root), so the selftest agreed with the bug. The
+  fix is to seed the constant environment with the module's own path (`ROOT/<rel>`) and to pin both
+  shapes: two dirnames = the repo root, one dirname = `scripts/`.
+* **The parent test needs a boundary, not a prefix, and git plumbing is not an artifact.** Parent
+  `r` must not cover `results/x.json` (leg 4), and an opener of `rebase-merge/author-script` under
+  the repo parent is a git write, not evidence that the file's artifact is produced: those hits are
+  published in `ignored_hits` and counted separately, never as supersessions.
+
+Face: `results/state_tilt/droppedpath_latest.json` (`DROPPEDPATH-<cutoff>.json`), verdict
+`some_dropped_path_compositions_are_opened_nowhere_in_their_file`; producer
+`scripts/e448_dropped_path.py` (selftest 19/19, verify problems=[], check problems=[]); S6 leg
+`dropped_path_open`; smoke leg `e448 which composed and dropped path is still written`. Digest
+`research/digests/DIGEST-20261106-r1466-e448-dropped-path.md`.

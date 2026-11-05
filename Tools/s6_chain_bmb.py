@@ -1561,6 +1561,11 @@ LEGS = [
     # itself walks the whole corpus (~90 s) and is published on demand, because a guard whose only
     # cost is a full corpus parse per tick gets switched off.
     ("dead_path_composition", ["python", "scripts/e442_deadpath.py", "check"]),
+    # E448 (r1466): E442 left its 85 dropped compositions ungraded -- superseded by another open in
+    # the same file, or opened nowhere.  `check` re-derives every published class and every basis
+    # from the published rows (fast, no file walk), so a face whose class was edited without its
+    # evidence refuses the chain; `verify` is the ~4 s rebuild against the live tree.
+    ("dropped_path_open", ["python", "scripts/e448_dropped_path.py", "check"]),
     # E441 (r1461): E435 published 626 directory values that are a published face's home and 0 of
     # 489 composable joins that lands -- a zero that reads two opposite ways.  This leg grades every
     # base live (a member was written after the carrier) or frozen, and cross-tabs the composable

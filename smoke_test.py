@@ -17328,5 +17328,60 @@ except Exception as _e436:
     _bad436.append(repr(_e436)[:160])
 check(_name436, not _bad436, "; ".join(_bad436)[:240] or _d436)
 
+# E448 (r1466 bm-b): E442 published 85 compositions that are never used in the scope that built
+# them and graded none of them as superseded or lost.  This leg reads the graded face and refuses
+# (a) a class or a tally that does not re-derive from the rows, (b) a hit that is not under the
+# parent it claims, (c) a basis that does not re-derive from the hit key, (d) a population that
+# does not match the source face it names, (e) a glob pattern probed as if it were a path, and
+# (f) a doctored copy whose class was flipped off its own evidence.
+_name448 = "e448 which composed and dropped path is still written (r1466 bm-b)"
+_bad448 = []
+try:
+    _m448 = __import__("importlib").import_module("e448_dropped_path")
+    _f448 = json.load(open(os.path.join("results", "state_tilt", "droppedpath_latest.json"),
+                           encoding="utf-8"))
+    _s448 = _f448.get("summary") or {}
+    _rows448 = _f448.get("rows") or []
+    _bad448.extend(_m448.tally_problems(_f448))
+    if _f448.get("verdict") not in _m448.VERDICT_VOCAB:
+        _bad448.append("verdict outside the frozen vocabulary")
+    elif _f448.get("verdict") != _m448.verdict_for(_rows448):
+        _bad448.append("the verdict does not re-derive from the rows")
+    elif (_s448.get("orphan_sites") or 0) > 0 and _f448.get("verdict") != _m448.V_SOME:
+        _bad448.append("orphans are published while the verdict claims none")
+    _bc448 = _s448.get("by_class") or {}
+    if sum(_bc448.values()) != (_s448.get("population") or 0):
+        _bad448.append("the class tally does not close over the population")
+    _graded448 = _bc448.get(_m448.K_SAME, 0) + _bc448.get(_m448.K_ORPHAN, 0)
+    if _graded448 != sum(1 for _r448 in _rows448
+                         if _r448.get("class") in (_m448.K_SAME, _m448.K_ORPHAN)):
+        _bad448.append("the graded classes do not re-derive from the rows")
+    for _r448 in _rows448:
+        if _r448.get("class") == _m448.K_ORPHAN and (_r448.get("hits") or []):
+            _bad448.append("%s:%s is an orphan that carries hits"
+                           % (_r448.get("file"), _r448.get("line")))
+            break
+    _doctor448 = json.loads(json.dumps(_f448))
+    _orphan448 = next((_r for _r in _doctor448.get("rows") or []
+                       if _r.get("class") == _m448.K_ORPHAN), None)
+    if _orphan448 is not None:
+        _orphan448["class"] = _m448.K_SAME
+        _orphan448["basis"] = _m448.B_EXACT
+        if not _m448.tally_problems(_doctor448):
+            _bad448.append("a supersession with no open under its parent was accepted")
+    _d448 = "%d dropped site(s) over %d file(s) | superseded %d (exact %d, sibling-only %d), " \
+            "orphan %d (on disk %d, absent %d), unresolvable %d, not-a-path %d | openers %d" % (
+                _s448.get("population"), _s448.get("files_with_a_dropped_site"),
+                _s448.get("superseded_sites"),
+                _s448.get("superseded_by_an_open_of_the_same_path"),
+                _s448.get("superseded_by_a_sibling_open_only"),
+                _s448.get("orphan_sites"), _s448.get("orphan_paths_already_on_disk"),
+                _s448.get("orphan_paths_absent_from_disk"),
+                _s448.get("parent_not_resolvable_sites"),
+                _s448.get("not_a_path_composition_sites"), _s448.get("openers_scanned"))
+except Exception as _e448:
+    _bad448.append(repr(_e448)[:160])
+check(_name448, not _bad448, "; ".join(_bad448)[:240] or _d448)
+
 if __name__ == "__main__":
     sys.exit(main())
