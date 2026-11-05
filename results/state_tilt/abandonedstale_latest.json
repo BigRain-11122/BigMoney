@@ -1,0 +1,332 @@
+{
+ "core_question": "of the E452 present targets under a base no write site produces, how many are older than 180 days at the cutoff and how many of their readers check an age at all",
+ "evidence_cutoff": "2026-11-06",
+ "generated": "2026-11-06T05:41:27",
+ "identification": {
+  "mtime_age_is_identifiable_above_the_threshold": false,
+  "mtime_floor": {
+   "distinct_mtime_dates": 20,
+   "max_identifiable_age_days": 21,
+   "modal_date": "2026-10-17",
+   "modal_date_count": 29133,
+   "oldest_file": "Tools/InvisibleRunner.vbs",
+   "oldest_mtime_date": "2026-10-16",
+   "walk_cap": 60000,
+   "walked": 58178
+  },
+  "reason": "an mtime-derived age cannot exceed the age of the materialisation that set it",
+  "threshold_days": 180
+ },
+ "rows": [
+  {
+   "base": "results/etf_book_production",
+   "base_newest_age_days": 8,
+   "base_newest_member": "results/etf_book_production/latest.json",
+   "class_counts": {
+    "fresh_artifact": 1,
+    "stale_artifact_with_an_age_check": 0,
+    "stale_artifact_with_no_age_check": 0
+   },
+   "member_count_at_base": 6,
+   "site_count": 1,
+   "sites": [
+    {
+     "age_check_forms": [
+      "reads_the_clock",
+      "names_a_max_age_constant"
+     ],
+     "age_is_identifiable_above_the_threshold": false,
+     "base": "results/etf_book_production",
+     "base_newest_age_days": 8,
+     "base_newest_member": "results/etf_book_production/latest.json",
+     "class": "fresh_artifact",
+     "consumer": "smoke_suite",
+     "face": "smoke_test.py",
+     "has_an_age_check": true,
+     "kind": "open",
+     "line": 450,
+     "reading_scope": "main",
+     "resolved_path": "results/etf_book_production/CARD.md",
+     "target_age_days_at_cutoff": 9
+    }
+   ]
+  },
+  {
+   "base": "results/t23_census",
+   "base_newest_age_days": 20,
+   "base_newest_member": "results/t23_census/CENSUS-2026-10-09.json",
+   "class_counts": {
+    "fresh_artifact": 3,
+    "stale_artifact_with_an_age_check": 0,
+    "stale_artifact_with_no_age_check": 0
+   },
+   "member_count_at_base": 2,
+   "site_count": 3,
+   "sites": [
+    {
+     "age_check_forms": [],
+     "age_is_identifiable_above_the_threshold": false,
+     "base": "results/t23_census",
+     "base_newest_age_days": 20,
+     "base_newest_member": "results/t23_census/CENSUS-2026-10-09.json",
+     "class": "fresh_artifact",
+     "consumer": "lane_host",
+     "face": "scripts/alphagen_beam_w18.py",
+     "has_an_age_check": false,
+     "kind": "open",
+     "line": 480,
+     "reading_scope": "_census_consumed_formulas",
+     "resolved_path": "results/t23_census/CENSUS-2026-10-09.json",
+     "target_age_days_at_cutoff": 20
+    },
+    {
+     "age_check_forms": [],
+     "age_is_identifiable_above_the_threshold": false,
+     "base": "results/t23_census",
+     "base_newest_age_days": 20,
+     "base_newest_member": "results/t23_census/CENSUS-2026-10-09.json",
+     "class": "fresh_artifact",
+     "consumer": "lane_host",
+     "face": "scripts/alphagen_beam_w19.py",
+     "has_an_age_check": false,
+     "kind": "open",
+     "line": 569,
+     "reading_scope": "_census_consumed_formulas",
+     "resolved_path": "results/t23_census/CENSUS-2026-10-09.json",
+     "target_age_days_at_cutoff": 20
+    },
+    {
+     "age_check_forms": [],
+     "age_is_identifiable_above_the_threshold": false,
+     "base": "results/t23_census",
+     "base_newest_age_days": 20,
+     "base_newest_member": "results/t23_census/CENSUS-2026-10-09.json",
+     "class": "fresh_artifact",
+     "consumer": "lane_host",
+     "face": "scripts/alphagen_beam_w20.py",
+     "has_an_age_check": false,
+     "kind": "open",
+     "line": 600,
+     "reading_scope": "_census_consumed_formulas",
+     "resolved_path": "results/t23_census/CENSUS-2026-10-09.json",
+     "target_age_days_at_cutoff": 20
+    }
+   ]
+  },
+  {
+   "base": "results/etf_book_order",
+   "base_newest_age_days": 8,
+   "base_newest_member": "results/etf_book_order/LOTCURVE-2026-10-28-card.json",
+   "class_counts": {
+    "fresh_artifact": 2,
+    "stale_artifact_with_an_age_check": 0,
+    "stale_artifact_with_no_age_check": 0
+   },
+   "member_count_at_base": 14,
+   "site_count": 2,
+   "sites": [
+    {
+     "age_check_forms": [
+      "reads_the_clock",
+      "names_a_max_age_constant"
+     ],
+     "age_is_identifiable_above_the_threshold": false,
+     "base": "results/etf_book_order",
+     "base_newest_age_days": 8,
+     "base_newest_member": "results/etf_book_order/LOTCURVE-2026-10-28-card.json",
+     "class": "fresh_artifact",
+     "consumer": "smoke_suite",
+     "face": "smoke_test.py",
+     "has_an_age_check": true,
+     "kind": "open",
+     "line": 699,
+     "reading_scope": "main",
+     "resolved_path": "results/etf_book_order/latest.json",
+     "target_age_days_at_cutoff": 9
+    },
+    {
+     "age_check_forms": [
+      "reads_the_clock",
+      "names_a_max_age_constant"
+     ],
+     "age_is_identifiable_above_the_threshold": false,
+     "base": "results/etf_book_order",
+     "base_newest_age_days": 8,
+     "base_newest_member": "results/etf_book_order/LOTCURVE-2026-10-28-card.json",
+     "class": "fresh_artifact",
+     "consumer": "smoke_suite",
+     "face": "smoke_test.py",
+     "has_an_age_check": true,
+     "kind": "open",
+     "line": 1606,
+     "reading_scope": "main",
+     "resolved_path": "results/etf_book_order/latest.json",
+     "target_age_days_at_cutoff": 9
+    }
+   ]
+  },
+  {
+   "base": "results/bond_w3a",
+   "base_newest_age_days": 20,
+   "base_newest_member": "results/bond_w3a/candidates.json",
+   "class_counts": {
+    "fresh_artifact": 3,
+    "stale_artifact_with_an_age_check": 0,
+    "stale_artifact_with_no_age_check": 0
+   },
+   "member_count_at_base": 8,
+   "site_count": 3,
+   "sites": [
+    {
+     "age_check_forms": [],
+     "age_is_identifiable_above_the_threshold": false,
+     "base": "results/bond_w3a",
+     "base_newest_age_days": 20,
+     "base_newest_member": "results/bond_w3a/candidates.json",
+     "class": "fresh_artifact",
+     "consumer": "lane_host",
+     "face": "scripts/bond_panel_puller.py",
+     "has_an_age_check": false,
+     "kind": "open",
+     "line": 127,
+     "reading_scope": "cmd_manifest",
+     "resolved_path": "results/bond_w3a/candidates.json",
+     "target_age_days_at_cutoff": 20
+    },
+    {
+     "age_check_forms": [],
+     "age_is_identifiable_above_the_threshold": false,
+     "base": "results/bond_w3a",
+     "base_newest_age_days": 20,
+     "base_newest_member": "results/bond_w3a/candidates.json",
+     "class": "fresh_artifact",
+     "consumer": "lane_host",
+     "face": "scripts/bond_panel_puller.py",
+     "has_an_age_check": false,
+     "kind": "open",
+     "line": 284,
+     "reading_scope": "cmd_run",
+     "resolved_path": "results/bond_w3a/candidates.json",
+     "target_age_days_at_cutoff": 20
+    },
+    {
+     "age_check_forms": [
+      "reads_the_clock"
+     ],
+     "age_is_identifiable_above_the_threshold": false,
+     "base": "results/bond_w3a",
+     "base_newest_age_days": 20,
+     "base_newest_member": "results/bond_w3a/candidates.json",
+     "class": "fresh_artifact",
+     "consumer": "lane_host",
+     "face": "scripts/bond_panel_puller.py",
+     "has_an_age_check": true,
+     "kind": "open",
+     "line": 308,
+     "reading_scope": "cmd_status",
+     "resolved_path": "results/bond_w3a/candidates.json",
+     "target_age_days_at_cutoff": 20
+    }
+   ]
+  },
+  {
+   "base": "results/e79",
+   "base_newest_age_days": 2,
+   "base_newest_member": "results/e79/DOCQUOTES-2026-11-04.json",
+   "class_counts": {
+    "fresh_artifact": 1,
+    "stale_artifact_with_an_age_check": 0,
+    "stale_artifact_with_no_age_check": 0
+   },
+   "member_count_at_base": 30,
+   "site_count": 1,
+   "sites": [
+    {
+     "age_check_forms": [
+      "reads_the_clock",
+      "names_a_max_age_constant"
+     ],
+     "age_is_identifiable_above_the_threshold": false,
+     "base": "results/e79",
+     "base_newest_age_days": 2,
+     "base_newest_member": "results/e79/DOCQUOTES-2026-11-04.json",
+     "class": "fresh_artifact",
+     "consumer": "smoke_suite",
+     "face": "smoke_test.py",
+     "has_an_age_check": true,
+     "kind": "open",
+     "line": 985,
+     "reading_scope": "main",
+     "resolved_path": "results/e79/DOCQUOTES-BASELINE.json",
+     "target_age_days_at_cutoff": 8
+    }
+   ]
+  },
+  {
+   "base": "results/g25",
+   "base_newest_age_days": 20,
+   "base_newest_member": "results/g25/COMPOSITE-CE-01.json",
+   "class_counts": {
+    "fresh_artifact": 1,
+    "stale_artifact_with_an_age_check": 0,
+    "stale_artifact_with_no_age_check": 0
+   },
+   "member_count_at_base": 7,
+   "site_count": 1,
+   "sites": [
+    {
+     "age_check_forms": [
+      "reads_the_clock"
+     ],
+     "age_is_identifiable_above_the_threshold": false,
+     "base": "results/g25",
+     "base_newest_age_days": 20,
+     "base_newest_member": "results/g25/COMPOSITE-CE-01.json",
+     "class": "fresh_artifact",
+     "consumer": "lane_host",
+     "face": "scripts/strategy_scorecard.py",
+     "has_an_age_check": true,
+     "kind": "listdir",
+     "line": 1325,
+     "reading_scope": "run",
+     "resolved_path": "results/g25",
+     "target_age_days_at_cutoff": 20
+    }
+   ]
+  }
+ ],
+ "source_face": "abandonedguard_latest.json",
+ "staleness_threshold_days": 180,
+ "study": "E453_abandoned_stale",
+ "summary": {
+  "age_check_form_counts": {
+   "compares_an_mtime": 0,
+   "names_a_max_age_constant": 4,
+   "reads_the_clock": 6
+  },
+  "bases_graded": 6,
+  "class_counts": {
+   "fresh_artifact": 11,
+   "stale_artifact_with_an_age_check": 0,
+   "stale_artifact_with_no_age_check": 0
+  },
+  "consumer_counts": {
+   "lane_host": 7,
+   "smoke_suite": 4
+  },
+  "max_target_age_days": 20,
+  "min_target_age_days": 8,
+  "sites_graded": 11,
+  "sites_with_a_measured_target": 11,
+  "sites_with_an_age_check": 6,
+  "stale_by_consumer": {
+   "lane_host": 0,
+   "smoke_suite": 0
+  },
+  "stale_sites": [],
+  "staleness_threshold_days": 180,
+  "unmeasured_sites": []
+ },
+ "title": "a guard tests existence and says nothing about age",
+ "verdict": "mtime_age_cannot_exceed_the_checkout_floor_so_staleness_is_not_identifiable_here_and_every_fresh_reading_is_an_artifact_of_materialisation"
+}

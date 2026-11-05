@@ -11181,6 +11181,44 @@ S6 leg `abandoned_guard` (`verify`, one corpus walk ~60 s); smoke leg `e452 aban
 guard` with a doctored control that must stay red. Digest
 `research/digests/DIGEST-20261106-r1470-e452-abandoned-guard.md`.
 
+## E453 -- mtime age cannot exceed the age of the checkout that set it (r1471.1 bm-b)
+
+* **Question.** E452 left 11 harness read sites under an abandoned base whose artifact is still on
+  disk, and said the guard only announces *absence*. Is any of those targets stale -- and does the
+  code that reads it check an age at all?
+* **Answer, and the trap that answers it.** Ages 8..20 days, threshold 180, so all 11 come back
+  `fresh_artifact` -- and that reading is worthless here, on purpose. The published floor block
+  shows why: **29,133 files share the mtime date 2026-10-17** (58,178 walked, 20 distinct dates,
+  oldest 2026-10-16). A checkout stamps every file with the materialisation moment, so an
+  mtime-derived age is capped at 21 days on this tree no matter how old the content is. Verdict is
+  therefore not "fresh" but
+  `mtime_age_cannot_exceed_the_checkout_floor_so_staleness_is_not_identifiable_here_and_every_fresh_reading_is_an_artifact_of_materialisation`.
+* **The reusable law.** Before any age/freshness claim from filesystem mtimes, measure the floor:
+  the oldest mtime in the tree and the modal mtime date with its count. If
+  `max_identifiable_age_days < threshold`, the measurement is **not identifiable** and a "fresh"
+  result must be published as an artefact of materialisation, not as evidence. A staleness check
+  that returns green on a freshly-cloned tree is measuring `git clone`, not the pipeline. The
+  threshold is a named constant (`STALE_DAYS = 180`) fixed before the data, so it cannot be tuned to
+  the answer.
+* **What is still measured and true.** The age-check half of the question does not depend on mtime:
+  6 of 11 reading scopes read the clock, 4 name a max-age/staleness constant or argument, 0 compare
+  an `st_mtime`, and every site's enclosing function was located and published. Those forms are
+  incidental hygiene, not freshness gates: a clock read inside a reader is not a check that the
+  bytes are current.
+* **Two aggregators, published apart.** The class table (fresh/stale-checked/stale-bare) and the
+  identifiability block are separate; the verdict is computed from both and the identifiability arm
+  takes precedence, so a future tree with a genuinely old floor will produce the ordinary verdict
+  without any code change. The `check` leg refuses a verdict that disagrees with the floor and
+  refuses any target that measures older than the floor it publishes.
+* **Boundary.** Six of the seven E452 bases contributed sites; the row with no present target is
+  dropped rather than carried as a zero row, and `bases_graded=6` says so. Nothing here decides
+  whether a stale artifact should be deleted -- it decides whether anyone would notice.
+
+Face: `results/state_tilt/abandonedstale_latest.json` (`ABANDONEDSTALE-<cutoff>.json`); producer
+`scripts/e453_abandoned_stale.py` (selftest 25/25, run rc0, check problems=[], verify problems=[]);
+smoke leg `e453 abandoned base target staleness` with a doctored control that must stay red. Digest
+`research/digests/DIGEST-20261106-r1471-e453-abandoned-stale.md`.
+
 ## E454 -- a site address that is a line number in a file that grows every round is not an address (r1471 bm-b)
 
 * **Question.** A census publishes each read site as `file:line` and its `verify` re-walks the tree

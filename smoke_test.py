@@ -16963,6 +16963,70 @@ check(_name445, not _bad445, "; ".join(_bad445)[:240]
          _by445.get(_m445.T_NEW, 0), _s445.get("rows_where_the_composition_repeats_the_base", 0)))
 
 
+# E453 (r1471.1 bm-b): E452 published 11 harness read sites under an abandoned base whose artifact is
+# still on disk, and a guard only announces absence -- it says nothing about age.  This leg refuses
+# (a) a class that does not re-derive from the site's own age and age-check forms, (b) a stale target
+# graded fresh after the threshold moved, (c) a summary counter that does not re-add, (d) a verdict
+# that does not re-derive from the sites and the identifiability block together, (e) an age that
+# exceeds the checkout floor the face itself publishes (that would be an mtime from the future or a
+# floor measured on a different tree), and (f) an age-check form outside the vocabulary.
+_name453 = "e453 abandoned base target staleness (r1471.1 bm-b)"
+_bad453 = []
+try:
+    _m453 = __import__("importlib").import_module("e453_abandoned_stale")
+    _f453 = json.load(open(os.path.join("results", "state_tilt", "abandonedstale_latest.json"),
+                           encoding="utf-8"))
+    _s453 = _f453.get("summary") or {}
+    _ident453 = _f453.get("identification") or {}
+    _sites453 = [s for r in (_f453.get("rows") or []) for s in (r.get("sites") or [])]
+    _bad453.extend(_m453.tally_problems(_f453))
+    if _f453.get("verdict") != _m453.verdict_for(_sites453, _ident453):
+        _bad453.append("the verdict does not re-derive from the sites and the floor")
+    if sum((_s453.get("class_counts") or {}).values()) != len(_sites453):
+        _bad453.append("the class table does not add up to the sites")
+    _floor453 = (_ident453.get("mtime_floor") or {}).get("max_identifiable_age_days")
+    if _floor453 is None:
+        _bad453.append("the face publishes no checkout floor")
+    for _x453 in _sites453:
+        if _x453.get("class") not in _m453.CLASSES:
+            _bad453.append("%s:%s class outside the vocabulary"
+                           % (_x453.get("face"), _x453.get("line")))
+            break
+        for _form453 in (_x453.get("age_check_forms") or []):
+            if _form453 not in _m453.AGE_FORMS:
+                _bad453.append("%s:%s age-check form %r outside the vocabulary"
+                               % (_x453.get("face"), _x453.get("line"), _form453))
+                break
+        _age453 = _x453.get("target_age_days_at_cutoff")
+        if _age453 is not None and _floor453 is not None and _age453 > _floor453:
+            _bad453.append("%s:%s age %d exceeds the checkout floor %d"
+                           % (_x453.get("face"), _x453.get("line"), _age453, _floor453))
+            break
+        if _x453.get("class") == _m453.C_FRESH and _age453 is not None \
+                and _age453 > (_f453.get("staleness_threshold_days") or 0):
+            _bad453.append("%s:%s graded fresh above the threshold"
+                           % (_x453.get("face"), _x453.get("line")))
+            break
+    # doctored control: a stale target read by a plain open must NOT be called fresh, and a floor
+    # older than the threshold must NOT produce the unidentifiable verdict
+    _ctl453 = {"class": _m453.C_STALE_NO_CHECK}
+    if _m453.classify(_m453.STALE_DAYS + 1, []) != _m453.C_STALE_NO_CHECK:
+        _bad453.append("control: a stale unread-age target was not graded stale")
+    _ctl_ident453 = {"mtime_age_is_identifiable_above_the_threshold": True}
+    if _m453.verdict_for([_ctl453], _ctl_ident453) == _m453.UNIDENTIFIABLE_VERDICT:
+        _bad453.append("control: an identifiable floor still produced the unidentifiable verdict")
+except Exception as _e453:  # noqa: BLE001
+    _bad453.append("leg crashed: %s" % _e453)
+check(_name453, not _bad453, "; ".join(_bad453)[:240]
+      or "%d present targets over %d abandoned bases: %d fresh / %d stale-checked / %d stale-bare; "
+         "ages %s..%s d vs threshold %s d, checkout floor %s d; age-check forms %s"
+         % (len(_sites453), _s453.get("bases_graded", 0),
+            (_s453.get("class_counts") or {}).get(_m453.C_FRESH, 0),
+            (_s453.get("class_counts") or {}).get(_m453.C_STALE_CHECKED, 0),
+            (_s453.get("class_counts") or {}).get(_m453.C_STALE_NO_CHECK, 0),
+            _s453.get("min_target_age_days"), _s453.get("max_target_age_days"),
+            _f453.get("staleness_threshold_days"), _floor453,
+            json.dumps(_s453.get("age_check_form_counts") or {})))
 # E452 (r1470 bm-b): E447 published 7 abandoned bases still opened by code a harness launches.  A
 # harness that opens a file nobody writes is safe only if the open is guarded or the artifact is
 # still there.  This leg refuses (a) a class that does not re-derive from the site's own guard
