@@ -1,0 +1,410 @@
+{
+ "card": "E452-WHICH-HARNESS-OPEN-OF-AN-ABANDONED-BASE-IS-UNGUARDED",
+ "class_vocab": [
+  "unguarded_and_the_artifact_is_gone",
+  "unguarded_but_the_artifact_is_present",
+  "guarded_so_a_missing_artifact_is_announced",
+  "target_not_statically_resolvable"
+ ],
+ "evidence_cutoff": "2026-11-06",
+ "generated": "2026-11-06",
+ "guard_vocab": [
+  "try_except",
+  "existence_test_in_the_enclosing_test",
+  "existence_test_earlier_in_the_enclosing_function",
+  "conditional_default"
+ ],
+ "method_limits": [
+  "the population is E447's abandoned_but_still_read bases that have at least one live reader, re-walked from the live corpus with E447's own scan so the site set is not limited by E447's 25-sites-per-base publication cap",
+  "a site is graded live exactly as E447 grades liveness (smoke leg / chain leg / task referenced / __main__ runnable); face-writing censuses and unlaunched libraries are out of this population",
+  "guard shapes counted: try_except (the call sits in a try body), existence_test_in_the_enclosing_test (an if/if-exp/boolean test names an exists() of the same expression, with polarity matched to the branch the call sits in), conditional_default (the call is the body of an if-exp with an else), and existence_test_earlier_in_the_enclosing_function (a negative existence test on the same expression appears lexically earlier in the same function)",
+  "guard detection is lexical, not a control-flow proof: a guard one call away (in a caller or a wrapper helper) is not credited, and a negative test earlier in the function is credited whether or not every path reaches it",
+  "the path expression is compared by source text (whitespace stripped), so an exists() that tests a differently spelled alias of the same value is not credited",
+  "artifact_present is os.path.exists on the resolved repo-relative target today; a site whose target is only a literal tail (unresolved head) is classed target_not_statically_resolvable and never counted as gone",
+  "a shared-resolver reading that stopped early (fstring_head / unresolved / bare_name) is not a path: those sites are re-resolved locally with the f-string completed when every part names a module constant, and the site publishes resolution=completed_fstring plus the shared reading it replaces; sites where the completion fails keep resolution=unresolved and are never counted as gone"
+ ],
+ "rows": [
+  {
+   "base": "results/etf_book_production",
+   "class_counts": {
+    "guarded_so_a_missing_artifact_is_announced": 1,
+    "target_not_statically_resolvable": 0,
+    "unguarded_and_the_artifact_is_gone": 0,
+    "unguarded_but_the_artifact_is_present": 0
+   },
+   "e447_class": "abandoned_but_still_read",
+   "live_readers": [
+    "smoke_test.py"
+   ],
+   "site_count": 1,
+   "sites": [
+    {
+     "artifact_present": true,
+     "calls_on_line": 1,
+     "class": "guarded_so_a_missing_artifact_is_announced",
+     "face": "smoke_test.py",
+     "guard_shapes": [
+      "try_except",
+      "existence_test_in_the_enclosing_test"
+     ],
+     "guarded": true,
+     "kind": "open",
+     "line": 450,
+     "path_expression": "_card",
+     "resolution": "shared_resolver",
+     "resolved_path": "results/etf_book_production/CARD.md",
+     "resolver_how": "constant:_card",
+     "shared_resolver_path": "results/etf_book_production/CARD.md"
+    }
+   ]
+  },
+  {
+   "base": "results/overnight_gap_census",
+   "class_counts": {
+    "guarded_so_a_missing_artifact_is_announced": 0,
+    "target_not_statically_resolvable": 0,
+    "unguarded_and_the_artifact_is_gone": 0,
+    "unguarded_but_the_artifact_is_present": 0
+   },
+   "e447_class": "abandoned_but_still_read",
+   "live_readers": [],
+   "site_count": 0,
+   "sites": []
+  },
+  {
+   "base": "results/t23_census",
+   "class_counts": {
+    "guarded_so_a_missing_artifact_is_announced": 0,
+    "target_not_statically_resolvable": 0,
+    "unguarded_and_the_artifact_is_gone": 0,
+    "unguarded_but_the_artifact_is_present": 3
+   },
+   "e447_class": "abandoned_but_still_read",
+   "live_readers": [
+    "scripts/alphagen_beam_w18.py",
+    "scripts/alphagen_beam_w19.py",
+    "scripts/alphagen_beam_w20.py"
+   ],
+   "site_count": 3,
+   "sites": [
+    {
+     "artifact_present": true,
+     "calls_on_line": 1,
+     "class": "unguarded_but_the_artifact_is_present",
+     "face": "scripts/alphagen_beam_w18.py",
+     "guard_shapes": [],
+     "guarded": false,
+     "kind": "open",
+     "line": 480,
+     "path_expression": "CENSUS_PRODUCT",
+     "resolution": "completed_fstring",
+     "resolved_path": "results/t23_census/CENSUS-2026-10-09.json",
+     "resolver_how": "constant:CENSUS_PRODUCT",
+     "shared_resolver_path": "results/t23_census/CENSUS-"
+    },
+    {
+     "artifact_present": true,
+     "calls_on_line": 1,
+     "class": "unguarded_but_the_artifact_is_present",
+     "face": "scripts/alphagen_beam_w19.py",
+     "guard_shapes": [],
+     "guarded": false,
+     "kind": "open",
+     "line": 569,
+     "path_expression": "CENSUS_PRODUCT",
+     "resolution": "completed_fstring",
+     "resolved_path": "results/t23_census/CENSUS-2026-10-09.json",
+     "resolver_how": "constant:CENSUS_PRODUCT",
+     "shared_resolver_path": "results/t23_census/CENSUS-"
+    },
+    {
+     "artifact_present": true,
+     "calls_on_line": 1,
+     "class": "unguarded_but_the_artifact_is_present",
+     "face": "scripts/alphagen_beam_w20.py",
+     "guard_shapes": [],
+     "guarded": false,
+     "kind": "open",
+     "line": 600,
+     "path_expression": "CENSUS_PRODUCT",
+     "resolution": "completed_fstring",
+     "resolved_path": "results/t23_census/CENSUS-2026-10-09.json",
+     "resolver_how": "constant:CENSUS_PRODUCT",
+     "shared_resolver_path": "results/t23_census/CENSUS-"
+    }
+   ]
+  },
+  {
+   "base": "results/etf_book_order",
+   "class_counts": {
+    "guarded_so_a_missing_artifact_is_announced": 2,
+    "target_not_statically_resolvable": 0,
+    "unguarded_and_the_artifact_is_gone": 0,
+    "unguarded_but_the_artifact_is_present": 0
+   },
+   "e447_class": "abandoned_but_still_read",
+   "live_readers": [
+    "smoke_test.py"
+   ],
+   "site_count": 2,
+   "sites": [
+    {
+     "artifact_present": true,
+     "calls_on_line": 1,
+     "class": "guarded_so_a_missing_artifact_is_announced",
+     "face": "smoke_test.py",
+     "guard_shapes": [
+      "try_except"
+     ],
+     "guarded": true,
+     "kind": "open",
+     "line": 699,
+     "path_expression": "\"results/etf_book_order/latest.json\"",
+     "resolution": "shared_resolver",
+     "resolved_path": "results/etf_book_order/latest.json",
+     "resolver_how": "literal",
+     "shared_resolver_path": "results/etf_book_order/latest.json"
+    },
+    {
+     "artifact_present": true,
+     "calls_on_line": 1,
+     "class": "guarded_so_a_missing_artifact_is_announced",
+     "face": "smoke_test.py",
+     "guard_shapes": [
+      "try_except"
+     ],
+     "guarded": true,
+     "kind": "open",
+     "line": 1606,
+     "path_expression": "\"results/etf_book_order/latest.json\"",
+     "resolution": "shared_resolver",
+     "resolved_path": "results/etf_book_order/latest.json",
+     "resolver_how": "literal",
+     "shared_resolver_path": "results/etf_book_order/latest.json"
+    }
+   ]
+  },
+  {
+   "base": "results/bond_w3a",
+   "class_counts": {
+    "guarded_so_a_missing_artifact_is_announced": 3,
+    "target_not_statically_resolvable": 0,
+    "unguarded_and_the_artifact_is_gone": 0,
+    "unguarded_but_the_artifact_is_present": 1
+   },
+   "e447_class": "abandoned_but_still_read",
+   "live_readers": [
+    "scripts/bond_panel_puller.py"
+   ],
+   "site_count": 4,
+   "sites": [
+    {
+     "artifact_present": true,
+     "calls_on_line": 1,
+     "class": "unguarded_but_the_artifact_is_present",
+     "face": "scripts/bond_panel_puller.py",
+     "guard_shapes": [],
+     "guarded": false,
+     "kind": "open",
+     "line": 127,
+     "path_expression": "MANIFEST",
+     "resolution": "shared_resolver",
+     "resolved_path": "results/bond_w3a/candidates.json",
+     "resolver_how": "constant:MANIFEST",
+     "shared_resolver_path": "results/bond_w3a/candidates.json"
+    },
+    {
+     "artifact_present": true,
+     "calls_on_line": 1,
+     "class": "guarded_so_a_missing_artifact_is_announced",
+     "face": "scripts/bond_panel_puller.py",
+     "guard_shapes": [
+      "existence_test_earlier_in_the_enclosing_function"
+     ],
+     "guarded": true,
+     "kind": "open",
+     "line": 284,
+     "path_expression": "MANIFEST",
+     "resolution": "shared_resolver",
+     "resolved_path": "results/bond_w3a/candidates.json",
+     "resolver_how": "constant:MANIFEST",
+     "shared_resolver_path": "results/bond_w3a/candidates.json"
+    },
+    {
+     "artifact_present": true,
+     "calls_on_line": 1,
+     "class": "guarded_so_a_missing_artifact_is_announced",
+     "face": "scripts/bond_panel_puller.py",
+     "guard_shapes": [
+      "existence_test_earlier_in_the_enclosing_function"
+     ],
+     "guarded": true,
+     "kind": "open",
+     "line": 308,
+     "path_expression": "MANIFEST",
+     "resolution": "shared_resolver",
+     "resolved_path": "results/bond_w3a/candidates.json",
+     "resolver_how": "constant:MANIFEST",
+     "shared_resolver_path": "results/bond_w3a/candidates.json"
+    },
+    {
+     "artifact_present": false,
+     "calls_on_line": 1,
+     "class": "guarded_so_a_missing_artifact_is_announced",
+     "face": "scripts/bond_panel_puller.py",
+     "guard_shapes": [
+      "existence_test_in_the_enclosing_test"
+     ],
+     "guarded": true,
+     "kind": "open",
+     "line": 316,
+     "path_expression": "FUSE",
+     "resolution": "shared_resolver",
+     "resolved_path": "results/bond_w3a/conn_fuse.json",
+     "resolver_how": "constant:FUSE",
+     "shared_resolver_path": "results/bond_w3a/conn_fuse.json"
+    }
+   ]
+  },
+  {
+   "base": "results/e79",
+   "class_counts": {
+    "guarded_so_a_missing_artifact_is_announced": 1,
+    "target_not_statically_resolvable": 0,
+    "unguarded_and_the_artifact_is_gone": 0,
+    "unguarded_but_the_artifact_is_present": 0
+   },
+   "e447_class": "abandoned_but_still_read",
+   "live_readers": [
+    "smoke_test.py"
+   ],
+   "site_count": 1,
+   "sites": [
+    {
+     "artifact_present": true,
+     "calls_on_line": 1,
+     "class": "guarded_so_a_missing_artifact_is_announced",
+     "face": "smoke_test.py",
+     "guard_shapes": [
+      "try_except",
+      "existence_test_in_the_enclosing_test"
+     ],
+     "guarded": true,
+     "kind": "open",
+     "line": 985,
+     "path_expression": "_pg_path",
+     "resolution": "shared_resolver",
+     "resolved_path": "results/e79/DOCQUOTES-BASELINE.json",
+     "resolver_how": "constant:_pg_path",
+     "shared_resolver_path": "results/e79/DOCQUOTES-BASELINE.json"
+    }
+   ]
+  },
+  {
+   "base": "results/g25",
+   "class_counts": {
+    "guarded_so_a_missing_artifact_is_announced": 1,
+    "target_not_statically_resolvable": 0,
+    "unguarded_and_the_artifact_is_gone": 0,
+    "unguarded_but_the_artifact_is_present": 0
+   },
+   "e447_class": "abandoned_but_still_read",
+   "live_readers": [
+    "scripts/strategy_scorecard.py"
+   ],
+   "site_count": 1,
+   "sites": [
+    {
+     "artifact_present": true,
+     "calls_on_line": 1,
+     "class": "guarded_so_a_missing_artifact_is_announced",
+     "face": "scripts/strategy_scorecard.py",
+     "guard_shapes": [
+      "existence_test_in_the_enclosing_test"
+     ],
+     "guarded": true,
+     "kind": "listdir",
+     "line": 1325,
+     "path_expression": "gdir",
+     "resolution": "shared_resolver",
+     "resolved_path": "results/g25",
+     "resolver_how": "constant:gdir",
+     "shared_resolver_path": "results/g25"
+    }
+   ]
+  }
+ ],
+ "source_face": "results/state_tilt/abandonedread_latest.json",
+ "study": "E452_which_harness_open_of_an_abandoned_base_is_unguarded",
+ "summary": {
+  "artifact_present_counts": {
+   "gone": 1,
+   "present": 11,
+   "unresolved": 0
+  },
+  "bases_where_e447_live_reader_is_not_live_now": [
+   "results/overnight_gap_census"
+  ],
+  "bases_with_a_live_reader": 7,
+  "class_counts": {
+   "guarded_so_a_missing_artifact_is_announced": 8,
+   "target_not_statically_resolvable": 0,
+   "unguarded_and_the_artifact_is_gone": 0,
+   "unguarded_but_the_artifact_is_present": 4
+  },
+  "corpus": {
+   "live_reader_faces": 1512,
+   "max_bytes_per_file": 2097152,
+   "python_files_walked": 12139,
+   "skipped_dir_names": [
+    ".codely-cli",
+    ".git",
+    "Money02",
+    "__pycache__",
+    "_quarantine",
+    "_smoke",
+    "legacy",
+    "node_modules"
+   ],
+   "total_read_sites": 26284
+  },
+  "distinct_reader_faces": 6,
+  "distinct_targets": 7,
+  "guard_by_presence": {
+   "guarded": {
+    "False": 1,
+    "None": 0,
+    "True": 7
+   },
+   "unguarded": {
+    "False": 0,
+    "None": 0,
+    "True": 4
+   }
+  },
+  "guard_shape_counts": {
+   "conditional_default": 0,
+   "existence_test_earlier_in_the_enclosing_function": 2,
+   "existence_test_in_the_enclosing_test": 4,
+   "try_except": 4
+  },
+  "guarded_sites": 8,
+  "population_check": {
+   "agrees": true,
+   "e447_bases_read_by_a_live_consumer": 7,
+   "recomputed_bases_with_a_live_reader": 7
+  },
+  "resolution_counts": {
+   "completed_fstring": 3,
+   "shared_resolver": 9,
+   "unresolved": 0
+  },
+  "shared_resolver_mismatches": [],
+  "sites_graded": 12,
+  "sites_with_no_guard": 4,
+  "unguarded_and_gone_sites": [],
+  "unguarded_sites": 4
+ },
+ "title": "of the reads E447 found under an abandoned base whose reader a harness launches, which open is guarded and which artifact is gone today",
+ "verdict": "every_unguarded_harness_open_still_finds_its_artifact"
+}

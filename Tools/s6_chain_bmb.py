@@ -1604,6 +1604,13 @@ LEGS = [
     # (or gained one) refuses the chain instead of republishing the old class.  Read-only; cost is
     # one AST walk of the corpus plus E446's writer pass (~60s).
     ("abandoned_read", ["python", "scripts/e447_abandoned_read.py", "verify"]),
+    # E452 (r1470): E447 published 7 abandoned bases still read by harness-launched code and left
+    # the safety question open -- an open on a file nobody writes is only safe if it is guarded or
+    # the artifact is still on disk.  Verify re-derives every guard shape from the reader's own AST
+    # and every artifact's presence from the disk, so a guard added, removed or moved refuses the
+    # chain instead of republishing the old class.  Read-only; cost is one corpus walk plus E447's
+    # face scan (~60s).
+    ("abandoned_guard", ["python", "scripts/e452_abandoned_guard.py", "verify"]),
     # E435 (r1458): E423 priced where a directory-named field points but never asked whether the
     # value is itself the name of a published face.  Verify re-derives the three value classes over
     # the live tree and refuses a published join whose target no longer resolves, so a face holding

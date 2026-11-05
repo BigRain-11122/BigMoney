@@ -11142,3 +11142,41 @@ Face: `results/state_tilt/abandonedread_latest.json` (`ABANDONEDREAD-<cutoff>.js
 S6 leg `abandoned_read` (`verify`, one corpus AST walk ~60 s); smoke leg `e447 abandoned base read`
 with a doctored control that must stay red. Digest
 `research/digests/DIGEST-20261106-r1469-e447-abandoned-read.md`.
+
+## E452 -- a truncated reading is not a missing file (r1470 bm-b)
+
+* **Question.** E447 published 7 abandoned bases that code a harness launches still reads. An open on
+  a file nobody writes is safe in exactly two worlds: the open is guarded, or the artifact is still
+  on disk. Which world is each site in?
+* **Answer.** 12 read sites over those 7 bases: **8 guarded, 4 unguarded, and every unguarded target
+  exists today** (`every_unguarded_harness_open_still_finds_its_artifact`). The one artifact that is
+  gone -- `results/bond_w3a/conn_fuse.json` -- is opened behind an existence test, so its absence
+  announces itself instead of raising.
+* **The guard ledger is not uniform.** 4 sites sit in a `try`, 4 have an `if os.path.exists(...)`
+  that names the same expression with the branch polarity matched, 2 have a negative existence test
+  earlier in the enclosing function, 0 use a conditional default. Guard detection is lexical and
+  says so: a guard one call away (a wrapper helper) is not credited, and an earlier negative test is
+  credited whether or not every path reaches it.
+* **The measurement pitfall (the reusable one).** Three sites read
+  `os.path.join(ROOT, "results", "t23_census", f"CENSUS-{CUTOFF_PIN}.json")`. The shared resolver
+  stops at the f-string head and returns `results/t23_census/CENSUS-`, which is not a path; probing
+  it with `os.path.exists` says "gone". That would have published three phantom broken harness opens
+  -- in the smoke-suite family that natural experiment is exactly the one this card exists for.
+  **A resolved value that came from a truncated composition must not be probed; publish it as
+  unresolved, or complete it and publish the provenance.** This face completes it from the module
+  constants and prints `resolution=completed_fstring` beside `shared_resolver_path`, so a completed
+  reading is never mistaken for a shared one; 9 sites stayed `shared_resolver`, 0 unresolved.
+* **Population honesty.** E447 counted 7 bases read by a live consumer; the live re-walk finds 7 but
+  one of them (`results/overnight_gap_census`) has no site whose reader is live under today's scan,
+  so it carries a row with zero sites and is named in
+  `summary.bases_where_e447_live_reader_is_not_live_now` rather than silently dropped.
+* **A guard is not a producer.** All 8 guarded sites still point at bytes no producer owns. The
+  reading is "a missing artifact would be announced", not "the harness can be fixed by adding a
+  producer" -- the fix decision belongs to the lane host that owns each base.
+
+Face: `results/state_tilt/abandonedguard_latest.json` (`ABANDONEDGUARD-<cutoff>.json`), verdict
+`every_unguarded_harness_open_still_finds_its_artifact`; producer
+`scripts/e452_abandoned_guard.py` (selftest 27/27, run rc0, check problems=[], verify problems=[]);
+S6 leg `abandoned_guard` (`verify`, one corpus walk ~60 s); smoke leg `e452 abandoned base harness
+guard` with a doctored control that must stay red. Digest
+`research/digests/DIGEST-20261106-r1470-e452-abandoned-guard.md`.

@@ -16962,6 +16962,50 @@ check(_name445, not _bad445, "; ".join(_bad445)[:240]
          _by445.get(_m445.T_NEW, 0), _s445.get("rows_where_the_composition_repeats_the_base", 0)))
 
 
+# E452 (r1470 bm-b): E447 published 7 abandoned bases still opened by code a harness launches.  A
+# harness that opens a file nobody writes is safe only if the open is guarded or the artifact is
+# still there.  This leg refuses (a) a class that does not re-derive from the site's own guard
+# shapes and the on-disk presence, (b) a guarded flag that disagrees with the shapes, (c) a site
+# whose target could not be resolved yet is graded present or gone, (d) a summary counter that does
+# not re-add, (e) a verdict that does not re-derive from the sites, and (f) a population that no
+# longer matches E447's published live-reader count without saying so.
+_name452 = "e452 abandoned base harness guard (r1470 bm-b)"
+_bad452 = []
+try:
+    _m452 = __import__("importlib").import_module("e452_abandoned_guard")
+    _f452 = json.load(open(os.path.join("results", "state_tilt", "abandonedguard_latest.json"),
+                           encoding="utf-8"))
+    _s452 = _f452.get("summary") or {}
+    _sites452 = [s for r in (_f452.get("rows") or []) for s in (r.get("sites") or [])]
+    _bad452.extend(_m452.tally_problems(_f452))
+    if _f452.get("verdict") != _m452.verdict_for(_sites452):
+        _bad452.append("the verdict does not re-derive from the sites")
+    if sum((_s452.get("class_counts") or {}).values()) != len(_sites452):
+        _bad452.append("the class table does not add up to the sites")
+    if not (_s452.get("population_check") or {}).get("agrees"):
+        _bad452.append("the population no longer matches E447's published count")
+    for _x452 in _sites452:
+        if _x452.get("class") not in _m452.CLASSES:
+            _bad452.append("%s:%s class outside the vocabulary"
+                           % (_x452.get("face"), _x452.get("line")))
+            break
+        if _x452.get("resolution") == "unresolved" and _x452.get("class") != _m452.C_UNRESOLVED:
+            _bad452.append("%s:%s unresolved target graded %s"
+                           % (_x452.get("face"), _x452.get("line"), _x452.get("class")))
+            break
+        if bool(_x452.get("guard_shapes")) != bool(_x452.get("guarded")):
+            _bad452.append("%s:%s guarded flag disagrees with its shapes"
+                           % (_x452.get("face"), _x452.get("line")))
+            break
+except Exception as _e452:  # noqa: BLE001
+    _bad452.append("leg crashed: %s" % _e452)
+check(_name452, not _bad452, "; ".join(_bad452)[:240]
+      or "%d abandoned bases x %d harness read sites: %d guarded, %d unguarded (%d present, %d gone); "
+         "guard shapes %s" % (_s452.get("bases_with_a_live_reader", 0), len(_sites452),
+                              _s452.get("guarded_sites", 0), _s452.get("unguarded_sites", 0),
+                              (_s452.get("artifact_present_counts") or {}).get("present", 0),
+                              (_s452.get("artifact_present_counts") or {}).get("gone", 0),
+                              json.dumps(_s452.get("guard_shape_counts") or {})))
 # E447 (r1469 bm-b): E446 published 23 face-home bases with no writer in the corpus and called the
 # split useful only if the abandoned ones are harmless.  A base nobody writes to is harmless only if
 # nobody reads there either.  This leg refuses (a) a class that does not re-derive from the row's own
