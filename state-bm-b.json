@@ -236,6 +236,7 @@
    "verdict": "two_members_pay_differently"
   }
  ],
+ "honest_note": "the first write of this round rewrote fleet/machines/bm-b.json and state-bm-b.json to CRLF (json.dump through io.open without newline='\n') so git showed both files as fully rewritten; rewritten with newline='\n' and the commit amended -- numstat now 29/26 and 49/34",
  "idle_rounds": 0,
  "instrument_defect": "py_watermark published work_cand_buckets.pool_batch=3 while its frozen verdict read py_low_board_clear, and NOTHING consumed that difference: the O-1136 sec.4 legal-idle whitelist also requires 'no runnable batch', and pool-ready cards are runnable. A reader (me, at open) can take board_clear as a legal-idle proof while three cards sit unclaimed. The verdict face is design-frozen (T7/T14, 'verdict faces unchanged') so it was NOT touched; the record now publishes legal_idle_whitelist {board_closed, no_runnable_batch, pool_ready_cards, satisfied, why_not} and four selftest legs pin all four combinations. r1266 law: a judgement no next step consumes is not landed.",
  "last_action": "E421 published, wired (S6 leg name_resolve + smoke leg E421), carded E421, pool E413 done with result_ref, E422 seeded",
@@ -5060,6 +5061,13 @@
   ],
   "three_line_current": "e305 face re-derives; e442 leg passes on the published face",
   "ts": "2026-11-06T01:41:04+08:00"
+ },
+ "r1465_delivery": {
+  "branch": "machine/bm-b-r1465",
+  "main_push_blocker": "local main is 404 ahead / 295 behind origin/main (two blood lines, promisor lazy-fetch wedge r1255 family) and the tree is dirty from other lanes; no unattended rebase per r1243",
+  "sha": "ec2e73e90f4fa542fe854339311cd184d385c204",
+  "ts": "2026-11-06T01:42:14+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1465 == HEAD"
  },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
