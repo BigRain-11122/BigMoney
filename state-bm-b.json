@@ -144,8 +144,9 @@
  "decisions_watermark_note": "fetch rc!=0 (cannot lock refs/remotes/origin/main); read origin/main:docs/decisions.md from the existing ref, 239 lines, newest D-20261104-01/02, bigmoney rows = no-op",
  "delivery": {
   "branch": "machine/bm-b-r1451",
-  "sha": "pending-push",
-  "verified": false,
+  "sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
+  "verified": true,
+  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1451 returns the same sha",
   "note": "main is non-fast-forward (ahead 377 / behind 294); machine branch is the delivery channel (r1243 ruling)"
  },
  "delivery_note": "pool faces were rewritten once with sort_keys and then restored with git checkout, which dropped about 1.1 KB of uncommitted lane fields and no entries (906 before, 906 after); the targeted re-apply is an append plus one stamp line",
@@ -5048,5 +5049,11 @@
   "sha": "8199ec580e20011699835c4266017c3e794fdba4",
   "verified": true,
   "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1450 == HEAD"
+ },
+ "postscript_sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
+ "r1451_delivery": {
+  "branch": "machine/bm-b-r1451",
+  "sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
+  "verified": true
  }
 }
