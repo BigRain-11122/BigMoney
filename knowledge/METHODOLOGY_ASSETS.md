@@ -10549,3 +10549,56 @@ face `FIXTUREBEYOND-2026-11-04.json` + `fixturebeyond_latest.json`; smoke leg
 `# E434 (r1455 bm-b)` with `scripts/run_e434_smoke_leg.py` (1/1 green, 1/1 red on a doctored
 fixture-shaped total, face restored byte-identical `67e59556d790c4e3`); S6 leg `fixture_beyond`;
 digest `research/digests/DIGEST-20261105-r1455-e434-fixture-beyond.md`.
+
+### E437 -- the name heuristic recalls 91 of the 203 call rows that supply a temp directory, and 24 of the 112 it misses are made from callers that carry no test hint (r1456 bm-b)
+
+E428's `fixture_shaped` is a name test on the callee (function or source path contains
+fixture/_mk/_stub/_toy/write_fixture/_panel/_save). E434 applied it to the whole population and
+published 30 of 310 sites -- still a name count, and E434's own method limits said the instrument
+was the same one. Nobody had asked how much of the temp-directory population a *name* test can see.
+
+**Measured.** The population is the directory-parameter call rows of the same scan: **310
+parameter-directory write sites -> 27,709 call rows**. Two labels are read independently -- the
+text each call row passes for the directory parameter (temp marker present?) and E428's word test
+on the callee. Cells: both 91, temp-but-unnamed **112**, named-but-not-temp 69, neither 27,437.
+So over the 203 rows that supply a temp directory the name heuristic **recalls 91 (44.8%)**, and
+over the 160 rows it does name, 91 are temp-supplying (**precision 56.9%**). Of the 112 missed
+rows 88 come from a selftest/smoke caller and **24 from callers that carry no test hint at all**;
+refined by caller function name those 24 split 16 `verify`/`reprice`/`reading`/`rerun` harnesses
+inside production modules + **8 with no hint whatsoever** (`a158_truegap_ic.py run` writing three
+`.npy` faces into `mkdtemp()`, two probe modules, a group-CAS message tempfile, and
+`n1_freeze_face_adjudicate.py main` passing a temp argument to a subprocess runner). Verdict,
+recomputed by the gate:
+`some_temp_supplying_call_row_the_name_heuristic_misses_is_made_from_a_product_caller`.
+
+**Two drafts died on their instruments, and both are the lesson.**
+(a) *Site-level aggregation is the wrong unit.* The first build labelled a **site** temp when any
+of its callers supplied a temp directory. A generic writer (`dump`, `save`, `write_json`) has many
+callers, so one `tmp_path` call made the whole helper temp-shaped: 112 "missed sites", 108 of them
+reported as production-reached, and the rows turned out to be ordinary repository writes that a
+test happens to call once. The unit had to be the call row -- one caller, one argument text, one
+callee name.
+(b) *An expanded argument can be a payload, not a directory.* The argument text is resolved
+through the caller's own constants and, when the parameter position does not line up, the
+expansion hands back a whole JSON payload or a whole call. 44 call rows carried a `tempfile`
+marker inside a payload and were counted as temp writers until the marker test was restricted to a
+single-line expression of at most 220 characters (published as
+`temp_texts_rejected_as_payload`).
+
+**Three rules.** (a) *A name test has recall, and recall has to be measured against an
+independently labelled population*: the label here is the argument text, never the callee name, so
+the two instruments cannot inherit each other's error. (b) *Aggregate at the row the claim is
+about*: "this helper is test-shaped" and "this call passes a temp directory" are different
+sentences and only the second one is what a name test is standing in for. (c) *A refinement is
+published beside the verdict, not instead of it*: `caller_kind` keeps E432's frozen TEST_HINTS so
+the number stays comparable with the published faces, and `caller_shape` prices how much of the
+product bucket is really a `verify()` harness -- 16 of 24, which is the difference between "the
+heuristic misses production writes" and "the heuristic misses verification writes".
+
+**Delivered.** `scripts/e437_name_recall.py` (selftest 25/25, verify problems=0, build ~6 min,
+`main_call_index` alone 210 s); face `NAMERECALL-2026-11-04.json` + `namerecall_latest.json`; smoke
+leg `# E437 (r1456 bm-b)` with `scripts/run_e437_smoke_leg.py` (1/1 green, 1/1 red on a doctored
+verdict, face restored byte-identical `f0860814109e4c08`); S6 leg `name_recall` (table entry
+proven to resolve; the chain invocation itself was cut by the CLI's 5-minute no-output window, not
+by a failure -- the same verify completed standalone with rc=0); digest
+`research/digests/DIGEST-20261105-r1456-e437-name-recall.md`.

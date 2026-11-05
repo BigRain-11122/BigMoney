@@ -1528,6 +1528,12 @@ LEGS = [
     # re-checks that inside + outside still equals the total, so a total that drifts back to a
     # statement about 35 rows refuses the chain.
     ("fixture_beyond", ["python", "scripts/e434_fixture_beyond.py", "verify"]),
+    # E437 (r1456): E428's fixture word list is a name test on the callee, and E434 published its
+    # count without asking how much of the temp-directory population a name test can even see.
+    # Verify re-derives the call-row cross-cut over the live corpus and re-checks that the four
+    # cells still add up to the call rows and that every published row still supplies a temp
+    # directory, so a row that drops back to a site-level aggregate refuses the chain.
+    ("name_recall", ["python", "scripts/e437_name_recall.py", "verify"]),
     # E427 (r1451): E426 published 2,818 templates as "inside a function that opens a file" and
     # stopped at location. Verify re-derives the state table over the live corpus (the scanner's own
     # AST walk plus E426's collector for the unfiltered base) and re-checks that the state table,

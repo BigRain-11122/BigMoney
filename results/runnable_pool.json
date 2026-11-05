@@ -27717,15 +27717,34 @@
    "id": "E437-WHICH-TEMP-DIRECTORY-WRITE-SITE-THE-NAME-HEURISTIC-MISSES",
    "title": "E434 measured fixture-shaped with E428 name heuristic (function or path contains fixture/_mk/_stub/_toy/write_fixture/_panel/_save), so a site that takes a temp directory under a name that carries none of those words is invisible to it: count the parameter-directory write sites whose caller supplies a temp directory and whose name does not match the heuristic, and say how many of them a published reader opens",
    "question": "is the name heuristic a lower bound on temp-directory writers, and by how much",
-   "deliverable": "results/state_tilt/TEMPBYNATURE-<cutoff>.json",
+   "deliverable": "results/state_tilt/NAMERECALL-2026-11-04.json",
    "lane": "cpu-only",
    "lane_note": "static AST census over the same corpus; no writer or reader is run",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "owner": null,
    "source": "E434 (r1455 bm-b) published bound: the class is a name test, so its recall is unmeasured",
    "entered_at": "2026-11-05T12:25+08:00",
-   "entered_by": "bm-b"
+   "entered_by": "bm-b",
+   "claimed_by": "bm-b",
+   "closed_at": "2026-11-05T13:0x+08:00",
+   "closed_by": "bm-b",
+   "result_ref": "results/state_tilt/NAMERECALL-2026-11-04.json",
+   "outcome": "over 27,709 directory-parameter call rows the name heuristic recalls 91 of the 203 rows that supply a temp directory (44.8%) and 91 of the 160 it names are temp (56.9% precision); 112 rows missed, 88 from selftest/smoke callers, 16 from verify/reprice/rerun harnesses and 8 from callers with no hint. Two instruments had to be replaced: site-level aggregation (one temp-passing caller marked a generic helper temp and produced 108 false production rows) and payload-shaped argument expansions (44 rows carried a tempfile marker inside a payload)."
+  },
+  {
+   "id": "E438-WHICH-PASSER-SPENDS-A-TEMP-DIRECTORY-THE-CALLEE-NEVER-WRITES",
+   "title": "E437 found 203 call rows that hand a directory parameter a temp marker, but no study asks whether the callee actually writes inside it: a callee that only joins the directory into a name it returns, or writes to a fixed sibling, is counted as a temp writer while it spends no temp file, so the temp population is still an upper bound",
+   "question": "For the 203 temp-supplying call rows, follow the write call inside the callee and grade where the written path is based: inside the supplied directory, outside it, or nowhere (the callee returns the joined name and someone else writes). Publish the share of temp call rows that really spend the directory, and the classes of the ones that do not",
+   "deliverable": "results/state_tilt/TEMPWRITEBASE-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the same corpus; no writer or reader is run",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E437 (r1456 bm-b): the temp label is a text test on the argument, so whether the callee writes into it is unmeasured",
+   "entered_at": "2026-11-05T13:0x+08:00",
+   "entered_by": "bm-b r1456 (supply floor refill after E437)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27740,6 +27759,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-05T12:25+08:00",
+ "updated_at": "2026-11-05T13:0x+08:00",
  "version": 1
 }

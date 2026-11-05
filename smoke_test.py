@@ -16423,6 +16423,69 @@ except Exception as _e426:
     _bad426.append(repr(_e426)[:160])
 check(_name426, not _bad426, "; ".join(_bad426)[:240] or _d426)
 
+# E437 (r1456 bm-b): E428's fixture word list is a name test on the callee, so a call that hands
+# a temp directory to a function whose name carries none of those words is invisible to it, and
+# E434 published its count without ever measuring how much of the temp population a name test can
+# see.  This leg reads the cross-cut face over directory-parameter call rows and refuses (a) a
+# face whose own gate does not re-derive, (b) a cell, reader, reach or caller-shape outside the
+# frozen vocabularies, (c) a cell tally that does not add up to the call rows or to the temp /
+# named margins, (d) a published row that does not supply a temp argument (the defect being
+# measured is exactly a site-level aggregate where one temp-passing caller marks a generic helper
+# temp), (e) a published row whose callee name did match a fixture word, (f) a verdict outside the
+# vocabulary or one that does not re-derive from the rows, and (g) a caller-shape refinement
+# published as a selftest shape while the frozen kind says product.
+_name437 = ("product: over the directory-parameter call rows the name heuristic sees less than "
+            "half of the rows that supply a temp directory, and some of the rows it misses are "
+            "made from callers that carry no test hint")
+_bad437, _d437 = [], ""
+try:
+    _m437 = __import__("importlib").import_module("e437_name_recall")
+    _f437 = json.load(open(os.path.join("results", "state_tilt", "namerecall_latest.json"),
+                           encoding="utf-8"))
+    _s437 = _f437.get("summary") or {}
+    _rows437 = _f437.get("rows") or []
+    _bad437.extend(_m437.tally_problems(_f437))
+    if _f437.get("verdict") not in _m437.VERDICT_VOCAB:
+        _bad437.append("verdict outside the frozen vocabulary")
+    if _f437.get("verdict") != _m437.verdict_for(_rows437, _s437.get("cells") or {}):
+        _bad437.append("the verdict does not re-derive from the rows")
+    _cells437 = _s437.get("cells") or {}
+    _temp437 = _cells437.get(_m437.CELL_BOTH, 0) + _cells437.get(_m437.CELL_MISSED, 0)
+    if _temp437 != _s437.get("temp_supplying_call_rows"):
+        _bad437.append("the temp margin does not re-derive from the cells")
+    if len(_rows437) != _cells437.get(_m437.CELL_MISSED, 0):
+        _bad437.append("the missed rows are not the missed cell")
+    for _r437 in _rows437:
+        if not _m437.is_temp_call(_r437.get("argument") or ""):
+            _bad437.append("%s:%s is published as missed without a temp argument"
+                           % (_r437.get("caller_file"), _r437.get("caller_line")))
+            break
+        if _r437.get("name_words_matched"):
+            _bad437.append("%s:%s is published as missed but matched a fixture word"
+                           % (_r437.get("caller_file"), _r437.get("caller_line")))
+            break
+        if _r437.get("caller_shape") not in _m437.SHAPE_VOCAB:
+            _bad437.append("%s:%s carries a caller shape outside the vocabulary"
+                           % (_r437.get("caller_file"), _r437.get("caller_line")))
+            break
+        if _r437.get("caller_shape") == _m437.SHAPE_SELFTEST and \
+                _r437.get("caller_kind") != _m437.REACH_TEST:
+            _bad437.append("%s:%s publishes a selftest shape on a product caller"
+                           % (_r437.get("caller_file"), _r437.get("caller_line")))
+            break
+    _d437 = "%d call row(s) over %d source(s): temp=%d, named=%d, missed=%d (recall %s, " \
+            "precision %s) | cells %s | missed by kind %s | shapes %s | %d temp text(s) " \
+            "rejected as payload | %s" % (
+                _s437.get("directory_parameter_call_rows"), _s437.get("corpus_sources"),
+                _temp437, _s437.get("named_callee_call_rows"), len(_rows437),
+                _s437.get("recall_over_the_temp_call_rows"),
+                _s437.get("precision_over_the_named_call_rows"), _cells437,
+                _s437.get("missed_by_caller_kind"), _s437.get("missed_by_caller_shape"),
+                _s437.get("temp_texts_rejected_as_payload"), _f437.get("verdict"))
+except Exception as _e437x:
+    _bad437.append(repr(_e437x)[:160])
+check(_name437, not _bad437, "; ".join(_bad437)[:240] or _d437)
+
 # E427 (r1451 bm-b): E426 located 2,818 templates inside a function that opens a file and
 # published that location as the interesting fact.  Location is not dataflow.  This leg reads the
 # face that follows each template's binding inside its own function and refuses (a) a state
