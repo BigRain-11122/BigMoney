@@ -13,8 +13,8 @@
    "bare_rows_whose_name_exists_anywhere_in_the_repo": 0,
    "bare_rows_with_a_directory_spelled_in_the_corpus": 37,
    "bare_rows_with_a_literal_directory_spelling": 4,
-   "bare_rows_with_a_published_directory": 40,
-   "bare_rows_with_no_directory_in_any_field": 12,
+   "bare_rows_with_a_published_directory": 39,
+   "bare_rows_with_no_directory_in_any_field": 13,
    "bare_rows_with_only_a_variable_head_spelling": 33,
    "evidence_cutoff": "2026-11-04",
    "face": "results/state_tilt/FRAGMENTPRODUCERS-2026-11-04.json",
@@ -56,8 +56,8 @@
    "bare_rows_with_a_published_directory": 0,
    "bare_rows_with_no_directory_in_any_field": 0,
    "bare_rows_with_only_a_variable_head_spelling": 0,
-   "evidence_cutoff": "2026-11-03",
-   "face": "results/state_tilt/UNFLOORED-2026-11-03.json",
+   "evidence_cutoff": "2026-11-04",
+   "face": "results/state_tilt/UNFLOORED-2026-11-04.json",
    "name_key": "face",
    "path_rows": 2,
    "published_true_booleans": 0,
@@ -76,18 +76,18 @@
    "bare_rows_with_a_published_directory": 0,
    "bare_rows_with_no_directory_in_any_field": 0,
    "bare_rows_with_only_a_variable_head_spelling": 0,
-   "evidence_cutoff": "2026-11-04",
-   "face": "results/state_tilt/READERTIERS-2026-11-04.json",
+   "evidence_cutoff": "2026-11-05",
+   "face": "results/state_tilt/READERTIERS-2026-11-05.json",
    "name_key": "face",
-   "path_rows": 208,
-   "published_true_booleans": 192,
-   "rows": 208,
+   "path_rows": 224,
+   "published_true_booleans": 208,
+   "rows": 224,
    "rows_key": "faces",
    "rows_whose_reading_changes_if_rejoined": 0,
    "study": "E411_reader_tiers_for_every_face_the_suite_opens"
   }
  ],
- "evidence_cutoff": "2026-11-03",
+ "evidence_cutoff": "2026-11-04",
  "incidental": {
   "named_directory_field_holding_a_file_path": [
    {
@@ -563,12 +563,14 @@
    "census": "E402_fragment_producers",
    "directories_spelled_with_a_literal_head": [],
    "directories_spelled_with_a_variable_head": [
+    "b",
     "d",
     "td",
     "tmp",
     "tmpd"
    ],
    "directories_the_corpus_spells": [
+    "b",
     "d",
     "td",
     "tmp",
@@ -1075,8 +1077,8 @@
    "published_booleans": {
     "producer_path_exists": false
    },
-   "published_class": "temporary_directory_deleted_by_design",
-   "published_directory": "os.path.join(td, \"other.json\")",
+   "published_class": "cwd_relative_no_directory_supplied",
+   "published_directory": null,
    "reading_changes_if_rejoined": false,
    "why_not": "a directory is spelled in the corpus but it does not hold a file of this name, so the join cannot land"
   },
@@ -2762,6 +2764,17 @@
   },
   {
    "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/barecallresolve_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
    "name": "results/state_tilt/basenamecensus_latest.json",
    "name_form": "path",
    "published_booleans": {
@@ -2938,6 +2951,39 @@
   },
   {
    "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/dirfield_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/dirisface_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/doublejoin_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
    "name": "results/state_tilt/empirical_gamma_latest.json",
    "name_form": "path",
    "published_booleans": {
@@ -2950,6 +2996,17 @@
   {
    "census": "E411_reader_tiers_for_every_face_the_suite_opens",
    "name": "results/state_tilt/faceage_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/facehome_latest.json",
    "name_form": "path",
    "published_booleans": {
     "on_disk": true
@@ -2994,6 +3051,39 @@
   {
    "census": "E411_reader_tiers_for_every_face_the_suite_opens",
    "name": "results/state_tilt/fieldbranch_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/fileslot_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/fixturebeyond_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/fixturewrite_latest.json",
    "name_form": "path",
    "published_booleans": {
     "on_disk": true
@@ -3323,6 +3413,17 @@
   },
   {
    "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/namerecall_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
    "name": "results/state_tilt/nameresolve_latest.json",
    "name_form": "path",
    "published_booleans": {
@@ -3345,7 +3446,29 @@
   },
   {
    "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/no_caller_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
    "name": "results/state_tilt/omission_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/openerflow_latest.json",
    "name_form": "path",
    "published_booleans": {
     "on_disk": true
@@ -3620,6 +3743,17 @@
   },
   {
    "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/republishchain_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
    "name": "results/state_tilt/restoredgate_latest.json",
    "name_form": "path",
    "published_booleans": {
@@ -3675,7 +3809,29 @@
   },
   {
    "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/shadowface_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
    "name": "results/state_tilt/sharediff_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/sharedname_latest.json",
    "name_form": "path",
    "published_booleans": {
     "on_disk": true
@@ -3862,7 +4018,29 @@
   },
   {
    "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/tempwritebase_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
    "name": "results/state_tilt/timingsel_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/twohop_latest.json",
    "name_form": "path",
    "published_booleans": {
     "on_disk": true
@@ -4099,21 +4277,21 @@
   "bare_rows_whose_name_exists_anywhere_in_the_repo": 0,
   "bare_rows_with_a_directory_spelled_in_the_corpus": 55,
   "bare_rows_with_a_literal_directory_spelling": 7,
-  "bare_rows_with_a_published_directory": 58,
-  "bare_rows_with_no_published_directory": 12,
+  "bare_rows_with_a_published_directory": 57,
+  "bare_rows_with_no_published_directory": 13,
   "bare_rows_with_only_a_variable_head_spelling": 48,
   "censuses": 4,
   "censuses_recording_a_bare_name_without_a_directory": [
    "E402_fragment_producers"
   ],
-  "control_path_rows": 210,
-  "control_path_rows_whose_file_exists": 192,
+  "control_path_rows": 226,
+  "control_path_rows_whose_file_exists": 208,
   "named_directory_field_holding_a_file_path": 11,
   "named_directory_field_joins_that_exist": 0,
   "named_directory_field_joins_that_would_double_the_name": 11,
-  "rows_in_population": 280,
+  "rows_in_population": 296,
   "rows_recording_a_bare_name": 70,
-  "rows_spelling_a_directory": 210,
+  "rows_spelling_a_directory": 226,
   "rows_whose_reading_changes_if_rejoined": 0,
   "verdict": "one_of_four_basename_keyed_censuses_stores_the_name_without_its_directory_and_rejoining_a_directory_changes_no_row"
  },

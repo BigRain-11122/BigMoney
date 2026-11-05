@@ -1,30 +1,30 @@
 {
  "study": "E416_do_the_four_freshness_tests_sit_where_age_matters",
  "card": "E416-DO-THE-FOUR-FRESHNESS-TESTS-SIT-ON-THE-FACES-THAT-NEED-THEM-MOST",
- "generated": "2026-11-04T17:48:25+08:00",
- "evidence_cutoff": "2026-11-04",
+ "generated": "2026-11-05T21:45:33+08:00",
+ "evidence_cutoff": "2026-11-05",
  "verdict": "none_of_the_four_red_capable_sites_prices_the_age_of_the_face_it_reads",
- "verdict_reason": "4 of 232 red-capable sites were re-read from their own source: 1 measures a copy lag (an upstream mtime, so an arbitrarily old face stays green while the panel is behind its input), 2 pin a face field to a frozen date literal and therefore red on an honest refresh, 1 carry no date comparison at all and the line E411 called a date comparison compares a column count. After reclassification 0 of 200 faces have a reader that can go red on age (published: 4 protected), 45 blind faces have no writer on the round chain, and 2 of the faces the suite reads declare any freshness expectation at all -- both of the declared ones sit on faces this tier table never priced. The chain does not save them either: of 13 priced faces it RUNS a writer for 3 and only VERIFIES 6, so each frozen gate sits on a face whose refresh the chain deliberately refuses.",
+ "verdict_reason": "6 of 257 red-capable sites were re-read from their own source: 1 measures a copy lag (an upstream mtime, so an arbitrarily old face stays green while the panel is behind its input), 2 pin a face field to a frozen date literal and therefore red on an honest refresh, 3 carry no date comparison at all and the line E411 called a date comparison compares a column count. After reclassification 0 of 224 faces have a reader that can go red on age (published: 6 protected), 45 blind faces have no writer on the round chain, and 2 of the faces the suite reads declare any freshness expectation at all -- both of the declared ones sit on faces this tier table never priced. The chain does not save them either: of 15 priced faces it RUNS a writer for 3 and only VERIFIES 9, so each frozen gate sits on a face whose refresh the chain deliberately refuses.",
  "summary": {
-  "red_capable_sites_published": 4,
+  "red_capable_sites_published": 6,
   "red_capable_sites_that_price_age": 0,
   "sites_measuring_a_copy_lag": 1,
   "sites_pinning_a_frozen_constant": 2,
-  "sites_with_no_date_logic": 1,
+  "sites_with_no_date_logic": 3,
   "frozen_date_gates": 2,
   "frozen_gates_that_match_today": 2,
   "frozen_gates_whose_face_has_a_chain_writer": 2,
-  "faces_published_protected_by_a_red_capable_site": 4,
+  "faces_published_protected_by_a_red_capable_site": 6,
   "faces_still_protected_after_reclassification": 0,
-  "faces_published_blind": 196,
-  "faces_blind_after_reclassification": 200,
+  "faces_published_blind": 218,
+  "faces_blind_after_reclassification": 224,
   "blind_faces_with_no_chain_writer": 45,
-  "blind_faces_with_no_declared_freshness_expectation": 198,
+  "blind_faces_with_no_declared_freshness_expectation": 222,
   "faces_with_a_declared_freshness_expectation": 2,
-  "reader_sites_total_published": 232,
-  "chain_faces_priced": 13,
+  "reader_sites_total_published": 257,
+  "chain_faces_priced": 15,
   "chain_faces_whose_writer_it_runs": 3,
-  "chain_faces_it_only_verifies": 6,
+  "chain_faces_it_only_verifies": 9,
   "frozen_gates_whose_chain_only_verifies_the_face": 2
  },
  "sites": [
@@ -58,6 +58,41 @@
    "writers_on_chain": 0,
    "writer_runs_per_round": 0,
    "evidence_lines_e411_called_dates": []
+  },
+  {
+   "face": "results/state_tilt/facehome_latest.json",
+   "site": "smoke_test.py:3",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     16860,
+     16917
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [],
+    "kind": "no_date_logic",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "carries no date comparison at all; nothing about age is priced",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 16889,
+     "text": "if _r441[\"carrier_class\"] == _m441.R_LIVE and _r441.get(\"newest_member_ts\") \\"
+    },
+    {
+     "line": 16890,
+     "text": "and _r441.get(\"carrier_ts\") and _r441[\"newest_member_ts\"] <= _r441[\"carrier_ts\"]:"
+    }
+   ]
   },
   {
    "face": "results/state_tilt/printcov_latest.json",
@@ -126,6 +161,41 @@
     {
      "line": 3756,
      "text": "and len(((_ts.get(\"disjoint\") or {}).get(\"lag_column\") or {})) < 6:"
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/twohop_latest.json",
+   "site": "smoke_test.py:3",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     16590,
+     16670
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [],
+    "kind": "no_date_logic",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "carries no date comparison at all; nothing about age is priced",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 16622,
+     "text": "if _s420.get(\"rows_that_became_writers\") != (_s420.get(\"rows_with_a_date\", 0)"
+    },
+    {
+     "line": 16625,
+     "text": "if _s420.get(\"rows_whose_name_encodes_a_date\") != sum("
     }
    ]
   },
@@ -231,9 +301,9 @@
    "reader_tiers": [
     "no_freshness_test"
    ],
-   "writers_on_chain": 97,
-   "writer_runs_per_round": 98,
-   "session_only_writers": 35,
+   "writers_on_chain": 110,
+   "writer_runs_per_round": 111,
+   "session_only_writers": 57,
    "declared_expectation": null,
    "protection": "chain_rewrites_it"
   },
@@ -334,7 +404,7 @@
    ],
    "writers_on_chain": 0,
    "writer_runs_per_round": 0,
-   "session_only_writers": 15,
+   "session_only_writers": 16,
    "declared_expectation": null,
    "protection": "none"
   },
@@ -430,6 +500,19 @@
    "protection": "chain_rewrites_it"
   },
   {
+   "face": "results/state_tilt/faceage_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 2,
+   "writer_runs_per_round": 2,
+   "session_only_writers": 4,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
    "face": "results/state_tilt/starown_latest.json",
    "on_disk": true,
    "reader_sites": 2,
@@ -449,9 +532,9 @@
    "reader_tiers": [
     "no_freshness_test"
    ],
-   "writers_on_chain": 148,
-   "writer_runs_per_round": 149,
-   "session_only_writers": 81,
+   "writers_on_chain": 170,
+   "writer_runs_per_round": 171,
+   "session_only_writers": 103,
    "declared_expectation": null,
    "protection": "chain_rewrites_it"
   },
@@ -462,9 +545,9 @@
    "reader_tiers": [
     "no_freshness_test"
    ],
-   "writers_on_chain": 148,
-   "writer_runs_per_round": 149,
-   "session_only_writers": 81,
+   "writers_on_chain": 170,
+   "writer_runs_per_round": 171,
+   "session_only_writers": 103,
    "declared_expectation": null,
    "protection": "chain_rewrites_it"
   },
@@ -534,19 +617,6 @@
    "protection": "none"
   },
   {
-   "face": "results/etf_book_production/CARD.md",
-   "on_disk": true,
-   "reader_sites": 1,
-   "reader_tiers": [
-    "no_freshness_test"
-   ],
-   "writers_on_chain": 0,
-   "writer_runs_per_round": 0,
-   "session_only_writers": 3,
-   "declared_expectation": null,
-   "protection": "none"
-  },
-  {
    "face": "results/etf_book_registry.json",
    "on_disk": true,
    "reader_sites": 1,
@@ -563,10 +633,21 @@
  "chain_bounded": [
   {
    "face": "results/dashboard_status.json",
-   "scripts_naming_the_face": 2,
-   "chain_entries": [],
+   "scripts_naming_the_face": 5,
+   "chain_entries": [
+    {
+     "script": "scripts/e419_unstampable.py",
+     "leg": "unstampable",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e432_fixture_write.py",
+     "leg": "fixture_write",
+     "mode": "verify"
+    }
+   ],
    "chain_runs_a_writer": false,
-   "chain_only_verifies": false
+   "chain_only_verifies": true
   },
   {
    "face": "results/e44_midmonth",
@@ -652,7 +733,7 @@
   },
   {
    "face": "results/state_tilt",
-   "scripts_naming_the_face": 187,
+   "scripts_naming_the_face": 224,
    "chain_entries": [
     {
      "script": "scripts/e225_state_tilt.py",
@@ -1350,6 +1431,81 @@
      "mode": "verify"
     },
     {
+     "script": "scripts/e417_shadow_face.py",
+     "leg": "shadow_face",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e418_face_age.py",
+     "leg": "face_age",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e419_unstampable.py",
+     "leg": "unstampable",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e420_corpus_pin_instability.py",
+     "leg": "corpus_pin",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e421_strong_basis_resolution.py",
+     "leg": "name_resolve",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e422_basename_census_audit.py",
+     "leg": "basename_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e423_dirfield_join.py",
+     "leg": "dirfield_join",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e426_dynamic_face_names.py",
+     "leg": "dynamic_face_names",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e427_opener_flow.py",
+     "leg": "opener_flow",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e428_no_caller.py",
+     "leg": "no_caller",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e429_two_hop_writer.py",
+     "leg": "two_hop_writer",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e433_republication_chain.py",
+     "leg": "republication_chain",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e435_dir_is_a_face.py",
+     "leg": "dir_is_a_face",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e439_file_slot_callers.py",
+     "leg": "file_slot_callers",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e441_facehome_family.py",
+     "leg": "face_home_family",
+     "mode": "verify"
+    },
+    {
      "script": "scripts/run_e410_freshness_legs.py",
      "leg": "freshness_bound",
      "mode": ""
@@ -1357,6 +1513,19 @@
    ],
    "chain_runs_a_writer": true,
    "chain_only_verifies": false
+  },
+  {
+   "face": "results/state_tilt/facehome_latest.json",
+   "scripts_naming_the_face": 2,
+   "chain_entries": [
+    {
+     "script": "scripts/e441_facehome_family.py",
+     "leg": "face_home_family",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
   },
   {
    "face": "results/state_tilt/printcov_latest.json",
@@ -1419,6 +1588,24 @@
    ],
    "chain_runs_a_writer": true,
    "chain_only_verifies": false
+  },
+  {
+   "face": "results/state_tilt/twohop_latest.json",
+   "scripts_naming_the_face": 4,
+   "chain_entries": [
+    {
+     "script": "scripts/e428_no_caller.py",
+     "leg": "no_caller",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e429_two_hop_writer.py",
+     "leg": "two_hop_writer",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
   },
   {
    "face": "results/state_tilt/zerotolprune_latest.json",

@@ -16847,6 +16847,66 @@ except Exception as _e439:
 check(_name439, not _bad439, "; ".join(_bad439)[:240] or _d439)
 
 
+# E441 (r1461 bm-b): E435 published 626 directory values that are the home of a published face and
+# 0 of 489 composable joins that lands.  That zero is either TIMING (the base is a live writer
+# directory, so a landing target is one round away) or STRUCTURE (nothing has been written there
+# since the carrier).  This leg refuses (a) a carrier class that does not re-derive from its own
+# member count, (b) a directory class that contradicts its carriers, (c) a verdict that does not
+# re-derive from the directories, (d) a composable cross-tab that does not close, (e) a live base
+# whose published newest member is not actually newer than an outlived carrier, and (f) a face
+# count that no longer matches the population E435 published without saying so.
+_name441 = "e441 face-home family (r1461 bm-b)"
+_bad441 = []
+try:
+    _m441 = __import__("importlib").import_module("e441_facehome_family")
+    _f441 = json.load(open(os.path.join("results", "state_tilt", "facehome_latest.json"),
+                           encoding="utf-8"))
+    _s441 = _f441.get("summary") or {}
+    _rows441 = _f441.get("rows") or []
+    _dirs441 = _s441.get("directories") or []
+    _bad441.extend(_m441.tally_problems(_f441))
+    if _f441.get("verdict") not in _m441.VERDICT_VOCAB:
+        _bad441.append("verdict outside the frozen vocabulary")
+    if _f441.get("verdict") != _m441.verdict_for(_dirs441):
+        _bad441.append("the verdict does not re-derive from the directories")
+    _comp441 = [r for r in _rows441 if r.get("composable")]
+    if len(_comp441) != _s441.get("composable_rows"):
+        _bad441.append("the composable subset does not restate")
+    if _s441.get("composable_rows_on_a_live_base", 0) \
+            + _s441.get("composable_rows_on_a_frozen_base", 0) != len(_comp441):
+        _bad441.append("the composable cross-tab does not close")
+    if _s441.get("live_directories", 0) + _s441.get("frozen_directories", 0) != len(_dirs441):
+        _bad441.append("not every directory is graded live or frozen")
+    # a live base must show at least one carrier that a published member actually outlived
+    for _d441 in _dirs441:
+        if _d441.get("base_class") != _m441.L_LIVE:
+            continue
+        _mine441 = [r for r in _rows441 if r.get("base") == _d441["base"]]
+        if not any(r["carrier_class"] == _m441.R_LIVE for r in _mine441):
+            _bad441.append("%s is graded live but no carrier was outlived" % _d441["base"])
+            break
+    for _r441 in _rows441:
+        if _r441["carrier_class"] == _m441.R_LIVE and _r441.get("newest_member_ts") \
+                and _r441.get("carrier_ts") and _r441["newest_member_ts"] <= _r441["carrier_ts"]:
+            _bad441.append("%s:%s is live but its newest member is not newer"
+                           % (_r441["face"], _r441["key"]))
+            break
+    # the reader must not count itself: results/state_tilt is dominated by this study's own home
+    if not _m441.is_own_output("results/state_tilt/" + _m441.FACE_NAME):
+        _bad441.append("the study does not exclude its own face from the member scan")
+    _e435rows441 = (_m441._e435_published_rows() or 0)
+    if not _s441.get("distance_check", {}).get("agrees") and _e435rows441 != len(_rows441):
+        _bad441.append("face-home rows %d disagree with E435's %d and the face does not say so"
+                       % (len(_rows441), _e435rows441))
+except Exception as _e441:
+    _bad441.append(repr(_e441)[:160])
+check(_name441, not _bad441, "; ".join(_bad441)[:240]
+      or "%d rows over %d directories: %d live / %d frozen, %d of %d composable on a live base"
+      % (len(_rows441), len(_dirs441), _s441.get("live_directories", 0),
+         _s441.get("frozen_directories", 0), _s441.get("composable_rows_on_a_live_base", 0),
+         _s441.get("composable_rows", 0)))
+
+
 # E440 (r1460 bm-b): E439 called the 24,911 rows it dropped "overstated" -- a claim, not a
 # reading.  A dropped row can be a method call that shares the wrapper's name, or a bare call to a
 # name several modules define.  This leg reads the two-axis face and refuses (a) a class that does
@@ -16894,6 +16954,58 @@ try:
 except Exception as _e440:
     _bad440.append(repr(_e440)[:160])
 check(_name440, not _bad440, "; ".join(_bad440)[:240] or _d440)
+
+
+# E443 (r1461 bm-b): E440 graded the 707 bare calls to a name several modules define as one class,
+# "shared" -- a name fact, not a binding fact: a bare call resolves through the caller's own
+# imports.  This leg reads the resolution face and refuses (a) a tally that does not re-derive,
+# (b) a verdict that does not re-derive from the cells, (c) an ambiguity whose count and verdict
+# disagree, (d) a resolution tally that does not close over the population, (e) a cell that claims
+# a resolution without naming the surviving definition, and (f) a doctored copy.
+_name443 = "e443 which definition a bare call resolves to (r1461 bm-b)"
+_bad443 = []
+try:
+    _m443 = __import__("importlib").import_module("e443_bare_call_resolve")
+    _f443 = json.load(open(os.path.join("results", "state_tilt", "barecallresolve_latest.json"),
+                           encoding="utf-8"))
+    _s443 = _f443.get("summary") or {}
+    _rows443 = _f443.get("rows") or []
+    _bad443.extend(_m443.tally_problems(_f443))
+    if _f443.get("verdict") not in _m443.VERDICT_VOCAB:
+        _bad443.append("verdict outside the frozen vocabulary")
+    elif _f443.get("verdict") != _m443.verdict_for(_rows443):
+        _bad443.append("the verdict does not re-derive from the cells")
+    elif ((_s443.get("rows_still_ambiguous") or 0) > 0) \
+            != (_f443.get("verdict") == _m443.V_SOME_AMBIGUOUS):
+        _bad443.append("the ambiguity count and the verdict disagree")
+    _res443 = _s443.get("by_resolution") or {}
+    if sum(_res443.values()) != (_s443.get("shared_name_rows") or 0):
+        _bad443.append("the resolution tally does not close over the population")
+    if (_res443.get(_m443.R_ONE, 0) + _res443.get(_m443.R_LOCAL, 0)) \
+            != (_s443.get("rows_that_resolve_to_one_definition") or 0):
+        _bad443.append("the resolved count does not re-derive from the tally")
+    for _r443 in _rows443:
+        if _r443.get("resolution") in (_m443.R_ONE, _m443.R_LOCAL) \
+                and not _r443.get("surviving_definition"):
+            _bad443.append("%s: a resolution without a surviving definition"
+                           % _r443.get("wrapper_name"))
+            break
+    _doctor443 = json.loads(json.dumps(_f443))
+    if _rows443:
+        _doctor443["rows"][0]["surviving_definition"] = ""
+        if not _m443.tally_problems(_doctor443):
+            _bad443.append("a doctored resolution cell was accepted")
+    _d443 = "%d shared-name call row(s) over %d source(s): resolved %d, ambiguous %d, " \
+            "no visible definition %d | %d surviving definition(s) graded, %d write the path" % (
+                _s443.get("shared_name_rows"), _s443.get("corpus_sources"),
+                _s443.get("rows_that_resolve_to_one_definition"),
+                _s443.get("rows_still_ambiguous"),
+                _s443.get("rows_with_no_visible_definition"),
+                _s443.get("surviving_definitions_graded"),
+                _s443.get("surviving_definitions_that_write_the_parameter_path"))
+except Exception as _e443:
+    _bad443.append(repr(_e443)[:160])
+check(_name443, not _bad443, "; ".join(_bad443)[:240] or _d443)
 
 
 # E435 (r1458 bm-b): E423 priced where a directory-named field points, but never asked whether that

@@ -2,16 +2,16 @@
  "study": "E417_shadow_face",
  "card": "E417-WHICH-READER-WOULD-FIND-A-FOREIGN-COPY-OF-ITS-FACE",
  "title": "same-named foreign copies of the faces the suite opens, priced by launch directory",
- "evidence_cutoff": "2026-11-04",
- "generated": "2026-11-04T23:26:34+08:00",
- "population_source": "results/state_tilt/READERTIERS-2026-11-04.json",
+ "evidence_cutoff": "2026-11-05",
+ "generated": "2026-11-05T21:45:34+08:00",
+ "population_source": "results/state_tilt/READERTIERS-2026-11-05.json",
  "verdict": "foreign_copies_exist_but_every_name_is_read_with_a_directory_component",
- "verdict_reason": "10 of 194 literal faces have at least one same-named copy with different bytes in a directory a reader could be launched from; 6 of those are a generic basename shared by several faces (latest.json) and 4 use a name only one face carries; 0 of the exposed names is read by a bare literal in smoke_test.py, so 0 would land on a different document.",
+ "verdict_reason": "10 of 210 literal faces have at least one same-named copy with different bytes in a directory a reader could be launched from; 6 of those are a generic basename shared by several faces (latest.json) and 4 use a name only one face carries; 0 of the exposed names is read by a bare literal in smoke_test.py, so 0 would land on a different document.",
  "summary": {
-  "faces": 208,
-  "faces_literal": 194,
+  "faces": 224,
+  "faces_literal": 210,
   "faces_templated": 14,
-  "faces_on_disk": 187,
+  "faces_on_disk": 203,
   "faces_with_a_foreign_copy": 10,
   "faces_with_a_different_document_copy": 10,
   "faces_read_as_a_bare_literal": 0,
@@ -21,7 +21,7 @@
  },
  "by_class": {
   "foreign_copy_different_document": 10,
-  "name_exists_only_at_the_face": 184
+  "name_exists_only_at_the_face": 200
  },
  "by_impact": {
   "different_top_level_keys": 161,
@@ -555,7 +555,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "534ff1dfdaf7e695c2d26fa9e3a214af8d1e73757b02996dbe53add84ebed987"
+     "sha": "1186382de198ac85d90f3bb0e7e73c81d1176c673a8e5b7e9dbc3d113bee7ed6"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -627,7 +627,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "8f86c7a292baccc8edafcf0f359d2f090d575ecaf3cf573a1a48acbf223a88ec"
+     "sha": "07560dd0dd30475809d335abb0fff2533b208460c28c8be327c29c396d70bead"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -645,7 +645,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "f60ce27aa565e97a8c0e6149c20dc419545ea36e092470bc4bced74fab2d6e6e"
+     "sha": "845940d1a53bb141356999890fd2625f28baece3bdfd28cc982d4d4219c687b3"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -654,7 +654,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "566355645d7659574daaa74654f37372086ce9e2fb359ac0e68272f1e5d4d451"
+     "sha": "0a6a4f874f42cfc0acb39a8fc2e74a5444bf842249c73f3f7408975f153f49a5"
     }
    ],
    "shadow_count": 27,
@@ -667,7 +667,7 @@
   {
    "face": "results/astock_daily_update_status.json",
    "on_disk": true,
-   "own_sha": "9ddf22c84d370009fec9991839fbaba3bcbe31e63c92b4ff71d9b9421a7a6613",
+   "own_sha": "5ed78b1977a524adb22a9553ea7e37e74b1429f6cef24f9417c0005531a19193",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -693,7 +693,7 @@
   {
    "face": "results/data_lag_audit.json",
    "on_disk": true,
-   "own_sha": "68edb71627f5779c2b17e304ac7ededba1bda26e523e89a5ef81bc545ce81cf1",
+   "own_sha": "15919f9e0188d9ad0cc1a7dd928ab97d769b46b5f34029c85515b9fc516ccf17",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -916,7 +916,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "534ff1dfdaf7e695c2d26fa9e3a214af8d1e73757b02996dbe53add84ebed987"
+     "sha": "1186382de198ac85d90f3bb0e7e73c81d1176c673a8e5b7e9dbc3d113bee7ed6"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -988,7 +988,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "8f86c7a292baccc8edafcf0f359d2f090d575ecaf3cf573a1a48acbf223a88ec"
+     "sha": "07560dd0dd30475809d335abb0fff2533b208460c28c8be327c29c396d70bead"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -1006,7 +1006,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "f60ce27aa565e97a8c0e6149c20dc419545ea36e092470bc4bced74fab2d6e6e"
+     "sha": "845940d1a53bb141356999890fd2625f28baece3bdfd28cc982d4d4219c687b3"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -1015,7 +1015,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "566355645d7659574daaa74654f37372086ce9e2fb359ac0e68272f1e5d4d451"
+     "sha": "0a6a4f874f42cfc0acb39a8fc2e74a5444bf842249c73f3f7408975f153f49a5"
     }
    ],
    "shadow_count": 27,
@@ -1145,7 +1145,7 @@
   {
    "face": "results/obs_rate/latest.json",
    "on_disk": true,
-   "own_sha": "534ff1dfdaf7e695c2d26fa9e3a214af8d1e73757b02996dbe53add84ebed987",
+   "own_sha": "1186382de198ac85d90f3bb0e7e73c81d1176c673a8e5b7e9dbc3d113bee7ed6",
    "class": "foreign_copy_different_document",
    "shadows": [
     {
@@ -1362,7 +1362,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "8f86c7a292baccc8edafcf0f359d2f090d575ecaf3cf573a1a48acbf223a88ec"
+     "sha": "07560dd0dd30475809d335abb0fff2533b208460c28c8be327c29c396d70bead"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -1380,7 +1380,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "f60ce27aa565e97a8c0e6149c20dc419545ea36e092470bc4bced74fab2d6e6e"
+     "sha": "845940d1a53bb141356999890fd2625f28baece3bdfd28cc982d4d4219c687b3"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -1389,7 +1389,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "566355645d7659574daaa74654f37372086ce9e2fb359ac0e68272f1e5d4d451"
+     "sha": "0a6a4f874f42cfc0acb39a8fc2e74a5444bf842249c73f3f7408975f153f49a5"
     }
    ],
    "shadow_count": 27,
@@ -1402,7 +1402,7 @@
   {
    "face": "results/pool_deliverable_audit.json",
    "on_disk": true,
-   "own_sha": "de4d08e2ac5a026f8997ea4e93b8b3b5845b02ed7b128c61dc1d77135dafedec",
+   "own_sha": "034149cead2bbeb6b089bd971f1cb3dbee2689e0728e21345954aabaa5b20949",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -1493,7 +1493,7 @@
   {
    "face": "results/state_tilt/addos_latest.json",
    "on_disk": true,
-   "own_sha": "87c31827957d030e01c89d16dcb3aaf06ea510cc944ed533cf04f126a1bc8a53",
+   "own_sha": "e3279e3c2d04d703855c7091c04c1ea1a40d3be8d047407981b3a4324c5ca891",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -1857,7 +1857,7 @@
   {
    "face": "results/state_tilt/bandpath_latest.json",
    "on_disk": true,
-   "own_sha": "00f716ff4c85ea35cd137c4f2ff0b094d0d320533fe8578ebbc0c734ff56487e",
+   "own_sha": "0b4e98d0bf792ff3fa3837df77183ce7b60c296eb58c91366619b763f4fd4613",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2089,9 +2089,22 @@
    "generic_basename": false
   },
   {
+   "face": "results/state_tilt/barecallresolve_latest.json",
+   "on_disk": true,
+   "own_sha": "d6c0534e47c5f0de241d358a9d09ec97d908156d0be8d05d4b00b455450ea5b6",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
    "face": "results/state_tilt/basenamecensus_latest.json",
    "on_disk": true,
-   "own_sha": "edf1be4aa2415347d8b428ead845b195f01deac14d39fb588d00ac36424597e0",
+   "own_sha": "2f31647c1bab61d2a921c6fc63d1c215effb1e900b8d1a6dedf3d331a9de7bde",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2130,7 +2143,7 @@
   {
    "face": "results/state_tilt/bookecho_latest.json",
    "on_disk": true,
-   "own_sha": "6ac2adf7286e14a96bd6405b0dda2825059bfcdf82c3d35acb633d1ba4b862b9",
+   "own_sha": "edb3996a36ae502e75b9a22c8d118f1c218adcdfee7c1b0bce1c83033bc335e1",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2156,7 +2169,7 @@
   {
    "face": "results/state_tilt/breakeven_latest.json",
    "on_disk": true,
-   "own_sha": "357466fb6991ffd46fdee1ad34bb12f308e1a5b59b90f7c0efbbf0c0fc7af039",
+   "own_sha": "b9731bb71ee0ff504054974270df3b2a96ddd2c473756ea9ca4e1755c0ef81ac",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2247,7 +2260,7 @@
   {
    "face": "results/state_tilt/costcurve_latest.json",
    "on_disk": true,
-   "own_sha": "dfcb31947be65b75e3fe214717bc9fba6aa886bf0b8de42acbcf8d5c5c2056e9",
+   "own_sha": "4a27aea1c3ffd519989875836ddcce5db26f373f52bb08fa0da375b935230285",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2297,9 +2310,48 @@
    "generic_basename": false
   },
   {
+   "face": "results/state_tilt/dirfield_latest.json",
+   "on_disk": true,
+   "own_sha": "6960cdd9cd5a146a5f3a40d100f90d08b9b2d1e2a226ddc0dbc7ab5200234857",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
+   "face": "results/state_tilt/dirisface_latest.json",
+   "on_disk": true,
+   "own_sha": "0ea76c1bddaac5d8fb5f527cc5f85066b279b1ea19f4c50e68c43441e5011ee4",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "on_disk": true,
+   "own_sha": "f26ba329ec3f92213d51c0ff42c1e7e62cae2f6e8bf902c6a1e92e5c342015f3",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
    "face": "results/state_tilt/empirical_gamma_latest.json",
    "on_disk": true,
-   "own_sha": "345fc2be66214ff0d377b63c12ac8edbdfa712b8821a040bbb2449730b5b66ee",
+   "own_sha": "86a592325dc7a372c1812f2ca1d9d0e26aaa3702dcc7d08bcfe671056939a9a8",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2312,7 +2364,20 @@
   {
    "face": "results/state_tilt/faceage_latest.json",
    "on_disk": true,
-   "own_sha": "fb35219ffab3cf915d175d9e4f49b41ba0b47e95cd96fca280190d46b7066921",
+   "own_sha": "4b2a4084220850abf634f3d977013bbed9f129d1299d91fa6d485ae0fa0e5ef6",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
+   "face": "results/state_tilt/facehome_latest.json",
+   "on_disk": true,
+   "own_sha": "2fa112fd78f246dab542febcc82806801ccb644ab0fcfa3fba1098821f1d7a95",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2351,7 +2416,7 @@
   {
    "face": "results/state_tilt/familyarg_latest.json",
    "on_disk": true,
-   "own_sha": "c9b8ed01234ba84d2fe871066bc100acb757b7c5bac922a8d084dcecd5328537",
+   "own_sha": "7e386af25fad07a535b685c493c10749f41e2b6b0e833b10f6dbe2d62820340d",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2375,9 +2440,48 @@
    "generic_basename": false
   },
   {
+   "face": "results/state_tilt/fileslot_latest.json",
+   "on_disk": true,
+   "own_sha": "da944cf848ce291526beec2d453d2057f16265192d0f21bdeff9a533e5a574be",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
+   "face": "results/state_tilt/fixturebeyond_latest.json",
+   "on_disk": true,
+   "own_sha": "67e59556d790c4e3e84efc14841b09151aadb83a83eb87d7a3e829aadf6da6e5",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
+   "face": "results/state_tilt/fixturewrite_latest.json",
+   "on_disk": true,
+   "own_sha": "1f84eeda327e69fd19adabb7050507656f32b4a2fddc4cd06ddfbdcf2f0f9e79",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
    "face": "results/state_tilt/fragmentproducers_latest.json",
    "on_disk": true,
-   "own_sha": "54a6d0791ffb136bb5f619013b35edc19039f15f44a5325422d50ffd011e47f2",
+   "own_sha": "504f021d30a4066285169c82c27f2b9410c8b3f23a151e7aacc46bde154529b5",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2390,7 +2494,7 @@
   {
    "face": "results/state_tilt/freshaim_latest.json",
    "on_disk": true,
-   "own_sha": "ed164a334be828b23097a9fbb8d8ee497d430b499feaa621e85e0f7a8fa7de86",
+   "own_sha": "5d80f44e2a1adff20ea05081f7f806ce5ec17650993443b22571c208d1b627f3",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2511,7 +2615,7 @@
   {
    "face": "results/state_tilt/granularity_latest.json",
    "on_disk": true,
-   "own_sha": "8e22cf1be827f42fb401775a7e2259a7eb773da3d863c7b3b3cf6f03e0e68c10",
+   "own_sha": "727effb19dd71150af1b487d3ed1251dc12f9b3ef0ffff7b5f16b09ead7aa875",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2524,7 +2628,7 @@
   {
    "face": "results/state_tilt/greenwindow_latest.json",
    "on_disk": true,
-   "own_sha": "340813c5d6010910bb9e240dcb94b2b60bfbb721a387d4c6faf508301a7224b6",
+   "own_sha": "cdef8874639bc89d5d9197d3c41691f4b08263ceeb5d57c0074d0022c726cd19",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2576,7 +2680,7 @@
   {
    "face": "results/state_tilt/hysteresis_latest.json",
    "on_disk": true,
-   "own_sha": "d7986e7247052f35710969f5b45174c2e95f817b72bf01e0077ef501ef5aeb8e",
+   "own_sha": "7c20d55931e303cb4395608e1a220cf43129ae6d65758fda96e82eb197251d43",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2589,7 +2693,7 @@
   {
    "face": "results/state_tilt/infostruct_latest.json",
    "on_disk": true,
-   "own_sha": "5765304b16edbf42845d7523e1fbdafdd9e6d224b33e5320e5ab5cc4ff20d509",
+   "own_sha": "e1378d24fad79617ee3edbbfcaed4b17a79e89ef18185898545e37d96c57017b",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2602,7 +2706,7 @@
   {
    "face": "results/state_tilt/invisibletail_latest.json",
    "on_disk": true,
-   "own_sha": "a68e02474e6b33c08f701d1c474d736be053d8f8b6abc670d635c9e72ad14326",
+   "own_sha": "02807abdff4f8924bc024a7519022257abd5f473ea44bdc312a37686b131c8b8",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2654,7 +2758,7 @@
   {
    "face": "results/state_tilt/latest.json",
    "on_disk": true,
-   "own_sha": "8f86c7a292baccc8edafcf0f359d2f090d575ecaf3cf573a1a48acbf223a88ec",
+   "own_sha": "07560dd0dd30475809d335abb0fff2533b208460c28c8be327c29c396d70bead",
    "class": "foreign_copy_different_document",
    "shadows": [
     {
@@ -2808,7 +2912,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "534ff1dfdaf7e695c2d26fa9e3a214af8d1e73757b02996dbe53add84ebed987"
+     "sha": "1186382de198ac85d90f3bb0e7e73c81d1176c673a8e5b7e9dbc3d113bee7ed6"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -2889,7 +2993,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "f60ce27aa565e97a8c0e6149c20dc419545ea36e092470bc4bced74fab2d6e6e"
+     "sha": "845940d1a53bb141356999890fd2625f28baece3bdfd28cc982d4d4219c687b3"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -2898,7 +3002,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "566355645d7659574daaa74654f37372086ce9e2fb359ac0e68272f1e5d4d451"
+     "sha": "0a6a4f874f42cfc0acb39a8fc2e74a5444bf842249c73f3f7408975f153f49a5"
     }
    ],
    "shadow_count": 27,
@@ -2911,7 +3015,7 @@
   {
    "face": "results/state_tilt/latestfamily_latest.json",
    "on_disk": true,
-   "own_sha": "a1f1cf9b6ca418d3cf163041da6dceb736ad876832d57f23bd27630aa5c40498",
+   "own_sha": "b5795c2f367c53a65498cf16afc4d6b1dab91a6e545458d93970d27e3a6996a7",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2924,7 +3028,7 @@
   {
    "face": "results/state_tilt/leadcounter_latest.json",
    "on_disk": true,
-   "own_sha": "ee528b0bb692f62c9c876c58e6b4f9674895e490f450ca9d6575df34f5b6f4f5",
+   "own_sha": "345da789d8217de47d8cb15b25633221ce0466ec491847c857af19d0415ca69e",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2960,7 +3064,7 @@
   {
    "face": "results/state_tilt/leginput_latest.json",
    "on_disk": true,
-   "own_sha": "2f686d123c86db5b3127bc6912bef4ac05d4eb0cbd5fed129ffcf0f9f34272e1",
+   "own_sha": "f19c580a1f02c50f191b3aa9e953b7118550e1f58f4abecf9ecb2061e1da3f1b",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2986,7 +3090,7 @@
   {
    "face": "results/state_tilt/loobook_latest.json",
    "on_disk": true,
-   "own_sha": "855cc42753f62f1f808246a15d9f9316505bf811c2b9cfd81f00871de9da83b0",
+   "own_sha": "91a0ff8a237d97294488b910ba91bf75610faf8f44c92b2e6717698a8edcad3b",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2999,7 +3103,7 @@
   {
    "face": "results/state_tilt/matched_latest.json",
    "on_disk": true,
-   "own_sha": "c849f16eedff965656b8e4e6bdb9fbc585eeecddbed7a3b9747ae9cbcbf8b497",
+   "own_sha": "246948b0b27e0fb6e091a75a229bbf699aa6893c4a00bf0988c7bf32e4ca4e13",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3036,6 +3140,19 @@
    "generic_basename": false
   },
   {
+   "face": "results/state_tilt/namerecall_latest.json",
+   "on_disk": true,
+   "own_sha": "f0860814109e4c089a09eef860f0671789e2ec5cb1e9cd5aafeaae7f71b3f903",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
    "face": "results/state_tilt/nameresolve_latest.json",
    "on_disk": true,
    "own_sha": "599ac58c72a897b62b84fa5b1bc469afe57f9c6aa1ca61570e6dad680608bcc8",
@@ -3062,9 +3179,35 @@
    "generic_basename": false
   },
   {
+   "face": "results/state_tilt/no_caller_latest.json",
+   "on_disk": true,
+   "own_sha": "c052bbe5b390096bf52703ef9b2f6352f6000509c7c8c6b5552c9324f5465ad6",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
    "face": "results/state_tilt/omission_latest.json",
    "on_disk": true,
    "own_sha": "3f4138a3506cc2c9fabfb33267c0930fa43a7e5b4212ae1aab504024800624a7",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
+   "face": "results/state_tilt/openerflow_latest.json",
+   "on_disk": true,
+   "own_sha": "78ec8c2868c748be81e7a1cc7eb8412459ecad46bf06827a029661fa70e85411",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3116,7 +3259,7 @@
   {
    "face": "results/state_tilt/owncross_latest.json",
    "on_disk": true,
-   "own_sha": "07e869849a757622e98dc53df9b18e144e8f8824ffd3e1e5ae6798369e04cbb1",
+   "own_sha": "797b42a69b3079041712d51d44447980713279cfd04d58a20fd7ee9e81d44c60",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3129,7 +3272,7 @@
   {
    "face": "results/state_tilt/pairhet_latest.json",
    "on_disk": true,
-   "own_sha": "99eb4a4e0fa82d6786e5281ca026b44a0db8fb2db20a881521467ceba91f52ed",
+   "own_sha": "75d48e1edb6d32eeacf15bbefbb2528da622b256e34d11548bfb3db86089664d",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3142,7 +3285,7 @@
   {
    "face": "results/state_tilt/per_member_gamma_latest.json",
    "on_disk": true,
-   "own_sha": "d7fd050371c2001ca4b6c79e60787061bf88a63369947b5b0870a390d36ee098",
+   "own_sha": "7184cc5e6841e61b4508ef69c5f8cf058bf84c0cd227ab45c2563d8bdd44f9bf",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3246,7 +3389,7 @@
   {
    "face": "results/state_tilt/precisiongap_latest.json",
    "on_disk": true,
-   "own_sha": "a9fe96ead22e867b103c7d7a2e2d8c455022d01aaed497dbbffb8e7b8fe52bb8",
+   "own_sha": "bf555df4df2c0f1448508d474fb47f26333c18147a1f24ee3d163f48bd2dc138",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3387,6 +3530,19 @@
    "generic_basename": false
   },
   {
+   "face": "results/state_tilt/republishchain_latest.json",
+   "on_disk": true,
+   "own_sha": "595c19613dcd4be99667ce3adcd53f443ecb12ef6a7eb443fea0df557c0f5aa6",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
    "face": "results/state_tilt/restoredgate_latest.json",
    "on_disk": true,
    "own_sha": "af59636ae08d6bf61f1b794918b66e0ba3dee42e25017921ebfe0765fe8147c7",
@@ -3452,9 +3608,35 @@
    "generic_basename": false
   },
   {
+   "face": "results/state_tilt/shadowface_latest.json",
+   "on_disk": true,
+   "own_sha": "aa2599085dec633b180715f3bba4c927eb080d9d0b4073377e746388c05151c5",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
    "face": "results/state_tilt/sharediff_latest.json",
    "on_disk": true,
-   "own_sha": "73f279406eda5441b52635d9c01e4964f01f9a2b9cbd5c197f7d520072851ded",
+   "own_sha": "3faf1a6607fb53055381076005c374f065b2da2bcb19f130591b8f130cbd6499",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
+   "face": "results/state_tilt/sharedname_latest.json",
+   "on_disk": true,
+   "own_sha": "7abee58ed9b97d4dfbfb7a604e98c9d6d4f93921541fcf8104e1ce7f55cf8c3b",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3480,7 +3662,7 @@
   {
    "face": "results/state_tilt/siblingentry_latest.json",
    "on_disk": true,
-   "own_sha": "c1a1a3fb1a76f5bdf09570032aa56ecded3348cfdfe9711802bffc6f088a9e2f",
+   "own_sha": "ba8d8f19f3028ea18d10e60f65d4419a397b1853c10940b621102b78d105c818",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3493,7 +3675,7 @@
   {
    "face": "results/state_tilt/slopematrix_latest.json",
    "on_disk": true,
-   "own_sha": "e913e731fbdb9bcbbab71b93fd017c9051f5c631735ace207e459ab27b882703",
+   "own_sha": "b802e31fb9ef865a95f51aa6d411bbb1a4e3b63211a97f47c9cbf3b8280e137b",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3545,7 +3727,7 @@
   {
    "face": "results/state_tilt/stardir_latest.json",
    "on_disk": true,
-   "own_sha": "1891f6ab07a6015f465d61202a9984c30ad7571cb155e3a66b5282d977a283fc",
+   "own_sha": "be17add5ac315bd4eb3ecac300ca0ae7106ab833bbc690f03d2de9c9edcfc551",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3558,7 +3740,7 @@
   {
    "face": "results/state_tilt/starlagband_latest.json",
    "on_disk": true,
-   "own_sha": "930b9e89d9fad4e5a63740edb1bb4770cf6a5e430b692075f704e7cfb984cf14",
+   "own_sha": "e99c6853f8c1c6cea8107850b724897d63393362b032e9c9bf35becc84f9a417",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3571,7 +3753,7 @@
   {
    "face": "results/state_tilt/starown_latest.json",
    "on_disk": true,
-   "own_sha": "4917180594e46b2b5626ccee01fe5c97718046a32f0b6a65394d6944cf860694",
+   "own_sha": "5485422cc858d6b7ca9eed8a24126e2e241b44327bbc58a3953574aaae3cf383",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3673,9 +3855,35 @@
    "generic_basename": false
   },
   {
+   "face": "results/state_tilt/tempwritebase_latest.json",
+   "on_disk": true,
+   "own_sha": "bdca26b0ba8a7fba041440bd69c88df4671b6e9f61cfecde2949af125cc834df",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
    "face": "results/state_tilt/timingsel_latest.json",
    "on_disk": true,
-   "own_sha": "6bb77762c0d563b436bf3ce2c7f1d8c320533116d33c4022fe0bc8c5d485db2c",
+   "own_sha": "16675f5dc7c984e31b17c97d4316e3f63d8a393a38c3f63090af86f7c364142e",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
+   "face": "results/state_tilt/twohop_latest.json",
+   "on_disk": true,
+   "own_sha": "7008f200d38fd8076fb12a6abec024d60c3185df943e847d42a20a3b7f494b7f",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3740,7 +3948,7 @@
   {
    "face": "results/state_tilt/unpinnedchoice_latest.json",
    "on_disk": true,
-   "own_sha": "a797c75410c6a4f83d6fa6c386c97883fb015ab780ae0c2192e53d17615e3931",
+   "own_sha": "f1f88461b0a9b5e80345a00bf4fe7057062f9ae4caeabf9bdd208e9e649d5ed2",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3805,7 +4013,7 @@
   {
    "face": "results/state_tilt/unstampable_latest.json",
    "on_disk": true,
-   "own_sha": "812c0b71438be93f7037819a59105ff6b6957a5443a39e577a6140f8413d5262",
+   "own_sha": "98e9a642c8e5520e9a134803b24f7f52114f3a7db3db26e242e9ce9ee71bd559",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3909,7 +4117,7 @@
   {
    "face": "results/tom_overlay/latest.json",
    "on_disk": true,
-   "own_sha": "f60ce27aa565e97a8c0e6149c20dc419545ea36e092470bc4bced74fab2d6e6e",
+   "own_sha": "845940d1a53bb141356999890fd2625f28baece3bdfd28cc982d4d4219c687b3",
    "class": "foreign_copy_different_document",
    "shadows": [
     {
@@ -4063,7 +4271,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "534ff1dfdaf7e695c2d26fa9e3a214af8d1e73757b02996dbe53add84ebed987"
+     "sha": "1186382de198ac85d90f3bb0e7e73c81d1176c673a8e5b7e9dbc3d113bee7ed6"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -4135,7 +4343,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "8f86c7a292baccc8edafcf0f359d2f090d575ecaf3cf573a1a48acbf223a88ec"
+     "sha": "07560dd0dd30475809d335abb0fff2533b208460c28c8be327c29c396d70bead"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -4153,7 +4361,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "566355645d7659574daaa74654f37372086ce9e2fb359ac0e68272f1e5d4d451"
+     "sha": "0a6a4f874f42cfc0acb39a8fc2e74a5444bf842249c73f3f7408975f153f49a5"
     }
    ],
    "shadow_count": 27,
@@ -4166,7 +4374,7 @@
   {
    "face": "results/vol_gate/latest.json",
    "on_disk": true,
-   "own_sha": "566355645d7659574daaa74654f37372086ce9e2fb359ac0e68272f1e5d4d451",
+   "own_sha": "0a6a4f874f42cfc0acb39a8fc2e74a5444bf842249c73f3f7408975f153f49a5",
    "class": "foreign_copy_different_document",
    "shadows": [
     {
@@ -4320,7 +4528,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "534ff1dfdaf7e695c2d26fa9e3a214af8d1e73757b02996dbe53add84ebed987"
+     "sha": "1186382de198ac85d90f3bb0e7e73c81d1176c673a8e5b7e9dbc3d113bee7ed6"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -4392,7 +4600,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "8f86c7a292baccc8edafcf0f359d2f090d575ecaf3cf573a1a48acbf223a88ec"
+     "sha": "07560dd0dd30475809d335abb0fff2533b208460c28c8be327c29c396d70bead"
     },
     {
      "label": "holds_a_latest_pointer",
@@ -4410,7 +4618,7 @@
      "outside_repo": false,
      "class": "foreign_copy_different_document",
      "impact": "different_top_level_keys",
-     "sha": "f60ce27aa565e97a8c0e6149c20dc419545ea36e092470bc4bced74fab2d6e6e"
+     "sha": "845940d1a53bb141356999890fd2625f28baece3bdfd28cc982d4d4219c687b3"
     }
    ],
    "shadow_count": 27,

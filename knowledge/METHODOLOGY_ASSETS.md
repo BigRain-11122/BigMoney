@@ -10764,3 +10764,92 @@ Face: `results/state_tilt/sharedname_latest.json` (`SHAREDNAME-<cutoff>.json`), 
 `every_dropped_row_is_either_a_method_call_or_a_bare_call_to_a_name_that_more_than_one_module_defines`;
 selftest 19/19; smoke leg extracted verbatim 1/1 with a doctored class 1/1 red and the face restored
 byte-identical (7abee58ed9b97d4d).
+
+### E443 -- "more than one module defines this name" is a name fact: all 707 of E440's shared-name bare calls bind to the caller's own definition, 0 reach another module (r1461 bm-b)
+
+E440 split 25,015 dropped call rows into 24,308 attribute calls and **707 bare calls to a name
+several modules define**, and labelled the second class *ambiguous*. Ambiguity is a claim about
+bindings, and a name index cannot make it: `from a import dump` binds exactly one `dump`, and a
+module that writes `def run(...)` at top level binds its own.
+
+**Measured by reading each caller's own imports** (one AST parse per file, `from X import name`
+including `as`, the caller's own top-level defs, star imports, and `from pkg import submodule`
+treated as a module binding when `pkg/submodule.py` exists), over 3,463 corpus sources, with all
+11 wrappers re-confirmed live and 25,023 dropped rows recomputed (`distance_check.agrees = true`
+against E440's published 707):
+
+* **707 of 707 (100%) resolve to `the_callers_own_definition`.** Not one bare call binds to a
+  defining module other than the caller's own file.
+* **0** bind to exactly one foreign defining module, **0** bind to two or more, **0** come through
+  a module that does not define the name, **0** through a star import, **0** have no visible
+  definition.
+* The class is a **name shadow**, not a cross-module hazard: 183 caller files each carry their own
+  helper. The eight names are the closeout vocabulary -- `run` 323 rows over 65 files (defined by
+  **300** different modules), `write_json` 184 (28), `write` 91 (26), `write_face` 48 (41),
+  `save` 28 (18), `dump` 21 (11), `_write_csv` 11 (8), `append` 1 (2).
+* 622 rows are production callers and 85 are selftests; the row set is 194 cells.
+* The surviving definitions do **not** write the parameter path: **0 of 707** compose their
+  directory parameter onto a file. The write axis is bounded, not assumed -- 322 of the 707
+  definitions could not be resolved from the scan and are published as their own class (317 name
+  the directory in a write but compose nothing onto it, 39 do one of each, 29 name it nowhere).
+
+**Three lessons.** (a) A name index can publish *who defines this word*; it cannot publish *which
+definition this call reaches* -- that is a per-caller import fact, and reading it collapsed an
+"ambiguous" class to a single resolution. (b) The two classes a shared name must be split into are
+**self-definition** (the caller's own `def`) and **cross-module binding**; only the second is a
+hazard, and here it is empty, so E439's reachability rule was right for a second reason and E440's
+ambiguity label overstated a zero. (c) A guard must be priced as well as written: `verify` re-derives
+E440's whole scan over 3.4k sources in ~20 minutes, so the S6 leg is `check` -- it re-derives every
+published tally from the published cells -- and the full `verify` is published on demand, because a
+leg whose only cost is 20 minutes per tick gets switched off (E364's rule, now applied to a second
+study).
+
+Face: `results/state_tilt/barecallresolve_latest.json` (`BARECALLRESOLVE-<cutoff>.json`), verdict
+`every_shared_name_call_resolves_once_the_callers_imports_are_read`; selftest 16/16; verify
+problems=[]; check problems=[]; S6 leg `bare_call_resolve` (check, rc 0); smoke leg structural with a
+doctored-cell control.
+
+### E441 -- E435's empty composition is 21 live writer directories and 51 frozen ones: 36 of the 385 composable joins sit on a base that gained a member after the face was written (r1461 bm-b)
+
+E435 published directory values that are the home directory of a published face, and **0** composable
+joins that lands on anything.  A zero like that supports two opposite readings and E435 could not tell
+them apart: either the base is a **live writer directory** (another round writes new members into it,
+so a landing target is one round away and the zero is *timing*) or the base is **frozen** (nothing has
+been written there since the carrier, so the zero is *structural*).  This study reads the filesystem
+rather than the intent: for every face-home row it lists the published `.json` faces living directly
+under the named directory, drops the carrier itself, and asks how many members carry an mtime strictly
+later than the carrier's.
+
+* **522 rows over 72 distinct directories** -- the population is far more concentrated than the row
+  count suggests: `results/state_tilt` alone carries 44 of them.
+* **21 directories are live**, 51 frozen; **83 of 522 (15.9%)** carriers were outlived by a member of
+  the base they name.
+* Of the **385 composable** rows (the ones that DO offer a name to join), **36 sit on a live base**
+  and 349 on a frozen one.  The empty composition is therefore mostly structure, but roughly one in
+  eleven of the rows a landing target would reach is on a base that is still being written.
+
+**The population is not stable across republications, and that is a finding of its own.**  This face
+first measured **626** rows; after the census faces it inherits from were rebuilt in this same window
+the number fell to 522.  The 104 rows that disappeared were directory values *republished by stale
+census faces* -- i.e. a large part of what E435 counted was other censuses restating the same
+directories.  A population whose members are themselves censuses of that population shrinks every
+time one of them is refreshed; any count in this family must name the round it was taken in.
+
+**Two exclusions that are different facts.**  The carrier must leave its own member list, or a face
+that names its own directory is always its own newest member and every such base reads frozen.  And
+this study's own faces must leave the scan, or the largest family reads live *because of the reader*
+(E180/E207 self-inclusion, sixth recurrence).  Both are named in `method_limits`; `is_own_output()`
+carries four selftest legs.
+
+**Two defects caught by inspection rather than by the code.**  (a) The aggregate directory key was
+first spelled `directory`, which put this study's own face back into the population it censuses:
+measured in-window at **exactly +144 rows** (72 directories x the dated face and its `latest` twin).
+Renaming the key to `base` -- the spelling the rows already used -- removed the self-inflation; this
+is the r1234 name-is-semantics law firing on a study about names.  (b) The first distance check
+compared 522 style row counts against E435's *whole* directory-valued population instead of the
+face-home subset, so it fired on its own correctness every run.
+
+Face: `results/state_tilt/facehome_latest.json` (`FACEHOME-<cutoff>.json`), verdict
+`some_face_home_bases_are_live_writer_directories_and_the_rest_are_frozen`; selftest 24/24; S6 leg
+`face_home_family` (verify); smoke leg extracted verbatim with a doctored frozen directory as the
+control.

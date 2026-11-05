@@ -3,16 +3,17 @@
  "card": "E433-WHICH-REPUBLICATION-SITE-CARRIES-A-FILE-VALUED-DIRECTORY-FIELD-INTO-A-NEW-FACE",
  "title": "price whether a republication row binds a name beside a file-capable directory field, and whether the new face's rows stay double-ready",
  "generated": "2026-11-05",
- "evidence_cutoff": "2026-11-03",
+ "evidence_cutoff": "2026-11-04",
  "verdict": "a_republication_row_binds_a_name_beside_a_file_capable_directory_field_and_its_published_rows_are_still_double_ready",
  "summary": {
-  "republish_sites": 8,
+  "republish_sites": 10,
   "sites_by_file": {
    "scripts/e399_unresolved_names.py": 1,
    "scripts/e403_family_arg.py": 5,
-   "scripts/e404_constant_directory_resolution.py": 2
+   "scripts/e404_constant_directory_resolution.py": 2,
+   "scripts/e436_double_join.py": 2
   },
-  "sites_binding_a_name_beside_a_file_capable_key": 3,
+  "sites_binding_a_name_beside_a_file_capable_key": 5,
   "file_capable_keys": [
    "dir",
    "directory_expression",
@@ -28,25 +29,29 @@
    [
     "parent_dir",
     "key"
+   ],
+   [
+    "resolved_directory",
+    "fragment"
    ]
   ],
-  "writer_faces": 2,
-  "writer_faces_scanned": 2,
+  "writer_faces": 3,
+  "writer_faces_scanned": 3,
   "republish_files_without_a_writer_face": [
    "scripts/e399_unresolved_names.py"
   ],
-  "file_valued_rows_in_writer_faces": 16,
-  "rows_carrying_a_name_beside_the_value": 12,
-  "rows_whose_name_already_equals_the_value_basename": 11,
-  "double_ready_rows_in_writer_faces": 12,
+  "file_valued_rows_in_writer_faces": 35,
+  "rows_carrying_a_name_beside_the_value": 31,
+  "rows_whose_name_already_equals_the_value_basename": 29,
+  "double_ready_rows_in_writer_faces": 31,
   "rows_by_key": {
-   "resolved_directory": 11,
-   "directory_expression": 1,
+   "resolved_directory": 29,
+   "directory_expression": 2,
    "dir": 2,
    "resolved_dir": 2
   },
   "name_keys_by_row": {
-   "fragment": 12
+   "fragment": 31
   }
  },
  "republish_sites": [
@@ -691,10 +696,71 @@
     "fragment"
    ],
    "binds_a_name_beside_a_file_capable_key": true
+  },
+  {
+   "file": "scripts/e436_double_join.py",
+   "line": 263,
+   "function": "population",
+   "key": "resolved_directory",
+   "scope": "population",
+   "literals": [
+    {
+     "keys": [
+      "classes",
+      "directory_expression",
+      "fragment",
+      "published_path_exists",
+      "resolved_directory",
+      "resolved_inside_tree",
+      "rows",
+      "sites"
+     ],
+     "lineno": 261
+    }
+   ],
+   "file_capable_keys": [
+    "directory_expression",
+    "resolved_directory"
+   ],
+   "name_keys": [
+    "fragment"
+   ],
+   "binds_a_name_beside_a_file_capable_key": true
+  },
+  {
+   "file": "scripts/e436_double_join.py",
+   "line": 264,
+   "function": "population",
+   "key": "directory_expression",
+   "scope": "population",
+   "literals": [
+    {
+     "keys": [
+      "classes",
+      "directory_expression",
+      "fragment",
+      "published_path_exists",
+      "resolved_directory",
+      "resolved_inside_tree",
+      "rows",
+      "sites"
+     ],
+     "lineno": 261
+    }
+   ],
+   "file_capable_keys": [
+    "directory_expression",
+    "resolved_directory"
+   ],
+   "name_keys": [
+    "fragment"
+   ],
+   "binds_a_name_beside_a_file_capable_key": true
   }
  ],
  "writer_faces": [
   "results/state_tilt/constdirs_latest.json",
+  "results/state_tilt/doublejoin_latest.json",
   "results/state_tilt/familyarg_latest.json"
  ],
  "rows": [
@@ -819,6 +885,213 @@
   },
   {
    "face": "results/state_tilt/constdirs_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\firm\\traders\\COMPOSITE-001.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "results/alphagen_rl_p1/ckpt/train_log.jsonl",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "results/idle_trigger.bm-c.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "results/idle_trigger.bm-c.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "results/idle_trigger.bm-c.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "results/idle_trigger.bm-c.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "results/idle_trigger.bm-c.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "results/idle_trigger.bm-c.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "results/idle_trigger.bm-c.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "results/idle_trigger.bm-c.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "results/idle_trigger.bm-c.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "results/idle_trigger.bm-c.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\trial_labor_w20\\w20_screen.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\trial_labor_w20\\w20_reform_face.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\mktcap_raw.meta.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "resolved_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\idle_trigger.bm-c.json",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": [
+    "fragment"
+   ]
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "key": "directory_expression",
+   "value": "ROOT / \"results\" / \"idle_trigger.bm-c.json\"",
+   "name_fields_in_the_same_row": [
+    "fragment"
+   ],
+   "names_equal_to_the_value_basename": []
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
    "key": "resolved_directory",
    "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\firm\\traders\\COMPOSITE-001.json",
    "name_fields_in_the_same_row": [

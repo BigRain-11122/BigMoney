@@ -2,7 +2,7 @@
  "study": "E418_how_old_are_the_unprotected_faces_right_now",
  "card": "E418-HOW-OLD-ARE-THE-UNPROTECTED-FACES-RIGHT-NOW",
  "title": "the 45 blind faces, priced by stamp age in bars and by the sentence their legs print when green",
- "generated": "2026-11-04",
+ "generated": "2026-11-05",
  "evidence_cutoff": "2026-11-04",
  "verdict": "no_blind_face_prints_a_frozen_number_as_green",
  "summary": {
@@ -10,8 +10,8 @@
   "faces_from_e411_rows": 44,
   "faces_from_e416_reclassification": 1,
   "faces_on_disk": 42,
-  "faces_with_a_stamp": 36,
-  "faces_with_an_age": 36,
+  "faces_with_a_stamp": 37,
+  "faces_with_an_age": 34,
   "median_age_bars": 2.0,
   "max_age_bars": 25,
   "faces_older_than_5_bars": 3,
@@ -21,8 +21,8 @@
    "no_number": 31
   },
   "by_verdict": {
-   "no claim that decays": 36,
-   "stamp absent so age is unknowable": 8,
+   "no claim that decays": 37,
+   "stamp absent so age is unknowable": 7,
    "stamp present but not a readable date so age is unknowable": 1
   },
   "verdict_is_green": true
@@ -872,81 +872,6 @@
    "verdict": "no claim that decays"
   },
   {
-   "face": "results/astock_daily_update_status.json",
-   "on_disk": true,
-   "population_source": "e411_row",
-   "reader_sites": 1,
-   "reader_tiers": [
-    "no_freshness_test"
-   ],
-   "stamp_field": "ts",
-   "stamp_value": "2026-11-04T21:11:20",
-   "stamp_date": "2026-11-04",
-   "age_bars": 0,
-   "sentences": [
-    {
-     "leg_line": 785,
-     "site": "smoke_test.py:2",
-     "sentence": "check(\"product: ETF live-book page current and its money closes\", False, str(e)) try:",
-     "class": "no_number"
-    }
-   ],
-   "sentence_classes": [
-    "no_number"
-   ],
-   "verdict": "no claim that decays"
-  },
-  {
-   "face": "results/data_lag_audit.json",
-   "on_disk": true,
-   "population_source": "e411_row",
-   "reader_sites": 1,
-   "reader_tiers": [
-    "no_freshness_test"
-   ],
-   "stamp_field": "as_of",
-   "stamp_value": "2026-11-04T18:38:44",
-   "stamp_date": "2026-11-04",
-   "age_bars": 0,
-   "sentences": [
-    {
-     "leg_line": 551,
-     "site": "smoke_test.py:2",
-     "sentence": "check(\"product: staggered book states when each sleeve next turns\", False, str(e)) try:",
-     "class": "no_number"
-    }
-   ],
-   "sentence_classes": [
-    "no_number"
-   ],
-   "verdict": "no claim that decays"
-  },
-  {
-   "face": "results/pool_deliverable_audit.json",
-   "on_disk": true,
-   "population_source": "e411_row",
-   "reader_sites": 1,
-   "reader_tiers": [
-    "no_freshness_test"
-   ],
-   "stamp_field": "ts",
-   "stamp_value": "2026-11-04T18:38:28+0800",
-   "stamp_date": "2026-11-04",
-   "age_bars": 0,
-   "sentences": [
-    {
-     "leg_line": 1147,
-     "site": "smoke_test.py:5",
-     "sentence": "check(\"product: the width ladder is split into timing and selection, so \" \"its movement is attributed to a named part\", False, str(e))",
-     "class": "no_number"
-    }
-   ],
-   "sentence_classes": [
-    "no_number"
-   ],
-   "verdict": "no claim that decays"
-  },
-  {
    "face": "results/state_tilt/deadread_latest.json",
    "on_disk": true,
    "population_source": "e411_row",
@@ -968,6 +893,31 @@
    ],
    "sentence_classes": [
     "recomputed_at_read"
+   ],
+   "verdict": "no claim that decays"
+  },
+  {
+   "face": "results/state_tilt/doublejoin_latest.json",
+   "on_disk": true,
+   "population_source": "e411_row",
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "stamp_field": "evidence_cutoff",
+   "stamp_value": "2026-11-04",
+   "stamp_date": "2026-11-04",
+   "age_bars": 0,
+   "sentences": [
+    {
+     "leg_line": 17090,
+     "site": "smoke_test.py:3",
+     "sentence": "check(_name435, not _bad435, \"; \".join(_bad435)[:240] or _d435)",
+     "class": "no_number"
+    }
+   ],
+   "sentence_classes": [
+    "no_number"
    ],
    "verdict": "no claim that decays"
   },
@@ -997,6 +947,31 @@
    "verdict": "stamp absent so age is unknowable"
   },
   {
+   "face": "results/astock_daily_update_status.json",
+   "on_disk": true,
+   "population_source": "e411_row",
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "stamp_field": "ts",
+   "stamp_value": "2026-11-05T12:25:47",
+   "stamp_date": "2026-11-05",
+   "age_bars": null,
+   "sentences": [
+    {
+     "leg_line": 785,
+     "site": "smoke_test.py:2",
+     "sentence": "check(\"product: ETF live-book page current and its money closes\", False, str(e)) try:",
+     "class": "no_number"
+    }
+   ],
+   "sentence_classes": [
+    "no_number"
+   ],
+   "verdict": "no claim that decays"
+  },
+  {
    "face": "results/dashboard_status.json",
    "on_disk": true,
    "population_source": "e416_reclassification",
@@ -1009,6 +984,31 @@
    "sentences": [],
    "sentence_classes": [],
    "verdict": "stamp absent so age is unknowable"
+  },
+  {
+   "face": "results/data_lag_audit.json",
+   "on_disk": true,
+   "population_source": "e411_row",
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "stamp_field": "as_of",
+   "stamp_value": "2026-11-05T12:25:38",
+   "stamp_date": "2026-11-05",
+   "age_bars": null,
+   "sentences": [
+    {
+     "leg_line": 551,
+     "site": "smoke_test.py:2",
+     "sentence": "check(\"product: staggered book states when each sleeve next turns\", False, str(e)) try:",
+     "class": "no_number"
+    }
+   ],
+   "sentence_classes": [
+    "no_number"
+   ],
+   "verdict": "no claim that decays"
   },
   {
    "face": "results/dom_profile/PROFILE-*.json",
@@ -1027,31 +1027,6 @@
      "leg_line": 2109,
      "site": "smoke_test.py:8",
      "sentence": "check(\"product: the adopted flip damper reaches the live shadow book\", False, str(e)) try:",
-     "class": "no_number"
-    }
-   ],
-   "sentence_classes": [
-    "no_number"
-   ],
-   "verdict": "stamp absent so age is unknowable"
-  },
-  {
-   "face": "results/etf_book_production/CARD.md",
-   "on_disk": true,
-   "population_source": "e411_row",
-   "reader_sites": 1,
-   "reader_tiers": [
-    "no_freshness_test"
-   ],
-   "stamp_field": null,
-   "stamp_value": null,
-   "stamp_date": null,
-   "age_bars": null,
-   "sentences": [
-    {
-     "leg_line": 437,
-     "site": "smoke_test.py:2",
-     "sentence": "check(\"paper: pipeline selftest\", False, str(e)) import subprocess as _sp",
      "class": "no_number"
     }
    ],
@@ -1166,6 +1141,31 @@
     "recomputed_at_read"
    ],
    "verdict": "stamp present but not a readable date so age is unknowable"
+  },
+  {
+   "face": "results/pool_deliverable_audit.json",
+   "on_disk": true,
+   "population_source": "e411_row",
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "stamp_field": "ts",
+   "stamp_value": "2026-11-05T12:25:22+0800",
+   "stamp_date": "2026-11-05",
+   "age_bars": null,
+   "sentences": [
+    {
+     "leg_line": 1147,
+     "site": "smoke_test.py:5",
+     "sentence": "check(\"product: the width ladder is split into timing and selection, so \" \"its movement is attributed to a named part\", False, str(e))",
+     "class": "no_number"
+    }
+   ],
+   "sentence_classes": [
+    "no_number"
+   ],
+   "verdict": "no claim that decays"
   },
   {
    "face": "results/state_tilt/AGGATT-%s.json",

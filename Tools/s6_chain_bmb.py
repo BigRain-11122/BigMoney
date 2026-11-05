@@ -1551,6 +1551,19 @@ LEGS = [
     # class that no longer follows from its own axes, so a face carrying a carried verdict or a
     # name block that does not close refuses the chain instead of republishing the old label.
     ("shared_wrapper_names", ["python", "scripts/e440_shared_wrapper_names.py", "verify"]),
+    # E443 (r1461): E440's shared-name class is a name fact; a bare call resolves through the
+    # caller's own imports.  `check` re-derives every published tally from the published cells
+    # (fast); `verify` re-runs E440's scan over ~3.4k sources (~20 min) and is published on demand,
+    # because a guard whose only cost is 20 minutes per tick gets switched off.
+    ("bare_call_resolve", ["python", "scripts/e443_bare_call_resolve.py", "check"]),
+    # E441 (r1461): E435 published 626 directory values that are a published face's home and 0 of
+    # 489 composable joins that lands -- a zero that reads two opposite ways.  This leg grades every
+    # base live (a member was written after the carrier) or frozen, and cross-tabs the composable
+    # subset against that grading.  Verify re-derives the member families over the live tree and
+    # refuses a published base class its own carriers no longer support, so a face holding a stale
+    # population refuses the chain instead of republishing the old split.  Read-only: it writes
+    # nothing under results/, cost is one directory walk plus E435's face scan (~35s).
+    ("face_home_family", ["python", "scripts/e441_facehome_family.py", "verify"]),
     # E435 (r1458): E423 priced where a directory-named field points but never asked whether the
     # value is itself the name of a published face.  Verify re-derives the three value classes over
     # the live tree and refuses a published join whose target no longer resolves, so a face holding

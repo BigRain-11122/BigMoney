@@ -1,0 +1,1572 @@
+{
+ "bound": "the chain surface is matched on a literal argv list, so a leg that builds its script name at runtime would be missed; the suite bound is narrower still -- its only dynamic arm is a selftest helper whose call sites all pass --selftest",
+ "card": "E408-DOES-EVERY-IN-TREE-WRITER-OF-A-FACE-ALSO-REFRESH-IT-ON-THE-SAME-SIGNAL",
+ "evidence_cutoff": "2026-11-05",
+ "faces": [
+  {
+   "face": "results/state_tilt/banddeflate_latest.json",
+   "mention_only_count": 2,
+   "read_by_legs": [
+    149
+   ],
+   "real_writer_count": 1,
+   "real_writers_on_chain": 1,
+   "seed_writer_count": 3,
+   "stamp": {
+    "age_days": 5.59,
+    "kind": "generated",
+    "value": "2026-10-31T07:04:32"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "results/_r1305bmb_pool_surgery.py",
+      "results/_r1308bmb_card_append.py",
+      "results/_r1308bmb_pool_flip.py",
+      "results/_r1308bmb_state_patch.py",
+      "scripts/e408_writer_refresh_signal.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 6,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e283_degenerate_range_reachable.py",
+        "verify"
+       ],
+       "leg": "degenerate_range_reachable"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e283_degenerate_range_reachable.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (LATEST, bound at line 68) reaches a write call in _write()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 4,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (LATEST, bound at line 68) reaches a write call in _write()",
+      "lines": [
+       411
+      ],
+      "scope": "_write",
+      "tainted": [
+       "LATEST",
+       "SELF_FACES"
+      ],
+      "writes": true
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "scripts/e334_helper_repair_blast_radius.py",
+      "scripts/e338_census_green_window.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 3,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e327_who_reads_a_face_through_a_pointer.py",
+        "verify"
+       ],
+       "leg": "who_reads_a_face_through_a_pointer"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [],
+      "writes": false
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "scripts/run_e408_smoke_leg.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 2,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e408_writer_refresh_signal.py",
+        "verify"
+       ],
+       "leg": "writer_refresh_signal"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e408_writer_refresh_signal.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [],
+      "writes": false
+     }
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "mention_only_count": 0,
+   "read_by_legs": [
+    151
+   ],
+   "real_writer_count": 1,
+   "real_writers_on_chain": 1,
+   "seed_writer_count": 1,
+   "stamp": {
+    "age_days": 5.58,
+    "kind": "generated",
+    "value": "2026-10-31T07:24:25"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "_r1311bmb_s6leg.py",
+      "results/_r1310bmb_card.py",
+      "results/_r1310bmb_closeout.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 4,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e285_interrange_gap_ceiling.py",
+        "verify"
+       ],
+       "leg": "interrange_gap_ceiling"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e285_interrange_gap_ceiling.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (name, bound at line 405) reaches a write call in write_face()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 3,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (name, bound at line 405) reaches a write call in write_face()",
+      "lines": [
+       406
+      ],
+      "scope": "write_face",
+      "tainted": [
+       "LATEST",
+       "SELF_FACES",
+       "fh",
+       "name"
+      ],
+      "writes": true
+     }
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandstraddlesweep_latest.json",
+   "mention_only_count": 0,
+   "read_by_legs": [
+    137
+   ],
+   "real_writer_count": 1,
+   "real_writers_on_chain": 1,
+   "seed_writer_count": 1,
+   "stamp": {
+    "age_days": 5.72,
+    "kind": "generated",
+    "value": "2026-10-31T03:57:28"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "_r1298bmb_pool_surgery.py",
+      "_tmp_r1301_s6wire.py",
+      "results/_r1299bmb_card.py",
+      "results/_r1299bmb_closeout.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 5,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e274_spread_straddle_sweep.py",
+        "verify"
+       ],
+       "leg": "spread_straddle_sweep"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e274_spread_straddle_sweep.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (LATEST, bound at line 50) reaches a write call in _write()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 4,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (LATEST, bound at line 50) reaches a write call in _write()",
+      "lines": [
+       352
+      ],
+      "scope": "_write",
+      "tainted": [
+       "LATEST"
+      ],
+      "writes": true
+     }
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandtight_latest.json",
+   "mention_only_count": 0,
+   "read_by_legs": [
+    136
+   ],
+   "real_writer_count": 1,
+   "real_writers_on_chain": 1,
+   "seed_writer_count": 1,
+   "stamp": {
+    "age_days": 5.78,
+    "kind": "generated",
+    "value": "2026-10-31T02:30:19"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "results/_r1293bmb_pool_seed_e269.py",
+      "results/_r1295bmb_card_append.py",
+      "results/_r1295bmb_report_row.py",
+      "results/_r1295bmb_state_hb.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 5,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e269_tight_end_transfer.py",
+        "verify"
+       ],
+       "leg": "tight_end_transfer"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e269_tight_end_transfer.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (LATEST, bound at line 47) reaches a write call in _write()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 4,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (LATEST, bound at line 47) reaches a write call in _write()",
+      "lines": [
+       421
+      ],
+      "scope": "_write",
+      "tainted": [
+       "LATEST"
+      ],
+      "writes": true
+     }
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "mention_only_count": 0,
+   "read_by_legs": [
+    131,
+    136
+   ],
+   "real_writer_count": 1,
+   "real_writers_on_chain": 1,
+   "seed_writer_count": 1,
+   "stamp": {
+    "age_days": 5.92,
+    "kind": "generated",
+    "value": "2026-10-30T23:15:36"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "_tmp_pool_fix.py",
+      "_tmp_pool_seed.py",
+      "results/_r1290bmb_append_card.py",
+      "results/_r1290bmb_pool_update.py",
+      "results/_r1290bmb_state_heartbeat.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 6,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e262_p95_transfer_across_windows.py",
+        "verify"
+       ],
+       "leg": "p95_transfer_across_windows"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e262_p95_transfer_across_windows.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (LATEST, bound at line 50) reaches a write call in _write()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 5,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (LATEST, bound at line 50) reaches a write call in _write()",
+      "lines": [
+       493
+      ],
+      "scope": "_write",
+      "tainted": [
+       "LATEST"
+      ],
+      "writes": true
+     }
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/bookecho_latest.json",
+   "mention_only_count": 2,
+   "read_by_legs": [
+    118,
+    119
+   ],
+   "real_writer_count": 1,
+   "real_writers_on_chain": 1,
+   "seed_writer_count": 3,
+   "stamp": {
+    "age_days": 0.37,
+    "kind": "generated",
+    "value": "2026-11-05T12:31:06"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "_tmp_r1275_pool.py",
+      "_tmp_r1277_close.py",
+      "scripts/e407_leg_input_stability.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 4,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e250_book_turnover_echo.py",
+        "run"
+       ],
+       "leg": "book_echo"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e250_book_turnover_echo.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (p, bound at line 503) reaches a write call in _write()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 2,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (p, bound at line 503) reaches a write call in _write()",
+      "lines": [
+       504
+      ],
+      "scope": "_write",
+      "tainted": [
+       "latest",
+       "p"
+      ],
+      "writes": true
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "scripts/e408_writer_refresh_signal.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 2,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e407_leg_input_stability.py",
+        "verify"
+       ],
+       "leg": "leg_input_stability"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e407_leg_input_stability.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [
+       "FIXTURE"
+      ],
+      "writes": false
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "scripts/run_e408_smoke_leg.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 2,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e408_writer_refresh_signal.py",
+        "verify"
+       ],
+       "leg": "writer_refresh_signal"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e408_writer_refresh_signal.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [],
+      "writes": false
+     }
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/quantityname_latest.json",
+   "mention_only_count": 1,
+   "read_by_legs": [
+    176,
+    177,
+    178
+   ],
+   "real_writer_count": 2,
+   "real_writers_on_chain": 1,
+   "seed_writer_count": 3,
+   "stamp": {
+    "age_days": null,
+    "kind": "evidence_cutoff",
+    "note": "data vintage, not a publish stamp -- age not priced",
+    "value": "2026-10-31"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "smoke_test.py",
+      "scripts/run_e410_freshness_legs.py",
+      "scripts/_r1383_postscript.py",
+      "scripts/_r1383_report.py"
+     ],
+     "adhoc_refs_total": 4,
+     "on_chain": [],
+     "on_suite_literal": false,
+     "path": "scripts/e321_quantity_name_reach.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (LATEST, bound at line 32) reaches a write call in save()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 2,
+     "suite_names_it": [],
+     "surface": "session_only",
+     "write_evidence": {
+      "how": "a name carrying the face (LATEST, bound at line 32) reaches a write call in save()",
+      "lines": [
+       277
+      ],
+      "scope": "save",
+      "tainted": [
+       "LATEST"
+      ],
+      "writes": true
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "smoke_test.py",
+      "scripts/_r1439_closeout.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 3,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e409_unfloored_faces.py",
+        "verify"
+       ],
+       "leg": "unfloored_faces"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e409_unfloored_faces.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 1,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [
+       "FACES"
+      ],
+      "writes": false
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 1,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/run_e410_freshness_legs.py"
+       ],
+       "leg": "freshness_bound"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/run_e410_freshness_legs.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (payload, bound at line 243) reaches a write call in _publish()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (payload, bound at line 243) reaches a write call in _publish()",
+      "lines": [
+       246
+      ],
+      "scope": "_publish",
+      "tainted": [
+       "COPIES",
+       "QN",
+       "face",
+       "p",
+       "payload"
+      ],
+      "writes": true
+     }
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/reachwide_latest.json",
+   "mention_only_count": 1,
+   "read_by_legs": [
+    178,
+    179,
+    180
+   ],
+   "real_writer_count": 1,
+   "real_writers_on_chain": 1,
+   "seed_writer_count": 2,
+   "stamp": {
+    "age_days": null,
+    "kind": "evidence_cutoff",
+    "note": "data vintage, not a publish stamp -- age not priced",
+    "value": "2026-10-31"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "_tmp_pool_seed_r1342.py",
+      "scripts/e338_census_green_window.py",
+      "scripts/e363_corpus_vintage.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 4,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e323_reach_under_wider_needle.py",
+        "verify"
+       ],
+       "leg": "reach_under_wider_needle"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e323_reach_under_wider_needle.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (target, bound at line 412) reaches a write call in save()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 1,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (target, bound at line 412) reaches a write call in save()",
+      "lines": [
+       413
+      ],
+      "scope": "save",
+      "tainted": [
+       "LATEST",
+       "target"
+      ],
+      "writes": true
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "_tmp_r1378_card.py",
+      "_tmp_r1378_report.py"
+     ],
+     "adhoc_refs_total": 2,
+     "on_chain": [],
+     "on_suite_literal": false,
+     "path": "scripts/e356_census_red_triage.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 2,
+     "suite_names_it": [],
+     "surface": "session_only",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [
+       "LEGS"
+      ],
+      "writes": false
+     }
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/refusalcause_latest.json",
+   "mention_only_count": 0,
+   "read_by_legs": [
+    177
+   ],
+   "real_writer_count": 1,
+   "real_writers_on_chain": 1,
+   "seed_writer_count": 1,
+   "stamp": {
+    "age_days": null,
+    "kind": "evidence_cutoff",
+    "note": "data vintage, not a publish stamp -- age not priced",
+    "value": "2026-10-31"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "_tmp_closeout_r1342.py",
+      "_tmp_pool_seed_r1342.py",
+      "scripts/e338_census_green_window.py",
+      "Tools/s6_chain_bmb.py",
+      "Tools/s6_chain_bmc.py"
+     ],
+     "adhoc_refs_total": 5,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e322_residual_refusal_causes.py",
+        "verify"
+       ],
+       "leg": "refusal_cause"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e322_residual_refusal_causes.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (target, bound at line 295) reaches a write call in save()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 2,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (target, bound at line 295) reaches a write call in save()",
+      "lines": [
+       296
+      ],
+      "scope": "save",
+      "tainted": [
+       "LATEST",
+       "target"
+      ],
+      "writes": true
+     }
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/starown_latest.json",
+   "mention_only_count": 0,
+   "read_by_legs": [
+    119,
+    120
+   ],
+   "real_writer_count": 2,
+   "real_writers_on_chain": 2,
+   "seed_writer_count": 2,
+   "stamp": {
+    "age_days": 0.37,
+    "kind": "generated",
+    "value": "2026-11-05T12:31:10"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "_tmp_r1277_close.py",
+      "scripts/e277_tight_multiplier_floor.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 3,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e251_star_own_component.py",
+        "run"
+       ],
+       "leg": "star_own_component"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e251_star_own_component.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (p, bound at line 494) reaches a write call in _write()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 1,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (p, bound at line 494) reaches a write call in _write()",
+      "lines": [
+       495
+      ],
+      "scope": "_write",
+      "tainted": [
+       "latest",
+       "p"
+      ],
+      "writes": true
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "_tmp_r1277_pool.py",
+      "scripts/e403_family_arg.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 3,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e252_star_prices_itself.py",
+        "verify"
+       ],
+       "leg": "star_self_price"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e252_star_prices_itself.py",
+     "role": "writer",
+     "role_basis": "the write call itself names the face",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 1,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "the write call itself names the face",
+      "lines": [
+       731
+      ],
+      "scope": "_stub",
+      "tainted": [],
+      "writes": true
+     }
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/starself_latest.json",
+   "mention_only_count": 1,
+   "read_by_legs": [
+    120
+   ],
+   "real_writer_count": 1,
+   "real_writers_on_chain": 1,
+   "seed_writer_count": 2,
+   "stamp": {
+    "age_days": 6.31,
+    "kind": "generated",
+    "value": "2026-10-30T13:48:56"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "_tmp_r1277_pool.py",
+      "scripts/e403_family_arg.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 3,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e252_star_prices_itself.py",
+        "verify"
+       ],
+       "leg": "star_self_price"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e252_star_prices_itself.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (p, bound at line 498) reaches a write call in _write()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 1,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (p, bound at line 498) reaches a write call in _write()",
+      "lines": [
+       499
+      ],
+      "scope": "_write",
+      "tainted": [
+       "latest",
+       "p"
+      ],
+      "writes": true
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 1,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e403_family_arg.py",
+        "verify"
+       ],
+       "leg": "family_arg"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e403_family_arg.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [],
+      "writes": false
+     }
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/unpublishedkey_latest.json",
+   "mention_only_count": 1,
+   "read_by_legs": [
+    179
+   ],
+   "real_writer_count": 1,
+   "real_writers_on_chain": 1,
+   "seed_writer_count": 2,
+   "stamp": {
+    "age_days": null,
+    "kind": "evidence_cutoff",
+    "note": "data vintage, not a publish stamp -- age not priced",
+    "value": "2026-10-31"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "scripts/e338_census_green_window.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 2,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e324_unpublished_key_causes.py",
+        "verify"
+       ],
+       "leg": "unpublished_key_causes"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e324_unpublished_key_causes.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (LATEST, bound at line 50) reaches a write call in cmd_run()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (LATEST, bound at line 50) reaches a write call in cmd_run()",
+      "lines": [
+       508
+      ],
+      "scope": "cmd_run",
+      "tainted": [
+       "LATEST"
+      ],
+      "writes": true
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "scripts/run_e408_smoke_leg.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 2,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e408_writer_refresh_signal.py",
+        "verify"
+       ],
+       "leg": "writer_refresh_signal"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e408_writer_refresh_signal.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [],
+      "writes": false
+     }
+    }
+   ]
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "mention_only_count": 5,
+   "read_by_legs": [
+    54,
+    55
+   ],
+   "real_writer_count": 2,
+   "real_writers_on_chain": 1,
+   "seed_writer_count": 12,
+   "stamp": {
+    "age_days": 2.0,
+    "kind": "ts",
+    "value": "2026-11-03 21:13:23"
+   },
+   "writers": [
+    {
+     "adhoc_refs_sample": [
+      "scripts/e408_writer_refresh_signal.py"
+     ],
+     "adhoc_refs_total": 1,
+     "on_chain": [],
+     "on_suite_literal": false,
+     "path": "Tools/_r506bmc_rebase_resolve.py",
+     "role": "one_off",
+     "role_basis": "round-scoped tool name (_r506bmc_rebase_resolve) -- writes only that round's artifact",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "none",
+     "write_evidence": {
+      "how": "not asked of a round-scoped tool",
+      "lines": [],
+      "writes": null
+     }
+    },
+    {
+     "adhoc_refs_sample": [],
+     "adhoc_refs_total": 0,
+     "on_chain": [],
+     "on_suite_literal": false,
+     "path": "Tools/_r517bmc_rebase_resolve.py",
+     "role": "one_off",
+     "role_basis": "round-scoped tool name (_r517bmc_rebase_resolve) -- writes only that round's artifact",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "none",
+     "write_evidence": {
+      "how": "not asked of a round-scoped tool",
+      "lines": [],
+      "writes": null
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "Tools/_r518bmc_close2.py"
+     ],
+     "adhoc_refs_total": 1,
+     "on_chain": [],
+     "on_suite_literal": false,
+     "path": "Tools/_r518bmc_rebase_resolve.py",
+     "role": "one_off",
+     "role_basis": "round-scoped tool name (_r518bmc_rebase_resolve) -- writes only that round's artifact",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 1,
+     "suite_names_it": [],
+     "surface": "session_only",
+     "write_evidence": {
+      "how": "not asked of a round-scoped tool",
+      "lines": [],
+      "writes": null
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "Tools/_r809bmc_close.py"
+     ],
+     "adhoc_refs_total": 1,
+     "on_chain": [],
+     "on_suite_literal": false,
+     "path": "Tools/_r808bmc_close.py",
+     "role": "one_off",
+     "role_basis": "round-scoped tool name (_r808bmc_close) -- writes only that round's artifact",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 1,
+     "suite_names_it": [],
+     "surface": "session_only",
+     "write_evidence": {
+      "how": "not asked of a round-scoped tool",
+      "lines": [],
+      "writes": null
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "_r1367bmb_closeout.py",
+      "_tmp_r1193_close.py",
+      "_tmp_r1193_hqf.py",
+      "results/_r146bmc_bookkeeping.py",
+      "results/_r273bmb_close.py",
+      "results/_r276bmb_writeback.py"
+     ],
+     "adhoc_refs_total": 26,
+     "on_chain": [],
+     "on_suite_literal": false,
+     "path": "monitor/build_status.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 19,
+     "suite_names_it": [],
+     "surface": "session_only",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [],
+      "writes": false
+     }
+    },
+    {
+     "adhoc_refs_sample": [],
+     "adhoc_refs_total": 0,
+     "on_chain": [],
+     "on_suite_literal": false,
+     "path": "scripts/_postscript_r1422.py",
+     "role": "one_off",
+     "role_basis": "round-scoped tool name (_postscript_r1422) -- writes only that round's artifact",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "none",
+     "write_evidence": {
+      "how": "not asked of a round-scoped tool",
+      "lines": [],
+      "writes": null
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 1,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e308_leg_vs_producer_tolerance.py",
+        "verify"
+       ],
+       "leg": "gate_tolerance_census"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e308_leg_vs_producer_tolerance.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [],
+      "writes": false
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 1,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e313_gate_form_and_scale.py",
+        "verify"
+       ],
+       "leg": "gate_form_and_scale"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e313_gate_form_and_scale.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [],
+      "writes": false
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "scripts/e408_writer_refresh_signal.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 2,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e407_leg_input_stability.py",
+        "verify"
+       ],
+       "leg": "leg_input_stability"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e407_leg_input_stability.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [],
+      "writes": false
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "smoke_test.py",
+      "scripts/_r1439_closeout.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 3,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/e409_unfloored_faces.py",
+        "verify"
+       ],
+       "leg": "unfloored_faces"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/e409_unfloored_faces.py",
+     "role": "mention_only",
+     "role_basis": "the module names the face but no write call reaches it -- the seed census counted mentions, not writes",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 1,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "no write call reaches the face in any scope",
+      "lines": [],
+      "scope": null,
+      "tainted": [
+       "FACES"
+      ],
+      "writes": false
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "Tools/s6_chain_bmb.py"
+     ],
+     "adhoc_refs_total": 1,
+     "on_chain": [
+      {
+       "argv": [
+        "python",
+        "scripts/run_e410_freshness_legs.py"
+       ],
+       "leg": "freshness_bound"
+      }
+     ],
+     "on_suite_literal": false,
+     "path": "scripts/run_e410_freshness_legs.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (payload, bound at line 243) reaches a write call in _publish()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 0,
+     "session_py_refs_total": 0,
+     "suite_names_it": [],
+     "surface": "standing_chain",
+     "write_evidence": {
+      "how": "a name carrying the face (payload, bound at line 243) reaches a write call in _publish()",
+      "lines": [
+       246
+      ],
+      "scope": "_publish",
+      "tainted": [
+       "COPIES",
+       "T35",
+       "face",
+       "p",
+       "payload"
+      ],
+      "writes": true
+     }
+    },
+    {
+     "adhoc_refs_sample": [
+      "smoke_test.py",
+      "_r1130bmb_s6.py",
+      "_r1131bmb_s6.py",
+      "_r1132bmb_s6.py",
+      "_r1142bmb_s6chain.py",
+      "_tmp_e103_s6.py"
+     ],
+     "adhoc_refs_total": 574,
+     "on_chain": [],
+     "on_suite_literal": false,
+     "path": "scripts/t35_open_fill_verify.py",
+     "role": "writer",
+     "role_basis": "a name carrying the face (OUT_PATH, bound at line 62) reaches a write call in run()",
+     "scheduler_refs": [],
+     "scheduler_refs_total": 0,
+     "session_ps1_refs_total": 174,
+     "session_py_refs_total": 570,
+     "suite_names_it": [
+      {
+       "flags": [
+        "--selftest"
+       ],
+       "label": "open_fill_verify",
+       "selftest": true
+      }
+     ],
+     "surface": "session_only",
+     "write_evidence": {
+      "how": "a name carrying the face (OUT_PATH, bound at line 62) reaches a write call in run()",
+      "lines": [
+       316
+      ],
+      "scope": "run",
+      "tainted": [
+       "OUT_PATH"
+      ],
+      "writes": true
+     }
+    }
+   ]
+  }
+ ],
+ "generated": "2026-11-05T21:20:20+08:00",
+ "method": "per-leg read attribution is taken from E407's census; the writer list is E407's, then re-tested here -- a module counts as a writer only when a write call reaches a path naming the face, directly or through a name assigned from a face-naming expression, so a mention is not a write; an executor counts only when the surface lists the module basename inside a literal argv or dispatch tuple",
+ "study": "E408_writer_refresh_signal",
+ "subject_face": "results\\state_tilt\\LEGINPUT-2026-11-04.json",
+ "summary": {
+  "chain_legs": 213,
+  "faces": 13,
+  "faces_read_by_a_leg": 13,
+  "faces_refreshed_on_the_reading_surface": 0,
+  "faces_with_a_real_writer": 13,
+  "faces_with_a_real_writer_on_the_chain": 13,
+  "faces_with_no_refresh_surface": 0,
+  "real_writers_on_a_registered_task": 0,
+  "real_writers_on_the_chain": 14,
+  "real_writers_session_only": 2,
+  "real_writers_with_no_surface": 0,
+  "suite_dispatch_all_selftest": 1,
+  "suite_dispatch_names_a_writer_in_selftest_mode": 1,
+  "suite_dispatch_scripts": 54,
+  "suite_dispatch_scripts_that_write_an_input_face": 0,
+  "suite_scripts_run_as_publish": 0,
+  "writers_mention_only": 13,
+  "writers_named_by_the_seed": 34,
+  "writers_on_the_chain": 25,
+  "writers_one_off": 5,
+  "writers_that_actually_write": 16
+ },
+ "supply_floor": null,
+ "surfaces": {
+  "chain_legs_total": 213,
+  "suite_bounds": [
+   "helper _selftest_run(script, args, timeout) takes the script as a variable; every call site in this suite passes a literal and the literal args are always --selftest, so no call publishes a face -- verified by counting the call sites that carry a non-selftest arg (0)",
+   "helper _selftest_run(script, args, timeout) takes the script as a variable; 54 dispatch tuples in this suite name a literal script, and the flag list of 28 of them carries --selftest"
+  ],
+  "suite_dispatch_all_selftest": true,
+  "suite_dispatch_scripts": [
+   "update_daily.py",
+   "update_lhb.py",
+   "update_intraday_marks.py",
+   "t35_open_fill_verify.py",
+   "update_etf_daily.py",
+   "update_etf_wide.py",
+   "update_zt_pool.py",
+   "update_fund_statements.py",
+   "fund_avail_pit_t27.py",
+   "fund_pit_avail.py",
+   "fund_avail_notice.py",
+   "fund_avail_dispersion.py",
+   "fund_avail_face_impact.py",
+   "fund_avail_asof_panel.py",
+   "fund_pit_factor_panel.py",
+   "fund_pit_crossface_factor.py",
+   "etf_book_production.py",
+   "etf_vol_delivery_audit.py",
+   "etf_vol_calibration.py",
+   "etf_book_forward.py",
+   "etf_book_order.py",
+   "etf_book_width_audit.py",
+   "etf_book_split_audit.py",
+   "etf_book_spanning_pre2020.py",
+   "etf_book_capacity_rule.py",
+   "monthly_exam_prep.py",
+   "gpu_face.py",
+   "tree_poison_probe.py",
+   "surgery_commit.py",
+   "machine_health_face.py",
+   "group_root.py",
+   "group_root_sweep.py",
+   "group_root_dialect_census.py",
+   "reader_text_audit.py",
+   "etf_pool_survival.py",
+   "exchange_calendar_audit.py",
+   "supply_alignment.py",
+   "etf_paper_signal.py",
+   "etf_book_pre2020.py",
+   "etf_book_passive_mix.py",
+   "etf_book_window_decomp.py",
+   "etf_book_pre2020_wf.py",
+   "etf_book_spanning.py",
+   "round_open_absorb.py",
+   "capital_placement.py",
+   "etf_book_cagr_reconcile.py",
+   "etf_book_hysteresis.py",
+   "etf_book_buffer_adoption.py",
+   "etf_book_premium_phases.py",
+   "etf_book_voltarget_lag.py",
+   "etf_book_voltarget_phase.py",
+   "e39_panel_census.py",
+   "e97_routing.py",
+   "lane_round_liveness.py"
+  ],
+  "suite_dynamic_calls": [
+   {
+    "call": "run",
+    "constants": [
+     "selftest"
+    ]
+   },
+   {
+    "call": "run",
+    "constants": [
+     "check",
+     "--repo",
+     ".",
+     "--commits",
+     "20"
+    ]
+   },
+   {
+    "call": "run",
+    "constants": [
+     "check_gates"
+    ]
+   },
+   {
+    "call": "run",
+    "constants": []
+   },
+   {
+    "call": "run",
+    "constants": [
+     "--selftest"
+    ]
+   },
+   {
+    "call": "run",
+    "constants": [
+     "--selftest"
+    ]
+   },
+   {
+    "call": "run",
+    "constants": [
+     "powershell",
+     "-NoProfile",
+     "-ExecutionPolicy",
+     "Bypass",
+     "-File",
+     "-M",
+     "-Check"
+    ]
+   }
+  ],
+  "suite_helpers": [
+   "_selftest_run"
+  ],
+  "suite_literal_scripts": []
+ },
+ "verdict": "the_seed_population_counts_mentions_as_writes_and_no_face_in_this_set_is_refreshed_on_the_signal_that_reads_it"
+}

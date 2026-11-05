@@ -1,10 +1,10 @@
 {
- "evidence_cutoff": "2026-11-03",
- "generated": "2026-11-04T22:21:09+08:00",
+ "evidence_cutoff": "2026-11-04",
+ "generated": "2026-11-05T21:45:35+08:00",
  "ledger": [
   {
-   "age_days_since_commit": 1.038,
-   "age_days_since_mtime": 1.047,
+   "age_days_since_commit": 2.014,
+   "age_days_since_mtime": 2.022,
    "carries_its_own_date": true,
    "cheaper_fix": "no reader-side gate is available for this face (smoke_test.py:593-597 -- a hard day gate was already litigated and removed (E185: an assertion that assumes a deployment layout)); the fix is a chain leg or a bounded-lag allowance",
    "claimed_dates": {
@@ -92,16 +92,20 @@
     }
    ],
    "readers_that_price_the_age": 0,
-   "round_rows_total": 356,
-   "rounds_since_change": 21,
-   "stale_detail": null,
-   "stale_vs_panel": false,
+   "round_rows_total": 370,
+   "rounds_since_change": 35,
+   "stale_detail": {
+    "face": "2026-11-03",
+    "field": "day",
+    "panel": "2026-11-04"
+   },
+   "stale_vs_panel": true,
    "writer": "scripts/t35_open_fill_verify.py",
    "writer_surface": "session"
   },
   {
-   "age_days_since_commit": 3.279,
-   "age_days_since_mtime": 3.298,
+   "age_days_since_commit": 4.255,
+   "age_days_since_mtime": 4.273,
    "carries_its_own_date": true,
    "cheaper_fix": "reader prices the age it already reads (one comparison; the face is self-dated)",
    "claimed_dates": {
@@ -182,12 +186,12 @@
     }
    ],
    "readers_that_price_the_age": 0,
-   "round_rows_total": 356,
-   "rounds_since_change": 47,
+   "round_rows_total": 370,
+   "rounds_since_change": 61,
    "stale_detail": {
     "face": "2026-10-31",
     "field": "evidence_cutoff",
-    "panel": "2026-11-03"
+    "panel": "2026-11-04"
    },
    "stale_vs_panel": true,
    "writer": "scripts/e321_quantity_named_by_producer.py",
@@ -208,12 +212,12 @@
   },
   "faces": 2,
   "faces_carrying_their_own_date": 2,
-  "panel_cutoff": "2026-11-03",
+  "panel_cutoff": "2026-11-04",
   "reader_sites": 5,
   "reader_sites_that_price_the_age": 0,
-  "round_rows_parsed": 356,
-  "stale_and_no_reader_prices_it": 1,
-  "stale_vs_panel": 1,
+  "round_rows_parsed": 370,
+  "stale_and_no_reader_prices_it": 2,
+  "stale_vs_panel": 2,
   "suite_practice": {
    "examples": [
     "try:",
@@ -222,13 +226,13 @@
     "check(\"product: the star lag band is re-derived from its own shuffled "
    ],
    "legs_excluded_as_this_study_reading_itself": 2,
-   "legs_opening_a_face_by_the_narrow_rule": 44,
-   "legs_opening_a_face_or_page": 205,
-   "legs_pricing_the_age": 6,
-   "share": 0.0293
+   "legs_opening_a_face_by_the_narrow_rule": 45,
+   "legs_opening_a_face_or_page": 222,
+   "legs_pricing_the_age": 8,
+   "share": 0.036
   }
  },
  "title": "two faces read by suite legs have no standing refresh",
- "verdict": "a_stale_face_passes_every_reader_that_never_asks_how_old_it_is",
- "verdict_reason": "1 of 2 faces are behind the panel cutoff (2026-11-03) and 1 of those have no reader that asks how old the face is; the suite therefore re-asserts a stale reading as if it were current."
+ "verdict": "every_face_in_this_set_is_behind_the_panel_and_no_reader_asks_how_old_it_is",
+ "verdict_reason": "2 of 2 faces are behind the panel cutoff (2026-11-04) and 2 of those have no reader that asks how old the face is; the suite therefore re-asserts a stale reading as if it were current."
 }

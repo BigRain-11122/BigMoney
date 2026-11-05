@@ -27803,11 +27803,15 @@
    "lane": "cpu-only",
    "lane_note": "static index over results/ and the published faces; nothing is written there",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E435 (r1458 bm-b): 626 of 679 directory values are the home of a published face and 0 of 528 composable joins lands",
    "entered_at": "2026-11-05T16:5x+08:00",
-   "entered_by": "bm-b r1458 (supply floor refill after E435/E439)"
+   "entered_by": "bm-b r1458 (supply floor refill after E435/E439)",
+   "done_by": "bm-b",
+   "done_at": "2026-11-05T21:0x+08:00",
+   "result_ref": "results/state_tilt/facehome_latest.json + FACEHOME-2026-11-05.json + scripts/e441_facehome_family.py (selftest 24/24; S6 leg face_home_family = verify; smoke leg extracted verbatim, doctor red with byte-identical restore)",
+   "done_note": "522 face-home rows over 72 directories: 21 live / 51 frozen; 83 of 522 carriers (15.9%) outlived by a member of the base they name; of the 385 composable rows 36 sit on a live base and 349 on a frozen one. Population fell 626 -> 522 when the inherited censuses were rebuilt: 104 of the rows E435 counted were directory values republished by stale census faces. Two exclusions are different facts (the carrier is the subject, this study's own faces are the reader); spelling the aggregate key 'directory' put this face back in its own population at exactly +144 rows, renamed to 'base'"
   },
   {
    "id": "E442-WHICH-PATH-COMPOSITION-IS-NEVER-CONSUMED",
@@ -27831,11 +27835,40 @@
    "lane": "cpu-only",
    "lane_note": "static AST over the same corpus; nothing is run",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E440 (r1460 bm-b): 707 of 25,015 dropped rows are bare calls to a name more than one module defines",
    "entered_at": "2026-11-05T18:5x+08:00",
-   "entered_by": "bm-b r1460 (supply floor refill after E440)"
+   "entered_by": "bm-b r1460 (supply floor refill after E440)",
+   "done_at": "2026-11-05T20:2x+08:00",
+   "result_ref": "results/state_tilt/barecallresolve_latest.json"
+  },
+  {
+   "id": "E444-WHICH-ATTRIBUTE-CALL-NAMES-A-METHOD-OF-A-CLASS-IN-THE-MODULE-IT-WAS-ATTRIBUTED-TO",
+   "title": "E440 dropped 24,308 attribute call rows as 'a method on some object, not evidence about the wrapper'. That spelling rule says the receiver is not a module -- it does not say the receiver is not an instance of a class defined in the very module the row was attributed to, which would make the row evidence about that module after all",
+   "question": "Take E440's 24,308 attribute call rows. For each, index the classes and their methods in the module the row was attributed to (the wrapper's file) and publish how many rows name a method that exists on a class defined there, split by whether the receiver is `self`/`cls` inside that module, a constructor call in the caller, or a name that cannot be bound. Report the count per class with the scanned module set pinned, and re-derive the tally in check.",
+   "deliverable": "results/state_tilt/ATTRMETHOD-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static index over the corpus AST and the published E440 face; nothing is written outside results/state_tilt",
+   "status": "ready",
+   "owner": null,
+   "source": "E443 (r1461 bm-b): all 707 of E440's shared-name bare calls bind to the caller's own definition, 0 to a foreign module -- the spelling axis answered the bare class and left the 24,308 attribute rows on a rule that was never re-read",
+   "entered_at": "2026-11-05T20:2x+08:00",
+   "entered_by": "bm-b r1461 (supply floor refill after E443)"
+  },
+  {
+   "id": "E445-WHICH-LIVE-BASE-ALREADY-RECEIVED-A-FACE-NAMED-WHAT-THE-JOIN-WOULD-COMPOSE",
+   "title": "E441 found 82 composable face-home rows sitting on a live writer directory -- a base that gained a member after the carrier was written. Ask the sharper question: did any of those 82 bases ever receive a face whose basename is exactly what the row's name field would compose onto it? A base that already holds the composed basename is not 'one round away' -- the target exists and only the join is missing",
+   "question": "For each of E441's 82 composable rows on a live base, take the row's name field and the carrier's own composition rule and ask: does ANY published .json face directly under the base carry exactly that basename, and does the composed path therefore exist on disk? Publish per row the composed basename, whether it exists, whether it was written after the carrier, and the resulting class (target_already_exists / target_is_the_carrier / target_would_be_new). Re-derive every count and the verdict from the published rows.",
+   "deliverable": "results/state_tilt/FACEHOMETARGET-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static index over results/; nothing is written there",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E441 (r1461 bm-b): 82 of 489 composable rows sit on a live base (21 of 72 directories are live)",
+   "entered_at": "2026-11-05T21:0x+08:00",
+   "entered_by": "bm-b r1461 (supply floor refill after E441)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27850,6 +27883,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-05T18:5x+08:00",
+ "updated_at": "2026-11-05T20:2x+08:00",
  "version": 1
 }
