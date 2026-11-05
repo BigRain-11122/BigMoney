@@ -69,6 +69,12 @@ COMPARE = ("study", "evidence_cutoff", "summary", "rows", "candidate_dirs", "ver
 # candidate, so these move on an honest rebuild.  Declared here AND in the face, so a leg cannot
 # widen the gate (E420/E421 law -- a count in an equality gate is unsatisfiable).
 POPULATION_KEYS = (
+    # r1476: the population, and its literal/templated split, are corpus counts too -- one new
+    # results pointer moved 232->233 and 218->219 and re-red the leg for growth alone.  What a
+    # reader acts on (bare-literal exposure = 0) is a reading and is still compared exactly.
+    "faces",
+    "faces_literal",
+    "faces_templated",
     "faces_on_disk",
     "faces_with_a_foreign_copy",
     "faces_with_a_different_document_copy",

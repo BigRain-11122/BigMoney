@@ -48,7 +48,16 @@ LATEST = os.path.join(STATE_TILT, "basenamecensus_latest.json")
 # list (scripts/population_keys.py, r1441).
 POPULATION_KEYS = ("bare_rows_with_a_directory_spelled_in_the_corpus",
                    "bare_rows_with_a_literal_directory_spelling",
-                   "bare_rows_with_only_a_variable_head_spelling")
+                   "bare_rows_with_only_a_variable_head_spelling",
+                   # r1476: the census population itself and its control arm are corpus counts --
+                   # one row appearing upstream moved 304->305 / 234->235 and re-red the leg for
+                   # growth alone.  The reading (rows_whose_reading_changes_if_rejoined = 0) is
+                   # NOT declared and is still compared exactly.
+                   "rows_in_population",
+                   "rows_recording_a_bare_name",
+                   "rows_spelling_a_directory",
+                   "control_path_rows",
+                   "control_path_rows_whose_file_exists")
 
 CENSUSES = [
     {

@@ -79,9 +79,9 @@
    "evidence_cutoff": "2026-11-06",
    "face": "results/state_tilt/READERTIERS-2026-11-06.json",
    "name_key": "face",
-   "path_rows": 232,
-   "published_true_booleans": 216,
-   "rows": 232,
+   "path_rows": 233,
+   "published_true_booleans": 217,
+   "rows": 233,
    "rows_key": "faces",
    "rows_whose_reading_changes_if_rejoined": 0,
    "study": "E411_reader_tiers_for_every_face_the_suite_opens"
@@ -194,7 +194,12 @@
  "population_keys": [
   "bare_rows_with_a_directory_spelled_in_the_corpus",
   "bare_rows_with_a_literal_directory_spelling",
-  "bare_rows_with_only_a_variable_head_spelling"
+  "bare_rows_with_only_a_variable_head_spelling",
+  "rows_in_population",
+  "rows_recording_a_bare_name",
+  "rows_spelling_a_directory",
+  "control_path_rows",
+  "control_path_rows_whose_file_exists"
  ],
  "rows": [
   {
@@ -2270,6 +2275,17 @@
   {
    "census": "E411_reader_tiers_for_every_face_the_suite_opens",
    "name": "results/state_tilt/abandonedread_latest.json",
+   "name_form": "path",
+   "published_booleans": {
+    "on_disk": true
+   },
+   "published_directory": null,
+   "reading_changes_if_rejoined": false,
+   "why_not": "the row already spells a directory, so there is nothing to rejoin"
+  },
+  {
+   "census": "E411_reader_tiers_for_every_face_the_suite_opens",
+   "name": "results/state_tilt/abandonedstale_latest.json",
    "name_form": "path",
    "published_booleans": {
     "on_disk": true
@@ -4372,14 +4388,14 @@
   "censuses_recording_a_bare_name_without_a_directory": [
    "E402_fragment_producers"
   ],
-  "control_path_rows": 234,
-  "control_path_rows_whose_file_exists": 216,
+  "control_path_rows": 235,
+  "control_path_rows_whose_file_exists": 217,
   "named_directory_field_holding_a_file_path": 11,
   "named_directory_field_joins_that_exist": 0,
   "named_directory_field_joins_that_would_double_the_name": 11,
-  "rows_in_population": 304,
+  "rows_in_population": 305,
   "rows_recording_a_bare_name": 70,
-  "rows_spelling_a_directory": 234,
+  "rows_spelling_a_directory": 235,
   "rows_whose_reading_changes_if_rejoined": 0,
   "verdict": "one_of_four_basename_keyed_censuses_stores_the_name_without_its_directory_and_rejoining_a_directory_changes_no_row"
  },

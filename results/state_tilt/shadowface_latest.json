@@ -3,15 +3,15 @@
  "card": "E417-WHICH-READER-WOULD-FIND-A-FOREIGN-COPY-OF-ITS-FACE",
  "title": "same-named foreign copies of the faces the suite opens, priced by launch directory",
  "evidence_cutoff": "2026-11-06",
- "generated": "2026-11-06T04:39:40+08:00",
+ "generated": "2026-11-06T07:50:59+08:00",
  "population_source": "results/state_tilt/READERTIERS-2026-11-06.json",
  "verdict": "foreign_copies_exist_but_every_name_is_read_with_a_directory_component",
- "verdict_reason": "10 of 218 literal faces have at least one same-named copy with different bytes in a directory a reader could be launched from; 6 of those are a generic basename shared by several faces (latest.json) and 4 use a name only one face carries; 0 of the exposed names is read by a bare literal in smoke_test.py, so 0 would land on a different document.",
+ "verdict_reason": "10 of 219 literal faces have at least one same-named copy with different bytes in a directory a reader could be launched from; 6 of those are a generic basename shared by several faces (latest.json) and 4 use a name only one face carries; 0 of the exposed names is read by a bare literal in smoke_test.py, so 0 would land on a different document.",
  "summary": {
-  "faces": 232,
-  "faces_literal": 218,
+  "faces": 233,
+  "faces_literal": 219,
   "faces_templated": 14,
-  "faces_on_disk": 211,
+  "faces_on_disk": 212,
   "faces_with_a_foreign_copy": 10,
   "faces_with_a_different_document_copy": 10,
   "faces_read_as_a_bare_literal": 0,
@@ -21,13 +21,16 @@
  },
  "by_class": {
   "foreign_copy_different_document": 10,
-  "name_exists_only_at_the_face": 208
+  "name_exists_only_at_the_face": 209
  },
  "by_impact": {
   "different_top_level_keys": 161,
   "same_top_level_keys": 5
  },
  "population_keys": [
+  "faces",
+  "faces_literal",
+  "faces_templated",
   "faces_on_disk",
   "faces_with_a_foreign_copy",
   "faces_with_a_different_document_copy",
@@ -667,7 +670,7 @@
   {
    "face": "results/astock_daily_update_status.json",
    "on_disk": true,
-   "own_sha": "b298d0e29de76e49ff45026ebefe2bb73a19060d5106eab6b82d1480b57bd8d5",
+   "own_sha": "8bcf13111fd8d06093a1020cca2907abe7325502095c4859b29db661c2de6906",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -1517,6 +1520,19 @@
    "generic_basename": false
   },
   {
+   "face": "results/state_tilt/abandonedstale_latest.json",
+   "on_disk": true,
+   "own_sha": "ef543c6a0573cd352823e33e44c582f6d793ef58829b19ea3d1029884b37a711",
+   "class": "name_exists_only_at_the_face",
+   "shadows": [],
+   "shadow_count": 0,
+   "different_document_copies": 0,
+   "bare_literal_site_lines": [],
+   "read_as_a_bare_literal": false,
+   "basename_faces_in_population": 1,
+   "generic_basename": false
+  },
+  {
    "face": "results/state_tilt/addos_latest.json",
    "on_disk": true,
    "own_sha": "c444b34de8d9e5010f0900bc8802727c323005410c78ef7d99f73aab21f9629c",
@@ -2143,7 +2159,7 @@
   {
    "face": "results/state_tilt/basenamecensus_latest.json",
    "on_disk": true,
-   "own_sha": "3ff10019139a4c8319fe4d8c1f76f8946295143b3337dcf869ebd807cae25a6b",
+   "own_sha": "58b9aae7f19574cc7f5d2467a6f03ac78b26916c965d6d2bcf9a8d1bcb8d81b9",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -2390,7 +2406,7 @@
   {
    "face": "results/state_tilt/dirisface_latest.json",
    "on_disk": true,
-   "own_sha": "0ea76c1bddaac5d8fb5f527cc5f85066b279b1ea19f4c50e68c43441e5011ee4",
+   "own_sha": "4d92919d26a4d12bd3f21a0469eeb805307d5be5657d7676a1a1be053edeefe6",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3119,7 +3135,7 @@
   {
    "face": "results/state_tilt/latestfamily_latest.json",
    "on_disk": true,
-   "own_sha": "ff6afd4847a3c16ac9b8028c00d5f660faa053db84c821c02c0b03f07d055f65",
+   "own_sha": "fa8d5101211bf23a654ddad4daefa630d45b975d35c20fdef2e95c8106397d0e",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -3714,7 +3730,7 @@
   {
    "face": "results/state_tilt/shadowface_latest.json",
    "on_disk": true,
-   "own_sha": "7adc6eb599cfcef74d067121e1f8a4f1c9f5c03cb50ba64040d3ba118a210db7",
+   "own_sha": "add1f9fe9a0533834b0c06352a3d76889524176841c316c6750b1ddf55b25395",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -4052,7 +4068,7 @@
   {
    "face": "results/state_tilt/unpinnedchoice_latest.json",
    "on_disk": true,
-   "own_sha": "eb4587d9c0ff01fd3a406ee489b765374a73251ea2a4c40507ee4e194eb787b0",
+   "own_sha": "57ee09ccaf500500c33a8029553fc4031247a9f6488337d053580a658e9bd83e",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
@@ -4117,7 +4133,7 @@
   {
    "face": "results/state_tilt/unstampable_latest.json",
    "on_disk": true,
-   "own_sha": "98e9a642c8e5520e9a134803b24f7f52114f3a7db3db26e242e9ce9ee71bd559",
+   "own_sha": "3263f3c19204f6af082318b5000693eec020f5fb2137d812a42ee1d89eee6979",
    "class": "name_exists_only_at_the_face",
    "shadows": [],
    "shadow_count": 0,
