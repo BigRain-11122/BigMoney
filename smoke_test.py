@@ -17664,6 +17664,68 @@ except Exception as _e444:
     _bad444.append(repr(_e444)[:160])
 check(_name444, not _bad444, "; ".join(_bad444)[:240] or _d444)
 
+# E450 (r1475 bm-b): E444 answered the wrapper side and left the caller side unread.  This leg
+# re-derives the caller face and refuses (a) a tally that does not re-derive from the rows, (b) a
+# binding hit whose class does not carry the name, (c) a published row outside the card's scope,
+# (d) a population pin that is not a growth-only superset of E444's published distribution, and
+# (e) a verdict carried instead of recomputed.  Two doctored controls must stay red: one row that
+# claims a binding its class cannot carry, and one pin with a lost receiver kind.
+_name450 = "e450 which bound receiver names a method of a class in the caller's own module (r1475 bm-b)"
+_bad450 = []
+try:
+    _m450 = __import__("importlib").import_module("e450_caller_class")
+    _f450 = json.load(open(os.path.join("results", "state_tilt", "callerclass_latest.json"),
+                           encoding="utf-8"))
+    _s450 = _f450.get("summary") or {}
+    _r450 = _f450.get("rows") or []
+    _bad450.extend(_m450.tally_problems(_f450))
+    if _f450.get("verdict") not in _m450.VERDICT_VOCAB:
+        _bad450.append("verdict outside the frozen vocabulary")
+    elif _f450.get("verdict") != _m450.verdict_for(
+            _s450.get("rows_in_scope_bound_or_constructor_receiver") or 0,
+            _s450.get("rows_name_hit") or 0,
+            _s450.get("rows_binding_hit") or 0):
+        _bad450.append("the verdict does not re-derive from the published counts")
+    for _r45 in _r450:
+        if _r45.get("binding_hit") and not _r45.get("name_hit"):
+            _bad450.append("a binding hit whose class does not carry the name")
+            break
+    _pin450 = _s450.get("population_pin") or {}
+    if _pin450.get("verdict") != _m450.PIN_GROWTH:
+        _bad450.append("the population pin is not a growth-only superset of E444")
+    if _pin450.get("e444_row_total") != _s450.get("e444_row_total"):
+        _bad450.append("the pin does not rebuild E444's published total from its distribution")
+    _doctor450 = json.loads(json.dumps(_f450))
+    if _doctor450.get("rows"):
+        _doctor450["rows"][0]["name_hit"] = False
+        _doctor450["rows"][0]["binding_hit"] = True
+        if not any("binding hit whose class" in _p
+                   for _p in _m450.tally_problems(_doctor450)):
+            _bad450.append("a binding hit with no name behind it was accepted")
+    _doctor450b = json.loads(json.dumps(_f450))
+    _per450 = (_doctor450b.get("summary") or {}).get("population_pin", {}).get(
+        "per_receiver_kind") or {}
+    if _per450:
+        _lost = sorted(_per450)[0]
+        _per450[_lost]["now"] = max(0, (_per450[_lost].get("e444") or 0) - 1)
+        _doctor450b["summary"]["population_pin"]["verdict"] = _m450.PIN_MOVED
+        _doctor450b["summary"]["population_pin"]["kinds_that_lost_rows"] = [_lost]
+        if not any("growth-only superset" in _p
+                   for _p in _m450.tally_problems(_doctor450b)):
+            _bad450.append("a shrunken receiver kind was accepted")
+    _d450 = "%d attribute row(s) re-derived, %d bound/ctor receiver(s): a class in the caller's " \
+            "own module carries the name on %d, and the receiver IS that class on %d | pin vs " \
+            "E444 %+d row(s) growth-only=%s" % (
+                _s450.get("attribute_call_rows_re_derived"),
+                _s450.get("rows_in_scope_bound_or_constructor_receiver"),
+                _s450.get("rows_name_hit"),
+                _s450.get("rows_binding_hit"),
+                _pin450.get("delta") or 0,
+                _pin450.get("verdict") == _m450.PIN_GROWTH)
+except Exception as _e450:
+    _bad450.append(repr(_e450)[:160])
+check(_name450, not _bad450, "; ".join(_bad450)[:240] or _d450)
+
 # E449 (r1468 bm-b): E448 graded 30 dropped compositions as opened nowhere in their own file, and
 # the largest family is a research-note pointer.  This leg reads the graded face and refuses (a) a
 # tally or a class that does not re-derive from the rows, (b) a read class with no opener evidence,

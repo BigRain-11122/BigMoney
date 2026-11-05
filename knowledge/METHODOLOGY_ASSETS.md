@@ -11245,3 +11245,52 @@ smoke leg `e453 abandoned base target staleness` with a doctored control that mu
 Face: `results/state_tilt/latestfamily_latest.json`; producer `scripts/e398_latest_family.py`
 (`verify problems=[] (address moves=0)`). Republished in the same window: WRONGSIDE, REFRESHSIGNAL,
 UNFLOORED, READERTIERS, FRESHAIM, FACEAGE, UNSTAMPABLE, BASENAMECENSUS, SHADOWFACE, DIRISFACE.
+
+## E450 -- a name is not a type, and the name arm of a misattribution question is a coincidence generator (r1475 bm-b)
+
+E444 answered the wrapper side of E440's 24,308 dropped attribute call rows: the six modules those
+rows were attributed to define zero classes, so no row could name a method there. The caller side
+was never read -- if the receiver is a name the caller binds, the class it names a method of is
+usually defined in the caller's own module, and that row is a real reader filed under the wrong
+module.
+
+* **Question.** Of the rows whose receiver is a caller-bound name or a constructor call made in the
+  caller (23,982 of 24,831 attribute rows), how many name a method that a class defined in the
+  **caller's** file carries -- and how many have a receiver that actually **is** that class?
+* **Two arms, published separately.** *Name*: the method name appears among the methods of some
+  class defined in the caller's file -- 26 rows (0.11%). *Binding*: the receiver is that class,
+  assigned a call to a local class (or the receiver is that constructor call) which carries the
+  name -- 13 rows (0.05%).
+* **The reading.** The 13-row gap is not scattered noise: it is exactly the whole of
+  `Tools/pool_worker.py`, the single largest name-hit module (13 name hits, **0** binding hits).
+  The two modules that do contribute are unambiguous and spot-read in source:
+  `fwd = Forward(...) -> fwd.run(...)` (plus `f0..f5`) in `scripts/etf_book_forward.py` (11), and
+  `policy = TinyPolicy(...) -> policy.save(...)` in `scripts/alphagen_rl_p1.py` (2). So the name
+  index misattributed nothing resembling a population of readers; it missed 13 rows in two files.
+* **What the binding block says about the rest.** 6,875 rows bind the receiver to a call that is
+  not a local class, 11,685 bind it to something that is not a call at all, 4,375 never assign it
+  here (parameter / import / loop target), 1,026 are constructor rows. A receiver is therefore
+  almost never a local object in this corpus, which is the honest scope of the finding.
+* **The pin, and why it is a rule.** The face re-derives E444's population live and pins itself to
+  E444's published receiver distribution under E455's growth rule: no kind may lose rows, and
+  E444's own distribution must rebuild its published total. Measured here: 24,831 vs E444's 24,618
+  (**+213**), entirely `bound` +210 and `ctor` +3 while the other four kinds are byte-identical
+  (2 / 847 / 0 / 0) -- growth in the two in-scope kinds and no classifier drift, verdict
+  `growth_only_superset`. Two builds nine minutes apart read 24,823 and 24,831: the tree grows
+  while you measure it.
+* **The pit, on its own round.** The first `verify` compared the published summary with a fresh
+  reading by exact equality -- the defect E455 was carded for, committed by the round after the fix
+  landed. `verify` now hands both payloads to `scripts/growth_tolerance.py` with the demographic
+  (receiver kind, binding, caller kind) as row identity and the claim (`name_hit`, `binding_hit`)
+  as the class, so growth is reported and only a lost cell, a shrunk count or a flipped claim
+  refuses.
+* **How to apply.** Any question of the form "did the index misattribute readers to the wrong
+  module?" must publish the **name arm and the binding arm separately**, because the name arm is
+  inflated by ordinary method-name collisions -- here, 100% of one module's hits. A census that
+  answers "does X name Y" without asking "is the receiver Y" is a lower bound wearing an answer's
+  clothes. Sibling rule for the pin: a face that re-derives a growing population must assert
+  *direction* (no losses, no flips), never equality, or it re-reds one round after every republish.
+
+Face: `results/state_tilt/callerclass_latest.json` (+ `CALLERCLASS-<cutoff>.json`); producer
+`scripts/e450_caller_class.py` (selftest 43/43, run rc0, check problems=0, verify problems=[]);
+digest `research/digests/DIGEST-20261106-r1475-e450-caller-class.md`.

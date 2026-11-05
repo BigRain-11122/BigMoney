@@ -1,0 +1,349 @@
+{
+ "binding_examples": [
+  {
+   "caller_file": "scripts/alphagen_rl_p1.py",
+   "caller_function": "cmd_train",
+   "caller_line": 1225,
+   "receiver_class": "TinyPolicy",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "policy",
+   "wrapper_name": "save"
+  },
+  {
+   "caller_file": "scripts/alphagen_rl_p1.py",
+   "caller_function": "cmd_pretrain",
+   "caller_line": 1131,
+   "receiver_class": "TinyPolicy",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "policy",
+   "wrapper_name": "save"
+  },
+  {
+   "caller_file": "scripts/etf_book_forward.py",
+   "caller_function": "selftest",
+   "caller_line": 1188,
+   "receiver_class": "Forward",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "f5",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_file": "scripts/etf_book_forward.py",
+   "caller_function": "selftest",
+   "caller_line": 1183,
+   "receiver_class": "Forward",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "f5",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_file": "scripts/etf_book_forward.py",
+   "caller_function": "selftest",
+   "caller_line": 1178,
+   "receiver_class": "Forward",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "f4",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_file": "scripts/etf_book_forward.py",
+   "caller_function": "selftest",
+   "caller_line": 1158,
+   "receiver_class": "Forward",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "f3",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_file": "scripts/etf_book_forward.py",
+   "caller_function": "selftest",
+   "caller_line": 1134,
+   "receiver_class": "Forward",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "f2",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_file": "scripts/etf_book_forward.py",
+   "caller_function": "selftest",
+   "caller_line": 1095,
+   "receiver_class": "Forward",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "f1",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_file": "scripts/etf_book_forward.py",
+   "caller_function": "selftest",
+   "caller_line": 1079,
+   "receiver_class": "Forward",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "f1",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_file": "scripts/etf_book_forward.py",
+   "caller_function": "selftest",
+   "caller_line": 1062,
+   "receiver_class": "Forward",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "f0",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_file": "scripts/etf_book_forward.py",
+   "caller_function": "book",
+   "caller_line": 969,
+   "receiver_class": "Forward",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "f",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_file": "scripts/etf_book_forward.py",
+   "caller_function": "calibrate",
+   "caller_line": 888,
+   "receiver_class": "Forward",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "fwd",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_file": "scripts/etf_book_forward.py",
+   "caller_function": "compute_marks",
+   "caller_line": 618,
+   "receiver_class": "Forward",
+   "receiver_kind": "a_name_the_caller_binds",
+   "receiver_name": "fwd",
+   "wrapper_name": "run"
+  }
+ ],
+ "binding_vocab": [
+  "a_name_assigned_a_call_to_a_class_defined_in_the_caller",
+  "a_name_assigned_a_call_to_something_that_is_not_a_local_class",
+  "a_name_assigned_something_that_is_not_a_call",
+  "a_name_never_assigned_in_the_caller_parameter_import_or_loop_target",
+  "the_receiver_is_not_a_name"
+ ],
+ "card": "E450-WHICH-BOUND-RECEIVER-NAMES-A-METHOD-OF-A-CLASS-IN-THE-CALLERS-OWN-MODULE",
+ "evidence_cutoff": "2026-11-04",
+ "generated": "2026-11-06",
+ "method_limits": [
+  "reading N is a name test, not a type test: a receiver bound to os.fdopen matches a class in the same file that happens to carry the method name, so N is an upper bound and only reading B is evidence that the row is a reader of the caller's own object",
+  "reading B requires the assignment site and the constructor to be in the same file; a receiver built by a factory function, by a class imported from elsewhere, or by an annotation-only declaration reads as not bound to a local class",
+  "a receiver name bound in two places is graded on its first constructor assignment; the face does not model control flow, so a name reused for two types counts once",
+  "bound/unbound and the assignment sites are module-wide, so a name bound in a different function still counts -- the same limit E444 publishes for its own receiver axis",
+  "the population is E440's attribute spelling class re-derived live, so a wrapper whose call rows were attributed by reachability is outside this face; the pin to E444's published totals is what makes that population the same one",
+  "self/cls rows are excluded from the scope by the card's own question (they are E444's axis, and their own-class answer is already published there)"
+ ],
+ "receiver_vocab": [
+  "self_or_cls_inside_the_callers_class",
+  "a_constructor_call_in_the_caller",
+  "a_name_the_caller_binds",
+  "a_name_the_caller_never_binds",
+  "another_expression_in_the_caller",
+  "the_receiver_is_not_at_that_line_in_the_live_file"
+ ],
+ "rows": [
+  {
+   "binding": "the_receiver_is_not_a_name",
+   "binding_hit": false,
+   "caller_kind": "reached_from_a_production_caller",
+   "name_hit": false,
+   "receiver_kind": "a_constructor_call_in_the_caller",
+   "rows": 935
+  },
+  {
+   "binding": "the_receiver_is_not_a_name",
+   "binding_hit": false,
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "name_hit": false,
+   "receiver_kind": "a_constructor_call_in_the_caller",
+   "rows": 91
+  },
+  {
+   "binding": "a_name_assigned_a_call_to_a_class_defined_in_the_caller",
+   "binding_hit": true,
+   "caller_kind": "reached_from_a_production_caller",
+   "name_hit": true,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 5
+  },
+  {
+   "binding": "a_name_assigned_a_call_to_a_class_defined_in_the_caller",
+   "binding_hit": true,
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "name_hit": true,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 8
+  },
+  {
+   "binding": "a_name_assigned_a_call_to_something_that_is_not_a_local_class",
+   "binding_hit": false,
+   "caller_kind": "reached_from_a_production_caller",
+   "name_hit": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 6214
+  },
+  {
+   "binding": "a_name_assigned_a_call_to_something_that_is_not_a_local_class",
+   "binding_hit": false,
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "name_hit": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 661
+  },
+  {
+   "binding": "a_name_assigned_something_that_is_not_a_call",
+   "binding_hit": false,
+   "caller_kind": "reached_from_a_production_caller",
+   "name_hit": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 7151
+  },
+  {
+   "binding": "a_name_assigned_something_that_is_not_a_call",
+   "binding_hit": false,
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "name_hit": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 4542
+  },
+  {
+   "binding": "a_name_never_assigned_in_the_caller_parameter_import_or_loop_target",
+   "binding_hit": false,
+   "caller_kind": "reached_from_a_production_caller",
+   "name_hit": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 3881
+  },
+  {
+   "binding": "a_name_never_assigned_in_the_caller_parameter_import_or_loop_target",
+   "binding_hit": false,
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "name_hit": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 481
+  },
+  {
+   "binding": "a_name_never_assigned_in_the_caller_parameter_import_or_loop_target",
+   "binding_hit": false,
+   "caller_kind": "reached_from_a_production_caller",
+   "name_hit": true,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 10
+  },
+  {
+   "binding": "a_name_never_assigned_in_the_caller_parameter_import_or_loop_target",
+   "binding_hit": false,
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "name_hit": true,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 3
+  }
+ ],
+ "study": "E450_which_bound_receiver_names_a_method_of_a_class_in_the_callers_own_module",
+ "summary": {
+  "attribute_call_rows_re_derived": 24831,
+  "distinct_caller_modules_with_a_binding_hit": 2,
+  "distinct_caller_modules_with_a_name_hit": 3,
+  "e444_receiver_distribution": {
+   "a_constructor_call_in_the_caller": 1023,
+   "a_name_the_caller_binds": 22746,
+   "a_name_the_caller_never_binds": 2,
+   "another_expression_in_the_caller": 847,
+   "self_or_cls_inside_the_callers_class": 0,
+   "the_receiver_is_not_at_that_line_in_the_live_file": 0
+  },
+  "e444_row_total": 24618,
+  "name_hit_minus_binding_hit": 13,
+  "population_pin": {
+   "delta": 213,
+   "e444_row_total": 24618,
+   "kinds_that_lost_rows": [],
+   "now_row_total": 24831,
+   "per_receiver_kind": {
+    "a_constructor_call_in_the_caller": {
+     "delta": 3,
+     "e444": 1023,
+     "now": 1026
+    },
+    "a_name_the_caller_binds": {
+     "delta": 210,
+     "e444": 22746,
+     "now": 22956
+    },
+    "a_name_the_caller_never_binds": {
+     "delta": 0,
+     "e444": 2,
+     "now": 2
+    },
+    "another_expression_in_the_caller": {
+     "delta": 0,
+     "e444": 847,
+     "now": 847
+    },
+    "self_or_cls_inside_the_callers_class": {
+     "delta": 0,
+     "e444": 0,
+     "now": 0
+    },
+    "the_receiver_is_not_at_that_line_in_the_live_file": {
+     "delta": 0,
+     "e444": 0,
+     "now": 0
+    }
+   },
+   "verdict": "growth_only_superset"
+  },
+  "reproduces_e444_receiver_distribution": false,
+  "reproduces_e444_row_total": false,
+  "rows_binding_hit": 13,
+  "rows_by_binding": {
+   "a_name_assigned_a_call_to_a_class_defined_in_the_caller": 13,
+   "a_name_assigned_a_call_to_something_that_is_not_a_local_class": 6875,
+   "a_name_assigned_something_that_is_not_a_call": 11693,
+   "a_name_never_assigned_in_the_caller_parameter_import_or_loop_target": 4375,
+   "the_receiver_is_not_a_name": 1026
+  },
+  "rows_by_caller_module_binding_hit": {
+   "scripts/alphagen_rl_p1.py": 2,
+   "scripts/etf_book_forward.py": 11
+  },
+  "rows_by_caller_module_name_hit": {
+   "Tools/pool_worker.py": 13,
+   "scripts/alphagen_rl_p1.py": 2,
+   "scripts/etf_book_forward.py": 11
+  },
+  "rows_by_receiver_kind_all_rows": {
+   "a_constructor_call_in_the_caller": 1026,
+   "a_name_the_caller_binds": 22956,
+   "a_name_the_caller_never_binds": 2,
+   "another_expression_in_the_caller": 847,
+   "self_or_cls_inside_the_callers_class": 0,
+   "the_receiver_is_not_at_that_line_in_the_live_file": 0
+  },
+  "rows_by_receiver_kind_in_scope": {
+   "a_constructor_call_in_the_caller": 1026,
+   "a_name_the_caller_binds": 22956,
+   "a_name_the_caller_never_binds": 0,
+   "another_expression_in_the_caller": 0,
+   "self_or_cls_inside_the_callers_class": 0,
+   "the_receiver_is_not_at_that_line_in_the_live_file": 0
+  },
+  "rows_in_scope_bound_or_constructor_receiver": 23982,
+  "rows_name_hit": 26,
+  "rows_production": 18196,
+  "rows_test": 5786,
+  "share_binding_hit": 0.0005,
+  "share_name_hit": 0.0011
+ },
+ "title": "the caller side of E444's attribute rows: does a bound receiver name a method that a class defined in the caller's own module carries, and is the receiver that class",
+ "verdict": "some_bound_or_constructor_rows_name_a_method_carried_by_a_class_in_the_callers_module_but_a_name_is_not_a_type",
+ "verdict_vocab": [
+  "no_bound_or_constructor_receiver_row_to_grade",
+  "every_bound_or_constructor_row_names_a_method_carried_by_a_class_in_the_callers_module",
+  "some_bound_or_constructor_rows_name_a_method_carried_by_a_class_in_the_callers_module_but_a_name_is_not_a_type",
+  "no_bound_or_constructor_row_names_a_method_carried_by_a_class_in_the_callers_module"
+ ]
+}

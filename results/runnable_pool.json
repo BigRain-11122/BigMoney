@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1470 bm-b: E452 published (ABANDONEDGUARD-2026-11-06: 12 harness read sites over 7 abandoned bases -> 8 guarded, 4 unguarded and all present, 0 would raise; 3 sites needed a completed f-string before probing) -- E452 closed, E453 seeded, floor 3.",
+ "_stamp_note": "r1475 bm-b: E450 published (CALLERCLASS-2026-11-06: 26 name hits / 13 binding hits over 23,982 bound-or-constructor receivers; the name arm's largest block is a module with 0 binding hits) -- E450 closed, E456 + E457 seeded, floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27958,11 +27958,15 @@
    "lane": "cpu-only",
    "lane_note": "static index over the corpus AST plus the published E444 face; nothing is run and nothing outside results/state_tilt is written",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E444 (r1467 bm-b): all 24618 attribute rows fall in six modules that define zero classes, so the wrapper side is settled and the caller side has never been read",
    "entered_at": "2026-11-06T02:5x+08:00",
-   "entered_by": "bm-b r1467 (supply floor refill after E444)"
+   "entered_by": "bm-b r1467 (supply floor refill after E444)",
+   "done_at": "2026-11-06T07:2x+08:00",
+   "result_ref": "results/state_tilt/callerclass_latest.json",
+   "result_note": "24831 attribute call rows re-derived from E444 (growth_only_superset vs E444's 24618, +213, no kind lost): of the 23982 whose receiver is a caller-bound name or a constructor call, 26 carry the name of a method a class in the caller's own module defines and only 13 have the receiver actually bound to that class -- the 13-row gap is the whole of Tools/pool_worker.py (13 name hits / 0 binding), so the index missed 13 rows in two files rather than misattributing a population",
+   "closed_by": "bm-b r1475"
   },
   {
    "id": "E451-WHICH-STUDY-THAT-CITES-ITS-PREREG-NOTE-CARRIES-NO-DIGEST-OF-IT",
@@ -27997,7 +28001,7 @@
   },
   {
    "id": "E453-WHICH-GUARDED-HARNESS-OPEN-FINDS-A-STALE-ARTIFACT",
-   "done_note": "r1472 published E453 (11 targets over 6 bases; staleness not identifiable on this clone, mtime floor 21 d vs a 180 d bar; 0 readers compare st_mtime). The shared pool flip was left undone by that window -- this window performed it, reading the ref from disk.",
+   "done_note": "r1472 published E453 (11 targets over 6 bases; 11 fresh / 0 stale-checked / 0 stale-bare; 6 read the clock, 4 name a max-age constant, 0 compare st_mtime; mtime floor 21 d against a 180 d bar). The shared pool flip was left undone by that window; this window performed it reading the ref off disk.",
    "title": "E452 showed that 8 of the 12 harness opens under an abandoned base are guarded, so a missing artifact would be announced. A guard tests existence and says nothing about age: an artifact nobody produces can sit on disk for months and every guard in the suite stays green. Ask which of those present targets is stale relative to the clock the face itself runs on, and whether any reader checks an age at all",
    "question": "For each E452 site whose artifact is present, publish the target mtime and age in days at the face cutoff, the age of the newest member of its base, and whether the reading function performs any age/mtime check (a comparison against now(), a max age constant, or a freshness guard of its own). Class each site fresh_artifact / stale_artifact_with_an_age_check / stale_artifact_with_no_age_check, and publish the stale sites by consumer (smoke suite vs lane host). Re-derive the ages, the classes and the verdict from the published rows in check, and state the staleness threshold as a named constant rather than an implicit 30/90 days",
    "deliverable": "results/state_tilt/ABANDONEDSTALE-<cutoff>.json",
@@ -28006,7 +28010,6 @@
    "priority": "normal",
    "status": "done",
    "result_ref": "results/state_tilt/abandonedstale_latest.json",
-   "done_note": "r1472 published E453 (11 targets over 6 bases; 11 fresh / 0 stale-checked / 0 stale-bare; 6 read the clock, 4 name a max-age constant, 0 compare st_mtime; mtime floor 21 d against a 180 d bar). The shared pool flip was left undone by that window; this window performed it reading the ref off disk.",
    "owner": null,
    "source": "E452 (r1470 bm-b): 8 of 12 harness opens are guarded and 11 of 12 targets exist, so existence is the wrong question where absence is already announced",
    "entered_at": "2026-11-06T05:20:00+08:00",
@@ -28025,6 +28028,34 @@
    "entered_by": "bm-b r1473 (three republished faces went red again in one round)",
    "closed_at": "2026-11-06T07:1x:00+08:00",
    "closed_by": "bm-b r1474 (rule landed as scripts/growth_tolerance.py; E409/E411 legs wired; E398's own verify is the remaining arm)"
+  },
+  {
+   "id": "E456-WHICH-CALL-BOUND-RECEIVER-NAMES-A-CLASS-IMPORTED-FROM-ANOTHER-MODULE",
+   "title": "E450 found that of 23,982 bound or constructor receivers only 13 are the local class they name a method of, while 6,875 are bound to a call that is not a class defined in the caller at all. Those are the rows where the receiver's class, if it is one, was imported from elsewhere in the repository -- which is exactly the misattribution the name index would have made.",
+   "question": "Take E450's 6,875 rows whose receiver is a name assigned a call to something that is not a class defined in the caller. For each, resolve the called name through the caller's own imports to a module in this repository, index that module's classes and methods, and publish how many rows name a method the imported class carries, split by whether the import is module-level, function-level or aliased. Publish the residue whose callee is not resolvable in-tree separately.",
+   "deliverable": "results/state_tilt/IMPORTCLASS-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the caller's imports plus the E450 face; nothing is run and nothing outside results/state_tilt is written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E450 (r1475 bm-b): the binding arm is 13 of 23,982 and 6,875 receivers are bound to a call that is not a local class, so the cross-module half of the question is unread",
+   "entered_at": "2026-11-06T07:2x+08:00",
+   "entered_by": "bm-b r1475 (supply floor refill after E450)"
+  },
+  {
+   "id": "E457-HOW-OFTEN-A-WRAPPER-NAME-IS-ALSO-A-METHOD-NAME-IN-A-MODULE-THAT-NEVER-IMPORTS-IT",
+   "title": "E450's name arm read 26 hits and the single largest block of them (13, all of Tools/pool_worker.py) contained zero rows where the receiver was that class. A wrapper's name colliding with an unrelated class's method is the mechanism that makes every name-based reader census optimistic, and nobody has measured how common the collision is outside the eleven graded wrappers.",
+   "question": "For every module-level function this repository exposes (the E439/E440 wrapper family plus any function named by a parameter-directory call site), count the classes in OTHER modules that carry a method of the same name, and say how many of those modules import the function at all. Publish the collision rate per name and the subset where the colliding module has no import edge to the definition, so a future name-based census can price its own optimism.",
+   "deliverable": "results/state_tilt/NAMECOLLIDE-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the corpus: function definitions, class method names and import edges; nothing is executed and nothing outside results/state_tilt is written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E450 (r1475 bm-b): 13 of 26 name hits came from one module with 0 binding hits, so the collision rate is what a name test is really measuring",
+   "entered_at": "2026-11-06T07:2x+08:00",
+   "entered_by": "bm-b r1475 (supply floor refill after E450)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28039,6 +28070,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T05:20:00+08:00",
+ "updated_at": "2026-11-06T07:2x+08:00",
  "version": 1
 }

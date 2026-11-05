@@ -1629,6 +1629,12 @@ LEGS = [
     # that starts (or stops) carrying a name beside a file-capable directory field refuses the
     # chain instead of leaving a stale "the name rides along" claim in place.
     ("republication_chain", ["python", "scripts/e433_republication_chain.py", "verify"]),
+    # E450 (r1475): E444 answered the wrapper side; this one re-derives the caller side of the same
+    # attribute population and pins itself to E444's published receiver distribution under the
+    # E455 growth rule (a superset may grow, a lost kind is a refusal). `check` rather than
+    # `verify` for the same reason E444's leg uses it: the chain leg must not re-walk the corpus
+    # (that rebuild is ~9 min); the full `verify` is the manual/closeout gate.
+    ("caller_class", ["python", "scripts/e450_caller_class.py", "check"]),
 ]
 
 
