@@ -11013,3 +11013,62 @@ Face: `results/state_tilt/droppedpath_latest.json` (`DROPPEDPATH-<cutoff>.json`)
 `scripts/e448_dropped_path.py` (selftest 19/19, verify problems=[], check problems=[]); S6 leg
 `dropped_path_open`; smoke leg `e448 which composed and dropped path is still written`. Digest
 `research/digests/DIGEST-20261106-r1466-e448-dropped-path.md`.
+
+
+### E444 -- E440's 24,618 attribute rows are not "a method on some object": every module they were attributed to defines no class at all, so no row could name a module method (r1467 bm-b)
+
+E440 dropped 24,308 attribute call rows with one sentence: the receiver is an object, not a
+module, so the row is not evidence about the wrapper. That sentence is about spelling. It never
+asked the question that decides whether the drop was right: is the name a method of a class
+defined in the very module the row was attributed to? If it is, the row *is* evidence about that
+module -- someone is calling into the module's own object -- and the reachability rule threw away
+a real reader.
+
+This study re-derives E440's attribute population from the live corpus (24,618 rows over 28,258
+call rows and 11 confirmed wrappers; the 24,308 in the card text became 24,618 as the tree grew)
+and reads two things per row, neither from the other:
+
+* the classes, their methods and the bindable names of the **attributed** module (the wrapper's
+  file), indexed once per file;
+* the **receiver** spelling at the row's own line in the **caller's** live AST --
+  `self`/`cls` in the caller's class, a constructor call, a name the caller binds, a name the
+  caller never binds, another expression, or nothing at that line any more.
+
+READINGS. **0 of 24,618 rows name a method of a class in the attributed module.** The reason is
+structural, not statistical: all six modules the rows were attributed to
+(`_r1191bmb_closeout.py`, `Tools/_r195_rebase_resolve.py`, `Tools/_r1029bmc_close.py`,
+`scripts/e110_burncontrol_close.py`, `Tools/_r1390_addendum.py`, `Tools/_r1164bmb_push.py`)
+define **no class at all** -- 0 classes, 0 methods across the census. The receivers are ordinary
+method names on ordinary objects: `append` 15,464 rows, `write` 4,778, `dump` 2,566, `run` 1,706,
+`save` 97, `write_json` 7. By receiver: a name the caller binds 22,746, a constructor call 1,023,
+another expression 847, a name the caller never binds 2, `self`/`cls` 0, not-at-that-line 0. The
+five remaining wrapper names (`_write_csv`, `_syn_file`, `_judge_lock_acquire`, `apply_close`,
+`write_face`) carry no attribute rows at all.
+
+THREE RULES MEASURED, NOT ASSUMED.
+
+* **A name fact and a receiver fact are different instruments, and the verdict has to name which
+  one fired.** "0 of 24,618" reads like a null result. It is not: it is a census answer. The face
+  therefore publishes `classes_defined_across_those_modules` next to the hit count and carries a
+  verdict that says *why* the hit is zero
+  (`no_attribute_call_row_could_name_a_method_because_the_attributed_modules_define_no_class_at_all`)
+  rather than the generic `some_/no_...` pair. Without the census column the same row would have
+  been unreadable -- and the guard now refuses any face that claims a hit while the census finds no
+  class.
+* **The population must be re-derived, not quoted.** The card text says 24,308; the live tree says
+  24,618. Publishing the card's number would have made the reproduction check unfalsifiable, so the
+  face carries both numbers, `reproduces_e440_attribute_count` is computed from them, and the guard
+  re-derives it from its own two fields.
+* **A per-name block that lists names with zero rows cannot close against a block that lists only
+  graded names.** The first build failed exactly there: `per_name` covered all 11 wrappers while
+  `distinct_wrapper_names_graded` counted 6, so the "per_name covers every wrapper name graded"
+  leg accused the face of a gap it did not have. The zero-row names are now published separately
+  as `wrapper_names_with_no_attribute_rows`, which is the honest shape: they are not graded, they
+  are absent.
+
+Face: `results/state_tilt/attrmethod_latest.json` (`ATTRMETHOD-<cutoff>.json`), verdict
+`no_attribute_call_row_could_name_a_method_because_the_attributed_modules_define_no_class_at_all`;
+producer `scripts/e444_attr_method.py` (selftest 36/36, run rc0, check problems=[], verify
+problems=[]); S6 leg `attr_call_module_method` (`check`, fast, no corpus walk); smoke leg
+`e444 which attribute call names a method of its own module` with a doctored control that must stay
+red. Digest `research/digests/DIGEST-20261106-r1467-e444-attribute-call-method.md`.

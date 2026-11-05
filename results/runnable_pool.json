@@ -27853,11 +27853,14 @@
    "deliverable": "results/state_tilt/ATTRMETHOD-<cutoff>.json",
    "lane": "cpu-only",
    "lane_note": "static index over the corpus AST and the published E440 face; nothing is written outside results/state_tilt",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E443 (r1461 bm-b): all 707 of E440's shared-name bare calls bind to the caller's own definition, 0 to a foreign module -- the spelling axis answered the bare class and left the 24,308 attribute rows on a rule that was never re-read",
    "entered_at": "2026-11-05T20:2x+08:00",
-   "entered_by": "bm-b r1461 (supply floor refill after E443)"
+   "entered_by": "bm-b r1461 (supply floor refill after E443)",
+   "done_at": "2026-11-06T02:5x+08:00",
+   "result_ref": "results/state_tilt/attrmethod_latest.json",
+   "result_note": "24618 attribute call rows re-derived from E440 and graded by receiver and by the classes their attributed module defines: 0 name a method of a class there, because all six attributed modules define no class at all. Receivers: bound name 22746, constructor call 1023, another expression 847, never bound 2, self/cls 0, missing 0. Producer scripts/e444_attr_method.py (selftest 36/36), S6 leg attr_call_module_method, smoke leg e444 which attribute call names a method of its own module. Digest DIGEST-20261106-r1467-e444-attribute-call-method.md"
   },
   {
    "id": "E445-WHICH-LIVE-BASE-ALREADY-RECEIVED-A-FACE-NAMED-WHAT-THE-JOIN-WOULD-COMPOSE",
@@ -27938,6 +27941,20 @@
    "source": "E448 (r1466 bm-b): 25 of 30 orphan compositions name a path that already exists, and the biggest family is a PREREG note constant that no code in its own file opens",
    "entered_at": "2026-11-06T02:1x+08:00",
    "entered_by": "bm-b r1466 (supply floor refill after E448)"
+  },
+  {
+   "id": "E450-WHICH-BOUND-RECEIVER-NAMES-A-METHOD-OF-A-CLASS-IN-THE-CALLERS-OWN-MODULE",
+   "title": "E444 graded every attribute call row against the classes of the module it was ATTRIBUTED to and found that module defines no class at all. That answers the wrapper side. It leaves the caller side: if the receiver is a name the caller binds, the class it names a method of is usually defined in the caller own module, and that is a real reader the name index attributed to the wrong module.",
+   "question": "Take E444 published attribute call rows whose receiver is a name the caller binds (22746 rows) or a constructor call in the caller (1023 rows). For each row, index the classes and their methods in the CALLER own module and publish how many rows name a method that a class defined there carries, split by receiver kind and by whether the receiver name is bound anywhere in the caller to a constructor call of a class defined in that same module. Re-derive the tally and the verdict from the published rows in check.",
+   "deliverable": "results/state_tilt/CALLERCLASS-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static index over the corpus AST plus the published E444 face; nothing is run and nothing outside results/state_tilt is written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E444 (r1467 bm-b): all 24618 attribute rows fall in six modules that define zero classes, so the wrapper side is settled and the caller side has never been read",
+   "entered_at": "2026-11-06T02:5x+08:00",
+   "entered_by": "bm-b r1467 (supply floor refill after E444)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

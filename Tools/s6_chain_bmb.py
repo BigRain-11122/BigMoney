@@ -1566,6 +1566,13 @@ LEGS = [
     # from the published rows (fast, no file walk), so a face whose class was edited without its
     # evidence refuses the chain; `verify` is the ~4 s rebuild against the live tree.
     ("dropped_path_open", ["python", "scripts/e448_dropped_path.py", "check"]),
+    # E444 (r1467): E440 dropped 24,618 attribute call rows as "a method on some object, not
+    # evidence about the wrapper", which reads the spelling and never the receiver.  This leg
+    # re-derives every published tally from the published rows (fast, no corpus walk) and refuses a
+    # face whose receiver split, hit count, class census or verdict no longer follows from its own
+    # cells -- in particular a row that claims a method of the attributed module while the census
+    # finds no class in that module at all.  `verify` is the ~6 min live rebuild, on demand.
+    ("attr_call_module_method", ["python", "scripts/e444_attr_method.py", "check"]),
     # E441 (r1461): E435 published 626 directory values that are a published face's home and 0 of
     # 489 composable joins that lands -- a zero that reads two opposite ways.  This leg grades every
     # base live (a member was written after the carrier) or frozen, and cross-tabs the composable

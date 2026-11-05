@@ -1,0 +1,631 @@
+{
+ "card": "E444-WHICH-ATTRIBUTE-CALL-NAMES-A-METHOD-OF-A-CLASS-IN-THE-MODULE-IT-WAS-ATTRIBUTED-TO",
+ "evidence_cutoff": "2026-11-04",
+ "generated": "2026-11-06",
+ "method_limits": [
+  "'method defined in the attributed module' counts a def inside a ClassDef body; a module-level function of the same name is not a method and does not count",
+  "a row that matches methods on several classes is counted once in the cell totals and once in each class under rows_by_class_in_the_attributed_module -- that block is not a partition of the row total",
+  "the receiver is read from the caller's live AST at the row's own line; a file edited since the row was indexed reports missing rather than guessed",
+  "bound/unbound is module-wide: a name bound anywhere in the caller file counts as bound, so a receiver bound in a different function reads as bound",
+  "receiver kind is a spelling fact, not a type: a module alias reads as a bound name",
+  "the population is E440's attribute spelling class re-derived live, so a wrapper whose call rows were attributed by reachability is outside this face"
+ ],
+ "receiver_examples": [
+  {
+   "caller_file": "Tools/_r507bmc_satengine_resolve.py",
+   "caller_function": "<module>",
+   "caller_line": 17,
+   "receiver_kind": "a_name_the_caller_never_binds",
+   "wrapper_name": "dump"
+  },
+  {
+   "caller_file": "Tools/_r768bmc_mv_extract.py",
+   "caller_function": "main",
+   "caller_line": 27,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "Tools/d19_check.py",
+   "caller_function": "_find_group",
+   "caller_line": 78,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "Tools/git-atomic-push-bmc.py",
+   "caller_function": "run_gate",
+   "caller_line": 114,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "Tools/group_root.py",
+   "caller_function": "pick_or_default",
+   "caller_line": 119,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "Tools/guard_reach_claw.py",
+   "caller_function": "say",
+   "caller_line": 41,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "Tools/idle_trigger.py",
+   "caller_function": "_git",
+   "caller_line": 369,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "Tools/pool_deliverable_audit.py",
+   "caller_function": "main",
+   "caller_line": 289,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "Tools/upstream_mirror.py",
+   "caller_function": "_archive",
+   "caller_line": 61,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1033bmc_ordrows.py",
+   "caller_function": "<module>",
+   "caller_line": 12,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1067bmc_ordrows.py",
+   "caller_function": "git",
+   "caller_line": 11,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1067bmc_ordrows2.py",
+   "caller_function": "git",
+   "caller_line": 11,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_converge_checkout.py",
+   "caller_function": "<module>",
+   "caller_line": 87,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_converge_checkout.py",
+   "caller_function": "<module>",
+   "caller_line": 78,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_converge_checkout.py",
+   "caller_function": "out",
+   "caller_line": 31,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_surgery_push.py",
+   "caller_function": "<module>",
+   "caller_line": 135,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_surgery_push.py",
+   "caller_function": "<module>",
+   "caller_line": 128,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_surgery_push.py",
+   "caller_function": "<module>",
+   "caller_line": 124,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_surgery_push.py",
+   "caller_function": "<module>",
+   "caller_line": 106,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_surgery_push.py",
+   "caller_function": "<module>",
+   "caller_line": 96,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_surgery_push.py",
+   "caller_function": "<module>",
+   "caller_line": 76,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_surgery_push.py",
+   "caller_function": "<module>",
+   "caller_line": 63,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_surgery_push.py",
+   "caller_function": "<module>",
+   "caller_line": 46,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_surgery_push.py",
+   "caller_function": "must_hex40",
+   "caller_line": 36,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "_r1102bmc_surgery_push.py",
+   "caller_function": "out",
+   "caller_line": 29,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/d19_watermark.py",
+   "caller_function": "_relay_child_streams",
+   "caller_line": 532,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/d19_watermark.py",
+   "caller_function": "_relay_child_streams",
+   "caller_line": 529,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e317_print_coverage_census.py",
+   "caller_function": "scan",
+   "caller_line": 547,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e333_surviving_e3xx_conclusions.py",
+   "caller_function": "say",
+   "caller_line": 51,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e334_helper_repair_blast_radius.py",
+   "caller_function": "say",
+   "caller_line": 69,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e335_sibling_entry_point.py",
+   "caller_function": "say",
+   "caller_line": 80,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e336_consumer_optin_ranking.py",
+   "caller_function": "say",
+   "caller_line": 64,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e337_optin_executed.py",
+   "caller_function": "say",
+   "caller_line": 88,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e338_census_green_window.py",
+   "caller_function": "say",
+   "caller_line": 85,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e339_literal_count_guards.py",
+   "caller_function": "say",
+   "caller_line": 68,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e340_who_authorizes_whose_allowance.py",
+   "caller_function": "say",
+   "caller_line": 100,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e341_sibling_closer_what_changed.py",
+   "caller_function": "say",
+   "caller_line": 91,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e342_guard_rewrite_records.py",
+   "caller_function": "say",
+   "caller_line": 76,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e343_bound_grant_decisions.py",
+   "caller_function": "say",
+   "caller_line": 70,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_file": "scripts/e344_face_consumer_census.py",
+   "caller_function": "say",
+   "caller_line": 126,
+   "receiver_kind": "another_expression_in_the_caller",
+   "wrapper_name": "write"
+  }
+ ],
+ "receiver_vocab": [
+  "self_or_cls_inside_the_callers_class",
+  "a_constructor_call_in_the_caller",
+  "a_name_the_caller_binds",
+  "a_name_the_caller_never_binds",
+  "another_expression_in_the_caller",
+  "the_receiver_is_not_at_that_line_in_the_live_file"
+ ],
+ "rows": [
+  {
+   "caller_kind": "reached_from_a_production_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_constructor_call_in_the_caller",
+   "rows": 289,
+   "wrapper_file": "_r1191bmb_closeout.py",
+   "wrapper_name": "append"
+  },
+  {
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_constructor_call_in_the_caller",
+   "rows": 25,
+   "wrapper_file": "_r1191bmb_closeout.py",
+   "wrapper_name": "append"
+  },
+  {
+   "caller_kind": "reached_from_a_production_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 9640,
+   "wrapper_file": "_r1191bmb_closeout.py",
+   "wrapper_name": "append"
+  },
+  {
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 4745,
+   "wrapper_file": "_r1191bmb_closeout.py",
+   "wrapper_name": "append"
+  },
+  {
+   "caller_kind": "reached_from_a_production_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_never_binds",
+   "rows": 1,
+   "wrapper_file": "_r1191bmb_closeout.py",
+   "wrapper_name": "append"
+  },
+  {
+   "caller_kind": "reached_from_a_production_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "another_expression_in_the_caller",
+   "rows": 735,
+   "wrapper_file": "_r1191bmb_closeout.py",
+   "wrapper_name": "append"
+  },
+  {
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "another_expression_in_the_caller",
+   "rows": 29,
+   "wrapper_file": "_r1191bmb_closeout.py",
+   "wrapper_name": "append"
+  },
+  {
+   "caller_kind": "reached_from_a_production_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 2166,
+   "wrapper_file": "Tools/_r1029bmc_close.py",
+   "wrapper_name": "dump"
+  },
+  {
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 399,
+   "wrapper_file": "Tools/_r1029bmc_close.py",
+   "wrapper_name": "dump"
+  },
+  {
+   "caller_kind": "reached_from_a_production_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_never_binds",
+   "rows": 1,
+   "wrapper_file": "Tools/_r1029bmc_close.py",
+   "wrapper_name": "dump"
+  },
+  {
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_constructor_call_in_the_caller",
+   "rows": 2,
+   "wrapper_file": "scripts/e110_burncontrol_close.py",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_kind": "reached_from_a_production_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 1636,
+   "wrapper_file": "scripts/e110_burncontrol_close.py",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 68,
+   "wrapper_file": "scripts/e110_burncontrol_close.py",
+   "wrapper_name": "run"
+  },
+  {
+   "caller_kind": "reached_from_a_production_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 74,
+   "wrapper_file": "Tools/_r1390_addendum.py",
+   "wrapper_name": "save"
+  },
+  {
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 23,
+   "wrapper_file": "Tools/_r1390_addendum.py",
+   "wrapper_name": "save"
+  },
+  {
+   "caller_kind": "reached_from_a_production_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_constructor_call_in_the_caller",
+   "rows": 645,
+   "wrapper_file": "Tools/_r195_rebase_resolve.py",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_constructor_call_in_the_caller",
+   "rows": 62,
+   "wrapper_file": "Tools/_r195_rebase_resolve.py",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_kind": "reached_from_a_production_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 3595,
+   "wrapper_file": "Tools/_r195_rebase_resolve.py",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 393,
+   "wrapper_file": "Tools/_r195_rebase_resolve.py",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_kind": "reached_from_a_production_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "another_expression_in_the_caller",
+   "rows": 81,
+   "wrapper_file": "Tools/_r195_rebase_resolve.py",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "another_expression_in_the_caller",
+   "rows": 2,
+   "wrapper_file": "Tools/_r195_rebase_resolve.py",
+   "wrapper_name": "write"
+  },
+  {
+   "caller_kind": "reached_from_a_production_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 5,
+   "wrapper_file": "Tools/_r1164bmb_push.py",
+   "wrapper_name": "write_json"
+  },
+  {
+   "caller_kind": "reached_only_from_a_selftest_caller",
+   "names_a_method_of_a_class_in_the_attributed_module": false,
+   "receiver_kind": "a_name_the_caller_binds",
+   "rows": 2,
+   "wrapper_file": "Tools/_r1164bmb_push.py",
+   "wrapper_name": "write_json"
+  }
+ ],
+ "study": "E444_which_attribute_call_row_names_a_method_of_a_class_in_its_own_module",
+ "summary": {
+  "attr_call_rows_e440_classed_as_method_calls": 24618,
+  "attribute_call_rows_graded": 24618,
+  "class_census": [
+   {
+    "class_count": 0,
+    "classes": {},
+    "method_count": 0,
+    "module": "Tools/_r1029bmc_close.py",
+    "parsed": true
+   },
+   {
+    "class_count": 0,
+    "classes": {},
+    "method_count": 0,
+    "module": "Tools/_r1164bmb_push.py",
+    "parsed": true
+   },
+   {
+    "class_count": 0,
+    "classes": {},
+    "method_count": 0,
+    "module": "Tools/_r1390_addendum.py",
+    "parsed": true
+   },
+   {
+    "class_count": 0,
+    "classes": {},
+    "method_count": 0,
+    "module": "Tools/_r195_rebase_resolve.py",
+    "parsed": true
+   },
+   {
+    "class_count": 0,
+    "classes": {},
+    "method_count": 0,
+    "module": "_r1191bmb_closeout.py",
+    "parsed": true
+   },
+   {
+    "class_count": 0,
+    "classes": {},
+    "method_count": 0,
+    "module": "scripts/e110_burncontrol_close.py",
+    "parsed": true
+   }
+  ],
+  "classes_defined_across_those_modules": 0,
+  "distinct_wrapper_names_graded": 6,
+  "modules_the_rows_were_attributed_to": 6,
+  "per_name": [
+   {
+    "attribute_call_rows": 15464,
+    "definitions": 2,
+    "name": "append",
+    "rows_naming_a_method_of_a_class_in_the_attributed_module": 0,
+    "wrapper_files": [
+     "_r1191bmb_closeout.py"
+    ]
+   },
+   {
+    "attribute_call_rows": 2566,
+    "definitions": 12,
+    "name": "dump",
+    "rows_naming_a_method_of_a_class_in_the_attributed_module": 0,
+    "wrapper_files": [
+     "Tools/_r1029bmc_close.py"
+    ]
+   },
+   {
+    "attribute_call_rows": 1706,
+    "definitions": 300,
+    "name": "run",
+    "rows_naming_a_method_of_a_class_in_the_attributed_module": 0,
+    "wrapper_files": [
+     "scripts/e110_burncontrol_close.py"
+    ]
+   },
+   {
+    "attribute_call_rows": 97,
+    "definitions": 18,
+    "name": "save",
+    "rows_naming_a_method_of_a_class_in_the_attributed_module": 0,
+    "wrapper_files": [
+     "Tools/_r1390_addendum.py"
+    ]
+   },
+   {
+    "attribute_call_rows": 4778,
+    "definitions": 26,
+    "name": "write",
+    "rows_naming_a_method_of_a_class_in_the_attributed_module": 0,
+    "wrapper_files": [
+     "Tools/_r195_rebase_resolve.py"
+    ]
+   },
+   {
+    "attribute_call_rows": 7,
+    "definitions": 28,
+    "name": "write_json",
+    "rows_naming_a_method_of_a_class_in_the_attributed_module": 0,
+    "wrapper_files": [
+     "Tools/_r1164bmb_push.py"
+    ]
+   }
+  ],
+  "reproduces_e440_attribute_count": true,
+  "rows_by_class_in_the_attributed_module": {},
+  "rows_by_receiver_kind": {
+   "a_constructor_call_in_the_caller": 1023,
+   "a_name_the_caller_binds": 22746,
+   "a_name_the_caller_never_binds": 2,
+   "another_expression_in_the_caller": 847,
+   "self_or_cls_inside_the_callers_class": 0,
+   "the_receiver_is_not_at_that_line_in_the_live_file": 0
+  },
+  "rows_naming_a_method_of_a_class_in_the_attributed_module": 0,
+  "rows_naming_no_method_there": 24618,
+  "rows_production": 18868,
+  "rows_test": 5750,
+  "rows_with_a_receiver_the_caller_never_binds_or_cannot_be_located": 2,
+  "self_rows_total": 0,
+  "self_rows_whose_own_class_defines_the_method": 0,
+  "share_naming_a_method_there": 0.0,
+  "wrapper_names_with_no_attribute_rows": [
+   "_judge_lock_acquire",
+   "_syn_file",
+   "_write_csv",
+   "apply_close",
+   "write_face"
+  ]
+ },
+ "title": "re-read E440's attribute call rows by their receiver: how many name a method that a class defined in the very module the row was attributed to already carries",
+ "verdict": "no_attribute_call_row_could_name_a_method_because_the_attributed_modules_define_no_class_at_all",
+ "verdict_vocab": [
+  "no_attribute_call_row_to_grade",
+  "every_attribute_call_row_names_a_method_that_a_class_in_the_attributed_module_defines",
+  "some_attribute_call_rows_name_a_method_no_class_in_the_attributed_module_defines",
+  "no_attribute_call_row_names_a_method_of_a_class_in_the_attributed_module",
+  "no_attribute_call_row_could_name_a_method_because_the_attributed_modules_define_no_class_at_all"
+ ]
+}

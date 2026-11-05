@@ -17383,5 +17383,53 @@ except Exception as _e448:
     _bad448.append(repr(_e448)[:160])
 check(_name448, not _bad448, "; ".join(_bad448)[:240] or _d448)
 
+# E444 (r1467 bm-b): E440 dropped 24,618 attribute call rows as "a method on some object, not
+# evidence about the wrapper" -- a rule about spelling that never reads the receiver.  This leg
+# re-derives the graded face and refuses (a) a receiver word outside the frozen vocabulary, (b) a
+# receiver split, hit count or per-name block that does not re-derive from the published cells,
+# (c) a class census that does not add up to its own total, (d) a row that claims a method of the
+# attributed module while the census finds no class there, and (e) a verdict carried instead of
+# recomputed.  The doctored control flips one row to a claim with no class behind it and must stay
+# red, so the leg is not a tautology.
+_name444 = "e444 which attribute call names a method of its own module (r1467 bm-b)"
+_bad444 = []
+try:
+    _m444 = __import__("importlib").import_module("e444_attr_method")
+    _f444 = json.load(open(os.path.join("results", "state_tilt", "attrmethod_latest.json"),
+                           encoding="utf-8"))
+    _s444 = _f444.get("summary") or {}
+    _r444 = _f444.get("rows") or []
+    _bad444.extend(_m444.tally_problems(_f444))
+    if _f444.get("verdict") not in _m444.VERDICT_VOCAB:
+        _bad444.append("verdict outside the frozen vocabulary")
+    elif _f444.get("verdict") != _m444.verdict_for(
+            _r444, _s444.get("classes_defined_across_those_modules") or 0):
+        _bad444.append("the verdict does not re-derive from the rows and the class census")
+    for _r44 in _r444:
+        if _r44.get("receiver_kind") not in _m444.RECV_VOCAB:
+            _bad444.append("receiver outside the frozen vocabulary")
+            break
+    _doctor444 = json.loads(json.dumps(_f444))
+    if _doctor444.get("rows"):
+        _doctor444["rows"][0]["names_a_method_of_a_class_in_the_attributed_module"] = True
+        if not _m444.tally_problems(_doctor444):
+            _bad444.append("a row claiming a module method with no class behind it was accepted")
+    _d444 = "%d attribute call row(s) over %d module(s) / %d class(es) there: naming a module " \
+            "method %d (bind %d, ctor %d, other %d, unbound %d, missing %d) | E440 attribute " \
+            "count reproduced %s" % (
+                _s444.get("attribute_call_rows_graded"),
+                _s444.get("modules_the_rows_were_attributed_to"),
+                _s444.get("classes_defined_across_those_modules"),
+                _s444.get("rows_naming_a_method_of_a_class_in_the_attributed_module"),
+                (_s444.get("rows_by_receiver_kind") or {}).get(_m444.RECV_BOUND),
+                (_s444.get("rows_by_receiver_kind") or {}).get(_m444.RECV_CTOR),
+                (_s444.get("rows_by_receiver_kind") or {}).get(_m444.RECV_OTHER),
+                (_s444.get("rows_by_receiver_kind") or {}).get(_m444.RECV_UNBOUND),
+                (_s444.get("rows_by_receiver_kind") or {}).get(_m444.RECV_MISSING),
+                _s444.get("reproduces_e440_attribute_count"))
+except Exception as _e444:
+    _bad444.append(repr(_e444)[:160])
+check(_name444, not _bad444, "; ".join(_bad444)[:240] or _d444)
+
 if __name__ == "__main__":
     sys.exit(main())
