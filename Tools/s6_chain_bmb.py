@@ -1573,6 +1573,11 @@ LEGS = [
     # cells -- in particular a row that claims a method of the attributed module while the census
     # finds no class in that module at all.  `verify` is the ~6 min live rebuild, on demand.
     ("attr_call_module_method", ["python", "scripts/e444_attr_method.py", "check"]),
+    # E449 (r1468): E448 left 30 dropped compositions that are opened nowhere in their file; the
+    # largest family is a research-note pointer.  `check` re-derives every published class, tally
+    # and verdict from the published rows (fast, no walk); `verify` is the ~8 s corpus walk and
+    # refuses a face whose note is no longer named or opened the way it published.
+    ("dead_prereg_pointer", ["python", "scripts/e449_dead_document_pointer.py", "check"]),
     # E441 (r1461): E435 published 626 directory values that are a published face's home and 0 of
     # 489 composable joins that lands -- a zero that reads two opposite ways.  This leg grades every
     # base live (a member was written after the carrier) or frozen, and cross-tabs the composable

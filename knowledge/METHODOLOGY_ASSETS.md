@@ -11072,3 +11072,32 @@ producer `scripts/e444_attr_method.py` (selftest 36/36, run rc0, check problems=
 problems=[]); S6 leg `attr_call_module_method` (`check`, fast, no corpus walk); smoke leg
 `e444 which attribute call names a method of its own module` with a doctored control that must stay
 red. Digest `research/digests/DIGEST-20261106-r1467-e444-attribute-call-method.md`.
+
+## E449 -- a citation of a document means its filename, not its study id
+
+* **A stem is an id, not a citation.** The first build graded all seven dropped `PREREG` pointers
+  `cited_in_code_text_only` because the study id (`FUND-QUALITY-P1`) appeared near them. That id is
+  in 1,985 closeout lines, handover notes and round reports that have nothing to do with the note.
+  Citing the note means naming `research/<STUDY>-P1.md` with its extension. On the tightened rule
+  the same seven rows still cite the note (31 distinct `.py` files, 39 citation lines), but two rows
+  would have flipped under the loose rule, and the honest shape is to publish the excluded 1,985 as
+  a column (`study_id_mentions_excluded_from_the_class`) rather than let them stand as evidence.
+  **How:** when a classifier matches a prefix of a name, publish what the prefix also matched.
+* **A constant that is assigned and never loaded is not a gate.** All seven declaring files use
+  `PREREG` exactly once -- the assignment -- and no opener in 12,197 `.py` files ever takes it. So
+  "we froze a prereg" is carried entirely by a string nobody dereferences. The reading that makes
+  this legible is the load count, not the presence of the constant: `PREREG = os.path.join(...)` is
+  a comment with a name. A study that wants the claim verifiable should hash the note into its own
+  output (`prereg_sha16`), because a read that exists only to print a path buys nothing.
+* **Narrowing the population must be published, not implicit.** 23 of the 30 dropped compositions
+  are not documents (12 not a file, 10 outside research/docs, 1 unresolvable). They sit in
+  `out_of_scope_rows` with a reason and the population closes over graded + out-of-scope, so a later
+  reader cannot mistake "7" for the size of the question.
+
+Face: `results/state_tilt/deadprereg_latest.json` (`DEADPREREG-<cutoff>.json`), verdict
+`some_dropped_document_pointers_are_named_in_code_text_but_never_opened`; producer
+`scripts/e449_dead_document_pointer.py` (selftest 26/26, run rc0, check problems=[], verify
+problems=[], full walk 8 s after replacing `ast.get_source_segment` with a line-table cut); S6 leg
+`dead_prereg_pointer` (`check`, fast); smoke leg `e449 which dead prereg pointer is a document no
+code ever reads` with a doctored control that must stay red. Digest
+`research/digests/DIGEST-20261106-r1468-e449-dead-prereg-pointer.md`.

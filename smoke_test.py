@@ -17431,5 +17431,48 @@ except Exception as _e444:
     _bad444.append(repr(_e444)[:160])
 check(_name444, not _bad444, "; ".join(_bad444)[:240] or _d444)
 
+# E449 (r1468 bm-b): E448 graded 30 dropped compositions as opened nowhere in their own file, and
+# the largest family is a research-note pointer.  This leg reads the graded face and refuses (a) a
+# tally or a class that does not re-derive from the rows, (b) a read class with no opener evidence,
+# (c) a declared_and_unread row that publishes a citation anyway, (d) a graded row whose note is not
+# on disk, (e) a verdict that does not re-derive, and (f) a doctored copy whose class was flipped
+# from a code-text citation to a read with no opener behind it.
+_name449 = "e449 which dead prereg pointer is a document no code ever reads (r1468 bm-b)"
+_bad449 = []
+try:
+    _m449 = __import__("importlib").import_module("e449_dead_document_pointer")
+    _f449 = json.load(open(os.path.join("results", "state_tilt", "deadprereg_latest.json"),
+                           encoding="utf-8"))
+    _s449 = _f449.get("summary") or {}
+    _r449 = _f449.get("rows") or []
+    _bad449.extend(_m449.tally_problems(_f449))
+    if _f449.get("verdict") not in _m449.VERDICT_VOCAB:
+        _bad449.append("verdict outside the frozen vocabulary")
+    elif _f449.get("verdict") != _m449.verdict_for(_r449, _f449.get("out_of_scope_rows") or []):
+        _bad449.append("the verdict does not re-derive from the rows")
+    if _f449.get("verdict") == _m449.V_CODE_TEXT and not any(
+            _r.get("class") == _m449.K_CODE_TEXT for _r in _r449):
+        _bad449.append("the verdict claims a code-text citation with no row behind it")
+    _doctor449 = json.loads(json.dumps(_f449))
+    _row449 = next((_r for _r in _doctor449.get("rows") or []
+                    if _r.get("class") == _m449.K_CODE_TEXT), None)
+    if _row449 is not None:
+        _row449["class"] = _m449.K_READ
+        _row449["read_by_opener"] = []
+        _row449["read_by_opener_count"] = 0
+        if not _m449.tally_problems(_doctor449):
+            _bad449.append("a reader class with no opener evidence was accepted")
+    _d449 = "%d graded of %d dropped compositions (%d out of scope) | by_class %s | opener " \
+            "evidence on %s row(s), constants never read again %s | %d study-id mentions " \
+            "excluded" % (
+                _s449.get("document_rows"), _s449.get("population"),
+                _s449.get("out_of_scope_rows"), _s449.get("by_class"),
+                _s449.get("rows_with_any_opener_evidence"),
+                _s449.get("rows_whose_constant_is_never_read_again"),
+                _s449.get("study_id_mentions_excluded_from_the_class"))
+except Exception as _e449x:
+    _bad449.append(repr(_e449x)[:160])
+check(_name449, not _bad449, "; ".join(_bad449)[:240] or _d449)
+
 if __name__ == "__main__":
     sys.exit(main())

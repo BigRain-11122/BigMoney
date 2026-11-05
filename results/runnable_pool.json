@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1466 bm-b: E448 published (face DROPPEDPATH-2026-11-06: 85 dropped compositions -> 19 superseded / 30 opened nowhere / 33 unresolvable / 3 not-a-path; 25 of the 30 orphans name a path already on disk) -- E448 closed, E449 seeded, floor 3.",
+ "_stamp_note": "r1468 bm-b: E449 published (DEADPREREG-2026-11-06: 30 orphan drops -> 7 research notes, 0 opened by any opener in 12,197 .py, 7 constants never loaded again) -- E449 closed, E451 seeded, floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27936,11 +27936,16 @@
    "lane": "cpu-only",
    "lane_note": "static AST scan plus a read-only grep of the note's basename over the corpus; nothing is executed and nothing outside results/state_tilt is written",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E448 (r1466 bm-b): 25 of 30 orphan compositions name a path that already exists, and the biggest family is a PREREG note constant that no code in its own file opens",
    "entered_at": "2026-11-06T02:1x+08:00",
-   "entered_by": "bm-b r1466 (supply floor refill after E448)"
+   "entered_by": "bm-b r1466 (supply floor refill after E448)",
+   "done_at": "2026-11-06T03:2x+08:00",
+   "done_by": "bm-b r1468",
+   "result_ref": "results/state_tilt/deadprereg_latest.json",
+   "done_note": "7 of the 30 orphan compositions are research notes: none is opened by any opener in 12,197 .py files, all 7 are named by filename in 31 files, and all 7 PREREG constants are never loaded again",
+   "deliverable_published_as": "results/state_tilt/DEADPREREG-2026-11-06.json"
   },
   {
    "id": "E450-WHICH-BOUND-RECEIVER-NAMES-A-METHOD-OF-A-CLASS-IN-THE-CALLERS-OWN-MODULE",
@@ -27955,6 +27960,20 @@
    "source": "E444 (r1467 bm-b): all 24618 attribute rows fall in six modules that define zero classes, so the wrapper side is settled and the caller side has never been read",
    "entered_at": "2026-11-06T02:5x+08:00",
    "entered_by": "bm-b r1467 (supply floor refill after E444)"
+  },
+  {
+   "id": "E451-WHICH-STUDY-THAT-CITES-ITS-PREREG-NOTE-CARRIES-NO-DIGEST-OF-IT",
+   "title": "E449 found seven studies whose PREREG constant names research/<STUDY>-P1.md, is named by filename in 31 code files, and is never opened by any opener; the constant itself is never loaded again. If the prereg constrains the study, some published output of that study should carry a digest of the note it claims to follow. Ask every study that names a note which of its published faces carry a hash or an as-of of that note, and publish the split",
+   "question": "Take the seven notes E449 published and every .py that names one by filename. For each study family, list the results/ faces its own producer writes (from its RUN/OUT constants and dump calls, not from grep of the study id) and say whether any of them publishes a digest of the prereg note (a sha/hash field whose value equals the note current bytes, or a pinned prereg_as_of). Class per study: note_digest_published / note_named_but_no_digest / note_not_named_by_its_own_producer. Re-derive the tally and the digest comparison from the published rows in check",
+   "deliverable": "results/state_tilt/PREREGDIGEST-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the study producers plus sha256 of research/*.md; nothing is executed and nothing outside results/state_tilt is written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E449 (r1468 bm-b): the prereg constant is assigned and never loaded, so the claim rests on text alone",
+   "entered_at": "2026-11-06T03:2x+08:00",
+   "entered_by": "bm-b r1468 (supply floor refill after E449)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27969,6 +27988,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T02:1x+08:00",
+ "updated_at": "2026-11-06T03:2x+08:00",
  "version": 1
 }
