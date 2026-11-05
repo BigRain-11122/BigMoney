@@ -10853,3 +10853,40 @@ Face: `results/state_tilt/facehome_latest.json` (`FACEHOME-<cutoff>.json`), verd
 `some_face_home_bases_are_live_writer_directories_and_the_rest_are_frozen`; selftest 24/24; S6 leg
 `face_home_family` (verify); smoke leg extracted verbatim with a doctored frozen directory as the
 control.
+
+### E445 -- every one of the 36 live face-home rows composes a doubled path, and the target it is looking for already exists at the repo root (r1462 bm-b)
+
+E441 graded a base live when a member appeared after the carrier and called those rows "one round
+away" from a landing target.  E445 composed the row's own name field onto the base, with E435's own
+rule, and asked whether the target already exists.
+
+**36 live composable rows over 9 bases: 0 target_already_exists, 0 target_is_the_carrier, 36
+target_would_be_new -- and all 36 compose a path that repeats the base**, because the name field of
+all three carriers (`SHADOWFACE-2026-11-04.json`, its `-2026-11-05` twin and `shadowface_latest.json`
+-- one face republished three ways) is `path`, holding a full relative path such as
+`results/tom_overlay/latest.json`.  `join(base, name)` therefore yields
+`results/tom_overlay/results/tom_overlay/latest.json`.  **No write into the base can ever produce
+that path**, so these rows are not timing at all.
+
+The reading that makes it a defect and not a curiosity: **the same name resolves from the repo root
+on 36 of 36 rows** (9 distinct names, all on disk, all older than the carrier).  The target exists
+now and only the join misses it.  E441's live/frozen axis was measuring the mtime of a directory
+while the reader it stood in for composes a name that is already a path.
+
+Three things this cost, each now mechanical:
+
+* **a composition is a claim about a spelling, not about a base** -- the join is only as good as the
+  assumption that the name field is a bare basename; publishing `name_value_is_already_a_path` and
+  `composition_repeats_the_base` per candidate makes the assumption checkable instead of implicit;
+* **a self-reference is not a landing target** -- `target_is_the_carrier` is its own class, because a
+  row whose name field is the carrier's basename composes onto itself and would otherwise count as a
+  hit;
+* **the same face republished three ways triples the population** -- 36 rows are 12 rows x 3
+  spellings, so `distinct_carriers` is what keeps a per-row count from being read as a count of
+  distinct readers.
+
+Face: `results/state_tilt/facehometarget_latest.json` (`FACEHOMETARGET-<cutoff>.json`), verdict
+`no_live_base_holds_the_composed_basename_so_every_live_target_would_be_new` (with
+`rows_where_the_target_exists_but_the_join_misses_it` = 36); producer
+`scripts/e445_facehome_target.py` (selftest 24/24, verify problems=[]); S6 leg `face_home_target`
+(rc=0); smoke leg `e445 face-home target`.

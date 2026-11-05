@@ -27864,11 +27864,29 @@
    "lane": "cpu-only",
    "lane_note": "static index over results/; nothing is written there",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E441 (r1461 bm-b): 82 of 489 composable rows sit on a live base (21 of 72 directories are live)",
    "entered_at": "2026-11-05T21:0x+08:00",
-   "entered_by": "bm-b r1461 (supply floor refill after E441)"
+   "entered_by": "bm-b r1461 (supply floor refill after E441)",
+   "done_by": "bm-b",
+   "done_at": "2026-11-05T23:2x+08:00",
+   "result_ref": "results/state_tilt/facehometarget_latest.json + FACEHOMETARGET-2026-11-05.json + scripts/e445_facehome_target.py (selftest 24/24, verify problems=[]) + smoke leg 'e445 face-home target' + S6 leg face_home_target (rc=0, 142.8s)",
+   "done_note": "36 live composable rows over 9 bases: 0 already hold the composed basename, 0 compose onto the carrier, 36 would be new -- and all 36 compose a DOUBLED path, because the name field of all three carriers is `path` holding a full relative path. The sharper reading: the same name resolves from the repo root on 36 of 36 rows, so the target exists now and only the join misses it. E441's 'one round away' is wrong for every live row in this population"
+  },
+  {
+   "id": "E446-WHICH-FROZEN-BASE-HAS-NO-WRITER-IN-THE-CORPUS",
+   "title": "E441 graded 51 of 72 face-home bases frozen and E445 priced the 9 live ones. Frozen means only 'no member was written after the carrier' -- it does not say whether any code would ever write there. Ask whether the corpus holds a writer for each frozen base: a base with a writer that has simply not run is dormant; a base with no writer anywhere is abandoned",
+   "question": "For every frozen face-home base E441 published, search the corpus for a writer that could target it -- a string literal naming the directory, a join whose first argument is that directory, or a constant that resolves to it -- and publish per base whether a writer exists, its face and line, and the resulting class (has_a_writer_that_has_not_run / no_writer_in_the_corpus). Re-derive every count from the published rows and name the corpus walk used, including which directories it excludes.",
+   "deliverable": "results/state_tilt/FROZENWRITER-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST scan of the corpus; nothing is run and nothing is written outside results/",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E441 (r1461 bm-b) + E445 (r1462 bm-b): 51 frozen bases were graded by mtime only, and E445 showed the live ones were graded by a composition that never lands",
+   "entered_at": "2026-11-05T23:2x+08:00",
+   "entered_by": "bm-b r1462 (supply floor refill after E445)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

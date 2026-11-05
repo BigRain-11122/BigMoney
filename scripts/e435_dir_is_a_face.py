@@ -102,10 +102,13 @@ def face_index(root: str | None = None) -> dict:
     return {"stems": stems, "homes": homes}
 
 
-def build(cutoff: str | None = None, root: str | None = None) -> dict:
+def build(cutoff: str | None = None, root: str | None = None,
+          scan: dict | None = None) -> dict:
+    """`scan` lets a caller that already walked the corpus hand its rows in (E445), so a study
+    stacked on this face pays one walk instead of two."""
     root = root or ROOT
     index = face_index(root)
-    faces = e423.scan_faces(root, name_values=True)
+    faces = scan if scan is not None else e423.scan_faces(root, name_values=True)
     rows = [f for f in faces["fields"] if f["value_class"] == e423.V_DIRECTORY]
 
     by_class = {A_NAME: 0, B_HOME: 0, C_OTHER: 0}

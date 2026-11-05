@@ -16907,6 +16907,61 @@ check(_name441, not _bad441, "; ".join(_bad441)[:240]
          _s441.get("composable_rows", 0)))
 
 
+# E445 (r1462 bm-b): E441 called the live-base rows "one round away" from a landing target and
+# never composed the row's own name field.  This leg refuses (a) a target class that does not
+# re-derive from its own candidates, (b) a verdict that does not re-derive from the rows, (c) a
+# landing target list that disagrees with the candidates, (d) a doubled composition that is not
+# flagged, (e) a class table that does not add up, and (f) a face whose population no longer
+# matches the E441 face it inherits from without saying so.
+_name445 = "e445 face-home target (r1462 bm-b)"
+_bad445 = []
+try:
+    _m445 = __import__("importlib").import_module("e445_facehome_target")
+    _f445 = json.load(open(os.path.join("results", "state_tilt", "facehometarget_latest.json"),
+                           encoding="utf-8"))
+    _s445 = _f445.get("summary") or {}
+    _rows445 = _f445.get("rows") or []
+    _bad445.extend(_m445.tally_problems(_f445))
+    if _f445.get("verdict") not in _m445.VERDICT_VOCAB:
+        _bad445.append("verdict outside the frozen vocabulary")
+    if _f445.get("verdict") != _m445.verdict_for(_rows445):
+        _bad445.append("the verdict does not re-derive from the rows")
+    _by445 = _s445.get("rows_by_target_class") or {}
+    if sum(_by445.values()) != len(_rows445):
+        _bad445.append("the class table does not add up to the rows")
+    for _r445 in _rows445:
+        if _r445.get("target_class") not in _m445.TARGET_CLASSES:
+            _bad445.append("%s:%s class outside the vocabulary"
+                           % (_r445.get("face"), _r445.get("key")))
+            break
+        if _m445.grade_candidates(_r445.get("candidates") or []) != _r445["target_class"]:
+            _bad445.append("%s:%s class does not re-derive from its candidates"
+                           % (_r445.get("face"), _r445.get("key")))
+            break
+        _implied445 = any(c["composition_repeats_the_base"] for c in _r445["candidates"])
+        if _implied445 != bool(_r445.get("composition_repeats_the_base")):
+            _bad445.append("%s:%s doubled composition is not flagged consistently"
+                           % (_r445.get("face"), _r445.get("key")))
+            break
+    # the reader must not treat its own face as a landing target
+    if not _m445.is_own_output("results/state_tilt/" + _m445.FACE_NAME):
+        _bad445.append("the study does not exclude its own face from the target scan")
+    _e441rows445 = ((_f441.get("summary") or {}).get("composable_rows_on_a_live_base")
+                    if "_f441" in globals() else None)
+    if _e441rows445 is not None and _e441rows445 != _s445.get("live_composable_rows") \
+            and not (_s445.get("distance_check") or {}).get("agrees"):
+        _bad445.append("population %d disagrees with E441's %d and the face does not say so"
+                       % (_s445.get("live_composable_rows"), _e441rows445))
+except Exception as _e445:
+    _bad445.append(repr(_e445)[:160])
+check(_name445, not _bad445, "; ".join(_bad445)[:240]
+      or "%d live composable rows over %d bases: %d already exist, %d are the carrier, %d would "
+         "be new; %d compositions repeat the base"
+      % (_s445.get("live_composable_rows", 0), _s445.get("distinct_live_bases", 0),
+         _by445.get(_m445.T_EXISTS, 0), _by445.get(_m445.T_SELF, 0),
+         _by445.get(_m445.T_NEW, 0), _s445.get("rows_where_the_composition_repeats_the_base", 0)))
+
+
 # E440 (r1460 bm-b): E439 called the 24,911 rows it dropped "overstated" -- a claim, not a
 # reading.  A dropped row can be a method call that shares the wrapper's name, or a bare call to a
 # name several modules define.  This leg reads the two-axis face and refuses (a) a class that does
@@ -17006,6 +17061,53 @@ try:
 except Exception as _e443:
     _bad443.append(repr(_e443)[:160])
 check(_name443, not _bad443, "; ".join(_bad443)[:240] or _d443)
+
+
+# E442 (r1462 bm-b): E436 found 18 sites that compose a path and never graded whether the value is
+# consumed or simply dropped.  This leg reads the consumption face and refuses (a) a tally that
+# does not re-derive from the rows, (b) a verdict that does not re-derive, (c) a site classed as
+# dropped that carries reads, (d) a flow class with no binding to flow out of, (e) an E436 residue
+# that does not close over the sites it names, and (f) a doctored copy.
+_name442 = "e442 which path composition is never consumed (r1462 bm-b)"
+_bad442 = []
+try:
+    _m442 = __import__("importlib").import_module("e442_deadpath")
+    _f442 = json.load(open(os.path.join("results", "state_tilt", "deadpath_latest.json"),
+                           encoding="utf-8"))
+    _s442 = _f442.get("summary") or {}
+    _rows442 = _f442.get("rows") or []
+    _bad442.extend(_m442.tally_problems(_f442))
+    if _f442.get("verdict") not in _m442.VERDICT_VOCAB:
+        _bad442.append("verdict outside the frozen vocabulary")
+    elif _f442.get("verdict") != _m442.verdict_for(_rows442):
+        _bad442.append("the verdict does not re-derive from the rows")
+    elif ((_s442.get("dropped_sites") or 0) > 0) != (_f442.get("verdict") == _m442.V_SOME):
+        _bad442.append("the dropped count and the verdict disagree")
+    _cons442 = _s442.get("sites_by_consumption") or {}
+    if sum(_cons442.values()) != (_s442.get("composition_sites") or 0):
+        _bad442.append("the consumption tally does not close over the population")
+    _res442 = _s442.get("e436_residual") or {}
+    if _res442.get("available") and (_res442.get("graded_here", 0)
+                                     + len(_res442.get("unresolved") or [])) \
+            != _res442.get("e436_sites_named", 0):
+        _bad442.append("the E436 residue does not close over the sites it names")
+    _doctor442 = json.loads(json.dumps(_f442))
+    if _rows442:
+        _doctor442["rows"][0]["consumption"] = _m442.C_DROPPED
+        _doctor442["rows"][0]["reads"] = 3
+        if not _m442.tally_problems(_doctor442):
+            _bad442.append("a dropped site that carries reads was accepted")
+    _d442 = "%d composition site(s) over %d source(s): reaching %d, dropped %d (%s) | " \
+            "question-only %d, closure-only %d, slot %d, nested %d | E436 residue graded %d of %d" % (
+                _s442.get("composition_sites"), _s442.get("corpus_sources"),
+                _s442.get("sites_that_reach_a_consumer"), _s442.get("dropped_sites"),
+                _s442.get("dropped_share"), _s442.get("question_only_sites"),
+                _s442.get("closure_only_sites"), _s442.get("slot_sites"),
+                _s442.get("nested_composition_sites"),
+                _res442.get("graded_here", 0), _res442.get("e436_sites_named", 0))
+except Exception as _e442:
+    _bad442.append(repr(_e442)[:160])
+check(_name442, not _bad442, "; ".join(_bad442)[:240] or _d442)
 
 
 # E435 (r1458 bm-b): E423 priced where a directory-named field points, but never asked whether that

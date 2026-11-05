@@ -1556,6 +1556,11 @@ LEGS = [
     # (fast); `verify` re-runs E440's scan over ~3.4k sources (~20 min) and is published on demand,
     # because a guard whose only cost is 20 minutes per tick gets switched off.
     ("bare_call_resolve", ["python", "scripts/e443_bare_call_resolve.py", "check"]),
+    # E442 (r1462): E436 named 18 path-only sites and never asked whether the composed value is
+    # consumed.  `check` re-derives every published tally from the published rows (fast); the scan
+    # itself walks the whole corpus (~90 s) and is published on demand, because a guard whose only
+    # cost is a full corpus parse per tick gets switched off.
+    ("dead_path_composition", ["python", "scripts/e442_deadpath.py", "check"]),
     # E441 (r1461): E435 published 626 directory values that are a published face's home and 0 of
     # 489 composable joins that lands -- a zero that reads two opposite ways.  This leg grades every
     # base live (a member was written after the carrier) or frozen, and cross-tabs the composable
@@ -1564,6 +1569,11 @@ LEGS = [
     # population refuses the chain instead of republishing the old split.  Read-only: it writes
     # nothing under results/, cost is one directory walk plus E435's face scan (~35s).
     ("face_home_family", ["python", "scripts/e441_facehome_family.py", "verify"]),
+    # E445 (r1462): E441 called the live-base rows "one round away" from a landing target and never
+    # composed the row's own name field.  Verify re-derives the three target classes and every
+    # candidate from the live tree, so a face whose target has since appeared (or vanished)
+    # refuses the chain instead of republishing the old class.  Read-only.
+    ("face_home_target", ["python", "scripts/e445_facehome_target.py", "verify"]),
     # E435 (r1458): E423 priced where a directory-named field points but never asked whether the
     # value is itself the name of a published face.  Verify re-derives the three value classes over
     # the live tree and refuses a published join whose target no longer resolves, so a face holding
