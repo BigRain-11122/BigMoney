@@ -27677,6 +27677,16 @@
    "source": "bm-b r1450 E432: fixture_shaped was computed over rows (the 35 unplaced), so the 275 placed sites were never tested with the same heuristic",
    "entered_at": "2026-11-05T07:5x+08:00",
    "entered_by": "bm-b r1450 (supply floor refill after E432)"
+  },
+  {
+   "id": "E435-WHICH-READER-OPENS-A-FACE-BY-A-DIRECTORY-THAT-IS-ITSELF-A-PUBLISHED-FACE-NAME",
+   "title": "E423 found 822 directory-named fields and 44 holding a file path; nobody has asked how many of those 822 directory values are themselves the name of a published face, so a join would silently pick a face directory as a base",
+   "question": "Take the 822 directory-named fields E423 indexed. Ask, for each value: is it (a) a real directory on disk, (b) a published face stem (results/<name>.json exists), or (c) neither? For the (b) class, publish every read site that joins or opens it and say whether the join lands inside the face directory or beside it. Report the count per class with the published-face list pinned to its own cutoff and re-derived in verify.",
+   "status": "ready",
+   "owner": null,
+   "source": "bm-b r1452: E398 latest-family face republished after the r1451 pointer moved the population 203->204 (named_pointers=204, verify problems=[]); E423 summary stands at 822 directory-named fields / 44 file-valued",
+   "entered_at": "2026-11-05T10:0x+08:00",
+   "entered_by": "bm-b r1452 (supply floor refill: ready was 2 after E427/E432 closed)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27691,6 +27701,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-05T09:42+08:00",
+ "updated_at": "2026-11-05T10:05+08:00",
  "version": 1
 }
