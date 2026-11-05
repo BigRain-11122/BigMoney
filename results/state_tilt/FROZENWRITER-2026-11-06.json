@@ -1,0 +1,3902 @@
+{
+ "card": "E446-WHICH-FROZEN-BASE-HAS-NO-WRITER-IN-THE-CORPUS",
+ "evidence_cutoff": "2026-11-06",
+ "generated": "2026-11-06",
+ "method_limits": [
+  "a writer is a CALL that puts bytes at a path argument (open in a writing mode, mkdir, to_csv/to_parquet/to_json/to_excel/to_pickle/to_feather, write_text/write_bytes/touch, copy/move destination, replace/rename destination) whose path expression resolves statically; a site that merely NAMES the directory is a reader and is not counted, which is the whole discriminator between this face and E435/E441",
+  "resolution is static: literals, module-scope string constants, os.path.join chains, f-string literal heads and constant concatenation. A path built from a loop variable, a function parameter or a json field is unresolved and published as unresolved_write_sites_naming_the_base when its literal head sits under the base -- it is never counted as a writer",
+  "the corpus is every .py under the repo root minus ['.codely-cli', '.git', 'Money02', '__pycache__', '_quarantine', '_smoke', 'legacy', 'node_modules'] and this study's own faces; files over 2097152 bytes are skipped and named in corpus.skipped_over_max_bytes",
+  "existence of a writer does NOT mean the code still runs: a writer inside a retired script, a test, or a lane guard that no-ops on this machine is still a writer. This face answers 'would anything write there', not 'is anything scheduled to'",
+  "the population is E441's published frozen subset, read from its summary; this study never re-grades the base itself, so a base that went live between the two readings is reported through distance_check.agrees instead of being folded in",
+  "a base that CONTAINS another published base (this population's `results` contains `results/shortline` and 49 more) is credited with every write anywhere below it. That is what a write into the directory means, but such a row cannot be abandoned by definition, so the population excluding ancestor bases is published next to the full one and both verdicts are printed",
+  "member identity in E441 is working-tree mtime, so both faces are readings of the working tree and not of git history"
+ ],
+ "rows": [
+  {
+   "base": "results/etf_book_production",
+   "carriers": 35,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -6.533,
+   "members_in_the_base": 5,
+   "newest_member": "results/etf_book_production/latest.json",
+   "newest_member_ts": "2026-10-29T10:01:12",
+   "suffix_evidence_write_site_count": 3,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "scripts/etf_book_production.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 646,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?etf_book_production"
+    },
+    {
+     "face": "scripts/etf_book_production.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 649,
+     "literal_head": "latest.json",
+     "mode": "write_mode:w",
+     "resolved_path": "?etf_book_production/latest.json"
+    },
+    {
+     "face": "scripts/etf_book_production.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 717,
+     "literal_head": "CARD.md",
+     "mode": "write_mode:w",
+     "resolved_path": "?etf_book_production/CARD.md"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/alphagen_rg",
+   "carriers": 16,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.596,
+   "members_in_the_base": 15,
+   "newest_member": "results/alphagen_rg/shard_9of12.json",
+   "newest_member_ts": "2026-10-17T09:08:43",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 2,
+    "open": 1
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/alphagen_rg_census.py",
+    "scripts/alphagen_rg_roster.py"
+   ],
+   "writer_site_count": 3,
+   "writer_sites": [
+    {
+     "face": "scripts/alphagen_rg_census.py",
+     "how": "constant:CKPT_DIR",
+     "kind": "makedirs",
+     "line": 579,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/alphagen_rg/ckpt"
+    },
+    {
+     "face": "scripts/alphagen_rg_roster.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 220,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/alphagen_rg"
+    },
+    {
+     "face": "scripts/alphagen_rg_roster.py",
+     "how": "constant:OUT_PATH",
+     "kind": "open",
+     "line": 221,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/alphagen_rg/e16_roster.json"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/e33_ladder_baseline",
+   "carriers": 16,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -14.89,
+   "members_in_the_base": 16,
+   "newest_member": "results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-2018-X3.json",
+   "newest_member_ts": "2026-10-21T02:04:40",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 1,
+    "open": 1
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/e33_ladder_baseline.py"
+   ],
+   "writer_site_count": 2,
+   "writer_sites": [
+    {
+     "face": "scripts/e33_ladder_baseline.py",
+     "how": "constant:OUTDIR",
+     "kind": "makedirs",
+     "line": 249,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/e33_ladder_baseline"
+    },
+    {
+     "face": "scripts/e33_ladder_baseline.py",
+     "how": "constant:ptr",
+     "kind": "open",
+     "line": 258,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/e33_ladder_baseline/latest.json"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/div_event_census",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -15.676,
+   "members_in_the_base": 2,
+   "newest_member": "results/div_event_census/CENSUS-2026-10-19.json",
+   "newest_member_ts": "2026-10-20T07:13:51",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 1,
+    "open": 2
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/div_event_census.py"
+   ],
+   "writer_site_count": 3,
+   "writer_sites": [
+    {
+     "face": "scripts/div_event_census.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 309,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/div_event_census"
+    },
+    {
+     "face": "scripts/div_event_census.py",
+     "how": "constant:path",
+     "kind": "open",
+     "line": 312,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/div_event_census/CENSUS-"
+    },
+    {
+     "face": "scripts/div_event_census.py",
+     "how": "constant:latest",
+     "kind": "open",
+     "line": 315,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/div_event_census/latest.json"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/divex_harvest",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -15.675,
+   "members_in_the_base": 2,
+   "newest_member": "results/divex_harvest/latest.json",
+   "newest_member_ts": "2026-10-20T07:13:53",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 1,
+    "open": 3
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/divex_harvest_probe.py"
+   ],
+   "writer_site_count": 4,
+   "writer_sites": [
+    {
+     "face": "scripts/divex_harvest_probe.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 410,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/divex_harvest"
+    },
+    {
+     "face": "scripts/divex_harvest_probe.py",
+     "how": "constant:path",
+     "kind": "open",
+     "line": 412,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/divex_harvest/HARVEST-"
+    },
+    {
+     "face": "scripts/divex_harvest_probe.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 414,
+     "literal_head": "latest.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/divex_harvest/latest.json"
+    },
+    {
+     "face": "scripts/divex_harvest_probe.py",
+     "how": "join(constant:OUT_DIR,fstring_head)",
+     "kind": "open",
+     "line": 420,
+     "literal_head": "by-k-era-",
+     "mode": "write_mode:w",
+     "resolved_path": "results/divex_harvest/by-k-era-"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/divlowvol_live",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -15.651,
+   "members_in_the_base": 2,
+   "newest_member": "results/divlowvol_live/PICKS-2026-10-19.json",
+   "newest_member_ts": "2026-10-20T07:48:35",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 1,
+    "open": 1
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/divlowvol_live_picks.py"
+   ],
+   "writer_site_count": 2,
+   "writer_sites": [
+    {
+     "face": "scripts/divlowvol_live_picks.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 292,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/divlowvol_live"
+    },
+    {
+     "face": "scripts/divlowvol_live_picks.py",
+     "how": "constant:latest",
+     "kind": "open",
+     "line": 304,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/divlowvol_live/latest.json"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/divlowvol_nulls",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -15.717,
+   "members_in_the_base": 4,
+   "newest_member": "results/divlowvol_nulls/latest.json",
+   "newest_member_ts": "2026-10-20T06:14:22",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 2,
+    "open": 4
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/divlowvol_nulls_face.py"
+   ],
+   "writer_site_count": 6,
+   "writer_sites": [
+    {
+     "face": "scripts/divlowvol_nulls_face.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 207,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/divlowvol_nulls"
+    },
+    {
+     "face": "scripts/divlowvol_nulls_face.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 279,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/divlowvol_nulls"
+    },
+    {
+     "face": "scripts/divlowvol_nulls_face.py",
+     "how": "constant:path",
+     "kind": "open",
+     "line": 212,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/divlowvol_nulls/NULLS-CONSUME-"
+    },
+    {
+     "face": "scripts/divlowvol_nulls_face.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 214,
+     "literal_head": "latest.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/divlowvol_nulls/latest.json"
+    },
+    {
+     "face": "scripts/divlowvol_nulls_face.py",
+     "how": "constant:path",
+     "kind": "open",
+     "line": 281,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/divlowvol_nulls/NULLS-CONSUME-"
+    },
+    {
+     "face": "scripts/divlowvol_nulls_face.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 283,
+     "literal_head": "consume-latest.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/divlowvol_nulls/consume-latest.json"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/e24_breadth_h20_entry",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -14.997,
+   "members_in_the_base": 2,
+   "newest_member": "results/e24_breadth_h20_entry/latest.json",
+   "newest_member_ts": "2026-10-20T23:30:59",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 1
+   },
+   "write_kinds": [
+    "makedirs"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/e24_breadth_h20_entry.py"
+   ],
+   "writer_site_count": 1,
+   "writer_sites": [
+    {
+     "face": "scripts/e24_breadth_h20_entry.py",
+     "how": "constant:OUTDIR",
+     "kind": "makedirs",
+     "line": 392,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/e24_breadth_h20_entry"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/e24_dispersion_h60_entry",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -14.985,
+   "members_in_the_base": 2,
+   "newest_member": "results/e24_dispersion_h60_entry/ENTRY-20261020.json",
+   "newest_member_ts": "2026-10-20T23:48:02",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 1
+   },
+   "write_kinds": [
+    "makedirs"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/e24_dispersion_h60_entry.py"
+   ],
+   "writer_site_count": 1,
+   "writer_sites": [
+    {
+     "face": "scripts/e24_dispersion_h60_entry.py",
+     "how": "constant:OUTDIR",
+     "kind": "makedirs",
+     "line": 295,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/e24_dispersion_h60_entry"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/e24_overlay_breath",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -15.017,
+   "members_in_the_base": 10,
+   "newest_member": "results/e24_overlay_breath/latest-both20.json",
+   "newest_member_ts": "2026-10-20T23:02:46",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 1,
+    "open": 1
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/e24_overlay_feasibility.py"
+   ],
+   "writer_site_count": 2,
+   "writer_sites": [
+    {
+     "face": "scripts/e24_overlay_feasibility.py",
+     "how": "constant:OUTDIR",
+     "kind": "makedirs",
+     "line": 308,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/e24_overlay_breath"
+    },
+    {
+     "face": "scripts/e24_overlay_feasibility.py",
+     "how": "join(constant:OUTDIR,literal)",
+     "kind": "open",
+     "line": 319,
+     "literal_head": "latest.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/e24_overlay_breath/latest.json"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/e25_whipsaw",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -14.956,
+   "members_in_the_base": 5,
+   "newest_member": "results/e25_whipsaw/latest.json",
+   "newest_member_ts": "2026-10-21T00:29:23",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 1
+   },
+   "write_kinds": [
+    "makedirs"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/e25_whipsaw_diag.py"
+   ],
+   "writer_site_count": 1,
+   "writer_sites": [
+    {
+     "face": "scripts/e25_whipsaw_diag.py",
+     "how": "constant:OUTDIR",
+     "kind": "makedirs",
+     "line": 206,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/e25_whipsaw"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/etf_book_order_fresh",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -8.918,
+   "members_in_the_base": 3,
+   "newest_member": "results/etf_book_order_fresh/state.json",
+   "newest_member_ts": "2026-10-27T01:24:56",
+   "suffix_evidence_write_site_count": 4,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "scripts/etf_book_order.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 188,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?etf_book_order_fresh"
+    },
+    {
+     "face": "scripts/etf_book_order.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 1042,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?etf_book_order_fresh"
+    },
+    {
+     "face": "scripts/etf_book_order.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 450,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?etf_book_order_fresh"
+    },
+    {
+     "face": "scripts/etf_book_order.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 451,
+     "literal_head": "ledger.jsonl",
+     "mode": "write_mode:a",
+     "resolved_path": "?etf_book_order_fresh/ledger.jsonl"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/etf_book_split_audit",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -8.918,
+   "members_in_the_base": 2,
+   "newest_member": "results/etf_book_split_audit/AUDIT-2026-10-23.json",
+   "newest_member_ts": "2026-10-27T01:24:56",
+   "suffix_evidence_write_site_count": 1,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "scripts/etf_book_split_audit.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 238,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?etf_book_split_audit"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/m6_regime5",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.596,
+   "members_in_the_base": 1,
+   "newest_member": "results/m6_regime5/latest.json",
+   "newest_member_ts": "2026-10-17T09:08:48",
+   "suffix_evidence_write_site_count": 3,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "scripts/m6_regime5_probe.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 272,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?m6_regime5"
+    },
+    {
+     "face": "scripts/m6_regime5_probe.py",
+     "how": "constant:LATEST",
+     "kind": "replace",
+     "line": 276,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?m6_regime5/latest.json"
+    },
+    {
+     "face": "scripts/m6_regime5_probe.py",
+     "how": "constant:SERIES_CSV",
+     "kind": "to_csv",
+     "line": 277,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?m6_regime5/m6_series.csv"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/overnight_gap_census",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -15.25,
+   "members_in_the_base": 5,
+   "newest_member": "results/overnight_gap_census/LEG3-2026-10-19.json",
+   "newest_member_ts": "2026-10-20T17:27:01",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/regime_matrix_p0",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.596,
+   "members_in_the_base": 2,
+   "newest_member": "results/regime_matrix_p0/latest.json",
+   "newest_member_ts": "2026-10-17T09:08:53",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 1,
+    "open": 3
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/regime_matrix_p0.py"
+   ],
+   "writer_site_count": 4,
+   "writer_sites": [
+    {
+     "face": "scripts/regime_matrix_p0.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 606,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/regime_matrix_p0"
+    },
+    {
+     "face": "scripts/regime_matrix_p0.py",
+     "how": "constant:jpath",
+     "kind": "open",
+     "line": 706,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/regime_matrix_p0/P0-MATRIX-v1-"
+    },
+    {
+     "face": "scripts/regime_matrix_p0.py",
+     "how": "constant:mpath",
+     "kind": "open",
+     "line": 709,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/regime_matrix_p0/P0-MATRIX-v1-"
+    },
+    {
+     "face": "scripts/regime_matrix_p0.py",
+     "how": "constant:latest",
+     "kind": "open",
+     "line": 712,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/regime_matrix_p0/latest.json"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/seasonal_calendar_census",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -15.125,
+   "members_in_the_base": 2,
+   "newest_member": "results/seasonal_calendar_census/latest.json",
+   "newest_member_ts": "2026-10-20T20:26:52",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/seasonal_horizon_stability",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -15.125,
+   "members_in_the_base": 2,
+   "newest_member": "results/seasonal_horizon_stability/CENSUS-2026-10-19.json",
+   "newest_member_ts": "2026-10-20T20:26:52",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/stagestyle_combo_p1",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -15.717,
+   "members_in_the_base": 6,
+   "newest_member": "results/stagestyle_combo_p1/STAGE-STYLE-MATRIX-v1.json",
+   "newest_member_ts": "2026-10-20T06:14:22",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 2,
+    "open": 4
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "_r1053bmb_finalize.py",
+    "scripts/sscombo_stage_style_matrix.py",
+    "scripts/stagestyle_combo_p1_backtest.py"
+   ],
+   "writer_site_count": 6,
+   "writer_sites": [
+    {
+     "face": "_r1053bmb_finalize.py",
+     "how": "constant:OUT",
+     "kind": "open",
+     "line": 139,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/stagestyle_combo_p1/FINALIZE-SSCOMBO-P1.json"
+    },
+    {
+     "face": "scripts/sscombo_stage_style_matrix.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 334,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/stagestyle_combo_p1"
+    },
+    {
+     "face": "scripts/sscombo_stage_style_matrix.py",
+     "how": "constant:OUT_JSON",
+     "kind": "open",
+     "line": 336,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/stagestyle_combo_p1/STAGE-STYLE-MATRIX-v1.json"
+    },
+    {
+     "face": "scripts/stagestyle_combo_p1_backtest.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 598,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/stagestyle_combo_p1"
+    },
+    {
+     "face": "scripts/stagestyle_combo_p1_backtest.py",
+     "how": "constant:out",
+     "kind": "open",
+     "line": 631,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/stagestyle_combo_p1/SSCOMBO-P1-"
+    },
+    {
+     "face": "scripts/stagestyle_combo_p1_backtest.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 633,
+     "literal_head": "latest.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/stagestyle_combo_p1/latest.json"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/t23_census",
+   "carriers": 14,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.596,
+   "members_in_the_base": 2,
+   "newest_member": "results/t23_census/latest.json",
+   "newest_member_ts": "2026-10-17T09:08:55",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/etf_book_order",
+   "carriers": 11,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -6.559,
+   "members_in_the_base": 8,
+   "newest_member": "results/etf_book_order/TICKET-2026-10-28-card.json",
+   "newest_member_ts": "2026-10-29T10:01:12",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results",
+   "carriers": 2,
+   "contains_another_published_base": true,
+   "max_days_from_a_carrier_to_the_newest_member": null,
+   "members_in_the_base": 0,
+   "newest_member": null,
+   "newest_member_ts": null,
+   "suffix_evidence_write_site_count": 286,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "Tools/_r780bmc_ledger_heal.py",
+     "how": "constant:RECEIPT",
+     "kind": "open",
+     "line": 88,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?results/_r780bmc_ledger_heal_receipt.json"
+    },
+    {
+     "face": "Tools/_r780bmc_ledger_heal.py",
+     "how": "constant:RECEIPT",
+     "kind": "open",
+     "line": 46,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?results/_r780bmc_ledger_heal_receipt.json"
+    },
+    {
+     "face": "Tools/canon_sweep.py",
+     "how": "constant:rpath",
+     "kind": "open",
+     "line": 231,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?results/_canon_sweep_last.json"
+    },
+    {
+     "face": "Tools/canon_sweep.py",
+     "how": "constant:rpath",
+     "kind": "open",
+     "line": 226,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?results/_canon_sweep_last.json"
+    },
+    {
+     "face": "Tools/lane_round_liveness.py",
+     "how": "constant:RESULTS",
+     "kind": "makedirs",
+     "line": 246,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results"
+    },
+    {
+     "face": "Tools/lane_round_liveness.py",
+     "how": "join(constant:RESULTS,literal)",
+     "kind": "open",
+     "line": 279,
+     "literal_head": "lane_liveness.json",
+     "mode": "write_mode:w",
+     "resolved_path": "?results/lane_liveness.json"
+    },
+    {
+     "face": "Tools/mem_pressure_report.py",
+     "how": "dirname(constant:OUT)",
+     "kind": "makedirs",
+     "line": 143,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results"
+    },
+    {
+     "face": "Tools/mem_pressure_report.py",
+     "how": "constant:OUT",
+     "kind": "replace",
+     "line": 148,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results/mem_pressure.bm-c.json"
+    },
+    {
+     "face": "Tools/orders_ack_scan.py",
+     "how": "constant:out",
+     "kind": "replace",
+     "line": 167,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results"
+    },
+    {
+     "face": "Tools/pool_deliverable_audit.py",
+     "how": "constant:ppath",
+     "kind": "open",
+     "line": 363,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?results/runnable_pool.json"
+    },
+    {
+     "face": "Tools/pool_deliverable_audit.py",
+     "how": "constant:ppath",
+     "kind": "open",
+     "line": 428,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?results/runnable_pool.json"
+    },
+    {
+     "face": "Tools/pool_deliverable_audit.py",
+     "how": "constant:ppath",
+     "kind": "open",
+     "line": 463,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?results/runnable_pool.json"
+    },
+    {
+     "face": "Tools/s05_probe.py",
+     "how": "constant:out",
+     "kind": "replace",
+     "line": 149,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results"
+    },
+    {
+     "face": "research/shortline/screening/p1_factor_screen.py",
+     "how": "constant:out_json",
+     "kind": "open",
+     "line": 336,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?results/shortline_p1_factor.json"
+    },
+    {
+     "face": "results/_r269bmc_berth_dedup_probe.py",
+     "how": "constant:rs",
+     "kind": "makedirs",
+     "line": 198,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results"
+    },
+    {
+     "face": "results/_r269bmc_berth_dedup_probe.py",
+     "how": "join(constant:rs,literal)",
+     "kind": "open",
+     "line": 206,
+     "literal_head": "WA-PROD.json",
+     "mode": "write_mode:w",
+     "resolved_path": "?results/WA-PROD.json"
+    },
+    {
+     "face": "results/_r269bmc_berth_dedup_probe.py",
+     "how": "join(constant:rs,literal)",
+     "kind": "open",
+     "line": 249,
+     "literal_head": "WF-STAGED.json",
+     "mode": "write_mode:w",
+     "resolved_path": "?results/WF-STAGED.json"
+    },
+    {
+     "face": "results/_r301bmc_t136_fixture.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 30,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results/t136_verdict_audit"
+    },
+    {
+     "face": "results/_r301bmc_t136_fixture.py",
+     "how": "constant:path",
+     "kind": "open",
+     "line": 273,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?results/t136_verdict_audit/t136_leg123.json"
+    },
+    {
+     "face": "results/_r655bmb_d19_fallback.py",
+     "how": "join_suffix(bare_name:root)",
+     "kind": "open",
+     "line": 25,
+     "literal_head": "results",
+     "mode": "write_mode:wb",
+     "resolved_path": "?results"
+    },
+    {
+     "face": "results/_r655bmb_s05_probe.py",
+     "how": "join_suffix(bare_name:root)",
+     "kind": "open",
+     "line": 39,
+     "literal_head": "results",
+     "mode": "write_mode:wb",
+     "resolved_path": "?results"
+    },
+    {
+     "face": "results/_r666bma_theme_judge_probe.py",
+     "how": "constant:OUT",
+     "kind": "open",
+     "line": 151,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?results/_r666bma_theme_judge_probe_facts.json"
+    },
+    {
+     "face": "results/_r685bma_bogus_summary_quarantine.py",
+     "how": "constant:DST_DIR",
+     "kind": "makedirs",
+     "line": 14,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results/mass_trial"
+    },
+    {
+     "face": "results/_r685bma_bogus_summary_quarantine.py",
+     "how": "constant:dst",
+     "kind": "move",
+     "line": 17,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results/mass_trial/w3_screen_summary.json"
+    },
+    {
+     "face": "results/_r685bma_wrongprev_summary_quarantine.py",
+     "how": "constant:DST_DIR",
+     "kind": "makedirs",
+     "line": 12,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results/mass_trial"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [
+    {
+     "face": "Tools/_r818bmc_ignite.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 16,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "Tools/_r818bmc_ignite.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 18,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r1012bmb_group_delta.py",
+     "how": "unresolvable_expression",
+     "kind": "open",
+     "line": 46,
+     "literal_head": "results/_r1012bmb_group_%s_recent.txt",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r1070bmb_pool_ignite.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 50,
+     "literal_head": "results",
+     "mode": "write_mode:wb",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r602bmb_surgical.py",
+     "how": "join_head_unresolved",
+     "kind": "copyfile",
+     "line": 60,
+     "literal_head": "results",
+     "mode": "",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r635bmb_resolve2.py",
+     "how": "unresolvable_expression",
+     "kind": "open",
+     "line": 256,
+     "literal_head": "results/_r635bmb_resolve_receipt3.json",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r666bmb_d19_check.py",
+     "how": "unresolvable_expression",
+     "kind": "open",
+     "line": 43,
+     "literal_head": "results/_r666bmb_%s_new.txt",
+     "mode": "write_mode:wb",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r847bma_prompt_diff.py",
+     "how": "unresolvable_expression",
+     "kind": "open",
+     "line": 9,
+     "literal_head": "results/_r847bma_prompt_%s.txt",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r890bmb_closeout.py",
+     "how": "unresolvable_expression",
+     "kind": "open",
+     "line": 53,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r901bma_w193_facedump.py",
+     "how": "unresolvable_expression",
+     "kind": "open",
+     "line": 34,
+     "literal_head": "results/_r901bma_w193_face_%s.txt",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r905bma_w194_facedump.py",
+     "how": "unresolvable_expression",
+     "kind": "open",
+     "line": 34,
+     "literal_head": "results/_r905bma_w194_face_%s.txt",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r909bma_w195_facedump.py",
+     "how": "unresolvable_expression",
+     "kind": "open",
+     "line": 34,
+     "literal_head": "results/_r909bma_w195_face_%s.txt",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r915bma_w197_freeze_edits.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 633,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r916bma_w198_freeze_edits.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 654,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r919bma_w199_freeze_edits.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 663,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r921bma_w200_freeze_edits.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 440,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r922bma_w201_freeze_edits.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 449,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r927bma_w202_freeze_edits.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 505,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r936bma_w203_freeze_edits.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 566,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "results/_r953bmb_closeout.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 219,
+     "literal_head": "results",
+     "mode": "write_mode:wb",
+     "resolved_path": null
+    },
+    {
+     "face": "scripts/e396_last_tick.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 604,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    },
+    {
+     "face": "scripts/fund_vq_p2_plan.py",
+     "how": "join_head_unresolved",
+     "kind": "open",
+     "line": 287,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": null
+    }
+   ],
+   "write_kind_counts": {
+    "copy2": 1,
+    "copyfile": 9,
+    "makedirs": 347,
+    "open": 5245,
+    "rename": 1,
+    "replace": 121,
+    "to_csv": 14,
+    "to_parquet": 2,
+    "write_text": 9
+   },
+   "write_kinds": [
+    "copy2",
+    "copyfile",
+    "makedirs",
+    "open",
+    "rename",
+    "replace",
+    "to_csv",
+    "to_parquet",
+    "write_text"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "Tools/_r1003bmb_s6.py",
+    "Tools/_r1025bmc_s6.py",
+    "Tools/_r1026bmc_s6.py",
+    "Tools/_r1029bmc_s6.py",
+    "Tools/_r1030bmc_s6.py",
+    "Tools/_r1031bmc_s6.py",
+    "Tools/_r1032bmc_s6.py",
+    "Tools/_r1033bmc_s6.py",
+    "Tools/_r1034bmc_s6.py",
+    "Tools/_r1035bmc_s6.py",
+    "Tools/_r1036bmc_s6.py",
+    "Tools/_r1037bmc_s6.py",
+    "Tools/_r1038bmc_s6.py",
+    "Tools/_r1039bmc_d19_diff.py",
+    "Tools/_r1043bmc_s6.py",
+    "Tools/_r1045bmc_s6.py",
+    "Tools/_r1046bmc_s6.py",
+    "Tools/_r1047bmc_s6.py",
+    "Tools/_r1048bmc_s6.py",
+    "Tools/_r1049bmc_s6.py",
+    "Tools/_r1050bmc_s6.py",
+    "Tools/_r1051bmc_s6.py",
+    "Tools/_r1052bmc_s6.py",
+    "Tools/_r1053bmc_s6.py",
+    "Tools/_r1054bmc_s6.py"
+   ],
+   "writer_site_count": 5749,
+   "writer_sites": [
+    {
+     "face": "Tools/_r1003bmb_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 64,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1003bmb_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1025bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1025bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1026bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1026bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1029bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1029bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1030bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1030bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1031bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1031bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1032bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1032bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1033bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1033bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1034bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1034bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1035bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1035bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1036bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1036bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1037bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1037bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1038bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1038bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1039bmc_d19_diff.py",
+     "how": "join(constant:ROOT,literal,literal)",
+     "kind": "open",
+     "line": 42,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1039bmc_d19_rows.md"
+    },
+    {
+     "face": "Tools/_r1039bmc_d19_diff.py",
+     "how": "join(constant:ROOT,literal,literal)",
+     "kind": "open",
+     "line": 59,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1039bmc_d19_facts.json"
+    },
+    {
+     "face": "Tools/_r1043bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1043bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1045bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1045bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1046bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1046bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1047bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1047bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1048bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1048bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1049bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1049bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1050bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1050bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1051bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1051bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1052bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1051bmc_s6_log.txt"
+    },
+    {
+     "face": "Tools/_r1053bmc_s6.py",
+     "how": "constant:LOG",
+     "kind": "open",
+     "line": 66,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/_r1053bmc_s6_log.txt"
+    }
+   ],
+   "writer_sites_truncated": 5724
+  },
+  {
+   "base": "results/_r1024bma_rollback_side",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.644,
+   "members_in_the_base": 82,
+   "newest_member": "results/_r1024bma_rollback_side/state-bm-c.json",
+   "newest_member_ts": "2026-10-17T09:00:59",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/_r753bmc_churn_backup",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.639,
+   "members_in_the_base": 19,
+   "newest_member": "results/_r753bmc_churn_backup/results__update_status.bm-c.json",
+   "newest_member_ts": "2026-10-17T09:07:47",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/_r903bmc_ff_backup",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 18,
+   "newest_member": "results/_r903bmc_ff_backup/results__update_status.json",
+   "newest_member_ts": "2026-10-17T09:08:23",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/bond_w3a",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -17.669,
+   "members_in_the_base": 8,
+   "newest_member": "results/bond_w3a/shard_5of6.json",
+   "newest_member_ts": "2026-10-17T09:08:43",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/census_fusion_s2",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 18,
+   "newest_member": "results/census_fusion_s2/w2b_roster.json",
+   "newest_member_ts": "2026-10-17T09:08:44",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 11,
+    "open": 26,
+    "to_parquet": 1
+   },
+   "write_kinds": [
+    "makedirs",
+    "open",
+    "to_parquet"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/census_fusion_s2.py",
+    "scripts/census_fusion_s2_w2.py",
+    "scripts/census_fusion_s2_w2b.py",
+    "scripts/census_w2_roster.py",
+    "scripts/census_w2b_roster.py"
+   ],
+   "writer_site_count": 38,
+   "writer_sites": [
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 502,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/census_fusion_s2"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 773,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/census_fusion_s2"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "constant:CKPT",
+     "kind": "open",
+     "line": 503,
+     "literal_head": null,
+     "mode": "write_mode:a",
+     "resolved_path": "results/census_fusion_s2/w1_checkpoint.jsonl"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 578,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/census_fusion_s2"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 599,
+     "literal_head": "w1_cells.csv",
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/w1_cells.csv"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 604,
+     "literal_head": "w1_nulls.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/w1_nulls.json"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 610,
+     "literal_head": "w1_top_matrices.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/w1_top_matrices.json"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 647,
+     "literal_head": "w1_summary.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/w1_summary.json"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "constant:out",
+     "kind": "open",
+     "line": 682,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/w1_unc.json"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "constant:UNC_CKPT",
+     "kind": "open",
+     "line": 774,
+     "literal_head": null,
+     "mode": "write_mode:a",
+     "resolved_path": "results/census_fusion_s2/unc_checkpoint.jsonl"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 853,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/census_fusion_s2"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "constant:out",
+     "kind": "open",
+     "line": 931,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/w1_unc.json"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 579,
+     "literal_head": "probe.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/probe.json"
+    },
+    {
+     "face": "scripts/census_fusion_s2.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 854,
+     "literal_head": "unc_probe.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/unc_probe.json"
+    },
+    {
+     "face": "scripts/census_fusion_s2_w2.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 567,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/census_fusion_s2"
+    },
+    {
+     "face": "scripts/census_fusion_s2_w2.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 875,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/census_fusion_s2"
+    },
+    {
+     "face": "scripts/census_fusion_s2_w2.py",
+     "how": "constant:p_tmp",
+     "kind": "to_parquet",
+     "line": 876,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/census_fusion_s2/_r326bma_selftest_lhb.parquet"
+    },
+    {
+     "face": "scripts/census_fusion_s2_w2.py",
+     "how": "constant:CKPT",
+     "kind": "open",
+     "line": 568,
+     "literal_head": null,
+     "mode": "write_mode:a",
+     "resolved_path": "results/census_fusion_s2/w2a_checkpoint.jsonl"
+    },
+    {
+     "face": "scripts/census_fusion_s2_w2.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 645,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/census_fusion_s2"
+    },
+    {
+     "face": "scripts/census_fusion_s2_w2.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 667,
+     "literal_head": "w2a_cells.csv",
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/w2a_cells.csv"
+    },
+    {
+     "face": "scripts/census_fusion_s2_w2.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 673,
+     "literal_head": "w2a_nulls.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/w2a_nulls.json"
+    },
+    {
+     "face": "scripts/census_fusion_s2_w2.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 680,
+     "literal_head": "w2a_top_matrices.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/w2a_top_matrices.json"
+    },
+    {
+     "face": "scripts/census_fusion_s2_w2.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 720,
+     "literal_head": "w2a_summary.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/w2a_summary.json"
+    },
+    {
+     "face": "scripts/census_fusion_s2_w2.py",
+     "how": "constant:out",
+     "kind": "open",
+     "line": 769,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/w2a_results.json"
+    },
+    {
+     "face": "scripts/census_fusion_s2_w2.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 646,
+     "literal_head": "probe_w2a.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/census_fusion_s2/probe_w2a.json"
+    }
+   ],
+   "writer_sites_truncated": 13
+  },
+  {
+   "base": "results/e24_regime_census",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -15.03,
+   "members_in_the_base": 21,
+   "newest_member": "results/e24_regime_census/CENSUS-dispersion-h60-20261020.json",
+   "newest_member_ts": "2026-10-20T23:45:10",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 1
+   },
+   "write_kinds": [
+    "makedirs"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/e24_regime_census.py"
+   ],
+   "writer_site_count": 1,
+   "writer_sites": [
+    {
+     "face": "scripts/e24_regime_census.py",
+     "how": "constant:OUTDIR",
+     "kind": "makedirs",
+     "line": 329,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/e24_regime_census"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/e27_universe_expansion",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -14.952,
+   "members_in_the_base": 16,
+   "newest_member": "results/e27_universe_expansion/UNIV-9f9af0-e20260922-xsh511sh518sz159001sz159003-x3-20261021.json",
+   "newest_member_ts": "2026-10-21T01:36:21",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/e43_tilt_4member",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -6.602,
+   "members_in_the_base": 36,
+   "newest_member": "results/e43_tilt_4member/LADDERDROPCURVE-20261027.json",
+   "newest_member_ts": "2026-10-29T10:01:12",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 2,
+    "open": 1
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/e39_panel_census.py"
+   ],
+   "writer_site_count": 3,
+   "writer_sites": [
+    {
+     "face": "scripts/e39_panel_census.py",
+     "how": "constant:outdir",
+     "kind": "makedirs",
+     "line": 16085,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/e43_tilt_4member"
+    },
+    {
+     "face": "scripts/e39_panel_census.py",
+     "how": "join(constant:outdir,literal)",
+     "kind": "open",
+     "line": 26729,
+     "literal_head": "data_face.csv",
+     "mode": "write_mode:w",
+     "resolved_path": "results/e43_tilt_4member/data_face.csv"
+    },
+    {
+     "face": "scripts/e39_panel_census.py",
+     "how": "constant:outdir",
+     "kind": "makedirs",
+     "line": 27127,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/e43_tilt_4member"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/e46_live_span",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -14.661,
+   "members_in_the_base": 23,
+   "newest_member": "results/e46_live_span/CUTCURVE-20261020.json",
+   "newest_member_ts": "2026-10-21T08:35:54",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/e79",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -0.326,
+   "members_in_the_base": 30,
+   "newest_member": "results/e79/PAGEGATE-2026-11-04.json",
+   "newest_member_ts": "2026-11-04T16:38:47",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/etf_ops",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 23,
+   "newest_member": "results/etf_ops/grid_shard_588000.json",
+   "newest_member_ts": "2026-10-17T09:08:46",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 6
+   },
+   "write_kinds": [
+    "makedirs"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/etf_ops_bp1.py",
+    "scripts/etf_ops_bp2.py",
+    "scripts/grid_dualface_backtest.py"
+   ],
+   "writer_site_count": 6,
+   "writer_sites": [
+    {
+     "face": "scripts/etf_ops_bp1.py",
+     "how": "constant:SER_DIR",
+     "kind": "makedirs",
+     "line": 869,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/etf_ops/bp1_series"
+    },
+    {
+     "face": "scripts/etf_ops_bp2.py",
+     "how": "constant:WN_DIR",
+     "kind": "makedirs",
+     "line": 625,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/etf_ops/bp2_windows_npy"
+    },
+    {
+     "face": "scripts/etf_ops_bp2.py",
+     "how": "constant:SER_DIR",
+     "kind": "makedirs",
+     "line": 626,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/etf_ops/bp2_series"
+    },
+    {
+     "face": "scripts/etf_ops_bp2.py",
+     "how": "constant:WN_DIR",
+     "kind": "makedirs",
+     "line": 1063,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/etf_ops/bp2_windows_npy"
+    },
+    {
+     "face": "scripts/etf_ops_bp2.py",
+     "how": "constant:SER_DIR",
+     "kind": "makedirs",
+     "line": 1064,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/etf_ops/bp2_series"
+    },
+    {
+     "face": "scripts/grid_dualface_backtest.py",
+     "how": "constant:SER_DIR",
+     "kind": "makedirs",
+     "line": 1169,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/etf_ops/grid_series"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/fund_quality_p2",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -15.452,
+   "members_in_the_base": 3,
+   "newest_member": "results/fund_quality_p2/fund_quality_p2_results.json",
+   "newest_member_ts": "2026-10-20T13:36:22",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/fund_value_p2",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -15.44,
+   "members_in_the_base": 3,
+   "newest_member": "results/fund_value_p2/fund_value_p2_results.json",
+   "newest_member_ts": "2026-10-20T13:54:45",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/fusion_grid_p1",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 3,
+   "newest_member": "results/fusion_grid_p1/regime_series.json",
+   "newest_member_ts": "2026-10-17T09:08:46",
+   "suffix_evidence_write_site_count": 6,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "scripts/fusion_grid_p1.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 656,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?fusion_grid_p1"
+    },
+    {
+     "face": "scripts/fusion_grid_p1.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "makedirs",
+     "line": 657,
+     "literal_head": "cells",
+     "mode": "",
+     "resolved_path": "?fusion_grid_p1/cells"
+    },
+    {
+     "face": "scripts/fusion_grid_p1.py",
+     "how": "constant:out_json",
+     "kind": "replace",
+     "line": 852,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?fusion_grid_p1/p1_results.json"
+    },
+    {
+     "face": "scripts/fusion_grid_p1.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 685,
+     "literal_head": "regime_series.json",
+     "mode": "write_mode:w",
+     "resolved_path": "?fusion_grid_p1/regime_series.json"
+    },
+    {
+     "face": "scripts/fusion_grid_p1.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 694,
+     "literal_head": "nulls_summary.json",
+     "mode": "write_mode:w",
+     "resolved_path": "?fusion_grid_p1/nulls_summary.json"
+    },
+    {
+     "face": "scripts/fusion_grid_p1.py",
+     "how": "concat(constant:out_json+literal)",
+     "kind": "open",
+     "line": 850,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?fusion_grid_p1/p1_results.json/.tmp"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/local_coding_pilot",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 2,
+   "newest_member": "results/local_coding_pilot/MIDTERM_DOSSIER-20261009.json",
+   "newest_member_ts": "2026-10-17T09:08:47",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 2,
+    "open": 6
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/pilot_c_batch.py",
+    "scripts/pilot_mask.py",
+    "scripts/pilot_mask_c.py"
+   ],
+   "writer_site_count": 8,
+   "writer_sites": [
+    {
+     "face": "scripts/pilot_c_batch.py",
+     "how": "constant:LEDGER",
+     "kind": "open",
+     "line": 52,
+     "literal_head": null,
+     "mode": "write_mode:a",
+     "resolved_path": "results/local_coding_pilot/ledger.jsonl"
+    },
+    {
+     "face": "scripts/pilot_c_batch.py",
+     "how": "constant:MIRROR",
+     "kind": "open",
+     "line": 31,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/local_coding_pilot/C_batch_status.json"
+    },
+    {
+     "face": "scripts/pilot_mask.py",
+     "how": "constant:BLIND",
+     "kind": "makedirs",
+     "line": 59,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/local_coding_pilot/blind_eval"
+    },
+    {
+     "face": "scripts/pilot_mask.py",
+     "how": "constant:MAP_PATH",
+     "kind": "open",
+     "line": 55,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/local_coding_pilot/blind_eval/.mask_map.json"
+    },
+    {
+     "face": "scripts/pilot_mask.py",
+     "how": "constant:MANIFEST_PATH",
+     "kind": "open",
+     "line": 118,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/local_coding_pilot/blind_eval/MANIFEST.json"
+    },
+    {
+     "face": "scripts/pilot_mask_c.py",
+     "how": "constant:BLIND",
+     "kind": "makedirs",
+     "line": 64,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/local_coding_pilot/blind_eval_c"
+    },
+    {
+     "face": "scripts/pilot_mask_c.py",
+     "how": "constant:MAP_PATH",
+     "kind": "open",
+     "line": 60,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/local_coding_pilot/blind_eval_c/.mask_map.json"
+    },
+    {
+     "face": "scripts/pilot_mask_c.py",
+     "how": "constant:MANIFEST_PATH",
+     "kind": "open",
+     "line": 121,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/local_coding_pilot/blind_eval_c/MANIFEST_c.json"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/lowamp_p1",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 19,
+   "newest_member": "results/lowamp_p1/probe.json",
+   "newest_member_ts": "2026-10-17T09:08:48",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 3,
+    "open": 1
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/lowamp_p1.py"
+   ],
+   "writer_site_count": 4,
+   "writer_sites": [
+    {
+     "face": "scripts/lowamp_p1.py",
+     "how": "constant:LOG_DIR",
+     "kind": "makedirs",
+     "line": 160,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/lowamp_p1/logs"
+    },
+    {
+     "face": "scripts/lowamp_p1.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 546,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/lowamp_p1"
+    },
+    {
+     "face": "scripts/lowamp_p1.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 705,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/lowamp_p1"
+    },
+    {
+     "face": "scripts/lowamp_p1.py",
+     "how": "constant:OUT_CSV",
+     "kind": "open",
+     "line": 1059,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/lowamp_p1/cells.csv"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/lowamp_p2",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 20,
+   "newest_member": "results/lowamp_p2/probe.json",
+   "newest_member_ts": "2026-10-17T09:08:48",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 3,
+    "open": 1
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/lowamp_p2.py"
+   ],
+   "writer_site_count": 4,
+   "writer_sites": [
+    {
+     "face": "scripts/lowamp_p2.py",
+     "how": "constant:LOG_DIR",
+     "kind": "makedirs",
+     "line": 169,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/lowamp_p2/logs"
+    },
+    {
+     "face": "scripts/lowamp_p2.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 565,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/lowamp_p2"
+    },
+    {
+     "face": "scripts/lowamp_p2.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 727,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/lowamp_p2"
+    },
+    {
+     "face": "scripts/lowamp_p2.py",
+     "how": "constant:OUT_CSV",
+     "kind": "open",
+     "line": 1081,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/lowamp_p2/cells.csv"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/lowamp_p3",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 20,
+   "newest_member": "results/lowamp_p3/probe.json",
+   "newest_member_ts": "2026-10-17T09:08:48",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 3,
+    "open": 2
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "results/_r533bmb_laedge_soup_repair.py",
+    "scripts/lowamp_p3.py"
+   ],
+   "writer_site_count": 5,
+   "writer_sites": [
+    {
+     "face": "results/_r533bmb_laedge_soup_repair.py",
+     "how": "constant:F",
+     "kind": "open",
+     "line": 42,
+     "literal_head": null,
+     "mode": "write_mode:wb",
+     "resolved_path": "results/lowamp_p3/cells_LA-EDGE_legacy_base.jsonl"
+    },
+    {
+     "face": "scripts/lowamp_p3.py",
+     "how": "constant:LOG_DIR",
+     "kind": "makedirs",
+     "line": 201,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/lowamp_p3/logs"
+    },
+    {
+     "face": "scripts/lowamp_p3.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 590,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/lowamp_p3"
+    },
+    {
+     "face": "scripts/lowamp_p3.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 752,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/lowamp_p3"
+    },
+    {
+     "face": "scripts/lowamp_p3.py",
+     "how": "constant:OUT_CSV",
+     "kind": "open",
+     "line": 1179,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/lowamp_p3/cells.csv"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/mass_trial",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 19,
+   "newest_member": "results/mass_trial/w3_screen_summary.json",
+   "newest_member_ts": "2026-10-17T09:08:48",
+   "suffix_evidence_write_site_count": 6,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "results/_r685bma_bogus_summary_quarantine.py",
+     "how": "constant:DST_DIR",
+     "kind": "makedirs",
+     "line": 14,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results/mass_trial"
+    },
+    {
+     "face": "results/_r685bma_bogus_summary_quarantine.py",
+     "how": "constant:dst",
+     "kind": "move",
+     "line": 17,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results/mass_trial/w3_screen_summary.json"
+    },
+    {
+     "face": "results/_r685bma_wrongprev_summary_quarantine.py",
+     "how": "constant:DST_DIR",
+     "kind": "makedirs",
+     "line": 12,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results/mass_trial"
+    },
+    {
+     "face": "results/_r685bma_wrongprev_summary_quarantine.py",
+     "how": "constant:dst",
+     "kind": "move",
+     "line": 15,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results/mass_trial/w3_screen_summary.json"
+    },
+    {
+     "face": "scripts/month_exam_readiness.py",
+     "how": "join_suffix(bare_name:tmp)",
+     "kind": "makedirs",
+     "line": 386,
+     "literal_head": "results",
+     "mode": "",
+     "resolved_path": "?results/mass_trial"
+    },
+    {
+     "face": "scripts/month_exam_readiness.py",
+     "how": "join_suffix(bare_name:tmp)",
+     "kind": "open",
+     "line": 387,
+     "literal_head": "results",
+     "mode": "write_mode:w",
+     "resolved_path": "?results/mass_trial/report_card.json"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 6,
+    "open": 14,
+    "replace": 1
+   },
+   "write_kinds": [
+    "makedirs",
+    "open",
+    "replace"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "results/_r483bmc_ckpt_dedup.py",
+    "results/_r685bma_w3_ckpt_union.py",
+    "results/_r685bma_w3_dedup_heal.py",
+    "scripts/mass_trial_w1.py"
+   ],
+   "writer_site_count": 21,
+   "writer_sites": [
+    {
+     "face": "results/_r483bmc_ckpt_dedup.py",
+     "how": "constant:PATH",
+     "kind": "replace",
+     "line": 74,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/mass_trial/w3_screen_checkpoint.jsonl"
+    },
+    {
+     "face": "results/_r685bma_w3_ckpt_union.py",
+     "how": "constant:PATH",
+     "kind": "open",
+     "line": 83,
+     "literal_head": null,
+     "mode": "write_mode:wb",
+     "resolved_path": "results/mass_trial/w3_screen_checkpoint.jsonl"
+    },
+    {
+     "face": "results/_r685bma_w3_dedup_heal.py",
+     "how": "constant:PATH",
+     "kind": "open",
+     "line": 43,
+     "literal_head": null,
+     "mode": "write_mode:wb",
+     "resolved_path": "results/mass_trial/w3_screen_checkpoint.jsonl"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 543,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/mass_trial"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 638,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/mass_trial"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 738,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/mass_trial"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 892,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/mass_trial"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 1101,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/mass_trial"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 1335,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/mass_trial"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "constant:roster_path",
+     "kind": "open",
+     "line": 596,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/mass_trial/w1_roster.json"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "constant:cand_path",
+     "kind": "open",
+     "line": 604,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/mass_trial/w1_candidates.json"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 612,
+     "literal_head": "w2_generate_summary.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/mass_trial/w2_generate_summary.json"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 616,
+     "literal_head": "grammar_registry.jsonl",
+     "mode": "write_mode:a",
+     "resolved_path": "results/mass_trial/grammar_registry.jsonl"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "constant:roster_path",
+     "kind": "open",
+     "line": 693,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/mass_trial/w1_roster.json"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "constant:cand_path",
+     "kind": "open",
+     "line": 701,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/mass_trial/w1_candidates.json"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 709,
+     "literal_head": "w3_generate_summary.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/mass_trial/w3_generate_summary.json"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 713,
+     "literal_head": "grammar_registry.jsonl",
+     "mode": "write_mode:a",
+     "resolved_path": "results/mass_trial/grammar_registry.jsonl"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "constant:roster_path",
+     "kind": "open",
+     "line": 780,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/mass_trial/w1_roster.json"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "constant:cand_path",
+     "kind": "open",
+     "line": 786,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/mass_trial/w1_candidates.json"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 792,
+     "literal_head": "w1_generate_summary.json",
+     "mode": "write_mode:w",
+     "resolved_path": "results/mass_trial/w1_generate_summary.json"
+    },
+    {
+     "face": "scripts/mass_trial_w1.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 797,
+     "literal_head": "grammar_registry.jsonl",
+     "mode": "write_mode:a",
+     "resolved_path": "results/mass_trial/grammar_registry.jsonl"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/member_reinforce",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 1,
+   "newest_member": "results/member_reinforce/MEMBER-REINFORCE-P1.json",
+   "newest_member_ts": "2026-10-17T09:08:48",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/p2cal_ext",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 4,
+   "newest_member": "results/p2cal_ext/shard-3-of-4.json",
+   "newest_member_ts": "2026-10-17T09:08:51",
+   "suffix_evidence_write_site_count": 3,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "scripts/p2_null_calibration_ext.py",
+     "how": "constant:SHARD_DIR",
+     "kind": "makedirs",
+     "line": 207,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?p2cal_ext"
+    },
+    {
+     "face": "scripts/p2_null_calibration_ext.py",
+     "how": "constant:path",
+     "kind": "open",
+     "line": 229,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?p2cal_ext/shard-"
+    },
+    {
+     "face": "scripts/saturation_engine.py",
+     "how": "constant:odir",
+     "kind": "makedirs",
+     "line": 852,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?p2cal_ext/n1_w10"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/perpetual_faces",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -8.96,
+   "members_in_the_base": 335,
+   "newest_member": "results/perpetual_faces/n1_w329_results.json",
+   "newest_member_ts": "2026-10-27T01:24:58",
+   "suffix_evidence_write_site_count": 10,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "scripts/perpetual_faces_n2.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 418,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?perpetual_faces"
+    },
+    {
+     "face": "scripts/perpetual_faces_n2.py",
+     "how": "constant:PROBE_OUT",
+     "kind": "open",
+     "line": 419,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?perpetual_faces/_n2_w15_probe.json"
+    },
+    {
+     "face": "scripts/perpetual_faces_n3.py",
+     "how": "constant:WAVE_DIR",
+     "kind": "makedirs",
+     "line": 239,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?perpetual_faces/n3_r1"
+    },
+    {
+     "face": "scripts/perpetual_faces_n3.py",
+     "how": "constant:R2_WAVE_DIR",
+     "kind": "makedirs",
+     "line": 645,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?perpetual_faces/n3_r2"
+    },
+    {
+     "face": "scripts/perpetual_faces_n3.py",
+     "how": "dirname(constant:R2_BATCH_JSON)",
+     "kind": "makedirs",
+     "line": 1008,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?perpetual_faces"
+    },
+    {
+     "face": "scripts/perpetual_faces_n3.py",
+     "how": "dirname(constant:BATCH_JSON)",
+     "kind": "makedirs",
+     "line": 1185,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?perpetual_faces"
+    },
+    {
+     "face": "scripts/perpetual_faces_n3.py",
+     "how": "constant:R2_WAVE_DIR",
+     "kind": "makedirs",
+     "line": 933,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?perpetual_faces/n3_r2"
+    },
+    {
+     "face": "scripts/perpetual_faces_n3.py",
+     "how": "constant:R2_BATCH_JSON",
+     "kind": "open",
+     "line": 1009,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?perpetual_faces/n3_r2_results.json"
+    },
+    {
+     "face": "scripts/perpetual_faces_n3.py",
+     "how": "constant:WAVE_DIR",
+     "kind": "makedirs",
+     "line": 1114,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?perpetual_faces/n3_r1"
+    },
+    {
+     "face": "scripts/perpetual_faces_n3.py",
+     "how": "constant:BATCH_JSON",
+     "kind": "open",
+     "line": 1186,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?perpetual_faces/n3_r1_results.json"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "replace": 1
+   },
+   "write_kinds": [
+    "replace"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "results/_r1003bmc_w241_prereg_derive.py"
+   ],
+   "writer_site_count": 1,
+   "writer_sites": [
+    {
+     "face": "results/_r1003bmc_w241_prereg_derive.py",
+     "how": "literal",
+     "kind": "replace",
+     "line": 452,
+     "literal_head": "results/perpetual_faces/n1_w241_results.json`（finalize 合并件",
+     "mode": "",
+     "resolved_path": "results/perpetual_faces/n1_w241_results.json`（finalize 合并件"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/sentiment_axes",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -17.669,
+   "members_in_the_base": 1,
+   "newest_member": "results/sentiment_axes/axes_full_history.json",
+   "newest_member_ts": "2026-10-17T09:08:54",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "open": 1
+   },
+   "write_kinds": [
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/sentiment_axes_derive.py"
+   ],
+   "writer_site_count": 1,
+   "writer_sites": [
+    {
+     "face": "scripts/sentiment_axes_derive.py",
+     "how": "constant:tmp",
+     "kind": "open",
+     "line": 140,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/sentiment_axes/_selftest_tmp.json"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/shortline",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 78,
+   "newest_member": "results/shortline/xstock_z_manifest.json",
+   "newest_member_ts": "2026-10-17T09:08:54",
+   "suffix_evidence_write_site_count": 5,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "scripts/p5c_virtual_timepoint.py",
+     "how": "constant:d",
+     "kind": "makedirs",
+     "line": 273,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?shortline/p5c_checkpoint/leg"
+    },
+    {
+     "face": "scripts/p5c_virtual_timepoint.py",
+     "how": "constant:RES_O1600",
+     "kind": "open",
+     "line": 455,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?shortline/o1600_market_fit.json"
+    },
+    {
+     "face": "scripts/p5c_virtual_timepoint.py",
+     "how": "constant:OUT_JSON",
+     "kind": "open",
+     "line": 908,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?shortline/p5c_virtual_timepoint.json"
+    },
+    {
+     "face": "scripts/science_gates.py",
+     "how": "dirname(constant:_np_file)",
+     "kind": "makedirs",
+     "line": 3130,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?shortline"
+    },
+    {
+     "face": "scripts/science_gates.py",
+     "how": "constant:_np_file",
+     "kind": "open",
+     "line": 3134,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "?shortline/t18_deep_nulls.json"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 31,
+    "open": 40,
+    "replace": 10
+   },
+   "write_kinds": [
+    "makedirs",
+    "open",
+    "replace"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/a158_truegap_ic.py",
+    "scripts/ah_face_probe.py",
+    "scripts/ah_synth_validate.py",
+    "scripts/build_premium_panel.py",
+    "scripts/cb_face_probe.py",
+    "scripts/fund_premium_probe.py",
+    "scripts/futures_source_probe.py",
+    "scripts/hsgt_source_probe.py",
+    "scripts/interest_rate_face_probe.py",
+    "scripts/lof_census.py",
+    "scripts/moneyflow_source_probe.py",
+    "scripts/o1600_market_fit.py",
+    "scripts/og1_overnight_ic.py",
+    "scripts/omo_liquidity_probe.py",
+    "scripts/p1c_stage_b_probe.py",
+    "scripts/p1c_stock_ic_batch.py",
+    "scripts/p1c_turnover_derive.py",
+    "scripts/p1d_ext_slots_ic.py",
+    "scripts/p1d_gdhs_quarterly.py",
+    "scripts/pa1_premium_ic.py",
+    "scripts/pa1e_premium_event.py",
+    "scripts/pa2_lhb_synth.py",
+    "scripts/pa_lhb_ic.py",
+    "scripts/pa_seat_source_probe.py",
+    "scripts/pb_synth.py"
+   ],
+   "writer_site_count": 81,
+   "writer_sites": [
+    {
+     "face": "scripts/a158_truegap_ic.py",
+     "how": "constant:PARTIAL_DIR",
+     "kind": "makedirs",
+     "line": 467,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline/a158_partial"
+    },
+    {
+     "face": "scripts/a158_truegap_ic.py",
+     "how": "constant:ck_path",
+     "kind": "open",
+     "line": 327,
+     "literal_head": null,
+     "mode": "write_mode:a",
+     "resolved_path": "results/shortline/a158_nulls_runs.jsonl"
+    },
+    {
+     "face": "scripts/a158_truegap_ic.py",
+     "how": "constant:NULLS_JSON",
+     "kind": "open",
+     "line": 361,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/shortline/a158_nulls.json"
+    },
+    {
+     "face": "scripts/a158_truegap_ic.py",
+     "how": "constant:RESULT_JSON",
+     "kind": "open",
+     "line": 655,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/shortline/a158_truegap_ic.json"
+    },
+    {
+     "face": "scripts/a158_truegap_ic.py",
+     "how": "constant:GATES_JSON",
+     "kind": "open",
+     "line": 439,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/shortline/a158_gates.json"
+    },
+    {
+     "face": "scripts/ah_face_probe.py",
+     "how": "constant:RESULTS_DIR",
+     "kind": "makedirs",
+     "line": 247,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline"
+    },
+    {
+     "face": "scripts/ah_face_probe.py",
+     "how": "constant:OUT_PATH",
+     "kind": "replace",
+     "line": 251,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline/ah_face_probes.json"
+    },
+    {
+     "face": "scripts/ah_synth_validate.py",
+     "how": "constant:OUT",
+     "kind": "open",
+     "line": 201,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/shortline/ah_synth_validate_02318.json"
+    },
+    {
+     "face": "scripts/build_premium_panel.py",
+     "how": "dirname(constant:SUMMARY_PATH)",
+     "kind": "makedirs",
+     "line": 427,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline"
+    },
+    {
+     "face": "scripts/build_premium_panel.py",
+     "how": "constant:SUMMARY_PATH",
+     "kind": "replace",
+     "line": 431,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline/fund_premium_panel.json"
+    },
+    {
+     "face": "scripts/cb_face_probe.py",
+     "how": "constant:RESULTS_DIR",
+     "kind": "makedirs",
+     "line": 285,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline"
+    },
+    {
+     "face": "scripts/cb_face_probe.py",
+     "how": "constant:OUT_PATH",
+     "kind": "replace",
+     "line": 289,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline/cb_face_probes.json"
+    },
+    {
+     "face": "scripts/fund_premium_probe.py",
+     "how": "constant:RESULTS_DIR",
+     "kind": "makedirs",
+     "line": 310,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline"
+    },
+    {
+     "face": "scripts/fund_premium_probe.py",
+     "how": "constant:OUT_PATH",
+     "kind": "replace",
+     "line": 314,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline/fund_premium_probe.json"
+    },
+    {
+     "face": "scripts/futures_source_probe.py",
+     "how": "dirname(constant:OUT)",
+     "kind": "makedirs",
+     "line": 122,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline"
+    },
+    {
+     "face": "scripts/futures_source_probe.py",
+     "how": "constant:OUT",
+     "kind": "open",
+     "line": 123,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/shortline/futures_source_probe.json"
+    },
+    {
+     "face": "scripts/hsgt_source_probe.py",
+     "how": "dirname(constant:OUT)",
+     "kind": "makedirs",
+     "line": 182,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline"
+    },
+    {
+     "face": "scripts/hsgt_source_probe.py",
+     "how": "constant:OUT",
+     "kind": "open",
+     "line": 183,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/shortline/hsgt_source_probe.json"
+    },
+    {
+     "face": "scripts/interest_rate_face_probe.py",
+     "how": "dirname(constant:OUT)",
+     "kind": "makedirs",
+     "line": 248,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline"
+    },
+    {
+     "face": "scripts/interest_rate_face_probe.py",
+     "how": "constant:OUT",
+     "kind": "open",
+     "line": 249,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/shortline/interest_rate_face_probe.json"
+    },
+    {
+     "face": "scripts/lof_census.py",
+     "how": "constant:RESULTS_DIR",
+     "kind": "makedirs",
+     "line": 400,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline"
+    },
+    {
+     "face": "scripts/lof_census.py",
+     "how": "constant:OUT_PATH",
+     "kind": "replace",
+     "line": 404,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline/lof_census.json"
+    },
+    {
+     "face": "scripts/moneyflow_source_probe.py",
+     "how": "dirname(constant:OUT)",
+     "kind": "makedirs",
+     "line": 143,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline"
+    },
+    {
+     "face": "scripts/moneyflow_source_probe.py",
+     "how": "constant:OUT",
+     "kind": "replace",
+     "line": 147,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline/moneyflow_source_probe.json"
+    },
+    {
+     "face": "scripts/moneyflow_source_probe.py",
+     "how": "constant:path",
+     "kind": "replace",
+     "line": 235,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/shortline/moneyflow_source_probe2.json"
+    }
+   ],
+   "writer_sites_truncated": 56
+  },
+  {
+   "base": "results/stock_face_furnace",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 5,
+   "newest_member": "results/stock_face_furnace/rev_summary.json",
+   "newest_member_ts": "2026-10-17T09:08:54",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 2,
+    "open": 2
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "results/_r509bmb_furnace_ledger_append.py",
+    "scripts/stock_face_furnace.py"
+   ],
+   "writer_site_count": 4,
+   "writer_sites": [
+    {
+     "face": "results/_r509bmb_furnace_ledger_append.py",
+     "how": "constant:SP",
+     "kind": "open",
+     "line": 38,
+     "literal_head": null,
+     "mode": "write_mode:wb",
+     "resolved_path": "results/stock_face_furnace/mom_summary.json"
+    },
+    {
+     "face": "scripts/stock_face_furnace.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 634,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/stock_face_furnace"
+    },
+    {
+     "face": "scripts/stock_face_furnace.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 976,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/stock_face_furnace"
+    },
+    {
+     "face": "scripts/stock_face_furnace.py",
+     "how": "constant:guard",
+     "kind": "open",
+     "line": 848,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/stock_face_furnace/.ledger_appended"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/t56_caliber_registry",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 1,
+   "newest_member": "results/t56_caliber_registry/_manifest.json",
+   "newest_member_ts": "2026-10-17T09:08:55",
+   "suffix_evidence_write_site_count": 0,
+   "suffix_evidence_write_sites": [],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "no_writer_in_the_corpus",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/wild_route",
+   "carriers": 2,
+   "contains_another_published_base": true,
+   "max_days_from_a_carrier_to_the_newest_member": -18.638,
+   "members_in_the_base": 3,
+   "newest_member": "results/wild_route/wild_route_s1.json",
+   "newest_member_ts": "2026-10-17T09:08:58",
+   "suffix_evidence_write_site_count": 2,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "scripts/strategy_scorecard.py",
+     "how": "join_suffix(bare_name:td)",
+     "kind": "makedirs",
+     "line": 1778,
+     "literal_head": "wild_route",
+     "mode": "",
+     "resolved_path": "?wild_route"
+    },
+    {
+     "face": "scripts/strategy_scorecard.py",
+     "how": "join_suffix(bare_name:td)",
+     "kind": "open",
+     "line": 1779,
+     "literal_head": "wild_route",
+     "mode": "write_mode:w",
+     "resolved_path": "?wild_route/wild_route_s1.json"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 2,
+    "open": 8
+   },
+   "write_kinds": [
+    "makedirs",
+    "open"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/wild_route_lab.py",
+    "scripts/wild_route_probe.py"
+   ],
+   "writer_site_count": 10,
+   "writer_sites": [
+    {
+     "face": "scripts/wild_route_lab.py",
+     "how": "constant:CELL_DIR",
+     "kind": "makedirs",
+     "line": 808,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/wild_route/cells"
+    },
+    {
+     "face": "scripts/wild_route_lab.py",
+     "how": "join(constant:OUT_DIR,fstring_head)",
+     "kind": "open",
+     "line": 801,
+     "literal_head": "run_meta-",
+     "mode": "write_mode:w",
+     "resolved_path": "results/wild_route/run_meta-"
+    },
+    {
+     "face": "scripts/wild_route_lab.py",
+     "how": "constant:ck_path",
+     "kind": "open",
+     "line": 866,
+     "literal_head": null,
+     "mode": "write_mode:a",
+     "resolved_path": "results/wild_route/checkpoint-"
+    },
+    {
+     "face": "scripts/wild_route_lab.py",
+     "how": "constant:NULLS_JSON",
+     "kind": "open",
+     "line": 973,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/wild_route/wild_route_s1_nulls.json"
+    },
+    {
+     "face": "scripts/wild_route_lab.py",
+     "how": "constant:RESULT_JSON",
+     "kind": "open",
+     "line": 1123,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/wild_route/wild_route_s1.json"
+    },
+    {
+     "face": "scripts/wild_route_lab.py",
+     "how": "join(constant:OUT_DIR,literal)",
+     "kind": "open",
+     "line": 1127,
+     "literal_head": "wild_route_s1_primaries.csv",
+     "mode": "write_mode:w",
+     "resolved_path": "results/wild_route/wild_route_s1_primaries.csv"
+    },
+    {
+     "face": "scripts/wild_route_lab.py",
+     "how": "constant:ck_path",
+     "kind": "open",
+     "line": 850,
+     "literal_head": null,
+     "mode": "write_mode:a",
+     "resolved_path": "results/wild_route/checkpoint-"
+    },
+    {
+     "face": "scripts/wild_route_lab.py",
+     "how": "constant:NULLS_JSON",
+     "kind": "open",
+     "line": 950,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/wild_route/wild_route_s1_nulls.json"
+    },
+    {
+     "face": "scripts/wild_route_probe.py",
+     "how": "constant:OUT_DIR",
+     "kind": "makedirs",
+     "line": 259,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/wild_route"
+    },
+    {
+     "face": "scripts/wild_route_probe.py",
+     "how": "constant:OUT",
+     "kind": "open",
+     "line": 260,
+     "literal_head": null,
+     "mode": "write_mode:w",
+     "resolved_path": "results/wild_route/wild_route_probe.json"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/wild_route/cells",
+   "carriers": 2,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -17.669,
+   "members_in_the_base": 1569,
+   "newest_member": "results/wild_route/cells/P12c_gene_k2_vol18_limup60_W_full_x2.json",
+   "newest_member_ts": "2026-10-17T09:08:58",
+   "suffix_evidence_write_site_count": 1,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "scripts/alloc_backtest.py",
+     "how": "constant:CELLS_DIR",
+     "kind": "makedirs",
+     "line": 441,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?cells"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {
+    "makedirs": 1
+   },
+   "write_kinds": [
+    "makedirs"
+   ],
+   "writer_class": "has_a_writer_that_has_not_run",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [
+    "scripts/wild_route_lab.py"
+   ],
+   "writer_site_count": 1,
+   "writer_sites": [
+    {
+     "face": "scripts/wild_route_lab.py",
+     "how": "constant:CELL_DIR",
+     "kind": "makedirs",
+     "line": 808,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "results/wild_route/cells"
+    }
+   ],
+   "writer_sites_truncated": 0
+  },
+  {
+   "base": "results/g25",
+   "carriers": 1,
+   "contains_another_published_base": false,
+   "max_days_from_a_carrier_to_the_newest_member": -0.0,
+   "members_in_the_base": 7,
+   "newest_member": "results/g25/_summary.json",
+   "newest_member_ts": "2026-10-17T09:08:46",
+   "suffix_evidence_write_site_count": 4,
+   "suffix_evidence_write_sites": [
+    {
+     "face": "scripts/g25_retro.py",
+     "how": "constant:G25_DIR",
+     "kind": "makedirs",
+     "line": 304,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results/g25"
+    },
+    {
+     "face": "scripts/g25_retro.py",
+     "how": "join(constant:G25_DIR,literal)",
+     "kind": "replace",
+     "line": 402,
+     "literal_head": "_summary.json",
+     "mode": "",
+     "resolved_path": "?results/g25/_summary.json"
+    },
+    {
+     "face": "scripts/g25_retro.py",
+     "how": "constant:G25_DIR",
+     "kind": "makedirs",
+     "line": 435,
+     "literal_head": null,
+     "mode": "",
+     "resolved_path": "?results/g25"
+    },
+    {
+     "face": "scripts/g25_retro.py",
+     "how": "join(constant:G25_DIR,literal)",
+     "kind": "open",
+     "line": 392,
+     "literal_head": "_summary.json.tmp",
+     "mode": "write_mode:w",
+     "resolved_path": "?results/g25/_summary.json.tmp"
+    }
+   ],
+   "unresolved_write_sites_naming_the_base": [],
+   "write_kind_counts": {},
+   "write_kinds": [],
+   "writer_class": "no_writer_in_the_corpus",
+   "writer_class_with_suffix_evidence": "has_a_writer_that_has_not_run",
+   "writer_faces": [],
+   "writer_site_count": 0,
+   "writer_sites": [],
+   "writer_sites_truncated": 0
+  }
+ ],
+ "study": "E446_which_frozen_face_home_base_has_no_writer_in_the_corpus",
+ "summary": {
+  "ancestor_bases": [
+   "results",
+   "results/wild_route"
+  ],
+  "bases_that_only_a_suffix_reading_reaches": 7,
+  "bases_with_a_writer": 28,
+  "bases_with_a_writer_excluding_ancestor_bases": 26,
+  "bases_with_a_writer_including_suffix_evidence": 35,
+  "bases_without_a_writer": 23,
+  "bases_without_a_writer_even_with_suffix_evidence": 16,
+  "bases_without_a_writer_excluding_ancestor_bases": 23,
+  "corpus": {
+   "max_bytes_per_file": 2097152,
+   "parse_errors": 233,
+   "python_files_walked": 12131,
+   "skipped_dir_names": [
+    ".codely-cli",
+    ".git",
+    "Money02",
+    "__pycache__",
+    "_quarantine",
+    "_smoke",
+    "legacy",
+    "node_modules"
+   ],
+   "skipped_over_max_bytes": 2,
+   "total_write_sites": 31152,
+   "write_sites_with_a_resolved_path": 22325
+  },
+  "distance_check": {
+   "agrees": true,
+   "e441_directories_published": 72,
+   "e441_frozen_published": 51,
+   "e441_live_published": 21,
+   "reading": "the population is read from E441's own summary; a base that changed class between E441 and this reading shows up as agree=false rather than being silently re-graded",
+   "recomputed_frozen_population": 51
+  },
+  "distinct_writer_faces_on_frozen_bases": 74,
+  "frozen_bases": 51,
+  "frozen_bases_excluding_ancestor_bases": 49,
+  "suffix_evidence_write_sites_on_frozen_bases": 334,
+  "unresolved_write_sites_naming_a_frozen_base": 22,
+  "writer_sites_by_kind": {
+   "copy2": 1,
+   "copyfile": 9,
+   "makedirs": 435,
+   "open": 5367,
+   "rename": 1,
+   "replace": 133,
+   "to_csv": 14,
+   "to_parquet": 3,
+   "write_text": 9
+  },
+  "writer_sites_excluding_ancestor_bases": 213,
+  "writer_sites_on_frozen_bases": 5972
+ },
+ "title": "for each face-home base E441 published as frozen, search the corpus for a write site whose target statically resolves into that base, and publish per base whether a writer exists, where it is, and whether the base is dormant or abandoned",
+ "verdict": "some_frozen_bases_have_a_write_site_and_some_have_none_so_dormant_and_abandoned_are_different_bases",
+ "verdict_excluding_ancestor_bases": "some_frozen_bases_have_a_write_site_and_some_have_none_so_dormant_and_abandoned_are_different_bases",
+ "writer_class_vocab": [
+  "has_a_writer_that_has_not_run",
+  "no_writer_in_the_corpus"
+ ]
+}

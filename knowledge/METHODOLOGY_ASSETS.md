@@ -10890,3 +10890,44 @@ Face: `results/state_tilt/facehometarget_latest.json` (`FACEHOMETARGET-<cutoff>.
 `rows_where_the_target_exists_but_the_join_misses_it` = 36); producer
 `scripts/e445_facehome_target.py` (selftest 24/24, verify problems=[]); S6 leg `face_home_target`
 (rc=0); smoke leg `e445 face-home target`.
+
+
+### E446 --- a frozen face-home base is dormant or abandoned (r1463 bm-b)
+
+E441 published 51 face-home bases as `frozen`, which measured one thing only: no member of the
+base has an mtime later than the carrier naming it. The word invites a second claim it never made
+-- that nothing will ever write there again. Ask it directly: does the corpus hold a write site
+whose target resolves into the base?
+
+```text
+51 frozen bases -> 28 with a resolving write site (dormant), 23 with none (abandoned)
+                -> 7 more reachable only through a literal tail (head unfollowable)
+                -> 16 still without a writer once that evidence is allowed
+```
+
+Three things it cost, each now mechanical:
+
+* **a read is not a writer, and that is the whole measurement** -- the discrimination lives
+  entirely in the mode argument and the sink name (`open(..., "w")`, `mkdir`, `to_parquet`,
+  `write_text`, copy/rename destination). 31,152 write-shaped calls over 12,131 walked files is
+  the population that survives it; without it every base would have had a writer;
+* **a resolver must speak the repository's own idiom** --
+  `OUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results",
+  "etf_book_production")` is how most constants here are written, and a resolver that cannot read
+  it measures its own ignorance: 7 bases left the abandoned set once
+  `__file__`/`dirname`/`abspath` and the literal-tail reading were taught;
+* **a base that contains another base cannot be abandoned** -- `results` is one of the 51 frozen
+  bases and inherits 6,291 sites from the 49 bases inside it, so the population excluding ancestor
+  bases is published beside the full one and both verdicts are printed.
+
+The abandoned set splits the way the question wanted: the three rollback/backup directories
+(`_r753bmc_churn_backup`, `_r903bmc_ff_backup`, `_r1024bma_rollback_side`) *should* have no
+writer, while `results/etf_book_production`, `results/etf_book_order`, `results/m6_regime5`,
+`results/t23_census`, `results/e79` and `results/g25` are production directories whose consumer
+would read a file no code in this tree can ever create again.
+
+Face: `results/state_tilt/frozenwriter_latest.json` (`FROZENWRITER-<cutoff>.json`), verdict
+`some_frozen_bases_have_a_write_site_and_some_have_none_so_dormant_and_abandoned_are_different_bases`;
+producer `scripts/e446_frozen_writer.py` (selftest 31/31, verify problems=[]); S6 leg
+`frozen_writer`; smoke leg `e446 frozen base writer`. Digest
+`research/digests/DIGEST-20261106-r1463-e446-frozen-base-writer.md`.

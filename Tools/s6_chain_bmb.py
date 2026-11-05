@@ -1574,6 +1574,12 @@ LEGS = [
     # candidate from the live tree, so a face whose target has since appeared (or vanished)
     # refuses the chain instead of republishing the old class.  Read-only.
     ("face_home_target", ["python", "scripts/e445_facehome_target.py", "verify"]),
+    # E446 (r1463): E441 called 51 bases "frozen" and stopped at the mtime of the directory, which
+    # says nothing about whether any code would ever write there again.  Verify re-derives the
+    # dormant/abandoned class of every frozen base from its own writer sites and the live corpus,
+    # so a base that gained a writer (or lost its last one) refuses the chain instead of
+    # republishing the old class.  Read-only; cost is one AST walk of the corpus (~25s).
+    ("frozen_writer", ["python", "scripts/e446_frozen_writer.py", "verify"]),
     # E435 (r1458): E423 priced where a directory-named field points but never asked whether the
     # value is itself the name of a published face.  Verify re-derives the three value classes over
     # the live tree and refuses a published join whose target no longer resolves, so a face holding

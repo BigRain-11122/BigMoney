@@ -27882,11 +27882,28 @@
    "lane": "cpu-only",
    "lane_note": "static AST scan of the corpus; nothing is run and nothing is written outside results/",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E441 (r1461 bm-b) + E445 (r1462 bm-b): 51 frozen bases were graded by mtime only, and E445 showed the live ones were graded by a composition that never lands",
    "entered_at": "2026-11-05T23:2x+08:00",
-   "entered_by": "bm-b r1462 (supply floor refill after E445)"
+   "entered_by": "bm-b r1462 (supply floor refill after E445)",
+   "done_by": "bm-b",
+   "done_at": "2026-11-06T01:2x+08:00",
+   "result_ref": "results/state_tilt/frozenwriter_latest.json + FROZENWRITER-2026-11-06.json + scripts/e446_frozen_writer.py (selftest 31/31, verify problems=[])"
+  },
+  {
+   "id": "E447-WHICH-ABANDONED-BASE-IS-STILL-NAMED-BY-A-LIVE-READER",
+   "title": "E446 split the 51 frozen face-home bases into 28 dormant and 23 abandoned, and the split is only useful if the abandoned ones are harmless. A base with no writer is correct when it holds the artifacts of a surgical push and wrong when a reader under it is still launched. Ask, for each abandoned base, whether a published reader or a smoke/S6 leg would open a file there",
+   "question": "For each base E446 published as no_writer_in_the_corpus, find every read site whose path resolves into that base (the mirror of E446's write scan), and publish per base the readers, whether any of them is a live consumer (a script, a chain leg, or a smoke leg) rather than a face-writing census, and the resulting class (abandoned_and_unread / abandoned_but_still_read / abandoned_and_only_a_backup). Re-derive every count from the rows and name the corpus walk and its exclusions",
+   "deliverable": "results/state_tilt/ABANDONEDREAD-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST scan of the corpus; nothing is run and nothing outside results/ is written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E446 (r1463 bm-b): 23 of 51 frozen bases have no write site in the corpus, and 3 of them are rollback/backup dirs that are supposed to have none",
+   "entered_at": "2026-11-06T01:2x+08:00",
+   "entered_by": "bm-b r1463 (supply floor refill after E446)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27901,6 +27918,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-05T20:2x+08:00",
+ "updated_at": "2026-11-06T01:2x+08:00",
  "version": 1
 }

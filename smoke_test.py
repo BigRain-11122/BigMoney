@@ -16962,6 +16962,64 @@ check(_name445, not _bad445, "; ".join(_bad445)[:240]
          _by445.get(_m445.T_NEW, 0), _s445.get("rows_where_the_composition_repeats_the_base", 0)))
 
 
+# E446 (r1463 bm-b): E441 published 51 frozen face-home bases, where frozen only means no member
+# was written after the carrier.  That silence is either DORMANT (a writer exists in the corpus and
+# simply has not run) or ABANDONED (no code in this repo would ever write there again).  This leg
+# refuses (a) a class that does not re-derive from the study's own writer sites, (b) a published
+# site count that is not the site list length, (c) summary counters that do not re-derive from the
+# rows, (d) a verdict that does not re-derive from the rows, (e) a suffix reading counted as a full
+# path or the reverse, and (f) a population that no longer matches the frozen set E441 published
+# without saying so.
+_name446 = "e446 frozen base writer (r1463 bm-b)"
+_bad446 = []
+try:
+    _m446 = __import__("importlib").import_module("e446_frozen_writer")
+    _f446 = json.load(open(os.path.join("results", "state_tilt", "frozenwriter_latest.json"),
+                           encoding="utf-8"))
+    _s446 = _f446.get("summary") or {}
+    _rows446 = _f446.get("rows") or []
+    _bad446.extend(_m446.tally_problems(_f446))
+    if _f446.get("verdict") not in _m446.VERDICT_VOCAB:
+        _bad446.append("verdict outside the frozen vocabulary")
+    if _f446.get("verdict") != _m446.verdict_for(_rows446):
+        _bad446.append("the verdict does not re-derive from the rows")
+    if _s446.get("frozen_bases") != len(_rows446):
+        _bad446.append("the frozen population does not match the row count")
+    if not (_s446.get("distance_check") or {}).get("agrees"):
+        _bad446.append("the population no longer matches the frozen set E441 published")
+    if (_s446.get("bases_with_a_writer", 0)
+            + _s446.get("bases_without_a_writer", 0)) != len(_rows446):
+        _bad446.append("the writer class table does not add up to the rows")
+    for _r446 in _rows446:
+        if _r446.get("writer_class") not in _m446.WRITER_CLASSES:
+            _bad446.append("%s class outside the vocabulary" % _r446.get("base"))
+            break
+        if [x for x in (_r446.get("suffix_evidence_write_sites") or [])
+                if not str(x.get("resolved_path")).startswith("?")]:
+            _bad446.append("%s counts a full path as suffix evidence" % _r446.get("base"))
+            break
+        if [x for x in (_r446.get("writer_sites") or [])
+                if str(x.get("resolved_path")).startswith("?")]:
+            _bad446.append("%s counts a suffix reading as a full-path writer"
+                           % _r446.get("base"))
+            break
+    if (_s446.get("bases_that_only_a_suffix_reading_reaches", 0)
+            != sum(1 for r in _rows446
+                   if r.get("writer_class_with_suffix_evidence") == _m446.W_WRITER
+                   and r.get("writer_class") == _m446.W_NONE)):
+        _bad446.append("the suffix-only count does not re-derive from the rows")
+except Exception as _e446:  # noqa: BLE001
+    _bad446.append("leg crashed: %s" % _e446)
+check(_name446, not _bad446, "; ".join(_bad446)[:240]
+      or "%d frozen bases: %d have a writer, %d none (%d only via a suffix reading); "
+         "%d write sites over %d corpus files"
+      % (_s446.get("frozen_bases", 0), _s446.get("bases_with_a_writer", 0),
+         _s446.get("bases_without_a_writer", 0),
+         _s446.get("bases_that_only_a_suffix_reading_reaches", 0),
+         _s446.get("writer_sites_on_frozen_bases", 0),
+         (_s446.get("corpus") or {}).get("python_files_walked", 0)))
+
+
 # E440 (r1460 bm-b): E439 called the 24,911 rows it dropped "overstated" -- a claim, not a
 # reading.  A dropped row can be a method call that shares the wrapper's name, or a bare call to a
 # name several modules define.  This leg reads the two-axis face and refuses (a) a class that does
