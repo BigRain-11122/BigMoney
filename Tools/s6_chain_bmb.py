@@ -1521,6 +1521,13 @@ LEGS = [
     # rows no longer a live site still equal the population E428 published, so a fixture helper
     # that moves or disappears refuses the chain instead of leaving a stale tally.
     ("fixture_write", ["python", "scripts/e432_fixture_write.py", "verify"]),
+    # E434 (r1455): E428 counted "fixture-shaped" over the 35 rows its narrow index could not
+    # place, not over the 310 parameter-directory write sites it scanned. Verify re-counts the
+    # whole population with the same heuristic, re-prices the sites outside the already-published
+    # rows (the priced set is the union of E428's and E432's faces, read not guessed), and
+    # re-checks that inside + outside still equals the total, so a total that drifts back to a
+    # statement about 35 rows refuses the chain.
+    ("fixture_beyond", ["python", "scripts/e434_fixture_beyond.py", "verify"]),
     # E427 (r1451): E426 published 2,818 templates as "inside a function that opens a file" and
     # stopped at location. Verify re-derives the state table over the live corpus (the scanner's own
     # AST walk plus E426's collector for the unfiltered base) and re-checks that the state table,

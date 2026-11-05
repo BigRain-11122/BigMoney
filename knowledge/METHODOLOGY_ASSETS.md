@@ -10516,3 +10516,36 @@ detector would make the two faces unreadable); face `REPUBLISHCHAIN-2026-11-03.j
 (1/1 green, 1/1 red on a doctored double-ready count, face restored byte-identical
 `595c19613dcd4be9`); S6 leg `republication_chain` (rc=0, 0.5 s); digest
 `research/digests/DIGEST-20261105-r1453-e433-republication-chain.md`.
+
+### E434 -- the fixture-shaped population is 30 of 310 parameter-directory write sites, not 21, and the nine outside the published rows all land in a temp or a runtime directory (r1455 bm-b)
+
+E428 counted `fixture_shaped` over the 35 rows its narrow index could not place, then published
+the sentence "21 fixture-shaped parameter-directory write sites among its 310". That reads like a
+statement about the 310 and is a statement about 35. E432 priced the 21; nobody had asked how many
+of the other 289 are fixture-shaped.
+
+**Measured.** Same heuristic (E428's own name test, imported not re-cut) applied to every
+parameter-directory write site the scan finds: **310 sites -> 30 fixture-shaped**, of which 21 sit
+inside the rows E428 could not place and **9 outside**. Those nine priced with E432's instrument
+(imported, not re-written): 6 take a temp directory, 3 take a runtime name, **0 spell a repository
+directory**, so no reader can open what they write; 2 share a file name with a reader but only as
+a name (a temp write cannot be the file that reader opens). **5 of the 9 are reached from a
+production caller** -- which is why "fixture-shaped" is a name class and not a verdict: a
+production-reached helper called `_fixture` in Tools/heartbeat_write.py still writes into a temp
+directory. Verdict, recomputed by the gate:
+`the_fixture_shaped_sites_outside_the_unplaced_rows_all_take_a_temp_or_a_runtime_directory_and_no_reader_opens_what_they_write`.
+
+**Three rules.** (a) *A count is only a population statement if it was taken over the population*:
+the published sentence bundled a row-universe count with a 310-site universe, a factor of 10.33,
+and every downstream reader would have inherited it. (b) *The priced set must be a union read from
+both upstream faces* -- E432's rows plus E428's own fixture rows by (file, function, line); a row
+E432 dropped stays on the priced side instead of reappearing as newly found, and a hand-written
+list of 21 would have drifted the first time a helper moved. (c) *A name class is not a reach
+class*: pricing these sites means asking where the caller points the directory and who calls it,
+because 5 of the 9 are production-reached and 0 of them can be opened.
+
+**Delivered.** `scripts/e434_fixture_beyond.py` (selftest 12/12, verify problems=0, build 125 s);
+face `FIXTUREBEYOND-2026-11-04.json` + `fixturebeyond_latest.json`; smoke leg
+`# E434 (r1455 bm-b)` with `scripts/run_e434_smoke_leg.py` (1/1 green, 1/1 red on a doctored
+fixture-shaped total, face restored byte-identical `67e59556d790c4e3`); S6 leg `fixture_beyond`;
+digest `research/digests/DIGEST-20261105-r1455-e434-fixture-beyond.md`.

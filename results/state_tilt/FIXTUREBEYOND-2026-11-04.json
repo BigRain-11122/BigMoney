@@ -1,0 +1,497 @@
+{
+ "card": "E434-WHICH-PARAMETER-SITE-OUTSIDE-E428-UNPLACED-SET-IS-FIXTURE-SHAPED",
+ "class_vocab": [
+  "temp",
+  "repo_relative",
+  "runtime_constant",
+  "never_supplied"
+ ],
+ "evidence_cutoff": "2026-11-04",
+ "generated": "2026-11-05",
+ "method_limits": [
+  "the heuristic is E428's own name test (function or path contains fixture/_mk/_stub/_toy/write_fixture/_panel/_save); it is deliberately the same instrument, so this study measures the population the sentence was about and does not re-cut the class",
+  "directory_class and the reader test are E432's, imported rather than re-written: a runtime_constant is 'the caller passes a name', not 'the directory is unknown'",
+  "reader detection matches a composed name as a whole path segment; a reader that builds the same name from parts does not match, so R_NO_READER means 'no reader spells this name'",
+  "E428's own fixture rows are unioned with E432's published rows when deciding what is already priced, so a row that E432 dropped stays on the priced side and is not counted twice"
+ ],
+ "population_keys": [
+  "corpus_sources",
+  "parameter_write_sites"
+ ],
+ "reach_vocab": [
+  "reached_from_a_production_caller",
+  "reached_only_from_a_selftest_caller",
+  "no_python_caller_in_the_corpus"
+ ],
+ "reader_vocab": [
+  "a_reader_in_the_corpus_opens_the_composed_name",
+  "no_reader_in_the_corpus_opens_the_composed_name"
+ ],
+ "rows": [
+  {
+   "caller_sites": [
+    {
+     "arg": "[5]",
+     "caller": "cmd_selftest",
+     "file": "Tools/lane_round_liveness.py",
+     "line": 368
+    },
+    {
+     "arg": "[0, 200, 400, 60 * 24 * 9]",
+     "caller": "cmd_selftest",
+     "file": "Tools/lane_round_liveness.py",
+     "line": 353
+    },
+    {
+     "arg": "[120, 130]",
+     "caller": "cmd_selftest",
+     "file": "Tools/lane_round_liveness.py",
+     "line": 345
+    },
+    {
+     "arg": "[600, 610]",
+     "caller": "cmd_selftest",
+     "file": "Tools/lane_round_liveness.py",
+     "line": 340
+    }
+   ],
+   "class": "runtime_constant",
+   "composed_names": [],
+   "file": "scripts/e388_schema_accretion.py",
+   "function": "_fixture",
+   "line": 469,
+   "parameters": [
+    "basename"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "tmp",
+     "caller": "selftest",
+     "file": "scripts/options_iv_freeze_counter.py",
+     "line": 261
+    },
+    {
+     "arg": "tmp",
+     "caller": "selftest",
+     "file": "scripts/options_iv_freeze_counter.py",
+     "line": 253
+    },
+    {
+     "arg": "tmp",
+     "caller": "selftest",
+     "file": "scripts/options_iv_freeze_counter.py",
+     "line": 236
+    }
+   ],
+   "class": "runtime_constant",
+   "composed_names": [],
+   "file": "scripts/options_iv_freeze_counter.py",
+   "function": "_mk_archive",
+   "line": 205,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(os.path.join(td, \"per\"), \"600100.csv\")",
+     "caller": "_selftest",
+     "file": "scripts/sina_mf_accept.py",
+     "line": 396
+    },
+    {
+     "arg": "os.path.join(os.path.join(td, \"per\"), \"600002.csv\")",
+     "caller": "_selftest",
+     "file": "scripts/sina_mf_accept.py",
+     "line": 372
+    },
+    {
+     "arg": "os.path.join(os.path.join(td, \"per\"), \"300001.csv\")",
+     "caller": "_selftest",
+     "file": "scripts/sina_mf_accept.py",
+     "line": 370
+    },
+    {
+     "arg": "os.path.join(os.path.join(td, \"per\"), \"000001.csv\")",
+     "caller": "_selftest",
+     "file": "scripts/sina_mf_accept.py",
+     "line": 367
+    }
+   ],
+   "class": "runtime_constant",
+   "composed_names": [],
+   "file": "scripts/sina_mf_accept.py",
+   "function": "_write_panel_rows",
+   "line": 335,
+   "parameters": [
+    "path"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 499
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 475
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 456
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 436
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "machine.json",
+    "state-bm-a.json"
+   ],
+   "file": "Tools/heartbeat_write.py",
+   "function": "_fixture",
+   "line": 324,
+   "parameters": [
+    "root"
+   ],
+   "production_callers": 1,
+   "reachable": "reached_from_a_production_caller",
+   "reader": "a_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [
+    {
+     "arg": "open(\"state-bm-a.json\", encoding=\"utf-8\")",
+     "call": "load",
+     "file": "Tools/_r409bma_closeout.py"
+    },
+    {
+     "arg": "open(\"state-bm-a.json\", encoding=\"utf-8\")",
+     "call": "load",
+     "file": "Tools/_r409bma_closeout.py"
+    },
+    {
+     "arg": "os.path.join(ROOT, \"fleet\", \"machine.json\")",
+     "call": "read_json",
+     "file": "Tools/lane_round_liveness.py"
+    },
+    {
+     "arg": "os.path.join(ROOT, \"fleet\", \"machine.json\")",
+     "call": "read_json",
+     "file": "Tools/lane_round_liveness.py"
+    },
+    {
+     "arg": "open(os.path.join(ROOT, \"fleet\", \"machine.json\"),                               encoding=\"utf-8\")",
+     "call": "load",
+     "file": "scripts/alphagen_rg_census.py"
+    },
+    {
+     "arg": "open(os.path.join(ROOT, \"fleet\", \"machine.json\"),                               encoding=\"utf-8-sig\")",
+     "call": "load",
+     "file": "scripts/cn_core_sat_p1.py"
+    }
+   ],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 499
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 475
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 456
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 436
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "round_reports.md"
+   ],
+   "file": "Tools/lane_round_liveness.py",
+   "function": "_fixture",
+   "line": 289,
+   "parameters": [
+    "tmp",
+    "machine"
+   ],
+   "production_callers": 1,
+   "reachable": "reached_from_a_production_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 499
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 475
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 456
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 436
+    }
+   ],
+   "class": "temp",
+   "composed_names": [],
+   "file": "scripts/e303_recover_unmeasurable_basis.py",
+   "function": "_fixture",
+   "line": 487,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 1,
+   "reachable": "reached_from_a_production_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 499
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 475
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 456
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 436
+    }
+   ],
+   "class": "temp",
+   "composed_names": [],
+   "file": "scripts/e395_conditional_write.py",
+   "function": "_fixture",
+   "line": 654,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 1,
+   "reachable": "reached_from_a_production_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 499
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 475
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 456
+    },
+    {
+     "arg": "os.path.join(tempfile.mkdtemp(prefix=\"hbw_st_\"), \"L14\")",
+     "caller": "selftest",
+     "file": "Tools/heartbeat_write.py",
+     "line": 436
+    }
+   ],
+   "class": "temp",
+   "composed_names": [
+    "state.json"
+   ],
+   "file": "scripts/e396_face_basename_suffix.py",
+   "function": "_fixture",
+   "line": 543,
+   "parameters": [
+    "tmp"
+   ],
+   "production_callers": 1,
+   "reachable": "reached_from_a_production_caller",
+   "reader": "a_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [
+    {
+     "arg": "io.open(\"state.json\", encoding=\"utf-8\")",
+     "call": "load",
+     "file": "Tools/_r1164bmb_push.py"
+    },
+    {
+     "arg": "\"state.json\"",
+     "call": "load",
+     "file": "Tools/_r1244bmb_closeout.py"
+    },
+    {
+     "arg": "os.path.join(ROOT, \"state.json\")",
+     "call": "load",
+     "file": "Tools/_r1390_addendum.py"
+    },
+    {
+     "arg": "os.path.join(ROOT, \"state.json\")",
+     "call": "load",
+     "file": "Tools/_r1390_postscript.py"
+    },
+    {
+     "arg": "open(\"logs/iteration-loop/state.json\", encoding=\"utf-8\")",
+     "call": "load",
+     "file": "Tools/_r201_wrap.py"
+    },
+    {
+     "arg": "open('state.json', encoding='utf-8')",
+     "call": "load",
+     "file": "_r1001bmb_closeout.py"
+    }
+   ],
+   "write_call": "open"
+  },
+  {
+   "caller_sites": [
+    {
+     "arg": "tempfile.mkdtemp(prefix=\"lu_prem_st_\")",
+     "caller": "cmd_selftest",
+     "file": "scripts/lu_prem_census.py",
+     "line": 424
+    },
+    {
+     "arg": "tdir",
+     "caller": "cmd_selftest",
+     "file": "scripts/mass_trial_report.py",
+     "line": 328
+    },
+    {
+     "arg": "tdir",
+     "caller": "cmd_selftest",
+     "file": "scripts/mass_trial_report.py",
+     "line": 307
+    },
+    {
+     "arg": "tdir",
+     "caller": "cmd_selftest",
+     "file": "scripts/mass_trial_report.py",
+     "line": 306
+    }
+   ],
+   "class": "temp",
+   "composed_names": [],
+   "file": "scripts/mass_trial_report.py",
+   "function": "_write_fixture",
+   "line": 261,
+   "parameters": [
+    "mt_dir"
+   ],
+   "production_callers": 0,
+   "reachable": "reached_only_from_a_selftest_caller",
+   "reader": "no_reader_in_the_corpus_opens_the_composed_name",
+   "reader_sites": [],
+   "write_call": "open"
+  }
+ ],
+ "study": "E434_which_parameter_site_outside_the_unplaced_set_is_fixture_shaped",
+ "summary": {
+  "by_class": {
+   "runtime_constant": 3,
+   "temp": 6
+  },
+  "by_reachable": {
+   "reached_from_a_production_caller": 5,
+   "reached_only_from_a_selftest_caller": 4
+  },
+  "by_reader": {
+   "a_reader_in_the_corpus_opens_the_composed_name": 2,
+   "no_reader_in_the_corpus_opens_the_composed_name": 7
+  },
+  "corpus_sources": 3451,
+  "fixture_shaped_inside_the_rows_e428_could_not_place": 21,
+  "fixture_shaped_outside_the_rows_e428_could_not_place": 9,
+  "fixture_shaped_over_the_whole_population": 30,
+  "parameter_write_sites": 310,
+  "population_premise": {
+   "factor": 10.33,
+   "measured": "E428 counted fixture_shaped over the 35 rows its narrow index could not place; the count here is over all parameter-directory write sites",
+   "published_sentence": "21 fixture-shaped parameter-directory write sites among its 310"
+  },
+  "reader_calls_scanned": 2745,
+  "runtime_sites": 3,
+  "sites_where_a_reader_could_open_the_written_file": 0,
+  "sites_where_a_reader_spells_the_same_name_only": 2,
+  "temp_sites": 6
+ },
+ "title": "count fixture-shaped parameter-directory write sites over the whole population, not only the 35 rows E428 could not place, and price where their callers point them",
+ "verdict": "the_fixture_shaped_sites_outside_the_unplaced_rows_all_take_a_temp_or_a_runtime_directory_and_no_reader_opens_what_they_write"
+}

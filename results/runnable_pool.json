@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1453 bm-b: E433 published (face REPUBLISHCHAIN-2026-11-03: 8 republish sites, 3 bind a name beside a file-capable directory key, 12 of 16 file-valued rows in the writer faces stay double-ready; the first draft counted every *.json literal and published 32 writer faces, fixed to read the open(...,'w') call) -- E433 closed, E436 seeded, floor 3.",
+ "_stamp_note": "r1455 bm-b: E434 published (face FIXTUREBEYOND-2026-11-04: 310 parameter-directory write sites -> 30 fixture-shaped, not 21; 9 outside the rows E428 could not place, all temp/runtime, 0 openable by a reader, 5 production-reached) -- E434 closed, E437 seeded (the name heuristic recall), floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -27678,11 +27678,16 @@
    "lane": "cpu-only",
    "lane_note": "cpu-only; static AST over the python corpus, no writer runs",
    "priority": 3,
-   "status": "ready",
+   "status": "done",
    "owner": null,
    "source": "bm-b r1450 E432: fixture_shaped was computed over rows (the 35 unplaced), so the 275 placed sites were never tested with the same heuristic",
    "entered_at": "2026-11-05T07:5x+08:00",
-   "entered_by": "bm-b r1450 (supply floor refill after E432)"
+   "entered_by": "bm-b r1450 (supply floor refill after E432)",
+   "claimed_by": "bm-b",
+   "closed_at": "2026-11-05T12:25+08:00",
+   "closed_by": "bm-b",
+   "result_ref": "results/state_tilt/FIXTUREBEYOND-2026-11-04.json",
+   "outcome": "310 parameter-directory write sites -> 30 fixture-shaped (21 inside the rows E428 could not place, 9 outside). The 9 price as 6 temp + 3 runtime_constant, 0 repository directory, so 0 can be opened by a reader; 5 of the 9 are reached from a production caller. The published sentence 21-of-310 described 35 rows (factor 10.33)."
   },
   {
    "id": "E435-WHICH-READER-OPENS-A-FACE-BY-A-DIRECTORY-THAT-IS-ITSELF-A-PUBLISHED-FACE-NAME",
@@ -27707,6 +27712,20 @@
    "source": "bm-b r1453 E433: 12 double-ready rows in constdirs_latest.json (11 names already equal the basename), 0 consumers measured",
    "entered_at": "2026-11-05T10:27:14+08:00",
    "entered_by": "bm-b r1453 (supply floor refill after E433)"
+  },
+  {
+   "id": "E437-WHICH-TEMP-DIRECTORY-WRITE-SITE-THE-NAME-HEURISTIC-MISSES",
+   "title": "E434 measured fixture-shaped with E428 name heuristic (function or path contains fixture/_mk/_stub/_toy/write_fixture/_panel/_save), so a site that takes a temp directory under a name that carries none of those words is invisible to it: count the parameter-directory write sites whose caller supplies a temp directory and whose name does not match the heuristic, and say how many of them a published reader opens",
+   "question": "is the name heuristic a lower bound on temp-directory writers, and by how much",
+   "deliverable": "results/state_tilt/TEMPBYNATURE-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST census over the same corpus; no writer or reader is run",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E434 (r1455 bm-b) published bound: the class is a name test, so its recall is unmeasured",
+   "entered_at": "2026-11-05T12:25+08:00",
+   "entered_by": "bm-b"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -27721,6 +27740,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-05T10:05+08:00",
+ "updated_at": "2026-11-05T12:25+08:00",
  "version": 1
 }

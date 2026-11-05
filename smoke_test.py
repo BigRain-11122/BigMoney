@@ -16224,6 +16224,69 @@ except Exception as _e433x:
     _bad433.append(repr(_e433x)[:160])
 check(_name433, not _bad433, "; ".join(_bad433)[:240] or _d433)
 
+# E434 (r1455 bm-b): E428 counted "fixture-shaped" over the 35 rows its narrow index could not
+# place, not over the 310 parameter-directory write sites it scanned, so the published sentence
+# "21 fixture-shaped among its 310" described 35 rows.  This leg reads the face that re-counts
+# with the same heuristic over the whole population and prices the sites outside the rows already
+# published, and refuses (a) a face whose own gate does not re-derive, (b) a class, reader or
+# reach class outside the frozen vocabularies, (c) a class/reach table that does not close
+# against the row list, (d) an inside+outside split that does not equal the fixture-shaped total
+# (the defect being measured is exactly a total that was never taken over the whole population),
+# (e) a priced partition that dropped a row E432 or E428 published (the priced set is a union,
+# read from both faces, never a hand-written list), (f) a "reader opens it" count that includes a
+# site whose directory the caller does not spell, and (g) a verdict outside the vocabulary or one
+# that does not re-derive from the rows.
+_name434 = ("product: the fixture-shaped population is 30 of 310 parameter-directory write sites, "
+            "not 21, and the 9 outside the published rows all land in a temp or runtime directory")
+_bad434, _d434 = [], ""
+try:
+    _m434 = __import__("importlib").import_module("e434_fixture_beyond")
+    _f434 = json.load(open(os.path.join("results", "state_tilt", "fixturebeyond_latest.json"),
+                           encoding="utf-8"))
+    _s434 = _f434.get("summary") or {}
+    _rows434 = _f434.get("rows") or []
+    _bad434.extend(_m434.tally_problems(_f434))
+    _total434 = _s434.get("fixture_shaped_over_the_whole_population", 0)
+    _inside434 = _s434.get("fixture_shaped_inside_the_rows_e428_could_not_place", 0)
+    if _f434.get("verdict") != _m434.verdict_for(_rows434, _total434):
+        _bad434.append("the verdict does not re-derive from the rows")
+    if _inside434 + len(_rows434) != _total434:
+        _bad434.append("inside + outside does not equal the fixture-shaped total")
+    _param434 = _s434.get("parameter_write_sites", 0)
+    if _total434 > _param434:
+        _bad434.append("more fixture-shaped sites than there are parameter write sites")
+    # the priced partition is a union of two published faces: a row either face names must not
+    # reappear as newly priced, and a row that vanished from disk must be reported, not dropped
+    _priced434 = _m434.priced_keys()
+    for _r434 in _rows434:
+        if (_r434.get("file"), _r434.get("function"), _r434.get("line")) in _priced434:
+            _bad434.append("%s:%s is priced twice" % (_r434.get("file"), _r434.get("line")))
+            break
+    if _inside434 == 0 and _total434 > 0 and not _rows434:
+        _bad434.append("every fixture-shaped site reads as already priced, which needs evidence")
+    for _r434 in _rows434:
+        if _r434.get("reader") == _m434.R_OPENS and _r434.get("class") != _m434.C_REPO:
+            if not _r434.get("reader_sites"):
+                _bad434.append("%s:%s shares a reader name without naming the site"
+                               % (_r434.get("file"), _r434.get("line")))
+                break
+    if _s434.get("sites_where_a_reader_could_open_the_written_file", 0) > sum(
+            1 for _r434 in _rows434 if _r434.get("class") == _m434.C_REPO):
+        _bad434.append("more openable sites than there are repository-directory sites")
+    _d434 = "%d parameter write site(s), %d fixture-shaped: %d already inside the rows E428 could " \
+            "not place, %d outside | %d temp, %d runtime, %d repo | %d from a production caller | " \
+            "%d could be opened, %d share a name only | %s" % (
+                _param434, _total434, _inside434, len(_rows434),
+                _s434.get("temp_sites", 0), _s434.get("runtime_sites", 0),
+                sum(1 for _r434 in _rows434 if _r434.get("class") == _m434.C_REPO),
+                (_s434.get("by_reachable") or {}).get(_m434.REACH_PROD, 0),
+                _s434.get("sites_where_a_reader_could_open_the_written_file", 0),
+                _s434.get("sites_where_a_reader_spells_the_same_name_only", 0),
+                _f434.get("verdict"))
+except Exception as _e434x:
+    _bad434.append(repr(_e434x)[:160])
+check(_name434, not _bad434, "; ".join(_bad434)[:240] or _d434)
+
 # E428 (r1448 bm-b): E429 billed 35 parameter-directory write sites as having "no caller found in
 # the corpus".  That 35 was never a statement about the corpus: E429's call-site index was built
 # only for helper names whose path spells no literal at all, and a function that writes
