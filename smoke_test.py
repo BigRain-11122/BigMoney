@@ -16774,5 +16774,238 @@ except Exception as _e423:
     _bad423.append(repr(_e423)[:160])
 check(_name423, not _bad423, "; ".join(_bad423)[:240] or _d423)
 
+# E439 (r1458 bm-b): E438 priced 56 temp rows that hand a directory to a wrapper whose only write
+# is the parameter path, but never asked how large that class is at the call slot, and its rows
+# were counted by callee name (``write``/``save``/``dump``/``append`` are also method names).  This
+# leg reads the call-slot face and refuses (a) a verdict or tally that does not re-derive from the
+# rows, (b) a directory flag that disagrees with its own shape, (c) an attribution block whose
+# kept-plus-dropped does not close over the name-index total, (d) a per-wrapper block that does not
+# re-derive, and (e) an E438 re-pricing whose remainder does not close.  A doctored copy must be
+# refused, so the leg cannot pass by reading nothing.
+_name439 = "e439 file slot callers (r1458 bm-b)"
+_bad439 = []
+try:
+    _m439 = __import__("importlib").import_module("e439_file_slot_callers")
+    _f439 = json.load(open(os.path.join("results", "state_tilt", "fileslot_latest.json"),
+                           encoding="utf-8"))
+    _s439 = _f439.get("summary") or {}
+    _rows439 = _f439.get("rows") or []
+    _bad439.extend(_m439.tally_problems(_f439))
+    if _f439.get("verdict") not in _m439.VERDICT_VOCAB:
+        _bad439.append("verdict outside the frozen vocabulary")
+    if _f439.get("verdict") != _m439.verdict_for(_rows439):
+        _bad439.append("the verdict does not re-derive from the rows")
+    _dirs439 = sum(1 for _r in _rows439 if _r.get("argument_is_a_directory"))
+    _shapes439 = (_s439.get("rows_by_argument_shape") or {})
+    if _shapes439.get(_m439.S_TEMP, 0) != _s439.get("temp_derived_directory_rows"):
+        _bad439.append("the temp row count does not match its shape cell")
+    if _dirs439 == 0 and _f439.get("verdict") != _m439.V_NO_DIRECTORY:
+        _bad439.append("zero directory rows did not produce the no-directory verdict")
+    if _dirs439 and _f439.get("verdict") != _m439.V_SOME_DIR:
+        _bad439.append("%d directory rows did not produce the some-directory verdict" % _dirs439)
+    _attr439 = _s439.get("attribution") or {}
+    if _attr439.get("rows_kept") != len(_rows439):
+        _bad439.append("attribution kept does not equal the published rows")
+    if _attr439.get("rows_kept", 0) + _attr439.get("rows_dropped", 0) \
+            != _s439.get("rows_by_the_name_index"):
+        _bad439.append("attribution does not close over the name-index total")
+    _card439 = _s439.get("e438_population_recheck") or {}
+    if _card439.get("rows_attributed_to_their_wrapper", 0) + \
+            _card439.get("rows_dropped_by_reachability", 0) != \
+            _card439.get("rows_published_by_E438"):
+        _bad439.append("the E438 re-pricing does not close over its 56 rows")
+    if _card439.get("attributed_rows_handing_a_directory", 0) > \
+            _card439.get("rows_attributed_to_their_wrapper", 0):
+        _bad439.append("more directory rows than attributed rows in the E438 re-pricing")
+    for _w439 in (_s439.get("per_wrapper") or []):
+        _mine439 = [_r for _r in _rows439
+                    if (_r.get("wrapper_file"), _r.get("wrapper_function"))
+                    == (_w439.get("callee_file"), _w439.get("callee_function"))]
+        if _w439.get("rows") != len(_mine439):
+            _bad439.append("%s: per-wrapper rows do not re-derive"
+                           % _w439.get("callee_function"))
+            break
+        if _w439.get("rows_measured", 0) > _w439.get("rows", 0):
+            _bad439.append("%s: more measured rows than rows" % _w439.get("callee_function"))
+            break
+    _doctor439 = json.loads(json.dumps(_f439))
+    if _rows439:
+        _doctor439["rows"][0]["argument_is_a_directory"] = \
+            not _rows439[0].get("argument_is_a_directory")
+        if not _m439.tally_problems(_doctor439):
+            _bad439.append("a doctored directory flag was accepted")
+    _d439 = "%d row(s) into %d wrapper(s) over %d source(s): %s | %d hand a directory | " \
+            "name index dropped %d | E438's 56 re-price to %d kept" % (
+                _s439.get("call_rows_into_the_wrappers"), _s439.get("wrapers_priced"),
+                _s439.get("corpus_sources"),
+                " ".join("%s=%s" % (k.replace("the_argument_", ""), v)
+                         for k, v in sorted(_shapes439.items()) if v),
+                _dirs439, _s439.get("rows_the_name_index_overstated"),
+                _card439.get("rows_attributed_to_their_wrapper"))
+except Exception as _e439:
+    _bad439.append(repr(_e439)[:160])
+check(_name439, not _bad439, "; ".join(_bad439)[:240] or _d439)
+
+
+# E435 (r1458 bm-b): E423 priced where a directory-named field points, but never asked whether that
+# value is itself the NAME of a published face -- a join on a face-named base silently picks a face
+# as its parent.  This leg re-reads the published face and refuses (a) a verdict outside the frozen
+# vocabulary, (b) a value-class tally that does not close over the population, (c) a join tally that
+# does not close over the rows, (d) a face whose own verify() no longer re-derives from the tree,
+# and (e) a zero-composition claim published beside a nonzero landing count -- the two must move
+# together, or "the shape exists and nothing composes" is a sentence with no support.
+_name435 = "e435 directory value that is a face name (r1458 bm-b)"
+_bad435 = []
+try:
+    _m435 = __import__("importlib").import_module("e435_dir_is_a_face")
+    _f435 = json.load(open(os.path.join("results", "state_tilt", "dirisface_latest.json"),
+                           encoding="utf-8"))
+    _s435 = _f435.get("summary") or {}
+    _rows435 = _f435.get("rows") or []
+    _bc435 = _s435.get("by_class") or {}
+    _jc435 = _s435.get("join_classes") or {}
+    _n435 = _s435.get("directory_named_fields")
+    if _f435.get("verdict") not in _m435.VERDICT_VOCAB:
+        _bad435.append("verdict outside the frozen vocabulary")
+    _v435 = _f435.get("verdict")
+    if _v435 in ("rows_compose_onto_paths_that_already_exist_and_some_are_published_faces",
+                 "rows_compose_onto_paths_that_already_exist_but_none_is_a_published_face") \
+            and not _s435.get("rows_where_the_join_lands_on_a_path"):
+        _bad435.append("the verdict claims a live composition while no row lands")
+    if _v435 == "directory_values_are_face_home_directories_and_none_of_them_compose" \
+            and not _bc435.get(_m435.B_HOME, 0):
+        _bad435.append("the verdict claims face-home values while that class is empty")
+    if _v435 == "no_directory_value_is_a_published_face_name_and_no_row_composes_onto_a_file" \
+            and _bc435.get(_m435.A_NAME, 0):
+        _bad435.append("the verdict denies a name collision while the class is populated")
+    if _n435 != len(_rows435):
+        _bad435.append("the population key does not equal the published rows")
+    if sum(_bc435.values()) != _n435:
+        _bad435.append("the value-class tally does not close over the population")
+    if _bc435.get(_m435.A_NAME, 0) != _s435.get("name_collision_rows"):
+        _bad435.append("the name-collision count does not re-derive from its class")
+    if sum(_jc435.values()) != len(_rows435):
+        _bad435.append("the join tally does not close over the rows")
+    _lands435 = _s435.get("rows_where_the_join_lands_on_a_path")
+    if _jc435.get(_m435.J_LANDS, 0) != _lands435:
+        _bad435.append("the landing count does not re-derive from the join tally")
+    if _lands435 != len(_f435.get("composed_joins") or []):
+        _bad435.append("the composed joins do not equal the landing count")
+    if _s435.get("rows_composing_onto_a_published_face", 0) > _lands435:
+        _bad435.append("more composing rows than landing rows")
+    if _s435.get("rows_with_a_name_field") != \
+            _jc435.get(_m435.J_LANDS, 0) + _jc435.get(_m435.J_NOTHING, 0):
+        _bad435.append("the composable rows do not re-derive from the join tally")
+    for _r435 in _rows435:
+        if _r435.get("class") not in (_m435.A_NAME, _m435.B_HOME, _m435.C_OTHER):
+            _bad435.append("%s:%s carries a value class outside the vocabulary"
+                           % (_r435.get("face"), _r435.get("key")))
+            break
+        if _r435.get("join_class") not in _m435.JOIN_VOCAB:
+            _bad435.append("%s:%s carries a join class outside the vocabulary"
+                           % (_r435.get("face"), _r435.get("key")))
+            break
+        if _r435.get("join_class") == _m435.J_LANDS and not _r435.get("join_target"):
+            _bad435.append("%s:%s lands without naming its target"
+                           % (_r435.get("face"), _r435.get("key")))
+            break
+    _doctor435 = json.loads(json.dumps(_f435))
+    if _rows435:
+        _doctor435["summary"]["join_classes"][_m435.J_LANDS] = \
+            _jc435.get(_m435.J_LANDS, 0) + 1
+        if not _m435.verify(_doctor435):
+            _bad435.append("a doctored landing tally was accepted by verify")
+    if _m435.verify(_f435):
+        _bad435.append("the published face no longer re-derives: %s"
+                       % "; ".join(_m435.verify(_f435))[:160])
+    _d435 = "%d directory-named field(s) over %d face(s): collisions=%d, face-home=%d, " \
+            "neither=%d | %d composable row(s), %d landing, %d onto a published face | %s" % (
+                _n435, _s435.get("published_faces_scanned"), _bc435.get(_m435.A_NAME, 0),
+                _bc435.get(_m435.B_HOME, 0), _bc435.get(_m435.C_OTHER, 0),
+                _s435.get("rows_with_a_name_field"), _lands435,
+                _s435.get("rows_composing_onto_a_published_face"), _f435.get("verdict"))
+except Exception as _e435:
+    _bad435.append(repr(_e435)[:160])
+check(_name435, not _bad435, "; ".join(_bad435)[:240] or _d435)
+
+# E436 (r1459 bm-b): E433 showed that a republished directory value keeps a sibling name, so a
+# reader can compose a doubled name from the new face -- but never asked whether any reader does.
+# This leg re-reads the published face and refuses (a) a verdict outside the frozen vocabulary,
+# (b) a verdict that claims a doubling read while no site is classed as one, (c) a doubling class
+# populated in the site list while the count says zero -- the class and the count must be one
+# number, (d) a class tally that does not close over the published sites, (e) a target tally that
+# does not close over the double-ready rows, (f) a composing read whose landing was never tested,
+# and (g) a face whose own verify() no longer re-derives from the tree.
+_name436 = "e436 double-ready join (r1459 bm-b)"
+_bad436 = []
+try:
+    _m436 = __import__("importlib").import_module("e436_double_join")
+    _f436 = json.load(open(os.path.join("results", "state_tilt", "doublejoin_latest.json"),
+                           encoding="utf-8"))
+    _s436 = _f436.get("summary") or {}
+    _v436 = _f436.get("verdict")
+    _reads436 = _f436.get("read_sites") or []
+    _writes436 = _f436.get("write_sites") or []
+    _targets436 = _f436.get("targets") or []
+    _bc436 = _s436.get("sites_by_class") or {}
+    _joins436 = _s436.get("read_sites_joining_the_published_directory")
+    _doubling_in_rows = sum(1 for _r436 in _reads436
+                            if _r436.get("class") == _m436.S_JOINS_PUBLISHED)
+    if _v436 not in _m436.VERDICT_VOCAB:
+        _bad436.append("verdict outside the frozen vocabulary")
+    if _v436 in (_m436.V_C_DOUBLED_ABSENT, _m436.V_D_DOUBLED_EXISTS) and not _joins436:
+        _bad436.append("the verdict claims a doubling read while the count is zero")
+    if _v436 == _m436.V_A_NO_DOUBLING_READ and _joins436:
+        _bad436.append("the verdict denies a doubling read while the count is nonzero")
+    if _v436 == _m436.V_B_NO_READER_NAMES and _s436.get("fragment_naming_read_sites"):
+        _bad436.append("the verdict denies a naming reader while read sites are published")
+    if _joins436 != _doubling_in_rows:
+        _bad436.append("the doubling count %r does not re-derive from the rows (%d)"
+                       % (_joins436, _doubling_in_rows))
+    if _bc436.get(_m436.S_JOINS_PUBLISHED, 0) != _doubling_in_rows:
+        _bad436.append("the class tally and the row list disagree on the doubling class")
+    if sum(_bc436.values()) != _s436.get("fragment_naming_sites"):
+        _bad436.append("the class tally does not close over the published sites")
+    if _s436.get("fragment_naming_read_sites") != len(_reads436):
+        _bad436.append("the read count does not equal the published read sites")
+    if _s436.get("fragment_naming_write_sites") != len(_writes436):
+        _bad436.append("the write count does not equal the published write sites")
+    if sum(_t436.get("rows", 0) for _t436 in _targets436) != _s436.get("double_ready_rows"):
+        _bad436.append("the target rows do not close over the double-ready rows")
+    if _s436.get("sites_by_family", {}).get("write", 0) != len(_writes436):
+        _bad436.append("the family tally disagrees with the write site list")
+    for _r436 in _reads436:
+        if _r436.get("class") not in _m436.SITE_CLASSES:
+            _bad436.append("%s:%s carries a site class outside the vocabulary"
+                           % (_r436.get("file"), _r436.get("line")))
+            break
+        if _r436.get("class") == _m436.S_FROM_PARENT and _r436.get("composed_exists") is None:
+            _bad436.append("%s:%s composes from the parent but was never tested"
+                           % (_r436.get("file"), _r436.get("line")))
+            break
+        if _r436.get("class") == _m436.S_JOINS_PUBLISHED and not _r436.get("doubled_path"):
+            _bad436.append("%s:%s doubles without naming the doubled path"
+                           % (_r436.get("file"), _r436.get("line")))
+            break
+    _doctor436 = {"fragment_naming_read_sites": 3,
+                  "read_sites_joining_the_published_directory": 1,
+                  "doubled_paths_that_exist": 0}
+    if _m436.decide(_doctor436) != _m436.V_C_DOUBLED_ABSENT:
+        _bad436.append("a doctored doubling count did not recompute the verdict")
+    if _m436.verify(_f436):
+        _bad436.append("the published face no longer re-derives: %s"
+                       % "; ".join(_m436.verify(_f436))[:160])
+    _d436 = "%d double-ready row(s) over %d target(s) | %d naming site(s): read=%d write=%d " \
+            "path=%d | doubling reads=%d, parent recompositions=%d, absent compositions=%d | %s" % (
+                _s436.get("double_ready_rows"), _s436.get("double_ready_targets"),
+                _s436.get("fragment_naming_sites"), _s436.get("fragment_naming_read_sites"),
+                _s436.get("fragment_naming_write_sites"),
+                _s436.get("sites_by_family", {}).get("path", 0), _joins436,
+                _s436.get("read_sites_composing_from_the_parent_directory"),
+                _s436.get("read_compositions_that_land_on_an_absent_file"), _v436)
+except Exception as _e436:
+    _bad436.append(repr(_e436)[:160])
+check(_name436, not _bad436, "; ".join(_bad436)[:240] or _d436)
+
 if __name__ == "__main__":
     sys.exit(main())

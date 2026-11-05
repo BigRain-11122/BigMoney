@@ -1,0 +1,644 @@
+{
+ "study": "E436_whether_any_consumer_joins_a_double_ready_directory_row_with_its_name",
+ "card": "E436-WHICH-CONSUMER-JOINS-THE-DOUBLE-READY-ROWS-THAT-E433-FOUND",
+ "title": "grade every site that names a double-ready fragment by the base it composes onto and test the composed path",
+ "generated": "2026-11-05",
+ "evidence_cutoff": "2026-11-04",
+ "verdict": "no_reader_joins_a_double_ready_directory_value_and_the_readers_naming_the_same_file_recompose_it_from_the_parent",
+ "summary": {
+  "double_ready_rows": 18,
+  "double_ready_targets": 11,
+  "targets_by_fragment": {
+   "COMPOSITE-001.json": 1,
+   "GRID-X_paper.json": 1,
+   "bm-x.json": 1,
+   "face_bm-c.json": 1,
+   "idle_trigger.bm-c.json": 1,
+   "mktcap_raw.meta.json": 1,
+   "train_log.jsonl": 2,
+   "turnover_derived.meta.json": 1,
+   "w20_reform_face.json": 1,
+   "w20_screen.json": 1
+  },
+  "targets_with_a_resolved_in_tree_directory": 7,
+  "published_paths_that_exist": 0,
+  "fragment_naming_sites": 37,
+  "fragment_naming_read_sites": 10,
+  "fragment_naming_write_sites": 9,
+  "sites_by_class": {
+   "composes_from_the_parent_directory": 13,
+   "composes_from_an_unrelated_base": 3,
+   "base_unresolved": 21
+  },
+  "sites_by_family": {
+   "read": 10,
+   "path": 18,
+   "write": 9
+  },
+  "read_sites_that_rebuild_the_published_path": 8,
+  "read_sites_joining_the_published_directory": 0,
+  "read_sites_composing_from_the_parent_directory": 8,
+  "doubled_paths_that_exist": 0,
+  "read_compositions_that_exist": 0,
+  "read_compositions_that_land_on_an_absent_file": 10,
+  "read_compositions_unresolved": 0,
+  "sites_by_file": {
+   "Tools/_r1031bmc_closeout.py": 1,
+   "Tools/_r731bmc_s3probe.py": 1,
+   "Tools/_r732bmc_s3probe.py": 1,
+   "Tools/_r733bmc_s3probe.py": 1,
+   "Tools/_r734bmc_s3probe.py": 1,
+   "Tools/_r767bmc_s1.py": 1,
+   "Tools/_r787bmc_s7.py": 2,
+   "Tools/_r788bmc_s7.py": 2,
+   "Tools/_r801bmc_close.py": 1,
+   "Tools/_r815bmc_close.py": 1,
+   "Tools/_r816bmc_close.py": 1,
+   "Tools/_r817bmc_close.py": 1,
+   "Tools/_r818bmc_close.py": 1,
+   "Tools/_r823bmc_closeout.py": 1,
+   "Tools/orders_ack_scan.py": 1,
+   "Tools/pool_worker.py": 1,
+   "Tools/s05_probe.py": 1,
+   "scripts/alphagen_rl_p1.py": 5,
+   "scripts/month_exam_readiness.py": 2,
+   "scripts/open_market_readiness.py": 4,
+   "scripts/p1e_ic_batch.py": 1,
+   "scripts/p1e_probe.py": 1,
+   "scripts/p1e_turnover_derive.py": 1,
+   "scripts/p2_deepening.py": 1,
+   "scripts/t73_mktcap_sidecar.py": 1,
+   "scripts/trial_labor_w20.py": 2
+  },
+  "targets_without_any_read_site": [
+   "COMPOSITE-001.json",
+   "GRID-X_paper.json",
+   "bm-x.json",
+   "face_bm-c.json",
+   "mktcap_raw.meta.json",
+   "train_log.jsonl",
+   "train_log.jsonl",
+   "turnover_derived.meta.json",
+   "w20_reform_face.json",
+   "w20_screen.json"
+  ]
+ },
+ "targets": [
+  {
+   "fragment": "COMPOSITE-001.json",
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\firm\\traders\\COMPOSITE-001.json",
+   "directory_expression": "os.path.join(PATHS.root, \"firm\", \"traders\", \"COMPOSITE-001.json\")",
+   "rows": 1,
+   "classes": [
+    "resolved_directory_inside_the_tree_and_the_path_is_absent"
+   ],
+   "sites": [
+    "scripts/p2_deepening.py:420"
+   ],
+   "published_path_exists": false,
+   "resolved_inside_tree": true
+  },
+  {
+   "fragment": "GRID-X_paper.json",
+   "resolved_directory": null,
+   "directory_expression": "os.path.join(fx, \"results\", \"grid_paper\", \"GRID-X_paper.json\")",
+   "rows": 3,
+   "classes": [
+    "directory_supplied_by_a_function_parameter_or_loop_value"
+   ],
+   "sites": [
+    "scripts/month_exam_readiness.py:450",
+    "scripts/open_market_readiness.py:508",
+    "scripts/open_market_readiness.py:511"
+   ],
+   "published_path_exists": null,
+   "resolved_inside_tree": false
+  },
+  {
+   "fragment": "bm-x.json",
+   "resolved_directory": null,
+   "directory_expression": "os.path.join(MACHINES_DIR, \"bm-x.json\")",
+   "rows": 1,
+   "classes": [
+    "module_constant_rebound_inside_a_function"
+   ],
+   "sites": [
+    "Tools/pool_worker.py:1038"
+   ],
+   "published_path_exists": null,
+   "resolved_inside_tree": false
+  },
+  {
+   "fragment": "face_bm-c.json",
+   "resolved_directory": null,
+   "directory_expression": "os.path.join(fx, \"results\", \"saturation_engine\", \"face_bm-c.json\")",
+   "rows": 1,
+   "classes": [
+    "directory_supplied_by_a_function_parameter_or_loop_value"
+   ],
+   "sites": [
+    "scripts/open_market_readiness.py:573"
+   ],
+   "published_path_exists": null,
+   "resolved_inside_tree": false
+  },
+  {
+   "fragment": "idle_trigger.bm-c.json",
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\idle_trigger.bm-c.json",
+   "directory_expression": "ROOT / \"results\" / \"idle_trigger.bm-c.json\"",
+   "rows": 1,
+   "classes": [
+    "resolved_directory_outside_the_tree_or_gitignored_runtime_cache"
+   ],
+   "sites": [
+    "Tools/_r815bmc_close.py:53"
+   ],
+   "published_path_exists": false,
+   "resolved_inside_tree": true
+  },
+  {
+   "fragment": "mktcap_raw.meta.json",
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\mktcap_raw.meta.json",
+   "directory_expression": "os.path.join(CACHE_DIR, \"mktcap_raw.meta.json\")",
+   "rows": 1,
+   "classes": [
+    "resolved_directory_outside_the_tree_or_gitignored_runtime_cache"
+   ],
+   "sites": [
+    "scripts/t73_mktcap_sidecar.py:69"
+   ],
+   "published_path_exists": false,
+   "resolved_inside_tree": true
+  },
+  {
+   "fragment": "train_log.jsonl",
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\alphagen_rl_p1\\ckpt\\train_log.jsonl",
+   "directory_expression": "os.path.join(CKPT_DIR, \"train_log.jsonl\")",
+   "rows": 3,
+   "classes": [
+    "resolved_directory_outside_the_tree_or_gitignored_runtime_cache"
+   ],
+   "sites": [
+    "scripts/alphagen_rl_p1.py:1170",
+    "scripts/alphagen_rl_p1.py:1285",
+    "scripts/alphagen_rl_p1.py:1956"
+   ],
+   "published_path_exists": false,
+   "resolved_inside_tree": true
+  },
+  {
+   "fragment": "train_log.jsonl",
+   "resolved_directory": null,
+   "directory_expression": "os.path.join(cd, \"train_log.jsonl\")",
+   "rows": 2,
+   "classes": [
+    "directory_supplied_by_a_function_parameter_or_loop_value"
+   ],
+   "sites": [
+    "scripts/alphagen_rl_p1.py:2328",
+    "scripts/alphagen_rl_p1.py:875"
+   ],
+   "published_path_exists": null,
+   "resolved_inside_tree": false
+  },
+  {
+   "fragment": "turnover_derived.meta.json",
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Money02\\data\\cache\\p1c_stock\\turnover_derived.meta.json",
+   "directory_expression": "os.path.join(CACHE_DIR, \"turnover_derived.meta.json\")",
+   "rows": 3,
+   "classes": [
+    "resolved_directory_outside_the_tree_or_gitignored_runtime_cache"
+   ],
+   "sites": [
+    "scripts/p1e_ic_batch.py:142",
+    "scripts/p1e_probe.py:73",
+    "scripts/p1e_turnover_derive.py:42"
+   ],
+   "published_path_exists": false,
+   "resolved_inside_tree": true
+  },
+  {
+   "fragment": "w20_reform_face.json",
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\trial_labor_w20\\w20_reform_face.json",
+   "directory_expression": "os.path.join(RES_DIR, \"w20_reform_face.json\")",
+   "rows": 1,
+   "classes": [
+    "resolved_directory_inside_the_tree_and_the_path_is_absent"
+   ],
+   "sites": [
+    "scripts/trial_labor_w20.py:97"
+   ],
+   "published_path_exists": false,
+   "resolved_inside_tree": true
+  },
+  {
+   "fragment": "w20_screen.json",
+   "resolved_directory": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\trial_labor_w20\\w20_screen.json",
+   "directory_expression": "os.path.join(RES_DIR, \"w20_screen.json\")",
+   "rows": 1,
+   "classes": [
+    "resolved_directory_inside_the_tree_and_the_path_is_absent"
+   ],
+   "sites": [
+    "scripts/trial_labor_w20.py:94"
+   ],
+   "published_path_exists": false,
+   "resolved_inside_tree": true
+  }
+ ],
+ "read_sites": [
+  {
+   "file": "Tools/_r1031bmc_closeout.py",
+   "line": 156,
+   "function": "ram_free_gb",
+   "callee": "json.load",
+   "family": "read",
+   "fragment": "idle_trigger.bm-c.json",
+   "base_text": "ROOT | 'results'",
+   "base_path": "results",
+   "composed_path": "results/idle_trigger.bm-c.json",
+   "composed_exists": false,
+   "class": "composes_from_the_parent_directory",
+   "targets": [
+    {
+     "fragment": "idle_trigger.bm-c.json",
+     "resolved_directory": "results/idle_trigger.bm-c.json",
+     "class": "composes_from_the_parent_directory"
+    }
+   ]
+  },
+  {
+   "file": "Tools/_r787bmc_s7.py",
+   "line": 106,
+   "function": "machine_metrics",
+   "callee": "json.load",
+   "family": "read",
+   "fragment": "idle_trigger.bm-c.json",
+   "base_text": "ROOT | 'results'",
+   "base_path": "results",
+   "composed_path": "results/idle_trigger.bm-c.json",
+   "composed_exists": false,
+   "class": "composes_from_the_parent_directory",
+   "targets": [
+    {
+     "fragment": "idle_trigger.bm-c.json",
+     "resolved_directory": "results/idle_trigger.bm-c.json",
+     "class": "composes_from_the_parent_directory"
+    }
+   ]
+  },
+  {
+   "file": "Tools/_r787bmc_s7.py",
+   "line": 132,
+   "function": "main",
+   "callee": "json.load",
+   "family": "read",
+   "fragment": "idle_trigger.bm-c.json",
+   "base_text": "ROOT | 'results'",
+   "base_path": "results",
+   "composed_path": "results/idle_trigger.bm-c.json",
+   "composed_exists": false,
+   "class": "composes_from_the_parent_directory",
+   "targets": [
+    {
+     "fragment": "idle_trigger.bm-c.json",
+     "resolved_directory": "results/idle_trigger.bm-c.json",
+     "class": "composes_from_the_parent_directory"
+    }
+   ]
+  },
+  {
+   "file": "Tools/_r788bmc_s7.py",
+   "line": 111,
+   "function": "machine_metrics",
+   "callee": "json.load",
+   "family": "read",
+   "fragment": "idle_trigger.bm-c.json",
+   "base_text": "ROOT | 'results'",
+   "base_path": "results",
+   "composed_path": "results/idle_trigger.bm-c.json",
+   "composed_exists": false,
+   "class": "composes_from_the_parent_directory",
+   "targets": [
+    {
+     "fragment": "idle_trigger.bm-c.json",
+     "resolved_directory": "results/idle_trigger.bm-c.json",
+     "class": "composes_from_the_parent_directory"
+    }
+   ]
+  },
+  {
+   "file": "Tools/_r788bmc_s7.py",
+   "line": 137,
+   "function": "main",
+   "callee": "json.load",
+   "family": "read",
+   "fragment": "idle_trigger.bm-c.json",
+   "base_text": "ROOT | 'results'",
+   "base_path": "results",
+   "composed_path": "results/idle_trigger.bm-c.json",
+   "composed_exists": false,
+   "class": "composes_from_the_parent_directory",
+   "targets": [
+    {
+     "fragment": "idle_trigger.bm-c.json",
+     "resolved_directory": "results/idle_trigger.bm-c.json",
+     "class": "composes_from_the_parent_directory"
+    }
+   ]
+  },
+  {
+   "file": "Tools/_r801bmc_close.py",
+   "line": 36,
+   "function": "<module>",
+   "callee": "json.load",
+   "family": "read",
+   "fragment": "idle_trigger.bm-c.json",
+   "base_text": "REPO | 'results'",
+   "base_path": "K:/Fluxgroup/FluxGroup/quant/bigmoney/results",
+   "composed_path": "K:/Fluxgroup/FluxGroup/quant/bigmoney/results/idle_trigger.bm-c.json",
+   "composed_exists": false,
+   "class": "composes_from_an_unrelated_base",
+   "targets": [
+    {
+     "fragment": "idle_trigger.bm-c.json",
+     "resolved_directory": "results/idle_trigger.bm-c.json",
+     "class": "composes_from_an_unrelated_base"
+    }
+   ]
+  },
+  {
+   "file": "Tools/_r815bmc_close.py",
+   "line": 53,
+   "function": "<module>",
+   "callee": "json.loads",
+   "family": "read",
+   "fragment": "idle_trigger.bm-c.json",
+   "base_text": "ROOT | 'results'",
+   "base_path": "results",
+   "composed_path": "results/idle_trigger.bm-c.json",
+   "composed_exists": false,
+   "class": "composes_from_the_parent_directory",
+   "targets": [
+    {
+     "fragment": "idle_trigger.bm-c.json",
+     "resolved_directory": "results/idle_trigger.bm-c.json",
+     "class": "composes_from_the_parent_directory"
+    }
+   ]
+  },
+  {
+   "file": "Tools/_r816bmc_close.py",
+   "line": 55,
+   "function": "<module>",
+   "callee": "json.loads",
+   "family": "read",
+   "fragment": "idle_trigger.bm-c.json",
+   "base_text": "ROOT | 'results'",
+   "base_path": "results",
+   "composed_path": "results/idle_trigger.bm-c.json",
+   "composed_exists": false,
+   "class": "composes_from_the_parent_directory",
+   "targets": [
+    {
+     "fragment": "idle_trigger.bm-c.json",
+     "resolved_directory": "results/idle_trigger.bm-c.json",
+     "class": "composes_from_the_parent_directory"
+    }
+   ]
+  },
+  {
+   "file": "Tools/_r817bmc_close.py",
+   "line": 53,
+   "function": "<module>",
+   "callee": "json.loads",
+   "family": "read",
+   "fragment": "idle_trigger.bm-c.json",
+   "base_text": "ROOT | 'results'",
+   "base_path": "results",
+   "composed_path": "results/idle_trigger.bm-c.json",
+   "composed_exists": false,
+   "class": "composes_from_the_parent_directory",
+   "targets": [
+    {
+     "fragment": "idle_trigger.bm-c.json",
+     "resolved_directory": "results/idle_trigger.bm-c.json",
+     "class": "composes_from_the_parent_directory"
+    }
+   ]
+  },
+  {
+   "file": "Tools/_r823bmc_closeout.py",
+   "line": 38,
+   "function": "<module>",
+   "callee": "open",
+   "family": "read",
+   "fragment": "idle_trigger.bm-c.json",
+   "base_text": "BM | 'results'",
+   "base_path": "K:/Fluxgroup/FluxGroup/quant/bigmoney/results",
+   "composed_path": "K:/Fluxgroup/FluxGroup/quant/bigmoney/results/idle_trigger.bm-c.json",
+   "composed_exists": false,
+   "class": "composes_from_an_unrelated_base",
+   "targets": [
+    {
+     "fragment": "idle_trigger.bm-c.json",
+     "resolved_directory": "results/idle_trigger.bm-c.json",
+     "class": "composes_from_an_unrelated_base"
+    }
+   ]
+  }
+ ],
+ "write_sites": [
+  {
+   "file": "Tools/pool_worker.py",
+   "line": 1038,
+   "function": "selftest",
+   "callee": "open",
+   "family": "write",
+   "fragment": "bm-x.json",
+   "base_text": "MACHINES_DIR",
+   "base_path": null,
+   "class": "base_unresolved",
+   "composed_path": null,
+   "composed_exists": null,
+   "targets": [
+    {
+     "fragment": "bm-x.json",
+     "resolved_directory": null,
+     "class": "base_unresolved"
+    }
+   ]
+  },
+  {
+   "file": "Tools/s05_probe.py",
+   "line": 189,
+   "function": "selftest",
+   "callee": "open",
+   "family": "write",
+   "fragment": "bm-x.json",
+   "base_text": "f1 | 'fleet' | 'machines'",
+   "base_path": null,
+   "class": "base_unresolved",
+   "composed_path": null,
+   "composed_exists": null,
+   "targets": [
+    {
+     "fragment": "bm-x.json",
+     "resolved_directory": null,
+     "class": "base_unresolved"
+    }
+   ]
+  },
+  {
+   "file": "scripts/alphagen_rl_p1.py",
+   "line": 2328,
+   "function": "_mk_ckpt_face",
+   "callee": "open",
+   "family": "write",
+   "fragment": "train_log.jsonl",
+   "base_text": "d",
+   "base_path": null,
+   "class": "base_unresolved",
+   "composed_path": null,
+   "composed_exists": null,
+   "targets": [
+    {
+     "fragment": "train_log.jsonl",
+     "resolved_directory": "results/alphagen_rl_p1/ckpt/train_log.jsonl",
+     "class": "base_unresolved"
+    },
+    {
+     "fragment": "train_log.jsonl",
+     "resolved_directory": null,
+     "class": "base_unresolved"
+    }
+   ]
+  },
+  {
+   "file": "scripts/month_exam_readiness.py",
+   "line": 382,
+   "function": "_mkfixture",
+   "callee": "open",
+   "family": "write",
+   "fragment": "GRID-X_paper.json",
+   "base_text": "tmp | 'results' | 'grid_paper'",
+   "base_path": null,
+   "class": "base_unresolved",
+   "composed_path": null,
+   "composed_exists": null,
+   "targets": [
+    {
+     "fragment": "GRID-X_paper.json",
+     "resolved_directory": null,
+     "class": "base_unresolved"
+    }
+   ]
+  },
+  {
+   "file": "scripts/month_exam_readiness.py",
+   "line": 450,
+   "function": "cmd_selftest",
+   "callee": "open",
+   "family": "write",
+   "fragment": "GRID-X_paper.json",
+   "base_text": "fx | 'results' | 'grid_paper'",
+   "base_path": null,
+   "class": "base_unresolved",
+   "composed_path": null,
+   "composed_exists": null,
+   "targets": [
+    {
+     "fragment": "GRID-X_paper.json",
+     "resolved_directory": null,
+     "class": "base_unresolved"
+    }
+   ]
+  },
+  {
+   "file": "scripts/open_market_readiness.py",
+   "line": 445,
+   "function": "_mkfixture",
+   "callee": "open",
+   "family": "write",
+   "fragment": "GRID-X_paper.json",
+   "base_text": "tmp | 'results' | 'grid_paper'",
+   "base_path": null,
+   "class": "base_unresolved",
+   "composed_path": null,
+   "composed_exists": null,
+   "targets": [
+    {
+     "fragment": "GRID-X_paper.json",
+     "resolved_directory": null,
+     "class": "base_unresolved"
+    }
+   ]
+  },
+  {
+   "file": "scripts/open_market_readiness.py",
+   "line": 508,
+   "function": "cmd_selftest",
+   "callee": "open",
+   "family": "write",
+   "fragment": "GRID-X_paper.json",
+   "base_text": "fx | 'results' | 'grid_paper'",
+   "base_path": null,
+   "class": "base_unresolved",
+   "composed_path": null,
+   "composed_exists": null,
+   "targets": [
+    {
+     "fragment": "GRID-X_paper.json",
+     "resolved_directory": null,
+     "class": "base_unresolved"
+    }
+   ]
+  },
+  {
+   "file": "scripts/open_market_readiness.py",
+   "line": 511,
+   "function": "cmd_selftest",
+   "callee": "open",
+   "family": "write",
+   "fragment": "GRID-X_paper.json",
+   "base_text": "fx | 'results' | 'grid_paper'",
+   "base_path": null,
+   "class": "base_unresolved",
+   "composed_path": null,
+   "composed_exists": null,
+   "targets": [
+    {
+     "fragment": "GRID-X_paper.json",
+     "resolved_directory": null,
+     "class": "base_unresolved"
+    }
+   ]
+  },
+  {
+   "file": "scripts/open_market_readiness.py",
+   "line": 573,
+   "function": "cmd_selftest",
+   "callee": "open",
+   "family": "write",
+   "fragment": "face_bm-c.json",
+   "base_text": "fx | 'results' | 'saturation_engine'",
+   "base_path": null,
+   "class": "base_unresolved",
+   "composed_path": null,
+   "composed_exists": null,
+   "targets": [
+    {
+     "fragment": "face_bm-c.json",
+     "resolved_directory": null,
+     "class": "base_unresolved"
+    }
+   ]
+  }
+ ],
+ "method_limits": [
+  "the population is E433's published rows (constdirs_latest.json) carrying a fragment; rows are deduplicated to (fragment, resolved_directory) targets, so row counts and target counts are different units and are published side by side",
+  "a site is attributed only when its composing chain ends in the fragment literal: a site that builds the name from a variable, an f-string, or a loop is outside this scan and is not counted as absent",
+  "the base is resolved one hop through module-level constants (string literal, __file__/dirname shape, another name); a base bound inside a function stays base_unresolved rather than being guessed from its spelling",
+  "existence is tested on the current work tree, so a gitignored runtime cache that this machine never wrote reads as absent exactly like a mis-composed in-tree path"
+ ]
+}

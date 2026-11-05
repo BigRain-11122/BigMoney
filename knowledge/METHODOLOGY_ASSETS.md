@@ -10626,3 +10626,103 @@ imported from E437 rather than re-derived -- rebuilding reproduces 203 of 27,718
 check that the two studies share a population); face
 `results/state_tilt/tempwritebase_latest.json`; smoke leg `# E438 (r1457 bm-b)`; digest
 `research/digests/DIGEST-20261105-r1457-e438-temp-write-base.md`.
+
+### E435 -- 626 of 679 directory-valued published fields are the home directory of a published face, and none of the 528 composable joins lands on a path (r1458 bm-b)
+
+E423 indexed 679 directory-named published fields and 44 holding a file path, but never asked
+whether the value is itself the *name* of a published face -- a join on such a base would silently
+pick a face as its parent. E435 prices that shape on the same population, with the face-name index
+(12,884 faces scanned, 8,640 distinct stems) and the tree read in the same pass.
+
+**Measured.** Zero of 679 values have a basename equal to a published face stem, so the
+name-collision worry is empty on this tree. **626 point at the home directory of a published
+face** (their value is the face's parent, e.g. `results/state_tilt`), 53 point at neither. 528
+rows also carry a name field, so a join is composable; **0 of 528 resolves to an existing path**
+and 0 coincides with a published face. Verdict, recomputed by the gate:
+`directory_values_are_face_home_directories_and_none_of_them_compose`.
+
+**Why the two numbers must be published together.** 626 alone reads as a live defect, 0 alone
+reads as a non-finding; the pair says the shape is everywhere and the accident has not happened.
+The defect class is a *placement* question (a join lands inside a face family, not a workspace),
+not a doubling one -- and the composition count is what decides whether it is still only a shape.
+
+**Instrument checks that make the zero a measurement.** The same scanner resolves real directories
+on disk and the published-face index independently, the verify leg refuses a landing whose file no
+longer exists, and the selftest pins the three vertex classes (a name collision, a landing row, a
+row with no name field) as fixtures. A census whose population keys do not both re-derive
+(`published_faces_scanned`, `directory_named_fields`) is refused by the chain.
+
+**Bounds.** Basename-decided collisions count once per row, not per directory; composition is
+priced against paths that exist on *this* tree at scan time; a row with several name fields is
+`lands` if any of them lands (the published `join_target` says which); faces above 3 MB are
+outside the shared scanner.
+
+### E439 -- the directory-onto-a-file-slot class is empty at the call slot: 0 of 40 attributed rows hands a directory (r1458 bm-b)
+
+E438 followed the write inside each callee of the temp-supplying rows and published 56 that land on
+a file-path parameter. That count was keyed by callee NAME, and a name-keyed index counts every
+`lst.append(x)` as a call to a wrapper named `append`. E439 prices the same class at the call slot
+under attribution (the caller must be the defining module or import it) and grades the argument
+shape.
+
+**Measured.** 3,454 sources, 310 parameter sites, 11/11 wrappers confirmed live, 27,791
+directory-parameter call rows. The name index attributes **24,931** rows to those wrappers;
+reachability keeps **40** and drops 24,891 as same-name calls on something else (`write` 16,
+`save` 8, `_write_csv` 4, `write_face` 3, `dump`/`run`/`write_json`/`append` 2 each). Of the 40
+kept rows **0 hand a directory** (share 0.0): 22 compose a name onto a base, 12 pass a literal
+file path, 6 are runtime expressions. E438's 56 re-price to **17 attributed / 39 dropped / 0
+handing a directory**. Verdict, recomputed by the gate:
+`no_call_row_hands_a_directory_to_a_file_path_wrapper`.
+
+**Why the joint read matters.** The defect is empty for a structural reason, not a lucky sample:
+every surviving call row that reaches a file-path wrapper has ALREADY joined a name onto its base,
+so the temp marker is a file path by the time the wrapper sees it. E438's temp rows and E439's call
+rows are different populations, and publishing 56 -> 17 -> 0 on one face keeps that from reading as
+a contradiction. The correction is reachability, not re-grading -- the kept rows keep E438's class.
+
+**Bounds.** Attribution is conservative ("caller is the defining module or imports it"); 33 rows
+sit under an ambiguous wrapper name and are kept only when the callee resolves. 6 of the 40 are
+runtime expressions whose text resolves to no single expression -- published as `unknown`, never as
+directories. A wrapper absent from the live tree refuses the chain instead of leaving a tally. The
+write path emits the card's dated face AND a `*_latest` mirror; writing only the mirror had left
+`FILESLOT-<cutoff>.json` missing while the card claimed it (fixed in-window, r1458).
+
+### E436 -- the doubling read a double-ready row invites is performed by nobody: 0 of 19 naming read sites join the published directory (r1459 bm-b)
+
+E433 published rows whose directory-named field holds a FILE path while a sibling name field already
+equals that basename, so `dir + name` was armed. E436 prices whether a consumer ever performs it.
+Population imported from `constdirs_latest.json`: 18 rows carrying a fragment reduce to **11**
+distinct `(fragment, resolved_directory)` targets -- row and target counts are different units and
+are published side by side. Every `.py` in E423's corpus is parsed and every IO/path call whose
+argument subtree spells the fragment literally is graded by the base it composes onto:
+`joins_the_published_directory` (the doubling read), `composes_from_the_parent_directory` (rebuilds
+the same path from a fresh root), `composes_from_an_unrelated_base`, `base_unresolved`.
+
+**Measured.** 37 sites name a fragment -- 10 read, 9 write, 18 path-only. **0 read sites join the
+published directory**: the doubling read does not exist anywhere in the corpus. **8** read sites
+recompose the file from the *parent* and rebuild exactly the published path (all of them read
+`idle_trigger.bm-c.json`, another machine's health face); 2 more address the same tree through a
+`K:\...` literal, so the resolved-path test grades them unrelated; the doubled path exists in 0
+cases and all 10 resolved read compositions are absent on this work tree. **10 of the 11 targets
+have no read site at all** -- they are written and named, never read.
+
+**Why this is the answer and not a null.** The containment is a property of the read side, not of
+the row: a double-ready field is only dangerous if a consumer starts from the published value
+instead of from the parent it was built from. Publishing "0 doubling reads" beside "8 parent
+recompositions" keeps the zero from reading as "nobody touches these files".
+
+**Two instrument repairs, both caught by the numbers rather than by the code.** (a) The base of a
+composing expression must stop *before* the fragment: slicing `chain[1:]` kept the fragment as a
+base element, which turned 8 parent recompositions into 8 "doubling reads" composing
+`.../results/idle_trigger.bm-c.json/idle_trigger.bm-c.json`. The first headline was manufactured by
+an off-by-one. (b) `open` is not a reader: the first build counted `open(p, "w")` as a read, so 9
+writes sat in the read tally and every writer looked like a consumer; grading the mode argument
+moved them. A family tally is only worth publishing when the family is read from the argument, not
+from the callee name.
+
+**Bounds.** A site is attributed only when its composing chain ends in the fragment literal, so a
+name built from an f-string, a variable, or a loop is outside this scan and is never counted as
+absent. Bases resolve one hop through module constants (string literal, `__file__`/dirname shape,
+another name) and stay `base_unresolved` (21 sites) instead of being guessed from spelling.
+Existence is tested on the current work tree, so another machine's face reads as absent exactly
+like a mis-composed in-tree path.
