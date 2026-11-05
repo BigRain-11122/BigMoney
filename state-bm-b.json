@@ -4918,7 +4918,7 @@
  "s6_leg": "dirfield_join",
  "s6_note": "only the new S6 leg (verify) ran this window; the rest of the S6 chain was not re-run and is not claimed",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
- "s7": "orphan probe py_faces=6 orphans=0 residents=0; loop task / watchdog / claws not re-checked this window (not claimed)",
+ "s7": "loop task no-op (pin=2/current=2) | Bigmoney-LoopWatchdog RE-REGISTERED again (absent at window start, S4U, SWA=false, first fire 10:03) -- two windows in a row, so next round must find what removes it | pre-commit and pre-push claws byte-identical to Tools/git-hooks (zero action) | orphan probe py_faces=6 orphans=0 residents=0",
  "s7_r1439": "loop pin=2 no-op | LoopWatchdog RE-REGISTERED (absent on this box; S4U, SWA=false) | pre-commit + pre-push claws reinstalled | attrition CLEAN 4 ledgers (3 healed) | sat engine status rc=0 idle",
  "sat_engine": "status rc=0, last_verdict=idle, not restarted",
  "selftest": "not run this window (no code change)",
@@ -4969,12 +4969,12 @@
  "three_line_artifact": "results/state_tilt/LATESTFAMILY-2026-11-04.json @ 2026-11-05T10:00:40+08:00",
  "three_line_current": "E398 republished after the r1451 openerflow pointer moved the family population 203->204: named_pointers=204, verify problems=[] -- the red from last window is closed by re-deriving the producer, not by loosening the leg",
  "three_line_next": "take ready pool card E433/E434 (cpu-only, <=48h); the E398 standalone smoke leg was not re-run this window (it re-walks the census and ran past 5 min, cancelled)",
- "timestamp": "2026-11-05T10:00:40+08:00",
- "ts": "2026-11-05T10:00:40+08:00",
+ "timestamp": "2026-11-05T10:01:36+08:00",
+ "ts": "2026-11-05T10:01:36+08:00",
  "ts_utc_ms": 1793844040717,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-05T10:00:40+08:00",
- "updated_at": "2026-11-05T10:00:40+08:00",
+ "updated_at": "2026-11-05T10:01:36+08:00",
  "verdict": "green: E398 red closed (verify problems=[]), pool ready 3",
  "verdict_line": "e398_latest_family run -> named_pointers 203->204; verify problems=[] | pool_dualrun ZERO-DRIFT 910 entries streak 51 | attrition_ledger_guard CLEAN 4 ledgers | e435 seeded (ready 2->3)",
  "verdict_watermark": "red=true lane=pool-batch-runnable-idle-low-cpu",
@@ -5057,5 +5057,12 @@
   "verified": true
  },
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
- "s7_checked_at": "2026-11-05T10:08:00+08:00"
+ "s7_checked_at": "2026-11-05T10:01:36+08:00",
+ "s7_note": "watchdog disappearance is now a repeating defect, not a one-off",
+ "r1452_delivery": {
+  "branch": "machine/bm-b-r1452",
+  "sha": "3d04d738111c792c047cc3879e4fff15bc9265ac",
+  "verified": true,
+  "postscript_pending": true
+ }
 }

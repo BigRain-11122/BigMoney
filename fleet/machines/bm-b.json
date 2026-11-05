@@ -11,7 +11,7 @@
  "clock_offset_age_s": 0,
  "clock_offset_ms": 152.9,
  "clock_offset_trusted": false,
- "clock_read": "2026-11-05T10:00:40+08:00",
+ "clock_read": "2026-11-05T10:01:36+08:00",
  "clock_rtt_ms": 264.6,
  "clock_source": "NATS KV FLEET_STATE state.bm-b (FluxGroup-NatsHB v2, 1/min)",
  "codely_live_count": 2,
@@ -92,7 +92,7 @@
  "gpu_vram_free_mib": 3869,
  "gpu_vram_used_mb": 4323,
  "gpu_vram_used_mib": 4323,
- "heartbeat_epoch_utc": 1793844040,
+ "heartbeat_epoch_utc": 1793844096,
  "heartbeat_epoch_utc_face": "int",
  "heartbeat_note": "cpu_pct from two GetSystemTimes samples; ram_load_pct is GlobalMemoryStatusEx dwMemoryLoad as read (a percentage, never multiplied by 100 again -- the first write of this round published 8400.0, the E235 family recurring on a new field)",
  "host": "bm-b",
@@ -125,7 +125,7 @@
  "last_round_summary": "E427: 1,844 of 2,208 bound in-opener templates are read by their own opener",
  "last_round_ts": "2026-11-05T10:00:40+08:00",
  "last_run": "2026-10-31T08:02:00+08:00",
- "last_seen": "2026-11-05T10:00:40+08:00",
+ "last_seen": "2026-11-05T10:01:36+08:00",
  "last_seen_epoch_utc": 1793844040,
  "latest_artifact": "results/state_tilt/LATESTFAMILY-2026-11-04.json",
  "local_not_on_origin": 374,
@@ -302,7 +302,7 @@
   "results/runnable_pool.json E423 done + E433 seeded"
  ],
  "product_this_round": "results/state_tilt/LATESTFAMILY-2026-11-04.json (verify problems=[])",
- "push": "8199ec580e20011699835c4266017c3e794fdba4",
+ "push": "machine/bm-b-r1452 3d04d7381 verified by ls-remote",
  "push_note": "machine branch delivery (main non-fast-forward: ahead 377 / behind 294)",
  "push_sha": "8199ec580e20011699835c4266017c3e794fdba4",
  "py_cpu_pct": null,
@@ -1165,7 +1165,7 @@
  "round_no_ts": "2026-11-05T07:53:37+08:00",
  "s1": "full suite RUN this window (results/_smoke_r1450.out): 316/328, 12 pre-existing FAIL",
  "s6": "only the new leg opener_flow was exercised standalone (rc=0, 66.96s, receipt results/_r1451bmb_s6_chain.json) plus saturation_engine status rc=0 (idle, not restarted); dualrun / compute_audit / py_watermark / update_* / market_regime / scorecards / paper faces NOT run this window -- nothing claimed about them. E398 latest-family face was REPUBLISHED (this round's new latest pointer moved the population 203 -> 204) but its verify was still running at closeout, so the E398 red is NOT claimed fixed.",
- "s7": "orphan probe py_faces=9 orphans=0 residents=0; attrition_ledger_guard scan CLEAN (4 ledgers, 3 historical shrinks healed, evidence results/_attrition_guard_scan.json); register_loop_task.ps1 no-op (machine=bm-b pin=2 current=2); register_watchdog_task.ps1 REGISTERED (Bigmoney-LoopWatchdog was absent again -- S4U, SWA=false); pre-commit and pre-push claws both reinstalled from Tools/git-hooks (both were missing or mismatched); saturation_engine status rc=0.",
+ "s7": "loop task no-op (pin=2/current=2) | Bigmoney-LoopWatchdog RE-REGISTERED again (absent at window start, S4U, SWA=false, first fire 10:03) -- two windows in a row, so next round must find what removes it | pre-commit and pre-push claws byte-identical to Tools/git-hooks (zero action) | orphan probe py_faces=6 orphans=0 residents=0",
  "sat_engine": "not re-run this window -- stated, not claimed",
  "selftest": "e406 selftest 14/14; extracted smoke leg 1/1",
  "seq": 1450,
@@ -1198,7 +1198,7 @@
  "three_line_current": "E427 published: of 2,674 specific templates inside a function that opens a file, 1,844 are read by an opener in their own function (1,825 directly, 730 as the opener's own argument; 19 through one rebinding), 364 are bound and unread, 466 have no binding -- location is not dataflow",
  "three_line_next": "take ready pool card E433/E434 (cpu-only, <=48h); the E398 standalone smoke leg was not re-run this window (it re-walks the census and ran past 5 min, cancelled)",
  "timestamp": "2026-11-05T10:00:40+08:00",
- "ts": "2026-11-05T10:00:40+08:00",
+ "ts": "2026-11-05T10:01:36+08:00",
  "ts_utc_ms": 1793836417000,
  "updated": "2026-11-05T07:53:37+08:00",
  "updated_at": "2026-11-05T07:53:37+08:00",
@@ -1220,6 +1220,7 @@
   "sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
   "verified": true
  },
- "s7_checked_at": "2026-11-05T10:08:00+08:00",
- "vram_used_gb": 4.22
+ "s7_checked_at": "2026-11-05T10:01:36+08:00",
+ "vram_used_gb": 4.22,
+ "s7_note": "watchdog disappearance is now a repeating defect, not a one-off"
 }
