@@ -16294,6 +16294,42 @@ except Exception as _e426:
     _bad426.append(repr(_e426)[:160])
 check(_name426, not _bad426, "; ".join(_bad426)[:240] or _d426)
 
+# E427 (r1451 bm-b): E426 located 2,818 templates inside a function that opens a file and
+# published that location as the interesting fact.  Location is not dataflow.  This leg reads the
+# face that follows each template's binding inside its own function and refuses (a) a state
+# outside the vocabulary the producer declares, (b) a state table that does not close against the
+# published row list, (c) a bound total, read total or direct-argument count that does not re-add
+# from the rows, (d) a verdict that does not re-derive from the rows, (e) a face that names no
+# population_source (E368: a replay and a re-walk must stay distinguishable), and (f) a base-count
+# block that claims to match E426 while its own delta says otherwise.
+_name427 = ("product: of the templates that sit inside an opener, only the ones whose binding "
+            "reaches that opener's argument are read by it -- location is not dataflow")
+_bad427, _d427 = [], ""
+try:
+    import importlib as _il427
+    _m427 = _il427.import_module("e427_opener_flow")
+    _f427 = json.load(open(os.path.join("results", "state_tilt", "openerflow_latest.json"),
+                           encoding="utf-8"))
+    _s427 = _f427.get("summary") or {}
+    _bad427.extend(_m427.tally_problems(_f427))
+    if _f427.get("population_source") is None:
+        _bad427.append("the face names no population_source")
+    if _s427.get("base_matches_e426") and _s427.get("unfiltered_delta_vs_e426") not in (0,):
+        _bad427.append("the face claims its base matches E426 while publishing a non-zero delta")
+    _d427 = "%d in-opener template(s): %d read by their own opener (%d directly as its argument, " \
+             "%d through one rebinding), %d bound-but-unread, %d unbound | E426 published %s " \
+             "unfiltered, today's recount %s | %s" % (
+                 _s427.get("in_opener_templates", 0),
+                 _s427.get("read_by_the_opener_including_one_rebinding", 0),
+                 _s427.get("read_by_the_opener", 0),
+                 _s427.get("read_after_one_rebinding", 0),
+                 _s427.get("unread_bound", 0), _s427.get("unbound_shape", 0),
+                 _s427.get("e426_templates_in_an_opener"),
+                 _s427.get("e426_recount_unfiltered_today"), _f427.get("verdict"))
+except Exception as _e427x:
+    _bad427.append(repr(_e427x)[:160])
+check(_name427, not _bad427, "; ".join(_bad427)[:240] or _d427)
+
 # E429 (r1445 bm-b): E419 declared in its own method limits that a face composed from a variable
 # and written by a shared helper is out of reach, and its three no-writer rows were exactly that
 # shape.  This leg reads the face that follows the directory one hop further and refuses (a) a

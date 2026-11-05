@@ -27601,11 +27601,18 @@
    "lane": "cpu-only",
    "lane_note": "cpu-only; static AST dataflow over the python corpus, no writer runs",
    "priority": 3,
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "bm-b r1444 E426: in_an_opener is the nearest enclosing function containing any opener call -- a location, not a dataflow (stated as a method limit)",
    "entered_at": "2026-11-05T00:5x+08:00",
-   "entered_by": "bm-b r1444 (supply floor refill after E426)"
+   "entered_by": "bm-b r1444 (supply floor refill after E426)",
+   "claimed_at": "2026-11-05T09:20+08:00",
+   "claimed_by": "bm-b",
+   "closed_at": "2026-11-05T09:42+08:00",
+   "closed_by": "bm-b r1451",
+   "result_ref": "results/state_tilt/OPENERFLOW-2026-11-05.json",
+   "outcome": "2674 specific templates sit inside a function that opens a file; 1825 are the opener argument itself and 19 more are read through exactly one same-function rebinding, so 1844 (69.0% of the 2674 bound ones) are read by their own opener while 364 are bound and unread and 466 carry no binding at all. Location was not dataflow: E426s 2818 counted unfiltered templates; today the same unfiltered recount is 2825 (corpus growth of 7), so the two numbers differ by the specificity filter, not by drift.",
+   "evidence_cutoff": "2026-11-05"
   },
   {
    "id": "E428-WHICH-PARAMETER-DIRECTORY-HELPER-HAS-NO-CALLER-IN-THE-CENSUS",
@@ -27684,6 +27691,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-05T07:5x+08:00",
+ "updated_at": "2026-11-05T09:42+08:00",
  "version": 1
 }

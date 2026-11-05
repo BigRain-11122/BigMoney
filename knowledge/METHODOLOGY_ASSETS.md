@@ -10424,3 +10424,53 @@ name before parsing); face `FIXTUREWRITE-2026-11-04.json` + `fixturewrite_latest
 smoke leg `# E432 (r1450 bm-b)` with `scripts/run_e432_smoke_leg.py` (1/1, 1/1 red on a doctored
 tally, face restored byte-identical `1f84eeda…`); S6 leg `fixture_write`; digest
 `research/digests/DIGEST-20261105-r1450-e432-fixture-write.md`.
+
+
+## E427 -- a template inside an opener is not a name that opener reads: 83.5% of them are, and the rest are a different bill (r1451 bm-b, card E427)
+
+E426 published 2,818 as "templates inside a function that opens a file" and treated the location as
+the finding. Location is not dataflow: a template can be built on one line and read five lines
+later, or it can be built and only printed while the opener reads an unrelated constant. This study
+follows each template's binding inside its own function and prices the difference.
+
+**Population, stated as a filter and not as drift.** E426's 2,818 is its *unfiltered* in-opener
+count (`templates_in_an_opener = sum(1 for t in templates if t["in_an_opener"])`), while the
+population it actually used for reach is the *specific* subset. Today's specific in-opener
+population is **2,674** and today's unfiltered recount (E426's own collector, the scanner's own file
+excluded) is **2,825** -- a delta of +7 that is corpus growth since E426 ran, not a filter change.
+Both numbers and the delta are published in the face, because "my base disagrees with the base I
+built on" is exactly the reading that turns into a silent drift later.
+
+**Readings** (`results/state_tilt/OPENERFLOW-2026-11-05.json`, 3,452 modules, 0 unreadable):
+
+* of the 2,208 *bound* in-opener templates, **1,844 are read by an opener in their own function**
+  (83.5%): 1,825 directly (730 of them the opener's argument expression itself) and 19 through
+  exactly one same-function rebinding;
+* **364 are bound and unread** -- the opener beside them reads something else;
+* **466 carry no binding at all** (inline in a `print`, a `return`, or another call's argument).
+
+**Three rules measured, not assumed.**
+
+1. *Unbound is a shape, not a class.* Putting the 466 into "unread" would inflate that bill by 128%
+   (364 -> 830). They are published beside the three states and never folded in: "there is no name
+   to follow" and "the name is unread" are different findings.
+2. *An ascent that stops at the first call finds nothing.* The first draft broke the binding climb
+   at any `Call`, so `path = os.path.join(OUT, "%s.json" % name)` bound to nothing and 3 of the 5
+   selftest rows came back unbound. A template nested in a helper call is bound by the assignment
+   that holds the call; the climb now passes through every expression node and stops only at an
+   assignment, a statement, or a keyword/withitem.
+3. *The direct case must be decided before the ascent.* The ascent consumes node identity as it
+   climbs, so `open(f"...{name}.json")` lost its own template and graded as unbound until the direct
+   check moved ahead of the walk.
+
+**Bounds, published not claimed.** Exactly one rebinding hop is followed, so the read count is a
+lower bound and the unread count an upper bound; matching is by identifier, not scope resolution (a
+shadowing same-named local counts as a read); an opener is counted by call name, so a helper that
+takes the name and opens inside itself is invisible.
+
+**Delivered.** `scripts/e427_opener_flow.py` (reuses E426's corpus walk, four template shapes,
+specificity rule and opener vocabulary by import -- a second detector would make the base
+unreadable); face `OPENERFLOW-2026-11-05.json` + `openerflow_latest.json`; smoke leg
+`# E427 (r1451 bm-b)` with `scripts/run_e427_smoke_leg.py` (1/1 green, 1/1 red on a doctored
+`by_state`, face restored byte-identical `78ec8c2868c748be`); S6 leg `opener_flow` (rc=0, 67s);
+digest `research/digests/DIGEST-20261105-r1451-e427-opener-flow.md`.

@@ -670,6 +670,22 @@
    "carried_by": null,
    "class": "family_stated_at_the_site",
    "evidence": {
+    "expr": "'results/state_tilt/twohop_latest.json'",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "'results/state_tilt/twohop_latest.json'",
+   "file": "_tmp_e420_pool.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 6,
+   "site": "_tmp_e420_pool.py:6",
+   "tier": "scratch_or_estate"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
     "expr": "read(os.path.join(ROOT, 'results', 'vol_gate', 'latest.json'))",
     "family_suffix": "results/vol_gate",
     "how": "a literal component names the family directory",
@@ -1214,8 +1230,8 @@
    "file": "scripts/e403_family_arg.py",
    "function": "verify",
    "kind": "read",
-   "line": 846,
-   "site": "scripts/e403_family_arg.py:846",
+   "line": 854,
+   "site": "scripts/e403_family_arg.py:854",
    "tier": "live_tooling"
   },
   {
@@ -1251,6 +1267,71 @@
    "kind": "read",
    "line": 601,
    "site": "scripts/e409_unfloored_faces.py:601",
+   "tier": "live_tooling"
+  },
+  {
+   "carried_by": "base_path",
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "carried_by": "base_path",
+    "expr": "os.path.join(root, 'results', 'state_tilt', 'dynamicname_latest.json')",
+    "family_suffix": "results/state_tilt",
+    "how": "a literal component names the family directory",
+    "root_from": "a runtime value not resolvable here"
+   },
+   "expr": "os.path.join(root, 'results', 'state_tilt', 'dynamicname_latest.json')",
+   "file": "scripts/e427_opener_flow.py",
+   "function": "build",
+   "kind": "read",
+   "line": 390,
+   "site": "scripts/e427_opener_flow.py:390",
+   "tier": "live_tooling"
+  },
+  {
+   "candidate_families": [
+    "docs/live_book",
+    "results/alphagen_rg",
+    "results/div_event_census",
+    "results/divex_harvest",
+    "results/divlowvol_live",
+    "results/divlowvol_nulls",
+    "results/e24_breadth_h20_entry",
+    "results/e24_dispersion_h60_entry",
+    "results/e24_overlay_breath",
+    "results/e25_whipsaw",
+    "results/e33_ladder_baseline",
+    "results/etf_book_order",
+    "results/etf_book_order_fresh",
+    "results/etf_book_production",
+    "results/etf_book_split_audit",
+    "results/m6_regime5",
+    "results/obs_rate",
+    "results/overnight_gap_census",
+    "results/paper_export",
+    "results/regime_gate_dualarm",
+    "results/regime_matrix_p0",
+    "results/seasonal_calendar_census",
+    "results/seasonal_horizon_stability",
+    "results/stagestyle_combo_p1",
+    "results/state_tilt",
+    "results/t23_census",
+    "results/tom_overlay",
+    "results/vol_gate"
+   ],
+   "carried_by": null,
+   "class": "family_not_supplied_anywhere",
+   "evidence": {
+    "expr": "os.path.join(OUTDIR, 'no_caller_latest.json')",
+    "how": "no literal, constant, parameter or prior write"
+   },
+   "expr": "os.path.join(OUTDIR, 'no_caller_latest.json')",
+   "file": "scripts/e428_no_caller.py",
+   "function": "main",
+   "kind": "read",
+   "line": 487,
+   "n_candidate_families": 28,
+   "n_distinct_signatures_among_candidates": 27,
+   "site": "scripts/e428_no_caller.py:487",
    "tier": "live_tooling"
   },
   {
@@ -1503,8 +1584,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15608,
-   "site": "smoke_test.py:15608",
+   "line": 15612,
+   "site": "smoke_test.py:15612",
    "tier": "smoke_harness"
   },
   {
@@ -1519,8 +1600,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15654,
-   "site": "smoke_test.py:15654",
+   "line": 15658,
+   "site": "smoke_test.py:15658",
    "tier": "smoke_harness"
   },
   {
@@ -1535,8 +1616,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15711,
-   "site": "smoke_test.py:15711",
+   "line": 15715,
+   "site": "smoke_test.py:15715",
    "tier": "smoke_harness"
   },
   {
@@ -1551,8 +1632,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15780,
-   "site": "smoke_test.py:15780",
+   "line": 15784,
+   "site": "smoke_test.py:15784",
    "tier": "smoke_harness"
   },
   {
@@ -1567,8 +1648,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15823,
-   "site": "smoke_test.py:15823",
+   "line": 15827,
+   "site": "smoke_test.py:15827",
    "tier": "smoke_harness"
   },
   {
@@ -1583,8 +1664,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15869,
-   "site": "smoke_test.py:15869",
+   "line": 15877,
+   "site": "smoke_test.py:15877",
    "tier": "smoke_harness"
   },
   {
@@ -1599,8 +1680,120 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15930,
-   "site": "smoke_test.py:15930",
+   "line": 15938,
+   "site": "smoke_test.py:15938",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'shadowface_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'shadowface_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 16029,
+   "site": "smoke_test.py:16029",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'fixturewrite_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'fixturewrite_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 16110,
+   "site": "smoke_test.py:16110",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'no_caller_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'no_caller_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 16177,
+   "site": "smoke_test.py:16177",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'dynamicname_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'dynamicname_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 16233,
+   "site": "smoke_test.py:16233",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'openerflow_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'openerflow_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 16311,
+   "site": "smoke_test.py:16311",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'twohop_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'twohop_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 16346,
+   "site": "smoke_test.py:16346",
+   "tier": "smoke_harness"
+  },
+  {
+   "carried_by": null,
+   "class": "family_stated_at_the_site",
+   "evidence": {
+    "expr": "os.path.join('results', 'state_tilt', 'dirfield_latest.json')",
+    "family_dir": "results/state_tilt",
+    "how": "the literals at the site build the directory"
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'dirfield_latest.json')",
+   "file": "smoke_test.py",
+   "function": "<module>",
+   "kind": "read",
+   "line": 16467,
+   "site": "smoke_test.py:16467",
    "tier": "smoke_harness"
   },
   {
@@ -3935,8 +4128,8 @@
    "file": "smoke_test.py",
    "function": "<module>",
    "kind": "read",
-   "line": 15829,
-   "site": "smoke_test.py:15829",
+   "line": 15833,
+   "site": "smoke_test.py:15833",
    "tier": "smoke_harness"
   },
   {
@@ -4065,31 +4258,31 @@
  "summary": {
   "by_class": {
    "family_from_the_value_the_site_itself_wrote": 8,
-   "family_not_supplied_anywhere": 1,
+   "family_not_supplied_anywhere": 2,
    "family_required_by_the_signature": 17,
-   "family_stated_at_the_site": 175
+   "family_stated_at_the_site": 184
   },
   "by_tier": {
    "live_tooling": {
     "family_from_the_value_the_site_itself_wrote": 4,
-    "family_not_supplied_anywhere": 0,
+    "family_not_supplied_anywhere": 1,
     "family_required_by_the_signature": 17,
-    "family_stated_at_the_site": 19,
-    "total": 40
+    "family_stated_at_the_site": 20,
+    "total": 42
    },
    "scratch_or_estate": {
     "family_from_the_value_the_site_itself_wrote": 0,
     "family_not_supplied_anywhere": 0,
     "family_required_by_the_signature": 0,
-    "family_stated_at_the_site": 9,
-    "total": 9
+    "family_stated_at_the_site": 10,
+    "total": 10
    },
    "smoke_harness": {
     "family_from_the_value_the_site_itself_wrote": 4,
     "family_not_supplied_anywhere": 1,
     "family_required_by_the_signature": 0,
-    "family_stated_at_the_site": 147,
-    "total": 152
+    "family_stated_at_the_site": 154,
+    "total": 159
    }
   },
   "classes_sum_to_the_read_sites": true,
@@ -4099,6 +4292,7 @@
    "Money02/live_view.py",
    "Money02/preflight_data.py",
    "_e363_probe3.py",
+   "_tmp_e420_pool.py",
    "_tmp_r1251_close_state.py",
    "_tmp_r1251_report.py",
    "_tmp_r1277_nums.py",
@@ -4128,6 +4322,8 @@
    "scripts/e377_unresolved_destination.py",
    "scripts/e403_family_arg.py",
    "scripts/e409_unfloored_faces.py",
+   "scripts/e427_opener_flow.py",
+   "scripts/e428_no_caller.py",
    "scripts/etf_book_bakeoff.py",
    "scripts/etf_book_bridge.py",
    "scripts/etf_book_order.py",
@@ -4139,17 +4335,17 @@
    "smoke_test.py"
   ],
   "live_tooling_only": {
-   "named": 40,
-   "read_sites": 40,
-   "unsupplied": 0,
-   "verdict": "every_latest_pointer_reader_names_its_family_at_the_site_or_in_its_signature_so_a_wrong_family_needs_a_wrong_caller_not_a_wrong_name"
+   "named": 41,
+   "read_sites": 42,
+   "unsupplied": 1,
+   "verdict": "some_latest_pointer_readers_are_handed_their_family_and_some_take_whatever_the_base_holds_so_the_pointer_convention_is_safe_only_where_the_caller_is"
   },
   "max_families_a_single_unsupplied_reader_could_land_on": 28,
-  "pointer_files_named_<family>_latest_json": 197,
+  "pointer_files_named_<family>_latest_json": 204,
   "pointer_files_named_latest_json": 28,
   "pointer_files_with_another_latest_shape": 11,
-  "read_sites_in_files": 42,
-  "read_sites_total": 201,
+  "read_sites_in_files": 45,
+  "read_sites_total": 211,
   "schema_cost_of_a_wrong_landing": {
    "distinct_top_level_signatures": 27,
    "families": 28,
@@ -4685,11 +4881,12 @@
    ]
   },
   "sites_handed_their_family_by_the_signature": 17,
-  "sites_that_name_their_family_at_the_site": 175,
+  "sites_that_name_their_family_at_the_site": 184,
   "sites_that_read_the_pointer_they_just_wrote": 8,
-  "sites_whose_family_is_not_supplied_anywhere": 1,
+  "sites_whose_family_is_not_supplied_anywhere": 2,
   "stone": null,
   "unsupplied_sites_could_land_on_this_many_families": [
+   28,
    28
   ],
   "verdict": "some_latest_pointer_readers_are_handed_their_family_and_some_take_whatever_the_base_holds_so_the_pointer_convention_is_safe_only_where_the_caller_is",
@@ -4701,7 +4898,7 @@
   },
   "write_sites_total": 67
  },
- "ts": "2026-11-04T22:21:05+08:00",
+ "ts": "2026-11-05T09:34:55+08:00",
  "verdict": "some_latest_pointer_readers_are_handed_their_family_and_some_take_whatever_the_base_holds_so_the_pointer_convention_is_safe_only_where_the_caller_is",
  "write_sites": [
   {
@@ -5364,8 +5561,8 @@
    "file": "scripts/e403_family_arg.py",
    "function": "build",
    "kind": "write",
-   "line": 834,
-   "site": "scripts/e403_family_arg.py:834"
+   "line": 842,
+   "site": "scripts/e403_family_arg.py:842"
   },
   {
    "carried_by": "latest",

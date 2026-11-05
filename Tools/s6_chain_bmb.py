@@ -1521,6 +1521,12 @@ LEGS = [
     # rows no longer a live site still equal the population E428 published, so a fixture helper
     # that moves or disappears refuses the chain instead of leaving a stale tally.
     ("fixture_write", ["python", "scripts/e432_fixture_write.py", "verify"]),
+    # E427 (r1451): E426 published 2,818 templates as "inside a function that opens a file" and
+    # stopped at location. Verify re-derives the state table over the live corpus (the scanner's own
+    # AST walk plus E426's collector for the unfiltered base) and re-checks that the state table,
+    # the bound/read totals and the direct-argument count all re-add from the published rows, so a
+    # template whose binding moves refuses the chain instead of leaving a stale read count.
+    ("opener_flow", ["python", "scripts/e427_opener_flow.py", "verify"]),
 ]
 
 
