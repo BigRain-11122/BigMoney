@@ -11761,3 +11761,78 @@ fields and classify the value's dialect before believing the absence: on this tr
 already there and the value is a script stem, so the repair is a normalisation plus, on one face, a
 rename. Publish the reading beside the presence, because a value that answers a different question
 is indistinguishable from a missing value to every reader that keys on [`E` + three digits].
+
+## E466 -- a key named `face` is a pointer in 18 of 206 faces, and nobody follows it (r1490 bm-b)
+
+**Where it came from.** E464 closed on four faces and found that each also carries a pointer key --
+`source_face`, `face`, `face_path` -- and that on NAMERESOLVE the pointer is the only exact identity
+match while both study voices are slugs. Four faces is not a population. Nobody had asked, tree-wide,
+whether those values name a file at all, whether they resolve, and whether any source outside the
+producer ever turns one into a path.
+
+**Law.** Population = every `*.json` under `results/` (own outputs excluded, `.codely-cli/_smoke/
+_quarantine` pruned, 2 MiB read cap) whose top level carries a non-empty string under one of the
+three keys: 252 instances on 252 faces (13,050 faces read). Each instance is graded in three layers
+that are published apart and never merged:
+
+* **Form** -- is the value a path with a `.json` suffix, a path without one, a single token that
+  names a face on disk, a token that names no face, or free text? A label is not a broken pointer.
+* **Resolution** -- for path forms only, three bases asked of the filesystem in order: repo root,
+  the pointing face's own directory, and (for Windows drive paths) as written. Separators are
+  normalised explicitly so the answer does not depend on the host parser, and the spelling is
+  published apart. Residue splits three ways: on disk / only in git history / never existed.
+* **Join** -- over the `.py` corpus (12,223 sources, identity family excluded), which sources read
+  the key by its literal name, which sources turn a value read from the key into a filesystem path
+  (`x = payload.get(K)` then `open(join(ROOT, x))`, or the inline form), and which merely name the
+  target string. Reading a key is not following it; naming a file is not a join.
+
+**Numbers.** 252 instances / 252 faces: `face` 206, `source_face` 42, `face_path` 4. **The key
+named `face` is a path in 18 of 206 faces (8.7%)**: 17 with a `.json` suffix and 1 without; the
+other 188 are 7 stems that name a face on disk, 145 single tokens that name no face, and 36 free-text
+labels (`"descriptive flip-rate sweep; selects no arm, changes no book"`). `source_face` is a path in
+42 of 42 and `face_path` in 4 of 4. 64 path-form pointers, **64 of 64 resolve on disk, 0 in git
+history only, 0 never existed** -- but only 27 resolve from the repo root, **33 resolve only from the
+pointing face's own directory** (a bare `LADDERDROPWHERE-20261027.json`), and 4 resolve only as an
+absolute `C:\Fluxgroup\...` path. Spellings: 33 bare, 25 forward, 2 backslash, **4 absolute -- 6 of
+64 would fail on a POSIX reader**. 24 further faces carry one of these keys as a dict/list block
+(`source_face: {"sha256": ..., "population": ...}`), so the key name answers a third question on
+those faces and they are outside this population by construction. Readers: 262 sources read a
+pointer key name (1,220 sites), 30 turn a `face` value into a path, **0 outside a producer turn a
+`source_face` or `face_path` value into a path**. The 30 are the generic key: the two hand-checked
+(`e460_facegap.py` `face = upstream_row["face"]`, `e270_guard_field_audit.py`
+`os.path.join(outdir, entry["face"])`) read a row or an inventory record the source itself built.
+
+**Pits.**
+
+* **A label that contains a slash is not a path.** The first draft let any string with `/` be a
+  pointer, so `"EXPLORATION/NEIGHBORHOOD deep-scan (no judgment)"` became a pointer to a file that
+  never existed -- nine of them, and the verdict read "some pointers name a path that never existed"
+  on nine sentences. A path is a whitespace-free token; ask the form before asking the resolution.
+* **Naming the target is not joining it.** Matching the exact string gave 1,001 outside "readers",
+  of which `results/compute_audit.json` alone accounted for 1,746 mentions: the three shared
+  metronome faces are named by every census in the tree. The join layer had to be a read of the key
+  that then becomes a path argument, and the basename-only matches (38) are published separately.
+* **Reading the key is not following it either.** `smoke_test.py` reads `source_face` into `_src44`
+  and then asks it for `sha256` -- it is reading a provenance block, not a path. A follower must
+  reach `open`/`load`/`join`/`isfile`.
+* **`face` is the sources' own row schema.** In 30 sources a variable called `face` flows into a
+  path, but the dict it came from is the source's own inventory of faces (a family glob), not a
+  pointer field read from an upstream payload. Static shape cannot separate the two, so the
+  verdict names this explicitly instead of counting those 30 as joins.
+
+**Wiring.** `scripts/e466_pointer_join.py` (run rc0 / `check` problems=[] / `verify` problems=[]
+on the live tree / **selftest 46/46**); faces `results/state_tilt/pointerjoin_latest.json` +
+`POINTERJOIN-2026-11-06.json`; S6 leg `pointer_join`; pool card E465 (pointer question) closed with
+this study as its result, card number E466 because E465 was already the name-collide study's card.
+
+**Bound.** Top-level keys only; a pointer inside a row is invisible. A stem resolves only when a
+face file on disk carries it, so a stem that names a directory or a study is published unresolved
+and is not evidence of a broken pointer. The follower test is file-global name flow, not scoped
+dataflow: a name used as a path anywhere in the file counts. Absolute paths are graded on this box --
+the count is a portability hazard, not a broken pointer.
+
+**How to apply.** Before treating a "pointer key" as a join, publish its form beside its value: on
+this tree the same three names carry a path, a stem, free text and a dict block, and the only key
+that is always a path (`source_face`) has five readers and no follower. Resolution must try the
+pointing face's own directory -- 33 of 64 pointers resolve nowhere else -- and must publish the
+spelling, because a bare or absolute value that resolves here does not resolve anywhere else.

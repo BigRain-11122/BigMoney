@@ -28207,8 +28207,13 @@
    "priority": "normal",
    "question": "For every face in the tree that carries a pointer key (source_face / face / face_path), resolve the pointer against the working tree under both spellings, and publish whether it resolves, whether it resolves only after normalising separators, and whether any source outside the producer READS that pointer to reach the upstream face. Split the residue into pointers that name a file on disk, a file that exists only in git history, and a path that never existed.",
    "source": "E464 (r1487 bm-b): the pointer is the only exact match on NAMERESOLVE and is spelled two ways",
-   "status": "ready",
-   "title": "E464 found every multi-value face also carries a pointer key (source_face), and on NAMERESOLVE the pointer is the only exact identity match while every study voice is a slug. The same key is spelled with backslashes on SELFRES and with forward slashes on NAMERESOLVE. Nothing has asked whether those pointers resolve to a file on disk, or whether any source joins a face to its upstream through the pointer instead of through an identity value."
+   "status": "done",
+   "title": "E464 found every multi-value face also carries a pointer key (source_face), and on NAMERESOLVE the pointer is the only exact identity match while every study voice is a slug. The same key is spelled with backslashes on SELFRES and with forward slashes on NAMERESOLVE. Nothing has asked whether those pointers resolve to a file on disk, or whether any source joins a face to its upstream through the pointer instead of through an identity value.",
+   "owner": "bm-b",
+   "claimed_at": "2026-11-06T19:0x+08:00",
+   "done_at": "2026-11-06T19:28:24+08:00",
+   "result_ref": "results/state_tilt/pointerjoin_latest.json (study E466; scripts/e466_pointer_join.py)",
+   "result_note": "landed as study/card E466: card number E465 was already the name-collide study's card in knowledge/METHODOLOGY_ASSETS.md"
   },
   {
    "id": "E466-HOW-MANY-FACES-NAME-THEIR-STUDY-AS-A-SCRIPT-STEM-AND-DOES-ANY-READER-NORMALISE-IT",
@@ -28237,6 +28242,20 @@
    "source": "E460 (r1489 bm-b): 21 of 21 producers restate their own card in the docstring while the payload carries it on none of the 12 flagged faces",
    "entered_at": "2026-11-06T18:0x+08:00",
    "entered_by": "bm-b r1489 (supply floor refill, second card)"
+  },
+  {
+   "id": "E468-DOES-A-FACE-WHOSE-POINTER-RESOLVES-ONLY-FROM-ITS-OWN-DIRECTORY-EVER-GET-READ",
+   "title": "E466 resolved 64 path-form pointers and 33 of them resolve only from the pointing face's own directory (a bare filename such as LADDERDROPWHERE-20261027.json), 4 only as an absolute C:\\ path, 2 with backslashes. Nobody has asked whether any reader in the tree resolves a pointer that way, or whether the only code that can open these faces is the producer that knows where it put them.",
+   "question": "For each pointer that needs a non-trivial base (own directory / absolute / backslash), find every source that names the target -- exact string OR basename -- and classify how it reaches the path: repo root only, own directory, absolute, or unknown. Publish whether the pointer is reachable from the repo root at all, and split the residue into pointers whose only reader is their own producer, pointers read only through a glob/prefix that happens to land on them, and pointers no source can reach.",
+   "deliverable": "results/state_tilt/POINTERREACH-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the .py corpus plus filesystem resolution; nothing executed, nothing outside results/state_tilt written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E466 (r1490 bm-b): 33 of 64 pointers resolve only from the pointing face's own directory and 4 only as an absolute path",
+   "entered_at": "2026-11-06T19:28:24+08:00",
+   "entered_by": "bm-b r1490 (supply floor refill after E466)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28251,6 +28270,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T18:1x+08:00",
+ "updated_at": "2026-11-06T19:28:24+08:00",
  "version": 1
 }

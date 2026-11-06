@@ -1674,6 +1674,10 @@ LEGS = [
     # E464: which identity a producer intends when it writes two names -- `check` re-derives every
     # tally from the published rows (writer/non-writer split, intent classes, pointer-key counts).
     ("producer_intent", ["python", "scripts/e464_producer_intent.py", "check"]),
+    # E465: does a face pointer resolve, and is it the join anyone uses.  `check` re-derives every
+    # tally, the residue split, the reader layers and the verdict from the published rows; the live
+    # rebuild walks 13k faces plus the whole .py corpus, so `verify` is the manual/closeout gate.
+    ("pointer_join", ["python", "scripts/e466_pointer_join.py", "check"]),
     # E457 (r1488): a name test's optimism is the part of its vocabulary that is a method name in a
     # module that never imports the function. `check` re-derives every tally from the published rows
     # because the full rebuild parses ~3.5k sources (~60s) and would make this leg the chain's
