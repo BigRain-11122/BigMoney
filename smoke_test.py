@@ -19116,5 +19116,60 @@ except Exception as _e481x:
     _d481 = "leg could not run"
 check(_name481, not _bad481, "; ".join(_bad481)[:240] or _d481)
 
+# E482 (r1511 bm-b): E479 counted 147 sources / 689 opener sites naming a *_latest.json that
+# belongs to none of its 36 twin families and then dropped them without asking whether the file
+# they open exists.  This leg holds that every row's site count and tier census re-derive, that a
+# template spelling carries only template sites, that a class never contradicts its own sites,
+# that the verdict is the one the counts imply, that the parent's SOURCE tally (the one measurement
+# the two faces share) is reproduced, and that three doctored copies go red.
+_name482 = ("E482 an outside-population latest spelling resolves to a file or is named as one that "
+            "does not (r1511 bm-b)")
+_bad482 = []
+try:
+    _m482 = __import__("importlib").import_module("e482_latest_outside")
+    _f482 = json.load(open(os.path.join("results", "state_tilt", "latestoutside_latest.json"),
+                           encoding="utf-8"))
+    _s482 = _f482.get("summary") or {}
+    _r482 = _f482.get("rows") or []
+    _bad482.extend(_m482.row_problems(_f482))
+    if not _r482:
+        _bad482.append("the outside-spelling population is empty")
+    if _f482.get("verdict") != _m482._verdict(_m482._recompute(_f482)):
+        _bad482.append("the verdict is not the one the counts imply")
+    if _s482.get("parent_source_count_reproduced") is not True:
+        _bad482.append("the parent's source tally is not reproduced")
+    if not any(r.get("site_count") for r in _r482):
+        _bad482.append("no row carries a site: the leg cannot be shown to measure anything")
+    _w482 = json.loads(json.dumps(_f482))
+    _w482["rows"][0]["site_count"] = (_w482["rows"][0].get("site_count") or 0) + 1
+    if not _m482.row_problems(_w482):
+        _bad482.append("a doctored site count survived the guard")
+    _w482b = json.loads(json.dumps(_f482))
+    _dead482 = next((r for r in _w482b["rows"]
+                     if r.get("class") == _m482.C_DEAD_NO_WRITER), None)
+    if _dead482 is not None:
+        _dead482["class"] = _m482.C_FILE_WRITER
+        if not _m482.row_problems(_w482b):
+            _bad482.append("a class that contradicts its own sites survived the guard")
+    _w482c = json.loads(json.dumps(_f482))
+    _w482c["verdict"] = _m482.V_ALL
+    if not _m482.row_problems(_w482c):
+        _bad482.append("a verdict that does not re-derive survived the guard")
+    _d482 = ("%d spellings | %d distinct sites | %d sources | resolve %d / no file %d | "
+             "template sites %d | file+writer %d | file no writer %d | dead+writer %d" % (
+                 _s482.get("distinct_spellings") or 0,
+                 _s482.get("opener_sites") or 0,
+                 _s482.get("sources_holding_an_opener_site") or 0,
+                 _s482.get("sites_on_spellings_that_resolve") or 0,
+                 _s482.get("sites_on_spellings_that_resolve_to_nothing") or 0,
+                 _s482.get("template_spellings") or 0,
+                 (_s482.get("class_counts") or {}).get(_m482.C_FILE_WRITER) or 0,
+                 (_s482.get("class_counts") or {}).get(_m482.C_FILE_NO_WRITER) or 0,
+                 (_s482.get("class_counts") or {}).get(_m482.C_DEAD_WRITER) or 0))
+except Exception as _e482x:
+    _bad482.append(repr(_e482x)[:160])
+    _d482 = "leg could not run"
+check(_name482, not _bad482, "; ".join(_bad482)[:240] or _d482)
+
 if __name__ == "__main__":
     sys.exit(main())

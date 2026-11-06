@@ -12305,3 +12305,18 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **工具**：`scripts/e481_vintage_conclusion.py`（run rc0 / check problems=0 / verify 同树重建 problems=0 / **selftest 34/34**：5 类 + 4 副臂类 + 5 判词分支 + 容差与数字形态两臂 + 2 直方图 + 5 份篡改面）→ `results/state_tilt/VINTAGECONC-2026-11-07.json` + `vintageconc_latest.json`（145 行逐文件，含每个结论字段双方 160 字前缀）；S6 腿 `vintage_conclusion`（rc0 0.05s）；smoke 腿 `E481 a differing vintage's conclusion re-derives from its rows and its verdict from its counts` 1/1 绿、doctored（结论相同数 +1）1/1 红、面 sha 归位。
 
 **适用范围**：只回答"这 145 个里的结论是不是同一句"，不回答该不该删（E479 管 twin 有没有读者，E477 管字节底线）。结论相同的 21 行仍是**保留估计**：twin 自己不成立时它照样得留。数字形态臂的 `#` 折叠会让"12.5 变 14.25"读成同句——那正是它的用途（分离"数字变了"与"发现变了"），不代表 magnitudes 可以丢。
+
+## E487 -- 「打开一个不在 36 twin 族里的 *_latest.json」，那个文件在盘上吗？（r1511 bm-b）
+
+**问题**：E479 把自己的总体定义成 36 个族名 twin，然后把「147 个源 / 689 个 opener 站点在拼一个不属于任何族的 *_latest.json」当扫描不瞎的见证报出来，数完就丢掉了。一个读者拼出的名字如果没有任何文件承载，它读的就是一张可能不存在的面。
+
+**做法**：把这 689 个站点逐条落成行（E479 自己的规则不变：opener 字面量 basename 以 `_latest.json` 结尾且不属于 36 个 twin），每个字面量对着树解析一次，每个拼写再与「谁按字面写它」join。解析六档：字面量带目录且存在（path）/ 目录不存在但同名文件在别处（tail，E366 两种地址形式）/ 裸 basename 恰好一个文件 / 裸 basename 多个文件（存在性成立、目录不成立）/ 模板不带名字（`%s_latest.json`、`_latest.json`）/ 树里没有。
+
+**读数**（2026-11-07）：**201 个不同拼写 / 512 个去重站点 / 147 个源** —— 源数与父面**逐字相等**，故总体是同一批；站点数不同是因为 E479 数的是字面量出现次数（本树今日 697 次），本面数的是 (source,line,literal) 三元组，两者不是同一个测量，只比源数。
+- **195 个拼写解析到盘上的文件（491 站点）**；**6 个解析不到（21 站点）**，其中 3 个是模板（`_latest.json` 13 站点、`banddraw%s_latest.json` 3、`%s_latest.json` 1），另 3 个是 `a_latest.json`/`b_latest.json`/`fixture_latest.json` —— 全是 selftest 往临时目录写的伪件，**没有一个真读者在开一张没人产的面**（`no_file_carries_it_and_no_source_writes_it` = 0）。
+- **111 个拼写「文件在 + 有源按字面写它」**；**84 个拼写「文件在、但没有源按字面写它」（106 站点）** —— 这一桶就是 E473 族的胜利面：写手在运行时拼名字，字面量普查看不见，于是「没有写手」被读成「面是野的」。
+- 4 个拼写的同名文件不止一份（`gateclamp`/`gateoperands`/`gateprint`/`legeps` 各 2），裸 basename 只能证明「存在」，不能证明「是这个目录里的那份」。
+
+**三条可复用**：①**「零」要分两类**：解析不到的文件分「模板不带名字」与「临时目录伪件」，混成一句「6 个死读者」就是把 3 个模板 + 3 个夹具读成一个真实缺陷；②**父面计数与子面计数只有在定义相同才可比**：E479 的 689 是出现次数、本面的 512 是三元组，源数相等才是「总体一致」的证据，站点数相等与否不说明任何事；③**字面量普查的盲区是写完就忘的**：106 个「没人写」的站点其中绝大多数正是运行时拼名，任何按字面删面的保留规则都必须先跑本面。
+
+**验证**：`scripts/e482_latest_outside.py`（run rc0 / check problems=[] / verify 同树重建 problems=[] / **selftest 23/23**：六档解析 + 四个类分支 + 计数与判决自洽 + 3 个 doctored 面全红）；面 `results/state_tilt/LATESTOUTSIDE-2026-11-07.json` + `latestoutside_latest.json`（201 行）；S6 腿 `latest_spelling_exists` rc0 0.07s；smoke 腿单跑 1/1 绿 + doctored 1/1 红（面 sha 归位 4b87897400bc）。

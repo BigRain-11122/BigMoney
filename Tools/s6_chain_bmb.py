@@ -1748,6 +1748,11 @@ LEGS = [
     # published rows, plus the numeric-shape split that separates "different number" from
     # "different finding".
     ("vintage_conclusion", ["python", "scripts/e481_vintage_conclusion.py", "check"]),
+    # E482 prices the witness E479 dropped: 147 sources open a *_latest.json that belongs to none
+    # of the 36 twin families, and every one of those literals is resolved against the tree here
+    # and joined to the sources that write it.  `check` re-derives each row's site count, tier
+    # census, class, and the verdict, and re-tests the parent's source tally.
+    ("latest_spelling_exists", ["python", "scripts/e482_latest_outside.py", "check"]),
 ]
 
 
