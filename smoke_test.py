@@ -18217,5 +18217,77 @@ except Exception as _e457x:
     _d457 = "leg could not run"
 check(_name457, not _bad457, "; ".join(_bad457)[:240] or _d457)
 
+# E460 (r1489 bm-b): E458's residue says 12 faces carry no machine-readable identity and every one
+# of them has a producer that knows its card.  This leg refuses (a) any tally that does not
+# re-derive from the published rows, (b) a row whose class or reading disagrees with its own
+# published fields and producers, and (c) three doctored copies -- one that repairs a face on paper
+# without touching its payload, one whose identity value changes shape under its published dialect,
+# and one that erases a subject reading from the tally.
+_name460 = "e460 which study face lacks an identity its own producer knows (r1489 bm-b)"
+_bad460 = []
+try:
+    _m460 = __import__("importlib").import_module("e460_facegap")
+    _f460 = json.load(open(os.path.join("results", "state_tilt", "facegap_latest.json"),
+                           encoding="utf-8"))
+    _s460 = _f460.get("summary") or {}
+    _r460 = _f460.get("rows") or []
+    _bad460.extend(_m460.tally_problems(_f460))
+    if _f460.get("verdict") not in _m460.VERDICT_VOCAB:
+        _bad460.append("verdict outside the frozen vocabulary: %r" % (_f460.get("verdict"),))
+    for _r in _r460:
+        if _r.get("class") not in _m460.CLASSES:
+            _bad460.append("row %s: class outside the vocabulary: %r"
+                           % (_r.get("face"), _r.get("class")))
+        if _r.get("identity_field_reads_as") not in _m460.READINGS:
+            _bad460.append("row %s: reading outside the vocabulary: %r"
+                           % (_r.get("face"), _r.get("identity_field_reads_as")))
+        _need = _r.get("needed_field") or {}
+        if _need.get("name") == "card":
+            if not _m460.CARD_RE.fullmatch(str(_need.get("value") or "")):
+                _bad460.append("row %s: the needed card %r is not a card id"
+                               % (_r.get("face"), _need.get("value")))
+            if _need.get("from") not in (_r.get("producers") or []):
+                _bad460.append("row %s: the needed value comes from %r, which is not one of its "
+                               "producers" % (_r.get("face"), _need.get("from")))
+        if _r.get("class") == _m460.C_NO_FIELD and _r.get("payload_identity_fields"):
+            _bad460.append("row %s: a face with identity fields is classed as having none"
+                           % (_r.get("face"),))
+    _doc460 = json.loads(json.dumps(_f460))
+    if _r460:
+        _doc460["rows"][0]["class"] = _m460.C_ALREADY
+        if not any("re-derive from the rows" in _p for _p in _m460.tally_problems(_doc460)):
+            _bad460.append("a face repaired on paper with its payload untouched was accepted")
+    _val460 = json.loads(json.dumps(_f460))
+    _dial = next((_x for _x in _val460.get("rows") or []
+                  if _x.get("payload_identity_fields")), None)
+    if _dial is None:
+        _bad460.append("no dialect row to doctor: the dialect test cannot be shown to go red")
+    else:
+        _k460 = sorted(_dial["payload_identity_fields"])[0]
+        _dial["payload_identity_fields"][_k460]["value"] = "E999"
+        if not any("does not re-derive" in _p for _p in _m460.tally_problems(_val460)):
+            _bad460.append("an identity value that changed shape under its own dialect was accepted")
+    _sub460 = json.loads(json.dumps(_f460))
+    _sub460["summary"]["faces_whose_identity_field_names_a_subject_their_producer_chose"] = 0
+    if not _m460.tally_problems(_sub460):
+        _bad460.append("a tally that erases the subject reading was accepted")
+    _d460 = ("%d flagged faces / %d producers | %d carry a dialect value (%d name their author "
+             "producer, %d a subject their producer chose, %d a foreign script), %d carry no "
+             "identity field, %d no producer identity | %d of %d producers restate their own card"
+             ) % (
+        _s460.get("faces_graded") or 0, _s460.get("producers_read") or 0,
+        _s460.get("faces_carrying_a_dialect_value") or 0,
+        _s460.get("faces_whose_identity_field_names_their_author_producer") or 0,
+        _s460.get("faces_whose_identity_field_names_a_subject_their_producer_chose") or 0,
+        _s460.get("faces_whose_identity_field_names_a_foreign_script") or 0,
+        _s460.get("faces_with_no_identity_field") or 0,
+        _s460.get("faces_with_no_producer_identity") or 0,
+        _s460.get("producers_that_restate_their_own_card") or 0,
+        _s460.get("producers_read") or 0)
+except Exception as _e460x:
+    _bad460.append(repr(_e460x)[:160])
+    _d460 = "leg could not run"
+check(_name460, not _bad460, "; ".join(_bad460)[:240] or _d460)
+
 if __name__ == "__main__":
     sys.exit(main())

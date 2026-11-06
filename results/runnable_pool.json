@@ -28113,11 +28113,16 @@
    "lane": "cpu-only",
    "lane_note": "static AST over the producers plus json loads of the twelve faces E458 flagged",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E458 (r1482 bm-b): 12 of 538 faces cannot be tied to a study from their payload",
    "entered_at": "2026-11-06T12:0x+08:00",
-   "entered_by": "bm-b r1482 (supply floor refill after E458)"
+   "entered_by": "bm-b r1482 (supply floor refill after E458)",
+   "claimed_at": "2026-11-06T17:4x+08:00",
+   "done_at": "2026-11-06T18:0x+08:00",
+   "result_ref": "results/state_tilt/FACEGAP-2026-11-06.json",
+   "evidence_cutoff": "2026-11-06",
+   "target": "scripts/e460_facegap.py"
   },
   {
    "id": "E461-WHICH-CONSUMER-ACTUALLY-READS-THE-IDENTITY-A-FACE-DECLARES",
@@ -28204,6 +28209,34 @@
    "source": "E464 (r1487 bm-b): the pointer is the only exact match on NAMERESOLVE and is spelled two ways",
    "status": "ready",
    "title": "E464 found every multi-value face also carries a pointer key (source_face), and on NAMERESOLVE the pointer is the only exact identity match while every study voice is a slug. The same key is spelled with backslashes on SELFRES and with forward slashes on NAMERESOLVE. Nothing has asked whether those pointers resolve to a file on disk, or whether any source joins a face to its upstream through the pointer instead of through an identity value."
+  },
+  {
+   "id": "E466-HOW-MANY-FACES-NAME-THEIR-STUDY-AS-A-SCRIPT-STEM-AND-DOES-ANY-READER-NORMALISE-IT",
+   "title": "E460 found the 12 faces E458 classed as carrying no identity already carry one -- a 'study' field whose value is the producer script stem (e271_donor_choice_sensitivity). That was measured only inside E458's residue (12 faces out of 538) and only on the producer side: nobody has measured how many faces tree-wide spell their study that way, whether the same field name also answers 'whose corpus is this' elsewhere, or whether any reader in the tree normalises a stem before keying on it.",
+   "question": "For every face under results/ (not only E458's residue), classify the dialect of every identity-named top-level field: card id / study id / prereg path / producer script stem / other. Publish per face the field name, its value, and for stem values whether the stem is one of the face's own producers, a script the producer pins as a subject, or a script nobody names. Then, over the whole .py corpus, count readers that key on an identity value and split them by whether they normalise a stem to a card (or the reverse) before comparing. Split the residue into faces whose stem resolves to no script at all.",
+   "deliverable": "results/state_tilt/IDENTITYDIALECTCENSUS-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static: json loads of the results/ faces plus AST over .py sources for identity reads; nothing executed, nothing outside results/state_tilt written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E460 (r1489 bm-b): 11 of 12 flagged faces already carry the identity as a producer script stem, and one of them names a subject rather than its author",
+   "entered_at": "2026-11-06T18:0x+08:00",
+   "entered_by": "bm-b r1489 (supply floor refill after E460)"
+  },
+  {
+   "id": "E467-IS-THE-CARD-IN-A-PRODUCERS-DOCSTRING-EVER-READ-OR-IS-THE-IDENTITY-HUMAN-ONLY",
+   "title": "E460 read 21 producers of 12 identity-gap faces and found every one of them restates its own card in the module name and again in the module docstring, while 11 of the 12 faces still lack a card in the payload. That makes the docstring the only place the identity is written down for most of these studies, and nobody has asked whether any program in the tree ever reads a docstring to recover it.",
+   "question": "For every scripts/eNNN_*.py producer, check whether the study's own card reaches any machine consumer through the docstring: does any .py source parse module docstrings (ast.get_docstring / inspect.getdoc / __doc__) and then look for a card id in the text, and does any tool map a face path to a card that way? Publish per producer the card it restates, the readers that would see it, and split the residue into producers whose card is read only by humans (docstrings) and producers whose card is also written into a machine channel (a payload field, a module constant, a registry).",
+   "deliverable": "results/state_tilt/DOCSTRINGCARD-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static: AST walk of every .py source for docstring reads and for card-id literal comparisons; nothing executed, nothing outside results/state_tilt written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E460 (r1489 bm-b): 21 of 21 producers restate their own card in the docstring while the payload carries it on none of the 12 flagged faces",
+   "entered_at": "2026-11-06T18:0x+08:00",
+   "entered_by": "bm-b r1489 (supply floor refill, second card)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28218,6 +28251,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T16:0x+0800",
+ "updated_at": "2026-11-06T18:1x+08:00",
  "version": 1
 }

@@ -1679,6 +1679,11 @@ LEGS = [
     # because the full rebuild parses ~3.5k sources (~60s) and would make this leg the chain's
     # most expensive; `verify` is the manual/closeout gate for the live corpus walk.
     ("name_collide", ["python", "scripts/e457_namecollide.py", "check"]),
+    # E460 (r1489): E458's residue -- 12 faces with no machine-readable identity -- priced against
+    # what their own producers know.  `check` re-derives every tally and every row's class and
+    # reading from the published rows; the population is inherited from E458's face, so the live
+    # rebuild is cheap (12 payloads + 21 sources) and `verify` re-reads it byte-for-byte.
+    ("face_gap", ["python", "scripts/e460_facegap.py", "check"]),
 ]
 
 

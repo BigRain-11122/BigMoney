@@ -11712,3 +11712,52 @@ justified (17 collisions in 8,477 names here), so a large block of hits from one
 likely to be a name coincidence than a reader. Publish the surface (`C`) beside the priced part
 (`N`) and read them together; a share of the surface alone overstates the defect, and the priced
 part alone hides how much of the vocabulary was never at issue.
+
+## E460 -- the identity a face lacks is usually one it already carries, in a dialect nothing keys on (r1489 bm-b)
+
+**Where it came from.** E458 graded 538 published faces for a machine-readable identity and left 12
+that carry none. Every one of those faces has a producer, and a producer that knows its card is the
+cheapest possible repair -- so the residual question was never "who wrote this face" but "does the
+producer know, and why did the value not reach the payload".
+
+**Law.** Population = E458's own published rows outside its machine-readable class (12 faces, 21
+producers). For each face: read every producer's source and ask (a) which identity shapes it
+carries (card from the module name, cards cited in the docstring, module-level string constants);
+(b) which identity-named field the payload already has and what **dialect** its value is in
+(`a_card_id` / `a_study_id` / `a_prereg_note_path` / `a_producer_script_stem` / other / not a
+string); (c) when the value is a script stem, whether that stem is the *author* (one of the face's
+producers), a *subject* the producer pinned as a module constant, or a script nobody names.
+
+**Numbers.** 12 faces / 21 producers / 0 unreadable. **21 of 21 producers restate their own card**
+and 21 of 21 write an identity-named dict key somewhere; **0 faces have no producer that knows an
+identity**. 11 of 12 payloads already carry `study`, and in all 11 the value is a producer script
+stem (`"study": "e271_donor_choice_sensitivity"`) -- 10 name their own author producer, 1
+(`CORPUSPIN`) names the study whose corpus it pinned (`STUDY = "e323_..."` in e361), 0 name a
+foreign script. The 12th (`unreadstatus_latest.json`) has no identity field, though both its
+producers know their cards and both write a `study` key in other dicts.
+
+**Pits.**
+
+* **A field named `study` is not a question.** The name is in the frozen identity vocabulary, so
+  presence reads as identity; on CORPUSPIN the same field answers "whose corpus is this". Counting
+  identity-named fields without reading the value merges an author statement with a subject
+  statement -- and would have published "CORPUSPIN carries a wrong identity", which is false.
+* **"No producer knows an identity" is the wrong null.** The residue here is the opposite: everybody
+  knows and nobody writes it. A census that stops at the producer side reports the gap as closed.
+* **The filename card is the only identity a producer cannot fail to own**, so it is read first; a
+  docstring's cards are *citations* (e368 cites E350/E353/E366), published as a set, never as
+  ownership.
+* **A plurality is not a headline.** The verdict needs a strict majority of one class; a partial
+  repair is published as a split. The first version ("most rows wins") was replaced after its own
+  fixture caught the tie.
+
+**Wiring.** `scripts/e460_facegap.py` (run rc0 / `check` problems=[] / `verify` problems=[] on
+`identical` / **selftest 42/42**); faces `results/state_tilt/facegap_latest.json` +
+`FACEGAP-2026-11-06.json`; S6 leg `face_gap`; smoke leg `e460 which study face lacks an identity its
+own producer knows (r1489 bm-b)` with three doctored copies; pool E460 done.
+
+**How to apply.** When a census says a face "carries no identity", read the payload's identity-named
+fields and classify the value's dialect before believing the absence: on this tree the field is
+already there and the value is a script stem, so the repair is a normalisation plus, on one face, a
+rename. Publish the reading beside the presence, because a value that answers a different question
+is indistinguishable from a missing value to every reader that keys on [`E` + three digits].

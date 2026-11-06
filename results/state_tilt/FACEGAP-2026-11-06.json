@@ -1,0 +1,1019 @@
+{
+ "card": "E460-WHICH-STUDY-FACE-LACKS-AN-IDENTITY-ITS-OWN-PRODUCER-KNOWS",
+ "class_vocab": [
+  "already_carries_a_card_id",
+  "carries_an_identity_named_field_in_a_dialect_a_card_reader_cannot_key",
+  "carries_no_identity_named_field_though_its_producer_knows_a_card",
+  "no_producer_of_this_face_carries_any_identity_in_its_own_source"
+ ],
+ "dialect_vocab": [
+  "a_card_id",
+  "a_study_id",
+  "a_prereg_note_path",
+  "a_producer_script_stem",
+  "other_text",
+  "not_a_string"
+ ],
+ "evidence_cutoff": "2026-11-06",
+ "identity_field_vocabulary": [
+  "card",
+  "card_id",
+  "cards",
+  "pid",
+  "pin",
+  "pinned_note",
+  "prereg",
+  "prereg_note",
+  "prereg_path",
+  "source_card",
+  "source_cards",
+  "studies",
+  "study",
+  "study_id"
+ ],
+ "method_limits": [
+  "the producer's own card is read from its file name (eNNN_) first: that is the one identity a producer cannot fail to own",
+  "docstring cards are published as a set, not as ownership -- a docstring cites the studies it builds on, so the head card is often NOT this producer's own card",
+  "a constant is counted as an identity only when the whole value is a card id, study id or prereg path (E461's rule: exact literal, not substring)",
+  "identity field names are the frozen E458 vocabulary, so the two studies cannot disagree about what 'named like an identity' means",
+  "dialect is decided by the value's shape alone; a stem that happens to end in _p1 is still a stem",
+  "payloads above 8388608 bytes are published as unreadable rather than graded"
+ ],
+ "population_source": "E458's published rows (results/state_tilt/faceidentity_latest.json) excluding the machine-readable class; E460 never restates the population, so a repair upstream shrinks this study automatically",
+ "rows": [
+  {
+   "class": "carries_an_identity_named_field_in_a_dialect_a_card_reader_cannot_key",
+   "face": "results/state_tilt/BANDDONORCHOICE-2026-10-29.json",
+   "identity_field_names": [
+    "study"
+   ],
+   "identity_field_reads_as": "names_the_producer_that_published_the_face",
+   "needed_field": {
+    "from": "scripts/e271_donor_choice_sensitivity.py",
+    "name": "card",
+    "value": "E271"
+   },
+   "payload_identity_fields": {
+    "study": {
+     "dialect": "a_producer_script_stem",
+     "value": "e271_donor_choice_sensitivity"
+    }
+   },
+   "producer_knows_a_card": true,
+   "producer_rows": [
+    {
+     "card_from_filename": "E271",
+     "docstring_cards": [
+      "E262",
+      "E266",
+      "E267",
+      "E268",
+      "E271"
+     ],
+     "docstring_head": "E271 -- does the moved set depend on WHICH donor a reader picks, not just how wide it is?",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e271_donor_choice_sensitivity.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    }
+   ],
+   "producers": [
+    "scripts/e271_donor_choice_sensitivity.py"
+   ],
+   "producers_writing_an_identity_field_this_payload_lacks": [],
+   "study_field_reading": {
+    "chosen_as_a_constant_by_a_producer": false,
+    "exists": true,
+    "field": "study",
+    "owned_by_one_of_its_producers": true,
+    "reading": "names_the_producer_that_published_the_face",
+    "resolves_to": "scripts/e271_donor_choice_sensitivity.py",
+    "value": "e271_donor_choice_sensitivity"
+   },
+   "upstream_class": "carries_no_study_card_or_prereg_identity"
+  },
+  {
+   "class": "carries_an_identity_named_field_in_a_dialect_a_card_reader_cannot_key",
+   "face": "results/state_tilt/BANDFLOOR-2026-10-29.json",
+   "identity_field_names": [
+    "study"
+   ],
+   "identity_field_reads_as": "names_the_producer_that_published_the_face",
+   "needed_field": {
+    "from": "scripts/e277_tight_multiplier_floor.py",
+    "name": "card",
+    "value": "E277"
+   },
+   "payload_identity_fields": {
+    "study": {
+     "dialect": "a_producer_script_stem",
+     "value": "e277_tight_multiplier_floor"
+    }
+   },
+   "producer_knows_a_card": true,
+   "producer_rows": [
+    {
+     "card_from_filename": "E277",
+     "docstring_cards": [
+      "E272",
+      "E277"
+     ],
+     "docstring_head": "E277 -- is \"the tight end never narrows\" a property of these windows, or of how a band is built?",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e277_tight_multiplier_floor.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    },
+    {
+     "card_from_filename": "E281",
+     "docstring_cards": [
+      "E188",
+      "E278",
+      "E279",
+      "E281"
+     ],
+     "docstring_head": "E281 -- is E278's substitution policy load-bearing anywhere it was never tested?",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e281_substitution_dependency_audit.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    },
+    {
+     "card_from_filename": "E328",
+     "docstring_cards": [
+      "E204",
+      "E326",
+      "E327",
+      "E328"
+     ],
+     "docstring_head": "E328 -- which quoted numbers sit on a stated cutoff that its own family has already outgrown.",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e328_quoted_number_staleness.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    }
+   ],
+   "producers": [
+    "scripts/e277_tight_multiplier_floor.py",
+    "scripts/e281_substitution_dependency_audit.py",
+    "scripts/e328_quoted_number_staleness.py"
+   ],
+   "producers_writing_an_identity_field_this_payload_lacks": [],
+   "study_field_reading": {
+    "chosen_as_a_constant_by_a_producer": false,
+    "exists": true,
+    "field": "study",
+    "owned_by_one_of_its_producers": true,
+    "reading": "names_the_producer_that_published_the_face",
+    "resolves_to": "scripts/e277_tight_multiplier_floor.py",
+    "value": "e277_tight_multiplier_floor"
+   },
+   "upstream_class": "carries_no_study_card_or_prereg_identity"
+  },
+  {
+   "class": "carries_an_identity_named_field_in_a_dialect_a_card_reader_cannot_key",
+   "face": "results/state_tilt/BANDSCREENBUDGET-2026-10-29.json",
+   "identity_field_names": [
+    "study"
+   ],
+   "identity_field_reads_as": "names_the_producer_that_published_the_face",
+   "needed_field": {
+    "from": "scripts/e275_screen_margin_budget.py",
+    "name": "card",
+    "value": "E275"
+   },
+   "payload_identity_fields": {
+    "study": {
+     "dialect": "a_producer_script_stem",
+     "value": "e275_screen_margin_budget"
+    }
+   },
+   "producer_knows_a_card": true,
+   "producer_rows": [
+    {
+     "card_from_filename": "E275",
+     "docstring_cards": [
+      "E271",
+      "E274",
+      "E275"
+     ],
+     "docstring_head": "E275 -- is a CLEARED row equally cleared, or does one perturbation spend its whole margin?",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e275_screen_margin_budget.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    }
+   ],
+   "producers": [
+    "scripts/e275_screen_margin_budget.py"
+   ],
+   "producers_writing_an_identity_field_this_payload_lacks": [],
+   "study_field_reading": {
+    "chosen_as_a_constant_by_a_producer": false,
+    "exists": true,
+    "field": "study",
+    "owned_by_one_of_its_producers": true,
+    "reading": "names_the_producer_that_published_the_face",
+    "resolves_to": "scripts/e275_screen_margin_budget.py",
+    "value": "e275_screen_margin_budget"
+   },
+   "upstream_class": "carries_no_study_card_or_prereg_identity"
+  },
+  {
+   "class": "carries_an_identity_named_field_in_a_dialect_a_card_reader_cannot_key",
+   "face": "results/state_tilt/BANDSTRADDLESWEEP-2026-10-29.json",
+   "identity_field_names": [
+    "study"
+   ],
+   "identity_field_reads_as": "names_the_producer_that_published_the_face",
+   "needed_field": {
+    "from": "scripts/e274_spread_straddle_sweep.py",
+    "name": "card",
+    "value": "E274"
+   },
+   "payload_identity_fields": {
+    "study": {
+     "dialect": "a_producer_script_stem",
+     "value": "e274_spread_straddle_sweep"
+    }
+   },
+   "producer_knows_a_card": true,
+   "producer_rows": [
+    {
+     "card_from_filename": "E274",
+     "docstring_cards": [
+      "E271",
+      "E274"
+     ],
+     "docstring_head": "E274 -- can a row's own numbers say, in advance, whether an axis will move it?",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e274_spread_straddle_sweep.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    }
+   ],
+   "producers": [
+    "scripts/e274_spread_straddle_sweep.py"
+   ],
+   "producers_writing_an_identity_field_this_payload_lacks": [],
+   "study_field_reading": {
+    "chosen_as_a_constant_by_a_producer": false,
+    "exists": true,
+    "field": "study",
+    "owned_by_one_of_its_producers": true,
+    "reading": "names_the_producer_that_published_the_face",
+    "resolves_to": "scripts/e274_spread_straddle_sweep.py",
+    "value": "e274_spread_straddle_sweep"
+   },
+   "upstream_class": "identity_appears_only_inside_prose_fields"
+  },
+  {
+   "class": "carries_an_identity_named_field_in_a_dialect_a_card_reader_cannot_key",
+   "face": "results/state_tilt/CORPUSPIN-2026-11-02.json",
+   "identity_field_names": [
+    "study"
+   ],
+   "identity_field_reads_as": "names_a_script_the_producer_chose_as_its_subject_not_its_author",
+   "needed_field": {
+    "from": "scripts/e361_census_corpus_pin.py",
+    "name": "card",
+    "value": "E361"
+   },
+   "payload_identity_fields": {
+    "study": {
+     "dialect": "a_producer_script_stem",
+     "value": "e323_reach_under_wider_needle"
+    }
+   },
+   "producer_knows_a_card": true,
+   "producer_rows": [
+    {
+     "card_from_filename": "E361",
+     "docstring_cards": [
+      "E361"
+     ],
+     "docstring_head": "E361 -- a census corpus is pinned by content digest, because the corpus is not in git.",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [
+      "e323_reach_under_wider_needle"
+     ],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e361_census_corpus_pin.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    },
+    {
+     "card_from_filename": "E362",
+     "docstring_cards": [
+      "E362"
+     ],
+     "docstring_head": "E362 -- the corpus pin is replayed from its own address, never from the working tree.",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 3,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e362_corpus_replay.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    },
+    {
+     "card_from_filename": "E368",
+     "docstring_cards": [
+      "E350",
+      "E353",
+      "E366",
+      "E368"
+     ],
+     "docstring_head": "E368 -- a repaired seam pins the population; does it reproduce the number?",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 2,
+     "identity_keys_it_writes": [
+      "pin",
+      "studies",
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e368_seam_replay.py",
+     "writes_an_identity_field_the_payload_lacks": [
+      "pin",
+      "studies"
+     ]
+    },
+    {
+     "card_from_filename": "E369",
+     "docstring_cards": [
+      "E350",
+      "E353",
+      "E361",
+      "E368",
+      "E369"
+     ],
+     "docstring_head": "E369 -- take the pin at the commit the face was published from, and see if the number comes back.",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 3,
+     "identity_keys_it_writes": [
+      "pin",
+      "studies",
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e369_pin_at_publishing_commit.py",
+     "writes_an_identity_field_the_payload_lacks": [
+      "pin",
+      "studies"
+     ]
+    },
+    {
+     "card_from_filename": "E373",
+     "docstring_cards": [
+      "E350",
+      "E353",
+      "E369",
+      "E373"
+     ],
+     "docstring_head": "E373 -- two studies in one replay were published from two different commits.",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 2,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e373_two_pins_one_replay.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    }
+   ],
+   "producers": [
+    "scripts/e361_census_corpus_pin.py",
+    "scripts/e362_corpus_replay.py",
+    "scripts/e368_seam_replay.py",
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e373_two_pins_one_replay.py"
+   ],
+   "producers_writing_an_identity_field_this_payload_lacks": [
+    "pin",
+    "studies"
+   ],
+   "study_field_reading": {
+    "chosen_as_a_constant_by_a_producer": true,
+    "exists": true,
+    "field": "study",
+    "owned_by_one_of_its_producers": false,
+    "reading": "names_a_script_the_producer_chose_as_its_subject_not_its_author",
+    "resolves_to": "scripts/e323_reach_under_wider_needle.py",
+    "value": "e323_reach_under_wider_needle"
+   },
+   "upstream_class": "carries_no_study_card_or_prereg_identity"
+  },
+  {
+   "class": "carries_an_identity_named_field_in_a_dialect_a_card_reader_cannot_key",
+   "face": "results/state_tilt/FACEVINTAGE-2026-11-02.json",
+   "identity_field_names": [
+    "study"
+   ],
+   "identity_field_reads_as": "names_the_producer_that_published_the_face",
+   "needed_field": {
+    "from": "scripts/e363_corpus_vintage.py",
+    "name": "card",
+    "value": "E363"
+   },
+   "payload_identity_fields": {
+    "study": {
+     "dialect": "a_producer_script_stem",
+     "value": "e363_corpus_vintage"
+    }
+   },
+   "producer_knows_a_card": true,
+   "producer_rows": [
+    {
+     "card_from_filename": "E363",
+     "docstring_cards": [
+      "E363"
+     ],
+     "docstring_head": "E363: a census population is only reproducible from an address it wrote down.",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 3,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [
+      "e363_corpus_vintage"
+     ],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e363_corpus_vintage.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    }
+   ],
+   "producers": [
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "producers_writing_an_identity_field_this_payload_lacks": [],
+   "study_field_reading": {
+    "chosen_as_a_constant_by_a_producer": true,
+    "exists": true,
+    "field": "study",
+    "owned_by_one_of_its_producers": true,
+    "reading": "names_the_producer_that_published_the_face",
+    "resolves_to": "scripts/e363_corpus_vintage.py",
+    "value": "e363_corpus_vintage"
+   },
+   "upstream_class": "carries_no_study_card_or_prereg_identity"
+  },
+  {
+   "class": "carries_an_identity_named_field_in_a_dialect_a_card_reader_cannot_key",
+   "face": "results/state_tilt/banddonorchoice_latest.json",
+   "identity_field_names": [
+    "study"
+   ],
+   "identity_field_reads_as": "names_the_producer_that_published_the_face",
+   "needed_field": {
+    "from": "scripts/e271_donor_choice_sensitivity.py",
+    "name": "card",
+    "value": "E271"
+   },
+   "payload_identity_fields": {
+    "study": {
+     "dialect": "a_producer_script_stem",
+     "value": "e271_donor_choice_sensitivity"
+    }
+   },
+   "producer_knows_a_card": true,
+   "producer_rows": [
+    {
+     "card_from_filename": "E271",
+     "docstring_cards": [
+      "E262",
+      "E266",
+      "E267",
+      "E268",
+      "E271"
+     ],
+     "docstring_head": "E271 -- does the moved set depend on WHICH donor a reader picks, not just how wide it is?",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e271_donor_choice_sensitivity.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    }
+   ],
+   "producers": [
+    "scripts/e271_donor_choice_sensitivity.py"
+   ],
+   "producers_writing_an_identity_field_this_payload_lacks": [],
+   "study_field_reading": {
+    "chosen_as_a_constant_by_a_producer": false,
+    "exists": true,
+    "field": "study",
+    "owned_by_one_of_its_producers": true,
+    "reading": "names_the_producer_that_published_the_face",
+    "resolves_to": "scripts/e271_donor_choice_sensitivity.py",
+    "value": "e271_donor_choice_sensitivity"
+   },
+   "upstream_class": "carries_no_study_card_or_prereg_identity"
+  },
+  {
+   "class": "carries_an_identity_named_field_in_a_dialect_a_card_reader_cannot_key",
+   "face": "results/state_tilt/bandfloor_latest.json",
+   "identity_field_names": [
+    "study"
+   ],
+   "identity_field_reads_as": "names_the_producer_that_published_the_face",
+   "needed_field": {
+    "from": "scripts/e277_tight_multiplier_floor.py",
+    "name": "card",
+    "value": "E277"
+   },
+   "payload_identity_fields": {
+    "study": {
+     "dialect": "a_producer_script_stem",
+     "value": "e277_tight_multiplier_floor"
+    }
+   },
+   "producer_knows_a_card": true,
+   "producer_rows": [
+    {
+     "card_from_filename": "E277",
+     "docstring_cards": [
+      "E272",
+      "E277"
+     ],
+     "docstring_head": "E277 -- is \"the tight end never narrows\" a property of these windows, or of how a band is built?",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e277_tight_multiplier_floor.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    },
+    {
+     "card_from_filename": "E281",
+     "docstring_cards": [
+      "E188",
+      "E278",
+      "E279",
+      "E281"
+     ],
+     "docstring_head": "E281 -- is E278's substitution policy load-bearing anywhere it was never tested?",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e281_substitution_dependency_audit.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    },
+    {
+     "card_from_filename": "E328",
+     "docstring_cards": [
+      "E204",
+      "E326",
+      "E327",
+      "E328"
+     ],
+     "docstring_head": "E328 -- which quoted numbers sit on a stated cutoff that its own family has already outgrown.",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e328_quoted_number_staleness.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    }
+   ],
+   "producers": [
+    "scripts/e277_tight_multiplier_floor.py",
+    "scripts/e281_substitution_dependency_audit.py",
+    "scripts/e328_quoted_number_staleness.py"
+   ],
+   "producers_writing_an_identity_field_this_payload_lacks": [],
+   "study_field_reading": {
+    "chosen_as_a_constant_by_a_producer": false,
+    "exists": true,
+    "field": "study",
+    "owned_by_one_of_its_producers": true,
+    "reading": "names_the_producer_that_published_the_face",
+    "resolves_to": "scripts/e277_tight_multiplier_floor.py",
+    "value": "e277_tight_multiplier_floor"
+   },
+   "upstream_class": "carries_no_study_card_or_prereg_identity"
+  },
+  {
+   "class": "carries_an_identity_named_field_in_a_dialect_a_card_reader_cannot_key",
+   "face": "results/state_tilt/bandscreenbudget_latest.json",
+   "identity_field_names": [
+    "study"
+   ],
+   "identity_field_reads_as": "names_the_producer_that_published_the_face",
+   "needed_field": {
+    "from": "scripts/e275_screen_margin_budget.py",
+    "name": "card",
+    "value": "E275"
+   },
+   "payload_identity_fields": {
+    "study": {
+     "dialect": "a_producer_script_stem",
+     "value": "e275_screen_margin_budget"
+    }
+   },
+   "producer_knows_a_card": true,
+   "producer_rows": [
+    {
+     "card_from_filename": "E275",
+     "docstring_cards": [
+      "E271",
+      "E274",
+      "E275"
+     ],
+     "docstring_head": "E275 -- is a CLEARED row equally cleared, or does one perturbation spend its whole margin?",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e275_screen_margin_budget.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    }
+   ],
+   "producers": [
+    "scripts/e275_screen_margin_budget.py"
+   ],
+   "producers_writing_an_identity_field_this_payload_lacks": [],
+   "study_field_reading": {
+    "chosen_as_a_constant_by_a_producer": false,
+    "exists": true,
+    "field": "study",
+    "owned_by_one_of_its_producers": true,
+    "reading": "names_the_producer_that_published_the_face",
+    "resolves_to": "scripts/e275_screen_margin_budget.py",
+    "value": "e275_screen_margin_budget"
+   },
+   "upstream_class": "carries_no_study_card_or_prereg_identity"
+  },
+  {
+   "class": "carries_an_identity_named_field_in_a_dialect_a_card_reader_cannot_key",
+   "face": "results/state_tilt/bandstraddlesweep_latest.json",
+   "identity_field_names": [
+    "study"
+   ],
+   "identity_field_reads_as": "names_the_producer_that_published_the_face",
+   "needed_field": {
+    "from": "scripts/e274_spread_straddle_sweep.py",
+    "name": "card",
+    "value": "E274"
+   },
+   "payload_identity_fields": {
+    "study": {
+     "dialect": "a_producer_script_stem",
+     "value": "e274_spread_straddle_sweep"
+    }
+   },
+   "producer_knows_a_card": true,
+   "producer_rows": [
+    {
+     "card_from_filename": "E274",
+     "docstring_cards": [
+      "E271",
+      "E274"
+     ],
+     "docstring_head": "E274 -- can a row's own numbers say, in advance, whether an axis will move it?",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e274_spread_straddle_sweep.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    }
+   ],
+   "producers": [
+    "scripts/e274_spread_straddle_sweep.py"
+   ],
+   "producers_writing_an_identity_field_this_payload_lacks": [],
+   "study_field_reading": {
+    "chosen_as_a_constant_by_a_producer": false,
+    "exists": true,
+    "field": "study",
+    "owned_by_one_of_its_producers": true,
+    "reading": "names_the_producer_that_published_the_face",
+    "resolves_to": "scripts/e274_spread_straddle_sweep.py",
+    "value": "e274_spread_straddle_sweep"
+   },
+   "upstream_class": "identity_appears_only_inside_prose_fields"
+  },
+  {
+   "class": "carries_an_identity_named_field_in_a_dialect_a_card_reader_cannot_key",
+   "face": "results/state_tilt/facevintage_latest.json",
+   "identity_field_names": [
+    "study"
+   ],
+   "identity_field_reads_as": "names_the_producer_that_published_the_face",
+   "needed_field": {
+    "from": "scripts/e363_corpus_vintage.py",
+    "name": "card",
+    "value": "E363"
+   },
+   "payload_identity_fields": {
+    "study": {
+     "dialect": "a_producer_script_stem",
+     "value": "e363_corpus_vintage"
+    }
+   },
+   "producer_knows_a_card": true,
+   "producer_rows": [
+    {
+     "card_from_filename": "E363",
+     "docstring_cards": [
+      "E363"
+     ],
+     "docstring_head": "E363: a census population is only reproducible from an address it wrote down.",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 3,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [
+      "e363_corpus_vintage"
+     ],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e363_corpus_vintage.py",
+     "writes_an_identity_field_the_payload_lacks": []
+    }
+   ],
+   "producers": [
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "producers_writing_an_identity_field_this_payload_lacks": [],
+   "study_field_reading": {
+    "chosen_as_a_constant_by_a_producer": true,
+    "exists": true,
+    "field": "study",
+    "owned_by_one_of_its_producers": true,
+    "reading": "names_the_producer_that_published_the_face",
+    "resolves_to": "scripts/e363_corpus_vintage.py",
+    "value": "e363_corpus_vintage"
+   },
+   "upstream_class": "carries_no_study_card_or_prereg_identity"
+  },
+  {
+   "class": "carries_no_identity_named_field_though_its_producer_knows_a_card",
+   "face": "results/state_tilt/unreadstatus_latest.json",
+   "identity_field_names": [],
+   "identity_field_reads_as": "the_identity_field_does_not_hold_a_script_stem",
+   "needed_field": {
+    "from": "scripts/e346_status_writer_unread.py",
+    "name": "card",
+    "value": "E346"
+   },
+   "payload_identity_fields": {},
+   "producer_knows_a_card": true,
+   "producer_rows": [
+    {
+     "card_from_filename": "E346",
+     "docstring_cards": [
+      "E343",
+      "E346"
+     ],
+     "docstring_head": "E346 -- what a status writer writes that nobody reads.",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e346_status_writer_unread.py",
+     "writes_an_identity_field_the_payload_lacks": [
+      "study"
+     ]
+    },
+    {
+     "card_from_filename": "E353",
+     "docstring_cards": [
+      "E346",
+      "E350",
+      "E353"
+     ],
+     "docstring_head": "E353 -- what each guard on an unwritten field would do against the face that is on disk today.",
+     "docstring_prereg_paths": [],
+     "docstring_study_ids": [],
+     "identity_key_sites": 1,
+     "identity_keys_it_writes": [
+      "pin",
+      "study"
+     ],
+     "knows_a_card_id": true,
+     "knows_a_prereg_path": false,
+     "knows_a_study_id": false,
+     "parseable": true,
+     "payload_stems_it_names_as_a_constant": [],
+     "restates_its_own_card_in_source": true,
+     "source": "scripts/e353_unwritten_guard_presence.py",
+     "writes_an_identity_field_the_payload_lacks": [
+      "pin",
+      "study"
+     ]
+    }
+   ],
+   "producers": [
+    "scripts/e346_status_writer_unread.py",
+    "scripts/e353_unwritten_guard_presence.py"
+   ],
+   "producers_writing_an_identity_field_this_payload_lacks": [
+    "pin",
+    "study"
+   ],
+   "study_field_reading": {
+    "chosen_as_a_constant_by_a_producer": false,
+    "exists": false,
+    "field": null,
+    "owned_by_one_of_its_producers": false,
+    "reading": "the_identity_field_does_not_hold_a_script_stem",
+    "resolves_to": null,
+    "value": null
+   },
+   "upstream_class": "carries_no_study_card_or_prereg_identity"
+  }
+ ],
+ "study": "E460",
+ "summary": {
+  "faces_already_carrying_a_card": 0,
+  "faces_carrying_a_dialect_value": 11,
+  "faces_graded": 12,
+  "faces_needing_a_card_field": 12,
+  "faces_unreadable": 0,
+  "faces_whose_identity_field_names_a_foreign_script": 0,
+  "faces_whose_identity_field_names_a_subject_their_producer_chose": 1,
+  "faces_whose_identity_field_names_their_author_producer": 10,
+  "faces_whose_producer_knows_a_card": 12,
+  "faces_with_no_identity_field": 1,
+  "faces_with_no_producer_identity": 0,
+  "producers_read": 21,
+  "producers_that_restate_their_own_card": 21,
+  "producers_writing_an_identity_field_name": 21,
+  "upstream_face": "results/state_tilt/faceidentity_latest.json",
+  "upstream_study": "E458"
+ },
+ "title": "which study face lacks an identity its own producer knows",
+ "unreadable": [],
+ "verdict": "most_flagged_faces_carry_the_identity_as_a_producer_script_stem_in_a_field_name_no_card_reader_keys_on",
+ "verdict_vocab": [
+  "no_face_is_flagged_by_the_identity_census",
+  "every_face_flagged_by_the_identity_census_now_carries_a_card_id",
+  "most_flagged_faces_carry_the_identity_as_a_producer_script_stem_in_a_field_name_no_card_reader_keys_on",
+  "most_flagged_faces_carry_no_identity_named_field_although_a_producer_knows_a_card",
+  "most_flagged_faces_have_no_producer_that_carries_any_identity",
+  "the_flagged_faces_split_between_a_dialect_value_a_missing_field_and_a_producer_gap"
+ ]
+}
