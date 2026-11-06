@@ -18289,5 +18289,80 @@ except Exception as _e460x:
     _d460 = "leg could not run"
 check(_name460, not _bad460, "; ".join(_bad460)[:240] or _d460)
 
+# E467 (r1491 bm-b): the card a producer restates in its docstring is the second of three identity
+# channels, and the question is whether any program recovers it.  This leg refuses (a) any tally
+# that does not re-derive from the published rows, (b) a row whose class or tier disagrees with its
+# own channels, (c) a join tier with no published join site, and (d) three doctored copies -- a
+# producer classed on paper without touching its channels, a join erased from a reader that still
+# claims the join tier, and a tally whose corpus size stops matching its own rows.
+_name467 = "e467 is the card in a producer's docstring ever read (r1491 bm-b)"
+_bad467 = []
+try:
+    _m467 = __import__("importlib").import_module("e467_docstringcard")
+    _f467 = json.load(open(os.path.join("results", "state_tilt", "docstringcard_latest.json"),
+                           encoding="utf-8"))
+    _s467 = _f467.get("summary") or {}
+    _p467 = _f467.get("producers") or []
+    _r467 = _f467.get("readers") or []
+    _bad467.extend(_m467.tally_problems(_f467))
+    if _f467.get("verdict") not in _m467.VERDICT_VOCAB:
+        _bad467.append("verdict outside the frozen vocabulary: %r" % (_f467.get("verdict"),))
+    if not _p467:
+        _bad467.append("the producer population is empty")
+    for _r in _p467:
+        if _r.get("class") not in _m467.CLASSES:
+            _bad467.append("producer %s: class outside the vocabulary" % _r.get("source"))
+        if not _m467.CARD_RE.fullmatch(str(_r.get("own_card") or "")):
+            _bad467.append("producer %s: own_card %r is not a card id"
+                           % (_r.get("source"), _r.get("own_card")))
+    for _r in _r467:
+        if _r.get("tier") not in _m467.TIERS:
+            _bad467.append("reader %s: tier outside the vocabulary" % _r.get("source"))
+        if _r.get("card_join_sites", 0) > _r.get("regex_join_sites", 0):
+            _bad467.append("reader %s: more card joins than joins" % _r.get("source"))
+        if _r.get("tier") == _m467.T_JOIN and not _r.get("card_join_detail"):
+            _bad467.append("reader %s: claims the join tier with no join site" % _r.get("source"))
+    _join467 = [r["source"] for r in _r467 if r.get("tier") == _m467.T_JOIN]
+    if sorted(_join467) != sorted(_s467.get("card_join_readers") or []):
+        _bad467.append("the published join readers do not re-derive from the rows")
+    if (_s467.get("sources_scanned") or 0) != len(_r467) + (_s467.get("sources_with_no_signal_at_all") or 0):
+        _bad467.append("sources_scanned does not re-add to rows plus silent sources")
+    _pap467 = json.loads(json.dumps(_f467))
+    if _p467:
+        _pap467["producers"][0]["class"] = _m467.C_DOCSTRING
+        if not any("class does not re-derive" in _p for _p in _m467.tally_problems(_pap467)):
+            _bad467.append("a producer classed on paper with its channels untouched was accepted")
+    _joinless467 = json.loads(json.dumps(_f467))
+    if _join467:
+        _victim = next(r for r in _joinless467["readers"] if r["source"] == _join467[0])
+        _victim["card_join_sites"] = 0
+        _victim["card_join_detail"] = []
+        if _m467.tally_problems(_joinless467) == []:
+            _bad467.append("a join erased from a reader that still claims the join tier was accepted")
+    else:
+        _bad467.append("no join reader to doctor: the join test cannot be shown to go red")
+    _cnt467 = json.loads(json.dumps(_f467))
+    _cnt467["summary"]["sources_applying_a_card_pattern_to_docstring_text"] = 0
+    if not any("does not re-derive" in _p for _p in _m467.tally_problems(_cnt467)):
+        _bad467.append("a tally whose card-join count stopped matching its rows was accepted")
+    _d467 = ("%d sources / %d with a signal | %d producers: %d write their own card, %d write only "
+             "an identity key, %d docstring-only, %d never restate | %d read a docstring, %d look "
+             "for a card, %d apply a card pattern to docstring text (%s)"
+             ) % (
+        _s467.get("sources_scanned") or 0, _s467.get("sources_with_a_signal") or 0,
+        _s467.get("producers_read") or 0,
+        _s467.get("producers_writing_their_own_card_as_a_literal") or 0,
+        _s467.get("producers_writing_an_identity_key_but_no_card_literal") or 0,
+        _s467.get("producers_whose_card_lives_only_in_the_docstring_and_the_module_name") or 0,
+        _s467.get("producers_that_never_restate_their_own_card") or 0,
+        _s467.get("sources_reading_a_docstring") or 0,
+        _s467.get("sources_looking_for_a_card_shape") or 0,
+        _s467.get("sources_applying_a_card_pattern_to_docstring_text") or 0,
+        ",".join(_join467[:3]) or "none")
+except Exception as _e467x:
+    _bad467.append(repr(_e467x)[:160])
+    _d467 = "leg could not run"
+check(_name467, not _bad467, "; ".join(_bad467)[:240] or _d467)
+
 if __name__ == "__main__":
     sys.exit(main())

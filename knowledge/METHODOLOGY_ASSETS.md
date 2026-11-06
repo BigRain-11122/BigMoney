@@ -11836,3 +11836,61 @@ this tree the same three names carry a path, a stem, free text and a dict block,
 that is always a path (`source_face`) has five readers and no follower. Resolution must try the
 pointing face's own directory -- 33 of 64 pointers resolve nowhere else -- and must publish the
 spelling, because a bare or absolute value that resolves here does not resolve anywhere else.
+
+## E467 -- the docstring carries every producer's card and no product reads it; the only program that opens it is the census that asked (r1491 bm-b)
+
+E460 showed that the 21 producers of 12 identity-gap faces restate their own card twice, in the
+module name and again in the docstring. This study priced the three channels separately on the whole
+tree: 3,529 sources scanned (218 with any signal, 3,311 silent) and **223 `scripts/eNNN_*.py`
+producers** read for where their own card can be recovered from.
+
+* **The docstring is never the only channel.** 212 of 223 producers restate their own card in the
+  docstring and **0 never restate it**; but **0 producers** keep it *only* there beside the module
+  name -- 44 write the card as a literal outside the docstring (a payload field, a constant, a
+  registry) and 179 write an identity-named key whose value is not the card itself (E460/E466's
+  stem dialect). So "is the identity human-only" has a narrow answer: the docstring is redundant
+  with the file name, which any program can read for free.
+* **Exactly one program turns a docstring into a card.** 6 sources read a docstring at all (3 by
+  `ast.get_docstring`/`getdoc`, 3 by `__doc__`), 129 look for a card shape somewhere, 112 key an
+  identity-named payload field, and **2 apply any regex to the text a docstring read produced**.
+  Of those two, one applies a card-shaped pattern: `scripts/e460_facegap.py` -- the study that
+  raised the question one round earlier. The other joins are a study-id and a prereg regex in the
+  same file and two prose patterns in `g2_overlap_census.py`. No product, joiner or consumer in the
+  tree recovers a card from a docstring.
+
+**Pits.**
+* **A pattern that matches everything is not a pattern.** The first build published **1,203**
+  sources as "looking for a card shape" because `""` and `"x|"` compile and match any probe. A
+  pattern now counts only when it hits its probe *and* misses a plain sentence *and* misses the
+  other probe (a card regex hits `E460`; the empty string and the bare alternation are rejected by
+  construction).
+* **Co-occurrence is not a join.** The first tier called a source a "docstring-to-face-path joiner"
+  when the file read a docstring *and* contained a card regex *and* contained a path literal; on
+  that rule four sources qualified and none of them reads a face -- they parse module docstrings.
+  The join tier now needs a visible dataflow edge: a `search`/`findall`/`finditer`/`match` whose
+  subject is the docstring expression or the variable it was assigned to.
+* **`ast.unparse` re-quotes a string constant.** Unparsing a regex literal returns the pattern
+  *with quotes*, which compiles to a pattern matching apostrophes; read `Constant.value` instead.
+* **A compiled pattern is not a string constant.** Every study in this tree writes
+  `CARD_RE = re.compile(...)`, so a join whose receiver is that name grades as "other" unless the
+  constant table is extended to compiled literals -- which is exactly how the one real card join was
+  missed on the second pass.
+
+**Wiring.** `scripts/e467_docstringcard.py` (run rc0 / `check` problems=[] / `verify` problems=[]
+on the live 3.5k-source walk / **selftest 73/73**); faces
+`results/state_tilt/docstringcard_latest.json` + `DOCSTRINGCARD-2026-11-06.json`; S6 leg
+`docstring_card` (234 legs, `ghost_legs()` empty); smoke leg `e467 is the card in a producer's
+docstring ever read (r1491 bm-b)` with three doctored copies (a producer classed on paper, a join
+erased from a reader that still claims the join tier, a tally whose card-join count stopped matching
+its rows), proved standalone 1/1; pool E467 done.
+
+**Bound.** Only three spellings of a docstring read are counted, so a reader that shells out to a
+tool that prints docstrings is invisible. The join test sees a direct regex call only: a join
+through a helper, a concatenation or a two-step copy is not seen, so **a low join count is an upper
+bound on invisibility, not a proof of absence**. Sources with no signal are counted but not
+published row by row, so the tier tally is one number longer than the row list.
+
+**How to apply.** Treat a docstring identity as a comment until a program turns it into a value, and
+then ask who that program is: here the only one is the census that wrote the card, which is the
+`producer_only` pattern E204 named, one channel over. When you write the repair for an identity-gap
+face, write the card into a payload field -- the docstring is already correct and already unread.

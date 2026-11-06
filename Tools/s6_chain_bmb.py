@@ -1688,6 +1688,10 @@ LEGS = [
     # reading from the published rows; the population is inherited from E458's face, so the live
     # rebuild is cheap (12 payloads + 21 sources) and `verify` re-reads it byte-for-byte.
     ("face_gap", ["python", "scripts/e460_facegap.py", "check"]),
+    # E467 (r1491): the card a producer restates in its docstring is one of three identity
+    # channels, and the card asks whether any program recovers it.  `check` re-derives every tally,
+    # class and tier from the published rows; the live corpus walk (3.5k sources) is `verify`.
+    ("docstring_card", ["python", "scripts/e467_docstringcard.py", "check"]),
 ]
 
 

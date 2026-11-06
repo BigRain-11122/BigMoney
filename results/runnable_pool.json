@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1487 bm-b: E464 published (PRODUCERINTENT-2026-11-06: 4 multi-value faces / 2 stems, 6 producers named, 4 write the face; among the writers 2 declare BOTH voices as slug prefixes and 2 declare one and carry the other from the upstream payload; 2 of 4 faces carry an identity key the parent never graded, 4 of 4 carry a pointer key) -- E464 closed, E465 seeded, floor 3.",
+ "_stamp_note": "r1491 bm-b: E467 published (DOCSTRINGCARD-2026-11-06: 3529 sources / 223 producers -- 212 restate their own card in the docstring, 0 restate it only there; 6 sources read a docstring, 2 apply any regex to the text one produced and exactly 1 applies a card-shaped pattern, and that one is scripts/e460_facegap.py, the census that asked) -- E467 closed, E469 seeded, floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28237,8 +28237,14 @@
    "lane": "cpu-only",
    "lane_note": "static: AST walk of every .py source for docstring reads and for card-id literal comparisons; nothing executed, nothing outside results/state_tilt written",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
+   "claimed_at": "2026-11-06T19:37:47+08:00",
+   "done_at": "2026-11-06T20:1x+08:00",
+   "result_ref": "results/state_tilt/DOCSTRINGCARD-2026-11-06.json (study E467; scripts/e467_docstringcard.py)",
+   "result_note": "the card every producer restates in its docstring is turned into a value by exactly one program in the tree, and that program is the census that asked",
+   "target": "scripts/e467_docstringcard.py",
+   "evidence_cutoff": "2026-11-06",
    "source": "E460 (r1489 bm-b): 21 of 21 producers restate their own card in the docstring while the payload carries it on none of the 12 flagged faces",
    "entered_at": "2026-11-06T18:0x+08:00",
    "entered_by": "bm-b r1489 (supply floor refill, second card)"
@@ -28256,6 +28262,20 @@
    "source": "E466 (r1490 bm-b): 33 of 64 pointers resolve only from the pointing face's own directory and 4 only as an absolute path",
    "entered_at": "2026-11-06T19:28:24+08:00",
    "entered_by": "bm-b r1490 (supply floor refill after E466)"
+  },
+  {
+   "id": "E469-CAN-A-FACE-BE-TRACED-BACK-TO-THE-SCRIPT-THAT-WROTE-IT-AND-WHICH-CHANNEL-CARRIES-THE-EDGE",
+   "title": "E467 found the module name is the only identity channel that is always available and that no product reads, and E466 found that pointer keys are resolved but never followed. Nobody has measured the reverse edge: given a face on disk, which channels let any program reach the script that wrote it, and does any reader walk that edge.",
+   "question": "For every face under results/ and docs/, enumerate the channels that can tie it to a producer script -- an identity field naming the stem, a card id resolvable through knowledge/METHODOLOGY_ASSETS.md, a pointer field, a registry entry (runnable_pool / POOL / a digest), or the producer's own output-path literal. Publish per face which channels exist, whether the edge is unambiguous (one producer) or ambiguous (several), and count the readers that turn any of those channels into a path to a script. Split the residue into faces with no edge at all and faces whose only edge is the producer's own output literal.",
+   "deliverable": "results/state_tilt/PRODUCEREDGE-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static: json loads of the faces plus AST over .py sources for output-path literals, card literals and registry reads; nothing executed, nothing outside results/state_tilt written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E467 (r1491 bm-b): the docstring channel is read by nobody; E466 measured the pointer channel's readers and found no follower",
+   "entered_at": "2026-11-06T20:1x+08:00",
+   "entered_by": "bm-b r1491 (supply floor refill after E467)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28270,6 +28290,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T19:28:24+08:00",
+ "updated_at": "2026-11-06T20:1x+08:00",
  "version": 1
 }
