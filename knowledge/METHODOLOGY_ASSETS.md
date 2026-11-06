@@ -11376,3 +11376,38 @@ prereg note publishes a digest of it` with a doctored control that must stay red
 * **Wiring.** `scripts/e456_import_class.py` (run / check 0 / verify 0 / selftest 42/42); S6 leg
   `import_class`; smoke leg with a doctored control that must stay red (face restored
   byte-identical); digest `research/digests/DIGEST-20261106-r1478-e456-import-class.md`.
+
+## E459 -- a residue of out-of-tree modules is not a zero: the standard-library classes behind an import census (r1480 bm-b)
+
+* **Question.** E456 resolved the cross-module half of E444's attribute-call rows and found 928 whose
+  callee module has no file in this repository. Those are not unmeasured rows: the module name is a
+  handle the instrument can use without a network, because the interpreter already has the module.
+  Resolve the name through the module table, look the class up by the name the import form carried,
+  and count the rows that name a method that class carries.
+* **The reading.** Of 960 rows on this residue (E456's 928, growth-only superset +32), **960/960
+  import** and **17 name a class of the kind the import form named** (1.8%); of those 17, **4 carry
+  the method the row calls** (`io.StringIO.write`, 23.5% of what was looked up, 0.42% of the block).
+* **The finding is in the split, not in the rate.** 943 of the 960 are *attributes that exist and are
+  not classes* -- `io.open` (804), `subprocess.run` (25), `numpy.isfinite` (24), `asarray` (13),
+  `tempfile.mkdtemp` (13). Folding "not a class" into "does not resolve" would have published a
+  residue of 960 and said the standard library was the untraceable part, when in fact the untraceable
+  part is empty (0 not importable, 0 imports that raised): the block is **factory functions**, and no
+  method index can grade a factory. Only 17 rows are the population E450's name index could have got
+  wrong.
+* **The form is the predictor.** Module-level imports carry 863 of the rows and 8 of the classes (4
+  hits); module-level aliased 83 / 7 / 0; function-level 13 / 1 / 0; function-level aliased 1 / 1 / 0.
+  A from-import names a class, a module-qualified call names whatever attribute the caller wrote -- so
+  the import form that dominates the count is the form that carries the least class identity.
+* **Four rules this cost.** (1) A residue is a reading only if you resolve it: "the module is not in
+  the tree" is a statement about the tree, not about the module. (2) Split *attribute absent* from
+  *attribute present but not a class*: the first is a name-index gap, the second is a factory, and
+  merging them makes the 98% invisible. (3) `find_spec` before `import_module`: "no such module" and
+  "the module raised" are different findings and the second is not the first's residue. (4) A class
+  found is not a method hit -- the two readings are published separately, and the second is only
+  meaningful inside the first.
+* **Wiring.** `scripts/e459_stdlib_class.py` (run rc0 / verify clean / selftest 15/15); face
+  `results/state_tilt/stdlibclass_latest.json` + `STDLIBCLASS-<cutoff>.json` + `stdlibclass_by_module_
+  <cutoff>.csv`; S6 leg `stdlib_class` (re-derives the tallies, then re-resolves the published hits
+  and residues against the live module table, 0.05 s); digest
+  `research/digests/DIGEST-20261106-r1480-e459-stdlib-class.md`. No smoke leg this round (stated, not
+  implied): the chain leg is the live gate.

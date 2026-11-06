@@ -1649,6 +1649,13 @@ LEGS = [
     # reason caller_class uses it: the chain leg must not re-walk the corpus (~7 min rebuild); the
     # full `verify` is the closeout gate.
     ("import_class", ["python", "scripts/e456_import_class.py", "check"]),
+    # E459 (r1480): import_class left 928 rows whose callee module is not in the tree, and the module
+    # name is the only handle on their class.  This leg re-derives the tallies from the published
+    # rows, then puts the *live* module table back under the published examples: every published hit
+    # must resolve as a hit and every published residue must still fail to import.  No corpus walk
+    # (the population is inherited), so the chain can afford the live re-resolution that keeps the
+    # "importable" column from being a constant nobody checks.
+    ("stdlib_class", ["python", "scripts/e459_stdlib_class.py", "verify"]),
 ]
 
 
