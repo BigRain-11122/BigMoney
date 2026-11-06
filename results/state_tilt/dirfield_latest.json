@@ -2,21 +2,21 @@
  "study": "E423_which_consumer_joins_a_directory_named_field_that_holds_a_file_path",
  "card": "E423-WHICH-CONSUMER-JOINS-A-DIRECTORY-FIELD-THAT-HOLDS-A-FILE-PATH",
  "title": "price whether any consumer joins a directory-named field with a row name, and how many published rows would compose a doubled name if one did",
- "generated": "2026-11-05",
+ "generated": "2026-11-07",
  "evidence_cutoff": "2026-11-04",
  "verdict": "a_consumer_joins_a_directory_named_field_with_a_name_and_published_rows_could_double",
  "summary": {
-  "published_faces_scanned": 12898,
-  "directory_named_fields": 961,
-  "directory_named_fields_holding_a_file_path": 86,
-  "faces_carrying_a_file_valued_directory_field": 11,
-  "corpus_sources": 3445,
-  "read_sites": 43,
+  "published_faces_scanned": 13038,
+  "directory_named_fields": 1309,
+  "directory_named_fields_holding_a_file_path": 94,
+  "faces_carrying_a_file_valued_directory_field": 13,
+  "corpus_sources": 3519,
+  "read_sites": 50,
   "by_class": {
-   "reads_the_field_as_a_whole_path": 30,
+   "reads_the_field_as_a_whole_path": 34,
    "joins_the_field_with_a_name": 2,
-   "republishes_the_field_without_joining_it": 10,
-   "joins_the_field_with_a_prefix_or_root": 1
+   "republishes_the_field_without_joining_it": 11,
+   "joins_the_field_with_a_prefix_or_root": 3
   },
   "join_sites": 2,
   "join_keys": [
@@ -243,7 +243,7 @@
   },
   {
    "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e422_basename_census_audit.py",
-   "line": 417,
+   "line": 426,
    "function": "build",
    "key": "resolved_directory",
    "class": "reads_the_field_as_a_whole_path",
@@ -350,6 +350,58 @@
    "function": "build",
    "key": "resolved_directory",
    "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e472_vintage_read.py",
+   "line": 166,
+   "function": "population",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e472_vintage_read.py",
+   "line": 167,
+   "function": "population",
+   "key": "dir",
+   "class": "joins_the_field_with_a_prefix_or_root",
+   "joined_siblings": [],
+   "binding": "rel"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e472_vintage_read.py",
+   "line": 167,
+   "function": "population",
+   "key": "dir",
+   "joined_siblings": [],
+   "class": "joins_the_field_with_a_prefix_or_root"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e472_vintage_read.py",
+   "line": 256,
+   "function": "scan_sites",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e472_vintage_read.py",
+   "line": 287,
+   "function": "scan_sites",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e472_vintage_read.py",
+   "line": 381,
+   "function": "build",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e472_vintage_read.py",
+   "line": 386,
+   "function": "build",
+   "key": "dir",
+   "class": "republishes_the_field_without_joining_it"
   },
   {
    "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/fund_vq_p2_plan.py",
@@ -825,6 +877,78 @@
   },
   {
    "face": "results/state_tilt/FAMILYARG-20261104.json",
+   "key": "resolved_dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261105.json",
+   "key": "dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261105.json",
+   "key": "resolved_dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261105.json",
+   "key": "dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261105.json",
+   "key": "resolved_dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261106.json",
+   "key": "dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261106.json",
+   "key": "resolved_dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261106.json",
+   "key": "dir",
+   "value": "results/etf_book_production/latest.json",
+   "value_class": "value_is_a_file_path",
+   "name_fields_in_the_same_row": [],
+   "names_equal_to_the_value_basename": [],
+   "could_compose_a_doubled_name": false
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261106.json",
    "key": "resolved_dir",
    "value": "results/etf_book_production/latest.json",
    "value_class": "value_is_a_file_path",
@@ -1398,8 +1522,8 @@
  ],
  "fields_by_key": {
   "dir": {
-   "fields": 520,
-   "file_paths": 6
+   "fields": 846,
+   "file_paths": 10
   },
   "directory_expression": {
    "fields": 286,
@@ -1410,8 +1534,8 @@
    "file_paths": 58
   },
   "resolved_dir": {
-   "fields": 33,
-   "file_paths": 6
+   "fields": 55,
+   "file_paths": 10
   },
   "parent_dir": {
    "fields": 64,
@@ -1655,6 +1779,54 @@
   },
   {
    "face": "results/state_tilt/FAMILYARG-20261104.json",
+   "keys": [
+    "resolved_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261105.json",
+   "keys": [
+    "dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261105.json",
+   "keys": [
+    "resolved_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261105.json",
+   "keys": [
+    "dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261105.json",
+   "keys": [
+    "resolved_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261106.json",
+   "keys": [
+    "dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261106.json",
+   "keys": [
+    "resolved_dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261106.json",
+   "keys": [
+    "dir"
+   ]
+  },
+  {
+   "face": "results/state_tilt/FAMILYARG-20261106.json",
    "keys": [
     "resolved_dir"
    ]

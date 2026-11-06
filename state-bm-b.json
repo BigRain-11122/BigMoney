@@ -25,7 +25,7 @@
  "behind_origin_main": 295,
  "card": "E466-DOES-A-FACE-POINTER-RESOLVE-AND-IS-IT-THE-JOIN-ANYONE-USES",
  "check": "e456 check problems=0",
- "clock_read": "2026-11-06T23:34:18+08:00",
+ "clock_read": "2026-11-07T00:34:46+08:00",
  "concurrency_note": "Tools/iteration_loop.ps1 pid 6884 (started 02:12) was live in this repo for the whole window; no queue head, task card or shared lane face was claimed and nothing was re-registered",
  "cpu_current_pct": 0.6,
  "cpu_logical": 16,
@@ -163,14 +163,14 @@
  "decisions_watermark": "abd700a9e1ec0ce2",
  "decisions_watermark_note": "fetch rc!=0 (cannot lock refs/remotes/origin/main); read origin/main:docs/decisions.md from the existing ref, 239 lines, newest D-20261104-01/02, bigmoney rows = no-op",
  "delivery": {
-  "branch": "machine/bm-b-r1497",
-  "sha": "3028939c3",
-  "first_commit": "65565ba2e",
-  "ls_remote_verified": true,
-  "ts": "2026-11-06T23:43:00+08:00",
-  "local_ahead_of_origin_main": 475,
   "behind_origin_main": 295,
-  "main_push_blocker": "local main diverged from origin/main for many rounds on a blob:none promisor clone; no unattended rebase per r1243, and D-20261106-03 rules ahead/behind is not a defect -- delivery is the machine branch"
+  "branch": "machine/bm-b-r1497",
+  "first_commit": "65565ba2e",
+  "local_ahead_of_origin_main": 475,
+  "ls_remote_verified": true,
+  "main_push_blocker": "local main diverged from origin/main for many rounds on a blob:none promisor clone; no unattended rebase per r1243, and D-20261106-03 rules ahead/behind is not a defect -- delivery is the machine branch",
+  "sha": "3028939c3",
+  "ts": "2026-11-06T23:43:00+08:00"
  },
  "delivery_note": "delivery is the machine branch; origin reachability is asserted by ls-remote",
  "delivery_r1472": {
@@ -234,7 +234,7 @@
  "gpu_vram_free_mib": 851.0,
  "gpu_vram_used_mb": 7341.0,
  "gpu_vram_used_mib": 7341.0,
- "heartbeat_epoch_utc": 1793979258,
+ "heartbeat_epoch_utc": 1793982886,
  "heartbeat_epoch_utc_face": "int",
  "heartbeat_note": "cpu_pct from two GetSystemTimes samples, not the memory-load field (E235 pit)",
  "history": [
@@ -316,7 +316,7 @@
  "last_round_ts": "2026-11-06T23:34:18+08:00",
  "last_round_utc": "2026-11-04T00:02:43+08:00",
  "last_run": "2026-10-31T10:52:20+08:00",
- "last_seen": "2026-11-06T23:34:18+08:00",
+ "last_seen": "2026-11-07T00:34:46+08:00",
  "last_updated": "2026-11-04T05:42:18+08:00",
  "latest_artifact": "results/state_tilt/identitydialectcensus_latest.json",
  "local_commits_not_on_origin_main_note": "ls-remote-verified delivery to the machine branch; the ahead/behind counters are carried from the r1403 face (rev-list against origin/main not re-run this window, promisor wedge)",
@@ -5262,7 +5262,7 @@
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1494,
  "round_entries_tail": "r1483 E461 identity consumers: 389 field-joins but only 4 face-specific and 12 exact-value joins; 7 of 15 identity field names are read by nobody",
- "round_no": 1497,
+ "round_no": 1498,
  "round_no_label": "r1493",
  "round_no_note": "r1480: E459 published (stdlib classes behind E456's out-of-tree receivers) + heartbeat GPU face healed; both round faces written together (r1020 double-face drift heal: they read 1478/1479 at open)",
  "round_no_ts": "2026-11-06T21:19:14+08:00",
@@ -5272,8 +5272,8 @@
  "round_report_line_ts": "2026-11-04T06:28:39+08:00",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
  "s0_sync": {
-  "behind_origin_main": 295,
   "ahead_of_origin_main_at_open": 426,
+  "behind_origin_main": 295,
   "note": "not rebased (two blood lines, promisor clone); delivery machine/bm-b-r1493"
  },
  "s1": "suite launched at open finished 355/366 PASS, 11 FAIL. Repaired in-window: the E472 row guard (files != dates) and its leg's latent NameError, the bandswitch mirror (re-published from its dated face), the heartbeat GPU face (probe/apply, audit findings=[]), and E435's stale face (re-derived, 892 live directories). Seven reds remain: UNSTAMPEDCENSUS-2026-11-02 plus six 'published summary no longer re-derives against today's panel' legs carried from r1493/r1494 -- each needs its producer republished, stated not claimed",
@@ -5331,30 +5331,30 @@
   "ts": "2026-11-06T23:11:56+08:00"
  },
  "sync_note": "local main is 295 behind / 426 ahead of origin/main (two blood lines, promisor lazy-fetch wedge r1255 family); no unattended rebase per r1243, delivery goes out on a machine branch",
- "task": "r1496: E403 family-arg face republished against the 2026-11-06 panel (16 readers / 38 call sites unchanged)",
- "task_short": "one carried red healed; E473 still ready",
+ "task": "r1498: seven carried suite reds repaired by republishing their own producers against the live tree",
+ "task_short": "seven reds re-derived, not weakened; E473 still ready",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
  "three_line": 3,
- "three_line_artifact": "results/state_tilt/familyarg_latest.json",
- "three_line_artifact_ts": "2026-11-06T23:11:06+08:00",
- "three_line_current": "r1496: E403 family-argument face republished against the 2026-11-06 panel -- the leg stopped being red for a data reason, not a loosened assertion",
+ "three_line_artifact": "results/state_tilt/dirisface_latest.json",
+ "three_line_artifact_ts": "2026-11-07T00:34:46+08:00",
+ "three_line_current": "r1498: the seven carried suite reds were republished from their own producers -- each face now re-derives from the live tree",
  "three_line_delivery": "machine/bm-b-r1496",
- "three_line_next": "E473 (do the unread vintage families come from producers whose other faces a study does open) or the E435 directory-value face re-derived, within 48h",
- "timestamp": "2026-11-06T23:11:56+08:00",
- "ts": "2026-11-06T23:34:18+08:00",
+ "three_line_next": "E473 (do the unread vintage families come from producers whose other faces a study does open) within 48h",
+ "timestamp": "2026-11-07T00:34:46+08:00",
+ "ts": "2026-11-07T00:34:46+08:00",
  "ts_utc_ms": 1793977916464,
  "ts_utc_offset": "+08:00",
- "updated": "2026-11-06T23:11:56+08:00",
- "updated_at": "2026-11-06T23:11:56+08:00",
- "verdict": "maintenance: E403 leg healed from its producer, suite relaunched detached",
- "verdict_line": "e403 republish rc0 (cutoff 11-05->11-06, 16 readers/38 sites unchanged) | dualrun ZERO-DRIFT 947 streak 15 | attrition CLEAN | orphan 0 | loop pin 2 no-op | watchdog re-registered | suite r1496 running",
+ "updated": "2026-11-07T00:34:46+08:00",
+ "updated_at": "2026-11-07T00:34:46+08:00",
+ "verdict": "maintenance: every one of the seven red legs was a face one day stale against a growing tree",
+ "verdict_line": "e435 892->909 dirs | unfloored panel_cutoff 11-05->11-06 | readertiers 245->250 faces | dirfield/precisiongap/unpublishedkey re-derived | census 36->47 | targeted leg re-check 7/7 OK | dualrun DRIFT 948 vs 949 (observation) | attrition CLEAN | orphan 0",
  "verdict_watermark": "red=true lane=pool-batch-runnable-idle-low-cpu",
  "verify": "e456 verify problems=0 (growth: identical)",
  "vram_free_gb": 3.6,
  "vram_probe": "nvidia-smi",
  "vram_total_gb": 8.0,
  "vram_used_gb": 4.4,
- "watermark": "red=true lane=pool-batch-runnable-idle-low-cpu (3 ready at open: E466-remaining/E469/E473; none burned this window)",
+ "watermark": "red=true lane=pool-batch-runnable-idle-low-cpu (3 ready: E469/E473/E475; none burned this window)",
  "watermark_note": "the red reading named the pool; this round burned E472 and kept the floor at 3",
  "watermark_note_2": "no cloud, no GPU, nothing deleted",
  "watermark_red": true,
@@ -5363,10 +5363,10 @@
  "r1484_did": "two of the three red legs in the r1482 suite fixed and re-proved: E411 reader-tier face republished from its producer (237/270 -> 239/272, verdict embedded the counts), and the dashboard marks-coverage leg stopped demanding a per-day verdict across two different days (three doctored copies still read FAIL); the E330 red does not reproduce and is recorded as a transient",
  "r1485_delivery": {
   "branch": "machine/bm-b-r1485",
+  "main_push_blocker": "local main diverged from origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel",
   "sha": "6cbb021e5401b7bc215cce63c493328820f1ec3d",
   "ts": "2026-11-06T14:36:22+08:00",
-  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1485 equals local HEAD",
-  "main_push_blocker": "local main diverged from origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel"
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1485 equals local HEAD"
  },
  "r1487": {
   "card": "E464-WHICH-IDENTITY-A-PRODUCER-INTENDS-WHEN-IT-WRITES-TWO-NAMES",
@@ -5391,10 +5391,10 @@
  },
  "r1487_delivery": {
   "branch": "machine/bm-b-r1487",
+  "main_push_blocker": "local main is 295 behind / 457 ahead of origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel",
   "sha": "51c4d898f19415026b957eb6e261ad3888e4aaa2",
   "ts": "2026-11-06T16:11:18+08:00",
-  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1487 equals local HEAD",
-  "main_push_blocker": "local main is 295 behind / 457 ahead of origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel"
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1487 equals local HEAD"
  },
  "delivery_ts": "2026-11-06T23:11:56+08:00",
  "r1490": {
@@ -5418,13 +5418,13 @@
  "round_number_heal": "state said round_no 1487 while HEAD was r1489 (two windows committed without writing the state file); this window's round is 1490 and the file is written with the true number (r1020 double-face drift)",
  "r1490_delivery": {
   "branch": "machine/bm-b-r1490",
+  "main_push_blocker": "local main is 463 commits ahead of / 295 behind origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel",
   "sha": "4c6e995df8261ceb89ebc9ddea3c9b05a873cf5c",
   "ts": "2026-11-06T19:32:12+08:00",
-  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1490 equals local HEAD",
-  "main_push_blocker": "local main is 463 commits ahead of / 295 behind origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel"
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1490 equals local HEAD"
  },
  "delivery_branch": "machine/bm-b-r1495",
- "this_round": "r1496",
+ "this_round": "r1498",
  "r1493_delivery": {
   "branch": "machine/bm-b-r1493",
   "sha": "7f98857fb523bb2153fe9db97965b2a87c96cca9",
@@ -5437,6 +5437,7 @@
   "face": "results/state_tilt/DEADCOPY-2026-11-06.json",
   "finding": "5 of 17 never-opened targets are redundant (their _latest sibling is opened by a study), 11 have peers only a smoke runner or a one-off round script opens, 0 blind, 1 (results/e43_tilt_4member/LADDERDROPWHERE-20261027.json) has no second copy; 3 exact-content copies, 16 same-subject peers, 55 peer edges of which 5 are readable",
   "pit": "(1) a tree-wide copy census is a different study (19,096 JSON files, 1.8 GB) -- the census is scoped to the publishing directories and the scope is printed as a method limit; (2) the first selftest asserted a CRLF twin 'equals the other file or True', a leg that cannot fail, and was replaced by three legs with teeth",
+  "pool": "E471 done with result_ref; E472 seeded, floor 3 (946 entries, ready 3)",
   "product": [
    "scripts/e471_dead_copy.py (run rc0 / verify identical / check [] / selftest 16/16)",
    "results/state_tilt/DEADCOPY-2026-11-06.json + deadcopy_latest.json",
@@ -5446,13 +5447,12 @@
    "research/digests/DIGEST-20261106-r1494-e471-dead-copy.md",
    "results/runnable_pool.json E471 done + E472 seeded (floor 3)"
   ],
-  "pool": "E471 done with result_ref; E472 seeded, floor 3 (946 entries, ready 3)",
-  "selftest": "e471_dead_copy 16/16; extracted smoke leg 1/1",
+  "s1": "suite launched detached at close (results/_smoke_r1494.out); the r1493 red list is still owed, no suite total claimed",
   "s6": "dualrun ZERO-DRIFT 946 entries streak 12 | attrition CLEAN 4 ledgers 3 healed | leg dead_copy rc0 | the rest of the S6 chain not re-run this window",
   "s7": "orphan probe py_faces=12 orphans=0 residents=0 | loop pin=2 no-op | LoopWatchdog PRESENT (next fire 21:36) | pre-commit and pre-push claws byte-identical",
-  "s1": "suite launched detached at close (results/_smoke_r1494.out); the r1493 red list is still owed, no suite total claimed",
-  "verdict": "some_never_opened_targets_are_second_copies_of_a_face_that_is_read_and_others_are_not",
-  "ts": "2026-11-06T21:36:15+08:00"
+  "selftest": "e471_dead_copy 16/16; extracted smoke leg 1/1",
+  "ts": "2026-11-06T21:36:15+08:00",
+  "verdict": "some_never_opened_targets_are_second_copies_of_a_face_that_is_read_and_others_are_not"
  },
  "r1495": {
   "card": "E472-HOW-MUCH-OF-THE-DAILY-FACE-OUTPUT-IS-VINTAGES-OF-FAMILIES-NO-READER-OPENS",
@@ -5460,6 +5460,7 @@
   "face": "results/state_tilt/VINTAGEREAD-2026-11-06.json",
   "finding": "97 vintage families / 571 files / 28.5 MB; 0 opened by a study that does not write them -- 17 named-only, 7 leg-only, 73 producer-only; 36 carry a _latest pointer and none is opened; unread byte share 1.0; 10-11 unread faces emitted on each of the last six cutoffs",
   "pit": "(1) a family can emit several vintages on one day (MIDSWEEP-20261020 + -burnin) so the guard's len(dates)==vintages failed 20+ legitimate rows; corrected to one member per vintage, no repeated dates, len(dates)<=vintages, date set == members' dates; (2) the E472 smoke leg assigned _d472 only inside except, so the NameError surfaced only once the face was correct -- a red leg certified nothing",
+  "pool": "E472 done with result_ref; E473 seeded, floor 3 (947 entries, ready 3)",
   "product": [
    "scripts/e472_vintage_read.py (run rc0 / check [] / verify identical / selftest 18/18)",
    "results/state_tilt/VINTAGEREAD-2026-11-06.json + vintageread_latest.json",
@@ -5469,38 +5470,58 @@
    "research/digests/DIGEST-20261106-r1495-e472-vintage-read.md",
    "results/runnable_pool.json E472 done + E473 seeded (floor 3)"
   ],
-  "pool": "E472 done with result_ref; E473 seeded, floor 3 (947 entries, ready 3)",
   "red_fix": "smoke leg 96: bandswitch_latest.json was a 2026-10-31 build (191 faces) while BANDSWITCH-2026-10-30.json records 195; the mirror was re-published from the dated face (evidence untouched) and now matches beyond its stamp",
-  "ts": "2026-11-06T22:55:35",
-  "s1_final": "355/366 PASS, 11 FAIL; 5 repair actions (E472 row guard, E472 leg NameError, bandswitch mirror, gpu face, E435 face); 7 reds carried as cross-window debt"
+  "s1_final": "355/366 PASS, 11 FAIL; 5 repair actions (E472 row guard, E472 leg NameError, bandswitch mirror, gpu face, E435 face); 7 reds carried as cross-window debt",
+  "ts": "2026-11-06T22:55:35"
  },
  "r1495_delivery": {
   "branch": "machine/bm-b-r1495",
+  "main_push_blocker": "local is 471 ahead / 295 behind origin/main (two blood lines, promisor clone, no unattended rebase per r1243); delivery is judged by origin reachability",
   "sha": "d1fc70d007a3af48c577b9bca176873c703417dc",
   "ts": "2026-11-06T23:1x+08:00",
-  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1495 equals local HEAD",
-  "main_push_blocker": "local is 471 ahead / 295 behind origin/main (two blood lines, promisor clone, no unattended rebase per r1243); delivery is judged by origin reachability"
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1495 equals local HEAD"
  },
  "r1496": {
   "card": "maintenance round: one carried suite red healed (E403 family_arg face republished 2026-11-05 -> 2026-11-06)",
   "dept": "engineering",
   "finding": "the family-argument leg was red only because the daily panel advanced; republishing from the live tree keeps 16 readers / 38 call sites and moves summary.panel_cutoff to 2026-11-06",
+  "orders": "114 files / 115 acks / 0 unacked (last order O-20261026-0930-bm-c)",
+  "pool": "E473 still ready (0 cards burned); floor untouched",
   "product": [
    "results/state_tilt/familyarg_latest.json (republished by scripts/e403_family_arg.py run, generated 2026-11-06T23:11:06+08:00)"
   ],
   "s1": "full suite launched detached (pid 20936, results/_smoke_r1496.out) at 23:09; python block-buffers into a redirected file, so no suite total is claimed this window",
   "s6": "pool_dualrun_reconcile run = ZERO-DRIFT (947 entries, streak 15) | attrition_ledger_guard scan = CLEAN (4 ledgers, 3 historical shrinks healed); the rest of the chain not re-run this window (stated, not claimed)",
   "s7": "orphan_face_probe py_faces=10 orphans=0 residents=0 | loop task pin=2 current=2 no-op (first fire 23:12) | Bigmoney-LoopWatchdog re-registered S4U (first fire 23:12) | pre-commit and pre-push byte-identical to Tools/git-hooks",
-  "orders": "114 files / 115 acks / 0 unacked (last order O-20261026-0930-bm-c)",
-  "pool": "E473 still ready (0 cards burned); floor untouched",
   "ts": "2026-11-06T23:11:56+08:00"
  },
  "r1496_delivery": {
   "branch": "machine/bm-b-r1496",
+  "main_push_blocker": "local is 472 ahead / 295 behind origin/main (two blood lines, promisor clone, no unattended rebase per r1243); delivery is judged by origin reachability",
   "sha": "c9bb53a90e2c76090b24204366d76074fc611209",
   "ts": "2026-11-06T23:20:00+08:00",
-  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1496 equals local HEAD",
-  "main_push_blocker": "local is 472 ahead / 295 behind origin/main (two blood lines, promisor clone, no unattended rebase per r1243); delivery is judged by origin reachability"
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1496 equals local HEAD"
  },
- "r1497_note": "pool supply defect found and fixed: the ready head carried id E466, spent at r1490 on the pointer-key study, so publishing under it would have created two cards with one id; the row was renumbered E474 and burned. merge_lane_views has no sync_face verb in this revision (r1132 precedent) so the pool face was written directly."
+ "r1497_note": "pool supply defect found and fixed: the ready head carried id E466, spent at r1490 on the pointer-key study, so publishing under it would have created two cards with one id; the row was renumbered E474 and burned. merge_lane_views has no sync_face verb in this revision (r1132 precedent) so the pool face was written directly.",
+ "r1498": {
+  "card": "maintenance round: seven carried smoke reds repaired at their producers",
+  "dept": "engineering",
+  "finding": "none of the seven reds was an assertion problem: every one was a published face that no longer re-derives because the tree grew or the daily panel advanced (e435 892->909 directory-valued fields; unfloored panel_cutoff 2026-11-05->11-06; readertiers 245->250 faces / 278->284 sites; precisiongap rows embed sibling-face key sites; dirfield/unpublishedkey/UNSTAMPEDCENSUS census_over_the_published_faces 36->47)",
+  "legcheck": "_r1498_legcheck.py: the seven comparisons the legs make, re-run against the republished faces -- E305/E324/E409/E411/E423/E435/E387 all OK",
+  "orders": "not rescanned this window (stated, not claimed)",
+  "pit": "the E305 face embeds key sites read out of the sibling faces, so it has to be republished AFTER E324 -- producer run order is a dependency, the first attempt re-red on rows",
+  "product": [
+   "results/state_tilt/dirisface_latest.json (892 -> 909)",
+   "results/state_tilt/unfloored_latest.json + UNFLOORED-2026-11-06.json",
+   "results/state_tilt/readertiers_latest.json + READERTIERS-2026-11-07.json",
+   "results/state_tilt/dirfield_latest.json + DIRFIELD-2026-11-04.json",
+   "results/state_tilt/precisiongap_latest.json + PRECISIONGAP-2026-11-02.json",
+   "results/state_tilt/unpublishedkey_latest.json + UNPUBLISHEDKEY-2026-10-31.json",
+   "results/state_tilt/UNSTAMPEDCENSUS-2026-11-02.json (census_over_the_published_faces 36 -> 47)"
+  ],
+  "s1": "a stale suite (its parent session dead; 23:49-00:32, 358/366 with 8 FAIL) was found running against the very tree being repaired; it finished on its own and its output is kept as results/_smoke_r1498_stale_preflight.out; a clean suite was relaunched detached (pid 32688, results/_smoke_r1498.out) -- no suite total is claimed this window",
+  "s6": "pool_dualrun_reconcile run = DRIFT ($.entries 948 vs 949, observation-phase, streak reset) | attrition_ledger_guard scan = CLEAN (4 ledgers, 3 historical shrinks healed) | py_watermark probe = insufficient_history, pool_ready 3 | the rest of the chain not re-run this window",
+  "s7": "orphan probe py_faces=7 orphans=0 residents=0 | loop task pin=2 current=2 no-op | LoopWatchdog re-registered S4U (first fire 00:35) | pre-commit and pre-push byte-identical to Tools/git-hooks",
+  "ts": "2026-11-07T00:34:46+08:00"
+ }
 }
