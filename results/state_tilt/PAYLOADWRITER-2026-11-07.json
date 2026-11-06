@@ -1,0 +1,1641 @@
+{
+ "card": "E476-CAN-THE-47-UNOWNED-UNREAD-FAMILIES-BE-TRACED-THROUGH-THE-FACE-PAYLOAD-INSTEAD-OF-THE-SOURCE",
+ "study": "E476_payload_writer",
+ "title": "can the unowned unread families be traced through the face payload instead of the source",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07",
+ "population_source": {
+  "families": "vintageread_latest.json",
+  "writers": "producerspill_latest.json",
+  "source_families": 97,
+  "families_a_writer_names": 50,
+  "unattributed_families": 47
+ },
+ "channel_definition": "a payload channel names a writer when a top-level string under a writer-ish key resolves to a python source on disk, or is a card id the methodology asset file carries; a timestamp is published as its own class because it pins when, not who",
+ "summary": {
+  "unattributed_families": 47,
+  "families_naming_a_writer": 14,
+  "share_naming_a_writer": 0.2979,
+  "channels": {
+   "payload_names_a_script_on_disk": 0,
+   "payload_carries_a_resolvable_card": 14,
+   "payload_carries_a_card_id_the_asset_file_does_not_carry": 0,
+   "payload_carries_only_a_timestamp": 23,
+   "nothing_in_the_payload_names_a_writer": 1,
+   "no_payload_file_was_parsed_so_the_channel_is_unmeasured": 9
+  },
+  "writer_channel_names": [
+   "payload_names_a_script_on_disk",
+   "payload_carries_a_resolvable_card"
+  ],
+  "members_seen": 259,
+  "payload_files_parsed": 196,
+  "payload_files_unparsed": 63,
+  "families_with_no_parsed_payload": 9,
+  "families_unmeasured": 9,
+  "families_measured": 38,
+  "families_with_a_payload_that_names_nothing": 1,
+  "max_members_parsed_per_family": 40
+ },
+ "verdict": "some_unowned_families_can_be_attributed_from_their_payload",
+ "verdict_vocab": [
+  "the_unattributed_population_is_empty",
+  "no_unowned_family_can_be_attributed_from_its_payload",
+  "some_unowned_families_can_be_attributed_from_their_payload",
+  "every_unowned_family_can_be_attributed_from_its_payload"
+ ],
+ "rows": [
+  {
+   "family": "export",
+   "dir": "results/paper_export",
+   "members": 21,
+   "payload_files_parsed": 21,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-09-24",
+    "member": "results/paper_export/export-2026-09-24.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/paper_export/export-2026-09-24.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-09-24"
+     }
+    },
+    {
+     "member": "results/paper_export/export-2026-09-28.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-09-28"
+     }
+    },
+    {
+     "member": "results/paper_export/export-2026-09-29.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-09-29"
+     }
+    }
+   ]
+  },
+  {
+   "family": "OFFBOOK-ERA",
+   "dir": "results/e44_midmonth",
+   "members": 8,
+   "payload_files_parsed": 8,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-28",
+    "member": "results/e44_midmonth/OFFBOOK-ERA-20261028.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/e44_midmonth/OFFBOOK-ERA-20261028.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-28"
+     }
+    },
+    {
+     "member": "results/e44_midmonth/OFFBOOK-ERA-20261029.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-29"
+     }
+    },
+    {
+     "member": "results/e44_midmonth/OFFBOOK-ERA-20261030.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-30"
+     }
+    }
+   ]
+  },
+  {
+   "family": "SHAREDBOOK",
+   "dir": "results/e44_midmonth",
+   "members": 8,
+   "payload_files_parsed": 8,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-28",
+    "member": "results/e44_midmonth/SHAREDBOOK-20261028.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/e44_midmonth/SHAREDBOOK-20261028.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-28"
+     }
+    },
+    {
+     "member": "results/e44_midmonth/SHAREDBOOK-20261029.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-29"
+     }
+    },
+    {
+     "member": "results/e44_midmonth/SHAREDBOOK-20261030.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-30"
+     }
+    }
+   ]
+  },
+  {
+   "family": "VOLGATE",
+   "dir": "results/vol_gate",
+   "members": 8,
+   "payload_files_parsed": 8,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E224",
+    "member": "results/vol_gate/VOLGATE-2026-10-28.json"
+   },
+   "writer": null,
+   "card": "E224",
+   "examples": [
+    {
+     "member": "results/vol_gate/VOLGATE-2026-10-28.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E224"
+     }
+    },
+    {
+     "member": "results/vol_gate/VOLGATE-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E224"
+     }
+    },
+    {
+     "member": "results/vol_gate/VOLGATE-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E224"
+     }
+    }
+   ]
+  },
+  {
+   "family": "WIDTHLADDER",
+   "dir": "results/e44_midmonth",
+   "members": 8,
+   "payload_files_parsed": 8,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-28",
+    "member": "results/e44_midmonth/WIDTHLADDER-20261028.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/e44_midmonth/WIDTHLADDER-20261028.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-28"
+     }
+    },
+    {
+     "member": "results/e44_midmonth/WIDTHLADDER-20261029.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-29"
+     }
+    },
+    {
+     "member": "results/e44_midmonth/WIDTHLADDER-20261030.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-30"
+     }
+    }
+   ]
+  },
+  {
+   "family": "WIDTHSPLIT",
+   "dir": "results/e44_midmonth",
+   "members": 8,
+   "payload_files_parsed": 8,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-28",
+    "member": "results/e44_midmonth/WIDTHSPLIT-20261028.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/e44_midmonth/WIDTHSPLIT-20261028.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-28"
+     }
+    },
+    {
+     "member": "results/e44_midmonth/WIDTHSPLIT-20261029.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-29"
+     }
+    },
+    {
+     "member": "results/e44_midmonth/WIDTHSPLIT-20261030.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-30"
+     }
+    }
+   ]
+  },
+  {
+   "family": "breakeven_by_arm",
+   "dir": "results/state_tilt",
+   "members": 8,
+   "payload_files_parsed": 0,
+   "payload_files_unparsed": 8,
+   "class": "no_payload_file_was_parsed_so_the_channel_is_unmeasured",
+   "evidence": {},
+   "writer": null,
+   "card": null,
+   "examples": []
+  },
+  {
+   "family": "by_arm",
+   "dir": "results/state_tilt",
+   "members": 8,
+   "payload_files_parsed": 0,
+   "payload_files_unparsed": 8,
+   "class": "no_payload_file_was_parsed_so_the_channel_is_unmeasured",
+   "evidence": {},
+   "writer": null,
+   "card": null,
+   "examples": []
+  },
+  {
+   "family": "by_arm",
+   "dir": "results/vol_gate",
+   "members": 8,
+   "payload_files_parsed": 0,
+   "payload_files_unparsed": 8,
+   "class": "no_payload_file_was_parsed_so_the_channel_is_unmeasured",
+   "evidence": {},
+   "writer": null,
+   "card": null,
+   "examples": []
+  },
+  {
+   "family": "matched_by_arm",
+   "dir": "results/state_tilt",
+   "members": 8,
+   "payload_files_parsed": 0,
+   "payload_files_unparsed": 8,
+   "class": "no_payload_file_was_parsed_so_the_channel_is_unmeasured",
+   "evidence": {},
+   "writer": null,
+   "card": null,
+   "examples": []
+  },
+  {
+   "family": "ADDOS",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 7,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E243",
+    "member": "results/state_tilt/ADDOS-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E243",
+   "examples": [
+    {
+     "member": "results/state_tilt/ADDOS-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E243"
+     }
+    },
+    {
+     "member": "results/state_tilt/ADDOS-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E243"
+     }
+    },
+    {
+     "member": "results/state_tilt/ADDOS-2026-11-02.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E243"
+     }
+    }
+   ]
+  },
+  {
+   "family": "BANDPATH",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 7,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E231",
+    "member": "results/state_tilt/BANDPATH-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E231",
+   "examples": [
+    {
+     "member": "results/state_tilt/BANDPATH-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E231"
+     }
+    },
+    {
+     "member": "results/state_tilt/BANDPATH-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E231"
+     }
+    },
+    {
+     "member": "results/state_tilt/BANDPATH-2026-11-02.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E231"
+     }
+    }
+   ]
+  },
+  {
+   "family": "COSTCURVE",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 7,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E232",
+    "member": "results/state_tilt/COSTCURVE-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E232",
+   "examples": [
+    {
+     "member": "results/state_tilt/COSTCURVE-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E232"
+     }
+    },
+    {
+     "member": "results/state_tilt/COSTCURVE-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E232"
+     }
+    },
+    {
+     "member": "results/state_tilt/COSTCURVE-2026-11-02.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E232"
+     }
+    }
+   ]
+  },
+  {
+   "family": "EMPIRICAL-GAMMA",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 7,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E233",
+    "member": "results/state_tilt/EMPIRICAL-GAMMA-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E233",
+   "examples": [
+    {
+     "member": "results/state_tilt/EMPIRICAL-GAMMA-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E233"
+     }
+    },
+    {
+     "member": "results/state_tilt/EMPIRICAL-GAMMA-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E233"
+     }
+    },
+    {
+     "member": "results/state_tilt/EMPIRICAL-GAMMA-2026-11-02.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E233"
+     }
+    }
+   ]
+  },
+  {
+   "family": "INFOSTRUCT",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 7,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E237",
+    "member": "results/state_tilt/INFOSTRUCT-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E237",
+   "examples": [
+    {
+     "member": "results/state_tilt/INFOSTRUCT-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E237"
+     }
+    },
+    {
+     "member": "results/state_tilt/INFOSTRUCT-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E237"
+     }
+    },
+    {
+     "member": "results/state_tilt/INFOSTRUCT-2026-11-02.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E237"
+     }
+    }
+   ]
+  },
+  {
+   "family": "OWNCROSS",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 7,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E239",
+    "member": "results/state_tilt/OWNCROSS-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E239",
+   "examples": [
+    {
+     "member": "results/state_tilt/OWNCROSS-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E239"
+     }
+    },
+    {
+     "member": "results/state_tilt/OWNCROSS-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E239"
+     }
+    },
+    {
+     "member": "results/state_tilt/OWNCROSS-2026-11-02.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E239"
+     }
+    }
+   ]
+  },
+  {
+   "family": "PAIRHET",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 7,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E244",
+    "member": "results/state_tilt/PAIRHET-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E244",
+   "examples": [
+    {
+     "member": "results/state_tilt/PAIRHET-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E244"
+     }
+    },
+    {
+     "member": "results/state_tilt/PAIRHET-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E244"
+     }
+    },
+    {
+     "member": "results/state_tilt/PAIRHET-2026-11-02.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E244"
+     }
+    }
+   ]
+  },
+  {
+   "family": "PER-MEMBER-GAMMA",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 7,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E234",
+    "member": "results/state_tilt/PER-MEMBER-GAMMA-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E234",
+   "examples": [
+    {
+     "member": "results/state_tilt/PER-MEMBER-GAMMA-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E234"
+     }
+    },
+    {
+     "member": "results/state_tilt/PER-MEMBER-GAMMA-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E234"
+     }
+    },
+    {
+     "member": "results/state_tilt/PER-MEMBER-GAMMA-2026-11-02.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E234"
+     }
+    }
+   ]
+  },
+  {
+   "family": "SLOPEMATRIX",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 7,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E245",
+    "member": "results/state_tilt/SLOPEMATRIX-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E245",
+   "examples": [
+    {
+     "member": "results/state_tilt/SLOPEMATRIX-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E245"
+     }
+    },
+    {
+     "member": "results/state_tilt/SLOPEMATRIX-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E245"
+     }
+    },
+    {
+     "member": "results/state_tilt/SLOPEMATRIX-2026-11-02.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E245"
+     }
+    }
+   ]
+  },
+  {
+   "family": "bandpath_by_cell",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 0,
+   "payload_files_unparsed": 7,
+   "class": "no_payload_file_was_parsed_so_the_channel_is_unmeasured",
+   "evidence": {},
+   "writer": null,
+   "card": null,
+   "examples": []
+  },
+  {
+   "family": "hysteresis_by_rung",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 0,
+   "payload_files_unparsed": 7,
+   "class": "no_payload_file_was_parsed_so_the_channel_is_unmeasured",
+   "evidence": {},
+   "writer": null,
+   "card": null,
+   "examples": []
+  },
+  {
+   "family": "loo_by_member",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 0,
+   "payload_files_unparsed": 7,
+   "class": "no_payload_file_was_parsed_so_the_channel_is_unmeasured",
+   "evidence": {},
+   "writer": null,
+   "card": null,
+   "examples": []
+  },
+  {
+   "family": "owncross_pairs",
+   "dir": "results/state_tilt",
+   "members": 7,
+   "payload_files_parsed": 0,
+   "payload_files_unparsed": 7,
+   "class": "no_payload_file_was_parsed_so_the_channel_is_unmeasured",
+   "evidence": {},
+   "writer": null,
+   "card": null,
+   "examples": []
+  },
+  {
+   "family": "BOOKECHO",
+   "dir": "results/state_tilt",
+   "members": 6,
+   "payload_files_parsed": 6,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E250",
+    "member": "results/state_tilt/BOOKECHO-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E250",
+   "examples": [
+    {
+     "member": "results/state_tilt/BOOKECHO-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E250"
+     }
+    },
+    {
+     "member": "results/state_tilt/BOOKECHO-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E250"
+     }
+    },
+    {
+     "member": "results/state_tilt/BOOKECHO-2026-11-02.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E250"
+     }
+    }
+   ]
+  },
+  {
+   "family": "LEADCOUNTER",
+   "dir": "results/state_tilt",
+   "members": 6,
+   "payload_files_parsed": 6,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E249",
+    "member": "results/state_tilt/LEADCOUNTER-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E249",
+   "examples": [
+    {
+     "member": "results/state_tilt/LEADCOUNTER-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E249"
+     }
+    },
+    {
+     "member": "results/state_tilt/LEADCOUNTER-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E249"
+     }
+    },
+    {
+     "member": "results/state_tilt/LEADCOUNTER-2026-11-02.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E249"
+     }
+    }
+   ]
+  },
+  {
+   "family": "STARLAGBAND",
+   "dir": "results/state_tilt",
+   "members": 6,
+   "payload_files_parsed": 6,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E248",
+    "member": "results/state_tilt/STARLAGBAND-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E248",
+   "examples": [
+    {
+     "member": "results/state_tilt/STARLAGBAND-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E248"
+     }
+    },
+    {
+     "member": "results/state_tilt/STARLAGBAND-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E248"
+     }
+    },
+    {
+     "member": "results/state_tilt/STARLAGBAND-2026-11-02.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E248"
+     }
+    }
+   ]
+  },
+  {
+   "family": "PAGEGATE",
+   "dir": "results/e79",
+   "members": 5,
+   "payload_files_parsed": 5,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-29",
+    "member": "results/e79/PAGEGATE-2026-10-29.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/e79/PAGEGATE-2026-10-29.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-29"
+     }
+    },
+    {
+     "member": "results/e79/PAGEGATE-2026-10-30.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-30"
+     }
+    },
+    {
+     "member": "results/e79/PAGEGATE-2026-10-31.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-31"
+     }
+    }
+   ]
+  },
+  {
+   "family": "NEUTRAL",
+   "dir": "results/e42_spread_size_neutral",
+   "members": 4,
+   "payload_files_parsed": 4,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-20",
+    "member": "results/e42_spread_size_neutral/NEUTRAL-20261020.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/e42_spread_size_neutral/NEUTRAL-20261020.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-20"
+     }
+    },
+    {
+     "member": "results/e42_spread_size_neutral/NEUTRAL-20261023-screened.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-23"
+     }
+    },
+    {
+     "member": "results/e42_spread_size_neutral/NEUTRAL-20261023.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-23"
+     }
+    }
+   ]
+  },
+  {
+   "family": "DUALARM",
+   "dir": "results/regime_gate_dualarm",
+   "members": 3,
+   "payload_files_parsed": 3,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "asof",
+    "value": "2026-09-30",
+    "member": "results/regime_gate_dualarm/DUALARM-2026-09-30.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/regime_gate_dualarm/DUALARM-2026-09-30.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "asof",
+      "value": "2026-09-30"
+     }
+    },
+    {
+     "member": "results/regime_gate_dualarm/DUALARM-2026-10-19.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "asof",
+      "value": "2026-10-19"
+     }
+    },
+    {
+     "member": "results/regime_gate_dualarm/DUALARM-2026-11-03.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "asof",
+      "value": "2026-11-03"
+     }
+    }
+   ]
+  },
+  {
+   "family": "FAMILYARG",
+   "dir": "results/state_tilt",
+   "members": 3,
+   "payload_files_parsed": 3,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-11-03",
+    "member": "results/state_tilt/FAMILYARG-20261103.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/state_tilt/FAMILYARG-20261103.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-03"
+     }
+    },
+    {
+     "member": "results/state_tilt/FAMILYARG-20261104.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-04"
+     }
+    },
+    {
+     "member": "results/state_tilt/FAMILYARG-20261105.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-05"
+     }
+    }
+   ]
+  },
+  {
+   "family": "FRESHAIM",
+   "dir": "results/state_tilt",
+   "members": 3,
+   "payload_files_parsed": 3,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "generated",
+    "value": "2026-11-04T17:48:25+08:00",
+    "member": "results/state_tilt/FRESHAIM-2026-11-04.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/state_tilt/FRESHAIM-2026-11-04.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "generated",
+      "value": "2026-11-04T17:48:25+08:00"
+     }
+    },
+    {
+     "member": "results/state_tilt/FRESHAIM-2026-11-05.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "generated",
+      "value": "2026-11-05T21:45:33+08:00"
+     }
+    },
+    {
+     "member": "results/state_tilt/FRESHAIM-2026-11-06.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "generated",
+      "value": "2026-11-06T11:19:23+08:00"
+     }
+    }
+   ]
+  },
+  {
+   "family": "OMISSION",
+   "dir": "results/state_tilt",
+   "members": 3,
+   "payload_files_parsed": 3,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_a_resolvable_card",
+   "evidence": {
+    "field": "study",
+    "value": "E242",
+    "member": "results/state_tilt/OMISSION-2026-10-29.json"
+   },
+   "writer": null,
+   "card": "E242",
+   "examples": [
+    {
+     "member": "results/state_tilt/OMISSION-2026-10-29.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E242"
+     }
+    },
+    {
+     "member": "results/state_tilt/OMISSION-2026-10-30.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E242"
+     }
+    },
+    {
+     "member": "results/state_tilt/OMISSION-2026-11-03.json",
+     "class": "payload_carries_a_resolvable_card",
+     "evidence": {
+      "field": "study",
+      "value": "E242"
+     }
+    }
+   ]
+  },
+  {
+   "family": "PRECISIONGAP",
+   "dir": "results/state_tilt",
+   "members": 3,
+   "payload_files_parsed": 3,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-31",
+    "member": "results/state_tilt/PRECISIONGAP-2026-10-31.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-31"
+     }
+    },
+    {
+     "member": "results/state_tilt/PRECISIONGAP-2026-11-01.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-01"
+     }
+    },
+    {
+     "member": "results/state_tilt/PRECISIONGAP-2026-11-02.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-02"
+     }
+    }
+   ]
+  },
+  {
+   "family": "REFRESHSIGNAL",
+   "dir": "results/state_tilt",
+   "members": 3,
+   "payload_files_parsed": 3,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-11-04",
+    "member": "results/state_tilt/REFRESHSIGNAL-2026-11-04.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/state_tilt/REFRESHSIGNAL-2026-11-04.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-04"
+     }
+    },
+    {
+     "member": "results/state_tilt/REFRESHSIGNAL-2026-11-05.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-05"
+     }
+    },
+    {
+     "member": "results/state_tilt/REFRESHSIGNAL-2026-11-06.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-06"
+     }
+    }
+   ]
+  },
+  {
+   "family": "REPLAYCENSUS",
+   "dir": "results/state_tilt",
+   "members": 3,
+   "payload_files_parsed": 3,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-30",
+    "member": "results/state_tilt/REPLAYCENSUS-2026-10-30.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/state_tilt/REPLAYCENSUS-2026-10-30.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-30"
+     }
+    },
+    {
+     "member": "results/state_tilt/REPLAYCENSUS-2026-10-31.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-31"
+     }
+    },
+    {
+     "member": "results/state_tilt/REPLAYCENSUS-2026-11-01.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-01"
+     }
+    }
+   ]
+  },
+  {
+   "family": "SHADOWFACE",
+   "dir": "results/state_tilt",
+   "members": 3,
+   "payload_files_parsed": 3,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-11-04",
+    "member": "results/state_tilt/SHADOWFACE-2026-11-04.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/state_tilt/SHADOWFACE-2026-11-04.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-04"
+     }
+    },
+    {
+     "member": "results/state_tilt/SHADOWFACE-2026-11-05.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-05"
+     }
+    },
+    {
+     "member": "results/state_tilt/SHADOWFACE-2026-11-06.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-06"
+     }
+    }
+   ]
+  },
+  {
+   "family": "UNFLOORED",
+   "dir": "results/state_tilt",
+   "members": 3,
+   "payload_files_parsed": 3,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-11-03",
+    "member": "results/state_tilt/UNFLOORED-2026-11-03.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/state_tilt/UNFLOORED-2026-11-03.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-03"
+     }
+    },
+    {
+     "member": "results/state_tilt/UNFLOORED-2026-11-04.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-04"
+     }
+    },
+    {
+     "member": "results/state_tilt/UNFLOORED-2026-11-05.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-05"
+     }
+    }
+   ]
+  },
+  {
+   "family": "omission_pairs",
+   "dir": "results/state_tilt",
+   "members": 3,
+   "payload_files_parsed": 0,
+   "payload_files_unparsed": 3,
+   "class": "no_payload_file_was_parsed_so_the_channel_is_unmeasured",
+   "evidence": {},
+   "writer": null,
+   "card": null,
+   "examples": []
+  },
+  {
+   "family": "BASENAMECENSUS",
+   "dir": "results/state_tilt",
+   "members": 2,
+   "payload_files_parsed": 2,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-11-03",
+    "member": "results/state_tilt/BASENAMECENSUS-2026-11-03.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/state_tilt/BASENAMECENSUS-2026-11-03.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-03"
+     }
+    },
+    {
+     "member": "results/state_tilt/BASENAMECENSUS-2026-11-04.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-11-04"
+     }
+    }
+   ]
+  },
+  {
+   "family": "CASH-TICKET",
+   "dir": "results/etf_book_cash_ladder",
+   "members": 2,
+   "payload_files_parsed": 2,
+   "payload_files_unparsed": 0,
+   "class": "nothing_in_the_payload_names_a_writer",
+   "evidence": {
+    "member": "results/etf_book_cash_ladder/CASH-TICKET-2026-10-19.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/etf_book_cash_ladder/CASH-TICKET-2026-10-19.json",
+     "class": "nothing_in_the_payload_names_a_writer",
+     "evidence": {}
+    },
+    {
+     "member": "results/etf_book_cash_ladder/CASH-TICKET-2026-10-23.json",
+     "class": "nothing_in_the_payload_names_a_writer",
+     "evidence": {}
+    }
+   ]
+  },
+  {
+   "family": "CASHLeg",
+   "dir": "results/e40_cashleg_drag",
+   "members": 2,
+   "payload_files_parsed": 2,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-20",
+    "member": "results/e40_cashleg_drag/CASHLeg-20261020.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/e40_cashleg_drag/CASHLeg-20261020.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-20"
+     }
+    },
+    {
+     "member": "results/e40_cashleg_drag/CASHLeg-20261027.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-27"
+     }
+    }
+   ]
+  },
+  {
+   "family": "CHURNTOP3",
+   "dir": "results/e44_midmonth",
+   "members": 2,
+   "payload_files_parsed": 2,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-22",
+    "member": "results/e44_midmonth/CHURNTOP3-20261022-s2013.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/e44_midmonth/CHURNTOP3-20261022-s2013.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-22"
+     }
+    },
+    {
+     "member": "results/e44_midmonth/CHURNTOP3-20261026.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-26"
+     }
+    }
+   ]
+  },
+  {
+   "family": "DIRFIELD",
+   "dir": "results/state_tilt",
+   "members": 2,
+   "payload_files_parsed": 2,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "generated",
+    "value": "2026-11-05",
+    "member": "results/state_tilt/DIRFIELD-2026-11-03.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/state_tilt/DIRFIELD-2026-11-03.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "generated",
+      "value": "2026-11-05"
+     }
+    },
+    {
+     "member": "results/state_tilt/DIRFIELD-2026-11-04.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "generated",
+      "value": "2026-11-07"
+     }
+    }
+   ]
+  },
+  {
+   "family": "DIRISFACE",
+   "dir": "results/state_tilt",
+   "members": 2,
+   "payload_files_parsed": 2,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "generated",
+    "value": "2026-11-05",
+    "member": "results/state_tilt/DIRISFACE-2026-11-05.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/state_tilt/DIRISFACE-2026-11-05.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "generated",
+      "value": "2026-11-05"
+     }
+    },
+    {
+     "member": "results/state_tilt/DIRISFACE-2026-11-06.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "generated",
+      "value": "2026-11-06"
+     }
+    }
+   ]
+  },
+  {
+   "family": "MODEEQ",
+   "dir": "results/e44_midmonth",
+   "members": 2,
+   "payload_files_parsed": 2,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-21",
+    "member": "results/e44_midmonth/MODEEQ-20261021.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/e44_midmonth/MODEEQ-20261021.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-21"
+     }
+    },
+    {
+     "member": "results/e44_midmonth/MODEEQ-20261026.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-26"
+     }
+    }
+   ]
+  },
+  {
+   "family": "PRECISIONCENSUS",
+   "dir": "results/state_tilt",
+   "members": 2,
+   "payload_files_parsed": 2,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "evidence_cutoff",
+    "value": "2026-10-29",
+    "member": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-29"
+     }
+    },
+    {
+     "member": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "evidence_cutoff",
+      "value": "2026-10-30"
+     }
+    }
+   ]
+  },
+  {
+   "family": "REPUBLISHCHAIN",
+   "dir": "results/state_tilt",
+   "members": 2,
+   "payload_files_parsed": 2,
+   "payload_files_unparsed": 0,
+   "class": "payload_carries_only_a_timestamp",
+   "evidence": {
+    "field": "generated",
+    "value": "2026-11-05",
+    "member": "results/state_tilt/REPUBLISHCHAIN-2026-11-03.json"
+   },
+   "writer": null,
+   "card": null,
+   "examples": [
+    {
+     "member": "results/state_tilt/REPUBLISHCHAIN-2026-11-03.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "generated",
+      "value": "2026-11-05"
+     }
+    },
+    {
+     "member": "results/state_tilt/REPUBLISHCHAIN-2026-11-04.json",
+     "class": "payload_carries_only_a_timestamp",
+     "evidence": {
+      "field": "generated",
+      "value": "2026-11-07"
+     }
+    }
+   ]
+  }
+ ],
+ "method_limits": [
+  "only the first MAX_MEMBERS_PARSED members of a family are parsed",
+  "csv/parquet members and files over the read cap are counted as unparsed, never as nothing",
+  "the script index is python-only: a family written by powershell or batch reports no channel",
+  "a payload value composed at write time cannot be resolved here either"
+ ]
+}

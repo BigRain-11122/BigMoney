@@ -18619,6 +18619,64 @@ except Exception as _e473x:
     _d473 = "leg could not run"
 check(_name473, not _bad473, "; ".join(_bad473)[:240] or _d473)
 
+# E476 (r1504 bm-b): E473's 47 unattributable unread families may still be traceable from the face
+# side. This leg holds that every channel tally re-derives from the rows, that the verdict is decided
+# over MEASURED families only (a family whose members are all csv is unmeasured, not a negative
+# result), that families_naming_a_writer is the script+card sum, and that the face declares which
+# population it was handed; plus two doctored copies (a "nothing" row with no parsed payload, and a
+# verdict outside the frozen vocabulary).
+_name476 = "E476 an unowned family's payload channel is measured, not assumed absent (r1504 bm-b)"
+_bad476 = []
+try:
+    _m476 = __import__("importlib").import_module("e476_payload_writer")
+    _f476 = json.load(open(os.path.join("results", "state_tilt", "payloadwriter_latest.json"),
+                           encoding="utf-8"))
+    _s476 = _f476.get("summary") or {}
+    _r476 = _f476.get("rows") or []
+    _bad476.extend(_m476.tally_problems(_f476))
+    if _f476.get("verdict") not in _m476.VERDICT_VOCAB:
+        _bad476.append("verdict outside the frozen vocabulary: %r" % (_f476.get("verdict"),))
+    if _s476.get("unattributed_families") != len(_r476):
+        _bad476.append("the family count does not re-add to the rows")
+    if sum((_s476.get("channels") or {}).values()) != len(_r476):
+        _bad476.append("the six channel totals do not re-add to the rows")
+    if _s476.get("families_unmeasured") != sum(
+            1 for _r in _r476 if not _r.get("payload_files_parsed")):
+        _bad476.append("the unmeasured count does not re-derive from the rows")
+    if _s476.get("families_naming_a_writer") != (
+            (_s476.get("channels") or {}).get(_m476.C_SCRIPT, 0)
+            + (_s476.get("channels") or {}).get(_m476.C_CARD, 0)):
+        _bad476.append("families_naming_a_writer is not the script+card sum")
+    if not (_f476.get("population_source") or {}).get("families"):
+        _bad476.append("the face does not name the population it was handed")
+    _w476 = json.loads(json.dumps(_f476))
+    _hit476 = False
+    for _row476 in _w476.get("rows") or []:
+        if _row476.get("class") in (_m476.C_NONE, _m476.C_TIMESTAMP, _m476.C_SCRIPT):
+            _row476["payload_files_parsed"] = 0
+            _row476["payload_files_unparsed"] = _row476.get("members") or 0
+            _row476["class"] = _m476.C_NONE
+            _hit476 = True
+            break
+    if not _hit476:
+        _bad476.append("no row could be doctored")
+    elif not _m476.tally_problems(_w476):
+        _bad476.append("a 'nothing names a writer' row with no parsed payload survived the guard")
+    _w476b = json.loads(json.dumps(_f476))
+    _w476b["verdict"] = "something_else"
+    if _w476b.get("verdict") in _m476.VERDICT_VOCAB:
+        _bad476.append("the vocabulary check cannot fail")
+    _d476 = ("%d unattributed families | %d name a writer | %d timestamp only | %d nothing "
+             "| %d unmeasured | verdict %s") % (
+        _s476.get("unattributed_families") or 0, _s476.get("families_naming_a_writer") or 0,
+        (_s476.get("channels") or {}).get(_m476.C_TIMESTAMP, 0),
+        _s476.get("families_with_a_payload_that_names_nothing") or 0,
+        _s476.get("families_unmeasured") or 0, _f476.get("verdict"))
+except Exception as _e476x:
+    _bad476.append(repr(_e476x)[:160])
+    _d476 = "leg could not run"
+check(_name476, not _bad476, "; ".join(_bad476)[:240] or _d476)
+
 # E469 (r1501 bm-b): a published face is only as traceable as the channels it actually carries.
 # This leg holds that every channel tally and every owner class re-derives from the rows, that the
 # two population halves re-add to the face count, that a literal-owner row names at least one

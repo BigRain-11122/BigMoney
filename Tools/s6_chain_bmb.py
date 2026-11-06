@@ -1719,6 +1719,10 @@ LEGS = [
     # read: a writer whose studied output and unread output come from one script is spillover that
     # can be pruned at source.  `check` re-derives every writer class and tally from the rows.
     ("producer_spill", ["python", "scripts/e473_producer_spill.py", "check"]),
+    # E476 asks the face side of E473's 47 unattributable families: does the published payload itself
+    # name a writer (a script, a card the asset file resolves, or only a clock)?  `check` re-derives
+    # every channel tally from the rows and refuses a "nothing" row that parsed no payload at all.
+    ("payload_writer", ["python", "scripts/e476_payload_writer.py", "check"]),
 ]
 
 

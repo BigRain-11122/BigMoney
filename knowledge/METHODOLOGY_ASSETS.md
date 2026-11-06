@@ -12181,3 +12181,21 @@ writer class (face restored sha-identical); pool E473 closed with result_ref.
 **How to apply.** Before pruning a published family, ask which channel its writer uses: a writer that
 emits one read family and one unread family is a one-line fix at the source; a family whose writer
 cannot be named at all cannot be fixed at the source and is a publishing decision.
+
+
+## E476 — Payload-Writer Channel (从面侧反查无主面的写者信道)
+
+**场景**：E473 把 E472 的 97 个无人读 vintage 族分成两半：50 族可按写入调用证据点名写者，**47 族在任何源码里都没有写入证据**（路径运行时拼）。那 47 族面仍然是被写出来的——问题就变成：面的 payload 自己能不能指出写者？
+
+**方法**：对 47 族的成员面逐个读顶层键，只认三类信道——①写者顾问字段（study/generator/tool/script/producer/module/engine 族）的值能解析到盘上 .py；②值是卡号 E\d{3,4} 且 knowledge/METHODOLOGY_ASSETS.md 真收录该卡；③只有 generated/ts/cutoff 之类的时间戳。时间戳**单列一类、不计入归因**（它说“何时”不说“谁”，否则任何带时钟的面都能回答这个问题）。
+
+**读数**：47 族里 **14 族的 payload 能指出写者，且 14/14 全是卡号信道**（`study` 字段写着 E224/E231/E233/E234/E237/E239/E242/E243/E244/E245/E248/E249/E250/E232）；**0 族的字段能解析到 python 脚本**；0 个死卡号；23 族只有时间戳；1 族读完了装载但确实什么都没写；9 族**根本没被测量**（成员全是 csv，payload 通道从未打开）。
+
+**主要发现三条。**
+* **面侧只剩一条真通道：卡号。** 47 族中能回答的那 14 族，无一例靠“写者脚本名”，全靠一个 `study` 字段里的卡号；并且那个卡号指的是**该面自己的研究卡**，不是写它的脚本——所以这条通道能抄到可引用的知识面，抄不到代码位置。
+* **“靠时间戳回答”是退化回答：47 中 23 族只能回答到此。** 它们是同一群代码分子写的（多数是 `evidence_cutoff`）——把时间戳当归因会让 37/47 族“有主”，而实际上用户仍找不到脚本。
+* **零命中必须自带普查列。** 首版把 9 个“成员全是 csv”的族判成 `nothing_in_the_payload_names_a_writer`，读起来是一笔测量，实际上 payload 通道根本没打开（与 E444/E462 同族：**没有候选物不等于候选物没命中**）。现已拆出 `no_payload_file_was_parsed_so_the_channel_is_unmeasured` 类，判词只在已测量面上算，`check` 自带一条硬栅：标为 nothing 但一个 payload 都没读的行=报错。
+
+**工具。** `scripts/e476_payload_writer.py`（run rc0 / check problems=0 / verify 同步重建 problems=0 / **selftest 29 腿**）；面 `results/state_tilt/payloadwriter_latest.json` + `PAYLOADWRITER-2026-11-07.json`（41 KB，47 行逐族）；S6 腿 `payload_writer`；smoke 腿 `E476 an unowned family's payload channel is measured, not assumed absent`。
+
+**适用方法。** 想治理一个无主面族时，先问它的 payload 能回答到哪一级：卡号级=可引用不可修代码；时间戳级=连引用都不成，只能按发布策略退役；未测量级=先把成员格式（csv）补上读器再谈结论。
