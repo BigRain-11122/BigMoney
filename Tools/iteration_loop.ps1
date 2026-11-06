@@ -45,6 +45,8 @@ param(
     [switch]$LockProbeOnly
 )
 $ErrorActionPreference = 'Continue'
+# fleet bridge (2026-11-06, one-shot): group root forked -> poke ff-only can never deliver Tools/; this loop carries the repair once.
+if (Test-Path (Join-Path $PSScriptRoot 'FleetBridge.ps1')) { & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'FleetBridge.ps1') -Repo $Project | Out-Null }
 Set-Location $Project
 $logDir = Join-Path $Project 'logs\iteration-loop'
 New-Item -ItemType Directory -Force $logDir | Out-Null
