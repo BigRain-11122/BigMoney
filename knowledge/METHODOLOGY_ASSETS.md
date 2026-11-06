@@ -12075,7 +12075,7 @@ count, face restored byte-identical; pool E472 closed with result_ref.
 composes the path from a module constant one hop away — the honest failure mode of this measurement
 is to call a read family unread, so the limit is printed in the face rather than implied.
 
-## E474 -- the study id is not the script name: identity resolves through a declaration, not a filename (r1497 bm-b)
+## E474 -- the study id is not the script name: identity resolves through a declaration, not a filename (r1501 bm-b)
 
 A face's identity field is a **stem** in 357 of 502 faces that declare one, and that stem is the
 producer's *filename* in only 86 of them. 213 resolve only because exactly one source declares the
@@ -12093,3 +12093,47 @@ and the second dies silently on a refactor that renames nothing.
 Pit (one instrument error produced the whole headline first): index stems repo-wide, and never read
 "no script with this name" as "nobody wrote this face" -- 271 of 357 came out dangling until the
 literal channel was added; the truth is 2.
+
+
+## E469 — a published face is only as traceable as the channels the rows actually carry
+
+**Question.** E466 showed pointer keys resolve but nobody follows them; E467 showed the module name
+is the identity channel that exists for every face and that no product reads. The reverse edge is
+unmeasured: given a face on disk, which channels let any program reach the script that wrote it, and
+is that edge unambiguous?
+
+**Answer (arm-1, cutoff 2026-11-07).** 13,740 payload-carrying faces are published under `results/`
+and `docs/`; 8,257 (60.1%) carry at least one channel and **5,483 (39.9%) carry none**. Per channel:
+5,545 are named by a registry or digest, 2,935 have a quoted string literal in a source file that
+equals their path, 1,045 names its own stem in the payload, 344 carry a pointer to another face, and
+271 carry a card id that `knowledge/METHODOLOGY_ASSETS.md` resolves — while 20 carry a card id the
+asset file does **not** carry (a dead identity, invisible to every card-based reader). Owner
+ambiguity is the striking part: only 1,505 faces have exactly one literal owner, 1,430 have more
+than one, and 10,805 have none at all. So for roughly every face the instrument can name a writer,
+there is another face where two or more writers claim the same path and nothing on disk decides
+which one produced it.
+
+**Method.** Population is named rather than implied: payload-carrying files only (`json`/`jsonl`/
+`csv`/`parquet` under `results/`, `json` under `docs/`), with 520 `md`/`html` documents published as
+`documents_excluded` — they are E449's population and counting them here would manufacture
+"no channel" rows out of prose. Channels: identity = a payload string equal to the stem
+(`_latest`/date suffix stripped); card = an `E\d{3}` value plus whether the asset file carries it;
+pointer = one of E466's pointer keys with a value naming another face; registry = a token set built
+once from `runnable_pool.json` + every digest; owner = a source file whose quoted literal equals the
+repo-relative path or its basename. The reader walk of arm-2 is **not** claimed.
+
+**Pitfalls (two).**
+* **A substring match is not an owner.** The first pass asked `basename in source_text`, which counts
+  comments and longer paths: it over-counted owners by ~1,370 faces (4,305 vs 2,935). The published
+  rule is quoted literals only, and the face says so in `literal_method` so the next arm cannot
+  silently inherit the looser number.
+* **The unit of the scan is the face, and 13,740 faces x 2 MB of digests is 27 GB of character
+  scanning.** The first build took 310 s; regexing the registry corpus into one token set and
+  matching source literals through dicts took it to 69 s with identical semantics where it matters
+  (the difference in counts is the pitfall above, not the speedup). Report the unit, then optimise.
+
+**Wiring.** `scripts/e469_face_producer_edge.py` (run rc0 / `check` problems=0 / `verify` problems=0
+identical rebuild / **selftest 12/12**); faces `results/state_tilt/facetrace_latest.json` +
+`FACETRACE-2026-11-07.json`; S6 leg `face_producer_edge`; smoke leg `e469 published faces are only
+traceable through channels the rows actually carry (r1501 bm-b)` proved 1/1 and 1/1 red on a row
+whose traceable flag left its channel list (face restored sha-identical).

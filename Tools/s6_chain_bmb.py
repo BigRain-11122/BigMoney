@@ -1711,6 +1711,10 @@ LEGS = [
     # as a stem, whether that stem is the producer's filename or only a literal it declares, and
     # what share of identity readers carry a normaliser.  `check` re-derives every tally.
     ("identity_dialect_census", ["python", "scripts/e474_identity_dialect_census.py", "check"]),
+    # E469 (arm-1) asks the reverse edge: given a published face on disk, which channels tie it to
+    # the script that wrote it.  `check` re-derives every channel tally and owner class from the
+    # published rows and never rebuilds (a rebuild walks the whole tree, ~70 s).
+    ("face_producer_edge", ["python", "scripts/e469_face_producer_edge.py", "check"]),
 ]
 
 

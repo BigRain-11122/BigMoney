@@ -18570,6 +18570,67 @@ except Exception as _e472x:
     _d472 = "leg could not run"
 check(_name472, not _bad472, "; ".join(_bad472)[:240] or _d472)
 
+# E469 (r1501 bm-b): a published face is only as traceable as the channels it actually carries.
+# This leg holds that every channel tally and every owner class re-derives from the rows, that the
+# two population halves re-add to the face count, that a literal-owner row names at least one
+# producer, that the population is named (md/html documents are E449's population and are excluded,
+# not counted as untraceable), plus two doctored copies (an orphan tally flipped, and a row marked
+# traceable with no channel behind it).
+_name469 = "e469 published faces are only traceable through channels the rows actually carry (r1501 bm-b)"
+_bad469 = []
+try:
+    _m469 = __import__("importlib").import_module("e469_face_producer_edge")
+    _f469 = json.load(open(os.path.join("results", "state_tilt", "facetrace_latest.json"),
+                           encoding="utf-8"))
+    _s469 = _f469.get("summary") or {}
+    _r469 = _f469.get("rows") or []
+    _bad469.extend(_m469.row_problems(_f469))
+    if _f469.get("verdict") not in _m469.VERDICT_VOCAB:
+        _bad469.append("verdict outside the frozen vocabulary: %r" % (_f469.get("verdict"),))
+    if _s469.get("faces") != len(_r469):
+        _bad469.append("the face count does not re-add to the rows")
+    if (_s469.get("faces_traceable") or 0) + (_s469.get("faces_no_channel") or 0) != len(_r469):
+        _bad469.append("the two population halves do not re-add to the rows")
+    for _cls in _m469.CHANNELS:
+        if (_s469.get("channels") or {}).get(_cls) != sum(
+                1 for r in _r469 if _cls in (r.get("channels") or [])):
+            _bad469.append("channel tally %s does not re-derive" % (_cls,))
+    for _cls in _m469.OWNERS:
+        if (_s469.get("owners") or {}).get(_cls) != sum(
+                1 for r in _r469 if r.get("owners_class") == _cls):
+            _bad469.append("owner class %s does not re-derive" % (_cls,))
+    if not _s469.get("population_note"):
+        _bad469.append("the population is not named")
+    for _row in _r469:
+        if _m469.C_LITERAL in (_row.get("channels") or []) and not (_row.get("producer_count") or 0):
+            _bad469.append("%s: a literal channel with no owner" % (_row.get("face"),))
+        if _row.get("owners_class") == _m469.O_ONE and (_row.get("producer_count") or 0) != 1:
+            _bad469.append("%s: one-owner class with %r producers" % (
+                _row.get("face"), _row.get("producer_count")))
+        if _row.get("traceable") != bool(_row.get("channels")):
+            _bad469.append("%s: traceable flag does not follow its channels" % (_row.get("face"),))
+    _w469 = json.loads(json.dumps(_f469))
+    _w469["summary"]["faces_no_channel"] = (_w469["summary"].get("faces_no_channel") or 0) + 1
+    if not _m469.row_problems(_w469):
+        _bad469.append("a doctored orphan tally survived the row guard")
+    _w469b = json.loads(json.dumps(_f469))
+    if _w469b.get("rows"):
+        _w469b["rows"][0]["traceable"] = True
+        _w469b["rows"][0]["channels"] = []
+        if not _m469.row_problems(_w469b):
+            _bad469.append("a row marked traceable with no channel survived the row guard")
+    _d469 = ("%d payload faces | %d traceable / %d no channel | channels %s | owners %s "
+             "| verdict %s") % (
+        _s469.get("faces") or 0, _s469.get("faces_traceable") or 0,
+        _s469.get("faces_no_channel") or 0,
+        json.dumps((_s469.get("channels") or {}), ensure_ascii=False, sort_keys=True),
+        json.dumps((_s469.get("owners") or {}), ensure_ascii=False, sort_keys=True),
+        _f469.get("verdict"))
+except Exception as _e469x:
+    _bad469.append(repr(_e469x)[:160])
+    _d469 = "leg could not run"
+check(_name469, not _bad469, "; ".join(_bad469)[:240] or _d469)
+
 # E467 (r1491 bm-b): the card a producer restates in its docstring is the second of three identity
 # channels, and the question is whether any program recovers it.  This leg refuses (a) any tally
 # that does not re-derive from the published rows, (b) a row whose class or tier disagrees with its

@@ -28278,11 +28278,15 @@
    "lane": "cpu-only",
    "lane_note": "static: json loads of the faces plus AST over .py sources for output-path literals, card literals and registry reads; nothing executed, nothing outside results/state_tilt written",
    "priority": "normal",
-   "status": "ready",
+   "status": "in_progress",
    "owner": null,
    "source": "E467 (r1491 bm-b): the docstring channel is read by nobody; E466 measured the pointer channel's readers and found no follower",
    "entered_at": "2026-11-06T20:1x+08:00",
-   "entered_by": "bm-b r1491 (supply floor refill after E467)"
+   "entered_by": "bm-b r1491 (supply floor refill after E467)",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-07 01:50:00",
+   "result_ref": "results/state_tilt/FACETRACE-2026-11-07.json",
+   "note": "arm-1 published 2026-11-07 (channels + owner ambiguity): 13740 payload faces, 8257 traceable, 5545 named by a registry/digest, 2935 have a quoted-literal owner, 1505 of those with exactly one owner, 271 carry a card the asset file resolves and 20 carry one it does not. CONTINUATION (arm-2, not claimed): join these rows with the E466/E470 reader map and say which study opens each face and whether that reader walks the same channel that names it."
   },
   {
    "id": "E470-IS-THE-TARGET-OF-A-POINTER-THAT-NEEDS-ANOTHER-BASE-EVER-READ-AT-ALL",
@@ -28365,6 +28369,20 @@
    "source": "E474 (r1497 bm-b): 56 of 357 stem identity values are declared by several sources",
    "entered_at": "2026-11-06T23:4x+08:00",
    "entered_by": "bm-b r1497 (supply floor refill after E474)"
+  },
+  {
+   "id": "E466-HOW-MANY-FACES-NAME-THEIR-STUDY-AS-A-SCRIPT-STEM-AND-DOES-ANY-READER-NORMALISE-IT",
+   "title": "E460 found the 12 faces E458 classed as carrying no identity already carry one -- a 'study' field whose value is the producer script stem (e271_donor_choice_sensitivity). That was measured only inside E458's residue (12 faces out of 538) and only on the producer side: nobody has measured how many faces tree-wide spell their study that way, whether the same field name also answers 'whose corpus is this' elsewhere, or whether any reader in the tree normalises a stem before keying on it.",
+   "question": "For every face under results/ (not only E458's residue), classify the dialect of every identity-named top-level field: card id / study id / prereg path / producer script stem / other. Publish per face the field name, its value, and for stem values whether the stem is one of the face's own producers, a script the producer pins as a subject, or a script nobody names. Then, over the whole .py corpus, count readers that key on an identity value and split them by whether they normalise a stem to a card (or the reverse) before comparing. Split the residue into faces whose stem resolves to no script at all.",
+   "deliverable": "results/state_tilt/IDENTITYDIALECTCENSUS-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static: json loads of the results/ faces plus AST over .py sources for identity reads; nothing executed, nothing outside results/state_tilt written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E460 (r1489 bm-b): 11 of 12 flagged faces already carry the identity as a producer script stem, and one of them names a subject rather than its author",
+   "entered_at": "2026-11-06T18:0x+08:00",
+   "entered_by": "bm-b r1489 (supply floor refill after E460)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
