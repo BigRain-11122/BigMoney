@@ -5275,13 +5275,13 @@
  "s1": "full suite ran in-window: 355/357 PASS, 2 FAIL (readertiers bill stale against the grown corpus; bm-b GPU face spread 208.4 MiB between gpu_free_mib and vram_free_gb) -- both repaired by their own producers (e411 re-derived/verify [], gpu_face apply/audit []) and the suite relaunched",
  "s1_note": "results/_smoke_r1473.out detached at 06:05: 22 PASS / 0 FAIL at the last poll with the output buffered mid-run; no suite total is claimed this window",
  "s4": "card appended: ast.get_source_segment re-splits the whole source per call (16min build -> 44s), and a tally guard that demanded a bound name for a direct return/dict-literal reach accused 30 legitimate rows",
- "s6": "the new leg's own command run directly (check problems=[], verify problems=[]) | orphan probe py_faces=9 orphans=0 residents=0 | dualrun, compute_audit, py_watermark and the lane collectors were NOT re-run this window (wall budget, stated plainly)",
+ "s6": "S6 leg pointer_join run alone rc0 0.06s (problems: []) | dualrun, compute_audit, py_watermark, the update_* collectors and the paper chain were NOT re-run this window (wall budget, stated plainly) | full smoke suite NOT re-run",
  "s6_leg": "prereg_digest",
  "s6_leg_added": "producer_intent (Tools/s6_chain_bmb.py)",
  "s6_note": "the leg table now carries face_identity; the other legs were not re-run this window. One accidental full-chain start (a --leg typo resolved to round '--leg') ran ~5 minutes before it was cancelled, so a handful of downstream faces may show re-derived bytes this window -- disclosed, not claimed as this round's work",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
  "s6_run_in_window": "identity_consumers leg rc0 0.05s (problems: []); the full chain launched ~12:56 was still in flight at close so no chain total is claimed; dualrun ZERO-DRIFT at close (936 entries) with the streak reset 51 -> 0 -> 1 by a 13:01 drift sample naming this round's own claim (owner type str vs null - mid-tick lane-ahead is lawful and settled by the 13:14 sample); attrition guard CLEAN (4 ledgers, 2 historical shrinks healed); orphan probe py_faces=9 orphans=0",
- "s7": "orders 114 files / 115 acks / 0 unacked (scanned this window) | loop task / watchdog / claws not re-registered this window -- their own ticks cover the gap (stated plainly) | decisions not re-scanned this window (origin fetch not attempted)",
+ "s7": "orders 114 files / 115 acks / 0 unacked (scanned this window) | Bigmoney-IterationLoop PRESENT, Bigmoney-LoopWatchdog PRESENT (schtasks, localized field names -- matched on the task path, R49 pit) | pre-commit + pre-push claws installed and byte-equal (CR-normalised) to Tools/git-hooks | attrition guard CLEAN 4 ledgers (4 historical shrinks healed) | orphan probe py_faces=8 orphans=0 residents=0 | decisions.md not re-scanned this window (origin fetch not attempted)",
  "s7_checked_at": "2026-11-06T13:13:29+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
  "s7_note": "the watchdog keeps disappearing: re-registering it every window hides the cause; next window should find what disables it",
@@ -5392,7 +5392,7 @@
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1487 equals local HEAD",
   "main_push_blocker": "local main is 295 behind / 457 ahead of origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel"
  },
- "delivery_ts": "2026-11-06T16:11:18+08:00",
+ "delivery_ts": "2026-11-06T19:32:12+08:00",
  "r1490": {
   "card": "E466-DOES-A-FACE-POINTER-RESOLVE-AND-IS-IT-THE-JOIN-ANYONE-USES (pool id E465-...)",
   "dept": "research+engineering",
@@ -5411,5 +5411,12 @@
   "ts": "2026-11-06T19:28:50+08:00",
   "verdict": "only_the_generic_face_key_flows_into_a_path_and_every_candidate_read_site_names_a_row_the_source_built_itself"
  },
- "round_number_heal": "state said round_no 1487 while HEAD was r1489 (two windows committed without writing the state file); this window's round is 1490 and the file is written with the true number (r1020 double-face drift)"
+ "round_number_heal": "state said round_no 1487 while HEAD was r1489 (two windows committed without writing the state file); this window's round is 1490 and the file is written with the true number (r1020 double-face drift)",
+ "r1490_delivery": {
+  "branch": "machine/bm-b-r1490",
+  "sha": "4c6e995df8261ceb89ebc9ddea3c9b05a873cf5c",
+  "ts": "2026-11-06T19:32:12+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1490 equals local HEAD",
+  "main_push_blocker": "local main is 463 commits ahead of / 295 behind origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel"
+ }
 }
