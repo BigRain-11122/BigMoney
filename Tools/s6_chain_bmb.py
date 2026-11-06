@@ -1715,6 +1715,10 @@ LEGS = [
     # the script that wrote it.  `check` re-derives every channel tally and owner class from the
     # published rows and never rebuilds (a rebuild walks the whole tree, ~70 s).
     ("face_producer_edge", ["python", "scripts/e469_face_producer_edge.py", "check"]),
+    # E473 asks who writes the families E472 found unread, and whether that writer's other faces are
+    # read: a writer whose studied output and unread output come from one script is spillover that
+    # can be pruned at source.  `check` re-derives every writer class and tally from the rows.
+    ("producer_spill", ["python", "scripts/e473_producer_spill.py", "check"]),
 ]
 
 

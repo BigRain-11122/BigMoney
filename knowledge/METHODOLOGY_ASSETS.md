@@ -12137,3 +12137,47 @@ identical rebuild / **selftest 12/12**); faces `results/state_tilt/facetrace_lat
 `FACETRACE-2026-11-07.json`; S6 leg `face_producer_edge`; smoke leg `e469 published faces are only
 traceable through channels the rows actually carry (r1501 bm-b)` proved 1/1 and 1/1 red on a row
 whose traceable flag left its channel list (face restored sha-identical).
+
+
+## E473 — an unread family's writer is only prunable if you measure write calls, not mentions
+
+**Question.** E472 found 97 vintage families under `results/` that no study opens. If the same script
+emits faces that *are* read, the unread part is spillover that can be pruned at source; if the unread
+part is the script's only output, the script itself is the question.  Which is it, per writer?
+
+**Answer (cutoff 2026-11-07).** 374 sites carry write-call evidence naming at least one of the 97
+family tokens. **240 of them also publish at least one face a study opens** (1,848 studied faces
+between them), **94 resolve faces and none of them is studied**, and **40 name a family whose
+faces their own evidence cannot resolve on disk**. The largest unread emitters are
+`scripts/e97_routing.py` (7 families, 1.9 MB/cutoff, mixed), `scripts/e109_repairsweep.py` (6
+families, 1.3 MB/cutoff, no resolved face at all), `scripts/e417_shadow_face.py` and
+`scripts/e426_dynamic_face_names.py` (446 KB/cutoff each, both mixed). Of all 2,226 resolved
+faces, 1,848 are opened by a study, 85 only by a one-off `_r` round script, 12 only by a smoke
+leg, and 281 by nothing in the corpus.
+
+**The residue is the finding.** **47 of the 97 unread families have no write-evidence writer at all**
+— every literal that names them sits outside a write call, or the path is composed at runtime. So
+"prune the spillover at source" is answerable for 50 families by name and unanswerable for 47, and
+those 47 have to be retired by publishing policy rather than by fixing an owning script.
+
+**Pitfalls.**
+* **"The site has a write call and its literals mention the token" over-counts producers 15x.** That
+  is E472's `writes` flag: 5,481 "producers", with `smoke_test.py` alone credited with 54 families
+  because the suite writes *something* and mentions the tokens. Evidence inside the write call's own
+  argument list plus one hop through assigned names yields 374. A producer definition has to name the
+  channel that actually puts bytes on disk.
+* **Per-writer unread bytes sum to 2.3x the distinct total.** Several writers emit the same family, so
+  the sum over writers is 16.6 MB/cutoff against E472's distinct 7.2 MB/cutoff. Publish both numbers,
+  or "total unread output" becomes an artefact of attribution.
+* **A family-token resolution attributes a whole family to every writer that names it**; the rows
+  carry `shared_families` so the attribution is not read as ownership.
+
+**Wiring.** `scripts/e473_producer_spill.py` (run rc0 / `check` problems=0 / `verify` identical
+rebuild / **selftest 22 legs, 0 failed**); faces `results/state_tilt/producerspill_latest.json` +
+`PRODUCERSPILL-2026-11-07.json`; S6 leg `producer_spill`; smoke leg `E473 writer classes re-derive
+from the faces each unread-family writer publishes (r1502 bm-b)` proved 1/1 and 1/1 red on a flipped
+writer class (face restored sha-identical); pool E473 closed with result_ref.
+
+**How to apply.** Before pruning a published family, ask which channel its writer uses: a writer that
+emits one read family and one unread family is a one-line fix at the source; a family whose writer
+cannot be named at all cannot be fixed at the source and is a publishing decision.

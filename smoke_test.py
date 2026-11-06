@@ -18570,6 +18570,55 @@ except Exception as _e472x:
     _d472 = "leg could not run"
 check(_name472, not _bad472, "; ".join(_bad472)[:240] or _d472)
 
+# E473 (r1502 bm-b): the unread vintage output E472 priced is only prunable at source if the writer
+# also publishes faces a study reads. This leg holds that each writer row's class re-derives from the
+# faces that row carries, that every studied face names the study opener, that unread bytes are the
+# per-cutoff share of its families, that the two classes re-add to the writer count, and that the
+# verdict re-derives; plus three doctored copies (a flipped class, an unread_faces mismatch, and a
+# verdict outside the vocabulary).
+_name473 = "E473 writer classes re-derive from the faces each unread-family writer publishes (r1502 bm-b)"
+_bad473 = []
+try:
+    _m473 = __import__("importlib").import_module("e473_producer_spill")
+    _f473 = json.load(open(os.path.join("results", "state_tilt", "producerspill_latest.json"),
+                           encoding="utf-8"))
+    _s473 = _f473.get("summary") or {}
+    _r473 = _f473.get("rows") or []
+    _bad473.extend(_m473.row_problems(_f473))
+    if ((_s473.get("writers_emitting_both") or 0)
+            + (_s473.get("writers_emitting_only_unread") or 0)
+            + (_s473.get("writers_with_no_resolved_face") or 0)) != len(_r473):
+        _bad473.append("the three writer classes do not re-add to the rows")
+    if _f473.get("verdict") not in _m473.VERDICT_VOCAB:
+        _bad473.append("verdict outside the frozen vocabulary")
+    _w473 = json.loads(json.dumps(_f473))
+    if _w473.get("rows"):
+        _row473 = _w473["rows"][0]
+        _row473["class"] = (_m473.EMITS_ONLY_UNREAD
+                            if _row473.get("class") == _m473.EMITS_BOTH
+                            else _m473.EMITS_BOTH)
+        if not _m473.row_problems(_w473):
+            _bad473.append("a flipped writer class survived the row guard")
+    _w473b = json.loads(json.dumps(_f473))
+    if _w473b.get("rows"):
+        _w473b["rows"][0]["unread_faces"] = (_w473b["rows"][0].get("unread_faces") or 0) + 1
+        if not _m473.row_problems(_w473b):
+            _bad473.append("an unread_faces mismatch survived the row guard")
+    _w473c = json.loads(json.dumps(_f473))
+    _w473c["verdict"] = "something_else"
+    if not _m473.row_problems(_w473c):
+        _bad473.append("a verdict outside the vocabulary survived")
+    _d473 = ("%d writers | %d emit both | %d emit only unread | %d resolved faces "
+             "| %d with a study | verdict %s") % (
+        _s473.get("writers") or 0, _s473.get("writers_emitting_both") or 0,
+        _s473.get("writers_emitting_only_unread") or 0,
+        _s473.get("resolved_faces_total") or 0, _s473.get("resolved_faces_with_a_study") or 0,
+        _f473.get("verdict"))
+except Exception as _e473x:
+    _bad473.append(repr(_e473x)[:160])
+    _d473 = "leg could not run"
+check(_name473, not _bad473, "; ".join(_bad473)[:240] or _d473)
+
 # E469 (r1501 bm-b): a published face is only as traceable as the channels it actually carries.
 # This leg holds that every channel tally and every owner class re-derives from the rows, that the
 # two population halves re-add to the face count, that a literal-owner row names at least one

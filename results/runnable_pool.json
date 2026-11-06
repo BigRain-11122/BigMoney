@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1491 bm-b: E467 published (DOCSTRINGCARD-2026-11-06: 3529 sources / 223 producers -- 212 restate their own card in the docstring, 0 restate it only there; 6 sources read a docstring, 2 apply any regex to the text one produced and exactly 1 applies a card-shaped pattern, and that one is scripts/e460_facegap.py, the census that asked) -- E467 closed, E469 seeded, floor 3.",
+ "_stamp_note": "r1502 bm-b: E473 published (PRODUCERSPILL-2026-11-07: 374 write-call writers -- 240 spillover, 94 only-unread, 40 unresolved; 47 of 97 families have no write-evidence writer) -- E473 closed, E476 seeded, floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28278,15 +28278,13 @@
    "lane": "cpu-only",
    "lane_note": "static: json loads of the faces plus AST over .py sources for output-path literals, card literals and registry reads; nothing executed, nothing outside results/state_tilt written",
    "priority": "normal",
-   "status": "in_progress",
+   "status": "ready",
    "owner": null,
    "source": "E467 (r1491 bm-b): the docstring channel is read by nobody; E466 measured the pointer channel's readers and found no follower",
    "entered_at": "2026-11-06T20:1x+08:00",
    "entered_by": "bm-b r1491 (supply floor refill after E467)",
    "claimed_by": "bm-b",
-   "claimed_at": "2026-11-07 01:50:00",
-   "result_ref": "results/state_tilt/FACETRACE-2026-11-07.json",
-   "note": "arm-1 published 2026-11-07 (channels + owner ambiguity): 13740 payload faces, 8257 traceable, 5545 named by a registry/digest, 2935 have a quoted-literal owner, 1505 of those with exactly one owner, 271 carry a card the asset file resolves and 20 carry one it does not. CONTINUATION (arm-2, not claimed): join these rows with the E466/E470 reader map and say which study opens each face and whether that reader walks the same channel that names it."
+   "claimed_at": "2026-11-07 01:50:00"
   },
   {
    "id": "E470-IS-THE-TARGET-OF-A-POINTER-THAT-NEEDS-ANOTHER-BASE-EVER-READ-AT-ALL",
@@ -28350,11 +28348,15 @@
    "lane": "cpu-only",
    "lane_note": "static: reads the published E472 rows plus the E470 opener map; no face is rewritten outside results/state_tilt",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E472 (r1495 bm-b): 0 of 97 vintage families are opened by a study that does not write them",
    "entered_at": "2026-11-06T23:0+0800",
-   "entered_by": "bm-b r1495 (supply floor refill after E472)"
+   "entered_by": "bm-b r1495 (supply floor refill after E472)",
+   "claimed_at": "2026-11-07T01:5x+08:00",
+   "done_at": "2026-11-07T02:30+08:00",
+   "result_ref": "results/state_tilt/PRODUCERSPILL-2026-11-07.json",
+   "result_note": "374 writers by write-call evidence: 240 emit a studied face and an unread family, 94 resolve only unread faces, 40 name a family but no face of theirs resolves; 47 of the 97 families have no write-evidence writer at all"
   },
   {
    "id": "E475-WHICH-OF-THE-56-MULTI-DECLARED-STUDY-IDS-ARE-TWO-PRODUCERS-AND-WHICH-ARE-ONE-RESTATING-ITSELF",
@@ -28383,6 +28385,20 @@
    "source": "E460 (r1489 bm-b): 11 of 12 flagged faces already carry the identity as a producer script stem, and one of them names a subject rather than its author",
    "entered_at": "2026-11-06T18:0x+08:00",
    "entered_by": "bm-b r1489 (supply floor refill after E460)"
+  },
+  {
+   "id": "E476-CAN-THE-47-UNOWNED-UNREAD-FAMILIES-BE-TRACED-THROUGH-THE-FACE-PAYLOAD-INSTEAD-OF-THE-SOURCE",
+   "title": "E473 found 47 of E472's 97 unread vintage families have no write-call evidence in any source -- their paths are composed at runtime, so no literal names them. The faces themselves were still written by something: they carry a payload. Nobody has measured whether that payload carries a writer channel the source scan cannot see (a 'generated' timestamp, a 'tool'/'study' field, a card id, a producer stem), and whether a reader could resolve those families from the face side instead of the code side.",
+   "question": "For every member file of the 47 families E473 could not attribute, classify the payload keys that could name a writer: a generator/tool/study field whose value resolves to a script on disk, a card id the knowledge index resolves, a timestamp that pins the emitting round, or nothing. Publish per family the channel that survives, the writer it points at (or 'unrecoverable'), and the share of the 47 that are attributable only from the payload.",
+   "deliverable": "results/state_tilt/PAYLOADWRITER-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static: json loads of the member files plus the E469 channel machinery; nothing executed, nothing written outside results/state_tilt",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E473 (r1502 bm-b): 47 of 97 unread families have no write-call evidence in any source",
+   "entered_at": "2026-11-07T02:3x+08:00",
+   "entered_by": "bm-b r1502 (supply floor refill after E473)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28397,6 +28413,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T23:4x+08:00",
+ "updated_at": "2026-11-07T02:18+08:00",
  "version": 1
 }

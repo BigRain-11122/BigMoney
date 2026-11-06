@@ -5262,7 +5262,7 @@
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1501,
  "round_entries_tail": "r1483 E461 identity consumers: 389 field-joins but only 4 face-specific and 12 exact-value joins; 7 of 15 identity field names are read by nobody",
- "round_no": 1501,
+ "round_no": 1502,
  "round_no_label": "r1493",
  "round_no_note": "r1480: E459 published (stdlib classes behind E456's out-of-tree receivers) + heartbeat GPU face healed; both round faces written together (r1020 double-face drift heal: they read 1478/1479 at open)",
  "round_no_ts": "2026-11-06T21:19:14+08:00",
@@ -5580,5 +5580,28 @@
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1501 == HEAD",
   "why": "local main is 483 ahead / 295 behind origin/main across two blood lines (promisor wedge); no unattended rebase per r1243, so delivery goes out on the machine branch"
  },
- "s7_pit": "Tools/Invoke-SilentExe.ps1 takes -Exe/-ArgString, not -FilePath; the first query failed with ParameterBindingException and an empty result, which reads exactly like 'task absent' -- an empty wrapper output is not evidence of absence (R49 family)"
+ "s7_pit": "Tools/Invoke-SilentExe.ps1 takes -Exe/-ArgString, not -FilePath; the first query failed with ParameterBindingException and an empty result, which reads exactly like 'task absent' -- an empty wrapper output is not evidence of absence (R49 family)",
+ "r1502": {
+  "card": "E473",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/PRODUCERSPILL-2026-11-07.json",
+  "finding": "374 write-call writers over E472's 97 unread families: 240 publish a studied face too, 94 resolve only unread faces, 40 name a family whose own evidence resolves no face; 47 of the 97 families have no write-evidence writer at all; 2,226 resolved faces, 1,848 opened by a study",
+  "pit": "(1) E472's writes flag ('has a write call and mentions the token') counts 5,481 producers -- smoke_test.py is credited with 54 families -- vs 374 by write-call evidence, a 15x over-count; (2) writers with no resolved face were first classed 'only unread' (40 vacuous rows); a third class plus a row guard now refuses a row whose class disagrees with its own face list",
+  "product": [
+   "scripts/e473_producer_spill.py (run rc0 / check problems=0 / verify identical rebuild / selftest 22 legs)",
+   "results/state_tilt/producerspill_latest.json + PRODUCERSPILL-2026-11-07.json",
+   "smoke_test.py leg E473 + scripts/run_e473_smoke_leg.py (1/1 green, 1/1 red doctored, face sha-restored)",
+   "Tools/s6_chain_bmb.py leg producer_spill (rc0 0.08s)",
+   "knowledge/METHODOLOGY_ASSETS.md card E473",
+   "research/digests/DIGEST-20261107-r1502-e473-producer-spill.md",
+   "results/runnable_pool.json E473 done + E476 seeded (floor 3)"
+  ],
+  "red_fix": "r1500 suite's only red (fleet GPU face self-consistent, 18 free keys spread 182.4 MiB) healed at its source with Tools/gpu_face.py apply -- one nvidia-smi probe rewrote all 39 GPU keys, audit findings=[] rc0",
+  "s1": "no full suite relaunched this window (stated, not claimed); the new leg was proved standalone 1/1 and 1/1 red on a doctored class; the healed red was proved by gpu_face audit rc0",
+  "s6": "dualrun DRIFT $.entries[942].note missing-right (observation, streak reset, entries 950 vs 950) | compute_audit FLAG supply_gap (ready 4 / floor 3) | py_watermark insufficient_history | attrition CLEAN (4 ledgers, 3 healed) | leg producer_spill rc0 | rest of chain not re-run",
+  "s7": "orphan probe py_faces=10 orphans=0 residents=0 | loop task pin=2 current=2 no-op | LoopWatchdog re-registered S4U (first fire 02:21) | pre-commit/pre-push byte-identical to Tools/git-hooks",
+  "orders": "114 files / 115 acks / 0 unacked (basename-normalised diff)",
+  "decisions": "origin/main:docs/decisions.md sha256 b8609238434052e2 prefix unchanged -> no new decision",
+  "ts": "2026-11-07T02:27:42+08:00"
+ }
 }
