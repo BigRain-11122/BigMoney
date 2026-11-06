@@ -186,7 +186,7 @@
   "ts": "2026-11-06T10:21:48+08:00",
   "verified": true
  },
- "delivery_sha": "fed1b8f2aab2eeca0db43203ee465e032d80d824",
+ "delivery_sha": "ba3c30604b420143332795c7cccd50a66273a524",
  "delivery_ts": "2026-11-06T23:11:56+08:00",
  "delivery_verified": true,
  "dept": "research+engineering",
@@ -5614,7 +5614,7 @@
  "three_line_artifact": "results/state_tilt/VINTAGECONC-2026-11-07.json",
  "three_line_artifact_ts": "2026-11-07T05:39:23+08:00",
  "three_line_current": "r1510: E481 -- of E478's 145 differing vintages, 70 differ only in their numbers and 7 state a substantially different verdict, 2 of them flips",
- "three_line_delivery": "machine/bm-b-r1510",
+ "three_line_delivery": "machine/bm-b-r1510 @ ba3c30604 (ls-remote verified)",
  "three_line_next": "burn E482 (do the *_latest spellings outside E479's 36 families resolve on disk) within 48h",
  "timestamp": "2026-11-07T05:39:23+08:00",
  "ts": "2026-11-07T05:39:23+08:00",
@@ -5658,5 +5658,12 @@
    "results/runnable_pool.json E481 done (ready 3, floor 3)"
   ],
   "ts": "2026-11-07T05:39:23+08:00"
+ },
+ "r1510_delivery": {
+  "branch": "machine/bm-b-r1510",
+  "sha": "ba3c30604b420143332795c7cccd50a66273a524",
+  "ts": "2026-11-07T05:40+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1510 equals local HEAD",
+  "main_push_blocker": "local main is 296 behind / 507 ahead of origin/main across two blood lines (promisor lazy-fetch wedge r1255 family); no unattended rebase per r1243, so the machine branch is the delivery channel"
  }
 }
