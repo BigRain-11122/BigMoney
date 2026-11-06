@@ -175,7 +175,7 @@
   "main_push_blocker": "local main diverged from origin/main for many rounds (418 ahead / 295 behind at open, two blood lines, no unattended rebase per r1243)"
  },
  "delivery_sha": "6ae8a2198e8d19e38e9977002372703886c53b2a",
- "delivery_verified": "git ls-remote origin refs/heads/machine/bm-b-r1439 == HEAD",
+ "delivery_verified": true,
  "dept": "research",
  "did": "r1473: republished LATESTFAMILY, UNFLOORED and reader tiers from their own producers after r1471's republish went red again in one round; flipped E453 done reading its result_ref off disk; seeded E455 on the growth-vs-change question",
  "did_round": 1439,
@@ -310,7 +310,7 @@
  "local_commits_not_on_origin_main_note": "ls-remote-verified delivery to the machine branch; the ahead/behind counters are carried from the r1403 face (rev-list against origin/main not re-run this window, promisor wedge)",
  "local_not_on_origin": "see report",
  "local_not_on_origin_commits": 321,
- "local_not_on_origin_main": 419,
+ "local_not_on_origin_main": "435",
  "local_not_on_origin_main_note": "delivery goes to machine/bm-b-r1425: local main is far ahead/behind origin/main (two blood lines, promisor lazy-fetch wedge) and an unattended rebase is barred by r1243",
  "local_not_on_origin_note": "see sync_note (machine branch is the delivery channel)",
  "machine_health": "OK 8/8 for bm-a,bm-b,bm-c after gpu_face apply + machine_health_face write bm-b",
@@ -5167,6 +5167,18 @@
  "r1471": "suite captured for the first time: 10 FAILs named, 9 the stale-face class; republished 11 faces from their producers; E398 site addresses content-anchored (card E454); gpu_face apply healed the heartbeat; dashboard red left to bm-a",
  "r1471_pit": "a face that verifies its rows by file:line rots whenever an append-only member grows; anchor on content, publish address moves as a count",
  "r1477": "E451 published: 0 of 7 studies publish a digest of the prereg note they name, and one note is FROZEN in one face and DRAFT-NOT-FROZEN in another",
+ "r1477_delivery": {
+  "branch": "machine/bm-b-r1477",
+  "evidence": "git ls-remote origin refs/heads/machine/bm-b-r1477 == HEAD",
+  "main_divergence": {
+   "ahead": 435,
+   "behind": 295
+  },
+  "main_push_blocker": "local main is 435 ahead / 295 behind origin/main (two blood lines, promisor lazy-fetch family); no unattended rebase per r1243, so the machine branch is the delivery channel",
+  "sha": "010902028954b0c4ee03debd24dfce7a4f31b1cd",
+  "ts": "2026-11-06T08:41:10+08:00",
+  "verified": true
+ },
  "r1477_pit": "a producer can record a freeze as prose with a date inside a sentence; a keyed ISO date and that string look alike to a grep and only one can be checked",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
@@ -5215,7 +5227,7 @@
  "selftest": "e451_prereg_digest 30/30",
  "seq": 1477,
  "side_effect_on_neighbour": "publishing fragmentproducers_latest.json added one family-named pointer, so E398's named_pointers moved 175 -> 176 and the E398 smoke leg failed; the face was re-derived from the live build (e398 run + verify problems=[]) rather than the leg loosened -- read sites 187 and bare pointers 28 unchanged",
- "smoke": "no suite total claimed this window; the E451 leg was proved standalone 1/1 and 1/1 red with a doctored class promotion",
+ "smoke": "full suite launched detached at 08:31 (results/_smoke_r1477.out, pid 26596) and still in flight at close: 40 lines, 0 FAIL so far; no suite total is claimed",
  "smoke_note": "the E423 leg was proved standalone (1/1) and proved red on a doctored class tally, then the face was restored byte-identical",
  "smoke_r1417": {
   "dashboard_leg": "fixed in-window: the marks-gap leg demanded fill_verify_day equality against a face another host writes (bm-a single-writer law); the day may now lag and staleness is printed instead of failed",
