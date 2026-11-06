@@ -1,0 +1,118 @@
+{
+ "artifact": "zoo83_gem_ashare supply berth probe",
+ "batch": "SUPPLY_BERTH_SLOT_12_CANDIDATE",
+ "construct": {
+  "allocation": "100% one leg (no partial sizing, no leverage)",
+  "cost_per_side": 0.0013041,
+  "decision_bars": "last bar of each calendar month in the panel",
+  "execution": "decided on the close of bar t, held from bar t+1",
+  "legs": {
+   "cash": "511260",
+   "equity": "510300"
+  },
+  "signal": "close[t]/close[t-252]-1 > 0 -> equity at t+1",
+  "turnover_convention": "sum |dw| over both legs (a switch = 2.0)"
+ },
+ "evidence_cutoff": "2026-11-06",
+ "family": "zoo83_gem_ashare",
+ "honest": [
+  "probe only: one construct, one parameter set, no grid -- a positive here buys a frozen prereg and a proper judge, not a claim that the rule makes money",
+  "the cash leg is an INVESTABLE treasury ETF with its own positive return: the benchmark is buy-and-hold 510300, so part of any excess is the bond carry of the months spent out of equity, not selection",
+  "the legal-form version of zoo #83 selects between an equity leg and a CROSS-MARKET leg; this probe narrows it to equity-vs-cash because the cross-market leg is not in the core panel (a widened construct is a different family and must not be smuggled in here)",
+  "the circular null conserves the equity share, so a rule that is simply long most of the time cannot win this test on share alone",
+  "the panel is today's core48 applied to history: the usual survivor caveat, unchanged, and 511260 was listed before the panel starts so the cash leg has no early-history hole"
+ ],
+ "machine": "bm-c",
+ "null": {
+  "k": 200,
+  "mean": 0.03765049546233746,
+  "method": "circular phase rotation of the equity-weight series (conserves equity share and persistence)",
+  "p_floor": 0.004975124378109453,
+  "p_two_sided": 0.35323383084577115,
+  "sd": 0.04401729319900076,
+  "seed": 20311007
+ },
+ "panel": {
+  "bars": 1658,
+  "first_bar": "2020-01-02",
+  "last_bar": "2026-11-06",
+  "n_members": 48
+ },
+ "per_year": {
+  "2021": {
+   "bars": 223,
+   "benchmark": -0.06357516828721121,
+   "excess": -0.016745819700553,
+   "net": -0.08032098798776421
+  },
+  "2022": {
+   "bars": 242,
+   "benchmark": -0.21365814696485674,
+   "excess": 0.24066447253824885,
+   "net": 0.02700632557339211
+  },
+  "2023": {
+   "bars": 242,
+   "benchmark": -0.11147790756729359,
+   "excess": 0.15479367101914443,
+   "net": 0.04331576345185084
+  },
+  "2024": {
+   "bars": 242,
+   "benchmark": 0.1494712775078586,
+   "excess": -0.16161536956187894,
+   "net": -0.012144092054020339
+  },
+  "2025": {
+   "bars": 243,
+   "benchmark": 0.18175037294878105,
+   "excess": 0.0,
+   "net": 0.18175037294878105
+  },
+  "2026": {
+   "bars": 203,
+   "benchmark": -0.13233747107090366,
+   "excess": 0.07153673432588803,
+   "net": -0.06080073674501563
+  }
+ },
+ "summary": {
+  "bars": 1395,
+  "buyhold_cagr": -0.045864432745718164,
+  "buyhold_maxdd": -0.4510074048562084,
+  "buyhold_sharpe": -0.16756587610384546,
+  "cash_only_cagr": 0.038775232904120216,
+  "cash_only_maxdd": -0.02490178036775903,
+  "cost_drag_per_year": 0.0018846348387096775,
+  "decisions": 71,
+  "equity_share": 0.4910394265232975,
+  "excess_cagr_net": 0.059939453255506536,
+  "first_bar": "2021-02-01",
+  "last_bar": "2026-11-06",
+  "maxdd_delta": 0.2767633286154767,
+  "switches": 4,
+  "timing_cagr": 0.014075020509788372,
+  "timing_maxdd": -0.17424407624073168,
+  "timing_sharpe": 0.17275990000338876,
+  "turnover_per_year": 1.4451612903225808
+ },
+ "ts": "2026-11-07T06:38:49+0800",
+ "verdict_block": {
+  "conditions": {
+   "beats_null": false,
+   "drawdown_improves": true,
+   "enough_bars": true,
+   "net_excess_positive": true,
+   "turnover_sane": true
+  },
+  "note": "supply verdict only: it decides whether this family earns a frozen prereg + judge, never what the judge will find",
+  "thresholds": {
+   "dd_must_improve": true,
+   "max_p": 0.05,
+   "max_turnover_per_year": 12.0,
+   "min_bars": 750,
+   "min_excess": 0.0
+  },
+  "verdict": "REFUSE_AS_CANDIDATE"
+ }
+}
