@@ -18359,6 +18359,78 @@ except Exception as _e468x:
     _d468 = "leg could not run"
 check(_name468, not _bad468, "; ".join(_bad468)[:240] or _d468)
 
+# E470 (r1493 bm-b): E468 published which sources NAME the pointer targets that need a base other
+# than the repo root; naming is not reading.  This leg holds that the published face's opener
+# residue re-derives from its own sites, that no target is credited with a live edge through a
+# naming site alone, and that an unbounded glob sweep is not counted as reaching anything -- plus
+# two doctored copies (an opener grafted onto a row published as never opened, a tally zeroed
+# against a non-empty row list).
+_name470 = "e470 is the target of a pointer that needs another base ever opened (r1493 bm-b)"
+_bad470 = []
+try:
+    _m470 = __import__("importlib").import_module("e470_target_read")
+    _f470 = json.load(open(os.path.join("results", "state_tilt", "targetread_latest.json"),
+                           encoding="utf-8"))
+    _s470 = _f470.get("summary") or {}
+    _r470 = _f470.get("rows") or []
+    _bad470.extend(_m470.row_problems(_f470))
+    if _f470.get("verdict") not in _m470.VERDICT_VOCAB:
+        _bad470.append("verdict outside the frozen vocabulary: %r" % (_f470.get("verdict"),))
+    for _cls in (_s470.get("residue_classes") or {}):
+        if _cls not in _m470.RESIDUES:
+            _bad470.append("residue class outside the vocabulary: %r" % (_cls,))
+    if _s470.get("distinct_targets") != len(_r470):
+        _bad470.append("the target tally does not re-add to the rows")
+    if _s470.get("opener_sites_total") != sum(len(r.get("openers") or []) for r in _r470):
+        _bad470.append("the opener tally does not re-add to the rows")
+    if _s470.get("targets_with_an_opener") != sum(1 for r in _r470 if r.get("openers")):
+        _bad470.append("the targets-with-an-opener tally does not re-add to the rows")
+    for _row in _r470:
+        for _site in _row.get("openers") or []:
+            if _site.get("match") not in _m470.MATCH_KINDS:
+                _bad470.append("opener match outside the vocabulary: %r" % (_site.get("match"),))
+        if _row.get("residue") == _m470.R_GLOB and not (_row.get("globs") or []):
+            _bad470.append("%s: published as glob-reached with no glob site"
+                           % _row.get("target"))
+    if _m470.glob_score("results/state_tilt/x.json", "*") is not None:
+        _bad470.append("a bare '*' sweep was counted as reaching a nested target")
+    _never470 = [r for r in _r470 if r.get("residue") == _m470.R_NEVER]
+    if _never470:
+        _graft470 = json.loads(json.dumps(_f470))
+        _victim470 = next(r for r in _graft470["rows"]
+                          if r.get("residue") == _m470.R_NEVER)
+        _victim470.setdefault("openers", []).append(
+            {"source": "scripts/some_study.py", "line": 1,
+             "literal": os.path.basename(_victim470["target"]),
+             "match": _m470.M_BASENAME})
+        if _m470.row_problems(_graft470) == []:
+            _bad470.append("an opener grafted onto a row published as never opened was accepted")
+    else:
+        _bad470.append("no never-opened row to doctor: the residue test cannot be shown to go red")
+    _cnt470 = json.loads(json.dumps(_f470))
+    _cnt470["summary"]["distinct_targets"] = 0
+    if _m470._recompute_tallies(_cnt470)["distinct_targets"] == 0:
+        _bad470.append("a target tally of zero was accepted against a non-empty row list")
+    _d470 = ("%d distinct targets from %d pointers needing another base | %d opened somewhere "
+             "(%d whole path, %d basename-only) | %d never opened, %d only by a one-off round "
+             "script, %d only by a smoke leg, %d glob-reached | %d pointer-key read sites | "
+             "verdict %s") % (
+        _s470.get("distinct_targets") or 0,
+        _s470.get("source_face_pointers") or 0,
+        _s470.get("targets_with_an_opener") or 0,
+        (_s470.get("opener_sites_by_match") or {}).get(_m470.M_EXACT, 0),
+        (_s470.get("opener_sites_by_match") or {}).get(_m470.M_BASENAME, 0),
+        (_s470.get("residue_classes") or {}).get(_m470.R_NEVER, 0),
+        (_s470.get("residue_classes") or {}).get(_m470.R_ROUND, 0),
+        (_s470.get("residue_classes") or {}).get(_m470.R_SMOKE, 0),
+        (_s470.get("residue_classes") or {}).get(_m470.R_GLOB, 0),
+        _s470.get("pointer_key_read_sites") or 0,
+        _f470.get("verdict"))
+except Exception as _e470x:
+    _bad470.append(repr(_e470x)[:160])
+    _d470 = "leg could not run"
+check(_name470, not _bad470, "; ".join(_bad470)[:240] or _d470)
+
 # E467 (r1491 bm-b): the card a producer restates in its docstring is the second of three identity
 # channels, and the question is whether any program recovers it.  This leg refuses (a) any tally
 # that does not re-derive from the published rows, (b) a row whose class or tier disagrees with its

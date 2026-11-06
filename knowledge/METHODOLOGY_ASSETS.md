@@ -11939,3 +11939,44 @@ face 1.09 h after the card was entered).
 the producer is the only program that knows where it put the file, and any other consumer is one
 that carries the literal. If you need the edge to be live, publish the target as a repo-relative
 path, not as a bare name.
+
+
+## E470 — the targets of pointers that need another base are opened by nobody, not by their producer (r1493 bm-b)
+
+E468 published which sources NAME the 37 pointer instances whose target needs a base other than the
+repo root: 24 distinct targets, 16 named by no source, 8 naming sites belonging to the producer of
+the target. Naming is not reading. Ask the reading question instead — does any site in the corpus
+turn the target into a path the program can OPEN — and the picture inverts: of the 24 targets,
+**17 are never opened by any site at all**, 5 are opened only by a smoke/runner leg, 2 only by a
+one-off round script, **0 by their own producer and 0 by an unrelated study**. No module in the
+tree opens a pointing face and reads the pointer key: 0 pointer-key read sites. All 24 targets exist
+on disk. The edge a bare-filename pointer carries is dead: the producer wrote the file and never
+reads it back, and no other program reconstructs the path from the pointer.
+
+**Pitfalls (three, each one a measurement that looked like an answer).**
+* **fnmatch is not glob.** The first draft matched glob patterns with fnmatch, whose `*` swallows
+  path separators, so a single site with `glob('*')` (`scripts/e273_guard_from_threshold.py`)
+  "reached" 24 of 24 targets and the face read "17 reached only through a glob". Matching is now per
+  segment (`*` inside one segment, `**` across), and a pattern with no literal segment is an
+  unbounded sweep and counts as no match: glob sites went 24 → 0 and the reading became "17 never
+  opened". A pattern that constrains nothing must not be allowed to explain anything.
+* **The writer map is keyed by E464's stem, not by the file stem.** `producer_map` keys come from
+  `e464.face_stem` (dates and separators stripped: SIBLING-2026-11-01.json → sibling); looking the
+  target up by `splitext` never matched, so every writer's own write was classified as an unrelated
+  study's read and the producer class came out empty. Same rule on both sides or the join is
+  fiction.
+* **A composed path is two hops away.** `p = os.path.join(HERE, 'lane', NAME)` then `open(p)`:
+  resolving names one hop published the composer's own literals (`lane`) and lost the file name, so
+  a writer's own open() was invisible. Names are resolved transitively (4 rounds, cycle-safe).
+
+**Wiring.** `scripts/e470_target_read.py` (run rc0 / `check` problems=[] / `verify` problems=[] on
+the live tree / **selftest 26/26**); faces `results/state_tilt/targetread_latest.json` +
+`TARGETREAD-2026-11-06.json`; S6 leg `target_read` (rc0, ghost 0); smoke leg `e470 is the target of
+a pointer that needs another base ever opened (r1493 bm-b)` proved 1/1 and 1/1 red on a grafted
+opener, face restored byte-identical; pool E470 closed.
+
+**How to apply.** A pointer field is only an edge if some program follows it. Publishing the target
+as a repo-relative path is necessary but not sufficient — nothing in this tree reads these files
+back, so a `source_face` field here is documentation, not a dependency. When auditing a pointer,
+count openers (open / read_text / json.load / read_*), not string matches, and refuse any channel
+whose pattern constrains nothing.

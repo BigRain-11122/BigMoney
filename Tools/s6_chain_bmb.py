@@ -1696,6 +1696,10 @@ LEGS = [
     # producer, by a smoke/round script, or by nobody.  `check` re-derives every row's residue from
     # its own naming sites and every tally from the rows.
     ("pointer_reach", ["python", "scripts/e468_pointer_reach.py", "check"]),
+    # E470 asks the reading question E468 left open: of the pointer targets that need another base,
+    # which are ever opened by a site at all.  `check` re-derives every residue from its own
+    # opener/glob sites and every tally from the rows.
+    ("target_read", ["python", "scripts/e470_target_read.py", "check"]),
 ]
 
 

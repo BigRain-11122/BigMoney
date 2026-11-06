@@ -28289,11 +28289,29 @@
    "lane": "cpu-only",
    "lane_note": "static AST over the .py corpus (string literals plus open/load call sites) and the filesystem; nothing executed, no network",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "owner": null,
    "source": "E468 (r1492 bm-b): of 37 pointers needing another base, 24 are named by no source, 8 naming sites write the target they name, and 0 sites resolve the pointer itself",
    "entered_at": "2026-11-06T20:50+08:00",
-   "entered_by": "bm-b r1492 (supply floor refill after E468)"
+   "entered_by": "bm-b r1492 (supply floor refill after E468)",
+   "result_ref": "results/state_tilt/TARGETREAD-2026-11-06.json",
+   "closed_by": "bm-b r1493",
+   "closed_at": "2026-11-06T21:16:45+0800",
+   "close_note": "17 of the 24 pointer targets that need another base are never opened by any site; 0 by their own producer, 0 pointer-key read sites"
+  },
+  {
+   "id": "E471-IS-A-NEVER-OPENED-POINTER-TARGET-A-SECOND-COPY-OF-A-FACE-THAT-IS-READ-OR-CONTENT-NOBODY-READS",
+   "title": "E470 found 17 of 24 pointer targets that need another base are never opened by any site in the corpus. A file nobody opens is either redundant (the same content is also published on a face that IS read, so the dead edge costs nothing) or orphaned (the content exists nowhere else and no program ever sees it). Nobody has asked which.",
+   "question": "For each never-opened target, find every other face in results/ and docs/ whose payload is the same content (identical bytes, or the same key-set with the same values under the identity keys), classify that twin as opened or never opened by any site, and publish how much of the never-opened population is redundant versus orphaned. Split the residue into targets whose twin is opened by a study, targets whose twin is opened only by a smoke leg, and targets that are the only copy of their content in the tree.",
+   "deliverable": "results/state_tilt/ORPHANFACE-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static: json loads plus sha256 of the payloads and AST over the .py corpus for opener sites; nothing executed, nothing outside results/state_tilt written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E470 (r1493 bm-b): 17 of 24 pointer targets needing another base are never opened by any site, and 0 sites read the pointer key",
+   "entered_at": "2026-11-06T21:16:45+0800",
+   "entered_by": "bm-b r1493 (supply floor refill after E470)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28308,6 +28326,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T20:50:00+0800",
+ "updated_at": "2026-11-06T21:16:45+0800",
  "version": 1
 }

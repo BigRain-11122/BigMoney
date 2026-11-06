@@ -1,0 +1,837 @@
+{
+ "card": "E470-IS-THE-TARGET-OF-A-POINTER-THAT-NEEDS-ANOTHER-BASE-EVER-READ-AT-ALL",
+ "study": "E470_target_read",
+ "title": "a pointer the repo root cannot follow usually names a file no site ever opens",
+ "evidence_cutoff": "2026-11-06",
+ "population_source": "results/state_tilt/pointerreach_latest.json (E468 rows, re-read)",
+ "verdict": "some_targets_that_need_another_base_are_never_opened_by_any_site",
+ "verdict_vocab": [
+  "the_pointer_face_published_no_target_that_needs_another_base",
+  "every_target_that_needs_another_base_is_opened_only_by_the_script_that_writes_it",
+  "some_targets_that_need_another_base_are_opened_by_a_study_that_writes_neither_the_target_nor_the_pointing_face",
+  "some_targets_that_need_another_base_are_reached_only_through_a_glob",
+  "some_targets_that_need_another_base_are_never_opened_by_any_site"
+ ],
+ "match_kinds": [
+  "the_whole_repo_relative_path",
+  "a_composed_tail_that_ends_with_the_target_path",
+  "only_the_basename_the_base_is_not_proven"
+ ],
+ "residue_classes": [
+  "opened_by_a_study_that_writes_neither_this_target_nor_the_pointing_face",
+  "opened_only_by_the_script_that_writes_it",
+  "opened_only_by_a_smoke_or_runner_leg",
+  "opened_only_by_a_one_off_round_script",
+  "reached_only_through_a_glob_or_a_directory_prefix",
+  "never_opened_by_any_site_in_the_corpus"
+ ],
+ "summary": {
+  "card": "E470-IS-THE-TARGET-OF-A-POINTER-THAT-NEEDS-ANOTHER-BASE-EVER-READ-AT-ALL",
+  "source_face_pointers": 37,
+  "source_face_verdict": "some_pointers_that_need_another_base_are_named_by_a_source_that_writes_neither_face",
+  "distinct_targets": 24,
+  "targets_that_exist_on_disk": 24,
+  "targets_with_an_opener": 7,
+  "targets_with_only_a_glob": 0,
+  "targets_with_no_site_at_all": 17,
+  "opener_sites_total": 24,
+  "opener_sites_by_match": {
+   "the_whole_repo_relative_path": 2,
+   "only_the_basename_the_base_is_not_proven": 22
+  },
+  "glob_sites_total": 0,
+  "pointer_key_read_sites": 0,
+  "targets_with_a_pointer_key_read": 0,
+  "residue_classes": {
+   "never_opened_by_any_site_in_the_corpus": 17,
+   "opened_only_by_a_one_off_round_script": 2,
+   "opened_only_by_a_smoke_or_runner_leg": 5
+  },
+  "sources_scanned_with_a_candidate": 46
+ },
+ "rows": [
+  {
+   "target": "C:/Fluxgroup/FluxGroup/quant/bigmoney/results/state_tilt/FACEPOPPIN-2026-11-02.json",
+   "basename": "FACEPOPPIN-2026-11-02.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/FACEPOPPIN-2026-11-02.json",
+     "key": "face_path",
+     "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\state_tilt\\FACEPOPPIN-2026-11-02.json",
+     "spelling": "absolute_path_on_this_machine",
+     "required_base": "as_an_absolute_path"
+    },
+    {
+     "face": "results/state_tilt/facepoppin_latest.json",
+     "key": "face_path",
+     "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\state_tilt\\FACEPOPPIN-2026-11-02.json",
+     "spelling": "absolute_path_on_this_machine",
+     "required_base": "as_an_absolute_path"
+    }
+   ],
+   "producers_of_the_target": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "producers_of_the_pointing_face": [
+    "scripts/e365_face_population_pin.py"
+   ],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "C:/Fluxgroup/FluxGroup/quant/bigmoney/results/state_tilt/PINQUEUE-2026-11-02.json",
+   "basename": "PINQUEUE-2026-11-02.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/PINQUEUE-2026-11-02.json",
+     "key": "face_path",
+     "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\state_tilt\\PINQUEUE-2026-11-02.json",
+     "spelling": "absolute_path_on_this_machine",
+     "required_base": "as_an_absolute_path"
+    },
+    {
+     "face": "results/state_tilt/pinqueue_latest.json",
+     "key": "face_path",
+     "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\state_tilt\\PINQUEUE-2026-11-02.json",
+     "spelling": "absolute_path_on_this_machine",
+     "required_base": "as_an_absolute_path"
+    }
+   ],
+   "producers_of_the_target": [
+    "scripts/e366_pinable_queue_size.py"
+   ],
+   "producers_of_the_pointing_face": [
+    "scripts/e366_pinable_queue_size.py"
+   ],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/e43_tilt_4member/LADDERDROPWHERE-20261027.json",
+   "basename": "LADDERDROPWHERE-20261027.json",
+   "pointers": [
+    {
+     "face": "results/e43_tilt_4member/LADDERDROPCARRIER-20261027.json",
+     "key": "source_face",
+     "value": "LADDERDROPWHERE-20261027.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    },
+    {
+     "face": "results/e43_tilt_4member/LADDERDROPCURVE-20261027.json",
+     "key": "source_face",
+     "value": "LADDERDROPWHERE-20261027.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/e44_midmonth/WIDTHLADDER-20261028.json",
+   "basename": "WIDTHLADDER-20261028.json",
+   "pointers": [
+    {
+     "face": "results/e44_midmonth/WIDTHSPLIT-20261028.json",
+     "key": "source_face",
+     "value": "WIDTHLADDER-20261028.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [
+    {
+     "source": "_tmp_r1247_probe.py",
+     "line": 3,
+     "literal": "results/e44_midmonth/WIDTHLADDER-20261028.json",
+     "match": "the_whole_repo_relative_path"
+    }
+   ],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "opened_only_by_a_one_off_round_script"
+  },
+  {
+   "target": "results/e44_midmonth/WIDTHLADDER-20261029.json",
+   "basename": "WIDTHLADDER-20261029.json",
+   "pointers": [
+    {
+     "face": "results/e44_midmonth/WIDTHSPLIT-20261029.json",
+     "key": "source_face",
+     "value": "WIDTHLADDER-20261029.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/e44_midmonth/WIDTHLADDER-20261030.json",
+   "basename": "WIDTHLADDER-20261030.json",
+   "pointers": [
+    {
+     "face": "results/e44_midmonth/WIDTHSPLIT-20261030.json",
+     "key": "source_face",
+     "value": "WIDTHLADDER-20261030.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/e44_midmonth/WIDTHLADDER-20261102.json",
+   "basename": "WIDTHLADDER-20261102.json",
+   "pointers": [
+    {
+     "face": "results/e44_midmonth/WIDTHSPLIT-20261102.json",
+     "key": "source_face",
+     "value": "WIDTHLADDER-20261102.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/e44_midmonth/WIDTHLADDER-20261103.json",
+   "basename": "WIDTHLADDER-20261103.json",
+   "pointers": [
+    {
+     "face": "results/e44_midmonth/WIDTHSPLIT-20261103.json",
+     "key": "source_face",
+     "value": "WIDTHLADDER-20261103.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/e44_midmonth/WIDTHLADDER-20261104.json",
+   "basename": "WIDTHLADDER-20261104.json",
+   "pointers": [
+    {
+     "face": "results/e44_midmonth/WIDTHSPLIT-20261104.json",
+     "key": "source_face",
+     "value": "WIDTHLADDER-20261104.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/e44_midmonth/WIDTHLADDER-20261105.json",
+   "basename": "WIDTHLADDER-20261105.json",
+   "pointers": [
+    {
+     "face": "results/e44_midmonth/WIDTHSPLIT-20261105.json",
+     "key": "source_face",
+     "value": "WIDTHLADDER-20261105.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/state_tilt/BANDSCREEN-2026-10-29.json",
+   "basename": "BANDSCREEN-2026-10-29.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/BANDTHRESHGUARD-2026-10-29.json",
+     "key": "source_face",
+     "value": "BANDSCREEN-2026-10-29.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    },
+    {
+     "face": "results/state_tilt/bandthreshguard_latest.json",
+     "key": "source_face",
+     "value": "BANDSCREEN-2026-10-29.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [
+    "scripts/e266_wide_end_screen_holdout.py",
+    "scripts/e273_guard_from_threshold.py"
+   ],
+   "producers_of_the_pointing_face": [
+    "scripts/e273_guard_from_threshold.py"
+   ],
+   "target_exists_on_disk": true,
+   "openers": [
+    {
+     "source": "smoke_test.py",
+     "line": 6213,
+     "literal": "BANDSCREEN-2026-10-29.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    }
+   ],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "opened_only_by_a_smoke_or_runner_leg"
+  },
+  {
+   "target": "results/state_tilt/BANDTRANSFER-2026-10-29.json",
+   "basename": "BANDTRANSFER-2026-10-29.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/BANDMARGIN-2026-10-29.json",
+     "key": "source_face",
+     "value": "BANDTRANSFER-2026-10-29.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    },
+    {
+     "face": "results/state_tilt/BANDPOOLED-2026-10-29.json",
+     "key": "source_face",
+     "value": "BANDTRANSFER-2026-10-29.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    },
+    {
+     "face": "results/state_tilt/BANDSCREEN-2026-10-29.json",
+     "key": "source_face",
+     "value": "BANDTRANSFER-2026-10-29.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    },
+    {
+     "face": "results/state_tilt/bandmargin_latest.json",
+     "key": "source_face",
+     "value": "BANDTRANSFER-2026-10-29.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    },
+    {
+     "face": "results/state_tilt/bandpooled_latest.json",
+     "key": "source_face",
+     "value": "BANDTRANSFER-2026-10-29.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    },
+    {
+     "face": "results/state_tilt/bandscreen_latest.json",
+     "key": "source_face",
+     "value": "BANDTRANSFER-2026-10-29.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [
+    "scripts/e262_p95_transfer_across_windows.py",
+    "scripts/e268_screen_on_pooled_end.py"
+   ],
+   "producers_of_the_pointing_face": [
+    "scripts/e266_wide_end_screen_holdout.py",
+    "scripts/e267_screen_buffer_margin.py",
+    "scripts/e268_screen_on_pooled_end.py",
+    "scripts/e273_guard_from_threshold.py"
+   ],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/state_tilt/BANDWINDIST-2026-10-29.json",
+   "basename": "BANDWINDIST-2026-10-29.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/BANDNEAR1-2026-10-29.json",
+     "key": "source_face",
+     "value": "BANDWINDIST-2026-10-29.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    },
+    {
+     "face": "results/state_tilt/bandnear1_latest.json",
+     "key": "source_face",
+     "value": "BANDWINDIST-2026-10-29.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [
+    "scripts/e259_band_multiplier_distribution.py"
+   ],
+   "producers_of_the_pointing_face": [
+    "scripts/e264_near_one_seeds_reading.py"
+   ],
+   "target_exists_on_disk": true,
+   "openers": [
+    {
+     "source": "results/_r1288bmb_probe_arm_map.py",
+     "line": 4,
+     "literal": "results/state_tilt/BANDWINDIST-2026-10-29.json",
+     "match": "the_whole_repo_relative_path"
+    }
+   ],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "opened_only_by_a_one_off_round_script"
+  },
+  {
+   "target": "results/state_tilt/BLOBREAD-2026-11-05.json",
+   "basename": "BLOBREAD-2026-11-05.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/blobread_latest.json",
+     "key": "face",
+     "value": "BLOBREAD-2026-11-05.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "producers_of_the_pointing_face": [
+    "scripts/e406_blob_vs_tree_readers.py"
+   ],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/state_tilt/FAMILYGLOBREAD-2026-11-03.json",
+   "basename": "FAMILYGLOBREAD-2026-11-03.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/familyglobread_latest.json",
+     "key": "face",
+     "value": "FAMILYGLOBREAD-2026-11-03.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [
+    "scripts/e389_family_glob_readers.py"
+   ],
+   "producers_of_the_pointing_face": [
+    "scripts/e389_family_glob_readers.py"
+   ],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/state_tilt/OPTINSWITCH-2026-11-01.json",
+   "basename": "OPTINSWITCH-2026-11-01.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/optinswitch_latest.json",
+     "key": "face",
+     "value": "OPTINSWITCH-2026-11-01.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [
+    "scripts/e337_optin_executed.py"
+   ],
+   "producers_of_the_pointing_face": [
+    "scripts/e337_optin_executed.py"
+   ],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/state_tilt/PHANTOMWHY-2026-11-03.json",
+   "basename": "PHANTOMWHY-2026-11-03.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/phantomwhy_latest.json",
+     "key": "face",
+     "value": "PHANTOMWHY-2026-11-03.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/state_tilt/READCAP-2026-11-03.json",
+   "basename": "READCAP-2026-11-03.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/readcap_latest.json",
+     "key": "face",
+     "value": "READCAP-2026-11-03.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/state_tilt/READRESOLVE-2026-11-03.json",
+   "basename": "READRESOLVE-2026-11-03.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/readresolve_latest.json",
+     "key": "face",
+     "value": "READRESOLVE-2026-11-03.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/state_tilt/REPUBLISH-2026-11-03.json",
+   "basename": "REPUBLISH-2026-11-03.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/republish_latest.json",
+     "key": "face",
+     "value": "REPUBLISH-2026-11-03.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [
+    {
+     "source": "smoke_test.py",
+     "line": 13469,
+     "literal": "REPUBLISH-2026-11-03.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    }
+   ],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "opened_only_by_a_smoke_or_runner_leg"
+  },
+  {
+   "target": "results/state_tilt/SIBLINGENTRY-2026-11-01.json",
+   "basename": "SIBLINGENTRY-2026-11-01.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/siblingentry_latest.json",
+     "key": "face",
+     "value": "SIBLINGENTRY-2026-11-01.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [
+    "scripts/e335_sibling_entry_point.py"
+   ],
+   "producers_of_the_pointing_face": [
+    "scripts/e335_sibling_entry_point.py"
+   ],
+   "target_exists_on_disk": true,
+   "openers": [],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "never_opened_by_any_site_in_the_corpus"
+  },
+  {
+   "target": "results/state_tilt/abandonedguard_latest.json",
+   "basename": "abandonedguard_latest.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/ABANDONEDSTALE-2026-11-06.json",
+     "key": "source_face",
+     "value": "abandonedguard_latest.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    },
+    {
+     "face": "results/state_tilt/abandonedstale_latest.json",
+     "key": "source_face",
+     "value": "abandonedguard_latest.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [
+    "scripts/run_e452_smoke_leg.py"
+   ],
+   "producers_of_the_pointing_face": [],
+   "target_exists_on_disk": true,
+   "openers": [
+    {
+     "source": "scripts/run_e452_smoke_leg.py",
+     "line": 64,
+     "literal": "abandonedguard_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/run_e452_smoke_leg.py",
+     "line": 70,
+     "literal": "abandonedguard_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/run_e452_smoke_leg.py",
+     "line": 78,
+     "literal": "abandonedguard_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 17152,
+     "literal": "abandonedguard_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    }
+   ],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "opened_only_by_a_smoke_or_runner_leg"
+  },
+  {
+   "target": "results/state_tilt/deadprereg_latest.json",
+   "basename": "deadprereg_latest.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/PREREGHASH-2026-11-06.json",
+     "key": "source_face",
+     "value": "deadprereg_latest.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    },
+    {
+     "face": "results/state_tilt/prereghash_latest.json",
+     "key": "source_face",
+     "value": "deadprereg_latest.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [
+    "scripts/e449_dead_document_pointer.py"
+   ],
+   "producers_of_the_pointing_face": [
+    "scripts/e451_prereg_digest.py",
+    "scripts/run_e451_smoke_leg.py"
+   ],
+   "target_exists_on_disk": true,
+   "openers": [
+    {
+     "source": "scripts/e449_dead_document_pointer.py",
+     "line": 638,
+     "literal": "deadprereg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/e449_dead_document_pointer.py",
+     "line": 656,
+     "literal": "deadprereg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/e451_prereg_digest.py",
+     "line": 93,
+     "literal": "deadprereg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/e451_prereg_digest.py",
+     "line": 106,
+     "literal": "deadprereg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/e451_prereg_digest.py",
+     "line": 128,
+     "literal": "deadprereg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/e451_prereg_digest.py",
+     "line": 453,
+     "literal": "deadprereg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/run_e449_smoke_leg.py",
+     "line": 34,
+     "literal": "deadprereg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/run_e449_smoke_leg.py",
+     "line": 70,
+     "literal": "deadprereg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 17781,
+     "literal": "deadprereg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    }
+   ],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "opened_only_by_a_smoke_or_runner_leg"
+  },
+  {
+   "target": "results/state_tilt/droppedpath_latest.json",
+   "basename": "droppedpath_latest.json",
+   "pointers": [
+    {
+     "face": "results/state_tilt/DEADPREREG-2026-11-06.json",
+     "key": "source_face",
+     "value": "droppedpath_latest.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    },
+    {
+     "face": "results/state_tilt/deadprereg_latest.json",
+     "key": "source_face",
+     "value": "droppedpath_latest.json",
+     "spelling": "bare_filename_no_directory",
+     "required_base": "the_pointing_faces_own_directory"
+    }
+   ],
+   "producers_of_the_target": [
+    "scripts/e448_dropped_path.py",
+    "scripts/run_e448_smoke_leg.py"
+   ],
+   "producers_of_the_pointing_face": [
+    "scripts/e449_dead_document_pointer.py"
+   ],
+   "target_exists_on_disk": true,
+   "openers": [
+    {
+     "source": "scripts/e448_dropped_path.py",
+     "line": 96,
+     "literal": "droppedpath_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/e448_dropped_path.py",
+     "line": 101,
+     "literal": "droppedpath_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/e449_dead_document_pointer.py",
+     "line": 291,
+     "literal": "droppedpath_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/run_e448_smoke_leg.py",
+     "line": 53,
+     "literal": "droppedpath_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/run_e448_smoke_leg.py",
+     "line": 60,
+     "literal": "droppedpath_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "scripts/run_e448_smoke_leg.py",
+     "line": 72,
+     "literal": "droppedpath_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 17616,
+     "literal": "droppedpath_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven"
+    }
+   ],
+   "globs": [],
+   "key_read_sites": [],
+   "residue": "opened_only_by_a_smoke_or_runner_leg"
+  }
+ ],
+ "method_limits": [
+  "an opener is a call named open / io.open / Path.read_text / json.load / yaml.load / pandas.read_* / gzip.open; a reader that opens the path elsewhere (a subprocess, a shell redirect, the console app) is not in the population",
+  "path evidence is the literals in the call plus one hop through names assigned a literal in the same module; a path composed from two separate names is published as basename-only (the base is not proven), not as a read of this target",
+  "a basename match proves a file of that name is opened, not that it is THIS file; the three match kinds are published apart for that reason",
+  "glob patterns are matched per segment ('*' inside one segment, '**' across segments) -- the glob/pathlib rule; a pattern with no literal segment is an unbounded sweep and is published as no match (an fnmatch '*' would have matched every target, which is how the first draft read 24 of 24 as glob-reached)",
+  "a pointer-key read site shows a module that opens the pointing face and carries the key literal; whether the value flows into an opener is not followed (no dataflow)",
+  "own outputs (e461..e470 and their runners) are excluded so the census cannot count itself"
+ ]
+}
