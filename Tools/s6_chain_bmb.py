@@ -1703,6 +1703,10 @@ LEGS = [
     # E471 asks what a never-opened target costs: is it a second copy of a face that IS read, or the
     # only carrier of its content.  `check` re-derives every residue and tally from the peer evidence.
     ("dead_copy", ["python", "scripts/e471_dead_copy.py", "check"]),
+    # E472 prices the E471 residue: which dated families under results/ are re-emitted on many days
+    # and never opened by a study that does not write them.  `check` re-derives every residue from
+    # its own naming/opening sites and every tally (including the emission table) from the rows.
+    ("vintage_read", ["python", "scripts/e472_vintage_read.py", "check"]),
 ]
 
 

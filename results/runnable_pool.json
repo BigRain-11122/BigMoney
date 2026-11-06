@@ -28325,11 +28325,29 @@
    "lane": "cpu-only",
    "lane_note": "static: json loads plus filename-date parsing, plus the E470 opener scan over the .py corpus; nothing executed, nothing rewritten outside results/state_tilt",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E471 (r1494 bm-b): 11 of 17 never-opened targets have peers that only legs open",
    "entered_at": "2026-11-06T22:0+0800",
-   "entered_by": "bm-b r1494 (supply floor refill after E471)"
+   "entered_by": "bm-b r1494 (supply floor refill after E471)",
+   "result_ref": "results/state_tilt/VINTAGEREAD-2026-11-06.json (study E472; scripts/e472_vintage_read.py)",
+   "closed_at": "2026-11-06T22:5x+08:00",
+   "closed_by": "bm-b r1495",
+   "close_note": "97 vintage families / 571 files / 28.5 MB, 0 opened by a study that does not write it (17 named-only, 7 leg-only, 73 producer-only); 36 carry a _latest pointer and none is opened"
+  },
+  {
+   "id": "E473-DO-THE-UNREAD-VINTAGE-FAMILIES-COME-FROM-PRODUCERS-WHOSE-OTHER-FACES-A-STUDY-DOES-OPEN",
+   "title": "E472 found all 97 vintage families under results/ unread by any study. Some of their producers also publish faces that ARE consumed. If a producer's studied output and its unread output come from the same script, the unread part is spillover that can be pruned at source; if the unread part is a producer's only output, the producer itself is the question.",
+   "question": "Join the E472 rows' producer sites with the E466/E470 reader map: for each producer site, how many families does it write, how many of those have a study consumer, and how many bytes per cutoff does it emit that nothing reads? Publish the producers ranked by unread emission, and split them into 'emits both studied and unread' versus 'emits only unread'.",
+   "deliverable": "results/state_tilt/PRODUCERSPILL-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static: reads the published E472 rows plus the E470 opener map; no face is rewritten outside results/state_tilt",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E472 (r1495 bm-b): 0 of 97 vintage families are opened by a study that does not write them",
+   "entered_at": "2026-11-06T23:0+0800",
+   "entered_by": "bm-b r1495 (supply floor refill after E472)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28344,6 +28362,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T22:0+08:00",
+ "updated_at": "2026-11-06T23:0+08:00",
  "version": 1
 }

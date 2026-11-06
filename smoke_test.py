@@ -18503,6 +18503,73 @@ except Exception as _e471x:
     _d471 = "leg could not run"
 check(_name471, not _bad471, "; ".join(_bad471)[:240] or _d471)
 
+# E472 (r1495 bm-b): a family re-emitted on many days is only worth what reads it.  This leg holds
+# that every residue re-derives from the published rows, that a family is only scored with two or
+# more vintages, that the unread tallies re-add to the rows themselves, that the emission table
+# re-adds to the dates the rows carry, and that no-consumer rows name no consumer -- plus two
+# doctored copies (an unread tally flipped, and a row that loses one of its dates).
+_name472 = "e472 vintage families are only counted unread when no study opens them (r1495 bm-b)"
+_bad472 = []
+try:
+    _m472 = __import__("importlib").import_module("e472_vintage_read")
+    _f472 = json.load(open(os.path.join("results", "state_tilt", "vintageread_latest.json"),
+                           encoding="utf-8"))
+    _s472 = _f472.get("summary") or {}
+    _r472 = _f472.get("rows") or []
+    _bad472.extend(_m472.row_problems(_f472))
+    if _f472.get("verdict") not in _m472.VERDICT_VOCAB:
+        _bad472.append("verdict outside the frozen vocabulary: %r" % (_f472.get("verdict"),))
+    for _cls in (_s472.get("residue_classes") or {}):
+        if _cls not in _m472.RESIDUES:
+            _bad472.append("residue class outside the vocabulary: %r" % (_cls,))
+    if _s472.get("vintage_families") != len(_r472):
+        _bad472.append("the family tally does not re-add to the rows")
+    if _s472.get("vintage_files") != sum(r.get("vintages") or 0 for r in _r472):
+        _bad472.append("the file tally does not re-add to the rows")
+    if _s472.get("families_with_no_study_consumer") != sum(
+            1 for r in _r472 if r.get("residue") in _m472.UNREAD):
+        _bad472.append("the unread tally does not re-add to the rows")
+    if _s472.get("files_in_unread_families") != sum(
+            (r.get("vintages") or 0) for r in _r472 if r.get("residue") in _m472.UNREAD):
+        _bad472.append("the unread-file tally does not re-add to the rows")
+    if _s472.get("families_with_a_latest_pointer") != sum(1 for r in _r472 if r.get("latest")):
+        _bad472.append("the latest-pointer tally does not re-add to the rows")
+    for _row in _r472:
+        if len(_row.get("members") or []) != (_row.get("vintages") or 0):
+            _bad472.append("%s: members do not re-add to the vintages" % (_row.get("family"),))
+        if _row.get("residue") == _m472.R_STUDY_OPENS and not _row.get("study_consumers"):
+            _bad472.append("%s: a study residue names no consumer" % (_row.get("family"),))
+        if _row.get("residue") == _m472.R_STUDY_NAMES and not _row.get("study_namers"):
+            _bad472.append("%s: a namer residue names no namer" % (_row.get("family"),))
+        if _row.get("residue") == _m472.R_NO_CONSUMER and (
+                (_row.get("study_consumers") or []) or (_row.get("leg_consumers") or [])
+                or (_row.get("round_consumers") or [])):
+            _bad472.append("%s: a no-consumer residue names a consumer" % (_row.get("family"),))
+    _w472 = json.loads(json.dumps(_f472))
+    _w472["summary"]["families_with_no_study_consumer"] = (
+        (_w472["summary"].get("families_with_no_study_consumer") or 0) + 1)
+    if not _m472.row_problems(_w472):
+        _bad472.append("a doctored unread tally survived the row guard")
+    _w472b = json.loads(json.dumps(_f472))
+    if _w472b.get("rows"):
+        _w472b["rows"][0]["dates"] = (_w472b["rows"][0].get("dates") or [])[:1]
+        if not _m472.row_problems(_w472b):
+            _bad472.append("a row that lost one of its dates survived the row guard")
+    _d472 = ("%d vintage families | %d files | %d (%.1f%%) have no study consumer "
+             "| %d files in unread families | residues %s | verdict %s") % (
+        _s472.get("vintage_families") or 0,
+        _s472.get("vintage_files") or 0,
+        _s472.get("families_with_no_study_consumer") or 0,
+        100.0 * (_s472.get("families_with_no_study_consumer") or 0)
+        / max(1, (_s472.get("vintage_families") or 1)),
+        _s472.get("files_in_unread_families") or 0,
+        json.dumps((_s472.get("residue_classes") or {}), ensure_ascii=False, sort_keys=True),
+        _f472.get("verdict"))
+except Exception as _e472x:
+    _bad472.append(repr(_e472x)[:160])
+    _d472 = "leg could not run"
+check(_name472, not _bad472, "; ".join(_bad472)[:240] or _d472)
+
 # E467 (r1491 bm-b): the card a producer restates in its docstring is the second of three identity
 # channels, and the question is whether any program recovers it.  This leg refuses (a) any tally
 # that does not re-derive from the published rows, (b) a row whose class or tier disagrees with its
