@@ -396,6 +396,13 @@ def main() -> int:
             # so the suite fails if the measuring rod itself drifts.
             ("product: zoo90 alligator supply probe (exit-code contract)",
              "scripts/zoo90_alligator_probe.py", ["--selftest"]),
+            # r1390: the first berth whose exposure is structurally 1.0 (the two timing
+            # berths before it lose to the exit tax by construction). Its legs pin both
+            # directions -- an engineered reversal panel must win, a random walk must not
+            # be admitted -- plus that the vectorised null basis reproduces the engine's
+            # own excess, because the p-value is read on that basis.
+            ("product: cross-sectional reversal supply probe (exit-code contract)",
+             "scripts/zoo_supply_xs_reversal_probe.py", ["--selftest"]),
             # r1387: that probe's verdict outlived its number -- the null it lost to is what a
             # future timing rule actually has to beat, and nothing published it. This face
             # turns the null into a ruler on the book in force (hurdle per exposure share).

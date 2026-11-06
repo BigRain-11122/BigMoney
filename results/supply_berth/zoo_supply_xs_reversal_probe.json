@@ -1,0 +1,73 @@
+{
+  "batch": "SUPPLY_BERTH_SLOT_13_CANDIDATE",
+  "conditions": {
+    "beats_same_exposure_null": false,
+    "cost_is_bounded": false,
+    "drawdown_not_worse": false,
+    "excess_over_ew_ge_admit": false
+  },
+  "construction": {
+    "cost_per_side": 0.0008,
+    "execution": "decided on close t, filled at open t+1 (run_next_open)",
+    "exposure": 1.0,
+    "min_amt": 20000000.0,
+    "min_hist": 120,
+    "n_hold": 10,
+    "rebalance_bars": 20,
+    "start": "2020-01-01",
+    "window_bars": 20
+  },
+  "control_ew": {
+    "bars": 1657,
+    "cagr": 0.0186,
+    "label": "ew_universe",
+    "maxdd": -0.3991,
+    "sharpe": 0.197,
+    "start_level": 1.0009,
+    "total_ret": 0.1347,
+    "vol": 0.1826,
+    "years": 6.84
+  },
+  "evidence_cutoff": "2026-11-06",
+  "excess_vs_ew_pp": -10.01,
+  "family": "xs_reversal_20",
+  "generated": "2026-11-07T07:06:20+0800",
+  "null": {
+    "k": 200,
+    "mean_excess_pp": -3.38,
+    "sd_pp": 3.44,
+    "seed": 20261107
+  },
+  "p_value": 1.0,
+  "panel": {
+    "bars": 5275,
+    "first": "2005-02-23",
+    "symbols": 1624
+  },
+  "rule": {
+    "bars": 1658,
+    "cagr": -0.0815,
+    "label": "rule",
+    "maxdd": -0.5944,
+    "sharpe": -0.168,
+    "start_level": 1.0,
+    "total_ret": -0.4413,
+    "vol": 0.285,
+    "years": 6.84
+  },
+  "rule_engine": {
+    "open_gapfill_bars": 2,
+    "turnover_per_rebalance": 1.8867
+  },
+  "turnover": {
+    "decisions": 83,
+    "swapped_slots": 778,
+    "swaps_per_year": 113.67
+  },
+  "vectorised_basis": {
+    "excess_vs_ew_pp": -11.36,
+    "note": "the null's basis (close-to-close periods, same cost convention); p-value is read here",
+    "rule_cagr": -0.0805
+  },
+  "verdict": "REFUSE_AS_CANDIDATE"
+}
