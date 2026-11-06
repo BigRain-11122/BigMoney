@@ -28257,11 +28257,15 @@
    "lane": "cpu-only",
    "lane_note": "static AST over the .py corpus plus filesystem resolution; nothing executed, nothing outside results/state_tilt written",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "owner": null,
    "source": "E466 (r1490 bm-b): 33 of 64 pointers resolve only from the pointing face's own directory and 4 only as an absolute path",
    "entered_at": "2026-11-06T19:28:24+08:00",
-   "entered_by": "bm-b r1490 (supply floor refill after E466)"
+   "entered_by": "bm-b r1490 (supply floor refill after E466)",
+   "result_ref": "results/state_tilt/POINTERREACH-2026-11-06.json",
+   "closed_by": "Tools/pool_deliverable_audit.py apply",
+   "closed_at": "2026-11-06T20:36:16+0800",
+   "close_note": "deliverable landed on disk 1.09h after entry; closed by the reconciliation audit"
   },
   {
    "id": "E469-CAN-A-FACE-BE-TRACED-BACK-TO-THE-SCRIPT-THAT-WROTE-IT-AND-WHICH-CHANNEL-CARRIES-THE-EDGE",
@@ -28276,6 +28280,20 @@
    "source": "E467 (r1491 bm-b): the docstring channel is read by nobody; E466 measured the pointer channel's readers and found no follower",
    "entered_at": "2026-11-06T20:1x+08:00",
    "entered_by": "bm-b r1491 (supply floor refill after E467)"
+  },
+  {
+   "id": "E470-IS-THE-TARGET-OF-A-POINTER-THAT-NEEDS-ANOTHER-BASE-EVER-READ-AT-ALL",
+   "title": "E468 measured which sources NAME the 37 pointer targets that need a base other than the repo root: 24 are named by no source, 8 naming sites belong to the producer that writes the target, 4 rows only a one-off round script names and 2 only a smoke leg. Naming is not reading. Nobody has asked whether the target FILE is ever opened by any route at all -- by the producer checking its own output back, by a study that knows the literal, or by nobody.",
+   "question": "For each of E468's 37 targets, find every site that turns the target into a path the program can open: exact literal, composed path whose tail spells the target, glob/prefix that lands on it, or a read of the pointer key itself. Classify each target as read by its own producer only, read by an unrelated study, reachable only through a glob, or never opened, and publish whether the pointer therefore carries a live edge or a dead one. Split the residue into targets that are files no program ever opens and targets whose only opener is the writer that created them.",
+   "deliverable": "results/state_tilt/TARGETREAD-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the .py corpus (string literals plus open/load call sites) and the filesystem; nothing executed, no network",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E468 (r1492 bm-b): of 37 pointers needing another base, 24 are named by no source, 8 naming sites write the target they name, and 0 sites resolve the pointer itself",
+   "entered_at": "2026-11-06T20:50+08:00",
+   "entered_by": "bm-b r1492 (supply floor refill after E468)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28290,6 +28308,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T20:1x+08:00",
+ "updated_at": "2026-11-06T20:50:00+0800",
  "version": 1
 }

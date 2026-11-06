@@ -11894,3 +11894,48 @@ published row by row, so the tier tally is one number longer than the row list.
 then ask who that program is: here the only one is the census that wrote the card, which is the
 `producer_only` pattern E204 named, one channel over. When you write the repair for an identity-gap
 face, write the card into a payload field -- the docstring is already correct and already unread.
+
+
+## E468 — a pointer the repo root cannot follow is named by its producer or by nobody (r1492 bm-b)
+
+**Question.** E466 published that 33 of 64 path-form pointers resolve only from the pointing
+face's own directory and 4 only as an absolute path. Naming a file is not reading it. Is there any
+source that reaches those targets, and by which base?
+
+**Reading (37 pointers, 24 distinct targets).** 33 need the own-directory base, 4 the absolute
+base. 24 of the 37 are named by **no** source in the corpus at all. Of the 36 naming sites, 9 spell
+a repo-relative literal, 14 join the literal to their own directory, 13 show no base in the window.
+By family: 8 sites belong to the producer that **writes the target they name** (the upstream script
+spelling its own output), 4 rows are named only by a one-off round script (`_r1430_heartbeat.py`,
+`_e337_book.py`, …), 2 only by a smoke leg, 7 by a study that carries the literal of the face it
+consumes, and **0 sites resolve the pointer itself**.
+
+**Verdict.** `some_pointers_that_need_another_base_are_named_by_a_source_that_writes_neither_face`
+-- the 7 that remain are real consumers of the *upstream* face (e448/e449/e451 read
+`droppedpath_latest` / `deadprereg_latest`, e273 reads `BANDSCREEN`, e406/e420 read `REPUBLISH`);
+they know where the file is, they did not learn it from the pointer.
+
+**Pitfalls (two, both caught by their own doctored legs).**
+* **A field named for the wrong question.** The first publish carried
+  `pointers_reachable_from_the_repo_root: 37` -- it was `isfile(join(root, target))`, i.e. "the
+  target exists at a repo-relative path", which is true by construction once the pointer resolved.
+  Renamed to `target_exists_on_disk_at_that_repo_relative_path`; a count of 37/37 "reachable" would
+  have contradicted the premise on its face (E207 family: the name must measure what it counts).
+* **"Outside the producer" is not "a reader".** The first residue lumped 13 rows into
+  `a_source_outside_the_producer_names_it`, which read as "somebody follows the pointer". Five of
+  those were the *upstream producer's own output literal* and four were round-closeout scripts.
+  Splitting into `only_the_producer_of_the_target_file_names_it` / `only_a_smoke_or_runner_leg` /
+  `only_a_one_off_round_script` took the readable number from 13 to 7 -- and the write test itself
+  only worked after matching a target's `_latest` alias to the base stem E464 reports.
+
+**Wiring.** `scripts/e468_pointer_reach.py` (run rc0 / `check` problems=[] / `verify` problems=[] on
+the live tree / **selftest 15/15**); faces `results/state_tilt/pointerreach_latest.json` +
+`POINTERREACH-2026-11-06.json`; S6 leg `pointer_reach` (rc0); smoke leg `e468 is a pointer that
+needs a base other than the repo root ever read (r1492 bm-b)` proved 1/1 and 1/1 red on a doctored
+residue label, face restored byte-identical; pool E468 closed (the deliverable audit noticed the
+face 1.09 h after the card was entered).
+
+**How to apply.** When a face points at another face with a bare filename, assume nobody follows it:
+the producer is the only program that knows where it put the file, and any other consumer is one
+that carries the literal. If you need the edge to be live, publish the target as a repo-relative
+path, not as a bare name.

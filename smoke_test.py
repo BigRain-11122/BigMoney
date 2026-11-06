@@ -18289,6 +18289,76 @@ except Exception as _e460x:
     _d460 = "leg could not run"
 check(_name460, not _bad460, "; ".join(_bad460)[:240] or _d460)
 
+# E468 (r1492 bm-b): E466 published that 33 of 64 path-form pointers resolve only from the
+# pointing face's own directory and 4 only as an absolute path.  This leg holds the reverse
+# question: is there a source that reaches those files, and by which base.  It refuses (a) any
+# tally that does not re-derive from the published rows, (b) a row whose residue disagrees with its
+# own naming sites, (c) a residue class or verdict outside the frozen vocabulary, and (d) two
+# doctored copies -- a naming site grafted onto a row published as unnamed, and a tally whose
+# pointer count stopped matching its own rows.
+_name468 = "e468 is a pointer that needs a base other than the repo root ever read (r1492 bm-b)"
+_bad468 = []
+try:
+    _m468 = __import__("importlib").import_module("e468_pointer_reach")
+    _f468 = json.load(open(os.path.join("results", "state_tilt", "pointerreach_latest.json"),
+                           encoding="utf-8"))
+    _s468 = _f468.get("summary") or {}
+    _r468 = _f468.get("rows") or []
+    _bad468.extend(_m468.row_problems(_f468))
+    if _f468.get("verdict") not in _m468.VERDICT_VOCAB:
+        _bad468.append("verdict outside the frozen vocabulary: %r" % (_f468.get("verdict"),))
+    for _cls in (_s468.get("residue_classes") or {}):
+        if _cls not in _m468.RESIDUES:
+            _bad468.append("residue class outside the vocabulary: %r" % (_cls,))
+    for _row in _r468:
+        if _row.get("required_base") == _m468.e466.B_ROOT:
+            _bad468.append("%s: a repo-root pointer is in a population of pointers that need "
+                           "another base" % _row.get("face"))
+            break
+        for _site in _row.get("naming_sites") or []:
+            if _site.get("reach") not in _m468.REACH_MODES:
+                _bad468.append("reach mode outside the vocabulary: %r" % (_site.get("reach"),))
+    if _s468.get("pointers_needing_another_base") != len(_r468):
+        _bad468.append("the pointer tally does not re-add to the rows")
+    if _s468.get("naming_sites_total") != sum(len(r.get("naming_sites") or []) for r in _r468):
+        _bad468.append("the naming-site tally does not re-add to the rows")
+    _unnamed468 = [r for r in _r468 if r.get("residue") == _m468.Z_NO_SOURCE]
+    if _unnamed468:
+        _graft468 = json.loads(json.dumps(_f468))
+        _victim468 = next(r for r in _graft468["rows"] if r.get("residue") == _m468.Z_NO_SOURCE)
+        _victim468.setdefault("naming_sites", []).append(
+            {"source": "scripts/someone_else.py", "line": 1, "literal": "x.json",
+             "matched": "exact_string", "reach": _m468.R_WITH_OWN_DIR,
+             "writes_the_target_it_names": False, "is_a_smoke_or_runner_leg": False,
+             "is_a_one_off_round_script": False})
+        if _m468.row_problems(_graft468) == []:
+            _bad468.append("a naming site grafted onto a row published as unnamed was accepted")
+    else:
+        _bad468.append("no unnamed row to doctor: the residue test cannot be shown to go red")
+    _cnt468 = json.loads(json.dumps(_f468))
+    _cnt468["summary"]["pointers_needing_another_base"] = 0
+    _tallies468 = _m468._recompute_tallies(_cnt468)
+    if _tallies468["pointers_needing_another_base"] == 0:
+        _bad468.append("a pointer tally of zero was accepted against a non-empty row list")
+    _d468 = ("%d of %d pointer instances need a base other than the repo root (%s) | %d naming "
+             "sites | %d pointers named by nobody, %d only by a one-off round script, %d only by a "
+             "smoke leg, %d by a source that writes neither face | %d sites write the target they "
+             "name | verdict %s") % (
+        _s468.get("pointers_needing_another_base") or 0,
+        _s468.get("pointer_instances_in_the_tree") or 0,
+        ",".join("%s=%d" % kv for kv in sorted((_s468.get("pointers_by_required_base") or {}).items())),
+        _s468.get("naming_sites_total") or 0,
+        (_s468.get("residue_classes") or {}).get(_m468.Z_NO_SOURCE, 0),
+        (_s468.get("residue_classes") or {}).get(_m468.Z_ROUND_SCRIPT, 0),
+        (_s468.get("residue_classes") or {}).get(_m468.Z_SMOKE_ONLY, 0),
+        (_s468.get("residue_classes") or {}).get(_m468.Z_OTHER_READER, 0),
+        _s468.get("naming_sites_that_write_the_target_they_name") or 0,
+        _f468.get("verdict"))
+except Exception as _e468x:
+    _bad468.append(repr(_e468x)[:160])
+    _d468 = "leg could not run"
+check(_name468, not _bad468, "; ".join(_bad468)[:240] or _d468)
+
 # E467 (r1491 bm-b): the card a producer restates in its docstring is the second of three identity
 # channels, and the question is whether any program recovers it.  This leg refuses (a) any tally
 # that does not re-derive from the published rows, (b) a row whose class or tier disagrees with its

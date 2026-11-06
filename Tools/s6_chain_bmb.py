@@ -1692,6 +1692,10 @@ LEGS = [
     # channels, and the card asks whether any program recovers it.  `check` re-derives every tally,
     # class and tier from the published rows; the live corpus walk (3.5k sources) is `verify`.
     ("docstring_card", ["python", "scripts/e467_docstringcard.py", "check"]),
+    # E468 closes the loop E466 opened: a pointer the repo root cannot follow is named by its own
+    # producer, by a smoke/round script, or by nobody.  `check` re-derives every row's residue from
+    # its own naming sites and every tally from the rows.
+    ("pointer_reach", ["python", "scripts/e468_pointer_reach.py", "check"]),
 ]
 
 

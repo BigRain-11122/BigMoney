@@ -1,0 +1,930 @@
+{
+ "card": "E468-DOES-A-FACE-WHOSE-POINTER-RESOLVES-ONLY-FROM-ITS-OWN-DIRECTORY-EVER-GET-READ",
+ "study": "E468_pointer_reach",
+ "title": "a pointer the repo root cannot follow is named by its own producer or by nobody",
+ "evidence_cutoff": "2026-11-06",
+ "population_source": "results/state_tilt/pointerjoin_latest.json (E466 census, re-derived)",
+ "verdict": "some_pointers_that_need_another_base_are_named_by_a_source_that_writes_neither_face",
+ "verdict_vocab": [
+  "no_path_form_pointer_needs_a_base_other_than_the_repo_root",
+  "every_pointer_that_needs_another_base_is_named_only_by_a_producer",
+  "some_pointers_that_need_another_base_are_named_by_a_source_that_writes_neither_face",
+  "some_pointers_that_need_another_base_are_named_only_through_a_glob",
+  "some_pointers_that_need_another_base_are_named_by_no_source_at_all"
+ ],
+ "reach_modes": [
+  "the_literal_is_already_repo_relative",
+  "the_site_joins_the_literal_to_a_repo_root_constant",
+  "the_site_joins_the_literal_to_its_own_directory",
+  "the_literal_is_an_absolute_path",
+  "the_site_names_a_glob_or_a_directory_prefix",
+  "the_site_shows_no_path_base"
+ ],
+ "residue_classes": [
+  "only_the_pointing_faces_own_producer_names_it",
+  "only_the_producer_of_the_target_file_names_it",
+  "only_a_smoke_or_runner_leg_names_it",
+  "only_a_one_off_round_script_names_it",
+  "only_a_glob_or_directory_prefix_names_it",
+  "no_source_in_the_corpus_names_it",
+  "a_source_that_writes_neither_face_names_it"
+ ],
+ "summary": {
+  "card": "E468-DOES-A-FACE-WHOSE-POINTER-RESOLVES-ONLY-FROM-ITS-OWN-DIRECTORY-EVER-GET-READ",
+  "pointer_instances_in_the_tree": 252,
+  "non_path_pointer_instances": 188,
+  "pointers_needing_another_base": 37,
+  "pointers_by_required_base": {
+   "the_pointing_faces_own_directory": 33,
+   "as_an_absolute_path": 4
+  },
+  "pointers_by_spelling": {
+   "bare_filename_no_directory": 33,
+   "absolute_path_on_this_machine": 4
+  },
+  "pointers_whose_target_exists_on_disk": 37,
+  "pointers_with_no_naming_site": 24,
+  "naming_sites_total": 36,
+  "naming_sites_by_reach_mode": {
+   "the_literal_is_already_repo_relative": 9,
+   "the_site_joins_the_literal_to_its_own_directory": 14,
+   "the_site_shows_no_path_base": 13
+  },
+  "naming_sites_by_match": {
+   "exact_string": 27,
+   "basename_only": 9
+  },
+  "residue_classes": {
+   "no_source_in_the_corpus_names_it": 24,
+   "only_a_one_off_round_script_names_it": 4,
+   "only_a_smoke_or_runner_leg_names_it": 2,
+   "a_source_that_writes_neither_face_names_it": 7
+  },
+  "distinct_targets": 24,
+  "naming_sites_that_write_the_target_they_name": 8,
+  "naming_sites_in_a_smoke_or_runner_leg": 15,
+  "naming_sites_in_a_one_off_round_script": 9
+ },
+ "rows": [
+  {
+   "face": "results/e43_tilt_4member/LADDERDROPCARRIER-20261027.json",
+   "key": "source_face",
+   "value": "LADDERDROPWHERE-20261027.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/e43_tilt_4member/LADDERDROPWHERE-20261027.json",
+   "basename": "LADDERDROPWHERE-20261027.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/e43_tilt_4member/LADDERDROPCURVE-20261027.json",
+   "key": "source_face",
+   "value": "LADDERDROPWHERE-20261027.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/e43_tilt_4member/LADDERDROPWHERE-20261027.json",
+   "basename": "LADDERDROPWHERE-20261027.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/e44_midmonth/WIDTHSPLIT-20261028.json",
+   "key": "source_face",
+   "value": "WIDTHLADDER-20261028.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/e44_midmonth/WIDTHLADDER-20261028.json",
+   "basename": "WIDTHLADDER-20261028.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "_tmp_r1247_probe.py",
+     "line": 3,
+     "literal": "results/e44_midmonth/WIDTHLADDER-20261028.json",
+     "matched": "basename_only",
+     "reach": "the_literal_is_already_repo_relative",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": true
+    }
+   ],
+   "residue": "only_a_one_off_round_script_names_it"
+  },
+  {
+   "face": "results/e44_midmonth/WIDTHSPLIT-20261029.json",
+   "key": "source_face",
+   "value": "WIDTHLADDER-20261029.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/e44_midmonth/WIDTHLADDER-20261029.json",
+   "basename": "WIDTHLADDER-20261029.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/e44_midmonth/WIDTHSPLIT-20261030.json",
+   "key": "source_face",
+   "value": "WIDTHLADDER-20261030.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/e44_midmonth/WIDTHLADDER-20261030.json",
+   "basename": "WIDTHLADDER-20261030.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/e44_midmonth/WIDTHSPLIT-20261102.json",
+   "key": "source_face",
+   "value": "WIDTHLADDER-20261102.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/e44_midmonth/WIDTHLADDER-20261102.json",
+   "basename": "WIDTHLADDER-20261102.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/e44_midmonth/WIDTHSPLIT-20261103.json",
+   "key": "source_face",
+   "value": "WIDTHLADDER-20261103.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/e44_midmonth/WIDTHLADDER-20261103.json",
+   "basename": "WIDTHLADDER-20261103.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/e44_midmonth/WIDTHSPLIT-20261104.json",
+   "key": "source_face",
+   "value": "WIDTHLADDER-20261104.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/e44_midmonth/WIDTHLADDER-20261104.json",
+   "basename": "WIDTHLADDER-20261104.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/e44_midmonth/WIDTHSPLIT-20261105.json",
+   "key": "source_face",
+   "value": "WIDTHLADDER-20261105.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/e44_midmonth/WIDTHLADDER-20261105.json",
+   "basename": "WIDTHLADDER-20261105.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/ABANDONEDSTALE-2026-11-06.json",
+   "key": "source_face",
+   "value": "abandonedguard_latest.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/abandonedguard_latest.json",
+   "basename": "abandonedguard_latest.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "scripts/run_e452_smoke_leg.py",
+     "line": 19,
+     "literal": "abandonedguard_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": true,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 17152,
+     "literal": "abandonedguard_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    }
+   ],
+   "residue": "only_a_smoke_or_runner_leg_names_it"
+  },
+  {
+   "face": "results/state_tilt/BANDMARGIN-2026-10-29.json",
+   "key": "source_face",
+   "value": "BANDTRANSFER-2026-10-29.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/BANDTRANSFER-2026-10-29.json",
+   "basename": "BANDTRANSFER-2026-10-29.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/BANDNEAR1-2026-10-29.json",
+   "key": "source_face",
+   "value": "BANDWINDIST-2026-10-29.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/BANDWINDIST-2026-10-29.json",
+   "basename": "BANDWINDIST-2026-10-29.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/BANDPOOLED-2026-10-29.json",
+   "key": "source_face",
+   "value": "BANDTRANSFER-2026-10-29.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/BANDTRANSFER-2026-10-29.json",
+   "basename": "BANDTRANSFER-2026-10-29.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/BANDSCREEN-2026-10-29.json",
+   "key": "source_face",
+   "value": "BANDTRANSFER-2026-10-29.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/BANDTRANSFER-2026-10-29.json",
+   "basename": "BANDTRANSFER-2026-10-29.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/BANDTHRESHGUARD-2026-10-29.json",
+   "key": "source_face",
+   "value": "BANDSCREEN-2026-10-29.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/BANDSCREEN-2026-10-29.json",
+   "basename": "BANDSCREEN-2026-10-29.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "scripts/e273_guard_from_threshold.py",
+     "line": 515,
+     "literal": "BANDSCREEN-2026-10-29.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 6209,
+     "literal": "BANDSCREEN-2026-10-29.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    }
+   ],
+   "residue": "a_source_that_writes_neither_face_names_it"
+  },
+  {
+   "face": "results/state_tilt/DEADPREREG-2026-11-06.json",
+   "key": "source_face",
+   "value": "droppedpath_latest.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/droppedpath_latest.json",
+   "basename": "droppedpath_latest.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "scripts/e448_dropped_path.py",
+     "line": 43,
+     "literal": "droppedpath_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": true,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "scripts/e449_dead_document_pointer.py",
+     "line": 52,
+     "literal": "droppedpath_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "scripts/run_e448_smoke_leg.py",
+     "line": 19,
+     "literal": "droppedpath_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": true,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 17616,
+     "literal": "droppedpath_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    }
+   ],
+   "residue": "a_source_that_writes_neither_face_names_it"
+  },
+  {
+   "face": "results/state_tilt/FACEPOPPIN-2026-11-02.json",
+   "key": "face_path",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\state_tilt\\FACEPOPPIN-2026-11-02.json",
+   "spelling": "absolute_path_on_this_machine",
+   "required_base": "as_an_absolute_path",
+   "target": "C:/Fluxgroup/FluxGroup/quant/bigmoney/results/state_tilt/FACEPOPPIN-2026-11-02.json",
+   "basename": "FACEPOPPIN-2026-11-02.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/PINQUEUE-2026-11-02.json",
+   "key": "face_path",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\state_tilt\\PINQUEUE-2026-11-02.json",
+   "spelling": "absolute_path_on_this_machine",
+   "required_base": "as_an_absolute_path",
+   "target": "C:/Fluxgroup/FluxGroup/quant/bigmoney/results/state_tilt/PINQUEUE-2026-11-02.json",
+   "basename": "PINQUEUE-2026-11-02.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/PREREGHASH-2026-11-06.json",
+   "key": "source_face",
+   "value": "deadprereg_latest.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/deadprereg_latest.json",
+   "basename": "deadprereg_latest.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "scripts/e449_dead_document_pointer.py",
+     "line": 49,
+     "literal": "deadprereg_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": true,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "scripts/e451_prereg_digest.py",
+     "line": 50,
+     "literal": "deadprereg_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "scripts/run_e449_smoke_leg.py",
+     "line": 19,
+     "literal": "deadprereg_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 17781,
+     "literal": "deadprereg_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    }
+   ],
+   "residue": "a_source_that_writes_neither_face_names_it"
+  },
+  {
+   "face": "results/state_tilt/abandonedstale_latest.json",
+   "key": "source_face",
+   "value": "abandonedguard_latest.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/abandonedguard_latest.json",
+   "basename": "abandonedguard_latest.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "scripts/run_e452_smoke_leg.py",
+     "line": 19,
+     "literal": "abandonedguard_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": true,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 17152,
+     "literal": "abandonedguard_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    }
+   ],
+   "residue": "only_a_smoke_or_runner_leg_names_it"
+  },
+  {
+   "face": "results/state_tilt/bandmargin_latest.json",
+   "key": "source_face",
+   "value": "BANDTRANSFER-2026-10-29.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/BANDTRANSFER-2026-10-29.json",
+   "basename": "BANDTRANSFER-2026-10-29.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/bandnear1_latest.json",
+   "key": "source_face",
+   "value": "BANDWINDIST-2026-10-29.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/BANDWINDIST-2026-10-29.json",
+   "basename": "BANDWINDIST-2026-10-29.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/bandpooled_latest.json",
+   "key": "source_face",
+   "value": "BANDTRANSFER-2026-10-29.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/BANDTRANSFER-2026-10-29.json",
+   "basename": "BANDTRANSFER-2026-10-29.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/bandscreen_latest.json",
+   "key": "source_face",
+   "value": "BANDTRANSFER-2026-10-29.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/BANDTRANSFER-2026-10-29.json",
+   "basename": "BANDTRANSFER-2026-10-29.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/bandthreshguard_latest.json",
+   "key": "source_face",
+   "value": "BANDSCREEN-2026-10-29.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/BANDSCREEN-2026-10-29.json",
+   "basename": "BANDSCREEN-2026-10-29.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "scripts/e273_guard_from_threshold.py",
+     "line": 515,
+     "literal": "BANDSCREEN-2026-10-29.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 6209,
+     "literal": "BANDSCREEN-2026-10-29.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    }
+   ],
+   "residue": "a_source_that_writes_neither_face_names_it"
+  },
+  {
+   "face": "results/state_tilt/blobread_latest.json",
+   "key": "face",
+   "value": "BLOBREAD-2026-11-05.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/BLOBREAD-2026-11-05.json",
+   "basename": "BLOBREAD-2026-11-05.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "scripts/_closeout_r1422.py",
+     "line": 166,
+     "literal": "results/state_tilt/BLOBREAD-2026-11-05.json",
+     "matched": "basename_only",
+     "reach": "the_literal_is_already_repo_relative",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": true
+    },
+    {
+     "source": "scripts/_e406_pool_update.py",
+     "line": 42,
+     "literal": "results/state_tilt/BLOBREAD-2026-11-05.json",
+     "matched": "basename_only",
+     "reach": "the_literal_is_already_repo_relative",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": true
+    },
+    {
+     "source": "scripts/_r1430_heartbeat.py",
+     "line": 79,
+     "literal": "results/state_tilt/BLOBREAD-2026-11-05.json",
+     "matched": "basename_only",
+     "reach": "the_literal_is_already_repo_relative",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": true
+    }
+   ],
+   "residue": "only_a_one_off_round_script_names_it"
+  },
+  {
+   "face": "results/state_tilt/deadprereg_latest.json",
+   "key": "source_face",
+   "value": "droppedpath_latest.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/droppedpath_latest.json",
+   "basename": "droppedpath_latest.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "scripts/e448_dropped_path.py",
+     "line": 43,
+     "literal": "droppedpath_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": true,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "scripts/e449_dead_document_pointer.py",
+     "line": 52,
+     "literal": "droppedpath_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "scripts/run_e448_smoke_leg.py",
+     "line": 19,
+     "literal": "droppedpath_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": true,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 17616,
+     "literal": "droppedpath_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    }
+   ],
+   "residue": "a_source_that_writes_neither_face_names_it"
+  },
+  {
+   "face": "results/state_tilt/facepoppin_latest.json",
+   "key": "face_path",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\state_tilt\\FACEPOPPIN-2026-11-02.json",
+   "spelling": "absolute_path_on_this_machine",
+   "required_base": "as_an_absolute_path",
+   "target": "C:/Fluxgroup/FluxGroup/quant/bigmoney/results/state_tilt/FACEPOPPIN-2026-11-02.json",
+   "basename": "FACEPOPPIN-2026-11-02.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/familyglobread_latest.json",
+   "key": "face",
+   "value": "FAMILYGLOBREAD-2026-11-03.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/FAMILYGLOBREAD-2026-11-03.json",
+   "basename": "FAMILYGLOBREAD-2026-11-03.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/optinswitch_latest.json",
+   "key": "face",
+   "value": "OPTINSWITCH-2026-11-01.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/OPTINSWITCH-2026-11-01.json",
+   "basename": "OPTINSWITCH-2026-11-01.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "_e337_book.py",
+     "line": 56,
+     "literal": "results/state_tilt/OPTINSWITCH-2026-11-01.json",
+     "matched": "basename_only",
+     "reach": "the_literal_is_already_repo_relative",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": true
+    },
+    {
+     "source": "_e337_pool_close.py",
+     "line": 22,
+     "literal": "results/state_tilt/OPTINSWITCH-2026-11-01.json",
+     "matched": "basename_only",
+     "reach": "the_literal_is_already_repo_relative",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": true
+    }
+   ],
+   "residue": "only_a_one_off_round_script_names_it"
+  },
+  {
+   "face": "results/state_tilt/phantomwhy_latest.json",
+   "key": "face",
+   "value": "PHANTOMWHY-2026-11-03.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/PHANTOMWHY-2026-11-03.json",
+   "basename": "PHANTOMWHY-2026-11-03.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "_r1411bmb_close.py",
+     "line": 83,
+     "literal": "results/state_tilt/PHANTOMWHY-2026-11-03.json",
+     "matched": "basename_only",
+     "reach": "the_literal_is_already_repo_relative",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": true
+    },
+    {
+     "source": "_r1411bmb_close.py",
+     "line": 88,
+     "literal": "results/state_tilt/PHANTOMWHY-2026-11-03.json",
+     "matched": "basename_only",
+     "reach": "the_literal_is_already_repo_relative",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": true
+    },
+    {
+     "source": "_r1411bmb_pool.py",
+     "line": 16,
+     "literal": "results/state_tilt/PHANTOMWHY-2026-11-03.json",
+     "matched": "basename_only",
+     "reach": "the_literal_is_already_repo_relative",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": true
+    }
+   ],
+   "residue": "only_a_one_off_round_script_names_it"
+  },
+  {
+   "face": "results/state_tilt/pinqueue_latest.json",
+   "key": "face_path",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\state_tilt\\PINQUEUE-2026-11-02.json",
+   "spelling": "absolute_path_on_this_machine",
+   "required_base": "as_an_absolute_path",
+   "target": "C:/Fluxgroup/FluxGroup/quant/bigmoney/results/state_tilt/PINQUEUE-2026-11-02.json",
+   "basename": "PINQUEUE-2026-11-02.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/prereghash_latest.json",
+   "key": "source_face",
+   "value": "deadprereg_latest.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/deadprereg_latest.json",
+   "basename": "deadprereg_latest.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "scripts/e449_dead_document_pointer.py",
+     "line": 49,
+     "literal": "deadprereg_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": true,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "scripts/e451_prereg_digest.py",
+     "line": 50,
+     "literal": "deadprereg_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "scripts/run_e449_smoke_leg.py",
+     "line": 19,
+     "literal": "deadprereg_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_joins_the_literal_to_its_own_directory",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 17781,
+     "literal": "deadprereg_latest.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    }
+   ],
+   "residue": "a_source_that_writes_neither_face_names_it"
+  },
+  {
+   "face": "results/state_tilt/readcap_latest.json",
+   "key": "face",
+   "value": "READCAP-2026-11-03.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/READCAP-2026-11-03.json",
+   "basename": "READCAP-2026-11-03.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/readresolve_latest.json",
+   "key": "face",
+   "value": "READRESOLVE-2026-11-03.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/READRESOLVE-2026-11-03.json",
+   "basename": "READRESOLVE-2026-11-03.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  },
+  {
+   "face": "results/state_tilt/republish_latest.json",
+   "key": "face",
+   "value": "REPUBLISH-2026-11-03.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/REPUBLISH-2026-11-03.json",
+   "basename": "REPUBLISH-2026-11-03.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [
+    {
+     "source": "scripts/e406_blob_vs_tree_readers.py",
+     "line": 499,
+     "literal": "REPUBLISH-2026-11-03.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "scripts/e420_corpus_pin_instability.py",
+     "line": 41,
+     "literal": "REPUBLISH-2026-11-03.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": false,
+     "is_a_one_off_round_script": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 13468,
+     "literal": "REPUBLISH-2026-11-03.json",
+     "matched": "exact_string",
+     "reach": "the_site_shows_no_path_base",
+     "writes_the_target_it_names": false,
+     "is_a_smoke_or_runner_leg": true,
+     "is_a_one_off_round_script": false
+    }
+   ],
+   "residue": "a_source_that_writes_neither_face_names_it"
+  },
+  {
+   "face": "results/state_tilt/siblingentry_latest.json",
+   "key": "face",
+   "value": "SIBLINGENTRY-2026-11-01.json",
+   "spelling": "bare_filename_no_directory",
+   "required_base": "the_pointing_faces_own_directory",
+   "target": "results/state_tilt/SIBLINGENTRY-2026-11-01.json",
+   "basename": "SIBLINGENTRY-2026-11-01.json",
+   "target_exists_on_disk_at_that_repo_relative_path": true,
+   "producers_of_the_pointing_face": [],
+   "naming_sites": [],
+   "residue": "no_source_in_the_corpus_names_it"
+  }
+ ],
+ "method_limits": [
+  "a naming site is a string constant equal to the pointer value or to the target's basename; a source that builds the same path from pieces is not counted (E436: composers recompose from the parent, they do not carry the literal)",
+  "reach mode is read from an 8-line window around the literal; it says which base the site could use, not that the site opens this particular file",
+  "the corpus is this machine's working tree; a reader outside it (the console app, a notebook) is not in the population",
+  "own outputs (e461..e468 and their runners) are excluded so the census cannot count itself"
+ ]
+}
