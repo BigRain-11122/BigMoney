@@ -12211,3 +12211,20 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **交付**：`scripts/e477_vintage_retire.py`（run rc0 / check problems=0 / verify 同一建设 problems=0 / selftest 5 类+空总体+篡改台账+篡改 unique 行）；面=`results/state_tilt/VINTAGERETIRE-2026-11-07.json` + `vintageretire_latest.json`（117 KB，571 行 97 家族）。
 
 **适用范围**：字节相等只是下界证据——差一个 `generated` 字段的同一份面会被判 unique（E478 承接：去掉时钟字段再比）；校验树只含 results/ 的 json/jsonl/csv/md，与 docs/ 或非 payload 扩展名的孪生不计，故重复数是下界。
+
+
+## E478 -- 时钟字段之外还剩多少冗余：vintage 与自家 latest 孪生件的语义比对（r1506 bm-b）
+
+**发现**：E477 的字节相等只是下界——差一个 `generated` 字段的同一份面会被判 unique。E478 把 97 个无人读 vintage 族里**有可解析 latest 孪生件的 36 族**（176 个可比文件）拿去做语义比对：去掉冻结的四个顶层时钟名（`generated`/`ts`/`timestamp`/`elapsed_sec`）后，**31 个 vintage 与自家孪生件完全相等（占可比面 17.6%，2,141,178 字节）**，145 个仍有实质差异，16 个非 JSON（csv/md/jsonl，发布为未测量而非负结论），379 个所在族没有孪生件故不可比。递归臂（任意深度去时钟）与顶层臂结果**完全相同**（+0），说明这批面没有藏在嵌套里的行级时间戳。
+
+**稳健性（必读）**：`evidence_cutoff` 是日期字段但不在卡面冻结的四个名字里，145 条差异行**全部**带它；但**只有它是唯一差异字段的行数 = 0**——没有任何 vintage 只靠一个日期字段与孪生件相区别。故"冻结四名"没有掩盖冗余，主判决成立；该块作为边界证据独立发布且由校验腿从行数据重算。
+
+**三律**：
+
+* **「没人读」×「字节唯一」×「语义重复」是三条不同的轴**——退役决策要各自量一次：E472 回答读，E477 回答字节，E478 回答语义；任何一条都不能替代另一条（E477 已把 40 个逐字节拷贝算成可回收，E478 把另外 31 个「只差时钟」的文件算进可回收，两者不重叠）。
+* **未测量必须单列，不能算负结论**——16 个 csv/md/jsonl 成员在结构比对里没有意义，判成「有差异」就是把测量缺席冒充成证据（E444/E462 同族）。面里 `not_a_json_object` 与 `family_has_no_resolvable_twin` 各自独立成类，另有 61 族因无孪生件整体不可比。
+* **冻结集合要写在面上，敏感性只能单独做块**——卡面锁死的四个名字决定判决，任何额外的日期形状（`evidence_cutoff`）只能在独立 `robustness` 块里回答「是否存在只差日期字段的行」，且这块本身也要能从行数据重算。
+
+**工具**：`scripts/e478_vintage_clock_diff.py`（run rc0 / check problems=0 / verify 同步重建 problems=0 / **selftest 30/30**：5 类 + 递归臂 + 字节台账 + 差异键直方图 + 5 个判词分支 + 2 种剥离深度 + 4 份篡改面）；面=`results/state_tilt/VINTAGECLOCK-2026-11-07.json` + `vintageclock_latest.json`（571 行逐文件）；S6 腿 `vintage_clock_diff` rc0 0.05s；smoke 腿 `E478 vintage-vs-twin clock diff re-derives from its rows and its verdict from its counts` 1/1 绿、篡改判词后 1/1 红、面 sha 归位。
+
+**适用范围**：语义冗余数同样是下界——只宽恕四个名字，且列表增删即算差异；孪生件自身是否被读是 E479 的问题，本面**不得**读作删除许可。

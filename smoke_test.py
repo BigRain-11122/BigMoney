@@ -18570,6 +18570,60 @@ except Exception as _e472x:
     _d472 = "leg could not run"
 check(_name472, not _bad472, "; ".join(_bad472)[:240] or _d472)
 
+# E478 (r1506 bm-b): E477's byte-identity floor charges a vintage full price for a changed
+# timestamp. This leg holds that every class tally re-derives from the published rows, that a
+# row classed identical names no differing key and every differing row names one, that the
+# recursive arm never disagrees in the impossible direction (identical at the top level but not
+# recursively), that non-json members are never counted as a negative, that the robustness block
+# re-derives from the same rows, and that the verdict is the one the counts imply -- plus three
+# doctored copies (an invented verdict, an identical row that names a differing key, and a tally
+# that no longer sums to the population).
+_name478 = "E478 vintage-vs-twin clock diff re-derives from its rows and its verdict from its counts (r1506 bm-b)"
+_bad478 = []
+try:
+    _m478 = __import__("importlib").import_module("e478_vintage_clock_diff")
+    _f478 = json.load(open(os.path.join("results", "state_tilt", "vintageclock_latest.json"),
+                           encoding="utf-8"))
+    _s478 = _f478.get("summary") or {}
+    _r478 = _f478.get("rows") or []
+    _bad478.extend(_m478.row_problems(_f478))
+    if _bad478:
+        raise AssertionError("; ".join(_bad478)[:200])
+    if _s478.get("vintage_files_identical_after_clock_strip") != sum(
+            1 for r in _r478 if r.get("class") == _m478.C_IDENTICAL):
+        _bad478.append("the identical tally does not re-derive from the rows")
+    if _s478.get("bytes_collapsible_without_losing_a_measurement") != sum(
+            r.get("bytes") or 0 for r in _r478 if r.get("class") == _m478.C_IDENTICAL):
+        _bad478.append("the collapsible-byte tally does not re-add to the identical rows")
+    if _f478.get("frozen_clock_fields") != list(_m478.CLOCK_FIELDS_TOP):
+        _bad478.append("the face does not publish the frozen clock names it forgave")
+    _w478 = json.loads(json.dumps(_f478))
+    _w478["verdict"] = _m478.V_ALL
+    if not _m478.check(_w478):
+        _bad478.append("an invented verdict survived the guard")
+    _w478b = json.loads(json.dumps(_f478))
+    _ident = next((r for r in _w478b["rows"] if r.get("class") == _m478.C_IDENTICAL), None)
+    if _ident is not None:
+        _ident["differing_keys"] = ["x"]
+        if not _m478.check(_w478b):
+            _bad478.append("an identical row naming a differing key survived the guard")
+    _w478c = json.loads(json.dumps(_f478))
+    _w478c["summary"]["class_counts"][_m478.C_NOT_JSON] = (
+        (_w478c["summary"]["class_counts"].get(_m478.C_NOT_JSON) or 0) + 1)
+    if not _m478.check(_w478c):
+        _bad478.append("a class tally that no longer sums to the population survived the guard")
+    _d478 = ("%d members | %d comparable | %d identical after clock strip (%.1f%% of comparable) "
+             "| %d B collapsible | recursive arm +%d | verdict %s") % (
+        _s478.get("member_files") or 0, _s478.get("comparable_files") or 0,
+        _s478.get("vintage_files_identical_after_clock_strip") or 0,
+        100.0 * (_s478.get("identical_share_of_comparable") or 0),
+        _s478.get("bytes_collapsible_without_losing_a_measurement") or 0,
+        _s478.get("recursive_arm_exceeds_top_level_arm_by") or 0, _f478.get("verdict"))
+except Exception as _e478x:
+    _bad478.append(repr(_e478x)[:160])
+    _d478 = "leg could not run"
+check(_name478, not _bad478, "; ".join(_bad478)[:240] or _d478)
+
 # E473 (r1502 bm-b): the unread vintage output E472 priced is only prunable at source if the writer
 # also publishes faces a study reads. This leg holds that each writer row's class re-derives from the
 # faces that row carries, that every studied face names the study opener, that unread bytes are the

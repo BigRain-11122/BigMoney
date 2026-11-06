@@ -1723,6 +1723,11 @@ LEGS = [
     # name a writer (a script, a card the asset file resolves, or only a clock)?  `check` re-derives
     # every channel tally from the rows and refuses a "nothing" row that parsed no payload at all.
     ("payload_writer", ["python", "scripts/e476_payload_writer.py", "check"]),
+    # E478 refines E477's byte-identity floor: a vintage that equals its own `*_latest` twin once the
+    # frozen top-level clock names are removed occupies bytes but not a measurement.  `check`
+    # rebuilds nothing -- it re-derives every class tally, the robustness block and the verdict from
+    # the published rows.
+    ("vintage_clock_diff", ["python", "scripts/e478_vintage_clock_diff.py", "check"]),
 ]
 
 

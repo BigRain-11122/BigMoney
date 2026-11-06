@@ -28436,11 +28436,13 @@
    "id": "E478-DO-THE-531-UNIQUE-UNREAD-VINTAGES-DIFFER-FROM-THEIR-OWN-LATEST-TWIN-ONLY-IN-A-CLOCK-FIELD",
    "lane": "cpu-only",
    "lane_note": "static: parses the family's own twin and vintages, no network",
-   "result_ref": null,
+   "result_ref": "results/state_tilt/vintageclock_latest.json (31/176 identical after clock strip, 2,141,178 B collapsible; scripts/e478_vintage_clock_diff.py selftest 30/30)",
    "source": "E477 found 531 of 571 unread vintage files have no byte-identical partner; but a revised payload that differs only in 'generated'/'ts' is semantically the same face re-emitted 11 times",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/vintagediff_latest.json",
-   "title": "For every unread vintage family whose twin exists, compare each vintage to the twin after removing clock-shaped top-level fields (generated/ts/timestamp/elapsed_sec) and report how many vintages are semantically identical to the twin. The treatable number is bytes that a retention policy can collapse without losing a measurement, as opposed to E477's byte-identity floor."
+   "title": "For every unread vintage family whose twin exists, compare each vintage to the twin after removing clock-shaped top-level fields (generated/ts/timestamp/elapsed_sec) and report how many vintages are semantically identical to the twin. The treatable number is bytes that a retention policy can collapse without losing a measurement, as opposed to E477's byte-identity floor.",
+   "owner": "bm-b",
+   "done_at": "2026-11-07T04:01:20+08:00"
   },
   {
    "deliverable": "results/state_tilt/TWINREAD-<cutoff>.json",
@@ -28469,6 +28471,17 @@
    "status": "ready",
    "target": "results/state_tilt/vintagedate_latest.json",
    "title": "For the 571 member files of E472's unread vintage families, does the payload's own evidence_cutoff/generated/cutoff field agree with the date in the file name? Publish the three classes (agrees / disagrees by name-vs-payload / no date field at all) per family, so a retention job can decide from the payload rather than from the name."
+  },
+  {
+   "id": "E481-DO-THE-VINTAGES-THAT-DIFFER-FROM-THEIR-TWIN-ALSO-STATE-A-DIFFERENT-ANSWER",
+   "title": "E478 found 145 unread vintages that differ from their own latest twin beyond the frozen clock names. A retention policy that cannot keep both needs to know whether that difference is substantive or merely aggregate: compare each differing vintage with its twin on the fields that carry a conclusion (verdict/answer/decision fields and any top-level scalar the twin states), and publish how many vintages state the same conclusion in different rows, how many state a different conclusion, and how many cannot be compared because the twin carries no conclusion field at all.",
+   "status": "ready",
+   "owner": null,
+   "owner_since": null,
+   "lane": "cpu-only",
+   "kind": null,
+   "seeded_by": "r1505 bm-b",
+   "seeded_at": "2026-11-07T04:01:20+08:00"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28483,6 +28496,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T04:05+08:00",
+ "updated_at": "2026-11-07T04:01:20+08:00",
  "version": 1
 }
