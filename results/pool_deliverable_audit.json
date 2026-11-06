@@ -1,70 +1,49 @@
 {
  "audit": "pool deliverable reconciliation",
- "ts": "2026-11-03T12:14:15+0800",
+ "ts": "2026-11-07T05:22:40+0800",
  "pool": "results/runnable_pool.json",
  "open_cards": 4,
  "counts": {
-  "NO_FACE": 3,
-  "AFTER_ENTRY": 1
+  "NO_FACE": 4
  },
- "stale_evidence": [
-  {
-   "id": "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
-   "status": "ready",
-   "lane_owner": null,
-   "deliverable": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
-   "deliverable_template": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
-   "declared_prose_stripped": false,
-   "entered_at": "2026-11-03T11:56:00+08:00",
-   "faces_found": 1,
-   "face_newest": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
-   "face_newest_bytes": 79870,
-   "face_bytes_zero_any": false,
-   "face_lag_hours": 0.27,
-   "reading": "AFTER_ENTRY",
-   "evidence": "newest face was written 0.27h after the card entered",
-   "runner_reading": "RUNNER_UNDECLARED",
-   "runner": null,
-   "runner_evidence": "the card declares no runner: only a bespoke worker can run it"
-  }
- ],
+ "stale_evidence": [],
  "ambiguous": [],
  "misnamed": [],
  "prose_deliverables": [],
  "runner_absent": [
   {
-   "id": "E384-WHICH-KEYS-COME-FROM-A-SITE-THAT-NEVER-OPENS-FACE",
+   "id": "E481-DO-THE-VINTAGES-THAT-DIFFER-FROM-THEIR-TWIN-ALSO-STATE-A-DIFFERENT-ANSWER",
    "runner": null
   },
   {
-   "id": "E385-DOES-SPLITTING-A-MERGED-KEY-MOVE-ANY-PUBLISHED-COUNT",
+   "id": "E482-WHICH-OF-THE-LATEST-SPELLINGS-OPENED-OUTSIDE-THE-36-TWIN-FAMILIES-RESOLVE-TO-A-FILE-THAT-EXISTS",
    "runner": null
   },
   {
-   "id": "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
+   "id": "E483-DO-THE-SMOKE-LEGS-THAT-READ-A-TWIN-ASSERT-ON-ITS-CONTENT-OR-MERELY-ON-ITS-EXISTENCE",
    "runner": null
   },
   {
-   "id": "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE",
+   "id": "E485-WHY-DO-TWO-VINTAGES-NAMED-FOR-ONE-DAY-STATE-THE-DAY-BEFORE",
    "runner": null
   }
  ],
  "runner_absent_ids": [
-  "E384-WHICH-KEYS-COME-FROM-A-SITE-THAT-NEVER-OPENS-FACE",
-  "E385-DOES-SPLITTING-A-MERGED-KEY-MOVE-ANY-PUBLISHED-COUNT",
-  "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
-  "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE"
+  "E481-DO-THE-VINTAGES-THAT-DIFFER-FROM-THEIR-TWIN-ALSO-STATE-A-DIFFERENT-ANSWER",
+  "E482-WHICH-OF-THE-LATEST-SPELLINGS-OPENED-OUTSIDE-THE-36-TWIN-FAMILIES-RESOLVE-TO-A-FILE-THAT-EXISTS",
+  "E483-DO-THE-SMOKE-LEGS-THAT-READ-A-TWIN-ASSERT-ON-ITS-CONTENT-OR-MERELY-ON-ITS-EXISTENCE",
+  "E485-WHY-DO-TWO-VINTAGES-NAMED-FOR-ONE-DAY-STATE-THE-DAY-BEFORE"
  ],
  "runnable_open_cards": 0,
  "cards": [
   {
-   "id": "E384-WHICH-KEYS-COME-FROM-A-SITE-THAT-NEVER-OPENS-FACE",
+   "id": "E481-DO-THE-VINTAGES-THAT-DIFFER-FROM-THEIR-TWIN-ALSO-STATE-A-DIFFERENT-ANSWER",
    "status": "ready",
    "lane_owner": null,
    "deliverable": null,
    "deliverable_template": null,
    "declared_prose_stripped": false,
-   "entered_at": "2026-11-03T06:47:00+08:00",
+   "entered_at": null,
    "faces_found": 0,
    "face_newest": null,
    "face_newest_bytes": null,
@@ -77,13 +56,13 @@
    "runner_evidence": "the card declares no runner: only a bespoke worker can run it"
   },
   {
-   "id": "E385-DOES-SPLITTING-A-MERGED-KEY-MOVE-ANY-PUBLISHED-COUNT",
+   "id": "E482-WHICH-OF-THE-LATEST-SPELLINGS-OPENED-OUTSIDE-THE-36-TWIN-FAMILIES-RESOLVE-TO-A-FILE-THAT-EXISTS",
    "status": "ready",
    "lane_owner": null,
-   "deliverable": null,
-   "deliverable_template": null,
+   "deliverable": "results/state_tilt/LATESTOUTSIDE-<cutoff>.json",
+   "deliverable_template": "results/state_tilt/LATESTOUTSIDE-<cutoff>.json",
    "declared_prose_stripped": false,
-   "entered_at": "2026-11-03T08:54:50+08:00",
+   "entered_at": "2026-11-07T05:0x+08:00",
    "faces_found": 0,
    "face_newest": null,
    "face_newest_bytes": null,
@@ -96,32 +75,32 @@
    "runner_evidence": "the card declares no runner: only a bespoke worker can run it"
   },
   {
-   "id": "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
+   "id": "E483-DO-THE-SMOKE-LEGS-THAT-READ-A-TWIN-ASSERT-ON-ITS-CONTENT-OR-MERELY-ON-ITS-EXISTENCE",
    "status": "ready",
    "lane_owner": null,
-   "deliverable": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
-   "deliverable_template": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
+   "deliverable": "results/state_tilt/LEGDEBT-<cutoff>.json",
+   "deliverable_template": "results/state_tilt/LEGDEBT-<cutoff>.json",
    "declared_prose_stripped": false,
-   "entered_at": "2026-11-03T11:56:00+08:00",
-   "faces_found": 1,
-   "face_newest": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
-   "face_newest_bytes": 79870,
+   "entered_at": "2026-11-07T05:0x+08:00",
+   "faces_found": 0,
+   "face_newest": null,
+   "face_newest_bytes": null,
    "face_bytes_zero_any": false,
-   "face_lag_hours": 0.27,
-   "reading": "AFTER_ENTRY",
-   "evidence": "newest face was written 0.27h after the card entered",
+   "reading": "NO_FACE",
+   "evidence": "no file matches the declared deliverable template",
+   "near_miss": [],
    "runner_reading": "RUNNER_UNDECLARED",
    "runner": null,
    "runner_evidence": "the card declares no runner: only a bespoke worker can run it"
   },
   {
-   "id": "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE",
+   "id": "E485-WHY-DO-TWO-VINTAGES-NAMED-FOR-ONE-DAY-STATE-THE-DAY-BEFORE",
    "status": "ready",
    "lane_owner": null,
-   "deliverable": "results/state_tilt/FAMILYGLOB-2026-11-03.json",
-   "deliverable_template": "results/state_tilt/FAMILYGLOB-2026-11-03.json",
+   "deliverable": "results/state_tilt/DATELAG-<cutoff>.json",
+   "deliverable_template": "results/state_tilt/DATELAG-<cutoff>.json",
    "declared_prose_stripped": false,
-   "entered_at": "2026-11-03T11:56:00+08:00",
+   "entered_at": "2026-11-07T05:22+08:00",
    "faces_found": 0,
    "face_newest": null,
    "face_newest_bytes": null,
@@ -133,36 +112,5 @@
    "runner": null,
    "runner_evidence": "the card declares no runner: only a bespoke worker can run it"
   }
- ],
- "apply": {
-  "ts": "2026-11-03T12:14:15+0800",
-  "closed": [
-   {
-    "id": "E388-IS-THE-SCHEMA-ACCRETION-OR-A-BREAK",
-    "result_ref": "results/state_tilt/SCHEMAACCRETE-2026-11-03.json",
-    "face_lag_hours": 0.27
-   }
-  ],
-  "skipped": [
-   {
-    "id": "E384-WHICH-KEYS-COME-FROM-A-SITE-THAT-NEVER-OPENS-FACE",
-    "reading": "NO_FACE",
-    "reason": "no file matches the declared deliverable template"
-   },
-   {
-    "id": "E385-DOES-SPLITTING-A-MERGED-KEY-MOVE-ANY-PUBLISHED-COUNT",
-    "reading": "NO_FACE",
-    "reason": "no file matches the declared deliverable template"
-   },
-   {
-    "id": "E389-WHAT-DO-THE-18-FAMILY-GLOB-READERS-ACTUALLY-COMPUTE",
-    "reading": "NO_FACE",
-    "reason": "no file matches the declared deliverable template"
-   }
-  ],
-  "pool": "results/runnable_pool.json"
- },
- "pool_after": {
-  "NO_FACE": 3
- }
+ ]
 }

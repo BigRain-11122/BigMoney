@@ -12268,3 +12268,23 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **工具**：`scripts/e480_vintage_date_agree.py`（run rc0 / check problems=0 / verify 同步重建 problems=0 / **selftest 36/36**：7 类 + 两个日期抽取器 + 字节台账 + 差异对直方图 + 5 个判词分支 + 5 份篡改面）；面=`results/state_tilt/VINTAGEDATE-2026-11-07.json` + `vintagedate_latest.json`（571 行逐文件）；S6 腿 `vintage_date_agree` rc0 0.05s；smoke 腿 `E480 a dated vintage's payload date re-derives from its rows and its verdict from its counts` 1/1 绿、doctored（一致数 +1 / 一致行 payload 日期改掉）1/1 红、面 sha 归位。
 
 **适用范围**：只回答"名字的日期能不能当这个文件的日期用"；不回答该文件该不该留（E477/E479 管那个）。201 个无日期名字是**名字索引够不到的那一段**，已作为 E484 卡入池。
+
+## E484 -- 名字里没日期的 201 个 vintage 成员，payload 自己能不能定日子（r1509 bm-b）
+
+**问题**：E480 量完"名字日期 = payload 日期"（269/269 一致）后把 201 个**名字里没有 ISO 日期**的成员单列成 `no_date_in_name` 就不再往下读——可这 201 个恰好是"按名字建索引"够不到的那一段，一份按名字做保留/退役的规则对它们完全失效。本面拿 E480 的同一批 201 行逐文件重读 payload：冻结七个日期名里有没有日期？没有的话非冻结字段里有没有？再把它放回**这个家族自己名字所声称的区间**（ISO 与紧凑 YYYYMMDD 两种拼写都算），看落在里面还是外面。
+
+**读数（201 个成员 / 35 个家族）**：
+- **201/201 个名字其实带日期**——写的是紧凑 `YYYYMMDD`（`PROFILE-20261028.json`），E480 的正则只认带横线的 ISO，于是整个拼写给判成了"没日期"。**"名字里没日期"是拼写事实，不是信息缺失。**
+- **128 个读得出 JSON 对象**：123 个由冻结字段定日、5 个只有非冻结字段定日、**0 个完全无法定日**；判词 `every_undated_vintage_name_can_be_dated_from_its_payload`。
+- 另 73 个根本不是 JSON（csv/md/jsonl）——**不进判词分母**（`payload_comparable_files`=128，面里逐字点明）。
+- **区间判定 125 在内 / 3 在外**：三个"在外"全部由 `first` 字段见证，值是 `2005-02-23`——那是回测序列的起点，不是文件的写入日。
+- **名字（紧凑拼写）↔ payload 日期对账：123 相等 / 5 不等**。5 个不等里 3 个就是上面那三个数据日期，剩下 2 个是**真正的一天级不合**：`results/_w280bmc_20261021_probe_receipt.json`（名 10-21 / payload 10-20）与 `results/e24_ladder_weighting/WEIGHTING-20261021.json`（同样名 10-21 / payload 10-20）——这正是 E480 因为名字里没有 ISO 而看不到的那一类。
+
+**三律**：
+* **正则只认一种拼写 = 给总体偷偷加了过滤器**。任何"按名字"的索引先量它漏掉的拼写：这里紧凑拼写命中 201/201，漏掉的是整个总体而不是零头。换个功能仍成立——凡是"某字段为空"的结论，先问是不是取值形态被解析器挡在门外。
+* **非冻结字段的日期可能是数据日期，不是文件日期**。`first`=2005-02-23 让 3 个文件"可定日"，但定的是被回测的那段数据。正法=把每个见证字段名逐字发布（`witness_field_counts`），再把 payload 日期与名字日期对账：分歧一出来，data-date 与 write-date 自动分开，不用手工维护"哪些字段名算写入戳"的词表。
+* **判词只在可比较集合上成立，并且分母要在面上点名**。73 个非 JSON 不进分母；否则"全部可定日"会被读成 201 里的 128，而"不可定日=0"读起来像全清。
+
+**工具**：`scripts/e484_undated_vintage.py`（run rc0 / check problems=0 / verify 同树重建 problems=0 / **selftest 41/41**：5 类 + 冻结/非冻结抽取器 + 深度界 + 紧凑名字普查 + 区间算术 + 5+5 判词分支 + 8 份篡改面）→ `results/state_tilt/UNDATEDVINTAGE-2026-11-07.json` + `undatedvintage_latest.json`（201 行逐文件）；S6 腿 `undated_vintage`；smoke 腿 `E484 an undated vintage name's payload date re-derives from the rows and its span from the family table` 1/1 绿、doctored（可定日数 +1）1/1 红、面 sha 归位（e5ff863f292e）。
+
+**适用范围**：只回答"payload 能不能给这些文件定日"，不回答该不该留（E477/E479 管保留）。紧凑拼写只计入名字普查，**不升级成 payload 类**——本面量的是 payload，名字普查单列发布以免把两件事混成一类。区间来自兄弟文件**名字**的日期，不是兄弟 payload；一个家族名字全无日期时记 `no_span`（不可测），不是"在外"。

@@ -1737,6 +1737,11 @@ LEGS = [
     # vintage's file name is the date its payload states.  `check` re-derives every class count,
     # the dated-name tally and the verdict from the published rows.
     ("vintage_date_agree", ["python", "scripts/e480_vintage_date_agree.py", "check"]),
+    # E484 asks the question E480 dropped: 201 of its members carry no ISO date in their
+    # name at all, so nothing could place them in time.  `check` re-derives every payload
+    # class, the span class against the published family table, the compact-name census and
+    # both verdicts.
+    ("undated_vintage", ["python", "scripts/e484_undated_vintage.py", "check"]),
 ]
 
 

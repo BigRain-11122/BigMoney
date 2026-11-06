@@ -18984,5 +18984,69 @@ except Exception as _e480x:
     _d480 = "leg could not run"
 check(_name480, not _bad480, "; ".join(_bad480)[:240] or _d480)
 
+# E484 (r1509 bm-b): E480 published 201 unread vintage members whose name states no ISO date, but
+# it never read their payloads (they were classified and dropped).  This leg holds that every
+# published class re-derives from the rows, that a datable row carries a date and a witness field,
+# that an undatable row carries neither, that the span class matches the span the family table
+# states, that the compact-name census re-derives, and that three doctored copies go red.
+_name484 = ("E484 an undated vintage name's payload date re-derives from the rows and its span from "
+            "the family table (r1509 bm-b)")
+_bad484 = []
+try:
+    _m484 = __import__("importlib").import_module("e484_undated_vintage")
+    _f484 = json.load(open(os.path.join("results", "state_tilt", "undated_latest.json"),
+                           encoding="utf-8"))
+    _s484 = _f484.get("summary") or {}
+    _r484 = _f484.get("rows") or []
+    _bad484.extend(_m484.row_problems(_f484))
+    if not _r484:
+        _bad484.append("the undated vintage population is empty")
+    _c484 = _s484.get("class_counts") or {}
+    if _f484.get("verdict") != _m484._expect_verdict(_c484):
+        _bad484.append("the verdict is not the one the class counts imply")
+    if _s484.get("span_verdict") != _m484._expect_span_verdict(_s484.get("span_class_counts") or {}):
+        _bad484.append("the span verdict is not the one the span counts imply")
+    if not any(r.get("class") in _m484.DATABLE for r in _r484):
+        _bad484.append("no datable row: the leg cannot be shown to measure anything")
+    _w484 = json.loads(json.dumps(_f484))
+    _w484["summary"]["files_datable_from_their_payload"] = (
+        (_w484["summary"].get("files_datable_from_their_payload") or 0) + 1)
+    if not _m484.row_problems(_w484):
+        _bad484.append("a doctored datable tally survived the guard")
+    _w484b = json.loads(json.dumps(_f484))
+    _dat = next((r for r in _w484b["rows"] if r.get("class") in _m484.DATABLE), None)
+    if _dat is None:
+        _bad484.append("no datable row to doctor")
+    else:
+        _dat["span_class"] = _m484.OUT_SPAN if _dat.get("span_class") != _m484.OUT_SPAN else _m484.IN_SPAN
+        if not _m484.row_problems(_w484b):
+            _bad484.append("a datable row whose span class contradicts the family table survived")
+    _w484c = json.loads(json.dumps(_f484))
+    _w484c["summary"]["compact_name_date_agreement"][
+        "payload_date_equals_the_compact_name_date"] = (
+        (_w484c["summary"]["compact_name_date_agreement"]
+         .get("payload_date_equals_the_compact_name_date") or 0) + 1)
+    if not _m484.row_problems(_w484c):
+        _bad484.append("a doctored compact-name agreement census survived the guard")
+    _d484 = ("%d members | %d read as a JSON object | datable %d (frozen %d / non-frozen %d) | "
+             "undatable %d | not json %d | in span %d / outside %d | compact-name dates %d | "
+             "compact-name disagreements %d" % (
+                 _s484.get("member_files") or 0,
+                 _s484.get("payload_comparable_files") or 0,
+                 _s484.get("files_datable_from_their_payload") or 0,
+                 _c484.get(_m484.C_FROZEN) or 0,
+                 _c484.get(_m484.C_NONFROZEN) or 0,
+                 _c484.get(_m484.C_UNDATABLE) or 0,
+                 _c484.get(_m484.C_NOT_JSON) or 0,
+                 (_s484.get("span_class_counts") or {}).get(_m484.IN_SPAN) or 0,
+                 (_s484.get("span_class_counts") or {}).get(_m484.OUT_SPAN) or 0,
+                 _s484.get("names_carrying_a_compact_yyyymmdd_date") or 0,
+                 (_s484.get("compact_name_date_agreement") or {})
+                 .get("payload_date_differs_from_the_compact_name_date") or 0))
+except Exception as _e484x:
+    _bad484.append(repr(_e484x)[:160])
+    _d484 = "leg could not run"
+check(_name484, not _bad484, "; ".join(_bad484)[:240] or _d484)
+
 if __name__ == "__main__":
     sys.exit(main())
