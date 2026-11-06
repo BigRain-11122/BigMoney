@@ -5423,7 +5423,7 @@
   "ts": "2026-11-06T19:32:12+08:00",
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1490 equals local HEAD"
  },
- "delivery_branch": "machine/bm-b-r1495",
+ "delivery_branch": "machine/bm-b-r1498",
  "this_round": "r1498",
  "r1493_delivery": {
   "branch": "machine/bm-b-r1493",
@@ -5523,5 +5523,12 @@
   "s6": "pool_dualrun_reconcile run = DRIFT ($.entries 948 vs 949, observation-phase, streak reset) | attrition_ledger_guard scan = CLEAN (4 ledgers, 3 historical shrinks healed) | py_watermark probe = insufficient_history, pool_ready 3 | the rest of the chain not re-run this window",
   "s7": "orphan probe py_faces=7 orphans=0 residents=0 | loop task pin=2 current=2 no-op | LoopWatchdog re-registered S4U (first fire 00:35) | pre-commit and pre-push byte-identical to Tools/git-hooks",
   "ts": "2026-11-07T00:34:46+08:00"
+ },
+ "r1498_delivery": {
+  "branch": "machine/bm-b-r1498",
+  "sha": "6efbc0ec5",
+  "ts": "2026-11-07T00:36:21+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1498 == local HEAD (true)",
+  "main_push_blocker": "local is 478 ahead / 295 behind origin/main (two blood lines, promisor clone, no unattended rebase per r1243); delivery is judged by origin reachability"
  }
 }
