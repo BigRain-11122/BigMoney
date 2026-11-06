@@ -17990,5 +17990,62 @@ except Exception as _e461x:
     _d461 = "leg could not run"
 check(_name461, not _bad461, "; ".join(_bad461)[:240] or _d461)
 
+# E462 (r1485 bm-b): E461 found 7 of the 15 frozen identity names are read by nobody.  This leg
+# asks the same of faces -- it refuses (a) any tally that does not re-derive from the rows,
+# (b) a verdict outside the frozen vocabulary, (c) a published never-read name that the census
+# shows read sites for, (d) a row whose two voices do not partition the fields it declares, and
+# (e) a doctored copy that turns a read-only face into a silent one.
+_name462 = "e462 is a face's identity written in a dialect anyone reads (r1485 bm-b)"
+_bad462 = []
+try:
+    _m462 = __import__("importlib").import_module("e462_identity_dialect")
+    _f462 = json.load(open(os.path.join("results", "state_tilt", "identitydialect_latest.json"),
+                           encoding="utf-8"))
+    _s462 = _f462.get("summary") or {}
+    _r462 = _f462.get("rows") or []
+    _bad462.extend(_m462.tally_problems(_f462))
+    if _f462.get("verdict") not in _m462.VERDICT_VOCAB:
+        _bad462.append("verdict outside the frozen vocabulary: %r" % _f462.get("verdict"))
+    _cen462 = _f462.get("field_census") or {}
+    for _f in (_s462.get("fields_never_read") or []):
+        if (_cen462.get(_f) or {}).get("read_sites"):
+            _bad462.append("name published as never-read carries read sites: %s" % _f)
+    for _r in _r462:
+        if _r.get("class") not in _m462.DIALECT_CLASSES:
+            _bad462.append("row class outside the vocabulary: %r" % (_r.get("class"),))
+        _parts = set(_r.get("read_names") or []) & set(_r.get("never_read_names") or [])
+        if _parts:
+            _bad462.append("row %s puts %s in both voices" % (_r.get("face"), sorted(_parts)))
+        if set(_r.get("read_names") or []) | set(_r.get("never_read_names") or []) != set(
+                _r.get("declared_fields") or []):
+            _bad462.append("row %s voices do not cover its declarations" % _r.get("face"))
+    _doc462 = json.loads(json.dumps(_f462))
+    _ro462 = next((_r for _r in _doc462.get("rows") or []
+                   if _r.get("class") == _m462.D_READ_ONLY), None)
+    if _ro462 is None:
+        _bad462.append("no read-only row to doctor: the split cannot be shown to go red")
+    else:
+        _ro462["never_read_names"] = ["study_id"]
+        _ro462["declared_fields"] = sorted(set(_ro462.get("declared_fields") or []) | {"study_id"})
+        _ro462["class"] = _m462.D_REDUNDANT
+        if not _m462.tally_problems(_doc462):
+            _bad462.append("a read-only face recast as redundant was accepted")
+    _d462 = ("%d faces graded | read-only %d | redundant %d | silent %d | declared instances %d "
+             "(%d in a never-read name) | names read %d / never read %d | join exposure %d | "
+             "contradictions %d") % (
+        _s462.get("faces_graded") or 0,
+        (_s462.get("dialect_classes") or {}).get(_m462.D_READ_ONLY) or 0,
+        (_s462.get("dialect_classes") or {}).get(_m462.D_REDUNDANT) or 0,
+        (_s462.get("dialect_classes") or {}).get(_m462.D_SILENT) or 0,
+        _s462.get("declared_field_instances") or 0,
+        _s462.get("declared_instances_in_a_never_read_name") or 0,
+        len(_s462.get("fields_read") or []), len(_s462.get("fields_never_read") or []),
+        _s462.get("faces_a_consumer_currently_joins") or 0,
+        _s462.get("faces_with_an_unread_voice_contradicting_a_read_voice") or 0)
+except Exception as _e462x:
+    _bad462.append(repr(_e462x)[:160])
+    _d462 = "leg could not run"
+check(_name462, not _bad462, "; ".join(_bad462)[:240] or _d462)
+
 if __name__ == "__main__":
     sys.exit(main())

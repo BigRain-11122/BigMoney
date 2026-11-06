@@ -11492,3 +11492,54 @@ prereg note publishes a digest of it` with a doctored control that must stay red
   key is invisible; a consumer that compares against a constant imported from elsewhere counts as a
   field join, not a value join; a name composed from parts is not matched (E458's bound, inherited).
   Read-vs-write is decided by AST context, not data flow.
+
+### E462 -- a face's identity is written in a dialect almost nobody speaks, and the two faces that speak it contradict themselves (r1485 bm-b)
+
+E461 closed the vocabulary side of the identity question: 15 frozen identity field names, 7 read by
+no source at all, and the never-read ones are exactly the shape-named ones (`card_id`, `study_id`,
+`prereg_path`, `prereg_note`, `pinned_note`, `source_card`, `source_cards`). The natural next
+sentence -- "so faces must be writing their identities in a dead dialect" -- is a sentence nobody
+had measured. This study asks it of the 526 graded faces E461 used, not of the vocabulary:
+
+* **The dialect is almost unwritten.** 617 declared field instances over 526 faces, **2** of them in
+  a name no source reads. 524 faces speak only names a source reads, **2 are redundant** (a
+  never-read name beside a read one), **0 are silent**. Only three distinct names are ever declared
+  on any face: `card`, `study`, `source_study`. The 15-name vocabulary is much wider than the
+  dialect the corpus actually writes.
+* **Both redundant faces contradict themselves.** `results/state_tilt/SELFRES-2026-10-29.json` and
+  its `selfres_latest.json` twin declare `source_study: "E252"` beside `study: "E253"`. A second
+  voice naming a *different* study is the worst shape of a dead dialect: nothing reads it, so no
+  gate can ever see the disagreement. A redundant declaration is only harmless when it agrees.
+* **A redundant voice is harmless only when it agrees -- and a *read* voice can disagree too.**
+  `NAMERESOLVE-2026-11-04.json` declares `card: "E413"` beside `study: "E421"` (both names
+  read, so a `card` reader joins the face to E413 and a `study` reader to E421, with nothing
+  arbitrating), while `SELFRES-2026-10-29.json` declares `source_study: "E252"` beside
+  `study: "E253"` (one voice dead, so the disagreement was invisible to every gate). 89 of 526
+  faces declare both `card` and `study`; 4 faces (2 file pairs) carry more than one identity
+  value. Measuring agreement is a column of its own, not a by-product of measuring which names
+  are read.
+* **Join exposure is the price of the read names.** 389 faces are joined today by a consumer keying
+  on a read name (carried from E461's rows, 0 absent), so dropping the spoken name would unjoin all
+  389. The silent dialect is not an extra voice; it is the only voice on the faces that have none.
+* **Rule 1: a name outside a frozen vocabulary is not a never-read name until it is measured.** The
+  first build classified `source_study` as never-read by construction (it is simply absent from
+  E458's 15-name list), which would have published "2 faces write in a dead dialect" on the back of
+  a lookup miss. The census was widened to `vocabulary ∪ declared names`; `source_study` was then
+  measured at 0 read sites, so the claim survives -- but now it survives as a measurement. The
+  payload carries `fields_outside_the_frozen_vocabulary` and a per-face count so the distinction can
+  never be silent again (E207/E208 family: a classifier that accepts a name it never looked at).
+* **Rule 2: a scanner must exclude itself and its predecessor.** This family is the only thing in the
+  repo that reads identity field names *as* field names, so every instrument in it would vote for
+  the dialect it studies. E462 excludes `e461_`/`e462_`/`run_e461`/`run_e462` and both faces, and
+  publishes `field_census_per_e461` plus `fields_whose_read_status_disagrees_with_e461` (empty this
+  round) rather than silently re-deriving a peer's counts.
+* **Wiring.** `scripts/e462_identity_dialect.py` (run rc0 / verify problems=[] / check problems=[] /
+  **selftest 22/22**); faces `results/state_tilt/identitydialect_latest.json` +
+  `IDENTITYDIALECT-2026-11-06.json`; S6 leg `identity_dialect`; smoke leg `e462 is a face's identity
+  written in a dialect anyone reads (r1485 bm-b)` + `scripts/run_e462_smoke_leg.py` (red on a copy
+  that recasts a read-only face as redundant); digest
+  `research/digests/DIGEST-20261106-r1485-e462-identity-dialect.md`.
+* **Bound published, not claimed.** Static only: a name reached through a composed key would be
+  counted never-read (inflating the silent count, which is 0 here, so the bound costs nothing);
+  contradiction compares declared values as strings, so a case/spacing difference reads as a
+  contradiction and must be read from the row.

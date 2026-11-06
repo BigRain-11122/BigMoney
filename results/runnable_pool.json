@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1482 bm-b: E458 published (FACEIDENTITY-2026-11-06: 526 of 538 state_tilt faces declare a machine-readable study identity and every declaration resolves; 2 prose-only, 10 none) -- E458 closed, E459's stale ready flipped to done (r1480 published it), E460/E461 seeded, floor 3.",
+ "_stamp_note": "r1485 bm-b: E462 published (IDENTITYDIALECT-2026-11-06: 526 faces graded, 524 speak only read names, 2 redundant, 0 silent; both redundant faces and both two-read-name faces contradict themselves) -- E462 closed, E463 seeded, floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28142,11 +28142,29 @@
    "lane": "cpu-only",
    "lane_note": "static AST over the corpus plus the E458/E461 published faces; nothing executed, nothing written outside results/state_tilt",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "owner": null,
    "source": "E461 (r1483 bm-b): 110 identity-named read sites against 7 never-read field names, all shape-named",
    "entered_at": "2026-11-06T13:07:19+08:00",
-   "entered_by": "bm-b r1483 (supply floor refill after E461)"
+   "entered_by": "bm-b r1483 (supply floor refill after E461)",
+   "result_ref": "results/state_tilt/IDENTITYDIALECT-2026-11-06.json",
+   "closed_by": "Tools/pool_deliverable_audit.py apply",
+   "closed_at": "2026-11-06T14:22:18+0800",
+   "close_note": "deliverable landed on disk 1.20h after entry; closed by the reconciliation audit"
+  },
+  {
+   "id": "E463-WHICH-STUDY-A-FACE-JOINS-WHEN-TWO-READ-NAMES-DISAGREE",
+   "title": "E462 found 4 faces (2 file pairs) that carry more than one identity value, and the shape that can disagree is common: 89 of 526 faces declare both `card` and `study`. NAMERESOLVE-2026-11-04.json declares card=E413 beside study=E421 and BOTH names are read, so a consumer keying on `card` joins the face to E413 while one keying on `study` joins it to E421. Nothing in the payload says which is the study, and no gate can: both readings are 'supported by a declaration'.",
+   "question": "For each face that declares two or more identity values, enumerate the in-repo sites that read each disagreeing name while naming that face, and publish which study each consumer actually ends up bound to. Report how many consumers resolve to the value under one name vs the other, whether any consumer reads both names and must choose, and whether the producers of the two studies (E413, E421) name this face themselves.",
+   "deliverable": "results/state_tilt/IDENTITYSPLIT-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the corpus plus the E458/E461/E462 published faces; nothing executed, nothing written outside results/state_tilt",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E462 (r1485 bm-b): two read names on one face name different studies",
+   "entered_at": "2026-11-06T14:4x+08:00",
+   "entered_by": "bm-b r1485 (supply floor refill after E462)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28161,6 +28179,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T13:07:19+08:00",
+ "updated_at": "2026-11-06T14:4x+0800",
  "version": 1
 }

@@ -1666,6 +1666,9 @@ LEGS = [
     # E461: the link side of the same question -- `check` because a full rebuild parses the whole
     # .py corpus, while the published tallies must still re-derive from the published rows.
     ("identity_consumers", ["python", "scripts/e461_identity_consumers.py", "check"]),
+    # E462: the dialect side of the same question -- `check` for the same reason; the tallies must
+    # re-derive from the published rows without re-walking the corpus.
+    ("identity_dialect", ["python", "scripts/e462_identity_dialect.py", "check"]),
 ]
 
 
