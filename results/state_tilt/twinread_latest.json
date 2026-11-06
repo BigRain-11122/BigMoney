@@ -1,0 +1,2261 @@
+{
+ "card": "E479-ARE-THE-LATEST-TWINS-OF-THE-UNREAD-VINTAGE-FAMILIES-READ-BY-ANY-SITE",
+ "study": "E479_are_the_latest_twins_of_the_unread_vintage_families_read_by_any_site",
+ "title": "are the *_latest twins of the unread vintage families read by any site?",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T04:34:57+0800",
+ "population_source": {
+  "face": "vintageread_latest.json",
+  "face_evidence_cutoff": "2026-11-06",
+  "face_verdict": "no_vintage_family_is_opened_by_a_study_that_does_not_write_it",
+  "families_total_in_the_face": 97,
+  "families_without_a_latest_pointer": 61,
+  "sibling_face": "vintageretire_latest.json",
+  "twin_face": "vintageclock_latest.json",
+  "sources_scanned_with_a_candidate": 436
+ },
+ "evidence_definition": {
+  "the_opener_names_the_twin_path_or_a_tail_of_it": "the opener call carries a literal that is the twin path or ends with the family directory and the basename",
+  "the_opener_names_only_the_basename_which_carries_the_family_name": "the opener call carries only the basename, and that basename contains the family's own name -- the family is attributed, the directory is not proven",
+  "unattributed": "an opener names a spelling that carries no family token; it is listed on the row and never counted (no such row exists in this population: all 36 twins are family-named)"
+ },
+ "class_definition": {
+  "opened_by_a_source_that_writes_neither_this_twin_nor_its_family": "the only sources that open it also write neither the twin nor a family face",
+  "opened_only_by_a_smoke_or_runner_leg": "every non-producer opener is a smoke_test.py / run_e* leg",
+  "opened_only_by_a_one_off_round_script": "every non-producer opener is a one-off round script (leading underscore)",
+  "opened_only_by_the_script_that_writes_it": "every opener is in the set of sources that write a latest.json for this family directory",
+  "reached_only_through_a_glob_and_no_site_opens_it": "no opener names it; a glob with a literal segment reaches it",
+  "never_opened_by_any_site_in_the_corpus": "no opener and no bounded glob reaches it",
+  "the_named_twin_is_not_on_disk": "the pointer names a twin that is not on disk: unmeasured, not a negative"
+ },
+ "summary": {
+  "families_with_a_latest_pointer": 36,
+  "distinct_twin_paths": 36,
+  "distinct_twin_basenames": 36,
+  "twins_present_on_disk": 36,
+  "twins_missing_on_disk": 0,
+  "residue_counts": {
+   "opened_by_a_source_that_writes_neither_this_twin_nor_its_family": 4,
+   "opened_only_by_a_smoke_or_runner_leg": 30,
+   "opened_only_by_a_one_off_round_script": 0,
+   "opened_only_by_the_script_that_writes_it": 1,
+   "reached_only_through_a_glob_and_no_site_opens_it": 0,
+   "never_opened_by_any_site_in_the_corpus": 1,
+   "the_named_twin_is_not_on_disk": 0
+  },
+  "families_that_can_retire_whole": 2,
+  "families_that_need_the_twin_kept_or_a_leg_decision": 34,
+  "members_behind_the_retirable_families": 21,
+  "bytes_behind_the_retirable_families": 125541,
+  "members_behind_the_kept_families": 171,
+  "bytes_behind_the_kept_families": 12709323,
+  "twins_with_an_attributable_opener": 35,
+  "twins_with_a_path_level_opener": 18,
+  "twins_with_a_name_level_opener_only": 17,
+  "sources_naming_a_latest_spelling_outside_this_population": 147,
+  "opener_sites_naming_a_latest_spelling_outside_this_population": 689,
+  "examples_of_latest_spellings_outside_this_population": [
+   "%s_latest.json",
+   "/bandswitch_latest.json",
+   "_latest.json",
+   "_n3r1_probe_latest.json",
+   "_n3r2_probe_latest.json",
+   "a_latest.json",
+   "abandonedguard_latest.json",
+   "abandonedread_latest.json",
+   "abandonedstale_latest.json",
+   "allowance_latest.json"
+  ],
+  "producer_evidence_counts": {
+   "literal_write_site": 18,
+   "module_constant_write": 5,
+   "composed_latest_write": 6,
+   "e464_stem": 7,
+   "no_write_site_found": 0
+  },
+  "twins_with_no_writer_named": 0,
+  "e477_bytes_lost_if_retired": 25362319,
+  "e478_vintages_identical_after_clock_strip": 31,
+  "e478_comparable_files": 176
+ },
+ "verdict": "some_twins_are_opened_by_a_source_that_writes_neither_them_nor_their_family",
+ "verdict_vocab": [
+  "no_unread_vintage_family_carries_a_latest_twin",
+  "some_twins_are_opened_by_a_source_that_writes_neither_them_nor_their_family",
+  "every_twin_that_is_opened_at_all_is_opened_only_by_a_smoke_leg_or_a_round_script",
+  "no_twin_is_opened_by_a_source_that_does_not_write_it"
+ ],
+ "rows": [
+  {
+   "twin": "results/market_clock/CALL_latest.json",
+   "families": [
+    "results/market_clock/CALL"
+   ],
+   "family_dir": "results/market_clock",
+   "members": 16,
+   "bytes": 30743,
+   "first_date": "2026-09-24",
+   "last_date": "2026-10-28",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_the_script_that_writes_it",
+   "opener_sites": 7,
+   "path_level_sites": 6,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "Tools/_r749bmc_pit_append.py",
+    "_e436_card.py",
+    "_r1367bmb_closeout.py",
+    "_r1404bmb_card.py",
+    "_r1440_row.py",
+    "_r1461_report.py",
+    "_r1480_closeout.py",
+    "_r1498_row.py",
+    "_r1504bmb_report.py",
+    "_tmp_e229_card.py",
+    "_tmp_e343_card.py",
+    "_tmp_r1256_card.py",
+    "_tmp_r1281_close.py",
+    "_tmp_r1283_close.py",
+    "_tmp_r1378_report.py",
+    "results/_r1284bmb_closeout_faces.py",
+    "results/_r1292bmb_report_row.py",
+    "results/_r1309bmb_closeout.py",
+    "results/_r1315bmb_closeout.py",
+    "results/_r1456_closeout.py",
+    "results/_r239_wire_prompt.py",
+    "results/_r269bmb_t81_postreview.py",
+    "results/_r392_resolve6.py",
+    "scripts/_closeout_r1438.py",
+    "scripts/_e472_card.py",
+    "scripts/_insert_e401_leg.py",
+    "scripts/_r1369_card.py",
+    "scripts/_r1421bmb_card_seed.py",
+    "scripts/_r1421bmb_closeout.py",
+    "scripts/_r1430_report_row.py",
+    "scripts/_r1436_card.py",
+    "scripts/_r1436_insert_e418_leg.py",
+    "scripts/_r1439_closeout.py",
+    "scripts/_r1495_closeout.py",
+    "scripts/e299_rounded_vs_tolerance_census.py",
+    "scripts/e331_pointer_only_readers.py",
+    "scripts/e371_store_member_cost.py",
+    "scripts/e377_unresolved_destination.py",
+    "scripts/e388_schema_accretion.py",
+    "scripts/e390_wrong_side_reader.py",
+    "scripts/e392_read_resolve.py",
+    "scripts/e395_conditional_write.py",
+    "scripts/e398_latest_family.py",
+    "scripts/e401_local_reader.py",
+    "scripts/e402_fragment_producers.py",
+    "scripts/e404_constant_directory_resolution.py",
+    "scripts/e414_unsupplied_read.py",
+    "scripts/e415_cwd_accident.py",
+    "scripts/e426_dynamic_face_names.py",
+    "scripts/e428_no_caller.py",
+    "scripts/e438_temp_write_base.py",
+    "scripts/e439_file_slot_callers.py",
+    "scripts/e440_shared_wrapper_names.py",
+    "scripts/e442_deadpath.py",
+    "scripts/e443_bare_call_resolve.py",
+    "scripts/e444_attr_method.py",
+    "scripts/e450_caller_class.py",
+    "scripts/e452_abandoned_guard.py",
+    "scripts/e456_import_class.py",
+    "scripts/e459_stdlib_class.py",
+    "scripts/e472_vintage_read.py",
+    "scripts/e473_producer_spill.py",
+    "scripts/market_clock_call.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "results/_r392_resolve6.py",
+     "scripts/market_clock_call.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "Tools/_r749bmc_pit_append.py",
+     "_e436_card.py",
+     "_r1367bmb_closeout.py",
+     "_r1404bmb_card.py",
+     "_r1440_row.py",
+     "_r1461_report.py",
+     "_r1480_closeout.py",
+     "_r1498_row.py",
+     "_r1504bmb_report.py",
+     "_tmp_e229_card.py",
+     "_tmp_e343_card.py",
+     "_tmp_r1256_card.py",
+     "_tmp_r1281_close.py",
+     "_tmp_r1283_close.py",
+     "_tmp_r1378_report.py",
+     "results/_r1284bmb_closeout_faces.py",
+     "results/_r1292bmb_report_row.py",
+     "results/_r1309bmb_closeout.py",
+     "results/_r1315bmb_closeout.py",
+     "results/_r1456_closeout.py",
+     "results/_r239_wire_prompt.py",
+     "results/_r269bmb_t81_postreview.py",
+     "scripts/_closeout_r1438.py",
+     "scripts/_e472_card.py",
+     "scripts/_insert_e401_leg.py",
+     "scripts/_r1369_card.py",
+     "scripts/_r1421bmb_card_seed.py",
+     "scripts/_r1421bmb_closeout.py",
+     "scripts/_r1430_report_row.py",
+     "scripts/_r1436_card.py",
+     "scripts/_r1436_insert_e418_leg.py",
+     "scripts/_r1439_closeout.py",
+     "scripts/_r1495_closeout.py",
+     "scripts/e299_rounded_vs_tolerance_census.py",
+     "scripts/e331_pointer_only_readers.py",
+     "scripts/e371_store_member_cost.py",
+     "scripts/e377_unresolved_destination.py",
+     "scripts/e388_schema_accretion.py",
+     "scripts/e390_wrong_side_reader.py",
+     "scripts/e392_read_resolve.py",
+     "scripts/e395_conditional_write.py",
+     "scripts/e398_latest_family.py",
+     "scripts/e401_local_reader.py",
+     "scripts/e402_fragment_producers.py",
+     "scripts/e404_constant_directory_resolution.py",
+     "scripts/e414_unsupplied_read.py",
+     "scripts/e415_cwd_accident.py",
+     "scripts/e426_dynamic_face_names.py",
+     "scripts/e428_no_caller.py",
+     "scripts/e438_temp_write_base.py",
+     "scripts/e439_file_slot_callers.py",
+     "scripts/e440_shared_wrapper_names.py",
+     "scripts/e442_deadpath.py",
+     "scripts/e443_bare_call_resolve.py",
+     "scripts/e444_attr_method.py",
+     "scripts/e450_caller_class.py",
+     "scripts/e452_abandoned_guard.py",
+     "scripts/e456_import_class.py",
+     "scripts/e459_stdlib_class.py",
+     "scripts/e472_vintage_read.py",
+     "scripts/e473_producer_spill.py"
+    ],
+    "e464_stem": [
+     "scripts/market_clock_call.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 64,
+     "literal": "results/market_clock/call_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 87,
+     "literal": "results/market_clock/call_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 96,
+     "literal": "results/market_clock/call_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 117,
+     "literal": "results/market_clock/call_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 142,
+     "literal": "results/market_clock/call_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 153,
+     "literal": "results/market_clock/call_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    },
+    {
+     "source": "scripts/market_clock_call.py",
+     "line": 406,
+     "literal": "call_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/ADDOS_latest.json",
+   "families": [
+    "results/state_tilt/ADDOS"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 348559,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 2,
+   "path_level_sites": 1,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "scripts/e244_pair_heterogeneity.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e244_pair_heterogeneity.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": []
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e244_pair_heterogeneity.py",
+     "line": 62,
+     "literal": "addos_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3502,
+     "literal": "results/state_tilt/addos_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/BANDPATH_latest.json",
+   "families": [
+    "results/state_tilt/BANDPATH"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 4238518,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 1,
+   "path_level_sites": 1,
+   "name_level_sites": 0,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "composed_latest_write",
+   "producers": [
+    "_tmp_r1257_close.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "_tmp_r1257_close.py"
+    ],
+    "e464_stem": []
+   },
+   "counting_openers": [
+    {
+     "source": "smoke_test.py",
+     "line": 2725,
+     "literal": "results/state_tilt/bandpath_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/BASENAMECENSUS_latest.json",
+   "families": [
+    "results/state_tilt/BASENAMECENSUS"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "bytes": 286347,
+   "first_date": "2026-11-03",
+   "last_date": "2026-11-04",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 2,
+   "path_level_sites": 0,
+   "name_level_sites": 2,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "_r1440_row.py",
+    "scripts/e422_basename_census_audit.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e422_basename_census_audit.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "_r1440_row.py"
+    ],
+    "e464_stem": [
+     "scripts/e422_basename_census_audit.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e422_basename_census_audit.py",
+     "line": 540,
+     "literal": "basenamecensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 16050,
+     "literal": "basenamecensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/BASISRECOVERY_latest.json",
+   "families": [
+    "results/state_tilt/BASISRECOVERY"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 5,
+   "bytes": 94798,
+   "first_date": "2026-10-30",
+   "last_date": "2026-11-05",
+   "twin_on_disk": true,
+   "residue": "never_opened_by_any_site_in_the_corpus",
+   "opener_sites": 0,
+   "path_level_sites": 0,
+   "name_level_sites": 0,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "composed_latest_write",
+   "producers": [
+    "scripts/e303_recover_unmeasurable_basis.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "scripts/e303_recover_unmeasurable_basis.py"
+    ],
+    "e464_stem": []
+   },
+   "counting_openers": [],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/BOOKECHO_latest.json",
+   "families": [
+    "results/state_tilt/BOOKECHO"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "bytes": 219951,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-05",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 3,
+   "path_level_sites": 1,
+   "name_level_sites": 2,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "composed_latest_write",
+   "producers": [
+    "scripts/e250_book_turnover_echo.py",
+    "scripts/e407_leg_input_stability.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "scripts/e407_leg_input_stability.py"
+    ],
+    "e464_stem": [
+     "scripts/e250_book_turnover_echo.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "_tmp_r1277_view.py",
+     "line": 5,
+     "literal": "results/state_tilt/bookecho_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3900,
+     "literal": "bookecho_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 4013,
+     "literal": "bookecho_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/BREAKEVEN_latest.json",
+   "families": [
+    "results/state_tilt/BREAKEVEN"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 8,
+   "bytes": 354588,
+   "first_date": "2026-10-28",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 2,
+   "path_level_sites": 1,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "_tmp_r1254_card.py",
+    "scripts/e226_tilt_breakeven.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e226_tilt_breakeven.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "_tmp_r1254_card.py"
+    ],
+    "e464_stem": [
+     "scripts/e226_tilt_breakeven.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e226_tilt_breakeven.py",
+     "line": 387,
+     "literal": "breakeven_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 2420,
+     "literal": "results/state_tilt/breakeven_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/COSTCURVE_latest.json",
+   "families": [
+    "results/state_tilt/COSTCURVE"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 570452,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 2,
+   "path_level_sites": 1,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "scripts/e232_cost_curvature.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e232_cost_curvature.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e232_cost_curvature.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e232_cost_curvature.py",
+     "line": 366,
+     "literal": "costcurve_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 2830,
+     "literal": "results/state_tilt/costcurve_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/DIRFIELD_latest.json",
+   "families": [
+    "results/state_tilt/DIRFIELD"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "bytes": 82724,
+   "first_date": "2026-11-03",
+   "last_date": "2026-11-04",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 4,
+   "path_level_sites": 0,
+   "name_level_sites": 4,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "_r1498_row.py",
+    "scripts/e423_dirfield_join.py",
+    "scripts/e433_republication_chain.py",
+    "scripts/run_e423_smoke_leg.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e423_dirfield_join.py",
+     "scripts/e433_republication_chain.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "_r1498_row.py"
+    ],
+    "e464_stem": [
+     "scripts/e423_dirfield_join.py",
+     "scripts/run_e423_smoke_leg.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 55,
+     "literal": "dirfield_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 74,
+     "literal": "dirfield_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 75,
+     "literal": "dirfield_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 16825,
+     "literal": "dirfield_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/DIRISFACE_latest.json",
+   "families": [
+    "results/state_tilt/DIRISFACE"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "bytes": 359657,
+   "first_date": "2026-11-05",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 6,
+   "path_level_sites": 0,
+   "name_level_sites": 6,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "_r1498_row.py",
+    "scripts/e435_dir_is_a_face.py",
+    "scripts/e441_facehome_family.py",
+    "scripts/run_e435_smoke_leg.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e435_dir_is_a_face.py",
+     "scripts/e441_facehome_family.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "_r1498_row.py"
+    ],
+    "e464_stem": [
+     "scripts/e435_dir_is_a_face.py",
+     "scripts/run_e435_smoke_leg.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e435_dir_is_a_face.py",
+     "line": 226,
+     "literal": "dirisface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/e441_facehome_family.py",
+     "line": 63,
+     "literal": "dirisface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "line": 61,
+     "literal": "dirisface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "line": 67,
+     "literal": "dirisface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "line": 75,
+     "literal": "dirisface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 17457,
+     "literal": "dirisface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/FAMILYARG_latest.json",
+   "families": [
+    "results/state_tilt/FAMILYARG"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 119400,
+   "first_date": "20261103",
+   "last_date": "20261105",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 2,
+   "path_level_sites": 0,
+   "name_level_sites": 2,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "e464_stem",
+   "producers": [
+    "scripts/e403_family_arg.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e403_family_arg.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e403_family_arg.py",
+     "line": 854,
+     "literal": "familyarg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 15638,
+     "literal": "familyarg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/FRESHAIM_latest.json",
+   "families": [
+    "results/state_tilt/FRESHAIM"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 125823,
+   "first_date": "2026-11-04",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 2,
+   "path_level_sites": 0,
+   "name_level_sites": 2,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "module_constant_write",
+   "producers": [
+    "results/_r1435bmb_round_row.py",
+    "scripts/e416_fresh_aim.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [
+     "scripts/e416_fresh_aim.py"
+    ],
+    "composed_latest_write": [
+     "results/_r1435bmb_round_row.py"
+    ],
+    "e464_stem": []
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e416_fresh_aim.py",
+     "line": 402,
+     "literal": "freshaim_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 15809,
+     "literal": "freshaim_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/GRANULARITY_latest.json",
+   "families": [
+    "results/state_tilt/GRANULARITY"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 287855,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_by_a_source_that_writes_neither_this_twin_nor_its_family",
+   "opener_sites": 3,
+   "path_level_sites": 1,
+   "name_level_sites": 2,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "scripts/e235_charge_granularity.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e235_charge_granularity.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e235_charge_granularity.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e235_charge_granularity.py",
+     "line": 654,
+     "literal": "granularity_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/e236_share_difference.py",
+     "line": 636,
+     "literal": "granularity_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3006,
+     "literal": "results/state_tilt/granularity_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/HYSTERESIS_latest.json",
+   "families": [
+    "results/state_tilt/HYSTERESIS"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 560341,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 3,
+   "path_level_sites": 2,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "_tmp_e229_card.py",
+    "_tmp_r1255_close.py",
+    "_tmp_r1255_handover.py",
+    "_tmp_r1256_card.py",
+    "_tmp_r1257_close.py",
+    "scripts/_r1383_report.py",
+    "scripts/e230_hysteresis_toll.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e230_hysteresis_toll.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "_tmp_e229_card.py",
+     "_tmp_r1255_close.py",
+     "_tmp_r1255_handover.py",
+     "_tmp_r1256_card.py",
+     "_tmp_r1257_close.py",
+     "scripts/_r1383_report.py"
+    ],
+    "e464_stem": [
+     "scripts/e230_hysteresis_toll.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e230_hysteresis_toll.py",
+     "line": 504,
+     "literal": "hysteresis_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 2639,
+     "literal": "results/state_tilt/hysteresis_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 2786,
+     "literal": "results/state_tilt/hysteresis_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/INFOSTRUCT_latest.json",
+   "families": [
+    "results/state_tilt/INFOSTRUCT"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 224528,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 1,
+   "path_level_sites": 1,
+   "name_level_sites": 0,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "e464_stem",
+   "producers": [
+    "scripts/e237_information_structure.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e237_information_structure.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "smoke_test.py",
+     "line": 3117,
+     "literal": "results/state_tilt/infostruct_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/LEADCOUNTER_latest.json",
+   "families": [
+    "results/state_tilt/LEADCOUNTER"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "bytes": 257509,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-05",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 2,
+   "path_level_sites": 0,
+   "name_level_sites": 2,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "e464_stem",
+   "producers": [
+    "scripts/e249_lead_counterfactual.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e249_lead_counterfactual.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "_tmp_r1275_smoke_leg.py",
+     "line": 7,
+     "literal": "leadcounter_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3802,
+     "literal": "leadcounter_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/LOOBOOK_latest.json",
+   "families": [
+    "results/state_tilt/LOOBOOK"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 178958,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_by_a_source_that_writes_neither_this_twin_nor_its_family",
+   "opener_sites": 3,
+   "path_level_sites": 1,
+   "name_level_sites": 2,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "scripts/e238_leave_one_out_book.py",
+    "scripts/e241_pair_reproduction.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e241_pair_reproduction.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e238_leave_one_out_book.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e239_own_vs_cross.py",
+     "line": 262,
+     "literal": "loobook_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/e240_aggregate_attenuation.py",
+     "line": 657,
+     "literal": "loobook_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3173,
+     "literal": "results/state_tilt/loobook_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/MATCHED_latest.json",
+   "families": [
+    "results/state_tilt/MATCHED"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 8,
+   "bytes": 253161,
+   "first_date": "2026-10-28",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 2,
+   "path_level_sites": 1,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "_r1075bmb_report.py",
+    "_tmp_e229_card.py",
+    "_tmp_r1254_card.py",
+    "_tmp_r1255_handover.py",
+    "_tmp_r1378_report.py",
+    "scripts/_r1372_closeout.py",
+    "scripts/_r1430_report_row.py",
+    "scripts/e228_matched_exposure.py",
+    "scripts/e392_read_resolve.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e228_matched_exposure.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "_r1075bmb_report.py",
+     "_tmp_e229_card.py",
+     "_tmp_r1254_card.py",
+     "_tmp_r1255_handover.py",
+     "_tmp_r1378_report.py",
+     "scripts/_r1372_closeout.py",
+     "scripts/_r1430_report_row.py",
+     "scripts/e392_read_resolve.py"
+    ],
+    "e464_stem": [
+     "scripts/e228_matched_exposure.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e228_matched_exposure.py",
+     "line": 445,
+     "literal": "matched_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 2491,
+     "literal": "results/state_tilt/matched_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/OMISSION_latest.json",
+   "families": [
+    "results/state_tilt/OMISSION"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 101049,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-03",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 1,
+   "path_level_sites": 1,
+   "name_level_sites": 0,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "composed_latest_write",
+   "producers": [
+    "scripts/_r1372_closeout.py",
+    "scripts/e242_omission_inflation_sweep.py",
+    "scripts/e405_dead_read_failure_mode.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "scripts/_r1372_closeout.py",
+     "scripts/e405_dead_read_failure_mode.py"
+    ],
+    "e464_stem": [
+     "scripts/e242_omission_inflation_sweep.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "smoke_test.py",
+     "line": 3435,
+     "literal": "results/state_tilt/omission_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/OWNCROSS_latest.json",
+   "families": [
+    "results/state_tilt/OWNCROSS"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 161607,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_by_a_source_that_writes_neither_this_twin_nor_its_family",
+   "opener_sites": 2,
+   "path_level_sites": 1,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "e464_stem",
+   "producers": [
+    "scripts/e239_own_vs_cross.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e239_own_vs_cross.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e240_aggregate_attenuation.py",
+     "line": 657,
+     "literal": "owncross_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3230,
+     "literal": "results/state_tilt/owncross_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/PAIRHET_latest.json",
+   "families": [
+    "results/state_tilt/PAIRHET"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 81201,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 2,
+   "path_level_sites": 1,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "scripts/e244_pair_heterogeneity.py",
+    "scripts/e245_pair_slope_matrix.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e245_pair_slope_matrix.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e244_pair_heterogeneity.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e245_pair_slope_matrix.py",
+     "line": 261,
+     "literal": "pairhet_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3549,
+     "literal": "results/state_tilt/pairhet_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/PRECISIONCENSUS_latest.json",
+   "families": [
+    "results/state_tilt/PRECISIONCENSUS"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "bytes": 240985,
+   "first_date": "2026-10-29",
+   "last_date": "2026-10-30",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 1,
+   "path_level_sites": 0,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "module_constant_write",
+   "producers": [
+    "scripts/e299_rounded_vs_tolerance_census.py",
+    "scripts/e305_face_level_row_pricing.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [
+     "scripts/e299_rounded_vs_tolerance_census.py",
+     "scripts/e305_face_level_row_pricing.py"
+    ],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e299_rounded_vs_tolerance_census.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "smoke_test.py",
+     "line": 8357,
+     "literal": "precisioncensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/PRECISIONGAP_latest.json",
+   "families": [
+    "results/state_tilt/PRECISIONGAP"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 123540,
+   "first_date": "2026-10-31",
+   "last_date": "2026-11-02",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 1,
+   "path_level_sites": 0,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "module_constant_write",
+   "producers": [
+    "_r1498_row.py",
+    "scripts/e305_face_level_row_pricing.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [
+     "scripts/e305_face_level_row_pricing.py"
+    ],
+    "composed_latest_write": [
+     "_r1498_row.py"
+    ],
+    "e464_stem": [
+     "scripts/e305_face_level_row_pricing.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "smoke_test.py",
+     "line": 8433,
+     "literal": "precisiongap_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/READERTIERS_latest.json",
+   "families": [
+    "results/state_tilt/READERTIERS"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 1346018,
+   "first_date": "2026-11-04",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 4,
+   "path_level_sites": 0,
+   "name_level_sites": 4,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "_r1498_row.py",
+    "scripts/e411_reader_tiers.py",
+    "scripts/e416_fresh_aim.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e411_reader_tiers.py"
+    ],
+    "module_constant_write": [
+     "scripts/e416_fresh_aim.py"
+    ],
+    "composed_latest_write": [
+     "_r1498_row.py"
+    ],
+    "e464_stem": [
+     "scripts/e411_reader_tiers.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e411_reader_tiers.py",
+     "line": 98,
+     "literal": "readertiers_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/e411_reader_tiers.py",
+     "line": 433,
+     "literal": "readertiers_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/e411_reader_tiers.py",
+     "line": 446,
+     "literal": "readertiers_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 15574,
+     "literal": "readertiers_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/REFRESHSIGNAL_latest.json",
+   "families": [
+    "results/state_tilt/REFRESHSIGNAL"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 116749,
+   "first_date": "2026-11-04",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 3,
+   "path_level_sites": 0,
+   "name_level_sites": 3,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "module_constant_write",
+   "producers": [
+    "scripts/e408_writer_refresh_signal.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [
+     "scripts/e408_writer_refresh_signal.py"
+    ],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e408_writer_refresh_signal.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e408_writer_refresh_signal.py",
+     "line": 722,
+     "literal": "refreshsignal_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/run_e408_smoke_leg.py",
+     "line": 25,
+     "literal": "refreshsignal_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 15381,
+     "literal": "refreshsignal_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/REPLAYCENSUS_latest.json",
+   "families": [
+    "results/state_tilt/REPLAYCENSUS"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 81029,
+   "first_date": "2026-10-30",
+   "last_date": "2026-11-01",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 7,
+   "path_level_sites": 0,
+   "name_level_sites": 7,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "scripts/e298_replay_control_census.py",
+    "scripts/e414_unsupplied_read.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e414_unsupplied_read.py"
+    ],
+    "module_constant_write": [
+     "scripts/e298_replay_control_census.py"
+    ],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e298_replay_control_census.py",
+     "scripts/e414_unsupplied_read.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 210,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 215,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 471,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 537,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 674,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 1857,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 7988,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/REPRO_latest.json",
+   "families": [
+    "results/state_tilt/REPRO"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 36117,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-03",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 1,
+   "path_level_sites": 1,
+   "name_level_sites": 0,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "composed_latest_write",
+   "producers": [
+    "Tools/_r1353bmb_closeout.py",
+    "Tools/_r1390_closeout.py",
+    "_r1362_smokeleg.py",
+    "_r1392_state.py",
+    "_tmp_e273_smoke.py",
+    "_tmp_r1256_card.py",
+    "_tmp_r1257_close.py",
+    "_tmp_r1297_close.py",
+    "logs/_r1391_closeout.py",
+    "results/_r1284bmb_closeout_faces.py",
+    "scripts/_r1369_card.py",
+    "scripts/_r1383_report.py",
+    "scripts/_r1430_report_row.py",
+    "scripts/e241_pair_reproduction.py",
+    "scripts/e294_live_universe_drift.py",
+    "scripts/e325_orphan_gate_faces.py",
+    "scripts/e335_sibling_entry_point.py",
+    "scripts/e363_corpus_vintage.py",
+    "scripts/e368_seam_replay.py",
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e372_store_the_absent_members.py",
+    "scripts/e373_two_pins_one_replay.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "Tools/_r1353bmb_closeout.py",
+     "Tools/_r1390_closeout.py",
+     "_r1362_smokeleg.py",
+     "_r1392_state.py",
+     "_tmp_e273_smoke.py",
+     "_tmp_r1256_card.py",
+     "_tmp_r1257_close.py",
+     "_tmp_r1297_close.py",
+     "logs/_r1391_closeout.py",
+     "results/_r1284bmb_closeout_faces.py",
+     "scripts/_r1369_card.py",
+     "scripts/_r1383_report.py",
+     "scripts/_r1430_report_row.py",
+     "scripts/e294_live_universe_drift.py",
+     "scripts/e325_orphan_gate_faces.py",
+     "scripts/e335_sibling_entry_point.py",
+     "scripts/e363_corpus_vintage.py",
+     "scripts/e368_seam_replay.py",
+     "scripts/e369_pin_at_publishing_commit.py",
+     "scripts/e372_store_the_absent_members.py",
+     "scripts/e373_two_pins_one_replay.py"
+    ],
+    "e464_stem": [
+     "scripts/e241_pair_reproduction.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "smoke_test.py",
+     "line": 3363,
+     "literal": "results/state_tilt/repro_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/REPUBLISHCHAIN_latest.json",
+   "families": [
+    "results/state_tilt/REPUBLISHCHAIN"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "bytes": 40438,
+   "first_date": "2026-11-03",
+   "last_date": "2026-11-04",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 4,
+   "path_level_sites": 0,
+   "name_level_sites": 4,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "scripts/e433_republication_chain.py",
+    "scripts/run_e433_smoke_leg.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e433_republication_chain.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e433_republication_chain.py",
+     "scripts/run_e433_smoke_leg.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "line": 60,
+     "literal": "republishchain_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "line": 67,
+     "literal": "republishchain_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "line": 75,
+     "literal": "republishchain_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 16287,
+     "literal": "republishchain_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/SHADOWFACE_latest.json",
+   "families": [
+    "results/state_tilt/SHADOWFACE"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 473672,
+   "first_date": "2026-11-04",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 6,
+   "path_level_sites": 0,
+   "name_level_sites": 6,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "module_constant_write",
+   "producers": [
+    "scripts/e417_shadow_face.py",
+    "scripts/run_e417_smoke_leg.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [
+     "scripts/e417_shadow_face.py"
+    ],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e417_shadow_face.py",
+     "scripts/run_e417_smoke_leg.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e417_shadow_face.py",
+     "line": 232,
+     "literal": "shadowface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/e417_shadow_face.py",
+     "line": 426,
+     "literal": "shadowface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "line": 61,
+     "literal": "shadowface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "line": 66,
+     "literal": "shadowface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "line": 74,
+     "literal": "shadowface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 16141,
+     "literal": "shadowface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/SHAREDIFF_latest.json",
+   "families": [
+    "results/state_tilt/SHAREDIFF"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 225240,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 1,
+   "path_level_sites": 1,
+   "name_level_sites": 0,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "e464_stem",
+   "producers": [
+    "scripts/e236_share_difference.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e236_share_difference.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "smoke_test.py",
+     "line": 3068,
+     "literal": "results/state_tilt/sharediff_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/SLOPEMATRIX_latest.json",
+   "families": [
+    "results/state_tilt/SLOPEMATRIX"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 423061,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 1,
+   "path_level_sites": 0,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "composed_latest_write",
+   "producers": [
+    "scripts/_r1439_closeout.py",
+    "scripts/e245_pair_slope_matrix.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "scripts/_r1439_closeout.py"
+    ],
+    "e464_stem": [
+     "scripts/e245_pair_slope_matrix.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "smoke_test.py",
+     "line": 3593,
+     "literal": "slopematrix_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/STARDIR_latest.json",
+   "families": [
+    "results/state_tilt/STARDIR"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "bytes": 198566,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-05",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 1,
+   "path_level_sites": 0,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "e464_stem",
+   "producers": [
+    "scripts/e246_star_direction.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e246_star_direction.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "smoke_test.py",
+     "line": 3646,
+     "literal": "stardir_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/STARLAGBAND_latest.json",
+   "families": [
+    "results/state_tilt/STARLAGBAND"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "bytes": 200862,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-05",
+   "twin_on_disk": true,
+   "residue": "opened_by_a_source_that_writes_neither_this_twin_nor_its_family",
+   "opener_sites": 2,
+   "path_level_sites": 0,
+   "name_level_sites": 2,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "e464_stem",
+   "producers": [
+    "scripts/e248_star_lag_band.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [],
+    "module_constant_write": [],
+    "composed_latest_write": [],
+    "e464_stem": [
+     "scripts/e248_star_lag_band.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e249_lead_counterfactual.py",
+     "line": 379,
+     "literal": "starlagband_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3734,
+     "literal": "starlagband_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/STAROWN_latest.json",
+   "families": [
+    "results/state_tilt/STAROWN"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "bytes": 177181,
+   "first_date": "2026-10-29",
+   "last_date": "2026-11-05",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 6,
+   "path_level_sites": 2,
+   "name_level_sites": 4,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "scripts/e251_star_own_component.py",
+    "scripts/e252_star_prices_itself.py",
+    "scripts/e258_band_multiplier_per_window.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e252_star_prices_itself.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "scripts/e258_band_multiplier_per_window.py"
+    ],
+    "e464_stem": [
+     "scripts/e251_star_own_component.py",
+     "scripts/e252_star_prices_itself.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "_tmp_r1277_nums.py",
+     "line": 4,
+     "literal": "results/state_tilt/starown_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    },
+    {
+     "source": "_tmp_r1277_view.py",
+     "line": 4,
+     "literal": "results/state_tilt/starown_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    },
+    {
+     "source": "scripts/e252_star_prices_itself.py",
+     "line": 731,
+     "literal": "starown_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/e252_star_prices_itself.py",
+     "line": 795,
+     "literal": "starown_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3966,
+     "literal": "starown_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 4113,
+     "literal": "starown_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/TIMINGSEL_latest.json",
+   "families": [
+    "results/state_tilt/TIMINGSEL"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 8,
+   "bytes": 191167,
+   "first_date": "2026-10-28",
+   "last_date": "2026-11-06",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 2,
+   "path_level_sites": 1,
+   "name_level_sites": 1,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "_tmp_e229_card.py",
+    "_tmp_r1255_close.py",
+    "_tmp_r1255_handover.py",
+    "scripts/e229_timing_selection.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e229_timing_selection.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "_tmp_e229_card.py",
+     "_tmp_r1255_close.py",
+     "_tmp_r1255_handover.py"
+    ],
+    "e464_stem": [
+     "scripts/e229_timing_selection.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e229_timing_selection.py",
+     "line": 431,
+     "literal": "timingsel_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 2562,
+     "literal": "results/state_tilt/timingsel_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "evidence": "the_opener_names_the_twin_path_or_a_tail_of_it"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  },
+  {
+   "twin": "results/state_tilt/UNFLOORED_latest.json",
+   "families": [
+    "results/state_tilt/UNFLOORED"
+   ],
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 22470,
+   "first_date": "2026-11-03",
+   "last_date": "2026-11-05",
+   "twin_on_disk": true,
+   "residue": "opened_only_by_a_smoke_or_runner_leg",
+   "opener_sites": 3,
+   "path_level_sites": 0,
+   "name_level_sites": 3,
+   "unattributed_spelling_sites": 0,
+   "glob_sites": 0,
+   "producer_evidence": "literal_write_site",
+   "producers": [
+    "_r1498_row.py",
+    "scripts/e409_unfloored_faces.py"
+   ],
+   "producer_hits": {
+    "literal_write_site": [
+     "scripts/e409_unfloored_faces.py"
+    ],
+    "module_constant_write": [],
+    "composed_latest_write": [
+     "_r1498_row.py"
+    ],
+    "e464_stem": [
+     "scripts/e409_unfloored_faces.py"
+    ]
+   },
+   "counting_openers": [
+    {
+     "source": "scripts/e409_unfloored_faces.py",
+     "line": 479,
+     "literal": "unfloored_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "scripts/e409_unfloored_faces.py",
+     "line": 492,
+     "literal": "unfloored_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 15440,
+     "literal": "unfloored_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "evidence": "the_opener_names_only_the_basename_which_carries_the_family_name"
+    }
+   ],
+   "sites_naming_an_unattributable_spelling": []
+  }
+ ],
+ "method_limits": [
+  "all 36 twins are family-named (36 distinct basenames, no plain latest.json), so a basename-level read is attributable to a family but never proves the directory; sites that name a spelling with no family token are published and never counted",
+  "writers are resolved through three channels and every row publishes which one named it; a row with no_write_site_found is one whose writer this corpus cannot see, and any cross-reader of such a twin is only as trustworthy as that gap is small",
+  "opener evidence is one AST hop from the call plus the name-resolution e470 applies (4 rounds); a path composed through an argument or an environment variable is not seen, so 'never opened' means 'no opener in this corpus spells it'",
+  "the scan reads files that mention latest.json only, so a reader that builds the path from the family directory alone (never the word latest) is invisible",
+  "a glob counts only when it carries at least one literal segment (E273's bare '*')",
+  "the population is E472's published rows; a family that appeared since is not scanned",
+  "reading a twin is not the same as needing its DATED members -- this face prices the twin only, and E478/E481 own the difference between a twin and its vintages"
+ ]
+}

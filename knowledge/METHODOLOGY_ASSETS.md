@@ -12228,3 +12228,28 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **工具**：`scripts/e478_vintage_clock_diff.py`（run rc0 / check problems=0 / verify 同步重建 problems=0 / **selftest 30/30**：5 类 + 递归臂 + 字节台账 + 差异键直方图 + 5 个判词分支 + 2 种剥离深度 + 4 份篡改面）；面=`results/state_tilt/VINTAGECLOCK-2026-11-07.json` + `vintageclock_latest.json`（571 行逐文件）；S6 腿 `vintage_clock_diff` rc0 0.05s；smoke 腿 `E478 vintage-vs-twin clock diff re-derives from its rows and its verdict from its counts` 1/1 绿、篡改判词后 1/1 红、面 sha 归位。
 
 **适用范围**：语义冗余数同样是下界——只宽恕四个名字，且列表增删即算差异；孪生件自身是否被读是 E479 的问题，本面**不得**读作删除许可。
+
+
+## E479 -- 退休留下的那枚 latest 双胞胎，到底谁在读（r1507 bm-b）
+
+**问题**：E477 给出的保留策略是「留 `*_latest` 双胞胎、删日期件」，但那 36 个家族本来就属于"无研究消费"的 vintage 家族——双胞胎凭什么例外？E479 对每个 twin 做 opener 级扫描（不是"名字被提到"，是"真的被 open"，E207/E466 同族），并按证据分三档：路径级（字面量含家族目录）/ 名字级（只给 basename，但 basename 里带家族名）/ 无归属（拼写里没有家族 token，只登记不计票）。
+
+**读数（36 个带 latest 指针的家族，36 个互不相同的 basename，没有裸 `latest.json`）**：
+- **只被 smoke/runner 腿读：30**（144 件成员，11,880,041 字节）
+- **被别的研究读：4**（GRANULARITY←e236、LOOBOOK←e239/e240、OWNCROSS←e240、STARLAGBAND←e249；27 件，829,282 字节）
+- **只被自己的写者读：1**（CALL）、**任何站点都不读：1**（BASISRECOVERY）
+- **可整体退休（无需动任何读者/腿）：2 个家族，21 件成员，125,541 字节**
+- 有归属 opener 的 twin 35/36，其中路径级 18；另有 **147 个源 / 689 个站点**在 open 某个 **不属于本总体**的 `*_latest.json`——扫描不是瞎的，只是那些面不在这 36 个里。
+
+**结论**：E477 的"保 twin"不是免费操作。30/36 的双胞胎唯一活读者就是 smoke 套件本身（删面=断腿），4/36 被真实研究消费；真正能"整族退休"的只有 2 个。所以退休名单必须按本面逐族给，不能按字节总量一刀切。
+
+**陷阱（五枚，全部当窗实测）**：
+1. **复用 e470.match_kind 会把任意 `*/latest.json` 判成尾匹配**——它对同名 basename 的总体等于把所有家族合成一个（E366 同族教训：先归一到一种地址形式，再谈集合）。正法=尾匹配必须带家族目录段。
+2. **生产者集合决定生死**：第一版用 e464 的 stem 通道（runtime 组合出来的 `OUT_STEM + "_latest.json"` 根本没有 stem）→ 36 个里 22 个被判"外部研究在读"，全是假阳性。加三通道（字面写入点 / 模块常量 / 组合 latest+家族 token）后回到 4/30/1/1。
+3. **smoke_test.py 写临时 fixture 也会命中"组合写"通道**，于是它被当成生产者，把真正的跨研究读者吞掉（FRESHAIM/REFRESHSIGNAL 一度这样）。腿永远不是生产者。
+4. **用"目录被提到"当家族证据太松**：同一目录里给自己写面的邻居（e236 写 owncross）会被判成 GRANULARITY 的生产者。正法=家族 token 必须出现在**模块常量**里（e303 的 `OUT_STEM = "BASISRECOVERY"`）。
+5. **兜底分支会把两类腿读成"写者独占"**：residue_of 在"smoke leg + 一次性脚本"混合时落到 producer。正法=本地显式优先级（外部研究 > smoke 腿 > round 脚本 > 写者 > glob > 从不），并据此定义"可否整族退休"。
+
+**证据**：`scripts/e479_twin_read.py`（run rc0 / check problems=0 / verify 同树重建 problems=0 / **selftest 16/16**）→ `results/state_tilt/TWINREAD-2026-11-07.json` + `twinread_latest.json`（36 行）；S6 腿 `twin_read` rc0；smoke 腿 `E479 the twins an unread retirement would leave behind re-derive their readers from their rows` 1/1 绿、doctored 1/1 红、面 sha 归位。
+
+**适用范围**：本面只回答"twin 被谁 open"，不回答"twin 与日期件的内容是否等价"（E478 答时钟，E481 答结论）；"没被 open"仅指本语料里没有站点把它的路径拼出来，运行时组合或环境变量拼出的读法不可见。

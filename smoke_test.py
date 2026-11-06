@@ -18867,5 +18867,72 @@ except Exception as _e467x:
     _d467 = "leg could not run"
 check(_name467, not _bad467, "; ".join(_bad467)[:240] or _d467)
 
+# E479 (r1507 bm-b): E477 implied a retention policy -- keep the twin, drop the dated members --
+# but never asked who reads the twin.  This leg holds that every residue tally re-derives from the
+# published rows, that a row can never be classed 'never opened' beside attributable openers (or a
+# live class with none), that the retirable and kept families partition the population and re-add
+# their bytes, and that the verdict is the one the counts imply -- plus three doctored copies (a
+# retirable count, a never-class row carrying openers, and a study row stripped of its tiers).
+_name479 = ("E479 the twins an unread retirement would leave behind re-derive their readers from "
+            "their rows (r1507 bm-b)")
+_bad479 = []
+try:
+    _m479 = __import__("importlib").import_module("e479_twin_read")
+    _f479 = json.load(open(os.path.join("results", "state_tilt", "twinread_latest.json"),
+                           encoding="utf-8"))
+    _s479 = _f479.get("summary") or {}
+    _r479 = _f479.get("rows") or []
+    _bad479.extend(_m479.row_problems(_f479))
+    if _s479.get("families_with_a_latest_pointer") != len(_r479):
+        _bad479.append("the population tally does not re-add to the rows")
+    if (_s479.get("families_that_can_retire_whole") or 0) + (
+            _s479.get("families_that_need_the_twin_kept_or_a_leg_decision") or 0) != len(_r479):
+        _bad479.append("the retirable and kept families do not partition the population")
+    if (_s479.get("bytes_behind_the_retirable_families") or 0) + (
+            _s479.get("bytes_behind_the_kept_families") or 0) != sum(
+            r.get("bytes") or 0 for r in _r479):
+        _bad479.append("the two byte totals do not re-add to the population bytes")
+    if _f479.get("verdict") != _m479._verdict(_r479, _s479.get("residue_counts") or {}):
+        _bad479.append("the verdict is not the one the residue counts imply")
+    if not _r479:
+        _bad479.append("the twin population is empty")
+    _w479 = json.loads(json.dumps(_f479))
+    _w479["summary"]["families_that_can_retire_whole"] = (
+        (_w479["summary"].get("families_that_can_retire_whole") or 0) + 1)
+    if not _m479.row_problems(_w479):
+        _bad479.append("a doctored retirable count survived the guard")
+    _w479b = json.loads(json.dumps(_f479))
+    _never = next((r for r in _w479b["rows"] if r.get("residue") == _m479.C_NEVER), None)
+    if _never is None:
+        _bad479.append("no never-opened row to doctor: the guard cannot be shown to go red")
+    else:
+        _never["counting_openers"] = [{"source": "x.py", "line": 1, "literal": "x",
+                                       "match": "m", "evidence": _m479.E_PATH}]
+        _never["opener_sites"] = 1
+        if not _m479.row_problems(_w479b):
+            _bad479.append("a never-opened row carrying an opener survived the guard")
+    _w479c = json.loads(json.dumps(_f479))
+    _study = next((r for r in _w479c["rows"] if r.get("residue") == _m479.C_STUDY), None)
+    if _study is not None:
+        _study["counting_openers"] = []
+        _study["opener_sites"] = 0
+        _study["path_level_sites"] = 0
+        _study["name_level_sites"] = 0
+        if not _m479.row_problems(_w479c):
+            _bad479.append("a study row stripped of its openers survived the guard")
+    _d479 = ("%d twins | residues %s | retirable whole %d (%d members, %d B) | attributable "
+             "openers %d, path-level %d" % (
+                 _s479.get("families_with_a_latest_pointer") or 0,
+                 json.dumps(_s479.get("residue_counts") or {}, ensure_ascii=False, sort_keys=True),
+                 _s479.get("families_that_can_retire_whole") or 0,
+                 _s479.get("members_behind_the_retirable_families") or 0,
+                 _s479.get("bytes_behind_the_retirable_families") or 0,
+                 _s479.get("twins_with_an_attributable_opener") or 0,
+                 _s479.get("twins_with_a_path_level_opener") or 0))
+except Exception as _e479x:
+    _bad479.append(repr(_e479x)[:160])
+    _d479 = "leg could not run"
+check(_name479, not _bad479, "; ".join(_bad479)[:240] or _d479)
+
 if __name__ == "__main__":
     sys.exit(main())

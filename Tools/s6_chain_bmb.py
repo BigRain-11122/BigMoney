@@ -1728,6 +1728,11 @@ LEGS = [
     # rebuilds nothing -- it re-derives every class tally, the robustness block and the verdict from
     # the published rows.
     ("vintage_clock_diff", ["python", "scripts/e478_vintage_clock_diff.py", "check"]),
+    # E479 asks whether the twin a vintage retirement would leave behind is opened by anyone:
+    # opener calls over the corpus, three evidence tiers, and a residue that separates a real
+    # study from the smoke suite and from the script that writes the face.  `check` re-derives
+    # every tally from the published rows and refuses a class with no opener behind it.
+    ("twin_read", ["python", "scripts/e479_twin_read.py", "check"]),
 ]
 
 
