@@ -18934,5 +18934,55 @@ except Exception as _e479x:
     _d479 = "leg could not run"
 check(_name479, not _bad479, "; ".join(_bad479)[:240] or _d479)
 
+# E480 (r1508 bm-b): E477/E478/E479 all dated a vintage by its *file name* without ever checking
+# that the payload states the same day.  This leg holds that every class in the face re-derives
+# from the rows the face publishes (not from the disk, so a disk move cannot silently change it),
+# that an agreeing row's two date lists actually witness agreement, that the comparable tally is
+# agrees + disagrees, that the verdict is the one the counts imply, and that two doctored copies
+# (an agreement count moved by one, an agreeing row whose payload date was changed) go red.
+_name480 = ("E480 a dated vintage's payload date re-derives from its rows and its verdict from its "
+            "counts (r1508 bm-b)")
+_bad480 = []
+try:
+    _m480 = __import__("importlib").import_module("e480_vintage_date_agree")
+    _f480 = json.load(open(os.path.join("results", "state_tilt", "vintagedate_latest.json"),
+                           encoding="utf-8"))
+    _s480 = _f480.get("summary") or {}
+    _r480 = _f480.get("rows") or []
+    _bad480.extend(_m480.row_problems(_f480))
+    if not _r480:
+        _bad480.append("the vintage date population is empty")
+    _c480 = _s480.get("class_counts") or {}
+    if _s480.get("files_whose_name_states_a_date") != sum(
+            1 for r in _r480 if len(r.get("name_dates") or []) == 1):
+        _bad480.append("the dated-name tally is not the number of one-date names in the rows")
+    if _f480.get("verdict") != _m480._expect_verdict(_c480):
+        _bad480.append("the verdict is not the one the class counts imply")
+    _w480 = json.loads(json.dumps(_f480))
+    _w480["summary"]["names_agreeing_with_the_date_their_payload_states"] = (
+        (_w480["summary"].get("names_agreeing_with_the_date_their_payload_states") or 0) + 1)
+    if not _m480.row_problems(_w480):
+        _bad480.append("a doctored agreement count survived the guard")
+    _w480b = json.loads(json.dumps(_f480))
+    _agree = next((r for r in _w480b["rows"] if r.get("class") == _m480.C_AGREES), None)
+    if _agree is None:
+        _bad480.append("no agreeing row to doctor: the guard cannot be shown to go red")
+    else:
+        _agree["payload_dates"] = ["1999-01-01"]
+        if not _m480.row_problems(_w480b):
+            _bad480.append("an agreeing row whose payload date was changed survived the guard")
+    _d480 = ("%d members | %d carry a one-date name | comparable %d | agrees %d | "
+             "no payload date %d | ambiguous %d" % (
+                 _s480.get("member_files") or 0,
+                 _s480.get("files_whose_name_states_a_date") or 0,
+                 _s480.get("comparable_files") or 0,
+                 _c480.get(_m480.C_AGREES) or 0,
+                 _c480.get(_m480.C_NO_PAYLOAD_DATE) or 0,
+                 _c480.get(_m480.C_AMBIGUOUS) or 0))
+except Exception as _e480x:
+    _bad480.append(repr(_e480x)[:160])
+    _d480 = "leg could not run"
+check(_name480, not _bad480, "; ".join(_bad480)[:240] or _d480)
+
 if __name__ == "__main__":
     sys.exit(main())

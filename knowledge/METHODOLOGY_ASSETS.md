@@ -12253,3 +12253,18 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **证据**：`scripts/e479_twin_read.py`（run rc0 / check problems=0 / verify 同树重建 problems=0 / **selftest 16/16**）→ `results/state_tilt/TWINREAD-2026-11-07.json` + `twinread_latest.json`（36 行）；S6 腿 `twin_read` rc0；smoke 腿 `E479 the twins an unread retirement would leave behind re-derive their readers from their rows` 1/1 绿、doctored 1/1 红、面 sha 归位。
 
 **适用范围**：本面只回答"twin 被谁 open"，不回答"twin 与日期件的内容是否等价"（E478 答时钟，E481 答结论）；"没被 open"仅指本语料里没有站点把它的路径拼出来，运行时组合或环境变量拼出的读法不可见。
+
+## E480 -- vintage 文件名里的日期，payload 自己认不认（r1508 bm-b）
+
+**问题**：E477 量字节、E478 比语义、E479 数读者，三份研究都把 vintage 的"日子"直接读自**文件名**，从没验过 payload 自己说的是不是同一天。若名字会漂（重命名、复制改名、模板套壳），前面三份的族-日对应就是悬空的。E480 拿 E472 的同一总体（97 族 571 个成员文件）逐文件对账：名字里抽 ISO 日期，payload 顶层七个冻结日期名（`evidence_cutoff`/`generated`/`ts`/`timestamp`/`date`/`as_of`/`asof_bar`）抽日期前缀，比到日粒度。
+
+**读数**：571 个成员里 **370 个名字带且只带一个 ISO 日期**（范围名 = 0）；其中 **269 个 payload 确实报了日期，且 269/269 全部与名字同一天（一致率 1.0）**；另 9 个名字有日期但 payload 一个冻结日期名都不写（未测量，不是例外）；92 个根本不是 JSON（csv/md/jsonl）；**201 个名字里压根没有日期**。判词 `every_dated_vintage_file_name_agrees_with_the_date_its_payload_states`。
+
+**三律**：
+* **名字能当索引用，但要先被验一次**——"文件名即日期"是三份上游研究的隐含前提，从没被测量；本次验完是 100% 成立，但成立本身是**测量结果**不是可假设的前提。任何按名字分桶的保留/退役规则，先跑一遍名字↔payload 对账再谈。
+* **"payload 没报日期" ≠ "名字报错"**——9 个文件只是因为写的时间戳字段名不在冻结集合里，把它们算成 disagree 就是拿测量缺席冒充反证（E444/E462/E207 同族）。面里 `no_date_in_payload` 单列一类，且 `check` 断言行内日期必须真的支撑它的类。
+* **一个总体一种日粒度**——比较只做到 YYYY-MM-DD；payload 写 `2026-01-02T10:00+08:00`、名字写 `2026-01-02` 算 agrees，同一天不同钟点不算差异。粒度写进 `method_limits`，防止"它差了 10 小时"被读成违约。
+
+**工具**：`scripts/e480_vintage_date_agree.py`（run rc0 / check problems=0 / verify 同步重建 problems=0 / **selftest 36/36**：7 类 + 两个日期抽取器 + 字节台账 + 差异对直方图 + 5 个判词分支 + 5 份篡改面）；面=`results/state_tilt/VINTAGEDATE-2026-11-07.json` + `vintagedate_latest.json`（571 行逐文件）；S6 腿 `vintage_date_agree` rc0 0.05s；smoke 腿 `E480 a dated vintage's payload date re-derives from its rows and its verdict from its counts` 1/1 绿、doctored（一致数 +1 / 一致行 payload 日期改掉）1/1 红、面 sha 归位。
+
+**适用范围**：只回答"名字的日期能不能当这个文件的日期用"；不回答该文件该不该留（E477/E479 管那个）。201 个无日期名字是**名字索引够不到的那一段**，已作为 E484 卡入池。

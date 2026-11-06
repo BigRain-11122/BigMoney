@@ -1733,6 +1733,10 @@ LEGS = [
     # study from the smoke suite and from the script that writes the face.  `check` re-derives
     # every tally from the published rows and refuses a class with no opener behind it.
     ("twin_read", ["python", "scripts/e479_twin_read.py", "check"]),
+    # E480 tests the assumption the three vintage studies above all leaned on: that the date in a
+    # vintage's file name is the date its payload states.  `check` re-derives every class count,
+    # the dated-name tally and the verdict from the published rows.
+    ("vintage_date_agree", ["python", "scripts/e480_vintage_date_agree.py", "check"]),
 ]
 
 

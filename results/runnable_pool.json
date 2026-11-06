@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1505 bm-b: E477 published (VINTAGERETIRE-2026-11-07: of 571 unread vintage files / 27.2 MB, 40 files (3.19 MB) are exact copies of a *_latest.json twin and 531 (25.36 MB) have no byte-identical partner -- a retirement would lose 25.4 MB of unique bytes). E477 closed, three fresh cards seeded (E478 semantic diff vs twin, E479 twin readers, E480 name-vs-payload date).",
+ "_stamp_note": "r1508 bm-b: E480 published (VINTAGEDATE-2026-11-07: of 571 unread-vintage member files, 370 names state exactly one ISO date and 269 of those have a payload date -- all 269 agree, share 1.0, 0 disagreements; 9 state no frozen date, 92 are not JSON, 201 names carry no date). E480 closed, E484 seeded (the 201 undated names).",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28469,11 +28469,14 @@
    "id": "E480-DO-THE-VINTAGE-FILES-CARRY-AN-EVIDENCE-CUTOFF-THAT-MATCHES-THE-DATE-IN-THEIR-NAME",
    "lane": "cpu-only",
    "lane_note": "static: payload parse, no network",
-   "result_ref": null,
+   "result_ref": "results/state_tilt/VINTAGEDATE-2026-11-07.json",
    "source": "E477 classified by bytes only; a retirement policy needs to know whether the file name is a trustworthy date stamp or whether the payload says a different date (the r1235 family: a name that is not a measurement)",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/vintagedate_latest.json",
-   "title": "For the 571 member files of E472's unread vintage families, does the payload's own evidence_cutoff/generated/cutoff field agree with the date in the file name? Publish the three classes (agrees / disagrees by name-vs-payload / no date field at all) per family, so a retention job can decide from the payload rather than from the name."
+   "title": "For the 571 member files of E472's unread vintage families, does the payload's own evidence_cutoff/generated/cutoff field agree with the date in the file name? Publish the three classes (agrees / disagrees by name-vs-payload / no date field at all) per family, so a retention job can decide from the payload rather than from the name.",
+   "owner": "bm-b",
+   "done_at": "2026-11-07T04:57+08:00",
+   "done_note": "r1508 bm-b: of 571 member files, 370 carry exactly one ISO date in the name (0 range names); 269 of those state a frozen date field in the payload and ALL 269 agree (share 1.0), 9 state no date at all (unmeasured), 92 are not JSON, 201 carry no date in the name. The name->payload date assumption E477/E478/E479 all leaned on holds over the whole comparable set."
   },
   {
    "id": "E481-DO-THE-VINTAGES-THAT-DIFFER-FROM-THEIR-TWIN-ALSO-STATE-A-DIFFERENT-ANSWER",
@@ -28513,6 +28516,19 @@
    "status": "ready",
    "target": "results/state_tilt/legdebt_latest.json",
    "title": "For each of E479's 30 leg-only twins, classify every leg that opens it: does the leg re-derive a number from the twin's payload, assert a field equals a constant, or merely require the file to exist? Publish per twin the legs and their debt class, so a retirement decision is priced in edits rather than in bytes."
+  },
+  {
+   "id": "E484-CAN-THE-201-VINTAGE-MEMBERS-WHOSE-NAME-STATES-NO-DATE-BE-DATED-FROM-THE-PAYLOAD",
+   "title": "E480 found 201 of the 571 unread-vintage member files carry no ISO date in their file name, so a name-based index cannot place them in time. For each of those files, does the payload itself state a date, and if so does that date fall inside the family's own dated span? Classify: datable from a frozen payload date field / datable only from a non-frozen field / undatable / not JSON. A file that cannot be dated at all is the one class a name-based retention rule cannot process.",
+   "deliverable": "results/state_tilt/UNDATED-<cutoff>.json",
+   "target": "results/state_tilt/undated_latest.json",
+   "lane": "cpu-only",
+   "lane_note": "static: payload parse plus the family's own member names, no network",
+   "source": "E480 measured the 370 dated names and found every comparable one agrees with its payload; the 201 names that carry no date were published as no_date_in_name and are the population this card takes up",
+   "entered_at": "2026-11-07T04:57+08:00",
+   "entered_by": "bm-b r1508",
+   "evidence_cutoff": "2026-11-07",
+   "status": "ready"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28527,6 +28543,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T04:01:20+08:00",
+ "updated_at": "2026-11-07T04:57+08:00",
  "version": 1
 }
