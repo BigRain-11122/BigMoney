@@ -5548,5 +5548,13 @@
   "s6": "dualrun DRIFT ($.entries 948 vs 949, observation phase, streak reset) | attrition CLEAN (4 ledgers, 3 historical shrinks healed) | py_watermark insufficient_history, pool_ready 3 | etf_daily no-op | astock_daily spawned continuation refresh (99.8%)",
   "s7": "orphan probe py_faces=10 orphans=0 residents=0 | loop task pin=2 current=2 no-op | LoopWatchdog PRESENT | pre-commit and pre-push byte-identical to Tools/git-hooks",
   "ts": "2026-11-07T01:09:41"
+ },
+ "r1500_delivery": {
+  "branch": "machine/bm-b-r1500",
+  "sha": "58879fa7e6b34f46b40c363c95a41a33debaab7a",
+  "ts": "2026-11-07T01:10:38+0800",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1500 equals local HEAD",
+  "main_push_blocker": "local is 483 ahead / 295 behind origin/main (two blood lines, promisor clone, no unattended rebase per r1243); delivery is judged by origin reachability",
+  "local_unreached_origin_commits": 483
  }
 }
