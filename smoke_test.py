@@ -17887,5 +17887,45 @@ except Exception as _e456x:
     _bad456.append(repr(_e456x)[:160])
 check(_name456, not _bad456, "; ".join(_bad456)[:240] or _d456)
 
+# E458 (r1482 bm-b): E451 showed no study publishes a digest of its prereg note, which presupposes
+# a consumer can already tell which study a face belongs to.  This leg reads the published
+# identity face and refuses (a) any tally or class count that does not re-derive from its rows,
+# (b) a row whose class disagrees with its own published hits, (c) a declaration flag that its
+# hits do not support, (d) a verdict outside the frozen vocabulary or one that does not re-derive,
+# (e) this study counting its own face, and (f) a doctored copy that promotes a no-identity row
+# into the machine-readable class.
+_name458 = "e458 does a study face declare a machine-readable identity (r1482 bm-b)"
+_bad458 = []
+try:
+    _m458 = __import__("importlib").import_module("e458_face_identity")
+    _f458 = json.load(open(os.path.join("results", "state_tilt", "faceidentity_latest.json"),
+                           encoding="utf-8"))
+    _s458 = _f458.get("summary") or {}
+    _r458 = _f458.get("rows") or []
+    _bad458.extend(_m458.face_problems(_f458))
+    if any(_r.get("declares_own_identity") and not _r.get("kinds") for _r in _r458):
+        _bad458.append("a face declares an identity while carrying no machine-readable kind")
+    _doctor458 = json.loads(json.dumps(_f458))
+    _noid458 = next((_r for _r in _doctor458.get("rows") or []
+                     if _r.get("class") == _m458.C_NO_IDENTITY), None)
+    if _noid458 is None:
+        _bad458.append("no no-identity row to doctor: the split cannot be shown to go red")
+    else:
+        _noid458["class"] = _m458.C_MACHINE
+        if not _m458.face_problems(_doctor458):
+            _bad458.append("a no-identity row promoted to machine-readable was accepted")
+    _d458 = "%d faces graded | machine %d, prose-only %d, none %d | declaring %d | " \
+            "unresolved declarations %d | discounted mentions %d on %d faces | unattributed %d" % (
+                _s458.get("faces_graded") or 0, _s458.get("faces_machine_readable") or 0,
+                _s458.get("faces_prose_only") or 0, _s458.get("faces_no_identity") or 0,
+                _s458.get("faces_declaring_own_identity") or 0,
+                _s458.get("faces_declaring_an_identity_that_does_not_resolve") or 0,
+                _s458.get("discounted_mentions") or 0,
+                _s458.get("faces_with_a_discounted_mention") or 0,
+                _s458.get("unattributed_faces") or 0)
+except Exception as _e458x:
+    _bad458.append(repr(_e458x)[:160])
+check(_name458, not _bad458, "; ".join(_bad458)[:240] or _d458)
+
 if __name__ == "__main__":
     sys.exit(main())

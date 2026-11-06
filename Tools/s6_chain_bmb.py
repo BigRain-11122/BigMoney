@@ -1656,6 +1656,13 @@ LEGS = [
     # (the population is inherited), so the chain can afford the live re-resolution that keeps the
     # "importable" column from being a constant nobody checks.
     ("stdlib_class", ["python", "scripts/e459_stdlib_class.py", "verify"]),
+    # E458 (r1482): E451 showed no study publishes a digest of its prereg note, which presupposes a
+    # consumer can already tell which study a face belongs to.  This leg re-derives the identity
+    # tallies from the published rows, holds the three classes apart (machine / prose-only / none),
+    # and re-resolves every published declaration against the live tree so the "resolves" column is
+    # not a constant.  `check` rather than `verify` for the same reason caller_class uses it: the
+    # full rebuild loads 538 faces and walks their producers.
+    ("face_identity", ["python", "scripts/e458_face_identity.py", "check"]),
 ]
 
 

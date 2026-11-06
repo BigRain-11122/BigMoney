@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1478 bm-b: E456 published (IMPORTCLASS-2026-11-04: 0 of 6,898 cross-module receivers resolve to an in-repo class; builtin 3,495 / local 2,238 / outside-tree 928; resolver control 36 of 69,562) -- E456 closed, E459 seeded, floor 3.",
+ "_stamp_note": "r1482 bm-b: E458 published (FACEIDENTITY-2026-11-06: 526 of 538 state_tilt faces declare a machine-readable study identity and every declaration resolves; 2 prose-only, 10 none) -- E458 closed, E459's stale ready flipped to done (r1480 published it), E460/E461 seeded, floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28073,11 +28073,15 @@
    "lane": "cpu-only",
    "lane_note": "static AST over the producers plus json loads of existing faces; nothing is executed and nothing outside results/state_tilt is written",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E451 (r1477 bm-b): a face with no study identity cannot be tied to a prereg even if a digest existed",
    "entered_at": "2026-11-06T08:30:53+08:00",
-   "entered_by": "bm-b r1477 (supply floor refill after E451)"
+   "entered_by": "bm-b r1477 (supply floor refill after E451)",
+   "done_at": "2026-11-06T12:45:00+08:00",
+   "closed_by": "bm-b r1482",
+   "result_ref": "results/state_tilt/faceidentity_latest.json",
+   "result_note": "538 state_tilt faces graded against their producers: 526 declare a card/study identity on a top-level field, 2 carry one only inside a prose field (BANDSTRADDLESWEEP's summary.hits), 10 carry none at all; 0 declarations fail to resolve. 5,466 substring mentions were discounted as other studies quoted inside rows (390 faces), and 39 faces are unattributed to any producer."
   },
   {
    "id": "E459-WHICH-STDLIB-CLASS-A-CROSS-MODULE-RECEIVER-IS-BOUND-TO",
@@ -28087,11 +28091,42 @@
    "lane": "cpu-only",
    "lane_note": "static AST over the corpus plus the interpreter's own module table; imports are resolved from the local standard library only, no network and nothing outside results/state_tilt is written",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E456 (r1478 bm-b): 928 of 6,898 cross-module receivers import a module with no file in the repository, and the module name is the only handle the corpus gives on their class",
    "entered_at": "2026-11-06T09:39:39+08:00",
-   "entered_by": "bm-b r1478 (supply floor refill after E456)"
+   "entered_by": "bm-b r1478 (supply floor refill after E456)",
+   "result_ref": "results/state_tilt/stdlibclass_latest.json",
+   "done_at": "2026-11-06T10:53:48+08:00",
+   "closed_by": "bm-b r1482 (pool flip only: r1480 published the face at 10:53 and left the card sitting at ready, the same gap r1472 repaired for E453)"
+  },
+  {
+   "id": "E460-WHICH-STUDY-FACE-LACKS-AN-IDENTITY-ITS-OWN-PRODUCER-KNOWS",
+   "title": "E458 read 10 faces that carry no study identity at all and 2 whose only identity sits in prose. Every one of them has a producer script, and the producer usually names the card in its own docstring or module constant. An identity that lives only in the producer is exactly as invisible to a consumer as no identity.",
+   "question": "For each face E458 classed as no-identity or prose-only, read its producers and ask whether the producer's own source carries a card id, a study id or a prereg path for it (docstring, module constant, or a FACE_NAME/CARD_ID literal). Publish per face: the identity the producer knows, the field the payload would need to carry, and whether the producer already writes that field anywhere else. Split the residue into faces whose producer knows no identity either.",
+   "deliverable": "results/state_tilt/FACEGAP-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the producers plus json loads of the twelve faces E458 flagged",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E458 (r1482 bm-b): 12 of 538 faces cannot be tied to a study from their payload",
+   "entered_at": "2026-11-06T12:0x+08:00",
+   "entered_by": "bm-b r1482 (supply floor refill after E458)"
+  },
+  {
+   "id": "E461-WHICH-CONSUMER-ACTUALLY-READS-THE-IDENTITY-A-FACE-DECLARES",
+   "title": "E458 found 526 of 538 faces declare their study identity in a top-level field. A declaration nobody reads is a label, not a link: no reader can be shown to join a face to its study unless some consumer opens that field.",
+   "question": "Take the fields E458 found carrying the identity (study, card, pin, ...) and scan every in-repo python source that loads one of those faces for a read of that field (subscript, get(), or a key literal). Publish per identity field how many readers touch it, split into readers that only echo it and readers that branch on it, and publish the faces whose identity no reader ever reads.",
+   "deliverable": "results/state_tilt/IDENTITYREAD-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the corpus plus the face keys E458 published; nothing is run",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E458 (r1482 bm-b): 526 faces declare an identity, and nothing has measured whether anything consumes it",
+   "entered_at": "2026-11-06T12:0x+08:00",
+   "entered_by": "bm-b r1482 (supply floor refill after E458)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28106,6 +28141,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T09:39:39+08:00",
+ "updated_at": "2026-11-06T12:0x+08:00",
  "version": 1
 }

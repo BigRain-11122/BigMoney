@@ -11411,3 +11411,42 @@ prereg note publishes a digest of it` with a doctored control that must stay red
   and residues against the live module table, 0.05 s); digest
   `research/digests/DIGEST-20261106-r1480-e459-stdlib-class.md`. No smoke leg this round (stated, not
   implied): the chain leg is the live gate.
+
+## E458 -- a face can be addressed by its file name and still not say which study wrote it (r1482 bm-b)
+
+* **Question.** E451 found that no study publishes a digest of the prereg note it names, and that the
+  note is reachable only through prose freeze strings. A digest presupposes something earlier: a
+  consumer holding a face must be able to tell *which* study it belongs to without opening the
+  producer. Ask every face a study producer writes whether its payload carries a machine-readable
+  identity -- a card id (`E4xx`), a study id (`XXX-P1`) or a prereg note path -- in a field a reader
+  can key on, and whether that identity resolves to a file or a pool card that exists.
+* **The reading.** 538 faces graded against the 12,130-source corpus by producer-first attribution:
+  **526 carry a machine-readable identity** (all three kinds seen: card id, study id, prereg path),
+  **2 carry one only inside a prose field**, **10 carry none at all**, 0 unreadable, and **0
+  declarations fail to resolve** (6 faces carry a declaration that does not resolve to a file or card,
+  and those are published per row rather than folded into the tally).
+* **The split is the finding, not the 97.8%.** The 12 that are not machine-readable are 7 distinct
+  producers: `BANDDONORCHOICE`/`BANDFLOOR`/`BANDSCREENBUDGET`/`CORPUSPIN`/`FACEVINTAGE`/
+  `unreadstatus_latest` carry no identity whatsoever (6 of the 10 rows are the same 5 studies' dated
+  + `_latest` twins, so a study-level count is 6, not 10), while `BANDSTRADDLESWEEP` names its card
+  twice inside `summary.hits` -- parseable text, prose field, therefore *not* a keyable identity
+  under a frozen field-name vocabulary. Merging prose-only into machine-readable would have reported
+  528 and hidden the one shape E451 is about.
+* **Three rules this cost.** (1) **Population comes from producers, never from a hand list**: a face
+  belongs to a producer when the producer's source carries the face name as a constant, a dated
+  prefix template, or the dated sibling, with both sides normalised (lowercase, drop `.json`, drop a
+  trailing date, drop `_latest`) -- so `importclass_latest.json` and `IMPORTCLASS-2026-11-04.json` are
+  one study's two faces and are graded as two rows. (2) **A mention of another study is not this
+  face's identity**: a study id inside a long value (a face path in somebody else's row, a script
+  name) is discounted -- 5,466 substring mentions on 390 faces -- and only counts when the field
+  itself is named like an identity; the discounted set is sampled in the face so the classifier
+  change is a measurement and not a silent rewrite. (3) **The unattributed residue is published, not
+  zeroed**: 39 faces under `results/state_tilt` that no `scripts/eNNN_*.py` names sit outside the
+  graded population and are reported as a count with samples rather than as carrying or lacking.
+* **Wiring.** `scripts/e458_face_identity.py` (run rc0 / check clean / selftest 24/24); faces
+  `results/state_tilt/faceidentity_latest.json` + `FACEIDENTITY-2026-11-06.json`; S6 leg
+  `face_identity` (re-derives the tallies and re-resolves the published declarations against the live
+  tree, 0.06 s); smoke leg `e458 does a study face declare a machine-readable identity (r1482 bm-b)`
+  + `scripts/run_e458_smoke_leg.py` (standalone 1/1, and the leg reds on a doctored copy that promotes
+  a no-identity row into the machine-readable class); digest
+  `research/digests/DIGEST-20261106-r1482-e458-face-identity.md`.
