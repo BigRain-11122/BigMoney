@@ -1,0 +1,206 @@
+{
+ "artifact": "zoo91_limit_up_event supply berth probe",
+ "batch": "SUPPLY_BERTH_EVENT_FAMILY_CANDIDATE",
+ "family": "zoo91_limit_up_event",
+ "machine": "bm-c",
+ "ts": "2026-11-07T07:39:58+0800",
+ "evidence_cutoff": "2026-10-30",
+ "panel": {
+  "symbols": 5215,
+  "bars": 1653,
+  "first_date": "2020-01-02",
+  "last_date": "2026-10-30"
+ },
+ "construct": {
+  "event": "close/prev_close-1 >= limit-0.005 AND close >= high-1e-9 (sealed at the close)",
+  "board_limit": {
+   "300/301/688/689": 0.2,
+   "4/8/920": 0.3,
+   "else": 0.1
+  },
+  "entry": "open[t+1] (the first bar you can actually buy)",
+  "exit": "close[t+h], h in {5,10,20}",
+  "benchmark": "cross-sectional mean of the same h-bar return on the same date",
+  "excess": "per-event (F - pool) then averaged (date-neutral)",
+  "null": "same per-date event counts drawn from cells that are neither an event nor within h bars after one",
+  "cost_per_side": 0.0013041,
+  "draws": 200
+ },
+ "summary": {
+  "n_events_total": 96536,
+  "n_bars": 1653,
+  "n_symbols": 5215,
+  "horizons": {
+   "5": {
+    "n_events": 95857,
+    "excess_gross": -0.009238916983708961,
+    "excess_net": -0.011847116983708961,
+    "cost_roundtrip": 0.0026082,
+    "null_mean": 0.00034496079309871713,
+    "null_sd": 0.00019184745678766196,
+    "null_draws_used": 200,
+    "z_vs_null": -49.955719701904506,
+    "ex_matched_exposure": -0.009583877776807678,
+    "median_event_excess": -0.029673378393440048,
+    "share_events_positive": 0.3763522747425853,
+    "per_year": {
+     "2020": {
+      "n_events": 11654,
+      "excess_gross": 0.0015858922486494038,
+      "hit_rate": 0.3929981122361421
+     },
+     "2021": {
+      "n_events": 14877,
+      "excess_gross": -0.0017958691752214075,
+      "hit_rate": 0.3988707400685622
+     },
+     "2022": {
+      "n_events": 14664,
+      "excess_gross": -0.012861465054500134,
+      "hit_rate": 0.36429350791052917
+     },
+     "2023": {
+      "n_events": 8460,
+      "excess_gross": -0.012842016708237418,
+      "hit_rate": 0.36430260047281326
+     },
+     "2024": {
+      "n_events": 17334,
+      "excess_gross": -0.015350238117784082,
+      "hit_rate": 0.35450559593861775
+     },
+     "2025": {
+      "n_events": 15155,
+      "excess_gross": -0.014021848016909838,
+      "hit_rate": 0.35724183437809304
+     },
+     "2026": {
+      "n_events": 13713,
+      "excess_gross": -0.00740564345603185,
+      "hit_rate": 0.40684022460439
+     }
+    }
+   },
+   "10": {
+    "n_events": 95568,
+    "excess_gross": -0.018237803077068123,
+    "excess_net": -0.020846003077068125,
+    "cost_roundtrip": 0.0026082,
+    "null_mean": 0.0009643156890241619,
+    "null_sd": 0.00031536967265199923,
+    "null_draws_used": 200,
+    "z_vs_null": -60.887651639481625,
+    "ex_matched_exposure": -0.019202118766092284,
+    "median_event_excess": -0.04940683279527934,
+    "share_events_positive": 0.34174619119370503,
+    "per_year": {
+     "2020": {
+      "n_events": 11655,
+      "excess_gross": 0.0002563774714561251,
+      "hit_rate": 0.3602745602745603
+     },
+     "2021": {
+      "n_events": 14864,
+      "excess_gross": -0.007484541715525924,
+      "hit_rate": 0.3697524219590958
+     },
+     "2022": {
+      "n_events": 14644,
+      "excess_gross": -0.02352477885337875,
+      "hit_rate": 0.33146681234635345
+     },
+     "2023": {
+      "n_events": 8458,
+      "excess_gross": -0.024916743902958283,
+      "hit_rate": 0.3204067155355876
+     },
+     "2024": {
+      "n_events": 17330,
+      "excess_gross": -0.028153411556790294,
+      "hit_rate": 0.31448355452971727
+     },
+     "2025": {
+      "n_events": 15147,
+      "excess_gross": -0.025415017684334087,
+      "hit_rate": 0.3170924935630818
+     },
+     "2026": {
+      "n_events": 13470,
+      "excess_gross": -0.015336721546815618,
+      "hit_rate": 0.3821826280623608
+     }
+    }
+   },
+   "20": {
+    "n_events": 95119,
+    "excess_gross": -0.029161477028365645,
+    "excess_net": -0.031769677028365646,
+    "cost_roundtrip": 0.0026082,
+    "null_mean": 0.002401119028944374,
+    "null_sd": 0.0003915804605145966,
+    "null_draws_used": 200,
+    "z_vs_null": -80.60309244192608,
+    "ex_matched_exposure": -0.031562596057310016,
+    "median_event_excess": -0.07194379849946934,
+    "share_events_positive": 0.3148161776301265,
+    "per_year": {
+     "2020": {
+      "n_events": 11663,
+      "excess_gross": -0.0055395457969079145,
+      "hit_rate": 0.33481951470462146
+     },
+     "2021": {
+      "n_events": 14887,
+      "excess_gross": -0.0162921648202089,
+      "hit_rate": 0.3493652179754148
+     },
+     "2022": {
+      "n_events": 14666,
+      "excess_gross": -0.038768792233734375,
+      "hit_rate": 0.3025364789308605
+     },
+     "2023": {
+      "n_events": 8462,
+      "excess_gross": -0.034816569593060905,
+      "hit_rate": 0.2835027180335618
+     },
+     "2024": {
+      "n_events": 17329,
+      "excess_gross": -0.03991726195399684,
+      "hit_rate": 0.2977090426452767
+     },
+     "2025": {
+      "n_events": 15151,
+      "excess_gross": -0.037923784035376704,
+      "hit_rate": 0.29430400633621545
+     },
+     "2026": {
+      "n_events": 12961,
+      "excess_gross": -0.02601272664424746,
+      "hit_rate": 0.338322660288558
+     }
+    }
+   }
+  }
+ },
+ "entry_gap": {
+  "mean_gap": 0.13724972307682037,
+  "median_gap": 0.12293577194213867,
+  "share_gap_above_5pct": 0.971767955227445,
+  "n": 96309
+ },
+ "verdict_block": {
+  "verdict": "REFUSE_AS_CANDIDATE",
+  "admitted_horizons": [],
+  "positive_years_h5": 1,
+  "n_years_h5": 7,
+  "reason": "either the net excess is not positive, or it does not clear a same-exposure null by 2 sd, or the year split is not majority-positive"
+ },
+ "honest": [
+  "probe only: one construct, one sealing rule, three horizons -- a positive here buys a frozen prereg and a proper judge, not a claim that the rule makes money",
+  "qfq panel: on an ex-rights bar the adjusted ratio is not the traded ratio, so a few limit-up bars near corporate actions are missed or mis-sealed; noise on the event SET, not look-ahead",
+  "ST names trade at a 5% limit and are therefore never events here -- the reading covers the non-ST tape only",
+  "events cluster: 200 independent draws of the same per-date counts give the sampling spread of the null, but consecutive events in one name are not independent; the per-year split is the honest companion reading",
+  "the benchmark is the equal-weight A-share panel on the same date, so any excess is relative to 'own the tape', which is itself a claim that has to be cashed later"
+ ]
+}

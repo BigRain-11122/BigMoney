@@ -403,6 +403,13 @@ def main() -> int:
             # own excess, because the p-value is read on that basis.
             ("product: cross-sectional reversal supply probe (exit-code contract)",
              "scripts/zoo_supply_xs_reversal_probe.py", ["--selftest"]),
+            # r1391: the EVENT berth r1390 named as the only free axis left (breadth was
+            # measured as a tax). Its legs pin the two things that make an event probe
+            # trustworthy: sealing is required (a +10% day that did not close at the
+            # ceiling is not an event) and a gap bar leaves NaN rather than a 0% return,
+            # so a missing bar can never be read as a flat outcome.
+            ("product: limit-up event supply probe (exit-code contract)",
+             "scripts/zoo91_limit_up_event_probe.py", ["--selftest"]),
             # r1387: that probe's verdict outlived its number -- the null it lost to is what a
             # future timing rule actually has to beat, and nothing published it. This face
             # turns the null into a ruler on the book in force (hurdle per exposure share).
