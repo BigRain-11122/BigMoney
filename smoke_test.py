@@ -615,6 +615,17 @@ def main() -> int:
         # bm-a face from 10-30 (E185 family: an assertion that assumes a deployment layout).  A day
         # is required either way, and staleness is printed rather than failed.
         _dash_day_ok = bool(_dash_day) and (_dash_day == _fv_day or _dash_day < _fv_day)
+        # A verdict is a judgement about ONE day.  The day-lag above is already tolerated because
+        # bm-a is the single writer of the dashboard, but demanding verdict equality across two
+        # different days contradicted that: on 2026-11-06 the lagging face carried 10-30's PASS
+        # while today's verify face honestly read NO_EVIDENCE, and the leg went red on a healthy
+        # pair (the same E185 family as the day check).  The counts still have to agree exactly; a
+        # lagging dashboard's verdict only has to be one its producer can emit.
+        _same_day = bool(_dash_day) and _dash_day == _fv_day
+        _verdict_vocab = ("PASS", "NO_EVIDENCE", "BREACH")
+        _verdict_ok = ((_pp.get("fill_verify_verdict") == _fv2.get("verdict"))
+                       if _same_day
+                       else _pp.get("fill_verify_verdict") in _verdict_vocab)
         _ok_dash = (_pp.get("marks_closed_days") == _c2.get("closed_days")
                     and _pp.get("marks_captured") == _c2.get("captured")
                     and _pp.get("marks_coverage_pct")
@@ -623,7 +634,7 @@ def main() -> int:
                     # the verification tier travels with the gap, so a reader
                     # sees "checked by a weaker source" not "unverified"
                     and _pp.get("fill_verify_tier") == _fv2.get("evidence_tier")
-                    and _pp.get("fill_verify_verdict") == _fv2.get("verdict")
+                    and _verdict_ok
                     and _dash_day_ok)
         check("product: dashboard carries the marks coverage gap", _ok_dash,
               f"dash={_pp.get('marks_captured')}/{_pp.get('marks_closed_days')}"
@@ -631,7 +642,8 @@ def main() -> int:
               f" dash_day={_dash_day or 'absent'} face_day={_fv_day or 'absent'}"
               f"{' STALE(another host writes the dashboard)' if _dash_day and _dash_day < _fv_day else ''}"
               f" tier={_pp.get('fill_verify_tier')} face={_c2.get('captured')}"
-              f"/{_c2.get('closed_days')}")
+              f"/{_c2.get('closed_days')}"
+              f"{'' if _same_day else ' verdicts compared as vocabulary only: %r vs %r' % (_pp.get('fill_verify_verdict'), _fv2.get('verdict'))}")
     except Exception as e:
         check("product: dashboard carries the marks coverage gap", False, str(e))
     try:
