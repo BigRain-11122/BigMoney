@@ -1663,6 +1663,9 @@ LEGS = [
     # not a constant.  `check` rather than `verify` for the same reason caller_class uses it: the
     # full rebuild loads 538 faces and walks their producers.
     ("face_identity", ["python", "scripts/e458_face_identity.py", "check"]),
+    # E461: the link side of the same question -- `check` because a full rebuild parses the whole
+    # .py corpus, while the published tallies must still re-derive from the published rows.
+    ("identity_consumers", ["python", "scripts/e461_identity_consumers.py", "check"]),
 ]
 
 

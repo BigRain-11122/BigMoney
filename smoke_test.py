@@ -17927,5 +17927,56 @@ except Exception as _e458x:
     _bad458.append(repr(_e458x)[:160])
 check(_name458, not _bad458, "; ".join(_bad458)[:240] or _d458)
 
+# E461 (r1483 bm-b): E458 proved 526 of 538 study faces declare an identity.  A declaration
+# nobody reads is a label, not a link.  This leg reads the published consumer face and refuses
+# (a) any tally that does not re-derive from its rows, (b) a verdict outside the frozen vocabulary,
+# (c) a field published as never-read while the census carries read sites for it, (d) a row graded
+# joined while naming no joining source, and (e) a doctored copy that promotes an unread face into
+# the joined class.
+_name461 = "e461 does a consumer read the identity a face declares (r1483 bm-b)"
+_bad461 = []
+try:
+    _m461 = __import__("importlib").import_module("e461_identity_consumers")
+    _f461 = json.load(open(os.path.join("results", "state_tilt", "identityconsumers_latest.json"),
+                           encoding="utf-8"))
+    _s461 = _f461.get("summary") or {}
+    _r461 = _f461.get("rows") or []
+    _bad461.extend(_m461.tally_problems(_f461))
+    if _f461.get("verdict") not in _m461.VERDICT_VOCAB:
+        _bad461.append("verdict outside the frozen vocabulary: %r" % _f461.get("verdict"))
+    _read461 = {f for f, c in (_f461.get("field_census") or {}).items()
+                if (c.get("read_sites") or 0) > 0}
+    _never461 = set(_s461.get("fields_never_read") or [])
+    if _never461 & _read461:
+        _bad461.append("fields published as never-read carry read sites: %s"
+                       % sorted(_never461 & _read461))
+    if any(_r.get("class") == _m461.L_JOINED and not _r.get("joined_sources") for _r in _r461):
+        _bad461.append("a row is graded joined while naming no joining source")
+    _doc461 = json.loads(json.dumps(_f461))
+    _unjoined461 = next((_r for _r in _doc461.get("rows") or []
+                         if _r.get("class") != _m461.L_JOINED and not _r.get("joined_sources")), None)
+    if _unjoined461 is None:
+        _bad461.append("no unread row to doctor: the split cannot be shown to go red")
+    else:
+        _unjoined461["class"] = _m461.L_JOINED
+        if not _m461.tally_problems(_doc461):
+            _bad461.append("an unread face promoted to joined was accepted")
+    _d461 = ("%d faces graded | joined by a field reader %d (face-specific %d) | joined by an "
+             "exact value %d | named only by their producer %d | named but unread %d | unnamed %d "
+             "| fields never read %d of %d | read sites identity-named %d, ambiguous-named %d") % (
+        _s461.get("faces_graded") or 0, _s461.get("faces_joined_by_a_field_reader") or 0,
+        _s461.get("faces_joined_by_a_face_specific_source") or 0,
+        _s461.get("faces_joined_by_a_value_reader") or 0,
+        (_s461.get("link_classes") or {}).get(_m461.L_PRODUCER_ONLY) or 0,
+        (_s461.get("link_classes") or {}).get(_m461.L_NAMED_UNREAD) or 0,
+        (_s461.get("link_classes") or {}).get(_m461.L_UNNAMED) or 0,
+        len(_never461), _s461.get("fields") or 0,
+        _s461.get("read_sites_identity_named") or 0,
+        _s461.get("read_sites_ambiguous_named") or 0)
+except Exception as _e461x:
+    _bad461.append(repr(_e461x)[:160])
+    _d461 = "leg could not run"
+check(_name461, not _bad461, "; ".join(_bad461)[:240] or _d461)
+
 if __name__ == "__main__":
     sys.exit(main())

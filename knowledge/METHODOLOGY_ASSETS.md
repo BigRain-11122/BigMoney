@@ -11450,3 +11450,45 @@ prereg note publishes a digest of it` with a doctored control that must stay red
   + `scripts/run_e458_smoke_leg.py` (standalone 1/1, and the leg reds on a doctored copy that promotes
   a no-identity row into the machine-readable class); digest
   `research/digests/DIGEST-20261106-r1482-e458-face-identity.md`.
+
+## E461 -- a declaration nobody reads is a label: measure the link, and split the generic key names out (r1483 bm-b)
+
+* **Question.** E458 published that 526 of 538 study faces declare a machine-readable identity and
+  that every declaration resolves. Resolving is not reading. Ask, for every graded face, whether a
+  source *other than its own producer* names the face **and** reads a field the face declares; and,
+  separately, whether the joining source also carries the declared value as its own literal. Then ask
+  the same question of the vocabulary itself: of the 15 field names E458 froze, which are ever read?
+* **The reading.** 526 faces graded over 8,209 `.py` sources (own outputs excluded). **389 are named
+  by a source that reads a declared field**, **12 are joined by a source that also carries the
+  declared value as an exact string constant**, **130 are named only by their own producer**, **1 is
+  named by a consumer that reads none of its fields**, **6 are named by nobody**. Of the 15 identity
+  field names, **7 are never read by any source** -- and they are exactly the shape-named ones
+  (`card_id`, `study_id`, `prereg_path` plus `prereg_note`, `pinned_note`, `source_card`,
+  `source_cards`): readers key on the *generic* names (`study`, `card`), never on the vocabulary that
+  gives the shape its precision.
+* **Rule 1: a file-level conjunction is not a link.** "Some file names this face and some file reads
+  `study`" is one conjunction over an entire source, and a census reader satisfies it for every face
+  it walks. 385 of the 389 joins come from a single source (`smoke_test.py`) that names >10 faces;
+  the **face-specific** join count is **4**. The breadth of the joining source (`joined_breadth`) is
+  published on every row so the two shapes cannot be read as one number.
+* **Rule 2: exact literal is not substring.** `E452` occurs twice in `smoke_test.py` but never as a
+  compared literal -- only inside leg labels -- so a "value appears somewhere in the source" test
+  reports a join that the code does not make. The value join is graded on string constants that
+  appear **exactly**, which is why it reads 12 and not 389. `smoke_test.py` *does* read
+  `_doc.get("study") == "E229"` for the legs that carry the exact literal; both shapes are real and
+  are published apart.
+* **Rule 3: generic key names inflate the census.** The vocabulary shares three names with ordinary
+  payload keys (`id`, `pin`, `pid`). `id` alone carries **1,125 read sites across 895 files**
+  (`Money0923/quant/arena.py` et al) that have nothing to do with a study identity. Identity-named
+  read sites are **110**; ambiguous-named are **1,242**. Folding them together would let "every field
+  is read" pass on the strength of `d["id"]`.
+* **Wiring.** `scripts/e461_identity_consumers.py` (run rc0 / verify problems=[] / check clean /
+  **selftest 24/24**); faces `results/state_tilt/identityconsumers_latest.json` +
+  `IDENTITYCONSUMERS-2026-11-06.json`; S6 leg `identity_consumers` (re-derives the tallies from the
+  published rows); smoke leg `e461 does a consumer read the identity a face declares (r1483 bm-b)` +
+  `scripts/run_e461_smoke_leg.py` (standalone 1/1, red on a copy that promotes an unread face into
+  the joined class); digest `research/digests/DIGEST-20261106-r1483-e461-identity-consumers.md`.
+* **Bound published, not claimed.** Static only: a consumer that reaches the field through a computed
+  key is invisible; a consumer that compares against a constant imported from elsewhere counts as a
+  field join, not a value join; a name composed from parts is not matched (E458's bound, inherited).
+  Read-vs-write is decided by AST context, not data flow.

@@ -24,7 +24,7 @@
   "supply_floor"
  ],
  "behind_origin_main": 295,
- "card": "E451-WHICH-STUDY-THAT-CITES-ITS-PREREG-NOTE-CARRIES-NO-DIGEST-OF-IT",
+ "card": "E461-WHICH-CONSUMER-ACTUALLY-READS-THE-IDENTITY-A-FACE-DECLARES",
  "check": "e456 check problems=0",
  "clock_read": "2026-11-06T08:22:48+08:00",
  "concurrency_note": "Tools/iteration_loop.ps1 pid 6884 (started 02:12) was live in this repo for the whole window; no queue head, task card or shared lane face was claimed and nothing was re-registered",
@@ -5224,6 +5224,19 @@
   "ts": "2026-11-06T09:50:55+08:00",
   "verified": true
  },
+ "r1481_delivery": {
+  "branch": "machine/bm-b-r1481",
+  "local_not_on_origin_main": 444,
+  "sha": "d0b6f2bb03d90da6bba5bdcf16e3a6f2a6969fd8",
+  "ts": "2026-11-06T11:38:19+08:00",
+  "verified": "ls-remote equals local HEAD"
+ },
+ "r1482_delivery": {
+  "branch": "machine/bm-b-r1482",
+  "sha": "7cc16e7ad356bcbf431c1c8d4b7c8d377a3cfe22",
+  "ts": "2026-11-06T12:40:31+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1482 equals local HEAD"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -5232,14 +5245,14 @@
  "ram_free_pct": 42.3,
  "ram_load_pct": 54.1,
  "ram_total_gb": 23.9,
- "recent_artifact": "results/state_tilt/faceidentity_latest.json",
+ "recent_artifact": "results/state_tilt/identityconsumers_latest.json",
  "reds_fixed": "e390/e398/e408/e409/e411/e416/e417/e418/e419/e422/e435 republished; heartbeat GPU face re-probed (gpu_face audit findings=0)",
  "reds_open": "dashboard marks coverage gap -- results/dashboard_status.json last written 2026-10-31, monitor/build_status.py is single-writer on bm-a; a local rewrite would make a second writer for a face bm-a owns",
  "reds_open_note": "all 12 were already red before this window (r1446's run showed 13; the E423 one closed in r1449); none is caused by this round's files -- the new E432 leg passes in the same suite",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1482,
- "round_entries_tail": "r1478 E456 cross-module resolution: 0 of 6,898 receivers name an in-repo class",
- "round_no": 1482,
+ "round": 1483,
+ "round_entries_tail": "r1483 E461 identity consumers: 389 field-joins but only 4 face-specific and 12 exact-value joins; 7 of 15 identity field names are read by nobody",
+ "round_no": 1483,
  "round_no_label": "r1480",
  "round_no_note": "r1480: E459 published (stdlib classes behind E456's out-of-tree receivers) + heartbeat GPU face healed; both round faces written together (r1020 double-face drift heal: they read 1478/1479 at open)",
  "round_no_ts": "2026-11-06T11:06:57+08:00",
@@ -5249,11 +5262,11 @@
  "round_report_line_ts": "2026-11-04T06:28:39+08:00",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
  "s0_sync": {
-  "ahead_of_origin_main_at_open": 412,
+  "ahead_of_origin_main_at_open": 447,
   "behind_origin_main": 295,
-  "note": "not rebased: two blood lines on a promisor clone over a tree another lane keeps dirty; delivery goes to machine/bm-b-r1469 per r1243"
+  "note": "not rebased: two blood lines on a promisor clone over a tree other lanes keep dirty; delivery goes to machine/bm-b-r1483 per r1243"
  },
- "s1": "the full smoke suite was launched detached this window (results/_smoke_r1482.out, pid 27096, still running at close); python block-buffers when redirected, so no running count is visible and no total is claimed. The new leg was proved standalone (1/1) and red on a doctored copy",
+ "s1": "the full smoke suite from r1482 (pid 27096, results/_smoke_r1482.out) was still running at open; no second full run was launched and no suite total is claimed -- the new leg was proven standalone (1/1) and proved red on a doctored copy",
  "s1_note": "results/_smoke_r1473.out detached at 06:05: 22 PASS / 0 FAIL at the last poll with the output buffered mid-run; no suite total is claimed this window",
  "s4": "card appended: ast.get_source_segment re-splits the whole source per call (16min build -> 44s), and a tally guard that demanded a bound name for a direct return/dict-literal reach accused 30 legitimate rows",
  "s6": "pool_dualrun_reconcile run = ZERO-DRIFT (933 entries, streak 51, cutoff 2026-11-06T09:39:39+08:00) | attrition_ledger_guard scan = CLEAN (4 ledgers, 2 historical shrinks healed) | orphan probe py_faces=10 orphans=0 residents=0",
@@ -5262,8 +5275,8 @@
  "s6_note": "the leg table now carries face_identity; the other legs were not re-run this window. One accidental full-chain start (a --leg typo resolved to round '--leg') ran ~5 minutes before it was cancelled, so a handful of downstream faces may show re-derived bytes this window -- disclosed, not claimed as this round's work",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
  "s6_run_in_window": "pool_dualrun_reconcile run = ZERO-DRIFT (935 entries, streak 51) | attrition_ledger_guard scan = CLEAN (4 ledgers, 3 historical shrinks healed) | S6 leg face_identity rc0 0.06s (the rest of the chain not re-run this window and not claimed)",
- "s7": "orders 114 files / 115 acks / 0 unacked (scan at open) | decisions at the group origin tip: D-20261106-05 and D-20261106-06, neither names bigmoney/quant for action (D-06 references quant F-20261104-02 as already delivered) -> watermark advance only | loop/watchdog/claws not re-registered this window, their own ticks cover it",
- "s7_checked_at": "2026-11-06T12:40:31+08:00",
+ "s7": "orders 114 files / 115 acks / 0 unacked (rescan at 13:0x) | decisions not re-read this window (the r1482 window advanced the watermark to the 2026-11-06 origin tip) | loop/watchdog/claws not re-registered this window",
+ "s7_checked_at": "2026-11-06T13:13:29+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
  "s7_note": "the watchdog keeps disappearing: re-registering it every window hides the cause; next window should find what disables it",
  "s7_r1439": "loop pin=2 no-op | LoopWatchdog RE-REGISTERED (absent on this box; S4U, SWA=false) | pre-commit + pre-push claws reinstalled | attrition CLEAN 4 ledgers (3 healed) | sat engine status rc=0 idle",
@@ -5289,16 +5302,16 @@
  "snapshot": {},
  "state_face_note": "authoritative face for bm-b",
  "status": "ok",
- "study": "E458_which_published_face_carries_no_machine_readable_study_identity",
+ "study": "E461_which_consumer_actually_reads_the_identity_a_face_declares",
  "supply_floor": {
   "floor": 3,
   "ready_at_close": 3,
   "seeded": [
-   "E459-WHICH-STDLIB-CLASS-A-CROSS-MODULE-RECEIVER-IS-BOUND-TO"
+   "E462-WHICH-IDENTITY-DECLARATIONS-SIT-IN-A-DIALECT-NO-READER-SPEAKS"
   ],
   "still_ready_untouched": [
    "E457-HOW-OFTEN-A-WRAPPER-NAME-IS-ALSO-A-METHOD-NAME-IN-A-MODULE-THAT-NEVER-IMPORTS-IT",
-   "E458-WHICH-PUBLISHED-FACE-CARRIES-NO-MACHINE-READABLE-STUDY-IDENTITY"
+   "E460-WHICH-STUDY-FACE-LACKS-AN-IDENTITY-ITS-OWN-PRODUCER-KNOWS"
   ]
  },
  "supply_floor_ready": 3,
@@ -5307,47 +5320,34 @@
   "peer": "origin",
   "ts": "2026-11-06T12:40:31+08:00"
  },
- "sync_note": "delivery on machine/bm-b-r1482; origin/main untouched by this window",
- "task": "the four growth-drift legs: three tolerate growth, one was a real class move and was re-derived",
- "task_short": "why do four legs re-red a round after they were rebuilt",
+ "sync_note": "delivery on machine/bm-b-r1483; origin/main untouched by this window",
+ "task": "whether the identity a face declares is read by any consumer, or is only a label",
+ "task_short": "is a face's declared identity a link or a label",
  "task_short_note": "smoke_test.py census legs; card E360; digest r1382",
  "three_line": "current: r1481: the growth-drift family is closed -- 3 legs carry the E455 rule, 2 producers re-derived; four extracted runners green | artifact: results/state_tilt/faceage_latest.json @ 2026-11-06T11:35:58+08:00 | next: E458 (which published face carries no machine-readable study identity) or the r1480 pool card within 48h; suite re-run with no concurrent rebuild to confirm the four legs in situ",
- "three_line_artifact": "results/state_tilt/faceidentity_latest.json @ 2026-11-06T12:40:31+08:00",
- "three_line_artifact_ts": "2026-11-06T12:40:31+08:00",
- "three_line_current": "r1482: E458 closed out -- the identity question is answered and the 12 non-machine faces are named by producer",
+ "three_line_artifact": "results/state_tilt/identityconsumers_latest.json @ 2026-11-06T13:13:29+08:00",
+ "three_line_artifact_ts": "2026-11-06T13:13:29+08:00",
+ "three_line_current": "r1483: E461 closed -- whether anyone reads the identity a face declares is now measured",
  "three_line_delivery": "machine/bm-b-r1482 @ 7cc16e7ad (ls-remote verified)",
- "three_line_next": "E460 (which study face lacks an identity its own producer knows) or E461 (which consumer actually reads the identity a face declares) within 48h; smoke suite re-run to a total before the next card",
- "timestamp": "2026-11-06T12:40:31+08:00",
- "ts": "2026-11-06T12:40:31+08:00",
- "ts_utc_ms": 1793940031000,
+ "three_line_next": "E460 (the 12 non-machine faces and what their own producers know) or E462 (identity declarations in a dialect no reader speaks) within 48h; S6 chain leg identity_consumers in the chain",
+ "timestamp": "2026-11-06T13:13:29+08:00",
+ "ts": "2026-11-06T13:13:29+08:00",
+ "ts_utc_ms": 1793942009000,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-06T08:31:36+08:00",
- "updated_at": "2026-11-06T12:40:31+08:00",
- "verdict": "green: E458 published -- 526 of 538 graded study faces carry an identity a consumer can key on, 2 carry one only inside a prose field, 10 carry none (6 studies), 0 declarations fail to resolve",
- "verdict_line": "e458 run rc0 | check clean | selftest 24/24 | smoke leg 1/1 (doctored copy reds) | S6 face_identity rc0 0.06s",
+ "updated_at": "2026-11-06T13:13:29+08:00",
+ "verdict": "red: E461 published -- of 526 studied faces 389 are named by a source that reads a declared field, but 385 of those joins come from one census reader, so the face-specific join count is 4 and the exact-value join count is 12",
+ "verdict_line": "e461 run rc0 | verify problems=[] | check problems=[] | selftest 24/24 | smoke leg 1/1 and red on a doctored copy (face restored byte-identical) | S6 leg identity_consumers registered",
  "verdict_watermark": "red=true lane=pool-batch-runnable-idle-low-cpu",
  "verify": "e456 verify problems=0 (growth: identical)",
  "vram_free_gb": 3.4,
  "vram_probe": "nvidia-smi",
  "vram_total_gb": 8.0,
  "vram_used_gb": 4.4,
- "watermark": "red=true lane=pool-batch-runnable-idle-low-cpu (3 pool-ready cpu cards at open: E457/E460/E461)",
+ "watermark": "red=true lane=pool-batch-runnable-idle-low-cpu at open (3 ready cards E457/E460/E461); this round burned E461 and refilled with E462",
  "watermark_note": "the red reading names the three ready cards; this round burned none of them -- it closed E458, which the previous window had published to disk but never committed",
  "watermark_note_2": "no cloud, no GPU, nothing deleted",
  "watermark_red": "red=true lane=pool-batch-runnable-idle-low-cpu at open",
  "watermark_verdict": "red=true lane=pool-batch-runnable-idle-low-cpu",
- "work": "E458 finished and published: producer-first attribution over 538 results/ faces, three identity classes held apart, 5,466 discounted substring mentions published rather than hidden, 39 unattributed faces published as a residue instead of a zero",
- "r1481_delivery": {
-  "branch": "machine/bm-b-r1481",
-  "sha": "d0b6f2bb03d90da6bba5bdcf16e3a6f2a6969fd8",
-  "verified": "ls-remote equals local HEAD",
-  "local_not_on_origin_main": 444,
-  "ts": "2026-11-06T11:38:19+08:00"
- },
- "r1482_delivery": {
-  "branch": "machine/bm-b-r1482",
-  "sha": "7cc16e7ad356bcbf431c1c8d4b7c8d377a3cfe22",
-  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1482 equals local HEAD",
-  "ts": "2026-11-06T12:40:31+08:00"
- }
+ "work": "E461 measured and published: 526 faces graded over 8,209 .py sources -- 389 named by a source that reads a declared field, 4 face-specific, 12 exact-value joins, 130 producer-only, 1 named-but-unread, 6 unnamed; 7 of 15 identity field names are read by no source and they are exactly the shape-named ones"
 }
