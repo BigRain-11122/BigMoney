@@ -78,6 +78,13 @@ MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 # machines regenerating the same day would only produce a git race on docs/live_book.
 # bm-a prints it; every other host says so and writes nothing (R31 lane-guard lineage).
 HOST = "bm-a"
+# r1387: a single writer that is not running is not a style, it is a stopped CEO product.
+# bm-a's last heartbeat was 2026-11-05 21:26 and its page sat three trading days behind the
+# ticket while every consumer leg downstream of the page went red on this host. Another host
+# may take the pen, but only on a DECLARED silence measured from the owner's own heartbeat
+# file, and the page says who wrote it and why -- a take-over that cannot be told apart from
+# the owner writing is worse than the staleness.
+TAKEOVER_SILENCE_H = 6.0
 
 
 def machine_id():
@@ -88,8 +95,45 @@ def machine_id():
         return None
 
 
+def owner_silence_hours():
+    """Hours since the writer machine's own heartbeat. None = unknown, not silence.
+
+    An unreadable heartbeat is the one case that must NOT authorize a take-over: "I cannot
+    see the owner" and "the owner is gone" produce different actions everywhere else in this
+    repo, and reading the first as the second is how a second writer appears (E378 lineage).
+    """
+    p = os.path.join(ROOT, "fleet", "machines", "%s.json" % HOST)
+    try:
+        with open(p, encoding="utf-8-sig") as fh:
+            d = json.load(fh)
+    except Exception:
+        return None
+    ts = d.get("last_seen") or d.get("ts")
+    if not ts:
+        return None
+    try:
+        seen = dt.datetime.fromisoformat(str(ts))
+    except Exception:
+        return None
+    now = dt.datetime.now(seen.tzinfo) if seen.tzinfo else dt.datetime.now()
+    return max(0.0, (now - seen).total_seconds() / 3600.0)
+
+
+def takeover_authority(mid, silence_h=None):
+    """None when `mid` may not write; otherwise the block that names the take-over."""
+    if not mid or mid == HOST:
+        return None
+    h = owner_silence_hours() if silence_h is None else silence_h
+    if h is None or h < TAKEOVER_SILENCE_H:
+        return None
+    return {"writer": mid, "owner": HOST, "owner_silent_h": round(float(h), 1),
+            "took_over": True,
+            "why": "%s has not written its own heartbeat for %.1f h (> %.0f h): its page faces "
+                   "are stopped, not merely old" % (HOST, float(h), TAKEOVER_SILENCE_H)}
+
+
 def writer_allowed(mid):
-    return mid == HOST
+    return mid == HOST or takeover_authority(mid) is not None
 
 CLASS_ZH = {
     "equity": "A股",
@@ -4252,6 +4296,13 @@ def render_md(p):
         add("**无法判断。** %s —— 有一张纸没写自己的定价日，所以这里既不能说「一致」，"
             "也不能说「不一致」。" % _shown)
     add("")
+    _auth = p.get("authority") or {}
+    if _auth.get("took_over"):
+        add("**这一页是 %s 代笔的。** %s 已经 %.1f 小时没有自己的心跳 —— 它的页面是"
+            "停了，不是旧了；代笔只写这一页，不碰它盘上的任何面。"
+            % (_auth.get("writer"), _auth.get("owner"),
+               float(_auth.get("owner_silent_h") or 0)))
+        add("")
     add("---")
     add("*生成脚本 scripts/etf_book_ceo_page.py｜证据截止 %s｜卡片与单子同一决策日=%s，"
         "三张纸同一定价日=%s（%s）*"
@@ -4267,6 +4318,10 @@ def run():
               % (mid, HOST))
         return 0
     page, today = build(with_stress=True)
+    auth = takeover_authority(mid) or {"writer": mid, "owner": HOST, "took_over": False}
+    page["authority"] = auth
+    if auth.get("took_over"):
+        print("etf_book_ceo_page: WRITING AS %s -- %s" % (mid, auth["why"]))
     os.makedirs(OUT_DIR, exist_ok=True)
     md_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.md" % today.replace("-", ""))
     js_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.json" % today.replace("-", ""))
@@ -4391,10 +4446,26 @@ def selftest():
     chk("L21 live page: action mode agrees with its own decision/priced bars and ledger",
         _la_ok, "%s decided=%s priced=%s bars=%s"
         % (_la["mode"], page["book_decided_at"], page["priced_bar"], page["forward"]["bars"]))
-    # 22. single writer: only the host may write, and an unknown host must not write either
-    chk("L22 guard: writer_allowed('bm-a') only",
-        writer_allowed("bm-a") and not writer_allowed("bm-c") and not writer_allowed("bm-b")
-        and not writer_allowed(None), "host=%s" % HOST)
+    # 22. single writer: only the host may write while it is alive; an unknown heartbeat is
+    # not a dead owner, and a declared silence is a take-over that says who took the pen.
+    _orig_sil = globals()["owner_silence_hours"]
+    try:
+        globals()["owner_silence_hours"] = lambda: 0.5
+        _fresh = (writer_allowed("bm-a") and not writer_allowed("bm-c")
+                  and not writer_allowed("bm-b") and not writer_allowed(None))
+        globals()["owner_silence_hours"] = lambda: 9.0
+        _auth = takeover_authority("bm-c") or {}
+        _silent = (writer_allowed("bm-a") and writer_allowed("bm-c")
+                   and not writer_allowed(None)
+                   and _auth.get("writer") == "bm-c" and _auth.get("owner") == HOST
+                   and _auth.get("took_over") is True and _auth.get("why"))
+        globals()["owner_silence_hours"] = lambda: None
+        _unk = not writer_allowed("bm-c") and not writer_allowed("bm-b")
+    finally:
+        globals()["owner_silence_hours"] = _orig_sil
+    chk("L22 guard: live owner = only bm-a; declared silence = takeover; unknown = nobody",
+        _fresh and _silent and _unk,
+        "fresh=%s silent=%s unknown=%s host=%s" % (_fresh, _silent, _unk, HOST))
 
     # 23-26. the stress block: hand fixture first, then the "absent panel is never zero" face
     import pandas as _pd

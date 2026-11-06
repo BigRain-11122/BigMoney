@@ -162,6 +162,43 @@ def _lane_freshness_state() -> dict:
             "disk": doc.get("disk") or {}}
 
 
+def _lane_ownership_state() -> dict:
+    """Who owns each data lane, and which owned lanes nobody has been seen producing.
+
+    r1387: the chain writes docs/lane_ownership/DECLARATION-latest.json every round and the
+    group's 2026-11-08 re-enable decision reads that row -- but `results/dashboard_status.json`
+    never carried it, so the row was blank while the declaration was complete, and the smoke
+    leg that compares the two could only ever fail. The numbers here are the declaration
+    module's own `build()` (imported, not restated: a copy of a rule is the next defect) and
+    the grouping names the host that owes the missing evidence, because "six lanes nobody has
+    seen" is not something an operator can act on.
+    """
+    import importlib.util as _ilu
+    _p = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                      "scripts", "lane_ownership_declaration.py")
+    _spec = _ilu.spec_from_file_location("_lane_ownership_declaration", _p)
+    _mod = _ilu.module_from_spec(_spec)
+    _spec.loader.exec_module(_mod)
+    doc = _mod.build()
+    summ = doc.get("summary") or {}
+    rows = doc.get("lanes") or []
+    retired = [r.get("lane") for r in rows if r.get("observation") == "retired"]
+    unobs = [x for x in (summ.get("declared_but_unobserved") or []) if x not in retired]
+    by_host = {}
+    for r in rows:
+        if r.get("lane") not in unobs:
+            continue
+        by_host.setdefault(r.get("declared_host") or "?", {"lanes": []})["lanes"].append(
+            r.get("lane"))
+    return {"present": bool(doc), "as_of": doc.get("generated"),
+            "source_freshness_as_of": doc.get("source_freshness_as_of"),
+            "n_lanes": summ.get("n_lanes"), "n_owned": summ.get("n_owned"),
+            "n_declared_but_unobserved": len(summ.get("declared_but_unobserved") or []),
+            "n_live_declared_but_unobserved": len(unobs),
+            "retired": retired, "conflict_lanes": summ.get("conflict_lanes") or [],
+            "verdict": summ.get("verdict"), "by_host": by_host}
+
+
 def _update_state() -> dict:
     """Daily-update chain health from results/update_status.json (J18b).
 
@@ -2752,6 +2789,7 @@ def build() -> dict:
     data["ah_panel"] = _ah_state()
     data["collector_wall"] = _collector_wall_state()
     data["lane_freshness"] = _lane_freshness_state()
+    data["lane_ownership"] = _lane_ownership_state()
     data["token"] = _token_state()
     data["watermark"] = _watermark_state()
     data["autofill"] = _autofill_state()

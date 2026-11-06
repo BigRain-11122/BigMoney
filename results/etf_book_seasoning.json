@@ -1,0 +1,237 @@
+{
+ "schema": "etf-book-seasoning/v1",
+ "evidence_cutoff": "2026-11-06",
+ "panel": {
+  "n_instruments": 1624,
+  "n_bars": 1658,
+  "digest": "58302d9ca988c138",
+  "first_bar": "2020-01-02",
+  "flips_repaired": 169
+ },
+ "engine": {
+  "walk": "etf_book_forward.Forward",
+  "config": {
+   "n_hold": 12,
+   "rebal": 20,
+   "cost_per_side": 0.001,
+   "vol_target": 0.08,
+   "classes": [
+    "equity",
+    "commodity",
+    "convertible"
+   ],
+   "execution": "decide at close of bar d -> fill at open of bar d+1 -> hold to the next fill",
+   "cash": "cash held at the start of a bar earns that bar's repo carry (ladder3 = GC007/GC014/GC028 equal rungs, exchange commission charged, panel from scripts/update_repo.py); --carry=0 reproduces the zero-carry book"
+  },
+  "carry": "ladder3 (GC007/GC014/GC028) commission charged",
+  "note": "the only change between arms is a NaN-mask on the score row; the production arm receives the unmodified score object"
+ },
+ "arms": [
+  {
+   "min_bars": 0,
+   "universe": {
+    "first_bar": "2020-01-02",
+    "first_eligible": 194,
+    "last_bar": "2026-11-06",
+    "last_eligible": 1515
+   },
+   "faces": {
+    "full": {
+     "cagr": 0.0893,
+     "sharpe": 0.935,
+     "maxdd": -0.1326,
+     "vol": 0.1006,
+     "years": 6.84
+    },
+    "is": {
+     "cagr": 0.0315,
+     "sharpe": 0.381,
+     "maxdd": -0.1326,
+     "vol": 0.0967,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1754,
+     "sharpe": 1.647,
+     "maxdd": -0.0995,
+     "vol": 0.1059,
+     "years": 2.84
+    }
+   },
+   "picks": {
+    "decisions": 83,
+    "median_pick_age_bars": 1178.5,
+    "youngest_pick_median": 241,
+    "oldest_pick_median": 5178,
+    "mean_share_picks_lt_250": 0.009,
+    "mean_share_picks_lt_500": 0.2088,
+    "decisions_with_a_name_under_250": 9
+   },
+   "fills": 83,
+   "mean_turnover": 0.9343,
+   "final_nav": 1.795729
+  },
+  {
+   "min_bars": 250,
+   "universe": {
+    "first_bar": "2020-01-02",
+    "first_eligible": 127,
+    "last_bar": "2026-11-06",
+    "last_eligible": 1219
+   },
+   "faces": {
+    "full": {
+     "cagr": 0.0901,
+     "sharpe": 0.942,
+     "maxdd": -0.1314,
+     "vol": 0.1007,
+     "years": 6.84
+    },
+    "is": {
+     "cagr": 0.0307,
+     "sharpe": 0.373,
+     "maxdd": -0.1314,
+     "vol": 0.0966,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1787,
+     "sharpe": 1.67,
+     "maxdd": -0.099,
+     "vol": 0.1062,
+     "years": 2.84
+    }
+   },
+   "picks": {
+    "decisions": 83,
+    "median_pick_age_bars": 1178.5,
+    "youngest_pick_median": 250,
+    "oldest_pick_median": 5178,
+    "mean_share_picks_lt_250": 0.0,
+    "mean_share_picks_lt_500": 0.2028,
+    "decisions_with_a_name_under_250": 0
+   },
+   "fills": 83,
+   "mean_turnover": 0.9348,
+   "final_nav": 1.804721
+  },
+  {
+   "min_bars": 500,
+   "universe": {
+    "first_bar": "2020-01-02",
+    "first_eligible": 105,
+    "last_bar": "2026-11-06",
+    "last_eligible": 942
+   },
+   "faces": {
+    "full": {
+     "cagr": 0.0789,
+     "sharpe": 0.837,
+     "maxdd": -0.1614,
+     "vol": 0.1005,
+     "years": 6.84
+    },
+    "is": {
+     "cagr": 0.0122,
+     "sharpe": 0.18,
+     "maxdd": -0.1614,
+     "vol": 0.095,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1787,
+     "sharpe": 1.648,
+     "maxdd": -0.0893,
+     "vol": 0.1077,
+     "years": 2.84
+    }
+   },
+   "picks": {
+    "decisions": 83,
+    "median_pick_age_bars": 1518.5,
+    "youngest_pick_median": 500,
+    "oldest_pick_median": 5178,
+    "mean_share_picks_lt_250": 0.0,
+    "mean_share_picks_lt_500": 0.0,
+    "decisions_with_a_name_under_250": 0
+   },
+   "fills": 83,
+   "mean_turnover": 0.9129,
+   "final_nav": 1.681162
+  },
+  {
+   "min_bars": 750,
+   "universe": {
+    "first_bar": "2020-01-02",
+    "first_eligible": 94,
+    "last_bar": "2026-11-06",
+    "last_eligible": 771
+   },
+   "faces": {
+    "full": {
+     "cagr": 0.0808,
+     "sharpe": 0.851,
+     "maxdd": -0.2059,
+     "vol": 0.1011,
+     "years": 6.84
+    },
+    "is": {
+     "cagr": 0.012,
+     "sharpe": 0.177,
+     "maxdd": -0.2059,
+     "vol": 0.0952,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1841,
+     "sharpe": 1.679,
+     "maxdd": -0.0844,
+     "vol": 0.1086,
+     "years": 2.84
+    }
+   },
+   "picks": {
+    "decisions": 83,
+    "median_pick_age_bars": 1724.0,
+    "youngest_pick_median": 751,
+    "oldest_pick_median": 5178,
+    "mean_share_picks_lt_250": 0.0,
+    "mean_share_picks_lt_500": 0.0,
+    "decisions_with_a_name_under_250": 0
+   },
+   "fills": 83,
+   "mean_turnover": 0.8389,
+   "final_nav": 1.701661
+  }
+ ],
+ "readings": {
+  "headline": "production (min_bars=0) CAGR 8.93% vs seasoned-3y arm 8.08%",
+  "cagr_by_min_bars": {
+   "0": 0.0893,
+   "250": 0.0901,
+   "500": 0.0789,
+   "750": 0.0808
+  },
+  "sharpe_by_min_bars": {
+   "0": 0.935,
+   "250": 0.942,
+   "500": 0.837,
+   "750": 0.851
+  },
+  "maxdd_by_min_bars": {
+   "0": -0.1326,
+   "250": -0.1314,
+   "500": -0.1614,
+   "750": -0.2059
+  },
+  "young_share_of_picks": 0.009,
+  "share_of_edge_from_young_picks": null,
+  "caveat": "a seasoned-only arm is not a survivorship-free arm: it removes the YOUNG cohort, it does not add back funds that died"
+ },
+ "caveats": [
+  "no preregistration, no verdict, nothing booked to the trial ledger",
+  "the panel is today's listed set: dead funds are absent from every arm",
+  "min_bars counts bars THIS panel holds, not the fund's true listing age -- a fund listed in 2015 whose prints start in 2020 reads as young at 2020"
+ ],
+ "determinism_sha256": "e66a7ad1272c9cdfb5cbe565f563aaac54eea8bddfe10411c35a008553c7d0f3"
+}

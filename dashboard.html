@@ -408,6 +408,29 @@ function renderCompany() {
       down ? "warn" : "dim",
       `${n2(lfd.n_offhost)}/${n2(lfd.n_lanes)} 在外机`));
   }
+  // r1387: the group's 2026-11-08 re-enable decision reads this row. Two facts travel
+  // together and are never merged here: OWNERSHIP (is there one owner per lane) and
+  // OBSERVATION (an owned lane nobody has been seen producing is a warning, not ok).
+  // The numbers are the declaration module's own summary (data.lane_ownership in
+  // build_status); by_host names the machine that owes the missing evidence.
+  const lo = (D.data && D.data.lane_ownership) || {};
+  if (lo.present) {
+    const bh = lo.by_host || {};
+    const hosts = Object.keys(bh).sort();
+    const whom = hosts.map(h => `${h} 欠 ${(bh[h].lanes || []).join(" ")}`).join(" · ");
+    const ret = (lo.retired || []).join(" ");
+    const parts = [`${n2(lo.n_owned)}/${n2(lo.n_lanes)} 条车道有主`];
+    parts.push(lo.verdict === "OWNERSHIP_UNIQUE" ? "归属唯一" : "归属冲突");
+    if (lo.n_live_declared_but_unobserved) {
+      parts.push(`${lo.n_live_declared_but_unobserved} 条有主却读不到它的产出封套`
+        + (whom ? `（${whom}）` : ""));
+    }
+    if (ret) parts.push(`已退役 ${ret}`);
+    rows.push(chainRow("车道归属声明", parts.join(" · "),
+      (lo.verdict === "OWNERSHIP_UNIQUE" && !lo.n_live_declared_but_unobserved) ? "ok" : "warn",
+      lo.n_live_declared_but_unobserved
+        ? `欠证 ${lo.n_live_declared_but_unobserved}` : "可判"));
+  }
   const fr = (D.research && D.research.factor_line) || {};
   if (fr.present) {
     rows.push(chainRow("因子研究线", n2(fr.digest), "dim", "双系列"));

@@ -40,6 +40,18 @@ import sys
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+def _rel(path):
+    """Label a path for the audit receipt without letting the label be the failure.
+
+    os.path.relpath raises ValueError across Windows drives, and the selftest builds
+    its fixtures under %TEMP% on C: while this repo lives on K:. The audit was
+    therefore crashing on its own evidence line (r1386), which the smoke leg read as
+    a broken contract rather than a broken label.
+    """
+    try:
+        return os.path.relpath(path, ROOT)
+    except ValueError:
+        return str(path)
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
@@ -170,7 +182,7 @@ def audit_factor_source(path=FACTORS_PY):
                        or "axis = 1" in code)
             if not allowed:
                 violations.append({"line": i, "call": name, "code": code.strip()[:120]})
-    return {"ok": not violations, "violations": violations, "path": os.path.relpath(path, ROOT)}
+    return {"ok": not violations, "violations": violations, "path": _rel(path)}
 
 
 def audit_rank_causality(close, amt, feats, score, bars):

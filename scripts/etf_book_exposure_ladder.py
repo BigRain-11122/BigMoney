@@ -380,6 +380,13 @@ def write_md(doc):
 def check(path=None):
     with open(path or OUT_JSON, "r", encoding="utf-8") as fh:
         doc = json.load(fh)
+    # r1386 / r1249: this check re-derives from the face's own rows, so it stays green on
+    # ANY panel -- it sat on the 2026-10-30 panel while the book priced 11-03. rc 2 + the
+    # word "stale" is what the chain's refresh arm fires on; a verdict disagreement is a
+    # different failure and must never be laundered by a rebuild, so it keeps rc 1.
+    _rc = F.check_panel_stamp(doc, stamp=F.panel_stamp(), label="ladder")
+    if _rc:
+        return _rc
     got = doc.get("criteria") or {}
     for key, want in CRITERIA.items():
         if got.get(key) != want:

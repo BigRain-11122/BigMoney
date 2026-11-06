@@ -53,6 +53,7 @@ import numpy as np
 import pandas as pd
 
 import etf_book_concentration as C
+import etf_book_forward as F
 import etf_book_production as P
 import etf_book_sleeve_gate as G
 import etf_robust_pf as R
@@ -506,6 +507,13 @@ def check(path=None):
     """Re-derive every judgement and the face verdict from the published rows."""
     p = Path(path) if path else OUT_JSON
     doc = json.load(open(p, encoding="utf-8"))
+    # r1387 / r1249: every judgement below is re-derived from the face's own rows, so this
+    # check stayed green while the face priced a panel the book had already left. rc 2 + the
+    # word "stale" is what the chain's refresh arm fires on; a verdict/identity disagreement
+    # keeps rc 1 so a rebuild can never launder it.
+    _rc = F.check_panel_stamp(doc, stamp=F.panel_stamp(), label="sleeve")
+    if _rc:
+        return _rc
     crit = doc.get("criteria") or {}
     drift = []
     for key, val in CRITERIA.items():

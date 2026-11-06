@@ -1,0 +1,93 @@
+{
+ "book": {
+  "bars": 1656,
+  "bars_per_year": 252,
+  "flip_repairs": 169,
+  "rule": "bond-free composite score, top 5, rebalance 20 bars, 0.10%/side, vol target 8%",
+  "turnover_per_rebal": 1.08,
+  "universe": 1515
+ },
+ "control_arm": {
+  "bars": 1647,
+  "cutoff": "2026-10-23",
+  "ok": true,
+  "published_cagr": 0.1149,
+  "recomputed_cagr": 0.1149,
+  "tolerance": 0.001
+ },
+ "evidence_cutoff": "2026-11-06",
+ "rows": [
+  {
+   "base_cagr": 0.11959,
+   "draws": 200,
+   "excess_best": 0.021365,
+   "excess_mean": -0.006392,
+   "excess_sd": 0.008876,
+   "excess_worst": -0.027666,
+   "hurdle_pp_per_yr": 0.639,
+   "proportional_pp_per_yr": 0.592,
+   "share_realized": 0.9505,
+   "share_requested": 0.95
+  },
+  {
+   "base_cagr": 0.11959,
+   "draws": 200,
+   "excess_best": 0.026413,
+   "excess_mean": -0.019616,
+   "excess_sd": 0.015711,
+   "excess_worst": -0.058438,
+   "hurdle_pp_per_yr": 1.962,
+   "proportional_pp_per_yr": 1.776,
+   "share_realized": 0.8515,
+   "share_requested": 0.85
+  },
+  {
+   "base_cagr": 0.11959,
+   "draws": 200,
+   "excess_best": 0.017588,
+   "excess_mean": -0.037012,
+   "excess_sd": 0.019028,
+   "excess_worst": -0.09068,
+   "hurdle_pp_per_yr": 3.701,
+   "proportional_pp_per_yr": 3.554,
+   "share_realized": 0.7028,
+   "share_requested": 0.7
+  },
+  {
+   "base_cagr": 0.11959,
+   "draws": 200,
+   "excess_best": 0.015163,
+   "excess_mean": -0.059284,
+   "excess_sd": 0.023437,
+   "excess_worst": -0.120685,
+   "hurdle_pp_per_yr": 5.928,
+   "proportional_pp_per_yr": 5.895,
+   "share_realized": 0.507,
+   "share_requested": 0.5
+  },
+  {
+   "base_cagr": 0.11959,
+   "draws": 200,
+   "excess_best": -0.005321,
+   "excess_mean": -0.083897,
+   "excess_sd": 0.021483,
+   "excess_worst": -0.12957,
+   "hurdle_pp_per_yr": 8.39,
+   "proportional_pp_per_yr": 8.348,
+   "share_realized": 0.3019,
+   "share_requested": 0.3
+  }
+ ],
+ "ruler": {
+  "costs_of_the_mask": "none -- a ruler, not a rule",
+  "draws": 200,
+  "mean_run_bars": 20,
+  "seed": 20261107
+ },
+ "schema": "etf_book_exit_tax/v1",
+ "what_this_is_not": [
+  "not a candidate and not a verdict: it publishes the hurdle a candidate must clear",
+  "no turnover cost for the mask itself; a real timing rule pays its own switching",
+  "panel is today's listed set: survivorship is unchanged by this face"
+ ]
+}

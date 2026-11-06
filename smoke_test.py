@@ -23,6 +23,21 @@ def _lan_ok(lag, st) -> bool:
     if lag == 0:
         return st.get("stale") is False and "NOT current" not in str(st.get("reason"))
     return st.get("stale") is True and "NOT current" in str(st.get("reason"))
+def capture_pinned(argv, timeout):
+    """The one place a leg captures a child's text.
+
+    r1386: two legs called subprocess.run(capture_output=True, text=True) with no
+    encoding, so the parent decoded with the locale (cp936) while the child wrote
+    whatever PYTHONIOENCODING said. With PYTHONIOENCODING=utf-8 in the environment
+    -- which this fleet's own round instructions set -- the reader thread died on
+    the first non-GBK byte and the suite hung instead of failing: 5 minutes of no
+    output, no Summary line, and a smoke run that looks like a slow suite rather
+    than a broken one. Pinning both sides is the fix; the meta leg below keeps it.
+    """
+    _env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+    return subprocess.run(argv, capture_output=True, text=True,
+                          encoding="utf-8", errors="replace", env=_env,
+                          timeout=timeout, creationflags=0x08000000)
 def main() -> int:
     print(f"== Bigmoney smoke test {dt.datetime.now():%Y-%m-%d %H:%M:%S} ==")
     try:
@@ -368,13 +383,29 @@ def main() -> int:
              ["selftest"])):
         _label = f"updater: update_{_name} selftest (exit-code contract)"
         try:
-            _r = subprocess.run([sys.executable, _script, *_args],
-                         capture_output=True, text=True, timeout=180)
+            _r = capture_pinned([sys.executable, _script, *_args], 180)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
     for _label, _script, _args in (
+            # r1386: six rounds of gates had produced no candidate family, so this
+            # probe is the first measurement of one since r1379. Its own two ruler
+            # legs pin the exposure-share null in both directions (buy-and-hold must
+            # read exactly zero excess; a misaligned exposure must still be caught),
+            # so the suite fails if the measuring rod itself drifts.
+            ("product: zoo90 alligator supply probe (exit-code contract)",
+             "scripts/zoo90_alligator_probe.py", ["--selftest"]),
+            # r1387: that probe's verdict outlived its number -- the null it lost to is what a
+            # future timing rule actually has to beat, and nothing published it. This face
+            # turns the null into a ruler on the book in force (hurdle per exposure share).
+            # The legs pin the constant-drift analytic case, that a mask is never measured on
+            # a LEVEL series (the walk returns levels; masking one compounds to inf), and that
+            # the published hurdle re-derives from its own rows with a control arm.
+            ("product: etf_book_exit_tax (ruler, exposure hurdle on the book in force)",
+             "scripts/etf_book_exit_tax.py", ["--selftest"]),
+            ("product: etf_book_exit_tax (published hurdle recomputed, control reproduced)",
+             "scripts/etf_book_exit_tax.py", ["--check"]),
             # r1346: the chain runner pays a leg's declared refresh when its probe
             # says the face is stale, and must NOT pay it when the probe says
             # inconsistent. That branch is what stops a check-only gate from being
@@ -624,12 +655,43 @@ def main() -> int:
             ("product: book envelope by block bootstrap (exit-code contract)",
              "scripts/etf_book_nav_envelope.py", ["--selftest"])):
         try:
-            _r = subprocess.run([sys.executable, _script, *_args],
-                         capture_output=True, text=True, timeout=300)
+            _r = capture_pinned([sys.executable, _script, *_args], 300)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
+    # r1386: the two loops above used to hand subprocess.run a capture with no
+    # encoding, so the harness decoded with the locale while it told its own
+    # children to write UTF-8. That mismatch does not fail -- it kills the reader
+    # thread and the whole suite hangs. A rule that lives in 14 call sites and not
+    # in 2 is the defect, so this leg reads the harness source and refuses any
+    # capture that does not pin both encoding and errors.
+    try:
+        import ast as _ast
+        _srcp = os.path.abspath(__file__)
+        _tree = _ast.parse(open(_srcp, encoding="utf-8-sig").read())
+        _bare = []
+        for _n in _ast.walk(_tree):
+            if not isinstance(_n, _ast.Call):
+                continue
+            _f = _n.func
+            if not (isinstance(_f, _ast.Attribute) and _f.attr == "run"
+                    and isinstance(_f.value, _ast.Name) and _f.value.id == "subprocess"):
+                continue
+            _kw = {k.arg: k.value for k in _n.keywords if k.arg}
+            # A bytes capture is not the hazard: the caller decodes it explicitly
+            # (the git reads at the bottom of this file do exactly that). The
+            # hazard is asking subprocess to decode FOR us and not saying how.
+            _wants_text = ("text" in _kw or "universal_newlines" in _kw)
+            if not _wants_text:
+                continue
+            if "encoding" not in _kw or "errors" not in _kw:
+                _bare.append(_n.lineno)
+        check("tooling: every harness subprocess capture pins encoding and errors",
+              not _bare, "unpinned subprocess.run at line(s) %s" % (_bare or "-"))
+    except Exception as e:
+        check("tooling: every harness subprocess capture pins encoding and errors",
+              False, str(e))
     # r1210: the envelope's input series had no producer on the chain, so it quietly
     # bootstrapped a one-bar-stale book (series 9.70% vs the published cell 9.60%). A
     # percentile of another object is not a risk statement, so this leg re-derives which

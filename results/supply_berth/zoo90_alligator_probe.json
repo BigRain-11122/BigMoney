@@ -1,0 +1,122 @@
+{
+ "artifact": "zoo90_alligator_timing supply berth probe",
+ "batch": "SUPPLY_BERTH_SLOT_11_CANDIDATE",
+ "construct": {
+  "cost_per_side": 0.0013041,
+  "shifts": [
+   8,
+   5,
+   3
+  ],
+  "smma_periods": [
+   13,
+   8,
+   5
+  ],
+  "state_rule": "lips > teeth > jaw (fast stack over slow), close of bar i, exposure on bar i+1"
+ },
+ "cross_symbol": {
+  "510050": {
+   "bars": 1652,
+   "buyhold_cagr": -0.011184472397700707,
+   "buyhold_maxdd": -0.44317048853439633,
+   "buyhold_sharpe": 0.0302520331854224,
+   "cost_drag_per_year": 0.017903745762711868,
+   "excess_cagr_net": -0.0008455192607316198,
+   "in_market_share": 0.3559322033898305,
+   "maxdd_delta": 0.20092501189439604,
+   "timing_cagr": -0.012029991658432326,
+   "timing_maxdd": -0.2422454766400003,
+   "timing_sharpe": -0.062235648033774224,
+   "trades": 90,
+   "turnover_per_year": 13.728813559322035
+  },
+  "510300": {
+   "bars": 1652,
+   "buyhold_cagr": -0.0031151781584251026,
+   "buyhold_maxdd": -0.4510074048562078,
+   "buyhold_sharpe": 0.07926651533887835,
+   "cost_drag_per_year": 0.020688772881355934,
+   "excess_cagr_net": -0.016254281540762916,
+   "in_market_share": 0.37832929782082325,
+   "maxdd_delta": 0.15245563194053668,
+   "timing_cagr": -0.01936945969918802,
+   "timing_maxdd": -0.29855177291567114,
+   "timing_sharpe": -0.10865310057557212,
+   "trades": 104,
+   "turnover_per_year": 15.864406779661017
+  },
+  "510500": {
+   "bars": 1652,
+   "buyhold_cagr": 0.01247060268429534,
+   "buyhold_maxdd": -0.473144588139344,
+   "buyhold_sharpe": 0.1691531016487659,
+   "cost_drag_per_year": 0.01869946779661017,
+   "excess_cagr_net": -0.027876103565826926,
+   "in_market_share": 0.42675544794188863,
+   "maxdd_delta": 0.11206377691295422,
+   "timing_cagr": -0.015405500881531586,
+   "timing_maxdd": -0.3610808112263898,
+   "timing_sharpe": -0.03454486429125627,
+   "trades": 94,
+   "turnover_per_year": 14.338983050847459
+  }
+ },
+ "evidence_cutoff": "2026-10-30",
+ "family": "zoo90_alligator_timing",
+ "honest": [
+  "probe only: one construct, one parameter set, no grid -- a positive here buys a frozen prereg and a proper judge, not a claim that the rule makes money",
+  "the equal-weight basket rebalances daily at zero cost; the timing overlay's own turnover IS charged, the basket's is not (it is the measuring rod, not the candidate)",
+  "in-market share is reported first because that is what the circular null conserves: a rule that is simply long most of the time cannot win this test on share alone",
+  "no look-ahead is possible by construction (one-bar lag plus twelve bars of SMMA/shift warmup), but the basket composition is today's panel applied to history -- the usual survivor caveat, unchanged"
+ ],
+ "machine": "bm-c",
+ "null": {
+  "k": 200,
+  "mean": -0.041119693973903075,
+  "method": "circular phase rotation of the exposure series (conserves in-market share and persistence)",
+  "p_floor": 0.004975124378109453,
+  "p_two_sided": 0.44776119402985076,
+  "sd": 0.036469075661780447,
+  "seed": 20311000
+ },
+ "panel": {
+  "bars": 1653,
+  "first_bar": "2020-01-02",
+  "last_bar": "2026-10-30",
+  "median_price_basis": "(high+low)/2 cross-sectional mean",
+  "n_members": 48
+ },
+ "summary": {
+  "bars": 1652,
+  "buyhold_cagr": 0.03385599754043778,
+  "buyhold_maxdd": -0.3695106101237353,
+  "buyhold_sharpe": 0.27446860133752954,
+  "cost_drag_per_year": 0.023473800000000003,
+  "excess_cagr_net": -0.04789315221305346,
+  "in_market_share": 0.48668280871670705,
+  "maxdd_delta": -0.050300461605072955,
+  "timing_cagr": -0.014037154672615682,
+  "timing_maxdd": -0.41981107172880827,
+  "timing_sharpe": -0.04801869843448231,
+  "trades": 118,
+  "turnover_per_year": 18.0
+ },
+ "ts": "2026-11-07T04:28:01+0800",
+ "verdict_block": {
+  "conditions": {
+   "beats_null": false,
+   "drawdown_improves": false,
+   "enough_bars": true,
+   "net_excess_positive": false
+  },
+  "note": "supply verdict only: it decides whether this family earns a frozen prereg + judge, never what the judge will find",
+  "thresholds": {
+   "dd_must_improve": true,
+   "max_p": 0.05,
+   "min_bars": 750,
+   "min_excess": 0.0
+  },
+  "verdict": "REFUSE_AS_CANDIDATE"
+ }
+}
