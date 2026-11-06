@@ -1,0 +1,375 @@
+{
+ "card": "E463-WHICH-STUDY-A-FACE-JOINS-WHEN-TWO-READ-NAMES-DISAGREE",
+ "study": "E463",
+ "title": "which study a face joins when two read names disagree",
+ "evidence_cutoff": "2026-11-06",
+ "population_source": "the rows of E462's identitydialect_latest.json that declare two or more distinct identity values (machine-read from that face); consumers re-derived from e451.walk_py minus this family's own instruments (e461_/e462_/e463_/run_e461/run_e462/run_e463 + this face), non-producer namers only",
+ "verdict": "consumers_of_one_face_bind_it_to_two_different_studies",
+ "verdict_vocab": [
+  "no_graded_face_declares_two_identity_values",
+  "every_multi_name_face_names_one_study_on_every_voice",
+  "the_disagreeing_faces_are_read_through_one_name_only_so_one_study_is_joined",
+  "consumers_of_one_face_bind_it_to_two_different_studies"
+ ],
+ "consumer_classes": [
+  "no_source_outside_the_producer_names_this_face",
+  "consumers_read_one_of_the_names_so_each_binds_exactly_one_study",
+  "some_consumer_reads_both_names_and_must_choose_with_no_rule_in_the_payload"
+ ],
+ "read_kinds": [
+  "subscript_read",
+  "get_call",
+  "pop_call",
+  "membership_probe"
+ ],
+ "summary": {
+  "card": "E463-WHICH-STUDY-A-FACE-JOINS-WHEN-TWO-READ-NAMES-DISAGREE",
+  "corpus_sources": 11986,
+  "corpus_parse_errors": 233,
+  "multi_name_faces_in_the_population": 89,
+  "multi_name_faces_whose_names_agree": 87,
+  "faces_declaring_two_or_more_identity_values": 4,
+  "faces_whose_read_voices_disagree": 2,
+  "faces_bound_to_more_than_one_study_by_a_consumer": 2,
+  "faces_with_a_consumer_outside_the_producer": 4,
+  "consumer_classes": {
+   "no_source_outside_the_producer_names_this_face": 0,
+   "consumers_read_one_of_the_names_so_each_binds_exactly_one_study": 2,
+   "some_consumer_reads_both_names_and_must_choose_with_no_rule_in_the_payload": 2
+  },
+  "consumers_total": 4,
+  "consumers_reading_both_names": 2,
+  "consumers_per_name": {
+   "card": 2,
+   "source_study": 0,
+   "study": 4
+  },
+  "studies_bound_per_face": {
+   "results/state_tilt/NAMERESOLVE-2026-11-04.json": [
+    "E413",
+    "E421"
+   ],
+   "results/state_tilt/SELFRES-2026-10-29.json": [
+    "E253"
+   ],
+   "results/state_tilt/nameresolve_latest.json": [
+    "E413",
+    "E421"
+   ],
+   "results/state_tilt/selfres_latest.json": [
+    "E253"
+   ]
+  },
+  "faces_where_no_consumer_binds_any_study": 0,
+  "card_producers": {
+   "E252": [
+    "scripts/e252_star_prices_itself.py",
+    "scripts/e253_self_row_resolution.py"
+   ],
+   "E253": [
+    "scripts/e253_self_row_resolution.py"
+   ],
+   "E413": [],
+   "E421": [
+    "scripts/e421_strong_basis_resolution.py",
+    "scripts/run_e421_smoke_leg.py"
+   ]
+  },
+  "cards_with_a_producer_that_names_the_face": {
+   "E252": 0,
+   "E253": 0,
+   "E413": 0,
+   "E421": 0
+  }
+ },
+ "rows": [
+  {
+   "face": "results/state_tilt/NAMERESOLVE-2026-11-04.json",
+   "family": null,
+   "declared_values": {
+    "card": [
+     "E413"
+    ],
+    "study": [
+     "E421"
+    ]
+   },
+   "read_names": [
+    "card",
+    "study"
+   ],
+   "never_read_names": [],
+   "read_voices_disagree": true,
+   "producers": [
+    "scripts/e421_strong_basis_resolution.py"
+   ],
+   "namers_outside_producer_count": 1,
+   "consumers": [
+    {
+     "source": "smoke_test.py",
+     "names_read": [
+      "card",
+      "study"
+     ],
+     "values_carried": [],
+     "binds_to": {
+      "card": "E413",
+      "study": "E421"
+     },
+     "binds_more_than_one_study": true,
+     "face_specific": true
+    }
+   ],
+   "consumer_count": 1,
+   "consumers_per_name": {
+    "card": 1,
+    "study": 1
+   },
+   "consumers_reading_both_names": 1,
+   "studies_bound": [
+    "E413",
+    "E421"
+   ],
+   "face_is_bound_to_more_than_one_study": true,
+   "class": "some_consumer_reads_both_names_and_must_choose_with_no_rule_in_the_payload",
+   "cards_named": [
+    "E413",
+    "E421"
+   ],
+   "card_producers_that_name_the_face": {
+    "E413": [],
+    "E421": []
+   }
+  },
+  {
+   "face": "results/state_tilt/SELFRES-2026-10-29.json",
+   "family": null,
+   "declared_values": {
+    "source_study": [
+     "E252"
+    ],
+    "study": [
+     "E253"
+    ]
+   },
+   "read_names": [
+    "study"
+   ],
+   "never_read_names": [
+    "source_study"
+   ],
+   "read_voices_disagree": false,
+   "producers": [
+    "scripts/e253_self_row_resolution.py",
+    "scripts/e254_band_exponent_inside_cell.py"
+   ],
+   "namers_outside_producer_count": 1,
+   "consumers": [
+    {
+     "source": "smoke_test.py",
+     "names_read": [
+      "study"
+     ],
+     "values_carried": [],
+     "binds_to": {
+      "study": "E253"
+     },
+     "binds_more_than_one_study": false,
+     "face_specific": true
+    }
+   ],
+   "consumer_count": 1,
+   "consumers_per_name": {
+    "source_study": 0,
+    "study": 1
+   },
+   "consumers_reading_both_names": 0,
+   "studies_bound": [
+    "E253"
+   ],
+   "face_is_bound_to_more_than_one_study": false,
+   "class": "consumers_read_one_of_the_names_so_each_binds_exactly_one_study",
+   "cards_named": [
+    "E252",
+    "E253"
+   ],
+   "card_producers_that_name_the_face": {
+    "E252": [],
+    "E253": []
+   }
+  },
+  {
+   "face": "results/state_tilt/nameresolve_latest.json",
+   "family": null,
+   "declared_values": {
+    "card": [
+     "E413"
+    ],
+    "study": [
+     "E421"
+    ]
+   },
+   "read_names": [
+    "card",
+    "study"
+   ],
+   "never_read_names": [],
+   "read_voices_disagree": true,
+   "producers": [
+    "scripts/e421_strong_basis_resolution.py"
+   ],
+   "namers_outside_producer_count": 1,
+   "consumers": [
+    {
+     "source": "smoke_test.py",
+     "names_read": [
+      "card",
+      "study"
+     ],
+     "values_carried": [],
+     "binds_to": {
+      "card": "E413",
+      "study": "E421"
+     },
+     "binds_more_than_one_study": true,
+     "face_specific": true
+    }
+   ],
+   "consumer_count": 1,
+   "consumers_per_name": {
+    "card": 1,
+    "study": 1
+   },
+   "consumers_reading_both_names": 1,
+   "studies_bound": [
+    "E413",
+    "E421"
+   ],
+   "face_is_bound_to_more_than_one_study": true,
+   "class": "some_consumer_reads_both_names_and_must_choose_with_no_rule_in_the_payload",
+   "cards_named": [
+    "E413",
+    "E421"
+   ],
+   "card_producers_that_name_the_face": {
+    "E413": [],
+    "E421": []
+   }
+  },
+  {
+   "face": "results/state_tilt/selfres_latest.json",
+   "family": null,
+   "declared_values": {
+    "source_study": [
+     "E252"
+    ],
+    "study": [
+     "E253"
+    ]
+   },
+   "read_names": [
+    "study"
+   ],
+   "never_read_names": [
+    "source_study"
+   ],
+   "read_voices_disagree": false,
+   "producers": [
+    "scripts/e253_self_row_resolution.py",
+    "scripts/e254_band_exponent_inside_cell.py"
+   ],
+   "namers_outside_producer_count": 1,
+   "consumers": [
+    {
+     "source": "smoke_test.py",
+     "names_read": [
+      "study"
+     ],
+     "values_carried": [],
+     "binds_to": {
+      "study": "E253"
+     },
+     "binds_more_than_one_study": false,
+     "face_specific": true
+    }
+   ],
+   "consumer_count": 1,
+   "consumers_per_name": {
+    "source_study": 0,
+    "study": 1
+   },
+   "consumers_reading_both_names": 0,
+   "studies_bound": [
+    "E253"
+   ],
+   "face_is_bound_to_more_than_one_study": false,
+   "class": "consumers_read_one_of_the_names_so_each_binds_exactly_one_study",
+   "cards_named": [
+    "E252",
+    "E253"
+   ],
+   "card_producers_that_name_the_face": {
+    "E252": [],
+    "E253": []
+   }
+  }
+ ],
+ "parse_errors": [
+  "Tools/_r1235bmb_s6.py",
+  "Tools/_r786bmb_s6.py",
+  "Tools/_r787bmb_s6.py",
+  "Tools/_r820bmc_close.py",
+  "Tools/_r900bmb_s6.py",
+  "Tools/_r901bmb_s6.py",
+  "Tools/s6_chain_bmb.py",
+  "Tools/tree_shrink_guard.py",
+  "_e286_card.py",
+  "_e286_fix_digest.py",
+  "_e286_patch.py",
+  "_e286_patch2.py",
+  "_e286_patch3.py",
+  "_e286_poolprobe.py",
+  "_e286_probe.py",
+  "_e286_probe2.py",
+  "_e286_probe3.py",
+  "_e286_probe4.py",
+  "_e286_probe5.py",
+  "_e286_probe6.py",
+  "_e286_smokeleg.py",
+  "_e286_smokeleg2.py",
+  "_e317_probe.py",
+  "_e317_probe2.py",
+  "_e317_probe3.py",
+  "_r1085bmb_closeout.py",
+  "_r1111bmb_probe.py",
+  "_r1131bmb_s6.py",
+  "_r1298_amend.py",
+  "_r1311bmb_closeout.py",
+  "_r1311bmb_hb.py",
+  "_r1311bmb_hb2.py",
+  "_r1311bmb_hbdiff.py",
+  "_r1311bmb_pool.py",
+  "_r1311bmb_receipt.py",
+  "_r1311bmb_s6leg.py",
+  "_r1313bmb_card.py",
+  "_r1313bmb_closeout.py",
+  "_r1313bmb_deliv.py",
+  "_r1313bmb_delivrow.py",
+  "_r1313bmb_hbeol.py",
+  "_r1313bmb_hbfix.py",
+  "_r1313bmb_pooledit.py",
+  "_r1313bmb_poolprobe.py",
+  "_r1313bmb_poolprobe2.py",
+  "_r1313bmb_probe.py",
+  "_r1313bmb_probe2.py",
+  "_r1313bmb_smokeleg_harness.py",
+  "_r1313bmb_stateclock.py",
+  "_r1413_d19.py"
+ ],
+ "method_limits": [
+  "static: a consumer is a source that names the face stem AND reads one of the declared identity names; a consumer reaching the name through a computed key is invisible",
+  "a name 'read' is a dict-key read site (subscript load / get / pop / in probe); a consumer that reads the face's whole payload and picks a field by a variable carries no name and is not counted",
+  "binds_to assigns the value the face declares under the name the consumer reads; a consumer that ignores the payload and hard-codes a study id is counted in values_carried, not in binds_to",
+  "producer detection for a card is a filename prefix or a literal equal to the card id, so a producer that names its card only in a docstring sentence is missed"
+ ]
+}

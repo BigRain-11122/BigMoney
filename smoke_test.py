@@ -18047,5 +18047,55 @@ except Exception as _e462x:
     _d462 = "leg could not run"
 check(_name462, not _bad462, "; ".join(_bad462)[:240] or _d462)
 
+# E463 (r1486 bm-b): E462 found 4 faces carrying two identity values whose read voices disagree.
+# This leg refuses (a) any tally that does not re-derive from the rows, (b) a consumer whose bound
+# study is not the value the face declares under the name it reads, (c) a face claimed split while
+# its consumers bind one study, and (d) a doctored copy that erases the split.
+_name463 = "e463 a face with two read names binds two studies (r1486 bm-b)"
+_bad463 = []
+try:
+    _m463 = __import__("importlib").import_module("e463_identity_split")
+    _f463 = json.load(open(os.path.join("results", "state_tilt", "identitysplit_latest.json"),
+                           encoding="utf-8"))
+    _s463 = _f463.get("summary") or {}
+    _r463 = _f463.get("rows") or []
+    _bad463.extend(_m463.tally_problems(_f463))
+    if _f463.get("verdict") not in _m463.VERDICT_VOCAB:
+        _bad463.append("verdict outside the frozen vocabulary: %r" % (_f463.get("verdict"),))
+    for _r in _r463:
+        _decl = _r.get("declared_values") or {}
+        if _r.get("class") not in _m463.CONSUMER_CLASSES:
+            _bad463.append("row class outside the vocabulary: %r" % (_r.get("class"),))
+        for _c in _r.get("consumers") or []:
+            for _n, _v in (_c.get("binds_to") or {}).items():
+                if _v not in (_decl.get(_n) or []):
+                    _bad463.append("row %s: consumer %s binds %s to %r, the face declares %r"
+                                   % (_r.get("face"), _c.get("source"), _n, _v,
+                                      _decl.get(_n)))
+    _doc463 = json.loads(json.dumps(_f463))
+    _sp463 = next((_r for _r in _doc463.get("rows") or []
+                   if _r.get("face_is_bound_to_more_than_one_study")), None)
+    if _sp463 is None:
+        _bad463.append("no split row to doctor: the split cannot be shown to go red")
+    else:
+        _sp463["studies_bound"] = [sorted(set(_sp463["studies_bound"]))[0]]
+        _sp463["face_is_bound_to_more_than_one_study"] = False
+        if not _m463.tally_problems(_doc463):
+            _bad463.append("a split face whose studies were erased was accepted")
+    _d463 = ("%d faces carry >=2 identity values (%d of %d multi-name faces agree) | "
+             "disagreeing %d | consumers %d per name %r | both-name %d | bound to two studies %d"
+             ) % (
+        _s463.get("faces_declaring_two_or_more_identity_values") or 0,
+        _s463.get("multi_name_faces_whose_names_agree") or 0,
+        _s463.get("multi_name_faces_in_the_population") or 0,
+        _s463.get("faces_whose_read_voices_disagree") or 0,
+        _s463.get("consumers_total") or 0, _s463.get("consumers_per_name") or {},
+        _s463.get("consumers_reading_both_names") or 0,
+        _s463.get("faces_bound_to_more_than_one_study_by_a_consumer") or 0)
+except Exception as _e463x:
+    _bad463.append(repr(_e463x)[:160])
+    _d463 = "leg could not run"
+check(_name463, not _bad463, "; ".join(_bad463)[:240] or _d463)
+
 if __name__ == "__main__":
     sys.exit(main())

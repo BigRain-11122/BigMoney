@@ -28160,11 +28160,28 @@
    "lane": "cpu-only",
    "lane_note": "static AST over the corpus plus the E458/E461/E462 published faces; nothing executed, nothing written outside results/state_tilt",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E462 (r1485 bm-b): two read names on one face name different studies",
    "entered_at": "2026-11-06T14:4x+08:00",
-   "entered_by": "bm-b r1485 (supply floor refill after E462)"
+   "entered_by": "bm-b r1485 (supply floor refill after E462)",
+   "done_at": "2026-11-06T15:2x+08:00",
+   "result_ref": "results/state_tilt/IDENTITYSPLIT-2026-11-06.json",
+   "done_note": "4 faces carry >=2 identity values (2 file pairs), 87 of 89 both-name faces agree, and the single non-producer consumer of each disagreeing face is smoke_test.py: it reads BOTH names on NAMERESOLVE (binds E413 and E421 at once) and only the read name on SELFRES; 0 of the four cards' producers name the face themselves"
+  },
+  {
+   "id": "E464-WHICH-IDENTITY-A-PRODUCER-INTENDS-WHEN-IT-WRITES-TWO-NAMES",
+   "title": "E463 showed the only consumer of the disagreeing faces is the test suite, and that no producer of the cards the two voices name mentions the face at all. The producer itself writes both keys, so it holds one intention and two labels -- and nothing has asked which one its own module constants, docstring or card registry say it meant.",
+   "question": "For every face whose payload declares two or more identity values, read the producer that writes those keys and ask which identity the producer itself declares for the face (module constants, FACE_NAME/CARD_ID/STUDY literals, docstring card ids). Publish per face: the two payload values, the producer's own declared identity, whether it matches one of them, neither, or is absent -- and split the residue into producers that declare nothing about the face at all.",
+   "deliverable": "results/state_tilt/PRODUCERINTENT-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the producers plus json loads of the four faces E463 listed",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E463 (r1486 bm-b): the two voices are written by one producer and read by one test",
+   "entered_at": "2026-11-06T15:2x+08:00",
+   "entered_by": "bm-b r1486 (supply floor refill after E463)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

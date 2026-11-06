@@ -1669,6 +1669,8 @@ LEGS = [
     # E462: the dialect side of the same question -- `check` for the same reason; the tallies must
     # re-derive from the published rows without re-walking the corpus.
     ("identity_dialect", ["python", "scripts/e462_identity_dialect.py", "check"]),
+    # E463: which study a face joins when two read names disagree -- `check` for the same reason.
+    ("identity_split", ["python", "scripts/e463_identity_split.py", "check"]),
 ]
 
 

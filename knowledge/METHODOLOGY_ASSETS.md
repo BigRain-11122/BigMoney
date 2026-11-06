@@ -11543,3 +11543,51 @@ had measured. This study asks it of the 526 graded faces E461 used, not of the v
   counted never-read (inflating the silent count, which is 0 here, so the bound costs nothing);
   contradiction compares declared values as strings, so a case/spacing difference reads as a
   contradiction and must be read from the row.
+
+## E463 -- when two read names disagree a face joins two studies, and the only consumer is the suite (r1486 bm-b)
+
+**Where it came from.** E462 closed with "4 faces (2 file pairs) carry more than one identity value
+and 89 of 526 declare both `card` and `study`", and left open which study a consumer actually ends
+up bound to. This card answers it on the consumer side.
+
+**Law.** `names_read -> binds_to` is not a join, it is a *choice* the payload never states. Bind
+every non-producer consumer of the face to the value the face declares **under the name that
+consumer reads**, and then ask how many distinct studies one face is bound to:
+
+* `NAMERESOLVE-2026-11-04.json` declares `card: E413` beside `study: E421` and `smoke_test.py` reads
+  both, so one consumer holds two bindings at once. Nothing arbitrates; both lookups succeed and the
+  leg passes for the wrong reason.
+* `SELFRES-2026-10-29.json` declares `source_study: E252` beside `study: E253`, but the second voice
+  is read by nobody (E462), so every consumer binds E253. **A never-read voice is a disagreement no
+  consumer can reach** -- E462's dialect hazard, priced here at zero on the consumer side.
+* 87 of the 89 both-name faces agree, so the synonym shape is a convention and the 4 disagreeing
+  faces are a **writer** defect: one producer wrote two labels and meant one study. Neither card's
+  producer names the face, so the join exists only in field names.
+
+**Numbers.** 4 multi-value faces, 2 read-voice disagreements (+2 latest twins), 4 consumers total
+(one per face, all `smoke_test.py`), `card` 2 / `study` 4 / `source_study` 0, 2 both-name consumers,
+2 faces bound to two studies, 0 of 4 cards whose producer names the face.
+
+**Pits.**
+
+* **A fixture that hand-keys the index tests the key, not the code.** Fixture face
+  `SPLIT-2026-11-06.json` normalises to stem `split` (`norm_stem` strips the date tail); keying the
+  fixture corpus on `split20261106` failed four legs that never met their own selector.
+* **A breadth map built over the whole corpus cannot be handed a corpus subset** -- `by_rel[rel]`
+  raises `KeyError` instead of returning "no consumers". Cut both sides from the same corpus.
+* **A gate is proven by a consistent face, not a convenient one.** Two fixture summaries were
+  internally inconsistent (split count > 0 beside rows binding one study; per-name total that did
+  not add), so "gate accepts a consistent face" failed for the fixture's arithmetic -- the gate was
+  working on the wrong patient.
+
+**Wiring.** `scripts/e463_identity_split.py` (run rc0 / verify problems=[] / check problems=[] /
+**selftest 21/21**); faces `results/state_tilt/identitysplit_latest.json` +
+`IDENTITYSPLIT-2026-11-06.json`; S6 leg `identity_split`; smoke leg
+`e463 a face with two read names binds two studies (r1486 bm-b)` +
+`scripts/run_e463_smoke_leg.py`; digest
+`research/digests/DIGEST-20261106-r1486-e463-identity-split.md`; pool E463 done, E464 seeded.
+
+**Bound.** Static only: a consumer reaching a name through a composed key is invisible, and a
+consumer that hard-codes a study id is counted in `values_carried` rather than `binds_to`. Producer
+detection for a card is a filename prefix or an equal literal, so a producer naming its card only in
+prose is missed -- which is why `card_producers` is published beside the zero.
