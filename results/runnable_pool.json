@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1485 bm-b: E462 published (IDENTITYDIALECT-2026-11-06: 526 faces graded, 524 speak only read names, 2 redundant, 0 silent; both redundant faces and both two-read-name faces contradict themselves) -- E462 closed, E463 seeded, floor 3.",
+ "_stamp_note": "r1487 bm-b: E464 published (PRODUCERINTENT-2026-11-06: 4 multi-value faces / 2 stems, 6 producers named, 4 write the face; among the writers 2 declare BOTH voices as slug prefixes and 2 declare one and carry the other from the upstream payload; 2 of 4 faces carry an identity key the parent never graded, 4 of 4 carry a pointer key) -- E464 closed, E465 seeded, floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28177,11 +28177,28 @@
    "lane": "cpu-only",
    "lane_note": "static AST over the producers plus json loads of the four faces E463 listed",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "owner": null,
    "source": "E463 (r1486 bm-b): the two voices are written by one producer and read by one test",
    "entered_at": "2026-11-06T15:2x+08:00",
-   "entered_by": "bm-b r1486 (supply floor refill after E463)"
+   "entered_by": "bm-b r1486 (supply floor refill after E463)",
+   "done_at": "2026-11-06T16:0x+08:00",
+   "done_by": "bm-b r1487",
+   "result_ref": "results/state_tilt/PRODUCERINTENT-2026-11-06.json",
+   "outcome": "two of four producers declare both voices themselves (e421, every vote only as a slug prefix), two declare one identity and carry the other from the upstream payload (e253); two of six named producers do not write the face (e254); two of four faces carry an identity key the parent never graded (source_study) and four of four carry a pointer key"
+  },
+  {
+   "deliverable": "results/state_tilt/POINTERJOIN-<cutoff>.json",
+   "entered_at": "2026-11-06T16:0x+08:00",
+   "entered_by": "bm-b r1487 (supply floor refill after E464)",
+   "id": "E465-DOES-A-FACE-POINTER-RESOLVE-AND-IS-IT-THE-JOIN-ANYONE-USES",
+   "lane": "cpu-only",
+   "lane_note": "static AST over pointer-key sites plus os.path.exists / git cat-file probes",
+   "priority": "normal",
+   "question": "For every face in the tree that carries a pointer key (source_face / face / face_path), resolve the pointer against the working tree under both spellings, and publish whether it resolves, whether it resolves only after normalising separators, and whether any source outside the producer READS that pointer to reach the upstream face. Split the residue into pointers that name a file on disk, a file that exists only in git history, and a path that never existed.",
+   "source": "E464 (r1487 bm-b): the pointer is the only exact match on NAMERESOLVE and is spelled two ways",
+   "status": "ready",
+   "title": "E464 found every multi-value face also carries a pointer key (source_face), and on NAMERESOLVE the pointer is the only exact identity match while every study voice is a slug. The same key is spelled with backslashes on SELFRES and with forward slashes on NAMERESOLVE. Nothing has asked whether those pointers resolve to a file on disk, or whether any source joins a face to its upstream through the pointer instead of through an identity value."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28196,6 +28213,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T14:4x+0800",
+ "updated_at": "2026-11-06T16:0x+0800",
  "version": 1
 }

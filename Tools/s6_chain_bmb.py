@@ -1671,6 +1671,9 @@ LEGS = [
     ("identity_dialect", ["python", "scripts/e462_identity_dialect.py", "check"]),
     # E463: which study a face joins when two read names disagree -- `check` for the same reason.
     ("identity_split", ["python", "scripts/e463_identity_split.py", "check"]),
+    # E464: which identity a producer intends when it writes two names -- `check` re-derives every
+    # tally from the published rows (writer/non-writer split, intent classes, pointer-key counts).
+    ("producer_intent", ["python", "scripts/e464_producer_intent.py", "check"]),
 ]
 
 

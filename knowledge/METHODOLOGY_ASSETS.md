@@ -11591,3 +11591,68 @@ consumer reads**, and then ask how many distinct studies one face is bound to:
 consumer that hard-codes a study id is counted in `values_carried` rather than `binds_to`. Producer
 detection for a card is a filename prefix or an equal literal, so a producer naming its card only in
 prose is missed -- which is why `card_producers` is published beside the zero.
+
+## E464 -- a producer's intent is not in the payload: one constant plus one carried value is a provenance, not a second identity (r1487 bm-b)
+
+**Question.** E463 showed the only consumer of the multi-value faces is the suite, so the two voices
+come from one producer that holds one intention and two labels. E464 asks the producer itself: which
+identity do its own module constants, literals and carried values say it meant?
+
+**Method.** Population is the parent face's 4 multi-value rows; the producers are that face's own
+producer list, re-measured against the live `.py` corpus. Three separate measurements per producer:
+**W** does it write this face (path expressions of open-for-write / `write_text` calls expanded
+through module assignments and tuple for-loops into face stems), **K** what kind of expression the
+producer writes under each identity key (literal / resolved module constant / call-or-subscript =
+carried), **M** whether the declared value equals the payload value or only carries it as a slug
+prefix (`E413` -> `E413-DOES-THE-...`).
+
+**Result.** 4 faces, 2 stems, 6 named producers: 4 write the face, 2 do not (E462's producer list
+contains `e254_band_exponent_inside_cell.py`, which merely names `SELFRES-2026-10-29.json` and
+writes its own face). Among the 4 writers: `e421` writes **both** voices itself (card E413 and study
+E421, both only as slug prefixes -- 4 of 4 matching votes are prefix-only), while `e253` writes
+`study = STUDY ("E253")` and takes `source_study` straight from the upstream payload
+(`src.get("study")`) -- **one declaration plus one carried provenance value**.
+
+**The finding that changes the parent's frame.** The faces carry 10 identity-key instances over 3
+names (`card`, `study`, `source_study`), and **2 of 4 faces carry an identity key E462 never graded**
+(`source_study` on both NAMERESOLVE faces = `E406_blob_vs_tree_readers`). The E462/E463 "two names"
+census saw a face with three voices and graded two. 4 of 4 faces also carry a pointer key
+(`source_face`), which is a path not an identity: on the same face the pointer is the only exact
+match while every study voice is a slug, so a distance-based identity matcher would prefer the
+pointer to the card.
+
+**Pits.**
+* **A slug is not a mismatch, but it is not equality either.** All four `E413`/`E421` votes are
+  `prefixed`, zero `exact`. Publishing them merged would report "the producer declares the payload
+  value" when it declares a longer label; the two are published apart.
+* **A pointer key read as an identity inflates the census.** With `source_face` in the identity
+  vocabulary the first run reported 14 identity instances and 4 faces writing an identity key the
+  payload does not carry; splitting pointers out dropped it to 10 and 0. A path is not a study id.
+* **A producer name in a parent face is a claim, not a measurement.** Two of six named producers
+  write a different face; `writes_this_face` re-measures it and the residue is published.
+* **`face_stem` must slice the basename before stripping the `%s` placeholder.** `results/x/SELFRES-%s.json`
+  normalised to `results/x/selfress` in the first pass (`norm_stem` gives the same `selfress`), so
+  every writer looked like a non-writer and all four faces read "no writer". Slice first.
+
+**Numbers.** 4 multi-value faces / 2 stems; 6 producers named, 4 write, 2 do not; intent among
+writers: both-voices 2, one+carried 2, one-only 0, nothing-declared 0; payload identity keys
+`card`/`study`/`source_study` over 10 instances; 2 of 4 faces carry a parent-ungraded identity key;
+4 of 4 carry a pointer key; 10 producer instances write a pointer key.
+
+**Wiring.** `scripts/e464_producer_intent.py` (run rc0 / verify problems=[] / check problems=[] /
+selftest 39/39); faces `results/state_tilt/producerintent_latest.json` +
+`PRODUCERINTENT-2026-11-06.json`; S6 leg `producer_intent`; smoke leg
+`e464 which identity a producer intends when it writes two names (r1487 bm-b)` +
+`scripts/run_e464_smoke_leg.py` (red-proved on a doctored face, then restored byte-identical);
+digest `research/digests/DIGEST-20261106-r1487-e464-producer-intent.md`; pool E464 done, E465 seeded.
+
+**Bound.** The producer list is the parent's; this study can refute a listed producer but cannot
+discover one the parent never listed. A writer is recognised only through path expressions resolved
+through module assignments and tuple loops -- a path built by a function call or dict lookup is
+published as a non-writer. Intent is read from dict literals and constant-key subscripts only.
+
+**How to apply.** Before treating two identity fields on one face as two claims, read the producer:
+a key whose value is a call (`payload.get(...)`) is provenance being forwarded, and a key whose
+value is a module constant is the only place the producer actually declares what it is. Grade the
+payload's own identity keys rather than a fixed pair, and publish pointer keys separately, or the
+census undercounts voices and overcounts disagreements.

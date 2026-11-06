@@ -18097,5 +18097,65 @@ except Exception as _e463x:
     _d463 = "leg could not run"
 check(_name463, not _bad463, "; ".join(_bad463)[:240] or _d463)
 
+# E464 (r1487 bm-b): E463 left one producer writing both identity voices.  This leg refuses (a) any
+# tally that does not re-derive from the rows, (b) a producer whose declared value is not the value
+# the face carries under the name it writes, (c) a non-writer with no residue class, and (d) a
+# doctored copy in which a writer stops writing without being reclassed.
+_name464 = "e464 which identity a producer intends when it writes two names (r1487 bm-b)"
+_bad464 = []
+try:
+    _m464 = __import__("importlib").import_module("e464_producer_intent")
+    _f464 = json.load(open(os.path.join("results", "state_tilt", "producerintent_latest.json"),
+                           encoding="utf-8"))
+    _s464 = _f464.get("summary") or {}
+    _r464 = _f464.get("rows") or []
+    _bad464.extend(_m464.tally_problems(_f464))
+    if _f464.get("verdict") not in _m464.VERDICT_VOCAB:
+        _bad464.append("verdict outside the frozen vocabulary: %r" % (_f464.get("verdict"),))
+    for _r in _r464:
+        _decl = _r.get("declared_values") or {}
+        for _p in _r.get("producers") or []:
+            if _p.get("writes_this_face") and _p.get("intent_class") not in _m464.INTENT_CLASSES:
+                _bad464.append("row %s: intent outside the vocabulary: %r"
+                               % (_r.get("face"), _p.get("intent_class")))
+            for _n, _mm in (_p.get("declared_values_that_match_a_payload_value") or {}).items():
+                if _mm.get("payload_value") not in (_decl.get(_n) or []):
+                    _bad464.append("row %s: producer %s declares %s as %r, the face carries %r"
+                                   % (_r.get("face"), _p.get("source"), _n,
+                                      _mm.get("declared"), _decl.get(_n)))
+                _how, _hit = _m464.value_match(_mm.get("declared") or "", _decl.get(_n) or [])
+                if _how != _mm.get("match"):
+                    _bad464.append("row %s: match class %r does not re-derive (%r)"
+                                   % (_r.get("face"), _mm.get("match"), _how))
+            if not _p.get("writes_this_face") and not _p.get("residue"):
+                _bad464.append("row %s: non-writer %s carries no residue class"
+                               % (_r.get("face"), _p.get("source")))
+    _doc464 = json.loads(json.dumps(_f464))
+    _w464 = next((_p for _r in (_doc464.get("rows") or [])
+                  for _p in (_r.get("producers") or []) if _p.get("writes_this_face")), None)
+    if _w464 is None:
+        _bad464.append("no writer row to doctor: the writer test cannot be shown to go red")
+    else:
+        _w464["writes_this_face"] = False
+        _w464["residue"] = ""
+        if not any("residue" in _prob for _prob in _m464.tally_problems(_doc464)):
+            _bad464.append("a producer that stopped writing with no residue class was accepted")
+    _d464 = ("%d faces / %d stems | producers named %d, writing %d, not writing %d | "
+             "intent %r | payload identity keys %r over %d instance(s) | ungraded-by-parent %d"
+             ) % (
+        _s464.get("faces_declaring_two_or_more_identity_values") or 0,
+        _s464.get("distinct_face_stems") or 0,
+        _s464.get("producers_named_by_the_parent") or 0,
+        _s464.get("producers_that_write_the_face") or 0,
+        _s464.get("producers_that_do_not_write_the_face") or 0,
+        _s464.get("intent_classes_among_writers") or {},
+        _s464.get("identity_keys_carried_by_the_payloads") or [],
+        _s464.get("identity_key_instances_in_the_payloads") or 0,
+        _s464.get("faces_carrying_an_identity_key_the_parent_never_graded") or 0)
+except Exception as _e464x:
+    _bad464.append(repr(_e464x)[:160])
+    _d464 = "leg could not run"
+check(_name464, not _bad464, "; ".join(_bad464)[:240] or _d464)
+
 if __name__ == "__main__":
     sys.exit(main())
