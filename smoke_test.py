@@ -17814,5 +17814,53 @@ except Exception as _e451x:
     _bad451.append(repr(_e451x)[:160])
 check(_name451, not _bad451, "; ".join(_bad451)[:240] or _d451)
 
+# E456 (r1478 bm-b): E450 answered the caller side and left the 6,875 rows whose receiver is a
+# name bound to a call to something that is not a class the caller defines.  This leg reads the
+# published resolution face and refuses (a) a tally or count that does not re-derive from the
+# rows, (b) a resolved row with no import form or a form on a row no import touched, (c) a name
+# hit outside the resolved population, (d) a verdict outside the vocabulary or one that does not
+# re-derive, and (e) a doctored copy that turns a residue row into a name hit.
+_name456 = "e456 does a cross-module bound receiver resolve to a class in this repository (r1478 bm-b)"
+_bad456 = []
+try:
+    _m456 = __import__("importlib").import_module("e456_import_class")
+    _f456 = json.load(open(os.path.join("results", "state_tilt", "importclass_latest.json"),
+                           encoding="utf-8"))
+    _s456 = _f456.get("summary") or {}
+    _r456 = _f456.get("rows") or []
+    _bad456.extend(_m456.tally_problems(_f456))
+    if _f456.get("verdict") not in _m456.VERDICT_VOCAB:
+        _bad456.append("verdict outside the frozen vocabulary")
+    elif _f456.get("verdict") != _m456.verdict_for(
+            _s456.get("rows_in_scope_cross_module_binding") or 0,
+            _s456.get("rows_callee_resolved_in_tree") or 0,
+            _s456.get("rows_name_hit") or 0):
+        _bad456.append("the verdict does not re-derive from the published counts")
+    if any(_r.get("name_hit") and _r.get("outcome") != _m456.OUTCOME_RESOLVED for _r in _r456):
+        _bad456.append("a name hit whose callee did not resolve")
+    if (_s456.get("population_pin") or {}).get("verdict") != "growth_only_superset":
+        _bad456.append("the population against E450's published arm is not a growth superset")
+    _doctor456 = json.loads(json.dumps(_f456))
+    _row456 = next((_r for _r in _doctor456.get("rows") or []
+                    if _r.get("outcome") != _m456.OUTCOME_RESOLVED), None)
+    if _row456 is not None:
+        _row456["name_hit"] = True
+        if not _m456.tally_problems(_doctor456):
+            _bad456.append("a residue row promoted to a name hit was accepted")
+    _d456 = "%d cross-module rows | resolved %d, residue %d, hit %d | builtin %d, local %d, " \
+            "import outside the tree %d, imported-but-a-function %d | E450 arm %d" % (
+                _s456.get("rows_in_scope_cross_module_binding") or 0,
+                _s456.get("rows_callee_resolved_in_tree") or 0,
+                _s456.get("rows_callee_residue") or 0,
+                _s456.get("rows_name_hit") or 0,
+                (_s456.get("rows_by_outcome") or {}).get(_m456.R_BUILTIN, 0),
+                (_s456.get("rows_by_outcome") or {}).get(_m456.R_LOCAL_DEF, 0),
+                (_s456.get("rows_by_outcome") or {}).get(_m456.R_MODULE_NOT_IN_TREE, 0),
+                (_s456.get("rows_by_outcome") or {}).get(_m456.R_IMPORT_NOT_A_CLASS, 0),
+                (_s456.get("e450_rows_binding_other_call") or 0))
+except Exception as _e456x:
+    _bad456.append(repr(_e456x)[:160])
+check(_name456, not _bad456, "; ".join(_bad456)[:240] or _d456)
+
 if __name__ == "__main__":
     sys.exit(main())

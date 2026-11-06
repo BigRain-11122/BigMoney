@@ -1641,6 +1641,14 @@ LEGS = [
     # `verify` for the same reason E444's leg uses it: the chain leg must not re-walk the corpus
     # (that rebuild is ~9 min); the full `verify` is the manual/closeout gate.
     ("caller_class", ["python", "scripts/e450_caller_class.py", "check"]),
+    # E456 (r1478): E450 left the cross-module half of its own population unread -- 6,875 receivers
+    # bound to a call to something outside the caller's classes.  This leg checks the published
+    # resolution face: every count re-derives from the rows, an import form is present exactly when
+    # an import was involved, the name hits sit inside the resolved population, and the population
+    # pins to E450's published arm under the growth rule.  `check` rather than `verify` for the same
+    # reason caller_class uses it: the chain leg must not re-walk the corpus (~7 min rebuild); the
+    # full `verify` is the closeout gate.
+    ("import_class", ["python", "scripts/e456_import_class.py", "check"]),
 ]
 
 

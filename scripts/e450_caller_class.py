@@ -277,13 +277,22 @@ def verdict_for(total: int, name_hit: int, binding_hit: int) -> str:
     return V_SOME_NAME
 
 
-def build(cutoff: str | None = None) -> dict:
+EXCLUDE_PREFIXES = ("e444", "_e444", "run_e444", "e450", "_e450", "run_e450")
+
+
+def graded_rows(cutoff: str | None = None,
+                exclude: tuple[str, ...] = EXCLUDE_PREFIXES) -> tuple[list[dict], str]:
+    """The per-row reading this face aggregates, exposed for the studies that ask it again.
+
+    E456 takes the cross-module half of this same population, so it must not re-derive the
+    population a second way: it calls this and filters.  The whole point is that a second
+    derivation would be a second measurement of who is in scope.
+    """
     face439 = _load(e440.CARD)
     cut = cutoff or face439["evidence_cutoff"]
     wrappers = e439.wrapper_rows(face439)
     sources = [p for p in e437.corpus()
-               if not os.path.basename(p).startswith(
-                   ("e444", "_e444", "run_e444", "e450", "_e450", "run_e450"))]
+               if not os.path.basename(p).startswith(exclude)]
     sites, _parsed = e420.scan_corpus(sources)
     param = [s for found in sites.values() for s in found if s.parameter_directories()]
     index = e420.main_call_index({s.func for s in param}, sources)
@@ -321,6 +330,11 @@ def build(cutoff: str | None = None) -> dict:
         })
     print("stage: %d attribute call rows re-derived for the caller side" % len(graded),
           flush=True)
+    return graded, cut
+
+
+def build(cutoff: str | None = None) -> dict:
+    graded, cut = graded_rows(cutoff)
 
     scoped = [g for g in graded if g["receiver_kind"] in (RECV_BOUND, RECV_CTOR)]
     cells: dict[tuple, int] = {}

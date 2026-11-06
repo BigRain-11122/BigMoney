@@ -11339,3 +11339,40 @@ Face: `results/state_tilt/prereghash_latest.json` (+ `PREREGHASH-<cutoff>.json`)
 S6 leg `prereg_digest` (`verify`, one corpus walk, 3.8 s); smoke leg `e451 which study that names a
 prereg note publishes a digest of it` with a doctored control that must stay red. Digest
 `research/digests/DIGEST-20261106-r1477-e451-prereg-digest.md`.
+
+## E456 -- a zero is a reading only with a control: the cross-module half of an attribute census (r1478 bm-b)
+
+* **Question.** E450 graded the caller side of E444's 24,831 attribute call rows and published 6,875
+  whose receiver is a name bound to a call to something that is **not** a class the caller defines.
+  If the receiver's class exists, it came from elsewhere. Resolve each callee through the caller's
+  own imports to a module in this repository, index that module's classes and methods, and count the
+  rows that name a method the imported class carries.
+* **Population, inherited not re-derived.** E450's own `graded_rows()` was extracted from its
+  `build()` and filtered to the cross-module binding, so a second derivation cannot disagree about
+  who is in scope: 6,898 rows over 3,499 corpus sources (E450 arm 6,875, delta +23, growth-only
+  superset). E450's `check` and `selftest 46/46` still pass after the refactor.
+* **The reading is a zero.** 0 of 6,898 callees resolve to a class defined in an in-repo module, so
+  0 rows name a method such a class carries. Verdict
+  `no_row_callee_resolves_to_a_class_defined_in_this_repository`.
+* **The zero is priced by mechanism.** Residue is not one bucket: builtin 3,495 (50.7%, `open()`
+  dominates), local factory 2,238, import resolving outside this repository 928, name not
+  imported/bound/local 113, imported name is a function 59, call target not a plain/qualified name
+  54, attribute of an imported object 10, module defines no such name 1. 1,000 rows did travel
+  through an import (853 module-level, 137 module-level aliased, 6 function-level, 2 function-level
+  aliased) and none named a class.
+* **Why the zero is measured.** The face publishes a resolver control: 36 of 69,562 corpus-wide
+  assignments whose value is a call to a plain or qualified name do resolve to an in-repo class
+  (`ExitConfig`/`ExitState`/`FeeSchedule`, harvested by `engine/backtester.py` and
+  `monitor/build_status.py`). An instrument that never fires cannot publish a zero, and the tally
+  refuses a face whose control reads 0.
+* **Four rules this cost.** (1) A coarse residue bucket destroys the finding: folding builtins, local
+  factories and untraceable imports into "not imported" left one story (5,846) where the split says
+  half the population is `open()`. (2) A dotted-only import resolver resolves nothing in a tree that
+  imports siblings by bare name; try both spellings and publish ambiguity as ambiguity. (3) A method
+  name is not a module-level name: reading the whole AST for "functions defined here" grades an
+  import of a method as "imported a function". (4) The import form belongs to the import that was
+  involved, not to the one that succeeded -- requiring a form only on hits made the face refuse the
+  928 outside-tree rows that are the largest traceable block.
+* **Wiring.** `scripts/e456_import_class.py` (run / check 0 / verify 0 / selftest 42/42); S6 leg
+  `import_class`; smoke leg with a doctored control that must stay red (face restored
+  byte-identical); digest `research/digests/DIGEST-20261106-r1478-e456-import-class.md`.

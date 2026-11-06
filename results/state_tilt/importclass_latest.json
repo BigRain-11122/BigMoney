@@ -1,0 +1,396 @@
+{
+ "card": "E456-WHICH-CALL-BOUND-RECEIVER-NAMES-A-CLASS-IMPORTED-FROM-ANOTHER-MODULE",
+ "evidence_cutoff": "2026-11-04",
+ "generated": "2026-11-06",
+ "import_form_vocab": [
+  "a_module_level_import",
+  "a_function_level_import",
+  "a_module_level_aliased_import",
+  "a_function_level_aliased_import"
+ ],
+ "method_limits": [
+  "resolution is static: an import that resolves to a file does not prove the call returns an instance of the class, so H is an upper bound on readers of that class",
+  "only a plain name or a module-qualified name is resolved; a call on an attribute of an imported object, on a subscript, or on a chained call is published as residue rather than guessed",
+  "a receiver name assigned several calls module-wide is graded on the first call that resolves in-tree; control flow is not modelled, so the same limit E450 publishes applies here",
+  "sibling imports (`import e437_name_recall` from a script beside it) and dotted imports are both tried; a module string that matches more than one corpus file is published as ambiguous instead of resolved by preference",
+  "the module universe is this study's corpus, so an import of a file outside it reads as not in tree -- that is a statement about the scan, not about the repository",
+  "the headline is a zero, so the face publishes a resolver control over the whole corpus (every assignment whose value is a call to a plain or qualified name): if that control ever reads zero, the zero in the headline is an instrument failure, not a reading",
+  "the study's own smoke leg lives in smoke_test.py, a shared file the population already includes; the handful of call rows the leg adds are counted as growth rather than excluded, because carving one study's lines out of a shared file would make the population depend on who is reading it"
+ ],
+ "outcome_vocab": [
+  "callee_resolved_to_a_class_in_an_in_repo_module",
+  "the_callee_is_a_builtin_name",
+  "the_callee_is_defined_in_the_caller_itself",
+  "the_callee_name_is_not_imported_bound_or_local_to_the_caller",
+  "the_callee_is_a_module_not_a_class",
+  "the_imported_module_has_no_file_in_this_repository",
+  "the_module_name_matches_more_than_one_file",
+  "the_imported_name_exists_in_that_module_but_is_not_a_class",
+  "the_module_defines_no_name_of_that_kind",
+  "the_call_target_is_not_a_plain_name_or_qualified_name",
+  "the_receiver_has_no_call_on_the_assignment_sites_this_study_reads",
+  "the_call_reads_an_attribute_of_an_imported_name_not_a_module"
+ ],
+ "residue_examples": [
+  {
+   "caller_file": "Tools/_r770bmc_outbound_jpg.py",
+   "method_name": "save",
+   "outcome": "the_call_target_is_not_a_plain_name_or_qualified_name",
+   "receiver_name": "img"
+  },
+  {
+   "caller_file": "Tools/_r770bmc_style_composite.py",
+   "method_name": "save",
+   "outcome": "the_call_reads_an_attribute_of_an_imported_name_not_a_module",
+   "receiver_name": "comp"
+  },
+  {
+   "caller_file": "Tools/_r770bmc_style_composite2.py",
+   "method_name": "save",
+   "outcome": "the_call_reads_an_attribute_of_an_imported_name_not_a_module",
+   "receiver_name": "comp"
+  },
+  {
+   "caller_file": "Tools/_r774bmc_outbound_a1.py",
+   "method_name": "save",
+   "outcome": "the_call_target_is_not_a_plain_name_or_qualified_name",
+   "receiver_name": "img"
+  },
+  {
+   "caller_file": "Tools/_r774bmc_style_composite_z2.py",
+   "method_name": "save",
+   "outcome": "the_call_reads_an_attribute_of_an_imported_name_not_a_module",
+   "receiver_name": "comp"
+  },
+  {
+   "caller_file": "Tools/_r774bmc_style_composite_z3.py",
+   "method_name": "save",
+   "outcome": "the_call_reads_an_attribute_of_an_imported_name_not_a_module",
+   "receiver_name": "comp"
+  },
+  {
+   "caller_file": "Tools/_r774bmc_style_gen_v6.py",
+   "method_name": "save",
+   "outcome": "the_call_reads_an_attribute_of_an_imported_name_not_a_module",
+   "receiver_name": "comp"
+  },
+  {
+   "caller_file": "Tools/_r775bmc_outbound_v7.py",
+   "method_name": "save",
+   "outcome": "the_call_target_is_not_a_plain_name_or_qualified_name",
+   "receiver_name": "img"
+  },
+  {
+   "caller_file": "Tools/_r775bmc_style_gen_v7.py",
+   "method_name": "save",
+   "outcome": "the_call_reads_an_attribute_of_an_imported_name_not_a_module",
+   "receiver_name": "comp"
+  },
+  {
+   "caller_file": "Money0923/run.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "f"
+  },
+  {
+   "caller_file": "Money0923/run.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "f"
+  },
+  {
+   "caller_file": "Tools/_r1003bmb_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1003bmb_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1003bmb_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1025bmc_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1025bmc_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1025bmc_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1025bmc_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1025bmc_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1026bmc_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1026bmc_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1026bmc_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1026bmc_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1026bmc_s6.py",
+   "method_name": "write",
+   "outcome": "the_callee_is_a_builtin_name",
+   "receiver_name": "log"
+  },
+  {
+   "caller_file": "Tools/_r1029bmc_close.py",
+   "method_name": "write",
+   "outcome": "the_imported_module_has_no_file_in_this_repository",
+   "receiver_name": "f"
+  }
+ ],
+ "residue_vocab": [
+  "the_callee_is_a_builtin_name",
+  "the_callee_is_defined_in_the_caller_itself",
+  "the_callee_name_is_not_imported_bound_or_local_to_the_caller",
+  "the_callee_is_a_module_not_a_class",
+  "the_imported_module_has_no_file_in_this_repository",
+  "the_module_name_matches_more_than_one_file",
+  "the_imported_name_exists_in_that_module_but_is_not_a_class",
+  "the_module_defines_no_name_of_that_kind",
+  "the_call_target_is_not_a_plain_name_or_qualified_name",
+  "the_receiver_has_no_call_on_the_assignment_sites_this_study_reads",
+  "the_call_reads_an_attribute_of_an_imported_name_not_a_module"
+ ],
+ "resolved_examples": [],
+ "rows": [
+  {
+   "import_form": "a_function_level_import",
+   "name_hit": false,
+   "outcome": "the_call_reads_an_attribute_of_an_imported_name_not_a_module",
+   "rows": 2
+  },
+  {
+   "import_form": "a_module_level_aliased_import",
+   "name_hit": false,
+   "outcome": "the_call_reads_an_attribute_of_an_imported_name_not_a_module",
+   "rows": 4
+  },
+  {
+   "import_form": "a_module_level_import",
+   "name_hit": false,
+   "outcome": "the_call_reads_an_attribute_of_an_imported_name_not_a_module",
+   "rows": 4
+  },
+  {
+   "import_form": null,
+   "name_hit": false,
+   "outcome": "the_call_target_is_not_a_plain_name_or_qualified_name",
+   "rows": 54
+  },
+  {
+   "import_form": null,
+   "name_hit": false,
+   "outcome": "the_callee_is_a_builtin_name",
+   "rows": 3495
+  },
+  {
+   "import_form": null,
+   "name_hit": false,
+   "outcome": "the_callee_is_defined_in_the_caller_itself",
+   "rows": 2238
+  },
+  {
+   "import_form": null,
+   "name_hit": false,
+   "outcome": "the_callee_name_is_not_imported_bound_or_local_to_the_caller",
+   "rows": 113
+  },
+  {
+   "import_form": "a_function_level_aliased_import",
+   "name_hit": false,
+   "outcome": "the_imported_module_has_no_file_in_this_repository",
+   "rows": 1
+  },
+  {
+   "import_form": "a_function_level_import",
+   "name_hit": false,
+   "outcome": "the_imported_module_has_no_file_in_this_repository",
+   "rows": 4
+  },
+  {
+   "import_form": "a_module_level_aliased_import",
+   "name_hit": false,
+   "outcome": "the_imported_module_has_no_file_in_this_repository",
+   "rows": 80
+  },
+  {
+   "import_form": "a_module_level_import",
+   "name_hit": false,
+   "outcome": "the_imported_module_has_no_file_in_this_repository",
+   "rows": 843
+  },
+  {
+   "import_form": "a_function_level_aliased_import",
+   "name_hit": false,
+   "outcome": "the_imported_name_exists_in_that_module_but_is_not_a_class",
+   "rows": 1
+  },
+  {
+   "import_form": "a_module_level_aliased_import",
+   "name_hit": false,
+   "outcome": "the_imported_name_exists_in_that_module_but_is_not_a_class",
+   "rows": 52
+  },
+  {
+   "import_form": "a_module_level_import",
+   "name_hit": false,
+   "outcome": "the_imported_name_exists_in_that_module_but_is_not_a_class",
+   "rows": 6
+  },
+  {
+   "import_form": "a_module_level_aliased_import",
+   "name_hit": false,
+   "outcome": "the_module_defines_no_name_of_that_kind",
+   "rows": 1
+  }
+ ],
+ "study": "E456_which_call_bound_receiver_names_a_class_imported_from_another_module",
+ "summary": {
+  "distinct_imported_class_pairs": 0,
+  "distinct_imported_modules": 0,
+  "e450_rows_binding_other_call": 6875,
+  "population_pin": {
+   "delta": 23,
+   "e450_rows_binding_other_call": 6875,
+   "now_rows_in_scope": 6898,
+   "verdict": "growth_only_superset"
+  },
+  "resolved_rows_by_import_form": {
+   "a_function_level_aliased_import": 0,
+   "a_function_level_import": 0,
+   "a_module_level_aliased_import": 0,
+   "a_module_level_import": 0
+  },
+  "resolver_control": {
+   "assignment_calls_to_a_plain_or_qualified_name": 69562,
+   "examples": [
+    {
+     "caller_file": "engine/backtester.py",
+     "class_name": "ExitConfig",
+     "import_form": "a_module_level_import",
+     "module": "engine/exit_rules.py"
+    },
+    {
+     "caller_file": "engine/backtester.py",
+     "class_name": "FeeSchedule",
+     "import_form": "a_module_level_import",
+     "module": "knowledge/rules.py"
+    },
+    {
+     "caller_file": "engine/backtester.py",
+     "class_name": "ExitState",
+     "import_form": "a_module_level_import",
+     "module": "engine/exit_rules.py"
+    },
+    {
+     "caller_file": "monitor/build_status.py",
+     "class_name": "ExitConfig",
+     "import_form": "a_module_level_import",
+     "module": "engine/exit_rules.py"
+    },
+    {
+     "caller_file": "monitor/build_status.py",
+     "class_name": "ExitConfig",
+     "import_form": "a_module_level_import",
+     "module": "engine/exit_rules.py"
+    }
+   ],
+   "resolved_to_a_class_in_an_in_repo_module": 36,
+   "share": 0.000518
+  },
+  "rows_by_hit_module": {},
+  "rows_by_import_form": {
+   "a_function_level_aliased_import": 2,
+   "a_function_level_import": 6,
+   "a_module_level_aliased_import": 137,
+   "a_module_level_import": 853
+  },
+  "rows_by_outcome": {
+   "callee_resolved_to_a_class_in_an_in_repo_module": 0,
+   "the_call_reads_an_attribute_of_an_imported_name_not_a_module": 10,
+   "the_call_target_is_not_a_plain_name_or_qualified_name": 54,
+   "the_callee_is_a_builtin_name": 3495,
+   "the_callee_is_a_module_not_a_class": 0,
+   "the_callee_is_defined_in_the_caller_itself": 2238,
+   "the_callee_name_is_not_imported_bound_or_local_to_the_caller": 113,
+   "the_imported_module_has_no_file_in_this_repository": 928,
+   "the_imported_name_exists_in_that_module_but_is_not_a_class": 59,
+   "the_module_defines_no_name_of_that_kind": 1,
+   "the_module_name_matches_more_than_one_file": 0,
+   "the_receiver_has_no_call_on_the_assignment_sites_this_study_reads": 0
+  },
+  "rows_by_residue": {
+   "the_call_reads_an_attribute_of_an_imported_name_not_a_module": 10,
+   "the_call_target_is_not_a_plain_name_or_qualified_name": 54,
+   "the_callee_is_a_builtin_name": 3495,
+   "the_callee_is_a_module_not_a_class": 0,
+   "the_callee_is_defined_in_the_caller_itself": 2238,
+   "the_callee_name_is_not_imported_bound_or_local_to_the_caller": 113,
+   "the_imported_module_has_no_file_in_this_repository": 928,
+   "the_imported_name_exists_in_that_module_but_is_not_a_class": 59,
+   "the_module_defines_no_name_of_that_kind": 1,
+   "the_module_name_matches_more_than_one_file": 0,
+   "the_receiver_has_no_call_on_the_assignment_sites_this_study_reads": 0
+  },
+  "rows_callee_residue": 6898,
+  "rows_callee_resolved_in_tree": 0,
+  "rows_in_scope_cross_module_binding": 6898,
+  "rows_name_hit": 0,
+  "share_of_resolved_name_hit": null,
+  "share_of_scope_name_hit": 0.0
+ },
+ "title": "the cross-module half of E450: does a receiver bound to a call resolve, through the caller's imports, to a class in this repository that carries the method name",
+ "verdict": "no_row_callee_resolves_to_a_class_defined_in_this_repository",
+ "verdict_vocab": [
+  "no_row_whose_receiver_is_bound_to_a_call_outside_the_callers_own_classes",
+  "no_row_callee_resolves_to_a_class_defined_in_this_repository",
+  "no_resolved_row_names_a_method_that_the_imported_class_carries",
+  "some_resolved_rows_name_a_method_that_the_imported_class_carries_but_resolution_is_static_alias_only",
+  "every_resolved_row_names_a_method_that_the_imported_class_carries"
+ ]
+}

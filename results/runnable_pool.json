@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1475 bm-b: E450 published (CALLERCLASS-2026-11-06: 26 name hits / 13 binding hits over 23,982 bound-or-constructor receivers; the name arm's largest block is a module with 0 binding hits) -- E450 closed, E456 + E457 seeded, floor 3.",
+ "_stamp_note": "r1478 bm-b: E456 published (IMPORTCLASS-2026-11-04: 0 of 6,898 cross-module receivers resolve to an in-repo class; builtin 3,495 / local 2,238 / outside-tree 928; resolver control 36 of 69,562) -- E456 closed, E459 seeded, floor 3.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28041,11 +28041,15 @@
    "lane": "cpu-only",
    "lane_note": "static AST over the caller's imports plus the E450 face; nothing is run and nothing outside results/state_tilt is written",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E450 (r1475 bm-b): the binding arm is 13 of 23,982 and 6,875 receivers are bound to a call that is not a local class, so the cross-module half of the question is unread",
    "entered_at": "2026-11-06T07:2x+08:00",
-   "entered_by": "bm-b r1475 (supply floor refill after E450)"
+   "entered_by": "bm-b r1475 (supply floor refill after E450)",
+   "done_at": "2026-11-06T09:39:39+08:00",
+   "result_ref": "results/state_tilt/importclass_latest.json",
+   "result_note": "6,898 cross-module rows re-derived from E450's own graded rows (arm 6,875, delta +23, growth-only superset): 0 resolve to a class defined in an in-repo module and 0 name a method such a class carries. The residue is priced by mechanism -- builtin 3,495 (50.7%, open() dominant), local factory 2,238, import outside the tree 928, not imported/bound/local 113, imported name is a function 59, call target not a plain/qualified name 54, attribute of an imported object 10, module defines no such name 1; 1,000 rows did travel through an import (853 module / 137 module-aliased / 6 function / 2 function-aliased) and none named a class. The zero carries a resolver control (36 of 69,562 corpus-wide assignment calls resolve to an in-repo class), so the instrument is shown to fire.",
+   "closed_by": "bm-b r1478"
   },
   {
    "id": "E457-HOW-OFTEN-A-WRAPPER-NAME-IS-ALSO-A-METHOD-NAME-IN-A-MODULE-THAT-NEVER-IMPORTS-IT",
@@ -28074,6 +28078,20 @@
    "source": "E451 (r1477 bm-b): a face with no study identity cannot be tied to a prereg even if a digest existed",
    "entered_at": "2026-11-06T08:30:53+08:00",
    "entered_by": "bm-b r1477 (supply floor refill after E451)"
+  },
+  {
+   "id": "E459-WHICH-STDLIB-CLASS-A-CROSS-MODULE-RECEIVER-IS-BOUND-TO",
+   "title": "E456 resolved the cross-module half of E450 and found that 928 of the 6,898 rows import a module that has no file in this repository -- the largest traceable block, and the only one where the module name is known but the class was never looked up. Those imports are mostly the standard library, which is available to the instrument even though it is not in the tree.",
+   "question": "Take E456's 928 rows whose callee module has no file in this repository. Resolve the module name itself (sys.stdlib_module_names / importlib.util.find_spec / builtin module table, never by reading the internet), index that module's classes and the methods they carry, and publish how many rows name a method the resolved class carries, split by module (csv, json, logging, pathlib, ...) and by whether the receiver's class was named through a from-import or a module-qualified call. Publish the modules that do not resolve to anything importable as a residue of their own.",
+   "deliverable": "results/state_tilt/STDLIBCLASS-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the corpus plus the interpreter's own module table; imports are resolved from the local standard library only, no network and nothing outside results/state_tilt is written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E456 (r1478 bm-b): 928 of 6,898 cross-module receivers import a module with no file in the repository, and the module name is the only handle the corpus gives on their class",
+   "entered_at": "2026-11-06T09:39:39+08:00",
+   "entered_by": "bm-b r1478 (supply floor refill after E456)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28088,6 +28106,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T08:30:53+08:00",
+ "updated_at": "2026-11-06T09:39:39+08:00",
  "version": 1
 }
