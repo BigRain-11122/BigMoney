@@ -177,6 +177,13 @@
   "local_not_on_origin_main": 418,
   "main_push_blocker": "local main diverged from origin/main for many rounds (418 ahead / 295 behind at open, two blood lines, no unattended rebase per r1243)"
  },
+ "delivery_r1479": {
+  "branch": "machine/bm-b-r1479",
+  "local_ahead_of_origin_main": 439,
+  "sha": "d546fa4a539efc9bfa4d4259f69927868f6354bf",
+  "ts": "2026-11-06T10:21:48+08:00",
+  "verified": true
+ },
  "delivery_sha": "6ae8a2198e8d19e38e9977002372703886c53b2a",
  "delivery_verified": true,
  "dept": "research",
@@ -5258,7 +5265,7 @@
  "s6_note": "the new S6 leg was added to Tools/s6_chain_bmb.py; the rest of the S6 chain was not re-run this window and is not claimed",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
  "s6_run_in_window": "S6 leg prereg_digest rc0 3.9s (the rest of the S6 chain not re-run this window and not claimed)",
- "s7": "fleet/orders 116 files / 115 acks / 0 unacked (README.md + archive-202609 are not orders) | decision + orders blobs read fresh from group origin (decisions b8609238, orders 14e43daa) and consumed: batch 47/48 rows are other companies or the ahead/behind ruling D-20261106-03 -> ack only, nothing to execute here | loop/watchdog/claw registrations not re-verified this window (their own ticks cover it, stated)",
+ "s7": "fleet/orders 116 files / 115 acks / 0 unacked (README.md + archive-202609 are not orders) | decision + orders blobs read fresh from group origin (decisions b8609238, orders 14e43daa) and consumed: batch 47/48 rows are other companies or the ahead/behind ruling D-20261106-03 -> ack only, nothing to execute here | loop/watchdog/claw registrations not re-verified this window (their own ticks cover it, stated) | delivered on machine/bm-b-r1479 @ d546fa4a539e",
  "s7_checked_at": "2026-11-06T04:09:01+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
  "s7_note": "the watchdog keeps disappearing: re-registering it every window hides the cause; next window should find what disables it",
