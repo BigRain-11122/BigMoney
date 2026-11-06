@@ -11294,3 +11294,48 @@ module.
 Face: `results/state_tilt/callerclass_latest.json` (+ `CALLERCLASS-<cutoff>.json`); producer
 `scripts/e450_caller_class.py` (selftest 43/43, run rc0, check problems=0, verify problems=[]);
 digest `research/digests/DIGEST-20261106-r1475-e450-caller-class.md`.
+
+## E451 -- a study's claim to follow a prereg is prose unless a face carries its digest (r1477 bm-b)
+
+* **Question.** E449 published seven research notes that a study script names through a `PREREG`
+  constant, that code text cites by filename, and that **no opener in the corpus ever opens** -- the
+  constant is assigned once and never read again. If the note constrains the study, some artifact
+  the study publishes should be tieable to the note's exact bytes. Which studies publish a digest of
+  the note they claim to follow?
+* **Population, re-derived not inherited.** The seven notes are E449's rows; for each one the naming
+  set is every `.py` in the corpus (12,210 walked) whose text carries the note basename -- 32 naming
+  sites over 31 distinct files, matching E449's own 31. Of those, 28 publish at least one string
+  literal that resolves under `results/`; 11 are the study's **own** producer (the file whose
+  basename carries the study slug, e.g. `scripts/fund_divlowvol_p1.py` for `FUND-DIVLOWVOL-P1`) and
+  the other 17 are lane receipts and shared modules that merely name the note. Studies are graded on
+  their own producer's faces (24 probed), with every naming producer's faces published beside it
+  (84 probed, 10 targets absent from disk).
+* **The reading, and it is a zero.** No study publishes a digest of its prereg: 0 faces carry the
+  note's sha256, 0 carry a hex prefix of at least 12 characters, 0 carry a keyed ISO as-of. Verdict
+  `no_study_publishes_a_digest_of_the_prereg_note_it_names`; all seven are
+  `note_named_but_no_digest`, none falls back to `note_not_named_by_its_own_producer`.
+* **The near miss is the real finding.** 65 faces name a prereg field or the study stem and carry no
+  digest (23 of them written by an own producer). Two of the seven studies record their freeze the
+  same way, in prose: `prereg_state = "FROZEN v1.0 (2026-10-03 bm-b r610 five-condition freeze
+  window)"` in `results/fund_divlowvol_p1/probe.json`, and `prereg = "research/FUND-DIVLOWVOL-P1.md
+  (DRAFT-NOT-FROZEN)"` in `results/_fund_divlowvol_p1_transfer_probe.json` -- **the same note, a
+  frozen state in one face and an unfrozen state in another, and neither string lets a reader check
+  either claim.** That is what a claim without a digest costs: two artifacts of one study disagree
+  about the state of the document that is supposed to bind it, and no machine can adjudicate.
+* **The law.** A "frozen prereg" is machine-checkable only if the producer's own face carries
+  `prereg_sha256` (the note bytes, or a prefix of at least 12 hex chars) or a keyed ISO
+  `prereg_as_of`. A date inside a sentence is not a pin: it cannot be keyed on, it does not name
+  bytes, and it drifts from the note silently. Publish prose freeze strings as claims, never count
+  them as pins.
+* **How to apply.** Before quoting "our prereg says X", ask the face that publishes the numbers for
+  `prereg_sha256`/`prereg_as_of`; if it is absent, the tie is prose and the note may have been
+  edited since the run. Symmetrically, when a study records a freeze, write the digest of the bytes
+  it froze, so a later edit of the note is visible instead of invisible. The measurement is cheap
+  (one corpus walk plus 84 face loads, 3.8 s) and belongs beside any freeze gate.
+
+Face: `results/state_tilt/prereghash_latest.json` (+ `PREREGHASH-<cutoff>.json`), verdict
+`no_study_publishes_a_digest_of_the_prereg_note_it_names`; producer
+`scripts/e451_prereg_digest.py` (selftest 30/30, run rc0, check problems=[], verify problems=[]);
+S6 leg `prereg_digest` (`verify`, one corpus walk, 3.8 s); smoke leg `e451 which study that names a
+prereg note publishes a digest of it` with a doctored control that must stay red. Digest
+`research/digests/DIGEST-20261106-r1477-e451-prereg-digest.md`.

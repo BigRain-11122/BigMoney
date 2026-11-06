@@ -27976,11 +27976,15 @@
    "lane": "cpu-only",
    "lane_note": "static AST over the study producers plus sha256 of research/*.md; nothing is executed and nothing outside results/state_tilt is written",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E449 (r1468 bm-b): the prereg constant is assigned and never loaded, so the claim rests on text alone",
    "entered_at": "2026-11-06T03:2x+08:00",
-   "entered_by": "bm-b r1468 (supply floor refill after E449)"
+   "entered_by": "bm-b r1468 (supply floor refill after E449)",
+   "claimed_at": "2026-11-06T08:28:07+08:00",
+   "result_ref": "results/state_tilt/PREREGHASH-2026-11-06.json",
+   "completed_at": "2026-11-06T08:30:53+08:00",
+   "result_note": "7 studies name a prereg note and none publishes a digest of it: 0 of 84 probed faces carry the note sha256 (full or 12-hex prefix) and 0 carry a keyed ISO as-of; 65 faces name a prereg field or the study stem without a digest (23 in an own producer), and the same note is called FROZEN in one face and DRAFT-NOT-FROZEN in another"
   },
   {
    "deliverable": "results/state_tilt/ABANDONEDGUARD-<cutoff>.json",
@@ -28056,6 +28060,20 @@
    "source": "E450 (r1475 bm-b): 13 of 26 name hits came from one module with 0 binding hits, so the collision rate is what a name test is really measuring",
    "entered_at": "2026-11-06T07:2x+08:00",
    "entered_by": "bm-b r1475 (supply floor refill after E450)"
+  },
+  {
+   "id": "E458-WHICH-PUBLISHED-FACE-CARRIES-NO-MACHINE-READABLE-STUDY-IDENTITY",
+   "title": "E451 found that no study publishes a digest of the prereg note it names, and only named the note in prose freeze strings. If a consumer cannot even tell which study a face belongs to without reading the producer, no digest could be looked for. Ask every face under results/state_tilt and results/ that a study producer writes whether it carries a machine-readable study or card identity (a study id, a card id such as E4xx, or a prereg path), and publish the split by face family",
+   "question": "Take the faces E451 resolved (own-producer faces and the wider naming set) plus every face under results/state_tilt written by a script named eNNN_*.py, load each payload and ask whether a top-level or nested field carries a study id (a string matching [A-Z][A-Z0-9-]*-P[0-9]), a card id (E[0-9]{3}), or a prereg note path (research/*.md). Publish per face: which of the three identities it carries, in which field, and whether the identity resolves to a file or a pool card that exists. Re-derive the tally and the resolution from the published rows in check",
+   "deliverable": "results/state_tilt/FACEIDENTITY-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static AST over the producers plus json loads of existing faces; nothing is executed and nothing outside results/state_tilt is written",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E451 (r1477 bm-b): a face with no study identity cannot be tied to a prereg even if a digest existed",
+   "entered_at": "2026-11-06T08:30:53+08:00",
+   "entered_by": "bm-b r1477 (supply floor refill after E451)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28070,6 +28088,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T07:2x+08:00",
+ "updated_at": "2026-11-06T08:30:53+08:00",
  "version": 1
 }

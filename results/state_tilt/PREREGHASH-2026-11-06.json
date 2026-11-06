@@ -1,0 +1,2095 @@
+{
+ "card": "E451-WHICH-STUDY-THAT-CITES-ITS-PREREG-NOTE-CARRIES-NO-DIGEST-OF-IT",
+ "evidence_cutoff": "2026-11-06",
+ "method_limits": [
+  "naming is a basename match in the file text; a note named through a composed or imported path is not counted as naming",
+  "a producer's faces are the string literals it carries that resolve under results/; a path assembled from parts at call time is reported in `unprobeable` as a template, never silently dropped",
+  "digest evidence is a value equal to the note's current sha256 (full or >=12 hex prefix) or a prereg/note key carrying an ISO as-of date; a digest of a different version of the note does not match, and that is the measurement",
+  "only JSON faces are inspected for digest fields; md/csv/txt faces are probed for existence and counted, not parsed",
+  "a study is graded on the faces of its own producer (the file whose basename carries the study slug); when no such file names the note the grading falls back to every naming producer and says so in producer_basis",
+  "near_miss_faces are published beside the classes: a face that names a prereg field or the study stem but carries no digest is the evidence that the claim is made in prose rather than pinned"
+ ],
+ "residue": [
+  {
+   "file": "results/_r606bmb_bookkeeping.py",
+   "note": "research/FUND-QUALITY-P1.md",
+   "reason": "names_the_note_but_publishes_no_face"
+  },
+  {
+   "file": "results/_r483bmb_close.py",
+   "note": "research/LOWAMP-P1.md",
+   "reason": "names_the_note_but_publishes_no_face"
+  },
+  {
+   "file": "results/_r483bmb_codely_append.py",
+   "note": "research/LOWAMP-P1.md",
+   "reason": "names_the_note_but_publishes_no_face"
+  },
+  {
+   "file": "results/_r483bmb_yield_close.py",
+   "note": "research/LOWAMP-P1.md",
+   "reason": "names_the_note_but_publishes_no_face"
+  }
+ ],
+ "rows": [
+  {
+   "class": "note_named_but_no_digest",
+   "digest_hits": [],
+   "digest_kind": null,
+   "faces_missing_on_disk": [],
+   "faces_probed": [
+    {
+     "face": "results/fund_divlowvol_p1/sens_acceptance.json",
+     "file": "Tools/_r630bma_sens_acceptance.py"
+    },
+    {
+     "face": "results/runnable_pool.json",
+     "file": "Tools/_r630bma_sens_acceptance.py"
+    },
+    {
+     "face": "results/_r627bma_t156_fourpoint.json",
+     "file": "Tools/_r630bma_sens_acceptance.py"
+    },
+    {
+     "face": "results/fund_divlowvol_p1/fund_divlowvol_p1_results.json",
+     "file": "results/_r1038bmb_postscript.py"
+    },
+    {
+     "face": "results/_r1038bmb_stock_domain_audit.json",
+     "file": "results/_r1038bmb_postscript.py"
+    },
+    {
+     "face": "results/divlowvol_nulls/NULLS-CONSUME-2026-09-22.json",
+     "file": "scripts/divlowvol_live_picks.py"
+    },
+    {
+     "face": "results/_fund_divlowvol_p1_transfer_probe.json",
+     "file": "scripts/fund_divlowvol_p1.py"
+    },
+    {
+     "face": "results/fund_divlowvol_p1/probe.json",
+     "file": "scripts/fund_divlowvol_p1.py"
+    },
+    {
+     "face": "results/fund_divlowvol_p1/fund_divlowvol_p1_results.json",
+     "file": "scripts/fund_divlowvol_p1.py"
+    },
+    {
+     "face": "results/_fund_divlowvol_p1_transfer_probe.json",
+     "file": "scripts/fund_divlowvol_p1_probe.py"
+    },
+    {
+     "face": "results/fund_divlowvol_p1/d6.json",
+     "file": "scripts/fund_divlowvol_p1_probe.py"
+    },
+    {
+     "face": "results/fund_value_p1/cont_VALUE-PE_x1.json",
+     "file": "scripts/fund_divlowvol_p1_probe.py"
+    },
+    {
+     "face": "results/fund_quality_p1/cont_QUALITY-ROE_x1.json",
+     "file": "scripts/fund_divlowvol_p1_probe.py"
+    }
+   ],
+   "naming_file_count": 5,
+   "naming_files": [
+    "Tools/_r630bma_sens_acceptance.py",
+    "results/_r1038bmb_postscript.py",
+    "scripts/divlowvol_live_picks.py",
+    "scripts/fund_divlowvol_p1.py",
+    "scripts/fund_divlowvol_p1_probe.py"
+   ],
+   "near_miss_faces": [
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_divlowvol_p1/sens_acceptance.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "legs.C_shard_status",
+      "legs.C_shard_owner",
+      "legs.D_local_sha256"
+     ],
+     "writer": "Tools/_r630bma_sens_acceptance.py"
+    },
+    {
+     "asof_dates_in_prose": [
+      {
+       "field": "entries[4].prereg_ref",
+       "value": "research/A158_TSGATE_P1_PREREG.md FROZEN (157 factors qlib-verbatim pandas port, VWAP0 exc"
+      },
+      {
+       "field": "entries[21].prereg_ref",
+       "value": "research/CN_REV_TILT_PREREG.md (frozen R245, ZERO runs; R246 pre-run amendments: seed cn_r"
+      },
+      {
+       "field": "entries[25].prereg_ref",
+       "value": "results/contest_p1/entrants.json admission face frozen slice-1; contest caliber = runner h"
+      },
+      {
+       "field": "entries[35].prereg_ref",
+       "value": "research/CTA_WAVE1_PREREG.md frozen R186 (78 cells: LegA 16 + LegB 8 + LegC 2 + K=50 nulls"
+      }
+     ],
+     "face": "results/runnable_pool.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "entries[3].prereg_ref",
+      "entries[3].shards",
+      "entries[4].prereg_ref",
+      "entries[4].shards",
+      "entries[5].prereg_ref",
+      "entries[5].shards"
+     ],
+     "writer": "Tools/_r630bma_sens_acceptance.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/_r627bma_t156_fourpoint.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "points.b_hashes_vs_sender",
+      "points.c_688001_magnitude.implied_shares_median_2024"
+     ],
+     "writer": "Tools/_r630bma_sens_acceptance.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_divlowvol_p1/fund_divlowvol_p1_results.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "audit.law_a_census.block_share",
+      "cells.DIVLOWVOL-YIELDVOL|x1.sharpe_full",
+      "cells.DIVLOWVOL-YIELDVOL|x2.sharpe_full",
+      "descriptive.x2_cost_drag_sharpe",
+      "gates.exit_census.block_share",
+      "gates.exit_census.default_share"
+     ],
+     "writer": "results/_r1038bmb_postscript.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/_r1038bmb_stock_domain_audit.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "prior_lineage.p1_prereg"
+     ],
+     "writer": "results/_r1038bmb_postscript.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/divlowvol_nulls/NULLS-CONSUME-2026-09-22.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "realized.sharpe_full",
+      "realized_x2_descriptive.sharpe_full"
+     ],
+     "writer": "scripts/divlowvol_live_picks.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/_fund_divlowvol_p1_transfer_probe.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "prereg",
+      "div_face.sha256",
+      "div_face.manifest_sha256"
+     ],
+     "writer": "scripts/fund_divlowvol_p1.py"
+    },
+    {
+     "asof_dates_in_prose": [
+      {
+       "field": "prereg_state",
+       "value": "FROZEN v1.0 (2026-10-03 bm-b r610 five-condition freeze window)"
+      }
+     ],
+     "face": "results/fund_divlowvol_p1/probe.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "div_face.manifest_sha256",
+      "div_face.sha256",
+      "div_face.sha_match",
+      "prereg_state"
+     ],
+     "writer": "scripts/fund_divlowvol_p1.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_divlowvol_p1/fund_divlowvol_p1_results.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "audit.law_a_census.block_share",
+      "cells.DIVLOWVOL-YIELDVOL|x1.sharpe_full",
+      "cells.DIVLOWVOL-YIELDVOL|x2.sharpe_full",
+      "descriptive.x2_cost_drag_sharpe",
+      "gates.exit_census.block_share",
+      "gates.exit_census.default_share"
+     ],
+     "writer": "scripts/fund_divlowvol_p1.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/_fund_divlowvol_p1_transfer_probe.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "prereg",
+      "div_face.sha256",
+      "div_face.manifest_sha256"
+     ],
+     "writer": "scripts/fund_divlowvol_p1_probe.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_divlowvol_p1/d6.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [],
+     "writer": "scripts/fund_divlowvol_p1_probe.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_value_p1/cont_VALUE-PE_x1.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "sharpe_full"
+     ],
+     "writer": "scripts/fund_divlowvol_p1_probe.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_quality_p1/cont_QUALITY-ROE_x1.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "sharpe_full"
+     ],
+     "writer": "scripts/fund_divlowvol_p1_probe.py"
+    }
+   ],
+   "note": "research/FUND-DIVLOWVOL-P1.md",
+   "note_bytes": 29851,
+   "note_sha256": "02a3fb48f2844fefc071956c49860e15a7f6203c8b556ad0fa6412be3a5450ea",
+   "note_stem": "FUND-DIVLOWVOL-P1",
+   "own_producer_faces_probed": 7,
+   "own_producer_files": [
+    "scripts/fund_divlowvol_p1.py",
+    "scripts/fund_divlowvol_p1_probe.py"
+   ],
+   "own_producers": [
+    {
+     "faces": [
+      "results/_fund_divlowvol_p1_transfer_probe.json",
+      "results/fund_divlowvol_p1/probe.json",
+      "results/fund_divlowvol_p1/fund_divlowvol_p1_results.json"
+     ],
+     "file": "scripts/fund_divlowvol_p1.py",
+     "naming_lines": [
+      6,
+      164
+     ]
+    },
+    {
+     "faces": [
+      "results/_fund_divlowvol_p1_transfer_probe.json",
+      "results/fund_divlowvol_p1/d6.json",
+      "results/fund_value_p1/cont_VALUE-PE_x1.json",
+      "results/fund_quality_p1/cont_QUALITY-ROE_x1.json"
+     ],
+     "file": "scripts/fund_divlowvol_p1_probe.py",
+     "naming_lines": [
+      159
+     ]
+    }
+   ],
+   "producer_basis": "own_producer_named_by_the_study_slug",
+   "producer_count": 5,
+   "producers": [
+    {
+     "faces": [
+      "results/fund_divlowvol_p1/sens_acceptance.json",
+      "results/runnable_pool.json",
+      "results/_r627bma_t156_fourpoint.json"
+     ],
+     "file": "Tools/_r630bma_sens_acceptance.py",
+     "naming_lines": [
+      87
+     ]
+    },
+    {
+     "faces": [
+      "results/fund_divlowvol_p1/fund_divlowvol_p1_results.json",
+      "results/_r1038bmb_stock_domain_audit.json"
+     ],
+     "file": "results/_r1038bmb_postscript.py",
+     "naming_lines": [
+      28
+     ]
+    },
+    {
+     "faces": [
+      "results/divlowvol_nulls/NULLS-CONSUME-2026-09-22.json"
+     ],
+     "file": "scripts/divlowvol_live_picks.py",
+     "naming_lines": [
+      11,
+      52
+     ]
+    },
+    {
+     "faces": [
+      "results/_fund_divlowvol_p1_transfer_probe.json",
+      "results/fund_divlowvol_p1/probe.json",
+      "results/fund_divlowvol_p1/fund_divlowvol_p1_results.json"
+     ],
+     "file": "scripts/fund_divlowvol_p1.py",
+     "naming_lines": [
+      6,
+      164
+     ]
+    },
+    {
+     "faces": [
+      "results/_fund_divlowvol_p1_transfer_probe.json",
+      "results/fund_divlowvol_p1/d6.json",
+      "results/fund_value_p1/cont_VALUE-PE_x1.json",
+      "results/fund_quality_p1/cont_QUALITY-ROE_x1.json"
+     ],
+     "file": "scripts/fund_divlowvol_p1_probe.py",
+     "naming_lines": [
+      159
+     ]
+    }
+   ]
+  },
+  {
+   "class": "note_named_but_no_digest",
+   "digest_hits": [],
+   "digest_kind": null,
+   "faces_missing_on_disk": [],
+   "faces_probed": [
+    {
+     "face": "results/fund_quality_p1/sens_acceptance.json",
+     "file": "Tools/_r629bma_sens_acceptance.py"
+    },
+    {
+     "face": "results/runnable_pool.json",
+     "file": "Tools/_r629bma_sens_acceptance.py"
+    },
+    {
+     "face": "results/_r627bma_t156_fourpoint.json",
+     "file": "Tools/_r629bma_sens_acceptance.py"
+    },
+    {
+     "face": "results/runnable_pool.bm-b.json",
+     "file": "results/_r606bmb_pool_register.py"
+    },
+    {
+     "face": "results/_fund_quality_p1_transfer_probe.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/fund_quality_p1/d6.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/fund_quality_p1/probe.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/pool_claims/FUND-VALUE-P1-CELL-VALUEPB-X2/fund-value-p1-cell-valuepb-x2-0of1.bm-b.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/astock_daily_update_status.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/autofill_state.bm-b.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/compute_audit.bm-b.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/crash_fuse.bm-b.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/etf_daily_pull_status.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/futures_update_status.bm-b.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/lhb_update_status.bm-b.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/p1d_gates.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/prospect_promotion/_summary.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/regime_state.bm-b.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/runnable_pool.bm-b.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/saturation_engine/face_bm-b.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/saturation_engine/state_bm-b.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/token_usage.bm-b.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/update_status.bm-b.json",
+     "file": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "face": "results/fund_quality_p1/probe.json",
+     "file": "scripts/fund_quality_p1.py"
+    },
+    {
+     "face": "results/fund_quality_p1/fund_quality_p1_results.json",
+     "file": "scripts/fund_quality_p1.py"
+    },
+    {
+     "face": "results/fund_pit_audit/audit_results.json",
+     "file": "scripts/fund_quality_p1_probe.py"
+    },
+    {
+     "face": "results/_fund_quality_p1_transfer_probe.json",
+     "file": "scripts/fund_quality_p1_probe.py"
+    }
+   ],
+   "naming_file_count": 6,
+   "naming_files": [
+    "Tools/_r629bma_sens_acceptance.py",
+    "results/_r606bmb_bookkeeping.py",
+    "results/_r606bmb_pool_register.py",
+    "results/_r608bma_s0_repair.py",
+    "scripts/fund_quality_p1.py",
+    "scripts/fund_quality_p1_probe.py"
+   ],
+   "near_miss_faces": [
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_quality_p1/sens_acceptance.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "legs.C_shard_status",
+      "legs.C_shard_owner",
+      "legs.C_shard_owner_since",
+      "legs.D_local_sha256"
+     ],
+     "writer": "Tools/_r629bma_sens_acceptance.py"
+    },
+    {
+     "asof_dates_in_prose": [
+      {
+       "field": "entries[4].prereg_ref",
+       "value": "research/A158_TSGATE_P1_PREREG.md FROZEN (157 factors qlib-verbatim pandas port, VWAP0 exc"
+      },
+      {
+       "field": "entries[21].prereg_ref",
+       "value": "research/CN_REV_TILT_PREREG.md (frozen R245, ZERO runs; R246 pre-run amendments: seed cn_r"
+      },
+      {
+       "field": "entries[25].prereg_ref",
+       "value": "results/contest_p1/entrants.json admission face frozen slice-1; contest caliber = runner h"
+      },
+      {
+       "field": "entries[35].prereg_ref",
+       "value": "research/CTA_WAVE1_PREREG.md frozen R186 (78 cells: LegA 16 + LegB 8 + LegC 2 + K=50 nulls"
+      }
+     ],
+     "face": "results/runnable_pool.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "entries[3].prereg_ref",
+      "entries[3].shards",
+      "entries[4].prereg_ref",
+      "entries[4].shards",
+      "entries[5].prereg_ref",
+      "entries[5].shards"
+     ],
+     "writer": "Tools/_r629bma_sens_acceptance.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/_r627bma_t156_fourpoint.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "points.b_hashes_vs_sender",
+      "points.c_688001_magnitude.implied_shares_median_2024"
+     ],
+     "writer": "Tools/_r629bma_sens_acceptance.py"
+    },
+    {
+     "asof_dates_in_prose": [
+      {
+       "field": "entries[4].prereg_ref",
+       "value": "research/A158_TSGATE_P1_PREREG.md FROZEN (157 factors qlib-verbatim pandas port, VWAP0 exc"
+      },
+      {
+       "field": "entries[21].prereg_ref",
+       "value": "research/CN_REV_TILT_PREREG.md (frozen R245, ZERO runs; R246 pre-run amendments: seed cn_r"
+      },
+      {
+       "field": "entries[25].prereg_ref",
+       "value": "results/contest_p1/entrants.json admission face frozen slice-1; contest caliber = runner h"
+      },
+      {
+       "field": "entries[35].prereg_ref",
+       "value": "research/CTA_WAVE1_PREREG.md frozen R186 (78 cells: LegA 16 + LegB 8 + LegC 2 + K=50 nulls"
+      }
+     ],
+     "face": "results/runnable_pool.bm-b.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "entries[3].prereg_ref",
+      "entries[3].shards",
+      "entries[4].prereg_ref",
+      "entries[4].shards",
+      "entries[5].prereg_ref",
+      "entries[5].shards"
+     ],
+     "writer": "results/_r606bmb_pool_register.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/_fund_quality_p1_transfer_probe.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "prereg"
+     ],
+     "writer": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_quality_p1/d6.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "headline_cont.sharpe_full"
+     ],
+     "writer": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_quality_p1/probe.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "d6.headline_cont.sharpe_full",
+      "prereg_state"
+     ],
+     "writer": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/autofill_state.bm-b.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "launches[0].shard",
+      "launches[0].runner_sha256",
+      "launches[1].shard",
+      "launches[1].runner_sha256",
+      "launches[2].shard",
+      "launches[2].runner_sha256"
+     ],
+     "writer": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/crash_fuse.bm-b.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "sigs.scripts/trial_labor_w7.py|judge,--shard,0,--shards,1",
+      "sigs.scripts/trial_labor_w7.py|judge,--shard,0,--shards,1.code_sha256",
+      "sigs.scripts/trial_labor_w7.py|judge,--shard,0,--shards,1.shard",
+      "sigs.scripts/trial_labor_w11.py|generate.code_sha256",
+      "sigs.scripts/trial_labor_w11.py|generate.shard",
+      "sigs.scripts/national_team_s3_review.py|run.code_sha256"
+     ],
+     "writer": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/p1d_gates.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "meta.prereg"
+     ],
+     "writer": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/regime_state.bm-b.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "dims.breadth.share_below_ma20",
+      "dims.breadth.share_slope_5d",
+      "dims.breadth.share_5d_ago"
+     ],
+     "writer": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "asof_dates_in_prose": [
+      {
+       "field": "entries[4].prereg_ref",
+       "value": "research/A158_TSGATE_P1_PREREG.md FROZEN (157 factors qlib-verbatim pandas port, VWAP0 exc"
+      },
+      {
+       "field": "entries[21].prereg_ref",
+       "value": "research/CN_REV_TILT_PREREG.md (frozen R245, ZERO runs; R246 pre-run amendments: seed cn_r"
+      },
+      {
+       "field": "entries[25].prereg_ref",
+       "value": "results/contest_p1/entrants.json admission face frozen slice-1; contest caliber = runner h"
+      },
+      {
+       "field": "entries[35].prereg_ref",
+       "value": "research/CTA_WAVE1_PREREG.md frozen R186 (78 cells: LegA 16 + LegB 8 + LegC 2 + K=50 nulls"
+      }
+     ],
+     "face": "results/runnable_pool.bm-b.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "entries[3].prereg_ref",
+      "entries[3].shards",
+      "entries[4].prereg_ref",
+      "entries[4].shards",
+      "entries[5].prereg_ref",
+      "entries[5].shards"
+     ],
+     "writer": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/saturation_engine/face_bm-b.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "shards_done_total",
+      "last_shard_done_at"
+     ],
+     "writer": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/saturation_engine/state_bm-b.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "shards_done_total",
+      "last_shard_done_at"
+     ],
+     "writer": "results/_r608bma_s0_repair.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_quality_p1/probe.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "d6.headline_cont.sharpe_full",
+      "prereg_state"
+     ],
+     "writer": "scripts/fund_quality_p1.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_quality_p1/fund_quality_p1_results.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "audit.law_a_census.block_share",
+      "cells.QUALITY-ROE|x1.sharpe_full",
+      "cells.QUALITY-ROE|x2.sharpe_full",
+      "d6.headline_cont.sharpe_full",
+      "descriptive.x2_cost_drag_sharpe",
+      "gates.exit_census.block_share"
+     ],
+     "writer": "scripts/fund_quality_p1.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/_fund_quality_p1_transfer_probe.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "prereg"
+     ],
+     "writer": "scripts/fund_quality_p1_probe.py"
+    }
+   ],
+   "note": "research/FUND-QUALITY-P1.md",
+   "note_bytes": 25453,
+   "note_sha256": "bba42e51167348d6f87b032711f86a1d21964df716b13be22fd6e845c59b26b3",
+   "note_stem": "FUND-QUALITY-P1",
+   "own_producer_faces_probed": 4,
+   "own_producer_files": [
+    "scripts/fund_quality_p1.py",
+    "scripts/fund_quality_p1_probe.py"
+   ],
+   "own_producers": [
+    {
+     "faces": [
+      "results/fund_quality_p1/probe.json",
+      "results/fund_quality_p1/fund_quality_p1_results.json"
+     ],
+     "file": "scripts/fund_quality_p1.py",
+     "naming_lines": [
+      5,
+      136
+     ]
+    },
+    {
+     "faces": [
+      "results/fund_pit_audit/audit_results.json",
+      "results/_fund_quality_p1_transfer_probe.json"
+     ],
+     "file": "scripts/fund_quality_p1_probe.py",
+     "naming_lines": [
+      144
+     ]
+    }
+   ],
+   "producer_basis": "own_producer_named_by_the_study_slug",
+   "producer_count": 5,
+   "producers": [
+    {
+     "faces": [
+      "results/fund_quality_p1/sens_acceptance.json",
+      "results/runnable_pool.json",
+      "results/_r627bma_t156_fourpoint.json"
+     ],
+     "file": "Tools/_r629bma_sens_acceptance.py",
+     "naming_lines": [
+      79
+     ]
+    },
+    {
+     "faces": [
+      "results/runnable_pool.bm-b.json"
+     ],
+     "file": "results/_r606bmb_pool_register.py",
+     "naming_lines": [
+      17
+     ]
+    },
+    {
+     "faces": [
+      "results/_fund_quality_p1_transfer_probe.json",
+      "results/fund_quality_p1/d6.json",
+      "results/fund_quality_p1/probe.json",
+      "results/pool_claims/FUND-VALUE-P1-CELL-VALUEPB-X2/fund-value-p1-cell-valuepb-x2-0of1.bm-b.json",
+      "results/astock_daily_update_status.json",
+      "results/autofill_state.bm-b.json",
+      "results/compute_audit.bm-b.json",
+      "results/crash_fuse.bm-b.json",
+      "results/etf_daily_pull_status.json",
+      "results/futures_update_status.bm-b.json",
+      "results/lhb_update_status.bm-b.json",
+      "results/p1d_gates.json",
+      "results/prospect_promotion/_summary.json",
+      "results/regime_state.bm-b.json",
+      "results/runnable_pool.bm-b.json",
+      "results/saturation_engine/face_bm-b.json",
+      "results/saturation_engine/state_bm-b.json",
+      "results/token_usage.bm-b.json",
+      "results/update_status.bm-b.json"
+     ],
+     "file": "results/_r608bma_s0_repair.py",
+     "naming_lines": [
+      15
+     ]
+    },
+    {
+     "faces": [
+      "results/fund_quality_p1/probe.json",
+      "results/fund_quality_p1/fund_quality_p1_results.json"
+     ],
+     "file": "scripts/fund_quality_p1.py",
+     "naming_lines": [
+      5,
+      136
+     ]
+    },
+    {
+     "faces": [
+      "results/fund_pit_audit/audit_results.json",
+      "results/_fund_quality_p1_transfer_probe.json"
+     ],
+     "file": "scripts/fund_quality_p1_probe.py",
+     "naming_lines": [
+      144
+     ]
+    }
+   ]
+  },
+  {
+   "class": "note_named_but_no_digest",
+   "digest_hits": [],
+   "digest_kind": null,
+   "faces_missing_on_disk": [
+    {
+     "face": "results/p2cal_ext/n1_w<NNN>/shard-K-of-N.json",
+     "file": "monitor/build_status.py"
+    },
+    {
+     "face": "results/shortline/*.json",
+     "file": "monitor/build_status.py"
+    },
+    {
+     "face": "results/paper/*_paper.json",
+     "file": "monitor/build_status.py"
+    }
+   ],
+   "faces_probed": [
+    {
+     "face": "results/update_status.json",
+     "file": "monitor/build_status.py"
+    },
+    {
+     "face": "results/portfolio_ew6.json",
+     "file": "monitor/build_status.py"
+    },
+    {
+     "face": "results/_r633bma_finalize_rehearsal_summary.json",
+     "file": "monitor/build_status.py"
+    },
+    {
+     "face": "results/lowamp_deep_p1/lowamp_deep_p1_results.json",
+     "file": "monitor/build_status.py"
+    },
+    {
+     "face": "results/scorecard_v1.json",
+     "file": "monitor/build_status.py"
+    },
+    {
+     "face": "results/compute_audit.json",
+     "file": "monitor/build_status.py"
+    },
+    {
+     "face": "results/dashboard_status.json",
+     "file": "monitor/build_status.py"
+    },
+    {
+     "face": "results/_r596bma_fund_value_probe.json",
+     "file": "results/_r597bma_s0.py"
+    },
+    {
+     "face": "results/fund_value_p1/probe.json",
+     "file": "results/_r600bma_t150_wip/fund_value_p1.py"
+    },
+    {
+     "face": "results/fund_value_p1/fund_value_p1_results.json",
+     "file": "results/_r600bma_t150_wip/fund_value_p1.py"
+    },
+    {
+     "face": "results/pool_claims/FUND-VALUE-P1-SENS/fund-value-p1-sens-0of1.bm-a.json",
+     "file": "results/_r673bma_value_sens_accept.py"
+    },
+    {
+     "face": "results/pool_claims/FUND-VALUE-P1-SENS/fund-value-p1-sens-0of1.bm-b.json",
+     "file": "results/_r673bma_value_sens_accept.py"
+    },
+    {
+     "face": "results/runnable_pool.json",
+     "file": "results/_r673bma_value_sens_accept.py"
+    },
+    {
+     "face": "results/_r627bma_t156_fourpoint.json",
+     "file": "results/_r673bma_value_sens_accept.py"
+    },
+    {
+     "face": "results/fund_value_p1/probe.json",
+     "file": "scripts/fund_value_p1.py"
+    },
+    {
+     "face": "results/fund_value_p1/fund_value_p1_results.json",
+     "file": "scripts/fund_value_p1.py"
+    },
+    {
+     "face": "results/_fund_value_p1_transfer_probe.json",
+     "file": "scripts/fund_value_p1_probe.py"
+    }
+   ],
+   "naming_file_count": 6,
+   "naming_files": [
+    "monitor/build_status.py",
+    "results/_r597bma_s0.py",
+    "results/_r600bma_t150_wip/fund_value_p1.py",
+    "results/_r673bma_value_sens_accept.py",
+    "scripts/fund_value_p1.py",
+    "scripts/fund_value_p1_probe.py"
+   ],
+   "near_miss_faces": [
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/portfolio_ew6.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "preregistered_doc",
+      "prereg_sha256_at_run",
+      "constants.passive_ew48_buyhold.full.sharpe",
+      "constants.passive_ew48_buyhold.oos.sharpe",
+      "constants.passive_ew48_monthly.full.sharpe",
+      "constants.passive_ew48_monthly.oos.sharpe"
+     ],
+     "writer": "monitor/build_status.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_deep_p1/lowamp_deep_p1_results.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "audit.law_a_census.block_share",
+      "cells.LAD-EDGE-EQ|deep|base.sharpe_full",
+      "cells.LAD-EDGE-EQ|deep|x2.sharpe_full",
+      "cells.LAD-EDGE|deep|base.sharpe_full",
+      "cells.LAD-EDGE|deep|x2.sharpe_full",
+      "cells.LAD-REP-EQ|deep|base.sharpe_full"
+     ],
+     "writer": "monitor/build_status.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/scorecard_v1.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "per_trader.COMPOSITE-CE-01.dims.2.reads.full_sharpe",
+      "per_trader.COMPOSITE-CE-01.dims.2.reads.oos_sharpe",
+      "per_trader.COMPOSITE-CE-01.dims.3.reads.cost_x2_sharpe",
+      "per_trader.COMPOSITE-CE-01.dims.4.reads.is2_sharpe",
+      "per_trader.COMPOSITE-CE-01.dims.4.reads.full_sharpe",
+      "per_trader.COMPOSITE-CE-01.dims.7.reads.prereg_chain"
+     ],
+     "writer": "monitor/build_status.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/dashboard_status.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "data.engine.rows[0].shards_done_total",
+      "data.engine.rows[0].last_shard_done_at",
+      "data.engine.rows[1].shards_done_total",
+      "data.engine.rows[1].last_shard_done_at",
+      "data.engine.rows[2].shards_done_total",
+      "data.engine.rows[2].last_shard_done_at"
+     ],
+     "writer": "monitor/build_status.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_value_p1/probe.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "d6.headline_cont.sharpe_full"
+     ],
+     "writer": "results/_r600bma_t150_wip/fund_value_p1.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_value_p1/fund_value_p1_results.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "audit.law_a_census.block_share",
+      "cells.VALUE-PB|x1.cache_digest",
+      "cells.VALUE-PB|x1.sharpe_full",
+      "cells.VALUE-PB|x2.sharpe_full",
+      "cells.VALUE-PE|x1.sharpe_full",
+      "cells.VALUE-PE|x2.cache_digest"
+     ],
+     "writer": "results/_r600bma_t150_wip/fund_value_p1.py"
+    },
+    {
+     "asof_dates_in_prose": [
+      {
+       "field": "entries[4].prereg_ref",
+       "value": "research/A158_TSGATE_P1_PREREG.md FROZEN (157 factors qlib-verbatim pandas port, VWAP0 exc"
+      },
+      {
+       "field": "entries[21].prereg_ref",
+       "value": "research/CN_REV_TILT_PREREG.md (frozen R245, ZERO runs; R246 pre-run amendments: seed cn_r"
+      },
+      {
+       "field": "entries[25].prereg_ref",
+       "value": "results/contest_p1/entrants.json admission face frozen slice-1; contest caliber = runner h"
+      },
+      {
+       "field": "entries[35].prereg_ref",
+       "value": "research/CTA_WAVE1_PREREG.md frozen R186 (78 cells: LegA 16 + LegB 8 + LegC 2 + K=50 nulls"
+      }
+     ],
+     "face": "results/runnable_pool.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "entries[3].prereg_ref",
+      "entries[3].shards",
+      "entries[4].prereg_ref",
+      "entries[4].shards",
+      "entries[5].prereg_ref",
+      "entries[5].shards"
+     ],
+     "writer": "results/_r673bma_value_sens_accept.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/_r627bma_t156_fourpoint.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "points.b_hashes_vs_sender",
+      "points.c_688001_magnitude.implied_shares_median_2024"
+     ],
+     "writer": "results/_r673bma_value_sens_accept.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_value_p1/probe.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "d6.headline_cont.sharpe_full"
+     ],
+     "writer": "scripts/fund_value_p1.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/fund_value_p1/fund_value_p1_results.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "audit.law_a_census.block_share",
+      "cells.VALUE-PB|x1.cache_digest",
+      "cells.VALUE-PB|x1.sharpe_full",
+      "cells.VALUE-PB|x2.sharpe_full",
+      "cells.VALUE-PE|x1.sharpe_full",
+      "cells.VALUE-PE|x2.cache_digest"
+     ],
+     "writer": "scripts/fund_value_p1.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/_fund_value_p1_transfer_probe.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [],
+     "writer": "scripts/fund_value_p1_probe.py"
+    }
+   ],
+   "note": "research/FUND-VALUE-P1.md",
+   "note_bytes": 21083,
+   "note_sha256": "39be0f429effc73d76a777d801be0cf2ec1354b359c92bbb484a3da1a1ee42ea",
+   "note_stem": "FUND-VALUE-P1",
+   "own_producer_faces_probed": 5,
+   "own_producer_files": [
+    "results/_r600bma_t150_wip/fund_value_p1.py",
+    "scripts/fund_value_p1.py",
+    "scripts/fund_value_p1_probe.py"
+   ],
+   "own_producers": [
+    {
+     "faces": [
+      "results/fund_value_p1/probe.json",
+      "results/fund_value_p1/fund_value_p1_results.json"
+     ],
+     "file": "results/_r600bma_t150_wip/fund_value_p1.py",
+     "naming_lines": [
+      4,
+      91,
+      1591
+     ]
+    },
+    {
+     "faces": [
+      "results/fund_value_p1/probe.json",
+      "results/fund_value_p1/fund_value_p1_results.json"
+     ],
+     "file": "scripts/fund_value_p1.py",
+     "naming_lines": [
+      5,
+      128
+     ]
+    },
+    {
+     "faces": [
+      "results/_fund_value_p1_transfer_probe.json"
+     ],
+     "file": "scripts/fund_value_p1_probe.py",
+     "naming_lines": [
+      3
+     ]
+    }
+   ],
+   "producer_basis": "own_producer_named_by_the_study_slug",
+   "producer_count": 6,
+   "producers": [
+    {
+     "faces": [
+      "results/update_status.json",
+      "results/portfolio_ew6.json",
+      "results/p2cal_ext/n1_w<NNN>/shard-K-of-N.json",
+      "results/_r633bma_finalize_rehearsal_summary.json",
+      "results/lowamp_deep_p1/lowamp_deep_p1_results.json",
+      "results/shortline/*.json",
+      "results/paper/*_paper.json",
+      "results/scorecard_v1.json",
+      "results/compute_audit.json",
+      "results/dashboard_status.json"
+     ],
+     "file": "monitor/build_status.py",
+     "naming_lines": [
+      864
+     ]
+    },
+    {
+     "faces": [
+      "results/_r596bma_fund_value_probe.json"
+     ],
+     "file": "results/_r597bma_s0.py",
+     "naming_lines": [
+      114
+     ]
+    },
+    {
+     "faces": [
+      "results/fund_value_p1/probe.json",
+      "results/fund_value_p1/fund_value_p1_results.json"
+     ],
+     "file": "results/_r600bma_t150_wip/fund_value_p1.py",
+     "naming_lines": [
+      4,
+      91,
+      1591
+     ]
+    },
+    {
+     "faces": [
+      "results/pool_claims/FUND-VALUE-P1-SENS/fund-value-p1-sens-0of1.bm-a.json",
+      "results/pool_claims/FUND-VALUE-P1-SENS/fund-value-p1-sens-0of1.bm-b.json",
+      "results/runnable_pool.json",
+      "results/_r627bma_t156_fourpoint.json"
+     ],
+     "file": "results/_r673bma_value_sens_accept.py",
+     "naming_lines": [
+      88
+     ]
+    },
+    {
+     "faces": [
+      "results/fund_value_p1/probe.json",
+      "results/fund_value_p1/fund_value_p1_results.json"
+     ],
+     "file": "scripts/fund_value_p1.py",
+     "naming_lines": [
+      5,
+      128
+     ]
+    },
+    {
+     "faces": [
+      "results/_fund_value_p1_transfer_probe.json"
+     ],
+     "file": "scripts/fund_value_p1_probe.py",
+     "naming_lines": [
+      3
+     ]
+    }
+   ]
+  },
+  {
+   "class": "note_named_but_no_digest",
+   "digest_hits": [],
+   "digest_kind": null,
+   "faces_missing_on_disk": [
+    {
+     "face": "results/*.json",
+     "file": "scripts/science_gates.py"
+    },
+    {
+     "face": "results/<sub>/<file>.json",
+     "file": "scripts/science_gates.py"
+    },
+    {
+     "face": "results/_selftest_sub/guard_repo_rel.json",
+     "file": "scripts/science_gates.py"
+    }
+   ],
+   "faces_probed": [
+    {
+     "face": "results/runnable_pool.json",
+     "file": "results/_r596bmb_deep_pool_entry.py"
+    },
+    {
+     "face": "results/runnable_pool.json",
+     "file": "results/_r597bmb_s0_reintegrate.py"
+    },
+    {
+     "face": "results/_r604bmb_ring_state.json",
+     "file": "results/_r604bmb_ring_b.py"
+    },
+    {
+     "face": "results/lowamp_deep_p1/probe.json",
+     "file": "scripts/lowamp_deep_p1.py"
+    },
+    {
+     "face": "results/lowamp_deep_p1/lowamp_deep_p1_results.json",
+     "file": "scripts/lowamp_deep_p1.py"
+    },
+    {
+     "face": "results/o2115_acceptance/pack_latest.json",
+     "file": "scripts/o2115_acceptance_pack.py"
+    },
+    {
+     "face": "results/fund_pit_audit/audit_results.json",
+     "file": "scripts/o2115_acceptance_pack.py"
+    },
+    {
+     "face": "results/fund_h_unlock_eval.json",
+     "file": "scripts/o2115_acceptance_pack.py"
+    },
+    {
+     "face": "results/fund_history_status.json",
+     "file": "scripts/o2115_acceptance_pack.py"
+    },
+    {
+     "face": "results/mass_trial/w2_judge.json",
+     "file": "scripts/o2115_acceptance_pack.py"
+    },
+    {
+     "face": "results/p2_calibration.json",
+     "file": "scripts/science_gates.py"
+    },
+    {
+     "face": "results/wild_route/wild_route_s1.json",
+     "file": "scripts/science_gates.py"
+    },
+    {
+     "face": "results/lowamp_p3/lowamp_p3_results.json",
+     "file": "scripts/science_gates.py"
+    },
+    {
+     "face": "results/lowamp_deep_p1/lowamp_deep_p1_results.json",
+     "file": "scripts/science_gates.py"
+    },
+    {
+     "face": "results/g2_slot_mon_p2/g2_slot_mon_p2_verdict.json",
+     "file": "scripts/science_gates.py"
+    }
+   ],
+   "naming_file_count": 6,
+   "naming_files": [
+    "results/_r596bmb_deep_pool_entry.py",
+    "results/_r597bmb_s0_reintegrate.py",
+    "results/_r604bmb_ring_b.py",
+    "scripts/lowamp_deep_p1.py",
+    "scripts/o2115_acceptance_pack.py",
+    "scripts/science_gates.py"
+   ],
+   "near_miss_faces": [
+    {
+     "asof_dates_in_prose": [
+      {
+       "field": "entries[4].prereg_ref",
+       "value": "research/A158_TSGATE_P1_PREREG.md FROZEN (157 factors qlib-verbatim pandas port, VWAP0 exc"
+      },
+      {
+       "field": "entries[21].prereg_ref",
+       "value": "research/CN_REV_TILT_PREREG.md (frozen R245, ZERO runs; R246 pre-run amendments: seed cn_r"
+      },
+      {
+       "field": "entries[25].prereg_ref",
+       "value": "results/contest_p1/entrants.json admission face frozen slice-1; contest caliber = runner h"
+      },
+      {
+       "field": "entries[35].prereg_ref",
+       "value": "research/CTA_WAVE1_PREREG.md frozen R186 (78 cells: LegA 16 + LegB 8 + LegC 2 + K=50 nulls"
+      }
+     ],
+     "face": "results/runnable_pool.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "entries[3].prereg_ref",
+      "entries[3].shards",
+      "entries[4].prereg_ref",
+      "entries[4].shards",
+      "entries[5].prereg_ref",
+      "entries[5].shards"
+     ],
+     "writer": "results/_r596bmb_deep_pool_entry.py"
+    },
+    {
+     "asof_dates_in_prose": [
+      {
+       "field": "entries[4].prereg_ref",
+       "value": "research/A158_TSGATE_P1_PREREG.md FROZEN (157 factors qlib-verbatim pandas port, VWAP0 exc"
+      },
+      {
+       "field": "entries[21].prereg_ref",
+       "value": "research/CN_REV_TILT_PREREG.md (frozen R245, ZERO runs; R246 pre-run amendments: seed cn_r"
+      },
+      {
+       "field": "entries[25].prereg_ref",
+       "value": "results/contest_p1/entrants.json admission face frozen slice-1; contest caliber = runner h"
+      },
+      {
+       "field": "entries[35].prereg_ref",
+       "value": "research/CTA_WAVE1_PREREG.md frozen R186 (78 cells: LegA 16 + LegB 8 + LegC 2 + K=50 nulls"
+      }
+     ],
+     "face": "results/runnable_pool.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "entries[3].prereg_ref",
+      "entries[3].shards",
+      "entries[4].prereg_ref",
+      "entries[4].shards",
+      "entries[5].prereg_ref",
+      "entries[5].shards"
+     ],
+     "writer": "results/_r597bmb_s0_reintegrate.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/_r604bmb_ring_state.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [],
+     "writer": "results/_r604bmb_ring_b.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_deep_p1/probe.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "headline.sharpe_full"
+     ],
+     "writer": "scripts/lowamp_deep_p1.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_deep_p1/lowamp_deep_p1_results.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "audit.law_a_census.block_share",
+      "cells.LAD-EDGE-EQ|deep|base.sharpe_full",
+      "cells.LAD-EDGE-EQ|deep|x2.sharpe_full",
+      "cells.LAD-EDGE|deep|base.sharpe_full",
+      "cells.LAD-EDGE|deep|x2.sharpe_full",
+      "cells.LAD-REP-EQ|deep|base.sharpe_full"
+     ],
+     "writer": "scripts/lowamp_deep_p1.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/o2115_acceptance/pack_latest.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "items[0].frozen_families[0].prereg_frozen",
+      "items[0].frozen_families[0].pool.done_share",
+      "items[0].frozen_families[1].prereg_frozen",
+      "items[0].frozen_families[1].pool.done_share",
+      "items[0].frozen_families[2].prereg_frozen",
+      "items[0].frozen_families[2].pool.done_share"
+     ],
+     "writer": "scripts/o2115_acceptance_pack.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/mass_trial/w2_judge.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "cells[0].legs.L.x1.sharpe_full",
+      "cells[0].legs.L.x2.sharpe_full",
+      "cells[0].legs.D.x1.sharpe_full",
+      "cells[0].legs.D.x2.sharpe_full",
+      "cells[0].legL_oos.oos_sharpe",
+      "cells[0].g1_prime_v2.sharpe_full"
+     ],
+     "writer": "scripts/o2115_acceptance_pack.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/p2_calibration.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "preregistered_doc",
+      "families.A_random_engine_exit.full_sharpe_p95",
+      "families.A_random_engine_exit.oos_sharpe_p95",
+      "families.A_random_engine_exit.runs[0].full.sharpe",
+      "families.A_random_engine_exit.runs[0].oos.sharpe",
+      "families.A_random_engine_exit.runs[1].full.sharpe"
+     ],
+     "writer": "scripts/science_gates.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/wild_route/wild_route_s1.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "prereg_ref",
+      "nulls.sharpe_mean",
+      "nulls.sharpe_p95",
+      "g1_prime_v2.P01_daban9|full|W_full|x1.sharpe_full",
+      "g1_prime_v2.P02_yijiner|full|W_full|x1.sharpe_full",
+      "g1_prime_v2.P03a_duanban_dixi|full|W_full|x1.sharpe_full"
+     ],
+     "writer": "scripts/science_gates.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_p3/lowamp_p3_results.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "audit.law_a_census.block_share",
+      "cells.LA-EDGE|deep|base.sharpe_full",
+      "cells.LA-EDGE|deep|x2.sharpe_full",
+      "cells.LA-EDGE|legacy|base.sharpe_full",
+      "cells.LA-EDGE|legacy|x2.sharpe_full",
+      "cells.LA-EQ|deep|base.sharpe_full"
+     ],
+     "writer": "scripts/science_gates.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_deep_p1/lowamp_deep_p1_results.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "audit.law_a_census.block_share",
+      "cells.LAD-EDGE-EQ|deep|base.sharpe_full",
+      "cells.LAD-EDGE-EQ|deep|x2.sharpe_full",
+      "cells.LAD-EDGE|deep|base.sharpe_full",
+      "cells.LAD-EDGE|deep|x2.sharpe_full",
+      "cells.LAD-REP-EQ|deep|base.sharpe_full"
+     ],
+     "writer": "scripts/science_gates.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/g2_slot_mon_p2/g2_slot_mon_p2_verdict.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "prereg",
+      "panel.members_sha16",
+      "faces.best_016.x1.sharpe",
+      "faces.best_016.x2.sharpe",
+      "faces.old_032.x1.sharpe",
+      "faces.old_032.x2.sharpe"
+     ],
+     "writer": "scripts/science_gates.py"
+    }
+   ],
+   "note": "research/LOWAMP-DEEP-P1.md",
+   "note_bytes": 25830,
+   "note_sha256": "6740d1445427ebdd1707c3f8c39ce69dbcac9147724732d486d236776d5c1e66",
+   "note_stem": "LOWAMP-DEEP-P1",
+   "own_producer_faces_probed": 2,
+   "own_producer_files": [
+    "scripts/lowamp_deep_p1.py"
+   ],
+   "own_producers": [
+    {
+     "faces": [
+      "results/lowamp_deep_p1/probe.json",
+      "results/lowamp_deep_p1/lowamp_deep_p1_results.json"
+     ],
+     "file": "scripts/lowamp_deep_p1.py",
+     "naming_lines": [
+      9,
+      147
+     ]
+    }
+   ],
+   "producer_basis": "own_producer_named_by_the_study_slug",
+   "producer_count": 6,
+   "producers": [
+    {
+     "faces": [
+      "results/runnable_pool.json"
+     ],
+     "file": "results/_r596bmb_deep_pool_entry.py",
+     "naming_lines": [
+      3,
+      17
+     ]
+    },
+    {
+     "faces": [
+      "results/runnable_pool.json"
+     ],
+     "file": "results/_r597bmb_s0_reintegrate.py",
+     "naming_lines": [
+      124
+     ]
+    },
+    {
+     "faces": [
+      "results/_r604bmb_ring_state.json"
+     ],
+     "file": "results/_r604bmb_ring_b.py",
+     "naming_lines": [
+      16
+     ]
+    },
+    {
+     "faces": [
+      "results/lowamp_deep_p1/probe.json",
+      "results/lowamp_deep_p1/lowamp_deep_p1_results.json"
+     ],
+     "file": "scripts/lowamp_deep_p1.py",
+     "naming_lines": [
+      9,
+      147
+     ]
+    },
+    {
+     "faces": [
+      "results/o2115_acceptance/pack_latest.json",
+      "results/fund_pit_audit/audit_results.json",
+      "results/fund_h_unlock_eval.json",
+      "results/fund_history_status.json",
+      "results/mass_trial/w2_judge.json"
+     ],
+     "file": "scripts/o2115_acceptance_pack.py",
+     "naming_lines": [
+      176
+     ]
+    },
+    {
+     "faces": [
+      "results/*.json",
+      "results/p2_calibration.json",
+      "results/<sub>/<file>.json",
+      "results/wild_route/wild_route_s1.json",
+      "results/lowamp_p3/lowamp_p3_results.json",
+      "results/lowamp_deep_p1/lowamp_deep_p1_results.json",
+      "results/g2_slot_mon_p2/g2_slot_mon_p2_verdict.json",
+      "results/_selftest_sub/guard_repo_rel.json"
+     ],
+     "file": "scripts/science_gates.py",
+     "naming_lines": [
+      2750
+     ]
+    }
+   ]
+  },
+  {
+   "class": "note_named_but_no_digest",
+   "digest_hits": [],
+   "digest_kind": null,
+   "faces_missing_on_disk": [],
+   "faces_probed": [
+    {
+     "face": "results/lowamp_p1/probe.json",
+     "file": "scripts/lowamp_p1.py"
+    },
+    {
+     "face": "results/lowamp_p1/lowamp_p1_results.json",
+     "file": "scripts/lowamp_p1.py"
+    }
+   ],
+   "naming_file_count": 4,
+   "naming_files": [
+    "results/_r483bmb_close.py",
+    "results/_r483bmb_codely_append.py",
+    "results/_r483bmb_yield_close.py",
+    "scripts/lowamp_p1.py"
+   ],
+   "near_miss_faces": [
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_p1/probe.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "headline.sharpe_full"
+     ],
+     "writer": "scripts/lowamp_p1.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_p1/lowamp_p1_results.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "cells.LA-EDGE|deep|base.sharpe_full",
+      "cells.LA-EDGE|deep|x2.sharpe_full",
+      "cells.LA-EDGE|legacy|base.sharpe_full",
+      "cells.LA-EDGE|legacy|x2.sharpe_full",
+      "cells.LA-EQ|deep|base.sharpe_full",
+      "cells.LA-EQ|deep|x2.sharpe_full"
+     ],
+     "writer": "scripts/lowamp_p1.py"
+    }
+   ],
+   "note": "research/LOWAMP-P1.md",
+   "note_bytes": 26337,
+   "note_sha256": "44ba87160f8b1edb03a9b2a75e04fd7babb7c45b70e5626fbbbb37a2a7800875",
+   "note_stem": "LOWAMP-P1",
+   "own_producer_faces_probed": 2,
+   "own_producer_files": [
+    "scripts/lowamp_p1.py"
+   ],
+   "own_producers": [
+    {
+     "faces": [
+      "results/lowamp_p1/probe.json",
+      "results/lowamp_p1/lowamp_p1_results.json"
+     ],
+     "file": "scripts/lowamp_p1.py",
+     "naming_lines": [
+      4,
+      102
+     ]
+    }
+   ],
+   "producer_basis": "own_producer_named_by_the_study_slug",
+   "producer_count": 1,
+   "producers": [
+    {
+     "faces": [
+      "results/lowamp_p1/probe.json",
+      "results/lowamp_p1/lowamp_p1_results.json"
+     ],
+     "file": "scripts/lowamp_p1.py",
+     "naming_lines": [
+      4,
+      102
+     ]
+    }
+   ]
+  },
+  {
+   "class": "note_named_but_no_digest",
+   "digest_hits": [],
+   "digest_kind": null,
+   "faces_missing_on_disk": [],
+   "faces_probed": [
+    {
+     "face": "results/lowamp_deep_p1/e1_three_leg.json",
+     "file": "results/_r397bmc_e1_three_leg.py"
+    },
+    {
+     "face": "results/lowamp_p2/probe.json",
+     "file": "scripts/lowamp_p2.py"
+    },
+    {
+     "face": "results/lowamp_p2/lowamp_p2_results.json",
+     "file": "scripts/lowamp_p2.py"
+    }
+   ],
+   "naming_file_count": 2,
+   "naming_files": [
+    "results/_r397bmc_e1_three_leg.py",
+    "scripts/lowamp_p2.py"
+   ],
+   "near_miss_faces": [
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_deep_p1/e1_three_leg.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "legA2_exit_census.block_share",
+      "legA2_exit_census.default_share",
+      "legA_as_burned.artifact.sharpe_full",
+      "legA_as_burned.replay.sharpe_full",
+      "legC_independent.result.sharpe_full",
+      "verdict_face_reconciliation.headline_matches_legA_artifact.sharpe_full"
+     ],
+     "writer": "results/_r397bmc_e1_three_leg.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_p2/probe.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "headline.sharpe_full"
+     ],
+     "writer": "scripts/lowamp_p2.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_p2/lowamp_p2_results.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "cells.LA-EDGE|deep|base.sharpe_full",
+      "cells.LA-EDGE|deep|x2.sharpe_full",
+      "cells.LA-EDGE|legacy|base.sharpe_full",
+      "cells.LA-EDGE|legacy|x2.sharpe_full",
+      "cells.LA-EQ|deep|base.sharpe_full",
+      "cells.LA-EQ|deep|x2.sharpe_full"
+     ],
+     "writer": "scripts/lowamp_p2.py"
+    }
+   ],
+   "note": "research/LOWAMP-P2.md",
+   "note_bytes": 16015,
+   "note_sha256": "5a15c7803f3aae755863594e587c70e098f855123fef018eda4306a70072fbd9",
+   "note_stem": "LOWAMP-P2",
+   "own_producer_faces_probed": 2,
+   "own_producer_files": [
+    "scripts/lowamp_p2.py"
+   ],
+   "own_producers": [
+    {
+     "faces": [
+      "results/lowamp_p2/probe.json",
+      "results/lowamp_p2/lowamp_p2_results.json"
+     ],
+     "file": "scripts/lowamp_p2.py",
+     "naming_lines": [
+      5,
+      111
+     ]
+    }
+   ],
+   "producer_basis": "own_producer_named_by_the_study_slug",
+   "producer_count": 2,
+   "producers": [
+    {
+     "faces": [
+      "results/lowamp_deep_p1/e1_three_leg.json"
+     ],
+     "file": "results/_r397bmc_e1_three_leg.py",
+     "naming_lines": [
+      253
+     ]
+    },
+    {
+     "faces": [
+      "results/lowamp_p2/probe.json",
+      "results/lowamp_p2/lowamp_p2_results.json"
+     ],
+     "file": "scripts/lowamp_p2.py",
+     "naming_lines": [
+      5,
+      111
+     ]
+    }
+   ]
+  },
+  {
+   "class": "note_named_but_no_digest",
+   "digest_hits": [],
+   "digest_kind": null,
+   "faces_missing_on_disk": [
+    {
+     "face": "results/p2cal_ext/n1_w41/shard-0..11-of-12.json",
+     "file": "results/_r344bmc_closeout.py"
+    },
+    {
+     "face": "results/*.json",
+     "file": "scripts/science_gates.py"
+    },
+    {
+     "face": "results/<sub>/<file>.json",
+     "file": "scripts/science_gates.py"
+    },
+    {
+     "face": "results/_selftest_sub/guard_repo_rel.json",
+     "file": "scripts/science_gates.py"
+    }
+   ],
+   "faces_probed": [
+    {
+     "face": "results/lowamp_p3/probe.json",
+     "file": "scripts/lowamp_p3.py"
+    },
+    {
+     "face": "results/lowamp_p3/lowamp_p3_results.json",
+     "file": "scripts/lowamp_p3.py"
+    },
+    {
+     "face": "results/p2_calibration.json",
+     "file": "scripts/science_gates.py"
+    },
+    {
+     "face": "results/wild_route/wild_route_s1.json",
+     "file": "scripts/science_gates.py"
+    },
+    {
+     "face": "results/lowamp_p3/lowamp_p3_results.json",
+     "file": "scripts/science_gates.py"
+    },
+    {
+     "face": "results/lowamp_deep_p1/lowamp_deep_p1_results.json",
+     "file": "scripts/science_gates.py"
+    },
+    {
+     "face": "results/g2_slot_mon_p2/g2_slot_mon_p2_verdict.json",
+     "file": "scripts/science_gates.py"
+    }
+   ],
+   "naming_file_count": 3,
+   "naming_files": [
+    "results/_r344bmc_closeout.py",
+    "scripts/lowamp_p3.py",
+    "scripts/science_gates.py"
+   ],
+   "near_miss_faces": [
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_p3/probe.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "headline.sharpe_full"
+     ],
+     "writer": "scripts/lowamp_p3.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_p3/lowamp_p3_results.json",
+     "in_own_producer": true,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "audit.law_a_census.block_share",
+      "cells.LA-EDGE|deep|base.sharpe_full",
+      "cells.LA-EDGE|deep|x2.sharpe_full",
+      "cells.LA-EDGE|legacy|base.sharpe_full",
+      "cells.LA-EDGE|legacy|x2.sharpe_full",
+      "cells.LA-EQ|deep|base.sharpe_full"
+     ],
+     "writer": "scripts/lowamp_p3.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/p2_calibration.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "preregistered_doc",
+      "families.A_random_engine_exit.full_sharpe_p95",
+      "families.A_random_engine_exit.oos_sharpe_p95",
+      "families.A_random_engine_exit.runs[0].full.sharpe",
+      "families.A_random_engine_exit.runs[0].oos.sharpe",
+      "families.A_random_engine_exit.runs[1].full.sharpe"
+     ],
+     "writer": "scripts/science_gates.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/wild_route/wild_route_s1.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "prereg_ref",
+      "nulls.sharpe_mean",
+      "nulls.sharpe_p95",
+      "g1_prime_v2.P01_daban9|full|W_full|x1.sharpe_full",
+      "g1_prime_v2.P02_yijiner|full|W_full|x1.sharpe_full",
+      "g1_prime_v2.P03a_duanban_dixi|full|W_full|x1.sharpe_full"
+     ],
+     "writer": "scripts/science_gates.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_p3/lowamp_p3_results.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": true,
+     "prereg_named_fields": [
+      "audit.law_a_census.block_share",
+      "cells.LA-EDGE|deep|base.sharpe_full",
+      "cells.LA-EDGE|deep|x2.sharpe_full",
+      "cells.LA-EDGE|legacy|base.sharpe_full",
+      "cells.LA-EDGE|legacy|x2.sharpe_full",
+      "cells.LA-EQ|deep|base.sharpe_full"
+     ],
+     "writer": "scripts/science_gates.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/lowamp_deep_p1/lowamp_deep_p1_results.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "audit.law_a_census.block_share",
+      "cells.LAD-EDGE-EQ|deep|base.sharpe_full",
+      "cells.LAD-EDGE-EQ|deep|x2.sharpe_full",
+      "cells.LAD-EDGE|deep|base.sharpe_full",
+      "cells.LAD-EDGE|deep|x2.sharpe_full",
+      "cells.LAD-REP-EQ|deep|base.sharpe_full"
+     ],
+     "writer": "scripts/science_gates.py"
+    },
+    {
+     "asof_dates_in_prose": [],
+     "face": "results/g2_slot_mon_p2/g2_slot_mon_p2_verdict.json",
+     "in_own_producer": false,
+     "mentions_the_study_stem": false,
+     "prereg_named_fields": [
+      "prereg",
+      "panel.members_sha16",
+      "faces.best_016.x1.sharpe",
+      "faces.best_016.x2.sharpe",
+      "faces.old_032.x1.sharpe",
+      "faces.old_032.x2.sharpe"
+     ],
+     "writer": "scripts/science_gates.py"
+    }
+   ],
+   "note": "research/LOWAMP-P3.md",
+   "note_bytes": 20208,
+   "note_sha256": "cbd16c4c5b3ca9280e1c05ee1a8d927a16779b1ebf5093587cf1888f13668abc",
+   "note_stem": "LOWAMP-P3",
+   "own_producer_faces_probed": 2,
+   "own_producer_files": [
+    "scripts/lowamp_p3.py"
+   ],
+   "own_producers": [
+    {
+     "faces": [
+      "results/lowamp_p3/probe.json",
+      "results/lowamp_p3/lowamp_p3_results.json"
+     ],
+     "file": "scripts/lowamp_p3.py",
+     "naming_lines": [
+      6,
+      123
+     ]
+    }
+   ],
+   "producer_basis": "own_producer_named_by_the_study_slug",
+   "producer_count": 3,
+   "producers": [
+    {
+     "faces": [
+      "results/p2cal_ext/n1_w41/shard-0..11-of-12.json"
+     ],
+     "file": "results/_r344bmc_closeout.py",
+     "naming_lines": [
+      38
+     ]
+    },
+    {
+     "faces": [
+      "results/lowamp_p3/probe.json",
+      "results/lowamp_p3/lowamp_p3_results.json"
+     ],
+     "file": "scripts/lowamp_p3.py",
+     "naming_lines": [
+      6,
+      123
+     ]
+    },
+    {
+     "faces": [
+      "results/*.json",
+      "results/p2_calibration.json",
+      "results/<sub>/<file>.json",
+      "results/wild_route/wild_route_s1.json",
+      "results/lowamp_p3/lowamp_p3_results.json",
+      "results/lowamp_deep_p1/lowamp_deep_p1_results.json",
+      "results/g2_slot_mon_p2/g2_slot_mon_p2_verdict.json",
+      "results/_selftest_sub/guard_repo_rel.json"
+     ],
+     "file": "scripts/science_gates.py",
+     "naming_lines": [
+      2744
+     ]
+    }
+   ]
+  }
+ ],
+ "source_face": "deadprereg_latest.json",
+ "study": "E451_which_study_that_names_a_prereg_note_publishes_a_digest_of_it",
+ "summary": {
+  "class_counts": {
+   "note_digest_published": 0,
+   "note_named_but_no_digest": 7,
+   "note_not_named_by_its_own_producer": 0
+  },
+  "class_vocabulary": [
+   "note_digest_published",
+   "note_named_but_no_digest",
+   "note_not_named_by_its_own_producer"
+  ],
+  "corpus_py_files": 12210,
+  "digest_kind_counts": {
+   "pinned_as_of_date": 0,
+   "sha256_full": 0,
+   "sha256_hex_prefix": 0
+  },
+  "distinct_naming_files": 31,
+  "faces_missing_on_disk_total": 10,
+  "faces_probed_total": 84,
+  "faces_whose_prereg_as_of_is_prose_only": 8,
+  "naming_files_total": 32,
+  "near_miss_faces_in_own_producer": 23,
+  "near_miss_faces_total": 65,
+  "notes": 7,
+  "notes_missing_on_disk": 0,
+  "own_producer_faces_probed_total": 24,
+  "own_producers_total": 11,
+  "population_source": "deadprereg_latest.json",
+  "producers_total": 28,
+  "residue_rows": 4,
+  "studies_falling_back_to_every_naming_producer": 0,
+  "studies_with_a_digest": 0,
+  "unprobeable_rows": 0
+ },
+ "title": "does a study that names a prereg note publish a digest of it anywhere",
+ "unprobeable": [],
+ "verdict": "no_study_publishes_a_digest_of_the_prereg_note_it_names"
+}

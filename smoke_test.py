@@ -17769,5 +17769,50 @@ except Exception as _e449x:
     _bad449.append(repr(_e449x)[:160])
 check(_name449, not _bad449, "; ".join(_bad449)[:240] or _d449)
 
+# E451 (r1477 bm-b): E449 published seven research notes that a study names through a PREREG
+# constant nobody loads.  This leg reads the graded face and refuses (a) a tally or class that does
+# not re-derive from the rows, (b) a study graded digest-published with no digest hit behind it,
+# (c) a row carrying a digest hit that is not graded digest, (d) a verdict outside the vocabulary or
+# one that does not re-derive, and (e) a doctored copy whose class was promoted to digest-published
+# with the hits emptied.
+_name451 = "e451 which study that names a prereg note publishes a digest of it (r1477 bm-b)"
+_bad451 = []
+try:
+    _m451 = __import__("importlib").import_module("e451_prereg_digest")
+    _f451 = json.load(open(os.path.join("results", "state_tilt", "prereghash_latest.json"),
+                           encoding="utf-8"))
+    _s451 = _f451.get("summary") or {}
+    _r451 = _f451.get("rows") or []
+    _bad451.extend(_m451.tally_problems(_f451))
+    if _f451.get("verdict") not in _m451.VERDICT_VOCAB:
+        _bad451.append("verdict outside the frozen vocabulary")
+    elif _f451.get("verdict") != _m451.verdict_for(_r451):
+        _bad451.append("the verdict does not re-derive from the rows")
+    if any(_r.get("class") == _m451.C_DIGEST and not _r.get("digest_hits") for _r in _r451):
+        _bad451.append("a study is graded digest-published with no hit behind it")
+    if any(_r.get("digest_hits") and _r.get("class") != _m451.C_DIGEST for _r in _r451):
+        _bad451.append("a row carries a digest hit but is not graded digest")
+    _doctor451 = json.loads(json.dumps(_f451))
+    _row451 = next((_r for _r in _doctor451.get("rows") or []
+                    if _r.get("class") == _m451.C_NAMED_NO_DIGEST), None)
+    if _row451 is not None:
+        _row451["class"] = _m451.C_DIGEST
+        if not _m451.tally_problems(_doctor451):
+            _bad451.append("a promoted class with no digest hit was accepted")
+    _d451 = "%d notes | by_class %s | %d naming files, %d producers, %d faces probed " \
+            "(%d own-producer), %d missing on disk | near misses %d (%d prose as-of, %d in an " \
+            "own producer) | digest kinds %s" % (
+                _s451.get("notes"), _s451.get("class_counts"),
+                _s451.get("naming_files_total"), _s451.get("producers_total"),
+                _s451.get("faces_probed_total"), _s451.get("own_producer_faces_probed_total"),
+                _s451.get("faces_missing_on_disk_total"),
+                _s451.get("near_miss_faces_total"),
+                _s451.get("faces_whose_prereg_as_of_is_prose_only"),
+                _s451.get("near_miss_faces_in_own_producer"),
+                _s451.get("digest_kind_counts"))
+except Exception as _e451x:
+    _bad451.append(repr(_e451x)[:160])
+check(_name451, not _bad451, "; ".join(_bad451)[:240] or _d451)
+
 if __name__ == "__main__":
     sys.exit(main())

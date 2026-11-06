@@ -1611,6 +1611,12 @@ LEGS = [
     # chain instead of republishing the old class.  Read-only; cost is one corpus walk plus E447's
     # face scan (~60s).
     ("abandoned_guard", ["python", "scripts/e452_abandoned_guard.py", "verify"]),
+    # E451 (r1477): E449 published seven research notes named by a PREREG constant nobody loads,
+    # leaving "does the study publish any digest of the note it claims to follow" unanswered.
+    # Verify re-derives the naming set, the producers' faces and the sha256 of every note over the
+    # live tree, so a note edited after publication (or a face that gained a digest) refuses the
+    # chain instead of republishing the old split.  Read-only; one corpus walk plus 84 face loads.
+    ("prereg_digest", ["python", "scripts/e451_prereg_digest.py", "verify"]),
     # E435 (r1458): E423 priced where a directory-named field points but never asked whether the
     # value is itself the name of a published face.  Verify re-derives the three value classes over
     # the live tree and refuses a published join whose target no longer resolves, so a face holding
