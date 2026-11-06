@@ -18431,6 +18431,78 @@ except Exception as _e470x:
     _d470 = "leg could not run"
 check(_name470, not _bad470, "; ".join(_bad470)[:240] or _d470)
 
+# E471 (r1494 bm-b): a file nobody opens is either redundant (the same subject is also published on a
+# face that IS read) or orphaned (the content exists in one unread file).  This leg holds that every
+# published residue re-derives from the rows and the peer evidence they carry, that a peer is only
+# counted as readable when the parent's own residue test says a study opens it, and that no row is
+# credited with a reading peer while its residue says otherwise -- plus two doctored copies (a
+# readable count flipped on one row, and a no-peer row given a peer).
+_name471 = "e471 is a never-opened pointer target a second copy of a face that is read (r1494 bm-b)"
+_bad471 = []
+try:
+    _m471 = __import__("importlib").import_module("e471_dead_copy")
+    _f471 = json.load(open(os.path.join("results", "state_tilt", "deadcopy_latest.json"),
+                           encoding="utf-8"))
+    _s471 = _f471.get("summary") or {}
+    _r471 = _f471.get("rows") or []
+    _bad471.extend(_m471.row_problems(_f471))
+    if _f471.get("verdict") not in _m471.VERDICT_VOCAB:
+        _bad471.append("verdict outside the frozen vocabulary: %r" % (_f471.get("verdict"),))
+    for _cls in (_s471.get("residue_classes") or {}):
+        if _cls not in _m471.RESIDUES:
+            _bad471.append("residue class outside the vocabulary: %r" % (_cls,))
+    if _s471.get("never_opened_targets") != len(_r471):
+        _bad471.append("the target tally does not re-add to the rows")
+    if _s471.get("peer_edges_total") != sum(len(r.get("peers") or []) for r in _r471):
+        _bad471.append("the peer-edge tally does not re-add to the rows")
+    if _s471.get("targets_with_a_readable_peer") != sum(
+            1 for r in _r471 if (r.get("readable_peer_count") or 0) > 0):
+        _bad471.append("the readable-peer target tally does not re-add to the rows")
+    for _row in _r471:
+        for _peer in _row.get("peers") or []:
+            for _ch in _peer.get("channels") or []:
+                if _ch not in _m471.CHANNELS:
+                    _bad471.append("peer channel outside the vocabulary: %r" % (_ch,))
+            if _peer.get("peer_residue") is not None and \
+                    _peer.get("peer_residue") not in _m471.e470.RESIDUES:
+                _bad471.append("%s: peer residue outside the vocabulary: %r"
+                               % (_row.get("target"), _peer.get("peer_residue")))
+        if _row.get("residue") == _m471.R_NO_PEER and (_row.get("peers") or []):
+            _bad471.append("%s: published with no peer but lists one" % _row.get("target"))
+    if _r471:
+        _graft471 = json.loads(json.dumps(_f471))
+        _victim471 = _graft471["rows"][0]
+        _victim471["readable_peer_count"] = (_victim471.get("readable_peer_count") or 0) + 1
+        if _m471.row_problems(_graft471) == []:
+            _bad471.append("a readable count flipped on one row was accepted")
+        _peer471 = json.loads(json.dumps(_f471))
+        _lone471 = next((r for r in _peer471["rows"]
+                         if r.get("residue") == _m471.R_NO_PEER), None)
+        if _lone471 is not None:
+            _lone471["peers"] = [{"path": "results/state_tilt/some_face.json",
+                                  "channels": [_m471.C_SUBJECT], "peer_residue": None,
+                                  "peer_openers": 0}]
+            _lone471["peer_count"] = 1
+            if _m471.row_problems(_peer471) == []:
+                _bad471.append("a no-peer row given a peer was accepted")
+    else:
+        _bad471.append("no row to doctor: the residue test cannot be shown to go red")
+    _d471 = ("%d never-opened targets | %d have a peer (%d peer edges, %d of them readable) "
+             "| %d redundant, %d only by a leg, %d blind, %d with no copy | verdict %s") % (
+        _s471.get("never_opened_targets") or 0,
+        _s471.get("targets_with_a_peer") or 0,
+        _s471.get("peer_edges_total") or 0,
+        _s471.get("readable_peer_edges_total") or 0,
+        (_s471.get("residue_classes") or {}).get(_m471.R_READ_PEER, 0),
+        (_s471.get("residue_classes") or {}).get(_m471.R_ONLY_LEG, 0),
+        (_s471.get("residue_classes") or {}).get(_m471.R_BLIND_PEER, 0),
+        (_s471.get("residue_classes") or {}).get(_m471.R_NO_PEER, 0),
+        _f471.get("verdict"))
+except Exception as _e471x:
+    _bad471.append(repr(_e471x)[:160])
+    _d471 = "leg could not run"
+check(_name471, not _bad471, "; ".join(_bad471)[:240] or _d471)
+
 # E467 (r1491 bm-b): the card a producer restates in its docstring is the second of three identity
 # channels, and the question is whether any program recovers it.  This leg refuses (a) any tally
 # that does not re-derive from the published rows, (b) a row whose class or tier disagrees with its

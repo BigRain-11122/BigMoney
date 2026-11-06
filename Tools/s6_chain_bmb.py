@@ -1700,6 +1700,9 @@ LEGS = [
     # which are ever opened by a site at all.  `check` re-derives every residue from its own
     # opener/glob sites and every tally from the rows.
     ("target_read", ["python", "scripts/e470_target_read.py", "check"]),
+    # E471 asks what a never-opened target costs: is it a second copy of a face that IS read, or the
+    # only carrier of its content.  `check` re-derives every residue and tally from the peer evidence.
+    ("dead_copy", ["python", "scripts/e471_dead_copy.py", "check"]),
 ]
 
 

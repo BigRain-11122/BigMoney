@@ -11980,3 +11980,49 @@ as a repo-relative path is necessary but not sufficient — nothing in this tree
 back, so a `source_face` field here is documentation, not a dependency. When auditing a pointer,
 count openers (open / read_text / json.load / read_*), not string matches, and refuse any channel
 whose pattern constrains nothing.
+
+## E471 — a never-opened pointer target is either a second copy of a face that is read, or content nobody reads
+
+**Question.** E470 published 17 of 24 pointer targets that need a base other than the repo root and
+are never opened by any site. A file nobody opens is either cheap (the same subject is also
+published on a face that IS read, so the dead edge costs nothing) or expensive (the content exists
+in exactly one unread file). Which one is it, per target?
+
+**Answer (2026-11-06, cutoff panel).** 16 of 17 have a peer; 5 are redundant, 11 are reached only
+through a smoke/runner leg or a one-off round script, 0 have peers that nothing opens, and 1 has no
+second copy at all. Verdict `some_never_opened_targets_are_second_copies_of_a_face_that_is_read_and_others_are_not`.
+The redundancy is concentrated in the `*_latest.json` pattern: 5 dated vintages (BANDTRANSFER,
+BLOBREAD, FAMILYGLOBREAD, OPTINSWITCH, SIBLINGENTRY) are reachable through the `_latest` sibling a
+study does open, so their dead pointer edge is free. The 11 WIDTHLADDER/PHANTOMWHY/PINQUEUE/
+READCAP/READRESOLVE/FACEPOPPIN vintages are only ever opened by legs — a family of published
+vintages that no production reader has ever touched. `results/e43_tilt_4member/LADDERDROPWHERE-20261027.json`
+is the one genuine orphan: no copy, no sibling, nothing opens it.
+
+**Method.** Two peer channels published apart: `EXACT_COPY` (same content after canonical JSON
+re-serialisation, CRLF folded to LF first) and `SAME_SUBJECT` (same `study` value, falling back to
+`card` then `title` — the vintage relation, where numbers differ and the subject does not). Peer
+opened-status is not assumed: the peer set goes back through E470's own `sites_for` + `residue_of`
+with E468's writer map, so "the peer is read" means the same bar the parent applied to the targets.
+
+**Pitfalls (two, both about scope that would have flattered the answer).**
+* **The copy census must be scoped and the scope published.** 19,096 JSON files sit in this tree
+  (1.8 GB); a tree-wide content census would have been a different study with a different cost.
+  The census runs over the directories that publish these subjects (the parents of the targets plus
+  `results/state_tilt`) and the limit is printed in the face: `no_peer` means "no copy where this
+  subject is published", not "no copy anywhere".
+* **A stale one-line selftest leg is a fake leg.** The first draft asserted a CRLF-folded copy
+  "equals the other file or True", which can never fail. Replaced with three legs that bite: a CRLF
+  twin hashes the same as the LF original, a reordered/whitespace-reformatted file hashes the same,
+  and a changed value does not.
+
+**Wiring.** `scripts/e471_dead_copy.py` (run rc0 / `check` problems=[] / `verify` identical /
+**selftest 16/16**); faces `results/state_tilt/deadcopy_latest.json` + `DEADCOPY-2026-11-06.json`;
+S6 leg `dead_copy` (rc0, ghost 0); smoke leg `e471 is a never-opened pointer target a second copy
+of a face that is read (r1494 bm-b)` proved 1/1 and 1/1 red on a flipped readable count, face
+restored byte-identical; pool E471 closed with result_ref.
+
+**How to apply.** Before retiring a dead pointer, ask what it costs: a dated vintage with a `_latest`
+sibling that something opens is free to retire; a vintage family that only legs ever opened is not
+dead weight, it is a published surface no reader has ever consumed — a decision about publishing,
+not about pointers. And any "is X a copy of Y" claim compares canonicalised content, never bytes
+(a checkout that changed line endings must not pass for a new vintage).
