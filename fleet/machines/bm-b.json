@@ -12,7 +12,7 @@
  "clock_offset_age_s": 0,
  "clock_offset_ms": 152.9,
  "clock_offset_trusted": false,
- "clock_read": "2026-11-06T16:11:18+08:00",
+ "clock_read": "2026-11-06T17:09:24+08:00",
  "clock_read_utc": "2026-11-06T00:31:36+00:00",
  "clock_rtt_ms": 264.6,
  "clock_source": "NATS KV FLEET_STATE state.bm-b (FluxGroup-NatsHB v2, 1/min)",
@@ -27,7 +27,7 @@
  "cpu_note": "psutil probe (GetSystemTimes via ctypes read 0 deltas on this box)",
  "cpu_pct": 27.9,
  "cpu_util_pct": 10.7,
- "current": "r1484: E411 face republished + dashboard coverage leg repaired",
+ "current": "r1488: E457 closed -- a name test's unpriced half is the method names of modules that never import the function, and on this tree it is the whole (small) collision surface",
  "current_task": "r1487: E464 closed -- a producer declares one identity and carries the other from the upstream payload, so a forwarded provenance was read as a second claim",
  "current_work": "E459 stdlib class resolution (960 rows: 943 factories, 17 classes, 4 hits)",
  "cyc_round": 1475,
@@ -46,7 +46,9 @@
  "delivery_sha_local": "010902028954b0c4ee03debd24dfce7a4f31b1cd",
  "delivery_verified": true,
  "dept": "research",
- "did": "r1487: E464 published -- 4 multi-value faces, 6 producers named, 4 write the face; 2 declare both voices as slug prefixes, 2 declare one and carry the other from the upstream payload; 2 of 4 faces carry an identity key the parent never graded; smoke 355/357 -> both reds repaired (e411 re-derived, gpu_face apply)",
+ "did": [
+  "E457 published (NAMECOLLIDE-2026-11-06) + S6 leg name_collide + smoke leg + card E465"
+ ],
  "did_round": 1475,
  "did_this_round": "E411 readertiers republished (239 faces/272 sites); dashboard marks-coverage leg no longer compares a per-day verdict across days, proved on three doctored copies; E330 red triaged as transient",
  "done": "E450",
@@ -59,10 +61,9 @@
  "free_vram_gb": 3.6,
  "free_vram_mb": 3698,
  "gpu": {
-  "mem_free_mb": 3869.0,
-  "mem_total_mb": 8192.0,
-  "mem_used_mb": 4323.0,
-  "util_pct": 0.0
+  "free_gb": 3.4,
+  "total_gb": 8.0,
+  "note": "parked for production by C-20261014-01; sampled for the face"
  },
  "gpu_face": "nvidia-smi 1% / 4494 MiB used of 8192 MiB",
  "gpu_face_source": "nvidia-smi",
@@ -101,7 +102,7 @@
  "gpu_vram_free_mib": 3698,
  "gpu_vram_used_mb": 4494,
  "gpu_vram_used_mib": 4494,
- "heartbeat_epoch_utc": 1793952678,
+ "heartbeat_epoch_utc": 1793956164,
  "heartbeat_epoch_utc_face": "int",
  "heartbeat_note": "cpu_pct from two GetSystemTimes samples; ram_load_pct is GlobalMemoryStatusEx dwMemoryLoad as read (a percentage, never multiplied by 100 again -- the first write of this round published 8400.0, the E235 family recurring on a new field)",
  "host": "bm-b",
@@ -135,7 +136,7 @@
  "last_round_summary": "r1484 engine work: repaired two of the three red legs the r1482 suite left behind and proved both against the exact leg expressions",
  "last_round_ts": "2026-11-06T08:31:36+08:00",
  "last_run": "2026-10-31T08:02:00+08:00",
- "last_seen": "2026-11-06T16:11:18+08:00",
+ "last_seen": "2026-11-06T17:09:24+08:00",
  "last_seen_epoch_utc": 1793945071,
  "latest_artifact": "results/state_tilt/prereghash_latest.json",
  "local_not_on_origin": "435",
@@ -152,7 +153,7 @@
   "lost_lines": 0,
   "moved_to_cold": 17
  },
- "next": "E456 grades the 6,875 call-bound receivers against classes imported from elsewhere (<=48h)",
+ "next": "E460 or next pool card",
  "next_milestone": "the r1484 suite brought to a total; Bigmoney-LoopWatchdog disappearance root-caused; or E460/E462 burned -- within 48h",
  "next_note": "E457 (wrapper name colliding with an unrelated class method) also ready",
  "next_pick": null,
@@ -1286,7 +1287,7 @@
   "verified": "git ls-remote equality",
   "why": "local main is 450 ahead / 295 behind origin/main across two blood lines (promisor wedge, no unattended rebase per r1243)"
  },
- "ram_free_gb": 10.6,
+ "ram_free_gb": 11.0,
  "ram_free_mb": 10826,
  "ram_free_pct": 44.2,
  "ram_load_pct": 55.8,
@@ -1349,7 +1350,7 @@
  "three_line_delivery": "machine/bm-b-r1478 @ 7867e54fc (ls-remote verified)",
  "three_line_next": "E465 (does a face pointer resolve, and does anyone join through it) or E457/E460 within 48h",
  "timestamp": "2026-11-06T08:41:10+08:00",
- "ts": "2026-11-06T16:11:18+08:00",
+ "ts": "2026-11-06T17:09:24+08:00",
  "ts_utc_ms": 1793920496000,
  "updated": "2026-11-05T17:50:41+08:00",
  "updated_at": "2026-11-06T08:41:10+08:00",
@@ -1357,7 +1358,7 @@
  "verdict_line": "e464 run rc0 | verify problems=[] | check problems=[] | selftest 39/39 | smoke leg 1/1 (extracted verbatim, red-proved then restored) | S6 leg producer_intent wired",
  "verdict_watermark": "red=true lane=pool-batch-runnable-idle-low-cpu",
  "verify": "e450 verify problems=0 (growth: identical)",
- "vram_free_gb": 3.6,
+ "vram_free_gb": 3.4,
  "vram_probe": "nvidia-smi",
  "vram_total_gb": 8.0,
  "vram_used_gb": 4.4,
@@ -1365,6 +1366,7 @@
  "watermark_note": "the red reading named E450, and this round burned it in-window",
  "watermark_red": true,
  "watermark_verdict": "insufficient_history (window n=1)",
- "work": "36 live composable face-home rows: 0 hold the composed basename, 36 compose a DOUBLED path, and the same name resolves from the repo root on 36 of 36 -- the target exists and only the join misses it",
- "beat_at_close": "2026-11-06T16:11:18+08:00"
+ "work": "177/8,477 = 0.2005 pct of module-level function names carry a method of the same name in another module, and 17 of 17 of those modules never import the function; anchor Tools/pool_worker.py: 27 module-level functions, 0 collide (so E450's 13 name hits there were not module function names); a UTF-8 BOM read as utf-8 had published 117 of 3,523 sources as syntax errors and deleted 212 functions from the census",
+ "beat_at_close": "2026-11-06T16:11:18+08:00",
+ "cpu_util": "low (suite finished)"
 }

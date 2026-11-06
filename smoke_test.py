@@ -1293,6 +1293,11 @@ def main() -> int:
              "scripts/monthly_exam_prep.py", ["selftest"]),
             ("product: gpu_face canonical GPU face (exit-code contract)",
              "Tools/gpu_face.py", ["--selftest"]),
+            # E457 (r1488 bm-b): a name test's optimism is what its vocabulary costs. The face is
+            # a whole-tree census, so the cheap guard is that its own rows re-derive and its
+            # verdict vocabulary is frozen; the corpus walk stays behind `verify`.
+            ("product: e457 name collision census (exit-code contract)",
+             "scripts/e457_namecollide.py", ["selftest"]),
             # r1188: an autostash rebase put a 62-file revert of another machine's
             # work into this tree, and the only thing that noticed was the pre-push
             # ownership claw -- i.e. after the commit already existed. This leg keeps
@@ -18156,6 +18161,61 @@ except Exception as _e464x:
     _bad464.append(repr(_e464x)[:160])
     _d464 = "leg could not run"
 check(_name464, not _bad464, "; ".join(_bad464)[:240] or _d464)
+
+# E457 (r1488 bm-b): E450's name arm was optimistic and the suspect was a name that is also a
+# method name in a module that never imports the function. This leg refuses (a) a face whose own
+# tallies do not re-derive, (b) a verdict outside the frozen vocabulary, (c) a row with an
+# unpriced arm but no example to read, and (d) a doctored copy whose unpriced arm was zeroed while
+# its examples stayed behind.
+_name457 = "e457 a name test's unpriced half is the method names no importer writes (r1488 bm-b)"
+_bad457 = []
+try:
+    _m457 = __import__("importlib").import_module("e457_namecollide")
+    _f457 = json.load(open(os.path.join("results", "state_tilt", "namecollide_latest.json"),
+                           encoding="utf-8"))
+    _s457 = _f457.get("summary") or {}
+    _r457 = _f457.get("collisions") or []
+    _bad457.extend(_m457.tally_problems(_f457))
+    if _f457.get("verdict") not in _m457.V_VERDICT_VOCAB:
+        _bad457.append("verdict outside the frozen vocabulary: %r" % (_f457.get("verdict"),))
+    if not (_f457.get("corpus") or {}).get("files"):
+        _bad457.append("the face does not say how many files it read")
+    _anc = _f457.get("anchor") or {}
+    if not _anc.get("module_level_functions_here"):
+        _bad457.append("the anchor names %r module functions: a zero row there is a "
+                       "zero population, not a measurement"
+                       % (_anc.get("module_level_functions_here"),))
+    for _r in _r457:
+        if _r.get("colliding_modules_without_import") and not _r.get("without_import_examples"):
+            _bad457.append("row %s: unpriced arm with no example" % _r.get("name"))
+        if _r.get("colliding_modules_with_import", 0) > 0 and not _r.get("with_import_examples"):
+            _bad457.append("row %s: priced arm with no example" % _r.get("name"))
+    _doc457 = json.loads(json.dumps(_f457))
+    if _r457:
+        _d0 = _doc457["collisions"][0]
+        _d0["colliding_modules_without_import"] = 0
+        if not any("example" in _p or "with+without" in _p
+                   for _p in _m457.tally_problems(_doc457)):
+            _bad457.append("a row that stopped naming unpriced carriers was accepted")
+    _missing = json.loads(json.dumps(_f457))
+    _missing["summary"]["collision_pairs"] += 1
+    if not _m457.tally_problems(_missing):
+        _bad457.append("a summary that disagrees with its own rows was accepted")
+    _d457 = ("%d files / %d module-level functions / %d distinct names | %d class methods over "
+             "%d classes | %d name(s) collide with a method elsewhere, %d pair(s), %d without an "
+             "import edge | anchor %s: %d functions, %d collide"
+             ) % (
+        _s457.get("source_files") or 0, _s457.get("module_level_functions") or 0,
+        _s457.get("distinct_function_names") or 0, _s457.get("class_methods_indexed") or 0,
+        _s457.get("classes_indexed") or 0, _s457.get("names_with_a_method_collision") or 0,
+        _s457.get("collision_pairs") or 0,
+        _s457.get("collision_pairs_without_an_import_edge") or 0,
+        _anc.get("module") or "-", _anc.get("module_level_functions_here") or 0,
+        _anc.get("of_those_that_also_name_a_method_elsewhere") or 0)
+except Exception as _e457x:
+    _bad457.append(repr(_e457x)[:160])
+    _d457 = "leg could not run"
+check(_name457, not _bad457, "; ".join(_bad457)[:240] or _d457)
 
 if __name__ == "__main__":
     sys.exit(main())

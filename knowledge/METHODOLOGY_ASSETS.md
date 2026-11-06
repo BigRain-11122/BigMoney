@@ -11656,3 +11656,59 @@ a key whose value is a call (`payload.get(...)`) is provenance being forwarded, 
 value is a module constant is the only place the producer actually declares what it is. Grade the
 payload's own identity keys rather than a fixed pair, and publish pointer keys separately, or the
 census undercounts voices and overcounts disagreements.
+
+## E465 -- a name test's optimism is the method names of modules that never import the function (r1488 bm-b)
+
+**Where it came from.** E450's name arm read 26 hits and the single largest block of them (13, all
+`Tools/pool_worker.py`) carried zero rows where the receiver was that module's own class. The
+suspicion was a wrapper name colliding with an unrelated class's method name; nobody had measured
+how common that is outside the eleven graded wrappers.
+
+**Law.** Population = every module-level function the tree defines (the tree itself, not a curated
+family). For each name: `C` = other modules that define a class carrying a method of that name;
+`I` = those modules that import the function from its defining module; `N = C - I` = modules that
+carry the collision and have no import edge to the definition. Only `N` is the mechanism -- a module
+that never imports the function cannot be reading it, so its same-named method is a different
+object that a name test would have counted. The three readings are published per row so the priced
+half can never be quoted without its surface.
+
+**Numbers.** 3,523 sources / 3,521 indexed / 17,617 module-level functions / 8,477 distinct names /
+149 classes / 138 class methods / 2 parse failures (both genuine). 17 names (0.2005% of 8,477)
+carry a method of the same name in another module: 17 (name, module) pairs, **17 of 17 with no
+import edge** -- on this tree the unpriced half *is* the whole collision surface. Anchor
+`Tools/pool_worker.py`: 27 module-level functions, 1 class with 2 methods, and **0** of its 27
+function names collide anywhere -- so whatever produced E450's 13 name hits in that file, it was not
+a module-level function name.
+
+**Pits.**
+
+* **A BOM is an encoding artefact, not a syntax error -- but `ast.parse` cannot tell you that.**
+  Reading with `utf-8` made 117 of 3,523 sources (3.3%) "fail to parse", silently deleting 212
+  functions, 73 names and 2 classes from a census. `utf-8-sig` collapses those to the 2 genuine
+  SyntaxErrors. Any AST census that reports a parse-failure count must first prove the count is not
+  its own reader.
+* **`import a` is not `from a import f`.** A module that imports the definition module but never the
+  name has no local binding for the function, so it stays on the unpriced side (fixture `mod_f`
+  pins this; treating it as an import edge would have justified two of the five fixture carriers).
+* **A class attribute is not a method.** `shared_name = 5` inside a class collides with nothing.
+* **The definition's own module is not a collision.** A file that both defines the function and
+  carries the method is one module holding two objects, not two modules disagreeing.
+
+**Wiring.** `scripts/e457_namecollide.py` (run rc0 / `check` problems=[] / `verify` problems=[] on
+`identical` / **selftest 17/17**); faces `results/state_tilt/namecollide_latest.json` +
+`NAMECOLLIDE-2026-11-06.json`; S6 leg `name_collide` (runs `check` -- the full rebuild parses 3.5k
+sources); smoke leg `e457 a name test's unpriced half is the method names no importer writes
+(r1488 bm-b)`; pool E457 done.
+
+**Bound.** A collision is a name collision, not evidence that any call site meant the method:
+nothing here reads call sites, so `C` is an upper bound of what a name test can see and `N` is an
+upper bound of its unpriced half. Aliased from-imports count as importing the function (the name is
+bound); a consumer reaching the function through a module attribute is not an import edge and is
+therefore counted as unpriced -- the conservative direction.
+
+**How to apply.** When a name-based census reports a hit, ask what its vocabulary costs before
+believing the hit: on a repository with few classes the surface is small and the name test is nearly
+justified (17 collisions in 8,477 names here), so a large block of hits from one module is more
+likely to be a name coincidence than a reader. Publish the surface (`C`) beside the priced part
+(`N`) and read them together; a share of the surface alone overstates the defect, and the priced
+part alone hides how much of the vocabulary was never at issue.

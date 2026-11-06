@@ -1,0 +1,1028 @@
+{
+ "study": "E457_how_often_a_module_level_function_name_is_a_method_name_in_a_module_that_never_imports_it",
+ "card": "E457-HOW-OFTEN-A-WRAPPER-NAME-IS-ALSO-A-METHOD-NAME-IN-A-MODULE-THAT-NEVER-IMPORTS-IT",
+ "title": "the vocabulary a name test reads is shared with method names in modules that never import the function, and that half is invisible to every name-based census",
+ "generated": "2026-11-06",
+ "evidence_cutoff": "2026-11-06",
+ "corpus": {
+  "source": "e437_name_recall.corpus (self-excluded)",
+  "files": 3523,
+  "parse_failures": [
+   {
+    "file": "Tools/_r820bmc_close.py",
+    "error": "SyntaxError: unterminated string literal (detected at line 130)",
+    "line": 130
+   },
+   {
+    "file": "_w231bmc_prereg_derive_tpl.py",
+    "error": "SyntaxError: invalid syntax",
+    "line": 259
+   }
+  ],
+  "files_starting_with_a_utf8_bom": 115,
+  "bom_note": "read with utf-8-sig: a leading U+FEFF makes ast.parse raise, which would have published 100+ in-repo modules as syntax errors and silently shrunk both the function and the method population"
+ },
+ "summary": {
+  "source_files": 3523,
+  "modules_indexed": 3521,
+  "parse_failures": 2,
+  "classes_indexed": 149,
+  "class_methods_indexed": 138,
+  "module_level_functions": 17617,
+  "distinct_function_names": 8477,
+  "names_with_a_method_collision": 17,
+  "share_of_names_colliding": 0.002005,
+  "collision_pairs": 17,
+  "collision_pairs_without_an_import_edge": 17,
+  "share_of_pairs_without_an_import_edge": 1.0,
+  "names_whose_every_colliding_module_imports_the_function": 0,
+  "names_with_at_least_one_module_that_never_imports_it": 17
+ },
+ "collisions": [
+  {
+   "name": "_add",
+   "defined_in": [
+    "Tools/treasure_guard.py",
+    "scripts/e383_shared_key_collision.py",
+    "scripts/overnight_gap_census.py",
+    "scripts/overnight_gap_conditioned.py",
+    "scripts/overnight_gap_hold_bridge.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/e426_dynamic_face_names.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "_Collector"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "_build",
+   "defined_in": [
+    "scripts/basis_vol_probe.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/mass_trial_w1.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "Ctx"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "_decide",
+   "defined_in": [
+    "scripts/e382_key_projection_repair_price.py",
+    "scripts/southbound_reprobe.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/etf_book_forward.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "Forward"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "_load",
+   "defined_in": [
+    "Tools/fill_ladder.py",
+    "Tools/gpu_face.py",
+    "Tools/heartbeat_write.py",
+    "_r1413_book.py",
+    "scripts/capital_placement.py",
+    "scripts/census_588000_fullhist.py",
+    "scripts/corebook_closeout_p1.py",
+    "scripts/e110_burncontrol_close.py",
+    "scripts/e228_matched_exposure.py",
+    "scripts/e229_timing_selection.py",
+    "scripts/e273_guard_from_threshold.py",
+    "scripts/e280_e251_rng_drift_repin.py",
+    "scripts/e294_live_universe_drift.py",
+    "scripts/e302_universe_switch_backfill.py",
+    "scripts/e385_merged_key_split.py",
+    "scripts/e416_fresh_aim.py",
+    "scripts/e418_face_age.py",
+    "scripts/e420_corpus_pin_instability.py",
+    "scripts/e421_strong_basis_resolution.py",
+    "scripts/e423_dirfield_join.py",
+    "scripts/e433_republication_chain.py",
+    "scripts/e434_fixture_beyond.py",
+    "scripts/e436_double_join.py",
+    "scripts/e438_temp_write_base.py",
+    "scripts/e439_file_slot_callers.py",
+    "scripts/e440_shared_wrapper_names.py",
+    "scripts/e441_facehome_family.py",
+    "scripts/e442_deadpath.py",
+    "scripts/e443_bare_call_resolve.py",
+    "scripts/e444_attr_method.py",
+    "scripts/e445_facehome_target.py",
+    "scripts/e446_frozen_writer.py",
+    "scripts/e447_abandoned_read.py",
+    "scripts/e448_dropped_path.py",
+    "scripts/e450_caller_class.py",
+    "scripts/e451_prereg_digest.py",
+    "scripts/e452_abandoned_guard.py",
+    "scripts/e453_abandoned_stale.py",
+    "scripts/e455_growth_census.py",
+    "scripts/e456_import_class.py",
+    "scripts/e458_face_identity.py",
+    "scripts/e459_stdlib_class.py",
+    "scripts/e461_identity_consumers.py",
+    "scripts/e462_identity_dialect.py",
+    "scripts/e463_identity_split.py",
+    "scripts/e464_producer_intent.py",
+    "scripts/e96_level_label_audit.py",
+    "scripts/etf_book_ceo_page.py",
+    "scripts/etf_book_publish_decision.py",
+    "scripts/regime5_labeler.py",
+    "scripts/science_audit.py",
+    "scripts/scorecard.py",
+    "scripts/sscombo_pit_drift_audit.py",
+    "scripts/strategy_scorecard.py",
+    "scripts/style_rot_census_p1.py",
+    "scripts/w22_confirm.py",
+    "scripts/xstock_synth.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/e316_gate_print_requirements.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "Producers"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "_ret",
+   "defined_in": [
+    "scripts/e107_heldcurve.py",
+    "scripts/theme_event_library.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/etf_book_forward.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "Forward"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "_spans_from_picks",
+   "defined_in": [
+    "scripts/fund_divlowvol_p1.py",
+    "scripts/fund_quality_p1.py",
+    "scripts/fund_value_p1.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level",
+    "class_inside_a_function"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/stagestyle_combo_p1_backtest.py",
+     "nests": [
+      "class_at_module_level",
+      "class_inside_a_function"
+     ],
+     "classes": [
+      "M"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "build_signals",
+   "defined_in": [
+    "scripts/lhb_thermo_ic_p1.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/mass_trial_w1.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "Ctx"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "carry",
+   "defined_in": [
+    "scripts/etf_book_forward.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/e459_stdlib_class.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "Thing"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "check",
+   "defined_in": [
+    "Tools/card_ledger_guard.py",
+    "Tools/machine_health_face.py",
+    "Tools/memory_face_guard.py",
+    "Tools/seed_admit_gate.py",
+    "_e295_leg.py",
+    "_r1313bmb_smokeleg_harness.py",
+    "_r1361bmb_one_leg.py",
+    "_r1413_leg396.py",
+    "_tmp_e273_legcheck.py",
+    "_tmp_e343_smokeleg.py",
+    "scripts/_r1383_run_e361_leg.py",
+    "scripts/check_rules_update.py",
+    "scripts/e308_leg_vs_producer_tolerance.py",
+    "scripts/e312_gate_operand_identity.py",
+    "scripts/e313_gate_form_and_scale.py",
+    "scripts/e314_clamped_gate_census.py",
+    "scripts/e315_leg_epsilon_vs_flat_regime.py",
+    "scripts/e316_gate_print_requirements.py",
+    "scripts/e317_print_coverage_census.py",
+    "scripts/e324_unpublished_key_causes.py",
+    "scripts/e455_growth_census.py",
+    "scripts/e458_face_identity.py",
+    "scripts/e461_identity_consumers.py",
+    "scripts/e462_identity_dialect.py",
+    "scripts/e463_identity_split.py",
+    "scripts/e464_producer_intent.py",
+    "scripts/etf_book_buffer_adoption.py",
+    "scripts/etf_book_cagr_reconcile.py",
+    "scripts/etf_book_hysteresis.py",
+    "scripts/etf_book_premium_phases.py",
+    "scripts/etf_book_voltarget_lag.py",
+    "scripts/etf_book_voltarget_phase.py",
+    "scripts/run_e403_smoke_leg.py",
+    "scripts/run_e418_smoke_leg.py",
+    "scripts/run_e421_smoke_leg.py",
+    "scripts/run_e422_smoke_leg.py",
+    "smoke_test.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "live/gateway.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "RiskGate"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "enclosing_def",
+   "defined_in": [
+    "scripts/e347_published_number_gate_census.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/e405_dead_read_failure_mode.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "Ctx"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "enclosing_function",
+   "defined_in": [
+    "scripts/e329_two_vintage_binding.py",
+    "scripts/e347_published_number_gate_census.py",
+    "scripts/e453_abandoned_stale.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/e402_fragment_producers.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "Ctx"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "load",
+   "defined_in": [
+    "Tools/_r1029bmc_close.py",
+    "Tools/_r1244bmb_closeout.py",
+    "Tools/_r1390_addendum.py",
+    "Tools/_r1390_postscript.py",
+    "Tools/_r306bmc_s6_resolve.py",
+    "Tools/_r307bmc_rebase_resolve.py",
+    "Tools/_r415bmc_close.py",
+    "Tools/_r416bmc_close.py",
+    "Tools/_r523bmc_probe.py",
+    "Tools/_r555bmc_probe.py",
+    "Tools/_r680bmc_merge_resolve.py",
+    "Tools/_r690bmc_boards.py",
+    "Tools/_r700bmc_s3_probe.py",
+    "Tools/_r790bmc_poolsummary.py",
+    "Tools/_r811bmb_closeout.py",
+    "Tools/_r838bmc_closeout.py",
+    "Tools/_r844bmc_close.py",
+    "_r1027bmc_closeout.py",
+    "_r1105bmb_closeout.py",
+    "_r1114bmb_pool.py",
+    "_r1361bmb_closeout.py",
+    "_r1361bmb_postscript.py",
+    "_r1461_closeout.py",
+    "_r1480_closeout.py",
+    "_tmp_r1223_state.py",
+    "_tmp_r1253_receipt.py",
+    "_tmp_r1255_close.py",
+    "_tmp_r1281_close.py",
+    "_tmp_r1303_pool.py",
+    "scripts/_r1374bmb_closeout.py",
+    "scripts/e257_band_at_top_flips.py",
+    "scripts/e258_band_multiplier_per_window.py",
+    "scripts/e259_band_multiplier_distribution.py",
+    "scripts/e260_band_endpoint_arrival.py",
+    "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+    "scripts/e262_p95_transfer_across_windows.py",
+    "scripts/e263_arrival_vs_cell_size.py",
+    "scripts/e264_near_one_seeds_reading.py",
+    "scripts/e266_wide_end_screen_holdout.py",
+    "scripts/e267_screen_buffer_margin.py",
+    "scripts/e268_screen_on_pooled_end.py",
+    "scripts/e271_donor_choice_sensitivity.py",
+    "scripts/e274_spread_straddle_sweep.py",
+    "scripts/e275_screen_margin_budget.py",
+    "scripts/e277_tight_multiplier_floor.py",
+    "scripts/e278_spread_floor.py",
+    "scripts/e279_substitution_soundness.py",
+    "scripts/e282_substitution_disagreement_census.py",
+    "scripts/e283_degenerate_range_reachable.py",
+    "scripts/e284_disagreement_field_scope.py",
+    "scripts/e285_interrange_gap_ceiling.py",
+    "scripts/e286_count_field_scope.py",
+    "scripts/e287_supply_ceiling_axes.py",
+    "scripts/e288_below_floor_narrowing.py",
+    "scripts/e290_selfauditable_face_profile.py",
+    "scripts/e291_ambiguity_chance.py",
+    "scripts/e292_scope_fix_plan.py",
+    "scripts/e293_duplicate_list_census.py",
+    "scripts/e295_supply_gap_closure.py",
+    "scripts/e298_replay_control_census.py",
+    "scripts/e299_rounded_vs_tolerance_census.py",
+    "scripts/e300_window_local_margin_census.py",
+    "scripts/e305_face_level_row_pricing.py",
+    "scripts/e328_quoted_number_staleness.py",
+    "scripts/tactics_report.py",
+    "scripts/theme_methodology_report.py",
+    "scripts/wild_route_probe.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/alphagen_rl_p1.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "TinyPolicy"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "parent",
+   "defined_in": [
+    "_e317_probe2.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/e390_wrong_side_reader.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "Parents"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "run",
+   "defined_in": [
+    "Tools/_r421bmc_mf_assist.py",
+    "Tools/_r579bmb_s0_surgery.py",
+    "Tools/_r579bmb_s0_surgery2.py",
+    "Tools/_r579bmb_s0_surgery3.py",
+    "Tools/_r579bmb_s0_surgery3b.py",
+    "Tools/_r580bmb_s0_surgery.py",
+    "Tools/_r581bmb_s0_surgery.py",
+    "Tools/_r727bmc_s7_close.py",
+    "Tools/_r727bmc_uu_resolve.py",
+    "Tools/_r767bmc_s1.py",
+    "Tools/_r770bmc_outbound_cas.py",
+    "Tools/_r774bmc_outbound_a1.py",
+    "Tools/_r775bmc_outbound_v7.py",
+    "Tools/_r802bmc_tempmsg_quarantine.py",
+    "Tools/_r814bmc_tempmsg_quarantine.py",
+    "Tools/_r818bmc_h3_t2v_ignite.py",
+    "Tools/_r820bmc_rebase_driver.py",
+    "Tools/_r823bmc_s05.py",
+    "Tools/_r824bmc_s05.py",
+    "Tools/_r825bmc_s05.py",
+    "Tools/_r828bmc_s05.py",
+    "Tools/_r832bmc_s05.py",
+    "Tools/_r834bmc_s05.py",
+    "Tools/_r835bmc_s05.py",
+    "Tools/_r879bmc_w18_freeze_facts.py",
+    "Tools/core_sampler.py",
+    "Tools/fill_ladder.py",
+    "Tools/mem_pressure_report.py",
+    "Tools/orphan_face_probe.py",
+    "Tools/resident_dispatcher.py",
+    "Tools/s05_probe.py",
+    "Tools/t36_drill_runner.py",
+    "_r1020bmc_ff.py",
+    "_r1031bmb_s0.py",
+    "_r1032bmb_s0.py",
+    "_r1142bmb_s6chain.py",
+    "_r1191bmb_groupcas.py",
+    "_r908bmb_closeout.py",
+    "_r989bmb_anchor_tools_install.py",
+    "_r997bmb_surgery_push.py",
+    "_r998bmb_s6.py",
+    "_tmp_r1195_gitchk.py",
+    "_tmp_r1222_cas.py",
+    "_tmp_r1225_group_cas.py",
+    "_tmp_r1251_chainseq.py",
+    "_tmp_r1253_commit.py",
+    "_tmp_r1255_s0.py",
+    "bootstrap.py",
+    "content/drama/runner_assets/gpt_sovits_env_driver.py",
+    "engine/futures_runner.py",
+    "firm/risk/b_layer_filter.py",
+    "scripts/_r1383_stage.py",
+    "scripts/a158_gate_timing_prescreen.py",
+    "scripts/a158_truegap_ic.py",
+    "scripts/aggr_fullpool_battery.py",
+    "scripts/ah_face_probe.py",
+    "scripts/ah_meanrev_probe.py",
+    "scripts/ah_synth_validate.py",
+    "scripts/allocation_policy_scan.py",
+    "scripts/alpha158_compare.py",
+    "scripts/alphagen_rg_roster.py",
+    "scripts/arxiv_sweep.py",
+    "scripts/astock_isolated_recover.py",
+    "scripts/bandit_queue.py",
+    "scripts/basis_vol_probe.py",
+    "scripts/bond_capacity_probe.py",
+    "scripts/bond_price_semantics_probe.py",
+    "scripts/build_trading_calendar.py",
+    "scripts/cb_face_probe.py",
+    "scripts/census_588000_fullhist.py",
+    "scripts/census_fusion_s2.py",
+    "scripts/census_fusion_s2_w2.py",
+    "scripts/census_fusion_s2_w2b.py",
+    "scripts/ceo_live_usage.py",
+    "scripts/cn_core_ddctl_p1.py",
+    "scripts/cn_core_sat_p1.py",
+    "scripts/cn_div_lowvol_rot_p1.py",
+    "scripts/cn_regime_policy_p1.py",
+    "scripts/cn_rev_tilt_p1.py",
+    "scripts/corebook_closeout_p1.py",
+    "scripts/corr_watch.py",
+    "scripts/cross_start_robustness.py",
+    "scripts/cycle_position_census.py",
+    "scripts/d07_datacenter_preval.py",
+    "scripts/daily_report.py",
+    "scripts/delivery_divergence_audit.py",
+    "scripts/e107_heldcurve.py",
+    "scripts/e110_burncontrol_close.py",
+    "scripts/e111_face_factor_stamp.py",
+    "scripts/e221_dom_profile.py",
+    "scripts/e222_tom_overlay.py",
+    "scripts/e223_obs_rate_ladder.py",
+    "scripts/e224_vol_gate.py",
+    "scripts/e225_state_tilt.py",
+    "scripts/e226_tilt_breakeven.py",
+    "scripts/e228_matched_exposure.py",
+    "scripts/e229_timing_selection.py",
+    "scripts/e230_hysteresis_toll.py",
+    "scripts/e231_band_path_test.py",
+    "scripts/e232_cost_curvature.py",
+    "scripts/e233_empirical_gamma.py",
+    "scripts/e234_per_member_gamma.py",
+    "scripts/e235_charge_granularity.py",
+    "scripts/e236_share_difference.py",
+    "scripts/e237_information_structure.py",
+    "scripts/e238_leave_one_out_book.py",
+    "scripts/e239_own_vs_cross.py",
+    "scripts/e240_aggregate_attenuation.py",
+    "scripts/e241_pair_reproduction.py",
+    "scripts/e242_omission_inflation_sweep.py",
+    "scripts/e243_additivity_out_of_sample.py",
+    "scripts/e244_pair_heterogeneity.py",
+    "scripts/e245_pair_slope_matrix.py",
+    "scripts/e246_star_direction.py",
+    "scripts/e248_star_lag_band.py",
+    "scripts/e249_lead_counterfactual.py",
+    "scripts/e24_ladder_weighting.py",
+    "scripts/e250_book_turnover_echo.py",
+    "scripts/e251_star_own_component.py",
+    "scripts/e252_star_prices_itself.py",
+    "scripts/e253_self_row_resolution.py",
+    "scripts/e254_band_exponent_inside_cell.py",
+    "scripts/e255_band_draw_starvation.py",
+    "scripts/e256_band_draw_continuation.py",
+    "scripts/e257_band_at_top_flips.py",
+    "scripts/e258_band_multiplier_per_window.py",
+    "scripts/e259_band_multiplier_distribution.py",
+    "scripts/e260_band_endpoint_arrival.py",
+    "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+    "scripts/e262_p95_transfer_across_windows.py",
+    "scripts/e263_arrival_vs_cell_size.py",
+    "scripts/e264_near_one_seeds_reading.py",
+    "scripts/e266_wide_end_screen_holdout.py",
+    "scripts/e267_screen_buffer_margin.py",
+    "scripts/e268_screen_on_pooled_end.py",
+    "scripts/e269_tight_end_transfer.py",
+    "scripts/e26_band_rebalance.py",
+    "scripts/e270_guard_field_audit.py",
+    "scripts/e271_donor_choice_sensitivity.py",
+    "scripts/e272_flip_budget_two_tails.py",
+    "scripts/e273_guard_from_threshold.py",
+    "scripts/e274_spread_straddle_sweep.py",
+    "scripts/e275_screen_margin_budget.py",
+    "scripts/e277_tight_multiplier_floor.py",
+    "scripts/e278_spread_floor.py",
+    "scripts/e279_substitution_soundness.py",
+    "scripts/e27_universe_expansion.py",
+    "scripts/e280_e251_rng_drift_repin.py",
+    "scripts/e281_substitution_dependency_audit.py",
+    "scripts/e282_substitution_disagreement_census.py",
+    "scripts/e283_degenerate_range_reachable.py",
+    "scripts/e294_live_universe_drift.py",
+    "scripts/e302_universe_switch_backfill.py",
+    "scripts/e307_undated_face_vintage.py",
+    "scripts/e318_count_named_gate_leaves.py",
+    "scripts/e319_census_self_inclusion_sweep.py",
+    "scripts/e320_decoy_resolution.py",
+    "scripts/e321_quantity_name_reach.py",
+    "scripts/e322_residual_refusal_causes.py",
+    "scripts/e323_reach_under_wider_needle.py",
+    "scripts/e33_ladder_baseline.py",
+    "scripts/e34_cadence_rolling.py",
+    "scripts/e370_key_sensitivity.py",
+    "scripts/e38_panel_drift_census.py",
+    "scripts/e422_basename_census_audit.py",
+    "scripts/e79_face_screen_matrix.py",
+    "scripts/e94_readset_triage.py",
+    "scripts/e96_level_label_audit.py",
+    "scripts/e97_routing.py",
+    "scripts/emotion_reeval_roster.py",
+    "scripts/etf_book_breadth.py",
+    "scripts/etf_book_bridge.py",
+    "scripts/etf_book_cagr_reconcile.py",
+    "scripts/etf_book_capacity.py",
+    "scripts/etf_book_capacity_carry.py",
+    "scripts/etf_book_capacity_rule.py",
+    "scripts/etf_book_ceo_page.py",
+    "scripts/etf_book_commodity_split.py",
+    "scripts/etf_book_forward.py",
+    "scripts/etf_book_order.py",
+    "scripts/etf_book_passive_mix.py",
+    "scripts/etf_book_pre2020.py",
+    "scripts/etf_book_pre2020_wf.py",
+    "scripts/etf_book_production.py",
+    "scripts/etf_book_publish_decision.py",
+    "scripts/etf_book_registry.py",
+    "scripts/etf_book_spanning.py",
+    "scripts/etf_book_spanning_pre2020.py",
+    "scripts/etf_book_split_audit.py",
+    "scripts/etf_book_turnover.py",
+    "scripts/etf_book_width_audit.py",
+    "scripts/etf_book_window_decomp.py",
+    "scripts/etf_breadth_sweep.py",
+    "scripts/etf_composite_live.py",
+    "scripts/etf_composite_pf.py",
+    "scripts/etf_grid_candidates.py",
+    "scripts/etf_vol_calibration.py",
+    "scripts/etf_vol_delivery_audit.py",
+    "scripts/etf_vol_target_sweep.py",
+    "scripts/exchange_calendar_audit.py",
+    "scripts/exclusion_marginal_scan.py",
+    "scripts/f1_bull_cond_p1.py",
+    "scripts/finalize_trio_readiness.py",
+    "scripts/fund_avail_asof_panel.py",
+    "scripts/fund_avail_dispersion.py",
+    "scripts/fund_avail_face_impact.py",
+    "scripts/fund_avail_filing_event.py",
+    "scripts/fund_avail_pit_t27.py",
+    "scripts/fund_divlowvol_p2_split_adequacy.py",
+    "scripts/fund_pit_crossface_factor.py",
+    "scripts/fund_pit_factor_panel.py",
+    "scripts/fund_premium_probe.py",
+    "scripts/fusion_p1_nav.py",
+    "scripts/futures_calendar_spread.py",
+    "scripts/futures_overlay_fliprate.py",
+    "scripts/futures_overlay_fliprate_paths.py",
+    "scripts/futures_overlay_sweep.py",
+    "scripts/futures_tsmom_signal.py",
+    "scripts/g25_retro.py",
+    "scripts/g2_overlap_census.py",
+    "scripts/governance_audit_s1.py",
+    "scripts/governance_audit_s2.py",
+    "scripts/gpu_factor_matrix.py",
+    "scripts/grid_paper.py",
+    "scripts/hsgt_source_probe.py",
+    "scripts/index_basis_probe.py",
+    "scripts/interest_rate_face_probe.py",
+    "scripts/j13_draft_probe.py",
+    "scripts/j13v2_mill.py",
+    "scripts/lhb_thermo_build.py",
+    "scripts/lhb_thermo_ic_p1.py",
+    "scripts/lof_census.py",
+    "scripts/market_clock_call.py",
+    "scripts/marks_coverage.py",
+    "scripts/model_slot_bench_bma.py",
+    "scripts/model_slot_bench_bmc.py",
+    "scripts/model_slot_profile_bmc.py",
+    "scripts/moneyflow_source_probe.py",
+    "scripts/newlist_census.py",
+    "scripts/o1600_market_fit.py",
+    "scripts/og1_overnight_ic.py",
+    "scripts/omo_liquidity_probe.py",
+    "scripts/options_s0_panel_probe.py",
+    "scripts/p1e_neighbor_corr.py",
+    "scripts/p1e_synth.py",
+    "scripts/pilot_c_batch.py",
+    "scripts/pilot_mask.py",
+    "scripts/pilot_mask_c.py",
+    "scripts/portfolio_recommend.py",
+    "scripts/reader_text_audit.py",
+    "scripts/regime_gate_dualarm.py",
+    "scripts/regime_gate_evidence.py",
+    "scripts/regime_matrix_p0.py",
+    "scripts/regime_p0_slice.py",
+    "scripts/regime_p0_slice2.py",
+    "scripts/regime_p0_slice3.py",
+    "scripts/regime_p0_slice4.py",
+    "scripts/regime_p0_slice5.py",
+    "scripts/repo_monthend_pulse_probe.py",
+    "scripts/repo_pulse_probe.py",
+    "scripts/rev_osc_signal_export.py",
+    "scripts/run_e423_smoke_leg.py",
+    "scripts/science_audit.py",
+    "scripts/scorecard.py",
+    "scripts/sina_mf_accept.py",
+    "scripts/sscombo_freeze_probe.py",
+    "scripts/sscombo_pit_drift_audit.py",
+    "scripts/sscombo_stage_priors.py",
+    "scripts/sscombo_stage_style_matrix.py",
+    "scripts/strategy_scorecard.py",
+    "scripts/susp_resume_census.py",
+    "scripts/susp_resume_p1.py",
+    "scripts/system_v1_paper.py",
+    "scripts/t101_v4_a10_regimecombo.py",
+    "scripts/t101_v4_a11_xselect.py",
+    "scripts/t101_v4_a12_predcond.py",
+    "scripts/t101_v4_a13_predface.py",
+    "scripts/t101_v4_a158_fv.py",
+    "scripts/t11_negday_ic.py",
+    "scripts/t18_deep_probe.py",
+    "scripts/t19_phantom_contribution.py",
+    "scripts/t33_corps_roster.py",
+    "scripts/t35_capital_assert.py",
+    "scripts/t35_open_fill_verify.py",
+    "scripts/t35_paper_export.py",
+    "scripts/t70_midterm_dossier.py",
+    "scripts/t73_s2_factor_history.py",
+    "scripts/t73_s2_policy_cycle.py",
+    "scripts/t73_s2_retail_herding.py",
+    "scripts/t73_s2_reversal_momentum.py",
+    "scripts/t73_s2_style_rotation.py",
+    "scripts/theme_ignition_face_probe.py",
+    "scripts/update_etf_daily.py",
+    "scripts/update_futures.py",
+    "scripts/update_intraday_marks.py",
+    "scripts/update_minute_feed.py",
+    "scripts/update_repo.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "Tools/pool_worker.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "_Heartbeat"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "sample",
+   "defined_in": [
+    "Tools/_r1069bmc_closeout.py",
+    "Tools/_r504bmc_close.py",
+    "Tools/_r506bmc_close.py",
+    "_r1019bmb_closeout.py",
+    "_r1020bmb_closeout.py",
+    "_r1021bmb_closeout.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/alphagen_rl_p1.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "GrammarEnv"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "save",
+   "defined_in": [
+    "Tools/_r1390_addendum.py",
+    "Tools/_r1390_postscript.py",
+    "Tools/_r838bmc_closeout.py",
+    "Tools/_r844bmc_close.py",
+    "_r1027bmc_closeout.py",
+    "_tmp_r1223_state.py",
+    "_tmp_r1303_pool.py",
+    "scripts/e308_leg_vs_producer_tolerance.py",
+    "scripts/e312_gate_operand_identity.py",
+    "scripts/e313_gate_form_and_scale.py",
+    "scripts/e314_clamped_gate_census.py",
+    "scripts/e315_leg_epsilon_vs_flat_regime.py",
+    "scripts/e316_gate_print_requirements.py",
+    "scripts/e317_print_coverage_census.py",
+    "scripts/e321_quantity_name_reach.py",
+    "scripts/e322_residual_refusal_causes.py",
+    "scripts/e323_reach_under_wider_needle.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/alphagen_rl_p1.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "TinyPolicy"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  },
+  {
+   "name": "step",
+   "defined_in": [
+    "Tools/_r702bmc_s0i_rebuild.py",
+    "Tools/_r702bmc_s0j_pullpush.py"
+   ],
+   "colliding_modules": 1,
+   "colliding_modules_with_import": 0,
+   "colliding_modules_without_import": 1,
+   "class_carriers": 1,
+   "nests": [
+    "class_at_module_level"
+   ],
+   "without_import_examples": [
+    {
+     "file": "scripts/alphagen_rl_p1.py",
+     "nests": [
+      "class_at_module_level"
+     ],
+     "classes": [
+      "Adam"
+     ],
+     "imports_the_function": false,
+     "import_form": null,
+     "local_name": null
+    }
+   ],
+   "with_import_examples": []
+  }
+ ],
+ "anchor": {
+  "module": "Tools/pool_worker.py",
+  "e450_note": "E450 read 13 name hits from this module and 0 binding hits, which is the observation this study prices repo-wide",
+  "module_level_functions_here": 27,
+  "of_those_that_also_name_a_method_elsewhere": 0,
+  "names": []
+ },
+ "method_limits": [
+  "the collision is a name collision, not evidence that a call site meant the method: nothing here reads call sites, so C is an upper bound of what a name test can see and N is an upper bound of its unpriced half",
+  "a class attribute that is not a def is not a method (an assignment named like the function does not collide)",
+  "a class defined inside a function is counted as a class of its module with its own nesting kind, so the reading can be split rather than silently widened",
+  "an aliased from-import (`from a import f as g`) still imports f and is counted as an import edge",
+  "a module that imports the whole definition module (`import a`) but never the name is *not* an import edge: importing a module does not make its module-level function a local name",
+  "files that fail to parse are published as a residue, never folded into a zero"
+ ],
+ "verdict": "some_colliding_modules_never_import_the_function_there_so_a_name_test_counts_a_different_thing_that_only_shares_the_name",
+ "verdict_vocab": [
+  "no_module_level_function_name_collides_with_a_method_name_anywhere",
+  "every_colliding_module_imports_the_function_so_the_name_test_has_no_unpriced_half",
+  "some_colliding_modules_never_import_the_function_there_so_a_name_test_counts_a_different_thing_that_only_shares_the_name"
+ ]
+}

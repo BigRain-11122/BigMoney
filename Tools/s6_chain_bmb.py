@@ -1674,6 +1674,11 @@ LEGS = [
     # E464: which identity a producer intends when it writes two names -- `check` re-derives every
     # tally from the published rows (writer/non-writer split, intent classes, pointer-key counts).
     ("producer_intent", ["python", "scripts/e464_producer_intent.py", "check"]),
+    # E457 (r1488): a name test's optimism is the part of its vocabulary that is a method name in a
+    # module that never imports the function. `check` re-derives every tally from the published rows
+    # because the full rebuild parses ~3.5k sources (~60s) and would make this leg the chain's
+    # most expensive; `verify` is the manual/closeout gate for the live corpus walk.
+    ("name_collide", ["python", "scripts/e457_namecollide.py", "check"]),
 ]
 
 
