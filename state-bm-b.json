@@ -5285,8 +5285,8 @@
  "s6_note": "the leg table now carries face_identity; the other legs were not re-run this window. One accidental full-chain start (a --leg typo resolved to round '--leg') ran ~5 minutes before it was cancelled, so a handful of downstream faces may show re-derived bytes this window -- disclosed, not claimed as this round's work",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
  "s6_run_in_window": "identity_consumers leg rc0 0.05s (problems: []); the full chain launched ~12:56 was still in flight at close so no chain total is claimed; dualrun ZERO-DRIFT at close (936 entries) with the streak reset 51 -> 0 -> 1 by a 13:01 drift sample naming this round's own claim (owner type str vs null - mid-tick lane-ahead is lawful and settled by the 13:14 sample); attrition guard CLEAN (4 ledgers, 2 historical shrinks healed); orphan probe py_faces=9 orphans=0",
- "s7": "orphan probe py_faces=6 orphans=0 residents=0 | an orphaned full suite from the 01:02 round (pid 25232) was still burning CPU and is named, not killed by a flag we do not own | claws and loop task not re-checked this window -- stated, not claimed",
- "s7_checked_at": "2026-11-07T01:33:26+08:00",
+ "s7": "orphan probe py_faces=6 orphans=0 residents=0 | an orphaned full suite from the 01:02 round (pid 25232, ~1,300 s CPU) was still running and is named, not killed | loop task pin=2 current=2 no-op | Bigmoney-LoopWatchdog PRESENT (next fire 01:38, not re-registered) | pre-commit and pre-push byte-identical to Tools/git-hooks",
+ "s7_checked_at": "2026-11-07T01:37:54+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
  "s7_note": "the watchdog keeps disappearing: re-registering it every window hides the cause; next window should find what disables it",
  "s7_r1439": "loop pin=2 no-op | LoopWatchdog RE-REGISTERED (absent on this box; S4U, SWA=false) | pre-commit + pre-push claws reinstalled | attrition CLEAN 4 ledgers (3 healed) | sat engine status rc=0 idle",
@@ -5579,5 +5579,6 @@
   "sha": "71b9d0decb8d9891090c78f893fdfe28127c40f7",
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1501 == HEAD",
   "why": "local main is 483 ahead / 295 behind origin/main across two blood lines (promisor wedge); no unattended rebase per r1243, so delivery goes out on the machine branch"
- }
+ },
+ "s7_pit": "Tools/Invoke-SilentExe.ps1 takes -Exe/-ArgString, not -FilePath; the first query failed with ParameterBindingException and an empty result, which reads exactly like 'task absent' -- an empty wrapper output is not evidence of absence (R49 family)"
 }
