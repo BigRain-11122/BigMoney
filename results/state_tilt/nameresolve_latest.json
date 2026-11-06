@@ -2,7 +2,7 @@
  "study": "E421_a_name_that_resolves_to_no_file_is_a_join_not_a_basis",
  "card": "E413-DOES-THE-STRONG-BASIS-FACE-NAME-RESOLVE-TO-A-FILE",
  "title": "the 33 names E406 could not resolve, resolved by the directory their literal is joined against",
- "evidence_cutoff": "2026-11-04",
+ "evidence_cutoff": "2026-11-07",
  "source_face": "results/state_tilt/blobread_latest.json",
  "source_study": "E406_blob_vs_tree_readers",
  "source_rev": "c54a3a237436036a774b8a35f0148113e7d92bdb",
@@ -42,25 +42,27 @@
    "joined_into_the_repo_and_the_file_is_there": 26,
    "resolves_inside_a_selftest_temp_dir": 9,
    "the_reader_spells_a_repo_path_the_file_exists_at": 18,
-   "named_only_by_the_census_own_selftest": 4,
-   "literal_with_no_join_resolved": 1
+   "joined_into_the_repo_and_the_file_is_not_there": 1,
+   "literal_with_no_join_resolved": 2,
+   "named_only_by_the_census_own_selftest": 2
   },
   "by_verdict_unresolved": {
    "resolves_inside_a_selftest_temp_dir": 9,
    "the_reader_spells_a_repo_path_the_file_exists_at": 18,
-   "named_only_by_the_census_own_selftest": 4,
+   "joined_into_the_repo_and_the_file_is_not_there": 1,
+   "literal_with_no_join_resolved": 2,
    "joined_into_the_repo_and_the_file_is_there": 1,
-   "literal_with_no_join_resolved": 1
+   "named_only_by_the_census_own_selftest": 2
   },
   "by_verdict_control": {
    "joined_into_the_repo_and_the_file_is_there": 25
   },
   "unresolved_joined_into_a_temp_dir": 9,
-  "unresolved_joined_into_the_repo_and_missing": 0,
+  "unresolved_joined_into_the_repo_and_missing": 1,
   "unresolved_resolving_at_the_spelled_path": 18,
   "unresolved_resolving_under_another_directory": 0,
-  "unresolved_with_no_join_at_all": 1,
-  "unresolved_named_only_by_the_census_own_selftest": 4,
+  "unresolved_with_no_join_at_all": 2,
+  "unresolved_named_only_by_the_census_own_selftest": 2,
   "unresolved_resolving_to_a_file_somewhere": 18,
   "unresolved_directories_the_readers_actually_spell": {
    "docs/live_usage": 9,
@@ -71,7 +73,7 @@
    ".": 32,
    "results/state_tilt": 1
   },
-  "unresolved_whose_literal_is_repo_shaped": 27,
+  "unresolved_whose_literal_is_repo_shaped": 28,
   "unresolved_with_a_site_in_the_tree": 33,
   "unresolved_with_no_site_in_the_tree": 0,
   "unresolved_carrying_a_stem_sibling": 19,
@@ -83,7 +85,7 @@
   "self_excluded_in_corpus": true
  },
  "corpus": {
-  "modules_read": 2492,
+  "modules_read": 2586,
   "self_excluded": true,
   "census_module": "scripts/e406_blob_vs_tree_readers.py"
  },
@@ -3523,13 +3525,16 @@
    ],
    "on_disk": false,
    "at_head": false,
-   "repo_shaped_literal": false,
-   "literal_paths": [],
+   "repo_shaped_literal": true,
+   "literal_paths": [
+    "results/state_tilt/alpha_latest.json"
+   ],
    "literal_paths_on_disk": [],
    "same_basename_elsewhere": [],
-   "site_count": 21,
+   "site_count": 40,
    "site_modules": [
-    "scripts/e406_blob_vs_tree_readers.py"
+    "scripts/e406_blob_vs_tree_readers.py",
+    "scripts/e475_multideclared.py"
    ],
    "site_scope": [
     "scripts/e406_blob_vs_tree_readers.py::_face_tail",
@@ -3537,7 +3542,9 @@
     "scripts/e406_blob_vs_tree_readers.py::_report",
     "scripts/e406_blob_vs_tree_readers.py::_str_constants"
    ],
-   "join_kinds": [],
+   "join_kinds": [
+    "open"
+   ],
    "sites": [
     {
      "module": "scripts/e406_blob_vs_tree_readers.py",
@@ -3589,7 +3596,7 @@
     }
    ],
    "stem_siblings": [],
-   "verdict": "named_only_by_the_census_own_selftest"
+   "verdict": "joined_into_the_repo_and_the_file_is_not_there"
   },
   {
    "face": "beta_latest.json",
@@ -3605,9 +3612,10 @@
    "literal_paths": [],
    "literal_paths_on_disk": [],
    "same_basename_elsewhere": [],
-   "site_count": 21,
+   "site_count": 40,
    "site_modules": [
-    "scripts/e406_blob_vs_tree_readers.py"
+    "scripts/e406_blob_vs_tree_readers.py",
+    "scripts/e475_multideclared.py"
    ],
    "site_scope": [
     "scripts/e406_blob_vs_tree_readers.py::_face_tail",
@@ -3671,7 +3679,7 @@
     }
    ],
    "stem_siblings": [],
-   "verdict": "named_only_by_the_census_own_selftest"
+   "verdict": "literal_with_no_join_resolved"
   },
   {
    "face": "results/state_tilt/blobread_latest.json",
@@ -7035,5 +7043,5 @@
    "verdict": "joined_into_the_repo_and_the_file_is_there"
   }
  ],
- "verdict": "no unresolved name is a face the tree reads and lacks: 18 resolve to a file the reader itself spells, 0 exist under another directory than the census recorded, 1 are on disk, 9 are written only into a selftest temp dir, and 4 are named only by the census's own selftest"
+ "verdict": "1 of 33 unresolved names are joined into the repo and the tree does not hold them"
 }

@@ -2,16 +2,17 @@
  "study": "E433_whether_a_republished_directory_value_carries_a_name_one_face_further",
  "card": "E433-WHICH-REPUBLICATION-SITE-CARRIES-A-FILE-VALUED-DIRECTORY-FIELD-INTO-A-NEW-FACE",
  "title": "price whether a republication row binds a name beside a file-capable directory field, and whether the new face's rows stay double-ready",
- "generated": "2026-11-05",
+ "generated": "2026-11-07",
  "evidence_cutoff": "2026-11-04",
  "verdict": "a_republication_row_binds_a_name_beside_a_file_capable_directory_field_and_its_published_rows_are_still_double_ready",
  "summary": {
-  "republish_sites": 10,
+  "republish_sites": 11,
   "sites_by_file": {
    "scripts/e399_unresolved_names.py": 1,
    "scripts/e403_family_arg.py": 5,
    "scripts/e404_constant_directory_resolution.py": 2,
-   "scripts/e436_double_join.py": 2
+   "scripts/e436_double_join.py": 2,
+   "scripts/e472_vintage_read.py": 1
   },
   "sites_binding_a_name_beside_a_file_capable_key": 5,
   "file_capable_keys": [
@@ -38,7 +39,8 @@
   "writer_faces": 3,
   "writer_faces_scanned": 3,
   "republish_files_without_a_writer_face": [
-   "scripts/e399_unresolved_names.py"
+   "scripts/e399_unresolved_names.py",
+   "scripts/e472_vintage_read.py"
   ],
   "file_valued_rows_in_writer_faces": 35,
   "rows_carrying_a_name_beside_the_value": 31,
@@ -756,6 +758,42 @@
     "fragment"
    ],
    "binds_a_name_beside_a_file_capable_key": true
+  },
+  {
+   "file": "scripts/e472_vintage_read.py",
+   "line": 386,
+   "function": "build",
+   "key": "dir",
+   "scope": "build",
+   "literals": [
+    {
+     "keys": [
+      "bytes",
+      "dates",
+      "dir",
+      "family",
+      "first_date",
+      "last_date",
+      "latest",
+      "leg_consumers",
+      "members",
+      "opener_literals",
+      "producers",
+      "residue",
+      "round_consumers",
+      "study_consumers",
+      "study_namers",
+      "vintages",
+      "writer_located"
+     ],
+     "lineno": 384
+    }
+   ],
+   "file_capable_keys": [
+    "dir"
+   ],
+   "name_keys": [],
+   "binds_a_name_beside_a_file_capable_key": false
   }
  ],
  "writer_faces": [
