@@ -6,18 +6,18 @@
  "evidence_cutoff": "2026-11-04",
  "verdict": "some_writer_already_emits_a_date_the_face_still_cannot_be_aged_by",
  "summary": {
-  "faces_in_population": 15,
+  "faces_in_population": 17,
   "by_class": {
-   "no_writer_in_the_tree": 4,
-   "writer_already_writes_a_date": 2,
+   "no_writer_in_the_tree": 5,
+   "writer_already_writes_a_date": 3,
    "writer_has_no_date_in_hand": 8,
    "writer_holds_a_date_it_does_not_write": 1
   },
-  "faces_with_a_writer_in_the_tree": 11,
-  "faces_where_the_writer_already_holds_a_date": 3,
+  "faces_with_a_writer_in_the_tree": 12,
+  "faces_where_the_writer_already_holds_a_date": 4,
   "faces_where_writing_the_date_is_enough_to_reach_a_reader": 0,
   "readers_that_could_go_red_on_age_today": 0,
-  "corpus_sources": 3506
+  "corpus_sources": 3519
  },
  "population_keys": [
   "corpus_sources"
@@ -100,6 +100,25 @@
    "stamp_value_e418_saw": null
   },
   {
+   "face": "results/state_tilt/abandonedstale_latest.json",
+   "name_token": "abandonedstale_latest",
+   "directory_token": "state_tilt",
+   "template": false,
+   "files_mentioning_the_name": 1,
+   "classification": "no_writer_in_the_tree",
+   "writers": [],
+   "weaker_sites_not_counted_as_writers": 0,
+   "of_which_write_only_fixtures": 0,
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": "evidence_cutoff",
+   "stamp_value_e418_saw": "2026-11-06"
+  },
+  {
    "face": "results/astock_daily_update_status.json",
    "name_token": "astock_daily_update_status",
    "directory_token": null,
@@ -134,7 +153,7 @@
    ],
    "reader_can_go_red_on_age_today": false,
    "stamp_field_e418_saw": "ts",
-   "stamp_value_e418_saw": "2026-11-06T03:16:45"
+   "stamp_value_e418_saw": "2026-11-06T06:24:41"
   },
   {
    "face": "results/dom_profile/PROFILE-*.json",
@@ -178,6 +197,43 @@
    "reader_can_go_red_on_age_today": false,
    "stamp_field_e418_saw": null,
    "stamp_value_e418_saw": null
+  },
+  {
+   "face": "results/state_tilt/growthtol_latest.json",
+   "name_token": "growthtol_latest",
+   "directory_token": "state_tilt",
+   "template": false,
+   "files_mentioning_the_name": 2,
+   "classification": "writer_already_writes_a_date",
+   "writers": [
+    {
+     "file": "scripts/e455_growth_census.py",
+     "function": "build",
+     "line": 62,
+     "payload_keys_with_a_date": [
+      "evidence_cutoff"
+     ],
+     "date_variables_in_scope": [
+      "_cutoff"
+     ],
+     "date_calls_in_scope": [],
+     "write_targets": [
+      "        with io.open(path, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+      "        with io.open(path, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:",
+      "        path = os.path.join(out_dir, \"GROWTHTOL-%s.json\" % payload[\"evidence_cutoff\"])",
+      "        with io.open(path, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:"
+     ],
+     "basis": "write_target_names_the_face"
+    }
+   ],
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "reader_can_go_red_on_age_today": false,
+   "stamp_field_e418_saw": "evidence_cutoff",
+   "stamp_value_e418_saw": "2026-11-06"
   },
   {
    "face": "results/dashboard_status.json",
@@ -351,7 +407,7 @@
    "name_token": "abandonedguard_latest",
    "directory_token": "state_tilt",
    "template": false,
-   "files_mentioning_the_name": 2,
+   "files_mentioning_the_name": 3,
    "classification": "writer_has_no_date_in_hand",
    "writers": [
     {

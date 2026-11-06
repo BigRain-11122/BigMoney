@@ -15370,7 +15370,15 @@ try:
         _s408 = _f408.get("summary") or {}
         _fresh408 = _m408.build()
         if _fresh408["summary"] != _s408:
-            _bad408.append("the published summary does not re-derive from the live tree")
+            # E455: the round chain gains legs every time this file (or a collector) grows, so
+            # chain_legs moves up on growth alone. Names and roles are compared; counts may only
+            # rise, and a lost face/writer/verdict still reds the leg.
+            _g408 = __import__("growth_tolerance")
+            _r408 = _g408.classify(_f408, _fresh408, list_key="faces", row_id="face",
+                                   class_fields=("label",))
+            if not _g408.tolerates(_r408):
+                _bad408.append("the published summary does not re-derive from the live tree (%s)"
+                               % _g408.describe(_r408))
         if _fresh408.get("verdict") != _f408.get("verdict"):
             _bad408.append("the stored verdict is not the one the live trees produce")
         _rows408 = _f408.get("faces") or []
@@ -15825,7 +15833,16 @@ try:
     if _fresh416.get("verdict") != _f416.get("verdict"):
         _bad416.append("the verdict does not re-derive")
     if (_fresh416.get("summary") or {}) != _s416:
-        _bad416.append("the published summary does not re-derive from the live tree")
+        # E455: reader sites and blind faces are counted over a tree that gains modules every
+        # round, so every headline moved upward at r1481 while the four sites and their gate
+        # kinds stayed put. The rule compares site identity and its surviving tier; a lost site,
+        # a moved tier or a moving verdict still reds the leg.
+        _g416 = __import__("growth_tolerance")
+        _r416 = _g416.classify(_f416, _fresh416, list_key="sites", row_id="site",
+                               class_fields=("tier_survives",))
+        if not _g416.tolerates(_r416):
+            _bad416.append("the published summary does not re-derive from the live tree (%s)"
+                           % _g416.describe(_r416))
     _d416 = "%d red-capable site(s), %d pricing age | blind %s -> %s | frozen gates %s " \
             "(chain verifies only %s) | declared expectations %s" % (
                 _s416.get("red_capable_sites_published"),
@@ -15874,7 +15891,15 @@ try:
     if _fresh418.get("verdict") != _f418.get("verdict"):
         _bad418.append("the verdict does not re-derive")
     if (_fresh418.get("summary") or {}) != _s418:
-        _bad418.append("the published summary does not re-derive from the live tree")
+        # E455: the blind-face population is E411's, which is counted over a growing tree. The
+        # face verdict and its sentence classes are the row's claim, so they are compared by
+        # name; the tallies may only rise. A row that disappears or changes class still reds.
+        _g418 = __import__("growth_tolerance")
+        _r418 = _g418.classify(_f418, _fresh418, list_key="rows", row_id="face",
+                               class_fields=("verdict", "sentence_classes"))
+        if not _g418.tolerates(_r418):
+            _bad418.append("the published summary does not re-derive from the live tree (%s)"
+                           % _g418.describe(_r418))
     _d418 = "%d face(s), %d stamped, %d older than 5 bars (max %s) | verdicts %s | sentences %s" % (
         _s418.get("faces_in_population"), _s418.get("faces_with_a_stamp"),
         _s418.get("faces_older_than_5_bars"), _s418.get("max_age_bars"),

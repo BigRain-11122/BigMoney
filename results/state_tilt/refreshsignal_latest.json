@@ -13,7 +13,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 3,
    "stamp": {
-    "age_days": 5.9,
+    "age_days": 6.18,
     "kind": "generated",
     "value": "2026-10-31T07:04:32"
    },
@@ -142,7 +142,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 5.88,
+    "age_days": 6.16,
     "kind": "generated",
     "value": "2026-10-31T07:24:25"
    },
@@ -202,7 +202,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 6.03,
+    "age_days": 6.31,
     "kind": "generated",
     "value": "2026-10-31T03:57:28"
    },
@@ -260,7 +260,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 6.09,
+    "age_days": 6.37,
     "kind": "generated",
     "value": "2026-10-31T02:30:19"
    },
@@ -319,7 +319,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 1,
    "stamp": {
-    "age_days": 6.22,
+    "age_days": 6.5,
     "kind": "generated",
     "value": "2026-10-30T23:15:36"
    },
@@ -379,7 +379,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 3,
    "stamp": {
-    "age_days": 0.2,
+    "age_days": 0.48,
     "kind": "generated",
     "value": "2026-11-05T23:50:54"
    },
@@ -549,10 +549,11 @@
     {
      "adhoc_refs_sample": [
       "smoke_test.py",
+      "_r1479_rederive.py",
       "scripts/_r1439_closeout.py",
       "Tools/s6_chain_bmb.py"
      ],
-     "adhoc_refs_total": 3,
+     "adhoc_refs_total": 4,
      "on_chain": [
       {
        "argv": [
@@ -570,7 +571,7 @@
      "scheduler_refs": [],
      "scheduler_refs_total": 0,
      "session_ps1_refs_total": 0,
-     "session_py_refs_total": 1,
+     "session_py_refs_total": 2,
      "suite_names_it": [],
      "surface": "standing_chain",
      "write_evidence": {
@@ -784,7 +785,7 @@
    "real_writers_on_chain": 2,
    "seed_writer_count": 2,
    "stamp": {
-    "age_days": 0.2,
+    "age_days": 0.48,
     "kind": "generated",
     "value": "2026-11-05T23:51:00"
    },
@@ -878,7 +879,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 2,
    "stamp": {
-    "age_days": 6.62,
+    "age_days": 6.9,
     "kind": "generated",
     "value": "2026-10-30T13:48:56"
    },
@@ -1059,7 +1060,7 @@
    "real_writers_on_chain": 1,
    "seed_writer_count": 12,
    "stamp": {
-    "age_days": 0.14,
+    "age_days": 0.42,
     "kind": "ts",
     "value": "2026-11-06 01:09:39"
    },
@@ -1302,10 +1303,11 @@
     {
      "adhoc_refs_sample": [
       "smoke_test.py",
+      "_r1479_rederive.py",
       "scripts/_r1439_closeout.py",
       "Tools/s6_chain_bmb.py"
      ],
-     "adhoc_refs_total": 3,
+     "adhoc_refs_total": 4,
      "on_chain": [
       {
        "argv": [
@@ -1323,7 +1325,7 @@
      "scheduler_refs": [],
      "scheduler_refs_total": 0,
      "session_ps1_refs_total": 0,
-     "session_py_refs_total": 1,
+     "session_py_refs_total": 2,
      "suite_names_it": [],
      "surface": "standing_chain",
      "write_evidence": {
@@ -1420,12 +1422,12 @@
    ]
   }
  ],
- "generated": "2026-11-06T04:38:08+08:00",
+ "generated": "2026-11-06T11:19:23+08:00",
  "method": "per-leg read attribution is taken from E407's census; the writer list is E407's, then re-tested here -- a module counts as a writer only when a write call reaches a path naming the face, directly or through a name assigned from a face-naming expression, so a mention is not a write; an executor counts only when the surface lists the module basename inside a literal argv or dispatch tuple",
  "study": "E408_writer_refresh_signal",
  "subject_face": "results\\state_tilt\\LEGINPUT-2026-11-04.json",
  "summary": {
-  "chain_legs": 221,
+  "chain_legs": 225,
   "faces": 13,
   "faces_read_by_a_leg": 13,
   "faces_refreshed_on_the_reading_surface": 0,
@@ -1449,7 +1451,7 @@
  },
  "supply_floor": null,
  "surfaces": {
-  "chain_legs_total": 221,
+  "chain_legs_total": 225,
   "suite_bounds": [
    "helper _selftest_run(script, args, timeout) takes the script as a variable; every call site in this suite passes a literal and the literal args are always --selftest, so no call publishes a face -- verified by counting the call sites that carry a non-selftest arg (0)",
    "helper _selftest_run(script, args, timeout) takes the script as a variable; 54 dispatch tuples in this suite name a literal script, and the flag list of 28 of them carries --selftest"

@@ -1,5 +1,5 @@
 {
-  "corpus_files": 2426,
+  "corpus_files": 2574,
   "evidence_cutoff": "2026-11-01",
   "producers": [
     {
@@ -1047,8 +1047,8 @@
         "summary": "passed"
       },
       "classes": {
-        "no_reader": 5,
-        "read_by_someone": 11,
+        "no_reader": 4,
+        "read_by_someone": 12,
         "self_fed_only": 8
       },
       "extraction_empty": false,
@@ -1285,10 +1285,10 @@
         },
         {
           "bound": null,
-          "class": "no_reader",
+          "class": "read_by_someone",
           "key": "now",
           "latch": false,
-          "reader_tier": "no_reader",
+          "reader_tier": "live",
           "self_decision_reads": 0,
           "self_reads": 0,
           "writes": 1
@@ -1481,6 +1481,7 @@
         "content/drama/runner_assets/first_synth_smoke.py",
         "content/drama/runner_assets/gpt_sovits_env_driver.py",
         "firm/risk/b_layer_filter.py",
+        "scripts/_r1436_card.py",
         "scripts/_r855bma_conflict_resolve.py",
         "scripts/ah_meanrev_probe.py",
         "scripts/ah_panel_puller.py",
@@ -1492,6 +1493,8 @@
         "scripts/daily_source_probe.py",
         "scripts/daily_validate.py",
         "scripts/e346_status_writer_unread.py",
+        "scripts/e419_unstampable.py",
+        "scripts/e432_fixture_write.py",
         "scripts/exchange_calendar_audit.py",
         "scripts/exclusion_marginal_scan.py",
         "scripts/fund_avail_notice.py",
@@ -1569,15 +1572,15 @@
   ],
   "summary": {
     "by_class": {
-      "no_reader": 44,
-      "read_by_someone": 30,
+      "no_reader": 43,
+      "read_by_someone": 31,
       "self_fed_only": 19
     },
     "by_reader_tier": {
       "display_only": 19,
-      "live": 9,
+      "live": 10,
       "merge_only": 2,
-      "no_reader": 44,
+      "no_reader": 43,
       "self_fed_only": 19
     },
     "display_only_keys": [
@@ -1847,6 +1850,7 @@
       "data_cutoff",
       "error",
       "mode",
+      "now",
       "symbol",
       "total_new_rows",
       "ts",
@@ -1937,7 +1941,6 @@
       "last_new",
       "members_planned",
       "no_op_reason",
-      "now",
       "per_files_on_disk",
       "repairs",
       "rows_new_total",
