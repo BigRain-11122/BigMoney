@@ -1788,6 +1788,13 @@ def main(argv):
     if not rest:
         print("usage: s6_chain_bmb.py <round_no> [--only leg1,leg2]")
         return 2
+    unknown_opts = [a for a in rest if str(a).startswith("-")]
+    if unknown_opts:
+        # r1508 + r1509 both ran the FULL chain because "--leg <name>" fell into `rest` and became
+        # the round number while `only` stayed None.  A typo must not select "everything".
+        print("unknown option(s): %s" % ", ".join(unknown_opts))
+        print("usage: s6_chain_bmb.py <round_no> [--only leg1,leg2]")
+        return 2
     rnd = str(rest[0])
     ghosts = ghost_legs()
     if ghosts:
