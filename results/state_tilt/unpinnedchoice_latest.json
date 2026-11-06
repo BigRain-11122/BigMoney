@@ -3,7 +3,7 @@
  "evidence_cutoff": "2026-11-01",
  "verdict": "an_unpinned_decision_would_return_a_different_cut_if_the_order_were_swapped_today",
  "summary": {
-  "sources_scanned": 2552,
+  "sources_scanned": 2577,
   "decisions": 2,
   "decisions_by_class": {
    "existence_chain": 1,
@@ -14,14 +14,14 @@
   "decisions_pinned": 0,
   "decisions_unpinned": 2,
   "decisions_nameless": 0,
-  "decisions_whose_swap_changes_today": 1,
+  "decisions_whose_swap_changes_today": 0,
   "decisions_whose_fallback_lags_the_newest_cut": 1,
   "unpinned_decisions_whose_branches_disagree_today": 1,
   "chains": 1,
-  "chains_serving_a_stale_cut_today": 0,
+  "chains_serving_a_stale_cut_today": 1,
   "defaults_already_stale_on_disk": 0,
   "mutable_defaults": 1,
-  "or_lines_offered_and_rejected_as_one_sided": 47,
+  "or_lines_offered_and_rejected_as_one_sided": 48,
   "add_argument_lines_seen": 39,
   "defs_with_a_mutable_literal_seen": 1,
   "rows_published": 2,
@@ -101,11 +101,11 @@
     "per_member_gamma",
     "sharediff"
    ],
-   "outcome_today": "2026-11-05",
+   "outcome_today": "2026-10-29",
    "alternate_today": "2026-10-29",
-   "swap_changes_today": true,
+   "swap_changes_today": false,
    "fallback_lags_newest_cut": true,
-   "serves_stale_today": 0,
+   "serves_stale_today": 2,
    "fallback_shadowed_on": [
     "owncross",
     "sharediff"
@@ -123,16 +123,16 @@
     {
      "stem": "owncross",
      "pointer_present": true,
-     "pointer_vintage": "2026-11-05",
+     "pointer_vintage": "2026-10-29",
      "pinned_fallback": "2026-10-29",
      "newest_cut_on_disk": "2026-11-05",
-     "swap_changes_today": true,
+     "swap_changes_today": false,
      "fallback_lags_newest_cut": true
     },
     {
      "stem": "per_member_gamma",
      "pointer_present": true,
-     "pointer_vintage": "2026-11-05",
+     "pointer_vintage": "2026-10-29",
      "pinned_fallback": null,
      "newest_cut_on_disk": null,
      "swap_changes_today": false,
@@ -141,10 +141,10 @@
     {
      "stem": "sharediff",
      "pointer_present": true,
-     "pointer_vintage": "2026-11-05",
+     "pointer_vintage": "2026-10-29",
      "pinned_fallback": "2026-10-29",
      "newest_cut_on_disk": "2026-11-05",
-     "swap_changes_today": true,
+     "swap_changes_today": false,
      "fallback_lags_newest_cut": true
     }
    ],

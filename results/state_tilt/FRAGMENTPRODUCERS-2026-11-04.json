@@ -798,8 +798,8 @@
    "classified_from": "write_site",
    "fragment": "bad.json",
    "n_read_sites": 0,
-   "n_sites": 10,
-   "n_untagged_sites": 6,
+   "n_sites": 11,
+   "n_untagged_sites": 7,
    "n_write_sites": 4,
    "producer_class": "temporary_directory_deleted_by_design",
    "producer_composed_path": null,
@@ -850,6 +850,15 @@
      "exists": false,
      "site": "scripts/e399_unresolved_names.py:576",
      "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(b, \"bad.json\")",
+     "exists": false,
+     "site": "scripts/e417_shadow_face.py:500",
+     "why": "temporary directory",
      "write_kind": "unknown"
     },
     {
@@ -1745,20 +1754,30 @@
   },
   {
    "classes_at_this_fragment": {
+    "cwd_relative_no_directory_supplied": 1,
     "temporary_directory_deleted_by_design": 2
    },
    "classified_from": "untagged_site",
    "fragment": "other.json",
    "n_read_sites": 0,
-   "n_sites": 2,
-   "n_untagged_sites": 2,
+   "n_sites": 3,
+   "n_untagged_sites": 3,
    "n_write_sites": 0,
-   "producer_class": "temporary_directory_deleted_by_design",
+   "producer_class": "cwd_relative_no_directory_supplied",
    "producer_composed_path": null,
-   "producer_directory_expression": "os.path.join(td, \"other.json\")",
+   "producer_directory_expression": "",
    "producer_path_exists": false,
-   "producer_site": "scripts/t101_v4_a13_predface.py:552",
+   "producer_site": "scripts/e426_dynamic_face_names.py:675",
    "sites": [
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/e426_dynamic_face_names.py:675",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
     {
      "class": "temporary_directory_deleted_by_design",
      "composed_path": null,
@@ -2163,7 +2182,7 @@
  "summary": {
   "by_class": {
    "constant_directory_that_does_not_hold_the_file": 7,
-   "cwd_relative_no_directory_supplied": 7,
+   "cwd_relative_no_directory_supplied": 8,
    "directory_expression_not_traceable_statically": 16,
    "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename": 5,
    "temporary_directory_deleted_by_design": 67
@@ -2176,14 +2195,14 @@
   },
   "by_fragment_primary_class": {
    "constant_directory_that_does_not_hold_the_file": 2,
-   "cwd_relative_no_directory_supplied": 6,
+   "cwd_relative_no_directory_supplied": 7,
    "directory_expression_not_traceable_statically": 6,
    "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename": 3,
    "no_write_or_untagged_site_only_reads": 8,
-   "temporary_directory_deleted_by_design": 27
+   "temporary_directory_deleted_by_design": 26
   },
   "classes_sum_to_sites": true,
-  "corpus_sources": 2457,
+  "corpus_sources": 2589,
   "fragments": 52,
   "fragments_no_site_named": [
    "REGIME5-DIAG-.json",
@@ -2198,7 +2217,7 @@
   "fragments_primary_class_dead_join": 2,
   "fragments_primary_class_runtime_value": 0,
   "fragments_primary_class_suffix_only": 3,
-  "fragments_primary_class_temporary": 27,
+  "fragments_primary_class_temporary": 26,
   "fragments_that_exist_when_composed": [],
   "fragments_whose_composed_path_exists": 0,
   "fragments_with_a_write_site": 11,
@@ -2219,15 +2238,15 @@
    }
   ],
   "keys_total_checked": 884,
-  "producer_sites_total": 102,
+  "producer_sites_total": 103,
   "published_keys": 884,
   "published_keys_note": "taken from the E399 face's own summary: that face carries only the 98 unresolved rows, so the total cannot be counted from rows",
   "read_sites_total": 14,
   "share_of_published_keys_that_are_fragments": 0.0588,
-  "sites_total": 156,
+  "sites_total": 158,
   "verdict": "the_fragments_split_between_design_names_and_joins_that_cannot_land_so_the_residual_is_partly_a_real_gap",
   "write_sites_total": 19
  },
- "ts": "2026-11-04T03:50:17+08:00",
+ "ts": "2026-11-06T20:09:26+08:00",
  "verdict": "the_fragments_split_between_design_names_and_joins_that_cannot_land_so_the_residual_is_partly_a_real_gap"
 }
