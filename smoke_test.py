@@ -19048,5 +19048,73 @@ except Exception as _e484x:
     _d484 = "leg could not run"
 check(_name484, not _bad484, "; ".join(_bad484)[:240] or _d484)
 
+# E481 (r1510 bm-b): E478 charged a vintage for any difference beyond the clock names, but never
+# asked whether the two files reach the same conclusion.  This leg holds that every class, byte
+# tally, scalar-arm count, cross-tab and vocabulary histogram re-derives from the published rows,
+# that a same-conclusion row names a conclusion field and no differing one, that a differing row
+# names the field that moved, that no row claims a no-conclusion class while listing conclusion
+# fields, that the numeric-shape split never exceeds the differences it splits, and that the verdict
+# is the one the counts imply -- plus three doctored copies (a moved same-conclusion count, a
+# same-conclusion row that names a differing field, and a vocabulary histogram that does not
+# re-derive).
+_name481 = ("E481 a differing vintage's conclusion re-derives from its rows and its verdict from "
+            "its counts (r1510 bm-b)")
+_bad481 = []
+try:
+    _m481 = __import__("importlib").import_module("e481_vintage_conclusion")
+    _f481 = json.load(open(os.path.join("results", "state_tilt", "vintageconc_latest.json"),
+                           encoding="utf-8"))
+    _s481 = _f481.get("summary") or {}
+    _r481 = _f481.get("rows") or []
+    _bad481.extend(_m481.row_problems(_f481))
+    if not _r481:
+        _bad481.append("the differing-vintage population is empty")
+    _c481 = _s481.get("class_counts") or {}
+    if _f481.get("verdict") != _m481._expect_verdict(_c481):
+        _bad481.append("the verdict is not the one the class counts imply")
+    if (_f481.get("population_source") or {}).get("class_taken") != _m481.POPULATION_CLASS:
+        _bad481.append("the face does not name the population class it took from its parent")
+    _rob481 = _s481.get("robustness") or {}
+    if (_rob481.get("rows_whose_conclusion_difference_is_numeric_shape_only") or 0) > (
+            _c481.get(_m481.C_DIFFERENT) or 0):
+        _bad481.append("the numeric-shape split exceeds the differences it splits")
+    if not any(r.get("class") == _m481.C_SAME for r in _r481):
+        _bad481.append("no same-conclusion row: the leg cannot be shown to measure anything")
+    _w481 = json.loads(json.dumps(_f481))
+    _w481["summary"]["same_conclusion_in_different_rows"] = (
+        (_w481["summary"].get("same_conclusion_in_different_rows") or 0) + 1)
+    if not _m481.row_problems(_w481):
+        _bad481.append("a doctored same-conclusion count survived the guard")
+    _w481b = json.loads(json.dumps(_f481))
+    _same481 = next((r for r in _w481b["rows"] if r.get("class") == _m481.C_SAME), None)
+    if _same481 is None:
+        _bad481.append("no same-conclusion row to doctor")
+    else:
+        _same481["differing_conclusion_names"] = ["answer"]
+        if not _m481.row_problems(_w481b):
+            _bad481.append("a same-conclusion row that names a differing field survived the guard")
+    _w481c = json.loads(json.dumps(_f481))
+    _vocab481 = _w481c["summary"].get("conclusion_vocabulary_histogram") or {}
+    _first481 = sorted(_vocab481)[0]
+    _vocab481[_first481]["agreements"] = (_vocab481[_first481].get("agreements") or 0) + 1
+    if not _m481.row_problems(_w481c):
+        _bad481.append("a vocabulary histogram that does not re-derive survived the guard")
+    _d481 = ("%d differing vintages | same conclusion %d | different %d | no conclusion field %d "
+             "| numeric-shape-only %d (%d B) | vocabulary answer %d/verdict %d" % (
+                 _s481.get("member_files") or 0,
+                 _c481.get(_m481.C_SAME) or 0,
+                 _c481.get(_m481.C_DIFFERENT) or 0,
+                 _c481.get(_m481.C_NO_CONCL) or 0,
+                 _rob481.get("rows_whose_conclusion_difference_is_numeric_shape_only") or 0,
+                 _rob481.get("bytes_whose_conclusion_difference_is_numeric_shape_only") or 0,
+                 (_s481.get("conclusion_vocabulary_histogram") or {})
+                 .get("answer", {}).get("twins_stating_it") or 0,
+                 (_s481.get("conclusion_vocabulary_histogram") or {})
+                 .get("verdict", {}).get("twins_stating_it") or 0))
+except Exception as _e481x:
+    _bad481.append(repr(_e481x)[:160])
+    _d481 = "leg could not run"
+check(_name481, not _bad481, "; ".join(_bad481)[:240] or _d481)
+
 if __name__ == "__main__":
     sys.exit(main())

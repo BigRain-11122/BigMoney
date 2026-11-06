@@ -1742,6 +1742,12 @@ LEGS = [
     # class, the span class against the published family table, the compact-name census and
     # both verdicts.
     ("undated_vintage", ["python", "scripts/e484_undated_vintage.py", "check"]),
+    # E481 takes up E478's residue: a vintage that differs from its twin beyond the frozen clock
+    # names is only expensive to keep if it also reaches a different conclusion.  `check` re-derives
+    # every class, byte tally, scalar-arm count, arm cross-tab and the vocabulary histogram from the
+    # published rows, plus the numeric-shape split that separates "different number" from
+    # "different finding".
+    ("vintage_conclusion", ["python", "scripts/e481_vintage_conclusion.py", "check"]),
 ]
 
 

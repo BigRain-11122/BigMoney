@@ -12288,3 +12288,20 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **工具**：`scripts/e484_undated_vintage.py`（run rc0 / check problems=0 / verify 同树重建 problems=0 / **selftest 41/41**：5 类 + 冻结/非冻结抽取器 + 深度界 + 紧凑名字普查 + 区间算术 + 5+5 判词分支 + 8 份篡改面）→ `results/state_tilt/UNDATEDVINTAGE-2026-11-07.json` + `undatedvintage_latest.json`（201 行逐文件）；S6 腿 `undated_vintage`；smoke 腿 `E484 an undated vintage name's payload date re-derives from the rows and its span from the family table` 1/1 绿、doctored（可定日数 +1）1/1 红、面 sha 归位（e5ff863f292e）。
 
 **适用范围**：只回答"payload 能不能给这些文件定日"，不回答该不该留（E477/E479 管保留）。紧凑拼写只计入名字普查，**不升级成 payload 类**——本面量的是 payload，名字普查单列发布以免把两件事混成一类。区间来自兄弟文件**名字**的日期，不是兄弟 payload；一个家族名字全无日期时记 `no_span`（不可测），不是"在外"。
+
+## E486 -- vintage 与自己的 twin 差出一截，差的是那句结论还是句子里的数字（r1510 bm-b）
+
+**问题**：E478 把"除冻结钟字段外仍不等"的 145 个 vintage 单列出来，但字节不等既可能是第二次测量，也可能只是同一句话换了数字。保留策略要的正是这个区分：如果 vintage 说的是 twin 的同一个结论，那它占的字节是同一次测量的第二次书写，可以合；如果结论不同，那它是第二次测量，必须留。本面拿 E478 的同一批 145 行，逐文件读双方 payload，在两个臂上比：主臂=只比**twin 自己声明的、名字落在冻结词表**里的结论字段（`answer`/`verdict`/`decision`/`conclusion`/`recommendation`/`call`/`status`/`findings` 八名）；副臂=比 twin 声明的**全部顶层标量**（`study`/`title`/`cells`/`evidence_cutoff` …）。两臂都排除 E478 已豁免的冻结钟名与非标量值。
+
+**读数（145 行）**：可比 98 行——**结论相同 21 行 / 结论不同 77 行 / twin 根本没有结论字段 47 行**（另 0 不可读、0 twin 缺失）。判词=`some_…_the_majority_state_a_different_one`。结论相同的 21 行占可比 21.4%，字节 1,117,833 B；结论不同的 77 行 7,848,356 B。
+
+**真正的新读数在副臂的数字形态**：77 个"结论不同"里 **70 个只是句子里的数字变了**（把每个数字折成 `#` 后文本完全相同，7,524,781 B），只有 **7 行是实质判词变**——`PRECISIONGAP-2026-10-31/-11-01`（member 说 `none_…_at_risk`，twin 说 `some_…_stay_at_risk`）、`UNFLOORED-2026-11-03/-11-05`（`every_face…` → `a_stale_face…`）、`DIRFIELD-2026-11-03`、`DIRISFACE-2026-11-05`、`PRECISIONCENSUS-2026-10-30`（同义改写）。词表普查：`answer` 被 67 个 twin 声明、67 次全部不同（且 67 次全是数字形态不同）；`verdict` 被 31 个 twin 声明，21 一致 / 10 不同；其余六个词一次也没命中——词表在量，也在暴露它量不到的东西。副臂另测出 **61 行仅在 `evidence_cutoff` 上不同**（日期戳移动，不是结论移动）。
+
+**三律**：
+* **"结论不同"必须再分一次"数字不同"和"判词不同"，否则会把改数当成改结论**。77 个里 70 个（91%）折掉数字就一模一样——按字节投保留票会把一次面板推进读成一次新发现。正法=用冻结词表定判词，**数字形态臂并列发布**、永不折进判词（与 E478 把 `evidence_cutoff` 并列发布同一族做法）。
+* **词表必须发布命中率，否则零命中会被读成"没人这么写"**。八名词表里六个 0 命中——这既是测量（这批 face 的结论只写在 `answer`/`verdict` 里），也是边界（写在 `row_summary`/`label` 之类名字下的结论被记成 `twin_states_no_conclusion_field` 的 47 行，属不可测，不是"相同"）。任何按名分类器都要同时给"分母上多少名字真的出现了"。
+* **判词臂分辨不了"改写"与"翻面"**：7 个实质差异里有 3 个是同义改写、2 个是真翻面（`none` vs `some`）、2 个是范围改写（`every` → `a stale`）。冻结词表能做的是把它们**列出来**并逐行给双方原文前缀，做不了自动分档——所以本面只发布"实质不同 7 行"，逐行原文交给读者，禁在面上写一个"几行是真翻面"的自动数。
+
+**工具**：`scripts/e481_vintage_conclusion.py`（run rc0 / check problems=0 / verify 同树重建 problems=0 / **selftest 34/34**：5 类 + 4 副臂类 + 5 判词分支 + 容差与数字形态两臂 + 2 直方图 + 5 份篡改面）→ `results/state_tilt/VINTAGECONC-2026-11-07.json` + `vintageconc_latest.json`（145 行逐文件，含每个结论字段双方 160 字前缀）；S6 腿 `vintage_conclusion`（rc0 0.05s）；smoke 腿 `E481 a differing vintage's conclusion re-derives from its rows and its verdict from its counts` 1/1 绿、doctored（结论相同数 +1）1/1 红、面 sha 归位。
+
+**适用范围**：只回答"这 145 个里的结论是不是同一句"，不回答该不该删（E479 管 twin 有没有读者，E477 管字节底线）。结论相同的 21 行仍是**保留估计**：twin 自己不成立时它照样得留。数字形态臂的 `#` 折叠会让"12.5 变 14.25"读成同句——那正是它的用途（分离"数字变了"与"发现变了"），不代表 magnitudes 可以丢。
