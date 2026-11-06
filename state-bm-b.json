@@ -17,7 +17,7 @@
  "absorb": "r1476: five of the ten suite reds were the E421-family class -- a census that grows. Two of them already had the declaration machinery (population_keys) but had not declared the population itself, so an upstream face appearing re-red the leg for growth alone. E417 now declares faces/faces_literal/faces_templated and E422 declares rows_in_population / rows_recording_a_bare_name / rows_spelling_a_directory / control_path_rows / control_path_rows_whose_file_exists; both faces were republished and both gates now compare every reading exactly (bare-literal exposure 0; rows_whose_reading_changes_if_rejoined 0).",
  "agenda_starved": false,
  "aggregate": "engineering",
- "ahead_of_origin_main": 408,
+ "ahead_of_origin_main": 457,
  "audit_flag_note": "compute_audit FLAG supply_gap,supply_floor: ready 2 vs floor 3 at audit time, which is this round consuming E444 before E450 was seeded; no GPU work was taken (other lanes hold the 4.5 GiB)",
  "audit_flags": [
   "supply_gap",
@@ -26,7 +26,7 @@
  "behind_origin_main": 295,
  "card": "E464-WHICH-IDENTITY-A-PRODUCER-INTENDS-WHEN-IT-WRITES-TWO-NAMES",
  "check": "e456 check problems=0",
- "clock_read": "2026-11-06T16:08:02+08:00",
+ "clock_read": "2026-11-06T16:11:18+08:00",
  "concurrency_note": "Tools/iteration_loop.ps1 pid 6884 (started 02:12) was live in this repo for the whole window; no queue head, task card or shared lane face was claimed and nothing was re-registered",
  "cpu_current_pct": 0.6,
  "cpu_logical": 16,
@@ -230,7 +230,7 @@
  "gpu_vram_free_mib": 851.0,
  "gpu_vram_used_mb": 7341.0,
  "gpu_vram_used_mib": 7341.0,
- "heartbeat_epoch_utc": 1793949710,
+ "heartbeat_epoch_utc": 1793952678,
  "heartbeat_epoch_utc_face": "int",
  "heartbeat_note": "cpu_pct from two GetSystemTimes samples, not the memory-load field (E235 pit)",
  "history": [
@@ -5384,5 +5384,13 @@
   "study": "E464_which_identity_a_producer_intends_when_it_writes_two_names",
   "ts": "2026-11-06T16:08:02+08:00",
   "verdict": "some_producers_write_both_voices_while_others_carry_one_from_upstream"
- }
+ },
+ "r1487_delivery": {
+  "branch": "machine/bm-b-r1487",
+  "sha": "51c4d898f19415026b957eb6e261ad3888e4aaa2",
+  "ts": "2026-11-06T16:11:18+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1487 equals local HEAD",
+  "main_push_blocker": "local main is 295 behind / 457 ahead of origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel"
+ },
+ "delivery_ts": "2026-11-06T16:11:18+08:00"
 }

@@ -8,7 +8,7 @@
   "verify": "problems=[]"
  },
  "agenda_starved": false,
- "clock_read": "2026-11-06T15:07:19+08:00",
+ "clock_read": "2026-11-06T16:11:18+08:00",
  "cpu_current_pct": 7.6,
  "cpu_load_pct": 12.0,
  "cpu_pct": 7.6,
@@ -1219,8 +1219,8 @@
  "ram_load_pct": 50.0,
  "ram_total_gb": 23.9,
  "recent_artifact": "results/state_tilt/identitysplit_latest.json",
- "round": 1486,
- "round_no": 1486,
+ "round": 1487,
+ "round_no": 1487,
  "round_no_drift_healed": "state.json stood at 1259 while the report series and commits were at r1262 (r1020 double-drift class); healed to 1263 from the report series",
  "round_no_label": "r1486",
  "round_no_note": "r1409 kept this mirror's label in step with state-bm-b.json (the authoritative face); it had stood at 1396 while the report series was at 1408",
@@ -1259,15 +1259,15 @@
  "task_short": "does a face write its identity in a name nobody reads",
  "task_short_note": "3-class resolution (union on leg containers and append-only ledgers, owner-verbatim on faces another host writes); AST + selftest validated; 8 upstream deletions caught by the tree-shrink claw and restored before push",
  "three_line": "current: r1418 burned E399 -- the 98 unresolved keys priced into six bills (66 never path claims, 1 index gap, 31 real absences) | artifact: results/state_tilt/UNRESOLVED-2026-11-04.json @ 2026-11-04T01:1x+08:00 | next: E402 (fragment producers) or E398/E401 within 48h",
- "three_line_artifact": "results/state_tilt/IDENTITYSPLIT-2026-11-06.json @ 2026-11-06T15:2x+08:00",
- "three_line_current": "r1486: E463 closed -- a face with two read names is bound to two studies by the only consumer it has",
- "three_line_next": "E464 (which identity a producer intends when it writes two names) or E457/E460 within 48h",
+ "three_line_artifact": "results/state_tilt/PRODUCERINTENT-2026-11-06.json @ 2026-11-06T16:0x+08:00",
+ "three_line_current": "r1487: E464 closed -- a producer declares one identity and carries the other from the upstream payload, so a forwarded provenance was read as a second claim",
+ "three_line_next": "E465 (does a face pointer resolve, and does anyone join through it) or E457/E460 within 48h",
  "timestamp": "2026-11-06T14:34:40+08:00",
- "ts": "2026-11-06T15:2x+08:00",
+ "ts": "2026-11-06T16:11:18+08:00",
  "ts_utc_ms": 1793799841285,
  "updated": "2026-11-04T21:05:00+08:00",
- "updated_at": "2026-11-06T15:2x+08:00",
- "verdict": "green: E463 published -- 4 multi-value faces, 2 read-voice disagreements, 4 small consumers, 2 both-name, 2 faces bound to two studies; run rc0 / verify [] / check [] / selftest 21/21",
+ "updated_at": "2026-11-06T16:11:18+08:00",
+ "verdict": "green: E464 published -- 4 multi-value faces / 2 stems, 6 producers named, 4 write the face; among writers 2 declare both voices (slug prefixes) and 2 carry one from upstream; 2 of 4 faces carry an identity key the parent never graded, 4 of 4 carry a pointer key; run rc0 / verify [] / check [] / selftest 39/39",
  "verdict_line": "e463 run rc0 | verify problems=[] | check problems=[] | selftest 21/21 | smoke leg 1/1 (extracted verbatim) | S6 leg identity_split wired",
  "verdict_watermark": "red=true lane=pool-batch-runnable-idle-low-cpu",
  "verify": "e422 verify problems=[] | e421 re-derived problems=0 | e419 re-derived problems=0 | S6 basename_census rc=0",
@@ -1293,5 +1293,12 @@
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1485 equals local HEAD",
   "main_push_blocker": "local main diverged from origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel"
  },
- "card": "E463-WHICH-STUDY-A-FACE-JOINS-WHEN-TWO-READ-NAMES-DISAGREE"
+ "card": "E463-WHICH-STUDY-A-FACE-JOINS-WHEN-TWO-READ-NAMES-DISAGREE",
+ "r1487_delivery": {
+  "branch": "machine/bm-b-r1487",
+  "sha": "51c4d898f19415026b957eb6e261ad3888e4aaa2",
+  "ts": "2026-11-06T16:11:18+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1487 equals local HEAD",
+  "main_push_blocker": "local main is 295 behind / 457 ahead of origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel"
+ }
 }
