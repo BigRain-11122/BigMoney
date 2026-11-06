@@ -5237,6 +5237,12 @@
   "ts": "2026-11-06T12:40:31+08:00",
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1482 equals local HEAD"
  },
+ "r1483_delivery": {
+  "branch": "machine/bm-b-r1483",
+  "sha": "27271053e2d60deca32a71414dcbff1ba229a4b2",
+  "ts": "2026-11-06T13:16:47+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1483 equals local HEAD"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -5274,8 +5280,8 @@
  "s6_leg_added": "face_identity (Tools/s6_chain_bmb.py)",
  "s6_note": "the leg table now carries face_identity; the other legs were not re-run this window. One accidental full-chain start (a --leg typo resolved to round '--leg') ran ~5 minutes before it was cancelled, so a handful of downstream faces may show re-derived bytes this window -- disclosed, not claimed as this round's work",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
- "s6_run_in_window": "pool_dualrun_reconcile run = ZERO-DRIFT (935 entries, streak 51) | attrition_ledger_guard scan = CLEAN (4 ledgers, 3 historical shrinks healed) | S6 leg face_identity rc0 0.06s (the rest of the chain not re-run this window and not claimed)",
- "s7": "orders 114 files / 115 acks / 0 unacked (rescan at 13:0x) | decisions not re-read this window (the r1482 window advanced the watermark to the 2026-11-06 origin tip) | loop/watchdog/claws not re-registered this window",
+ "s6_run_in_window": "identity_consumers leg rc0 0.05s (problems: []); the full chain launched ~12:56 was still in flight at close so no chain total is claimed; dualrun ZERO-DRIFT at close (936 entries) with the streak reset 51 -> 0 -> 1 by a 13:01 drift sample naming this round's own claim (owner type str vs null - mid-tick lane-ahead is lawful and settled by the 13:14 sample); attrition guard CLEAN (4 ledgers, 2 historical shrinks healed); orphan probe py_faces=9 orphans=0",
+ "s7": "orders 114 files / 115 acks / 0 unacked | decisions.md not re-read this window (the r1482 window advanced the watermark to the 2026-11-06 origin tip) | loop task pin=2 current=2 no-op | Bigmoney-LoopWatchdog present and enabled (next run 13:17, not re-registered) | pre-commit and pre-push claws installed and byte-identical to Tools/git-hooks",
  "s7_checked_at": "2026-11-06T13:13:29+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
  "s7_note": "the watchdog keeps disappearing: re-registering it every window hides the cause; next window should find what disables it",
