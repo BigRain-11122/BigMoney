@@ -5356,5 +5356,12 @@
  "watermark_red": true,
  "watermark_verdict": "red=true lane=pool-batch-runnable-idle-low-cpu",
  "work": "E461 measured and published: 526 faces graded over 8,209 .py sources -- 389 named by a source that reads a declared field, 4 face-specific, 12 exact-value joins, 130 producer-only, 1 named-but-unread, 6 unnamed; 7 of 15 identity field names are read by no source and they are exactly the shape-named ones",
- "r1484_did": "two of the three red legs in the r1482 suite fixed and re-proved: E411 reader-tier face republished from its producer (237/270 -> 239/272, verdict embedded the counts), and the dashboard marks-coverage leg stopped demanding a per-day verdict across two different days (three doctored copies still read FAIL); the E330 red does not reproduce and is recorded as a transient"
+ "r1484_did": "two of the three red legs in the r1482 suite fixed and re-proved: E411 reader-tier face republished from its producer (237/270 -> 239/272, verdict embedded the counts), and the dashboard marks-coverage leg stopped demanding a per-day verdict across two different days (three doctored copies still read FAIL); the E330 red does not reproduce and is recorded as a transient",
+ "r1485_delivery": {
+  "branch": "machine/bm-b-r1485",
+  "sha": "6cbb021e5401b7bc215cce63c493328820f1ec3d",
+  "ts": "2026-11-06T14:36:22+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1485 equals local HEAD",
+  "main_push_blocker": "local main diverged from origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel"
+ }
 }
