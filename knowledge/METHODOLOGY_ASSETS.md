@@ -12199,3 +12199,15 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **工具。** `scripts/e476_payload_writer.py`（run rc0 / check problems=0 / verify 同步重建 problems=0 / **selftest 29 腿**）；面 `results/state_tilt/payloadwriter_latest.json` + `PAYLOADWRITER-2026-11-07.json`（41 KB，47 行逐族）；S6 腿 `payload_writer`；smoke 腿 `E476 an unowned family's payload channel is measured, not assumed absent`。
 
 **适用方法。** 想治理一个无主面族时，先问它的 payload 能回答到哪一级：卡号级=可引用不可修代码；时间戳级=连引用都不成，只能按发布策略退役；未测量级=先把成员格式（csv）补上读器再谈结论。
+
+## E477 — Vintage Retirement Cost（不可读 vintage 家族退役要付多少字节）
+
+**发现**：E472 已经证明 97 个 vintage 家族（571 个文件、28.55 MB）没有任何研究打开过，r1504 因此得出结论它们“只能靠发布策略退役”。本研究把每个成员文件的 sha256 对整个 results/ payload 树定性：**40 个文件（3.19 MB，11.2% 字节）是家族 `*_latest.json` 孪生件的逐字节拷贝**（vintage 退役后它们仍在），**531 个文件（25.36 MB）在整棵 results/ 里没有任何逐字节孪生**；同族内 0 例“两天内容相同”——每个日切 vintage 都与兄弟不同。所以按发布策略退役这批面，代价是 **25,362,319 字节独有内容**，不是 28.55 MB 的重复垃圾。
+
+**律**：**“没人读”与“可以删”是两条正交的轴**——读者存在性回答“这个面有用吗”，字节唯一性回答“删了会丢什么”；任何清理/退役类决策两面都要各自量一次，并且副本要时发布“独有字节”而不是“总字节”。
+
+**坑（实测）**：population 由 `os.path.join(ROOT, "results/...")` 生成（混合分隔符），而 `os.walk` 返回反斜杠 → 首版 `p in members` 永不命中，571 个文件里 **531 个被判成“与外部文件同字节”**，面上的结论从“多数独有”翻成“全部可删”。正法=集合判定前一律 `os.path.normpath`（E366 同族：一个总体一种地址形式），并在 selftest 里用同一 population 两种写法钉住只能落一类。
+
+**交付**：`scripts/e477_vintage_retire.py`（run rc0 / check problems=0 / verify 同一建设 problems=0 / selftest 5 类+空总体+篡改台账+篡改 unique 行）；面=`results/state_tilt/VINTAGERETIRE-2026-11-07.json` + `vintageretire_latest.json`（117 KB，571 行 97 家族）。
+
+**适用范围**：字节相等只是下界证据——差一个 `generated` 字段的同一份面会被判 unique（E478 承接：去掉时钟字段再比）；校验树只含 results/ 的 json/jsonl/csv/md，与 docs/ 或非 payload 扩展名的孪生不计，故重复数是下界。

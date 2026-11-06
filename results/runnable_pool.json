@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1504 bm-b: E476 published (PAYLOADWRITER-2026-11-07: 14 of 47 unowned families name a writer, all via a card id; 0 via a script; 23 timestamp-only; 9 unmeasured) -- E476 closed, plus two stale ready rows corrected (E469 burned r1501, E466 renumbered E474 and burned r1497). Floor now 0: the next round owes a fresh card.",
+ "_stamp_note": "r1505 bm-b: E477 published (VINTAGERETIRE-2026-11-07: of 571 unread vintage files / 27.2 MB, 40 files (3.19 MB) are exact copies of a *_latest.json twin and 531 (25.36 MB) have no byte-identical partner -- a retirement would lose 25.4 MB of unique bytes). E477 closed, three fresh cards seeded (E478 semantic diff vs twin, E479 twin readers, E480 name-vs-payload date).",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28413,6 +28413,62 @@
    "source": "E473 (r1502 bm-b): 47 of 97 unread families have no write-call evidence in any source",
    "entered_at": "2026-11-07T02:3x+08:00",
    "entered_by": "bm-b r1502 (supply floor refill after E473)"
+  },
+  {
+   "deliverable": "results/state_tilt/VINTAGERETIRE-<cutoff>.json",
+   "entered_at": "2026-11-07T03:5x+08:00",
+   "entered_by": "bm-b r1505",
+   "evidence_cutoff": "2026-11-07",
+   "id": "E477-IF-THE-UNREAD-VINTAGE-FAMILIES-WERE-RETIRED-HOW-MANY-BYTES-WOULD-ACTUALLY-BE-LOST",
+   "lane": "cpu-only",
+   "lane_note": "static: sha256 over results/ payloads, no network, no panel write",
+   "result_ref": "results/state_tilt/VINTAGERETIRE-2026-11-07.json",
+   "source": "r1504 E476 closed with 'the 47 families stay unfixable at the source and must be retired by publishing policy'; E472 published 97 unread vintage families (571 files, 27.2 MB) but nobody measured how much of that is the only copy",
+   "status": "done",
+   "target": "results/state_tilt/vintageretire_latest.json",
+   "title": "if the unread vintage families E472 published were retired, how many bytes would actually be lost? Classify every member file by byte identity against the results/ payload tree: a repeat of a sibling vintage, an exact copy of the family's *_latest.json twin (survives retirement), a copy of a file outside the unread membership, or bytes nothing else holds. The delivered number is bytes_lost_if_retired."
+  },
+  {
+   "deliverable": "results/state_tilt/VINTAGEDIFF-<cutoff>.json",
+   "entered_at": "2026-11-07T04:05+08:00",
+   "entered_by": "bm-b r1505",
+   "evidence_cutoff": "2026-11-07",
+   "id": "E478-DO-THE-531-UNIQUE-UNREAD-VINTAGES-DIFFER-FROM-THEIR-OWN-LATEST-TWIN-ONLY-IN-A-CLOCK-FIELD",
+   "lane": "cpu-only",
+   "lane_note": "static: parses the family's own twin and vintages, no network",
+   "result_ref": null,
+   "source": "E477 found 531 of 571 unread vintage files have no byte-identical partner; but a revised payload that differs only in 'generated'/'ts' is semantically the same face re-emitted 11 times",
+   "status": "ready",
+   "target": "results/state_tilt/vintagediff_latest.json",
+   "title": "For every unread vintage family whose twin exists, compare each vintage to the twin after removing clock-shaped top-level fields (generated/ts/timestamp/elapsed_sec) and report how many vintages are semantically identical to the twin. The treatable number is bytes that a retention policy can collapse without losing a measurement, as opposed to E477's byte-identity floor."
+  },
+  {
+   "deliverable": "results/state_tilt/TWINREAD-<cutoff>.json",
+   "entered_at": "2026-11-07T04:05+08:00",
+   "entered_by": "bm-b r1505",
+   "evidence_cutoff": "2026-11-07",
+   "id": "E479-ARE-THE-LATEST-TWINS-OF-THE-UNREAD-VINTAGE-FAMILIES-READ-BY-ANY-SITE",
+   "lane": "cpu-only",
+   "lane_note": "static: opener-call scan over the sources, same shape as E470",
+   "result_ref": null,
+   "source": "E477 found 40 vintages are exact copies of a *_latest.json twin, so the twin is what a retirement would leave behind; E472 measured readers of the family, not of the twin path",
+   "status": "ready",
+   "target": "results/state_tilt/twinread_latest.json",
+   "title": "Of the 36 unread vintage families that carry a latest pointer, which *_latest.json twins are opened by a real consumer (producer excluded), which only by a smoke leg or a one-off round script, and which by nobody? A family whose twin nobody opens retires whole; a family whose twin is read retires only its dated members."
+  },
+  {
+   "deliverable": "results/state_tilt/VINTAGEDATE-<cutoff>.json",
+   "entered_at": "2026-11-07T04:05+08:00",
+   "entered_by": "bm-b r1505",
+   "evidence_cutoff": "2026-11-07",
+   "id": "E480-DO-THE-VINTAGE-FILES-CARRY-AN-EVIDENCE-CUTOFF-THAT-MATCHES-THE-DATE-IN-THEIR-NAME",
+   "lane": "cpu-only",
+   "lane_note": "static: payload parse, no network",
+   "result_ref": null,
+   "source": "E477 classified by bytes only; a retirement policy needs to know whether the file name is a trustworthy date stamp or whether the payload says a different date (the r1235 family: a name that is not a measurement)",
+   "status": "ready",
+   "target": "results/state_tilt/vintagedate_latest.json",
+   "title": "For the 571 member files of E472's unread vintage families, does the payload's own evidence_cutoff/generated/cutoff field agree with the date in the file name? Publish the three classes (agrees / disagrees by name-vs-payload / no date field at all) per family, so a retention job can decide from the payload rather than from the name."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28427,6 +28483,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T02:18+08:00",
+ "updated_at": "2026-11-07T04:05+08:00",
  "version": 1
 }
