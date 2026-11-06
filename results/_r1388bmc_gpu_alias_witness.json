@@ -1,0 +1,58 @@
+{
+ "tool": "_r1388bmc_gpu_alias_witness",
+ "machine": "bm-c",
+ "question": "a writer with no GPU key on a face holding vram_free_gb=13.74 beside gpu_free_mib=15259",
+ "head_blob": {
+  "rc": 0,
+  "audit": [
+   {
+    "family": "free",
+    "spread_mib": 1189.2,
+    "high": "gpu_free_mib",
+    "low": "vram_free_gb",
+    "n_keys": 2
+   }
+  ],
+  "vram_free_gb": 13.74,
+  "gpu_free_mib": 15259,
+  "applied": []
+ },
+ "working_tree": {
+  "rc": 0,
+  "audit": [],
+  "vram_free_gb": 14.9,
+  "gpu_free_mib": 15259,
+  "applied": [
+   "free_vram_gb",
+   "free_vram_mb",
+   "gpu_face",
+   "gpu_face_source",
+   "gpu_face_ts",
+   "gpu_free",
+   "gpu_free_gb",
+   "gpu_free_mb",
+   "gpu_free_mem_mib",
+   "gpu_free_vram_gb",
+   "gpu_free_vram_mb",
+   "gpu_free_vram_mib",
+   "gpu_idle_mb",
+   "gpu_idle_mib",
+   "gpu_idle_vram_mb",
+   "gpu_idle_vram_mib",
+   "gpu_mem_used_mib",
+   "gpu_note",
+   "gpu_total_vram_mib",
+   "gpu_used_mb",
+   "gpu_used_vram_mb",
+   "gpu_used_vram_mib",
+   "gpu_util_pct",
+   "gpu_vram_free_gb",
+   "gpu_vram_free_mb",
+   "gpu_vram_free_mib",
+   "gpu_vram_used_mb",
+   "gpu_vram_used_mib",
+   "vram_free_gb"
+  ]
+ },
+ "verdict": "HEAD leaves the disagreement (audit non-empty, 13.74 kept); the working tree restates both spellings from one probe"
+}

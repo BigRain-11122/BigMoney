@@ -131,7 +131,26 @@ def _owned_nested(block, gf, probe):
     return out
 
 
-def gpu_chokepoint(fields, verdict):
+def _is_gpu_scalar(k, gf):
+    """Does this key spell a GPU number, with or without a `gpu` prefix?
+
+    r1388: GPU_KEY_RE keys on a leading `gpu`, so `vram_free_gb` -- a spelling the
+    fleet face already carries -- walked past the chokepoint. A closeout that wrote
+    only that one alias set it to its own sample (13.74 GB) while every other alias
+    stayed at the last probe's (7.1 GB) and smoke's consistency leg went red with a
+    fresh gpu_face_ts. gpu_face.gpu_mem_key already answers this question (r1299);
+    asking it in two places is how the copies drift (E289), so the local regex is
+    kept only for the text face (gpu_face/gpu_note/gpu_util_pct).
+    """
+    try:
+        if gf.gpu_mem_key(k):
+            return True
+    except Exception:
+        pass
+    return bool(GPU_KEY_RE.match(k))
+
+
+def gpu_chokepoint(fields, verdict, force=False):
     """Replace every caller-supplied GPU spelling with one probe's whole face.
 
     WHY (r1284): the heartbeat is merge-only, so a per-round closeout script that
@@ -142,16 +161,16 @@ def gpu_chokepoint(fields, verdict):
     again. This is the chokepoint: GPU numbers are not a caller's to set.
     A failed probe drops them (warning) rather than inventing a number.
     """
-    gpu_keys = [k for k in (fields or {}) if GPU_KEY_RE.match(k)]
     gf = _gpu_face_mod()
+    gpu_keys = [k for k in (fields or {}) if _is_gpu_scalar(k, gf)]
     nested_keys = [k for k, val in (fields or {}).items()
                    if isinstance(val, dict) and val
-                   and not GPU_KEY_RE.match(k)
+                   and not _is_gpu_scalar(k, gf)
                    and _nested_is_gpu(val, gf)]
-    if not gpu_keys and not nested_keys:
+    if not gpu_keys and not nested_keys and not force:
         return fields
     kept = {k: val for k, val in fields.items()
-            if not GPU_KEY_RE.match(k) and k not in nested_keys}
+            if not _is_gpu_scalar(k, gf) and k not in nested_keys}
     try:
         gf = _gpu_face_mod()
         probe = gf.probe_live()
@@ -232,11 +251,41 @@ def write(project, fields, state_path=None, heart_path=None, heal=True):
                 hb[k] = state[k]
 
     # (1) merge caller fields (never delete)
-    fields = gpu_chokepoint(fields, v)
+    # A face that ALREADY disagrees is repaired even when this caller never mentions
+    # the GPU: otherwise the only writer that can heal it is one that happens to
+    # carry a GPU key, and merge-only keeps the disagreement forever (r1388).
+    try:
+        gpu_force = bool(_gpu_face_mod().audit(hb))
+    except Exception as ex:
+        gpu_force = False
+        v["warnings"].append("gpu audit skipped: %s" % str(ex)[:120])
+    fields = gpu_chokepoint(fields, v, force=gpu_force)
     for k, val in (fields or {}).items():
         if hb.get(k) != val:
             hb[k] = val
             v["applied"].append(k)
+
+    # (1b) restate every GPU-memory spelling the face ALREADY carries from the
+    #      same probe (r1388). Merge-only never deletes, so an alias the caller did
+    #      not mention keeps the number it was written with -- that is how bm-c's
+    #      face came to hold free=13.74 GB beside free=7.1 GB with a fresh
+    #      gpu_face_ts. Restating is not deleting: the keys stay, only their value
+    #      moves to the probe the same write used. gpu_face.apply does this for the
+    #      chain; doing it here means an ad-hoc closeout gets it too.
+    if v.get("gpu_probe") and isinstance(fields, dict) \
+            and "gpu_mem_total_mib" in fields:
+        try:
+            gf = _gpu_face_mod()
+            restated = gf.restate(hb, fields)
+            moved = []
+            for k, val in restated.items():
+                if hb.get(k) != val:
+                    hb[k] = val
+                    moved.append(k)
+            if moved:
+                v["gpu_restated"] = moved
+        except Exception as ex:
+            v["warnings"].append("gpu restate skipped: %s" % str(ex)[:120])
 
     # (3) invariants
     if not isinstance(hb.get("heartbeat_epoch_utc"), int):
@@ -472,6 +521,49 @@ def selftest():
         and (h.get("gpu") or {}).get("free_gb") == 14.4
         and "gpu" in (v.get("gpu_dropped") or []),
         "dropped=%s" % (v.get("gpu_dropped"),))
+
+    # L15 r1388: a GPU spelling WITHOUT the `gpu` prefix is still a GPU number.
+    #     The prefix regex let `vram_free_gb` through, so a closeout wrote its own
+    #     sample into one alias while the others kept the last probe's -- live face
+    #     read free=13.74 GB beside free=7.1 GB and the consistency leg went red.
+    t = os.path.join(tmp, "L15")
+    hp = _fixture(t, A, heart_ack=A,
+                  extra_heart={"vram_free_gb": 14.4, "gpu_free_mib": 15259,
+                               "gpu_used_mib": 1125, "gpu_mem_total_mib": 16384})
+    real = gf.probe_live
+    gf.probe_live = lambda smi=None: {"util_pct": 0.0, "used_mib": 1125,
+                                      "total_mib": 16384}
+    try:
+        v, rc = write(t, {"did": "j", "vram_free_gb": 15.0})
+    finally:
+        gf.probe_live = real
+    h = _load(hp)
+    leg("L15 prefix-less GPU spelling is owned by the probe (face consistent)",
+        True,
+        rc == 0 and gf.audit(h) == [] and h.get("vram_free_gb") == 14.9
+        and "vram_free_gb" in (v.get("gpu_replaced") or []),
+        "audit=%s vram_free_gb=%s" % (gf.audit(h) or "none",
+                                      h.get("vram_free_gb")))
+
+    # L16 r1388: a writer that never mentions the GPU heals a disagreeing face.
+    #     Merge-only means nothing else would: only a caller carrying a GPU key
+    #     could repair it, and the round that broke it may be the last one to run.
+    t = os.path.join(tmp, "L16")
+    hp = _fixture(t, A, heart_ack=A,
+                  extra_heart={"vram_free_gb": 13.74, "gpu_free_mib": 15259,
+                               "gpu_used_mib": 1125, "gpu_mem_total_mib": 16384})
+    gf.probe_live = lambda smi=None: {"util_pct": 0.0, "used_mib": 1125,
+                                      "total_mib": 16384}
+    try:
+        v, rc = write(t, {"did": "k"})
+    finally:
+        gf.probe_live = real
+    h = _load(hp)
+    leg("L16 a writer with no GPU key still heals a disagreeing face", True,
+        rc == 0 and h.get("did") == "k" and gf.audit(h) == []
+        and h.get("vram_free_gb") == 14.9,
+        "audit=%s restated=%s" % (gf.audit(h) or "none",
+                                  v.get("gpu_restated")))
 
     ok = sum(1 for _, p in legs if p)
     print("\nselftest %d/%d %s" % (ok, len(legs),
