@@ -1707,6 +1707,10 @@ LEGS = [
     # and never opened by a study that does not write them.  `check` re-derives every residue from
     # its own naming/opening sites and every tally (including the emission table) from the rows.
     ("vintage_read", ["python", "scripts/e472_vintage_read.py", "check"]),
+    # E474 widens the identity-dialect question to the whole tree: how many faces spell their study
+    # as a stem, whether that stem is the producer's filename or only a literal it declares, and
+    # what share of identity readers carry a normaliser.  `check` re-derives every tally.
+    ("identity_dialect_census", ["python", "scripts/e474_identity_dialect_census.py", "check"]),
 ]
 
 

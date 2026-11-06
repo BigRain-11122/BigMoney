@@ -28216,18 +28216,21 @@
    "result_note": "landed as study/card E466: card number E465 was already the name-collide study's card in knowledge/METHODOLOGY_ASSETS.md"
   },
   {
-   "id": "E466-HOW-MANY-FACES-NAME-THEIR-STUDY-AS-A-SCRIPT-STEM-AND-DOES-ANY-READER-NORMALISE-IT",
+   "id": "E474-HOW-MANY-FACES-NAME-THEIR-STUDY-AS-A-SCRIPT-STEM-AND-DOES-ANY-READER-NORMALISE-IT",
    "title": "E460 found the 12 faces E458 classed as carrying no identity already carry one -- a 'study' field whose value is the producer script stem (e271_donor_choice_sensitivity). That was measured only inside E458's residue (12 faces out of 538) and only on the producer side: nobody has measured how many faces tree-wide spell their study that way, whether the same field name also answers 'whose corpus is this' elsewhere, or whether any reader in the tree normalises a stem before keying on it.",
    "question": "For every face under results/ (not only E458's residue), classify the dialect of every identity-named top-level field: card id / study id / prereg path / producer script stem / other. Publish per face the field name, its value, and for stem values whether the stem is one of the face's own producers, a script the producer pins as a subject, or a script nobody names. Then, over the whole .py corpus, count readers that key on an identity value and split them by whether they normalise a stem to a card (or the reverse) before comparing. Split the residue into faces whose stem resolves to no script at all.",
    "deliverable": "results/state_tilt/IDENTITYDIALECTCENSUS-<cutoff>.json",
    "lane": "cpu-only",
    "lane_note": "static: json loads of the results/ faces plus AST over .py sources for identity reads; nothing executed, nothing outside results/state_tilt written",
    "priority": "normal",
-   "status": "ready",
-   "owner": null,
+   "status": "done",
+   "owner": "bm-b",
    "source": "E460 (r1489 bm-b): 11 of 12 flagged faces already carry the identity as a producer script stem, and one of them names a subject rather than its author",
    "entered_at": "2026-11-06T18:0x+08:00",
-   "entered_by": "bm-b r1489 (supply floor refill after E460)"
+   "entered_by": "bm-b r1489 (supply floor refill after E460)",
+   "result_ref": "results/state_tilt/IDENTITYDIALECTCENSUS-2026-11-06.json",
+   "done_at": "2026-11-06T23:4x+08:00",
+   "done_note": "r1497 bm-b: burned as E474, not E466 -- the row was seeded at r1489 with an id that r1490 already spent on the pointer-key study (`knowledge/METHODOLOGY_ASSETS.md` card E466 = 'a key named face is a pointer in 18 of 206 faces'), so publishing under E466 would have created a second card with one id. The work is unchanged; only the id moved. Reading: identity is a stem in 357 of 502 faces, the producer's filename in only 86, a single-source literal in 213, multi-declared in 56, named by nobody in 2; 0 faces spell identity as a card id; 217 of 1,075 identity readers carry a normaliser."
   },
   {
    "id": "E467-IS-THE-CARD-IN-A-PRODUCERS-DOCSTRING-EVER-READ-OR-IS-THE-IDENTITY-HUMAN-ONLY",
@@ -28348,6 +28351,20 @@
    "source": "E472 (r1495 bm-b): 0 of 97 vintage families are opened by a study that does not write them",
    "entered_at": "2026-11-06T23:0+0800",
    "entered_by": "bm-b r1495 (supply floor refill after E472)"
+  },
+  {
+   "id": "E475-WHICH-OF-THE-56-MULTI-DECLARED-STUDY-IDS-ARE-TWO-PRODUCERS-AND-WHICH-ARE-ONE-RESTATING-ITSELF",
+   "title": "E474 found 56 stem-shaped identity values declared as literals by more than one source, so no channel on disk decides which script wrote the face. Some of those are one producer restating its id in a helper; others are genuinely two producers claiming one identity.",
+   "question": "For each of the 56 multi-declared ids, classify the declaring sources: does one of them write the face (its output-path literal or its json.dump target names the face), do they import one another, or are they independent writers of the same id? Publish per id the declaring sources, which one (if any) owns the faces that carry it, and the residue that two independent producers share.",
+   "deliverable": "results/state_tilt/MULTIDECLARED-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_note": "static: AST over the .py corpus plus json loads of the faces; nothing executed, nothing written outside results/state_tilt",
+   "priority": "normal",
+   "status": "ready",
+   "owner": null,
+   "source": "E474 (r1497 bm-b): 56 of 357 stem identity values are declared by several sources",
+   "entered_at": "2026-11-06T23:4x+08:00",
+   "entered_by": "bm-b r1497 (supply floor refill after E474)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28362,6 +28379,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-06T23:0+08:00",
+ "updated_at": "2026-11-06T23:4x+08:00",
  "version": 1
 }

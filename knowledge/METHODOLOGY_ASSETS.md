@@ -12074,3 +12074,22 @@ count, face restored byte-identical; pool E472 closed with result_ref.
 `_latest` pointer is not a reader. And when a residue says "no consumer", check whether the site
 composes the path from a module constant one hop away — the honest failure mode of this measurement
 is to call a read family unread, so the limit is printed in the face rather than implied.
+
+## E474 -- the study id is not the script name: identity resolves through a declaration, not a filename (r1497 bm-b)
+
+A face's identity field is a **stem** in 357 of 502 faces that declare one, and that stem is the
+producer's *filename* in only 86 of them. 213 resolve only because exactly one source declares the
+stem as a string literal; 56 are declared by several sources (the producer is decided by nothing on
+disk); 2 are named by nobody (`PLACEBO-unknown.json`, `SCREENGAPERA-20261022.json`). Zero faces
+spell identity as a card id, so the card<->stem bridge has no machine-read implementer. On the
+reader side 1,075 sources read an identity field and only 217 carry any normaliser, so identity is
+compared verbatim by 80% of its consumers.
+
+Law: an edge that exists only as a string literal in the producer is not a resolvable identity -- it
+is a coincidence that currently holds. Publish the channel, not just the resolution: "resolves
+because the file is named this" and "resolves because the file says this" are different guarantees,
+and the second dies silently on a refactor that renames nothing.
+
+Pit (one instrument error produced the whole headline first): index stems repo-wide, and never read
+"no script with this name" as "nobody wrote this face" -- 271 of 357 came out dangling until the
+literal channel was added; the truth is 2.
