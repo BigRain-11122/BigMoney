@@ -5262,7 +5262,7 @@
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1494,
  "round_entries_tail": "r1483 E461 identity consumers: 389 field-joins but only 4 face-specific and 12 exact-value joins; 7 of 15 identity field names are read by nobody",
- "round_no": 1498,
+ "round_no": 1500,
  "round_no_label": "r1493",
  "round_no_note": "r1480: E459 published (stdlib classes behind E456's out-of-tree receivers) + heartbeat GPU face healed; both round faces written together (r1020 double-face drift heal: they read 1478/1479 at open)",
  "round_no_ts": "2026-11-06T21:19:14+08:00",
@@ -5424,7 +5424,7 @@
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1490 equals local HEAD"
  },
  "delivery_branch": "machine/bm-b-r1498",
- "this_round": "r1498",
+ "this_round": "r1500",
  "r1493_delivery": {
   "branch": "machine/bm-b-r1493",
   "sha": "7f98857fb523bb2153fe9db97965b2a87c96cca9",
@@ -5530,5 +5530,23 @@
   "ts": "2026-11-07T00:36:21+08:00",
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1498 == local HEAD (true)",
   "main_push_blocker": "local is 478 ahead / 295 behind origin/main (two blood lines, promisor clone, no unattended rebase per r1243); delivery is judged by origin reachability"
+ },
+ "r1500": {
+  "card": "maintenance round: the r1498 suite's last two reds do not reproduce and no face needed republishing",
+  "dept": "engineering",
+  "finding": "both legs pass verbatim against mirrors that are byte-identical to HEAD: nameresolve_latest.json 147,028 B and republishchain_latest.json 24,292 B (stored republish_sites=11 equals live 11). The 01:02 red is a read taken while another lane rewrote 195 files under results/state_tilt -- the same shape as r1339's E302/E303/E308 legs.",
+  "self_correction": "this round's first pass recorded 'republished from their own producers'; the producer runs wrote identical bytes, which is the trap -- a face whose rebuild equals its published copy cannot be the cause of its own red leg. The report row was replaced in-round, not appended twice.",
+  "legcheck": "scripts/run_smoke_legs_by_name.py with the two needles: legs 2/2 passed (blocks 2)",
+  "orders": "114 files / 115 acks / 0 unacked",
+  "decisions": "origin/main:docs/decisions.md sha256 b8609238434052e2... matches the stored prefix -> no new decision consumes this repo",
+  "product": [
+   "logs row r1500 in round_reports-bm-b.md (watermark / product / milestone three-line face)",
+   "results/_smoke_r1500.out (clean suite relaunched detached, pid 25232) -- untracked by repo convention",
+   "the verbatim leg re-run itself: scripts/run_smoke_legs_by_name.py, 2/2 passed"
+  ],
+  "s1": "r1498 suite read 364/366 at 01:02 with exactly the two legs above red; a clean suite was relaunched detached (pid 25232, results/_smoke_r1500.out) -- no total claimed",
+  "s6": "dualrun DRIFT ($.entries 948 vs 949, observation phase, streak reset) | attrition CLEAN (4 ledgers, 3 historical shrinks healed) | py_watermark insufficient_history, pool_ready 3 | etf_daily no-op | astock_daily spawned continuation refresh (99.8%)",
+  "s7": "orphan probe py_faces=10 orphans=0 residents=0 | loop task pin=2 current=2 no-op | LoopWatchdog PRESENT | pre-commit and pre-push byte-identical to Tools/git-hooks",
+  "ts": "2026-11-07T01:09:41"
  }
 }
