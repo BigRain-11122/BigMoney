@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1546 bm-b: E515 published (EMPTYARMCOVER-2026-11-08: 1,186 branching callees / 4,406 sites; 617 guarded, 199 production sites unguarded, 1,156 reachable only from a test; card_config_ticket's three 'guarded sites' are all selftest calls). E515 closed, E521 seeded.",
+ "_stamp_note": "r1549 bm-b: E522 published (SILENTARMREAD-2026-11-08: 402 silent arms / 286 builders / 640 production sites; 49 arms read with no guard of which 24 are indistinguishable, 206 only handed onward, 136 guarded at every site; 9 have no caller at all). E522 closed, E523 seeded (who reads the result that was handed onward).",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -29197,7 +29197,7 @@
    "title": "E515 published 199 production call sites that read a branching callee's result with no terminating guard, 97 of them subscripting it immediately.  Not every one of those 199 is a live hazard: a callee that names nothing only when a parameter is None is harmless at a site that passes a literal path.  For each of the 199, read the callee's own empty-arm condition, resolve what the site actually passes at the parameter that condition tests, and classify the site as 'the empty arm is reachable from this call', 'the argument rules the empty arm out', or 'the condition is not a parameter test' -- so the 199 becomes a ranked list of real defects instead of a count."
   },
   {
-   "deliverable": "results/state_tilt/SILENTREAD-<cutoff>.json",
+   "deliverable": "results/state_tilt/SILENTARMREAD-<cutoff>.json",
    "entered_at": "2026-11-08T05:0x+08:00",
    "entered_by": "bm-b r1548 (supply floor refill after E518)",
    "evidence_cutoff": "2026-11-08",
@@ -29206,9 +29206,26 @@
    "lane_note": "static: call-site read classification over the E518 arm list, no network",
    "priority": "normal",
    "source": "E518 (r1548 bm-b): 475 silent literal arms, 402 outside entry points; 54 of them share their arity with the read arm and 710 of the 1,985 arms are scalar sentinels whose read arm can hand back the same shape",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/silentread_latest.json",
-   "title": "E518 published 475 literal arms a caller cannot tell apart from the builder's read arm, 402 of them outside entry points -- and a count is not a defect.  For each of those arms take the builder's production call sites from the E515 census and read what the site actually does with the result: subscripts it or takes an attribute off it (the empty arm would raise), tests it for truthiness or length (the site already handles the empty answer), hands it onward without reading it here, or never reads it again -- so the 402 becomes a ranked list of sites that would break, separated from builders whose callers already cope."
+   "title": "E518 published 475 literal arms a caller cannot tell apart from the builder's read arm, 402 of them outside entry points -- and a count is not a defect.  For each of those arms take the builder's production call sites from the E515 census and read what the site actually does with the result: subscripts it or takes an attribute off it (the empty arm would raise), tests it for truthiness or length (the site already handles the empty answer), hands it onward without reading it here, or never reads it again -- so the 402 becomes a ranked list of sites that would break, separated from builders whose callers already cope.",
+   "done_at": "2026-11-08T05:2x+08:00",
+   "result_ref": "results/state_tilt/SILENTARMREAD-2026-11-08.json",
+   "result_note": "402 silent arms of 286 non-entry builders over 2,721 sources at 640 production call sites: 393 arms have a production caller -- 49 read with no guard (24 indistinguishable by any shape test, 25 testable), 136 guarded at every site, 206 only handed onward (the next frame is not followed here), 2 always dropped, 9 never called. Sites: guard 206, unguarded read 78 (subscript/attribute 63, unpacked 15), handed on 351, dropped 83."
+  },
+  {
+   "id": "E523-WHO-READS-THE-RESULT-THAT-WAS-HANDED-ONWARD",
+   "status": "ready",
+   "lane": "cpu-only",
+   "priority": "normal",
+   "entered_at": "2026-11-08T05:2x+08:00",
+   "entered_by": "bm-b r1549 (follow-on from E522's own limits section)",
+   "evidence_cutoff": "2026-11-08",
+   "target": "results/state_tilt/SILENTREADONWARD-<cutoff>.json",
+   "deliverable": "results/state_tilt/SILENTREADONWARD-<cutoff>.json",
+   "lane_note": "static: follow one hop from a handed-on result into the callee that reads it, no network",
+   "source": "E522 (r1549 bm-b): of 640 production sites of the 402 silent-arm builders, 351 hand the result to another call or return it, so this face cannot say whether those arms are read guarded or unguarded there",
+   "work": "for every site E522 marked as handed onward, resolve the receiving function (argument position or return-target) and ask whether it reads the value at all and whether a terminating guard names it; publish per-site second-hop reads and per-arm counts, keeping the unresolvable residue as its own class"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

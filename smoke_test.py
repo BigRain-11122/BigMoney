@@ -21549,5 +21549,96 @@ except Exception as _e518x:
     _d518 = "leg could not run"
 check(_name518, not _bad518, "; ".join(_bad518)[:240] or _d518)
 
+# E522: read the published silent-arm caller face the way a consumer would -- every arm must
+# name its builder, its shape and its verdict, the per-arm histogram must re-derive, an arm that
+# claims a production caller must count a site, every site verdict must re-derive from its own
+# binding/reach/read kind, the upstream face must still hash what was pinned, and six doctored
+# copies (a hand-written verdict, an arm relabelled as guarded, a site relabelled as guarded, an
+# edited arm count, an edited population_source, a stale upstream pin) must all be refused.
+_name522 = ("E522 which silent literal arm is read by a production caller that cannot tell it "
+            "from the read arm: every arm of a non-entry builder reports its own production "
+            "sites, its own unguarded reads and whether any shape test could have told (r1549 bm-b)")
+_bad522 = []
+try:
+    _m522 = __import__("importlib").import_module("e522_silent_arm_caller")
+    _f522 = json.load(open(os.path.join("results", "state_tilt", "silentarmread_latest.json"),
+                           encoding="utf-8"))
+    _s522 = _f522.get("summary") or {}
+    _a522 = _f522.get("arms") or []
+    _bad522.extend(_m522.face_problems(_f522))
+    if not _a522:
+        _bad522.append("the arm population is empty")
+    _by522 = {}
+    for _r522 in _a522:
+        _by522[_r522.get("verdict")] = _by522.get(_r522.get("verdict"), 0) + 1
+        if _r522.get("verdict") != _m522.A_NO_CALLER and not _r522.get("production_sites"):
+            _bad522.append("%s:%s claims a caller and counts no site"
+                           % (_r522.get("module"), _r522.get("builder")))
+            break
+    if _by522 != (_s522.get("arms_by_verdict") or {}):
+        _bad522.append("the arm histogram does not add up in the consumer's hands")
+    _w522 = json.loads(json.dumps(_f522))
+    _w522["verdict"] = _m522.V_ALL_GUARDED
+    if not _m522.face_problems(_w522):
+        _bad522.append("a hand-written verdict survived the guard")
+    _w522b = json.loads(json.dumps(_f522))
+    _hit522b = False
+    for _r522b in _w522b["arms"]:
+        if _r522b.get("verdict") == _m522.A_UNGUARDED_INDISTINGUISHABLE:
+            _r522b["verdict"] = _m522.A_GUARDED
+            _hit522b = True
+            break
+    if _hit522b and not _m522.face_problems(_w522b):
+        _bad522.append("an arm relabelled as guarded survived the guard")
+    _w522c = json.loads(json.dumps(_f522))
+    _hit522c = False
+    for _s522c in _w522c["sites"]:
+        if _s522c.get("verdict") != _m522.CT_GUARDED:
+            _s522c["verdict"] = _m522.CT_GUARDED
+            _hit522c = True
+            break
+    if _hit522c and not _m522.face_problems(_w522c):
+        _bad522.append("a site relabelled as guarded survived the guard")
+    _w522d = json.loads(json.dumps(_f522))
+    _w522d["summary"]["silent_arms_outside_entry_points"] = 99
+    if not _m522.face_problems(_w522d):
+        _bad522.append("an edited arm count survived the guard")
+    _w522e = json.loads(json.dumps(_f522))
+    _w522e["population_source"] = "hand-written"
+    if not _m522.face_problems(_w522e):
+        _bad522.append("an edited population_source survived the guard")
+    _w522f = json.loads(json.dumps(_f522))
+    _w522f["upstream_face_sha256"] = "0" * 64
+    if not _m522.face_problems(_w522f):
+        _bad522.append("a stale upstream pin survived the guard")
+    _d522 = ("%r sources / %r silent arms outside entry points in %r builders | with a production "
+             "caller %r: unguarded read %r (indistinguishable %r, testable %r), guarded at every "
+             "site %r, handed onward only %r, always dropped %r, no caller %r | production sites "
+             "%r: guard %r, unguarded read %r (subscript/attribute %r, unpacked %r), handed on %r, "
+             "dropped %r | verdict %r"
+             % (_s522.get("sources_read"),
+                _s522.get("silent_arms_outside_entry_points"),
+                _s522.get("builders_carrying_them"),
+                _s522.get("arms_with_a_production_caller"),
+                _s522.get("arms_read_unguarded_by_a_production_caller"),
+                _s522.get("arms_read_unguarded_and_indistinguishable"),
+                (_s522.get("arms_by_verdict") or {}).get(_m522.A_UNGUARDED_TESTABLE),
+                _s522.get("arms_guarded_at_every_production_site"),
+                _s522.get("arms_only_handed_onward"),
+                _s522.get("arms_whose_result_is_always_dropped"),
+                (_s522.get("arms_by_verdict") or {}).get(_m522.A_NO_CALLER),
+                _s522.get("production_sites"),
+                _s522.get("production_sites_where_a_guard_filters_the_arm"),
+                _s522.get("production_sites_that_read_the_result_unguarded"),
+                _s522.get("production_sites_that_read_the_result_unguarded_with_a_subscript_or_attribute"),
+                _s522.get("production_sites_that_unpack_the_result"),
+                _s522.get("production_sites_that_have_the_result_handed_onward"),
+                _s522.get("production_sites_that_drop_the_result"),
+                _f522.get("verdict")))
+except Exception as _e522x:
+    _bad522.append(repr(_e522x)[:160])
+    _d522 = "leg could not run"
+check(_name522, not _bad522, "; ".join(_bad522)[:240] or _d522)
+
 if __name__ == "__main__":
     sys.exit(main())

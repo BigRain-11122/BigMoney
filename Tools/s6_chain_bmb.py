@@ -1960,6 +1960,11 @@ LEGS = [
     # by unpacking, by a truthiness test, by type, or not at all.  `check` re-derives every risk
     # from the arm's own guard rows and shapes, the entry-point split and the verdict.
     ("literal_guard", ["python", "scripts/e518_literal_guard.py", "check"]),
+    # E522 takes that same arm population to the call sites: an arm nobody calls is dormant, an arm
+    # whose callers all test the result is not a hazard, and only an arm read with no guard whose
+    # shape equals the read arm's is a silent default that is live in production.  `check`
+    # re-derives every site verdict and every arm verdict and refuses a stale upstream pin.
+    ("silent_arm_read", ["python", "scripts/e522_silent_arm_caller.py", "check"]),
 ]
 
 
