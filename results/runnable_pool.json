@@ -29121,9 +29121,13 @@
    "lane_note": "static: container fill scan plus one hop into the caller, no network, no rewrites",
    "priority": "normal",
    "source": "E514 (r1542 bm-b): 4 of 27 rows answer the_callee_could_not_be_resolved_to_a_definition and every one of them is a key read (payloads.get, src.get) off a container the enclosing function received or filled",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/containerfeed_latest.json",
-   "title": "E514 could not name a builder for four rows because their callee is a container method (.get) on a name, not a function: `payload = payloads.get(rel)` in a resolver whose second parameter IS `payloads`, and `line = src.get(...)`. A key read is the last hop of a population, not a builder, and the container it reads is either a caller-supplied dict, a module-level cache, or a literal default. Follow each container to its fills and publish per row whether the value it hands back is (a) a file the caller already read, (b) a cache filled elsewhere in the module, (c) a literal default, or (d) still unread -- so 'could not be resolved' stops standing in for four different situations."
+   "title": "E514 could not name a builder for four rows because their callee is a container method (.get) on a name, not a function: `payload = payloads.get(rel)` in a resolver whose second parameter IS `payloads`, and `line = src.get(...)`. A key read is the last hop of a population, not a builder, and the container it reads is either a caller-supplied dict, a module-level cache, or a literal default. Follow each container to its fills and publish per row whether the value it hands back is (a) a file the caller already read, (b) a cache filled elsewhere in the module, (c) a literal default, or (d) still unread -- so 'could not be resolved' stops standing in for four different situations.",
+   "done_at": "2026-11-08T02:44:00+08:00",
+   "done_by": "bm-b r1543",
+   "result_ref": "results/state_tilt/CONTAINERFEED-2026-11-08.json",
+   "note": "r1543 bm-b: all 4 rows named (1 parameter container with 7 call sites classified, 3 cross-module corpus reads with a files=None seam); verdict every_unresolved_row_names_its_container; selftest 19/19"
   },
   {
    "deliverable": "results/state_tilt/LITERALGUARD-<cutoff>.json",

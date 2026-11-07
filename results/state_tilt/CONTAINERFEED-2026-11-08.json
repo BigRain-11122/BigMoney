@@ -1,0 +1,299 @@
+{
+ "answer_vocab": [
+  "the_population_is_decided_by_the_caller_who_fills_the_container",
+  "the_container_is_filled_in_place_before_it_is_read",
+  "the_container_is_built_once_at_import_and_never_refilled",
+  "the_container_is_a_corpus_read_in_another_module",
+  "one_hop_does_not_answer_it"
+ ],
+ "card": "E517-WHAT-CONTAINER-DOES-THE-FOUR-UNRESOLVED-KEY-READS-ACTUALLY-READ-OFF",
+ "container_vocab": [
+  "a_parameter_of_the_function_that_reads_it",
+  "a_local_object_the_same_function_fills_before_the_read",
+  "a_module_level_object_defined_in_the_same_file",
+  "a_function_in_another_module_that_reads_the_tree",
+  "not_resolvable_from_the_row"
+ ],
+ "evidence_cutoff": "2026-11-08",
+ "feed_vocab": [
+  "a_name_the_caller_binds_to_a_literal_object",
+  "a_name_the_caller_binds_to_a_call_result",
+  "a_name_the_caller_binds_to_a_parameter_of_the_caller",
+  "an_object_literal_written_at_the_call",
+  "a_call_result_written_at_the_call",
+  "a_string_or_number_literal_at_the_call",
+  "no_such_call_site_in_the_tree"
+ ],
+ "generated": "2026-11-08T02:41:15",
+ "method_limits": [
+  "one hop only: a feed that is itself a parameter of the caller is named, not chased",
+  "static only: no call is executed, so a container filled by a side effect is named by its binding",
+  "the corpus reader is resolved through the row file's own import alias, not by module name guessing"
+ ],
+ "population_source": "results/state_tilt/BUILTELSEWHERE-2026-11-08.json -- the rows whose answer is 'the_callee_could_not_be_resolved_so_the_value_stays_unread'; read, never rebuilt",
+ "rows": [
+  {
+   "answer": "the_population_is_decided_by_the_caller_who_fills_the_container",
+   "call_sites": [
+    {
+     "argument": "payloads",
+     "detail": [
+      "payloads",
+      "literal_object",
+      490
+     ],
+     "feed": "a_name_the_caller_binds_to_a_literal_object",
+     "in_function": "cmd_selftest",
+     "line": 491,
+     "source": "scripts/e305_face_level_row_pricing.py"
+    },
+    {
+     "argument": "payloads",
+     "detail": [
+      "payloads",
+      "literal_object",
+      496
+     ],
+     "feed": "a_name_the_caller_binds_to_a_literal_object",
+     "in_function": "cmd_selftest",
+     "line": 497,
+     "source": "scripts/e305_face_level_row_pricing.py"
+    },
+    {
+     "argument": "payloads",
+     "detail": [
+      "payloads",
+      "literal_object",
+      502
+     ],
+     "feed": "a_name_the_caller_binds_to_a_literal_object",
+     "in_function": "cmd_selftest",
+     "line": 504,
+     "source": "scripts/e305_face_level_row_pricing.py"
+    },
+    {
+     "argument": "payloads",
+     "detail": [
+      "payloads",
+      "literal_object",
+      509
+     ],
+     "feed": "a_name_the_caller_binds_to_a_literal_object",
+     "in_function": "cmd_selftest",
+     "line": 510,
+     "source": "scripts/e305_face_level_row_pricing.py"
+    },
+    {
+     "argument": "payloads",
+     "detail": [
+      "payloads",
+      "literal_object",
+      517
+     ],
+     "feed": "a_name_the_caller_binds_to_a_literal_object",
+     "in_function": "cmd_selftest",
+     "line": 518,
+     "source": "scripts/e305_face_level_row_pricing.py"
+    },
+    {
+     "argument": "{'results/zzz.json': {'a': 1}}",
+     "detail": null,
+     "feed": "an_object_literal_written_at_the_call",
+     "in_function": "cmd_selftest",
+     "line": 525,
+     "source": "scripts/e305_face_level_row_pricing.py"
+    },
+    {
+     "argument": "payloads",
+     "detail": [
+      "payloads",
+      "literal_object",
+      322
+     ],
+     "feed": "a_name_the_caller_binds_to_a_literal_object",
+     "in_function": "build",
+     "line": 331,
+     "source": "scripts/e305_face_level_row_pricing.py"
+    }
+   ],
+   "container_class": "a_parameter_of_the_function_that_reads_it",
+   "container_expression": "payloads",
+   "enclosing_function": "resolve_row",
+   "enclosing_parameters": [
+    "row",
+    "payloads"
+   ],
+   "line": 234,
+   "resolved_function": null,
+   "source": "scripts/e305_face_level_row_pricing.py",
+   "surfaces": [
+    "scan_key"
+   ],
+   "symbol": "payload",
+   "value_expression": "payloads.get(rel)"
+  },
+  {
+   "answer": "the_container_is_a_corpus_read_in_another_module",
+   "call_sites": [],
+   "container_class": "a_function_in_another_module_that_reads_the_tree",
+   "container_expression": "e350._sources",
+   "enclosing_function": "build",
+   "enclosing_parameters": [
+    "write_face"
+   ],
+   "line": 372,
+   "resolved_function": {
+    "calls_made": [
+     "out.append",
+     "e346._corpus",
+     "isinstance",
+     "corpus.append",
+     "corpus.append",
+     "open",
+     "out.append",
+     "len",
+     "os.path.join",
+     "fh.read"
+    ],
+    "function": "_sources",
+    "line": 355,
+    "module": "e350_field_branch_census",
+    "parameters": [
+     "files"
+    ],
+    "reads_the_tree": true,
+    "rel": "scripts/e350_field_branch_census.py",
+    "seam_parameters": [
+     "files"
+    ]
+   },
+   "source": "scripts/e377_unresolved_destination.py",
+   "surfaces": [
+    "census"
+   ],
+   "symbol": "sources",
+   "value_expression": "[(rel, text) for rel, text in e350._sources() if rel != SELF_REL]"
+  },
+  {
+   "answer": "the_container_is_a_corpus_read_in_another_module",
+   "call_sites": [],
+   "container_class": "a_function_in_another_module_that_reads_the_tree",
+   "container_expression": "e350._sources",
+   "enclosing_function": "build",
+   "enclosing_parameters": [
+    "write_face"
+   ],
+   "line": 389,
+   "resolved_function": {
+    "calls_made": [
+     "out.append",
+     "e346._corpus",
+     "isinstance",
+     "corpus.append",
+     "corpus.append",
+     "open",
+     "out.append",
+     "len",
+     "os.path.join",
+     "fh.read"
+    ],
+    "function": "_sources",
+    "line": 355,
+    "module": "e350_field_branch_census",
+    "parameters": [
+     "files"
+    ],
+    "reads_the_tree": true,
+    "rel": "scripts/e350_field_branch_census.py",
+    "seam_parameters": [
+     "files"
+    ]
+   },
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "surfaces": [
+    "census"
+   ],
+   "symbol": "sources",
+   "value_expression": "[(rel, text) for rel, text in e350._sources() if rel not in (SELF_REL, UPSTREAM_REL)]"
+  },
+  {
+   "answer": "the_container_is_a_corpus_read_in_another_module",
+   "call_sites": [],
+   "container_class": "a_function_in_another_module_that_reads_the_tree",
+   "container_expression": "e350._sources",
+   "enclosing_function": "build",
+   "enclosing_parameters": [
+    "write_face"
+   ],
+   "line": 239,
+   "resolved_function": {
+    "calls_made": [
+     "out.append",
+     "e346._corpus",
+     "isinstance",
+     "corpus.append",
+     "corpus.append",
+     "open",
+     "out.append",
+     "len",
+     "os.path.join",
+     "fh.read"
+    ],
+    "function": "_sources",
+    "line": 355,
+    "module": "e350_field_branch_census",
+    "parameters": [
+     "files"
+    ],
+    "reads_the_tree": true,
+    "rel": "scripts/e350_field_branch_census.py",
+    "seam_parameters": [
+     "files"
+    ]
+   },
+   "source": "scripts/e381_component_key_blind_spot.py",
+   "surfaces": [
+    "scan"
+   ],
+   "symbol": "srcs",
+   "value_expression": "[(rel, text) for rel, text in e350._sources() if rel != SELF_REL]"
+  }
+ ],
+ "study": "E517_container_feed",
+ "summary": {
+  "call_sites": 7,
+  "call_sites_by_feed": {
+   "a_call_result_written_at_the_call": 0,
+   "a_name_the_caller_binds_to_a_call_result": 0,
+   "a_name_the_caller_binds_to_a_literal_object": 6,
+   "a_name_the_caller_binds_to_a_parameter_of_the_caller": 0,
+   "a_string_or_number_literal_at_the_call": 0,
+   "an_object_literal_written_at_the_call": 1,
+   "no_such_call_site_in_the_tree": 0
+  },
+  "rows": 4,
+  "rows_by_answer": {
+   "one_hop_does_not_answer_it": 0,
+   "the_container_is_a_corpus_read_in_another_module": 3,
+   "the_container_is_built_once_at_import_and_never_refilled": 0,
+   "the_container_is_filled_in_place_before_it_is_read": 0,
+   "the_population_is_decided_by_the_caller_who_fills_the_container": 1
+  },
+  "rows_by_container": {
+   "a_function_in_another_module_that_reads_the_tree": 3,
+   "a_local_object_the_same_function_fills_before_the_read": 0,
+   "a_module_level_object_defined_in_the_same_file": 0,
+   "a_parameter_of_the_function_that_reads_it": 1,
+   "not_resolvable_from_the_row": 0
+  },
+  "rows_still_unread": 0,
+  "rows_whose_container_is_reconstructable_without_the_run": 4,
+  "rows_with_a_seam_in_the_resolving_function": 3
+ },
+ "title": "E514's four unresolved rows are all key reads.  A key read is the last hop of a population, not a builder: name the container per row, classify what fills it, and follow one hop into the callers to see whether the population is reconstructable without the run.",
+ "verdict": "every_unresolved_row_names_its_container",
+ "verdict_vocab": [
+  "every_unresolved_row_names_its_container",
+  "some_rows_still_stop_before_the_container"
+ ]
+}

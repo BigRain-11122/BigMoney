@@ -21169,5 +21169,75 @@ except Exception as _e514x:
     _d514 = "leg could not run"
 check(_name514, not _bad514, "; ".join(_bad514)[:240] or _d514)
 
+# E517: read the published container-feed face the way a consumer would -- every row must name a
+# source that is on disk, every row whose container is a function in another module must publish a
+# resolvable module path, no row may stop before the container, and four doctored copies (a flipped
+# container class, a parameter row stripped of its call sites, a hand-written verdict, an edited
+# population_source) must all be refused.
+_name517 = ("E517 every unresolved key read names the container it reads off, and the answer "
+            "re-derives from the one hop the row publishes (r1543 bm-b)")
+_bad517 = []
+try:
+    _m517 = __import__("importlib").import_module("e517_container_feed")
+    _f517 = json.load(open(os.path.join("results", "state_tilt", "containerfeed_latest.json"),
+                           encoding="utf-8"))
+    _s517 = _f517.get("summary") or {}
+    _r517 = _f517.get("rows") or []
+    _bad517.extend(_m517.site_problems(_f517))
+    if not _r517:
+        _bad517.append("the row population is empty")
+    for _r in _r517:
+        if not _r.get("source") or not os.path.exists(_r["source"]):
+            _bad517.append("%s:%s names a source that is not on disk"
+                           % (_r.get("source"), _r.get("line")))
+        _rf = _r.get("resolved_function") or {}
+        if _r.get("container_class") == "a_function_in_another_module_that_reads_the_tree" \
+                and not (_rf.get("rel") and os.path.exists(_rf["rel"])):
+            _bad517.append("%s:%s names a cross-module container with no file on disk"
+                           % (_r.get("source"), _r.get("line")))
+    if _s517.get("rows_still_unread"):
+        _bad517.append("%r row(s) still stop before the container"
+                       % (_s517.get("rows_still_unread"),))
+    _w517 = json.loads(json.dumps(_f517))
+    _w517["rows"][0]["container_class"] = "not_resolvable_from_the_row"
+    if not _m517.site_problems(_w517):
+        _bad517.append("a flipped container class survived the guard")
+    _w517b = json.loads(json.dumps(_f517))
+    for _row in _w517b["rows"]:
+        if _row.get("container_class") == "a_parameter_of_the_function_that_reads_it":
+            _row["call_sites"] = []
+            break
+    if not _m517.site_problems(_w517b):
+        _bad517.append("a parameter row stripped of its call sites survived the guard")
+    _w517c = json.loads(json.dumps(_f517))
+    _w517c["verdict"] = "some_rows_still_stop_before_the_container"
+    if not _m517.site_problems(_w517c):
+        _bad517.append("a hand-written verdict survived the guard")
+    _w517d = json.loads(json.dumps(_f517))
+    _w517d["population_source"] = "hand-written"
+    if not _m517.site_problems(_w517d):
+        _bad517.append("an edited population_source survived the guard")
+    _d517 = ("%r rows (parameter %r / cross-module corpus reader %r / in-place %r / "
+             "module-level %r) | %r call sites (bound literal %r / literal at call %r) | "
+             "seams %r | still unread %r | verdict %r"
+             % (_s517.get("rows"),
+                _s517.get("rows_by_container", {}).get("a_parameter_of_the_function_that_reads_it"),
+                _s517.get("rows_by_container", {}).get(
+                    "a_function_in_another_module_that_reads_the_tree"),
+                _s517.get("rows_by_container", {}).get(
+                    "a_local_object_the_same_function_fills_before_the_read"),
+                _s517.get("rows_by_container", {}).get(
+                    "a_module_level_object_defined_in_the_same_file"),
+                _s517.get("call_sites"),
+                _s517.get("call_sites_by_feed", {}).get(
+                    "a_name_the_caller_binds_to_a_literal_object"),
+                _s517.get("call_sites_by_feed", {}).get("an_object_literal_written_at_the_call"),
+                _s517.get("rows_with_a_seam_in_the_resolving_function"),
+                _s517.get("rows_still_unread"), _f517.get("verdict")))
+except Exception as _e517x:
+    _bad517.append(repr(_e517x)[:160])
+    _d517 = "leg could not run"
+check(_name517, not _bad517, "; ".join(_bad517)[:240] or _d517)
+
 if __name__ == "__main__":
     sys.exit(main())

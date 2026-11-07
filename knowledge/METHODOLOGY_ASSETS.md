@@ -12897,3 +12897,15 @@ E506 把 16 张面归入"日期写在见证词表之外的字段名下"时，量
 6. **12 层深度不够**：`idx → live → applied → marks → dates → rp` 已经 13 个 AST 层，`apply_overlay` 被报"读不出"是仪器的伤不是代码的。
 
 **验证**：`scripts/e514_built_elsewhere.py` — `run` rc0 / `check` problems=[] / `verify` 重建 problems=[] / **selftest 全绿**（7 夹具模块：文件读 / 时钟 / 参数 / 路径构造 / 未读 / 本处读 / 本处字面量 + 元组解包造者 + 4 枚 doctored 面全被拒）；`results/state_tilt/BUILTELSEWHERE-2026-11-08.json` 与 `builtelsewhere_latest.json` 同源；S6 腿 `built_elsewhere` rc0 0.07s（receipt `results/_r1542bmb_s6_chain.json`）；smoke 腿 `# E514` 原文独跑 1/1 绿、`--doctor` 1/1 红且字节还原（sha `9e2408b5bd58`，4 枚 doctored 臂在腿内）；digest `research/digests/DIGEST-20261108-r1542-e514-built-elsewhere.md`。未跑：全量 smoke 套件、其余 S6 链腿、采集器族（不宣称）。
+
+## E517 -- 键读取是人口的最后一跳，不是造者（r1543 bm-b）
+
+**立论**：E514 的 27 行里有 4 行停在 `the_callee_could_not_be_resolved_so_the_value_stays_unread`，而它们全是**键读取**：`payloads.get(rel)`、`src.get(...)`、`e350._sources()`。这四行并不是"造者找不到"，而是把"谁造了这个值"问错了——`.get` 从来不是造者，它是**别处造好的那个容器终于被查询的那一刻**。所以真正要发布的是三件事：容器是谁、谁往里装、读者能不能不跑程序就重建它。
+
+**方法**：人口从 E514 的已发布面机读（只取那 4 行，不重导原始对子），逐行在源文件自己的行号上做静态解析：先取表达式里的第一个调用；`.get/.pop/.setdefault` 的**接收者**才是容器（调用本身不是）；容器分四类——读它的函数的**形参**（→ 一跳进所有调用点，逐点分类实参是"调用方绑定的字面量对象 / 调用结果 / 它自己的形参 / 调用处现写的对象字面量 / 现写的常量"）、同函数内**读之前填充的局部对象**、同文件**模块级对象**、**另一模块的函数**（通过该行所在文件自己的 import 别名解析，并发布该函数的 `=None` 缝参数）。答案由这四类 + 一跳证据派生，闸从行内证据重算。
+
+**读数**：4 行全被点名。1 行容器是形参（`e305.resolve_row(row, payloads)`），7 个调用点里 **6 个传的是调用方绑定的字面量对象、1 个在调用处现写对象**——没有一处靠运行生成；3 行容器是跨模块函数 `e350._sources(files=None)`，它有**缝参数 `files`**（可钉入成员列表），因此这三行的"人口"是可以不跑程序就重建的。verdict=`every_unresolved_row_names_its_container`，reconstructable 4/4，seam 3/4。
+
+**可复用教训**：①**问错了层**——"谁造这个值"和"这个容器谁装"是两个问题，`.get` 一类读取只能回答后者；先问"这里是不是读取"，再问"容器归谁"，否则 4 行会被永久记成不可读；②**一跳要数到调用点，不是数到函数**——形参容器的可重建性只有把每个调用点的实参分类后才成立（本例 6 字面量 + 1 现写，缺一环就只剩"是形参"这句空话）；③**缝参数是"能否重建"的唯一硬证据**——`files=None` 这类默认值不是风格，它让"钉住人口"从口头变成可执行；④**别名解析必须用行所在文件自己的 import 表**——按模块名猜 `alpha.sources` 会先撞到 fixture 名字（本窗首版就是这样把 2 个夹具行判成不可解）。
+
+**验证**：`scripts/e517_container_feed.py` — `run` rc0 / `check` problems=[] / `verify` 重建 problems=[] / **selftest 19/19**（两模块夹具：形参容器 + 跨模块缝函数；另有 5 枚 doctored 臂全被拒：翻容器类、形参行剥掉调用点、手写 verdict、改 population_source、空上游不算错但也不算 total）；`results/state_tilt/CONTAINERFEED-2026-11-08.json` 与 `containerfeed_latest.json` 同源；S6 链回执 `results/_r1543bmb_s6_chain.json` 7/7 rc0；smoke 腿 `# E517` 原文以 `scripts/run_e517_smoke_leg.py` 单跑 1/1 绿、`--doctor` 1/1 红且字节还原（sha `abd795e825ea`）。未跑：全量 smoke 套件、其余 S6 链腿、采集器族（不宣称）。
