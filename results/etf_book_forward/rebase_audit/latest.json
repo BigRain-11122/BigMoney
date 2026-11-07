@@ -1,0 +1,68 @@
+{
+ "ts": "2026-11-07T19:38:55+0800",
+ "published_bars": 11,
+ "ledger_status": "live",
+ "rebases": [
+  {
+   "ts": "2026-11-05T20:41:45+0800",
+   "n_faces": 1,
+   "histories_rewritten": 0,
+   "values_unrecorded": 1,
+   "max_abs": 1.6640000000123223e-07,
+   "bars": [
+    "2026-10-30"
+   ],
+   "bars_with_both_values": []
+  },
+  {
+   "ts": "2026-11-07T11:18:01+0800",
+   "n_faces": 1,
+   "histories_rewritten": 0,
+   "values_unrecorded": 1,
+   "max_abs": 1.1623000000238193e-06,
+   "bars": [
+    "2026-11-05"
+   ],
+   "bars_with_both_values": []
+  }
+ ],
+ "n_rebases": 2,
+ "rewritten_bars_total": 2,
+ "bars_with_both_values_total": 0,
+ "unrecoverable_bars": [
+  {
+   "bar": "2026-10-30",
+   "ts": "2026-11-05T20:41:45+0800",
+   "why": "rebase without rows"
+  },
+  {
+   "bar": "2026-11-05",
+   "ts": "2026-11-07T11:18:01+0800",
+   "why": "rebase without rows"
+  }
+ ],
+ "restatements": [
+  {
+   "bar": "2026-10-29",
+   "nav_published": 1.014536476,
+   "nav_settled": 1.0145314121,
+   "delta": 5.0639e-06,
+   "ts": "2026-10-30T19:18:29+0800"
+  },
+  {
+   "bar": "2026-11-03",
+   "nav_published": 1.0037553579,
+   "nav_settled": 1.0037561821,
+   "delta": 8.242e-07,
+   "ts": "2026-11-05T20:29:33+0800"
+  }
+ ],
+ "withdrawn": [
+  {
+   "bar": "2026-11-02",
+   "ts": "2026-11-02T23:11:55+0800"
+  }
+ ],
+ "verdict": "2 rewritten bar(s) have no recorded before-value",
+ "evidence_cutoff": "2026-11-06"
+}

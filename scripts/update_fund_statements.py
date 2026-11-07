@@ -991,16 +991,27 @@ def _selftest():
     # the statutory clock is the lane's own unit; the board must be able to ask
     # for it without a network call and get the period the statute demands now
     facts = panel_period_facts(dt.datetime(2026, 11, 7, 12, 0))
+    assert facts["clock"] == "statutory_period", facts
     assert facts["expected_latest"] == "20260930", facts
     assert facts["expected_deadline"] == "2026-10-31", facts
     assert facts["n_expected"] == 87, facts["n_expected"]
-    assert "20260930" in facts["missing_periods"], facts["missing_periods"]
-    assert facts["n_present"] == 86, facts["n_present"]
-    # the day BEFORE the deadline the same panel is complete: the missing period
-    # is a clock fact, not a defect of the collector
+    # the day BEFORE the deadline the same clock demands an earlier latest period
     pre = panel_period_facts(dt.datetime(2026, 10, 30, 12, 0))
     assert pre["expected_latest"] == "20260630", pre
-    assert pre["missing_periods"] == [], pre
+    # Coverage is NOT a clock fact: it reads the panel bytes, and this lane's panel
+    # lives on its host (R31: only bm-a acts). r1265 asserted host coverage on every
+    # machine, so every other machine's smoke went red with `n_present 0 != 86`
+    # (r1404 bm-c live). Ask the panel first, then assert the answer that is honest
+    # here -- full gap where there is no panel, the counted coverage where there is.
+    if any(cov for cov in panel_coverage()[0].values()):
+        assert "20260930" in facts["missing_periods"], facts["missing_periods"]
+        assert facts["n_present"] == 86, facts["n_present"]
+        assert pre["missing_periods"] == [], pre
+    else:
+        assert set(facts["missing_periods"]) == set(expected_period_set(
+            dt.datetime(2026, 11, 7, 12, 0))), facts["missing_periods"][:3]
+        assert facts["n_present"] == 0, facts["n_present"]
+        assert facts["cutoff"] is None, facts["cutoff"]
 
     print("selftest: all fund statement panel guard cases PASS")
     return 0

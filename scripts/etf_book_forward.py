@@ -778,6 +778,100 @@ def partition_settled(bars, panel_last_date, carry_last=None):
     return settled, provisional
 
 
+def born_provisional(published, new_bars, panel_last_date, carry_last=None):
+    """Which newly published bars must be born provisional -- the settle rule, asked once.
+
+    r1404: `run` used to flag a new bar provisional only when it was the price panel's
+    own newest date (`bar == panel_last`). That is a SECOND spelling of settledness:
+    `partition_settled` also holds a bar provisional while the repo ladder cannot price
+    it. So a bar published during a cash-leg outage was born SETTLED, and when the
+    ladder refilled the gate could only see "a settled mark no longer re-derives" and
+    offer `--rebase` -- which is how 2026-11-05's mark was rewritten on 2026-11-07
+    instead of being restated. Asking the same splitter to answer both questions is the
+    fix: a bar is born filling iff the gate would call it filling.
+    """
+    bars = [str(b) for b in published] + [str(b) for b in new_bars]
+    if not new_bars:
+        return set()
+    _, prov = partition_settled(sorted(bars), panel_last_date, carry_last)
+    return {str(b) for b in prov}
+
+
+def rebase_rows(published, faces, fresh):
+    """The bar-by-bar before/after a `--rebase` is about to overwrite -- kept, not lost.
+
+    r1404: `--rebase` sets `led["bars"]` to the freshly derived series, so the value the
+    LEDGER had published for a rewritten bar survived only inside a `max_abs` and a
+    "2026-11-05:1.162e-06" string. Two marks were rewritten that way (2026-10-30 on 11-05,
+    2026-11-05 on 11-07) and neither published value is recoverable from the ledger any
+    more -- the same loss `restate_provisional` exists to prevent. A rewrite is allowed (a
+    real revision is a real revision), but it has to be auditable: this returns one row per
+    blocking face that names a published bar with a fresh mark, carrying both values. A face
+    whose bar has no fresh mark (a `:missing` face, or a benchmark face) produces no row --
+    this never invents a value it did not see.
+    """
+    pub = {b["bar"]: b for b in (published or [])}
+    rows = []
+    for f in faces or []:
+        bar = str(f).split(":")[0]
+        p, fr = pub.get(bar), (fresh or {}).get(bar)
+        if p is None or fr is None:
+            continue
+        rows.append({
+            "bar": bar,
+            "nav_published": p.get("nav"),
+            "nav_settled": fr.get("nav"),
+            "delta": round(abs(float(fr["nav"]) - float(p["nav"])), 12),
+            "was_provisional": bool(p.get("provisional")),
+        })
+    return rows
+
+
+def rebase_audit(led):
+    """How many published marks were rewritten, and is each old value still on file?
+
+    The ledger is the book's record. `restatements` keeps both values by construction;
+    `rebases` is the path that historically replaced them outright. This face counts both
+    and says, per rewrite, whether the published value is still recoverable -- so "we
+    rewrote the history twice" stops being folklore and becomes a number with a date on it.
+    """
+    rebases = led.get("rebases") or []
+    restatements = [r for r in (led.get("restatements") or []) if r.get("type") != "withdrawn"]
+    withdrawn = [r for r in (led.get("restatements") or []) if r.get("type") == "withdrawn"]
+    per, lost = [], []
+    for rb in rebases:
+        rows = rb.get("rows") or []
+        n_faces = int(rb.get("n_faces") or 0)
+        recoverable = len(rows)
+        missing = max(0, n_faces - recoverable)
+        sample = [str(s).split(":")[0] for s in (rb.get("sample") or [])]
+        for bar in sample[:missing]:
+            lost.append({"bar": bar, "ts": rb.get("ts"), "why": "rebase without rows"})
+        per.append({
+            "ts": rb.get("ts"), "n_faces": n_faces,
+            "histories_rewritten": recoverable, "values_unrecorded": missing,
+            "max_abs": rb.get("max_abs"),
+            "bars": [r["bar"] for r in rows] or sample,
+            "bars_with_both_values": [r["bar"] for r in rows],
+        })
+    return {
+        "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+        "published_bars": len(published_bars(led)),
+        "ledger_status": led.get("status"),
+        "rebases": per,
+        "n_rebases": len(per),
+        "rewritten_bars_total": sum(p["n_faces"] for p in per),
+        "bars_with_both_values_total": sum(p["histories_rewritten"] for p in per),
+        "unrecoverable_bars": lost,
+        "restatements": [{"bar": r["bar"], "nav_published": r.get("nav_published"),
+                          "nav_settled": r.get("nav_settled"), "delta": r.get("delta"),
+                          "ts": r.get("ts")} for r in restatements],
+        "withdrawn": [{"bar": r["bar"], "ts": r.get("ts")} for r in withdrawn],
+        "verdict": ("every rewrite carries both values" if not lost else
+                    "%d rewritten bar(s) have no recorded before-value" % len(lost)),
+    }
+
+
 def split_faces(faces, settled):
     """Drift faces split by whether the bar they name has settled (blocking) or not."""
     settled = set(settled)
@@ -1152,8 +1246,10 @@ def run(rebase=False):
               % (",".join(r["bar"] for r in withdrawn), panel_last), flush=True)
 
     new_bars = [f for f in _indexed(marks, seed_bar) if f["bar"] > led["bars"][-1]["bar"]]
+    born = born_provisional([b["bar"] for b in published_bars(led)],
+                            [nb["bar"] for nb in new_bars], panel_last, carry_last)
     for nb in new_bars:
-        nb["provisional"] = (nb["bar"] == panel_last)
+        nb["provisional"] = nb["bar"] in born
     if blocking and not rebase:
         led["status"] = "frozen"
         save_ledger(led)
@@ -1162,10 +1258,13 @@ def run(rebase=False):
               % (len(faces_settled), len(bench_faces), worst), flush=True)
         return 3
     if blocking and rebase:
+        rows = rebase_rows(led["bars"], faces_settled, fresh)
         led["rebases"].append({
             "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
             "n_faces": len(faces_settled), "n_bench_faces": len(bench_faces),
             "max_abs": worst, "sample": (faces_settled + bench_faces)[:10],
+            # r1404: a rewrite that did not keep the value it replaced is unauditable
+            "rows": rows,
         })
         led["bars"] = _indexed(marks, seed_bar)
         # the re-derived series already contains every bar, so nothing is left to append
@@ -1421,6 +1520,35 @@ def carry(fee_free=False):
     return 0
 
 
+def rebase_audit_face(write=True):
+    """Write/print the rewrite audit: what the ledger overwrote, and what survived it."""
+    led = load_ledger()
+    if led is None:
+        print("NO LEDGER -- nothing to audit", flush=True)
+        return 0
+    out = rebase_audit(led)
+    out["evidence_cutoff"] = max((b["bar"] for b in published_bars(led)), default=None)
+    if write:
+        d = os.path.join(OUT_DIR, "rebase_audit")
+        if not os.path.isdir(d):
+            os.makedirs(d)
+        with open(os.path.join(d, "latest.json"), "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, indent=1)
+    print("REBASE-AUDIT status=%s bars=%d rebases=%d rewritten=%d with_both_values=%d "
+          "unrecoverable=%d restatements=%d withdrawn=%d"
+          % (out["ledger_status"], out["published_bars"], out["n_rebases"],
+             out["rewritten_bars_total"], out["bars_with_both_values_total"],
+             len(out["unrecoverable_bars"]), len(out["restatements"]),
+             len(out["withdrawn"])), flush=True)
+    for rb in out["rebases"]:
+        print("  %s: %d bar(s) %s | both values: %s | unrecorded: %d"
+              % (rb["ts"], rb["n_faces"], ",".join(rb["bars"]),
+                 ",".join(rb["bars_with_both_values"]) or "none",
+                 rb["values_unrecorded"]), flush=True)
+    print(out["verdict"], flush=True)
+    return 0
+
+
 def selftest():
     ok = True
 
@@ -1646,6 +1774,58 @@ def selftest():
                and (m["cash_start"] <= 1e-12) != (abs(m.get("carry", 0.0)) <= 0)]
         chk("carry rides start-of-bar cash only", not bad, "bad=%d" % len(bad))
 
+    # (r1404) a bar published while the CASH leg is still filling must be born provisional,
+    # or the only escape the gate offers when the ladder refills is --rebase.
+    pub = ["2026-10-23", "2026-10-26"]
+    two = ["2026-10-28", "2026-10-29"]
+    chk("bars published while the ladder is behind are all born provisional",
+        born_provisional(pub, two, "2026-11-06", "2026-10-27") == {"2026-10-28", "2026-10-29"},
+        "carry_last 2026-10-27 < both new bars")
+    chk("a new bar the ladder can already price is born settled",
+        born_provisional(pub, two, "2026-11-06", "2026-10-29") == {"2026-10-29"},
+        "the same two bars once the ladder reaches 2026-10-29 (only the newest is filling)")
+    chk("the panel's own newest day is born provisional without a cash leg",
+        born_provisional(pub, two, "2026-10-28", None) == {"2026-10-28", "2026-10-29"},
+        "price panel ends inside the new bars")
+    chk("no cash leg -> the price rule alone answers",
+        born_provisional(pub, two, "2026-11-06", None) == {"2026-10-29"},
+        "only the newest bar is still filling")
+    chk("born-provisional is the same rule the gate settles with",
+        born_provisional(pub, two, "2026-11-06", "2026-10-27")
+        == {b for b in partition_settled(pub + two, "2026-11-06", "2026-10-27")[1]},
+        "one splitter, two questions")
+
+    # (r1404) a rewrite must keep the value it replaced, or the record cannot be audited
+    _rbpub = [{"bar": "2026-11-05", "nav": 1.012856, "provisional": True}]
+    _rbfresh = {"2026-11-05": {"nav": 1.0140182}}
+    _rows = rebase_rows(_rbpub, ["2026-11-05:1.162e-06"], _rbfresh)
+    chk("a rewrite keeps both the published and the settled value",
+        len(_rows) == 1 and _rows[0]["nav_published"] == 1.012856
+        and _rows[0]["nav_settled"] == 1.0140182
+        and abs(_rows[0]["delta"] - 1.1622e-03) < 1e-9,
+        str(_rows))
+    chk("a rewrite row says whether the bar had been published as filling",
+        _rows and _rows[0]["was_provisional"] is True)
+    chk("a face whose bar has no fresh mark yields no row (never invents a value)",
+        rebase_rows(_rbpub, ["2026-11-05:missing", "2026-10-23:1e-07"], {}) == [],
+        "the fresh side carries neither bar, so no value can be printed for either")
+    _rbled = {"bars": [{"bar": "2026-11-05", "nav": 1.0}],
+              "rebases": [{"ts": "2026-11-07T11:18:01+0800", "n_faces": 1, "max_abs": 1.16e-06,
+                           "sample": ["2026-11-05:1.162e-06"], "rows": _rows},
+                          {"ts": "2026-11-05T20:41:45+0800", "n_faces": 1, "max_abs": 1.66e-07,
+                           "sample": ["2026-10-30:1.664e-07"]}],
+              "restatements": [{"bar": "2026-11-03", "nav_published": 1.0, "nav_settled": 1.01},
+                               {"bar": "2026-11-02", "type": "withdrawn"}]}
+    _aud = rebase_audit(_rbled)
+    chk("the audit counts a rewrite with rows as auditable",
+        _aud["bars_with_both_values_total"] == 1 and _aud["rewritten_bars_total"] == 2,
+        str(_aud["rewritten_bars_total"]))
+    chk("the audit names every rewrite that lost its before-value",
+        [x["bar"] for x in _aud["unrecoverable_bars"]] == ["2026-10-30"]
+        and "1 rewritten bar" in _aud["verdict"], _aud["verdict"])
+    chk("the audit separates restatements (both values) from withdrawals",
+        len(_aud["restatements"]) == 1 and len(_aud["withdrawn"]) == 1)
+
     # (r1276) a repeated poll must not rewrite the ledger file
     led_f = {"runs": [], "bars": [{"bar": "2026-10-23", "nav": 1.0}]}
     chk("no-op stub", _noop_stub(led_f, {"bar": "2026-10-23"}, day="2026-10-26") is True,
@@ -1820,4 +2000,6 @@ if __name__ == "__main__":
         sys.exit(calibrate())
     if cmd == "carry":
         sys.exit(carry(fee_free=opts.get("fees") == "0"))
+    if cmd == "rebase-audit":
+        sys.exit(rebase_audit_face(write="--write" in args))
     sys.exit(run(rebase="--rebase" in args))

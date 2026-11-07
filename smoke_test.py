@@ -487,6 +487,17 @@ def main() -> int:
             # bar list never reads as a pass.
             ("product: etf_book_carry_repro (settled-only drift gate, refill forecast)",
              "scripts/etf_book_carry_repro.py", ["--selftest"]),
+            # r1404: the ledger was committed unreadable for four hours -- a line-level
+            # resolution spliced two documents together and dropped a comma, and the
+            # pre-commit claw only looks for conflict markers. The legs pin that a
+            # missing comma between list elements is a finding, that a repeated key is a
+            # finding even though json keeps the last one silently, that the same key in
+            # two sibling objects is not, and that a UTF-16 face fails because every
+            # reader opens encoding='utf-8'. The default scan is the published faces
+            # (results/, scratch dumps excluded), so this leg is a real gate, not a
+            # fixture.
+            ("product: json_face_guard (a committed face must parse and must not repeat a key)",
+             "Tools/json_face_guard.py", ["--selftest"]),
             # r1346: the chain runner pays a leg's declared refresh when its probe
             # says the face is stale, and must NOT pay it when the probe says
             # inconsistent. That branch is what stops a check-only gate from being
@@ -7667,6 +7678,33 @@ def main() -> int:
     except Exception as e:
         check("product: a book face cannot be green on a panel it no longer measures",
               False, repr(e)[:180])
+    # (r1404) a rewrite of a published mark must keep the value it replaced, or the
+    # ledger cannot say what it used to claim
+    try:
+        import importlib as _il76
+        if "scripts" not in sys.path:
+            sys.path.insert(0, "scripts")
+        _F76 = _il76.import_module("etf_book_forward")
+        _bad76 = []
+        _rows76 = _F76.rebase_rows([{"bar": "2026-11-05", "nav": 1.0, "provisional": True}],
+                                   ["2026-11-05:1e-06"], {"2026-11-05": {"nav": 1.5}})
+        if not _rows76 or _rows76[0]["nav_published"] != 1.0 or _rows76[0]["nav_settled"] != 1.5:
+            _bad76.append("a rewritten mark is not recorded with both values")
+        if _F76.rebase_rows([{"bar": "x", "nav": 1.0}], ["x:1e-06"], {}) != []:
+            _bad76.append("a rewrite row is invented for a bar with no fresh mark")
+        _led76 = _F76.load_ledger()
+        if _led76 is not None:
+            _aud76 = _F76.rebase_audit(_led76)
+            if _aud76["n_rebases"] != len(_led76.get("rebases") or []):
+                _bad76.append("the audit counts a different number of rewrites than the ledger holds")
+            if len(_aud76["unrecoverable_bars"]) != sum(r.get("values_unrecorded", 0)
+                                                        for r in _aud76["rebases"]):
+                _bad76.append("the audit's unrecoverable count does not add up to its rows")
+        check("product: a rewritten mark keeps the value it replaced", not _bad76,
+              "; ".join(_bad76)[:200]
+              or "before/after recorded per rewrite; unrecorded bars named, never invented")
+    except Exception as e:
+        check("product: a rewritten mark keeps the value it replaced", False, repr(e)[:180])
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 _SMOKE_GC = None

@@ -118,6 +118,15 @@ LEGS = [
     # ticket. Both were hand-run only until r1275, so the accrual depended on a session
     # remembering to call them -- r1267, r1269 and r1273 each named that as owed.
     ("etf_book_forward", ["python", "scripts/etf_book_forward.py"]),
+    # r1404: right after the leg that WRITES the ledger, the one that asks whether the
+    # file can be read at all. On 2026-11-07 the committed ledger was not valid JSON for
+    # four hours (a line-level resolution spliced two documents together: one missing
+    # comma, two repeated keys, a conflated run record) and every reader -- ticket, CEO
+    # page, settle audit, re-derivation -- died at open while nothing went red. The guard
+    # scans the published faces under results/ (scratch dumps excluded by the underscore
+    # convention) for parse errors, repeated keys and non-UTF-8 encodings; ~45s, read-only,
+    # exit 0 clean / 1 findings / 2 mechanism.
+    ("json_face_guard", ["python", "Tools/json_face_guard.py"]),
     # r1366 (r1365's own owed item 2): when the forward leg freezes on a drift, the
     # next question is whether a PUBLISHED bar was rewritten or whether the newest
     # bar's panel was still filling -- and until now that question was answered by a

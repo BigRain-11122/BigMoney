@@ -9691,3 +9691,62 @@ How to apply：一切「供给腿落后、下游面用前向填充仍能出数�
 
 正身=scripts/etf_book_carry_repro.py（selftest 9/9·零写入·只用活闸自己的 partition_settled）+
 results/etf_book_forward/carry_repro/CARRY-REPRO-2026-11-06.json
+
+### E405 · 一个被提交成「读不出来」的面，没有任何闸会知道（r1404 bm-c）
+
+`results/etf_book_forward/LEDGER.json` 在 HEAD 上**不是合法 JSON**，而且是三处同源缺陷：
+
+- `drift.settled_bars` 里 `"2026-11-06"` 与拼接进来的 `"2026-11-05"` **之间少一个逗号** → `json.load` 抛错；
+- `drift` 里 `faces` / `max_abs` **各出现两次** → `json.loads` 接受重复键并静默取最后一个（于是"补上逗号"之后，
+  这个面仍然会把旧测量当现行读数印出去）；
+- 最后一条 `runs` 记录有**两个 `ts`**（15:00:13 与 10:36:55）→ 读者被告知这次运行发生在五小时前。
+
+三处都是**行级冲突解决**把两份文档拼在一起的指纹（某个窗口把"重生的面"当文本重放过），而 git 不解析 JSON，
+所以全部静默落库。读者的代价是硬的：订单票、CEO 页、结算审计、复算面全部在 open 时就死，**四个小时没人知道**
+（同窗的 r1403 还在基于这份账本出结论）。
+
+闸为什么没看见：pre-commit 爪只找冲突标记（`<<<<<<<`），少一个逗号、重复一个键都不带标记；smoke 跑的是各脚本
+自己的 selftest，**没有一条腿去读"已经提交的面"**。
+
+修法：`Tools/json_face_guard.py` —— `object_pairs_hook` 是 Python 唯一会在丢弃重复键之前把 pairs 交出来的地方；
+默认扫 `results/` 下的发布面（scratch 转储按 `_` 前缀让路），UTF-16 面也算发现（因为每个读者都用
+`encoding='utf-8'` 打开，"我读得到"不是读者读得到）。本次实扫 **9,780 件，2 处发现，修后 CLEAN**；smoke 腿已接线。
+
+**How to apply**：①任何"可再生工件"被人工/半自动解过冲突之后，必须过一遍解析闸再提交——"能 diff"不等于"能读"；
+②给共享面写守卫时，默认口径要问"读者用什么打开的"，不是"我用什么打开的"；③"修语法"要能被证明是修语法——
+本轮的修复脚本要求：修完的文档与「只补逗号、其余原样」的读者视图逐路径比较，差异必须**恰好等于**那三处已点名
+的修正，多出任何一个字段就拒写。
+
+正身=Tools/json_face_guard.py（selftest 12/12）+ results/etf_book_forward/LEDGER.json（r1404 修复合规）
+
+### E406 · 「出生时贴什么标签」必须用「执法时用的同一条规则」（r1404 bm-c）
+
+账本每根 bar 的 `settled/provisional` 一直由 `partition_settled` 判，而且是**两条腿**：价面板还在长 symbols、
+或**现金腿（回购梯子）还价不到那一天**，这根 bar 都算"还在填"。
+
+可 `run()` 落账新 bar 时只问了价面板一条：`nb["provisional"] = (nb["bar"] == panel_last)`。
+同一问题的第二种拼法。后果在 2026-11-07 兑现：现金腿断供期间发布的 bar **出生即"已结"**，等到梯子补齐，
+闸唯一能看到的解释是"已结 bar 不再逐位复现"，而它的逃生口只有 `--rebase`——11:18 那根 `2026-11-05`（偏差
+1.162e-06，是阈值的 1162 倍）就是这样被**改写**掉的，而不是按设计走一次披露式改述。
+
+修法：`born_provisional(published, new_bars, panel_last, carry_last)` 复用同一个 splitter，`run()` 只消费它的答案。
+selftest 五条腿：腿在身后 → 两根新 bar 全 provisional；腿已覆盖 → 只有最新那根 provisional；无现金腿 → 价规则
+单独生效；价面板停在中间 → 该日也 provisional；**恒等腿**＝born 的答案必须逐元素等于 `partition_settled` 的
+provisional 集合（"一个 splitter 回答两个问题"）。
+
+**How to apply**：任何"写入时打标签、事后按标签执法"的机制，贴标签的函数与执法的函数**必须是同一个函数**；
+两处拼写＝两套规则，而分歧永远在出事那天才显形。姊妹面=E289（同一规则写两遍就不是两条规则）。
+
+正身=scripts/etf_book_forward.py::born_provisional（`--selftest` SELFTEST OK，新增 5 腿）
+
+### E407 · 改写如果不留下被改掉的那个值，账本只能承认「改过」不能说明「改了什么」（r1404 bm-c）
+
+前向账本有两条会动已发布数字的路：`restate_provisional`（设计内的披露式改述）与 `--rebase`（操作员判定的历史重写）。前者逐根存 `nav_published` / `nav_settled` / `delta`；后者只往 `rebases` 里塞一个 `max_abs` 和一条 `"2026-11-05:1.162e-06"` 字符串，然后把 `led["bars"]` 整段换成重算序列——**被改掉的那个数当场消失**。
+
+所以本窗能做的第一个动作不是"再查一次有没有漂"，而是承认这件事没有账：实测账本 11 根 bar、**2 次改写（2026-10-30 于 11-05、2026-11-05 于 11-07）、其中 0 根留下改前值**；同期 2 次改述都留下了两边。一句话：改写在账上只留了幅度，没留身份，读者无法回答"哪一根动过、原来是几"。
+
+修法三条：①`rebase_rows()` 在替换序列**之前**给每个阻塞面拉一行 `bar/nav_published/nav_settled/delta`，`was_provisional` 一并记（这根当初是不是以"还在填"发布的，决定了它是设计内还是事故）；②拉不到 fresh mark 的面**不出行**——`:missing` 面和基准面不许凭空造一个值；③`rebase-audit` 面把两条路并排数出来：`rewritten_bars_total` / `bars_with_both_values_total` / `unrecoverable_bars`（逐 bar 点名），并给一句判词。首次出数：2 改写 / 0 留双值 / 2 根不可恢复；2 改述 / 1 撤回。
+
+**How to apply**：任何"替换已发布值"的代码路径，替换前必须先写一行 before/after；审计面要数的不是"有没有漂过"，而是"漂过的每一根还在不在账上"。姊妹面=E405（读者读不出来的面等于不存在）——这一次不是读不出来，是**写的时候就没写**。
+
+正身=scripts/etf_book_forward.py::rebase_rows/rebase_audit（selftest 新增 5 腿）+ results/etf_book_forward/rebase_audit/latest.json + smoke 腿 "product: a rewritten mark keeps the value it replaced"
