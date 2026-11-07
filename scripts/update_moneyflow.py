@@ -68,6 +68,9 @@ BARS_DIR = os.path.join(ROOT, "Money02", "data", "bars")
 sys.path.insert(0, ROOT)
 from config.lane_io import lane_host, stamp_envelope  # noqa: E402 -- after ROOT pin
 LANE_OWNER = lane_host("update_moneyflow", "bm-a")          # R31 lane-ownership precedent
+_ACTIVE_TAKEOVER = None    # set by gate() when a declared stale takeover passed
+#   the guard; write_status stamps it into the tracked envelope so a reader can
+#   tell WHICH machine authored the cutoff (T25/r1161 shape, r1264 port).
 SLEEP_S = 2.5                # EM citizenship throttle (daykline lane)
 FUSE_LIMIT = 5               # consecutive fetch failures (any kind) -> stop
 CONN_STOP = 3                # consecutive connection-level failures -> source-block stop
@@ -343,6 +346,11 @@ def load_status():
 
 
 def write_status(payload):
+    # r1264: an existing authority block wins (a detached refresh inherits the
+    # take-taking gate's stamp instead of re-declaring "no takeover" from a
+    # fresh process where _ACTIVE_TAKEOVER is None).
+    if "authority" not in payload:
+        payload["authority"] = _authority_block(_ACTIVE_TAKEOVER)
     payload = stamp_envelope(payload, "update_moneyflow")
     atomic_write(STATUS, json.dumps(payload, ensure_ascii=False, indent=2))
 
@@ -562,6 +570,22 @@ def refresh(limit=None, repull=False):
     port): a stale COMPLETE panel needs a full-universe re-pull, not the
     first-pull todo face (not-done), which is structurally empty after the
     first pull."""
+    # r1264: a detached child is a fresh process -- it cannot re-ask the
+    # --takeover question (the flag is the parent's). It reads the declaration
+    # the gate already published in the status envelope instead, so a legal
+    # takeover's spawn is allowed while a bare non-owner refresh stays a no-op.
+    if _lane_owner_id() != LANE_OWNER:
+        ab = (load_status().get("authority") or {})
+        if not (ab.get("declared_takeover") is True
+                and ab.get("took_over_by") == _lane_owner_id()):
+            print(f"no-op: moneyflow lane host {LANE_OWNER} authority, this "
+                  f"machine stdout-only (R31 lane-guard); no declared "
+                  f"takeover on the envelope")
+            return 0
+        globals()["_ACTIVE_TAKEOVER"] = {
+            "owner": LANE_OWNER, "by": _lane_owner_id(),
+            "reason": ab.get("reason") or "inherited from the gate",
+            "ts": ab.get("took_over_at")}
     codes, skipped_glob = universe_codes()
     if len(codes) < 100:
         print(f"universe unavailable ({len(codes)} codes) -- refusing honest exit 2")
@@ -847,6 +871,17 @@ def rank_pass(fetch_page=None):
     live-fire acceptance). Exit 0 = full pass clean / no-op / deferred;
     2 = fetch/machinery failure (nothing written); 3 = full pass, honest
     mismatches counted (appended rows stand, mismatched locals untouched)."""
+    # r1264: the rank face writes the shared status mirror, so it needs the
+    # same authority test as refresh -- a detached child inherits the
+    # declaration the gate published, a bare non-owner run writes nothing.
+    if _lane_owner_id() != LANE_OWNER:
+        ab = (load_status().get("authority") or {})
+        if not (ab.get("declared_takeover") is True
+                and ab.get("took_over_by") == _lane_owner_id()):
+            print(f"no-op: moneyflow lane host {LANE_OWNER} authority, this "
+                  f"machine stdout-only (R31 lane-guard); no declared "
+                  f"takeover on the envelope")
+            return 0
     now = dt.datetime.now()
     st = load_status()
     allowed, why = rank_pull_allowed(now)
@@ -957,18 +992,65 @@ def _rank_source_blocked(st):
     return str((st.get("rank") or {}).get("mode") or "").startswith("fetch_failed")
 
 
+def _authority_block(takeover):
+    """Who owns this lane, who wrote this reading, whether a stand-in is in force.
+
+    r1264: this lane had no takeover switch at all, so when its declared host
+    went silent the panel simply froze (live: bm-b silent 194h, this lane 14
+    official trading days behind). The shape is imported from
+    update_etf_daily.authority_block -- one implementation for every writer
+    that declares a stand-in (r1375: a second copy of a defect is a second
+    defect), and the two readers that decide whether a lane's number may be
+    trusted read exactly this key.
+    """
+    from update_etf_daily import authority_block
+    return authority_block(takeover, LANE_OWNER, _lane_owner_id())
+
+
+def _takeover_gate(owner):
+    """R31 lane guard + declared stale takeover (r1264 port of the r1161 shape).
+
+    A non-owner machine stays a stdout-only no-op UNLESS it passes an explicit
+    --takeover flag AND the declared lane host's heartbeat has been silent for
+    at least TAKEOVER_STALE_MIN. The decision itself is imported from
+    update_etf_daily (single source), never re-implemented here.
+    """
+    if owner == LANE_OWNER:
+        return None
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from update_etf_daily import (TAKEOVER_STALE_MIN, _owner_stale_min,
+                                  takeover_decision)
+    stale = _owner_stale_min(LANE_OWNER)
+    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale)
+    if not ok:
+        print(f"no-op: moneyflow lane host {LANE_OWNER} authority, this "
+              f"machine ({owner or 'unknown-id'}) stdout-only (R31 lane-guard); "
+              f"takeover refused: {why}", flush=True)
+        return None
+    reason = (f"owner {LANE_OWNER} heartbeat silent {stale/60:.1f}h "
+              f">= {TAKEOVER_STALE_MIN}min")
+    print(f"TAKEOVER: declared stale takeover of {LANE_OWNER}'s moneyflow lane "
+          f"by {owner} -- {reason} | rows land in this machine's panel and the "
+          f"status envelope now names {owner} as the data face", flush=True)
+    return {"owner": LANE_OWNER, "by": owner, "reason": reason,
+            "ts": dt.datetime.now().isoformat(timespec="seconds")}
+
+
 def gate():
     """S6 step: v2 rank lane first (daily-forward, T-39), then the legacy
     daykline opportunistic-backfill gate (stale_gate + spawn, unchanged)."""
     st = load_status()
     now = dt.datetime.now()
     owner = _lane_owner_id()
-    if owner != LANE_OWNER:
+    global _ACTIVE_TAKEOVER
+    _ACTIVE_TAKEOVER = _takeover_gate(owner)
+    if owner != LANE_OWNER and _ACTIVE_TAKEOVER is None:
         # R31 lane guard, hardened per bm-c MSG-20260924-0955: non-owner machines
         # must NEVER touch the shared status mirror (mode/ts falsification +
         # throttle-clock refresh on the owner's status). stdout-only early exit.
-        print(f"no-op: moneyflow lane owned by {LANE_OWNER}, not this machine ({owner or '?'})")
         return 0
+    if _ACTIVE_TAKEOVER is not None:
+        st["authority"] = _authority_block(_ACTIVE_TAKEOVER)
     # v2 rank lane: cutoff lags 1td -> one forward pass (60 req/day budget)
     rank = st.get("rank") or {}
     needs, reason = rank_stale(st, now)
@@ -1201,21 +1283,63 @@ def _selftest():
     assert not _is_conn_error("KeyError", "missing column")
     # S14 non-owner gate: stdout-only no-op, shared status mirror untouched
     # (bm-c MSG-20260924-0955: non-owner mirror rewrite = lane stomp)
+    # r1264: hermetic takeover legs -- the single-source policy module is
+    # patched, so this suite never reads a live fleet heartbeat.
+    import update_etf_daily as _ued
+    _saved_policy = (_ued.takeover_decision, _ued._owner_stale_min,
+                     _ued.TAKEOVER_STALE_MIN)
+    _saved_argv = list(sys.argv)
     with tempfile.TemporaryDirectory() as td:
         global STATUS, _lane_owner_id
         old_status, old_owner_fn = STATUS, _lane_owner_id
         STATUS = os.path.join(td, "mf_status.json")
         _lane_owner_id = lambda: "bm-c"
         try:
+            _ued.TAKEOVER_STALE_MIN = 120
+            _ued._owner_stale_min = lambda owner: 194 * 60.0
+            _ued.takeover_decision = lambda allow, stale: (
+                (True, "unit stale") if (allow and stale and stale >= 120)
+                else (False, "unit refuse"))
             write_status({"ts": "2026-09-24T09:23:55",
                           "mode": "refresh source-blocked (connection-level)",
                           "panel": {"cutoff": None, "complete": False}})
             before = io.open(STATUS, "r", encoding="utf-8").read()
+            # (a) non-owner WITHOUT --takeover stays a no-op, mirror untouched
+            sys.argv = [sys.argv[0]]
             assert gate() == 0
             after = io.open(STATUS, "r", encoding="utf-8").read()
             assert before == after, "non-owner gate must not rewrite the shared mirror"
+            # (b) the same non-owner WITH --takeover takes over and the block
+            #     it publishes is the one the authority readers actually read
+            sys.argv = [sys.argv[0], "--takeover"]
+            took = _takeover_gate("bm-c")
+            assert took is not None and took["by"] == "bm-c", took
+            ab = _authority_block(took)
+            assert ab["declared_takeover"] is True, ab
+            assert ab["took_over_by"] == "bm-c", ab
+            assert ab["lane_owner"] == LANE_OWNER, ab
+            # (c) a detached refresh is a fresh process: an authority block
+            #     already on disk must survive, not be re-declared as none
+            write_status({"authority": ab, "mode": "refresh in progress"})
+            with io.open(STATUS, encoding="utf-8") as fh:
+                got = json.load(fh)["authority"]
+            assert got["took_over_by"] == "bm-c", got
+            # (d) the plain path declares no stand-in
+            globals()["_ACTIVE_TAKEOVER"] = None
+            write_status({"mode": "unit-plain"})
+            with io.open(STATUS, encoding="utf-8") as fh:
+                plain = json.load(fh)["authority"]
+            assert plain["declared_takeover"] is False, plain
+            assert plain["took_over_by"] is None, plain
+            assert plain["lane_owner"] == LANE_OWNER, plain
+            print("[PASS] takeover guard: no-flag no-op / flagged takeover / "
+                  "detached refresh inherits the stamp / plain run declares none",
+                  flush=True)
         finally:
             STATUS, _lane_owner_id = old_status, old_owner_fn
+            (_ued.takeover_decision, _ued._owner_stale_min,
+             _ued.TAKEOVER_STALE_MIN) = _saved_policy
+            sys.argv = _saved_argv
     # S15 v2 rank window guard (ticket 09:15-15:05 mutation window + the
     # 15:05-15:30 stamp-hazard band -> net block 09:15-15:30 on trading days)
     cal2 = cal + ["2026-09-24"]
