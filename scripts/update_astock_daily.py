@@ -914,16 +914,13 @@ def _authority_block(takeover):
     "written by bm-a, not the lane host bm-b" -> verdict `unverifiable` on a
     panel bm-a was building at that very minute (live 2026-11-07). Same cure as
     r1253 on update_repo: the writer publishes the key the readers read.
+
+    r1257: the shape now lives in update_etf_daily.authority_block -- one
+    implementation for every writer that declares a stand-in (r1375: a second
+    copy of a defect is a second defect).
     """
-    return {
-        "lane_owner": LANE_OWNER,
-        "writer_machine": _lane_owner_id(),
-        "data_face_machine": _lane_owner_id(),
-        "declared_takeover": bool(takeover),
-        "took_over_by": (takeover or {}).get("by"),
-        "took_over_at": (takeover or {}).get("ts"),
-        "reason": (takeover or {}).get("reason"),
-    }
+    from update_etf_daily import authority_block
+    return authority_block(takeover, LANE_OWNER, _lane_owner_id())
 
 
 def gate():

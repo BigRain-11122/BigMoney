@@ -299,6 +299,22 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
                         if extra["reported_by"] is None and isinstance(
                                 auth_blk.get("writer_machine"), str):
                             extra["reported_by"] = auth_blk["writer_machine"]
+                    # r1257: a stand-in recorded ONLY in the older top-level
+                    # `takeover{}` shape is a declaration no reader can see.
+                    # Live 2026-11-07: update_zt_pool had published
+                    # `takeover{by:bm-a}` every run since 10-29 and this board
+                    # still printed the lane `unverifiable` for nine days. The
+                    # board must name that half-shape instead of shrugging at it.
+                    raw_tk = doc.get("takeover")
+                    if (isinstance(raw_tk, dict) and raw_tk.get("by")
+                            and not (isinstance(auth_blk, dict)
+                                     and auth_blk.get("took_over_by"))):
+                        extra["unread_takeover_by"] = raw_tk["by"]
+                        extra["unread_takeover_lag"] = (
+                            "the envelope declares a stand-in in `takeover{}` "
+                            "but publishes no `authority.took_over_by`; "
+                            "readers cannot see it (writer must call "
+                            "update_etf_daily.authority_block)")
                     if tail is None and spec.get("fallback_day_files"):
                         # the lane publishes no tail yet: read the copy on this
                         # disk, say so, and let the authority layer refuse to
@@ -433,6 +449,13 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
                     "unattributed": "the envelope does not name the machine whose "
                                     "data it describes",
                 }.get(auth, auth))
+            if r.get("unread_takeover_by"):
+                # r1257: put the actionable half first -- "who declared what,
+                # and why you cannot read it" beats "somebody wrote this".
+                r["why"] = (
+                    f"{r['unread_takeover_by']} declared a stand-in in "
+                    "`takeover{}` but published no `authority.took_over_by` "
+                    f"-- {r['why']}")
     rows.sort(key=lambda r: (-r.get("n_missing", 0), r["lane"]))
     counts = {}
     for r in rows:
@@ -924,6 +947,25 @@ def selftest():
         print("[PASS] L19 an authority block attributes the writer, so a "
               "declared stand-in is not read as an anonymous foreign write",
               flush=True)
+
+        # L20 (r1257) the older half-shape must be named, not shrugged at: a
+        # takeover in `takeover{}` with no `authority.took_over_by` is a
+        # declaration no reader can see. Live 2026-11-07: update_zt_pool had
+        # published it every run since 10-29 and this board printed the lane
+        # `unverifiable` for nine days without saying why.
+        json.dump({"machine": "bm-a", "latest_snapshot": "2026-10-20",
+                   "takeover": {"owner": "bm-b", "by": "bm-a",
+                                "reason": "owner bm-b silent 191.3h >= 120min",
+                                "ts": "2026-11-07T11:57:00"}},
+                  open(os.path.join(td, "h.json"), "w"))
+        r4 = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                   lanes=spec)["lanes"][0]
+        assert r4["verdict"] == "unverifiable", r4
+        assert r4.get("unread_takeover_by") == "bm-a", r4
+        assert "takeover{}" in (r4.get("why") or ""), r4
+        assert r4["why"].startswith("bm-a declared a stand-in"), r4["why"]
+        print("[PASS] L20 a stand-in declared in the old shape is named as "
+              "unreadable, not left as an anonymous write", flush=True)
 
     # L14 whose disk: a lane this machine cannot certify is not a gap on this
     # machine -- it is somebody else's disk, and the sentence must name it
