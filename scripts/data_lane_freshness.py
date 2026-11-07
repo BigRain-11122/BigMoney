@@ -180,6 +180,40 @@ def tail_day_files(dirpath, pattern=DAY8_RE):
     return max(days), {"files": len(days), "first": min(days)}
 
 
+def _panel_names(dirpath, pattern="*.csv"):
+    """Sorted file names in a panel dir, or None when the dir is absent."""
+    if not os.path.isdir(dirpath):
+        return None
+    return sorted(n for n in os.listdir(dirpath) if fnmatch.fnmatch(n, pattern))
+
+
+def _tail_day(p):
+    """Last date in a CSV whose first column is YYYY-MM-DD -> date|None."""
+    try:
+        with open(p, "rb") as f:
+            f.seek(0, os.SEEK_END)
+            size = f.tell()
+            f.seek(max(0, size - 4096))
+            tail = f.read().decode("utf-8", "replace").strip().splitlines()
+    except OSError:
+        return None
+    for line in reversed(tail):
+        day = _as_date(line.split(",")[0])
+        if day:
+            return day
+    return None
+
+
+def _tails(dirpath, names):
+    """{file name: last date} for the readable files in `names`."""
+    out = {}
+    for name in names:
+        day = _tail_day(os.path.join(dirpath, name))
+        if day:
+            out[name] = day
+    return out
+
+
 def panel_tail_csv(dirpath, pattern="*.csv", max_files=40):
     """Newest YYYY-MM-DD first column across a CSV panel -> (date|None, info).
 
@@ -195,9 +229,9 @@ def panel_tail_csv(dirpath, pattern="*.csv", max_files=40):
     beside the number. A sample can miss one laggard symbol; it cannot miss a
     panel that stopped a month ago, which is the case this face exists to catch.
     """
-    if not os.path.isdir(dirpath):
+    names = _panel_names(dirpath, pattern)
+    if names is None:
         return None, {"files": 0}
-    names = sorted(n for n in os.listdir(dirpath) if fnmatch.fnmatch(n, pattern))
     total = len(names)
     sampled = total > max_files
     if sampled:
@@ -209,22 +243,7 @@ def panel_tail_csv(dirpath, pattern="*.csv", max_files=40):
                 seen.add(j)
                 idx.append(j)
         names = [names[j] for j in idx]
-    tails = {}
-    for name in names:
-        p = os.path.join(dirpath, name)
-        try:
-            with open(p, "rb") as f:
-                f.seek(0, os.SEEK_END)
-                size = f.tell()
-                f.seek(max(0, size - 4096))
-                tail = f.read().decode("utf-8", "replace").strip().splitlines()
-        except OSError:
-            continue
-        for line in reversed(tail):
-            day = _as_date(line.split(",")[0])
-            if day:
-                tails[name] = day
-                break
+    tails = _tails(dirpath, names)
     if not tails:
         return None, {"files": total, "sampled": sampled,
                       "per_file": 0}
@@ -232,6 +251,32 @@ def panel_tail_csv(dirpath, pattern="*.csv", max_files=40):
     if sampled:
         info["sampled"] = True
     return max(tails.values()), info
+
+
+def panel_tail_csv_full(dirpath, pattern="*.csv", laggard_cap=25):
+    """Every file of a panel, no sample -> (date|None, info with laggards).
+
+    r1261: `panel_tail_csv` makes a claim about a 5,222-file panel by reading
+    forty of them. That is the right cost for a board that refreshes every few
+    minutes, but it is a claim, not a measurement -- and the only way to know
+    whether a one-symbol laggard exists at all is to read the rest. This does,
+    and it names the symbols whose last bar sits behind the panel's newest one,
+    because "the panel is current" and "every symbol in it is current" are two
+    different sentences and only this one can tell them apart.
+    """
+    names = _panel_names(dirpath, pattern)
+    if names is None:
+        return None, {"files": 0}
+    tails = _tails(dirpath, names)
+    if not tails:
+        return None, {"files": len(names), "per_file": 0}
+    newest = max(tails.values())
+    behind = sorted(n for n, d in tails.items() if d < newest)
+    return newest, {"files": len(names), "per_file": len(tails),
+                    "unread": len(names) - len(tails),
+                    "n_laggards": len(behind),
+                    "laggards": behind[:laggard_cap],
+                    "laggards_truncated": len(behind) > laggard_cap}
 
 
 def tail_zt_days(path):
@@ -818,6 +863,14 @@ def render_md(report):
             tailnote += (f"- `{r['lane']}`: {pr.get('per_file')} of "
                          f"{pr.get('files')} symbols read, tail "
                          f"{r.get('panel_tail') or r.get('tail')}\n")
+        # r1261: the sample is certified against a full scan, and that scan also
+        # says how many symbols hold the newest bar -- a tail held by two files
+        # is one symbol's bar, not the panel's.
+        tailnote += ("\nFull-scan certification of exactly these rows: "
+                     "`scripts/data_lane_freshness.py certify` -> "
+                     "`docs/data_lanes/TAIL_CERTIFICATION.md` "
+                     "(it re-reads every file and names the symbols that sit "
+                     "behind the newest bar).\n")
     return head + disks + cols + body + tailnote
 
 
@@ -1274,8 +1327,216 @@ def selftest():
     print("[PASS] L21 a silent host's frozen lanes are split by whether the "
           "writer can declare a stand-in, read out of that writer", flush=True)
 
-    print("selftest: 20/20 PASS", flush=True)
+    # L23 the forty-file sample is a claim about a 5,222-file panel; the full
+    # read is the measurement. The fixture puts the newest bar on an interior
+    # symbol the sample never opens, so the two disagree -- and the certification
+    # has to say so, name the lane, and count the symbols sitting behind it.
+    with tempfile.TemporaryDirectory() as td:
+        pdir = os.path.join(td, "per")
+        os.makedirs(pdir)
+        for i in range(300):
+            day = "2026-11-06" if i == 150 else "2026-10-20"
+            with open(os.path.join(pdir, "%06d.csv" % i), "w") as fh:
+                fh.write("date,close\n%s,1.0\n" % day)
+        samp23, _ = panel_tail_csv(pdir)
+        full23, fin23 = panel_tail_csv_full(pdir)
+        assert samp23 == _as_date("2026-10-20"), samp23   # the sample never opens 150
+        assert full23 == _as_date("2026-11-06"), full23    # the full read does
+        assert fin23["n_laggards"] == 299, fin23
+        assert fin23["files"] == 300 and fin23["per_file"] == 300, fin23
+        spec23 = [{"lane": "cert_lane", "panel_csv": {"dir": "per",
+                                                      "pattern": "*.csv"}}]
+        rows23, verdict23 = certify_rows(spec23, root=td)
+        assert verdict23 == "sample_understated", (verdict23, rows23)
+        assert rows23[0]["agree"] is False, rows23
+        assert rows23[0]["full_tail"] == "2026-11-06", rows23
+        assert rows23[0]["sample_tail"] == "2026-10-20", rows23
+        assert rows23[0]["direction"] == "sample_understated", rows23
+        # one of 300 symbols holds the newest bar -> the number travels alone
+        assert rows23[0]["tail_holders"] == 1 and rows23[0]["thin_tail"] is True, rows23
+        # every symbol carries the newest bar -> certified, and nothing is named
+        for i in range(300):
+            with open(os.path.join(pdir, "%06d.csv" % i), "w") as fh:
+                fh.write("date,close\n2026-11-06,1.0\n")
+        rows24, verdict24 = certify_rows(spec23, root=td)
+        assert verdict24 == "certified", (verdict24, rows24)
+        assert rows24[0]["n_laggards"] == 0 and rows24[0]["laggards"] == [], rows24
+        assert rows24[0]["thin_tail"] is False, rows24
+        assert rows24[0]["tail_holder_share"] == 1.0, rows24
+        # three symbols stopped a day early: certified tail, but named laggards
+        for i in (7, 88, 299):
+            with open(os.path.join(pdir, "%06d.csv" % i), "w") as fh:
+                fh.write("date,close\n2026-11-05,1.0\n")
+        rows25, verdict25 = certify_rows(spec23, root=td)
+        assert verdict25 == "certified", verdict25      # the tail is still 11-06
+        assert rows25[0]["n_laggards"] == 3, rows25
+        assert rows25[0]["laggards"] == ["000007.csv", "000088.csv", "000299.csv"], rows25
+        # 297 of 300 hold the tail -> a laggard list, not a thin tail
+        assert rows25[0]["thin_tail"] is False, rows25
+    print("[PASS] L23 a panel tail read by sample is certified against a full "
+          "scan, and the symbols sitting behind the newest bar are named", flush=True)
+
+    print("selftest: 21/21 PASS", flush=True)
     return 0
+
+
+CERT_PATH = os.path.join(ROOT, "results", "data_lane_tail_certification.json")
+CERT_MD_PATH = os.path.join(ROOT, "docs", "data_lanes", "TAIL_CERTIFICATION.md")
+# Below this share of a panel, the newest bar is one symbol's bar quoted as the
+# panel's: name it instead of letting the number travel alone.
+THIN_TAIL_SHARE = 0.10
+
+
+def certify_rows(lanes=None, root=ROOT, laggard_cap=25):
+    """(rows, verdict) -- read every declared panel in full, then ask the sample.
+
+    Two questions per lane, and they are not the same question:
+      * did the forty-file sample pick the same tail the full read picks? (`agree`)
+      * is the panel's newest bar shared by every symbol?      (`n_laggards`)
+    A sample that agrees is certified. A panel whose newest bar belongs to a
+    handful of symbols is a separate, human-actionable fact that no 40-of-5222
+    read would ever surface -- and the board's tail number is exactly what the
+    frozen-lineage docs quote, so it has to be checkable.
+    """
+    rows = []
+    for spec in (lanes if lanes is not None else LANES):
+        pc = spec.get("panel_csv")
+        if not pc:
+            continue
+        d = os.path.join(root, pc["dir"])
+        pattern = pc.get("pattern", "*.csv")
+        t0 = dt.datetime.now()
+        full, finfo = panel_tail_csv_full(d, pattern, laggard_cap=laggard_cap)
+        sample, sinfo = panel_tail_csv(d, pattern)
+        rows.append({
+            "lane": spec["lane"],
+            "dir": pc["dir"],
+            "full_tail": str(full) if full else None,
+            "sample_tail": str(sample) if sample else None,
+            "agree": bool(full == sample),
+            # The sample is a subset, so full >= sample always: a sample can
+            # only ever be too pessimistic, never too optimistic. Both facts are
+            # published anyway, because "the reader was told 10-13" and "the file
+            # says 10-19" are two different sentences even when the second one
+            # is the more flattering of the two.
+            "direction": ("agree" if full == sample else
+                          ("sample_understated" if full and sample and full > sample
+                           else "sample_overstated")),
+            "files": finfo.get("files", 0),
+            "files_read": finfo.get("per_file", 0),
+            "files_read_by_sample": sinfo.get("per_file", 0),
+            "sample_disclosed": bool(sinfo.get("sampled")),
+            "unread": finfo.get("unread", 0),
+            "n_laggards": finfo.get("n_laggards", 0),
+            # How many symbols actually carry the newest bar. A tail held by two
+            # of 5,222 files is not a statement about the panel.
+            "tail_holders": finfo.get("per_file", 0) - finfo.get("n_laggards", 0),
+            "tail_holder_share": (round((finfo.get("per_file", 0)
+                                         - finfo.get("n_laggards", 0))
+                                        / float(finfo.get("per_file", 1)), 4)
+                                  if finfo.get("per_file") else None),
+            "laggards": finfo.get("laggards", []),
+            "laggards_truncated": finfo.get("laggards_truncated", False),
+            "elapsed_sec": round((dt.datetime.now() - t0).total_seconds(), 2),
+        })
+        # A tail held by under a tenth of the panel is quoted in the docs as
+        # "the panel's tail", so it has to be flagged where the number is made.
+        _share = rows[-1]["tail_holder_share"]
+        rows[-1]["thin_tail"] = bool(_share is not None and _share < THIN_TAIL_SHARE)
+    disagreed = [r["lane"] for r in rows if not r["agree"]]
+    if not rows:
+        verdict = "no_panels_declared"
+    elif any(r["direction"] == "sample_overstated" for r in rows):
+        verdict = "sample_overstated"
+    elif disagreed:
+        verdict = "sample_understated"
+    else:
+        verdict = "certified"
+    return rows, verdict
+
+
+def render_cert_md(report):
+    out = ["# Panel tail certification", "",
+           f"As of {report['as_of']}. The board reads the big per-symbol panels "
+           "through a 40-file sample; this reads every file and says whether the "
+           "sample got the same answer — and how many symbols actually hold the "
+           "newest bar.", "",
+           f"Verdict: **{report['verdict']}** — "
+           f"{report['counts']['lanes']} panel(s), "
+           f"{report['counts']['files_scanned']} file(s) scanned.", "",
+           "| lane | full tail | sample tail | agree | files read | symbols holding the newest bar |",
+           "|---|---|---|---|---|---|"]
+    for r in report["lanes"]:
+        out.append("| {lane} | {full} | {sample} | {agree} | {read}/{files} | {hold} ({share}) |".format(
+            lane=r["lane"], full=r["full_tail"] or "--",
+            sample=r["sample_tail"] or "--",
+            agree="yes" if r["agree"] else "**no** (%s)" % r["direction"],
+            read=r["files_read"], files=r["files"],
+            hold=r["tail_holders"],
+            share=("--" if r["tail_holder_share"] is None
+                   else "%.2f%%" % (100.0 * r["tail_holder_share"]))))
+    thin = [r for r in report["lanes"] if r.get("thin_tail")]
+    out.append("")
+    if thin:
+        out.append("## The newest bar is held by a handful of symbols")
+        out.append("")
+        out.append("A tail that only a few files reach is not a statement about the "
+                   "panel; it is one symbol's last bar quoted as the panel's.")
+        out.append("")
+        for r in thin:
+            out.append(f"- **{r['lane']}**: `{r['full_tail']}` is held by "
+                       f"{r['tail_holders']} of {r['files']} symbols "
+                       f"({100.0 * r['tail_holder_share']:.2f}%); "
+                       f"{r['n_laggards']} sit behind it.")
+    behind = [r for r in report["lanes"] if r["n_laggards"]]
+    out.append("")
+    if behind:
+        out.append("## Symbols whose last bar is behind the panel's newest bar")
+        out.append("")
+        for r in behind:
+            names = ", ".join(r["laggards"])
+            more = " …" if r["laggards_truncated"] else ""
+            out.append(f"- **{r['lane']}** ({r['n_laggards']} of {r['files']}): {names}{more}")
+    else:
+        out.append("Every declared panel has one tail shared by all of its symbols.")
+    out.append("")
+    return "\n".join(out)
+
+
+def certify(now=None, lanes=None, root=ROOT, write=True):
+    now = now or dt.datetime.now()
+    rows, verdict = certify_rows(lanes, root)
+    report = {
+        "as_of": now.isoformat(timespec="seconds"),
+        "verdict": verdict,
+        "thin_tail_share": THIN_TAIL_SHARE,
+        "counts": {
+            "lanes": len(rows),
+            "files_scanned": sum(r["files"] for r in rows),
+            "sample_disagreed": len([r for r in rows if not r["agree"]]),
+            "lanes_with_laggards": len([r for r in rows if r["n_laggards"]]),
+            "thin_tails": len([r for r in rows if r["thin_tail"]]),
+        },
+        "lanes": rows,
+    }
+    for r in rows:
+        print(f"{'certified' if r['agree'] else 'UNDERSTATED':>10}  {r['lane']:<14} "
+              f"full={r['full_tail'] or '--':<11} sample={r['sample_tail'] or '--':<11} "
+              f"files={r['files_read']}/{r['files']} "
+              f"holders={r['tail_holders']} laggards={r['n_laggards']}"
+              f"{' THIN' if r['thin_tail'] else ''}",
+              flush=True)
+    print(f"verdict={verdict} counts={report['counts']}", flush=True)
+    if write:
+        os.makedirs(os.path.dirname(CERT_PATH), exist_ok=True)
+        tmp = CERT_PATH + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(report, f, ensure_ascii=False, indent=1)
+        os.replace(tmp, CERT_PATH)
+        os.makedirs(os.path.dirname(CERT_MD_PATH), exist_ok=True)
+        with open(CERT_MD_PATH, "w", encoding="utf-8") as f:
+            f.write(render_cert_md(report))
+    return 0 if verdict in ("certified", "no_panels_declared") else 3
 
 
 def run(now=None, allow_network=False):
@@ -1305,10 +1566,12 @@ def run(now=None, allow_network=False):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", nargs="?", default="run",
-                    choices=["run", "selftest", "show"])
+                    choices=["run", "selftest", "show", "certify"])
     a = ap.parse_args()
     if a.cmd == "selftest":
         return selftest()
+    if a.cmd == "certify":
+        return certify()
     if a.cmd == "show":
         if not os.path.exists(OUT_PATH):
             print("no board yet -- run it first", flush=True)
