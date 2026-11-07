@@ -1839,7 +1839,7 @@ def main() -> int:
                     _why.append(f"{lane}: thin-tail flag disagrees with the share")
         check("fleet: a panel tail read by sample is certified against a full scan",
               not _why, "; ".join(_why) or
-              f"{len(_crow)} panel(s) certified, "
+              f"verdict={_cert.get('verdict')}, {len(_crow)} panel(s) re-read, "
               f"{_cert['counts']['files_scanned']} file(s) scanned")
     except Exception as e:
         check("fleet: a panel tail read by sample is certified against a full scan",
