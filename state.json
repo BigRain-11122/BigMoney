@@ -38,9 +38,11 @@
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "delivery": {
-  "branch": "machine/bm-b-r1486",
-  "main_push_blocker": "local main diverged from origin/main across two blood lines on a promisor clone over a tree other lanes keep dirty; no unattended rebase per r1243 -- the machine branch is the delivery channel",
-  "ts": "2026-11-06T15:2x+08:00"
+  "branch": "machine/bm-b-r1523",
+  "sha": "a53ab1468c62f5f11a0738d1286e9e36006f9d6f",
+  "ts": "2026-11-07T13:43:31+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1523 equals local HEAD",
+  "main_push_blocker": "local main is 529 ahead / 313 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel"
  },
  "delivery_r1472": {
   "behind_origin_main": 295,
@@ -108,8 +110,8 @@
  "last_orders_watermark": "ead5e458898cbfbb@d204647/230463",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@d204647cecc78235059930b81a59f7027fa57d5c/230463#ead5e458898cbfbb688800af6a9876c3385cb6db7e6a9cea38652915ebb68c1a",
  "last_product": "scripts/e346_status_writer_unread.py + UNREADSTATUS face + S6 leg status_writer_unread + smoke leg E346 + card E346",
- "last_push": "machine/bm-b-r1325",
- "last_push_sha": "684061a914e6bc22cf93029f080d896cb8faea7b",
+ "last_push": "machine/bm-b-r1523",
+ "last_push_sha": "a53ab1468c62f5f11a0738d1286e9e36006f9d6f",
  "last_push_ts": "2026-10-31T15:00:00+08:00",
  "last_receipt": "results/_r1447bmb_closeout.json",
  "last_round": 1494,
@@ -1337,7 +1339,7 @@
  "three_line_artifact": "results/state_tilt/TWINDEAD-2026-11-07.json",
  "three_line_artifact_ts": "2026-11-07T13:42:24+08:00",
  "three_line_current": "r1523: E497 -- the twin E496 called write-only is read by 3 S6 producers through a helper; the 16 dated CALL members are read by nothing",
- "three_line_delivery": "machine/bm-b-r1510 @ ba3c30604 (ls-remote verified)",
+ "three_line_delivery": "machine/bm-b-r1523 @ a53ab1468 (ls-remote verified)",
  "three_line_next": "burn E485 or E495 (the two ready cards) within 48h; E498 seeded for the helper blind spot",
  "timestamp": "2026-11-07T13:42:24+08:00",
  "ts": "2026-11-07T13:42:24+08:00",
@@ -1387,7 +1389,7 @@
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1510 equals local HEAD",
   "main_push_blocker": "local main is 296 behind / 507 ahead of origin/main across two blood lines (promisor lazy-fetch wedge r1255 family); no unattended rebase per r1243, so the machine branch is the delivery channel"
  },
- "delivery_sha": "ba3c30604b420143332795c7cccd50a66273a524",
+ "delivery_sha": "a53ab1468c62f5f11a0738d1286e9e36006f9d6f",
  "r1523": {
   "card": "E497",
   "study": "E497",
@@ -1411,5 +1413,16 @@
   "selftest": "e497 26/26",
   "ts": "2026-11-07T13:42:24+08:00",
   "verify": "problems=[] (rebuild identical)"
- }
+ },
+ "delivery_branch": "machine/bm-b-r1523",
+ "delivery_verified": "git ls-remote origin refs/heads/machine/bm-b-r1523 equals local HEAD",
+ "r1523_delivery": {
+  "branch": "machine/bm-b-r1523",
+  "sha": "a53ab1468c62f5f11a0738d1286e9e36006f9d6f",
+  "ts": "2026-11-07T13:43:31+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1523 equals local HEAD",
+  "main_push_blocker": "local main is 529 ahead / 313 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel"
+ },
+ "last_push_at": "2026-11-07T13:43:31+08:00",
+ "postscript_sha": "a53ab1468c62f5f11a0738d1286e9e36006f9d6f"
 }

@@ -165,8 +165,14 @@
  "decisions_sha": "1150963b",
  "decisions_watermark": "abd700a9e1ec0ce2",
  "decisions_watermark_note": "fetch rc!=0 (cannot lock refs/remotes/origin/main); read origin/main:docs/decisions.md from the existing ref, 239 lines, newest D-20261104-01/02, bigmoney rows = no-op",
- "delivery": "machine/bm-b-r1519",
- "delivery_branch": "machine/bm-b-r1519",
+ "delivery": {
+  "branch": "machine/bm-b-r1523",
+  "sha": "a53ab1468c62f5f11a0738d1286e9e36006f9d6f",
+  "ts": "2026-11-07T13:43:31+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1523 equals local HEAD",
+  "main_push_blocker": "local main is 529 ahead / 313 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel"
+ },
+ "delivery_branch": "machine/bm-b-r1523",
  "delivery_note": "git ls-remote origin refs/heads/machine/bm-b-r1514 == HEAD",
  "delivery_r1472": {
   "behind_origin_main": 295,
@@ -181,10 +187,10 @@
   "ts": "2026-11-06T10:21:48+08:00",
   "verified": true
  },
- "delivery_sha": "b58b5a1c0d818a102af0958dc99d6160a44da7a8",
+ "delivery_sha": "a53ab1468c62f5f11a0738d1286e9e36006f9d6f",
  "delivery_sha_local": "b58b5a1c0d818a102af0958dc99d6160a44da7a8",
  "delivery_ts": "2026-11-07T06:01:00+08:00",
- "delivery_verified": true,
+ "delivery_verified": "git ls-remote origin refs/heads/machine/bm-b-r1523 equals local HEAD",
  "dept": "research+engineering",
  "did": "r1511: E482 closed -- of the 201 *_latest.json spellings opened outside E479's 36 twin families, 195 resolve to a file (491 of 512 distinct sites) and 6 do not: 3 are templates and 3 are selftest fixture names, so zero real readers open a face nothing produces",
  "did_round": 1511,
@@ -302,9 +308,9 @@
  "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
  "last_orders_watermark": "4348aa21bc8f",
  "last_product": "r1504: E476 closed -- of the 47 unattributed unread families, 14 name a writer and all 14 do it through a card id in a study field, 0 through a script, 23 carry only a timestamp, 1 parsed payload names nothing, 9 are unmeasured (csv-only members)",
- "last_push": "b58b5a1c0",
- "last_push_at": "2026-11-07T12:05:45+08:00",
- "last_push_sha": "b58b5a1c0d818a102af0958dc99d6160a44da7a8",
+ "last_push": "machine/bm-b-r1523",
+ "last_push_at": "2026-11-07T13:43:31+08:00",
+ "last_push_sha": "a53ab1468c62f5f11a0738d1286e9e36006f9d6f",
  "last_push_ts": "2026-11-07T08:56:42+08:00",
  "last_round": 1512,
  "last_round_at": "2026-11-07T05:59:42+08:00",
@@ -545,7 +551,7 @@
  "pool": "960 entries: 956 done / 3 ready (E483/E485 seeded earlier, E487 seeded r1511); E482 burned this round",
  "pool_claims": null,
  "pool_ready_unclaimed": 3,
- "postscript_sha": "034abd2ff16e5e60019c10a57408bae10360568c",
+ "postscript_sha": "a53ab1468c62f5f11a0738d1286e9e36006f9d6f",
  "product": [
   "scripts/e484_undated_vintage.py (run rc0 / check problems=0 / verify identical rebuild / selftest 41/41)",
   "results/state_tilt/UNDATED-2026-11-07.json + undated_latest.json (201 rows)",
@@ -5756,7 +5762,7 @@
  "three_line_artifact": "results/state_tilt/TWINDEAD-2026-11-07.json",
  "three_line_artifact_ts": "2026-11-07T13:42:24+08:00",
  "three_line_current": "r1523: E497 -- the twin E496 called write-only is read by 3 S6 producers through a helper; the 16 dated CALL members are read by nothing",
- "three_line_delivery": "machine/bm-b-r1521 (pushed, ls-remote verified)",
+ "three_line_delivery": "machine/bm-b-r1523 @ a53ab1468 (ls-remote verified)",
  "three_line_next": "burn E485 or E495 (the two ready cards) within 48h; E498 seeded for the helper blind spot",
  "timestamp": "2026-11-07T13:42:24+08:00",
  "ts": "2026-11-07T13:42:24+08:00",
@@ -5801,5 +5807,12 @@
   "selftest": "e497 26/26",
   "ts": "2026-11-07T13:42:24+08:00",
   "verify": "problems=[] (rebuild identical)"
+ },
+ "r1523_delivery": {
+  "branch": "machine/bm-b-r1523",
+  "sha": "a53ab1468c62f5f11a0738d1286e9e36006f9d6f",
+  "ts": "2026-11-07T13:43:31+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1523 equals local HEAD",
+  "main_push_blocker": "local main is 529 ahead / 313 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel"
  }
 }
