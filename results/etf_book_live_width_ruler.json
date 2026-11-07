@@ -14,37 +14,37 @@
   "power_target": 0.8,
   "frozen": "written before the first read of the two live faces: the comparator is the difference-of-differences (this rung on the atlas engine vs the same rung on the capacity engine), never a level gap, because a level gap and a difference are different units"
  },
- "evidence_cutoff": "2026-10-30",
+ "evidence_cutoff": "2026-11-06",
  "live_faces": {
   "card": {
    "n_hold": 12,
    "rebal": 20,
    "rule": "vol_target",
-   "median_cagr_pp": 9.59,
-   "band_pp": 7.825,
+   "median_cagr_pp": 9.42,
+   "band_pp": 7.7165,
    "phases": 20,
-   "min_pp": 5.12,
-   "max_pp": 13.42
+   "min_pp": 4.97,
+   "max_pp": 13.19
   },
   "ticket": {
    "n_hold": 5,
    "rebal": 20,
    "rule": "beta",
-   "median_cagr_pp": 9.085,
-   "band_pp": 6.369,
+   "median_cagr_pp": 9.075,
+   "band_pp": 6.4085,
    "phases": 20,
-   "min_pp": 4.28,
-   "max_pp": 13.48
+   "min_pp": 4.09,
+   "max_pp": 13.13
   }
  },
  "paired": {
   "pairs": 20,
-  "median_pp": 0.12,
-  "mean_pp": 0.149,
-  "min_pp": -2.01,
-  "max_pp": 2.86,
+  "median_pp": 0.045,
+  "mean_pp": 0.134,
+  "min_pp": -2.05,
+  "max_pp": 2.82,
   "spread_pp": 4.87,
-  "sd_pp": 1.265,
+  "sd_pp": 1.25,
   "positive": 10,
   "sign_agreement": 0.5,
   "phase_offsets": [
@@ -70,103 +70,110 @@
    19
   ],
   "deltas_pp": [
-   -2.01,
-   -1.33,
-   -0.17,
-   1.42,
-   -1.82,
-   0.33,
-   1.32,
-   -0.66,
-   1.36,
-   1.17,
-   1.36,
-   -1.1,
-   1.23,
+   -2.05,
+   -1.14,
+   -0.13,
+   1.52,
+   -1.65,
+   0.2,
+   1.19,
+   -0.73,
+   1.12,
+   1.3,
+   1.37,
+   -1.16,
+   1.22,
    0.58,
-   -0.26,
-   2.86,
-   -1.01,
-   -0.09,
-   0.8,
-   -0.99
+   -0.11,
+   2.82,
+   -1.15,
+   -0.11,
+   0.71,
+   -1.13
   ]
  },
  "aggregation": {
-  "difference_of_medians_pp": 0.505,
-  "median_of_differences_pp": 0.12,
-  "shrink_pp": 0.385,
-  "ratio": 4.208,
+  "difference_of_medians_pp": 0.345,
+  "median_of_differences_pp": 0.045,
+  "shrink_pp": 0.3,
+  "ratio": 7.667,
   "note": "the ladder's rung is a difference of two medians; the same rung taken across paired phases is a different number, and the gap between the two is the aggregation, not the book"
  },
  "rulers": {
-  "atlas_ruler_pp": 6.734,
-  "card_band_pp": 7.825,
-  "ticket_band_pp": 6.369
+  "atlas_ruler_pp": 6.741,
+  "card_band_pp": 7.7165,
+  "ticket_band_pp": 6.4085
  },
  "engine_disagreement": {
-  "atlas_rung_pp": 0.505,
+  "atlas_rung_pp": 0.345,
   "capacity_rung_pp": -1.53,
-  "rung_disagreement_pp": 2.035,
+  "rung_disagreement_pp": 1.875,
   "sign_flips": true,
   "level_gap_pp": {
-   "5": 6.475,
-   "12": 4.44
+   "5": 6.485,
+   "12": 4.61
   },
   "capacity_evidence_cutoff": null
  },
  "resolution": {
   "pairs": 20,
-  "sd_pp": 1.265,
+  "sd_pp": 1.25,
   "power_z": 2.802,
   "power_target": 0.8,
-  "mde_pp": 0.793,
-  "gap_over_mde": 0.151,
+  "mde_pp": 0.783,
+  "gap_over_mde": 0.057,
   "readable": false,
   "note": "minimum paired difference this cycle could detect at 80% power (two-sided 5%). A gap under it is not evidence of no difference; it is evidence that this pairing cannot tell the two widths apart"
  },
  "as_issued": {
   "source": "results/etf_book_order/TICKET-*.json width_disclosure.square",
-  "ticket_asof": "2026-11-03",
-  "square_fingerprint": "cb869a36c8915f1c",
+  "ticket_asof": "2026-11-06",
+  "square_fingerprint": "cbdf5f2f6011022f",
   "cells_cagr_pp": {
-   "beta@5": 10.98,
-   "beta@12": 9.51,
-   "vol@5": 11.65,
-   "vol@12": 11.92
+   "beta@5": 11.16,
+   "beta@12": 9.63,
+   "vol@5": 11.94,
+   "vol@12": 12.17
   },
-  "card_cagr_pp": 11.92,
-  "ticket_cagr_pp": 10.98,
-  "diagonal_pp": 0.94,
+  "card_cagr_pp": 12.17,
+  "ticket_cagr_pp": 11.16,
+  "diagonal_pp": 1.01,
   "width_effect_pp": {
-   "beta": -1.47,
-   "vol": 0.27
+   "beta": -1.53,
+   "vol": 0.23
   },
   "rule_effect_pp": {
-   "n5": 0.67,
-   "n12": 2.41
+   "n5": 0.78,
+   "n12": 2.54
   },
-  "interaction_pp": 1.74,
+  "interaction_pp": 1.76,
   "decomposition": {
-   "width_first": 0.94,
-   "rule_first": 0.94,
+   "width_first": 1.01,
+   "rule_first": 1.01,
    "paths_agree": true
   },
   "interaction_exceeds_both_width_effects": true,
-  "coincidences": [],
+  "coincidences": [
+   {
+    "value_pp": -1.53,
+    "same_as": "capacity engine's 5->12 rung",
+    "note": "the beta-rule width effect (-1.530pp) equals the capacity engine's 5->12 rung (-1.530pp) to the basis point. They are different quantities on different windows -- one is a live 2x2 cell difference, the other a second engine's rung. Recording the collision so nobody reads it as confirmation"
+   }
+  ],
   "window": "ticket inception 2024-01-02, 682 bars (not the atlas window)",
   "rules_differ": true
  },
  "verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
  "verdict_reasons": [
   "20 paired phases of one R20 cycle (need >= 20)",
-  "paired gap +0.120pp (median of 20 phase differences; range -2.010..+2.860, sd 1.265)",
+  "paired gap +0.045pp (median of 20 phase differences; range -2.050..+2.820, sd 1.250)",
   "direction splits 10/10 (sign agreement 0.500; floor 0.60)",
-  "the same rung costs +0.505pp on the atlas engine and -1.530pp on the capacity engine, a disagreement of 2.035pp with the sign flipping = True",
-  "difference of medians +0.505pp vs median of differences +0.120pp: the ladder's rung is 76% aggregation",
-  "gap is 5.9% of the engine disagreement and 1.8% of the atlas ruler 6.73pp",
-  "this pairing's own resolution is 0.793pp at 80% power (20 phases, sd 1.265), so a gap of +0.120pp is 15% of what it could have detected -- below its own ruler, so 'no difference' is not the finding either",
+  "the same rung costs +0.345pp on the atlas engine and -1.530pp on the capacity engine, a disagreement of 1.875pp with the sign flipping = True",
+  "difference of medians +0.345pp vs median of differences +0.045pp: the ladder's rung is 87% aggregation",
+  "gap is 2.4% of the engine disagreement and 0.7% of the atlas ruler 6.74pp",
+  "this pairing's own resolution is 0.783pp at 80% power (20 phases, sd 1.250), so a gap of +0.045pp is 6% of what it could have detected -- below its own ruler, so 'no difference' is not the finding either",
   "the two live widths are not separated by their own phases AND the engine disagreement on the same rung is wider than the gap: no part of the difference between card and ticket is quotable as a width effect",
-  "as issued the two faces print 11.92pp vs 10.98pp (+0.94pp diagonal), but the 2x2 moves two knobs at once: width effect -1.47pp under the beta rule and +0.27pp under the vol rule, with an interaction of +1.74pp (bigger than both width effects = True)"
+  "as issued the two faces print 12.17pp vs 11.16pp (+1.01pp diagonal), but the 2x2 moves two knobs at once: width effect -1.53pp under the beta rule and +0.23pp under the vol rule, with an interaction of +1.76pp (bigger than both width effects = True)",
+  "COINCIDENCE, not agreement: the beta-rule width effect (-1.530pp) equals the capacity engine's 5->12 rung (-1.530pp) to the basis point. They are different quantities on different windows -- one is a live 2x2 cell difference, the other a second engine's rung. Recording the collision so nobody reads it as confirmation"
  ]
 }

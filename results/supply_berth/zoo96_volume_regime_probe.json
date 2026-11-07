@@ -1,0 +1,118 @@
+{
+ "generated": "2026-11-07T11:45:49+0800",
+ "script": "scripts/zoo96_volume_regime_probe.py",
+ "berth": "zoo #96 volume_regime_bimodal (frozen bm-b r263)",
+ "evidence_cutoff": "2026-10-30",
+ "criteria": {
+  "call": "does the volume state machine beat buy-and-hold on 510300 after cost?",
+  "passes": {
+   "net_excess": "net CAGR minus the benchmark's > 0",
+   "beats_null": "the phase-null p (share of shifts that match or beat it) < 0.05",
+   "drawdown": "max drawdown not worse than the benchmark's",
+   "exposure": "long share reported, never tuned"
+  },
+  "verdicts": [
+   "ADOPT_AS_CANDIDATE",
+   "REFUSE_AS_CANDIDATE",
+   "UNDECIDABLE_NULL_THIN",
+   "INSUFFICIENT_BARS"
+  ],
+  "thresholds": {
+   "up": 1.15,
+   "down": 0.810874,
+   "slow": 100,
+   "fast": 5
+  },
+  "cost": {
+   "per_side": 0.0013041,
+   "x3_robustness": 0.0039123000000000005
+  },
+  "execution": "signal at close t, fill at open t+1, mark to close"
+ },
+ "panel": {
+  "symbols": 5197,
+  "bars": 1653,
+  "first_bar": "2020-01-02",
+  "last_bar": "2026-10-30",
+  "index": "sh510300"
+ },
+ "deviations": [
+  "primary index is summed traded VALUE (成交额) across the archive, not summed share counts (splits and universe drift break a share-count sum); the share-count leg is published beside it",
+  "universe = the 5,223-name A-share archive on disk (2020-01 ->), coverage per bar published as coverage_min/coverage_median",
+  "the source's short leg is dropped: an ETF book cannot short spot, so the whole 0.807..1.15 band is cash"
+ ],
+ "coverage": {
+  "min": 3528,
+  "median": 4849
+ },
+ "arms": {
+  "amount_index": {
+   "years": 6.83,
+   "cagr": -0.00931,
+   "vol": 0.1283,
+   "sharpe": -0.012,
+   "maxdd": -0.34377,
+   "long_share": 0.3832,
+   "switches": 288,
+   "switches_per_year": 42.17,
+   "bars": 1545,
+   "index_first": "2020-06-16"
+  },
+  "volume_index": {
+   "years": 6.83,
+   "cagr": 0.04119,
+   "vol": 0.1227,
+   "sharpe": 0.404,
+   "maxdd": -0.21613,
+   "long_share": 0.3152,
+   "switches": 269,
+   "switches_per_year": 39.39,
+   "bars": 1545,
+   "index_first": "2020-06-16"
+  },
+  "amount_index_cost_x3": {
+   "years": 6.83,
+   "cagr": -0.11281,
+   "vol": 0.1306,
+   "sharpe": -0.89,
+   "maxdd": -0.63453
+  },
+  "volume_index_cost_x3": {
+   "years": 6.83,
+   "cagr": -0.06114,
+   "vol": 0.1241,
+   "sharpe": -0.468,
+   "maxdd": -0.49754
+  }
+ },
+ "benchmark": {
+  "years": 6.83,
+  "cagr": -0.00264,
+  "vol": 0.1912,
+  "sharpe": 0.081,
+  "maxdd": -0.45101
+ },
+ "excess_pp": -0.667,
+ "excess_pp_volume_index": 4.383,
+ "null": {
+  "draws": 200,
+  "mean": -0.05011,
+  "p95": 0.0002,
+  "p_value": 0.09
+ },
+ "null_volume_index": {
+  "draws": 200,
+  "mean": -0.04685,
+  "p95": -0.00047,
+  "p_value": 0.005
+ },
+ "proxy_disagrees": true,
+ "verdict": "REFUSE_AS_CANDIDATE",
+ "verdict_reasons": [
+  "net excess -0.67pp/yr is not positive",
+  "phase null p=0.09 does not beat 5%",
+  "the two honest volume proxies disagree in sign (value -0.67pp/yr p=0.09 vs share-count +4.38pp/yr p=0.005), so the berth's own axis is the open question, not the rule",
+  "even the passing proxy gives the excess back at x3 cost (-6.11%/yr vs buy-and-hold -0.26%/yr)"
+ ],
+ "elapsed_sec": 58.3
+}

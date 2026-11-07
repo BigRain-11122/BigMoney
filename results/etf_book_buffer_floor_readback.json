@@ -10,103 +10,103 @@
  "buffer_k": 0.3,
  "floor_face": "etf_book_buffer_resolution_floor.json",
  "arm_face": "etf_book_phase_atlas_buffer_k30.json",
- "predicted_pp": 0.371,
- "observed_pp": 0.323,
- "gap_pp": -0.048,
- "tolerance_pp": 0.972,
- "max_in_sample_residual_pp": 0.324,
+ "predicted_pp": 0.246,
+ "observed_pp": 0.487,
+ "gap_pp": 0.241,
+ "tolerance_pp": 0.287,
+ "max_in_sample_residual_pp": 0.096,
  "cells": [
   {
    "n_hold": 3,
    "rebal": 10,
    "median_cagr_pp": 12.165,
-   "baseline_cagr_pp": 10.865,
-   "delta_pp": 1.3
+   "baseline_cagr_pp": 10.765,
+   "delta_pp": 1.4
   },
   {
    "n_hold": 3,
    "rebal": 20,
    "median_cagr_pp": 9.755,
-   "baseline_cagr_pp": 8.58,
-   "delta_pp": 1.175
+   "baseline_cagr_pp": 8.46,
+   "delta_pp": 1.295
   },
   {
    "n_hold": 3,
    "rebal": 40,
    "median_cagr_pp": 6.06,
-   "baseline_cagr_pp": 6.69,
-   "delta_pp": -0.63
+   "baseline_cagr_pp": 6.655,
+   "delta_pp": -0.595
   },
   {
    "n_hold": 5,
    "rebal": 10,
    "median_cagr_pp": 12.31,
-   "baseline_cagr_pp": 11.51,
-   "delta_pp": 0.8
+   "baseline_cagr_pp": 11.435,
+   "delta_pp": 0.875
   },
   {
    "n_hold": 5,
    "rebal": 20,
    "median_cagr_pp": 9.79,
-   "baseline_cagr_pp": 9.085,
-   "delta_pp": 0.705
+   "baseline_cagr_pp": 9.075,
+   "delta_pp": 0.715
   },
   {
    "n_hold": 5,
    "rebal": 40,
    "median_cagr_pp": 8.065,
-   "baseline_cagr_pp": 8.22,
-   "delta_pp": -0.155
+   "baseline_cagr_pp": 8.1,
+   "delta_pp": -0.035
   },
   {
    "n_hold": 8,
    "rebal": 10,
    "median_cagr_pp": 12.225,
-   "baseline_cagr_pp": 11.96,
-   "delta_pp": 0.265
+   "baseline_cagr_pp": 11.935,
+   "delta_pp": 0.29
   },
   {
    "n_hold": 8,
    "rebal": 20,
    "median_cagr_pp": 10.0,
-   "baseline_cagr_pp": 10.115,
-   "delta_pp": -0.115
+   "baseline_cagr_pp": 10.06,
+   "delta_pp": -0.06
   },
   {
    "n_hold": 8,
    "rebal": 40,
    "median_cagr_pp": 8.6,
-   "baseline_cagr_pp": 8.22,
-   "delta_pp": 0.38
+   "baseline_cagr_pp": 8.025,
+   "delta_pp": 0.575
   },
   {
    "n_hold": 12,
    "rebal": 10,
    "median_cagr_pp": 11.64,
-   "baseline_cagr_pp": 11.605,
-   "delta_pp": 0.035
+   "baseline_cagr_pp": 11.44,
+   "delta_pp": 0.2
   },
   {
    "n_hold": 12,
    "rebal": 20,
    "median_cagr_pp": 9.82,
-   "baseline_cagr_pp": 9.59,
-   "delta_pp": 0.23
+   "baseline_cagr_pp": 9.42,
+   "delta_pp": 0.4
   },
   {
    "n_hold": 12,
    "rebal": 40,
    "median_cagr_pp": 8.365,
-   "baseline_cagr_pp": 7.55,
-   "delta_pp": 0.815
+   "baseline_cagr_pp": 7.7,
+   "delta_pp": 0.665
   }
  ],
  "verdict": "HOLDS",
  "verdict_reasons": [
-  "the fit says +0.371pp at k=0.30 (slope +1.266, intercept -0.009)",
-  "the harvested arm's own 12 cells say +0.323pp (median)",
-  "gap -0.048pp against tolerance 0.972pp = 3.0x the fit's largest in-sample residual (0.324pp, floored at 0.05)",
-  "cell spread of the same arm: -0.630 .. +1.300pp (12 cells), i.e. the median is not the book",
+  "the fit says +0.246pp at k=0.30 (slope +0.887, intercept -0.020)",
+  "the harvested arm's own 12 cells say +0.487pp (median)",
+  "gap +0.241pp against tolerance 0.287pp = 3.0x the fit's largest in-sample residual (0.096pp, floored at 0.05)",
+  "cell spread of the same arm: -0.595 .. +1.400pp (12 cells), i.e. the median is not the book",
   "the line predicts a point it never saw, on the widest gap it spans -- the extrapolated k is a continuation of a measured slope, not a guess"
  ]
 }

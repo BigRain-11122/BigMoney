@@ -163,6 +163,23 @@ def coherence(worlds):
     return "ONE_WORLD", "all %d faces priced %s" % (len(stamped), panels[0]), panels
 
 
+def licensed_arms(worlds):
+    """Which arms may carry a label: the ones priced on the BASELINE's own panel.
+
+    r1397: this used to be a family-wide answer, so the family spent every week split across two
+    panels (the atlas is rebuilt one arm at a time) and a family-wide gate withheld EVERY label --
+    including the buffer arms that had all been rebuilt onto the baseline's panel, and whose
+    deltas therefore were real measurements. The test is per arm because the delta is per arm:
+    `arm face minus baseline face, same cell`.
+
+    Returns (licensed set, baseline world). No baseline stamp = nothing is licensed (unproven).
+    """
+    base = worlds.get("baseline")
+    if not base:
+        return set(), None
+    return {k for k, v in worlds.items() if k != "baseline" and v and v == base}, base
+
+
 def withhold_verdicts(payload, worlds):
     """Publish the coherence verdict, and withhold every label it does not license.
 
@@ -171,19 +188,25 @@ def withhold_verdicts(payload, worlds):
     onto one panel (pool unit ATLAS-ARMS-ONEWORLD) the same labels return as measurements.
     """
     kind, detail, panels = coherence(worlds)
+    ok, base = licensed_arms(worlds)
     payload["panel_coherence"] = {
         "verdict": kind, "detail": detail, "panels": panels,
+        "baseline_panel": base,
+        "comparable_arms": sorted(ok),
+        "withheld_arms": sorted(n for n in payload["arms"] if n not in ok),
         "law": ("a per-cell delta is arm minus baseline on the same cell, which is only a "
-                "measurement inside one panel (r1180, consuming the r1179 stamp)"),
+                "measurement inside one panel (r1180, consuming the r1179 stamp); the license "
+                "is per ARM, not per family (r1397)"),
     }
-    licensed = kind == "ONE_WORLD"
     for name, entry in payload["arms"].items():
         entry["panel_digest"] = worlds.get(name)
-        entry["verdict_publishable"] = licensed
-        if not licensed:
+        entry["comparable_to_baseline"] = name in ok
+        entry["verdict_publishable"] = name in ok
+        if name not in ok:
             entry["verdict_if_coherent"] = entry["verdict"]
             entry["verdict_reasons"] = list(entry["verdict_reasons"]) + [
-                "label withheld: %s -- %s" % (kind, detail)]
+                "label withheld: this arm priced %s, the baseline %s"
+                % ((worlds.get(name) or "no stamp")[:8], (base or "no stamp")[:8])]
             entry["verdict"] = "WORLDS_NOT_COMPARABLE"
             if "band_verdict" in entry:
                 entry["band_verdict_if_coherent"] = entry["band_verdict"]
@@ -373,10 +396,17 @@ def floor_of(payload):
     is refusing to trade at all.
     """
     base_band = payload["baseline"]["median_cell_band_pp"]
-    pts, arms = [], {}
+    pts, arms, skipped = [], {}, {}
     for name, k in sorted(BUFFER_ARMS.items(), key=lambda kv: kv[1]):
         a = payload["arms"].get(name)
         if not a:
+            continue
+        if a.get("comparable_to_baseline", True) is False:
+            # r1397: a rung priced on another panel is a different world's point on the same
+            # axis -- one such point tilts the slope and the k it implies is fiction. The rung
+            # is named, not silently dropped, so the fit's arm count stays auditable.
+            skipped[name] = {"panel_digest": a.get("panel_digest"),
+                             "why": "priced on another panel than the baseline"}
             continue
         rows = a["rows"]
         d = _median([r["delta_pp"] for r in rows])
@@ -394,9 +424,13 @@ def floor_of(payload):
                      "slope_pp_per_k": "pp of median CAGR per unit k",
                      "ruler_pp": "the baseline grid's median per-cell band (p95-p05)"},
            "evidence_cutoff": payload["baseline"]["evidence_cutoff"],
-           "rule": FLOOR_RULE, "ruler_pp": base_band, "arms": arms}
+           "rule": FLOOR_RULE, "ruler_pp": base_band, "arms": arms,
+           "rungs_skipped": skipped}
     reasons = ["%d buffer arms on the axis (need >= %d, or the slope is one point)"
                % (len(pts), FLOOR_RULE["min_points"])]
+    if skipped:
+        reasons.append("%d rung(s) left out of the fit for pricing another panel: %s"
+                       % (len(skipped), ", ".join(sorted(skipped))))
     if len(pts) < FLOOR_RULE["min_points"]:
         out.update({"fit": None, "k_required": None, "verdict": "NOT-ASSESSED",
                     "verdict_reasons": reasons})
@@ -1499,9 +1533,19 @@ def _selftest():
     # L1 every arm judges the same 12 cells
     for name, a in p["arms"].items():
         chk(len(a["rows"]) == 12, "%s judges all 12 grid cells" % name)
-    # L2 cutoffs identical across faces (a face priced on another panel must not compare)
-    cut = {a["evidence_cutoff"] for a in p["arms"].values()} | {base["evidence_cutoff"]}
-    chk(len(cut) == 1, "every face is priced on the same evidence cutoff (%s)" % sorted(cut))
+    # L2 the licenses and the cutoffs must agree. r1397: this leg used to demand ONE cutoff for
+    # the whole family, which is a requirement on how the atlas was last rebuilt rather than on
+    # what the face claims -- the atlas is rebuilt one arm at a time, so the family is normally
+    # split for a while. What must hold is that no arm claims a label while sitting on a
+    # different cutoff than the baseline it is subtracted from.
+    pub = [a for a in p["arms"].values() if a.get("verdict_publishable")]
+    pub_cuts = {a["evidence_cutoff"] for a in pub} | {base["evidence_cutoff"]} if pub else set()
+    chk(pub and len(pub_cuts) == 1,
+        "every arm that publishes a label is priced on the baseline's cutoff (%s)" % sorted(pub_cuts))
+    offworld = {n: a["evidence_cutoff"] for n, a in p["arms"].items()
+                if a.get("evidence_cutoff") != base["evidence_cutoff"]}
+    chk(all(not p["arms"][n].get("verdict_publishable") for n in offworld),
+        "every arm priced on another cutoff has its label withheld (%s)" % sorted(offworld))
     # L3 the baseline path is reproduced, not re-implemented. r1181: this leg used to pin the
     # literal 9.13pp, which is a stale literal the moment the panel gains a bar (2026-10-31:
     # 9.13 -> 9.085 on one added session, and the literal's own failure message could not tell
@@ -2130,7 +2174,7 @@ def _selftest():
                                   "band_verdict": "CADENCE_BAND_SURVIVES_THE_TOLL"}},
                 "panel_coherence": {}}
 
-    one = withhold_verdicts(_fake(), {"k05": "a"})
+    one = withhold_verdicts(_fake(), {"k05": "a", "baseline": "a"})
     chk(one["arms"]["k05"]["verdict"] == "REJECT"
         and one["arms"]["k05"]["verdict_publishable"] is True,
         "a coherent family publishes the label it computed")
@@ -2142,6 +2186,53 @@ def _selftest():
     chk(mixed["arms"]["k05"]["band_verdict"] == "WORLDS_NOT_COMPARABLE"
         and mixed["panel_coherence"]["verdict"] == "MIXED_WORLDS",
         "the band verdict and the published coherence sentence agree")
+
+    # L45-L47 r1397: the license is per ARM. The atlas is rebuilt one arm at a time, so a family
+    # split across two panels is the normal state for a week at a time; a family-wide gate made
+    # every arm unreadable in that state, including the arms that had already been rebuilt onto
+    # the baseline's own panel and whose deltas were real measurements.
+    def _fake2():
+        return {"arms": {"k05": {"verdict": "REJECT", "verdict_reasons": ["r"]},
+                         "k20": {"verdict": "NOT-SEPARABLE", "verdict_reasons": ["r"]}},
+                "panel_coherence": {}}
+
+    part = withhold_verdicts(_fake2(), {"k05": "aaaaaaaa", "k20": "bbbbbbbb",
+                                       "baseline": "aaaaaaaa"})
+    chk(part["arms"]["k05"]["verdict"] == "REJECT"
+        and part["arms"]["k20"]["verdict"] == "WORLDS_NOT_COMPARABLE",
+        "in a split family the arm on the baseline's panel keeps its label, the other does not")
+    chk(part["panel_coherence"]["comparable_arms"] == ["k05"]
+        and part["panel_coherence"]["withheld_arms"] == ["k20"],
+        "the face names which arms it licensed instead of one family-wide answer")
+    _why = part["arms"]["k20"]["verdict_reasons"][-1]
+    chk("bbbbbbbb" in _why and "aaaaaaaa" in _why,
+        "a withheld arm says which panel it was priced on, and which the baseline " "(%s)" % _why)
+    nostamp = withhold_verdicts(_fake2(), {"k05": "a", "k20": "a"})
+    chk(not nostamp["arms"]["k05"]["verdict_publishable"]
+        and nostamp["panel_coherence"]["withheld_arms"] == ["k05", "k20"],
+        "with no baseline stamp nothing is licensed (unproven, never 'same world')")
+
+    # L48 r1397: the buffer floor is fitted on rungs, so a rung from another world must not
+    # enter the fit -- and must be named rather than silently dropped.
+    def _arm_face(delta, band, rows=12):
+        return {"rows": [{"delta_pp": delta, "band_pp": band} for _ in range(rows)],
+                "median_band_pp": band, "verdict": "REJECT", "comparable_to_baseline": True}
+
+    fake_payload = {"baseline": {"median_cell_band_pp": 6.0, "evidence_cutoff": "2026-11-06"},
+                    "arms": {"buffer_k02": _arm_face(0.0, 3.0),
+                             "buffer_k05": _arm_face(0.5, 3.0),
+                             "buffer_k10": _arm_face(1.0, 3.0),
+                             "buffer_k40": _arm_face(2.0, 3.0),
+                             "buffer_k20": dict(_arm_face(9.9, 3.0),
+                                                comparable_to_baseline=False,
+                                                panel_digest="deadbeefcafe0000")}}
+    fo = floor_of(fake_payload)
+    chk(list(fo["rungs_skipped"]) == ["buffer_k20"] and "buffer_k20" not in fo["arms"],
+        "a rung priced on another panel is kept out of the floor fit and named (%r)"
+        % list(fo["rungs_skipped"]))
+    chk(fo["fit"] and fo["fit"]["n_points"] == 5,
+        "the fit counts only the licensed rungs plus the k=0 identity (%s)"
+        % (fo.get("fit") or {}).get("n_points"))
 
     print("selftest: %d legs, %d failed" % (CHECKS[0], len(bad)))
     return 0 if not bad else 1

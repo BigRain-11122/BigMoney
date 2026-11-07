@@ -435,6 +435,16 @@ def main() -> int:
             # the evaluated window inside the bars the rate archive actually measured.
             ("product: repo rate stress supply probe (exit-code contract)",
              "scripts/zoo98_repo_rate_stress_probe.py", ["--selftest"]),
+            # r1396: the last free berth on the supply line is the volume state machine (zoo
+            # #96) -- HMA(5)/HMA(100) over the market's own traded value, long above 1.15 or
+            # below 0.807, cash in between because an ETF book cannot short spot. Its legs pin
+            # the four ways a ratio-of-window-MAs backtest lies: an always-long arm at zero cost
+            # must reproduce the price path it can actually hold (flat on bar 0, so it buys at
+            # bar 1's open), a state that arrives with the last bar must never trade, one
+            # switch must cost exactly one side, and a flat volume series must read 1.0 rather
+            # than a NaN that silently disables the state machine.
+            ("product: volume regime supply probe (exit-code contract)",
+             "scripts/zoo96_volume_regime_probe.py", ["--selftest"]),
             # r1395: the book's entry friction. The spot board publishes 折价率 (a DISCOUNT,
             # the opposite sign of a premium) and an IOPV that a cross-border fund cannot
             # check against anything until its T+n NAV arrives -- two ways to print a number

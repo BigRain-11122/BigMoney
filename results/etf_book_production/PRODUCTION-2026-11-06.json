@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-07 01:42:05",
+ "ts": "2026-11-07 12:24:00",
  "evidence_cutoff": "2026-11-06",
  "feed_status": {
   "ticket_bar": "2026-11-06",
@@ -32,25 +32,40 @@
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "ONE_WORLD",
-  "detail": "all 11 faces priced a1a42aee64453839",
+  "verdict": "MIXED_WORLDS",
+  "detail": "11 faces priced 2 different panels (58302d9c, a1a42aee): per-cell deltas across worlds are world differences, not rule effects",
   "panels": [
+   "58302d9ca988c138",
    "a1a42aee64453839"
   ],
   "arms": 10,
-  "evidence_cutoff": "2026-10-30",
-  "priced_same_panel": true
+  "evidence_cutoff": "2026-11-06",
+  "priced_same_panel": false,
+  "comparable": [
+   "buffer_k02",
+   "buffer_k05",
+   "buffer_k10",
+   "buffer_k20",
+   "buffer_k40"
+  ],
+  "withheld": [
+   "buffer_k05_cost20",
+   "cost0",
+   "cost05",
+   "cost20",
+   "cost40"
+  ]
  },
  "priced_faces": {
   "faces": {
    "card": "2026-11-06",
-   "ticket": "2026-11-04",
-   "page": "2026-11-03"
+   "ticket": "2026-11-06",
+   "page": "2026-11-06"
   },
-  "verdict": "DIFFERENT_DAYS",
-  "detail": "priced on different bars: card 2026-11-06 / ticket 2026-11-04 / page 2026-11-03",
+  "verdict": "SAME_DAY",
+  "detail": "all three papers priced the 2026-11-06 bar",
   "missing": [],
-  "same_day": false
+  "same_day": true
  },
  "script": "scripts/etf_book_production.py",
  "config": {
@@ -647,7 +662,7 @@
  "sleeve_gate": {
   "status": "ok",
   "sentence": "No sleeve-level gate earns adoption: switching the sleeve off on trend 24%, vol 30%, drawdown 16% of the decision grid is no better than switching it off on the same number of untimed decisions, so a gate here would buy a shorter holding period, not a signal. The closest arm is the vol gate: +0.86pp of drawdown against the frozen 1.0pp bar, and it does beat its own placebo by +5.00pp -- which is why it is named as the re-test candidate on new data, not re-thresholded here. Verdict NO_GATE.",
-  "evidence_cutoff": "2026-11-03",
+  "evidence_cutoff": "2026-11-06",
   "verdict": "NO_GATE",
   "adopting": [],
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_sleeve_gate.json",
@@ -656,12 +671,12 @@
     "name": "trend",
     "off_decisions": 20,
     "off_share": 0.241,
-    "delta_cagr_pp": -0.31,
+    "delta_cagr_pp": -0.32,
     "delta_maxdd_pp": -2.77,
-    "placebo_delta_cagr_pp": 1.1,
+    "placebo_delta_cagr_pp": 1.09,
     "placebo_delta_maxdd_pp": -1.74,
     "dd_gain_pp": -2.77,
-    "cagr_keep": 0.9677,
+    "cagr_keep": 0.966,
     "placebo_dd_edge_pp": -1.03,
     "placebo_cagr_edge_pp": -1.41,
     "beats_placebo": false,
@@ -693,7 +708,7 @@
     "placebo_delta_cagr_pp": -2.17,
     "placebo_delta_maxdd_pp": -3.7,
     "dd_gain_pp": -1.27,
-    "cagr_keep": 0.9813,
+    "cagr_keep": 0.9809,
     "placebo_dd_edge_pp": 2.43,
     "placebo_cagr_edge_pp": 1.99,
     "beats_placebo": true,
@@ -729,7 +744,7 @@
    "sleeve_class": "commodity"
   },
   "baseline": {
-   "cagr": 0.096,
+   "cagr": 0.0941,
    "maxdd": -0.1177
   }
  },

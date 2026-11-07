@@ -22,9 +22,10 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `58302d9ca988c138` (5275 bars x 1624 symbols, 2005-02-23->2026-11-06, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: DIFFERENT_DAYS** -- card 2026-11-06 / ticket 2026-11-04 / page 2026-11-03 (compared at 2026-11-07 01:42:05); priced on different bars: card 2026-11-06 / ticket 2026-11-04 / page 2026-11-03. A reader comparing numbers across these papers is comparing two different books, so read the lagging one only as history.
+**Priced day: SAME_DAY** -- card 2026-11-06 / ticket 2026-11-06 / page 2026-11-06 (compared at 2026-11-07 12:24:00); this card, the executable sheet and the CEO page all priced the same closing bar.
 
-**Family coherence: ONE_WORLD** -- all 10 width arms priced `a1a42aee64453839` (cutoff 2026-10-30); the verdicts that license this card's width are measurements on one panel.
+**Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (58302d9c, a1a42aee): per-cell deltas across worlds are world differences, not rule effects.
+5 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05, buffer_k10, buffer_k20, buffer_k40); the 5 withheld one(s) still price another panel (buffer_k05_cost20, cost0, cost05, cost20, cost40), so their verdicts are not part of this reading.
 
 **Today (2026-11-06 bar): HOLD: 3 bars until the next decision point** (last grid decision 2026-10-14).
 
@@ -60,7 +61,7 @@ No sleeve-level gate earns adoption: switching the sleeve off on trend 24%, vol 
 
 | gate | sleeve switched off | CAGR vs card | max drawdown vs card | verdict |
 |---|---|---|---|---|
-| trend | 20/83 decisions (24.1%) | -0.31pp | -2.77pp | NO_GATE |
+| trend | 20/83 decisions (24.1%) | -0.32pp | -2.77pp | NO_GATE |
 | vol | 25/83 decisions (30.1%) | +0.02pp | +0.86pp | NO_GATE |
 | drawdown | 13/83 decisions (15.7%) | -0.18pp | -1.27pp | NO_GATE |
 

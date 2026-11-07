@@ -106,8 +106,8 @@ def _read_tail(path: str, start: str = START):
             io.BytesIO(blob[off:]),
             header=None,
             names=["date", "open", "high", "low", "close", "volume", "amount", "os", "turn"],
-            usecols=[0, 1, 2, 3, 4, 8],
-            dtype={0: str, 1: float, 2: float, 3: float, 4: float, 8: float},
+            usecols=[0, 1, 2, 3, 4, 5, 6, 8],
+            dtype={0: str, 1: float, 2: float, 3: float, 4: float, 5: float, 6: float, 8: float},
             engine="c",
         )
     except Exception:
@@ -136,12 +136,17 @@ def load_panel(per_dir: str = PER, start: str = START, max_symbols: int | None =
     op = np.full((T, S), np.nan, dtype=np.float64)
     cl = np.full((T, S), np.nan, dtype=np.float64)
     tu = np.full((T, S), np.nan, dtype=np.float64)
+    vol = np.full((T, S), np.nan, dtype=np.float64)
+    amt = np.full((T, S), np.nan, dtype=np.float64)
     for j, df in enumerate(frames):
         rows = np.fromiter((idx[d] for d in df["date"]), dtype=np.int64, count=len(df))
         op[rows, j] = df["open"].to_numpy(dtype=np.float64)
         cl[rows, j] = df["close"].to_numpy(dtype=np.float64)
         tu[rows, j] = df["turn"].to_numpy(dtype=np.float64)
-    return {"dates": order, "symbols": syms, "open": op, "close": cl, "turn": tu}
+        vol[rows, j] = df["volume"].to_numpy(dtype=np.float64)
+        amt[rows, j] = df["amount"].to_numpy(dtype=np.float64)
+    return {"dates": order, "symbols": syms, "open": op, "close": cl, "turn": tu,
+            "volume": vol, "amount": amt}
 
 
 # --------------------------------------------------------------------------- #

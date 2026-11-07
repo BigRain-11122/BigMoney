@@ -100,13 +100,18 @@ def vol_overlay_tail_sentence(face=None):
 
 
 def family_coherence(results_dir=None):
-    """Which world the width arms behind this card were priced on (r1183).
+    """Which world the width arms behind this card were priced on (r1183, per-arm r1397).
 
     The card quotes one width out of a family of arms; that family's verdicts are only
-    measurements if every arm face priced ONE panel. When the family withholds its labels
-    ("WORLDS_NOT_COMPARABLE") or was never stamped, the card has to say so instead of
-    quoting a verdict as if it had been measured. Absence reads "not assessable", never
-    "fine" -- a missing artifact is not a pass.
+    measurements if an arm face priced the same panel as the baseline it is subtracted from.
+    When the family withholds its labels ("WORLDS_NOT_COMPARABLE") or was never stamped, the
+    card has to say so instead of quoting a verdict as if it had been measured. Absence reads
+    "not assessable", never "fine" -- a missing artifact is not a pass.
+
+    r1397: the licence is per ARM (the family is rebuilt one arm at a time, so a split family is
+    its normal state for a week at a time). A family-wide sentence made the card say "the width
+    is not licensed by a measured family" while five of the eleven arms -- including every buffer
+    rung -- were already measurements on the card's own panel. The card now names both sides.
     """
     d = E.PATHS.results_dir if results_dir is None else results_dir
     p = os.path.join(d, ARMS_FACE_FILE)
@@ -117,16 +122,26 @@ def family_coherence(results_dir=None):
         return {"artifact": "results/" + ARMS_FACE_FILE, "verdict": None,
                 "detail": "arm family face absent -- coherence not assessable",
                 "panels": [], "arms": 0, "evidence_cutoff": None,
-                "priced_same_panel": None}
+                "priced_same_panel": None,
+                "comparable": [], "withheld": []}
     coh = doc.get("panel_coherence") or {}
+    arms = doc.get("arms") or {}
+    comparable = coh.get("comparable_arms")
+    withheld = coh.get("withheld_arms")
+    if comparable is None or withheld is None:
+        # a face written before the licence was per arm: only the family-wide answer exists
+        comparable = [n for n, a in arms.items() if a.get("verdict_publishable")]
+        withheld = [n for n in arms if n not in comparable]
     return {
         "artifact": "results/" + ARMS_FACE_FILE,
         "verdict": coh.get("verdict"),
         "detail": coh.get("detail"),
         "panels": coh.get("panels") or [],
-        "arms": len(doc.get("arms") or {}),
+        "arms": len(arms),
         "evidence_cutoff": (doc.get("baseline") or {}).get("evidence_cutoff"),
         "priced_same_panel": (coh.get("verdict") == "ONE_WORLD"),
+        "comparable": list(comparable),
+        "withheld": list(withheld),
     }
 
 
@@ -1542,9 +1557,22 @@ def write_card(out):
                       _fc.get("arms") or 0, ((_fc.get("panels") or [""])[0] or "?)"),
                       _fc.get("evidence_cutoff")), ""]
     elif _fc.get("verdict"):
-        lines += ["**Family coherence: %s** -- %s. The width verdicts are withheld "
-                  "(`WORLDS_NOT_COMPARABLE`), so the width this card uses is not licensed by a "
-                  "measured family." % (_fc["verdict"], _fc.get("detail") or "no detail"), ""]
+        _ok = _fc.get("comparable") or []
+        _held = _fc.get("withheld") or []
+        lines += ["**Family coherence: %s** -- %s." % (_fc["verdict"],
+                                                     _fc.get("detail") or "no detail")]
+        if _ok:
+            # r1397: the licence is per arm, so say how much of the family is readable rather
+            # than dismissing all of it because one arm still prices another panel.
+            lines += ["%d of %d arms priced the card's own panel and keep their labels (%s); "
+                      "the %d withheld one(s) still price another panel (%s), so their verdicts "
+                      "are not part of this reading." % (
+                          len(_ok), _fc.get("arms") or 0, ", ".join(_ok),
+                          len(_held), ", ".join(_held) or "-")]
+        else:
+            lines += ["No arm is priced on the card's own panel, so the width this card uses is "
+                      "not licensed by a measured family."]
+        lines += [""]
     else:
         lines += ["**Family coherence: not assessable** -- %s; the width is unproven here, "
                   "not verified." % (_fc.get("detail") or "arm family face absent"), ""]
