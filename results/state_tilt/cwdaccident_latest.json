@@ -1,8 +1,8 @@
 {
  "study": "E415_cwd_accident",
  "card": "E415-DO-BARE-BASENAME-READS-WORK-ONLY-BECAUSE-THE-CWD-HOLDS-THE-FACE",
- "evidence_cutoff": "2026-11-04",
- "generated": "2026-11-04T17:07:44+08:00",
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T00:36:24+08:00",
  "verdict": "every_bare_path_read_is_directed_but_at_least_one_would_read_a_different_document_of_the_same_basename_from_another_launch_directory",
  "summary": {
   "bare_path_read_sites": 2,
@@ -32,7 +32,7 @@
  "sites": [
   {
    "file": "smoke_test.py",
-   "line": 7971,
+   "line": 7988,
    "callee": "load",
    "callee_module": "e298_replay_control_census",
    "basename": "replaycensus_latest.json",
@@ -100,7 +100,7 @@
   },
   {
    "file": "smoke_test.py",
-   "line": 1175,
+   "line": 1187,
    "callee": "open",
    "callee_module": "",
    "basename": "CODELY.md",
@@ -113,7 +113,7 @@
      "exists": true,
      "this_tree_holds_the_name": true,
      "different_document": false,
-     "bytes": 38945,
+     "bytes": 49747,
      "own_face": false
     },
     {
@@ -171,7 +171,7 @@
  "shadowing_sites": [
   {
    "file": "smoke_test.py",
-   "line": 1175,
+   "line": 1187,
    "basename": "CODELY.md",
    "surfaces_holding_a_different_document": [
     "../../../../Users/Administrator/.codely-cli"

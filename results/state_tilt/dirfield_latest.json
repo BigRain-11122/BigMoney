@@ -2,20 +2,20 @@
  "study": "E423_which_consumer_joins_a_directory_named_field_that_holds_a_file_path",
  "card": "E423-WHICH-CONSUMER-JOINS-A-DIRECTORY-FIELD-THAT-HOLDS-A-FILE-PATH",
  "title": "price whether any consumer joins a directory-named field with a row name, and how many published rows would compose a doubled name if one did",
- "generated": "2026-11-07",
+ "generated": "2026-11-08",
  "evidence_cutoff": "2026-11-04",
  "verdict": "a_consumer_joins_a_directory_named_field_with_a_name_and_published_rows_could_double",
  "summary": {
-  "published_faces_scanned": 13038,
-  "directory_named_fields": 1309,
+  "published_faces_scanned": 13158,
+  "directory_named_fields": 1577,
   "directory_named_fields_holding_a_file_path": 94,
   "faces_carrying_a_file_valued_directory_field": 13,
-  "corpus_sources": 3519,
-  "read_sites": 50,
+  "corpus_sources": 3672,
+  "read_sites": 61,
   "by_class": {
-   "reads_the_field_as_a_whole_path": 34,
+   "reads_the_field_as_a_whole_path": 44,
    "joins_the_field_with_a_name": 2,
-   "republishes_the_field_without_joining_it": 11,
+   "republishes_the_field_without_joining_it": 12,
    "joins_the_field_with_a_prefix_or_root": 3
   },
   "join_sites": 2,
@@ -402,6 +402,83 @@
    "function": "build",
    "key": "dir",
    "class": "republishes_the_field_without_joining_it"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e476_payload_writer.py",
+   "line": 285,
+   "function": "measure",
+   "key": "dir",
+   "class": "republishes_the_field_without_joining_it"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e477_vintage_retire.py",
+   "line": 168,
+   "function": "build",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e478_vintage_clock_diff.py",
+   "line": 211,
+   "function": "build",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e479_twin_read.py",
+   "line": 229,
+   "function": "population",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e479_twin_read.py",
+   "line": 241,
+   "function": "population",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e480_vintage_date_agree.py",
+   "line": 194,
+   "function": "build",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e481_vintage_conclusion.py",
+   "line": 376,
+   "function": "build",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e481_vintage_conclusion.py",
+   "line": 376,
+   "function": "build",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e485_vintage_date_lag.py",
+   "line": 182,
+   "function": "family_spans",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e485_vintage_date_lag.py",
+   "line": 317,
+   "function": "build",
+   "key": "dir",
+   "class": "reads_the_field_as_a_whole_path"
+  },
+  {
+   "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/e490_write_helper.py",
+   "line": 849,
+   "function": "selftest",
+   "key": "outdir",
+   "class": "reads_the_field_as_a_whole_path"
   },
   {
    "file": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts/fund_vq_p2_plan.py",
@@ -1522,8 +1599,12 @@
  ],
  "fields_by_key": {
   "dir": {
-   "fields": 846,
+   "fields": 1092,
    "file_paths": 10
+  },
+  "directory": {
+   "fields": 2,
+   "file_paths": 0
   },
   "directory_expression": {
    "fields": 286,
@@ -1540,6 +1621,10 @@
   "parent_dir": {
    "fields": 64,
    "file_paths": 10
+  },
+  "outdir": {
+   "fields": 20,
+   "file_paths": 0
   }
  },
  "rows_with_a_file_valued_field": [
