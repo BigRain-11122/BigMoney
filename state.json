@@ -126,6 +126,7 @@
  "last_seen": "2026-11-07T19:46:51+08:00",
  "last_updated": "2026-11-01T19:16:30+08:00",
  "latest_artifact": "results/state_tilt/NAMECOMPOSE-2026-11-07.json",
+ "local_commits_not_on_origin": 554,
  "local_not_on_origin": 100,
  "local_not_on_origin_commits": 107,
  "local_not_on_origin_main": 550,
@@ -1363,6 +1364,13 @@
   "ts": "2026-11-07T20:45:54+08:00",
   "verify": "run rc0 / check problems=[] / verify problems=[] / selftest 37/37"
  },
+ "r1535_delivery": {
+  "branch": "machine/bm-b-r1535",
+  "main_push_blocker": "local main is 554 ahead / 351 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel",
+  "sha": "2ac805f5c8732a38b3cf324dd31b85198f173dd4",
+  "ts": "2026-11-07T20:47:08+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1535 == 2ac805f5c8732a38b3cf324dd31b85198f173dd4"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -1415,11 +1423,11 @@
  },
  "supply_floor_ready": 3,
  "sync": {
-  "behind_origin_main": 296,
+  "behind_origin_main": 351,
   "peer": "origin",
-  "ts": "2026-11-07T05:39:23+08:00"
+  "ts": "2026-11-07T20:47:08+08:00"
  },
- "sync_note": "local main is 296 behind / 507 ahead of origin/main (two blood lines, promisor lazy-fetch wedge r1255 family); no unattended rebase per r1243, so delivery goes out on a machine branch",
+ "sync_note": "local main is 554 ahead / 351 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel",
  "task": "r1535: E506 -- what the 68 faces behind E503's 725 no-date certifications actually publish as a freshness witness",
  "task_short": "21 structured hidden / 12 incidental / 35 none; 47 faces / 3.9 MB with no declared witness; 29 also writer-free",
  "task_short_note": "3-class resolution (union on leg containers and append-only ledgers, owner-verbatim on faces another host writes); AST + selftest validated; 8 upstream deletions caught by the tree-shrink claw and restored before push",
@@ -1431,11 +1439,11 @@
  "three_line_delivery": "machine/bm-b-r1523 @ a53ab1468 (ls-remote verified)",
  "three_line_next": "run E507 / E508 / E509 within 48h (the three ready cards)",
  "timestamp": "2026-11-07T20:45:54+08:00",
- "ts": "2026-11-07T20:45:54+08:00",
+ "ts": "2026-11-07T20:47:08+08:00",
  "ts_utc_ms": 1794030144262,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-07T20:45:54+08:00",
- "updated_at": "2026-11-07T20:45:54+08:00",
+ "updated_at": "2026-11-07T20:47:08+08:00",
  "verdict": "GREEN (round closed with a product; not a health claim)",
  "verdict_line": "68 faces / 739 relations | structured hidden 21 / 202,180 B | incidental only 12 / 1,559,868 B | no date at all 35 / 2,327,999 B | no declared witness 47 / 3,887,867 B | writer-free 29 / 2,967,295 B | 738 certifying legs, mention axis uninformative | verdict the_no_date_population_splits_three_ways",
  "verdict_note": "product round; the full suite was not launched, so no suite total is claimed",
