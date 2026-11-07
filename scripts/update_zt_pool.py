@@ -76,10 +76,26 @@ ENDPOINTS = {
     "strong": ("stock_zt_pool_strong_em", ["代码", "名称", "涨跌幅"]),
 }
 NUM_COMPARE_COL = "涨跌幅"       # row-level overlap comparison column
+_TAKEOVER = None                 # declared stand-in for this run (save_status)
 
 
 def save_status(payload):
     payload["updated"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    # r1257: publish the authority block in the shape the readers read
+    # (data_lane_freshness / lane_ownership_declaration look at
+    # `authority.took_over_by`). Every write point goes through here, so the
+    # no-op/throttle branches carry it too -- r1253's second bug was a fresh
+    # branch that never rewrote the keys a stale branch had already set.
+    if not isinstance(payload.get("authority"), dict):
+        try:
+            from update_etf_daily import authority_block
+            payload["authority"] = authority_block(
+                _TAKEOVER or payload.get("takeover"), LANE_OWNER,
+                _lane_owner_id())
+        except Exception as ex:            # never break the run for a label
+            print(f"WARN: authority block unavailable "
+                  f"({type(ex).__name__}: {str(ex)[:60]})", file=sys.stderr,
+                  flush=True)
     os.makedirs(os.path.dirname(STATUS), exist_ok=True)
     tmp = STATUS + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
@@ -285,6 +301,7 @@ def main():
             return 0
         takeover = {"owner": LANE_OWNER, "by": owner, "reason": why,
                     "ts": pd.Timestamp.now().isoformat()}
+        globals()["_TAKEOVER"] = takeover
         print(f"TAKEOVER: declared stale takeover of {LANE_OWNER} zt_pool "
               f"lane by {owner} -- {why}", flush=True)
 
@@ -564,6 +581,44 @@ def selftest():
     assert takeover_decision(True, TAKEOVER_STALE_MIN - 1)[0] is False
     assert takeover_decision(True, TAKEOVER_STALE_MIN)[0] is True
     print("[PASS] stale-takeover gate: flag AND stale required", flush=True)
+
+    # ---- r1257: every write point publishes the authority block. save_status
+    # is the single choke point, so a declared stand-in reaches the readers
+    # (data_lane_freshness reads `authority.took_over_by`) instead of dying in
+    # the older `takeover{}` shape -- live 2026-11-07: nine days of a legal
+    # takeover printed as `unverifiable`.
+    global _TAKEOVER
+    _saved_status, _saved_takeover = STATUS, _TAKEOVER
+    _saved_write_lane = write_lane
+    try:
+        import tempfile
+        globals()["write_lane"] = lambda *a, **k: None   # no lane mirror
+        with tempfile.TemporaryDirectory() as td:
+            globals()["STATUS"] = os.path.join(td, "st.json")
+            globals()["_TAKEOVER"] = {"owner": LANE_OWNER, "by": "bm-a",
+                                      "reason": "owner bm-b silent 191.3h "
+                                                ">= 120min",
+                                      "ts": "2026-11-07T12:00:00"}
+            save_status({"verdict": "probe"})
+            with open(globals()["STATUS"], encoding="utf-8") as f:
+                _st = json.load(f)
+            _ab = _st.get("authority") or {}
+            assert _ab.get("took_over_by") == "bm-a", _ab
+            assert _ab.get("declared_takeover") is True, _ab
+            assert _ab.get("lane_owner") == LANE_OWNER, _ab
+            # no takeover -> the block still names the writer (that is how a
+            # non-host copy stops reading as an anonymous write)
+            globals()["_TAKEOVER"] = None
+            save_status({"verdict": "probe2"})
+            with open(globals()["STATUS"], encoding="utf-8") as f:
+                _ab0 = (json.load(f).get("authority") or {})
+            assert _ab0.get("declared_takeover") is False, _ab0
+            assert _ab0.get("took_over_by") is None, _ab0
+            assert isinstance(_ab0.get("writer_machine"), str), _ab0
+        print("[PASS] authority block lands on every status write", flush=True)
+    finally:
+        globals()["STATUS"], globals()["_TAKEOVER"] = _saved_status, _saved_takeover
+        globals()["write_lane"] = _saved_write_lane
 
     # ---- endpoints registry sanity: akshare import-time presence
     try:

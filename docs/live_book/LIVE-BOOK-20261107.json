@@ -13,11 +13,11 @@
  "cash_yield": {
   "leg": "GC001",
   "quoted_as": "收盘年化利率 %",
-  "rate_date": "2026-10-27",
-  "rate_pct": 1.09,
-  "rate_20d_pct": 1.2435,
-  "annual_cny": 5892.0,
-  "daily_cny": 24.0,
+  "rate_date": "2026-11-06",
+  "rate_pct": 1.185,
+  "rate_20d_pct": 1.2338,
+  "annual_cny": 6405.0,
+  "daily_cny": 26.0,
   "window": 20,
   "basis": "cash x panel close rate / 100; per session = annual / 250 sessions",
   "panel": "data/repo_daily/GC001.csv"
@@ -29,25 +29,25 @@
   "block": {
    "cash_amount_cny": 540512.84,
    "spot": {
-    "pct": 1.09,
-    "date": "2026-10-27",
-    "annual_cny": 5892.0,
+    "pct": 1.185,
+    "date": "2026-11-06",
+    "annual_cny": 6405.0,
     "quotes": 250
    },
    "mean_tail": {
-    "pct": 1.3559,
-    "annual_cny": 7329.0
+    "pct": 1.3547,
+    "annual_cny": 7323.0
    },
    "window": {
-    "pct": 2.0795,
-    "annual_cny": 11240.0
+    "pct": 2.0842,
+    "annual_cny": 11265.0
    },
    "tail": 250,
    "fall_bp": 25.0,
-   "verdict": "RATES_FELL",
-   "sentence": "现金 ¥540,512 按 2026-10-27 报价 1.09% 一年赚 ¥5,892；按自己近 250 个报价的均值 1.36% 是 ¥7,329；按账本自己走过的全窗均值 2.08% 是 ¥11,240。差出来的 ¥1,437 是利率掉了，不是这个月选错了票。",
-   "spread_vs_tail_cny": -1437.0,
-   "spread_vs_window_cny": -5348.0
+   "verdict": "RATES_STEADY",
+   "sentence": "现金 ¥540,512 按 2026-11-06 报价 1.19% 一年赚 ¥6,405；按自己近 250 个报价的均值 1.35% 是 ¥7,323；按账本自己走过的全窗均值 2.08% 是 ¥11,265。今天的报价就在它自己的均值上，这一半该怎么算就怎么算。",
+   "spread_vs_tail_cny": -917.0,
+   "spread_vs_window_cny": -4860.0
   },
   "note": null
  },
@@ -57,29 +57,29 @@
    {
     "symbol": "GC001",
     "tenor_days": 1,
-    "spot_pct": 1.09,
-    "spot_date": "2026-10-27",
-    "mean250_pct": 1.3559,
+    "spot_pct": 1.185,
+    "spot_date": "2026-11-06",
+    "mean250_pct": 1.3547,
     "realized": {
      "1": {
-      "realized_pct": 1.3131,
+      "realized_pct": 1.308,
       "rolls": 242,
       "idle_days": 0,
       "days": 365,
       "idle_share": 0.0
      },
      "3": {
-      "realized_pct": 1.6882,
-      "rolls": 724,
+      "realized_pct": 1.6805,
+      "rolls": 726,
       "idle_days": 0,
-      "days": 1093,
+      "days": 1095,
       "idle_share": 0.0
      },
      "5": {
-      "realized_pct": 1.9003,
-      "rolls": 1210,
+      "realized_pct": 1.8946,
+      "rolls": 1211,
       "idle_days": 0,
-      "days": 1825,
+      "days": 1824,
       "idle_share": 0.0
      }
     },
@@ -87,8 +87,8 @@
     "rolls_1y": 242,
     "idle_days_1y": 0,
     "idle_share_1y": 0.0,
-    "annual_cny_spot": 5892.0,
-    "annual_cny_realized_1y": 7097.0,
+    "annual_cny_spot": 6405.0,
+    "annual_cny_realized_1y": 7070.0,
     "positive_years": null,
     "years_checked": null,
     "verdict": "BASELINE",
@@ -97,229 +97,229 @@
    {
     "symbol": "GC003",
     "tenor_days": 3,
-    "spot_pct": 1.255,
-    "spot_date": "2026-10-27",
-    "mean250_pct": 1.3684,
+    "spot_pct": 1.145,
+    "spot_date": "2026-11-06",
+    "mean250_pct": 1.3654,
     "realized": {
      "1": {
-      "realized_pct": 1.1288,
+      "realized_pct": 1.1248,
       "rolls": 98,
       "idle_days": 70,
       "days": 364,
       "idle_share": 0.1923
      },
      "3": {
-      "realized_pct": 1.3774,
-      "rolls": 295,
-      "idle_days": 207,
-      "days": 1092,
-      "idle_share": 0.1896
+      "realized_pct": 1.3728,
+      "rolls": 296,
+      "idle_days": 206,
+      "days": 1094,
+      "idle_share": 0.1883
      },
      "5": {
-      "realized_pct": 1.5125,
+      "realized_pct": 1.5085,
       "rolls": 492,
-      "idle_days": 348,
-      "days": 1824,
-      "idle_share": 0.1908
+      "idle_days": 347,
+      "days": 1823,
+      "idle_share": 0.1903
      }
     },
     "edge_bp": {
-     "1": -18.4,
-     "3": -31.1,
-     "5": -38.8
+     "1": -18.3,
+     "3": -30.8,
+     "5": -38.6
     },
     "rolls_1y": 98,
     "idle_days_1y": 70,
     "idle_share_1y": 0.1923,
-    "annual_cny_spot": 6783.0,
-    "annual_cny_realized_1y": 6101.0,
+    "annual_cny_spot": 6189.0,
+    "annual_cny_realized_1y": 6080.0,
     "positive_years": 0,
     "years_checked": 5,
     "verdict": "REJECT",
-    "reason": "少 18.4 bp（1年）/ 少 31.1 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 70 天（19.2% > 1%）；5 个完整年只赢了 0 年"
+    "reason": "少 18.3 bp（1年）/ 少 30.8 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 70 天（19.2% > 1%）；5 个完整年只赢了 0 年"
    },
    {
     "symbol": "GC007",
     "tenor_days": 7,
     "spot_pct": 1.35,
-    "spot_date": "2026-10-27",
-    "mean250_pct": 1.4709,
+    "spot_date": "2026-11-06",
+    "mean250_pct": 1.4666,
     "realized": {
      "1": {
-      "realized_pct": 1.4421,
+      "realized_pct": 1.4113,
       "rolls": 50,
-      "idle_days": 10,
-      "days": 360,
-      "idle_share": 0.0278
+      "idle_days": 14,
+      "days": 364,
+      "idle_share": 0.0385
      },
      "3": {
-      "realized_pct": 1.7422,
-      "rolls": 149,
-      "idle_days": 45,
-      "days": 1088,
-      "idle_share": 0.0414
+      "realized_pct": 1.7282,
+      "rolls": 150,
+      "idle_days": 44,
+      "days": 1094,
+      "idle_share": 0.0402
      },
      "5": {
-      "realized_pct": 1.9043,
+      "realized_pct": 1.9026,
       "rolls": 249,
-      "idle_days": 77,
-      "days": 1820,
-      "idle_share": 0.0423
+      "idle_days": 80,
+      "days": 1823,
+      "idle_share": 0.0439
      }
     },
     "edge_bp": {
-     "1": 12.9,
-     "3": 5.4,
-     "5": 0.4
+     "1": 10.3,
+     "3": 4.8,
+     "5": 0.8
     },
     "rolls_1y": 50,
-    "idle_days_1y": 10,
-    "idle_share_1y": 0.0278,
+    "idle_days_1y": 14,
+    "idle_share_1y": 0.0385,
     "annual_cny_spot": 7297.0,
-    "annual_cny_realized_1y": 7795.0,
+    "annual_cny_realized_1y": 7628.0,
     "positive_years": 3,
     "years_checked": 5,
     "verdict": "REJECT",
-    "reason": "多 12.9 bp（1年）/ 多 5.4 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 10 天（2.8% > 1%）"
+    "reason": "多 10.3 bp（1年）/ 多 4.8 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 14 天（3.9% > 1%）"
    },
    {
     "symbol": "GC014",
     "tenor_days": 14,
     "spot_pct": 1.36,
-    "spot_date": "2026-10-27",
-    "mean250_pct": 1.4753,
+    "spot_date": "2026-11-06",
+    "mean250_pct": 1.4705,
     "realized": {
      "1": {
-      "realized_pct": 1.4453,
+      "realized_pct": 1.4173,
       "rolls": 25,
-      "idle_days": 10,
-      "days": 360,
-      "idle_share": 0.0278
+      "idle_days": 14,
+      "days": 364,
+      "idle_share": 0.0385
      },
      "3": {
-      "realized_pct": 1.7561,
+      "realized_pct": 1.7257,
       "rolls": 75,
-      "idle_days": 38,
-      "days": 1088,
-      "idle_share": 0.0349
+      "idle_days": 44,
+      "days": 1094,
+      "idle_share": 0.0402
      },
      "5": {
-      "realized_pct": 1.9322,
+      "realized_pct": 1.9235,
       "rolls": 126,
-      "idle_days": 56,
-      "days": 1820,
-      "idle_share": 0.0308
+      "idle_days": 59,
+      "days": 1823,
+      "idle_share": 0.0324
      }
     },
     "edge_bp": {
-     "1": 13.2,
-     "3": 6.8,
-     "5": 3.2
+     "1": 10.9,
+     "3": 4.5,
+     "5": 2.9
     },
     "rolls_1y": 25,
-    "idle_days_1y": 10,
-    "idle_share_1y": 0.0278,
+    "idle_days_1y": 14,
+    "idle_share_1y": 0.0385,
     "annual_cny_spot": 7351.0,
-    "annual_cny_realized_1y": 7812.0,
+    "annual_cny_realized_1y": 7661.0,
     "positive_years": 4,
     "years_checked": 5,
     "verdict": "REJECT",
-    "reason": "多 13.2 bp（1年）/ 多 6.8 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 10 天（2.8% > 1%）"
+    "reason": "多 10.9 bp（1年）/ 多 4.5 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 14 天（3.9% > 1%）"
    },
    {
     "symbol": "GC028",
     "tenor_days": 28,
-    "spot_pct": 1.355,
-    "spot_date": "2026-10-27",
-    "mean250_pct": 1.4708,
+    "spot_pct": 1.345,
+    "spot_date": "2026-11-06",
+    "mean250_pct": 1.4662,
     "realized": {
      "1": {
-      "realized_pct": 1.4449,
+      "realized_pct": 1.4651,
       "rolls": 12,
-      "idle_days": 10,
-      "days": 346,
-      "idle_share": 0.0289
+      "idle_days": 4,
+      "days": 340,
+      "idle_share": 0.0118
      },
      "3": {
-      "realized_pct": 1.784,
+      "realized_pct": 1.7894,
       "rolls": 38,
-      "idle_days": 16,
-      "days": 1080,
-      "idle_share": 0.0148
+      "idle_days": 8,
+      "days": 1072,
+      "idle_share": 0.0075
      },
      "5": {
-      "realized_pct": 1.9446,
+      "realized_pct": 1.971,
       "rolls": 64,
-      "idle_days": 20,
-      "days": 1812,
-      "idle_share": 0.011
+      "idle_days": 16,
+      "days": 1808,
+      "idle_share": 0.0088
      }
     },
     "edge_bp": {
-     "1": 13.2,
-     "3": 9.6,
-     "5": 4.4
+     "1": 15.7,
+     "3": 10.9,
+     "5": 7.6
     },
     "rolls_1y": 12,
-    "idle_days_1y": 10,
-    "idle_share_1y": 0.0289,
-    "annual_cny_spot": 7324.0,
-    "annual_cny_realized_1y": 7810.0,
+    "idle_days_1y": 4,
+    "idle_share_1y": 0.0118,
+    "annual_cny_spot": 7270.0,
+    "annual_cny_realized_1y": 7919.0,
     "positive_years": 4,
     "years_checked": 5,
     "verdict": "REJECT",
-    "reason": "多 13.2 bp（1年）/ 多 9.6 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 10 天（2.9% > 1%）"
+    "reason": "多 15.7 bp（1年）/ 多 10.9 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 4 天（1.2% > 1%）"
    },
    {
     "symbol": "GC091",
     "tenor_days": 91,
-    "spot_pct": 1.335,
-    "spot_date": "2026-10-27",
-    "mean250_pct": 1.4427,
+    "spot_pct": 1.34,
+    "spot_date": "2026-11-06",
+    "mean250_pct": 1.4379,
     "realized": {
      "1": {
-      "realized_pct": 1.46,
+      "realized_pct": 1.4425,
       "rolls": 4,
       "idle_days": 0,
       "days": 364,
       "idle_share": 0.0
      },
      "3": {
-      "realized_pct": 1.7842,
+      "realized_pct": 1.7738,
       "rolls": 12,
-      "idle_days": 0,
-      "days": 1092,
-      "idle_share": 0.0
+      "idle_days": 1,
+      "days": 1093,
+      "idle_share": 0.0009
      },
      "5": {
-      "realized_pct": 1.9438,
-      "rolls": 19,
-      "idle_days": 13,
-      "days": 1742,
-      "idle_share": 0.0075
+      "realized_pct": 1.9189,
+      "rolls": 20,
+      "idle_days": 2,
+      "days": 1822,
+      "idle_share": 0.0011
      }
     },
     "edge_bp": {
-     "1": 14.7,
-     "3": 9.6,
-     "5": 4.3
+     "1": 13.4,
+     "3": 9.3,
+     "5": 2.4
     },
     "rolls_1y": 4,
     "idle_days_1y": 0,
     "idle_share_1y": 0.0,
-    "annual_cny_spot": 7216.0,
-    "annual_cny_realized_1y": 7891.0,
+    "annual_cny_spot": 7243.0,
+    "annual_cny_realized_1y": 7797.0,
     "positive_years": 4,
     "years_checked": 5,
     "verdict": "REJECT",
-    "reason": "多 14.7 bp（1年）/ 多 9.6 bp（3年），门槛 20 bp"
+    "reason": "多 13.4 bp（1年）/ 多 9.3 bp（3年），门槛 20 bp"
    }
   ],
   "pick": "GC001",
   "verdict": "KEEP-1D",
-  "reason": "GC003 少 18.4 bp（1年）/ 少 31.1 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 70 天（19.2% > 1%）；5 个完整年只赢了 0 年；GC007 多 12.9 bp（1年）/ 多 5.4 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 10 天（2.8% > 1%）；GC014 多 13.2 bp（1年）/ 多 6.8 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 10 天（2.8% > 1%）；GC028 多 13.2 bp（1年）/ 多 9.6 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 10 天（2.9% > 1%）；GC091 多 14.7 bp（1年）/ 多 9.6 bp（3年），门槛 20 bp",
+  "reason": "GC003 少 18.3 bp（1年）/ 少 30.8 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 70 天（19.2% > 1%）；5 个完整年只赢了 0 年；GC007 多 10.3 bp（1年）/ 多 4.8 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 14 天（3.9% > 1%）；GC014 多 10.9 bp（1年）/ 多 4.5 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 14 天（3.9% > 1%）；GC028 多 15.7 bp（1年）/ 多 10.9 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 4 天（1.2% > 1%）；GC091 多 13.4 bp（1年）/ 多 9.3 bp（3年），门槛 20 bp",
   "cash_amount_cny": 540512.84,
-  "forgotten_day_cny": 16.0,
+  "forgotten_day_cny": 18.0,
   "rolls": {
    "GC001": 242,
    "GC003": 98,
@@ -400,17 +400,17 @@
   }
  ],
  "forward": {
-  "bars": 9,
+  "bars": 11,
   "inception": "2026-10-23",
-  "nav": 1.0120725673,
-  "since_inception_pct": 1.2073,
-  "as_of": "2026-11-04"
+  "nav": 1.0005213531,
+  "since_inception_pct": 0.0521,
+  "as_of": "2026-11-06"
  },
  "vs_basket": {
-  "bar": "2026-10-30",
-  "book_nav": 1.008599472,
-  "basket_nav": 0.9902396044,
-  "excess_pp": 1.8541,
+  "bar": "2026-11-06",
+  "book_nav": 1.0005213531,
+  "basket_nav": 0.9897244383,
+  "excess_pp": 1.0909,
   "basket": {
    "518880": "gold ETF",
    "513100": "Nasdaq-100 QDII ETF",
@@ -420,14 +420,14 @@
   "basis": "等权 1/4、同一换仓日、次日开盘成交",
   "horizon": {
    "min_detectable_edge_pp": {
-    "6m": 33.505,
-    "1y": 23.692,
-    "2y": 16.752,
-    "3y": 13.678
+    "6m": 33.512,
+    "1y": 23.696,
+    "2y": 16.756,
+    "3y": 13.681
    },
    "years_for_80pct_power": {
-    "pre-2020 measured alpha (single arm)": 136.2,
-    "in-window measured alpha (single arm)": 15.8
+    "pre-2020 measured alpha (single arm)": 136.3,
+    "in-window measured alpha (single arm)": 17.2
    },
    "candidate_sources": {
     "pre-2020 measured alpha (single arm)": {
@@ -438,7 +438,7 @@
     "in-window measured alpha (single arm)": {
      "file": "results/etf_book_spanning.json",
      "field": "arms.book.full.alpha_annual",
-     "edge_pp_per_year": 5.96
+     "edge_pp_per_year": 5.71
     }
    }
   }
@@ -514,7 +514,7 @@
  },
  "same_beta_benchmark": {
   "cagr": 0.0287,
-  "sharpe": 0.755,
+  "sharpe": 0.757,
   "maxdd": -0.0396,
   "vol": 0.038,
   "bars": 688
@@ -532,7 +532,7 @@
  },
  "caveats": [
   "回测票池是现存 ETF（有幸存者偏差）；2020-2023 段弱、收益主要集中在 2024 之后。",
-  "前向账本只有 9 个交易日，自起始净值 1.0121 不构成业绩记录。",
+  "前向账本只有 11 个交易日，自起始净值 1.0005 不构成业绩记录。",
   "现金腿若不下单，账本按 GC001 (1-day repo, observed close) 计息；不买逆回购则实际是 0 息。",
   "这是研究产出，不是投资建议；实盘下单是 CEO 的直接权限，公司自动实盘仍是 CEO 唯一门。"
  ],
@@ -548,11 +548,11 @@
  "bets": {
   "status": "ok",
   "verdict": "TWOISH_BETS",
-  "sentence": "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it",
-  "effective_bets": 2.1648970197587434,
-  "risk_split": 4.29358560781991,
+  "sentence": "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.22); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it",
+  "effective_bets": 2.1845241599622387,
+  "risk_split": 4.257478969191999,
   "nominal_bets": 4.999999999999999,
-  "evidence_cutoff": "2026-11-05"
+  "evidence_cutoff": "2026-11-06"
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
@@ -586,12 +586,12 @@
   "placed_cny": null,
   "idle_cny": null,
   "idle_share": null,
-  "repo_rate_pct": 1.09,
-  "repo_rate_date": "2026-10-27",
+  "repo_rate_pct": 1.185,
+  "repo_rate_date": "2026-11-06",
   "demand_rate_pct": 0.05,
   "gap_annual_cny": null,
   "gap_daily_cny": null,
-  "worst_case_annual_cny": 5621.0,
+  "worst_case_annual_cny": 6135.0,
   "stale": null,
   "reason": "账户实况未登记（登记件在位但没人填）",
   "placement_file": "state/account/cash_placement.json",
@@ -603,79 +603,79 @@
   "rows": [
    {
     "beta": 0.1,
-    "observed_pct": 7.14,
-    "flat_today_pct": 6.68,
-    "zero_pct": 5.77,
-    "carry_pp": 1.37,
-    "cash_share": 0.7821,
-    "pp_per_100bp": 0.516,
+    "observed_pct": 6.98,
+    "flat_today_pct": 6.53,
+    "zero_pct": 5.62,
+    "carry_pp": 1.36,
+    "cash_share": 0.782,
+    "pp_per_100bp": 0.505,
     "maxdd_pct": -2.77,
-    "vol_pct": 3.7
+    "vol_pct": 3.71
    },
    {
     "beta": 0.2,
-    "observed_pct": 12.78,
-    "flat_today_pct": 12.42,
-    "zero_pct": 11.73,
-    "carry_pp": 1.05,
-    "cash_share": 0.5642,
-    "pp_per_100bp": 0.404,
+    "observed_pct": 12.46,
+    "flat_today_pct": 12.11,
+    "zero_pct": 11.42,
+    "carry_pp": 1.04,
+    "cash_share": 0.564,
+    "pp_per_100bp": 0.392,
     "maxdd_pct": -5.78,
-    "vol_pct": 7.39
+    "vol_pct": 7.4
    },
    {
     "beta": 0.3,
-    "observed_pct": 18.56,
-    "flat_today_pct": 18.32,
-    "zero_pct": 17.87,
-    "carry_pp": 0.69,
-    "cash_share": 0.3462,
-    "pp_per_100bp": 0.269,
+    "observed_pct": 18.05,
+    "flat_today_pct": 17.82,
+    "zero_pct": 17.38,
+    "carry_pp": 0.67,
+    "cash_share": 0.346,
+    "pp_per_100bp": 0.258,
     "maxdd_pct": -8.72,
-    "vol_pct": 11.08
+    "vol_pct": 11.09
    },
    {
     "beta": 0.5,
-    "observed_pct": 26.79,
-    "flat_today_pct": 26.77,
-    "zero_pct": 26.74,
+    "observed_pct": 26.02,
+    "flat_today_pct": 25.99,
+    "zero_pct": 25.97,
     "carry_pp": 0.05,
-    "cash_share": 0.0191,
-    "pp_per_100bp": 0.022,
+    "cash_share": 0.0189,
+    "pp_per_100bp": 0.034,
     "maxdd_pct": -14.39,
-    "vol_pct": 16.36
+    "vol_pct": 16.37
    }
   ],
   "base": {
    "beta": 0.2,
-   "observed_pct": 12.78,
-   "flat_today_pct": 12.42,
-   "zero_pct": 11.73,
-   "carry_pp": 1.05,
-   "cash_share": 0.5642,
-   "pp_per_100bp": 0.404,
+   "observed_pct": 12.46,
+   "flat_today_pct": 12.11,
+   "zero_pct": 11.42,
+   "carry_pp": 1.04,
+   "cash_share": 0.564,
+   "pp_per_100bp": 0.392,
    "maxdd_pct": -5.78,
-   "vol_pct": 7.39
+   "vol_pct": 7.4
   },
   "cash_rates": {
    "observed_mean_pct": 1.9819,
    "today_pct": 1.09,
    "today_date": "2026-10-27",
-   "missing_bar_steps": 2,
+   "missing_bar_steps": 7,
    "convention": "rate(prior bar) * calendar_gap / 365, identical in all arms"
   },
   "identity": {
-   "published_file": "results\\etf_book_order\\TICKET-2026-11-04.json",
-   "published_cagr": 0.1281,
-   "published_bars": 686,
-   "rebuilt_cagr": 0.1278,
-   "rebuilt_bars": 683,
-   "matched": false,
+   "published_file": "results\\etf_book_order\\TICKET-2026-11-06.json",
+   "published_cagr": 0.1246,
+   "published_bars": 688,
+   "rebuilt_cagr": 0.1246,
+   "rebuilt_bars": 688,
+   "matched": true,
    "basis": "base cell (beta 0.20, observed repo) must equal the ticket's own headline"
   },
   "window": {
    "first": "2024-01-02",
-   "last": "2026-10-30"
+   "last": "2026-11-06"
   },
   "flags": {
    "observed_ge_flat_ge_zero": true,
@@ -683,7 +683,7 @@
    "selection_survives_zero_cash": true
   },
   "source": "results/etf_book_return_regime.json",
-  "evidence_cutoff": "2026-10-30"
+  "evidence_cutoff": "2026-11-06"
  },
  "leg_split": {
   "status": "ok",
@@ -753,38 +753,38 @@
  },
  "concentration": {
   "status": "ok",
-  "sentence": "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
-  "evidence_cutoff": "2026-10-30",
+  "sentence": "前三名只占毛收益 22.4%（第一 黄金ETF易方达 7.6%）；删掉这三只年化 -1.98pp；删掉整条 commodity 袖（41 只）年化 -3.70pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
+  "evidence_cutoff": "2026-11-06",
   "verdict": "BROAD|SURVIVES_WITHOUT_TOP3",
   "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_concentration.json",
-  "top3_share": 0.2205,
-  "hhi": 0.0241,
-  "names_negative": 69,
-  "names_above_1pct": 41,
+  "top3_share": 0.2235,
+  "hhi": 0.024,
+  "names_negative": 71,
+  "names_above_1pct": 40,
   "distinct_names": 189,
   "top": [
    {
     "symbol": "159934",
     "name": "黄金ETF易方达",
-    "share": 0.0752
+    "share": 0.0763
    },
    {
     "symbol": "518800",
     "name": "黄金ETF国泰",
-    "share": 0.0745
+    "share": 0.0756
    },
    {
     "symbol": "159937",
     "name": "黄金ETF博时",
-    "share": 0.0707
+    "share": 0.0716
    }
   ],
   "baseline": {
-   "cagr": 0.096,
-   "sharpe": 0.99,
+   "cagr": 0.0941,
+   "sharpe": 0.97,
    "maxdd": -0.1177,
-   "vol": 0.1017,
-   "years": 6.82
+   "vol": 0.1019,
+   "years": 6.84
   },
   "top_k_out": {
    "k": 3,
@@ -793,14 +793,14 @@
     "518800",
     "159937"
    ],
-   "delta_cagr_pp": -1.99,
+   "delta_cagr_pp": -1.98,
    "stats": {
     "full": {
-     "cagr": 0.0761,
-     "sharpe": 0.809,
+     "cagr": 0.0743,
+     "sharpe": 0.79,
      "maxdd": -0.1868,
-     "vol": 0.1007,
-     "years": 6.82
+     "vol": 0.1009,
+     "years": 6.84
     },
     "is": {
      "cagr": 0.0237,
@@ -810,25 +810,25 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1551,
-     "sharpe": 1.525,
+     "cagr": 0.1498,
+     "sharpe": 1.471,
      "maxdd": -0.1083,
-     "vol": 0.1021,
-     "years": 2.83
+     "vol": 0.1026,
+     "years": 2.84
     }
    }
   },
   "sleeve": {
    "class": "commodity",
    "symbols_removed": 41,
-   "delta_cagr_pp": -3.71,
+   "delta_cagr_pp": -3.7,
    "stats": {
     "full": {
-     "cagr": 0.0589,
-     "sharpe": 0.643,
+     "cagr": 0.0571,
+     "sharpe": 0.625,
      "maxdd": -0.2226,
-     "vol": 0.1005,
-     "years": 6.82
+     "vol": 0.1007,
+     "years": 6.84
     },
     "is": {
      "cagr": 0.0097,
@@ -838,11 +838,11 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1322,
-     "sharpe": 1.334,
+     "cagr": 0.1272,
+     "sharpe": 1.282,
      "maxdd": -0.1086,
-     "vol": 0.101,
-     "years": 2.83
+     "vol": 0.1015,
+     "years": 2.84
     }
    }
   }
@@ -1203,12 +1203,12 @@
   ],
   "identity": {
    "reference": "results/etf_book_sleeve_gate.json arms.gate_vol.stats.full",
-   "reference_cagr": 0.0943,
+   "reference_cagr": 0.0962,
    "mine_cagr": 0.0943,
    "reference_maxdd": -0.1091,
    "mine_maxdd": -0.1091,
-   "same_cutoff": true,
-   "passes": true,
+   "same_cutoff": false,
+   "passes": null,
    "detail": "phase 0 must price the same gate on the same grid as the sleeve gate face; a differing cutoff is stale, not agreement"
   }
  },
@@ -3112,16 +3112,16 @@
    {
     "arm": "as_coded",
     "gap_pp": 0.0,
-    "got_cagr": 0.096,
+    "got_cagr": 0.0941,
     "ok": true,
-    "published_cagr": 0.096
+    "published_cagr": 0.0941
    },
    {
     "arm": "declared",
     "gap_pp": 0.0,
-    "got_cagr": 0.0846,
+    "got_cagr": 0.0838,
     "ok": true,
-    "published_cagr": 0.0846
+    "published_cagr": 0.0838
    }
   ],
   "criteria": {
@@ -3146,391 +3146,391 @@
   },
   "decomposition": {
    "arm": "smooth_k2",
-   "cost_pp": 0.01,
+   "cost_pp": -0.0,
    "rule": "signal_pp = the same two rules priced with zero commission; cost_pp = the rest. A recovery that is entirely cost must be printed as cost, not edge.",
-   "signal_pp": 0.06,
-   "total_pp": 0.07,
+   "signal_pp": 0.19,
+   "total_pp": 0.19,
    "turnover_arm": 0.9422,
    "turnover_declared": 0.9529
   },
-  "elapsed_sec": 40.7,
-  "evidence_cutoff": "2026-10-30",
+  "elapsed_sec": 48.1,
+  "evidence_cutoff": "2026-11-06",
   "gross_rows": [
    {
     "arm": "declared__gross",
-    "bars": 1652,
-    "cagr": 0.0971,
+    "bars": 1657,
+    "cagr": 0.0962,
     "cost_per_side": 0.0,
     "maxdd": -0.1547,
-    "oos_cagr": 0.1902,
-    "oos_sharpe": 1.791,
+    "oos_cagr": 0.1873,
+    "oos_sharpe": 1.763,
     "phase": 0,
-    "sharpe": 0.99,
+    "sharpe": 0.982,
     "turnover": 0.9529,
-    "vol": 0.1028,
-    "years": 6.82
+    "vol": 0.1029,
+    "years": 6.84
    },
    {
     "arm": "smooth_k2__gross",
-    "bars": 1652,
-    "cagr": 0.0977,
+    "bars": 1657,
+    "cagr": 0.0981,
     "cost_per_side": 0.0,
     "maxdd": -0.1529,
-    "oos_cagr": 0.1882,
-    "oos_sharpe": 1.732,
+    "oos_cagr": 0.1886,
+    "oos_sharpe": 1.736,
     "phase": 0,
-    "sharpe": 0.984,
+    "sharpe": 0.988,
     "turnover": 0.9422,
     "vol": 0.1042,
-    "years": 6.82
+    "years": 6.84
    }
   ],
   "prereg": "research/CASE_PREREG_E25_CAUSAL_REBUILD.md",
   "published": {
-   "as_coded_cagr": 0.096,
-   "declared_cagr": 0.0846,
+   "as_coded_cagr": 0.0941,
+   "declared_cagr": 0.0838,
    "source": "results/etf_book_production/latest.json::execution_basis"
   },
   "rows": [
    {
     "arm": "as_coded",
-    "bars": 1652,
-    "cagr": 0.096,
+    "bars": 1657,
+    "cagr": 0.0941,
     "cost_per_side": 0.001,
     "maxdd": -0.1177,
-    "oos_cagr": 0.1835,
-    "oos_sharpe": 1.738,
+    "oos_cagr": 0.1779,
+    "oos_sharpe": 1.683,
     "phase": 0,
-    "sharpe": 0.99,
+    "sharpe": 0.97,
     "turnover": 0.9343,
-    "vol": 0.1017,
+    "vol": 0.1019,
+    "years": 6.84
+   },
+   {
+    "arm": "declared",
+    "bars": 1657,
+    "cagr": 0.0838,
+    "cost_per_side": 0.001,
+    "maxdd": -0.1656,
+    "oos_cagr": 0.1716,
+    "oos_sharpe": 1.632,
+    "phase": 0,
+    "sharpe": 0.866,
+    "turnover": 0.9529,
+    "vol": 0.1028,
+    "years": 6.84
+   },
+   {
+    "arm": "smooth_k2",
+    "bars": 1657,
+    "cagr": 0.0857,
+    "cost_per_side": 0.001,
+    "maxdd": -0.1631,
+    "oos_cagr": 0.1728,
+    "oos_sharpe": 1.607,
+    "phase": 0,
+    "sharpe": 0.875,
+    "turnover": 0.9422,
+    "vol": 0.1041,
+    "years": 6.84
+   },
+   {
+    "arm": "smooth_k3",
+    "bars": 1657,
+    "cagr": 0.0818,
+    "cost_per_side": 0.001,
+    "maxdd": -0.1647,
+    "oos_cagr": 0.1719,
+    "oos_sharpe": 1.604,
+    "phase": 0,
+    "sharpe": 0.839,
+    "turnover": 0.945,
+    "vol": 0.1042,
+    "years": 6.84
+   },
+   {
+    "arm": "smooth_k4",
+    "bars": 1657,
+    "cagr": 0.0779,
+    "cost_per_side": 0.001,
+    "maxdd": -0.1556,
+    "oos_cagr": 0.169,
+    "oos_sharpe": 1.587,
+    "phase": 0,
+    "sharpe": 0.811,
+    "turnover": 0.9485,
+    "vol": 0.1029,
+    "years": 6.84
+   },
+   {
+    "arm": "smooth_k6",
+    "bars": 1657,
+    "cagr": 0.0813,
+    "cost_per_side": 0.001,
+    "maxdd": -0.1495,
+    "oos_cagr": 0.1521,
+    "oos_sharpe": 1.404,
+    "phase": 0,
+    "sharpe": 0.83,
+    "turnover": 0.9436,
+    "vol": 0.1047,
+    "years": 6.84
+   },
+   {
+    "arm": "as_coded",
+    "bars": 1652,
+    "cagr": 0.0943,
+    "cost_per_side": 0.001,
+    "maxdd": -0.154,
+    "oos_cagr": 0.1653,
+    "oos_sharpe": 1.409,
+    "phase": 1,
+    "sharpe": 0.926,
+    "turnover": 0.9613,
+    "vol": 0.1076,
     "years": 6.82
    },
    {
     "arm": "declared",
     "bars": 1652,
-    "cagr": 0.0846,
+    "cagr": 0.0789,
     "cost_per_side": 0.001,
-    "maxdd": -0.1656,
-    "oos_cagr": 0.1743,
-    "oos_sharpe": 1.658,
-    "phase": 0,
-    "sharpe": 0.874,
-    "turnover": 0.9529,
-    "vol": 0.1028,
+    "maxdd": -0.1658,
+    "oos_cagr": 0.1571,
+    "oos_sharpe": 1.382,
+    "phase": 1,
+    "sharpe": 0.803,
+    "turnover": 0.9515,
+    "vol": 0.1053,
     "years": 6.82
    },
    {
     "arm": "smooth_k2",
     "bars": 1652,
-    "cagr": 0.0853,
+    "cagr": 0.0828,
     "cost_per_side": 0.001,
-    "maxdd": -0.1631,
-    "oos_cagr": 0.1722,
-    "oos_sharpe": 1.603,
-    "phase": 0,
-    "sharpe": 0.871,
-    "turnover": 0.9422,
-    "vol": 0.1042,
+    "maxdd": -0.1563,
+    "oos_cagr": 0.1674,
+    "oos_sharpe": 1.424,
+    "phase": 1,
+    "sharpe": 0.819,
+    "turnover": 0.9529,
+    "vol": 0.1084,
     "years": 6.82
    },
    {
     "arm": "smooth_k3",
     "bars": 1652,
-    "cagr": 0.0814,
+    "cagr": 0.0845,
     "cost_per_side": 0.001,
-    "maxdd": -0.1647,
-    "oos_cagr": 0.1713,
-    "oos_sharpe": 1.598,
-    "phase": 0,
-    "sharpe": 0.834,
-    "turnover": 0.945,
-    "vol": 0.1042,
+    "maxdd": -0.1679,
+    "oos_cagr": 0.1664,
+    "oos_sharpe": 1.406,
+    "phase": 1,
+    "sharpe": 0.83,
+    "turnover": 0.9223,
+    "vol": 0.1089,
     "years": 6.82
    },
    {
     "arm": "smooth_k4",
     "bars": 1652,
-    "cagr": 0.0775,
+    "cagr": 0.0853,
     "cost_per_side": 0.001,
-    "maxdd": -0.1556,
-    "oos_cagr": 0.1684,
-    "oos_sharpe": 1.58,
-    "phase": 0,
-    "sharpe": 0.807,
-    "turnover": 0.9485,
-    "vol": 0.1029,
+    "maxdd": -0.1806,
+    "oos_cagr": 0.1676,
+    "oos_sharpe": 1.417,
+    "phase": 1,
+    "sharpe": 0.838,
+    "turnover": 0.9136,
+    "vol": 0.1089,
     "years": 6.82
    },
    {
     "arm": "smooth_k6",
     "bars": 1652,
-    "cagr": 0.0801,
+    "cagr": 0.0838,
     "cost_per_side": 0.001,
-    "maxdd": -0.1495,
-    "oos_cagr": 0.1497,
-    "oos_sharpe": 1.382,
-    "phase": 0,
-    "sharpe": 0.819,
-    "turnover": 0.9436,
-    "vol": 0.1047,
+    "maxdd": -0.1697,
+    "oos_cagr": 0.1641,
+    "oos_sharpe": 1.479,
+    "phase": 1,
+    "sharpe": 0.842,
+    "turnover": 0.9187,
+    "vol": 0.1062,
     "years": 6.82
    },
    {
     "arm": "as_coded",
     "bars": 1647,
-    "cagr": 0.0958,
+    "cagr": 0.0878,
     "cost_per_side": 0.001,
-    "maxdd": -0.154,
-    "oos_cagr": 0.1696,
-    "oos_sharpe": 1.439,
-    "phase": 1,
-    "sharpe": 0.939,
-    "turnover": 0.9613,
-    "vol": 0.1077,
+    "maxdd": -0.1415,
+    "oos_cagr": 0.1682,
+    "oos_sharpe": 1.484,
+    "phase": 2,
+    "sharpe": 0.884,
+    "turnover": 0.9956,
+    "vol": 0.1055,
     "years": 6.8
    },
    {
     "arm": "declared",
     "bars": 1647,
-    "cagr": 0.0794,
+    "cagr": 0.0812,
     "cost_per_side": 0.001,
-    "maxdd": -0.1658,
-    "oos_cagr": 0.159,
-    "oos_sharpe": 1.397,
-    "phase": 1,
-    "sharpe": 0.808,
-    "turnover": 0.9515,
-    "vol": 0.1054,
+    "maxdd": -0.2026,
+    "oos_cagr": 0.1766,
+    "oos_sharpe": 1.457,
+    "phase": 2,
+    "sharpe": 0.796,
+    "turnover": 0.9647,
+    "vol": 0.1097,
     "years": 6.8
    },
    {
     "arm": "smooth_k2",
     "bars": 1647,
-    "cagr": 0.085,
+    "cagr": 0.0853,
     "cost_per_side": 0.001,
-    "maxdd": -0.1563,
-    "oos_cagr": 0.1737,
-    "oos_sharpe": 1.474,
-    "phase": 1,
-    "sharpe": 0.839,
-    "turnover": 0.9529,
+    "maxdd": -0.1801,
+    "oos_cagr": 0.1653,
+    "oos_sharpe": 1.404,
+    "phase": 2,
+    "sharpe": 0.841,
+    "turnover": 0.9434,
     "vol": 0.1083,
     "years": 6.8
    },
    {
     "arm": "smooth_k3",
     "bars": 1647,
-    "cagr": 0.0871,
-    "cost_per_side": 0.001,
-    "maxdd": -0.1679,
-    "oos_cagr": 0.1739,
-    "oos_sharpe": 1.465,
-    "phase": 1,
-    "sharpe": 0.855,
-    "turnover": 0.9223,
-    "vol": 0.1088,
-    "years": 6.8
-   },
-   {
-    "arm": "smooth_k4",
-    "bars": 1647,
-    "cagr": 0.0879,
-    "cost_per_side": 0.001,
-    "maxdd": -0.1806,
-    "oos_cagr": 0.1751,
-    "oos_sharpe": 1.477,
-    "phase": 1,
-    "sharpe": 0.862,
-    "turnover": 0.9136,
-    "vol": 0.1087,
-    "years": 6.8
-   },
-   {
-    "arm": "smooth_k6",
-    "bars": 1647,
-    "cagr": 0.0851,
-    "cost_per_side": 0.001,
-    "maxdd": -0.1697,
-    "oos_cagr": 0.1681,
-    "oos_sharpe": 1.514,
-    "phase": 1,
-    "sharpe": 0.855,
-    "turnover": 0.9187,
-    "vol": 0.1061,
-    "years": 6.8
-   },
-   {
-    "arm": "as_coded",
-    "bars": 1642,
-    "cagr": 0.0897,
-    "cost_per_side": 0.001,
-    "maxdd": -0.1415,
-    "oos_cagr": 0.1736,
-    "oos_sharpe": 1.531,
-    "phase": 2,
-    "sharpe": 0.902,
-    "turnover": 0.9956,
-    "vol": 0.1054,
-    "years": 6.78
-   },
-   {
-    "arm": "declared",
-    "bars": 1642,
-    "cagr": 0.0809,
-    "cost_per_side": 0.001,
-    "maxdd": -0.2026,
-    "oos_cagr": 0.1766,
-    "oos_sharpe": 1.455,
-    "phase": 2,
-    "sharpe": 0.794,
-    "turnover": 0.9647,
-    "vol": 0.1098,
-    "years": 6.78
-   },
-   {
-    "arm": "smooth_k2",
-    "bars": 1642,
-    "cagr": 0.0857,
-    "cost_per_side": 0.001,
-    "maxdd": -0.1801,
-    "oos_cagr": 0.167,
-    "oos_sharpe": 1.416,
-    "phase": 2,
-    "sharpe": 0.845,
-    "turnover": 0.9434,
-    "vol": 0.1084,
-    "years": 6.78
-   },
-   {
-    "arm": "smooth_k3",
-    "bars": 1642,
-    "cagr": 0.0883,
+    "cagr": 0.0878,
     "cost_per_side": 0.001,
     "maxdd": -0.1786,
-    "oos_cagr": 0.1747,
-    "oos_sharpe": 1.461,
+    "oos_cagr": 0.1728,
+    "oos_sharpe": 1.448,
     "phase": 2,
-    "sharpe": 0.862,
+    "sharpe": 0.858,
     "turnover": 0.9332,
-    "vol": 0.1092,
-    "years": 6.78
+    "vol": 0.1091,
+    "years": 6.8
    },
    {
     "arm": "smooth_k4",
-    "bars": 1642,
-    "cagr": 0.085,
+    "bars": 1647,
+    "cagr": 0.0837,
     "cost_per_side": 0.001,
     "maxdd": -0.1869,
-    "oos_cagr": 0.1794,
-    "oos_sharpe": 1.527,
+    "oos_cagr": 0.1755,
+    "oos_sharpe": 1.499,
     "phase": 2,
-    "sharpe": 0.841,
+    "sharpe": 0.83,
     "turnover": 0.9271,
-    "vol": 0.108,
-    "years": 6.78
+    "vol": 0.1079,
+    "years": 6.8
    },
    {
     "arm": "smooth_k6",
-    "bars": 1642,
-    "cagr": 0.0781,
+    "bars": 1647,
+    "cagr": 0.0775,
     "cost_per_side": 0.001,
     "maxdd": -0.1635,
-    "oos_cagr": 0.1508,
-    "oos_sharpe": 1.306,
+    "oos_cagr": 0.1488,
+    "oos_sharpe": 1.293,
     "phase": 2,
-    "sharpe": 0.781,
+    "sharpe": 0.776,
     "turnover": 0.9077,
-    "vol": 0.1078,
-    "years": 6.78
+    "vol": 0.1077,
+    "years": 6.8
    },
    {
     "arm": "as_coded",
-    "bars": 1637,
-    "cagr": 0.1087,
+    "bars": 1642,
+    "cagr": 0.1092,
     "cost_per_side": 0.001,
     "maxdd": -0.1448,
-    "oos_cagr": 0.14,
-    "oos_sharpe": 1.332,
+    "oos_cagr": 0.1412,
+    "oos_sharpe": 1.343,
     "phase": 3,
-    "sharpe": 1.132,
-    "turnover": 0.964,
+    "sharpe": 1.138,
+    "turnover": 0.9679,
     "vol": 0.0989,
-    "years": 6.74
+    "years": 6.76
    },
    {
     "arm": "declared",
-    "bars": 1637,
-    "cagr": 0.0593,
+    "bars": 1642,
+    "cagr": 0.0606,
     "cost_per_side": 0.001,
     "maxdd": -0.1417,
-    "oos_cagr": 0.0291,
-    "oos_sharpe": 0.339,
+    "oos_cagr": 0.0323,
+    "oos_sharpe": 0.37,
     "phase": 3,
-    "sharpe": 0.646,
-    "turnover": 0.9961,
-    "vol": 0.1005,
-    "years": 6.74
+    "sharpe": 0.658,
+    "turnover": 1.0027,
+    "vol": 0.1004,
+    "years": 6.76
    },
    {
     "arm": "smooth_k2",
-    "bars": 1637,
-    "cagr": 0.057,
+    "bars": 1642,
+    "cagr": 0.0561,
     "cost_per_side": 0.001,
     "maxdd": -0.142,
-    "oos_cagr": 0.0179,
-    "oos_sharpe": 0.232,
+    "oos_cagr": 0.0161,
+    "oos_sharpe": 0.214,
     "phase": 3,
-    "sharpe": 0.625,
-    "turnover": 0.9872,
+    "sharpe": 0.617,
+    "turnover": 0.9945,
     "vol": 0.0999,
-    "years": 6.74
+    "years": 6.76
    },
    {
     "arm": "smooth_k3",
-    "bars": 1637,
-    "cagr": 0.0513,
+    "bars": 1642,
+    "cagr": 0.0487,
     "cost_per_side": 0.001,
     "maxdd": -0.1541,
-    "oos_cagr": 0.0229,
-    "oos_sharpe": 0.282,
+    "oos_cagr": 0.017,
+    "oos_sharpe": 0.224,
     "phase": 3,
-    "sharpe": 0.573,
-    "turnover": 0.9664,
+    "sharpe": 0.547,
+    "turnover": 0.9764,
     "vol": 0.0991,
-    "years": 6.74
+    "years": 6.76
    },
    {
     "arm": "smooth_k4",
-    "bars": 1637,
-    "cagr": 0.0457,
+    "bars": 1642,
+    "cagr": 0.0427,
     "cost_per_side": 0.001,
     "maxdd": -0.1664,
-    "oos_cagr": 0.0179,
-    "oos_sharpe": 0.231,
+    "oos_cagr": 0.0111,
+    "oos_sharpe": 0.163,
     "phase": 3,
-    "sharpe": 0.517,
-    "turnover": 0.9583,
+    "sharpe": 0.487,
+    "turnover": 0.9706,
     "vol": 0.0993,
-    "years": 6.74
+    "years": 6.76
    },
    {
     "arm": "smooth_k6",
-    "bars": 1637,
-    "cagr": 0.0545,
+    "bars": 1642,
+    "cagr": 0.0505,
     "cost_per_side": 0.001,
-    "maxdd": -0.1674,
-    "oos_cagr": 0.0496,
-    "oos_sharpe": 0.538,
+    "maxdd": -0.1726,
+    "oos_cagr": 0.0401,
+    "oos_sharpe": 0.446,
     "phase": 3,
-    "sharpe": 0.607,
-    "turnover": 0.9465,
-    "vol": 0.0989,
-    "years": 6.74
+    "sharpe": 0.566,
+    "turnover": 0.9564,
+    "vol": 0.099,
+    "years": 6.76
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-07T09:32:35+0800",
+  "ts": "2026-11-07T10:43:50+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -3541,7 +3541,7 @@
      "phase_share": 0.75,
      "phase_share_pass": true,
      "phase_wins": 3,
-     "recovered_pp": 0.07
+     "recovered_pp": 0.19
     },
     {
      "admissible": false,
@@ -3550,7 +3550,7 @@
      "phase_share": 0.5,
      "phase_share_pass": false,
      "phase_wins": 2,
-     "recovered_pp": -0.32
+     "recovered_pp": -0.2
     },
     {
      "admissible": false,
@@ -3559,7 +3559,7 @@
      "phase_share": 0.5,
      "phase_share_pass": false,
      "phase_wins": 2,
-     "recovered_pp": -0.71
+     "recovered_pp": -0.59
     },
     {
      "admissible": false,
@@ -3568,16 +3568,16 @@
      "phase_share": 0.25,
      "phase_share_pass": false,
      "phase_wins": 1,
-     "recovered_pp": -0.45
+     "recovered_pp": -0.25
     }
    ],
    "best_arm": "smooth_k2",
-   "best_recovered_pp": 0.07,
+   "best_recovered_pp": 0.19,
    "chosen_arm": null,
    "dd_floor": -0.1856,
-   "declared_cagr": 0.0846,
+   "declared_cagr": 0.0838,
    "declared_maxdd": -0.1656,
-   "declared_sharpe": 0.874,
+   "declared_sharpe": 0.866,
    "phases": 4,
    "recommended_card_arm": "declared",
    "state": "IRRECOVERABLE",
@@ -3596,9 +3596,9 @@
     "prereg": "research/CASE_PREREG_E25_CAUSAL_REBUILD.md",
     "state": "IRRECOVERABLE",
     "best_arm": "smooth_k2",
-    "best_pp": 0.07,
+    "best_pp": 0.19,
     "admissible": [],
-    "evidence_cutoff": "2026-10-30",
+    "evidence_cutoff": "2026-11-06",
     "readable": true
    },
    {
@@ -3608,9 +3608,9 @@
     "prereg": "research/CASE_PREREG_E26_OVERNIGHT_GAP.md",
     "state": "MIXED_ACROSS_PHASES",
     "best_arm": "excl_upgap_q80",
-    "best_pp": 0.81,
+    "best_pp": 0.98,
     "admissible": [],
-    "evidence_cutoff": "2026-10-30",
+    "evidence_cutoff": "2026-11-06",
     "readable": true
    },
    {
@@ -3622,7 +3622,7 @@
     "best_arm": "k5",
     "best_pp": -0.01,
     "admissible": [],
-    "evidence_cutoff": "2026-10-30",
+    "evidence_cutoff": "2026-11-06",
     "readable": true
    }
   ],
@@ -3634,16 +3634,16 @@
   "missing": [],
   "levers": [],
   "cutoffs": [
-   "2026-10-30"
+   "2026-11-06"
   ],
   "faces_read": 3,
   "faces_total": 3,
   "verdict": "CLOSED",
-  "sentence": "**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.07pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.81pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (-0.01pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics."
+  "sentence": "**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.19pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.98pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (-0.01pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics."
  },
  "underwater": {
   "artifact": "results/etf_book_underwater.json",
-  "bars": 1652,
+  "bars": 1657,
   "cell": "n12_vt08",
   "config": {
    "cost_bp_per_side": 10.0,
@@ -3656,34 +3656,34 @@
    "delta_maxdd": 0.0,
    "ok": true,
    "published": {
-    "cagr": 0.096,
-    "evidence_cutoff": "2026-10-30",
+    "cagr": 0.0941,
+    "evidence_cutoff": "2026-11-06",
     "maxdd": -0.1177,
     "published_bar_note": {
-     "columns": 1613,
-     "flip_prints": 168,
+     "columns": 1624,
+     "flip_prints": 169,
      "flip_thr": 0.35,
      "neutralised": true,
      "panel": "repaired (flip prints neutralised before any measurement)",
      "panel_digest": {
-      "amount_columns": 1613,
+      "amount_columns": 1624,
       "blocks": [
        "close",
        "open",
        "amount"
       ],
-      "columns": 1613,
-      "dates": 5270,
-      "digest": "a1a42aee64453839",
+      "columns": 1624,
+      "dates": 5275,
+      "digest": "58302d9ca988c138",
       "first": "2005-02-23",
-      "last": "2026-10-30"
+      "last": "2026-11-06"
      },
-     "sentence": "本面的数字算在**已修复**的面板上：**168 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 158 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1613 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。",
-     "symbols_with_a_flip": 158
+     "sentence": "本面的数字算在**已修复**的面板上：**169 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 159 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1624 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。",
+     "symbols_with_a_flip": 159
     }
    },
    "recomputed": {
-    "cagr": 0.096,
+    "cagr": 0.0941,
     "maxdd": -0.1177
    },
    "tol": 5e-05,
@@ -3694,15 +3694,15 @@
    "censored": "entry/trough not regained on the last bar -- reported, never scored as 0",
    "forward": "annualised, calendar-year horizon via DateOffset, incomplete horizons skipped and counted"
   },
-  "evidence_cutoff": "2026-10-30",
+  "evidence_cutoff": "2026-11-06",
   "first_bar": "2020-01-03",
   "forward": {
    "1y": {
-    "entries": 1410,
+    "entries": 1415,
     "min": -0.075141,
-    "p5": -0.015365,
-    "p50": 0.081207,
-    "share_negative": 0.0801,
+    "p5": -0.015352,
+    "p50": 0.081101,
+    "share_negative": 0.0799,
     "skipped_no_full_horizon": 242,
     "worst_entry": {
      "annualised": -0.075141,
@@ -3711,10 +3711,10 @@
     }
    },
    "2y": {
-    "entries": 1167,
+    "entries": 1172,
     "min": -0.000201,
-    "p5": 0.016608,
-    "p50": 0.067483,
+    "p5": 0.016618,
+    "p50": 0.067676,
     "share_negative": 0.0009,
     "skipped_no_full_horizon": 485,
     "worst_entry": {
@@ -3724,10 +3724,10 @@
     }
    },
    "3y": {
-    "entries": 925,
+    "entries": 930,
     "min": 0.00779,
-    "p5": 0.028547,
-    "p50": 0.068593,
+    "p5": 0.028681,
+    "p50": 0.068714,
     "share_negative": 0.0,
     "skipped_no_full_horizon": 727,
     "worst_entry": {
@@ -3737,14 +3737,14 @@
     }
    }
   },
-  "last_bar": "2026-10-30",
+  "last_bar": "2026-11-06",
   "recovery": {
    "censored": 10,
-   "censored_share": 0.0061,
-   "entries": 1652,
+   "censored_share": 0.006,
+   "entries": 1657,
    "max_bars": 351.0,
    "median_bars": 1.0,
-   "p90_bars": 14.900000000000091,
+   "p90_bars": 14.400000000000091,
    "verdict": "ASSESSED",
    "worst_entry": {
     "bars": 351,
@@ -3998,8 +3998,8 @@
  "entry_gate": {
   "status": "ok",
   "artifact": "results\\etf_book_entry_gate.json",
-  "evidence_cutoff": "2026-10-30",
-  "panel_last_bar": "2026-10-30",
+  "evidence_cutoff": "2026-11-06",
+  "panel_last_bar": "2026-11-06",
   "verdict": "GATE_SITS_ON_PLATEAU",
   "sentence": "halving or doubling the shipped cut moves the declared arm by at most 0.53pp and no gate beats it by more than 0.21pp, so 20M is a plateau -- the number is not load-bearing and any future line may inherit it safely",
   "shipped_cny": 20000000.0,
@@ -4010,8 +4010,8 @@
    {
     "gate_m": 5.0,
     "gate_cny": 5000000.0,
-    "cagr": 0.0867,
-    "sharpe": 0.891,
+    "cagr": 0.0859,
+    "sharpe": 0.883,
     "maxdd": -0.1651,
     "median_names": 462,
     "turnover": 0.958,
@@ -4020,8 +4020,8 @@
    {
     "gate_m": 10.0,
     "gate_cny": 10000000.0,
-    "cagr": 0.0867,
-    "sharpe": 0.891,
+    "cagr": 0.0859,
+    "sharpe": 0.883,
     "maxdd": -0.1651,
     "median_names": 367,
     "turnover": 0.958,
@@ -4030,8 +4030,8 @@
    {
     "gate_m": 20.0,
     "gate_cny": 20000000.0,
-    "cagr": 0.0846,
-    "sharpe": 0.874,
+    "cagr": 0.0838,
+    "sharpe": 0.866,
     "maxdd": -0.1656,
     "median_names": 262,
     "turnover": 0.953,
@@ -4040,8 +4040,8 @@
    {
     "gate_m": 50.0,
     "gate_cny": 50000000.0,
-    "cagr": 0.0793,
-    "sharpe": 0.832,
+    "cagr": 0.0785,
+    "sharpe": 0.824,
     "maxdd": -0.202,
     "median_names": 154,
     "turnover": 0.877,
@@ -4050,32 +4050,32 @@
    {
     "gate_m": 100.0,
     "gate_cny": 100000000.0,
-    "cagr": 0.0865,
-    "sharpe": 0.891,
+    "cagr": 0.0845,
+    "sharpe": 0.871,
     "maxdd": -0.2066,
     "median_names": 94,
     "turnover": 0.779,
-    "delta_pp": 0.19
+    "delta_pp": 0.07
    },
    {
     "gate_m": 200.0,
     "gate_cny": 200000000.0,
-    "cagr": 0.055,
-    "sharpe": 0.583,
+    "cagr": 0.0539,
+    "sharpe": 0.573,
     "maxdd": -0.2269,
     "median_names": 56,
     "turnover": 0.68,
-    "delta_pp": -2.96
+    "delta_pp": -2.99
    }
   ],
   "widest_names": 462,
   "narrowest_names": 56,
   "width_ratio": 8.25,
-  "universe_measured": 1504,
-  "universe_published": 1504,
+  "universe_measured": 1515,
+  "universe_published": 1515,
   "control": {
-   "published_declared_cagr": 0.0846,
-   "arm_declared_cagr": 0.0846,
+   "published_declared_cagr": 0.0838,
+   "arm_declared_cagr": 0.0838,
    "delta_pp": 0.0,
    "tol_pp": 0.25
   }
@@ -4096,7 +4096,7 @@
   "cash_weight": 0.539747,
   "held_leg_return": null,
   "book_change": null,
-  "ticket_priced_bar": "2026-10-30",
+  "ticket_priced_bar": "2026-11-06",
   "rows": [
    {
     "symbol": "159501",
@@ -4159,22 +4159,22 @@
   "status": "ok",
   "artifact": "results\\etf_book_forced_hold.json",
   "sibling_artifact": "results\\etf_book_exit_liquidity.json",
-  "evidence_cutoff": "2026-10-30",
-  "sibling_cutoff": "2026-10-30",
-  "positions": 3924,
+  "evidence_cutoff": "2026-11-06",
+  "sibling_cutoff": "2026-11-06",
+  "positions": 3936,
   "below_gate": 166,
-  "share_below_gate": 0.0423,
-  "wait_pp": 0.2187,
+  "share_below_gate": 0.0421,
+  "wait_pp": 0.2177,
   "exit_verdict": "MIXED_ACROSS_PHASES",
   "tail_total": 109,
-  "tail_share": 0.0278,
+  "tail_share": 0.0277,
   "tail_pp": 0.0503,
-  "tail_pp_min": 0.0134,
+  "tail_pp_min": 0.0132,
   "tail_pp_max": 0.0951,
-  "combined_pp": 0.269,
+  "combined_pp": 0.268,
   "priced_total": 109,
   "open_at_end_total": 0,
-  "ceiling_min": 18.7268,
+  "ceiling_min": 18.4622,
   "ceiling_max": 26.0153,
   "material_pp": 0.57,
   "verdict": "CENSORED_TAIL_IS_IMMATERIAL",
@@ -4209,10 +4209,10 @@
    {
     "phase": 3,
     "start": "2020-01-23",
-    "positions": 972,
+    "positions": 984,
     "tail": 23,
-    "share": 0.0237,
-    "pp": 0.0134,
+    "share": 0.0234,
+    "pp": 0.0132,
     "wait_bars": 1.0
    }
   ]
@@ -4220,7 +4220,7 @@
  "capital": {
   "status": "ok",
   "artifact": "results\\etf_book_min_capital.json",
-  "evidence_cutoff": "2026-10-30",
+  "evidence_cutoff": "2026-11-06",
   "dw_median": 0.03078714,
   "model_nav": 203006.84,
   "real_nav": 649621.89,
@@ -4235,12 +4235,12 @@
   "schedule": "wan2.5+5",
   "verdict": "FLOOR_BINDS_BELOW_203007_AND_MODEL_GENEROUS_ABOVE_649622",
   "small_capital": 10000.0,
-  "small_cagr": -0.0804,
-  "small_ref_cagr": 0.0638,
-  "small_delta_pp": -14.42,
+  "small_cagr": -0.0798,
+  "small_ref_cagr": 0.0641,
+  "small_delta_pp": -14.39,
   "small_fee_cny": 10420.0,
   "big_capital": 10000000.0,
-  "big_delta_pp": 0.54,
+  "big_delta_pp": 0.55,
   "window_verdict": "BREAKEVEN_WINDOW_MOVES_5558PCT",
   "window_spread_pct": 5558.42,
   "window_tol_pct": 10.0,
@@ -4248,7 +4248,7 @@
    {
     "window": "published_2020",
     "first_bar": "2020-01-02",
-    "last_bar": "2026-10-30",
+    "last_bar": "2026-11-06",
     "dw_median": 0.03078714,
     "dw_mean": 0.03104884,
     "model_nav": 203006.85,
@@ -4258,7 +4258,7 @@
    {
     "window": "full_2015",
     "first_bar": "2015-01-05",
-    "last_bar": "2026-10-30",
+    "last_bar": "2026-11-06",
     "dw_median": 0.02479381,
     "dw_mean": 0.02028791,
     "model_nav": 252079.05,
@@ -4286,28 +4286,28 @@
     "names_median": 5.0,
     "dw_median": 0.09226805,
     "model_nav": 67737.42,
-    "cagr_8bp": 0.073
+    "cagr_8bp": 0.0733
    },
    {
     "n_hold": 8,
     "names_median": 8.0,
     "dw_median": 0.04784457,
     "model_nav": 130631.34,
-    "cagr_8bp": 0.0663
+    "cagr_8bp": 0.0666
    },
    {
     "n_hold": 12,
     "names_median": 12.0,
     "dw_median": 0.03078714,
     "model_nav": 203006.85,
-    "cagr_8bp": 0.0618
+    "cagr_8bp": 0.0621
    },
    {
     "n_hold": 20,
     "names_median": 20.0,
     "dw_median": 0.01539595,
     "model_nav": 405950.98,
-    "cagr_8bp": 0.055
+    "cagr_8bp": 0.0552
    }
   ],
   "delivered_n_hold": 12,
@@ -4351,9 +4351,9 @@
    {
     "arm": "declared",
     "gap_pp": 0.0,
-    "got_cagr": 0.0846,
+    "got_cagr": 0.0838,
     "ok": true,
-    "published_cagr": 0.0846
+    "published_cagr": 0.0838
    }
   ],
   "criteria": {
@@ -4378,14 +4378,14 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 38.8,
-  "evidence_cutoff": "2026-10-30",
+  "elapsed_sec": 38.7,
+  "evidence_cutoff": "2026-11-06",
   "gap_stats": {
    "entry_bars": 83,
    "excluded_names_per_decision": {
-    "excl_absgap_q80": 150.7,
-    "excl_absgap_q90": 75.6,
-    "excl_upgap_q80": 145.1
+    "excl_absgap_q80": 150.8,
+    "excl_absgap_q90": 75.7,
+    "excl_upgap_q80": 145.2
    },
    "mean_abs_gap_bp": 41.48,
    "median_abs_gap_bp": 23.98,
@@ -4394,350 +4394,350 @@
   },
   "prereg": "research/CASE_PREREG_E26_OVERNIGHT_GAP.md",
   "published": {
-   "as_coded_cagr": 0.096,
-   "declared_cagr": 0.0846,
+   "as_coded_cagr": 0.0941,
+   "declared_cagr": 0.0838,
    "source": "results/etf_book_production/latest.json::execution_basis"
   },
   "rows": [
    {
     "arm": "declared",
-    "bars": 1652,
-    "cagr": 0.0846,
+    "bars": 1657,
+    "cagr": 0.0838,
     "cost_per_side": 0.001,
     "maxdd": -0.1656,
-    "oos_cagr": 0.1743,
-    "oos_sharpe": 1.658,
+    "oos_cagr": 0.1716,
+    "oos_sharpe": 1.632,
     "phase": 0,
-    "sharpe": 0.874,
+    "sharpe": 0.866,
     "turnover": 0.9529,
     "vol": 0.1028,
-    "years": 6.82
+    "years": 6.84
    },
    {
     "arm": "gap_rank_up",
-    "bars": 1652,
-    "cagr": -0.024,
+    "bars": 1657,
+    "cagr": -0.0274,
     "cost_per_side": 0.001,
     "maxdd": -0.2853,
-    "oos_cagr": -0.0287,
-    "oos_sharpe": -0.273,
+    "oos_cagr": -0.0367,
+    "oos_sharpe": -0.363,
     "phase": 0,
-    "sharpe": -0.226,
+    "sharpe": -0.264,
     "turnover": 0.7693,
-    "vol": 0.0929,
-    "years": 6.82
+    "vol": 0.093,
+    "years": 6.84
    },
    {
     "arm": "gap_rank_down",
-    "bars": 1652,
-    "cagr": 0.0518,
+    "bars": 1657,
+    "cagr": 0.0521,
     "cost_per_side": 0.001,
     "maxdd": -0.2099,
-    "oos_cagr": 0.0786,
-    "oos_sharpe": 0.728,
+    "oos_cagr": 0.0791,
+    "oos_sharpe": 0.731,
     "phase": 0,
-    "sharpe": 0.582,
+    "sharpe": 0.584,
     "turnover": 0.7045,
-    "vol": 0.0987,
-    "years": 6.82
+    "vol": 0.0989,
+    "years": 6.84
    },
    {
     "arm": "excl_absgap_q80",
-    "bars": 1652,
-    "cagr": 0.0613,
+    "bars": 1657,
+    "cagr": 0.0606,
     "cost_per_side": 0.001,
     "maxdd": -0.1837,
-    "oos_cagr": 0.1422,
-    "oos_sharpe": 1.337,
+    "oos_cagr": 0.1397,
+    "oos_sharpe": 1.314,
     "phase": 0,
-    "sharpe": 0.655,
+    "sharpe": 0.647,
     "turnover": 0.9891,
-    "vol": 0.1027,
-    "years": 6.82
+    "vol": 0.1028,
+    "years": 6.84
    },
    {
     "arm": "excl_absgap_q90",
-    "bars": 1652,
-    "cagr": 0.0812,
+    "bars": 1657,
+    "cagr": 0.0804,
     "cost_per_side": 0.001,
     "maxdd": -0.1598,
-    "oos_cagr": 0.1847,
-    "oos_sharpe": 1.735,
+    "oos_cagr": 0.1819,
+    "oos_sharpe": 1.708,
     "phase": 0,
-    "sharpe": 0.848,
+    "sharpe": 0.839,
     "turnover": 0.9779,
-    "vol": 0.1021,
-    "years": 6.82
+    "vol": 0.1022,
+    "years": 6.84
    },
    {
     "arm": "excl_upgap_q80",
-    "bars": 1652,
-    "cagr": 0.0927,
+    "bars": 1657,
+    "cagr": 0.0936,
     "cost_per_side": 0.001,
     "maxdd": -0.183,
-    "oos_cagr": 0.1897,
-    "oos_sharpe": 1.707,
+    "oos_cagr": 0.1915,
+    "oos_sharpe": 1.725,
     "phase": 0,
-    "sharpe": 0.94,
-    "turnover": 0.9926,
-    "vol": 0.104,
-    "years": 6.82
+    "sharpe": 0.949,
+    "turnover": 0.9929,
+    "vol": 0.1039,
+    "years": 6.84
    },
    {
     "arm": "declared",
-    "bars": 1647,
-    "cagr": 0.0794,
+    "bars": 1652,
+    "cagr": 0.0789,
     "cost_per_side": 0.001,
     "maxdd": -0.1658,
-    "oos_cagr": 0.159,
-    "oos_sharpe": 1.397,
+    "oos_cagr": 0.1571,
+    "oos_sharpe": 1.382,
     "phase": 1,
-    "sharpe": 0.808,
+    "sharpe": 0.803,
     "turnover": 0.9515,
-    "vol": 0.1054,
-    "years": 6.8
+    "vol": 0.1053,
+    "years": 6.82
    },
    {
     "arm": "gap_rank_up",
-    "bars": 1647,
-    "cagr": -0.0136,
+    "bars": 1652,
+    "cagr": -0.0132,
     "cost_per_side": 0.001,
     "maxdd": -0.3076,
-    "oos_cagr": 0.012,
-    "oos_sharpe": 0.166,
+    "oos_cagr": 0.0128,
+    "oos_sharpe": 0.173,
     "phase": 1,
-    "sharpe": -0.092,
+    "sharpe": -0.088,
     "turnover": 0.7446,
-    "vol": 0.1001,
-    "years": 6.8
+    "vol": 0.1003,
+    "years": 6.82
    },
    {
     "arm": "gap_rank_down",
-    "bars": 1647,
-    "cagr": 0.0275,
+    "bars": 1652,
+    "cagr": 0.0295,
     "cost_per_side": 0.001,
     "maxdd": -0.1686,
-    "oos_cagr": 0.0678,
-    "oos_sharpe": 0.671,
+    "oos_cagr": 0.0723,
+    "oos_sharpe": 0.709,
     "phase": 1,
-    "sharpe": 0.333,
+    "sharpe": 0.352,
     "turnover": 0.6603,
-    "vol": 0.1,
-    "years": 6.8
+    "vol": 0.1002,
+    "years": 6.82
    },
    {
     "arm": "excl_absgap_q80",
-    "bars": 1647,
+    "bars": 1652,
     "cagr": 0.0904,
     "cost_per_side": 0.001,
     "maxdd": -0.1479,
-    "oos_cagr": 0.1734,
-    "oos_sharpe": 1.457,
+    "oos_cagr": 0.1729,
+    "oos_sharpe": 1.456,
     "phase": 1,
-    "sharpe": 0.889,
+    "sharpe": 0.89,
     "turnover": 0.9538,
-    "vol": 0.1079,
-    "years": 6.8
+    "vol": 0.1078,
+    "years": 6.82
    },
    {
     "arm": "excl_absgap_q90",
-    "bars": 1647,
-    "cagr": 0.0889,
+    "bars": 1652,
+    "cagr": 0.0883,
     "cost_per_side": 0.001,
     "maxdd": -0.1441,
-    "oos_cagr": 0.1629,
-    "oos_sharpe": 1.443,
+    "oos_cagr": 0.1609,
+    "oos_sharpe": 1.428,
     "phase": 1,
-    "sharpe": 0.893,
+    "sharpe": 0.888,
     "turnover": 0.9312,
     "vol": 0.1056,
-    "years": 6.8
+    "years": 6.82
    },
    {
     "arm": "excl_upgap_q80",
-    "bars": 1647,
-    "cagr": 0.082,
+    "bars": 1652,
+    "cagr": 0.0821,
     "cost_per_side": 0.001,
     "maxdd": -0.1517,
-    "oos_cagr": 0.177,
-    "oos_sharpe": 1.44,
+    "oos_cagr": 0.1764,
+    "oos_sharpe": 1.439,
     "phase": 1,
-    "sharpe": 0.808,
+    "sharpe": 0.809,
     "turnover": 0.9814,
-    "vol": 0.1089,
-    "years": 6.8
+    "vol": 0.1088,
+    "years": 6.82
    },
    {
     "arm": "declared",
-    "bars": 1642,
-    "cagr": 0.0809,
+    "bars": 1647,
+    "cagr": 0.0812,
     "cost_per_side": 0.001,
     "maxdd": -0.2026,
     "oos_cagr": 0.1766,
-    "oos_sharpe": 1.455,
+    "oos_sharpe": 1.457,
     "phase": 2,
-    "sharpe": 0.794,
+    "sharpe": 0.796,
     "turnover": 0.9647,
-    "vol": 0.1098,
-    "years": 6.78
+    "vol": 0.1097,
+    "years": 6.8
    },
    {
     "arm": "gap_rank_up",
-    "bars": 1642,
-    "cagr": -0.0202,
+    "bars": 1647,
+    "cagr": -0.0201,
     "cost_per_side": 0.001,
     "maxdd": -0.3128,
-    "oos_cagr": 0.0064,
-    "oos_sharpe": 0.116,
+    "oos_cagr": 0.0065,
+    "oos_sharpe": 0.117,
     "phase": 2,
-    "sharpe": -0.179,
+    "sharpe": -0.178,
     "turnover": 0.7152,
-    "vol": 0.0939,
-    "years": 6.78
+    "vol": 0.094,
+    "years": 6.8
    },
    {
     "arm": "gap_rank_down",
-    "bars": 1642,
-    "cagr": 0.047,
+    "bars": 1647,
+    "cagr": 0.0461,
     "cost_per_side": 0.001,
     "maxdd": -0.2307,
-    "oos_cagr": 0.0985,
-    "oos_sharpe": 1.161,
+    "oos_cagr": 0.096,
+    "oos_sharpe": 1.134,
     "phase": 2,
-    "sharpe": 0.583,
+    "sharpe": 0.573,
     "turnover": 0.6688,
-    "vol": 0.0889,
-    "years": 6.78
+    "vol": 0.0888,
+    "years": 6.8
    },
    {
     "arm": "excl_absgap_q80",
-    "bars": 1642,
-    "cagr": 0.0704,
+    "bars": 1647,
+    "cagr": 0.0707,
     "cost_per_side": 0.001,
     "maxdd": -0.1763,
-    "oos_cagr": 0.1398,
-    "oos_sharpe": 1.257,
+    "oos_cagr": 0.1399,
+    "oos_sharpe": 1.26,
     "phase": 2,
-    "sharpe": 0.728,
+    "sharpe": 0.731,
     "turnover": 0.977,
-    "vol": 0.105,
-    "years": 6.78
+    "vol": 0.1049,
+    "years": 6.8
    },
    {
     "arm": "excl_absgap_q90",
-    "bars": 1642,
-    "cagr": 0.0807,
+    "bars": 1647,
+    "cagr": 0.0809,
     "cost_per_side": 0.001,
     "maxdd": -0.2001,
     "oos_cagr": 0.1677,
-    "oos_sharpe": 1.473,
+    "oos_sharpe": 1.475,
     "phase": 2,
-    "sharpe": 0.817,
+    "sharpe": 0.82,
     "turnover": 0.9951,
-    "vol": 0.1058,
-    "years": 6.78
+    "vol": 0.1057,
+    "years": 6.8
+   },
+   {
+    "arm": "excl_upgap_q80",
+    "bars": 1647,
+    "cagr": 0.063,
+    "cost_per_side": 0.001,
+    "maxdd": -0.1889,
+    "oos_cagr": 0.1326,
+    "oos_sharpe": 1.215,
+    "phase": 2,
+    "sharpe": 0.659,
+    "turnover": 0.9979,
+    "vol": 0.1049,
+    "years": 6.8
+   },
+   {
+    "arm": "declared",
+    "bars": 1642,
+    "cagr": 0.0606,
+    "cost_per_side": 0.001,
+    "maxdd": -0.1417,
+    "oos_cagr": 0.0323,
+    "oos_sharpe": 0.37,
+    "phase": 3,
+    "sharpe": 0.658,
+    "turnover": 1.0027,
+    "vol": 0.1004,
+    "years": 6.76
+   },
+   {
+    "arm": "gap_rank_up",
+    "bars": 1642,
+    "cagr": 0.0354,
+    "cost_per_side": 0.001,
+    "maxdd": -0.1448,
+    "oos_cagr": 0.0696,
+    "oos_sharpe": 0.819,
+    "phase": 3,
+    "sharpe": 0.461,
+    "turnover": 0.6461,
+    "vol": 0.0864,
+    "years": 6.76
+   },
+   {
+    "arm": "gap_rank_down",
+    "bars": 1642,
+    "cagr": 0.0378,
+    "cost_per_side": 0.001,
+    "maxdd": -0.2043,
+    "oos_cagr": 0.0533,
+    "oos_sharpe": 0.559,
+    "phase": 3,
+    "sharpe": 0.437,
+    "turnover": 0.7183,
+    "vol": 0.0993,
+    "years": 6.76
+   },
+   {
+    "arm": "excl_absgap_q80",
+    "bars": 1642,
+    "cagr": 0.0413,
+    "cost_per_side": 0.001,
+    "maxdd": -0.2085,
+    "oos_cagr": 0.0096,
+    "oos_sharpe": 0.148,
+    "phase": 3,
+    "sharpe": 0.476,
+    "turnover": 0.9999,
+    "vol": 0.0984,
+    "years": 6.76
+   },
+   {
+    "arm": "excl_absgap_q90",
+    "bars": 1642,
+    "cagr": 0.053,
+    "cost_per_side": 0.001,
+    "maxdd": -0.1713,
+    "oos_cagr": 0.0196,
+    "oos_sharpe": 0.247,
+    "phase": 3,
+    "sharpe": 0.589,
+    "turnover": 0.9988,
+    "vol": 0.0994,
+    "years": 6.76
    },
    {
     "arm": "excl_upgap_q80",
     "bars": 1642,
-    "cagr": 0.0627,
-    "cost_per_side": 0.001,
-    "maxdd": -0.1889,
-    "oos_cagr": 0.1323,
-    "oos_sharpe": 1.211,
-    "phase": 2,
-    "sharpe": 0.656,
-    "turnover": 0.9979,
-    "vol": 0.105,
-    "years": 6.78
-   },
-   {
-    "arm": "declared",
-    "bars": 1637,
-    "cagr": 0.0593,
-    "cost_per_side": 0.001,
-    "maxdd": -0.1417,
-    "oos_cagr": 0.0291,
-    "oos_sharpe": 0.339,
-    "phase": 3,
-    "sharpe": 0.646,
-    "turnover": 0.9961,
-    "vol": 0.1005,
-    "years": 6.74
-   },
-   {
-    "arm": "gap_rank_up",
-    "bars": 1637,
-    "cagr": 0.0336,
-    "cost_per_side": 0.001,
-    "maxdd": -0.1448,
-    "oos_cagr": 0.0654,
-    "oos_sharpe": 0.777,
-    "phase": 3,
-    "sharpe": 0.441,
-    "turnover": 0.6481,
-    "vol": 0.0862,
-    "years": 6.74
-   },
-   {
-    "arm": "gap_rank_down",
-    "bars": 1637,
-    "cagr": 0.0414,
-    "cost_per_side": 0.001,
-    "maxdd": -0.2043,
-    "oos_cagr": 0.0623,
-    "oos_sharpe": 0.641,
-    "phase": 3,
-    "sharpe": 0.473,
-    "turnover": 0.7172,
-    "vol": 0.0993,
-    "years": 6.74
-   },
-   {
-    "arm": "excl_absgap_q80",
-    "bars": 1637,
-    "cagr": 0.0401,
-    "cost_per_side": 0.001,
-    "maxdd": -0.2085,
-    "oos_cagr": 0.0067,
-    "oos_sharpe": 0.119,
-    "phase": 3,
-    "sharpe": 0.464,
-    "turnover": 0.9942,
-    "vol": 0.0985,
-    "years": 6.74
-   },
-   {
-    "arm": "excl_absgap_q90",
-    "bars": 1637,
-    "cagr": 0.0518,
-    "cost_per_side": 0.001,
-    "maxdd": -0.1713,
-    "oos_cagr": 0.0167,
-    "oos_sharpe": 0.218,
-    "phase": 3,
-    "sharpe": 0.577,
-    "turnover": 0.9931,
-    "vol": 0.0995,
-    "years": 6.74
-   },
-   {
-    "arm": "excl_upgap_q80",
-    "bars": 1637,
-    "cagr": 0.0353,
+    "cagr": 0.0366,
     "cost_per_side": 0.001,
     "maxdd": -0.211,
-    "oos_cagr": -0.0049,
-    "oos_sharpe": -0.002,
+    "oos_cagr": -0.0016,
+    "oos_sharpe": 0.032,
     "phase": 3,
-    "sharpe": 0.422,
-    "turnover": 0.9628,
-    "vol": 0.0964,
-    "years": 6.74
+    "sharpe": 0.436,
+    "turnover": 0.9697,
+    "vol": 0.0963,
+    "years": 6.76
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-07T09:33:15+0800",
+  "ts": "2026-11-07T10:44:30+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -4745,7 +4745,7 @@
      "admissible": false,
      "arm": "gap_rank_up",
      "full_span_tests_pass": false,
-     "gained_pp": -10.86,
+     "gained_pp": -11.12,
      "phase_share": 0.0,
      "phase_share_pass": false,
      "phase_wins": 0
@@ -4754,7 +4754,7 @@
      "admissible": false,
      "arm": "gap_rank_down",
      "full_span_tests_pass": false,
-     "gained_pp": -3.28,
+     "gained_pp": -3.17,
      "phase_share": 0.0,
      "phase_share_pass": false,
      "phase_wins": 0
@@ -4763,7 +4763,7 @@
      "admissible": false,
      "arm": "excl_absgap_q80",
      "full_span_tests_pass": false,
-     "gained_pp": -2.33,
+     "gained_pp": -2.32,
      "phase_share": 0.25,
      "phase_share_pass": false,
      "phase_wins": 1
@@ -4781,19 +4781,19 @@
      "admissible": false,
      "arm": "excl_upgap_q80",
      "full_span_tests_pass": true,
-     "gained_pp": 0.81,
+     "gained_pp": 0.98,
      "phase_share": 0.5,
      "phase_share_pass": false,
      "phase_wins": 2
     }
    ],
    "best_arm": "excl_upgap_q80",
-   "best_gained_pp": 0.81,
+   "best_gained_pp": 0.98,
    "chosen_arm": null,
    "dd_floor": -0.1856,
-   "declared_cagr": 0.0846,
+   "declared_cagr": 0.0838,
    "declared_maxdd": -0.1656,
-   "declared_sharpe": 0.874,
+   "declared_sharpe": 0.866,
    "phases": 4,
    "recommended_card_arm": "declared",
    "state": "MIXED_ACROSS_PHASES",
@@ -5297,55 +5297,55 @@
  },
  "envelope": {
   "status": "ok",
-  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_bootstrap\\ENVELOPE-2026-10-30.json",
-  "evidence_cutoff": "2026-10-30",
+  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_bootstrap\\ENVELOPE-2026-11-06.json",
+  "evidence_cutoff": "2026-11-06",
   "block": 20,
   "n_resamples": 2000,
-  "bars": 1652,
+  "bars": 1657,
   "cagr": {
-   "1": 0.012250025301939903,
-   "5": 0.03154127986022479,
-   "25": 0.07013307886443498,
-   "50": 0.09564810023137382,
-   "75": 0.1227915836310362,
-   "95": 0.16328250741227956,
-   "99": 0.1972411726426772
+   "1": 0.007480384247488143,
+   "5": 0.029771281256626137,
+   "25": 0.06728535416003623,
+   "50": 0.09294348672289843,
+   "75": 0.12002677244709292,
+   "95": 0.16451435169356496,
+   "99": 0.19259355843519543
   },
   "sharpe": {
-   "1": 0.1662430281769558,
-   "5": 0.3640375711051537,
-   "25": 0.7388605628249005,
-   "50": 0.9739697645156649,
-   "75": 1.219419561267884,
-   "95": 1.5890582285738681,
-   "99": 1.8383778796377839
+   "1": 0.12479521038510666,
+   "5": 0.3457793534251009,
+   "25": 0.7051633146854193,
+   "50": 0.9517717663844291,
+   "75": 1.1939335757138203,
+   "95": 1.5823681720108316,
+   "99": 1.8058336764882346
   },
   "maxdd": {
-   "1": -0.25390829116136876,
-   "5": -0.20945850572008126,
-   "25": -0.15941558416334398,
-   "50": -0.1323210157769319,
-   "75": -0.11117071409460519,
-   "95": -0.08896607771659984,
-   "99": -0.07658152847507997
+   "1": -0.26599526254906897,
+   "5": -0.21749699827926772,
+   "25": -0.16230250507618607,
+   "50": -0.1346824925908383,
+   "75": -0.11224226462313955,
+   "95": -0.0899870904072486,
+   "99": -0.07517177778169562
   },
   "point": {
-   "cagr": 0.096,
-   "sharpe": 0.99,
+   "cagr": 0.0941,
+   "sharpe": 0.97,
    "maxdd": -0.1177
   },
   "point_pctile": {
-   "cagr": 50.3,
-   "sharpe": 51.6,
-   "maxdd": 66.1
+   "cagr": 51.0,
+   "sharpe": 52.3,
+   "maxdd": 68.0
   },
   "shares": {
-   "cagr_le_zero": 0.004,
-   "maxdd_le_line": 0.064,
+   "cagr_le_zero": 0.006,
+   "maxdd_le_line": 0.088,
    "n_resamples": 2000
   },
   "reconciliation": "same_object",
-  "reading": "block bootstrap (2000 resamples, block=20 bars): CAGR p5/p50/p95 = 3.15%/9.56%/16.33% per year, Sharpe 0.36/0.97/1.59, maxDD -20.95%/-13.23%/-8.90%; the published point estimate 9.60% sits at the 50.3 pctile; 0.4% of resamples lose money and 6.4% break a -20% drawdown | these are the published book's own numbers: this series reads 9.60% against the production cell n12_vt08 at 9.60%"
+  "reading": "block bootstrap (2000 resamples, block=20 bars): CAGR p5/p50/p95 = 2.98%/9.29%/16.45% per year, Sharpe 0.35/0.95/1.58, maxDD -21.75%/-13.47%/-9.00%; the published point estimate 9.41% sits at the 51.0 pctile; 0.6% of resamples lose money and 8.8% break a -20% drawdown | these are the published book's own numbers: this series reads 9.41% against the production cell n12_vt08 at 9.53%"
  },
  "stress": {
   "n_days": 5275,

@@ -135,6 +135,31 @@ def takeover_decision(allow, stale_min):
                   f"{TAKEOVER_STALE_MIN}min")
 
 
+def authority_block(takeover, lane_owner=None, writer=None):
+    """Canonical authority envelope block (single implementation, r1256/r1257).
+
+    The two readers that decide whether a lane's number may be trusted
+    (data_lane_freshness, lane_ownership_declaration) read
+    `authority.took_over_by`. A takeover recorded only in the older top-level
+    `takeover{}` shape is therefore a declaration nobody can see -- live
+    2026-11-07: update_zt_pool had been publishing `takeover{by:bm-a}` since
+    10-29 and the board still printed its lane as `unverifiable`. Writers call
+    this instead of each spelling the shape themselves (r1375: one defect with
+    two copies is two defects).
+    """
+    takeover = takeover or {}
+    me = writer if writer is not None else _lane_owner_id()
+    return {
+        "lane_owner": lane_owner or LANE_OWNER,
+        "writer_machine": me,
+        "data_face_machine": me,
+        "declared_takeover": bool(takeover),
+        "took_over_by": takeover.get("by"),
+        "took_over_at": takeover.get("ts"),
+        "reason": takeover.get("reason"),
+    }
+
+
 # ---------------------------------------------------------------- guards (pure)
 
 
@@ -362,7 +387,8 @@ def write_status(payload):
 OWNED_KEYS = ("ts", "machine", "lane_owner", "owner", "owner_since",
               "status", "mode", "no_op_reason", "expected_cutoff",
               "data_cutoff", "last_attempt", "members_planned", "per_member",
-              "files_written", "summary", "claim", "note", "takeover")
+              "files_written", "summary", "claim", "note", "takeover",
+              "authority")
 
 
 def owned_status(st):
@@ -433,6 +459,7 @@ def run():
         st["no_op_reason"] = gate_reason
         st["expected_cutoff"] = expected
         st["data_cutoff"] = panel_cut
+        st["authority"] = authority_block(takeover, LANE_OWNER, owner)
         write_status(owned_status(st))
         print(f"no-op: {gate_reason} -> zero network")
         return 0
@@ -450,6 +477,7 @@ def run():
     st["members_planned"] = list(MEMBERS)
     if takeover:
         st["takeover"] = takeover
+    st["authority"] = authority_block(takeover, LANE_OWNER, owner)
     write_status(owned_status(st))
 
     per, failures, mismatches = [], [], []
@@ -713,7 +741,21 @@ def _selftest():
                        "counts": {"appended": 1697}})
     assert st == {"ts": "x", "members_planned": ["510300"]}, st
     assert owned_status({}) == {} and owned_status(None) == {}
-    print("selftest: 12/12 PASS")
+
+    # S13 r1257: the authority block must survive the owned-keys filter and
+    # must name the reader's key. A takeover published only in `takeover{}`
+    # is invisible to data_lane_freshness (live 2026-11-07: zt_pool printed
+    # `unverifiable` for nine days while declaring the stand-in every run).
+    ab = authority_block({"owner": "bm-b", "by": "bm-a", "ts": "2026-11-07T12:00:00",
+                          "reason": "owner bm-b silent 191.3h >= 120min"})
+    assert ab["lane_owner"] == "bm-b" and ab["declared_takeover"] is True, ab
+    assert ab["took_over_by"] == "bm-a", ab
+    assert ab["took_over_at"] == "2026-11-07T12:00:00", ab
+    assert "191.3h" in ab["reason"], ab
+    ab0 = authority_block(None)
+    assert ab0["declared_takeover"] is False and ab0["took_over_by"] is None, ab0
+    assert owned_status({"authority": ab}) == {"authority": ab}
+    print("selftest: 13/13 PASS")
     return 0
 
 
