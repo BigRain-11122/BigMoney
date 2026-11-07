@@ -1,0 +1,130 @@
+{
+ "generated": "2026-11-07T19:58:21+0800",
+ "script": "scripts/zoo94_lhb_inst_dist_probe.py",
+ "berth": "zoo #94 lhb_inst_dist_timing (frozen bm-b r218)",
+ "evidence_cutoff": "2026-11-06",
+ "criteria": {
+  "call": "does the LHB net-buy dual-HMA state time 510300 after cost?",
+  "passes": {
+   "net_excess": "net CAGR minus the benchmark's > 0",
+   "beats_null": "the phase-null p (share of shifts that match or beat it) < 0.05",
+   "drawdown": "max drawdown not worse than the benchmark's",
+   "exposure": "long share reported, never tuned"
+  },
+  "verdicts": [
+   "ADOPT_AS_CANDIDATE",
+   "REFUSE_AS_CANDIDATE",
+   "UNDECIDABLE_NULL_THIN",
+   "INSUFFICIENT_BARS"
+  ],
+  "thresholds": {
+   "fast": 30,
+   "slow": 100,
+   "long_weight": 0.9
+  },
+  "cost": {
+   "per_side": 0.0013041,
+   "x3_robustness": 0.0039123000000000005
+  },
+  "execution": "signal at close t, weight from open t+1, mark to close"
+ },
+ "frozen_rule": "institutional seats' (buy - sell) summed per day / CSI300 turnover, HMA(30) vs HMA(100), long 0.9 on agreement outside zero, flat in the middle",
+ "tested_rule": "all-seat net buy (龙虎榜净买额) summed per day after de-duplicating (代码, 上榜日) / sh510300 traded value, HMA(30) vs HMA(100), long 0.9 on agreement outside zero, flat in the middle",
+ "verdict_scope": "the tested rule, not the frozen one: the institutional-seat numerator is absent from the in-repo LHB face, so this verdict says nothing about the frozen institutional-only variant",
+ "deviations": [
+  "numerator is all-seat net buy (龙虎榜净买额), not institutional seats: Money02/data/lhb/lhb_detail.parquet has no seat column (data precondition in the registry row fails, downgrade applied)",
+  "de-duplicated on (代码, 上榜日) preferring a same-day 上榜原因: the panel repeats a stock per reason and a '连续三个交易日' reason reports a multi-day cumulative net buy, not that day's",
+  "a stock-day carrying only cumulative-window rows keeps its cumulative reading (the count is printed) rather than being dropped",
+  "a trading day with no LHB events counts as 0 net buy",
+  "normaliser is sh510300 traded value (CSI300 turnover is not in the repo); the raw un-normalised leg is published beside it",
+  "long weight 0.9 per the berth, so the 1.0 buy-and-hold benchmark differs in exposure -- the long share is printed, never tuned"
+ ],
+ "dedup": {
+  "lhb_rows": 268044,
+  "cumulative_rows": 64858,
+  "same_day_stock_days": 183918,
+  "same_day_disagreeing_stock_days": 690,
+  "cumulative_only_stock_days": 45645
+ },
+ "panel": {
+  "lhb_rows": 268044,
+  "lhb_first": "2007-01-04",
+  "lhb_last": "2026-11-06",
+  "lhb_days": 4821,
+  "bars": 3510,
+  "first_bar": "2012-05-28",
+  "last_bar": "2026-11-06",
+  "index": "sh510300",
+  "event_bars": 3510,
+  "event_bar_share": 1.0
+ },
+ "arms": {
+  "normalised": {
+   "years": 14.44,
+   "cagr": 0.03534,
+   "vol": 0.1254,
+   "sharpe": 0.349,
+   "maxdd": -0.30509,
+   "bars": 3402,
+   "long_share": 0.4512,
+   "mean_weight": 0.4061,
+   "switches": 260,
+   "switches_per_year": 18.01,
+   "first_bar": "2012-11-02"
+  },
+  "raw": {
+   "years": 14.44,
+   "cagr": 0.03507,
+   "vol": 0.1345,
+   "sharpe": 0.333,
+   "maxdd": -0.3728,
+   "bars": 3402,
+   "long_share": 0.4594,
+   "mean_weight": 0.4135,
+   "switches": 278,
+   "switches_per_year": 19.25,
+   "first_bar": "2012-11-02"
+  },
+  "normalised_cost_x3": {
+   "years": 14.44,
+   "cagr": -0.0076,
+   "vol": 0.1259,
+   "sharpe": -0.0,
+   "maxdd": -0.40547
+  },
+  "raw_cost_x3": {
+   "years": 14.44,
+   "cagr": -0.01076,
+   "vol": 0.1352,
+   "sharpe": -0.016,
+   "maxdd": -0.45023
+  }
+ },
+ "benchmark": {
+  "years": 14.44,
+  "cagr": 0.03126,
+  "vol": 0.2214,
+  "sharpe": 0.255,
+  "maxdd": -0.46306
+ },
+ "excess_pp": 0.408,
+ "excess_pp_raw": 0.381,
+ "null": {
+  "draws": 200,
+  "mean": -0.03632,
+  "p95": 0.00276,
+  "p_value": 0.045
+ },
+ "null_raw": {
+  "draws": 200,
+  "mean": -0.03393,
+  "p95": 0.00517,
+  "p_value": 0.06
+ },
+ "normaliser_disagrees": false,
+ "verdict": "REFUSE_AS_CANDIDATE",
+ "verdict_reasons": [
+  "the x3-cost leg already gives back the whole excess"
+ ],
+ "elapsed_sec": 12.6
+}

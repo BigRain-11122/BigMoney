@@ -445,6 +445,16 @@ def main() -> int:
             # than a NaN that silently disables the state machine.
             ("product: volume regime supply probe (exit-code contract)",
              "scripts/zoo96_volume_regime_probe.py", ["--selftest"]),
+            # r1405: zoo #94 is the berth whose registry row carried its own data precondition
+            # -- "if the LHB face is aggregate, downgrade honestly". It is aggregate (no seat
+            # column), so the run prices the all-seat variant and says so. Its legs pin the
+            # de-dup itself, which is where an LHB series is silently invented: a "连续三个
+            # 交易日" reason reports a multi-day cumulative net buy and must lose to the same-day
+            # reason, a stock-day carrying only a cumulative row still counts, disagreeing
+            # same-day rows are averaged rather than first-picked, and the live panel's own
+            # claim (same-day reasons agree >=99%) is re-measured rather than assumed.
+            ("product: LHB institution-distribution supply probe (exit-code contract)",
+             "scripts/zoo94_lhb_inst_dist_probe.py", ["--selftest"]),
             # r1402: a berth's STANDALONE verdict is not the money line's answer. zoo #96 was
             # refused as a rule on 510300 and that says nothing about it as a risk switch on
             # the book, which sits flat 43% of the time already. This leg keeps the join

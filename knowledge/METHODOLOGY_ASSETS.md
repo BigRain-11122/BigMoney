@@ -9750,3 +9750,27 @@ provisional 集合（"一个 splitter 回答两个问题"）。
 **How to apply**：任何"替换已发布值"的代码路径，替换前必须先写一行 before/after；审计面要数的不是"有没有漂过"，而是"漂过的每一根还在不在账上"。姊妹面=E405（读者读不出来的面等于不存在）——这一次不是读不出来，是**写的时候就没写**。
 
 正身=scripts/etf_book_forward.py::rebase_rows/rebase_audit（selftest 新增 5 腿）+ results/etf_book_forward/rebase_audit/latest.json + smoke 腿 "product: a rewritten mark keeps the value it replaced"
+
+### E408 · 「同一天同一个数」这句话要先验过：LHB 汇总面里一行的净买额可能是三天的（r1405 bm-c）
+
+zoo #94 的登记行自带数据前置门（「LHB 席位明细是否含机构席位逐席买卖金额……若仅汇总面=数据面缺位如实
+降级」）。核下来是汇总面：`Money02/data/lhb/lhb_detail.parquet` 268,044 行、2007-01-04..2026-11-06，
+只有 `龙虎榜净买额/买入额/卖出额`，没有任何席位列——冻结的机构席位分子不可算，本轮按登记允许的降级口径
+（全席位净买额）出判决，面上明写 `verdict_scope=frozen rule untested`。
+
+降级路上第二枚坑更要紧：这只面板**一只股一天会出现多行**（按上榜原因拆行），而这些行**不可互换**——
+「连续三个交易日……累计达到 20%」那一行报的是**三日累计净买额**，同日「日涨幅偏离 7%」那一行报的才是
+当日。实测：229,563 个股日中 45,645 个（19.9%）**只有累计窗行**、183,918 个有当日原因行；当日原因行之间
+在 183,228 个上一致、690 个不一致。用 `groupby.first()` 去重＝让面板的行序决定一个已发布的数，用求和＝把
+三日累计重复计进同一天。
+
+**How to apply**：任何「同一主键一天一行」的假设，先跑一次 `groupby(key)[value].nunique()` 再决定去重规则；
+遇到原因/口径类列拆出来的行，按「口径优先序（单日中 > 多日累计中）」挑，而不是按行序或求和；只剩累计口径
+的行要保留并计数（丢掉 19.9% 的事件比水平失真更贵），把数字印在面上。
+
+判决（全席位降级口径，510300 腿，2012-05-28..2026-11-06 共 3,510 bar）：净超额 **+0.41pp/yr**（raw 未归一
+腿 +0.38pp），phase null p=0.045（raw 0.06=压在线上），回撤 −30.5% vs 买入持有 −46.3%，但换手 **18.0 次/年**：
+x3 成本腿（39.1bp/边）拿到 **−0.76pp/yr**——这条择时赚的钱还不够付自己的出场税，判 REFUSE_AS_CANDIDATE。
+
+正身=scripts/zoo94_lhb_inst_dist_probe.py（selftest 15/15）+ results/supply_berth/zoo94_lhb_inst_dist_probe.json
++ smoke 腿 "product: LHB institution-distribution supply probe"
