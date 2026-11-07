@@ -1,0 +1,1341 @@
+{
+ "card": "E490-FOR-THE-SAME-DIRECTORY-WRITERS-WHOSE-WRITE-CALL-DOES-NOT-FOLD-IS-THE-DIRECTORY-DELEGATED-TO-A-HELPER-PARAMETER",
+ "study": "E490_for_the_unfoldable_write_calls_is_the_directory_a_helper_parameter",
+ "title": "for the same-directory writers whose write call does not fold, does a helper take the directory as a parameter that a call site supplies?",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T09:20:40+0800",
+ "population_source": {
+  "face": "writewire_latest.json",
+  "face_verdict": "most_same_directory_writer_write_calls_compose_the_path_their_reader_opens",
+  "face_evidence_cutoff": "2026-11-07",
+  "parent_wire_class_counts": {
+   "the_write_call_composes_the_exact_path_the_reader_opens": 39,
+   "the_write_call_composes_the_reader_directory_with_another_basename": 1,
+   "the_write_call_composes_a_path_in_another_directory": 0,
+   "a_write_call_is_present_but_its_path_argument_does_not_fold": 9,
+   "no_write_call_is_published_at_the_recorded_site": 1
+  },
+  "parent_unfoldable_spellings": 9,
+  "population_rows_agree_with_the_parent_tally": true,
+  "population_definition": "rows of E489 whose wire_class is the unfoldable class (a write call is present but its path argument folds to nothing)",
+  "excluded_source_prefixes": [
+   "e479_",
+   "run_e479",
+   "e480_",
+   "run_e480",
+   "e481_",
+   "run_e481",
+   "e482_",
+   "run_e482",
+   "e484_",
+   "run_e484",
+   "e487_",
+   "run_e487",
+   "e488_",
+   "run_e488",
+   "e489_",
+   "run_e489",
+   "e490_",
+   "run_e490"
+  ]
+ },
+ "fold_rule": {
+  "parameter": "a name that is a parameter of the enclosing function and is not bound in the function body is delegated to the caller",
+  "call_site": "each bare-name call of that helper in the same module is mapped positionally and by keyword onto the parameter list",
+  "fold": "the write expression is re-folded with the call-site expressions substituted for the delegated parameters, using E489's folder",
+  "runtime": "sys.argv / os.environ / os.getenv / tempfile factory names are published as run-time supply, never as a folded hop"
+ },
+ "class_definition": {
+  "one_more_hop_reaches_the_reader_directory": "a call site of the helper folds the parameter to <reader directory>/<spelling>",
+  "one_more_hop_reaches_the_reader_directory_under_another_basename": "a call site folds the parameter into the reader's directory under another basename",
+  "one_more_hop_reaches_a_different_directory": "a call site folds the parameter, and it lands in another directory",
+  "not_reachable_statically_the_write_call_does_not_fold_and_no_call_site_supplies_a_folding_value": "the write is in a helper but no call site hands it a folding value (or no call site is found in the module)",
+  "not_reachable_statically_the_path_is_supplied_at_run_time": "the path is supplied at run time by argv / environment / a temporary directory",
+  "no_write_call_is_published_at_the_recorded_site": "no write call is found at or within 2 lines of the recorded site"
+ },
+ "summary": {
+  "population_spellings": 9,
+  "population_write_sites": 14,
+  "row_class_counts": {
+   "one_more_hop_reaches_the_reader_directory": 4,
+   "one_more_hop_reaches_the_reader_directory_and_the_basename_is_its_own_parameter": 1,
+   "one_more_hop_reaches_the_reader_directory_under_another_basename": 0,
+   "one_more_hop_reaches_a_different_directory": 0,
+   "not_reachable_statically_the_write_call_does_not_fold_and_no_call_site_supplies_a_folding_value": 1,
+   "not_reachable_statically_the_path_is_supplied_at_run_time": 3,
+   "no_write_call_is_published_at_the_recorded_site": 0
+  },
+  "spellings_a_hop_reaches_the_reader_directory": 4,
+  "spellings_a_hop_reaches_the_reader_directory_with_a_parameter_basename": 1,
+  "spellings_a_hop_reaches_the_reader_directory_under_another_basename": 0,
+  "spellings_whose_helper_call_site_folds_the_directory": 5,
+  "spellings_not_reachable_statically": 4,
+  "write_sites_whose_expression_is_a_helper_parameter": 8,
+  "write_sites_whose_expression_reaches_run_time": 4,
+  "parent_unfoldable_spellings": 9,
+  "population_reproduced": true
+ },
+ "verdict": "most_unfoldable_writes_are_one_hop_from_the_reader_directory",
+ "verdict_vocab": [
+  "the_parent_published_no_unfoldable_spelling",
+  "every_unfoldable_write_is_one_hop_from_the_reader_directory",
+  "most_unfoldable_writes_are_one_hop_from_the_reader_directory",
+  "a_minority_of_unfoldable_writes_is_one_hop_from_the_reader_directory",
+  "no_unfoldable_write_is_reachable_from_a_call_site_it_is_all_run_time_supply"
+ ],
+ "rows": [
+  {
+   "spelling": "banddraw_latest.json",
+   "expected_reader_paths": [
+    "results/state_tilt/banddraw_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_directory_class": null,
+   "parent_wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "write_sites": [
+    {
+     "source": "scripts/e255_band_draw_starvation.py",
+     "line": 508,
+     "call_found_at": "exact_line",
+     "callee": "open",
+     "expression": "open(p, \"w\", encoding=\"utf-8\", newline=\"\\n\")",
+     "enclosing_functions": [
+      "_write"
+     ],
+     "parameters_needed": [
+      "face",
+      "outdir",
+      "tag"
+     ],
+     "reachable_names": [
+      "cutoff",
+      "face",
+      "latest",
+      "os",
+      "outdir",
+      "p",
+      "path",
+      "tag"
+     ],
+     "runtime_markers": [],
+     "call_sites": [
+      {
+       "line": 493,
+       "expression": "_write(face, outdir or OUTDIR, tag)",
+       "supplies": [
+        "face",
+        "outdir",
+        "tag"
+       ],
+       "supplied": {
+        "face": "positional",
+        "outdir": "positional",
+        "tag": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "face": [],
+        "outdir": [
+         "results/state_tilt"
+        ],
+        "tag": []
+       },
+       "hops": {
+        "face": [
+         {
+          "call_line": 493,
+          "expression": "_write(face, outdir or OUTDIR, tag)",
+          "folded": []
+         },
+         {
+          "call_line": 725,
+          "expression": "run(seeds=args.seeds, d_grid=grid, tag=args.tag)",
+          "folded": []
+         }
+        ],
+        "outdir": [
+         {
+          "call_line": 493,
+          "expression": "_write(face, outdir or OUTDIR, tag)",
+          "folded": [
+           "results/state_tilt"
+          ]
+         }
+        ],
+        "tag": [
+         {
+          "call_line": 493,
+          "expression": "_write(face, outdir or OUTDIR, tag)",
+          "folded": []
+         },
+         {
+          "call_line": 725,
+          "expression": "run(seeds=args.seeds, d_grid=grid, tag=args.tag)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": [
+        "results/state_tilt"
+       ],
+       "resolution_class": "a_call_site_hands_the_helper_the_reader_directory_but_the_basename_is_itself_a_parameter"
+      }
+     ],
+     "resolution_class": "a_call_site_hands_the_helper_the_reader_directory_but_the_basename_is_itself_a_parameter",
+     "helper": "_write",
+     "directory_parameters": [
+      "outdir"
+     ]
+    },
+    {
+     "source": "scripts/e256_band_draw_continuation.py",
+     "line": 337,
+     "call_found_at": "exact_line",
+     "callee": "open",
+     "expression": "open(head, \"w\", encoding=\"utf-8\")",
+     "enclosing_functions": [
+      "_write"
+     ],
+     "parameters_needed": [
+      "face",
+      "outdir",
+      "tag"
+     ],
+     "reachable_names": [
+      "D_BUDGET",
+      "D_GRID",
+      "cutoff",
+      "face",
+      "head",
+      "max",
+      "os",
+      "outdir",
+      "tag"
+     ],
+     "runtime_markers": [],
+     "call_sites": [
+      {
+       "line": 297,
+       "expression": "_write(face, outdir or OUTDIR, tag)",
+       "supplies": [
+        "face",
+        "outdir",
+        "tag"
+       ],
+       "supplied": {
+        "face": "positional",
+        "outdir": "positional",
+        "tag": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "face": [],
+        "outdir": [
+         "results/state_tilt"
+        ],
+        "tag": []
+       },
+       "hops": {
+        "face": [
+         {
+          "call_line": 297,
+          "expression": "_write(face, outdir or OUTDIR, tag)",
+          "folded": []
+         },
+         {
+          "call_line": 621,
+          "expression": "run(seeds=args.seeds, d_grid=grid, tag=args.tag)",
+          "folded": []
+         }
+        ],
+        "outdir": [
+         {
+          "call_line": 297,
+          "expression": "_write(face, outdir or OUTDIR, tag)",
+          "folded": [
+           "results/state_tilt"
+          ]
+         }
+        ],
+        "tag": [
+         {
+          "call_line": 297,
+          "expression": "_write(face, outdir or OUTDIR, tag)",
+          "folded": []
+         },
+         {
+          "call_line": 621,
+          "expression": "run(seeds=args.seeds, d_grid=grid, tag=args.tag)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": [
+        "results/state_tilt"
+       ],
+       "resolution_class": "a_call_site_hands_the_helper_the_reader_directory_but_the_basename_is_itself_a_parameter"
+      }
+     ],
+     "resolution_class": "a_call_site_hands_the_helper_the_reader_directory_but_the_basename_is_itself_a_parameter",
+     "helper": "_write",
+     "directory_parameters": [
+      "outdir"
+     ]
+    }
+   ],
+   "helpers": [
+    "_write"
+   ],
+   "call_sites_that_fold_the_directory": [
+    {
+     "source": "scripts/e255_band_draw_starvation.py",
+     "write_line": 508,
+     "helper": "_write",
+     "directory_parameters": [
+      "outdir"
+     ],
+     "call_line": 493,
+     "call_expression": "_write(face, outdir or OUTDIR, tag)",
+     "directory_values": [
+      "results/state_tilt"
+     ],
+     "folded": []
+    },
+    {
+     "source": "scripts/e256_band_draw_continuation.py",
+     "write_line": 337,
+     "helper": "_write",
+     "directory_parameters": [
+      "outdir"
+     ],
+     "call_line": 297,
+     "call_expression": "_write(face, outdir or OUTDIR, tag)",
+     "directory_values": [
+      "results/state_tilt"
+     ],
+     "folded": []
+    }
+   ],
+   "row_class": "one_more_hop_reaches_the_reader_directory_and_the_basename_is_its_own_parameter"
+  },
+  {
+   "spelling": "bandflipbudget_latest.json",
+   "expected_reader_paths": [
+    "results/state_tilt/bandflipbudget_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_directory_class": null,
+   "parent_wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "write_sites": [
+    {
+     "source": "scripts/e272_flip_budget_two_tails.py",
+     "line": 387,
+     "call_found_at": "exact_line",
+     "callee": "open",
+     "expression": "io.open(p, \"w\", encoding=\"utf-8\", newline=\"\\n\")",
+     "enclosing_functions": [
+      "_write"
+     ],
+     "parameters_needed": [
+      "face",
+      "outdir",
+      "tag"
+     ],
+     "reachable_names": [
+      "LATEST",
+      "face",
+      "os",
+      "outdir",
+      "p",
+      "path",
+      "tag"
+     ],
+     "runtime_markers": [],
+     "call_sites": [
+      {
+       "line": 377,
+       "expression": "_write(out, outdir)",
+       "supplies": [
+        "face",
+        "outdir",
+        "tag"
+       ],
+       "supplied": {
+        "face": "positional",
+        "outdir": "positional",
+        "tag": "default"
+       },
+       "folded": [
+        "results/state_tilt/bandflipbudget_latest.json"
+       ],
+       "mapped": {
+        "face": [],
+        "outdir": [
+         "results/state_tilt"
+        ],
+        "tag": []
+       },
+       "hops": {
+        "face": [
+         {
+          "call_line": 377,
+          "expression": "_write(out, outdir)",
+          "folded": []
+         }
+        ],
+        "outdir": [
+         {
+          "call_line": 377,
+          "expression": "_write(out, outdir)",
+          "folded": [
+           "results/state_tilt"
+          ]
+         }
+        ],
+        "tag": [
+         {
+          "call_line": 377,
+          "expression": "_write(out, outdir)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": [
+        "results/state_tilt"
+       ],
+       "resolution_class": "a_call_site_of_the_helper_folds_the_parameter_to_the_reader_path"
+      }
+     ],
+     "resolution_class": "a_call_site_of_the_helper_folds_the_parameter_to_the_reader_path",
+     "helper": "_write",
+     "directory_parameters": [
+      "outdir"
+     ]
+    }
+   ],
+   "helpers": [
+    "_write"
+   ],
+   "call_sites_that_fold_the_directory": [
+    {
+     "source": "scripts/e272_flip_budget_two_tails.py",
+     "write_line": 387,
+     "helper": "_write",
+     "directory_parameters": [
+      "outdir"
+     ],
+     "call_line": 377,
+     "call_expression": "_write(out, outdir)",
+     "directory_values": [
+      "results/state_tilt"
+     ],
+     "folded": [
+      "results/state_tilt/bandflipbudget_latest.json"
+     ]
+    }
+   ],
+   "row_class": "one_more_hop_reaches_the_reader_directory"
+  },
+  {
+   "spelling": "invisibletail_latest.json",
+   "expected_reader_paths": [
+    "results/state_tilt/invisibletail_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_directory_class": null,
+   "parent_wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "write_sites": [
+    {
+     "source": "scripts/e332_invisible_tail_recovery.py",
+     "line": 383,
+     "call_found_at": "exact_line",
+     "callee": "open",
+     "expression": "io.open(path, \"w\", encoding=\"utf-8\", newline=\"\\n\")",
+     "enclosing_functions": [
+      "_fx"
+     ],
+     "parameters_needed": [
+      "name"
+     ],
+     "reachable_names": [
+      "name",
+      "os",
+      "path",
+      "root",
+      "tempfile"
+     ],
+     "runtime_markers": [
+      "attribute:mkdtemp",
+      "call:mkdtemp",
+      "tempfile.mkdtemp"
+     ],
+     "call_sites": [
+      {
+       "line": 456,
+       "expression": "_fx(CLEAN, \"clean.py\")",
+       "supplies": [
+        "name"
+       ],
+       "supplied": {
+        "name": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "name": [
+         "clean.py"
+        ]
+       },
+       "hops": {
+        "name": [
+         {
+          "call_line": 456,
+          "expression": "_fx(CLEAN, \"clean.py\")",
+          "folded": [
+           "clean.py"
+          ]
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      }
+     ],
+     "resolution_class": "the_path_is_supplied_at_run_time_by_argv_environment_or_a_temporary_directory",
+     "helper": "_fx",
+     "directory_parameters": []
+    }
+   ],
+   "helpers": [
+    "_fx"
+   ],
+   "call_sites_that_fold_the_directory": [],
+   "row_class": "not_reachable_statically_the_path_is_supplied_at_run_time"
+  },
+  {
+   "spelling": "pininstability_latest.json",
+   "expected_reader_paths": [
+    "results/state_tilt/pininstability_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_directory_class": null,
+   "parent_wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "write_sites": [
+    {
+     "source": "scripts/e420_corpus_pin_instability.py",
+     "line": 271,
+     "call_found_at": "exact_line",
+     "callee": "open",
+     "expression": "io.open(p, \"w\", encoding=\"utf-8\", newline=\"\\n\")",
+     "enclosing_functions": [
+      "selftest"
+     ],
+     "parameters_needed": [],
+     "reachable_names": [
+      "os",
+      "p",
+      "tempfile",
+      "tmp"
+     ],
+     "runtime_markers": [
+      "attribute:mkdtemp",
+      "call:mkdtemp",
+      "tempfile.mkdtemp"
+     ],
+     "call_sites": [],
+     "resolution_class": "the_path_is_supplied_at_run_time_by_argv_environment_or_a_temporary_directory"
+    }
+   ],
+   "helpers": [],
+   "call_sites_that_fold_the_directory": [],
+   "row_class": "not_reachable_statically_the_path_is_supplied_at_run_time"
+  },
+  {
+   "spelling": "pointerread_latest.json",
+   "expected_reader_paths": [
+    "results/state_tilt/pointerread_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_directory_class": null,
+   "parent_wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "write_sites": [
+    {
+     "source": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+     "line": 348,
+     "call_found_at": "exact_line",
+     "callee": "open",
+     "expression": "io.open(os.path.join(outdir, name), \"w\", encoding=\"utf-8\", newline=\"\\n\")",
+     "enclosing_functions": [
+      "build"
+     ],
+     "parameters_needed": [
+      "outdir"
+     ],
+     "reachable_names": [
+      "FACE",
+      "LATEST",
+      "TODAY",
+      "name",
+      "os",
+      "outdir"
+     ],
+     "runtime_markers": [],
+     "call_sites": [
+      {
+       "line": 354,
+       "expression": "build(OUTDIR)",
+       "supplies": [
+        "outdir"
+       ],
+       "supplied": {
+        "outdir": "positional"
+       },
+       "folded": [
+        "results/state_tilt/POINTERREAD-2026-11-01.json",
+        "results/state_tilt/pointerread_latest.json"
+       ],
+       "mapped": {
+        "outdir": [
+         "results/state_tilt"
+        ]
+       },
+       "hops": {
+        "outdir": [
+         {
+          "call_line": 354,
+          "expression": "build(OUTDIR)",
+          "folded": [
+           "results/state_tilt"
+          ]
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": [
+        "results/state_tilt"
+       ],
+       "resolution_class": "a_call_site_of_the_helper_folds_the_parameter_to_the_reader_path"
+      },
+      {
+       "line": 388,
+       "expression": "build(None)",
+       "supplies": [
+        "outdir"
+       ],
+       "supplied": {
+        "outdir": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "outdir": []
+       },
+       "hops": {
+        "outdir": [
+         {
+          "call_line": 388,
+          "expression": "build(None)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      },
+      {
+       "line": 456,
+       "expression": "build(None)",
+       "supplies": [
+        "outdir"
+       ],
+       "supplied": {
+        "outdir": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "outdir": []
+       },
+       "hops": {
+        "outdir": [
+         {
+          "call_line": 456,
+          "expression": "build(None)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      },
+      {
+       "line": 479,
+       "expression": "build(None)",
+       "supplies": [
+        "outdir"
+       ],
+       "supplied": {
+        "outdir": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "outdir": []
+       },
+       "hops": {
+        "outdir": [
+         {
+          "call_line": 479,
+          "expression": "build(None)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      },
+      {
+       "line": 479,
+       "expression": "build(None)",
+       "supplies": [
+        "outdir"
+       ],
+       "supplied": {
+        "outdir": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "outdir": []
+       },
+       "hops": {
+        "outdir": [
+         {
+          "call_line": 479,
+          "expression": "build(None)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      },
+      {
+       "line": 499,
+       "expression": "build(None)",
+       "supplies": [
+        "outdir"
+       ],
+       "supplied": {
+        "outdir": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "outdir": []
+       },
+       "hops": {
+        "outdir": [
+         {
+          "call_line": 499,
+          "expression": "build(None)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      }
+     ],
+     "resolution_class": "a_call_site_of_the_helper_folds_the_parameter_to_the_reader_path",
+     "helper": "build",
+     "directory_parameters": [
+      "outdir"
+     ]
+    }
+   ],
+   "helpers": [
+    "build"
+   ],
+   "call_sites_that_fold_the_directory": [
+    {
+     "source": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+     "write_line": 348,
+     "helper": "build",
+     "directory_parameters": [
+      "outdir"
+     ],
+     "call_line": 354,
+     "call_expression": "build(OUTDIR)",
+     "directory_values": [
+      "results/state_tilt"
+     ],
+     "folded": [
+      "results/state_tilt/POINTERREAD-2026-11-01.json",
+      "results/state_tilt/pointerread_latest.json"
+     ]
+    }
+   ],
+   "row_class": "one_more_hop_reaches_the_reader_directory"
+  },
+  {
+   "spelling": "scaffold_latest.json",
+   "expected_reader_paths": [
+    "results/state_tilt/scaffold_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_directory_class": null,
+   "parent_wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "write_sites": [
+    {
+     "source": "scripts/e359_census_scaffolding_split.py",
+     "line": 561,
+     "call_found_at": "exact_line",
+     "callee": "open",
+     "expression": "open(os.path.join(outdir, name), \"w\", encoding=\"utf-8\", newline=\"\\n\")",
+     "enclosing_functions": [
+      "write_face"
+     ],
+     "parameters_needed": [
+      "root"
+     ],
+     "reachable_names": [
+      "FACE",
+      "LATEST",
+      "TODAY",
+      "name",
+      "os",
+      "outdir",
+      "root"
+     ],
+     "runtime_markers": [],
+     "call_sites": [
+      {
+       "line": 796,
+       "expression": "write_face(face)",
+       "supplies": [
+        "root"
+       ],
+       "supplied": {
+        "root": "default"
+       },
+       "folded": [
+        "results/state_tilt/SCAFFOLD-2026-11-02.json",
+        "results/state_tilt/scaffold_latest.json"
+       ],
+       "mapped": {
+        "root": []
+       },
+       "hops": {
+        "root": [
+         {
+          "call_line": 796,
+          "expression": "write_face(face)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": [],
+       "resolution_class": "a_call_site_of_the_helper_folds_the_parameter_to_the_reader_path"
+      }
+     ],
+     "resolution_class": "a_call_site_of_the_helper_folds_the_parameter_to_the_reader_path",
+     "helper": "write_face",
+     "directory_parameters": [
+      "root"
+     ]
+    }
+   ],
+   "helpers": [
+    "write_face"
+   ],
+   "call_sites_that_fold_the_directory": [
+    {
+     "source": "scripts/e359_census_scaffolding_split.py",
+     "write_line": 561,
+     "helper": "write_face",
+     "directory_parameters": [
+      "root"
+     ],
+     "call_line": 796,
+     "call_expression": "write_face(face)",
+     "directory_values": [],
+     "folded": [
+      "results/state_tilt/SCAFFOLD-2026-11-02.json",
+      "results/state_tilt/scaffold_latest.json"
+     ]
+    }
+   ],
+   "row_class": "one_more_hop_reaches_the_reader_directory"
+  },
+  {
+   "spelling": "selfres_latest.json",
+   "expected_reader_paths": [
+    "results/state_tilt/selfres_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_directory_class": null,
+   "parent_wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "write_sites": [
+    {
+     "source": "scripts/e253_self_row_resolution.py",
+     "line": 447,
+     "call_found_at": "exact_line",
+     "callee": "open",
+     "expression": "open(p, \"w\", encoding=\"utf-8\", newline=\"\\n\")",
+     "enclosing_functions": [
+      "_write"
+     ],
+     "parameters_needed": [
+      "face",
+      "outdir"
+     ],
+     "reachable_names": [
+      "cutoff",
+      "face",
+      "latest",
+      "os",
+      "outdir",
+      "p",
+      "path"
+     ],
+     "runtime_markers": [],
+     "call_sites": [
+      {
+       "line": 393,
+       "expression": "_write(out, outdir or OUTDIR)",
+       "supplies": [
+        "face",
+        "outdir"
+       ],
+       "supplied": {
+        "face": "positional",
+        "outdir": "positional"
+       },
+       "folded": [
+        "results/state_tilt/SELFRES-unknown.json",
+        "results/state_tilt/selfres_latest.json"
+       ],
+       "mapped": {
+        "face": [],
+        "outdir": [
+         "results/state_tilt"
+        ]
+       },
+       "hops": {
+        "face": [
+         {
+          "call_line": 393,
+          "expression": "_write(out, outdir or OUTDIR)",
+          "folded": []
+         }
+        ],
+        "outdir": [
+         {
+          "call_line": 393,
+          "expression": "_write(out, outdir or OUTDIR)",
+          "folded": [
+           "results/state_tilt"
+          ]
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": [
+        "results/state_tilt"
+       ],
+       "resolution_class": "a_call_site_of_the_helper_folds_the_parameter_to_the_reader_path"
+      }
+     ],
+     "resolution_class": "a_call_site_of_the_helper_folds_the_parameter_to_the_reader_path",
+     "helper": "_write",
+     "directory_parameters": [
+      "outdir"
+     ]
+    }
+   ],
+   "helpers": [
+    "_write"
+   ],
+   "call_sites_that_fold_the_directory": [
+    {
+     "source": "scripts/e253_self_row_resolution.py",
+     "write_line": 447,
+     "helper": "_write",
+     "directory_parameters": [
+      "outdir"
+     ],
+     "call_line": 393,
+     "call_expression": "_write(out, outdir or OUTDIR)",
+     "directory_values": [
+      "results/state_tilt"
+     ],
+     "folded": [
+      "results/state_tilt/SELFRES-unknown.json",
+      "results/state_tilt/selfres_latest.json"
+     ]
+    }
+   ],
+   "row_class": "one_more_hop_reaches_the_reader_directory"
+  },
+  {
+   "spelling": "stalecutoff_latest.json",
+   "expected_reader_paths": [
+    "results/state_tilt/stalecutoff_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_directory_class": null,
+   "parent_wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "write_sites": [
+    {
+     "source": "scripts/e328_quoted_number_staleness.py",
+     "line": 505,
+     "call_found_at": "exact_line",
+     "callee": "open",
+     "expression": "io.open(disk, \"w\", encoding=\"utf-8\", newline=\"\\n\")",
+     "enclosing_functions": [
+      "cmd_selftest"
+     ],
+     "parameters_needed": [],
+     "reachable_names": [
+      "FACE",
+      "TODAY",
+      "disk",
+      "os",
+      "root"
+     ],
+     "runtime_markers": [],
+     "call_sites": [],
+     "resolution_class": "the_write_call_does_not_fold_and_no_call_site_in_the_module_supplies_a_folding_value"
+    },
+    {
+     "source": "scripts/e365_face_population_pin.py",
+     "line": 316,
+     "call_found_at": "exact_line",
+     "callee": "open",
+     "expression": "io.open(path, \"w\", encoding=\"utf-8\", newline=\"\\n\")",
+     "enclosing_functions": [
+      "_write"
+     ],
+     "parameters_needed": [
+      "path"
+     ],
+     "reachable_names": [
+      "path"
+     ],
+     "runtime_markers": [],
+     "call_sites": [
+      {
+       "line": 304,
+       "expression": "_write(path, face)",
+       "supplies": [
+        "path"
+       ],
+       "supplied": {
+        "path": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "path": []
+       },
+       "hops": {
+        "path": [
+         {
+          "call_line": 304,
+          "expression": "_write(path, face)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      },
+      {
+       "line": 305,
+       "expression": "_write(os.path.join(outdir, \"facepoppin_latest.json\"), face)",
+       "supplies": [
+        "path"
+       ],
+       "supplied": {
+        "path": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "path": []
+       },
+       "hops": {
+        "path": [
+         {
+          "call_line": 305,
+          "expression": "_write(os.path.join(outdir, \"facepoppin_latest.json\"), face)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      },
+      {
+       "line": 341,
+       "expression": "_write(path, payload)",
+       "supplies": [
+        "path"
+       ],
+       "supplied": {
+        "path": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "path": []
+       },
+       "hops": {
+        "path": [
+         {
+          "call_line": 341,
+          "expression": "_write(path, payload)",
+          "folded": []
+         },
+         {
+          "call_line": 600,
+          "expression": "write_store(pin, members, dest_dir=tmp)",
+          "folded": []
+         },
+         {
+          "call_line": 608,
+          "expression": "write_store(pin, tampered, dest_dir=tmp)",
+          "folded": []
+         },
+         {
+          "call_line": 663,
+          "expression": "write_store(built, members)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      },
+      {
+       "line": 671,
+       "expression": "_write(built[\"face_path\"], built)",
+       "supplies": [
+        "path"
+       ],
+       "supplied": {
+        "path": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "path": []
+       },
+       "hops": {
+        "path": [
+         {
+          "call_line": 671,
+          "expression": "_write(built[\"face_path\"], built)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      },
+      {
+       "line": 672,
+       "expression": "_write(os.path.join(OUTDIR, \"facepoppin_latest.json\"), built)",
+       "supplies": [
+        "path"
+       ],
+       "supplied": {
+        "path": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "path": []
+       },
+       "hops": {
+        "path": [
+         {
+          "call_line": 672,
+          "expression": "_write(os.path.join(OUTDIR, \"facepoppin_latest.json\"), built)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      },
+      {
+       "line": 699,
+       "expression": "_write(path, payload)",
+       "supplies": [
+        "path"
+       ],
+       "supplied": {
+        "path": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "path": []
+       },
+       "hops": {
+        "path": [
+         {
+          "call_line": 699,
+          "expression": "_write(path, payload)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      },
+      {
+       "line": 700,
+       "expression": "_write(os.path.join(OUTDIR, \"facererun_latest.json\"), payload)",
+       "supplies": [
+        "path"
+       ],
+       "supplied": {
+        "path": "positional"
+       },
+       "folded": [],
+       "mapped": {
+        "path": []
+       },
+       "hops": {
+        "path": [
+         {
+          "call_line": 700,
+          "expression": "_write(os.path.join(OUTDIR, \"facererun_latest.json\"), payload)",
+          "folded": []
+         }
+        ]
+       },
+       "runtime_markers": [],
+       "directory_values": []
+      }
+     ],
+     "resolution_class": "the_write_call_does_not_fold_and_no_call_site_in_the_module_supplies_a_folding_value",
+     "helper": "_write",
+     "directory_parameters": [
+      "path"
+     ]
+    }
+   ],
+   "helpers": [
+    "_write"
+   ],
+   "call_sites_that_fold_the_directory": [],
+   "row_class": "not_reachable_statically_the_write_call_does_not_fold_and_no_call_site_supplies_a_folding_value"
+  },
+  {
+   "spelling": "undated_latest.json",
+   "expected_reader_paths": [
+    "results/state_tilt/undated_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_directory_class": null,
+   "parent_wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "write_sites": [
+    {
+     "source": "scripts/e302_universe_switch_backfill.py",
+     "line": 798,
+     "call_found_at": "exact_line",
+     "callee": "open",
+     "expression": "io.open(os.path.join(tmp2, \"UNDATED.json\"), \"w\", encoding=\"utf-8\")",
+     "enclosing_functions": [
+      "selftest"
+     ],
+     "parameters_needed": [],
+     "reachable_names": [
+      "os",
+      "tempfile",
+      "tmp2"
+     ],
+     "runtime_markers": [
+      "attribute:mkdtemp",
+      "call:mkdtemp",
+      "tempfile.mkdtemp"
+     ],
+     "call_sites": [],
+     "resolution_class": "the_path_is_supplied_at_run_time_by_argv_environment_or_a_temporary_directory"
+    },
+    {
+     "source": "scripts/e307_undated_face_vintage.py",
+     "line": 438,
+     "call_found_at": null,
+     "callee": "",
+     "expression": "",
+     "enclosing_functions": [],
+     "parameters_needed": [],
+     "reachable_names": [],
+     "runtime_markers": [],
+     "call_sites": [],
+     "resolution_class": "no_write_call_is_published_at_the_recorded_site"
+    },
+    {
+     "source": "scripts/e_band_family_vintage.py",
+     "line": 147,
+     "call_found_at": null,
+     "callee": "",
+     "expression": "",
+     "enclosing_functions": [],
+     "parameters_needed": [],
+     "reachable_names": [],
+     "runtime_markers": [],
+     "call_sites": [],
+     "resolution_class": "no_write_call_is_published_at_the_recorded_site"
+    },
+    {
+     "source": "scripts/science_audit.py",
+     "line": 874,
+     "call_found_at": "exact_line",
+     "callee": "open",
+     "expression": "open(os.path.join(wm_tmp, \"state-bm-undated.json\"), \"w\",\n                  encoding=\"utf-8\")",
+     "enclosing_functions": [
+      "selftest"
+     ],
+     "parameters_needed": [],
+     "reachable_names": [
+      "os",
+      "tempfile",
+      "wm_tmp"
+     ],
+     "runtime_markers": [
+      "attribute:mkdtemp",
+      "call:mkdtemp",
+      "tempfile.mkdtemp"
+     ],
+     "call_sites": [],
+     "resolution_class": "the_path_is_supplied_at_run_time_by_argv_environment_or_a_temporary_directory"
+    }
+   ],
+   "helpers": [],
+   "call_sites_that_fold_the_directory": [],
+   "row_class": "not_reachable_statically_the_path_is_supplied_at_run_time"
+  }
+ ],
+ "method_limits": [
+  "the population is E489's unfoldable arm kept byte-for-byte; this face adds the hop question and does not re-open E487/E488/E489's class questions",
+  "a call site outside the same module is not resolved, so a helper called only from another module is published as H_NO_FOLDING rather than guessed",
+  "a folded value says the composed string equals the reader path; it does not claim the file exists at run time or that the branch executes",
+  "a helper that forwards its parameter to a second helper is one hop; this face does not chase the second hop"
+ ]
+}

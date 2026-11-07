@@ -12373,3 +12373,37 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **验证**：`scripts/e489_write_wire.py`（run rc0 / check problems=[] / verify 同树重建 problems=[] / **selftest 24/24**：直接拼名 / 循环变量 / 别的目录 / argv 不可折 / 无调用五档 + 类可从发布行重算 + 四个篡改面全红 + 双面落盘）；面 `results/state_tilt/WRITEWIRE-2026-11-07.json` + `writewire_latest.json`（50 行）；S6 腿 `write_wire` rc0 0.07s（receipt `results/_r1514bmb_s6_chain.json`）；smoke 腿 `E489 a same-directory writer's write call composes the path its reader opens` 单跑 1/1 绿、doctored（wired 计数 +1）1/1 红、面 sha 归位。
 
 **适用范围**：只回答「记录的写站点上那次写调用折出来的路径是不是读者那条」；不回答文件运行时是否存在、写是否真的执行，也不构成删面许可（E477/E479 的字节账不变）。
+
+## E490 -- E489 留下的九个「折不动的写调用」不是一类：五个再走一跳就到位，三个是运行期供给，一个连写调用都没有（r1515 bm-b）
+
+**问题**：E489 把「写调用自己的路径实参折不折」分成五类，其中 9 个拼写落在「写调用在、实参折不动」。但「折不动」混着两件完全不同的事——①写发生在 `_write(face, outdir)` 这类 helper 里，目录是**参数**，模块常量在调用点喂进去（再走一跳就到达读者目录）；②路径真的来自 argv / 环境 / tempfile（再多的跳数也没用）。这两类被印成一类，读者就会把「helper 参数」当成「写别处」。
+
+**读法**：population = E489 的 unfoldable 臂（9 拼写 / 11 站点，原样不重开 E487/E488/E489 的判类）。对每个站点：找包含该行的最内层函数 → 求写实参**可达绑定闭包**（`for p in (path, latest)` 先到 path/latest 再到 helper 的 outdir，参数在两跳之外）→ 与函数形参求交得到「被委托的参数」→ 在该模块内枚举该 helper 的**同名裸调用点**（位置/关键字映射，缺省实参回落到形参默认值）→ 用 E489 的 folder 在该调用点的绑定下重折写实参；调用点实参本身又是上层形参时递归一跳（≤3 层）。**目录位与被文件名字分开**：`os.path.join(outdir, name)` 的 `outdir` 是目录位（joined_component），裸 `open(path)` 的 `path` 是整路径位（full_path）——目录到了而基名还是参数，是第三种答案，不是「没到」。
+
+**读数**：9 拼写 / 11 站点 → **一跳到达读者目录 4**（bandflipbudget、pointerread、scaffold、selfres：`write_face(face, root=ROOT)` 走**形参默认值**、`_write(out, outdir)` 走上层形参链、`_write(os.path.join(OUTDIR, ...))` 直接折）+**目录到达而基名仍是参数 1**（banddraw：`_write(face, outdir or OUTDIR, tag)` 的 tag 决定基名）→ 合计 **5/9 只需一跳**；**运行期供给 3**（invisibletail 的 `_fx` 写 `tempfile.mkdtemp()`、pininstability 的 `p` 来自 mkdtemp、undated 的 `tmp2`/`wm_tmp` 同上）；**折不动的只剩 1**（stalecutoff：`e328` 的站点是 selftest fixture、`e365._write` 的公开调用点全在 selftest 里指向 temp root）。判决 `most_unfoldable_writes_are_one_hop_from_the_reader_directory`。
+
+**三条可复用**：
+1. **「折不动的实参」要区分被委托的还是运行期的**——一个 helper 形参、一个 argv/env/tempfile 来源，在证据面上长得一样（都是「名字没绑定」），但一个再走一跳就到位、一个永远到不了。判据必须是**调用点的实参值**，不是被调方内部的绑定形状。
+2. **形参默认值是静态可达的一跳**——`def write_face(face, root=ROOT)` 被 `write_face(face)` 调用时，目录就是 `ROOT`；只枚举显式实参会把这类写成「没有调用点喂它」，凭空造出不可达缺陷（r1515 实弹：e359 首版即误判）。
+3. **目录位与基名位分开报**——`join(outdir, name)` 里目录到了、基名还是参数，是「一半到达」；把它并进「到达」会夸大，并进「没到达」会漏报，第三种读数才对得上现场。
+
+**验证**：`scripts/e490_write_helper.py`（run rc0 / check problems=[] / verify 同窗重建 problems=[] / **selftest 24/24**：一跳、循环变量、默认值、上层形参链、argv 运行期、无写调用、六个假件全红），产物 `results/state_tilt/WRITEHELPER-2026-11-07.json` + `writehelper_latest.json`（9 行，逐行带 helper/形参/供值调用点/折叠值/运行期标记）；S6 腿 `write_helper` rc0 0.07s（receipt `results/_r1515bmb_s6_chain.json`）；smoke 腿 `E490 an unfoldable write's directory is a helper parameter or run-time supply` 独立 1/1 绿 + doctored 三例 1/1 红。
+
+**适用范围**：只回答「记录的写站点的目录是不是 helper 形参、调用点喂了什么折叠值」。跨模块调用点不解析（只同模块裸名调用），helper 再转发给第二个 helper 只追一跳；不回答文件运行期是否存在、写是否执行。
+
+## E491 -- E489 说那个 _latest 副本「在别处写」：它就在同一个函数里的第二行，copy 的目标是第二个实参（r1516 bm-b）
+
+**问题**：E489 把 50 个同目录写手分五档，其中恰好一行是 `bandthreshguard`：被追踪的写调用只写 `BANDTHRESHGUARD-2026-10-29.json`，而读者打开 `bandthreshguard_latest.json`，于是那一行被印成「拼出读者目录但另一个 basename（副本在别处写）」。那句话是推论：E489 的追踪只读写调用的**第一个**实参，而副本常常由 copy 调用做成，`shutil.copyfile(src, dst)` 的目标是**第二个**，这类调用在 E489 的语义里根本不存在。本面把推论换成测量。
+
+**做法**：扫 `scripts/`、`Tools/`、`firm/` 下提到任何 `_latest.json` 的 Python 源（本期 287 个文件字面命中，自身与 E489 族排除），对每个调用同时折**两个实参**：copy 族（`shutil.copyfile/copy/copy2/move`、`os.replace/rename`）取第二个实参作目标、第一个作源；直写族（`open/write_text/write_json/dump_json`）取第一个作目标。按折出的目标 basename 分组，每组按构造器数与类型分档：同目录 copy / 跳目录 copy / 直写 / 多构造器 / 无静态构造器；并发布「目标是否真的在盘上」与「copy 源是否该名字的日期兄弟」两个字段。
+
+**读数**（2026-11-07）：176 个 `_latest` 名 — 直写 **123**、**同目录 copy 2**、跳目录 copy 0、多构造器 51、无静态构造器 0。卡片自己的名字得到确定答案：`bandthreshguard_latest.json` 由 `scripts/e273_guard_from_threshold.py:385` 的 `shutil.copyfile(path, latest)` 写成，`latest = os.path.join(OUTDIR, LATEST)` 与 `path = os.path.join(OUTDIR, FACE)` **同一个目录常量、同一个函数**——所以 E489 那一行应读作「同一个写手的第二次写」，不是「第二个写手」。另一个同目录 copy 行 `foo_latest.json` 是 `scripts/e332_invisible_tail_recovery.py` 里的 **selftest 假件**（`results/x/foo_latest.json`，盘上不存在）：两个 copy 行里只有一个对应真实发布面（`faces_whose_destination_exists_on_disk` 已单独发布）。
+
+**三条可复用**：
+1. **实参位置是探针的语义**：copy 族把目标放在第二个实参、直写族放在第一个；只读第一个实参的追踪器不是「没看到崇彩」，是根本不在他的施工通道里。同一个名字「有人写吗」的答案取决于追踪器认得几种写法，而不取决于树里有没有写手。
+2. **「同目录 copy」与「直写」必须分开计**：176 个最新名里 123 个是直写，只有 2 个是 copy；把 copy 当成「另一个写手」、或把两类合并计，都会把一个 1/50 的例外读成结构性现象。
+3. **静态普查会把别人的假件当成面**：`results/x/foo_latest.json` 是另一个脚本 selftest 里的临时路径，盘上永远不存在；「目标是否在盘上」必须作为字段随行发布，否则 copy 计数会把样板代码算进真实面。
+
+**验证**：`scripts/e491_latest_copier.py`（run rc0 / check problems=[] / verify 同树重建 problems=[] / **selftest 25/25**：同目录 copy + 日期兄弟 + 双实参折叠 + 跳目录 copy + 直写 + 多构造器 + 无构造器 + 在盘/不在盘 + 六个假件全红）；面 `results/state_tilt/LATESTCOPIER-2026-11-07.json` + `latestcopier_latest.json`（176 行）；S6 腿 `latest_copier` rc0 0.07s；smoke 腿 `E491 a latest copy is composed by a copy call the write-call census cannot see` 单跑 1/1 绿 + doctored 1/1 红（面 sha 归位）。
+
+**适用范围**：只回答「静态可折的目标名里，谁在写、与源是否同目录」；glob 驱动的 copy、argv/env 拼名不在总体内（发布为「无静态构造器」而不是证明不存在），也不构成任何删面许可。

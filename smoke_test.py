@@ -19344,5 +19344,134 @@ except Exception as _e489x:
     _d489 = "leg could not run"
 check(_name489, not _bad489, "; ".join(_bad489)[:240] or _d489)
 
+# E490 -- the nine unfoldable write calls: is the directory a helper parameter?
+# E489 left nine write calls whose path argument does not fold. This leg holds the face that
+# decides, per site, whether a call site hands the helper the reader's directory (one more hop)
+# or the path is run-time supply (argv/env/tempfile), and holds that every published class
+# re-derives from the call sites it carries and that doctored copies go red.
+_name490 = ("E490 an unfoldable write's directory is a helper parameter or run-time supply "
+            "(r1515 bm-b)")
+_bad490 = []
+try:
+    _m490 = __import__("importlib").import_module("e490_write_helper")
+    _f490 = json.load(open(os.path.join("results", "state_tilt", "writehelper_latest.json"),
+                           encoding="utf-8"))
+    _s490 = _f490.get("summary") or {}
+    _r490 = _f490.get("rows") or []
+    _bad490.extend(_m490.row_problems(_f490))
+    if not _r490:
+        _bad490.append("the unfoldable population is empty")
+    if _s490.get("population_reproduced") is not True:
+        _bad490.append("the parent's unfoldable tally is not reproduced")
+    if _f490.get("verdict") != _m490._verdict(_m490._recompute(_f490)):
+        _bad490.append("the verdict is not the one the counts imply")
+    _hop490 = next((r for r in _r490 if r.get("row_class") == _m490.ROW_ONE_HOP), None)
+    if _hop490 is None:
+        _bad490.append("no one-hop row: the leg cannot be shown to measure anything")
+    else:
+        _w490 = json.loads(json.dumps(_f490))
+        for _row in _w490["rows"]:
+            if _row.get("spelling") == _hop490.get("spelling"):
+                for _site in _row.get("write_sites") or []:
+                    _site["call_sites"] = []
+        if not _m490.row_problems(_w490):
+            _bad490.append("a claimed hop with no call site survived the guard")
+    _rt490 = next((r for r in _r490 if r.get("row_class") == _m490.ROW_RUNTIME), None)
+    if _rt490 is not None:
+        _w490b = json.loads(json.dumps(_f490))
+        for _row in _w490b["rows"]:
+            if _row.get("spelling") == _rt490.get("spelling"):
+                for _site in _row.get("write_sites") or []:
+                    _site["runtime_markers"] = []
+        if not _m490.row_problems(_w490b):
+            _bad490.append("a claimed run-time supply with no marker survived the guard")
+    _w490c = json.loads(json.dumps(_f490))
+    _w490c["verdict"] = _m490.V_ALL_HOP
+    if not _m490.row_problems(_w490c):
+        _bad490.append("a verdict that does not re-derive survived the guard")
+    _c490 = _s490.get("row_class_counts") or {}
+    _d490 = ("%d unfoldable writers | one hop to the reader directory %d | dir reached, "
+             "basename a parameter %d | elsewhere %d | no folding call site %d | run-time "
+             "supply %d | no call %d | reproduced %s"
+             % (len(_r490),
+                _c490.get(_m490.ROW_ONE_HOP) or 0,
+                _c490.get(_m490.ROW_DIRECTORY_ONE_HOP) or 0,
+                _c490.get(_m490.ROW_ELSEWHERE) or 0,
+                _c490.get(_m490.ROW_IN_HELPER_NO_FOLD) or 0,
+                _c490.get(_m490.ROW_RUNTIME) or 0,
+                _c490.get(_m490.ROW_NO_CALL) or 0,
+                _s490.get("population_reproduced")))
+except Exception as _e490x:
+    _bad490.append(repr(_e490x)[:160])
+    _d490 = "leg could not run"
+check(_name490, not _bad490, "; ".join(_bad490)[:240] or _d490)
+
+# E491 -- who composes a *_latest.json face when the only written file is a dated one.
+# E489 could not see a copy call (its destination is the SECOND argument), so its single
+# dir_only row read as "composed elsewhere". This leg holds the face that folds both
+# arguments of every copier, holds the ranks and the card answer re-derive from the rows,
+# and holds that a doctored copy row, a doctored class answer and an unknown kind go red.
+_name491 = ("E491 a latest copy is composed by a copy call the write-call census cannot see "
+            "(r1516 bm-b)")
+_bad491 = []
+try:
+    _m491 = __import__("importlib").import_module("e491_latest_copier")
+    _f491 = json.load(open(os.path.join("results", "state_tilt", "latestcopier_latest.json"),
+                           encoding="utf-8"))
+    _s491 = _f491.get("summary") or {}
+    _r491 = _f491.get("rows") or []
+    _bad491.extend(_m491.row_problems(_f491))
+    if not _r491:
+        _bad491.append("the latest-name population is empty")
+    if _f491.get("verdict") != _m491._verdict(_m491._recompute(_f491)):
+        _bad491.append("the verdict is not the one the counts imply")
+    _ans491 = _f491.get("card_answer") or {}
+    if not _ans491.get("found"):
+        _bad491.append("the card's own latest face has no composer: the leg measures nothing")
+    elif _ans491.get("goes_through_the_same_directory_constant") is not True:
+        _bad491.append("the card's own latest copy is not shown to share the directory constant")
+    _copy491 = next((r for r in _r491
+                     if r.get("compose_class") == _m491.C_COPY_SAME_DIR), None)
+    if _copy491 is None:
+        _bad491.append("no same-directory copy row survived: the class cannot be measured")
+    else:
+        _w491 = json.loads(json.dumps(_f491))
+        for _row in _w491["rows"]:
+            if _row.get("latest_basename") == _copy491.get("latest_basename"):
+                _row["compose_class"] = _m491.C_NONE
+        if not _m491.row_problems(_w491):
+            _bad491.append("a copy row rewritten as no-composer survived the guard")
+        _w491b = json.loads(json.dumps(_f491))
+        for _row in _w491b["rows"]:
+            if _row.get("latest_basename") == _copy491.get("latest_basename"):
+                for _site in _row.get("composers") or []:
+                    _site["kind"] = "weird"
+        if not _m491.row_problems(_w491b):
+            _bad491.append("an unknown composer kind survived the guard")
+    _w491c = json.loads(json.dumps(_f491))
+    _w491c["verdict"] = _m491.V_COPY
+    if not _m491.row_problems(_w491c):
+        _bad491.append("a verdict that does not re-derive survived the guard")
+    _w491d = json.loads(json.dumps(_f491))
+    _w491d["card_answer"] = dict(_ans491, compose_class=_m491.C_DIRECT)
+    if not _m491.row_problems(_w491d):
+        _bad491.append("a card answer reclassified away from its rows survived the guard")
+    _c491 = _s491.get("compose_class_counts") or {}
+    _d491 = ("%d latest names | copy inside the source dir %d | copy out %d | written "
+             "directly %d | several composers %d | no static composer %d | dated sibling %d | "
+             "on disk %d"
+             % (len(_r491),
+                _c491.get(_m491.C_COPY_SAME_DIR) or 0,
+                _c491.get(_m491.C_COPY_OTHER_DIR) or 0,
+                _c491.get(_m491.C_DIRECT) or 0,
+                _c491.get(_m491.C_SEVERAL) or 0,
+                _c491.get(_m491.C_NONE) or 0,
+                _s491.get("faces_whose_copy_source_is_a_dated_sibling") or 0,
+                _s491.get("faces_whose_destination_exists_on_disk") or 0))
+except Exception as _e491x:
+    _bad491.append(repr(_e491x)[:160])
+    _d491 = "leg could not run"
+check(_name491, not _bad491, "; ".join(_bad491)[:240] or _d491)
+
 if __name__ == "__main__":
     sys.exit(main())

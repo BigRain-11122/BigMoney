@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1514 bm-b: E489 published (WRITEWIRE-2026-11-07: 50 same-directory writers, 39 write calls compose the exact reader path, 1 composes the reader directory with another basename, 9 unfoldable, 1 no call). E489 closed, E490 seeded.",
+ "_stamp_note": "r1515 bm-b: E490 published (WRITEHELPER-2026-11-07: 9 unfoldable writers, 5 need one more hop -- 4 one hop to the reader directory, 1 directory reached with a parameter basename -- 3 run-time supply, 1 still no folding call site). E490 closed, E491 seeded.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28618,6 +28618,40 @@
    "evidence_cutoff": "2026-11-07",
    "entered_at": "2026-11-07T08:54:57+0800",
    "entered_by": "bm-b r1514 (supply floor refill after E489)",
+   "status": "done",
+   "result_ref": "results/state_tilt/writehelper_latest.json",
+   "owner": "bm-b r1515",
+   "settled_at": "2026-11-07T09:23:19+0800",
+   "result_note": "9 unfoldable writers: 4 one hop to the reader directory via a call site (parameter default / caller chain / composed join), 1 directory reached with the basename still a parameter, 3 run-time supply (tempfile/argv), 1 no folding call site"
+  },
+  {
+   "id": "E491-WHO-COMPOSES-THE-LATEST-COPY-OF-THE-ONE-WRITER-E489-FOUND-IN-THE-READERS-DIRECTORY-UNDER-ANOTHER-BASENAME",
+   "title": "E489's dir_only row is bandthreshguard: the traced line writes only BANDTHRESHGUARD-<date>.json and the _latest copy is said to be composed elsewhere. Find every site that composes bandthreshguard_latest.json and publish whether it goes through the same directory constant, so the row's 'another basename' is either the dated face's sibling or a second writer with its own directory.",
+   "source": "E489 (r1514 bm-b): 1 of the 50 same-directory writers composes the reader directory with another basename (bandthreshguard)",
+   "lane": "cpu-only",
+   "lane_note": "static: AST search for the literal spelling across the tree, no network",
+   "deliverable": "results/state_tilt/LATESTCOPIER-<cutoff>.json",
+   "target": "results/state_tilt/latestcopier_latest.json",
+   "evidence_cutoff": "2026-11-07",
+   "entered_at": "2026-11-07T09:23:19+0800",
+   "entered_by": "bm-b r1515 (supply floor refill after E490)",
+   "status": "done",
+   "result_ref": "results/state_tilt/latestcopier_latest.json",
+   "owner": "bm-b r1516",
+   "settled_at": "2026-11-07T10:12:00+0800",
+   "result_note": "176 latest names: 123 written directly, 2 copies inside the source directory, 0 copies out, 51 with several composers, 0 with no static composer; bandthreshguard_latest.json is written by e273:385 shutil.copyfile(path, latest) through the same OUTDIR constant, so E489's dir_only row is one writer's second write, not a second writer"
+  },
+  {
+   "id": "E492-OF-THE-MULTI-COMPOSED-LATEST-NAMES-HOW-MANY-EXTRA-COMPOSERS-ARE-DOCTOR-HARNESSES-AND-DO-ANY-OF-THEM-LEAVE-A-MUTATED-FACE-BEHIND",
+   "title": "E491 left 51 of 176 latest names with two or more static composers. A sample of the extras are leg runners (scripts/run_eXXX_smoke_leg.py) that write a doctored copy of the face to prove a leg can go red. For each of the 51 multi-composed names, classify every composer as producer / leg-runner doctor / one-off repair, publish how many writers remain once doctors are excluded, and say whether any doctor writer can leave a mutated face on disk (does it restore the original bytes, or write a doctored payload and exit).",
+   "source": "E491 (r1516 bm-b): 176 latest names / 2 copy-same-dir / 0 copy-other-dir / 123 direct / 51 several / 0 none; e452's and e447's latest names are each written by the study AND by run_eXXX_smoke_leg.py",
+   "lane": "cpu-only",
+   "lane_note": "static: AST classification of the published composers plus a read of each leg runner's restore path, no network",
+   "deliverable": "results/state_tilt/LATESTDOCTOR-<cutoff>.json",
+   "target": "results/state_tilt/latestdoctor_latest.json",
+   "evidence_cutoff": "2026-11-07",
+   "entered_at": "2026-11-07T10:12:00+0800",
+   "entered_by": "bm-b r1516 (supply floor refill after E491)",
    "status": "ready",
    "result_ref": null
   }
@@ -28634,6 +28668,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T08:54:57+0800",
+ "updated_at": "2026-11-07T10:12:00+0800",
  "version": 1
 }

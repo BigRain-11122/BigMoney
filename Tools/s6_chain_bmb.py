@@ -1770,6 +1770,17 @@ LEGS = [
     # repository-module alias hop, and static %-formatting) and asks whether it composes exactly
     # the path the reader opens.  `check` re-derives every row's class from the published sites.
     ("write_wire", ["python", "scripts/e489_write_wire.py", "check"]),
+    # E490 answers E489's residual: the nine write calls whose path argument never folds.  For
+    # each, it follows the delegated parameter one hop to the call site that supplies it (through
+    # loop variables, call-site defaults and the caller's own parameter chain) and separates "one
+    # more hop reaches the reader's directory" from "argv / environment / tempfile -- no hop helps".
+    ("write_helper", ["python", "scripts/e490_write_helper.py", "check"]),
+    # E491 answers the row E489 could not close.  E489's tracer reads first arguments only, and
+    # a copy call (`shutil.copyfile(src, dst)`) carries its destination SECOND, so E489 published
+    # its one dir_only row as "composed elsewhere".  This face folds both arguments of every
+    # copier under scripts/Tools/firm, groups the destinations by latest basename, and holds the
+    # card's own name (bandthreshguard_latest.json) to the call that actually makes it.
+    ("latest_copier", ["python", "scripts/e491_latest_copier.py", "check"]),
 ]
 
 

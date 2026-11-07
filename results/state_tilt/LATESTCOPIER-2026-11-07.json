@@ -1,0 +1,5971 @@
+{
+ "card": "E491-WHO-COMPOSES-THE-LATEST-COPY-OF-THE-ONE-WRITER-E489-FOUND-IN-THE-READERS-DIRECTORY-UNDER-ANOTHER-BASENAME",
+ "study": "E491_who_composes_the_latest_copy_when_the_dated_face_is_the_only_written_file",
+ "title": "who composes a *_latest.json face when the writer only opens a dated file?",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T10:01:04+0800",
+ "population_source": {
+  "scan_directories": [
+   "scripts",
+   "Tools",
+   "firm"
+  ],
+  "sources_mentioning_a_latest_name": 337,
+  "sources_unparsed": [
+   "Tools/s6_chain_bmb.py",
+   "scripts/e231_band_path_test.py",
+   "scripts/e243_additivity_out_of_sample.py",
+   "scripts/e280_e251_rng_drift_repin.py",
+   "scripts/e308_leg_vs_producer_tolerance.py",
+   "scripts/e371_one_store_member.py",
+   "scripts/e387_republish_audit.py",
+   "scripts/e394_phantom_why.py",
+   "scripts/e429_two_hop_writer.py"
+  ],
+  "excluded_source_prefixes": [
+   "e491_",
+   "run_e491",
+   "e489_",
+   "run_e489",
+   "smoke_test"
+  ],
+  "population_definition": "every call whose folded destination basename ends '_latest.json', grouped by that basename"
+ },
+ "call_rule": {
+  "copy": "shutil.copyfile/copy/copy2/move and os.replace/rename carry the destination as the SECOND positional argument",
+  "direct": "open/write_text/write_json/dump_json carry the destination as the FIRST positional argument",
+  "fold": "arguments fold through module, same-function and loop-target constants up to 24 hops (E488/E489 folder)",
+  "why_e489_missed_it": "E489's tracer reads first arguments only, so a copy call looks like no producer at all"
+ },
+ "class_definition": {
+  "the_latest_copy_is_a_copy_call_inside_the_source_directory": "one copy call, destination and source fold into the same directory",
+  "the_latest_copy_is_a_copy_call_out_of_the_source_directory": "one copy call, destination and source fold into different directories",
+  "the_latest_copy_is_written_directly": "one direct write to the latest name",
+  "the_latest_copy_has_several_static_composers": "two or more static composers within the scanned sources",
+  "no_static_composer_is_found": "no composer folds to this name (out of static reach)"
+ },
+ "summary": {
+  "latest_faces": 176,
+  "composer_sites": 296,
+  "compose_class_counts": {
+   "the_latest_copy_is_a_copy_call_inside_the_source_directory": 2,
+   "the_latest_copy_is_a_copy_call_out_of_the_source_directory": 0,
+   "the_latest_copy_is_written_directly": 123,
+   "the_latest_copy_has_several_static_composers": 51,
+   "no_static_composer_is_found": 0
+  },
+  "faces_whose_copy_is_a_copy_call": 2,
+  "faces_whose_copy_is_a_copy_call_in_the_source_directory": 2,
+  "faces_written_directly": 123,
+  "faces_with_several_composers": 51,
+  "faces_with_no_static_composer": 0,
+  "faces_whose_copy_source_is_a_dated_sibling": 2,
+  "faces_whose_destination_exists_on_disk": 175,
+  "copy_faces_whose_destination_exists_on_disk": 1
+ },
+ "verdict": "most_latest_copies_are_written_directly",
+ "verdict_vocab": [
+  "no_latest_face_has_a_static_composer",
+  "most_latest_copies_are_copy_calls_inside_the_source_directory",
+  "a_minority_of_latest_copies_are_copy_calls_inside_the_source_directory",
+  "most_latest_copies_are_written_directly"
+ ],
+ "card_answer": {
+  "latest_basename": "bandthreshguard_latest.json",
+  "found": true,
+  "compose_class": "the_latest_copy_is_a_copy_call_inside_the_source_directory",
+  "composer_count": 1,
+  "composer": {
+   "source": "scripts/e273_guard_from_threshold.py",
+   "line": 385,
+   "kind": "copy",
+   "callee": "copyfile",
+   "destination_paths": [
+    "results/state_tilt/bandthreshguard_latest.json"
+   ],
+   "source_paths": [
+    "results/state_tilt/BANDTHRESHGUARD-2026-10-29.json"
+   ],
+   "destination_unfolded": false,
+   "source_unfolded": false
+  },
+  "goes_through_the_same_directory_constant": true,
+  "copy_source_is_a_dated_sibling": true
+ },
+ "rows": [
+  {
+   "latest_basename": "abandonedguard_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e452_abandoned_guard.py",
+     "line": 596,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/abandonedguard_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e452_smoke_leg.py",
+     "line": 70,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/abandonedguard_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e452_smoke_leg.py",
+     "line": 78,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/abandonedguard_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/abandonedguard_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "abandonedread_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e447_abandoned_read.py",
+     "line": 425,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/abandonedread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e447_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/abandonedread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e447_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/abandonedread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/abandonedread_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "abandonedstale_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e453_abandoned_stale.py",
+     "line": 383,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/abandonedstale_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/abandonedstale_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "allowance_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e340_who_authorizes_whose_allowance.py",
+     "line": 540,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/ALLOWANCE-2026-11-01.json",
+      "results/state_tilt/allowance_latest.json",
+      "results/state_tilt/ALLOWANCE-2026-11-01.json",
+      "results/state_tilt/allowance_latest.json",
+      "results/state_tilt/ALLOWANCE-2026-11-01.json",
+      "results/state_tilt/allowance_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/allowance_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "ballastkeys_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e380_ballast_keys_and_readers.py",
+     "line": 280,
+     "kind": "direct",
+     "callee": "write_json",
+     "destination_paths": [
+      "results/state_tilt/BALLASTKEYS-2026-11-03.json",
+      "results/state_tilt/ballastkeys_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/ballastkeys_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandambient_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e291_ambiguity_chance.py",
+     "line": 435,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDAMBIENT-2026-10-29.json",
+      "results/state_tilt/bandambient_latest.json",
+      "results/state_tilt/BANDAMBIENT-2026-10-29.json",
+      "results/state_tilt/bandambient_latest.json",
+      "results/state_tilt/BANDAMBIENT-2026-10-29.json",
+      "results/state_tilt/bandambient_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandambient_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandclosure_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e295_supply_gap_closure.py",
+     "line": 535,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDCLOSURE-2026-10-29.json",
+      "results/state_tilt/bandclosure_latest.json",
+      "results/state_tilt/BANDCLOSURE-2026-10-29.json",
+      "results/state_tilt/bandclosure_latest.json",
+      "results/state_tilt/BANDCLOSURE-2026-10-29.json",
+      "results/state_tilt/bandclosure_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandclosure_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandcountscope_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e286_count_field_scope.py",
+     "line": 414,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
+      "results/state_tilt/bandcountscope_latest.json",
+      "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
+      "results/state_tilt/bandcountscope_latest.json",
+      "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
+      "results/state_tilt/bandcountscope_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandcountscope_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "banddeflate_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e283_degenerate_range_reachable.py",
+     "line": 411,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/banddeflate_latest.json",
+      "results/state_tilt/banddeflate_latest.json",
+      "results/state_tilt/banddeflate_latest.json",
+      "results/state_tilt/banddeflate_latest.json",
+      "results/state_tilt/banddeflate_latest.json",
+      "results/state_tilt/banddeflate_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/banddeflate_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "banddisagree_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e282_substitution_disagreement_census.py",
+     "line": 649,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+      "results/state_tilt/banddisagree_latest.json",
+      "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+      "results/state_tilt/banddisagree_latest.json",
+      "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+      "results/state_tilt/banddisagree_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/banddisagree_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "banddisagreescope_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e284_disagreement_field_scope.py",
+     "line": 422,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/banddisagreescope_latest.json",
+      "results/state_tilt/banddisagreescope_latest.json",
+      "results/state_tilt/banddisagreescope_latest.json",
+      "results/state_tilt/banddisagreescope_latest.json",
+      "results/state_tilt/banddisagreescope_latest.json",
+      "results/state_tilt/banddisagreescope_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/banddisagreescope_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "banddonorchoice_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e271_donor_choice_sensitivity.py",
+     "line": 317,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/banddonorchoice_latest.json",
+      "results/state_tilt/banddonorchoice_latest.json",
+      "results/state_tilt/banddonorchoice_latest.json",
+      "results/state_tilt/banddonorchoice_latest.json",
+      "results/state_tilt/banddonorchoice_latest.json",
+      "results/state_tilt/banddonorchoice_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/banddonorchoice_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "banddupes_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e293_duplicate_list_census.py",
+     "line": 464,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDDUPES-2026-10-29.json",
+      "results/state_tilt/banddupes_latest.json",
+      "results/state_tilt/BANDDUPES-2026-10-29.json",
+      "results/state_tilt/banddupes_latest.json",
+      "results/state_tilt/BANDDUPES-2026-10-29.json",
+      "results/state_tilt/banddupes_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/banddupes_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandfloor_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e277_tight_multiplier_floor.py",
+     "line": 411,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDFLOOR-2026-10-29.json",
+      "results/state_tilt/bandfloor_latest.json",
+      "results/state_tilt/BANDFLOOR-2026-10-29.json",
+      "results/state_tilt/bandfloor_latest.json",
+      "results/state_tilt/BANDFLOOR-2026-10-29.json",
+      "results/state_tilt/bandfloor_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandfloor_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandfloormirror_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e288_below_floor_narrowing.py",
+     "line": 400,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDFLOORMIRROR-2026-10-29.json",
+      "results/state_tilt/bandfloormirror_latest.json",
+      "results/state_tilt/BANDFLOORMIRROR-2026-10-29.json",
+      "results/state_tilt/bandfloormirror_latest.json",
+      "results/state_tilt/BANDFLOORMIRROR-2026-10-29.json",
+      "results/state_tilt/bandfloormirror_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandfloormirror_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandfrozen_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e294_live_universe_drift.py",
+     "line": 620,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDFROZEN-2026-10-29.json",
+      "results/state_tilt/bandfrozen_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandfrozen_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandgapceiling_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 406,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDGAPCEILING-2026-10-29.json",
+      "results/state_tilt/bandgapceiling_latest.json",
+      "results/state_tilt/BANDGAPCEILING-2026-10-29.json",
+      "results/state_tilt/bandgapceiling_latest.json",
+      "results/state_tilt/BANDGAPCEILING-2026-10-29.json",
+      "results/state_tilt/bandgapceiling_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandgapceiling_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandmarginwindow_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e300_window_local_margin_census.py",
+     "line": 434,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDMARGINWINDOW-2026-10-29.json",
+      "results/state_tilt/bandmarginwindow_latest.json",
+      "results/state_tilt/BANDMARGINWINDOW-2026-10-29.json",
+      "results/state_tilt/bandmarginwindow_latest.json",
+      "results/state_tilt/BANDMARGINWINDOW-2026-10-29.json",
+      "results/state_tilt/bandmarginwindow_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandmarginwindow_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandscopefix_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e292_scope_fix_plan.py",
+     "line": 539,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDSCOPEFIX-2026-10-29.json",
+      "results/state_tilt/bandscopefix_latest.json",
+      "results/state_tilt/BANDSCOPEFIX-2026-10-29.json",
+      "results/state_tilt/bandscopefix_latest.json",
+      "results/state_tilt/BANDSCOPEFIX-2026-10-29.json",
+      "results/state_tilt/bandscopefix_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandscopefix_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandscreenbudget_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e275_screen_margin_budget.py",
+     "line": 290,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/bandscreenbudget_latest.json",
+      "results/state_tilt/bandscreenbudget_latest.json",
+      "results/state_tilt/bandscreenbudget_latest.json",
+      "results/state_tilt/bandscreenbudget_latest.json",
+      "results/state_tilt/bandscreenbudget_latest.json",
+      "results/state_tilt/bandscreenbudget_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandscreenbudget_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandselfaudit_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e290_selfauditable_face_profile.py",
+     "line": 408,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDSELFAUDIT-2026-10-29.json",
+      "results/state_tilt/bandselfaudit_latest.json",
+      "results/state_tilt/BANDSELFAUDIT-2026-10-29.json",
+      "results/state_tilt/bandselfaudit_latest.json",
+      "results/state_tilt/BANDSELFAUDIT-2026-10-29.json",
+      "results/state_tilt/bandselfaudit_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandselfaudit_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandspreadfloor_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e278_spread_floor.py",
+     "line": 433,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/bandspreadfloor_latest.json",
+      "results/state_tilt/bandspreadfloor_latest.json",
+      "results/state_tilt/bandspreadfloor_latest.json",
+      "results/state_tilt/bandspreadfloor_latest.json",
+      "results/state_tilt/bandspreadfloor_latest.json",
+      "results/state_tilt/bandspreadfloor_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandspreadfloor_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandstraddlesweep_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e274_spread_straddle_sweep.py",
+     "line": 352,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/bandstraddlesweep_latest.json",
+      "results/state_tilt/bandstraddlesweep_latest.json",
+      "results/state_tilt/bandstraddlesweep_latest.json",
+      "results/state_tilt/bandstraddlesweep_latest.json",
+      "results/state_tilt/bandstraddlesweep_latest.json",
+      "results/state_tilt/bandstraddlesweep_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandstraddlesweep_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandsubstitute_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e279_substitution_soundness.py",
+     "line": 476,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/bandsubstitute_latest.json",
+      "results/state_tilt/bandsubstitute_latest.json",
+      "results/state_tilt/bandsubstitute_latest.json",
+      "results/state_tilt/bandsubstitute_latest.json",
+      "results/state_tilt/bandsubstitute_latest.json",
+      "results/state_tilt/bandsubstitute_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandsubstitute_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandsubstituteaudit_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e281_substitution_dependency_audit.py",
+     "line": 497,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/bandsubstituteaudit_latest.json",
+      "results/state_tilt/bandsubstituteaudit_latest.json",
+      "results/state_tilt/bandsubstituteaudit_latest.json",
+      "results/state_tilt/bandsubstituteaudit_latest.json",
+      "results/state_tilt/bandsubstituteaudit_latest.json",
+      "results/state_tilt/bandsubstituteaudit_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandsubstituteaudit_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandsupply_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e287_supply_ceiling_axes.py",
+     "line": 589,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDSUPPLY-2026-10-29.json",
+      "results/state_tilt/bandsupply_latest.json",
+      "results/state_tilt/BANDSUPPLY-2026-10-29.json",
+      "results/state_tilt/bandsupply_latest.json",
+      "results/state_tilt/BANDSUPPLY-2026-10-29.json",
+      "results/state_tilt/bandsupply_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandsupply_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandswitch_latest.json",
+   "composers": [
+    {
+     "source": "scripts/_r1495_bandswitch_mirror_repair.py",
+     "line": 21,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/bandswitch_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e302_universe_switch_backfill.py",
+     "line": 604,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDSWITCH-2026-10-30.json",
+      "results/state_tilt/bandswitch_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandswitch_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandthreshguard_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e273_guard_from_threshold.py",
+     "line": 385,
+     "kind": "copy",
+     "callee": "copyfile",
+     "destination_paths": [
+      "results/state_tilt/bandthreshguard_latest.json"
+     ],
+     "source_paths": [
+      "results/state_tilt/BANDTHRESHGUARD-2026-10-29.json"
+     ],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandthreshguard_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_a_copy_call_inside_the_source_directory",
+   "copy_source_is_a_dated_sibling": true,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "bandundatedvintage_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e307_undated_face_vintage.py",
+     "line": 395,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BANDUNDATEDVINTAGE-2026-10-31.json",
+      "results/state_tilt/bandundatedvintage_latest.json",
+      "results/state_tilt/BANDUNDATEDVINTAGE-2026-10-31.json",
+      "results/state_tilt/bandundatedvintage_latest.json",
+      "results/state_tilt/BANDUNDATEDVINTAGE-2026-10-31.json",
+      "results/state_tilt/bandundatedvintage_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/bandundatedvintage_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "barecallresolve_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e443_smoke_leg.py",
+     "line": 77,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/barecallresolve_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e443_smoke_leg.py",
+     "line": 85,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/barecallresolve_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/barecallresolve_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "basenamecensus_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e422_basename_census_audit.py",
+     "line": 540,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/basenamecensus_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/basenamecensus_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "blobguard_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e412_blob_guard_decision.py",
+     "line": 634,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/BLOBGUARD-2026-11-05.json",
+      "results/state_tilt/blobguard_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/blobguard_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "blobread_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e406_blob_vs_tree_readers.py",
+     "line": 445,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/blobread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/blobread_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "breakeven_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e226_tilt_breakeven.py",
+     "line": 387,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/breakeven_latest.json",
+      "results/state_tilt/breakeven_latest.json",
+      "results/state_tilt/breakeven_latest.json",
+      "results/state_tilt/breakeven_latest.json",
+      "results/state_tilt/breakeven_latest.json",
+      "results/state_tilt/breakeven_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/breakeven_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "call_latest.json",
+   "composers": [
+    {
+     "source": "scripts/market_clock_call.py",
+     "line": 406,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/market_clock/call_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/market_clock/call_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "callerclass_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e450_smoke_leg.py",
+     "line": 71,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/callerclass_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e450_smoke_leg.py",
+     "line": 79,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/callerclass_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/callerclass_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "chwrcad_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e357_channel_writer_cadence.py",
+     "line": 343,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/CHWRCAD-2026-11-02.json",
+      "results/state_tilt/chwrcad_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/chwrcad_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "collisionkey_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e383_shared_key_collision.py",
+     "line": 467,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/COLLISIONKEY-2026-11-03.json",
+      "results/state_tilt/collisionkey_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/collisionkey_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "componentkey_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e381_component_key_blind_spot.py",
+     "line": 323,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/COMPONENTKEY-2026-11-03.json",
+      "results/state_tilt/componentkey_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/componentkey_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "composedwriter_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e487_composed_writer.py",
+     "line": 624,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e487_composed_writer.py",
+     "line": 696,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/composedwriter_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e487_composed_writer.py",
+     "line": 715,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/composedwriter_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e488_writer_directory.py",
+     "line": 110,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/composedwriter_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "constdirs_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e404_constant_directory_resolution.py",
+     "line": 758,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/CONSTDIRS-2026-11-04.json",
+      "results/state_tilt/constdirs_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/constdirs_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "consumercensus_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e344_face_consumer_census.py",
+     "line": 661,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/CONSUMERCENSUS-2026-11-01.json",
+      "results/state_tilt/consumercensus_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/consumercensus_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "costcurve_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e232_cost_curvature.py",
+     "line": 366,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/costcurve_latest.json",
+      "results/state_tilt/costcurve_latest.json",
+      "results/state_tilt/costcurve_latest.json",
+      "results/state_tilt/costcurve_latest.json",
+      "results/state_tilt/costcurve_latest.json",
+      "results/state_tilt/costcurve_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/costcurve_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "cwdaccident_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e415_cwd_accident.py",
+     "line": 96,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/cwdaccident_latest.json",
+      "results/state_tilt/cwdaccident_latest.json",
+      "results/state_tilt/cwdaccident_latest.json",
+      "results/state_tilt/cwdaccident_latest.json",
+      "results/state_tilt/cwdaccident_latest.json",
+      "results/state_tilt/cwdaccident_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/cwdaccident_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "deadcopy_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e471_dead_copy.py",
+     "line": 378,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/deadcopy_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e471_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/deadcopy_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e471_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/deadcopy_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/deadcopy_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "deadpath_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e442_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/deadpath_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e442_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/deadpath_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/deadpath_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "deadprereg_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e449_dead_document_pointer.py",
+     "line": 618,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/deadprereg_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e449_smoke_leg.py",
+     "line": 34,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/deadprereg_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e449_smoke_leg.py",
+     "line": 70,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/deadprereg_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/deadprereg_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "decidegate_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e347_published_number_gate_census.py",
+     "line": 822,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/DECIDEGATE-2026-11-01.json",
+      "results/state_tilt/decidegate_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/decidegate_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "declaration_latest.json",
+   "composers": [
+    {
+     "source": "scripts/lane_host_declaration.py",
+     "line": 242,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/lane_hosts/declaration_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/lane_hosts/declaration_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "dirfield_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e423_dirfield_join.py",
+     "line": 776,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/dirfield_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 55,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/dirfield_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 74,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/dirfield_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/dirfield_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/dirfield_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "dirisface_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e435_dir_is_a_face.py",
+     "line": 406,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/dirisface_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/dirisface_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/dirisface_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/dirisface_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "docstringcard_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e467_docstringcard.py",
+     "line": 559,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/docstringcard_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/docstringcard_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "doublejoin_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e436_double_join.py",
+     "line": 603,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/doublejoin_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e436_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/doublejoin_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e436_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/doublejoin_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/doublejoin_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "droppedpath_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e448_smoke_leg.py",
+     "line": 60,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/droppedpath_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e448_smoke_leg.py",
+     "line": 72,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/droppedpath_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/droppedpath_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "dynamicname_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e426_dynamic_face_names.py",
+     "line": 107,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/dynamicname_latest.json",
+      "results/state_tilt/dynamicname_latest.json",
+      "results/state_tilt/dynamicname_latest.json",
+      "results/state_tilt/dynamicname_latest.json",
+      "results/state_tilt/dynamicname_latest.json",
+      "results/state_tilt/dynamicname_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e426_smoke_leg.py",
+     "line": 66,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/dynamicname_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e426_smoke_leg.py",
+     "line": 74,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/dynamicname_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/dynamicname_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "e350arm_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e378_store_load_bearing_e350_arm.py",
+     "line": 320,
+     "kind": "direct",
+     "callee": "write_json",
+     "destination_paths": [
+      "results/state_tilt/e350arm_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e378_store_load_bearing_e350_arm.py",
+     "line": 345,
+     "kind": "direct",
+     "callee": "write_json",
+     "destination_paths": [
+      "results/state_tilt/e350arm_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/e350arm_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "empirical_gamma_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e233_empirical_gamma.py",
+     "line": 554,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/empirical_gamma_latest.json",
+      "results/state_tilt/empirical_gamma_latest.json",
+      "results/state_tilt/empirical_gamma_latest.json",
+      "results/state_tilt/empirical_gamma_latest.json",
+      "results/state_tilt/empirical_gamma_latest.json",
+      "results/state_tilt/empirical_gamma_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/empirical_gamma_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "evidence_latest.json",
+   "composers": [
+    {
+     "source": "scripts/regime_gate_evidence.py",
+     "line": 165,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/regime_gate_evidence/evidence_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/regime_gate_evidence/evidence_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "faceage_latest.json",
+   "composers": [
+    {
+     "source": "scripts/_r1436_e418_redproof.py",
+     "line": 12,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/_r1436_e418_redproof.py",
+     "line": 27,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/_r1436_e418_redproof.py",
+     "line": 36,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/_r1436_e418_redproof.py",
+     "line": 38,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e418_face_age.py",
+     "line": 367,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e419_unstampable.py",
+     "line": 644,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e419_unstampable.py",
+     "line": 649,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/faceage_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "facegap_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e460_facegap.py",
+     "line": 418,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/facegap_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/facegap_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "facehome_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e441_facehome_family.py",
+     "line": 279,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/facehome_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e441_smoke_leg.py",
+     "line": 71,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/facehome_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e441_smoke_leg.py",
+     "line": 79,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/facehome_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/facehome_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "facehometarget_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e445_facehome_target.py",
+     "line": 288,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/facehometarget_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/facehometarget_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "faceidentity_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e458_face_identity.py",
+     "line": 459,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/faceidentity_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/faceidentity_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "facetrace_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e469_face_producer_edge.py",
+     "line": 332,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/facetrace_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e469_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/facetrace_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e469_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/facetrace_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/facetrace_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "facevintage_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e363_corpus_vintage.py",
+     "line": 324,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/FACEVINTAGE-2026-11-02.json",
+      "results/state_tilt/facevintage_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/facevintage_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "familyarg_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e403_family_arg.py",
+     "line": 841,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/familyarg_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/familyarg_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "familyglobread_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e389_family_glob_readers.py",
+     "line": 416,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/familyglobread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/familyglobread_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "fieldbranch_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e350_field_branch_census.py",
+     "line": 470,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/FIELDBRANCH-2026-11-01.json",
+      "results/state_tilt/fieldbranch_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e353_unwritten_guard_presence.py",
+     "line": 383,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/fieldbranch_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "line": 118,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "E350",
+      "results/state_tilt/fieldbranch_latest.json",
+      "E353",
+      "results/state_tilt/guardpresence_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e371_store_member_cost.py",
+     "line": 257,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/fieldbranch_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/fieldbranch_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "fixturebeyond_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e434_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/fixturebeyond_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e434_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/fixturebeyond_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/fixturebeyond_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "fixturewrite_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e432_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/fixturewrite_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e432_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/fixturewrite_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/fixturewrite_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "foo_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e332_invisible_tail_recovery.py",
+     "line": 479,
+     "kind": "copy",
+     "callee": "replace",
+     "destination_paths": [
+      "results/x/foo_latest.json"
+     ],
+     "source_paths": [
+      "results/x/FOO-2026-11-01.json"
+     ],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/x/foo_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_a_copy_call_inside_the_source_directory",
+   "copy_source_is_a_dated_sibling": true,
+   "destination_exists": false
+  },
+  {
+   "latest_basename": "fragmentproducers_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e402_fragment_producers.py",
+     "line": 654,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/FRAGMENTPRODUCERS-2026-11-04.json",
+      "results/state_tilt/fragmentproducers_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/fragmentproducers_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "freshaim_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e416_fresh_aim.py",
+     "line": 390,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/freshaim_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e416_fresh_aim.py",
+     "line": 391,
+     "kind": "direct",
+     "callee": "dump",
+     "destination_paths": [
+      "freshaim_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "freshaim_latest.json",
+    "results/state_tilt/freshaim_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "freshnessbound_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e410_freshness_legs.py",
+     "line": 245,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/freshnessbound_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e410_freshness_legs.py",
+     "line": 246,
+     "kind": "direct",
+     "callee": "dump",
+     "destination_paths": [
+      "results/state_tilt/freshnessbound_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/freshnessbound_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "frozenwriter_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e446_frozen_writer.py",
+     "line": 610,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/frozenwriter_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e446_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/frozenwriter_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e446_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/frozenwriter_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/frozenwriter_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "gateabsence_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e345_gate_absence_windows.py",
+     "line": 452,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/gateabsence_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/gateabsence_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "granularity_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e235_charge_granularity.py",
+     "line": 654,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/granularity_latest.json",
+      "results/state_tilt/granularity_latest.json",
+      "results/state_tilt/granularity_latest.json",
+      "results/state_tilt/granularity_latest.json",
+      "results/state_tilt/granularity_latest.json",
+      "results/state_tilt/granularity_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/granularity_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "greenwindow_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e338_census_green_window.py",
+     "line": 477,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/GREENWINDOW-2026-11-01.json",
+      "results/state_tilt/greenwindow_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/greenwindow_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "growthtol_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e455_growth_census.py",
+     "line": 122,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/growthtol_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/growthtol_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "guardloosen_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e339_literal_count_guards.py",
+     "line": 491,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/GUARDLOOSEN-2026-11-01.json",
+      "results/state_tilt/guardloosen_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/guardloosen_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "guardpresence_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e353_unwritten_guard_presence.py",
+     "line": 372,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/GUARDPRESENCE-2026-11-02.json",
+      "results/state_tilt/guardpresence_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "line": 118,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "E350",
+      "results/state_tilt/fieldbranch_latest.json",
+      "E353",
+      "results/state_tilt/guardpresence_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/guardpresence_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "helperrepair_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e334_helper_repair_blast_radius.py",
+     "line": 520,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/HELPERREPAIR-2026-11-01.json",
+      "results/state_tilt/helperrepair_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/helperrepair_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "hysteresis_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e230_hysteresis_toll.py",
+     "line": 504,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/hysteresis_latest.json",
+      "results/state_tilt/hysteresis_latest.json",
+      "results/state_tilt/hysteresis_latest.json",
+      "results/state_tilt/hysteresis_latest.json",
+      "results/state_tilt/hysteresis_latest.json",
+      "results/state_tilt/hysteresis_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/hysteresis_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "identityconsumers_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e461_identity_consumers.py",
+     "line": 398,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/identityconsumers_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/identityconsumers_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "identitydialect_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e462_identity_dialect.py",
+     "line": 334,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/identitydialect_latest.json",
+      "results/state_tilt/IDENTITYDIALECT-undated.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/identitydialect_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "identitydialectcensus_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e474_identity_dialect_census.py",
+     "line": 388,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/IDENTITYDIALECTCENSUS-2026-11-06.json",
+      "results/state_tilt/identitydialectcensus_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/identitydialectcensus_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "identitysplit_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e463_identity_split.py",
+     "line": 324,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/identitysplit_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/identitysplit_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "importclass_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e456_smoke_leg.py",
+     "line": 69,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/importclass_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e456_smoke_leg.py",
+     "line": 78,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/importclass_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/importclass_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "infostruct_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e237_information_structure.py",
+     "line": 548,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/infostruct_latest.json",
+      "results/state_tilt/infostruct_latest.json",
+      "results/state_tilt/infostruct_latest.json",
+      "results/state_tilt/infostruct_latest.json",
+      "results/state_tilt/infostruct_latest.json",
+      "results/state_tilt/infostruct_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/infostruct_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "invisibletail_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e332_invisible_tail_recovery.py",
+     "line": 332,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/INVISIBLETAIL-2026-11-01.json",
+      "results/state_tilt/invisibletail_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/invisibletail_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "keydelta_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e382_key_projection_delta.py",
+     "line": 390,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/KEYDELTA-2026-11-03.json",
+      "results/state_tilt/keydelta_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/keydelta_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "keyprojrepair_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e382_key_projection_repair_price.py",
+     "line": 404,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/KEYPROJREPAIR-2026-11-03.json",
+      "results/state_tilt/keyprojrepair_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/keyprojrepair_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "keysens_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "line": 354,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/KEYSENS-2026-11-03.json",
+      "results/state_tilt/keysens_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "line": 451,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/keysens_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/keysens_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "lasttick_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e396_last_tick.py",
+     "line": 608,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/lasttick_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/lasttick_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "latestfamily_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e398_latest_family.py",
+     "line": 1077,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/LATESTFAMILY-2026-11-04.json",
+      "results/state_tilt/latestfamily_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/latestfamily_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "latestoutside_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e482_latest_outside.py",
+     "line": 434,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e482_latest_outside.py",
+     "line": 488,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e482_latest_outside.py",
+     "line": 502,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e487_composed_writer.py",
+     "line": 148,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e482_smoke_leg.py",
+     "line": 64,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e482_smoke_leg.py",
+     "line": 69,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e482_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/latestoutside_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "leg_isolation_latest.json",
+   "composers": [
+    {
+     "source": "scripts/prove_smoke_leg_isolation.py",
+     "line": 233,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/leg_isolation_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/leg_isolation_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "leginput_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e407_leg_input_stability.py",
+     "line": 284,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/LEGINPUT-2026-11-04.json",
+      "results/state_tilt/leginput_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/leginput_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "localreader_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e401_local_reader.py",
+     "line": 578,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/LOCALREADER-2026-11-04.json",
+      "results/state_tilt/localreader_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/localreader_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "loobook_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e238_leave_one_out_book.py",
+     "line": 566,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/loobook_latest.json",
+      "results/state_tilt/loobook_latest.json",
+      "results/state_tilt/loobook_latest.json",
+      "results/state_tilt/loobook_latest.json",
+      "results/state_tilt/loobook_latest.json",
+      "results/state_tilt/loobook_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e239_own_vs_cross.py",
+     "line": 262,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/loobook_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/loobook_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "matched_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e228_matched_exposure.py",
+     "line": 445,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/matched_latest.json",
+      "results/state_tilt/matched_latest.json",
+      "results/state_tilt/matched_latest.json",
+      "results/state_tilt/matched_latest.json",
+      "results/state_tilt/matched_latest.json",
+      "results/state_tilt/matched_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/matched_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "mirror_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e349_latest_mirror_census.py",
+     "line": 572,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/MIRROR-2026-11-01.json",
+      "results/state_tilt/mirror_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/mirror_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "multideclared_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e475_multideclared.py",
+     "line": 304,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/MULTIDECLARED-2026-11-06.json",
+      "results/state_tilt/multideclared_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e475_multideclared_ids.py",
+     "line": 303,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/multideclared_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/multideclared_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "namerecall_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e437_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/namerecall_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e437_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/namerecall_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/namerecall_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "nameresolve_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e421_strong_basis_resolution.py",
+     "line": 761,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/nameresolve_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/nameresolve_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "neveropened_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e384_never_opened_key.py",
+     "line": 359,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/NEVEROPENED-2026-11-03.json",
+      "results/state_tilt/neveropened_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/neveropened_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "no_caller_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e428_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/no_caller_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e428_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/no_caller_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/no_caller_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "omission_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e242_omission_inflation_sweep.py",
+     "line": 708,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/omission_latest.json",
+      "results/state_tilt/omission_latest.json",
+      "results/state_tilt/omission_latest.json",
+      "results/state_tilt/omission_latest.json",
+      "results/state_tilt/omission_latest.json",
+      "results/state_tilt/omission_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/omission_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "openerflow_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e427_opener_flow.py",
+     "line": 89,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/openerflow_latest.json",
+      "results/state_tilt/openerflow_latest.json",
+      "results/state_tilt/openerflow_latest.json",
+      "results/state_tilt/openerflow_latest.json",
+      "results/state_tilt/openerflow_latest.json",
+      "results/state_tilt/openerflow_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e427_smoke_leg.py",
+     "line": 70,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/openerflow_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e427_smoke_leg.py",
+     "line": 78,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/openerflow_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/openerflow_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "optinrank_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e336_consumer_optin_ranking.py",
+     "line": 347,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/OPTINRANK-2026-11-01.json",
+      "results/state_tilt/optinrank_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/optinrank_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "optinswitch_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e337_optin_executed.py",
+     "line": 419,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/optinswitch_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/optinswitch_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "owncross_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e239_own_vs_cross.py",
+     "line": 404,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/owncross_latest.json",
+      "results/state_tilt/owncross_latest.json",
+      "results/state_tilt/owncross_latest.json",
+      "results/state_tilt/owncross_latest.json",
+      "results/state_tilt/owncross_latest.json",
+      "results/state_tilt/owncross_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/owncross_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "pack_latest.json",
+   "composers": [
+    {
+     "source": "scripts/o2115_acceptance_pack.py",
+     "line": 306,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/o2115_acceptance/pack_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/o2115_acceptance/pack_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "payloadwriter_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e476_payload_writer.py",
+     "line": 364,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/payloadwriter_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/payloadwriter_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "per_member_gamma_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e234_per_member_gamma.py",
+     "line": 546,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/per_member_gamma_latest.json",
+      "results/state_tilt/per_member_gamma_latest.json",
+      "results/state_tilt/per_member_gamma_latest.json",
+      "results/state_tilt/per_member_gamma_latest.json",
+      "results/state_tilt/per_member_gamma_latest.json",
+      "results/state_tilt/per_member_gamma_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/per_member_gamma_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "pininstability_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e420_corpus_pin_instability.py",
+     "line": 353,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/pininstability_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/pininstability_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "pinplusstore_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e372_store_the_absent_members.py",
+     "line": 369,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/PINPLUSSTORE-2026-11-02.json",
+      "results/state_tilt/pinplusstore_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/pinplusstore_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "pinqueue_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e366_pinable_queue_size.py",
+     "line": 434,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/pinqueue_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/pinqueue_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "pointerjoin_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e466_pointer_join.py",
+     "line": 643,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/pointerjoin_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/pointerjoin_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "pointeronly_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e331_pointer_only_readers.py",
+     "line": 637,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/POINTERONLY-2026-11-01.json",
+      "results/state_tilt/pointeronly_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/pointeronly_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "pointerreach_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e468_pointer_reach.py",
+     "line": 436,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/pointerreach_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e468_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/pointerreach_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e468_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/pointerreach_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/pointerreach_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "precisioncensus_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e299_rounded_vs_tolerance_census.py",
+     "line": 104,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/precisioncensus_latest.json",
+      "results/state_tilt/precisioncensus_latest.json",
+      "results/state_tilt/precisioncensus_latest.json",
+      "results/state_tilt/precisioncensus_latest.json",
+      "results/state_tilt/precisioncensus_latest.json",
+      "results/state_tilt/precisioncensus_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/precisioncensus_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "precisiongap_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e305_face_level_row_pricing.py",
+     "line": 79,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/precisiongap_latest.json",
+      "results/state_tilt/precisiongap_latest.json",
+      "results/state_tilt/precisiongap_latest.json",
+      "results/state_tilt/precisiongap_latest.json",
+      "results/state_tilt/precisiongap_latest.json",
+      "results/state_tilt/precisiongap_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/precisiongap_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "prereghash_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e451_prereg_digest.py",
+     "line": 453,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/prereghash_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e451_smoke_leg.py",
+     "line": 69,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/prereghash_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e451_smoke_leg.py",
+     "line": 78,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/prereghash_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/prereghash_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "producerintent_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e464_producer_intent.py",
+     "line": 565,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/producerintent_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/producerintent_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "producerspill_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e473_smoke_leg.py",
+     "line": 63,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/producerspill_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e473_smoke_leg.py",
+     "line": 74,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/producerspill_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e473_smoke_leg.py",
+     "line": 81,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/producerspill_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/producerspill_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "publishpin_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e369_pin_at_publishing_commit.py",
+     "line": 298,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/PUBLISHPIN-2026-11-02.json",
+      "results/state_tilt/publishpin_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/publishpin_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "quantityname_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e321_quantity_name_reach.py",
+     "line": 277,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/quantityname_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/quantityname_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "reachwide_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e323_reach_under_wider_needle.py",
+     "line": 413,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/REACHWIDE-2026-10-31.json",
+      "results/state_tilt/reachwide_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/reachwide_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "redtriage_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e356_census_red_triage.py",
+     "line": 504,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/redtriage_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/redtriage_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "refreshsignal_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e408_writer_refresh_signal.py",
+     "line": 696,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/refreshsignal_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/refreshsignal_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "refusalcause_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e322_residual_refusal_causes.py",
+     "line": 296,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/REFUSALCAUSE-2026-10-31.json",
+      "results/state_tilt/refusalcause_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/refusalcause_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "repairrecord_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e342_guard_rewrite_records.py",
+     "line": 657,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/REPAIRRECORD-2026-11-01.json",
+      "results/state_tilt/repairrecord_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/repairrecord_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "replaycensus_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e298_replay_control_census.py",
+     "line": 86,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/replaycensus_latest.json",
+      "results/state_tilt/replaycensus_latest.json",
+      "results/state_tilt/replaycensus_latest.json",
+      "results/state_tilt/replaycensus_latest.json",
+      "results/state_tilt/replaycensus_latest.json",
+      "results/state_tilt/replaycensus_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/replaycensus_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "republishchain_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e433_republication_chain.py",
+     "line": 428,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/republishchain_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/republishchain_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/republishchain_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/republishchain_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "restoredgate_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e348_restored_gate_retrospect.py",
+     "line": 551,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/RESTOREDGATE-2026-11-01.json",
+      "results/state_tilt/restoredgate_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/restoredgate_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "seamreplay_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e368_seam_replay.py",
+     "line": 304,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/SEAMREPLAY-2026-11-02.json",
+      "results/state_tilt/seamreplay_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/seamreplay_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "selfinclusion_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e319_census_self_inclusion_sweep.py",
+     "line": 652,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/SELFINCLUSION-2026-10-31.json",
+      "results/state_tilt/selfinclusion_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/selfinclusion_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "shadowface_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e417_shadow_face.py",
+     "line": 116,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/shadowface_latest.json",
+      "results/state_tilt/shadowface_latest.json",
+      "results/state_tilt/shadowface_latest.json",
+      "results/state_tilt/shadowface_latest.json",
+      "results/state_tilt/shadowface_latest.json",
+      "results/state_tilt/shadowface_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "line": 66,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/shadowface_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "line": 74,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/shadowface_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/shadowface_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "sharediff_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e236_share_difference.py",
+     "line": 602,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/sharediff_latest.json",
+      "results/state_tilt/sharediff_latest.json",
+      "results/state_tilt/sharediff_latest.json",
+      "results/state_tilt/sharediff_latest.json",
+      "results/state_tilt/sharediff_latest.json",
+      "results/state_tilt/sharediff_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/sharediff_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "sharedname_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e440_smoke_leg.py",
+     "line": 69,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/sharedname_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e440_smoke_leg.py",
+     "line": 77,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/sharedname_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/sharedname_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "siblingcloser_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e341_sibling_closer_what_changed.py",
+     "line": 518,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/SIBLINGCLOSER-2026-11-01.json",
+      "results/state_tilt/siblingcloser_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/siblingcloser_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "siblingentry_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e335_sibling_entry_point.py",
+     "line": 482,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/siblingentry_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/siblingentry_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "splitprice_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e385_merged_key_split.py",
+     "line": 391,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/SPLITPRICE-2026-11-03.json",
+      "results/state_tilt/splitprice_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/splitprice_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "stalecutoff_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e328_quoted_number_staleness.py",
+     "line": 350,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/STALECUTOFF-2026-11-01.json",
+      "results/state_tilt/stalecutoff_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e328_quoted_number_staleness.py",
+     "line": 351,
+     "kind": "direct",
+     "callee": "dump",
+     "destination_paths": [
+      "STALECUTOFF-2026-11-01.json",
+      "stalecutoff_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/stalecutoff_latest.json",
+    "stalecutoff_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "stalewin_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e352_staleness_window.py",
+     "line": 493,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/STALEWIN-2026-11-02.json",
+      "results/state_tilt/stalewin_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/stalewin_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "starlagband_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e249_lead_counterfactual.py",
+     "line": 379,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/starlagband_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/starlagband_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "storeload_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e374_store_load_bearing_members.py",
+     "line": 248,
+     "kind": "direct",
+     "callee": "write_json",
+     "destination_paths": [
+      "results/state_tilt/storeload_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/storeload_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "storemembercost_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e371_store_member_cost.py",
+     "line": 311,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/STOREMEMBERCOST-2026-11-03.json",
+      "results/state_tilt/storemembercost_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/storemembercost_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "survivingconclusions_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e333_surviving_e3xx_conclusions.py",
+     "line": 446,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/SURVIVINGCONCLUSIONS-2026-11-01.json",
+      "results/state_tilt/survivingconclusions_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/survivingconclusions_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "targetread_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e470_target_read.py",
+     "line": 550,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/targetread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e470_smoke_leg.py",
+     "line": 71,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/targetread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e470_smoke_leg.py",
+     "line": 79,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/targetread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/targetread_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "timingsel_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e229_timing_selection.py",
+     "line": 431,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/timingsel_latest.json",
+      "results/state_tilt/timingsel_latest.json",
+      "results/state_tilt/timingsel_latest.json",
+      "results/state_tilt/timingsel_latest.json",
+      "results/state_tilt/timingsel_latest.json",
+      "results/state_tilt/timingsel_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/timingsel_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "twinread_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e479_twin_read.py",
+     "line": 708,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e479_twin_read.py",
+     "line": 764,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e479_twin_read.py",
+     "line": 773,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e482_latest_outside.py",
+     "line": 110,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e479_smoke_leg.py",
+     "line": 64,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e479_smoke_leg.py",
+     "line": 69,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e479_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/twinread_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "twohop_latest.json",
+   "composers": [
+    {
+     "source": "scripts/run_e429_smoke_leg.py",
+     "line": 71,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/twohop_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e429_smoke_leg.py",
+     "line": 79,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/twohop_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/twohop_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "twomeanings_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e391_key_name_two_meanings.py",
+     "line": 577,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/twomeanings_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/twomeanings_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "twopins_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e373_two_pins_one_replay.py",
+     "line": 242,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/TWOPINS-2026-11-02.json",
+      "results/state_tilt/twopins_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/twopins_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "twovintage_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e329_two_vintage_binding.py",
+     "line": 476,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/TWOVINTAGE-2026-11-01.json",
+      "results/state_tilt/twovintage_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/twovintage_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "undated_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "line": 565,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/undated_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "line": 580,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/undated_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "line": 605,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/undated_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e484_smoke_leg.py",
+     "line": 64,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/undated_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e484_smoke_leg.py",
+     "line": 70,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/undated_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e484_smoke_leg.py",
+     "line": 77,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/undated_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/undated_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "unkeyedreader_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e379_unkeyed_face_reader.py",
+     "line": 448,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/UNKEYEDREADER-2026-11-03.json",
+      "results/state_tilt/unkeyedreader_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/unkeyedreader_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "unpinnedchoice_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e330_unpinned_choice.py",
+     "line": 539,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/UNPINNEDCHOICE-2026-11-01.json",
+      "results/state_tilt/unpinnedchoice_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/unpinnedchoice_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "unreadstatus_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e346_status_writer_unread.py",
+     "line": 585,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/unreadstatus_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/unreadstatus_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "unresolved_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e399_unresolved_names.py",
+     "line": 482,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/UNRESOLVED-2026-11-04.json",
+      "results/state_tilt/unresolved_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/unresolved_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "unresolveddest_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e377_unresolved_destination.py",
+     "line": 441,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/UNRESOLVEDDEST-2026-11-03.json",
+      "results/state_tilt/unresolveddest_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/unresolveddest_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "unstampable_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e419_unstampable.py",
+     "line": 674,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/unstampable_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/unstampable_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "unstampedcensus_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e364_unstamped_census.py",
+     "line": 376,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/unstampedcensus_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/unstampedcensus_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "unsupplied_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 73,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/unsupplied_latest.json",
+      "results/state_tilt/unsupplied_latest.json",
+      "results/state_tilt/unsupplied_latest.json",
+      "results/state_tilt/unsupplied_latest.json",
+      "results/state_tilt/unsupplied_latest.json",
+      "results/state_tilt/unsupplied_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/unsupplied_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "vintageclock_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e478_vintage_clock_diff.py",
+     "line": 402,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e478_vintage_clock_diff.py",
+     "line": 412,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e478_vintage_clock_diff.py",
+     "line": 436,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e479_twin_read.py",
+     "line": 592,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "line": 188,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e481_vintage_conclusion.py",
+     "line": 358,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "line": 303,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e478_smoke_leg.py",
+     "line": 63,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e478_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e478_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/vintageclock_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "vintageconc_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e481_vintage_conclusion.py",
+     "line": 620,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageconc_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e481_vintage_conclusion.py",
+     "line": 625,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageconc_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e481_vintage_conclusion.py",
+     "line": 648,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageconc_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e481_smoke_leg.py",
+     "line": 64,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageconc_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e481_smoke_leg.py",
+     "line": 70,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageconc_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e481_smoke_leg.py",
+     "line": 77,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageconc_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/vintageconc_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "vintagedate_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "line": 369,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "line": 379,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "line": 403,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "line": 295,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e480_smoke_leg.py",
+     "line": 64,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e480_smoke_leg.py",
+     "line": 70,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e480_smoke_leg.py",
+     "line": 77,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/vintagedate_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "vintageread_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e472_vintage_read.py",
+     "line": 468,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e477_vintage_retire.py",
+     "line": 163,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e478_vintage_clock_diff.py",
+     "line": 199,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e479_twin_read.py",
+     "line": 222,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "line": 182,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "line": 303,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e472_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/run_e472_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/vintageread_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "vintageretire_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e477_vintage_retire.py",
+     "line": 250,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e477_vintage_retire.py",
+     "line": 295,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e477_vintage_retire.py",
+     "line": 315,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e478_vintage_clock_diff.py",
+     "line": 204,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e479_twin_read.py",
+     "line": 585,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageretire_latest.json",
+      "results/state_tilt/vintageretire_latest.json",
+      "results/state_tilt/vintageretire_latest.json",
+      "results/state_tilt/vintageretire_latest.json",
+      "results/state_tilt/vintageretire_latest.json",
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "line": 188,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e481_vintage_conclusion.py",
+     "line": 363,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/vintageretire_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "walkambig_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e397_walk_ambiguity.py",
+     "line": 368,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/WALKAMBIG-2026-11-03.json",
+      "results/state_tilt/walkambig_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/walkambig_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "writehelper_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e490_write_helper.py",
+     "line": 683,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/writehelper_latest.json",
+      "results/state_tilt/writehelper_latest.json",
+      "results/state_tilt/writehelper_latest.json",
+      "results/state_tilt/writehelper_latest.json",
+      "results/state_tilt/writehelper_latest.json",
+      "results/state_tilt/writehelper_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e490_write_helper.py",
+     "line": 733,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/writehelper_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e490_write_helper.py",
+     "line": 749,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/writehelper_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/writehelper_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "writerdir_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e488_writer_directory.py",
+     "line": 558,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/writerdir_latest.json",
+      "results/state_tilt/writerdir_latest.json",
+      "results/state_tilt/writerdir_latest.json",
+      "results/state_tilt/writerdir_latest.json",
+      "results/state_tilt/writerdir_latest.json",
+      "results/state_tilt/writerdir_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e488_writer_directory.py",
+     "line": 602,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/writerdir_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    },
+    {
+     "source": "scripts/e488_writer_directory.py",
+     "line": 619,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/writerdir_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/writerdir_latest.json"
+   ],
+   "compose_class": "the_latest_copy_has_several_static_composers",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "writewire_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e490_write_helper.py",
+     "line": 88,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/writewire_latest.json",
+      "results/state_tilt/writewire_latest.json",
+      "results/state_tilt/writewire_latest.json",
+      "results/state_tilt/writewire_latest.json",
+      "results/state_tilt/writewire_latest.json",
+      "results/state_tilt/writewire_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": true,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/writewire_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  },
+  {
+   "latest_basename": "zerotolprune_latest.json",
+   "composers": [
+    {
+     "source": "scripts/e318_count_named_gate_leaves.py",
+     "line": 552,
+     "kind": "direct",
+     "callee": "open",
+     "destination_paths": [
+      "results/state_tilt/zerotolprune_latest.json"
+     ],
+     "source_paths": [],
+     "destination_unfolded": false,
+     "source_unfolded": false
+    }
+   ],
+   "destination_paths": [
+    "results/state_tilt/zerotolprune_latest.json"
+   ],
+   "compose_class": "the_latest_copy_is_written_directly",
+   "copy_source_is_a_dated_sibling": false,
+   "destination_exists": true
+  }
+ ],
+ "method_limits": [
+  "static only: the population is calls whose destination string folds; a name built from argv/env/a dict key is invisible here and is not counted as absent",
+  "a glob-driven copier (e.g. a loop over dated files) folds to the directory, not to the copied basenames, so those faces are published as no-static-composer rather than as copies",
+  "scan_directories is declared; a producer living outside scripts/Tools/firm is out of population, not proven missing",
+  "C_COPY_SAME_DIR says the two folded paths share a directory; it does not claim the run executed or that the file exists"
+ ]
+}
