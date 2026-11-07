@@ -29258,15 +29258,19 @@
   },
   {
    "deliverable": "results/state_tilt/ONWARDRESIDUE-<cutoff>.json",
+   "done_at": "2026-11-08T07:46+08:00",
+   "done_by": "bm-b r1554",
    "entered_at": "2026-11-08T06:11:21+08:00",
    "entered_by": "bm-b r1551 (follow-on from E524's own two-hop limit)",
+   "evidence": "scripts/e525_onward_residue.py (build rc0, check/verify problems=0, selftest clean), S6 leg onward_residue, smoke leg # E525",
    "evidence_cutoff": "2026-11-08",
    "id": "E525-WHAT-HAPPENS-TO-THE-VALUES-THE-SECOND-READER-STILL-FORWARDS",
    "lane": "cpu-only",
    "lane_note": "static: resolve the callee of the remaining parcels, no network",
    "priority": "normal",
+   "result_ref": "results/state_tilt/ONWARDRESIDUE-2026-11-08.json",
    "source": "E524 (r1551 bm-b): of 56 parcels handed past the first reader, 5 land in a blind reader, 2 in a guarded one, 23 leave the tree and 6 are forwarded again; the third hop is unmeasured",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/ONWARDRESIDUE-<cutoff>.json",
    "work": "follow the 6 parcels E524 found still being forwarded after the second reader, and the 23 that left the tree at the second hop, and report for each whether the exit is a library boundary or a callback this corpus cannot resolve -- keeping \"left the tree\" and \"still forwarded\" as separate classes"
   },
@@ -29297,6 +29301,20 @@
    "status": "ready",
    "target": "results/state_tilt/undecidablearm_latest.json",
    "title": "E521 could not decide 52 of its 199 sites because the empty arm's guard names a parameter and the call site passes a non-literal (a local, a call result, another module's constant). Follow each of those 52 arguments one hop to where its value is built and publish whether the value is a literal, a container built from literals, a read from disk, or still unknown -- i.e. how much of the undecidable band turns into a verdict."
+  },
+  {
+   "deliverable": "results/state_tilt/RECURSIVEREAD-<cutoff>.json",
+   "entered_at": "2026-11-08T07:46+08:00",
+   "entered_by": "bm-b r1554 (supply floor refill after E525)",
+   "evidence_cutoff": "2026-11-08",
+   "id": "E528-WHICH-OF-THE-SELF-RECURSIVE-FORWARDS-IS-READ-BY-A-TERMINATING-ARM-OF-THE-SAME-FUNCTION",
+   "lane": "cpu-only",
+   "lane_note": "static: read the terminating arms of the same function, no network, no rewrites",
+   "priority": "normal",
+   "source": "E525 (r1554 bm-b): of the de-duplicated second-hop parcels behind E524's residue, 6 return into the same function (a self-recursive forward); E524 had counted them as unresolved because its hop model cannot follow recursion",
+   "status": "ready",
+   "target": "results/state_tilt/recursiveread_latest.json",
+   "title": "E525 found 6 second-hop parcels whose value is handed back into the same function it is already inside (`_resolve` calling `_resolve`, `is_literal_side` calling `is_literal_side`). A self-recursive forward says the chain does not leave the body, but it does not say whether the recursion ever terminates on a value the caller can read. For each of those 6 parcels publish what the same function's non-recursive arms do with the value -- return it, read it, discard it, or never mention it -- and whether every recursive path is guarded by a depth or type test that can end the recursion. Keep 'read by a terminating arm' and 'the recursion is unguarded' as separate classes; do not count a recursive call as a read."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29311,6 +29329,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T07:38:00+08:00",
+ "updated_at": "2026-11-08T07:46+08:00",
  "version": 1
 }

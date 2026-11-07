@@ -21980,6 +21980,86 @@ except Exception as _e521x:
     _d521 = "leg could not run"
 check(_name521, not _bad521, "; ".join(_bad521)[:240] or _d521)
 
+# E525: E524 left two named holes and this leg refuses a face that keeps them.
+# Every site E524 said "left the corpus at the second hop" must publish the
+# boundary its own source line crosses -- the process exit status, an imported
+# external function, another named function in this corpus, or a name the corpus
+# never resolves -- and every site E524 said is "still handed on" must publish the
+# form that stopped the scan (a container or an unfollowed hand-on), never a
+# reader this scan did not reach.  The two upstream classes stay separate in every
+# tally, every boundary re-derives from the cited line, and doctored copies
+# (a hand-written verdict, a relabelled boundary, an emptied parcel list) must be
+# refused.
+_name525 = ("E525 opens E524's two named second-hop holes: every residue publishes the "
+            "boundary its own line crosses (r1554 bm-b)")
+_bad525 = []
+try:
+    _m525 = __import__("importlib").import_module("e525_onward_residue")
+    _f525 = json.load(open(os.path.join("results", "state_tilt", "onwardresidue_latest.json"),
+                           encoding="utf-8"))
+    _s525 = _f525.get("summary") or {}
+    _r525 = _f525.get("sites") or []
+    _up525 = _m525.load_upstream()[0]
+    _bad525.extend(_m525.face_problems(_f525))
+    _bad525.extend(_m525.regate_boundaries(_f525))
+    if not _r525:
+        _bad525.append("the opened residue population is empty")
+    if len(_r525) != len(_m525.population(_up525)):
+        _bad525.append("the opened population is not the upstream residue set")
+    if _s525.get("sites_from_left_the_tree", 0) + _s525.get("sites_from_still_forwarded", 0) != len(_r525):
+        _bad525.append("the two upstream classes do not add up to the population")
+    if _s525.get("sites_whose_residue_ends_in_a_named_boundary", 0) + \
+            _s525.get("sites_whose_residue_stays_unmeasured", 0) != len(_r525):
+        _bad525.append("the named/unmeasured split does not cover the population")
+    for _r in _r525:
+        if not os.path.exists(_r.get("source") or ""):
+            _bad525.append("%s names a source that is not on disk" % _r.get("source"))
+            continue
+        if _r.get("boundary_class") not in _m525.BOUNDARY_VOCAB:
+            _bad525.append("%s:%s carries no boundary class"
+                           % (_r.get("source"), _r.get("line")))
+            continue
+        _match = [p for p in (_r.get("residue_parcels") or []) if p.get("matches_the_chain")]
+        if not _match:
+            _bad525.append("%s:%s has no parcel matching its upstream chain"
+                           % (_r.get("source"), _r.get("line")))
+            continue
+        if _match[0].get("boundary") != _r["boundary_class"]:
+            _bad525.append("%s:%s boundary disagrees with its first matching parcel"
+                           % (_r.get("source"), _r.get("line")))
+        if _r["chain"] == _m525.e524.C_LEFT_THE_TREE and \
+                _r["boundary_class"] in _m525.UNMEASURED_BOUNDARIES:
+            _bad525.append("%s:%s leaves the tree into a name the scan did not measure"
+                           % (_r.get("source"), _r.get("line")))
+
+    _doc525 = json.loads(json.dumps(_f525))
+    if _doc525["verdict"] == _m525.V_LEFT_TREE_MIXES_NAMED_BOUNDARIES:
+        _doc525["verdict"] = _m525.V_LEFT_TREE_IS_ENTIRELY_THE_PROCESS_EXIT
+    else:
+        _doc525["verdict"] = _m525.V_LEFT_TREE_MIXES_NAMED_BOUNDARIES
+    if not _m525.face_problems(_doc525):
+        _bad525.append("a hand-written verdict was accepted")
+    _doc525 = json.loads(json.dumps(_f525))
+    _doc525["sites"][0]["boundary_class"] = _m525.B_EXTERNAL_LIBRARY
+    if not (_m525.face_problems(_doc525) or _m525.regate_boundaries(_doc525)):
+        _bad525.append("a relabelled site boundary was accepted")
+    _doc525 = json.loads(json.dumps(_f525))
+    _doc525["sites"][-1]["residue_parcels"] = []
+    if not any("no parcel" in _p for _p in _m525.face_problems(_doc525)):
+        _bad525.append("an emptied parcel list was accepted")
+    _d525 = ("%d residue sites | left the tree %s | still forwarded %s | named boundary %s | "
+             "unmeasured %s | parcels returning into the same function %s" % (
+                 len(_r525),
+                 _s525.get("sites_from_left_the_tree"),
+                 _s525.get("sites_from_still_forwarded"),
+                 _s525.get("sites_whose_residue_ends_in_a_named_boundary"),
+                 _s525.get("sites_whose_residue_stays_unmeasured"),
+                 _s525.get("parcels_that_return_into_the_same_function")))
+except Exception as _e525x:
+    _bad525.append(repr(_e525x)[:160])
+    _d525 = "leg could not run"
+check(_name525, not _bad525, "; ".join(_bad525)[:240] or _d525)
+
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -1966,6 +1966,12 @@ LEGS = [
     # forwards the value has not guarded it, only passed it on.  `check` re-derives every chain
     # class from the row counts and refuses a face whose depth-2 unguarded rows count no reader.
     ("reader_onward", ["python", "scripts/e524_reader_onward.py", "check"]),
+    # E525 opens the two classes E524 named but did not answer: a value E524 said "left the corpus
+    # at the second hop" is re-read on its own line (all 23 are a `sys.exit(main())` / `raise
+    # SystemExit(main())` entry point, i.e. the process exit status -- not a library boundary), and
+    # a value "still handed on" is published as the container or hand-on form that stopped the scan.
+    # `check` re-reads every cited line and refuses a face whose boundary drifts from its source.
+    ("onward_residue", ["python", "scripts/e525_onward_residue.py", "check"]),
     # E520 takes E519's own two non-answers one hop further: a local that is a *parameter of the
     # caller* is supplied by that function's call sites, and a name bound nowhere in the caller is
     # bound by another scope.  `check` re-derives the argument histogram from the rows, the

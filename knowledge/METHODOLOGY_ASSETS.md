@@ -13060,3 +13060,18 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **计数名要数它自己**：39 是「会抛且无空臂」的站点，不是「被调方没有空臂」（40 行 `empty_arms==0` 里 1 行是真理测试）；字段改名 `rows_with_no_empty_arm_located_here`（E207 名即语义族）。
 
 **验证**：`scripts/e521_reachable_empty_arm.py`（`build` rc0 / `check` problems=0 / `verify` 重建 problems=0 / **selftest 25/25**：无条件 None、隐式落空、空值守卫三档、别的测试不当守卫、无空臂＋条件表达式守卫三腿；四枚 doctored 面全拒）＋ `results/state_tilt/EMPTYARMREACH-2026-11-08.json` + `emptyarmreach_latest.json` 同源 ＋ smoke 腿 `# E521`（`scripts/run_e521_smoke_leg.py` 1/1 绿、`--doctor` 1/1 红且面还原 sha `d3dc311a249a`）＋ digest `research/digests/DIGEST-20261108-r1553-e521-reachable-empty-arm.md`。未跑：全量 smoke 套件、其余 S6 链腿、`monitor.build_status`、`daily_scorecard`、采集器族与 market/paper 链（不宣称）。
+
+## E525 — E524 的两个「具名洞」全部打开：23 个「离开树」实为进程退出码，6 个「仍转发」实为容器/不跟形式（2026-11-08 r1554 bm-b）
+
+**问题**：E524 用两句话结案了第二跳的残差——「the value left the corpus at the second hop」23 处、「the second reader hands it on again」6 处。两个都是给洞起的名字，不是答案：前者没说是库边界还是回调，后者没说扫描为何停。
+
+**做法**：把 29 个残差站点逐个回到源码行，按第二跳的**接收调用**重新命名边界；两类始终分开计数（任何「residue resolved」合并数一律不发布）。边界词表六类=进程退出 / 外部库函数 / 同函数再来一次（自递归）/ 本仓另一个具名函数 / 容器或不跟的转手形式 / 本仓永不解析的名字。容器与不解析名字列为未测量，绝不记 0。
+
+**读数**：23 个「离开树」中 **23/23 是 `sys.exit(main())` 或 `raise SystemExit(main())` 的进程退出码**，外部库 0、本仓具名 0、不解析 0——「离开 corpus」的真相是值变成退出状态，链在最外层 CLImain 结束，不是库边界。6 个「仍转发」全部停在容器存储或不跟形式（未测量）。另发现 6 个**去重后**的第二跳 parcel 是自递归（`_resolve` 调 `_resolve`、`is_literal_side` 调 `is_literal_side`），它们在 E524 的 returned 桶里被记成「unresolved」，实际是链在同一函数体内闭合。
+
+**可复用教训**：
+- **类名不是测量**：`argument_to_a_callee_outside_the_corpus` 的 parcel 里 callee 是 corpus **内**的 `main`，真正的外部接收者是 `sys.exit`——名字说的是「callee 在外」，读起来却是「值流去了未知库」。凡「离开/外部/未知」类，必须回到接收那一行重新命名。
+- **一个物理跳点会被多行共享**：同一函数的 return 臂被 5 个第一读者读到，按行累加会把 1 个 parcel 数成 5 个；parcel 统计按 `(source, line, callee)` 去重并发布 `rows_that_share_this_parcel`（本例 26→6）。
+- **check 只需解析被引用的 29 个文件**（0.86s），不比全树 2731 文件慢一个量级的前提是「边界由源码行重推」而非「重跑上游」。
+
+**验证**：`scripts/e525_onward_residue.py` build rc0 / check problems=0 / verify problems=0 / selftest clean（6 类边界 + 3 类 doctored 全拒）；`results/state_tilt/ONWARDRESIDUE-2026-11-08.json` + `onwardresidue_latest.json` 同源；S6 腿 `onward_residue` rc0（0.86s）；smoke 腿 `# E525` 1/1 绿、`--doctor` 1/1 红且字节还原 sha `b307c8ff0dfe`；digest `research/digests/DIGEST-20261108-r1554-e525-onward-residue.md`。
