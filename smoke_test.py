@@ -1,4 +1,4 @@
-﻿"""One-command smoke test: env / config / data / engine / exit rules / market rules / network.
+"""One-command smoke test: env / config / data / engine / exit rules / market rules / network.
 
 Usage:
     python -m smoke_test
