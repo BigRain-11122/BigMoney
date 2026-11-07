@@ -1,14 +1,11 @@
 {
- "as_of": "2026-11-07T09:21:46",
+ "as_of": "2026-11-07T12:12:25",
  "calendar": {
   "path": "data/exchange_calendar.csv",
   "refresh": {
    "error": null,
-   "fetched": true,
-   "reason": "refreshed",
-   "rows_after": 8797,
-   "rows_before": 8797,
-   "sha256": "e393f45ff7137bddbfc670c178676df40eaf34bb494b29e44049d81a4b9305f3"
+   "fetched": false,
+   "reason": "coverage_and_ttl_ok"
   },
   "rows": 8797,
   "scope_end": "2026-12-31",
@@ -30,9 +27,10 @@
  "expected_last_official_day": "2026-11-06",
  "forward_impact": {
   "blocked": true,
-  "ledger_last_bar": "2026-11-04",
+  "ledger_last_bar": "2026-11-06",
   "note": "one mark per new panel bar; a lagging feed pauses accrual without any error"
  },
+ "machine": "bm-a",
  "missing_official_days": [],
  "note": "Descriptive face. The calendar is the independent reference; the panel is ours. source_lag is a publication delay (self-heals), panel_gap is a stopped feed (needs a human/lane owner).",
  "panel": {
@@ -41,8 +39,8 @@
   "cutoff_min": "2026-09-04",
   "effective_cutoff": "2026-11-06",
   "lagging_active_sample": [],
-  "n_active": 48,
-  "n_stale_cohort": 1677,
+  "n_active": 1723,
+  "n_stale_cohort": 2,
   "n_symbols": 1725
  },
  "schema": "data-lag-audit/v1",

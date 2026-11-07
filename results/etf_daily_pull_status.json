@@ -1,13 +1,13 @@
 {
- "ts": "2026-11-07T09:24:59",
+ "ts": "2026-11-07T12:10:48",
  "machine": "bm-c",
  "lane_owner": "bm-c",
  "status": "ok",
- "last_attempt": "2026-11-07T09:24:59",
- "mode": "full-history pull, append-only, overlap-verified, all-or-nothing panel write",
- "no_op_reason": "panel cutoff 2026-11-02 covers expected complete-bar date 2026-11-02",
- "expected_cutoff": "2026-11-02",
- "data_cutoff": "2026-11-02",
+ "last_attempt": "2026-11-07T12:10:48",
+ "mode": "no-op: panel cutoff covered",
+ "no_op_reason": "panel cutoff 2026-11-06 covers expected complete-bar date 2026-11-06",
+ "expected_cutoff": "2026-11-06",
+ "data_cutoff": "2026-11-06",
  "members_planned": [
   "510300",
   "510050",
@@ -87,5 +87,14 @@
   "data_cutoff": "2026-11-06"
  },
  "claim": "T-2026-09-28-111-bm-b-five-member-etf-daily-refresh-leg",
- "note": "as-traded basis (sina klc_kl.js; ETF qfq factor s=1.0 all events -- fund-share dividends not back-priced); frozen consumers truncate post-cutoff rows via D2 lockbox"
+ "note": "as-traded basis (sina klc_kl.js; ETF qfq factor s=1.0 all events -- fund-share dividends not back-priced); frozen consumers truncate post-cutoff rows via D2 lockbox",
+ "authority": {
+  "lane_owner": "bm-b",
+  "writer_machine": "bm-a",
+  "data_face_machine": "bm-a",
+  "declared_takeover": true,
+  "took_over_by": "bm-a",
+  "took_over_at": "2026-11-07T12:10:48",
+  "reason": "owner bm-b silent 191.5h >= 120min"
+ }
 }

@@ -1,7 +1,7 @@
 {
  "script": "scripts/etf_book_shock_day.py",
  "face": "results/etf_book_shock_day.json",
- "evidence_cutoff": "2026-10-30",
+ "evidence_cutoff": "2026-11-06",
  "market": "510300",
  "production_rule": {
   "beta_target": 0.2,
@@ -25,41 +25,41 @@
   "frozen": "constants above were written before the first run; the loader refuses a face that echoes others"
  },
  "ticket": {
-  "file": "results/etf_book_order/TICKET-2026-10-30.json",
-  "as_of": "2026-10-30",
+  "file": "results/etf_book_order/TICKET-2026-11-06.json",
+  "as_of": "2026-11-06",
   "nav": 1000000.0,
-  "book_amount": 459451.33,
-  "cash_amount": 540548.67,
+  "book_amount": 459487.16,
+  "cash_amount": 540512.84,
   "deployed_share": 0.460253,
   "beta_target": 0.2
  },
  "beta": {
-  "full": 0.119962,
-  "recent": 0.209036,
+  "full": 0.120898,
+  "recent": 0.21217,
   "recent_bars": 250,
-  "bars": 1525
+  "bars": 1530
  },
  "book_distribution": {
-  "bars": 1524,
+  "bars": 1529,
   "worst": -0.04701,
   "worst_date": "2025-07-07",
   "second_worst": -0.029914,
-  "p01": -0.012241,
-  "p05": -0.005292,
-  "p50": 0.000312,
-  "mean": 0.00026967,
-  "sd": 0.00405226
+  "p01": -0.012238,
+  "p05": -0.005342,
+  "p50": 0.000313,
+  "mean": 0.00026491,
+  "sd": 0.00405778
  },
  "market_distribution": {
-  "bars": 1525,
+  "bars": 1530,
   "worst": -0.088395,
   "worst_date": "2024-10-09",
   "second_worst": -0.066684,
-  "p01": -0.030378,
-  "p05": -0.017189,
-  "p50": -0.000245,
-  "mean": -3.994e-05,
-  "sd": 0.01156521
+  "p01": -0.030327,
+  "p05": -0.017161,
+  "p50": -0.00024,
+  "mean": -3.015e-05,
+  "sd": 0.01156748
  },
  "conditional_stress": {
   "n_days": 20,
@@ -175,27 +175,27 @@
  "scenarios": [
   {
    "market_shock": -0.03,
-   "book_return": -0.00359886,
-   "cny": -3598.86,
+   "book_return": -0.00362694,
+   "cny": -3626.94,
    "naive_deployed_cny": -13807.59
   },
   {
    "market_shock": -0.05,
-   "book_return": -0.0059981,
-   "cny": -5998.1,
+   "book_return": -0.0060449,
+   "cny": -6044.9,
    "naive_deployed_cny": -23012.65
   },
   {
    "market_shock": -0.08,
-   "book_return": -0.00959696,
-   "cny": -9596.96,
+   "book_return": -0.00967184,
+   "cny": -9671.84,
    "naive_deployed_cny": -36820.24
   }
  ],
  "price_quality": {
   "face": "results/etf_book_flip_contamination.json",
   "verdict": "MATERIAL",
-  "flip_prints": 168,
+  "flip_prints": 169,
   "clean_worst": -0.028845,
   "clean_worst_date": "2025-04-23"
  },

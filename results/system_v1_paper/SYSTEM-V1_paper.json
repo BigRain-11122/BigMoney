@@ -62,12 +62,12 @@
   "reason": "priced 6 trading day(s) before the last trading day; equity_cny and open positions are NOT current -- and the panel's own coverage date is 2026-11-02, so the book sits behind the widest available cross-section",
   "upstream_lane": "results/rev_osc_live SIG/BARS bridge (rev_osc_signal_export owner lane)",
   "price_face_coverage": {
-   "panel_cutoff_max": "2026-11-05",
+   "panel_cutoff_max": "2026-11-06",
    "panel_coverage_90": "2026-11-02",
-   "panel_coverage_pct": 61.3,
+   "panel_coverage_pct": 24.4,
    "panel_coverage_floor_pct": 90,
    "priced_at_widest_current_date": false,
-   "price_face_note": "priced behind the panel's own widest current date 2026-11-02 (book at 2026-10-29, panel max tail 2026-11-05)"
+   "price_face_note": "priced behind the panel's own widest current date 2026-11-02 (book at 2026-10-29, panel max tail 2026-11-06)"
   }
  },
  "awaiting_lane_data": false,
@@ -206,6 +206,12 @@
   },
   {
    "asof": "2026-11-02",
+   "state": "RED",
+   "clock_cell": "RED_COOL",
+   "cap_ladder": 0.2
+  },
+  {
+   "asof": "2026-11-06",
    "state": "RED",
    "clock_cell": "RED_COOL",
    "cap_ladder": 0.2
@@ -489,5 +495,5 @@
   "fail_closed_route_days": 0
  },
  "equity_cny": 981185.93,
- "updated": "2026-11-07 09:57:17"
+ "updated": "2026-11-07 11:00:28"
 }

@@ -145,8 +145,22 @@
  },
  "cross_face_rules": {
   "ticket": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_order\\TICKET-2026-11-06.json",
-  "state": "omitted",
-  "why": "ticket absent"
+  "rules": {
+   "beta": {
+    "cagr@5": 0.1119,
+    "cagr@12": 0.0966,
+    "gap_12_minus_5_pp": -1.53,
+    "agrees_with_this_face": true
+   },
+   "vol": {
+    "cagr@5": 0.1197,
+    "cagr@12": 0.1221,
+    "gap_12_minus_5_pp": 0.24,
+    "agrees_with_this_face": false
+   }
+  },
+  "state": "RULES_DISAGREE_ON_THE_WIDTH_SIGN",
+  "this_face_rule": "no vol target, no beta scaling, 10bp, cadence 20 -- a third rule, so only the SIGN is comparable"
  },
  "honest_caveats": [
   "null shares the real eligibility mask and cadence, so it isolates the SCORE, not the universe or the toll",

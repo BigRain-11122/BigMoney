@@ -357,6 +357,16 @@ def forward_impact():
         return {"ledger_last_bar": None, "blocked": None, "note": "ledger absent"}
 
 
+def _this_machine():
+    """machine_id of this node, or None (never a guess)."""
+    try:
+        with io.open(os.path.join(ROOT, "fleet", "machine.json"),
+                     encoding="utf-8-sig") as f:
+            return str(json.load(f).get("machine_id") or "") or None
+    except Exception:                                        # noqa: BLE001
+        return None
+
+
 def run(now=None, allow_network=True, cal_path=CAL_PATH, daily_dir=DAILY_DIR,
         out_path=OUT_PATH, write=True):
     now = now or dt.datetime.now()
@@ -372,6 +382,12 @@ def run(now=None, allow_network=True, cal_path=CAL_PATH, daily_dir=DAILY_DIR,
     face = {
         "schema": "data-lag-audit/v1",
         "as_of": now.isoformat(timespec="seconds"),
+        # r1257: an envelope that does not name the machine that produced it
+        # cannot be certified by anybody (live 2026-11-07: the etf_panel lane
+        # read `unverifiable / does not name the machine whose data it
+        # describes` for a panel it was refreshing that very morning). The
+        # writer signs its own reading instead of leaving it anonymous.
+        "machine": _this_machine(),
         "calendar": {
             "path": os.path.relpath(cal_path, ROOT).replace("\\", "/"),
             "rows": len(days), "scope_start": days[0], "scope_end": days[-1],

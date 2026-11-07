@@ -321,9 +321,9 @@
     "prereg": "research/CASE_PREREG_E25_CAUSAL_REBUILD.md",
     "state": "IRRECOVERABLE",
     "best_arm": "smooth_k2",
-    "best_pp": 0.07,
+    "best_pp": 0.19,
     "admissible": [],
-    "evidence_cutoff": "2026-11-02",
+    "evidence_cutoff": "2026-11-06",
     "readable": true
    },
    {
@@ -333,9 +333,9 @@
     "prereg": "research/CASE_PREREG_E26_OVERNIGHT_GAP.md",
     "state": "MIXED_ACROSS_PHASES",
     "best_arm": "excl_upgap_q80",
-    "best_pp": 0.81,
+    "best_pp": 0.98,
     "admissible": [],
-    "evidence_cutoff": "2026-11-02",
+    "evidence_cutoff": "2026-11-06",
     "readable": true
    },
    {
@@ -347,7 +347,7 @@
     "best_arm": "k5",
     "best_pp": -0.01,
     "admissible": [],
-    "evidence_cutoff": "2026-11-02",
+    "evidence_cutoff": "2026-11-06",
     "readable": true
    }
   ],
@@ -359,12 +359,12 @@
   "missing": [],
   "levers": [],
   "cutoffs": [
-   "2026-11-02"
+   "2026-11-06"
   ],
   "faces_read": 3,
   "faces_total": 3,
   "verdict": "CLOSED",
-  "sentence": "**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.07pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.81pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (-0.01pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics."
+  "sentence": "**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.19pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.98pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (-0.01pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics."
  },
  "vol_overlay_tail": {
   "artifact": "results/etf_book_bootstrap/etf_book_voltarget_tail.json",
@@ -539,8 +539,8 @@
   ]
  },
  "caveats": [
-  "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -24.8% and -17.9% and the share of resamples worse than -20% between 1.8% and 15.2%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-04.json (band priced on the 2026-11-04 bar, older than this card's 2026-11-06 -- stale, its tail can only be too narrow).",
-  "THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.84%/yr (Sharpe -0.41) against +6.06%/yr (+0.64) for the fixed signs -- and reversing the trailing sign does not recover it (-1.59%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.",
+  "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.3% and -18.4% and the share of resamples worse than -20% between 2.8% and 17.2%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-06.json.",
+  "THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.79%/yr (Sharpe -0.41) against +6.10%/yr (+0.64) for the fixed signs -- and reversing the trailing sign does not recover it (-0.92%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.",
   "ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.",
   "THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.",
   "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
@@ -565,38 +565,38 @@
  },
  "concentration": {
   "status": "ok",
-  "sentence": "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
-  "evidence_cutoff": "2026-11-02",
+  "sentence": "前三名只占毛收益 22.4%（第一 黄金ETF易方达 7.6%）；删掉这三只年化 -1.98pp；删掉整条 commodity 袖（41 只）年化 -3.70pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
+  "evidence_cutoff": "2026-11-06",
   "verdict": "BROAD|SURVIVES_WITHOUT_TOP3",
-  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_concentration.json",
-  "top3_share": 0.2205,
-  "hhi": 0.0241,
-  "names_negative": 69,
-  "names_above_1pct": 41,
+  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_concentration.json",
+  "top3_share": 0.2235,
+  "hhi": 0.024,
+  "names_negative": 71,
+  "names_above_1pct": 40,
   "distinct_names": 189,
   "top": [
    {
     "symbol": "159934",
     "name": "黄金ETF易方达",
-    "share": 0.0752
+    "share": 0.0763
    },
    {
     "symbol": "518800",
     "name": "黄金ETF国泰",
-    "share": 0.0745
+    "share": 0.0756
    },
    {
     "symbol": "159937",
     "name": "黄金ETF博时",
-    "share": 0.0707
+    "share": 0.0716
    }
   ],
   "baseline": {
-   "cagr": 0.0959,
-   "sharpe": 0.989,
+   "cagr": 0.0941,
+   "sharpe": 0.97,
    "maxdd": -0.1177,
-   "vol": 0.1017,
-   "years": 6.83
+   "vol": 0.1019,
+   "years": 6.84
   },
   "top_k_out": {
    "k": 3,
@@ -605,14 +605,14 @@
     "518800",
     "159937"
    ],
-   "delta_cagr_pp": -1.99,
+   "delta_cagr_pp": -1.98,
    "stats": {
     "full": {
-     "cagr": 0.076,
-     "sharpe": 0.809,
+     "cagr": 0.0743,
+     "sharpe": 0.79,
      "maxdd": -0.1868,
-     "vol": 0.1007,
-     "years": 6.83
+     "vol": 0.1009,
+     "years": 6.84
     },
     "is": {
      "cagr": 0.0237,
@@ -622,25 +622,25 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1546,
-     "sharpe": 1.524,
+     "cagr": 0.1498,
+     "sharpe": 1.471,
      "maxdd": -0.1083,
-     "vol": 0.1021,
-     "years": 2.83
+     "vol": 0.1026,
+     "years": 2.84
     }
    }
   },
   "sleeve": {
    "class": "commodity",
    "symbols_removed": 41,
-   "delta_cagr_pp": -3.71,
+   "delta_cagr_pp": -3.7,
    "stats": {
     "full": {
-     "cagr": 0.0588,
-     "sharpe": 0.643,
+     "cagr": 0.0571,
+     "sharpe": 0.625,
      "maxdd": -0.2226,
-     "vol": 0.1005,
-     "years": 6.83
+     "vol": 0.1007,
+     "years": 6.84
     },
     "is": {
      "cagr": 0.0097,
@@ -650,11 +650,11 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1318,
-     "sharpe": 1.333,
+     "cagr": 0.1272,
+     "sharpe": 1.282,
      "maxdd": -0.1086,
-     "vol": 0.1009,
-     "years": 2.83
+     "vol": 0.1015,
+     "years": 2.84
     }
    }
   }
@@ -665,7 +665,7 @@
   "evidence_cutoff": "2026-11-06",
   "verdict": "NO_GATE",
   "adopting": [],
-  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_sleeve_gate.json",
+  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_sleeve_gate.json",
   "gates": [
    {
     "name": "trend",
@@ -860,38 +860,38 @@
  },
  "spanning": {
   "artifact": "results/etf_book_spanning.json",
-  "as_of": "2026-10-30",
-  "book_cagr": 0.0959,
-  "book_sharpe": 0.989,
+  "as_of": "2026-11-06",
+  "book_cagr": 0.0941,
+  "book_sharpe": 0.97,
   "book_maxdd": -0.1177,
-  "basket_cagr": 0.099,
-  "basket_sharpe": 0.965,
+  "basket_cagr": 0.0988,
+  "basket_sharpe": 0.96,
   "basket_maxdd": -0.1135,
-  "alpha_annual": 0.0596,
-  "alpha_t": 1.978,
-  "r2": 0.4348,
+  "alpha_annual": 0.0571,
+  "alpha_t": 1.897,
+  "r2": 0.4361,
   "resid_vol_annual": 0.0766,
   "is_alpha_t": 1.162,
-  "oos_alpha_t": 2.004,
+  "oos_alpha_t": 1.901,
   "arms": {
    "gold": {
-    "cagr": 0.1325,
-    "sharpe": 0.806,
-    "maxdd": -0.3154
+    "cagr": 0.1353,
+    "sharpe": 0.817,
+    "maxdd": -0.3329
    },
    "us_tech": {
-    "cagr": 0.2044,
-    "sharpe": 0.88,
+    "cagr": 0.1978,
+    "sharpe": 0.857,
     "maxdd": -0.2745
    },
    "csi300": {
-    "cagr": -0.0015,
-    "sharpe": 0.092,
+    "cagr": -0.0005,
+    "sharpe": 0.097,
     "maxdd": -0.4668
    },
    "bond": {
     "cagr": 0.0252,
-    "sharpe": 1.212,
+    "sharpe": 1.214,
     "maxdd": -0.0521
    }
   },
@@ -904,26 +904,26 @@
   "staggered_arm": {
    "window": [
     "2020-01-06",
-    "2026-10-30"
+    "2026-11-06"
    ],
-   "alpha_annual": 0.0698,
-   "alpha_t": 2.428,
-   "r2": 0.498,
+   "alpha_annual": 0.0677,
+   "alpha_t": 2.36,
+   "r2": 0.4987,
    "resid_vol_annual": 0.0731,
    "is_alpha_t": 1.26,
-   "oos_alpha_t": 2.382,
-   "cagr": 0.1067,
-   "sharpe": 1.076,
+   "oos_alpha_t": 2.294,
+   "cagr": 0.1054,
+   "sharpe": 1.062,
    "maxdd": -0.1036,
-   "book_alpha_annual": 0.0596,
-   "book_alpha_t": 1.978,
+   "book_alpha_annual": 0.0571,
+   "book_alpha_t": 1.897,
    "crosses_two_sigma": true,
    "book_crosses_two_sigma": false
   },
   "stagger_control": {
-   "mine": 0.1067,
+   "mine": 0.1054,
    "published": 0.1041,
-   "delta_pp": 0.26,
+   "delta_pp": 0.13,
    "within_0p5pp": true,
    "source": "results/etf_book_stagger_publish.json:staggered.cagr"
   }
@@ -982,7 +982,7 @@
  },
  "hysteresis": {
   "artifact": "results/etf_book_hysteresis.json",
-  "evidence_cutoff": "2026-11-02",
+  "evidence_cutoff": "2026-11-06",
   "config": {
    "n_hold": 12,
    "rebal": 20,
@@ -997,8 +997,8 @@
    ]
   },
   "control": {
-   "published": 0.0959,
-   "measured": 0.0959,
+   "published": 0.0941,
+   "measured": 0.0941,
    "delta_pp": 0.0,
    "within_tol": true,
    "published_turnover": 0.934,
@@ -1020,43 +1020,43 @@
    {
     "k": 0.0,
     "turnover": 0.934,
-    "cagr": 0.0959,
-    "sharpe": 0.989,
+    "cagr": 0.0941,
+    "sharpe": 0.97,
     "maxdd": -0.1177
    },
    {
     "k": 0.05,
     "turnover": 0.901,
-    "cagr": 0.0965,
-    "sharpe": 1.003,
+    "cagr": 0.0947,
+    "sharpe": 0.984,
     "maxdd": -0.1159
    },
    {
     "k": 0.1,
     "turnover": 0.887,
-    "cagr": 0.0964,
-    "sharpe": 1.0,
+    "cagr": 0.0946,
+    "sharpe": 0.98,
     "maxdd": -0.1258
    },
    {
     "k": 0.2,
     "turnover": 0.843,
-    "cagr": 0.0971,
-    "sharpe": 1.011,
+    "cagr": 0.0954,
+    "sharpe": 0.992,
     "maxdd": -0.1247
    },
    {
     "k": 0.35,
     "turnover": 0.762,
-    "cagr": 0.0951,
-    "sharpe": 0.986,
+    "cagr": 0.0937,
+    "sharpe": 0.969,
     "maxdd": -0.1257
    },
    {
     "k": 0.5,
     "turnover": 0.702,
-    "cagr": 0.0964,
-    "sharpe": 0.997,
+    "cagr": 0.0955,
+    "sharpe": 0.986,
     "maxdd": -0.1348
    }
   ],
@@ -1067,8 +1067,8 @@
   ]
  },
  "drawdown_band": {
-  "artifact": "results/etf_book_bootstrap/BLOCKS-2026-11-04.json",
-  "evidence_cutoff": "2026-11-04",
+  "artifact": "results/etf_book_bootstrap/BLOCKS-2026-11-06.json",
+  "evidence_cutoff": "2026-11-06",
   "block_set": [
    1,
    5,
@@ -1083,88 +1083,88 @@
   "arm_rows": [
    {
     "block": 1,
-    "maxdd_p5": -0.24828260495300708,
-    "maxdd_p50": -0.1458839965924026,
-    "dd_break_share": 0.143,
-    "point_pctile_maxdd": 76.4
+    "maxdd_p5": -0.2509449541610902,
+    "maxdd_p50": -0.1478868367795913,
+    "dd_break_share": 0.172,
+    "point_pctile_maxdd": 76.8
    },
    {
     "block": 5,
-    "maxdd_p5": -0.23937307346242626,
-    "maxdd_p50": -0.14491917948010963,
-    "dd_break_share": 0.152,
-    "point_pctile_maxdd": 76.6
+    "maxdd_p5": -0.25315890903363764,
+    "maxdd_p50": -0.14571105306405752,
+    "dd_break_share": 0.165,
+    "point_pctile_maxdd": 77.4
    },
    {
     "block": 10,
-    "maxdd_p5": -0.23422873983387968,
-    "maxdd_p50": -0.13965659821713677,
-    "dd_break_share": 0.124,
-    "point_pctile_maxdd": 73.5
+    "maxdd_p5": -0.2394363574190985,
+    "maxdd_p50": -0.13991633033090523,
+    "dd_break_share": 0.135,
+    "point_pctile_maxdd": 73.3
    },
    {
     "block": 20,
-    "maxdd_p5": -0.21454480177985122,
-    "maxdd_p50": -0.13387336599134664,
-    "dd_break_share": 0.077,
-    "point_pctile_maxdd": 66.8
+    "maxdd_p5": -0.21749699827926772,
+    "maxdd_p50": -0.1346824925908383,
+    "dd_break_share": 0.088,
+    "point_pctile_maxdd": 68.0
    },
    {
     "block": 40,
-    "maxdd_p5": -0.2138576503222583,
-    "maxdd_p50": -0.13274504665449866,
-    "dd_break_share": 0.077,
-    "point_pctile_maxdd": 68.4
+    "maxdd_p5": -0.217796175650012,
+    "maxdd_p50": -0.13589435613774037,
+    "dd_break_share": 0.093,
+    "point_pctile_maxdd": 70.7
    },
    {
     "block": 60,
-    "maxdd_p5": -0.22331934610350707,
-    "maxdd_p50": -0.13583401892240055,
-    "dd_break_share": 0.094,
-    "point_pctile_maxdd": 69.0
+    "maxdd_p5": -0.22880197527794766,
+    "maxdd_p50": -0.1381770506893209,
+    "dd_break_share": 0.111,
+    "point_pctile_maxdd": 72.4
    },
    {
     "block": 120,
-    "maxdd_p5": -0.20947634941247617,
-    "maxdd_p50": -0.13401767161615868,
-    "dd_break_share": 0.073,
-    "point_pctile_maxdd": 69.8
+    "maxdd_p5": -0.2173683241981414,
+    "maxdd_p50": -0.1370001362866865,
+    "dd_break_share": 0.087,
+    "point_pctile_maxdd": 76.0
    },
    {
     "block": 250,
-    "maxdd_p5": -0.1788403787592745,
-    "maxdd_p50": -0.125712932267591,
-    "dd_break_share": 0.018,
-    "point_pctile_maxdd": 73.0
+    "maxdd_p5": -0.18424620830038074,
+    "maxdd_p50": -0.12901571635821962,
+    "dd_break_share": 0.028,
+    "point_pctile_maxdd": 77.0
    }
   ],
   "maxdd_p5_band": {
-   "min": -0.24828260495300708,
-   "max": -0.1788403787592745,
-   "range": 0.06944222619373258
+   "min": -0.25315890903363764,
+   "max": -0.18424620830038074,
+   "range": 0.06891270073325689
   },
   "maxdd_p50_band": {
-   "min": -0.1458839965924026,
-   "max": -0.125712932267591,
-   "range": 0.020171064324811583
+   "min": -0.1478868367795913,
+   "max": -0.12901571635821962,
+   "range": 0.01887112042137168
   },
   "dd_break_band": {
-   "min": 0.018,
-   "max": 0.152
+   "min": 0.028,
+   "max": 0.172
   },
   "readings": {
-   "headline_not_a_lucky_path": false,
+   "headline_not_a_lucky_path": true,
    "drawdown_tail_is_block_dependent": true,
    "ultra_tail_is_block_dependent": true,
    "median_cagr_stable": true
   },
-  "band_pp": 6.944222619373258
+  "band_pp": 6.891270073325689
  },
  "entry_gate": {
   "status": "ok",
   "artifact": "results\\etf_book_entry_gate.json",
-  "evidence_cutoff": "2026-10-30",
-  "panel_last_bar": "2026-10-30",
+  "evidence_cutoff": "2026-11-06",
+  "panel_last_bar": "2026-11-06",
   "verdict": "GATE_SITS_ON_PLATEAU",
   "sentence": "halving or doubling the shipped cut moves the declared arm by at most 0.53pp and no gate beats it by more than 0.21pp, so 20M is a plateau -- the number is not load-bearing and any future line may inherit it safely",
   "shipped_cny": 20000000.0,
@@ -1175,8 +1175,8 @@
    {
     "gate_m": 5.0,
     "gate_cny": 5000000.0,
-    "cagr": 0.0867,
-    "sharpe": 0.891,
+    "cagr": 0.0859,
+    "sharpe": 0.883,
     "maxdd": -0.1651,
     "median_names": 462,
     "turnover": 0.958,
@@ -1185,8 +1185,8 @@
    {
     "gate_m": 10.0,
     "gate_cny": 10000000.0,
-    "cagr": 0.0867,
-    "sharpe": 0.891,
+    "cagr": 0.0859,
+    "sharpe": 0.883,
     "maxdd": -0.1651,
     "median_names": 367,
     "turnover": 0.958,
@@ -1195,8 +1195,8 @@
    {
     "gate_m": 20.0,
     "gate_cny": 20000000.0,
-    "cagr": 0.0846,
-    "sharpe": 0.874,
+    "cagr": 0.0838,
+    "sharpe": 0.866,
     "maxdd": -0.1656,
     "median_names": 262,
     "turnover": 0.953,
@@ -1205,8 +1205,8 @@
    {
     "gate_m": 50.0,
     "gate_cny": 50000000.0,
-    "cagr": 0.0793,
-    "sharpe": 0.832,
+    "cagr": 0.0785,
+    "sharpe": 0.824,
     "maxdd": -0.202,
     "median_names": 154,
     "turnover": 0.877,
@@ -1215,32 +1215,32 @@
    {
     "gate_m": 100.0,
     "gate_cny": 100000000.0,
-    "cagr": 0.0865,
-    "sharpe": 0.891,
+    "cagr": 0.0845,
+    "sharpe": 0.871,
     "maxdd": -0.2066,
     "median_names": 94,
     "turnover": 0.779,
-    "delta_pp": 0.19
+    "delta_pp": 0.07
    },
    {
     "gate_m": 200.0,
     "gate_cny": 200000000.0,
-    "cagr": 0.055,
-    "sharpe": 0.583,
+    "cagr": 0.0539,
+    "sharpe": 0.573,
     "maxdd": -0.2269,
     "median_names": 56,
     "turnover": 0.68,
-    "delta_pp": -2.96
+    "delta_pp": -2.99
    }
   ],
   "widest_names": 462,
   "narrowest_names": 56,
   "width_ratio": 8.25,
-  "universe_measured": 1504,
-  "universe_published": 1504,
+  "universe_measured": 1515,
+  "universe_published": 1515,
   "control": {
-   "published_declared_cagr": 0.0846,
-   "arm_declared_cagr": 0.0846,
+   "published_declared_cagr": 0.0838,
+   "arm_declared_cagr": 0.0838,
    "delta_pp": 0.0,
    "tol_pp": 0.25
   }

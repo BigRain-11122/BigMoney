@@ -1,45 +1,45 @@
 {
  "arms": {
   "as_coded": {
-   "bars": 1652,
-   "cagr": 0.096,
-   "cagr_pp": 9.6,
+   "bars": 1657,
+   "cagr": 0.0941,
+   "cagr_pp": 9.41,
    "convention": "lag 0: score(bar d) selects, the book earns open[d] -> open[d+1]",
    "lag": 0,
    "maxdd": -0.1177,
    "maxdd_pp": -11.77,
-   "sharpe": 0.99,
+   "sharpe": 0.97,
    "turnover_per_decision": 0.934,
-   "vol": 0.1017
+   "vol": 0.1019
   },
   "declared": {
-   "bars": 1652,
-   "cagr": 0.0846,
-   "cagr_pp": 8.46,
+   "bars": 1657,
+   "cagr": 0.0838,
+   "cagr_pp": 8.38,
    "convention": "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the same lattice point as 'decide at close d, fill at open d+1', which is what the card's config.execution string claims",
    "lag": 1,
    "maxdd": -0.1656,
    "maxdd_pp": -16.56,
-   "sharpe": 0.874,
+   "sharpe": 0.866,
    "turnover_per_decision": 0.953,
    "vol": 0.1028
   },
   "ledger_live": {
-   "cagr": 0.0912,
-   "cagr_pp": 9.12,
+   "cagr": 0.0897,
+   "cagr_pp": 8.97,
    "carry_note": "ladder3 (GC007/GC014/GC028) commission charged",
    "convention": "etf_book_forward: decide at close d, fill open d+1, mark to close, repo ladder credited",
    "maxdd": -0.1326,
    "maxdd_pp": -13.26,
-   "sharpe": 0.955,
-   "vol": 0.1005
+   "sharpe": 0.939,
+   "vol": 0.1006
   }
  },
  "claim": {
   "execution": "decide at close t -> fill at open t+1 -> hold to next rebalance",
   "payload_bars_window": "full",
-  "payload_cagr": 0.096,
-  "payload_sharpe": 0.99,
+  "payload_cagr": 0.0941,
+  "payload_sharpe": 0.97,
   "reads_as_next_open_fill": true,
   "source": "results\\etf_book_production\\latest.json"
  },
@@ -54,22 +54,22 @@
  },
  "criteria_digest": "{\"conventions\": {\"as_coded\": \"lag 0: score(bar d) selects, the book earns open[d] -> open[d+1]\", \"declared\": \"lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the same lattice point as 'decide at close d, fill at open d+1', which is what the card's config.execution string claims\"}, \"frozen\": \"thresholds and the reading rule were written before the first run; --check re-derives the verdict from the published rows and refuses a face whose criteria moved\", \"tol_pp\": 0.25, \"verdict_rule\": \"CONSISTENT iff |printed_cagr - declared_cagr| <= tol_pp; else, iff the printed number reproduces the as-coded arm (|printed - as_coded| <= tol_pp): DISCLOSED when the card also publishes a declared arm that agrees with this face's declared arm to within tol_pp on BOTH arms, DISCLOSURE_DISAGREES when it publishes one that does not, and EXECUTION_CLAIM_MISMATCH when the card publishes no declared arm at all; PRINTED_MATCHES_NEITHER_ARM when both sides are readable but the printed number reproduces neither arm; CANNOT_VERIFY when a side is unreadable (an unreadable disclosure is not evidence of a breach)\"}",
  "disclosure": {
-  "as_coded_cagr": 0.096,
-  "declared_cagr": 0.0846,
-  "gap_pp": 1.14,
+  "as_coded_cagr": 0.0941,
+  "declared_cagr": 0.0838,
+  "gap_pp": 1.03,
   "present": true,
   "source": "results\\etf_book_production\\latest.json",
   "verdict": "SAME_OPEN_ARM"
  },
- "elapsed_sec": 27.9,
- "evidence_cutoff": "2026-10-30",
- "generated": "2026-11-07T09:31:49+0800",
+ "elapsed_sec": 24.4,
+ "evidence_cutoff": "2026-11-06",
+ "generated": "2026-11-07T10:42:57+0800",
  "panel": {
-  "bars": 5270,
+  "bars": 5275,
   "first_bar": "2005-02-23",
-  "flips_repaired": 168,
-  "last_bar": "2026-10-30",
-  "symbols": 1504
+  "flips_repaired": 169,
+  "last_bar": "2026-11-06",
+  "symbols": 1515
  },
  "printed": {
   "cagr": null,
@@ -79,8 +79,8 @@
  "recommendation": "No headline change is called for: the sheet already prices the execution it declares -- but the comparison is unreadable, so the sheet should print its convention until it can be re-derived.",
  "script": "scripts/etf_book_causal_headline.py",
  "verdict": {
-  "as_coded_cagr_pp": 9.6,
-  "declared_cagr_pp": 8.46,
+  "as_coded_cagr_pp": 9.41,
+  "declared_cagr_pp": 8.38,
   "printed_cagr_pp": null,
   "state": "CANNOT_VERIFY",
   "why": "a side of the comparison is unreadable"

@@ -1,10 +1,10 @@
 # ETF book -- decision margins and a hysteresis buffer
 
-Window ends 2026-10-30 | 12-name book, 20-bar cadence, 10bp/side, vol target 8%
+Window ends 2026-11-06 | 12-name book, 20-bar cadence, 10bp/side, vol target 8%
 
 ## Control arm (must hold before any other arm is read)
 
-k=0 reproduces the published n12_vt08 cell: 9.60% vs 9.60% (delta +0.000pp, within tolerance)
+k=0 reproduces the published n12_vt08 cell: 9.41% vs 9.41% (delta +0.000pp, within tolerance)
 
 ## How close are the decisions?
 
@@ -23,12 +23,12 @@ Trades actually made: 590 pairs, median gap 0.974 sd; 3% of them were decided by
 
 | k (sd) | turnover/decision | CAGR full | Sharpe | maxDD | IS CAGR | OOS CAGR | OOS Sharpe |
 |---|---|---|---|---|---|---|---|
-| 0.00 | 0.934 | 9.60% | 0.990 | -11.77% | 3.84% | 18.35% | 1.738 |
-| 0.05 | 0.901 | 9.66% | 1.004 | -11.59% | 4.02% | 18.24% | 1.755 |
-| 0.10 | 0.887 | 9.66% | 1.000 | -12.58% | 3.74% | 18.66% | 1.767 |
-| 0.20 | 0.843 | 9.72% | 1.012 | -12.47% | 4.09% | 18.22% | 1.736 |
-| 0.35 | 0.762 | 9.52% | 0.986 | -12.57% | 4.02% | 17.82% | 1.655 |
-| 0.50 | 0.702 | 9.66% | 0.997 | -13.48% | 4.08% | 18.09% | 1.648 |
+| 0.00 | 0.934 | 9.41% | 0.970 | -11.77% | 3.84% | 17.79% | 1.683 |
+| 0.05 | 0.901 | 9.47% | 0.984 | -11.59% | 4.02% | 17.68% | 1.698 |
+| 0.10 | 0.887 | 9.46% | 0.980 | -12.58% | 3.74% | 18.09% | 1.711 |
+| 0.20 | 0.843 | 9.54% | 0.992 | -12.47% | 4.09% | 17.69% | 1.682 |
+| 0.35 | 0.762 | 9.37% | 0.969 | -12.57% | 4.02% | 17.36% | 1.607 |
+| 0.50 | 0.702 | 9.55% | 0.986 | -13.48% | 4.08% | 17.74% | 1.616 |
 
 ## Caveats
 

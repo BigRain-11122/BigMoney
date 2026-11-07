@@ -1,6 +1,6 @@
 {
  "schema": "etf_book_spanning/v1",
- "evidence_cutoff": "2026-10-30",
+ "evidence_cutoff": "2026-11-06",
  "span": [
   {
    "key": "gold",
@@ -30,34 +30,34 @@
   "cost_bp_per_side": 10.0
  },
  "book": {
-  "cagr": 0.096,
-  "sharpe": 0.99,
+  "cagr": 0.0941,
+  "sharpe": 0.97,
   "maxdd": -0.1177,
-  "vol": 0.1017,
+  "vol": 0.1019,
   "turnover_per_decision": 0.934,
   "obs": {
-   "full": 1649,
+   "full": 1654,
    "is": 966,
-   "oos": 683
+   "oos": 688
   }
  },
  "full": {
-  "alpha_annual": 0.0596,
-  "alpha_t": 1.978,
+  "alpha_annual": 0.0571,
+  "alpha_t": 1.897,
   "betas": {
-   "518880": 0.1526,
-   "513100": 0.0678,
-   "510300": 0.2484,
-   "511010": -0.0282
+   "518880": 0.1523,
+   "513100": 0.0688,
+   "510300": 0.2483,
+   "511010": -0.0308
   },
   "beta_t": {
-   "518880": 14.545,
-   "513100": 8.797,
-   "510300": 24.257,
-   "511010": -0.309
+   "518880": 14.597,
+   "513100": 8.946,
+   "510300": 24.235,
+   "511010": -0.337
   },
-  "r2": 0.4348,
-  "n_obs": 1649,
+  "r2": 0.4361,
+  "n_obs": 1654,
   "resid_vol_annual": 0.0766
  },
  "is": {
@@ -80,51 +80,51 @@
   "resid_vol_annual": 0.065
  },
  "oos": {
-  "alpha_annual": 0.1025,
-  "alpha_t": 2.004,
+  "alpha_annual": 0.097,
+  "alpha_t": 1.901,
   "betas": {
-   "518880": 0.1802,
-   "513100": 0.0947,
-   "510300": 0.1334,
-   "511010": 0.0624
+   "518880": 0.1791,
+   "513100": 0.0974,
+   "510300": 0.1335,
+   "511010": 0.0496
   },
   "beta_t": {
-   "518880": 12.292,
-   "513100": 7.189,
-   "510300": 8.15,
-   "511010": 0.339
+   "518880": 12.306,
+   "513100": 7.423,
+   "510300": 8.149,
+   "511010": 0.27
   },
-  "r2": 0.3609,
-  "n_obs": 683,
-  "resid_vol_annual": 0.0836
+  "r2": 0.365,
+  "n_obs": 688,
+  "resid_vol_annual": 0.0837
  },
  "walkforward": {
   "alpha_is_annual": 0.0388,
-  "oos_mean_resid_annual": 0.0797,
-  "oos_realised_annual": 0.1808,
-  "oos_predicted_annual": 0.1011,
-  "n_oos": 683
+  "oos_mean_resid_annual": 0.0729,
+  "oos_realised_annual": 0.1758,
+  "oos_predicted_annual": 0.103,
+  "n_oos": 688
  },
  "span_portfolios": {
   "gold": {
    "code": "518880",
    "label": "gold ETF",
-   "cagr": 0.1325,
+   "cagr": 0.1353,
    "turnover_total": 1.0,
-   "sharpe": 0.806,
-   "maxdd": -0.3154,
-   "vol": 0.1811,
-   "years": 6.81
+   "sharpe": 0.817,
+   "maxdd": -0.3329,
+   "vol": 0.182,
+   "years": 6.83
   },
   "us_tech": {
    "code": "513100",
    "label": "Nasdaq-100 QDII ETF",
-   "cagr": 0.2044,
+   "cagr": 0.1978,
    "turnover_total": 1.0,
-   "sharpe": 0.88,
+   "sharpe": 0.857,
    "maxdd": -0.2745,
-   "vol": 0.2579,
-   "years": 6.81
+   "vol": 0.2582,
+   "years": 6.83
   },
   "csi300": {
    "code": "510300",
@@ -141,10 +141,10 @@
    "label": "treasury bond ETF",
    "cagr": 0.0252,
    "turnover_total": 1.0,
-   "sharpe": 1.212,
+   "sharpe": 1.214,
    "maxdd": -0.0521,
    "vol": 0.0215,
-   "years": 6.81
+   "years": 6.83
   },
   "equal_weight_basket": {
    "codes": [
@@ -153,42 +153,42 @@
     "510300",
     "511010"
    ],
-   "cagr": 0.099,
+   "cagr": 0.0988,
    "turnover_total": 1.0,
-   "sharpe": 0.965,
+   "sharpe": 0.96,
    "maxdd": -0.1135,
-   "vol": 0.108,
-   "years": 6.81
+   "vol": 0.1083,
+   "years": 6.83
   }
  },
  "arms": {
   "book": {
    "window": [
     "2020-01-06",
-    "2026-10-30"
+    "2026-11-06"
    ],
    "obs": {
-    "full": 1649,
+    "full": 1654,
     "is": 966,
-    "oos": 683
+    "oos": 688
    },
    "full": {
-    "alpha_annual": 0.0596,
-    "alpha_t": 1.978,
+    "alpha_annual": 0.0571,
+    "alpha_t": 1.897,
     "betas": {
-     "518880": 0.1526,
-     "513100": 0.0678,
-     "510300": 0.2484,
-     "511010": -0.0282
+     "518880": 0.1523,
+     "513100": 0.0688,
+     "510300": 0.2483,
+     "511010": -0.0308
     },
     "beta_t": {
-     "518880": 14.545,
-     "513100": 8.797,
-     "510300": 24.257,
-     "511010": -0.309
+     "518880": 14.597,
+     "513100": 8.946,
+     "510300": 24.235,
+     "511010": -0.337
     },
-    "r2": 0.4348,
-    "n_obs": 1649,
+    "r2": 0.4361,
+    "n_obs": 1654,
     "resid_vol_annual": 0.0766
    },
    "is": {
@@ -211,37 +211,37 @@
     "resid_vol_annual": 0.065
    },
    "oos": {
-    "alpha_annual": 0.1025,
-    "alpha_t": 2.004,
+    "alpha_annual": 0.097,
+    "alpha_t": 1.901,
     "betas": {
-     "518880": 0.1802,
-     "513100": 0.0947,
-     "510300": 0.1334,
-     "511010": 0.0624
+     "518880": 0.1791,
+     "513100": 0.0974,
+     "510300": 0.1335,
+     "511010": 0.0496
     },
     "beta_t": {
-     "518880": 12.292,
-     "513100": 7.189,
-     "510300": 8.15,
-     "511010": 0.339
+     "518880": 12.306,
+     "513100": 7.423,
+     "510300": 8.149,
+     "511010": 0.27
     },
-    "r2": 0.3609,
-    "n_obs": 683,
-    "resid_vol_annual": 0.0836
+    "r2": 0.365,
+    "n_obs": 688,
+    "resid_vol_annual": 0.0837
    },
    "walkforward": {
     "alpha_is_annual": 0.0388,
-    "oos_mean_resid_annual": 0.0797,
-    "oos_realised_annual": 0.1808,
-    "oos_predicted_annual": 0.1011,
-    "n_oos": 683
+    "oos_mean_resid_annual": 0.0729,
+    "oos_realised_annual": 0.1758,
+    "oos_predicted_annual": 0.103,
+    "n_oos": 688
    },
    "stats": {
-    "cagr": 0.0972,
-    "sharpe": 1.0,
+    "cagr": 0.0952,
+    "sharpe": 0.98,
     "maxdd": -0.1177,
-    "vol": 0.1017,
-    "years": 6.81
+    "vol": 0.1019,
+    "years": 6.83
    },
    "config": {
     "n_hold": 12,
@@ -253,30 +253,30 @@
   "staggered": {
    "window": [
     "2020-01-06",
-    "2026-10-30"
+    "2026-11-06"
    ],
    "obs": {
-    "full": 1649,
+    "full": 1654,
     "is": 966,
-    "oos": 683
+    "oos": 688
    },
    "full": {
-    "alpha_annual": 0.0698,
-    "alpha_t": 2.428,
+    "alpha_annual": 0.0677,
+    "alpha_t": 2.36,
     "betas": {
-     "518880": 0.1749,
-     "513100": 0.0475,
-     "510300": 0.2836,
-     "511010": -0.0124
+     "518880": 0.1742,
+     "513100": 0.0483,
+     "510300": 0.2835,
+     "511010": -0.0149
     },
     "beta_t": {
-     "518880": 17.467,
-     "513100": 6.452,
-     "510300": 29.014,
-     "511010": -0.143
+     "518880": 17.484,
+     "513100": 6.575,
+     "510300": 29.001,
+     "511010": -0.171
     },
-    "r2": 0.498,
-    "n_obs": 1649,
+    "r2": 0.4987,
+    "n_obs": 1654,
     "resid_vol_annual": 0.0731
    },
    "is": {
@@ -299,37 +299,37 @@
     "resid_vol_annual": 0.0635
    },
    "oos": {
-    "alpha_annual": 0.1188,
-    "alpha_t": 2.382,
+    "alpha_annual": 0.1141,
+    "alpha_t": 2.294,
     "betas": {
-     "518880": 0.1931,
-     "513100": 0.0637,
-     "510300": 0.2089,
-     "511010": 0.1792
+     "518880": 0.1913,
+     "513100": 0.066,
+     "510300": 0.2091,
+     "511010": 0.1671
     },
     "beta_t": {
-     "518880": 13.515,
-     "513100": 4.962,
-     "510300": 13.092,
-     "511010": 1.0
+     "518880": 13.494,
+     "513100": 5.159,
+     "510300": 13.096,
+     "511010": 0.932
     },
-    "r2": 0.4351,
-    "n_obs": 683,
-    "resid_vol_annual": 0.0815
+    "r2": 0.4371,
+    "n_obs": 688,
+    "resid_vol_annual": 0.0816
    },
    "walkforward": {
     "alpha_is_annual": 0.0411,
-    "oos_mean_resid_annual": 0.0918,
-    "oos_realised_annual": 0.2005,
-    "oos_predicted_annual": 0.1088,
-    "n_oos": 683
+    "oos_mean_resid_annual": 0.086,
+    "oos_realised_annual": 0.1969,
+    "oos_predicted_annual": 0.1109,
+    "n_oos": 688
    },
    "stats": {
-    "cagr": 0.1067,
-    "sharpe": 1.076,
+    "cagr": 0.1054,
+    "sharpe": 1.062,
     "maxdd": -0.1036,
-    "vol": 0.103,
-    "years": 6.81
+    "vol": 0.1032,
+    "years": 6.83
    },
    "config": {
     "n_total": 12,
@@ -352,7 +352,7 @@
    "offset_bars": 10,
    "source": "results/etf_book_stagger_publish.json:machinery"
   },
-  "bars": 1652
+  "bars": 1657
  },
  "caveats": [
   "daily OLS, no HAC correction (non-overlapping daily returns; autocorrelation in the residual would only widen the alpha interval, so a t below 2 is not rescued by it)",
@@ -362,16 +362,16 @@
  ],
  "config_source": "results/etf_book_production/latest.json",
  "stagger_control": {
-  "mine": 0.1067,
+  "mine": 0.1054,
   "published": 0.1041,
-  "delta_pp": 0.26,
+  "delta_pp": 0.13,
   "within_0p5pp": true,
   "source": "results/etf_book_stagger_publish.json:staggered.cagr"
  },
  "panel": {
-  "universe": 1504,
-  "flips_repaired": 168,
-  "last_bar": "2026-10-30"
+  "universe": 1515,
+  "flips_repaired": 169,
+  "last_bar": "2026-11-06"
  },
- "verdict": "book 9.60%/yr SR 0.99 DD -11.8% vs EW span basket 9.90%/yr SR 0.96 DD -11.3% over 2026-10-30; span explains R2=0.43 of daily variance; alpha +5.96%/yr (t=1.98); alpha NOT distinguishable from a fixed loadings mix of the four span assets at 2 sigma; span arms with a higher Sharpe than the book: bond; staggered 6+6 arm: alpha +6.98%/yr (t=2.43) vs book +5.96%/yr (t=1.98), resid vol 7.3% vs 7.7% -- the split clock pushes the intercept over 2 sigma (+1.02pp/yr) where the single sleeve does not clear it -- a strategy difference, not a free lunch: one arm over a t of 2 is the threshold, not a proven edge"
+ "verdict": "book 9.41%/yr SR 0.97 DD -11.8% vs EW span basket 9.88%/yr SR 0.96 DD -11.3% over 2026-11-06; span explains R2=0.44 of daily variance; alpha +5.71%/yr (t=1.90); alpha NOT distinguishable from a fixed loadings mix of the four span assets at 2 sigma; span arms with a higher Sharpe than the book: bond; staggered 6+6 arm: alpha +6.77%/yr (t=2.36) vs book +5.71%/yr (t=1.90), resid vol 7.3% vs 7.7% -- the split clock pushes the intercept over 2 sigma (+1.06pp/yr) where the single sleeve does not clear it -- a strategy difference, not a free lunch: one arm over a t of 2 is the threshold, not a proven edge"
 }
