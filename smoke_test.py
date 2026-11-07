@@ -3415,6 +3415,14 @@ def main() -> int:
             # reported, never scored as zero), and forward 1/2/3 calendar-year returns.
             ("product: how long a holder waits under water (exit-code contract)",
              "scripts/etf_book_underwater.py", ["--selftest"]),
+            # r1271: the book has only ever been published as numbers. Its picture must never
+            # be a picture of a different book, so the renderer carries a control arm: a
+            # rebuild whose CAGR/Sharpe/max-DD does not repeat the published production cell
+            # inside 5e-5 refuses to emit. The legs pin the ruler and the refusal, and a
+            # nested production cell must be read through its whole-sample block (reading the
+            # outer dict hands back three Nones and names the wrong cause).
+            ("product: the ETF book tearsheet reproduces the published cell (control arm contract)",
+             "scripts/etf_book_tearsheet.py", ["--selftest"]),
             # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
             # of selection premium over the book's own static class mix). The legs pin the
             # two ways this face can lie in either direction: a premium under the frozen

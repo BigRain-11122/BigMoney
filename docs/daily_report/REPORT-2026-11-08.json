@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-08",
- "generated_at": "2026-11-08 00:11:48",
+ "generated_at": "2026-11-08 04:46:40",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -287,20 +287,21 @@
   "note": "LIVE-2026-11-08.json 未生成（ceo_live_usage.py 腿未跑或机制故障）——如实标注，禁编数"
  },
  "rd": {
-  "commits_24h": 62,
-  "result_jsons_landed_24h": 127,
-  "digests_landed_24h": 20,
-  "prereg_md_touched_24h": 30,
+  "commits_24h": 68,
+  "result_jsons_landed_24h": 129,
+  "digests_landed_24h": 24,
+  "prereg_md_touched_24h": 33,
   "compute_audit_latest": {
-   "ts": "2026-11-08 00:00:35",
-   "py_cpu_pct": 11.9,
+   "ts": "2026-11-08 04:34:13",
+   "py_cpu_pct": 9.9,
    "flags": [
+    "gpu_unauthorized",
     "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:pool_starvation,supply_floor"
+   "verdict": "FLAG:gpu_unauthorized,pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -658,63 +659,63 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-11-07 16:24:03",
-    "py_pct": 0.4,
-    "cpu_pct": 54.0,
+    "latest_ts": "2026-11-08 04:34:13",
+    "py_pct": 9.9,
+    "cpu_pct": 68.0,
     "ready": 0,
-    "streak_min": 10678.8,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "streak_min": 11408.9,
+    "verdict": "FLAG:gpu_unauthorized,pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "06:10",
-      4.8
-     ],
-     [
-      "06:36",
-      4.0
-     ],
-     [
-      "07:07",
-      4.4
-     ],
-     [
-      "07:42",
-      7.5
-     ],
-     [
-      "08:00",
-      5.4
-     ],
-     [
-      "09:07",
-      0.0
-     ],
-     [
-      "10:03",
-      12.0
-     ],
-     [
-      "10:52",
-      1.6
-     ],
-     [
-      "12:34",
-      1.8
-     ],
-     [
-      "12:57",
-      0.4
-     ],
-     [
-      "13:00",
-      1.3
-     ],
      [
       "16:24",
       0.4
+     ],
+     [
+      "18:40",
+      7.8
+     ],
+     [
+      "19:42",
+      2.6
+     ],
+     [
+      "20:05",
+      13.6
+     ],
+     [
+      "21:09",
+      11.4
+     ],
+     [
+      "22:12",
+      8.0
+     ],
+     [
+      "22:38",
+      2.8
+     ],
+     [
+      "23:15",
+      5.2
+     ],
+     [
+      "23:39",
+      1.7
+     ],
+     [
+      "00:00",
+      11.9
+     ],
+     [
+      "03:22",
+      5.2
+     ],
+     [
+      "04:34",
+      9.9
      ]
     ],
-    "today_samples": 0,
+    "today_samples": 3,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -865,7 +866,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-07 16:24:03"
+     "audit_ts": "2026-11-08 04:34:13"
     }
    },
    "bm-b": {
@@ -1706,32 +1707,39 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-07T16:24:03",
+  "as_of": "2026-11-08T04:34:37",
   "verdict": "host_down",
   "observer": "bm-a",
-  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（195.68h 未报到）；留在本机盘上的 5 条里 5 条可核实。",
+  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 3 条的数字不在本机盘上：2 条在 bm-c 的盘上（2.69h 未报到）、1 条在 bm-b 的盘上（207.86h 未报到）；留在本机盘上的 6 条里 6 条可核实。",
   "n_lanes": 9,
-  "n_offhost": 4,
-  "n_here": 5,
-  "n_auditable_here": 5,
+  "n_offhost": 3,
+  "n_here": 6,
+  "n_auditable_here": 6,
   "n_unsigned_here": 0,
   "groups": [
    {
-    "machine": "bm-b",
+    "machine": "bm-c",
     "lanes": [
-     "astock_daily",
-     "marks",
      "moneyflow",
      "zt_pool"
     ],
-    "n": 4,
+    "n": 2,
     "alive": false,
-    "age_h": 195.68,
+    "age_h": 2.69,
+    "last_seen": "2026-11-08T01:53:08+08:00"
+   },
+   {
+    "machine": "bm-b",
+    "lanes": [
+     "marks"
+    ],
+    "n": 1,
+    "alive": false,
+    "age_h": 207.86,
     "last_seen": "2026-10-30T12:43:06+08:00"
    }
   ],
   "offhost_lanes": [
-   "astock_daily",
    "marks",
    "moneyflow",
    "zt_pool"
@@ -1740,58 +1748,98 @@
    "moneyflow": "无主封套",
    "marks": "无主封套",
    "zt_pool": "他机本地副本",
-   "astock_daily": "无主封套",
+   "astock_daily": "申报接管",
    "etf_panel": "宿主自己写的封套",
    "futures": "宿主自己写的封套",
-   "heat": "申报接管",
+   "heat": "宿主自己写的封套",
    "lhb": "宿主自己写的封套",
-   "repo": "申报接管"
+   "repo": "宿主自己写的封套"
   }
  },
  "lane_silence": {
   "present": true,
-  "machine": "bm-c",
-  "verdict": "NO_DATA",
+  "machine": "bm-a",
+  "verdict": "OPEN_SILENCE",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": null,
-  "rounds_in_window": 0,
-  "rounds_in_ledger": 787,
-  "gaps_over_threshold_count": null,
-  "longest_silence": null,
-  "open_gap": null,
-  "gaps_over_threshold": [],
-  "evidence_cutoff": "2026-10-31",
-  "generated": "2026-11-07T01:41:00",
-  "silence_verdict": "NO_DATA",
+  "median_gap_min": 18.0,
+  "rounds_in_window": 19,
+  "rounds_in_ledger": 760,
+  "gaps_over_threshold_count": 1,
+  "longest_silence": {
+   "from": "2026-11-05T21:00",
+   "gap_high_min": 2243.9,
+   "gap_low_min": 2234.9,
+   "quiet_window_min": 659.0,
+   "to": "2026-11-07T10:23",
+   "unexplained_high_min": 1584.9,
+   "unexplained_low_min": 1575.9
+  },
+  "open_gap": {
+   "gap_high_min": 641.8,
+   "gap_low_min": 641.8,
+   "quiet_window_min": 0.0,
+   "since": "2026-11-07T16:41",
+   "unexplained_high_min": 641.8,
+   "unexplained_low_min": 641.8
+  },
+  "gaps_over_threshold": [
+   {
+    "from": "2026-11-05T21:00",
+    "gap_high_min": 2243.9,
+    "gap_low_min": 2234.9,
+    "quiet_window_min": 659.0,
+    "to": "2026-11-07T10:23",
+    "unexplained_high_min": 1584.9,
+    "unexplained_low_min": 1575.9
+   }
+  ],
+  "evidence_cutoff": "2026-11-07",
+  "generated": "2026-11-08T03:22:46",
+  "silence_verdict": "OPEN_SILENCE",
   "lane_tasks": {
-   "absent": [
-    "Bigmoney-SatEngine-bm-b"
-   ],
+   "absent": [],
    "disabled": [],
-   "disabled_before_heal": [],
+   "disabled_before_heal": [
+    "Bigmoney-LoopWatchdog",
+    "HQ-Patrol-BigMoney"
+   ],
    "heal": {
     "acts": [
      {
-      "action": "absent_not_fabricated",
-      "detail": "register it explicitly: Tools/register_satengine_task.ps1",
-      "task": "Bigmoney-SatEngine-bm-b"
+      "action": "enabled",
+      "detail": "",
+      "task": "Bigmoney-LoopWatchdog",
+      "verified": true
+     },
+     {
+      "action": "enabled",
+      "detail": "",
+      "task": "HQ-Patrol-BigMoney",
+      "verified": true
      }
     ],
-    "healed": [],
-    "readback": {}
+    "healed": [
+     "Bigmoney-LoopWatchdog",
+     "HQ-Patrol-BigMoney"
+    ],
+    "readback": {
+     "Bigmoney-LoopWatchdog": "Ready",
+     "HQ-Patrol-BigMoney": "Ready"
+    }
    },
-   "probeable": 3,
+   "probeable": 4,
    "states": {
-    "Bigmoney-IterationLoop": "Ready",
+    "Bigmoney-IterationLoop": "Running",
     "Bigmoney-LoopWatchdog": "Ready",
-    "Bigmoney-SatEngine-bm-b": "Absent"
+    "Bigmoney-SatEngine-bm-b": "Ready",
+    "HQ-Patrol-BigMoney": "Ready"
    },
    "threshold_min": 90,
-   "verdict": "LANE_TASK_MISSING",
-   "why": "1 declared lane task(s) are not registered at all (Bigmoney-SatEngine-bm-b); an absent ignition face cannot be quiet, it can only be dead"
+   "verdict": "LANE_ENABLED",
+   "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-c: 0 rounds in 3d, median gap None min, 0 unexplained gap(s) over 90 min."
+  "sentence": "bm-a: 19 rounds in 3d, median gap 18.0 min, 1 unexplained gap(s) over 90 min; longest silence 2026-11-05T21:00 -> 2026-11-07T10:23 (2234.9-2243.9 min, 659.0 explained by its quiet window); still open since 2026-11-07T16:41 (641.8-641.8 min unexplained)."
  },
  "cap_vs_book": {
   "status": "ok",

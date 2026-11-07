@@ -1,0 +1,142 @@
+{
+ "tool": "etf_book_tearsheet",
+ "evidence_cutoff": "2026-11-06",
+ "first_bar": "2020-01-03",
+ "bars": 1657,
+ "config": {
+  "rebal": 20,
+  "n_hold": 5,
+  "cost_bp_per_side": 10.0,
+  "vol_target": 0.08,
+  "universe": 1515,
+  "flips_repaired": 169
+ },
+ "book": {
+  "label": "book",
+  "years": 6.84,
+  "start_level": 1.008,
+  "cagr": 0.1146,
+  "vol": 0.1051,
+  "sharpe": 1.128,
+  "maxdd": -0.1056,
+  "worst_year": 0.019,
+  "neg_years": 0,
+  "worst_month": -0.043,
+  "pos_months_pct": 0.598
+ },
+ "turnover_per_decision": 1.08,
+ "benchmarks": {
+  "equal_weight_etf": {
+   "label": "ew",
+   "years": 6.84,
+   "start_level": 1.0,
+   "cagr": 0.0187,
+   "vol": 0.1108,
+   "sharpe": 0.229,
+   "maxdd": -0.2131,
+   "worst_year": -0.1151,
+   "neg_years": 3,
+   "worst_month": -0.1103,
+   "pos_months_pct": 0.537
+  },
+  "hs300": {
+   "label": "hs300",
+   "years": 6.84,
+   "start_level": 1.0,
+   "cagr": -0.0005,
+   "vol": 0.1912,
+   "sharpe": 0.093,
+   "maxdd": -0.451,
+   "worst_year": -0.2108,
+   "neg_years": 4,
+   "worst_month": -0.0907,
+   "pos_months_pct": 0.524
+  }
+ },
+ "calendar_years": {
+  "2020": 0.056072,
+  "2021": 0.086328,
+  "2022": 0.031134,
+  "2023": 0.058802,
+  "2024": 0.145768,
+  "2025": 0.430127,
+  "2026": 0.023606
+ },
+ "calendar_years_ew": {
+  "2020": 0.046025,
+  "2021": 0.016353,
+  "2022": -0.073727,
+  "2023": -0.036818,
+  "2024": 0.088419,
+  "2025": 0.218249,
+  "2026": -0.097548
+ },
+ "drawdown_now": -0.043237,
+ "control_arm": {
+  "ok": true,
+  "tolerance": 5e-05,
+  "delta": {
+   "cagr": 0.0,
+   "sharpe": 0.0,
+   "maxdd": 0.0
+  }
+ },
+ "control_arm_source": "results\\etf_book_production\\PRODUCTION-2026-11-06.json",
+ "png": "results\\etf_book_tearsheet.png",
+ "ticket": {
+  "bar": "2026-11-06",
+  "order": [
+   {
+    "symbol": "159501",
+    "weight": 0.092051,
+    "price": 2.069,
+    "lots": 444,
+    "shares": 44400,
+    "amount": 91863.6,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "513100",
+    "weight": 0.092051,
+    "price": 2.158,
+    "lots": 426,
+    "shares": 42600,
+    "amount": 91930.8,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "513690",
+    "weight": 0.092051,
+    "price": 1.158,
+    "lots": 794,
+    "shares": 79400,
+    "amount": 91945.2,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "159577",
+    "weight": 0.092051,
+    "price": 1.612,
+    "lots": 571,
+    "shares": 57100,
+    "amount": 92045.2,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "159263",
+    "weight": 0.092051,
+    "price": 1.143,
+    "lots": 805,
+    "shares": 80500,
+    "amount": 92011.5,
+    "class": "equity",
+    "note": ""
+   }
+  ],
+  "cash_weight": 0.539747
+ }
+}

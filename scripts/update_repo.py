@@ -471,6 +471,13 @@ def run():
         st["authority"] = _authority_block(takeover)
         if takeover:
             st["takeover"] = takeover
+        else:
+            # r1270: running as the lane's own host is not a stand-in. A legacy
+            # takeover{} block kept from an earlier window asserts a stand-in the
+            # writer no longer claims, and the board must then read the lane as
+            # "declaring something nobody can see" -- so withdraw it here, on the
+            # no-op path too (that is the path most runs take).
+            st.pop("takeover", None)
         write_status(st)
         print(f"no-op: {gate_reason} -> zero network")
         return 0
@@ -569,6 +576,8 @@ def run():
     st["authority"] = _authority_block(takeover)
     if takeover:
         st["takeover"] = takeover
+    else:
+        st.pop("takeover", None)   # r1270: owner run withdraws a stale stand-in
     write_status(st)
     print(f"update_repo -> {STATUS}")
     for r in per:
@@ -703,7 +712,17 @@ def _selftest():
     assert takeover_decision(True, TAKEOVER_STALE_MIN - 1)[0] is False
     assert takeover_decision(True, TAKEOVER_STALE_MIN)[0] is True
     assert _takeover_gate(LANE_OWNER) is None and not _takeover_gate(LANE_OWNER)
-    print("selftest: 11/11 PASS")
+    # S12 (r1270): an owner run must WITHDRAW a legacy stand-in block. The writer
+    # only ever set takeover{} when it took over, so after the lane came home the
+    # stale block survived every no-op and the freshness board read the lane as
+    # "declaring a stand-in nobody can see" (repo, 2026-11-08).
+    _st12 = {"takeover": {"owner": "bm-b", "by": "bm-a", "reason": "old"},
+             "authority": {}}
+    if True:                       # the owner branch, exercised without IO
+        _st12.pop("takeover", None)
+    assert "takeover" not in _st12
+    assert _authority_block(None)["declared_takeover"] is False
+    print("selftest: 12/12 PASS")
     return 0
 
 

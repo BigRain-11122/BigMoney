@@ -56,10 +56,10 @@
    {
     "symbol": "513100",
     "weight": 0.092051,
-    "price": 11.0388,
-    "lots": 83,
-    "shares": 8300,
-    "amount": 91621.66,
+    "price": 2.158,
+    "lots": 426,
+    "shares": 42600,
+    "amount": 91930.8,
     "class": "crossborder",
     "note": ""
    },
@@ -94,11 +94,11 @@
     "note": ""
    }
   ],
-  "book_amount": 459487.16,
-  "cash_amount": 540512.84,
+  "book_amount": 459796.3,
+  "cash_amount": 540203.7,
   "cash_leg": "GC001 (1-day repo, observed close)",
   "basket_drift": [],
-  "underspend_pct": 0.0766
+  "underspend_pct": 0.0457
  },
  "metrics": {
   "book": {
@@ -124,9 +124,9 @@
   "priced_bar": "2026-11-06",
   "n_names": 5,
   "n_repriced": 5,
-  "worst_drift_pct": 10.0452,
-  "amount_delta_cny": -372.25,
-  "lots_delta": 74,
+  "worst_drift_pct": 10.0459,
+  "amount_delta_cny": 91.7,
+  "lots_delta": 109,
   "missing": [],
   "names": [
    {
@@ -141,13 +141,13 @@
    },
    {
     "symbol": "513100",
-    "decision_price": 12.2715,
-    "priced_price": 11.0388,
-    "drift_pct": -10.0452,
-    "lots_at_decision": 75,
-    "lots_at_priced": 83,
-    "amount_at_decision": 92036.51,
-    "amount_at_priced": 91621.66
+    "decision_price": 2.399,
+    "priced_price": 2.158,
+    "drift_pct": -10.0459,
+    "lots_at_decision": 383,
+    "lots_at_priced": 426,
+    "amount_at_decision": 91881.7,
+    "amount_at_priced": 91930.8
    },
    {
     "symbol": "513690",
@@ -180,7 +180,7 @@
     "amount_at_priced": 92011.5
    }
   ],
-  "sentence": "5 of 5 names moved between the decision bar (2026-10-14 00:00:00) and the priced bar (2026-11-06); worst drift 10.05%, whole book -372 CNY and +74 lots versus the same weights priced on the decision bar"
+  "sentence": "5 of 5 names moved between the decision bar (2026-10-14 00:00:00) and the priced bar (2026-11-06); worst drift 10.05%, whole book +92 CNY and +109 lots versus the same weights priced on the decision bar"
  },
  "book_leg": {
   "turnover_per_rebal": 1.5301,
@@ -196,27 +196,27 @@
   },
   "missing_bar_steps": 0,
   "money": {
-   "cash_amount_cny": 540512.84,
+   "cash_amount_cny": 540203.7,
    "spot": {
     "pct": 1.185,
     "date": "2026-11-06",
-    "annual_cny": 6405.0,
+    "annual_cny": 6401.0,
     "quotes": 250
    },
    "mean_tail": {
     "pct": 1.3547,
-    "annual_cny": 7323.0
+    "annual_cny": 7318.0
    },
    "window": {
     "pct": 2.0842,
-    "annual_cny": 11265.0
+    "annual_cny": 11259.0
    },
    "tail": 250,
    "fall_bp": 25.0,
    "verdict": "RATES_STEADY",
-   "sentence": "现金 ¥540,512 按 2026-11-06 报价 1.19% 一年赚 ¥6,405；按自己近 250 个报价的均值 1.35% 是 ¥7,323；按账本自己走过的全窗均值 2.08% 是 ¥11,265。今天的报价就在它自己的均值上，这一半该怎么算就怎么算。",
+   "sentence": "现金 ¥540,203 按 2026-11-06 报价 1.19% 一年赚 ¥6,401；按自己近 250 个报价的均值 1.35% 是 ¥7,318；按账本自己走过的全窗均值 2.08% 是 ¥11,259。今天的报价就在它自己的均值上，这一半该怎么算就怎么算。",
    "spread_vs_tail_cny": -917.0,
-   "spread_vs_window_cny": -4860.0
+   "spread_vs_window_cny": -4858.0
   }
  },
  "ledger": {
@@ -316,8 +316,8 @@
   "ticket_rule": "beta",
   "card_rule": "vol",
   "ticket": {
-   "cagr": 0.1088,
-   "sharpe": 1.333,
+   "cagr": 0.1089,
+   "sharpe": 1.334,
    "maxdd": -0.0601,
    "vol": 0.0816
   },
@@ -329,8 +329,8 @@
   },
   "width_effect": {
    "beta": {
-    "ticket_width_cagr": 0.1088,
-    "card_width_cagr": 0.0941,
+    "ticket_width_cagr": 0.1089,
+    "card_width_cagr": 0.0942,
     "pp": -1.47
    },
    "vol": {
@@ -341,23 +341,23 @@
   },
   "rules_differ": true,
   "delta_ticket_minus_card": {
-   "cagr_pp": -0.85,
-   "sharpe": 0.006,
+   "cagr_pp": -0.84,
+   "sharpe": 0.007,
    "maxdd_pp": 1.94,
    "vol_pp": -0.68
   },
   "square": {
    "cells": {
     "beta@5": {
-     "cagr": 0.1088,
-     "sharpe": 1.333,
+     "cagr": 0.1089,
+     "sharpe": 1.334,
      "maxdd": -0.0601,
      "turnover": 1.5301,
      "cash_share": 0.5499
     },
     "beta@12": {
-     "cagr": 0.0941,
-     "sharpe": 1.541,
+     "cagr": 0.0942,
+     "sharpe": 1.542,
      "maxdd": -0.0417,
      "turnover": 1.3032,
      "cash_share": 0.6189
@@ -382,18 +382,18 @@
     "vol": 0.24
    },
    "rule_effect_pp": {
-    "n5": 0.61,
-    "n12": 2.32
+    "n5": 0.6,
+    "n12": 2.31
    },
    "interaction_pp": 1.71,
-   "published_diagonal_pp": 0.85,
+   "published_diagonal_pp": 0.84,
    "sharpe_width_effect": {
     "beta": 0.208,
     "vol": 0.009
    },
    "sharpe_rule_effect": {
-    "n5": -0.015,
-    "n12": -0.214
+    "n5": -0.016,
+    "n12": -0.215
    }
   },
   "same_accounting": "one ledger (GC001 cash leg, next-open fills, 8bp/side); width and leverage rule each varied in turn",
@@ -452,7 +452,7 @@
   "sentence": "本面的数字算在**已修复**的面板上：**165 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 156 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1514 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。",
   "neutralised": true,
   "panel_digest": {
-   "digest": "58302d9ca988c138",
+   "digest": "93efa7188894f865",
    "dates": 5275,
    "columns": 1624,
    "first": "2005-02-23",

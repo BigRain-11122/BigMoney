@@ -9956,3 +9956,12 @@ How to apply：①任何截面因子判决前，把「长腿相对对照」与�
 
 正身=scripts/astock_size_decomp.py（selftest 8/8）+ results/size_decomp/astock_size_decomp.json
 + research/digests/DIGEST-20261108-r1412-size-decomp.md；孪生面=scripts/astock_breadth_book.py（r1411）
+
+
+### E416 · 图也是交付面，图也必须带控制臂（r1271 bm-a）
+一张图比一页数字更容易被当成事实——它没有「口径」可读。所以渲染器不能只负责好看：
+①先复现已发布的那一格（cagr/sharpe/maxDD，容差 5e-5），复现不了就**拒绝出图**，
+而不是画一张另一本书的图（本轮实读：书 11.46%/-10.56%、等权 ETF 1.87%/-21.3%、510300 -0.05%/-45.1%）；
+②生产件把 full/is/oos 嵌在块里，直接读外层会拿回三个 None，控制臂随即说「复现失败」——
+**错的名字会把人指向错的修法**（r1292 名字≠值族）；整档必须经 full_block() 取 whole-sample 块。
+正身=scripts/etf_book_tearsheet.py（selftest 11/11）+ results/etf_book_tearsheet.png/.json。
