@@ -214,7 +214,7 @@ dispatcher）以分钟级持续写 tracked 共享面文件。`git rebase --conti
 - 2026-10-14 19:3x：bm-c r1005（W241 finalize 收口步·捕获律依法 update-in-place 增 ④ 键位形状漂移面：legkey 审计范式入卡·line-157 假阴性同窗治愈实锚）。
 
 
-- **E64 分离后台 spawn 的 close_fds=False 句柄泄漏坑（Windows·detach 刷新进程拖住父批链 communicate）**：proven，工程面。gate 族分离后台刷新（Popen[DETACHED_PROCESS|NEW_PROCESS_GROUP|NO_WINDOW]+stdout=lf）若带 close_fds=False，子进程继承 gate 全部可继承句柄——含 gate 自身 std=上层批链的 capture 管道；刷新写端被拖整个生命周期（moneyflow 全宇宙 ~3.6h）→ 上层 subprocess.run(timeout=300) 虽杀直接子，第二次 communicate() 仍等管道 EOF=批链在该 leg 停车到刷新退出。修法=close_fds=True（Python 3.7+ Windows 显式 std 句柄照传 lf，其余句柄零继承）；家族面=7 个 gate 脚本同修（ah_panel/astock/fund_statements/moneyflow/options/sina_mf/ths_panel）。诊断特征=批链父进程存活 CPU 恒低位+无活动子进程+日志 0B（块缓冲）+孤儿刷新进程在跑。不杀刷新（合法数据活·checkpoint 续拉）；链父自然恢复后日志全量落盘=证据保全面。
+- **E64 分离后台 spawn 的 close_fds=False 句柄泄漏坑（Windows·detach 刷新进程拖住父批链 communicate）**：proven，工程面。gate 族分离后台刷新（Popen[DETACHED_PROCESS|NEW_PROCESS_GROUP|NO_WINDOW]+stdout=lf）若带 close_fds=False，子进程继承 gate 全部可继承句柄——含 gate 自身 std=上层批链的 capture 管道；刷新写端被拖整个生命周期（moneyflow 全宇宙 ~3.6h）→ 上层 subprocess.run(timeout=300) 虽杀直接子，第二次 communicate() 仍等管道 EOF=批链在该 leg 停车到刷新退出。修法=close_fds=True（Python 3.7+ Windows 显式 std 句柄照传 lf，其余句柄零继承）；家族面=7 个 gate 脚本同修（ah_panel/astock/ffund_statements/moneyflow/options/sina_mf/ths_panel）。诊断特征=批链父进程存活 CPU 恒低位+无活动子进程+日志 0B（块缓冲）+孤儿刷新进程在跑。不杀刷新（合法数据活·checkpoint 续拉）；链父自然恢复后日志全量落盘=证据保全面。
 - 2026-10-14 08:2x：bm-a r977（S6 链产品吸收窗收口步·捕获律 O-20261002-2100 依法生成：r976 链 pid 130152 停车 leg-14 实弹定位+全族修复 live 实证）。
 
 - **E65 外采生成式方法最小承诺主考法（census-holds→license-question→judged 全链·RL 反馈 vs 无反馈 A/B 内建）**：proven，研究面。外采生成式方法（alphagen RL 公式因子范式）落地正法五步：①先廉价 census 钉「语法空间有无信号面」（E16 范式·obs family vs null family p95）；②census holds 才开最小承诺主考（top-K 格 judged·全判据门+批内自有 scrnull null 池）；③**license 问题显式预注册**（P3：RL 边际曲线是否优于无反馈基线=负即止整条线·EXCLUSION_BOOK 收口）；④RL 搜索面与 nulls 校准不入试验账本（trial_budget_law 同例）·judged K 格才计；⑤预测面五条冻结（族向/判线/边际/极端日/唯一性）跑后逐条对账。live 实证：N2U3-ALPHAGEN-RL-P1 0/32 registered 判负（best SR 0.5435 vs skill_line 2.952·DSR max 0.2355·PBO 0.2714·leg-2 边际 flat）——「负即止」单窗收口零重烧。证据=results/alphagen_rl_p1/JUDGED-2026-10-09.json+research/N2U3_ALPHAGEN_RL_P1.md §7/§8（r933 bm-b）。
@@ -9615,3 +9615,31 @@ fixture 一旦这么写就成了“用不存在的数据把闸测红”。
 **How to apply**：任何「面板的最新值/最大值」先问一句**由多少个成员持有**，发布方必须同时印分子分母（否则一个符号的状态会冒充整块面板）；抽样结论要能对着一次全量扫认证（低频跑一次即可），且认证结论只允许「一致 / 抽样低估」两态 —— 「抽样高估」是机制错误，出现即红。
 
 实锚＝`scripts/data_lane_freshness.py`（selftest 21/21，新 L23 三分支：抽样漏掉内部符号 / 全体持有 / 三只落后）+ `results/data_lane_tail_certification.json` + `docs/data_lanes/TAIL_CERTIFICATION.md` + smoke 腿 `fleet: a panel tail read by sample is certified against a full scan`。
+
+
+### E400 一块「消费面板」排在它的生产者之前 = 每轮印上一轮的数，闸还会拿着正确数据变红（r1265 bm-a）
+
+定位：Tools/s6_chain_bmc.py 的 LEGS 顺序 + scripts/data_lane_freshness.py。r1265 实测：链里 133 腿，data_lane_freshness 在第 42 行，而它判的十条车道里 update_zt_pool / update_heat / update_astock_daily / fund_statements 全在 68–614 行。
+
+三条读数：
+① **同一轮链里，板子永远印上一轮的车道状态**。这不是抖动，是位置决定的：先算命、后写数。链每 10 分钟跑一次，所以它慢一个周期，谁也看不出来。
+② **链外更新让它落后整整一个周期，并且闸会红在一条正确的车道上**。实锚：14:32 的 update_heat --takeover 把快照写到 2026-11-06，14:19 的板子还写着 2026-11-05；14:52 的 smoke 腿打出 heat=2026-11-05==2026-11-06 并判红——车道没坏，是板子旧了。
+③ **正法不是放松断言**（r1135 律：最省事的修法就是放松断言）。在最后一个车道生产者之后、在两个引用它的真人面（daily_report / ceo_live_usage）之前再 derive 一次：新增 data_lane_freshness_close 腿（幂等、0.2s、零网络），早腿保留——lane_ownership_declaration 与 lane_silence 读它的面。
+
+**How to apply**：任何「汇总/看板/总账」类腿，先在表里问一句它排在第几位。排在它汇总的那些生产者之前 = 结构性一周期延迟；闸会拿着一份正确数据变红，然后下一轮有人去「修」一条没坏的链路。修法=在最后一个生产者与第一个消费者之间重 derive，禁调阈值、禁改判据。
+
+实锚＝Tools/s6_chain_bmc.py（data_lane_freshness_close，腿数 133→134）· python Tools/s6_chain_bma.py 1265 --only=data_lane_freshness_close rc0（verdict=host_down counts={'retired':1,'unverifiable':4,'in_sync':5}）· 独立复算 board vs fresh audit tail_mismatch=[] / expected 2026-11-06 一致。
+
+### E401 「这条车道没人能动」先问表里有没有写者，再问写者有没有开关（r1266 bm-a）
+
+位置：`scripts/data_lane_freshness.py` 的 LANES 表（marks 行）+ 被困车道渲染节 + 新通道 `holes_by_cause`。
+
+本轮实锚三条：
+- **一条车道不写自己是没人管的**：marks 行 `writer: None`，于是板子的被困节对读者印「the row reads another face rather than a collector of its own, so there is nothing to reassign」——而 `scripts/update_intraday_marks.py` 从 r1101 起就带着 `--takeover` 和标记句。表没填 ≠ 没有写者，这两种情况共用一句话，结果是把「两台机都能动」的车道说成「放弃吧」。修后 `frozen_without_takeover` 由 `['marks']` 变 `[]`。
+- **缺口计数必须带成因**：`results/marks_coverage.json` 早就分好 `holes_by_cause`（host_down / host_offhours / lane_missed / takeover_possible），板子只读 `last_captured`。「缺 6 天」和「其中 2 天当时有机器醒着、只是没人申报代班」是两个人事决定，印成一个数就没人能对它们做事。
+- **两个数不同源不许混印**（本轮自踩一次并当场改）：收集器的账是全史 9 孔，本行 `missing` 只是尾巴之后 6 天。第一版句子写成「6 missing day(s)（…合计 9）」＝一个数配另一套分解；正法两个数都点名（「6 missing after the last captured day, out of 9 recorded since the lane started」），相等时不出从句。
+
+**How to apply**：任何「没人能接手它」的判词，先问写者字段是不是真的空（空=表没填，不是设计缺）；任何「缺 N 天」先问对面那块账有没有成因表，有就搬到人面前，没有就印未知。分布式的领导权判据要么读源码、要么读账，唯独不能读一张手抄名单。
+
+实锚：`scripts/data_lane_freshness.py` selftest **23→25/25**（新增 L26 未申报写者 / L27 成因分解）+ `results/data_lane_freshness.json`（marks 行 `takeover_capable true`、`holes_by_cause` 全等收集器）+ `docs/data_lanes/FRESHNESS.md` 新增「Lanes where a missed day cannot be recovered」与「Who was awake on the days that are missing」两节 + smoke 腿 `fleet: a lane that names its collector is not told nothing can be done`。
+

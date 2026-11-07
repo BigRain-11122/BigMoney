@@ -7,7 +7,7 @@ Verdict: **host_down** -- 5/10 lanes in sync, 5/10 auditable from this machine, 
 
 ## Whose disk these numbers are on
 
-以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（194.78h 未报到）；留在本机盘上的 5 条里 5 条可核实。
+以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（195.1h 未报到）；留在本机盘上的 5 条里 5 条可核实。
 
 - `bm-b`: astock_daily, marks, moneyflow, zt_pool (host down)
 | lane | host | tail | missing (official days) | verdict | authority |
@@ -25,19 +25,20 @@ Verdict: **host_down** -- 5/10 lanes in sync, 5/10 auditable from this machine, 
 
 ## Lanes where a missed day cannot be recovered
 
+- `marks`: an intraday tick capture: a day with no marks file cannot be rebuilt by any machine -- the file is append-only and the ticks it would have held are gone
 - `zt_pool`: pool day slices are terminal at the close; no superset arrives later
+
+## Who was awake on the days that are missing
+
+Each missing day below is classified by its own collector. `takeover_possible` means another machine was awake inside the capture window and nobody declared a stand-in: that day was movable *at the time*. Every other cause means no machine was sampling. Either way the day is behind us -- a takeover declared today starts capturing today.
+
+- `marks`: 6 missing day(s) after the lane's last captured day, out of 9 hole(s) recorded since the lane started (host_down 2, host_offhours 4, lane_missed 1, takeover_possible 2)
 
 ## Hosts that stopped reporting
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (194.78h ago) -- holding back moneyflow, marks, zt_pool, astock_daily
-
-## Lanes nobody can pick up while the host is away
-
-These are not waiting on patience. The host is silent and the collector has no declared-takeover path, so **no machine is allowed to move them** -- the last written envelope stays the newest number the company has, and each day that passes is gone for good where the face is forward-accumulation only. Unblocking one is a decision (reassign the lane, or give its collector the same stale-takeover rule the other eight lanes already have), not a retry.
-
-- `marks`: the row reads another face rather than a collector of its own, so there is nothing to reassign
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (195.1h ago) -- holding back moneyflow, marks, zt_pool, astock_daily
 
 ## Why some lanes cannot be certified here
 
@@ -71,5 +72,5 @@ A quarterly report period cannot be judged by an official trading day: the unit 
 |---|---|---|---|---|---|---|
 | `fund_statements` | bm-b | 20260630 | 20260930 (due 2026-10-31) | 1 | period_missing | yes |
 
-- `fund_statements`: the statute demanded 20260930 from 2026-10-31; the panel on this disk stops at 20260630 (1 period(s) missing) -- host `bm-b` silent 194.78h
+- `fund_statements`: the statute demanded 20260930 from 2026-10-31; the panel on this disk stops at 20260630 (1 period(s) missing) -- host `bm-b` silent 195.1h
 
