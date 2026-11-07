@@ -1,0 +1,570 @@
+{
+ "evidence_cutoff": "2026-11-06",
+ "beta_target": 0.2,
+ "inception": "2024-01-02",
+ "rebal": 20,
+ "n_hold": 5,
+ "cost_bp_per_side": 8.0,
+ "fresh_gate": false,
+ "staleness": {
+  "decisions": 83,
+  "picks": 415,
+  "stale_picks": 0,
+  "stale_share": 0.0,
+  "worst_stale_gap_days": 0,
+  "symbols_with_value_on_last_bar": 1512,
+  "symbols_total": 1514,
+  "decisions_with_too_few_picks": 0
+ },
+ "feed_status": {
+  "ticket_bar": "2026-11-06",
+  "expected_bar": "2026-11-06",
+  "lag_days": 0,
+  "status": "current",
+  "detail": "the ticket is priced on the newest official bar that must exist"
+ },
+ "k_now": 0.460253,
+ "book_decided_at": "2026-10-14",
+ "card_agreement": {
+  "card_decided_at": "2026-10-14",
+  "ticket_book_decided_at": "2026-10-14",
+  "same_decision_bar": true,
+  "ticket_is_prefix_of_card": true,
+  "card_names": 12,
+  "card_priced_bar": "2026-11-06",
+  "ticket_priced_bar": "2026-11-06",
+  "same_priced_bar": true,
+  "card_feed_status": "current"
+ },
+ "next_decision_bars": 3,
+ "ticket": {
+  "beta_k": 0.460253,
+  "book_weight": 0.460253,
+  "cash_weight": 0.539747,
+  "nav": 1000000.0,
+  "order": [
+   {
+    "symbol": "159501",
+    "weight": 0.092051,
+    "price": 2.069,
+    "lots": 444,
+    "shares": 44400,
+    "amount": 91863.6,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "513100",
+    "weight": 0.092051,
+    "price": 11.0388,
+    "lots": 83,
+    "shares": 8300,
+    "amount": 91621.66,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "513690",
+    "weight": 0.092051,
+    "price": 1.158,
+    "lots": 794,
+    "shares": 79400,
+    "amount": 91945.2,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "159577",
+    "weight": 0.092051,
+    "price": 1.612,
+    "lots": 571,
+    "shares": 57100,
+    "amount": 92045.2,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "159263",
+    "weight": 0.092051,
+    "price": 1.143,
+    "lots": 805,
+    "shares": 80500,
+    "amount": 92011.5,
+    "class": "equity",
+    "note": ""
+   }
+  ],
+  "book_amount": 459487.16,
+  "cash_amount": 540512.84,
+  "cash_leg": "GC001 (1-day repo, observed close)",
+  "basket_drift": [],
+  "underspend_pct": 0.0766
+ },
+ "metrics": {
+  "book": {
+   "cagr": 0.1246,
+   "sharpe": 1.684,
+   "maxdd": -0.0578,
+   "vol": 0.074,
+   "bars": 688
+  },
+  "same_beta_benchmark": {
+   "cagr": 0.0287,
+   "sharpe": 0.755,
+   "maxdd": -0.0396,
+   "vol": 0.038,
+   "bars": 688
+  },
+  "excess_pp": 9.59
+ },
+ "reprice": {
+  "status": "ok",
+  "verdict": "REPRICED_TO_THE_BAR_YOU_PAY",
+  "decision_bar": "2026-10-14 00:00:00",
+  "priced_bar": "2026-11-06",
+  "n_names": 5,
+  "n_repriced": 5,
+  "worst_drift_pct": 10.0452,
+  "amount_delta_cny": -372.25,
+  "lots_delta": 74,
+  "missing": [],
+  "names": [
+   {
+    "symbol": "159501",
+    "decision_price": 2.229,
+    "priced_price": 2.069,
+    "drift_pct": -7.1781,
+    "lots_at_decision": 412,
+    "lots_at_priced": 444,
+    "amount_at_decision": 91834.8,
+    "amount_at_priced": 91863.6
+   },
+   {
+    "symbol": "513100",
+    "decision_price": 12.2715,
+    "priced_price": 11.0388,
+    "drift_pct": -10.0452,
+    "lots_at_decision": 75,
+    "lots_at_priced": 83,
+    "amount_at_decision": 92036.51,
+    "amount_at_priced": 91621.66
+   },
+   {
+    "symbol": "513690",
+    "decision_price": 1.137,
+    "priced_price": 1.158,
+    "drift_pct": 1.847,
+    "lots_at_decision": 809,
+    "lots_at_priced": 794,
+    "amount_at_decision": 91983.3,
+    "amount_at_priced": 91945.2
+   },
+   {
+    "symbol": "159577",
+    "decision_price": 1.75,
+    "priced_price": 1.612,
+    "drift_pct": -7.8857,
+    "lots_at_decision": 526,
+    "lots_at_priced": 571,
+    "amount_at_decision": 92050.0,
+    "amount_at_priced": 92045.2
+   },
+   {
+    "symbol": "159263",
+    "decision_price": 1.148,
+    "priced_price": 1.143,
+    "drift_pct": -0.4355,
+    "lots_at_decision": 801,
+    "lots_at_priced": 805,
+    "amount_at_decision": 91954.8,
+    "amount_at_priced": 92011.5
+   }
+  ],
+  "sentence": "5 of 5 names moved between the decision bar (2026-10-14 00:00:00) and the priced bar (2026-11-06); worst drift 10.05%, whole book -372 CNY and +74 lots versus the same weights priced on the decision bar"
+ },
+ "book_leg": {
+  "turnover_per_rebal": 1.5301,
+  "open_gapfill": 1
+ },
+ "cash_leg": {
+  "source": "data/repo_daily/GC001.csv",
+  "mean_accrual_ann_pct": 2.079,
+  "accrual_window": {
+   "first": "2020-01-02",
+   "last": "2026-11-06",
+   "years": 6.84
+  },
+  "missing_bar_steps": 7,
+  "money": {
+   "cash_amount_cny": 540512.84,
+   "spot": {
+    "pct": 1.09,
+    "date": "2026-10-27",
+    "annual_cny": 5892.0,
+    "quotes": 250
+   },
+   "mean_tail": {
+    "pct": 1.3559,
+    "annual_cny": 7329.0
+   },
+   "window": {
+    "pct": 2.0795,
+    "annual_cny": 11240.0
+   },
+   "tail": 250,
+   "fall_bp": 25.0,
+   "verdict": "RATES_FELL",
+   "sentence": "现金 ¥540,512 按 2026-10-27 报价 1.09% 一年赚 ¥5,892；按自己近 250 个报价的均值 1.36% 是 ¥7,329；按账本自己走过的全窗均值 2.08% 是 ¥11,240。差出来的 ¥1,437 是利率掉了，不是这个月选错了票。",
+   "spread_vs_tail_cny": -1437.0,
+   "spread_vs_window_cny": -5348.0
+  }
+ },
+ "ledger": {
+  "bars": 688,
+  "nav": 1.45936114,
+  "rows_added": 2,
+  "engine_naive_vs_ledger": 0.0606784025
+ },
+ "entry_gate": {
+  "status": "ok",
+  "artifact": "results\\etf_book_entry_gate.json",
+  "evidence_cutoff": "2026-10-30",
+  "panel_last_bar": "2026-10-30",
+  "verdict": "GATE_SITS_ON_PLATEAU",
+  "sentence": "halving or doubling the shipped cut moves the declared arm by at most 0.53pp and no gate beats it by more than 0.21pp, so 20M is a plateau -- the number is not load-bearing and any future line may inherit it safely",
+  "shipped_cny": 20000000.0,
+  "tol_pp": 1.0,
+  "near_max_pp": 0.53,
+  "best_delta_pp": 0.21,
+  "gates": [
+   {
+    "gate_m": 5.0,
+    "gate_cny": 5000000.0,
+    "cagr": 0.0867,
+    "sharpe": 0.891,
+    "maxdd": -0.1651,
+    "median_names": 462,
+    "turnover": 0.958,
+    "delta_pp": 0.21
+   },
+   {
+    "gate_m": 10.0,
+    "gate_cny": 10000000.0,
+    "cagr": 0.0867,
+    "sharpe": 0.891,
+    "maxdd": -0.1651,
+    "median_names": 367,
+    "turnover": 0.958,
+    "delta_pp": 0.21
+   },
+   {
+    "gate_m": 20.0,
+    "gate_cny": 20000000.0,
+    "cagr": 0.0846,
+    "sharpe": 0.874,
+    "maxdd": -0.1656,
+    "median_names": 262,
+    "turnover": 0.953,
+    "delta_pp": 0.0
+   },
+   {
+    "gate_m": 50.0,
+    "gate_cny": 50000000.0,
+    "cagr": 0.0793,
+    "sharpe": 0.832,
+    "maxdd": -0.202,
+    "median_names": 154,
+    "turnover": 0.877,
+    "delta_pp": -0.53
+   },
+   {
+    "gate_m": 100.0,
+    "gate_cny": 100000000.0,
+    "cagr": 0.0865,
+    "sharpe": 0.891,
+    "maxdd": -0.2066,
+    "median_names": 94,
+    "turnover": 0.779,
+    "delta_pp": 0.19
+   },
+   {
+    "gate_m": 200.0,
+    "gate_cny": 200000000.0,
+    "cagr": 0.055,
+    "sharpe": 0.583,
+    "maxdd": -0.2269,
+    "median_names": 56,
+    "turnover": 0.68,
+    "delta_pp": -2.96
+   }
+  ],
+  "widest_names": 462,
+  "narrowest_names": 56,
+  "width_ratio": 8.25,
+  "universe_measured": 1504,
+  "universe_published": 1504,
+  "control": {
+   "published_declared_cagr": 0.0846,
+   "arm_declared_cagr": 0.0846,
+   "delta_pp": 0.0,
+   "tol_pp": 0.25
+  }
+ },
+ "width_disclosure": {
+  "ticket_names": 5,
+  "card_names": 12,
+  "ticket_rule": "beta",
+  "card_rule": "vol",
+  "ticket": {
+   "cagr": 0.1119,
+   "sharpe": 1.373,
+   "maxdd": -0.0601,
+   "vol": 0.0815
+  },
+  "card": {
+   "cagr": 0.1221,
+   "sharpe": 1.389,
+   "maxdd": -0.0795,
+   "vol": 0.0879
+  },
+  "width_effect": {
+   "vol": {
+    "ticket_width_cagr": 0.1197,
+    "card_width_cagr": 0.1221,
+    "pp": 0.24
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1119,
+    "card_width_cagr": 0.0966,
+    "pp": -1.53
+   }
+  },
+  "rules_differ": true,
+  "delta_ticket_minus_card": {
+   "cagr_pp": -1.02,
+   "sharpe": -0.016,
+   "maxdd_pp": 1.94,
+   "vol_pp": -0.64
+  },
+  "square": {
+   "cells": {
+    "beta@5": {
+     "cagr": 0.1119,
+     "sharpe": 1.373,
+     "maxdd": -0.0601,
+     "turnover": 1.5301,
+     "cash_share": 0.5501
+    },
+    "beta@12": {
+     "cagr": 0.0966,
+     "sharpe": 1.583,
+     "maxdd": -0.0417,
+     "turnover": 1.3032,
+     "cash_share": 0.6191
+    },
+    "vol@5": {
+     "cagr": 0.1197,
+     "sharpe": 1.382,
+     "maxdd": -0.0756,
+     "turnover": 1.5301,
+     "cash_share": 0.4792
+    },
+    "vol@12": {
+     "cagr": 0.1221,
+     "sharpe": 1.389,
+     "maxdd": -0.0795,
+     "turnover": 1.3032,
+     "cash_share": 0.4271
+    }
+   },
+   "width_effect_pp": {
+    "beta": -1.53,
+    "vol": 0.24
+   },
+   "rule_effect_pp": {
+    "n5": 0.78,
+    "n12": 2.55
+   },
+   "interaction_pp": 1.77,
+   "published_diagonal_pp": 1.02,
+   "sharpe_width_effect": {
+    "beta": 0.21,
+    "vol": 0.007
+   },
+   "sharpe_rule_effect": {
+    "n5": 0.009,
+    "n12": -0.194
+   }
+  },
+  "same_accounting": "one ledger (GC001 cash leg, next-open fills, 8bp/side); width and leverage rule each varied in turn",
+  "source": "results/etf_book_width_audit.json",
+  "evidence_cutoff": "2026-10-30"
+ },
+ "live_width_ruler": {
+  "state": "inside_disagreement",
+  "detail": "paired median +0.120pp inside a 2.035pp engine disagreement",
+  "sheet": null,
+  "sheet_role": null,
+  "verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
+  "published_verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
+  "gap_pp": 0.12,
+  "disagreement_pp": 2.035,
+  "share_of_disagreement": 0.059,
+  "resolution_pp": 0.793,
+  "gap_over_resolution": 0.151,
+  "below_own_resolution": true,
+  "power_target": 0.8,
+  "paired_sd_pp": 1.265,
+  "atlas_rung_pp": 0.505,
+  "capacity_rung_pp": -1.53,
+  "sign_flips": true,
+  "sign_agreement": 0.5,
+  "pairs": 20,
+  "positive_phases": 10,
+  "min_pp": -2.01,
+  "max_pp": 2.86,
+  "spread_pp": 4.87,
+  "widths": {
+   "ticket": {
+    "live_n_hold": 5,
+    "priced_n_hold": 5,
+    "live_rule": "beta",
+    "priced_rule": "beta"
+   },
+   "card": {
+    "live_n_hold": 12,
+    "priced_n_hold": 12,
+    "live_rule": "vol",
+    "priced_rule": "vol_target"
+   }
+  },
+  "age_days": 7,
+  "evidence_cutoff": "2026-10-30",
+  "asof": "2026-11-06",
+  "source": "results/etf_book_live_width_ruler.json"
+ },
+ "price_basis": {
+  "panel": "repaired (flip prints neutralised before any measurement)",
+  "flip_thr": 0.35,
+  "flip_prints": 165,
+  "symbols_with_a_flip": 156,
+  "columns": 1514,
+  "sentence": "本面的数字算在**已修复**的面板上：**165 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 156 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1514 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。",
+  "neutralised": true,
+  "panel_digest": {
+   "digest": "58302d9ca988c138",
+   "dates": 5275,
+   "columns": 1624,
+   "first": "2005-02-23",
+   "last": "2026-11-06",
+   "blocks": [
+    "close",
+    "open",
+    "amount"
+   ],
+   "amount_columns": 1624
+  }
+ },
+ "family_coherence": {
+  "artifact": "results/etf_book_phase_atlas_arms.json",
+  "verdict": "ONE_WORLD",
+  "detail": "all 11 faces priced a1a42aee64453839",
+  "panels": [
+   "a1a42aee64453839"
+  ],
+  "arms": 10,
+  "evidence_cutoff": "2026-10-30",
+  "priced_same_panel": true
+ },
+ "priced_faces": {
+  "faces": {
+   "card": "2026-11-06",
+   "ticket": "2026-11-06",
+   "page": "2026-10-30"
+  },
+  "verdict": "DIFFERENT_DAYS",
+  "detail": "priced on different bars: card 2026-11-06 / ticket 2026-11-06 / page 2026-10-30",
+  "missing": [],
+  "same_day": false
+ },
+ "carry_split": {
+  "artifact": "results/etf_book_return_regime.json",
+  "evidence_cutoff": "2026-10-30",
+  "beta": 0.2,
+  "beta_requested": 0.2,
+  "observed_pct": 12.78,
+  "flat_today_pct": 12.42,
+  "zero_pct": 11.73,
+  "carry_pp": 1.05,
+  "flat_rate_cost_pp": 0.36,
+  "carry_share_pct": 8.2,
+  "pp_per_100bp": 0.404,
+  "cash_share": 0.5642,
+  "rate_today_pct": 1.09,
+  "rate_today_date": "2026-10-27",
+  "rate_observed_pct": 1.9819,
+  "identity_matched": false
+ },
+ "restatements": {
+  "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
+  "readable": true,
+  "source": "restatements",
+  "notices": [
+   {
+    "bar": "2026-10-29",
+    "ts": "2026-10-30T19:18:29+0800",
+    "nav_published": 1.014536476,
+    "nav_settled": 1.0145314121,
+    "delta": 5.0639e-06,
+    "reason": "published while the panel for that date was still gaining symbols"
+   },
+   {
+    "bar": "2026-11-02",
+    "ts": "2026-11-02T23:11:55+0800",
+    "nav_published": 1.0086329582,
+    "nav_settled": null,
+    "delta": null,
+    "reason": "published on a bar the panel's coverage gate has since refused; the panel's last bar is earlier than this date, so it can never re-derive"
+   },
+   {
+    "bar": "2026-11-03",
+    "ts": "2026-11-05T20:29:33+0800",
+    "nav_published": 1.0037553579,
+    "nav_settled": 1.0037561821,
+    "delta": 8.242e-07,
+    "reason": "published while the panel for that date was still gaining symbols"
+   }
+  ],
+  "bars": [
+   "2026-10-29",
+   "2026-11-02",
+   "2026-11-03"
+  ],
+  "bars_published": 9
+ },
+ "bets": {
+  "status": "ok",
+  "verdict": "TWOISH_BETS",
+  "sentence": "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it",
+  "effective_bets": 2.1648970197587434,
+  "risk_split": 4.29358560781991,
+  "nominal_bets": 4.999999999999999,
+  "evidence_cutoff": "2026-11-05"
+ },
+ "concentration": {
+  "status": "ok",
+  "sentence": "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
+  "evidence_cutoff": "2026-10-30",
+  "verdict": "BROAD|SURVIVES_WITHOUT_TOP3"
+ },
+ "caveats": [
+  "survivorship: on-disk panel holds ETFs that still exist",
+  "ticket prices are closes; no impact cost, no limit-move guard",
+  "GC001 single tenor, rolling assumed cost-free",
+  "k revised every 20 bars so delivered beta still wanders",
+  "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it (measured on the 2026-11-05 bar)",
+  "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3） (measured on the 2026-10-30 bar)",
+  "exploratory: no preregistration, no verdict, no ledger booking",
+  "this ticket is the 5-name aggressive end of the book; the production card runs 12 names -- see width_disclosure"
+ ]
+}

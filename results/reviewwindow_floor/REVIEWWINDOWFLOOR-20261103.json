@@ -1,0 +1,254 @@
+{
+ "study": "E199 review-window detection floor",
+ "evidence_cutoff": "2026-11-03",
+ "spec": {
+  "basket": [
+   "510300",
+   "510050",
+   "510500",
+   "512100",
+   "588000",
+   "159915",
+   "159919",
+   "510880",
+   "512880",
+   "518880",
+   "511010",
+   "159928",
+   "159920",
+   "512170",
+   "512480",
+   "515000",
+   "510180",
+   "510310",
+   "513100",
+   "159949"
+  ],
+  "bench": "510300",
+  "window_months": [
+   6,
+   7,
+   12,
+   1
+  ],
+  "window_def": "reused from E196, not re-picked here",
+  "statistic": "mean standardised |member - bench monthly return|",
+  "alpha_pooled": 0.01,
+  "alpha_cell": 0.1,
+  "power_target": 0.8,
+  "rule": "pooled p<=alpha -> detected; else observed ratio < floor -> negative is below the detection floor; else -> effect size above the floor yet not significant (published as a red flag)"
+ },
+ "missing_files": [
+  "510880",
+  "510180"
+ ],
+ "skipped_short_history": [],
+ "answers": {
+  "cells_measured": 17,
+  "months": 1367,
+  "window_months_pooled": 440,
+  "observed": {
+   "pooled_perm_p": 0.21225,
+   "observed_ratio": 1.129084
+  },
+  "floor": {
+   "alpha": 0.01,
+   "power": 0.8,
+   "effect_multiplier_at_floor": 1.323593,
+   "min_detectable_ratio": 1.477805
+  },
+  "cell_floors": {
+   "n_cells_with_floor": 16,
+   "median": 1.671388,
+   "min": 1.502159,
+   "max": 2.58594
+  },
+  "power_curve": [
+   {
+    "effect_multiplier": 1.0,
+    "ratio": 1.129084,
+    "power": 0.08208
+   },
+   {
+    "effect_multiplier": 1.1,
+    "ratio": 1.237446,
+    "power": 0.256758
+   },
+   {
+    "effect_multiplier": 1.25,
+    "ratio": 1.398972,
+    "power": 0.644962
+   },
+   {
+    "effect_multiplier": 1.5,
+    "ratio": 1.665753,
+    "power": 0.970469
+   },
+   {
+    "effect_multiplier": 2.0,
+    "ratio": 2.19164,
+    "power": 0.999993
+   }
+  ],
+  "validation": {
+   "analytic_sd_vs_permutation": {
+    "analytic": 0.08987295,
+    "empirical": 0.0906647,
+    "rel_diff": 0.00881
+   },
+   "discrete_check": {
+    "at_floor_perm_p": 0.0,
+    "below_floor_scale": 1.125054,
+    "below_floor_perm_p": 0.047,
+    "draws": 4000
+   }
+  },
+  "cells": [
+   {
+    "code": "510050",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 1.003651,
+    "min_detectable_ratio": 1.528662,
+    "effect_multiplier_at_floor": 1.523101
+   },
+   {
+    "code": "510500",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 1.260384,
+    "min_detectable_ratio": 1.538758,
+    "effect_multiplier_at_floor": 1.220864
+   },
+   {
+    "code": "512100",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 0.736203,
+    "min_detectable_ratio": 2.58594,
+    "effect_multiplier_at_floor": 3.512536
+   },
+   {
+    "code": "588000",
+    "months": 71,
+    "window_months": 24,
+    "observed_ratio": 0.986268,
+    "min_detectable_ratio": 1.671388,
+    "effect_multiplier_at_floor": 1.694659
+   },
+   {
+    "code": "159915",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 1.174201,
+    "min_detectable_ratio": 1.549801,
+    "effect_multiplier_at_floor": 1.319877
+   },
+   {
+    "code": "159919",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 2.475348,
+    "min_detectable_ratio": 2.475348,
+    "effect_multiplier_at_floor": 1.0
+   },
+   {
+    "code": "512880",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 1.23286,
+    "min_detectable_ratio": 1.514756,
+    "effect_multiplier_at_floor": 1.228652
+   },
+   {
+    "code": "518880",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 0.995474,
+    "min_detectable_ratio": 1.502159,
+    "effect_multiplier_at_floor": 1.508988
+   },
+   {
+    "code": "511010",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 1.151569,
+    "min_detectable_ratio": 1.58382,
+    "effect_multiplier_at_floor": 1.375359
+   },
+   {
+    "code": "159928",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 2.17132,
+    "min_detectable_ratio": 2.514184,
+    "effect_multiplier_at_floor": 1.157906
+   },
+   {
+    "code": "159920",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 1.287206,
+    "min_detectable_ratio": 1.578302,
+    "effect_multiplier_at_floor": 1.226146
+   },
+   {
+    "code": "512170",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 1.002253,
+    "min_detectable_ratio": 1.815894,
+    "effect_multiplier_at_floor": 1.811813
+   },
+   {
+    "code": "512480",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 1.224407,
+    "min_detectable_ratio": 1.855583,
+    "effect_multiplier_at_floor": 1.515495
+   },
+   {
+    "code": "515000",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 0.982917,
+    "min_detectable_ratio": 1.806942,
+    "effect_multiplier_at_floor": 1.838347
+   },
+   {
+    "code": "510310",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 0.200903,
+    "min_detectable_ratio": null,
+    "effect_multiplier_at_floor": null
+   },
+   {
+    "code": "513100",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 1.285852,
+    "min_detectable_ratio": 2.030638,
+    "effect_multiplier_at_floor": 1.579216
+   },
+   {
+    "code": "159949",
+    "months": 81,
+    "window_months": 26,
+    "observed_ratio": 1.138661,
+    "min_detectable_ratio": 1.541391,
+    "effect_multiplier_at_floor": 1.353688
+   }
+  ],
+  "verdict": "negative_is_below_the_detection_floor"
+ },
+ "honest": [
+  "The floor is a property of the TEST, not of the market: it says which effect sizes this panel size (17 cells x ~80 months, ~26 window months per cell) could have flagged at 80% power, and says nothing about whether a bigger effect exists.",
+  "Power is computed for a multiplicative window effect that hits every cell in the same direction. An effect concentrated in a few cells, or pointing both ways, needs a bigger per-cell move to be detected -- the per-cell floors published here are that reading.",
+  "The permuted null keeps the observed |gap| multisets, so the floor inherits this panel's own gap dispersion: a quieter panel would show a lower floor without the world being easier to read.",
+  "Cells are a cross-section on the SAME timeline, so the pooled p counts correlated members as separate evidence -- the floor is published beside the per-cell floors for that reason."
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

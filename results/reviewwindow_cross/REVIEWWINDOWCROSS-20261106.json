@@ -1,0 +1,359 @@
+{
+ "study": "E198 review-window cross-panel probe",
+ "evidence_cutoff": "2026-11-06",
+ "spec": {
+  "basket": [
+   "510300",
+   "510050",
+   "510500",
+   "512100",
+   "588000",
+   "159915",
+   "159919",
+   "510880",
+   "512880",
+   "518880",
+   "511010",
+   "159928",
+   "159920",
+   "512170",
+   "512480",
+   "515000",
+   "510180",
+   "510310",
+   "513100",
+   "159949"
+  ],
+  "bench": "510300",
+  "window_months": [
+   6,
+   7,
+   12,
+   1
+  ],
+  "window_def": "reused from E196, not re-picked here",
+  "statistic": "mean standardised |member - bench monthly return|",
+  "cell_p_max": 0.1,
+  "pooled_p_max": 0.01,
+  "min_months_per_cell": 36,
+  "min_cells": 8,
+  "rule": "pooled p<=0.01 AND >=half of cells p<=0.10 -> holds; either alone -> partial; else no signal"
+ },
+ "cells": [
+  {
+   "code": "510050",
+   "months": 81,
+   "mean_abs_gap_bp": 156.508,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.489,
+    "ratio": 1.003651,
+    "inside_mean": 1.002476,
+    "outside_mean": 0.998829
+   }
+  },
+  {
+   "code": "510500",
+   "months": 81,
+   "mean_abs_gap_bp": 305.322,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.12275,
+    "ratio": 1.260384,
+    "inside_mean": 1.163166,
+    "outside_mean": 0.922867
+   }
+  },
+  {
+   "code": "512100",
+   "months": 81,
+   "mean_abs_gap_bp": 548.787,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.36375,
+    "ratio": 0.736203,
+    "inside_mean": 0.804308,
+    "outside_mean": 1.092509
+   }
+  },
+  {
+   "code": "588000",
+   "months": 71,
+   "mean_abs_gap_bp": 590.918,
+   "window": {
+    "n_inside": 24,
+    "n_outside": 47,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.5205,
+    "ratio": 0.986268,
+    "inside_mean": 0.990867,
+    "outside_mean": 1.004663
+   }
+  },
+  {
+   "code": "159915",
+   "months": 81,
+   "mean_abs_gap_bp": 422.278,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.226,
+    "ratio": 1.174201,
+    "inside_mean": 1.112021,
+    "outside_mean": 0.947045
+   }
+  },
+  {
+   "code": "159919",
+   "months": 81,
+   "mean_abs_gap_bp": 34.807,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.016,
+    "ratio": 2.475348,
+    "inside_mean": 1.679832,
+    "outside_mean": 0.678625
+   }
+  },
+  {
+   "code": "512880",
+   "months": 81,
+   "mean_abs_gap_bp": 334.921,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.1445,
+    "ratio": 1.23286,
+    "inside_mean": 1.147118,
+    "outside_mean": 0.930453
+   }
+  },
+  {
+   "code": "518880",
+   "months": 81,
+   "mean_abs_gap_bp": 524.51,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.49675,
+    "ratio": 0.995474,
+    "inside_mean": 0.996923,
+    "outside_mean": 1.001455
+   }
+  },
+  {
+   "code": "511010",
+   "months": 81,
+   "mean_abs_gap_bp": 412.992,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.25425,
+    "ratio": 1.151569,
+    "inside_mean": 1.098142,
+    "outside_mean": 0.953606
+   }
+  },
+  {
+   "code": "159928",
+   "months": 81,
+   "mean_abs_gap_bp": 460.464,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.033,
+    "ratio": 2.17132,
+    "inside_mean": 1.578018,
+    "outside_mean": 0.726755
+   }
+  },
+  {
+   "code": "159920",
+   "months": 81,
+   "mean_abs_gap_bp": 373.049,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.12225,
+    "ratio": 1.287206,
+    "inside_mean": 1.178555,
+    "outside_mean": 0.915592
+   }
+  },
+  {
+   "code": "512170",
+   "months": 81,
+   "mean_abs_gap_bp": 548.537,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.39875,
+    "ratio": 1.002253,
+    "inside_mean": 1.001529,
+    "outside_mean": 0.999277
+   }
+  },
+  {
+   "code": "512480",
+   "months": 81,
+   "mean_abs_gap_bp": 870.456,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.2275,
+    "ratio": 1.224407,
+    "inside_mean": 1.142137,
+    "outside_mean": 0.932808
+   }
+  },
+  {
+   "code": "515000",
+   "months": 81,
+   "mean_abs_gap_bp": 533.349,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.49475,
+    "ratio": 0.982917,
+    "inside_mean": 0.988336,
+    "outside_mean": 1.005514
+   }
+  },
+  {
+   "code": "510310",
+   "months": 81,
+   "mean_abs_gap_bp": 175.562,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.30625,
+    "ratio": 0.200903,
+    "inside_mean": 0.270213,
+    "outside_mean": 1.34499
+   }
+  },
+  {
+   "code": "513100",
+   "months": 81,
+   "mean_abs_gap_bp": 731.823,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.2285,
+    "ratio": 1.285852,
+    "inside_mean": 1.177784,
+    "outside_mean": 0.915957
+   }
+  },
+  {
+   "code": "159949",
+   "months": 81,
+   "mean_abs_gap_bp": 486.004,
+   "window": {
+    "n_inside": 26,
+    "n_outside": 55,
+    "draws": 4000,
+    "seed": 20261029,
+    "perm_p": 0.25825,
+    "ratio": 1.138661,
+    "inside_mean": 1.09014,
+    "outside_mean": 0.957388
+   }
+  }
+ ],
+ "missing_files": [
+  "510880",
+  "510180"
+ ],
+ "skipped_short_history": [],
+ "answers": {
+  "cells_measured": 17,
+  "cells_sig": [
+   "159919",
+   "159928"
+  ],
+  "cells_sig_expected_by_chance": 1.7,
+  "cells_sig_binomial_tail_p": 0.518215,
+  "pooled": {
+   "perm_p": 0.21225,
+   "ratio": 1.129084,
+   "n_months": 1367,
+   "n_cells": 17,
+   "draws": 4000,
+   "seed": 20261029
+  },
+  "pooled_alt_windows": {
+   "strict_review": {
+    "perm_p": 0.45325,
+    "ratio": 0.973428,
+    "n_months": 1367,
+    "n_cells": 17,
+    "draws": 4000,
+    "seed": 20261029
+   },
+   "spill": {
+    "perm_p": 0.13875,
+    "ratio": 1.235621,
+    "n_months": 1367,
+    "n_cells": 17,
+    "draws": 4000,
+    "seed": 20261029
+   }
+  },
+  "dispersion": {
+   "n_inside": 26,
+   "n_outside": 55,
+   "draws": 4000,
+   "seed": 20261029,
+   "perm_p": 0.37725,
+   "ratio": 1.064473,
+   "inside_mean": 1.04289,
+   "outside_mean": 0.979725,
+   "months": 81
+  },
+  "verdict": "no_outside_family_signal"
+ },
+ "honest": [
+  "Cells are a cross-section on the SAME timeline, so unlike E196's eras they cannot be made disjoint: the pooled p treats correlated members as separate evidence and is quoted beside the per-cell count that the rule also requires.",
+  "The measured quantity is a single ETF's monthly return versus the benchmark, not the family's book-versus-benchmark level gap, so a window effect here is a mechanism for relative performance and still does not license the drop family's era verdicts.",
+  "The basket is 20 declared names with local files; a name without a file is published in missing_files and is NOT replaced, so the panel is whatever those names are, not a random sample of the ETF universe.",
+  "The final month is dropped wherever the benchmark file ends mid-month, because a partial month is not a monthly return."
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}
