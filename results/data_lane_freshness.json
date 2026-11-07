@@ -1,23 +1,22 @@
 {
  "schema": "data-lane-freshness/v1",
- "as_of": "2026-11-07T11:29:22",
+ "as_of": "2026-11-07T12:42:02",
  "close_accept_time": "15:30",
  "calendar_path": "data/exchange_calendar.csv",
  "calendar_days": 8797,
  "expected_last_official_day": "2026-11-06",
  "counts": {
   "retired": 1,
-  "unverifiable": 5,
-  "in_sync": 4
+  "unverifiable": 4,
+  "in_sync": 5
  },
  "n_lanes": 10,
- "n_auditable": 4,
+ "n_auditable": 5,
  "unverifiable_lanes": [
   "moneyflow",
   "marks",
   "zt_pool",
-  "heat",
-  "etf_panel"
+  "heat"
  ],
  "verdict": "host_down",
  "hosts": {
@@ -28,11 +27,9 @@
     "futures",
     "lhb"
    ],
-   "lanes_unverifiable": [
-    "etf_panel"
-   ],
-   "last_seen": "2026-11-07T10:24:31",
-   "age_h": 1.08,
+   "lanes_unverifiable": [],
+   "last_seen": "2026-11-07T11:31:24+08:00",
+   "age_h": 1.18,
    "alive": true
   },
   "bm-b": {
@@ -52,7 +49,7 @@
     "heat"
    ],
    "last_seen": "2026-10-30T12:43:06+08:00",
-   "age_h": 190.77,
+   "age_h": 191.98,
    "alive": false
   }
  },
@@ -65,6 +62,10 @@
   "moneyflow",
   "zt_pool"
  ],
+ "frozen_without_takeover": [
+  "marks",
+  "moneyflow"
+ ],
  "host_down_hours": 2.0,
  "worst": "moneyflow",
  "disk": {
@@ -73,8 +74,8 @@
   "n_lanes": 9,
   "n_offhost": 4,
   "n_here": 5,
-  "n_auditable_here": 4,
-  "n_unsigned_here": 1,
+  "n_auditable_here": 5,
+  "n_unsigned_here": 0,
   "groups": [
    {
     "machine": "bm-b",
@@ -86,7 +87,7 @@
     ],
     "n": 4,
     "alive": false,
-    "age_h": 190.77,
+    "age_h": 191.98,
     "last_seen": "2026-10-30T12:43:06+08:00"
    }
   ],
@@ -96,14 +97,14 @@
    "moneyflow",
    "zt_pool"
   ],
-  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（190.77h 未报到）；留在本机盘上的 5 条里 4 条可核实，1 条连署名都没有。",
+  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（191.98h 未报到）；留在本机盘上的 5 条里 5 条可核实。",
   "labels": {
    "moneyflow": "无主封套",
    "marks": "无主封套",
    "zt_pool": "他机本地副本",
    "heat": "无主封套",
    "astock_daily": "申报接管",
-   "etf_panel": "无主封套",
+   "etf_panel": "宿主自己写的封套",
    "futures": "宿主自己写的封套",
    "lhb": "宿主自己写的封套",
    "repo": "申报接管"
@@ -115,6 +116,7 @@
    "lane": "options",
    "dept": "data",
    "owner": "bm-b",
+   "writer": "update_options",
    "kind": "status",
    "tail": "2026-09-30",
    "expected": "2026-11-06",
@@ -146,18 +148,20 @@
    "verdict": "retired",
    "reported_by": null,
    "lane_host": "bm-b",
+   "takeover_capable": false,
    "authority": "unattributed",
    "auditable": false,
    "copy_verdict": "stalled",
    "retired_reason": "O-20261009-1105 -- the options face is closed; the panel is a historical wave-2 batch with no forward accumulation",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 190.77,
+   "host_age_h": 191.98,
    "host_alive": false
   },
   {
    "lane": "moneyflow",
    "dept": "data",
    "owner": "bm-b",
+   "writer": "update_moneyflow",
    "kind": "status",
    "tail": "2026-10-19",
    "expected": "2026-11-06",
@@ -181,18 +185,20 @@
    "verdict": "unverifiable",
    "reported_by": null,
    "lane_host": "bm-b",
+   "takeover_capable": false,
    "authority": "unattributed",
    "auditable": false,
    "copy_verdict": "stalled",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 190.77,
+   "host_age_h": 191.98,
    "host_alive": false
   },
   {
    "lane": "marks",
    "dept": "data",
    "owner": "bm-b",
+   "writer": null,
    "kind": "external",
    "tail": "2026-10-29",
    "expected": "2026-11-06",
@@ -209,18 +215,20 @@
    "reported_by": null,
    "audited_by": "marks_coverage (the paper marks lane keeps its own hole counters; this row reads only its last captured day)",
    "lane_host": "bm-b",
+   "takeover_capable": false,
    "authority": "unattributed",
    "auditable": false,
    "copy_verdict": "stalled",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 190.77,
+   "host_age_h": 191.98,
    "host_alive": false
   },
   {
    "lane": "zt_pool",
    "dept": "data",
    "owner": "bm-b",
+   "writer": "update_zt_pool",
    "kind": "zt_days",
    "tail": "2026-10-29",
    "expected": "2026-11-06",
@@ -242,18 +250,20 @@
    },
    "loss_mode": "pool day slices are terminal at the close; no superset arrives later",
    "lane_host": "bm-b",
+   "takeover_capable": true,
    "authority": "non_host_copy",
    "auditable": false,
    "copy_verdict": "stalled",
    "why": "read from this machine's local copy; the lane is hosted by bm-b",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 190.77,
+   "host_age_h": 191.98,
    "host_alive": false
   },
   {
    "lane": "heat",
    "dept": "data",
    "owner": "bm-b",
+   "writer": "update_heat",
    "kind": "status",
    "tail": "2026-11-05",
    "expected": "2026-11-06",
@@ -268,18 +278,20 @@
    "tail_source": "local_copy_fallback",
    "loss_mode": "a missed day is permanent: the guba rank is a live rolling list with no retrievable history (HEAT_ATTENTION_SPEC §1)",
    "lane_host": "bm-b",
+   "takeover_capable": true,
    "authority": "unattributed",
    "auditable": false,
    "copy_verdict": "behind_1d",
    "why": "the lane publishes no tail and this reading is this machine's local copy; it is hosted by bm-b",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 190.77,
+   "host_age_h": 191.98,
    "host_alive": false
   },
   {
    "lane": "astock_daily",
    "dept": "data",
    "owner": "bm-b",
+   "writer": "update_astock_daily",
    "kind": "status",
    "tail": "2026-11-06",
    "expected": "2026-11-06",
@@ -290,39 +302,41 @@
    "data_face_machine": "bm-a",
    "declared_takeover_by": "bm-a",
    "lane_host": "bm-b",
+   "takeover_capable": true,
    "authority": "declared_takeover",
    "auditable": true,
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 190.77,
+   "host_age_h": 191.98,
    "host_alive": false
   },
   {
    "lane": "etf_panel",
    "dept": "data",
    "owner": "bm-a",
+   "writer": "update_etf_daily",
    "kind": "external",
    "tail": "2026-11-06",
    "expected": "2026-11-06",
    "missing_days": [],
    "n_missing": 0,
-   "verdict": "unverifiable",
-   "reported_by": null,
+   "verdict": "in_sync",
+   "reported_by": "bm-a",
    "audited_by": "exchange_calendar_audit (E136)",
    "cited_verdict": "in_sync",
    "face_disagreement": false,
    "lane_host": "bm-a",
-   "authority": "unattributed",
-   "auditable": false,
-   "copy_verdict": "in_sync",
-   "why": "the envelope does not name the machine whose data it describes",
-   "host_last_seen": "2026-11-07T10:24:31",
-   "host_age_h": 1.08,
+   "takeover_capable": true,
+   "authority": "host_envelope",
+   "auditable": true,
+   "host_last_seen": "2026-11-07T11:31:24+08:00",
+   "host_age_h": 1.18,
    "host_alive": true
   },
   {
    "lane": "futures",
    "dept": "data",
    "owner": "bm-a",
+   "writer": "update_futures",
    "kind": "status",
    "tail": "2026-11-06",
    "expected": "2026-11-06",
@@ -336,16 +350,18 @@
    },
    "panel_tail": "2026-11-06",
    "lane_host": "bm-a",
+   "takeover_capable": false,
    "authority": "host_envelope",
    "auditable": true,
-   "host_last_seen": "2026-11-07T10:24:31",
-   "host_age_h": 1.08,
+   "host_last_seen": "2026-11-07T11:31:24+08:00",
+   "host_age_h": 1.18,
    "host_alive": true
   },
   {
    "lane": "lhb",
    "dept": "data",
    "owner": "bm-a",
+   "writer": "update_lhb",
    "kind": "status",
    "tail": "2026-11-06",
    "expected": "2026-11-06",
@@ -354,16 +370,18 @@
    "verdict": "in_sync",
    "reported_by": "bm-a",
    "lane_host": "bm-a",
+   "takeover_capable": false,
    "authority": "host_envelope",
    "auditable": true,
-   "host_last_seen": "2026-11-07T10:24:31",
-   "host_age_h": 1.08,
+   "host_last_seen": "2026-11-07T11:31:24+08:00",
+   "host_age_h": 1.18,
    "host_alive": true
   },
   {
    "lane": "repo",
    "dept": "data",
    "owner": "bm-b",
+   "writer": "update_repo",
    "kind": "status",
    "tail": "2026-11-06",
    "expected": "2026-11-06",
@@ -379,10 +397,11 @@
    },
    "panel_tail": "2026-11-06",
    "lane_host": "bm-b",
+   "takeover_capable": true,
    "authority": "declared_takeover",
    "auditable": true,
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 190.77,
+   "host_age_h": 191.98,
    "host_alive": false
   }
  ]

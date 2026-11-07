@@ -1780,6 +1780,33 @@ def main() -> int:
         check("fleet: a stand-in declared in the old shape is named, not trusted",
               False, str(e))
     try:
+        # r1258: a hostage lane is only *waiting* if somebody may move it. The
+        # board now splits the silent-host lanes by whether the writer can
+        # declare a stand-in, read out of that writer's own source -- so this
+        # leg recomputes both halves from the published rows: the capability
+        # must match the source, and the frozen list must be exactly the
+        # unverifiable lanes on a dead host whose writer has no such path.
+        import data_lane_freshness as _dlf2
+        _lfd = json.load(open("results/data_lane_freshness.json",
+                              encoding="utf-8"))
+        _rw = _lfd.get("lanes") or []
+        _drift = [r["lane"] for r in _rw
+                  if bool(r.get("takeover_capable"))
+                  != _dlf2.takeover_capable(r.get("writer"))]
+        _want = sorted(r["lane"] for r in _rw
+                       if r.get("verdict") == "unverifiable"
+                       and r.get("host_alive") is False
+                       and not r.get("takeover_capable"))
+        _got = sorted(_lfd.get("frozen_without_takeover") or [])
+        check("fleet: a hostage lane nobody can pick up is named as a decision",
+              not _drift and _want == _got,
+              ("capability disagrees with the writer source: " + ", ".join(_drift)
+               if _drift else
+               f"frozen list says {_got} but the rows say {_want}"))
+    except Exception as e:
+        check("fleet: a hostage lane nobody can pick up is named as a decision",
+              False, str(e))
+    try:
         # r1162: "cannot certify here" is about our copy; whose disk the rows are
         # on is the actionable half. The board derives that sentence ONCE, and the
         # two faces a human opens must carry it verbatim -- so this leg recomputes
