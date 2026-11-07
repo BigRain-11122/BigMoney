@@ -21640,5 +21640,98 @@ except Exception as _e522x:
     _d522 = "leg could not run"
 check(_name522, not _bad522, "; ".join(_bad522)[:240] or _d522)
 
+# E523: read the published handed-onward reader face the way a consumer would -- every row must
+# name the form it takes and the class of reader it reaches, the per-form and per-reader
+# histograms must re-derive, a row that claims returned readers must count one, a row that is not
+# a returned form must not count a returned reader, the upstream face must still hash what was
+# pinned, and five doctored copies (a hand-written verdict, an edited followed count, a row
+# relabelled as stored, a form flipped on a row with no returned readers, a stale upstream pin)
+# must all be refused.
+_name523 = ("E523 who reads the value a site handed onward: every handed-onward production site "
+            "reports one hop of reader (returned-to-callers, argument-to-callee, container, "
+            "expression) and whether that reader guards it (r1550 bm-b)")
+_bad523 = []
+try:
+    _m523 = __import__("importlib").import_module("e523_handed_onward_reader")
+    _f523 = json.load(open(os.path.join("results", "state_tilt", "handedread_latest.json"),
+                           encoding="utf-8"))
+    _s523 = _f523.get("summary") or {}
+    _r523 = _f523.get("sites") or []
+    _bad523.extend(_m523.face_problems(_f523))
+    if not _r523:
+        _bad523.append("the followed population is empty")
+    _bf523 = {_k523: 0 for _k523 in _m523.FORM_VOCAB}
+    _br523 = {_k523: 0 for _k523 in _m523.READER_VOCAB}
+    for _x523 in _r523:
+        if _x523.get("form") in _bf523:
+            _bf523[_x523.get("form")] += 1
+        if _x523.get("verdict") in _br523:
+            _br523[_x523.get("verdict")] += 1
+        if _x523.get("verdict") in (_m523.R_RETURNED_AND_READ_WITHOUT_A_GUARD,
+                                    _m523.R_RETURNED_AND_READ_BEHIND_A_GUARD) \
+                and not _x523.get("receiver_sites_total"):
+            _bad523.append("%s:%s claims returned readers and counts none"
+                           % (_x523.get("source"), _x523.get("line")))
+            break
+    if _bf523 != (_s523.get("sites_by_form") or {}):
+        _bad523.append("the form histogram does not add up in the consumer's hands")
+    if _br523 != (_s523.get("sites_by_reader") or {}):
+        _bad523.append("the reader histogram does not add up in the consumer's hands")
+    if sum(_bf523.values()) != _s523.get("sites_followed"):
+        _bad523.append("the followed count and the rows disagree")
+    _w523 = json.loads(json.dumps(_f523))
+    _w523["verdict"] = _m523.V_EVERY_REACHED_READER_GUARDS
+    if not _m523.face_problems(_w523):
+        _bad523.append("a hand-written verdict survived the guard")
+    _w523b = json.loads(json.dumps(_f523))
+    _w523b["summary"]["sites_followed"] = 99
+    if not _m523.face_problems(_w523b):
+        _bad523.append("an edited followed count survived the guard")
+    _w523c = json.loads(json.dumps(_f523))
+    _w523c["sites"][0]["verdict"] = _m523.R_STORED
+    _w523c["sites"][0]["form"] = _m523.F_STORED
+    _w523c["summary"]["sites_by_form"] = dict(_s523.get("sites_by_form") or {},
+                                              **{_m523.F_STORED: (_s523.get("sites_by_form") or {}).get(_m523.F_STORED, 0) + 1})
+    if not _m523.face_problems(_w523c):
+        _bad523.append("a row relabelled as stored survived the guard")
+    _w523d = json.loads(json.dumps(_f523))
+    _hit523d = False
+    for _x523d in _w523d["sites"]:
+        if _x523d.get("form") != _m523.F_RETURNED and not _x523d.get("receiver_sites_total"):
+            _x523d["form"] = _m523.F_RETURNED
+            _hit523d = True
+            break
+    if _hit523d and not _m523.face_problems(_w523d):
+        _bad523.append("a form flipped outside the returned branch survived the guard")
+    _w523e = json.loads(json.dumps(_f523))
+    _w523e["upstream_face_sha256"] = "0" * 64
+    if not _m523.face_problems(_w523e):
+        _bad523.append("a stale upstream pin survived the guard")
+    _d523 = ("%r sources / %r handed-onward sites followed (%r at module level) | forms: returned "
+             "%r, argument %r, container %r, expression %r, not followed %r | readers with no guard "
+             "%r (returned %r, argument %r) | guarded %r | left the tree %r | no caller %r | "
+             "unresolved %r | verdict %r"
+             % (_s523.get("sources_read"),
+                _s523.get("handed_onward_sites_in_upstream"),
+                _s523.get("sites_at_module_level"),
+                _s523.get("returned_sites"),
+                _s523.get("argument_sites"),
+                _s523.get("stored_sites"),
+                _s523.get("sites_read_inside_an_expression"),
+                _s523.get("sites_whose_form_is_not_followed"),
+                _s523.get("sites_that_reach_a_reader_with_no_guard"),
+                _s523.get("returned_sites_read_unguarded_one_hop_away"),
+                _s523.get("argument_sites_whose_callee_reads_it_with_no_guard"),
+                _s523.get("sites_that_reach_a_reader_that_guards"),
+                _s523.get("argument_sites_that_left_the_tree"),
+                _s523.get("returned_sites_with_no_production_caller"),
+                _s523.get("unresolved_sites"),
+                _f523.get("verdict")))
+except Exception as _e523x:
+    _bad523.append(repr(_e523x)[:160])
+    _d523 = "leg could not run"
+check(_name523, not _bad523, "; ".join(_bad523)[:240] or _d523)
+
+
 if __name__ == "__main__":
     sys.exit(main())

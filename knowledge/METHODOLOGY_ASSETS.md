@@ -12994,3 +12994,17 @@ E506 把 16 张面归入"日期写在见证词表之外的字段名下"时，量
 - **转发是这张面自己的缺口，要写在 limits 里**：351 个站点把结果交给了别处，这张面不跟第二跳，所以"136 条每个站点都测过"只覆盖本站点；下一跳的读者是新问题（已 seed 进池）。
 
 **验证**：`scripts/e522_silent_arm_caller.py`（`run` rc0 / `check` problems=0 / `verify` 重建 problems=0 / **selftest clean**——三个夹具调用者：守卫、盲读、就地读；三臂：同形哨兵、is-None、声明臂；孤儿生成器、只被守卫的生成器、被解包与就地读的读法腿，另加六份 doctored 面全被拒）＋ `results/state_tilt/SILENTARMREAD-2026-11-08.json` + `silentarmread_latest.json` 同源 ＋ S6 链腿 `silent_arm_read` ＋ smoke 腿 `# E522` ＋ digest `research/digests/DIGEST-20261108-r1549-e522-silent-arm-caller.md`。未跑：全量 smoke 套件、其余 S6 链腿、采集器族、行情/纸盘链（不宣称）。
+
+## E523 — 递出去的返回值谁在读：351 个送达点里 12 个落在不设闸的读者手里（2026-11-08 r1550 bm-b）
+
+E522 把 351 个生产站点记成「把结果递出去、在本站没被读」（其中 342 个在生产函数内、9 个在模块级）。递出去不是终点：读者在下一跳。逐站点跟一跳——`return value` 走本函数的生产调用点，`sink(value)` 按同一套 import 规则解析被调方参数，`{"k": value}` 记成进容器，`Compare/BinOp/JoinedStr/IfExp` 记成当场在表达式里被读——结果是 **351 个站点里 12 个的读者不设闸就读**（returned 1 / argument 11），40 个被读者挡在闸后，34 个递给了语料外的调用（值离开本树），153 个进了容器，82 个在表达式里被消费，4 个返回后无人调用，1 个解析不出。
+
+**可复用教训**：
+- **「递出去」不等于「安全」**：把站点当终点，等于把同一类缺陷往后推一跳。351 个站点里有 206 个的读者不在本站，任何只看本站的结论都只能覆盖 145 个。
+- **出口形式必须按 AST 父节点实测**：同一个 `value` 后面接 Return / Call / dict 字面量 / Compare，是四种不同的命运。首版只认 Return 与 Call，把 82 个「在表达式里被读」的站点和 25 个别的形式全塞进 unresolved（108 个），既高估了不可解析、又把真实的当场读藏了起来。
+- **「在表达式里被读」不能算有人管**：`SAMPLE_WINDOW_S * cores`、`{_machine_id()}`、`'x' in src` 都是没有终止闸的读，但它们不是「具名读者」。独立成类（`read_inside_an_expression_at_the_site`）并单独发布，不进 guarded 也不进 unguarded-reader 的分子。
+- **第二跳盲读者是实测点名的**，不是推断：`Tools/saturation_engine.py::cmd_status`（`read_machine_id`）、`scripts/compute_audit.py::ignitable_face`（`heartbeat_silence`）、`scripts/py_watermark.py::probe`（`core_count`/`_machine_id`）、`scripts/supply_alignment.py::build`（`_self_id`）等，共 11 个 argument 型 + 1 个 returned 型（`e482_latest_outside.py` 的 `read_text -> _source_text`）。
+- **活树尺寸不是测量**：`sources_read` 与 `parse_failures` 在别的车道写盘时会动（本窗实测 2722↔2723↔2745），verify 只钉读者分类、把这两个数印出来但不设闸，并写进 method_limits。
+- **字段名要说出它数的是什么**：首版把含 9 个模块级站点的总体叫 `handed_onward_production_sites_in_upstream`，改名为 `handed_onward_sites_in_upstream` + 单列 `sites_at_module_level`（E207 名即语义族）。
+
+**验证**：`scripts/e523_handed_onward_reader.py`：`run` rc0 / `check` problems=0 / `verify` 重导 problems=0 / **selftest clean**（12 条腿：四种出口形式各一例、一个盲读者、一个闸后读者、一个从不读参数的被调方、语料外被调方、只设闸的世界必须翻成 guarded 判决、空总体必须判空，另加六份 doctored 面全部拒收）；S6 腿 `handed_onward_reader` rc0 0.07s；smoke 腿 `# E523` 单跑 1/1、`--doctor` 1/1 红且面 sha 复原。产物 `results/state_tilt/HANDEDREAD-2026-11-08.json` + `handedread_latest.json`；digest `research/digests/DIGEST-20261108-r1550-e523-handed-onward-reader.md`。未跑：全套 smoke（~20-30min）、S6 其余 update_*/market_*/paper 链、monitor.build_status、daily_scorecard。
