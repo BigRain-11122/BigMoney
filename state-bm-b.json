@@ -5762,7 +5762,7 @@
  "three_line_artifact": "results/state_tilt/HELPERREAD-2026-11-07.json",
  "three_line_artifact_ts": "2026-11-07T14:00:55+08:00",
  "three_line_current": "r1524: E498 -- the helper arm over E479's 36 frozen twins turns 1 of the 2 unread twins into a read twin, leaves the other at zero, and adds 24 read sites no literal census can see",
- "three_line_delivery": "machine/bm-b-r1523 @ a53ab1468 (ls-remote verified)",
+ "three_line_delivery": "machine/bm-b-r1524 @ f9b20d2ec (ls-remote verified)",
  "three_line_next": "price the 24 helper read sites by asserting block (E499, ready in pool) or burn E485/E495 within 48h",
  "timestamp": "2026-11-07T14:00:55+08:00",
  "ts": "2026-11-07T14:00:55+08:00",
@@ -5837,5 +5837,12 @@
   "selftest": "e498 9/9",
   "ts": "2026-11-07T14:00:55+08:00",
   "verify": "problems=[] (rebuild identical)"
+ },
+ "r1524_delivery": {
+  "branch": "machine/bm-b-r1524",
+  "sha": "f9b20d2ec3facf31ca2dddeac5798f335e57dd4c",
+  "ts": "2026-11-07T14:01:50+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1524 equals local HEAD",
+  "main_push_blocker": "local main is 531 ahead / 313 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel"
  }
 }
