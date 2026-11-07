@@ -12933,3 +12933,24 @@ E506 把 16 张面归入"日期写在见证词表之外的字段名下"时，量
 
 **验证**：`scripts/e519_local_arg_origin.py` → `results/state_tilt/LOCALARGORIGIN-2026-11-08.json` + `localargorigin_latest.json`；`check` problems=0 / `verify` 重建 problems=0 / **selftest problems=0**（9 模块夹具：字面量容器、字面量值、模块常量、跨模块调用、文件读、形参、`io.open` 别名、同名两次赋值、无绑定；另加三腿 verdict 与"篡改 summary / 篡改行必须验败"、两枚 doctored 行被 `site_problems` 拒）；smoke leg `# E519` 原文经 `scripts/run_e519_smoke_leg.py` 单跑 1/1 绿、`--doctor` 1/1 红且 face 字节还原（sha `22555fa68041`）。未跑：全量 smoke 套件、其余 S6 链腿、采集器族（不宣称）。
 
+
+## E515 · 一个被打过补丁的调用点不是被调用者的属性（2026-11-08 r1546 bm-b）
+
+**问题**：E512 见过一个被调函数 `card_config_ticket` 在"某些路径返回 None、某些路径返回值"，它的三个站点都靠一句终止型卫语句挡在读取之前，于是把"这个调用是安全的"记成了被调函数的性质。三个被守卫的站点只说明三个站点，不说明第四个站点，更不说明明天新写的调用者。
+
+**做法**：把人口从"上一张脸的残行表"换成**被调函数本身**——语料里每一个"某条路径什么都不返回（裸 `return` 或 `return None`）、另一条路径返回一个值"的模块级函数，再穷举它们在全仓（scripts/Tools/monitor/live/firm/engine/content + smoke_test.py，2,718 个可解析源）的每一个调用点。每个站点独立发布三件事实，正是它们让"被守卫的兄弟"不能当作证据：
+
+1. 调用与首次读取之间有没有**终止型**卫语句挡住空臂（`if x is None: return/raise/continue/break`）；
+2. 结果有没有在**没有**这种卫语句的情况下直接进下标（`x["k"]`）；
+3. 站点是否**从生产代码可达**——还是只有 selftest / 入口在调它。
+
+**读数**：1,186 个分支被调函数（920 个至少被调一次）／4,406 个站点。可达性：生产 3,187 / 仅测试或入口 1,158 / 无任何调用者 61 / 模块级 47。站点结论：卫语句挡住空臂 617、**生产站点无卫直接读空臂 199**（其中直接进下标 97）、只在测试里读 1,156、把结果继续往下传 713、从此不再读 1,671。**`card_config_ticket` 实况：4 个站点，生产 1（`run_card:1015`，被守卫）、测试 3（`selftest:1439/1454/1466`）——E512 当作"三个被守卫站点"的那三行全是自测调用点**，唯一生产站点另有自己的卫语句。
+
+**可复用教训**：
+
+- **测试站点不能当生产证据**：把 `reach` 和 `guard` 分开发布之后，"三个守卫"立刻变成"三个测试"。凡"某类站点都安全"的结论，先问这些站点是从生产代码可达，还是只从自测可达——同一个被调函数上，两类站点的数量可以差一个量级。
+- **可达性必须逐站点判**，不能逐被调函数判：`run` 有 26 个站点，3 个只从测试可达；`validate_rows` 49 个站点里 40 个只在测试里。按被调函数贴一个"可达"标签会把 40 个测试站点混进生产风险表。
+- **三种结局要三种类名**：把"没有任何调用者"和"只有测试在调"合成一个 `test_only`，等于把"孤儿代码"和"测试夹具"读成同一件事；本轮为此单独加了 `no_corpus_caller_reaches_the_site`。
+- **扫描器自己的性能坑（E442 族第四次）**：首版对每个 Call 节点都 `ast.walk(tree)` 找外层函数、再 `ast.walk(tree)` 解 import 别名，2,718 源上 5 分钟零输出被取消；改成"每文件一次"预算（函数区间表 + parent map + import 映射 + 每个函数一份 Name/If 缓存）后整轮数秒完成。**凡"对每个节点回溯整棵树"，先换成每文件一次的索引。**
+
+**验证**：`scripts/e515_empty_arm_cover.py`（selftest 25/25；`run` rc0；`check` problems=[]；`verify` 重建 problems=[]）＋ `results/state_tilt/EMPTYARMCOVER-2026-11-08.json` + `emptyarmcover_latest.json` ＋ S6 腿 `empty_arm_cover`（rc0 0.37s）＋ smoke leg `# E515`（`scripts/run_e515_smoke_leg.py` 1/1 绿，`--doctor` 1/1 红且面字节还原 sha `a336b282b8fb`）＋ digest `research/digests/DIGEST-20261108-r1546-e515-empty-arm-cover.md`。未跑：全套 smoke、其余 S6 链腿、采集器族、行情/纸盘链。

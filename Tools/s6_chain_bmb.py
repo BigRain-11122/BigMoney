@@ -1943,6 +1943,15 @@ LEGS = [
     # re-derives every answer from the row's own kinds and the verdict from the summary, so a
     # hand-written reading fails.
     ("built_elsewhere", ["python", "scripts/e514_built_elsewhere.py", "check"]),
+
+    # E515 takes the callee as the population instead of a published row list: every module-level
+    # function that names nothing on some path and a value on another, and every call site of it.
+    # Per site it publishes whether a terminating guard filters the empty arm, whether the result
+    # reaches a subscript unguarded, and whether the site is reachable from production code at all
+    # -- which is what stops a guarded sibling being evidence for an unguarded one.  `check`
+    # re-derives every verdict from the site's own guard row / read kind / reach class, every tally,
+    # and the per-callee table.
+    ("empty_arm_cover", ["python", "scripts/e515_empty_arm_cover.py", "check"]),
 ]
 
 

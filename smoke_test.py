@@ -21369,5 +21369,84 @@ except Exception as _e519x:
     _d519 = "leg could not run"
 check(_name519, not _bad519, "; ".join(_bad519)[:240] or _d519)
 
+# E515: read the published empty-arm-cover face the way a consumer would -- every site's callee must
+# be in the published census, every site's source must be on disk, every verdict must re-derive from
+# that site's own guard row / read kind / reach class, the facts that make a guarded sibling
+# non-evidence must each be published for every site, and five doctored copies (a flipped site
+# verdict, a covering guard with no guard row, a hand-written overall verdict, a census member that
+# does not return both kinds, an edited population_source) must all be refused.
+_name515 = ("E515 a guarded call site is not a property of the callee: every site of every "
+            "branching callee publishes its own guard, its own read kind and its own reach "
+            "(r1546 bm-b)")
+_bad515 = []
+try:
+    _m515 = __import__("importlib").import_module("e515_empty_arm_cover")
+    _f515 = json.load(open(os.path.join("results", "state_tilt", "emptyarmcover_latest.json"),
+                           encoding="utf-8"))
+    _s515 = _f515.get("summary") or {}
+    _st515 = _f515.get("sites") or []
+    _ce515 = _f515.get("callee_census") or []
+    _bad515.extend(_m515.site_problems(_f515))
+    if not _st515:
+        _bad515.append("the site population is empty")
+    if not _ce515:
+        _bad515.append("the callee census is empty")
+    _names515 = {c.get("name") for c in _ce515}
+    for _r in _st515:
+        if not _r.get("source") or not os.path.exists(_r["source"]):
+            _bad515.append("%s:%s names a source that is not on disk"
+                           % (_r.get("source"), _r.get("line")))
+        if _r.get("callee") not in _names515:
+            _bad515.append("%s:%s names a callee outside the census"
+                           % (_r.get("source"), _r.get("line")))
+        for _k in ("guard_terminates_before_the_read", "read_kind", "reach", "verdict"):
+            if _k not in _r:
+                _bad515.append("%s:%s does not publish %s"
+                               % (_r.get("source"), _r.get("line"), _k))
+    if _s515.get("production_sites_that_read_the_empty_arm_unguarded") is None:
+        _bad515.append("the unguarded production count is not published")
+    _w515 = json.loads(json.dumps(_f515))
+    _w515["sites"][0]["verdict"] = _m515.S_GUARDED
+    if not _m515.site_problems(_w515):
+        _bad515.append("a flipped site verdict survived the guard")
+    _w515b = json.loads(json.dumps(_f515))
+    _w515b["sites"][0]["guard_terminates_before_the_read"] = True
+    _w515b["sites"][0]["guards_between"] = []
+    if not _m515.site_problems(_w515b):
+        _bad515.append("a covering guard with no guard row survived the guard")
+    _w515c = json.loads(json.dumps(_f515))
+    _w515c["verdict"] = _m515.V_ALL
+    if not _m515.site_problems(_w515c):
+        _bad515.append("a hand-written verdict survived the guard")
+    _w515d = json.loads(json.dumps(_f515))
+    _w515d["callee_census"][0]["returns_a_value"] = 0
+    if not _m515.site_problems(_w515d):
+        _bad515.append("a census member that does not return both kinds survived the guard")
+    _w515e = json.loads(json.dumps(_f515))
+    _w515e["population_source"] = "hand-written"
+    if not _m515.site_problems(_w515e):
+        _bad515.append("an edited population_source survived the guard")
+    _cct515 = (_s515.get("per_callee_site_counts") or {}).get("card_config_ticket") or {}
+    _rv515 = _s515.get("sites_by_reach") or {}
+    _d515 = ("%r sources / %r branching callees (%r called) / %r sites | reach: production %r, "
+             "test-only %r, orphan %r, module-level %r | guarded %r, unguarded-in-production %r "
+             "(subscript %r) | never read %r, handed on %r | card_config_ticket: %r sites, %r "
+             "production, %r test-only | verdict %r"
+             % (_s515.get("sources_read"), _s515.get("branching_callees"),
+                _s515.get("callees_called_at_least_once"), _s515.get("sites"),
+                _rv515.get(_m515.REACH_PRODUCTION), _rv515.get(_m515.REACH_TEST_ONLY),
+                _rv515.get(_m515.REACH_ORPHAN), _rv515.get(_m515.REACH_MODULE),
+                _s515.get("sites_where_a_guard_filters_the_empty_arm"),
+                _s515.get("production_sites_that_read_the_empty_arm_unguarded"),
+                _s515.get("sites_subscripted_without_a_guard"),
+                _s515.get("sites_that_never_read_the_result"),
+                _s515.get("sites_that_hand_the_result_onward"),
+                _cct515.get("sites"), _cct515.get("in_production"), _cct515.get("test_only"),
+                _f515.get("verdict")))
+except Exception as _e515x:
+    _bad515.append(repr(_e515x)[:160])
+    _d515 = "leg could not run"
+check(_name515, not _bad515, "; ".join(_bad515)[:240] or _d515)
+
 if __name__ == "__main__":
     sys.exit(main())
