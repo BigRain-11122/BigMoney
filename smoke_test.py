@@ -1845,6 +1845,35 @@ def main() -> int:
         check("fleet: a panel tail read by sample is certified against a full scan",
               False, str(e))
     try:
+        # r1262: the holder count has to reach the human page, not just the
+        # certification file -- a reader who opens FRESHNESS.md must not read
+        # "tail 2026-10-13 held by the panel" when two symbols hold it. Recomputed
+        # from the published page and the certification: every sampled row quotes
+        # the full scan's count, and a thin tail is named as one.
+        _md4 = open("docs/data_lanes/FRESHNESS.md", encoding="utf-8").read()
+        _s4 = _md4.split("Tails read from a sample")[1].split("\n## ")[0]
+        _cert4 = json.load(open("results/data_lane_tail_certification.json",
+                                encoding="utf-8"))
+        _cr4 = {r["lane"]: r for r in (_cert4.get("lanes") or [])}
+        _why4 = []
+        for _lane, _cr in _cr4.items():
+            _line = [ln for ln in _s4.splitlines()
+                     if ln.startswith(f"- `{_lane}`:")]
+            if not _line:
+                continue
+            _quote = (f"full scan holds it in {_cr['tail_holders']:,} of "
+                      f"{_cr['files']:,}")
+            if _quote not in _line[0]:
+                _why4.append(f"{_lane}: human row does not quote the holder count")
+            if _cr.get("thin_tail") and "thin tail" not in _line[0]:
+                _why4.append(f"{_lane}: a thin tail is printed without being named")
+        check("fleet: the board page carries the full scan's holder count",
+              not _why4, "; ".join(_why4) or
+              f"{len(_cr4)} certified panel(s) checked against the page")
+    except Exception as e:
+        check("fleet: the board page carries the full scan's holder count",
+              False, str(e))
+    try:
         # r1162: "cannot certify here" is about our copy; whose disk the rows are
         # on is the actionable half. The board derives that sentence ONCE, and the
         # two faces a human opens must carry it verbatim -- so this leg recomputes
