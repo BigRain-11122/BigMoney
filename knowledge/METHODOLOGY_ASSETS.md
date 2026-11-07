@@ -10085,3 +10085,29 @@ r1411 门判 spread（等权书 4.74pp 就拒，本轮 20 名 **17.20pp** 五个
 
 测不了：退市/ST（档案是快照）、cap 是总市值代理、容量是平市建仓（限跌停出场更糟）。
 正身 = scripts/astock_smallcap_book.py + results/smallcap_book/astock_smallcap_book.json + DIGEST-20261108-r1414-smallcap-width-capacity.md
+
+### E420 · 候选的第二阶门是它自己的日历（r1415 bm-c）
+
+r1414 的四门（x1 CAGR / 相位全正 / x3 / 容量）全是**单数门**，四门全过；而同一份 receipt 的
+by_year 写着 +41.9/+35.7/+3.5/–7.6/+48.9/+75.9/–18.7 —— 头条由 2024+2025 扛，当年在亏。
+门里没有的轴，读者会替你补成「利率」。
+
+`scripts/candidate_year_gate.py`（selftest 15/15，判据跑前冻结）把第二阶冻成四条年度检查 +
+r1414 容量地板，只重读已发布 receipt，不做任何新定价：
+Y1 正年占比 ≥70% ｜ Y2 年度中位 >0 ｜ Y3 最差年 ≥–15pp ｜ Y4 top-2 年占年度和 ≤70% ｜
+C1 一日 5% 参与容量 ≥2,000 万。C1=null 表示该 receipt 不发布容量面 → 记「未检验」，**不得读成通过**。
+
+实跑读数（results/admission/CANDIDATES.json）：
+
+- 小盘 n20（published ADOPT_AS_CANDIDATE）→ **CONDITIONAL**，唯一失败项 Y3（2026 部分年 –18.71pp，
+  仅 2 队列 ≈5.7 个月）；Y4 = 69.5%，**刚压 70% 线过关**，不是舒服通过。
+- 等权宽度书 ALL → **CONDITIONAL**，唯一失败项 Y4（top-2 年占 79.3%）——即 r1411 那条对照腿的
+  溢价本身也靠两年扛。pool_ready = 0：供给地板 0/3 的第一次解释不是「没货」，是「货的日历不合格」。
+
+三条可复用：① **年度轴必须与单数门并排印**——「x1 25.38%」与「2026 至今 –18.71%」不矛盾，
+但只印前者就是把两年当利率；② **两条冻门合法相反时输出字段，不择一**——本轮 n20 相位差 17.2pp
+会死在 r1411 的 4.74pp 门、却活过年度门，故 `gate_conflict.rules_disagree=true` 与两个 verdict 同印；
+③ **部分年不得年化**——2 队列 × 60 bar 线性外推得 –112%，面里只印 cohorts 与 ≈月数。
+
+测不了：年度收益是年内队列和的年化口径而非复利序列；容量是一日建仓数（限跌停出场更糟）。
+正身 = scripts/candidate_year_gate.py + results/admission/CANDIDATES.json + DIGEST-20261108-r1415-candidate-year-gate.md

@@ -7867,6 +7867,7 @@ def main() -> int:
     _leg_size_decomp()
     _leg_size_age_control()
     _leg_smallcap_book()
+    _leg_candidate_year_gate()
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 _SMOKE_GC = None
@@ -8112,6 +8113,88 @@ def _leg_smallcap_book():
               or "width takes the smallest caps, capacity grows with width, all three gates reachable")
     except Exception as e:
         check("product: a size premium that cannot be sized is not money",
+              False, repr(e)[:180])
+
+
+def _leg_candidate_year_gate():
+    """(r1415) a candidate that only works in two of its seven years is not a rate.
+
+    r1414 adopted the 20-name book on four single-number gates; its own by_year block
+    showed +48.9/+75.9 in 2024/2025 and -18.7 in the current year.  This leg pins the
+    second stage that asks the calendar question: the clean fixture must ADMIT, the
+    published shape must fall to CONDITIONAL on the worst-year check, a genuinely
+    two-year book must trip the concentration check, and an unchecked capacity column
+    must read as None rather than as a pass.  The last assertions read the published
+    receipt, because a gate that only agrees with its own fixture is untested.
+    """
+    try:
+        import importlib as _il83
+        if "scripts" not in sys.path:
+            sys.path.insert(0, "scripts")
+        _F83 = _il83.import_module("candidate_year_gate")
+        _bad83 = []
+
+        _clean = {"2020": {"net_pct": 30.0, "cohorts": 4}, "2021": {"net_pct": 20.0, "cohorts": 4},
+                  "2022": {"net_pct": 12.0, "cohorts": 4}, "2023": {"net_pct": 6.0, "cohorts": 4},
+                  "2024": {"net_pct": 25.0, "cohorts": 4}, "2025": {"net_pct": 18.0, "cohorts": 4},
+                  "2026": {"net_pct": 9.0, "cohorts": 4}}
+        if _F83.admission_block(_clean, 5e7, 5.0, 0.15)["verdict"] != "ADMIT":
+            _bad83.append("a clean seven-year book was not admitted")
+
+        _shape = {"2020": {"net_pct": 41.862, "cohorts": 4},
+                  "2021": {"net_pct": 35.722, "cohorts": 4},
+                  "2022": {"net_pct": 3.501, "cohorts": 4},
+                  "2023": {"net_pct": -7.608, "cohorts": 4},
+                  "2024": {"net_pct": 48.927, "cohorts": 4},
+                  "2025": {"net_pct": 75.939, "cohorts": 4},
+                  "2026": {"net_pct": -18.709, "cohorts": 2}}
+        _b = _F83.admission_block(_shape, 4.83e7, 17.2, 0.2538)
+        if _b["verdict"] != "CONDITIONAL":
+            _bad83.append("the published shape read %r" % (_b["verdict"],))
+        if _b["checks"]["Y3_worst_year"] is not False:
+            _bad83.append("a -18.7%% year passed the worst-year check")
+        if _b["checks"]["Y4_top2_share"] is not True:
+            _bad83.append("the 69.5%% top-two share should still clear the 70%% line")
+        if not _b["gate_conflict"]["rules_disagree"]:
+            _bad83.append("the 17.2pp spread did not print as a rule conflict")
+
+        _carried = {"2020": {"net_pct": 90.0, "cohorts": 4},
+                    "2021": {"net_pct": 95.0, "cohorts": 4},
+                    "2022": {"net_pct": 2.0, "cohorts": 4}, "2023": {"net_pct": 2.0, "cohorts": 4},
+                    "2024": {"net_pct": 2.0, "cohorts": 4}, "2025": {"net_pct": 2.0, "cohorts": 4},
+                    "2026": {"net_pct": 2.0, "cohorts": 4}}
+        if _F83.admission_block(_carried, 5e7, 1.0, 0.3)["checks"]["Y4_top2_share"] is not False:
+            _bad83.append("a two-year book cleared the concentration check")
+
+        if _F83.admission_block(_clean, None, None, 0.15)["checks"]["C1_capacity"] is not None:
+            _bad83.append("an unpublished capacity column was scored instead of left unchecked")
+
+        import io as _io83
+        import json as _json83
+        import os as _os83
+        _p83 = _os83.path.join("results", "admission", "CANDIDATES.json")
+        if not _os83.path.exists(_p83):
+            _bad83.append("admission receipt is not on disk (the gate never ran)")
+        else:
+            with _io83.open(_p83, encoding="utf-8") as _f83:
+                _rec = _json83.load(_f83)
+            if _rec["rule"]["capacity_floor_cny"] != _F83.CAPACITY_FLOOR_CNY:
+                _bad83.append("receipt capacity floor drifted from the code")
+            if _rec["rule"]["worst_year_floor_pp"] != _F83.WORST_YEAR_FLOOR_PP:
+                _bad83.append("receipt worst-year floor drifted from the code")
+            if not _rec["candidates"]:
+                _bad83.append("receipt priced no candidate at all")
+            for _c in _rec["candidates"]:
+                if _c["verdict"] == "ADMIT" and _c["capacity_checked"] is False:
+                    _bad83.append("admitted %s with an unchecked capacity column"
+                                  % (_c["arm"],))
+
+        check("product: a candidate that only works in two of its seven years is not a rate",
+              not _bad83, "; ".join(_bad83)[:200]
+              or "clean book admits, the published shape is conditional, two-year books and "
+                 "unchecked capacity are separated")
+    except Exception as e:
+        check("product: a candidate that only works in two of its seven years is not a rate",
               False, repr(e)[:180])
 
 

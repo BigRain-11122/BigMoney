@@ -1004,9 +1004,22 @@ def _selftest():
     # (r1404 bm-c live). Ask the panel first, then assert the answer that is honest
     # here -- full gap where there is no panel, the counted coverage where there is.
     if any(cov for cov in panel_coverage()[0].values()):
-        assert "20260930" in facts["missing_periods"], facts["missing_periods"]
-        assert facts["n_present"] == 86, facts["n_present"]
-        assert pre["missing_periods"] == [], pre
+        # Coverage is a PANEL fact, so this assertion must be derived from the
+        # bytes.  r1265 pinned n_present == 86 with 20260930 missing because that
+        # was true on 2026-11-07; the 10-31 deadline passed and the lane then
+        # backfilled the quarter, which turned a *correct* panel into a red leg
+        # (r1415 live catch: exit 1 AssertionError: []).  The invariant is that
+        # the reader agrees with the panel, not that the panel is incomplete.
+        _exp = set(expected_period_set(dt.datetime(2026, 11, 7, 12, 0)))
+        _present = set()
+        for _s in panel_coverage()[0].values():
+            _present |= set(_s)
+        assert facts["n_present"] == len(_exp & _present), \
+            (facts["n_present"], len(_exp & _present))
+        assert set(facts["missing_periods"]) == _exp - _present, facts["missing_periods"][:3]
+        assert pre["missing_periods"] == sorted(
+            set(expected_period_set(dt.datetime(2026, 10, 30, 12, 0))) - _present), \
+            pre["missing_periods"][:3]
     else:
         assert set(facts["missing_periods"]) == set(expected_period_set(
             dt.datetime(2026, 11, 7, 12, 0))), facts["missing_periods"][:3]
