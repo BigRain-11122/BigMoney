@@ -43,7 +43,14 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(ROOT, "data", "futures_daily")
 STATUS = os.path.join(ROOT, "results", "futures_update_status.json")
 sys.path.insert(0, ROOT)
-from config.lane_io import machine_id, write_lane  # noqa: E402 -- after ROOT pin
+from config.lane_io import lane_host, machine_id, write_lane  # noqa: E402
+
+# r1267: declared bm-a's lane with no code that said so -- any machine running
+# this script could write the envelope, and if bm-a fell silent no machine was
+# allowed to stand in. Guard + takeover path land together; the decision is
+# imported from update_etf_daily (single source), never re-implemented.
+LANE_OWNER = lane_host("update_futures", "bm-a")   # R31 lane-ownership precedent
+_ACTIVE_TAKEOVER = None   # set by _takeover_gate when a declared takeover passed
 
 VARIETIES = ["IF", "IC", "IM", "IH", "T", "TF", "RB", "AU", "SC"]
 COLS = ["date", "open", "high", "low", "close", "volume", "oi", "settle"]
@@ -298,9 +305,43 @@ def load_status():
     return {}
 
 
+def _authority_block(takeover):
+    """Who owns this lane, who wrote this reading, whether a stand-in is in force."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from update_etf_daily import authority_block
+    return authority_block(takeover, LANE_OWNER, machine_id())
+
+
+def _takeover_gate(owner):
+    """R31 lane guard + declared stale takeover (r1267, r1161 shape)."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from update_etf_daily import (TAKEOVER_STALE_MIN, _owner_stale_min,
+                                  takeover_decision)
+    if owner == LANE_OWNER:
+        # r1267: the owner is not "refused" -- printing the lane-guard
+        # sentence here would describe a stand-down on a run that wrote.
+        return None
+    stale = _owner_stale_min(LANE_OWNER)
+    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale)
+    if not ok:
+        print(f"futures lane host {LANE_OWNER}; this machine "
+              f"({owner or 'unknown-id'}) stdout-only (R31 lane-guard); "
+              f"takeover refused: {why}", flush=True)
+        return None
+    print(f"TAKEOVER: declared stale takeover of {LANE_OWNER}'s futures lane "
+          f"by {owner} -- {why} | rows land in this machine's panels and the "
+          f"envelope publishes authority.took_over_by={owner}", flush=True)
+    return {"owner": LANE_OWNER, "by": owner,
+            "reason": f"owner {LANE_OWNER} heartbeat silent "
+                      f"{stale/60:.1f}h >= {TAKEOVER_STALE_MIN}min"}
+
+
 def write_status(payload):
     # r1156: WHOSE data this cutoff describes (data_lane_freshness).
     payload["machine"] = machine_id()
+    # r1267: a stand-in recorded nowhere a reader looks is not a declaration.
+    if "authority" not in payload:
+        payload["authority"] = _authority_block(_ACTIVE_TAKEOVER)
     atomic_write(STATUS, json.dumps(payload, ensure_ascii=False, indent=2))
     # Lane dual-track (D-20260928-03 batch-2): own-machine lane mirror,
     # fail-soft never breaks the run.
@@ -377,6 +418,11 @@ def fetch(sym):
 
 
 def run():
+    owner = machine_id()
+    global _ACTIVE_TAKEOVER
+    _ACTIVE_TAKEOVER = _takeover_gate(owner)
+    if owner != LANE_OWNER and _ACTIVE_TAKEOVER is None:
+        return 0
     st = load_status()
     now = dt.datetime.now()
     # Daily-cutoff gate FIRST: verified zero-network no-op when the local
@@ -595,7 +641,35 @@ def _selftest():
     assert r11["open"] == 3550.0 and r11["oi"] == 1673458.0
     r11b = _raw_items_to_rows([{**items[0], "p": 0}])[0]
     assert r11b["oi"] is None and r11b["open"] == 3550.0  # missing/zero OI -> honest None
-    print("selftest: 11/11 PASS")
+    # S12 owner guard + declared takeover (r1267, hermetic: shared policy patched)
+    import update_etf_daily as _ued
+    _saved = (_ued.takeover_decision, _ued._owner_stale_min,
+              _ued.TAKEOVER_STALE_MIN)
+    _saved_argv = list(sys.argv)
+    try:
+        _ued.TAKEOVER_STALE_MIN = 120
+        _ued._owner_stale_min = lambda owner: 194 * 60.0
+        _ued.takeover_decision = lambda allow, stale: (
+            (True, "unit stale") if (allow and stale and stale >= 120)
+            else (False, "unit refused"))
+        sys.argv = [sys.argv[0]]
+        assert _takeover_gate("bm-c") is None  # flag absent -> refuse
+        sys.argv = [sys.argv[0], "--takeover"]
+        took = _takeover_gate("bm-c")
+        assert took is not None and took["by"] == "bm-c", took
+        ab = _authority_block(took)
+        assert ab["declared_takeover"] is True, ab
+        assert ab["took_over_by"] == "bm-c", ab
+        assert ab["lane_owner"] == LANE_OWNER, ab
+        _ued._owner_stale_min = lambda owner: 5.0   # owner came back
+        assert _takeover_gate("bm-c") is None, "fresh owner must refuse"
+        print("[PASS] S12 owner guard + declared takeover (non-owner no-op / "
+              "flagged+stale takes over / live owner refuses)", flush=True)
+    finally:
+        (_ued.takeover_decision, _ued._owner_stale_min,
+         _ued.TAKEOVER_STALE_MIN) = _saved
+        sys.argv = _saved_argv
+    print("selftest: 12/12 PASS")
     return 0
 
 
