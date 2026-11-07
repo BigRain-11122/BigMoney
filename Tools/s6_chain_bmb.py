@@ -1795,6 +1795,15 @@ LEGS = [
     # freshness (fresh match / stale vintage) separately from authorship (does a harness ever
     # author a payload).  `check` re-derives every count and the verdict from the rows.
     ("latest_copy_owner", ["python", "scripts/e493_latest_copy_owner.py", "check"]),
+    # E494 walks the rest of E492's population: for every doctor harness and one-off repair
+    # among the extra composers of the other 49 multi-composed names, fold its own write sites
+    # to the published basename and classify what each write puts there (the face's saved
+    # bytes / a payload the source builds / a copy from elsewhere), then ask whether the same
+    # source ever puts the original back.  A composer that builds a payload and never restores
+    # it is named, and its disk copy is priced: does it mirror a file that composer reads, or
+    # does its producer re-derive it -- otherwise it is published as unexplained.
+    # `check` re-derives every tally, every per-composer class and the verdict from the rows.
+    ("latest_authors", ["python", "scripts/e494_latest_authors.py", "check"]),
 ]
 
 

@@ -19635,5 +19635,112 @@ except Exception as _e493x:
     _d493 = "leg could not run"
 check(_name493, not _bad493, "; ".join(_bad493)[:240] or _d493)
 
+# E494 -- do the other 49 multi-composed faces carry a composer that authors a payload of
+# its own?  E493 answered the question on 2 of E492's 51 names; this leg holds the census
+# over the rest: every per-composer class re-derives from its own published write sites, the
+# authoring/restoring split re-derives from the rows, a payload the source builds and never
+# restores is named rather than averaged away, and every such payload is either explained as
+# a mirror of a file its composer reads or published as unexplained.
+_name494 = ("E494 of the other 49 multi-composed latest faces, 23 extra composers build a "
+            "payload and put the original back, one one-off repair builds one and does not, "
+            "and that payload is a mirror of the dated face it reads (r1520 bm-b)")
+_bad494 = []
+try:
+    _m494 = __import__("importlib").import_module("e494_latest_authors")
+    _f494 = json.load(open(os.path.join("results", "state_tilt",
+                                        "latestauthors_latest.json"), encoding="utf-8"))
+    _s494 = _f494.get("summary") or {}
+    _r494 = _f494.get("rows") or []
+    _a494 = _f494.get("card_answer") or {}
+    _bad494.extend(_m494.tally_problems(_f494))
+    if not _r494:
+        _bad494.append("the multi-composed population is empty")
+    if _f494.get("verdict") != _m494.verdict_for(_r494, _s494):
+        _bad494.append("the verdict is not the one the rows imply")
+    if not _s494.get("extra_composers_examined"):
+        _bad494.append("no extra composer was examined: the card question was not answered")
+    if not _s494.get("composers_that_author_a_payload"):
+        _bad494.append("no extra composer authors a payload: the arm measured nothing")
+    if _s494.get("sources_with_a_parse_error"):
+        _bad494.append("a composer source could not be parsed")
+    # every composer class must re-derive from its own sites (the guard re-checks this, but a
+    # face that publishes no sites at all would pass the guard vacuously)
+    for _row494 in _r494:
+        for _c494 in _row494.get("composers") or []:
+            if _c494.get("parse_error"):
+                _bad494.append("%s could not be read" % _c494.get("source"))
+                continue
+            if _m494.class_of(_c494.get("measured_sites") or []) != _c494.get("class"):
+                _bad494.append("%s/%s class does not re-derive"
+                               % (_row494.get("latest_basename"), _c494.get("source")))
+    _unres494 = _a494.get("unrestored_faces_with_an_unexplained_payload") or []
+    if _unres494:
+        _bad494.append("an authored payload is on disk with no explanation: %s"
+                       % ", ".join(_unres494)[:120])
+    for _name494u in _a494.get("unrestored_faces_whose_payload_mirrors_a_file_its_composer_"
+                               "reads") or []:
+        _row494 = next((r for r in _r494 if r.get("latest_basename") == _name494u), None)
+        if _row494 is None:
+            _bad494.append("the mirror-explained face %s is not in the rows" % _name494u)
+            continue
+        _pv494 = _row494.get("provenance_arm") or {}
+        if not _pv494.get("matches_a_file_the_composer_reads"):
+            _bad494.append("%s is called a mirror without a matching file" % _name494u)
+        if not _pv494.get("reads"):
+            _bad494.append("%s is called a mirror but its composer reads nothing" % _name494u)
+    if (os.path.basename(os.path.join("results", "state_tilt",
+                                      "latestauthors_latest.json"))
+            == _f494.get("population_source", "")):
+        _bad494.append("this study selected its own face as its population")
+    # doctored faces: a class that contradicts its sites, and a mirror claimed without a file
+    _w494 = json.loads(json.dumps(_f494))
+    _tgt494 = None
+    for _row494d in _w494["rows"]:
+        for _c494d in _row494d.get("composers") or []:
+            if _c494d.get("measured_sites"):
+                _tgt494 = _c494d
+                break
+        if _tgt494 is not None:
+            break
+    if _tgt494 is None:
+        _bad494.append("no composer with a write site survived: the guard cannot be doctored")
+    else:
+        _derived494 = _m494.class_of(_tgt494["measured_sites"])
+        _tgt494["class"] = next(
+            k for k in _m494.CLASS_VOCAB if k != _derived494)
+        if not _m494.tally_problems(_w494):
+            _bad494.append("a composer class that contradicts its sites survived the guard")
+    _w494b = json.loads(json.dumps(_f494))
+    _w494b["summary"]["composers_that_author_without_a_restore"] = 0
+    if not _m494.tally_problems(_w494b):
+        _bad494.append("an authoring tally that does not re-derive survived the guard")
+    _w494c = json.loads(json.dumps(_f494))
+    _w494c["card_answer"]["unrestored_faces_with_an_unexplained_payload"] = ["made_up.json"]
+    if not _m494.tally_problems(_w494c):
+        _bad494.append("an unexplained payload naming a face outside the rows survived the guard")
+    _w494d = json.loads(json.dumps(_f494))
+    _w494d["verdict"] = _m494.V_NONE_AUTHOR
+    if not _m494.tally_problems(_w494d):
+        _bad494.append("a verdict that contradicts the rows survived the guard")
+    _d494 = ("%d faces of %d | extras %d | write sites %d %s | authoring %d (restore %d / "
+             "no restore %d) | unrestored faces %d | mirror-explained %d | unexplained %d | "
+             "parent count disagreements %d | restore label disagreements %d"
+             % (len(_r494), _s494.get("faces_in_source_population") or 0,
+                _s494.get("extra_composers_examined") or 0,
+                _s494.get("write_sites_total") or 0,
+                _s494.get("write_sites_by_payload") or {},
+                _s494.get("composers_that_author_a_payload") or 0,
+                _s494.get("composers_that_author_and_restore") or 0,
+                _s494.get("composers_that_author_without_a_restore") or 0,
+                _s494.get("faces_with_an_unrestored_authoring_composer") or 0,
+                _s494.get("unrestored_faces_whose_payload_mirrors_a_file_its_composer_reads") or 0,
+                len(_unres494),
+                len(_s494.get("composers_whose_write_site_count_disagrees_with_the_parent") or []),
+                len(_s494.get("restore_label_disagreements") or [])))
+except Exception as _e494x:
+    _bad494.append(repr(_e494x)[:160])
+    _d494 = "leg could not run"
+check(_name494, not _bad494, "; ".join(_bad494)[:240] or _d494)
+
 if __name__ == "__main__":
     sys.exit(main())

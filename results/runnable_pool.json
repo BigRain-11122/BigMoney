@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1519 bm-b: E493 published (LATESTCOPYOWNER-2026-11-07: of E492's two single-write harnesses, one never writes at all and one restores in a finally, so both disk copies are the producers' -- 2/2 stale vintages of their own producer, 0 harness payloads, 0 faces repaired). E493 closed, E494 seeded.",
+ "_stamp_note": "r1520 bm-b: E494 published (LATESTAUTHOR-2026-11-07: of the other 49 multi-composed faces, 24 extra composers author a payload of their own, 23 put the original back, and the single unrestored one is a one-off mirror repair whose payload is the dated face it reads -- 0 faces hold an unexplained authored payload). E494 closed, E495 seeded.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28685,9 +28685,27 @@
    "evidence_cutoff": "2026-11-07",
    "entered_at": "2026-11-07T12:00+0800",
    "entered_by": "bm-b r1519 (supply floor refill after E493)",
+   "status": "done",
+   "result_ref": [
+    "results/state_tilt/LATESTAUTHOR-2026-11-07.json"
+   ],
+   "adapt_status": null,
+   "done_at": "2026-11-07T12:22:32+08:00",
+   "done_by": "bm-b r1520",
+   "runner": "scripts/e494_latest_authors.py",
+   "done_note": "r1520 bm-b: 49 faces / 24 extra composers. 24 author a payload; 23 put the original back (22 in a finally) and exactly 1 does not -- bandswitch_latest.json, written by the one-off mirror repair _r1495, whose disk payload equals BANDSWITCH-2026-10-30.json with only `generated` moved. Faces with an unexplained authored payload: 0. Parent reconciliation by quantity: 24/24 write-site counts agree, 0 restore-label disagreements (a line-level comparison was the first draft and reported 31/39 pure offsets)."
+  },
+  {
+   "id": "E495-WHEN-A-FACES-ONLY-VISIBLE-COMPOSERS-ARE-LEG-RUNNERS-DID-THE-DIAGNOSTIC-BECOME-THE-PUBLICATION",
    "status": "ready",
-   "result_ref": null,
-   "adapt_status": null
+   "lane": "cpu-only",
+   "entered_at": "2026-11-07T12:22:32+08:00",
+   "entered_by": "bm-b r1520",
+   "evidence_cutoff": "2026-11-07",
+   "deliverable": "results/state_tilt/DOCTORPUB-<cutoff>.json",
+   "target": "results/state_tilt/doctorpub_latest.json",
+   "source": "E492 (r1518): 13 of the 51 multi-composed names have no producer among their visible composers, and 19 have extras that are all harnesses; E494 answered what those composers WRITE (24 author a payload, 1 without a restore) but not who the face is for",
+   "title": "For the faces whose only visible composer is a leg runner, is the disk copy a payload a harness authored -- did the diagnostic become the publication -- and does anything read that face as if a producer wrote it? Publish per face: the composers and their roles, whether the disk payload matches what a harness writes (not what the harness restores), and the readers, so 'no producer' is priced as 'nothing consumes it' or 'a consumer is reading a harness's bytes'."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28702,6 +28720,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T12:02:18",
+ "updated_at": "2026-11-07T12:22:32",
  "version": 1
 }

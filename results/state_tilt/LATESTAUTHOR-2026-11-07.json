@@ -1,0 +1,1697 @@
+{
+ "card": "E494-DO-THE-OTHER-49-MULTI-COMPOSED-FACES-CARRY-A-COMPOSER-THAT-AUTHORS-A-PAYLOAD-OF-ITS-OWN",
+ "card_answer": {
+  "composers_that_author_a_payload": 24,
+  "composers_that_author_with_restore": 23,
+  "composers_that_author_without_restore": 1,
+  "faces_with_a_composer_that_authors_a_payload": 24,
+  "faces_with_an_unrestored_authoring_composer": [
+   "bandswitch_latest.json"
+  ],
+  "unrestored_faces_whose_disk_copy_is_producer_shaped": [],
+  "unrestored_faces_whose_payload_mirrors_a_file_its_composer_reads": [
+   "bandswitch_latest.json"
+  ],
+  "unrestored_faces_with_an_unexplained_payload": []
+ },
+ "classification_definition": {
+  "authors_a_payload_and_has_no_restore_in_its_source": "a write of a payload this source builds, and no write of the face's own bytes anywhere in the source",
+  "authors_a_payload_and_puts_the_original_back": "a write of a payload this source builds, and a later write of the face's own saved bytes",
+  "never_writes_the_published_basename": "no write site in this source names the published basename",
+  "writes_only_a_saved_backup_of_the_face": "the source only ever puts the face's own saved bytes back"
+ },
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T12:18:50",
+ "method_limits": [
+  "the population is E492's 51 names minus E493's two; a harness E492 never found is outside this study",
+  "authorship is decided from the source's own AST, so a payload built inside a helper this build does not follow is published as unclassifiable rather than as safe",
+  "a name is traced through at most two hops, so a payload handed through three names reads as unclassifiable",
+  "the producer arm answers shape and verdict, not bytes: a copy that is a stale vintage of its own producer still matches here",
+  "the write forms recognised are handle writes, json.dump, and the copy/move families; a write performed by a subprocess or a library call inside another file is not seen"
+ ],
+ "payload_definition": {
+  "a_payload_the_source_constructs": "the argument is a serialisation, a literal, a string build, or a name bound to one",
+  "a_payload_this_build_cannot_classify": "the argument could not be traced within two name hops",
+  "a_saved_backup_of_the_same_face": "the argument traces to a read of the same published file (or a copy of it)",
+  "an_empty_or_truncated_write": "an empty string literal",
+  "bytes_copied_from_another_path": "a copy/move whose source is a different basename"
+ },
+ "population_note": "E492's multi-composed names minus the names E493 already answered; both lists are read from the newest parent faces, and the excluded names are published rather than dropped",
+ "population_source": "results/state_tilt/LATESTDOCTOR-2026-11-07.json",
+ "rows": [
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "raw"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 70,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": false,
+       "via": "handle_write",
+       "write_call_line": 70
+      },
+      {
+       "line": 78,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 78
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e452_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "0e7a659ce31d4350",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "abandonedguard_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/abandonedguard_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 76,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 69
+      },
+      {
+       "line": 76,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 77
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e447_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "3d1999c4016c57b6",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "abandonedread_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/abandonedread_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [],
+     "class": "authors_a_payload_and_has_no_restore_in_its_source",
+     "measured_sites": [
+      {
+       "line": 21,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": false,
+       "via": "handle_write",
+       "write_call_line": 21
+      }
+     ],
+     "parent_discipline": "writes_the_name_once_with_no_restore_in_the_same_source",
+     "parent_saves_the_original_away_first": false,
+     "parent_write_site_count": 1,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": false,
+     "restores_the_face": false,
+     "role": "a_one_off_repair",
+     "source": "scripts/_r1495_bandswitch_mirror_repair.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 1
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 1,
+   "disk_sha16": "70b2d32b4566281a",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_has_no_restore_in_its_source",
+   "latest_basename": "bandswitch_latest.json",
+   "parses_now": true,
+   "producer_arm": {
+    "build_error": "",
+    "disk_sha16": "70b2d32b4566281a",
+    "payload_re_derives_from_the_disk_copy": false,
+    "producer": "scripts/e302_universe_switch_backfill.py",
+    "shape_matches_a_fresh_build": false,
+    "verdict_matches_a_fresh_build": false
+   },
+   "provenance_arm": {
+    "candidates": [
+     {
+      "basename": "BANDSWITCH-2026-10-30.json",
+      "found": true,
+      "path": "results/state_tilt/BANDSWITCH-2026-10-30.json",
+      "same": true
+     }
+    ],
+    "matches_a_file_the_composer_reads": true,
+    "reads": [
+     "BANDSWITCH-2026-10-30.json"
+    ],
+    "source": "scripts/_r1495_bandswitch_mirror_repair.py"
+   },
+   "published_path": "results/state_tilt/bandswitch_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "d6c0534e47c5f0de",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "barecallresolve_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/barecallresolve_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "ff6c57afdd9fa230",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "callerclass_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/callerclass_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "13504bbcf98b2641",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "composedwriter_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/composedwriter_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "raw"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 67,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": false,
+       "via": "handle_write",
+       "write_call_line": 67
+      },
+      {
+       "line": 75,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 75
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e471_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "dd6c629e5fdef860",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "deadcopy_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/deadcopy_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "b04f2488b5e6de7f",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "deadpath_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/deadpath_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 75,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 68
+      },
+      {
+       "line": 75,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 76
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e435_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "e3d6a4087f1d3c11",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "dirisface_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/dirisface_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 76,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 69
+      },
+      {
+       "line": 76,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 77
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e436_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "53e08341426c55ef",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "doublejoin_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/doublejoin_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "48097d535d0296ec",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "droppedpath_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/droppedpath_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 74,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 67
+      },
+      {
+       "line": 74,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 75
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e426_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "91480087b72459e1",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "dynamicname_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/dynamicname_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "87b0b7bd2be783e0",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "e350arm_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/e350arm_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "raw"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 27,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": false,
+       "via": "handle_write",
+       "write_call_line": 27
+      },
+      {
+       "line": 36,
+       "mode": "wb",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 37
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_one_off_repair",
+     "source": "scripts/_r1436_e418_redproof.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "6b346ecdaaf57dcf",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "faceage_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/faceage_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 79,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 72
+      },
+      {
+       "line": 79,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 80
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e441_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "e550fd77cdeb7888",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "facehome_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/facehome_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "raw"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 67,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": false,
+       "via": "handle_write",
+       "write_call_line": 67
+      },
+      {
+       "line": 76,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 76
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e469_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "60627d487cd3d6b1",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "facetrace_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/facetrace_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "6c52396cc7c2ae23",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "fieldbranch_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/fieldbranch_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "67e59556d790c4e3",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "fixturebeyond_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/fixturebeyond_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "1f84eeda327e69fd",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "fixturewrite_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/fixturewrite_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "a69196625aec0a1d",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "freshaim_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/freshaim_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "22ac47780910e4bf",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "freshnessbound_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/freshnessbound_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 76,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 69
+      },
+      {
+       "line": 76,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 77
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e446_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "96f7b94b5b8999cb",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "frozenwriter_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/frozenwriter_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "f6e8891b007c16cb",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "guardpresence_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/guardpresence_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "e1718adcb33ef5d1",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "importclass_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/importclass_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "b49942872a1ee568",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "keysens_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/keysens_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 76,
+       "mode": "wb",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 70
+      },
+      {
+       "line": 76,
+       "mode": "wb",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 77
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e482_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "4b87897400bc226f",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "latestoutside_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/latestoutside_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "17c93c4d4d47dba5",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "loobook_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/loobook_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "052c01bdc11250ef",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "multideclared_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/multideclared_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "f0860814109e4c08",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "namerecall_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/namerecall_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "c052bbe5b390096b",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "no_caller_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/no_caller_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 78,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 71
+      },
+      {
+       "line": 78,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 79
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e427_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "78ec8c2868c748be",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "openerflow_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/openerflow_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "raw"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 68,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": false,
+       "via": "handle_write",
+       "write_call_line": 68
+      },
+      {
+       "line": 76,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 76
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e468_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "459f63389e366503",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "pointerreach_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/pointerreach_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "raw"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 69,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": false,
+       "via": "handle_write",
+       "write_call_line": 69
+      },
+      {
+       "line": 78,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 78
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e451_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "714ec867583a7e21",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "prereghash_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/prereghash_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "7df3f600a7198940",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "producerspill_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/producerspill_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 75,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 68
+      },
+      {
+       "line": 75,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 76
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e433_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "88b3f009b4a4efd8",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "republishchain_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/republishchain_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 74,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 67
+      },
+      {
+       "line": 74,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 75
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e417_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "166cbcfe89030bf1",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "shadowface_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/shadowface_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "7abee58ed9b97d4d",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "sharedname_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/sharedname_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "9ab28d47962e2458",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "stalecutoff_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/stalecutoff_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "raw"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 71,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": false,
+       "via": "handle_write",
+       "write_call_line": 71
+      },
+      {
+       "line": 79,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 79
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e470_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "2c8c388bbc0d755f",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "targetread_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/targetread_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 76,
+       "mode": "wb",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 70
+      },
+      {
+       "line": 76,
+       "mode": "wb",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 77
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e479_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "a6477e42fdfe7a33",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "twinread_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/twinread_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "7008f200d38fd807",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "twohop_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/twohop_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 77,
+       "mode": "wb",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 71
+      },
+      {
+       "line": 77,
+       "mode": "wb",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 78
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e484_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "29301923481c3a0e",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "undated_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/undated_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 75,
+       "mode": "wb",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 69
+      },
+      {
+       "line": 75,
+       "mode": "wb",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 76
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e478_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "b4959086718b24ce",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "vintageclock_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/vintageclock_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 77,
+       "mode": "wb",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 71
+      },
+      {
+       "line": 77,
+       "mode": "wb",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 78
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e481_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "67874e8dc3267aa5",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "vintageconc_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/vintageconc_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "original"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 77,
+       "mode": "wb",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 71
+      },
+      {
+       "line": 77,
+       "mode": "wb",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 78
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e480_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "8b116e67bd040a29",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "vintagedate_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/vintagedate_latest.json"
+  },
+  {
+   "composers": [
+    {
+     "backup_names": [
+      "raw"
+     ],
+     "class": "authors_a_payload_and_puts_the_original_back",
+     "measured_sites": [
+      {
+       "line": 68,
+       "mode": "w",
+       "payload": "a_payload_the_source_constructs",
+       "sits_in_a_finally": false,
+       "via": "handle_write",
+       "write_call_line": 68
+      },
+      {
+       "line": 76,
+       "mode": "w",
+       "payload": "a_saved_backup_of_the_same_face",
+       "sits_in_a_finally": true,
+       "via": "handle_write",
+       "write_call_line": 76
+      }
+     ],
+     "parent_discipline": "writes_the_name_twice_so_it_can_put_the_original_back",
+     "parent_saves_the_original_away_first": true,
+     "parent_write_site_count": 2,
+     "parse_error": "",
+     "payload_classes": [
+      "a_payload_the_source_constructs",
+      "a_saved_backup_of_the_same_face"
+     ],
+     "restore_disagreement": "",
+     "restore_sits_in_a_finally": true,
+     "restores_the_face": true,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e472_smoke_leg.py",
+     "write_site_count_agrees": true,
+     "write_sites_i_find": 2
+    }
+   ],
+   "composers_that_author_a_payload": 1,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "a000e189db617941",
+   "extra_composers": 1,
+   "faces_class": "authors_a_payload_and_puts_the_original_back",
+   "latest_basename": "vintageread_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/vintageread_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "082a4edcd8bf4c78",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "vintageretire_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/vintageretire_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "3da43df12a3c185f",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "writehelper_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/writehelper_latest.json"
+  },
+  {
+   "composers": [],
+   "composers_that_author_a_payload": 0,
+   "composers_that_author_without_a_restore": 0,
+   "disk_sha16": "c543524e6b14470d",
+   "extra_composers": 0,
+   "faces_class": "never_writes_the_published_basename",
+   "latest_basename": "writerdir_latest.json",
+   "parses_now": true,
+   "producer_arm": null,
+   "provenance_arm": null,
+   "published_path": "results/state_tilt/writerdir_latest.json"
+  }
+ ],
+ "study": "E494_latest_authors",
+ "summary": {
+  "composers_that_author_a_payload": 24,
+  "composers_that_author_and_restore": 23,
+  "composers_that_author_without_a_restore": 1,
+  "composers_whose_write_site_count_disagrees_with_the_parent": [],
+  "extra_composers_examined": 24,
+  "faces_by_class": {
+   "authors_a_payload_and_has_no_restore_in_its_source": 1,
+   "authors_a_payload_and_puts_the_original_back": 23,
+   "never_writes_the_published_basename": 25
+  },
+  "faces_examined": 49,
+  "faces_excluded_as_already_measured": [
+   "deadprereg_latest.json",
+   "dirfield_latest.json"
+  ],
+  "faces_in_source_population": 51,
+  "faces_parseable_now": 49,
+  "faces_with_a_restored_authoring_composer": 23,
+  "faces_with_an_unrestored_authoring_composer": 1,
+  "prior_face": "results/state_tilt/LATESTCOPYOWNER-2026-11-07.json",
+  "producer_arms_run": 1,
+  "provenance_arms_run": 1,
+  "restore_label_disagreements": [],
+  "sites_the_parent_face_credited_that_are_not_write_calls": 0,
+  "sites_the_parent_face_missed": 0,
+  "source_face": "results/state_tilt/LATESTDOCTOR-2026-11-07.json",
+  "sources_with_a_parse_error": 0,
+  "unrestored_faces_whose_disk_copy_is_producer_shaped": 0,
+  "unrestored_faces_whose_payload_mirrors_a_file_its_composer_reads": 1,
+  "unrestored_faces_whose_producer_build_failed": 0,
+  "write_sites_by_payload": {
+   "a_payload_the_source_constructs": 24,
+   "a_saved_backup_of_the_same_face": 23
+  },
+  "write_sites_total": 47
+ },
+ "title": "Do the other 49 multi-composed latest faces carry a composer that authors a payload of its own, and how many of those writes have no restore in the same source?",
+ "verdict": "some_extra_composer_authors_a_payload_with_no_restore_in_its_own_source",
+ "verdict_vocab": [
+  "every_extra_composer_that_authors_a_payload_puts_the_original_back_in_its_own_source",
+  "some_extra_composer_authors_a_payload_with_no_restore_in_its_own_source",
+  "no_extra_composer_authors_a_payload_of_its_own",
+  "no_face_carries_an_extra_harness_or_repair_composer",
+  "a_face_could_not_be_measured_in_this_environment"
+ ]
+}
