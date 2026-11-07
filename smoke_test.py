@@ -435,6 +435,13 @@ def main() -> int:
             # the evaluated window inside the bars the rate archive actually measured.
             ("product: repo rate stress supply probe (exit-code contract)",
              "scripts/zoo98_repo_rate_stress_probe.py", ["--selftest"]),
+            # r1395: the book's entry friction. The spot board publishes 折价率 (a DISCOUNT,
+            # the opposite sign of a premium) and an IOPV that a cross-border fund cannot
+            # check against anything until its T+n NAV arrives -- two ways to print a number
+            # that is not the number you think it is. The legs pin the sign inversion, the
+            # "unverifiable" third state, and the rule that an unknown leg is never priced 0.
+            ("product: ETF premium entry-friction face (exit-code contract)",
+             "scripts/etf_premium_face.py", ["selftest"]),
             # r1393: the D-19 watermark gate itself, priced because the live defect was a
             # watermark stored in DISPLAY form (a bare 16-hex prefix). The gate read that as
             # "no previous watermark" and re-consumed the whole decisions ledger every round

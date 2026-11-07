@@ -1,0 +1,160 @@
+{
+ "artifact": "etf_premium_face",
+ "machine": "bm-c",
+ "session": "2026-11-06",
+ "source": {
+  "view": "ETF spot board (eastmoney via akshare fund_etf_spot_em)",
+  "fetched_at": "2026-11-07T10:51:44+0800",
+  "rows": 1666,
+  "nav_board": "same-day unit NAV board (fund_etf_fund_daily_em) used as the second source"
+ },
+ "cross_check": {
+  "basis": "premium recomputed from price/IOPV; the board's own 折价率 column is only compared",
+  "compared_rows": 1639,
+  "disagreeing_rows": 0,
+  "tolerance_pp": 0.1
+ },
+ "ticket": {
+  "path": "results/etf_book_order/TICKET-2026-11-06.json",
+  "bar": "2026-10-14"
+ },
+ "bands": {
+  "par_pct": 0.3,
+  "watch_pct": 1.0
+ },
+ "legs": [
+  {
+   "symbol": "159501",
+   "name": "纳指ETF嘉实",
+   "class": "crossborder",
+   "amount_cny": 91863.6,
+   "premium_pct": 23.6405,
+   "band": "unverified",
+   "trust": "iopv-only",
+   "over_nav_cny": null,
+   "iopv": 1.6734,
+   "price": 2.069
+  },
+  {
+   "symbol": "513100",
+   "name": "纳指ETF国泰",
+   "class": "crossborder",
+   "amount_cny": 91621.66,
+   "premium_pct": 21.2564,
+   "band": "unverified",
+   "trust": "iopv-only",
+   "over_nav_cny": null,
+   "iopv": 1.7797,
+   "price": 2.158
+  },
+  {
+   "symbol": "513690",
+   "name": "港股红利ETF博时",
+   "class": "crossborder",
+   "amount_cny": 91945.2,
+   "premium_pct": 0.0778,
+   "band": "at-par",
+   "trust": "iopv+same-day-nav",
+   "over_nav_cny": 71.52,
+   "iopv": 1.1571,
+   "price": 1.158
+  },
+  {
+   "symbol": "159577",
+   "name": "美国50ETF汇添富",
+   "class": "crossborder",
+   "amount_cny": 92045.2,
+   "premium_pct": 9.6673,
+   "band": "unverified",
+   "trust": "iopv-only",
+   "over_nav_cny": null,
+   "iopv": 1.4699,
+   "price": 1.612
+  },
+  {
+   "symbol": "159263",
+   "name": "价值ETF易方达",
+   "class": "equity",
+   "amount_cny": 92011.5,
+   "premium_pct": -0.1834,
+   "band": "at-par",
+   "trust": "iopv+same-day-nav",
+   "over_nav_cny": -168.74,
+   "iopv": 1.1451,
+   "price": 1.143
+  }
+ ],
+ "priced_legs": 2,
+ "unverified_legs": 3,
+ "dispersion": {
+  "n": 649,
+  "amount_floor_cny": 20000000.0,
+  "median_pct": -0.0617,
+  "p10_pct": -0.2948,
+  "p90_pct": 0.2067,
+  "share_at_par": 0.8459,
+  "share_stretched": 0.0154,
+  "top_premium": [
+   {
+    "symbol": "513310",
+    "name": "中韩半导体ETF华泰柏瑞",
+    "pct": 10.3906
+   },
+   {
+    "symbol": "513880",
+    "name": "日经225ETF华安",
+    "pct": 5.7956
+   },
+   {
+    "symbol": "513520",
+    "name": "日经ETF华夏",
+    "pct": 4.8383
+   },
+   {
+    "symbol": "513000",
+    "name": "日经225ETF易方达",
+    "pct": 4.356
+   },
+   {
+    "symbol": "159866",
+    "name": "日经ETF工银",
+    "pct": 4.3417
+   }
+  ],
+  "top_discount": [
+   {
+    "symbol": "159259",
+    "name": "成长ETF易方达",
+    "pct": -1.9473
+   },
+   {
+    "symbol": "513580",
+    "name": "恒生科技ETF华安",
+    "pct": -1.1571
+   },
+   {
+    "symbol": "159557",
+    "name": "恒生医疗ETF嘉实",
+    "pct": -1.1225
+   },
+   {
+    "symbol": "520850",
+    "name": "港股通医疗ETF易方达",
+    "pct": -1.0452
+   },
+   {
+    "symbol": "159281",
+    "name": "港股央企红利ETF天弘",
+    "pct": -0.9659
+   }
+  ]
+ },
+ "caveats": [
+  "IOPV is a real-time estimate of the basket, not the fund's published NAV; a premium measured against it inherits that error.",
+  "the spot board publishes 折价率 (discount), the opposite sign of a premium -- this face recomputes from price/IOPV and reports any disagreement instead of choosing a side.",
+  "a cross-border leg publishes its NAV at T+n, so on the session itself its IOPV cannot be checked against anything. Those legs are marked unverified and carry NO CNY figure: an IOPV that has drifted from the basket looks exactly like a real premium from one snapshot.",
+  "the board is read at one moment: before the close these numbers move, and cross-border legs are the ones that move most (their underlying trades in another timezone).",
+  "a positive premium is a cost only to a buyer; it is income to a seller. This face says nothing about which side the book will be on tomorrow.",
+  "no historical premium series exists yet -- this is the first snapshot, so nothing here can be turned into a percentile gate today."
+ ]
+}
