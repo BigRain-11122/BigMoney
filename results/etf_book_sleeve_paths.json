@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-07 02:17:50",
+ "ts": "2026-11-07 14:58:22",
  "script": "scripts/etf_book_sleeve_paths.py",
  "face": "results/etf_book_sleeve_paths.json",
  "evidence_cutoff": "2026-11-06",
@@ -24,7 +24,7 @@
   "bars": 5275,
   "flips_repaired": 169,
   "sleeve_symbols": 41,
-  "digest": "58302d9ca988c138"
+  "digest": "93efa7188894f865"
  },
  "book": {
   "n_hold": 12,
@@ -1396,12 +1396,12 @@
  ],
  "identity": {
   "reference": "results/etf_book_sleeve_gate.json arms.gate_vol.stats.full",
-  "reference_cagr": 0.0962,
+  "reference_cagr": 0.0943,
   "mine_cagr": 0.0943,
   "reference_maxdd": -0.1091,
   "mine_maxdd": -0.1091,
-  "same_cutoff": false,
-  "passes": null,
+  "same_cutoff": true,
+  "passes": true,
   "detail": "phase 0 must price the same gate on the same grid as the sleeve gate face; a differing cutoff is stale, not agreement"
  },
  "verdict": "NO_GATE",

@@ -505,6 +505,12 @@ def main() -> int:
             # scale-invariance that lets it repair sizing without moving a backtest number.
             ("product: panel level anchor (a repaired column ends at the price the tape prints)",
              "scripts/panel_level_anchor_audit.py", ["selftest"]),
+            # r1401: a ticket that never says whether its own legs are small. Two rulers
+            # printed side by side and never folded -- the opening print and the day's
+            # median turnover -- with a leg that has no minute archive reading UNVERIFIED
+            # rather than 0, and the lane's own staleness printed even when no leg prices.
+            ("product: ticket open capacity (two rulers, unverified is not zero)",
+             "scripts/ticket_open_capacity.py", ["selftest"]),
             # r1223: "the lane was re-enabled" and "the lane stayed on" are two
             # claims; only the second is a fix. This one measures the second, and
             # its own failure mode (an unreadable tick read as "still on") is what

@@ -22,7 +22,7 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `93efa7188894f865` (5275 bars x 1624 symbols, 2005-02-23->2026-11-06, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-11-06 / ticket 2026-11-06 / page 2026-11-06 (compared at 2026-11-07 14:07:43); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-11-06 / ticket 2026-11-06 / page 2026-11-06 (compared at 2026-11-07 14:59:00); this card, the executable sheet and the CEO page all priced the same closing bar.
 
 **Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (58302d9c, a1a42aee): per-cell deltas across worlds are world differences, not rule effects.
 5 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05, buffer_k10, buffer_k20, buffer_k40); the 5 withheld one(s) still price another panel (buffer_k05_cost20, cost0, cost05, cost20, cost40), so their verdicts are not part of this reading.
@@ -85,13 +85,13 @@ So the pre-2020 failure belongs to the bond-inclusive, unsized cell (-5.0%/yr) a
 
 ## What is left after the four betas
 
-Regressed on the four exposures an account could hold instead of this book (gold / Nasdaq-100 QDII / CSI300 / treasury bond, same execution basis, same cost), the book's daily returns leave an intercept of **+6.0%/yr with t=1.98** and R2=0.43, as of 2026-10-30. The equal-weight four-ETF basket itself returns 9.9%/yr at Sharpe 0.96 and worst drawdown -11.3%, against the book's 9.6%/yr, Sharpe 0.99 and -11.8%.
+Regressed on the four exposures an account could hold instead of this book (gold / Nasdaq-100 QDII / CSI300 / treasury bond, same execution basis, same cost), the book's daily returns leave an intercept of **+5.7%/yr with t=1.90** and R2=0.44, as of 2026-11-06. The equal-weight four-ETF basket itself returns 9.9%/yr at Sharpe 0.96 and worst drawdown -11.3%, against the book's 9.4%/yr, Sharpe 0.97 and -11.8%.
 
-Read that as **not distinguishable from a fixed loadings mix**, not as zero and not as proven skill: the in-sample half of the window prints t=1.16 and the out-of-sample half t=2.00, so the point estimate is carried by the later period and the line is a risk statement rather than a return one.
+Read that as **not distinguishable from a fixed loadings mix**, not as zero and not as proven skill: the in-sample half of the window prints t=1.16 and the out-of-sample half t=1.90, so the point estimate is carried by the later period and the line is a risk statement rather than a return one.
 
-The single arm that out-earns the book is gold (13.2%/yr) at a -31.5% drawdown -- the comparison has to be printed next to the return or it reads as a verdict. See results/etf_book_spanning.json.
+The single arm that out-earns the book is gold (13.5%/yr) at a -33.3% drawdown -- the comparison has to be printed next to the return or it reads as a verdict. See results/etf_book_spanning.json.
 
-The staggered 6+6 book (same universe, score, execution and cost; second sleeve offset half a rebalance period) leaves **+7.0%/yr at t=2.43** (IS t=1.26 / OOS t=2.38) with residual vol 7.3%, against the single sleeve's +6.0%/yr at t=1.98 and 7.7%. The split clock clears a t of 2 where the single sleeve does not: that is a strategy difference worth its own test, not a free lunch -- one arm over the threshold is a hypothesis, not an edge.
+The staggered 6+6 book (same universe, score, execution and cost; second sleeve offset half a rebalance period) leaves **+6.8%/yr at t=2.36** (IS t=1.26 / OOS t=2.29) with residual vol 7.3%, against the single sleeve's +5.7%/yr at t=1.90 and 7.7%. The split clock clears a t of 2 where the single sleeve does not: that is a strategy difference worth its own test, not a free lunch -- one arm over the threshold is a hypothesis, not an edge.
 
 ## Does any of it survive outside 2020-2026?
 
