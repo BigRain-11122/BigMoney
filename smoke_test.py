@@ -21100,5 +21100,74 @@ except Exception as _e512x:
     _d512 = "leg could not run"
 check(_name512, not _bad512, "; ".join(_bad512)[:240] or _d512)
 
+# E514: read the published built-elsewhere face the way a consumer would -- every row must name
+# the file it was read out of, every row built by an in-repo function must publish the return
+# paths of that builder, an answer must re-derive from the row's own path kinds, and four
+# doctored copies (a flipped answer, a hand-written kind table, an inflated parameter-feed
+# count, a hand-written verdict) must all be refused.
+_name514 = ("E514 every published 'built by another module' row names what the builder hands "
+            "over, and the answer re-derives from its own return paths (r1542 bm-b)")
+_bad514 = []
+try:
+    _m514 = __import__("importlib").import_module("e514_built_elsewhere")
+    _f514 = json.load(open(os.path.join("results", "state_tilt", "builtelsewhere_latest.json"),
+                           encoding="utf-8"))
+    _s514 = _f514.get("summary") or {}
+    _r514 = _f514.get("rows") or []
+    _bad514.extend(_m514.check(_f514))
+    if not _r514:
+        _bad514.append("the row population is empty")
+    for _r in _r514:
+        if not _r.get("source") or not os.path.exists(_r["source"]):
+            _bad514.append("%s:%s names a source that is not on disk"
+                           % (_r.get("site_module"), _r.get("symbol")))
+        if _r.get("builder_class") == _m514.B_REPO and not _r.get("return_paths"):
+            _bad514.append("%s:%s names an in-repo builder with no return path"
+                           % (_r.get("source"), _r.get("symbol")))
+        if _r.get("builder_class") == _m514.B_REPO and _r.get("builder", {}).get("rel") \
+                and not os.path.exists(_r["builder"]["rel"]):
+            _bad514.append("%s:%s names a builder file that is not on disk"
+                           % (_r.get("source"), _r.get("symbol")))
+    _w514 = json.loads(json.dumps(_f514))
+    for _row in _w514["rows"]:
+        if _row.get("builder_class") == _m514.B_REPO and _row.get("path_kinds"):
+            _row["answer"] = _m514.A_CLOCK
+            break
+    if not _m514.check(_w514):
+        _bad514.append("a flipped answer survived the guard")
+    _w514b = json.loads(json.dumps(_f514))
+    _w514b["rows"][0]["path_kinds"] = {"a_kind_nobody_published": 1}
+    if not _m514.check(_w514b):
+        _bad514.append("a hand-written path-kind table survived the guard")
+    _w514c = json.loads(json.dumps(_f514))
+    _w514c["summary"]["supplied_parameters_fed_by_a_read_at_the_call_site"] = 99
+    if not _m514.check(_w514c):
+        _bad514.append("an inflated parameter-feed count survived the guard")
+    _w514d = json.loads(json.dumps(_f514))
+    _w514d["verdict"] = _m514.V_READ
+    if not _m514.check(_w514d):
+        _bad514.append("a hand-written verdict survived the guard")
+    _d514 = ("%r rows (repo builder %r / read here %r / literal here %r / name-only %r / "
+             "unresolved %r) | return paths file %r store %r scan %r param %r | feeds read %r "
+             "through-another-module %r param %r | verdict %r"
+             % (_s514.get("rows_in_the_built_elsewhere_bucket"),
+                _s514.get("rows_built_by_an_in_repo_function"),
+                _s514.get("rows_whose_value_is_read_at_the_site"),
+                _s514.get("rows_whose_value_is_a_literal_written_at_the_site"),
+                _s514.get("rows_whose_callee_only_constructs_a_name"),
+                _s514.get("rows_whose_callee_could_not_be_resolved"),
+                (_s514.get("return_path_kinds") or {}).get(_m514.K_FILE),
+                (_s514.get("return_path_kinds") or {}).get(_m514.K_STORE),
+                (_s514.get("return_path_kinds") or {}).get(_m514.K_SCAN),
+                (_s514.get("return_path_kinds") or {}).get(_m514.K_PARAM),
+                _s514.get("supplied_parameters_fed_by_a_read_at_the_call_site"),
+                _s514.get("supplied_parameters_fed_by_another_module_call"),
+                _s514.get("supplied_parameters_fed_by_a_caller_parameter"),
+                _f514.get("verdict")))
+except Exception as _e514x:
+    _bad514.append(repr(_e514x)[:160])
+    _d514 = "leg could not run"
+check(_name514, not _bad514, "; ".join(_bad514)[:240] or _d514)
+
 if __name__ == "__main__":
     sys.exit(main())

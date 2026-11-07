@@ -1,0 +1,1096 @@
+{
+ "answer_vocab": [
+  "every_return_path_reads_a_file_a_store_or_the_tree",
+  "a_return_path_is_the_run_clock",
+  "a_return_path_hands_back_a_parameter_of_the_builder",
+  "the_builder_reads_something_and_also_hands_back_something_else",
+  "no_return_path_is_readable_after_one_hop",
+  "the_value_is_read_at_the_site_itself_so_no_other_module_builds_it",
+  "the_value_is_a_literal_written_at_the_site",
+  "the_callee_only_constructs_a_name_or_a_path",
+  "the_callee_could_not_be_resolved_so_the_value_stays_unread"
+ ],
+ "answers": {
+  "how_many_are_a_literal_written_where_the_site_stands": 1,
+  "how_many_are_built_by_a_function_defined_in_an_in_repo_module": 13,
+  "how_many_are_read_at_the_site_so_nothing_else_builds_them": 4,
+  "how_many_callees_could_not_be_resolved": 4,
+  "how_many_callees_only_construct_a_path_or_a_name": 5,
+  "how_many_distinct_in_repo_builders_are_involved": 6,
+  "how_many_in_repo_builders_hand_back_a_parameter": 4,
+  "how_many_in_repo_builders_hand_back_the_run_clock": 0,
+  "how_many_in_repo_builders_keep_a_path_unreadable": 0,
+  "how_many_in_repo_builders_read_a_file_a_store_or_the_tree": 7,
+  "how_many_rows_are_in_the_built_elsewhere_bucket": 27,
+  "how_many_rows_publish_where_a_parameter_is_fed_from": 4,
+  "how_many_supplied_parameters_are_a_read_at_the_call_site": 0,
+  "how_many_supplied_parameters_are_another_caller_parameter": 4,
+  "how_many_supplied_parameters_are_left_to_the_builder_default": 0,
+  "how_many_supplied_parameters_are_still_unread": 0,
+  "how_many_supplied_parameters_come_from_another_module_call": 4
+ },
+ "arm_vocab": [
+  "the_surface_passes_a_constant_that_another_module_builds",
+  "a_published_site_reads_a_value_that_another_module_builds"
+ ],
+ "builder_vocab": [
+  "the_builder_is_a_function_defined_in_an_in_repo_module",
+  "the_value_is_read_at_the_site_itself",
+  "the_value_is_a_literal_written_at_the_site",
+  "the_callee_only_constructs_a_name_or_a_path",
+  "the_callee_could_not_be_resolved_to_a_definition"
+ ],
+ "card": "E514-WHERE-DOES-THE-VALUE-BUILT-BY-ANOTHER-MODULE-ACTUALLY-COME-FROM",
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T02:15:38+08:00",
+ "kind": "static_read_of_the_repo_plus_its_own_published_upstream_faces",
+ "kind_vocab": [
+  "a_value_read_from_a_file_on_disk",
+  "a_value_read_from_the_git_store_at_a_commit",
+  "a_value_built_by_scanning_the_working_tree",
+  "a_day_or_a_series_carried_by_a_loaded_panel",
+  "the_run_clock",
+  "a_parameter_the_builder_hands_back",
+  "a_literal_written_in_the_builder",
+  "still_no_readable_origin_after_one_hop"
+ ],
+ "method_limits": [
+  "one hop, and at most one nested builder inside it: a builder that hands its value to a third module is published as still_no_readable_origin rather than followed to the end",
+  "the two upstream faces' own labels are taken as given; this study does not re-derive whether a row really is built by another module",
+  "a binding is read at or above the published line, so a name rebound after the call site is not part of the value the site saw",
+  "a tuple-unpacked binding is followed element by element, which is how 'strat, bench, kk = BT.apply_overlay(...)' is readable at all",
+  "the value kinds describe the builder's own return statements; whether the site reads the day out of that value is E512's question, not repeated here"
+ ],
+ "population_source": "results/state_tilt/CONSTANTORIGIN-2026-11-08.json rows whose origin is the_population_lives_in_another_module_and_stops_there, plus results/state_tilt/CALLEERETURN-2026-11-07.json sites whose field_origin is a_value_built_by_a_call_into_another_module",
+ "rows": [
+  {
+   "answer": "a_return_path_hands_back_a_parameter_of_the_builder",
+   "arm": "a_published_site_reads_a_value_that_another_module_builds",
+   "builder": {
+    "call": "BT.apply_overlay(rp, rm, sched, 0.0, COST_BP, rf=cash_rf)",
+    "line": 91,
+    "name": "apply_overlay",
+    "rel": "scripts/etf_phase_beta_target.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": true,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 542,
+   "parameter_feed": [
+    {
+     "fed_by_kind": "a_parameter_the_builder_hands_back",
+     "fed_by_through": "scripts/etf_phase_beta_target.py:rets",
+     "fed_by_via": "ser",
+     "parameter": "rp"
+    }
+   ],
+   "path_kinds": {
+    "a_literal_written_in_the_builder": 2,
+    "a_parameter_the_builder_hands_back": 1
+   },
+   "return_paths": [
+    {
+     "expr": "(None, None, None)",
+     "kind": "a_literal_written_in_the_builder",
+     "line": 102,
+     "through": "",
+     "via": "None"
+    },
+    {
+     "expr": "(None, None, None)",
+     "kind": "a_literal_written_in_the_builder",
+     "line": 116,
+     "through": "",
+     "via": "None"
+    },
+    {
+     "expr": "(pd.Series(strat[1:], index=idx), pd.Series(bench[1:], index=idx), pd.Series(kk, index=idx))",
+     "kind": "a_parameter_the_builder_hands_back",
+     "line": 133,
+     "through": "",
+     "via": "rp"
+    }
+   ],
+   "site_module": "etf_book_order",
+   "sites": 1,
+   "source": "scripts/etf_book_order.py",
+   "still_unreadable": false,
+   "surfaces": [],
+   "symbol": "asof",
+   "value_expression": "str(slip.index[-1].date())"
+  },
+  {
+   "answer": "a_return_path_hands_back_a_parameter_of_the_builder",
+   "arm": "a_published_site_reads_a_value_that_another_module_builds",
+   "builder": {
+    "call": "BT.apply_overlay(rp, rm, sched, 0.0, COST_BP, rf=cash_rf)",
+    "line": 91,
+    "name": "apply_overlay",
+    "rel": "scripts/etf_phase_beta_target.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": true,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 543,
+   "parameter_feed": [
+    {
+     "fed_by_kind": "a_parameter_the_builder_hands_back",
+     "fed_by_through": "scripts/etf_phase_beta_target.py:rets",
+     "fed_by_via": "ser",
+     "parameter": "rp"
+    }
+   ],
+   "path_kinds": {
+    "a_literal_written_in_the_builder": 2,
+    "a_parameter_the_builder_hands_back": 1
+   },
+   "return_paths": [
+    {
+     "expr": "(None, None, None)",
+     "kind": "a_literal_written_in_the_builder",
+     "line": 102,
+     "through": "",
+     "via": "None"
+    },
+    {
+     "expr": "(None, None, None)",
+     "kind": "a_literal_written_in_the_builder",
+     "line": 116,
+     "through": "",
+     "via": "None"
+    },
+    {
+     "expr": "(pd.Series(strat[1:], index=idx), pd.Series(bench[1:], index=idx), pd.Series(kk, index=idx))",
+     "kind": "a_parameter_the_builder_hands_back",
+     "line": 133,
+     "through": "",
+     "via": "rp"
+    }
+   ],
+   "site_module": "etf_book_order",
+   "sites": 1,
+   "source": "scripts/etf_book_order.py",
+   "still_unreadable": false,
+   "surfaces": [],
+   "symbol": "asof",
+   "value_expression": "str(slip.index[-1].date())"
+  },
+  {
+   "answer": "a_return_path_hands_back_a_parameter_of_the_builder",
+   "arm": "a_published_site_reads_a_value_that_another_module_builds",
+   "builder": {
+    "call": "BT.apply_overlay(rp, rm, sched, 0.0, COST_BP, rf=cash_rf)",
+    "line": 91,
+    "name": "apply_overlay",
+    "rel": "scripts/etf_phase_beta_target.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": true,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 545,
+   "parameter_feed": [
+    {
+     "fed_by_kind": "a_parameter_the_builder_hands_back",
+     "fed_by_through": "scripts/etf_phase_beta_target.py:rets",
+     "fed_by_via": "ser",
+     "parameter": "rp"
+    }
+   ],
+   "path_kinds": {
+    "a_literal_written_in_the_builder": 2,
+    "a_parameter_the_builder_hands_back": 1
+   },
+   "return_paths": [
+    {
+     "expr": "(None, None, None)",
+     "kind": "a_literal_written_in_the_builder",
+     "line": 102,
+     "through": "",
+     "via": "None"
+    },
+    {
+     "expr": "(None, None, None)",
+     "kind": "a_literal_written_in_the_builder",
+     "line": 116,
+     "through": "",
+     "via": "None"
+    },
+    {
+     "expr": "(pd.Series(strat[1:], index=idx), pd.Series(bench[1:], index=idx), pd.Series(kk, index=idx))",
+     "kind": "a_parameter_the_builder_hands_back",
+     "line": 133,
+     "through": "",
+     "via": "rp"
+    }
+   ],
+   "site_module": "etf_book_order",
+   "sites": 1,
+   "source": "scripts/etf_book_order.py",
+   "still_unreadable": false,
+   "surfaces": [],
+   "symbol": "asof",
+   "value_expression": "str(slip.index[-1].date())"
+  },
+  {
+   "answer": "a_return_path_hands_back_a_parameter_of_the_builder",
+   "arm": "a_published_site_reads_a_value_that_another_module_builds",
+   "builder": {
+    "call": "BT.apply_overlay(rp, rm, sched, 0.0, COST_BP, rf=cash_rf)",
+    "line": 91,
+    "name": "apply_overlay",
+    "rel": "scripts/etf_phase_beta_target.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": true,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 568,
+   "parameter_feed": [
+    {
+     "fed_by_kind": "a_parameter_the_builder_hands_back",
+     "fed_by_through": "scripts/etf_phase_beta_target.py:rets",
+     "fed_by_via": "ser",
+     "parameter": "rp"
+    }
+   ],
+   "path_kinds": {
+    "a_literal_written_in_the_builder": 2,
+    "a_parameter_the_builder_hands_back": 1
+   },
+   "return_paths": [
+    {
+     "expr": "(None, None, None)",
+     "kind": "a_literal_written_in_the_builder",
+     "line": 102,
+     "through": "",
+     "via": "None"
+    },
+    {
+     "expr": "(None, None, None)",
+     "kind": "a_literal_written_in_the_builder",
+     "line": 116,
+     "through": "",
+     "via": "None"
+    },
+    {
+     "expr": "(pd.Series(strat[1:], index=idx), pd.Series(bench[1:], index=idx), pd.Series(kk, index=idx))",
+     "kind": "a_parameter_the_builder_hands_back",
+     "line": 133,
+     "through": "",
+     "via": "rp"
+    }
+   ],
+   "site_module": "etf_book_order",
+   "sites": 1,
+   "source": "scripts/etf_book_order.py",
+   "still_unreadable": false,
+   "surfaces": [],
+   "symbol": "asof",
+   "value_expression": "str(slip.index[-1].date())"
+  },
+  {
+   "answer": "every_return_path_reads_a_file_a_store_or_the_tree",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "e368.load_pin()",
+    "line": 87,
+    "name": "load_pin",
+    "rel": "scripts/e368_seam_replay.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": true,
+   "hands_over_the_clock": false,
+   "line": 4,
+   "parameter_feed": [],
+   "path_kinds": {
+    "a_value_read_from_a_file_on_disk": 1
+   },
+   "return_paths": [
+    {
+     "expr": "json.load(fh)",
+     "kind": "a_value_read_from_a_file_on_disk",
+     "line": 89,
+     "through": "",
+     "via": "json.load"
+    }
+   ],
+   "site_module": "_e371_probe",
+   "sites": 1,
+   "source": "_e371_probe.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "resolve_members"
+   ],
+   "symbol": "pin",
+   "value_expression": "e368.load_pin()"
+  },
+  {
+   "answer": "the_callee_only_constructs_a_name_or_a_path",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "os.path.basename(p)",
+    "line": 208,
+    "name": "os.path.basename",
+    "rel": ""
+   },
+   "builder_class": "the_callee_only_constructs_a_name_or_a_path",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 208,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e298_replay_control_census",
+   "sites": 1,
+   "source": "scripts/e298_replay_control_census.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "census_face"
+   ],
+   "symbol": "name",
+   "value_expression": "os.path.basename(p)"
+  },
+  {
+   "answer": "the_callee_could_not_be_resolved_so_the_value_stays_unread",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "payloads.get(rel)",
+    "line": 234,
+    "name": "payloads.get",
+    "rel": ""
+   },
+   "builder_class": "the_callee_could_not_be_resolved_to_a_definition",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 234,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e305_face_level_row_pricing",
+   "sites": 1,
+   "source": "scripts/e305_face_level_row_pricing.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "scan_key"
+   ],
+   "symbol": "payload",
+   "value_expression": "payloads.get(rel)"
+  },
+  {
+   "answer": "the_callee_only_constructs_a_name_or_a_path",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "os.path.dirname(HERE)",
+    "line": 50,
+    "name": "os.path.dirname",
+    "rel": ""
+   },
+   "builder_class": "the_callee_only_constructs_a_name_or_a_path",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 50,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e340_who_authorizes_whose_allowance",
+   "sites": 2,
+   "source": "scripts/e340_who_authorizes_whose_allowance.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "python_files"
+   ],
+   "symbol": "ROOT",
+   "value_expression": "os.path.dirname(HERE)"
+  },
+  {
+   "answer": "the_builder_reads_something_and_also_hands_back_something_else",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "e341.pinned_corpus(PIN_SHA)",
+    "line": 177,
+    "name": "pinned_corpus",
+    "rel": "scripts/e341_sibling_closer_what_changed.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": true,
+   "hands_over_the_clock": false,
+   "line": 743,
+   "parameter_feed": [],
+   "path_kinds": {
+    "a_literal_written_in_the_builder": 1,
+    "a_value_read_from_the_git_store_at_a_commit": 2
+   },
+   "return_paths": [
+    {
+     "expr": "_CORPUS_CACHE[sha]",
+     "kind": "a_value_read_from_the_git_store_at_a_commit",
+     "line": 180,
+     "through": "",
+     "via": "subprocess.run"
+    },
+    {
+     "expr": "{}",
+     "kind": "a_literal_written_in_the_builder",
+     "line": 184,
+     "through": "",
+     "via": "{}"
+    },
+    {
+     "expr": "out",
+     "kind": "a_value_read_from_the_git_store_at_a_commit",
+     "line": 211,
+     "through": "",
+     "via": "subprocess.run"
+    }
+   ],
+   "site_module": "e347_published_number_gate_census",
+   "sites": 1,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "measure_corpus"
+   ],
+   "symbol": "corpus",
+   "value_expression": "e341.pinned_corpus(PIN_SHA)"
+  },
+  {
+   "answer": "the_builder_reads_something_and_also_hands_back_something_else",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "e341.pinned_corpus(PIN_SHA)",
+    "line": 177,
+    "name": "pinned_corpus",
+    "rel": "scripts/e341_sibling_closer_what_changed.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": true,
+   "hands_over_the_clock": false,
+   "line": 864,
+   "parameter_feed": [],
+   "path_kinds": {
+    "a_literal_written_in_the_builder": 1,
+    "a_value_read_from_the_git_store_at_a_commit": 2
+   },
+   "return_paths": [
+    {
+     "expr": "_CORPUS_CACHE[sha]",
+     "kind": "a_value_read_from_the_git_store_at_a_commit",
+     "line": 180,
+     "through": "",
+     "via": "subprocess.run"
+    },
+    {
+     "expr": "{}",
+     "kind": "a_literal_written_in_the_builder",
+     "line": 184,
+     "through": "",
+     "via": "{}"
+    },
+    {
+     "expr": "out",
+     "kind": "a_value_read_from_the_git_store_at_a_commit",
+     "line": 211,
+     "through": "",
+     "via": "subprocess.run"
+    }
+   ],
+   "site_module": "e347_published_number_gate_census",
+   "sites": 1,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "measure_corpus"
+   ],
+   "symbol": "corpus",
+   "value_expression": "e341.pinned_corpus(PIN_SHA)"
+  },
+  {
+   "answer": "the_callee_only_constructs_a_name_or_a_path",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "os.path.join(tmp, 'fake')",
+    "line": 552,
+    "name": "os.path.join",
+    "rel": ""
+   },
+   "builder_class": "the_callee_only_constructs_a_name_or_a_path",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 552,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e365_face_population_pin",
+   "sites": 3,
+   "source": "scripts/e365_face_population_pin.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "scan_faces"
+   ],
+   "symbol": "root",
+   "value_expression": "os.path.join(tmp, 'fake')"
+  },
+  {
+   "answer": "the_callee_only_constructs_a_name_or_a_path",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "os.path.join(tmp, 'replay')",
+    "line": 586,
+    "name": "os.path.join",
+    "rel": ""
+   },
+   "builder_class": "the_callee_only_constructs_a_name_or_a_path",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 586,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e365_face_population_pin",
+   "sites": 1,
+   "source": "scripts/e365_face_population_pin.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "scan_faces"
+   ],
+   "symbol": "dest",
+   "value_expression": "os.path.join(tmp, 'replay')"
+  },
+  {
+   "answer": "the_callee_only_constructs_a_name_or_a_path",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "os.path.join(tmp, 'pin.json')",
+    "line": 404,
+    "name": "os.path.join",
+    "rel": ""
+   },
+   "builder_class": "the_callee_only_constructs_a_name_or_a_path",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 404,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e368_seam_replay",
+   "sites": 1,
+   "source": "scripts/e368_seam_replay.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "pin_members"
+   ],
+   "symbol": "bad",
+   "value_expression": "os.path.join(tmp, 'pin.json')"
+  },
+  {
+   "answer": "every_return_path_reads_a_file_a_store_or_the_tree",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "e368.load_pin()",
+    "line": 87,
+    "name": "load_pin",
+    "rel": "scripts/e368_seam_replay.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": true,
+   "hands_over_the_clock": false,
+   "line": 245,
+   "parameter_feed": [],
+   "path_kinds": {
+    "a_value_read_from_a_file_on_disk": 1
+   },
+   "return_paths": [
+    {
+     "expr": "json.load(fh)",
+     "kind": "a_value_read_from_a_file_on_disk",
+     "line": 89,
+     "through": "",
+     "via": "json.load"
+    }
+   ],
+   "site_module": "e370_key_sensitivity",
+   "sites": 1,
+   "source": "scripts/e370_key_sensitivity.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "resolve_members"
+   ],
+   "symbol": "pin",
+   "value_expression": "e368.load_pin()"
+  },
+  {
+   "answer": "every_return_path_reads_a_file_a_store_or_the_tree",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "e368.load_pin()",
+    "line": 87,
+    "name": "load_pin",
+    "rel": "scripts/e368_seam_replay.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": true,
+   "hands_over_the_clock": false,
+   "line": 241,
+   "parameter_feed": [],
+   "path_kinds": {
+    "a_value_read_from_a_file_on_disk": 1
+   },
+   "return_paths": [
+    {
+     "expr": "json.load(fh)",
+     "kind": "a_value_read_from_a_file_on_disk",
+     "line": 89,
+     "through": "",
+     "via": "json.load"
+    }
+   ],
+   "site_module": "e371_store_member_cost",
+   "sites": 1,
+   "source": "scripts/e371_store_member_cost.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "resolve_members"
+   ],
+   "symbol": "pin",
+   "value_expression": "e368.load_pin()"
+  },
+  {
+   "answer": "every_return_path_reads_a_file_a_store_or_the_tree",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "e368.load_pin()",
+    "line": 87,
+    "name": "load_pin",
+    "rel": "scripts/e368_seam_replay.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": true,
+   "hands_over_the_clock": false,
+   "line": 324,
+   "parameter_feed": [],
+   "path_kinds": {
+    "a_value_read_from_a_file_on_disk": 1
+   },
+   "return_paths": [
+    {
+     "expr": "json.load(fh)",
+     "kind": "a_value_read_from_a_file_on_disk",
+     "line": 89,
+     "through": "",
+     "via": "json.load"
+    }
+   ],
+   "site_module": "e371_store_member_cost",
+   "sites": 1,
+   "source": "scripts/e371_store_member_cost.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "resolve_members"
+   ],
+   "symbol": "pinned",
+   "value_expression": "e368.load_pin()"
+  },
+  {
+   "answer": "the_callee_could_not_be_resolved_so_the_value_stays_unread",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "e350._sources()",
+    "line": 372,
+    "name": "e350._sources",
+    "rel": ""
+   },
+   "builder_class": "the_callee_could_not_be_resolved_to_a_definition",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 372,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e377_unresolved_destination",
+   "sites": 1,
+   "source": "scripts/e377_unresolved_destination.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "census"
+   ],
+   "symbol": "sources",
+   "value_expression": "[(rel, text) for rel, text in e350._sources() if rel != SELF_REL]"
+  },
+  {
+   "answer": "the_callee_could_not_be_resolved_so_the_value_stays_unread",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "e350._sources()",
+    "line": 389,
+    "name": "e350._sources",
+    "rel": ""
+   },
+   "builder_class": "the_callee_could_not_be_resolved_to_a_definition",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 389,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e379_unkeyed_face_reader",
+   "sites": 1,
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "census"
+   ],
+   "symbol": "sources",
+   "value_expression": "[(rel, text) for rel, text in e350._sources() if rel not in (SELF_REL, UPSTREAM_REL)]"
+  },
+  {
+   "answer": "the_callee_could_not_be_resolved_so_the_value_stays_unread",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "e350._sources()",
+    "line": 239,
+    "name": "e350._sources",
+    "rel": ""
+   },
+   "builder_class": "the_callee_could_not_be_resolved_to_a_definition",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 239,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e381_component_key_blind_spot",
+   "sites": 1,
+   "source": "scripts/e381_component_key_blind_spot.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "scan"
+   ],
+   "symbol": "srcs",
+   "value_expression": "[(rel, text) for rel, text in e350._sources() if rel != SELF_REL]"
+  },
+  {
+   "answer": "the_value_is_read_at_the_site_itself_so_no_other_module_builds_it",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "io.open(os.path.join(repo, prod['producer']), encoding='utf-8', errors='replace').read()",
+    "line": 0,
+    "name": "read",
+    "rel": ""
+   },
+   "builder_class": "the_value_is_read_at_the_site_itself",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 271,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e396_last_tick",
+   "sites": 1,
+   "source": "scripts/e396_last_tick.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "dump_link_targets"
+   ],
+   "symbol": "src",
+   "value_expression": "io.open(os.path.join(repo, prod['producer']), encoding='utf-8', errors='replace').read()"
+  },
+  {
+   "answer": "the_value_is_read_at_the_site_itself_so_no_other_module_builds_it",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "io.open(os.path.join(repo, producer), encoding='utf-8', errors='replace').read()",
+    "line": 0,
+    "name": "read",
+    "rel": ""
+   },
+   "builder_class": "the_value_is_read_at_the_site_itself",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 310,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e396_last_tick",
+   "sites": 1,
+   "source": "scripts/e396_last_tick.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "dump_link_targets"
+   ],
+   "symbol": "src_text",
+   "value_expression": "io.open(os.path.join(repo, producer), encoding='utf-8', errors='replace').read()"
+  },
+  {
+   "answer": "the_value_is_read_at_the_site_itself_so_no_other_module_builds_it",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "io.open(os.path.join(repo, pair['producer_with_the_unconditional_write']), encoding='utf-8",
+    "line": 0,
+    "name": "read",
+    "rel": ""
+   },
+   "builder_class": "the_value_is_read_at_the_site_itself",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 435,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e396_last_tick",
+   "sites": 1,
+   "source": "scripts/e396_last_tick.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "dump_link_targets"
+   ],
+   "symbol": "src",
+   "value_expression": "io.open(os.path.join(repo, pair['producer_with_the_unconditional_write']), encoding='utf-8"
+  },
+  {
+   "answer": "the_value_is_a_literal_written_at_the_site",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "'\\n'.join([\"auto = {'launches': [], 'last_tick': None}\", \"dump(auto, 'results/autofill_sta",
+    "line": 0,
+    "name": "",
+    "rel": ""
+   },
+   "builder_class": "the_value_is_a_literal_written_at_the_site",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 509,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e396_last_tick",
+   "sites": 1,
+   "source": "scripts/e396_last_tick.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "dump_link_targets"
+   ],
+   "symbol": "src",
+   "value_expression": "'\\n'.join([\"auto = {'launches': [], 'last_tick': None}\", \"dump(auto, 'results/autofill_sta"
+  },
+  {
+   "answer": "every_return_path_reads_a_file_a_store_or_the_tree",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "e350._sources()",
+    "line": 355,
+    "name": "_sources",
+    "rel": "scripts/e350_field_branch_census.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": true,
+   "hands_over_the_clock": false,
+   "line": 667,
+   "parameter_feed": [],
+   "path_kinds": {
+    "a_value_read_from_a_file_on_disk": 1
+   },
+   "return_paths": [
+    {
+     "expr": "out",
+     "kind": "a_value_read_from_a_file_on_disk",
+     "line": 387,
+     "through": "",
+     "via": "read"
+    }
+   ],
+   "site_module": "e402_fragment_producers",
+   "sites": 1,
+   "source": "scripts/e402_fragment_producers.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "scan_sources"
+   ],
+   "symbol": "sources",
+   "value_expression": "e350._sources()"
+  },
+  {
+   "answer": "every_return_path_reads_a_file_a_store_or_the_tree",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "e468._walk_py(root)",
+    "line": 111,
+    "name": "_walk_py",
+    "rel": "scripts/e468_pointer_reach.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": true,
+   "hands_over_the_clock": false,
+   "line": 481,
+   "parameter_feed": [],
+   "path_kinds": {
+    "a_value_built_by_scanning_the_working_tree": 1
+   },
+   "return_paths": [
+    {
+     "expr": "sorted(out)",
+     "kind": "a_value_built_by_scanning_the_working_tree",
+     "line": 123,
+     "through": "body:walk",
+     "via": "walk"
+    }
+   ],
+   "site_module": "e479_twin_read",
+   "sites": 1,
+   "source": "scripts/e479_twin_read.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "producer_sources"
+   ],
+   "symbol": "sources",
+   "value_expression": "e468._walk_py(root)"
+  },
+  {
+   "answer": "every_return_path_reads_a_file_a_store_or_the_tree",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "e468.producer_map(root)",
+    "line": 258,
+    "name": "producer_map",
+    "rel": "scripts/e468_pointer_reach.py"
+   },
+   "builder_class": "the_builder_is_a_function_defined_in_an_in_repo_module",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": true,
+   "hands_over_the_clock": false,
+   "line": 482,
+   "parameter_feed": [],
+   "path_kinds": {
+    "a_value_built_by_scanning_the_working_tree": 1
+   },
+   "return_paths": [
+    {
+     "expr": "{k: sorted(v) for k, v in out.items()}",
+     "kind": "a_value_built_by_scanning_the_working_tree",
+     "line": 281,
+     "through": "body:_walk_py",
+     "via": "_walk_py"
+    }
+   ],
+   "site_module": "e479_twin_read",
+   "sites": 1,
+   "source": "scripts/e479_twin_read.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "producer_sources"
+   ],
+   "symbol": "pm",
+   "value_expression": "e468.producer_map(root)"
+  },
+  {
+   "answer": "the_value_is_read_at_the_site_itself_so_no_other_module_builds_it",
+   "arm": "the_surface_passes_a_constant_that_another_module_builds",
+   "builder": {
+    "call": "src.get('line')",
+    "line": 0,
+    "name": "read",
+    "rel": ""
+   },
+   "builder_class": "the_value_is_read_at_the_site_itself",
+   "hands_over_a_parameter": false,
+   "hands_over_a_read": false,
+   "hands_over_the_clock": false,
+   "line": 362,
+   "parameter_feed": [],
+   "path_kinds": {},
+   "return_paths": [],
+   "site_module": "e489_write_wire",
+   "sites": 1,
+   "source": "scripts/e489_write_wire.py",
+   "still_unreadable": false,
+   "surfaces": [
+    "write_call_paths"
+   ],
+   "symbol": "line",
+   "value_expression": "src.get('line')"
+  }
+ ],
+ "study": "E514_built_elsewhere",
+ "summary": {
+  "distinct_in_repo_builders": 6,
+  "in_repo_builders_that_hand_back_a_parameter": 4,
+  "in_repo_builders_that_hand_back_the_run_clock": 0,
+  "in_repo_builders_that_read_a_file_a_store_or_the_tree": 7,
+  "in_repo_builders_with_a_path_that_stays_unreadable": 0,
+  "modules_scanned": 3770,
+  "return_path_kinds": {
+   "a_literal_written_in_the_builder": 10,
+   "a_parameter_the_builder_hands_back": 4,
+   "a_value_built_by_scanning_the_working_tree": 2,
+   "a_value_read_from_a_file_on_disk": 5,
+   "a_value_read_from_the_git_store_at_a_commit": 4
+  },
+  "rows_built_by_an_in_repo_function": 13,
+  "rows_by_answer": {
+   "a_return_path_hands_back_a_parameter_of_the_builder": 4,
+   "a_return_path_is_the_run_clock": 0,
+   "every_return_path_reads_a_file_a_store_or_the_tree": 7,
+   "no_return_path_is_readable_after_one_hop": 0,
+   "the_builder_reads_something_and_also_hands_back_something_else": 2,
+   "the_callee_could_not_be_resolved_so_the_value_stays_unread": 4,
+   "the_callee_only_constructs_a_name_or_a_path": 5,
+   "the_value_is_a_literal_written_at_the_site": 1,
+   "the_value_is_read_at_the_site_itself_so_no_other_module_builds_it": 4
+  },
+  "rows_by_arm": {
+   "a_published_site_reads_a_value_that_another_module_builds": 4,
+   "the_surface_passes_a_constant_that_another_module_builds": 23
+  },
+  "rows_by_builder_class": {
+   "the_builder_is_a_function_defined_in_an_in_repo_module": 13,
+   "the_callee_could_not_be_resolved_to_a_definition": 4,
+   "the_callee_only_constructs_a_name_or_a_path": 5,
+   "the_value_is_a_literal_written_at_the_site": 1,
+   "the_value_is_read_at_the_site_itself": 4
+  },
+  "rows_in_the_built_elsewhere_bucket": 27,
+  "rows_whose_callee_could_not_be_resolved": 4,
+  "rows_whose_callee_only_constructs_a_name": 5,
+  "rows_whose_value_is_a_literal_written_at_the_site": 1,
+  "rows_whose_value_is_read_at_the_site": 4,
+  "rows_with_a_parameter_feed": 4,
+  "sites_that_ride_on_a_built_elsewhere_value": 13,
+  "supplied_parameters_fed_by_a_caller_parameter": 4,
+  "supplied_parameters_fed_by_a_read_at_the_call_site": 0,
+  "supplied_parameters_fed_by_another_module_call": 4,
+  "supplied_parameters_left_to_the_builder_default": 0,
+  "supplied_parameters_still_unread": 0
+ },
+ "title": "Where does the value built by another module actually come from",
+ "verdict": "every_in_repo_builder_answers_its_return_paths_and_the_rest_of_the_bucket_is_not_a_builder_at_all",
+ "verdict_vocab": [
+  "every_built_elsewhere_value_comes_out_of_an_in_repo_function_that_reads_a_file_a_store_or_the_tree",
+  "every_in_repo_builder_answers_its_return_paths_and_the_rest_of_the_bucket_is_not_a_builder_at_all",
+  "some_built_elsewhere_values_are_read_from_a_file_and_some_are_still_other",
+  "no_published_built_elsewhere_value_is_built_by_an_in_repo_function",
+  "the_two_published_upstream_faces_hold_no_built_elsewhere_value"
+ ]
+}

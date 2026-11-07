@@ -29052,6 +29052,8 @@
    "title": "E511 classed 3 of its 4 residual sites as 'the value enters through the right-hand side' and named the operand: `asof = tk[...] or \"unknown\"` reads `tk = card_config_ticket(nav=nav)`. Follow that one hop into the callee and ask what its return paths can name: for every site whose resolution is an operand read, resolve the call to an in-repo function, enumerate its return statements, and publish whether every path names the same kind of value (the residual ambiguity is readable from the callee) or the callee itself branches over more than one value (the ambiguity is real and belongs to the callee's contract)."
   },
   {
+   "closed_at": "2026-11-08T00:24:00+08:00",
+   "closed_by": "bm-b r1541",
    "deliverable": "results/state_tilt/CONSTANTORIGIN-<cutoff>.json",
    "entered_at": "2026-11-07T23:2x+08:00",
    "entered_by": "bm-b r1538 (supply floor refill after E508)",
@@ -29060,15 +29062,15 @@
    "lane": "cpu-only",
    "lane_note": "static: one hop into in-repo constant definitions, no network, no rewrites",
    "priority": "normal",
+   "result_ref": "results/state_tilt/CONSTANTORIGIN-2026-11-08.json",
    "source": "E508 (r1538 bm-b): 23 of 35 surfaces take a module constant, 42 of the 79 constant sites supply a constant built by code",
    "status": "done",
    "target": "results/state_tilt/constantorigin_latest.json",
-   "title": "E508 found 23 of E505's 35 argument-only surfaces reading their population from a module constant (34 sites literal-bound, 42 built by code). A built constant is not a frozen population: `CORPUS_DIRS = tuple(e346.CORPUS_DIRS)` or `FILES = py_files(ROOT)` resolves at import time from another module or from a walk. For every surface whose headline resolution is a module constant, follow that constant one hop -- in-module assignment, imported module attribute, or a call -- and publish what the constant ultimately holds (a literal list, another module's constant, a tree walk, a loaded file) plus whether an adapter that reads the surface module alone can reach it. So 'recoverable from the call site' stops hiding 'recoverable only if you also import the other module'.",
-   "result_ref": "results/state_tilt/CONSTANTORIGIN-2026-11-08.json",
-   "closed_at": "2026-11-08T00:24:00+08:00",
-   "closed_by": "bm-b r1541"
+   "title": "E508 found 23 of E505's 35 argument-only surfaces reading their population from a module constant (34 sites literal-bound, 42 built by code). A built constant is not a frozen population: `CORPUS_DIRS = tuple(e346.CORPUS_DIRS)` or `FILES = py_files(ROOT)` resolves at import time from another module or from a walk. For every surface whose headline resolution is a module constant, follow that constant one hop -- in-module assignment, imported module attribute, or a call -- and publish what the constant ultimately holds (a literal list, another module's constant, a tree walk, a loaded file) plus whether an adapter that reads the surface module alone can reach it. So 'recoverable from the call site' stops hiding 'recoverable only if you also import the other module'."
   },
   {
+   "closed_at": "2026-11-08T02:12:00+08:00",
+   "closed_by": "bm-b r1542",
    "deliverable": "results/state_tilt/BUILTELSEWHERE-<cutoff>.json",
    "entered_at": "2026-11-07T23:5x+08:00",
    "entered_by": "bm-b r1540 (supply floor refill after E512)",
@@ -29077,8 +29079,9 @@
    "lane": "cpu-only",
    "lane_note": "static: one more AST hop into an imported module, no network, no rewrites",
    "priority": "normal",
+   "result_ref": "results/state_tilt/BUILTELSEWHERE-2026-11-08.json",
    "source": "E512 (r1540 bm-b): 4 of 8 sites carry origin a_value_built_by_a_call_into_another_module",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/builtelsewhere_latest.json",
    "title": "E512 answered 5 of its 8 sites with a builtin coercion (`str(...)`) and could name the origin of only one of them: 4 sites read a series that another module built (`BT.apply_overlay(...)`), which this face publishes as built-by-another-module rather than following. Open that hop: for every site whose origin is built-by-another-module, read the imported function's return paths and publish whether the value it hands over is a data day read from a file, a run clock, or another parameter -- so 'built elsewhere' stops being an unreadable origin."
   },
@@ -29097,16 +29100,44 @@
    "title": "E512 found one callee (`card_config_ticket`) whose three published sites are all safe only because a terminating guard sits between the call and the site. Three guarded sites are not a property of the callee: enumerate every call site of every in-repo callee that branches over a nothing-valued path, and publish per call site whether a terminating guard covers the empty arm, whether the value reaches a subscript unguarded, and whether the site is reachable at all -- so the guarded sibling stops being evidence for the unguarded one."
   },
   {
-   "id": "E516-WHICH-FUNCTION-LOCAL-THAT-E508-CALLED-A-MODULE-CONSTANT-IS-THE-ONLY-CARRIER-OF-A-POPULATION",
-   "lane": "cpu-only",
-   "status": "ready",
+   "deliverable": "results/state_tilt/LOCALCARRIER-<cutoff>.json",
    "entered_at": "2026-11-08T00:24:00+08:00",
    "entered_by": "bm-b r1541",
    "evidence_cutoff": "2026-11-08",
-   "title": "E513 found 58 of the 84 bindings that E508 published as module constants are locals of the function that makes the call (80 of 123 sites). A local is not a population a reader can reconstruct: it is produced inside the call and thrown away. Measure, for every surface whose argument is such a local, whether any other caller supplies a real population -- i.e. classify the surface as readable-from-a-call-site / readable-only-through-the-local / never-supplied -- and publish which of those locals are produced by a call into another module so the 'a caller passes a constant' headline stops counting transient values.",
+   "id": "E516-WHICH-FUNCTION-LOCAL-THAT-E508-CALLED-A-MODULE-CONSTANT-IS-THE-ONLY-CARRIER-OF-A-POPULATION",
+   "lane": "cpu-only",
+   "source": "E513 (r1541 bm-b): 58 of 84 published 'module constant' bindings are function locals",
+   "status": "ready",
    "target": "results/state_tilt/localcarrier_latest.json",
-   "deliverable": "results/state_tilt/LOCALCARRIER-<cutoff>.json",
-   "source": "E513 (r1541 bm-b): 58 of 84 published 'module constant' bindings are function locals"
+   "title": "E513 found 58 of the 84 bindings that E508 published as module constants are locals of the function that makes the call (80 of 123 sites). A local is not a population a reader can reconstruct: it is produced inside the call and thrown away. Measure, for every surface whose argument is such a local, whether any other caller supplies a real population -- i.e. classify the surface as readable-from-a-call-site / readable-only-through-the-local / never-supplied -- and publish which of those locals are produced by a call into another module so the 'a caller passes a constant' headline stops counting transient values."
+  },
+  {
+   "deliverable": "results/state_tilt/CONTAINERFEED-<cutoff>.json",
+   "entered_at": "2026-11-08T02:12:00+08:00",
+   "entered_by": "bm-b r1542",
+   "evidence_cutoff": "2026-11-08",
+   "id": "E517-WHAT-CONTAINER-DOES-THE-FOUR-UNRESOLVED-KEY-READS-ACTUALLY-READ-OFF",
+   "lane": "cpu-only",
+   "lane_note": "static: container fill scan plus one hop into the caller, no network, no rewrites",
+   "priority": "normal",
+   "source": "E514 (r1542 bm-b): 4 of 27 rows answer the_callee_could_not_be_resolved_to_a_definition and every one of them is a key read (payloads.get, src.get) off a container the enclosing function received or filled",
+   "status": "ready",
+   "target": "results/state_tilt/containerfeed_latest.json",
+   "title": "E514 could not name a builder for four rows because their callee is a container method (.get) on a name, not a function: `payload = payloads.get(rel)` in a resolver whose second parameter IS `payloads`, and `line = src.get(...)`. A key read is the last hop of a population, not a builder, and the container it reads is either a caller-supplied dict, a module-level cache, or a literal default. Follow each container to its fills and publish per row whether the value it hands back is (a) a file the caller already read, (b) a cache filled elsewhere in the module, (c) a literal default, or (d) still unread -- so 'could not be resolved' stops standing in for four different situations."
+  },
+  {
+   "deliverable": "results/state_tilt/LITERALGUARD-<cutoff>.json",
+   "entered_at": "2026-11-08T02:12:00+08:00",
+   "entered_by": "bm-b r1542",
+   "evidence_cutoff": "2026-11-08",
+   "id": "E518-IS-A-LITERAL-RETURN-A-GUARD-OR-A-SILENT-DEFAULT-IN-EVERY-BUILDER",
+   "lane": "cpu-only",
+   "lane_note": "static: guard and assignment scan inside one function body, no network, no rewrites",
+   "priority": "normal",
+   "source": "E514 (r1542 bm-b): 10 of the 25 return paths of six genuine builders are literals, and 2 builders therefore answer hands_back_a_parameter and a literal at once",
+   "status": "ready",
+   "target": "results/state_tilt/literalguard_latest.json",
+   "title": "E514 published 10 literal return paths across six in-repo builders (`return None, None, None`, `return {}`, `return (1.0, 1.0, [])`). A literal return is not one thing: `return {}` under `if not paths` is a declared empty answer, while an initial value that a loop is expected to overwrite is a silent default that would replace a read if the loop never ran. Measure, for every literal return path of every builder that also has a read path, whether it sits behind a guard that names the empty case, whether it is a mutable initial value overwritten unconditionally, and whether a caller can distinguish the two from the outside -- so 'every path reads a file' becomes a property that can be checked rather than hoped for."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29121,6 +29152,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T23:5x+08:00",
+ "updated_at": "2026-11-08T02:12:00+08:00",
  "version": 1
 }

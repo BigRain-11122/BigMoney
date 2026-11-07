@@ -1934,6 +1934,15 @@ LEGS = [
     # field the site reads ultimately comes from.  `check` re-derives the verdict, the kind table
     # and every count from the published paths, so a hand-written reading fails.
     ("callee_return", ["python", "scripts/e512_callee_return.py", "check"]),
+
+    # E514 opens the hop E512 and E513 both stopped at: "a value built by another module".  For
+    # every such row it resolves the builder, publishes each of its return paths with the kind of
+    # value it hands over (a file, the git store at a commit, a scan of the tree, a day carried by
+    # a loaded panel, the clock, a parameter, a literal, or still nothing), and -- when the
+    # builder hands back a parameter -- where that parameter is fed from at the call site.  `check`
+    # re-derives every answer from the row's own kinds and the verdict from the summary, so a
+    # hand-written reading fails.
+    ("built_elsewhere", ["python", "scripts/e514_built_elsewhere.py", "check"]),
 ]
 
 

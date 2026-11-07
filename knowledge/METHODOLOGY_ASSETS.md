@@ -12876,3 +12876,24 @@ E506 把 16 张面归入"日期写在见证词表之外的字段名下"时，量
 **可复用教训**：①标签写"常量"就先量作用域——调用点的 `Name` 可能是模块属性、函数局部或形参，三者只有一种算"发布面"；②把"E508 点名的模块"和"真正绑定这个名字的模块"同时发布，错人口就从静默变成两个具名作用域（差本身就是读数）；③可达性必须同时答**import 边**和**绑定种类**——目录遍历能 import 但不冻结，函数局部两样都不成立。
 
 **验证**：`scripts/e513_constant_origin.py` — `run` rc0 / `check` problems=[] / `verify` 重建 problems=[] / **selftest 全部绿**（7 夹具模块：字面量 / 别名链 / 跨模块常量 / 目录遍历 / 自身调用 / 无绑定 / 函数局部；另有成环臂与 4 枚 doctored 面全被拒）；`results/state_tilt/CONSTANTORIGIN-2026-11-08.json` 与 `constantorigin_latest.json` 逐字节同源；smoke leg `# E513` 以 `_r1541_leg513.py` 原文单跑 1/1 绿；digest `research/digests/DIGEST-20261108-r1541-e513-constant-origin.md`。未跑：全量 smoke 套件、其余 S6 链腿、采集器族（不宣称）。
+
+## E514 -- "另一模块造的"是半句话：把造者读出来（r1542 bm-b）
+
+**立论**：E512 把 8 个站点全答了，但其中 4 个停在同一个标签 `a_value_built_by_a_call_into_another_module`——它们还是同一个表达式 `asof = str(slip.index[-1].date())`，`slip` 出自 `BT.apply_overlay(...)`，而 `asof` 正是**票据归档日的日期**。E513 又发布了 23 个"人口由另一模块的调用造出来"的绑定，同样停在那里。于是"一张已发布票据的 as-of 日"被两张独立的面同时记为"作者未知"。
+
+**方法**：两臂人口共 27 行（23 = E513 的跨模块桶，4 = E512 的 built-elsewhere 站点），全部从已发布面取、不重导原始对子。逐行先判**是不是本处读取/本处字面量**，再判造者；造者是仓内函数时读出它**每一条 return 路径**交回什么（磁盘文件 / 某 commit 的 git 对象 / 工作树扫描 / 载入面板携带的日 / 运行时钟 / 构造器参数 / 字面量 / 仍读不出），并在造者交回**参数**时继续发布该参数在**调用点由谁供应**（一跳，必要时进一层）。
+
+**读数**：27 行 → 造者分类：仓内函数 13 / 本处读取 4（`io.open` 等）/ 本处字面量 1（`"\n".join([...])`）/ 只是名字或路径构造 5（`os.path.join`/`dirname`/`basename`）/ 解不出 4（`payloads.get`、`src.get`）。**十行根本不是"被造的"**——5 行是路径构造函数（"另一模块"这个桶名是唯一证据），4 行在原地读取，1 行是字面量。13 个真造者的 25 条路径：**文件 5 / git 对象 4 / 树扫描 2 / 参数 4 / 字面量 10 / 运行时钟 0**。6 个不同造者：`load_pin`(json.load)、`pinned_corpus`(subprocess 调 `git cat-file --batch`)、`_sources`(循环里 `open().read()`)、`_walk_py`(os.walk)、`producer_map`(由 `_walk_py`+`read_text` 填充的 dict)、`apply_overlay`(三个 `pd.Series(..., index=idx)`)。答案分布：全路径读 7 / 读写混合 2 / 交回参数 4 / 其余非造者。verdict=`every_in_repo_builder_answers_its_return_paths_and_the_rest_of_the_bucket_is_not_a_builder_at_all`。
+
+**四张票据站点**：`rp` 是 `apply_overlay` 的参数；调用点 `rp = BT.rets(ser.reindex(idx))`，而 `rets` 交回的是**它自己的参数** `ser`。从票据日期到面板是三层具名跳（apply_overlay → rets → 调用方的序列），**没有一层是时钟**。这就是卡片的答案，而且必须先发布"参数由谁供应"才说得出来——只报"交回参数"只是把问题往后挪一格。
+
+**窗内六个自踩**（都可复用）：
+
+1. **两种 import 形状，一个解析器**：`e512._callee` 切最后一段点号，对 `import a.b as M` 对、对 `from scripts import mod as BT` 错——模块解析成包 `scripts`、callee 找不到，回溯于是掉进调用的**实参**，4 个票据站点被判给同模块的 `k_schedule`（`apply_overlay` 的一个实参）。正法=先试完整点号再试切段。
+2. **先问"是不是本处读的"，再问"谁造的"**：顺序反了，`io.open(...)` 会算成解不出的造者，桶看起来四分之三不可读，其实不是。
+3. **空容器不是答案**：`out = []` 再循环 `out.append(...)`，发布成"字面量"等于说"值是 `[]`"；空容器要退成未读、让**填充语句**当作者（`producer_map` 由此从字面量翻成树扫描）。
+4. **方法调用的实参不是它的值**：`marks.shift(1)` 被追成字面量 `1`。方法调用回落**接收者**，只有构造函数才看 `index=`。
+5. **参数表必须取自函数自身**：读 `e507` 的模块级 `params`（语义不同）会把局部 `out`/`row` 标成"构造器交回的参数"，同一面读数 0 → 8 → 0。
+6. **12 层深度不够**：`idx → live → applied → marks → dates → rp` 已经 13 个 AST 层，`apply_overlay` 被报"读不出"是仪器的伤不是代码的。
+
+**验证**：`scripts/e514_built_elsewhere.py` — `run` rc0 / `check` problems=[] / `verify` 重建 problems=[] / **selftest 全绿**（7 夹具模块：文件读 / 时钟 / 参数 / 路径构造 / 未读 / 本处读 / 本处字面量 + 元组解包造者 + 4 枚 doctored 面全被拒）；`results/state_tilt/BUILTELSEWHERE-2026-11-08.json` 与 `builtelsewhere_latest.json` 同源；S6 腿 `built_elsewhere` rc0 0.07s（receipt `results/_r1542bmb_s6_chain.json`）；smoke 腿 `# E514` 原文独跑 1/1 绿、`--doctor` 1/1 红且字节还原（sha `9e2408b5bd58`，4 枚 doctored 臂在腿内）；digest `research/digests/DIGEST-20261108-r1542-e514-built-elsewhere.md`。未跑：全量 smoke 套件、其余 S6 链腿、采集器族（不宣称）。
