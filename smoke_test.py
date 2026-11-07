@@ -20914,5 +20914,69 @@ except Exception as _e511x:
     _d511 = "leg could not run"
 check(_name511, not _bad511, "; ".join(_bad511)[:240] or _d511)
 
+# E508: read the published caller-supplied face the way a consumer would -- the headline
+# reading must be the arm that drops selftest fixtures, both arms must re-derive from the
+# embedded sites, the reach axis must agree with which module the sites sit in, and three
+# doctored copies (a flipped reading, a hand-written recoverable count, a never-called
+# surface that the site table contradicts) must all be refused.
+_name508 = ("E508 every call site of E505's 35 argument-only population surfaces is read, so "
+            "a literal / a constant / a caller's parameter / no caller at all are separated "
+            "(r1538 bm-b)")
+_bad508 = []
+try:
+    _m508 = __import__("importlib").import_module("e508_caller_supplied_population")
+    _f508 = json.load(open(os.path.join("results", "state_tilt", "callersupplied_latest.json"),
+                           encoding="utf-8"))
+    _s508 = _f508.get("summary") or {}
+    _u508 = _f508.get("surfaces") or []
+    _r508 = _f508.get("rows") or []
+    _bad508.extend(_m508.surface_problems(_f508))
+    if not _u508 or not _r508:
+        _bad508.append("the surface or site population is empty")
+    _up508 = json.load(open(os.path.join("results", "state_tilt",
+                                         "UNMEASUREDREACH-2026-11-07.json"), encoding="utf-8"))
+    _pop508 = {(row.get("module"), (row.get("chosen_surface") or {}).get("name"))
+               for row in (_up508.get("rows") or [])
+               if row.get("class") == _m508.ARG_ONLY}
+    _got508 = {(s.get("module"), s.get("name")) for s in _u508}
+    if _pop508 - _got508:
+        _bad508.append("an argument-only surface E505 published is missing here")
+    if _got508 - _pop508:
+        _bad508.append("the face carries a surface E505 did not class argument-only")
+    if _s508.get("surfaces") != len(_u508):
+        _bad508.append("the published surface count is not the surface table length")
+    if _s508.get("call_sites") != len(_r508):
+        _bad508.append("the published site count is not the row table length")
+    if any(not s.get("sites") and s.get("reach") != _m508.REACH_NEVER for s in _u508):
+        _bad508.append("a surface with no site claims it was called")
+    if _f508.get("verdict") != _m508._verdict(_s508):
+        _bad508.append("the verdict is not the one the summary implies")
+    _w508 = json.loads(json.dumps(_f508))
+    _w508["surfaces"][0]["resolution"] = _m508.R_PARAMETER
+    if not _m508.surface_problems(_w508):
+        _bad508.append("a flipped headline reading survived the guard")
+    _w508b = json.loads(json.dumps(_f508))
+    _w508b["summary"]["recoverable_surfaces"] += 1
+    if not _m508.surface_problems(_w508b):
+        _bad508.append("a hand-written recoverable count survived the guard")
+    _w508c = json.loads(json.dumps(_f508))
+    _w508c["surfaces"][0]["reach"] = _m508.REACH_NEVER
+    if not _m508.surface_problems(_w508c):
+        _bad508.append("a reach the site table contradicts survived the guard")
+    _d508 = ("%r surfaces / %r sites | literal %r constant %r parameter %r walk %r | "
+             "recoverable %r (all sites %r) | no site %r | reading moved by dropping "
+             "selftests %r | verdict %r" % (
+                 _s508.get("surfaces"), _s508.get("call_sites"),
+                 _s508.get("sites_passing_a_literal"), _s508.get("sites_passing_a_constant"),
+                 _s508.get("sites_passing_a_parameter"), _s508.get("sites_passing_a_walk"),
+                 _s508.get("recoverable_surfaces"), _s508.get("recoverable_surfaces_all_sites"),
+                 _s508.get("surfaces_never_called"),
+                 _s508.get("surfaces_whose_reading_changes_when_selftests_are_dropped"),
+                 _f508.get("verdict")))
+except Exception as _e508x:
+    _bad508.append(repr(_e508x)[:160])
+    _d508 = "leg could not run"
+check(_name508, not _bad508, "; ".join(_bad508)[:240] or _d508)
+
 if __name__ == "__main__":
     sys.exit(main())

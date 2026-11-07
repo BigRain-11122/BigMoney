@@ -1913,6 +1913,12 @@ LEGS = [
     # ambiguity or only a dataflow read could.  `check` re-derives the anatomy and the resolution
     # from the published bindings, so a hand-written class fails.
     ("collision_anatomy", ["python", "scripts/e511_collision_anatomy.py", "check"]),
+
+    # E508 reads the call sites of E505's 35 argument-only population surfaces and
+    # publishes, per site, the value supplied to each parameter plus a resolution (literal
+    # / constant / walk / file / derived / call / caller parameter) and a reach axis.
+    # `check` re-derives both arms from the sites, so a hand-written reading fails.
+    ("caller_supplied", ["python", "scripts/e508_caller_supplied_population.py", "check"]),
 ]
 
 

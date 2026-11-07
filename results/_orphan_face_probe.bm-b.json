@@ -1,17 +1,17 @@
 {
- "ts": "2026-11-07T22:17:28",
+ "ts": "2026-11-07T22:50:18",
  "mode": "probe",
- "py_faces_seen": 8,
+ "py_faces_seen": 9,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 3516,
+   "pid": 3896,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Python311\\python.exe C:\\Users\\Administrator\\.local\\bin\\mcp-for-unity.exe --transport stdio",
-   "age_min": 7.2,
+   "age_min": 14.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -25,42 +25,40 @@
    ]
   },
   {
-   "pid": 6964,
+   "pid": 7056,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
-   "age_min": 7.2,
-   "cpu_delta_20s": 0.0,
+   "cmd": "C:\\Program Files\\Python311\\python.exe Tools\\orphan_face_probe.py",
+   "age_min": 0.7,
+   "cpu_delta_20s": 0.062,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "mcp-for-unity.exe",
+    "powershell.exe",
     "codely.exe",
     "powershell.exe",
     "wscript.exe"
    ]
   },
   {
-   "pid": 18724,
+   "pid": 17076,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
-   "age_min": 1.1,
-   "cpu_delta_20s": 0.0,
+   "cmd": "python Tools\\fleet\\agent.py --node bm-b --push",
+   "age_min": 0.7,
+   "cpu_delta_20s": 0.031,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "mcp-for-unity.exe",
-    "codely.exe",
-    "powershell.exe",
+    "cmd.exe",
     "wscript.exe"
    ]
   },
   {
-   "pid": 27956,
+   "pid": 29780,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\5.2\\python\\bin\\python.exe C:\\Program Files\\Blender Foundation\\Blender 5.",
-   "age_min": 7.2,
+   "age_min": 18.9,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -76,7 +74,7 @@
    "pid": 30656,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Tuanjie\\Hub\\Editor\\2022.3.62t15\\Editor\\Data\\PlaybackEngines\\WeixinMiniGameSupport\\BuildTools\\Emscripten",
-   "age_min": 5977.5,
+   "age_min": 6010.3,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
@@ -87,10 +85,10 @@
    ]
   },
   {
-   "pid": 35660,
+   "pid": 32744,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Python311\\python.exe C:\\Users\\Administrator\\.local\\bin\\mcp-for-unity.exe --transport stdio",
-   "age_min": 1.1,
+   "age_min": 18.9,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -104,32 +102,48 @@
    ]
   },
   {
-   "pid": 36708,
-   "name": "python.exe",
-   "cmd": "C:\\Program Files\\Python311\\python.exe Tools\\orphan_face_probe.py",
-   "age_min": 0.7,
-   "cpu_delta_20s": 0.078,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "powershell.exe",
-    "codely.exe",
-    "powershell.exe",
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 37612,
+   "pid": 35404,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\5.2\\python\\bin\\python.exe C:\\Program Files\\Blender Foundation\\Blender 5.",
-   "age_min": 1.1,
+   "age_min": 14.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
     "blender-mcp.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 35676,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
+   "age_min": 18.9,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "mcp-for-unity.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 36544,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
+   "age_min": 14.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "mcp-for-unity.exe",
     "codely.exe",
     "powershell.exe",
     "wscript.exe"

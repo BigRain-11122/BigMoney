@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1537 bm-b: E511 published (COLLISIONANATOMY-2026-11-07: the 4 sites E510 left ambiguous are anatomised -- 3 bind the symbol once and the value enters through the right-hand side, 1 is one meaning built in sequence; a rename separates zero of them). E511 closed, E512 seeded.",
+ "_stamp_note": "r1538 bm-b: E508 published (CALLERSUPPLIED-2026-11-07: the 35 argument-only surfaces were all called -- 26 read the population at a call site, 7 only pass their caller's parameter, and 10 readings flip once selftest fixtures are dropped). E508 closed, E513 seeded.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28967,6 +28967,7 @@
    "title": "E504 resolved each naming site's date symbol inside one module and left 169 (site, member) pairs unresolved plus 61 members with no composing expression at all. Read those residual symbols: is each one a cross-module constant (base.CUTOFF), a value returned by an imported helper, a subscript of a loaded series, or a symbol that only ever existed in a one-off round script that git history still holds? Publish, per unresolved symbol, the binding site if one exists anywhere in the repository or its history, and whether the resulting name tracks the clock or the data -- so the name-based rule stops having a bucket it cannot read"
   },
   {
+   "closed_at": "2026-11-07T23:2x+08:00",
    "deliverable": "results/state_tilt/CALLERSUPPLIED-<cutoff>.json",
    "entered_at": "2026-11-07T20:10+08:00",
    "entered_by": "bm-b r1534 (supply floor refill after E505)",
@@ -28975,8 +28976,10 @@
    "lane": "cpu-only",
    "lane_note": "static: read the call sites of E505's argument-only surfaces, no network, no rewrites",
    "priority": "normal",
+   "result_note": "35 surfaces / 119 call sites: 26 read the population at a call site (constant 23, literal 2, file read 1), 7 only pass their caller's own parameter, 1 derives it, 1 passes another call's result; 0 never called; 10 readings flip when selftest fixtures are dropped; only 5 surfaces are called from another module and 6 of 14 multi-parameter surfaces put the most concrete argument off the first parameter",
+   "result_ref": "results/state_tilt/CALLERSUPPLIED-2026-11-07.json",
    "source": "E505 (r1534 bm-b): 35 of 183 unmeasured studies expose a population-naming function that nothing can call without an argument, and 82 more expose nothing under a population name",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/callersupplied_latest.json",
    "title": "E505 published 35 studies whose only population-naming surface takes caller arguments, so no adapter can call it and the arm stays unpriced. Read those surfaces' call sites inside this repository: does any caller pass a literal corpus, or is the argument built from a constant, a glob, or the caller's own cwd? Publish, per surface, the calling sites, the argument each supplies and whether the population is recoverable from a call site -- so the bucket stops having a class that no instrument can read."
   },
@@ -29012,6 +29015,7 @@
    "title": "E507 published 42 pairs whose date symbol binds more than one way; in at least one case (`_cal` in a 28k-line census module) the ambiguity is the instrument's: the E504/E507 binding table is module-wide, so a comprehension target and an unrelated function-local carry the same name. Re-read those 42 pairs with a scope-aware table (nearest enclosing function first, then module, comprehension targets shadowed) and publish, per pair, the binding it gets under each table and whether the ambiguous bucket shrinks. The point is to separate the ambiguity that lives in the code from the ambiguity the resolver manufactures, so the remaining reuses can be named as real symbol collisions."
   },
   {
+   "closed_at": "2026-11-07T22:3x+08:00",
    "deliverable": "results/state_tilt/COLLISIONANATOMY-<cutoff>.json",
    "entered_at": "2026-11-07T22:1x+08:00",
    "entered_by": "bm-b r1537 (supply floor refill after E510)",
@@ -29020,27 +29024,40 @@
    "lane": "cpu-only",
    "lane_note": "static: re-read four pair sites' own-scope writer sets, no network, no rewrites",
    "priority": "normal",
+   "result_note": "4 pair sites / 4 members / 2 sources / 2 symbols: 3 sites bind the symbol once and the value enters through the right-hand side (the operand is a call_result), 1 site is one meaning built in sequence (None -> union -> filter); sites a rename separates = 0",
+   "result_ref": "results/state_tilt/COLLISIONANATOMY-2026-11-07.json",
    "source": "E510 (r1537 bm-b): 4 of 13 pair sites stay ambiguous under the scoped table",
    "status": "done",
    "target": "results/state_tilt/collisionanatomy_latest.json",
-   "title": "E510 left four pair sites ambiguous even under the scoped table: `idx` in etf_book_cash_ladder's main and `asof` in etf_book_order's run_card (three sites). Enumerate every writer of the symbol that the site's own scope can see, decide which of them can be live at the site (sequential rebinding inside one function, a loop/try that can run either branch, or two different meanings under one name), and publish per site whether the residual ambiguity is removable by a rename or is a genuine rebinding that only a dataflow read could resolve.",
-   "closed_at": "2026-11-07T22:3x+08:00",
-   "result_ref": "results/state_tilt/COLLISIONANATOMY-2026-11-07.json",
-   "result_note": "4 pair sites / 4 members / 2 sources / 2 symbols: 3 sites bind the symbol once and the value enters through the right-hand side (the operand is a call_result), 1 site is one meaning built in sequence (None -> union -> filter); sites a rename separates = 0"
+   "title": "E510 left four pair sites ambiguous even under the scoped table: `idx` in etf_book_cash_ladder's main and `asof` in etf_book_order's run_card (three sites). Enumerate every writer of the symbol that the site's own scope can see, decide which of them can be live at the site (sequential rebinding inside one function, a loop/try that can run either branch, or two different meanings under one name), and publish per site whether the residual ambiguity is removable by a rename or is a genuine rebinding that only a dataflow read could resolve."
   },
   {
+   "deliverable": "results/state_tilt/CALLEERETURN-<cutoff>.json",
+   "entered_at": "2026-11-07T22:3x+08:00",
+   "entered_by": "bm-b r1537 (supply floor refill after E511)",
+   "evidence_cutoff": "2026-11-07",
    "id": "E512-WHAT-DOES-THE-CALLEE-RETURN-WHEN-THE-SITES-ONLY-BINDING-READS-A-CALL",
-   "title": "E511 classed 3 of its 4 residual sites as 'the value enters through the right-hand side' and named the operand: `asof = tk[...] or \"unknown\"` reads `tk = card_config_ticket(nav=nav)`. Follow that one hop into the callee and ask what its return paths can name: for every site whose resolution is an operand read, resolve the call to an in-repo function, enumerate its return statements, and publish whether every path names the same kind of value (the residual ambiguity is readable from the callee) or the callee itself branches over more than one value (the ambiguity is real and belongs to the callee's contract).",
-   "source": "E511 (r1537 bm-b): 3 of 4 residual sites need an operand read, and their operand is a call result",
    "lane": "cpu-only",
    "lane_note": "static: one call hop into in-repo callees, no network, no rewrites",
    "priority": "normal",
+   "source": "E511 (r1537 bm-b): 3 of 4 residual sites need an operand read, and their operand is a call result",
    "status": "ready",
    "target": "results/state_tilt/calleereturn_latest.json",
-   "deliverable": "results/state_tilt/CALLEERETURN-<cutoff>.json",
+   "title": "E511 classed 3 of its 4 residual sites as 'the value enters through the right-hand side' and named the operand: `asof = tk[...] or \"unknown\"` reads `tk = card_config_ticket(nav=nav)`. Follow that one hop into the callee and ask what its return paths can name: for every site whose resolution is an operand read, resolve the call to an in-repo function, enumerate its return statements, and publish whether every path names the same kind of value (the residual ambiguity is readable from the callee) or the callee itself branches over more than one value (the ambiguity is real and belongs to the callee's contract)."
+  },
+  {
+   "deliverable": "results/state_tilt/CONSTANTORIGIN-<cutoff>.json",
+   "entered_at": "2026-11-07T23:2x+08:00",
+   "entered_by": "bm-b r1538 (supply floor refill after E508)",
    "evidence_cutoff": "2026-11-07",
-   "entered_at": "2026-11-07T22:3x+08:00",
-   "entered_by": "bm-b r1537 (supply floor refill after E511)"
+   "id": "E513-WHICH-CONSTANT-THAT-SUPPLIES-A-POPULATION-IS-ITSELF-BUILT-FROM-SOMETHING-ELSE",
+   "lane": "cpu-only",
+   "lane_note": "static: one hop into in-repo constant definitions, no network, no rewrites",
+   "priority": "normal",
+   "source": "E508 (r1538 bm-b): 23 of 35 surfaces take a module constant, 42 of the 79 constant sites supply a constant built by code",
+   "status": "ready",
+   "target": "results/state_tilt/constantorigin_latest.json",
+   "title": "E508 found 23 of E505's 35 argument-only surfaces reading their population from a module constant (34 sites literal-bound, 42 built by code). A built constant is not a frozen population: `CORPUS_DIRS = tuple(e346.CORPUS_DIRS)` or `FILES = py_files(ROOT)` resolves at import time from another module or from a walk. For every surface whose headline resolution is a module constant, follow that constant one hop -- in-module assignment, imported module attribute, or a call -- and publish what the constant ultimately holds (a literal list, another module's constant, a tree walk, a loaded file) plus whether an adapter that reads the surface module alone can reach it. So 'recoverable from the call site' stops hiding 'recoverable only if you also import the other module'."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29055,6 +29072,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T22:3x+08:00",
+ "updated_at": "2026-11-07T23:2x+08:00",
  "version": 1
 }
