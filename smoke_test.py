@@ -410,6 +410,13 @@ def main() -> int:
             # so a missing bar can never be read as a flat outcome.
             ("product: limit-up event supply probe (exit-code contract)",
              "scripts/zoo91_limit_up_event_probe.py", ["--selftest"]),
+            # r1392: the sell side of the same forced-trade clock (r1391 measured the buy
+            # side: the premium is paid at the next open). Same engine, one different mask
+            # -- so the legs must prove the mask is actually different (the engineered
+            # limit-down panel is seen as zero events when read as "up"), that sealing is
+            # required on the floor too, and that a missing next-open stays NaN.
+            ("product: limit-down event supply probe (exit-code contract)",
+             "scripts/zoo92_limit_down_event_probe.py", ["--selftest"]),
             # r1387: that probe's verdict outlived its number -- the null it lost to is what a
             # future timing rule actually has to beat, and nothing published it. This face
             # turns the null into a ruler on the book in force (hurdle per exposure share).

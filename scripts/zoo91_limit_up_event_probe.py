@@ -109,8 +109,8 @@ def _read_tail(path: str, start: str = START):
             io.BytesIO(blob[off:]),
             header=None,
             names=["date", "open", "high", "low", "close", "volume", "amount", "os", "turn"],
-            usecols=[0, 1, 2, 4],
-            dtype={0: str, 1: float, 2: float, 4: float},
+            usecols=[0, 1, 2, 3, 4],
+            dtype={0: str, 1: float, 2: float, 3: float, 4: float},
             engine="c",
         )
     except Exception:
@@ -139,13 +139,15 @@ def load_panel(per_dir: str = PER, start: str = START, max_symbols: int | None =
     T, S = len(order), len(syms)
     op = np.full((T, S), np.nan, dtype=np.float32)
     hi = np.full((T, S), np.nan, dtype=np.float32)
+    lo = np.full((T, S), np.nan, dtype=np.float32)
     cl = np.full((T, S), np.nan, dtype=np.float32)
     for j, df in enumerate(frames):
         rows = np.fromiter((idx[d] for d in df["date"]), dtype=np.int64, count=len(df))
         op[rows, j] = df["open"].to_numpy(dtype=np.float32)
         hi[rows, j] = df["high"].to_numpy(dtype=np.float32)
+        lo[rows, j] = df["low"].to_numpy(dtype=np.float32)
         cl[rows, j] = df["close"].to_numpy(dtype=np.float32)
-    return {"dates": order, "symbols": syms, "open": op, "high": hi, "close": cl}
+    return {"dates": order, "symbols": syms, "open": op, "high": hi, "low": lo, "close": cl}
 
 
 # --------------------------------------------------------------------------- #
@@ -155,13 +157,30 @@ def limit_matrix(symbols) -> np.ndarray:
     return np.array([board_limit(s) for s in symbols], dtype=np.float32)
 
 
-def event_mask(open_, high, close, limits, seal_tol: float = SEAL_TOL):
+def event_mask(open_, high, close, limits, seal_tol: float = SEAL_TOL,
+               low=None, direction: str = "up"):
+    """A sealed bar at the traded price limit.
+
+    direction="up"   close == high at the ceiling  -> the name is forced to trade
+                     tomorrow because buyers could not get filled today.
+    direction="down" close == low at the floor     -> the name is forced to trade
+                     tomorrow because sellers could not get out today.
+    One mask, two sides: the sealing test is the same "the tape stopped at the
+    limit and the close sits on that edge" statement, read against the bar's own
+    extreme (high for up, low for down).
+    """
     prev = np.full_like(close, np.nan)
     prev[1:] = close[:-1]
     with np.errstate(invalid="ignore", divide="ignore"):
         r = close / prev - 1.0
-    sealed = close >= high - 1e-9
-    ev = (r >= (limits[None, :] - seal_tol)) & sealed & np.isfinite(r) & np.isfinite(open_)
+    if direction == "down":
+        if low is None:
+            raise ValueError("direction='down' needs the low matrix")
+        sealed = close <= low + 1e-9
+        ev = (r <= -(limits[None, :] - seal_tol)) & sealed & np.isfinite(r) & np.isfinite(open_)
+    else:
+        sealed = close >= high - 1e-9
+        ev = (r >= (limits[None, :] - seal_tol)) & sealed & np.isfinite(r) & np.isfinite(open_)
     return ev
 
 
@@ -198,8 +217,9 @@ def _adjacent_exclusion(ev: np.ndarray, h: int) -> np.ndarray:
 
 
 def probe(open_, high, close, limits, horizons=HORIZONS, draws: int = DRAWS, seed: int = 0,
-          min_pool: int = MIN_POOL, cost_per_side: float = COST_PER_SIDE):
-    ev = event_mask(open_, high, close, limits)
+          min_pool: int = MIN_POOL, cost_per_side: float = COST_PER_SIDE,
+          low=None, direction: str = "up"):
+    ev = event_mask(open_, high, close, limits, low=low, direction=direction)
     n_events_total = int(ev.sum())
     rng = np.random.default_rng(seed)
     res = {"n_events_total": n_events_total, "n_bars": int(close.shape[0]),
@@ -232,8 +252,15 @@ def probe(open_, high, close, limits, horizons=HORIZONS, draws: int = DRAWS, see
                 row = np.flatnonzero(cand[t])
                 if row.size == 0:
                     continue
-                pick = rng.integers(0, row.size, size=k) if row.size > k else \
-                    rng.choice(row.size, size=k, replace=False)
+                if row.size > k:
+                    pick = rng.integers(0, row.size, size=k)
+                elif row.size == k:
+                    pick = rng.choice(row.size, size=k, replace=False)
+                else:
+                    # fewer candidate cells than events on this date (thin dates on
+                    # the sell side): draw with replacement rather than raise -- the
+                    # null is a mean of draws, not a set of distinct cells.
+                    pick = rng.integers(0, row.size, size=k)
                 acc += float(np.sum(ex[t, row[pick]]))
                 cnt += k
             null_means[d] = acc / cnt if cnt else np.nan
@@ -257,10 +284,11 @@ def probe(open_, high, close, limits, horizons=HORIZONS, draws: int = DRAWS, see
     return res, ev
 
 
-def per_year_reading(open_, high, close, limits, h: int, years, min_pool: int = MIN_POOL):
+def per_year_reading(open_, high, close, limits, h: int, years, min_pool: int = MIN_POOL,
+                     low=None, direction: str = "up"):
     F = forward_matrix(open_, close, h)
     pool, _ = pool_mean(F, min_pool)
-    ev = event_mask(open_, high, close, limits)
+    ev = event_mask(open_, high, close, limits, low=low, direction=direction)
     with np.errstate(invalid="ignore"):
         ex = F - pool[:, None]
     usable = ev & np.isfinite(ex)
