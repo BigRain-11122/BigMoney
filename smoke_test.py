@@ -21305,5 +21305,69 @@ except Exception as _e516x:
     _d516 = "leg could not run"
 check(_name516, not _bad516, "; ".join(_bad516)[:240] or _d516)
 
+# E519: read the published local-argument-origin face the way a consumer would -- every row must
+# re-derive from its own call sites and its own assignment lines, every row's source must be on
+# disk, the local call-site argument count must equal the one E516 published (a cross-face drift
+# guard), and four doctored copies (a flipped parameter flag, a row stripped of its call sites, a
+# hand-written verdict, an edited population_source) must all be refused.
+_name519 = ("E519 the local call-site arguments E516 published are followed one hop back to the "
+            "statement that binds them, and the argument count matches E516 (r1545 bm-b)")
+_bad519 = []
+try:
+    _m519 = __import__("importlib").import_module("e519_local_arg_origin")
+    _f519 = json.load(open(os.path.join("results", "state_tilt", "localargorigin_latest.json"),
+                           encoding="utf-8"))
+    _s519 = _f519.get("summary") or {}
+    _bad519.extend(_m519.site_problems(_f519))
+    if not (_f519.get("rows") or []):
+        _bad519.append("the row population is empty")
+    _up519 = json.load(open(os.path.join("results", "state_tilt",
+                                         "LOCALCARRIER-2026-11-08.json"), encoding="utf-8"))
+    _loc519 = ((_up519.get("summary") or {}).get("call_site_argument_counts") or {}).get(
+        _m519.e516.AR_LOCAL)
+    if _s519.get("local_call_site_arguments") != _loc519:
+        _bad519.append("the local argument count drifted from E516")
+    _w519 = json.loads(json.dumps(_f519))
+    for _row in _w519["rows"]:
+        _row["is_a_parameter_of_the_caller"] = not _row.get("is_a_parameter_of_the_caller")
+        break
+    if not _m519.site_problems(_w519):
+        _bad519.append("a flipped parameter flag survived the guard")
+    _w519b = json.loads(json.dumps(_f519))
+    _w519b["rows"][0]["call_sites"] = []
+    if not _m519.site_problems(_w519b):
+        _bad519.append("a row stripped of its call sites survived the guard")
+    _w519c = json.loads(json.dumps(_f519))
+    _w519c["verdict"] = _m519.V_SEPARATES
+    if not _m519.site_problems(_w519c):
+        _bad519.append("a hand-written verdict survived the guard")
+    _w519d = json.loads(json.dumps(_f519))
+    _w519d["population_source"] = "hand-written"
+    if not _m519.site_problems(_w519d):
+        _bad519.append("an edited population_source survived the guard")
+    _oc519 = _s519.get("origin_counts") or {}
+    _d519 = ("%r local arguments / %r bindings / %r locals / %r calling functions | built in the "
+             "caller %r (container %r, own-module call %r, method on a held value %r, "
+             "comprehension %r, computed %r) | two hops away %r (another in-repo module %r) | "
+             "caller parameter %r | unresolved %r | %r bindings (%r sites) assigned more than "
+             "once | verdict %r"
+             % (_s519.get("local_call_site_arguments"), _s519.get("distinct_local_bindings"),
+                _s519.get("distinct_locals"), _s519.get("distinct_calling_functions"),
+                _s519.get("arguments_built_inside_the_calling_function"),
+                _oc519.get(_m519.LO_LITERAL_CONTAINER), _oc519.get(_m519.LO_OWN_MODULE_CALL),
+                _oc519.get(_m519.LO_METHOD_ON_A_VALUE), _oc519.get(_m519.LO_COMPREHENSION),
+                _oc519.get(_m519.LO_COMPUTED),
+                _s519.get("arguments_that_are_a_published_population_two_hops_away"),
+                _oc519.get(_m519.LO_OTHER_MODULE_CALL),
+                _s519.get("arguments_that_are_a_parameter_of_the_caller"),
+                _s519.get("arguments_with_no_binding_in_the_calling_function"),
+                _s519.get("locals_bound_by_more_than_one_statement"),
+                _s519.get("sites_whose_local_is_bound_more_than_one_statement"),
+                _f519.get("verdict")))
+except Exception as _e519x:
+    _bad519.append(repr(_e519x)[:160])
+    _d519 = "leg could not run"
+check(_name519, not _bad519, "; ".join(_bad519)[:240] or _d519)
+
 if __name__ == "__main__":
     sys.exit(main())

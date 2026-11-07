@@ -1,0 +1,3404 @@
+{
+ "answers": [
+  [
+   "How many call-site arguments are a local of the calling function?",
+   "183 arguments over 61 distinct local bindings, 37 distinct locals and 46 calling functions."
+  ],
+  [
+   "What does the binding statement read?",
+   "9 write a literal inside the caller (9 containers, 0 plain values); 0 read a module constant of the caller; 5 call another in-repo module; 0 call a module that is not in this repo; 7 call a method on a value the caller already holds; 15 call into the caller's own module; 0 read a file or walk the tree; 0 are an attribute on an imported module; 6 are a comprehension; 7 are computed in the caller."
+  ],
+  [
+   "How many are built in the calling function itself versus read from somewhere else?",
+   "44 of 61 are produced inside the caller (a literal, its own function, a method on a value it holds, or an expression); 5 are a population that lives elsewhere (a module constant of the caller, another in-repo module, or the disk); 7 are a parameter of the caller itself; 5 have no binding in the caller."
+  ],
+  [
+   "How many are not built at the site at all?",
+   "7 of 61 are a parameter of the calling function itself, so the local is one more hop up and not a value built at the site."
+  ],
+  [
+   "Which bindings are ambiguous because the name is assigned more than once?",
+   "5 bindings (61 sites) are assigned by more than one statement in the same function, so the published origin is the last assignment the parser saw."
+  ],
+  [
+   "Which dependency modules do the locals come from?",
+   "3 distinct: e341_sibling_closer_what_changed, e350_field_branch_census, e468_pointer_reach."
+  ]
+ ],
+ "card": "E519-WHERE-DOES-THE-183-LOCAL-ARGUMENTS-THAT-CALLERS-PASS-ACTUALLY-COME-FROM",
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T03:24:00+08:00",
+ "kind": "static_read_of_the_repo_plus_its_own_published_upstream_faces",
+ "method_limits": [
+  "a local's binding is taken from the innermost function whose body contains the call line, and only one hop is followed unless the right-hand side is a bare name aliased to another local (then up to 4 hops)",
+  "when the same name is assigned by more than one statement the origin published is the last assignment the parser saw, which is why the assignment count is published next to every row",
+  "an argument that is a parameter of the caller is not a local at all and is published under its own arm; the value it actually holds is supplied one hop further up and is not measured here",
+  "a module constant of the caller is published as that arm even though it may itself be a literal or a read; what the constant is is carried in origin_detail.what_the_constant_itself_is, but only one hop is priced",
+  "call sites are the ones E516 already enumerated (matched by callee name inside the module that defines the surface); a call through an alias of the surface is not in the population",
+  "whether a caller's expression really covers every branch is not measured here: this face answers where a value comes from, not whether the branch is guarded"
+ ],
+ "origin_vocab": [
+  "a_literal_container_written_inside_the_calling_function",
+  "a_literal_value_written_inside_the_calling_function",
+  "a_module_scope_constant_of_the_calling_module",
+  "an_attribute_on_an_imported_module",
+  "a_call_into_another_in_repo_module",
+  "a_call_into_a_module_that_is_not_in_this_repo",
+  "a_method_called_on_a_value_the_caller_already_holds",
+  "a_call_to_a_function_defined_in_the_calling_module",
+  "a_file_or_directory_read",
+  "a_comprehension_over_another_expression",
+  "a_parameter_of_the_calling_function_itself",
+  "an_expression_computed_inside_the_calling_function",
+  "no_binding_in_the_calling_function_or_its_parameters"
+ ],
+ "population_source": "results/state_tilt/LOCALCARRIER-2026-11-08.json call sites whose argument_kind is a_local_bound_in_the_calling_function, each followed one hop back to the statement that binds that name inside the calling function",
+ "rows": [
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    357
+   ],
+   "assignment_statements": 1,
+   "binding_line": 357,
+   "call_sites": [
+    {
+     "argument": "groups",
+     "line": 365,
+     "site_module": "e278_spread_floor",
+     "surface": "census_groups"
+    },
+    {
+     "argument": "groups",
+     "line": 365,
+     "site_module": "e278_spread_floor",
+     "surface": "census_groups"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "groups",
+   "module": "e278_spread_floor",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "groups_from_rows"
+   },
+   "parameters": [
+    "groups"
+   ],
+   "site_module": "e278_spread_floor",
+   "sites": 2,
+   "source": "scripts/e278_spread_floor.py",
+   "surface": "census_groups",
+   "surfaces": [
+    "census_groups"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    536
+   ],
+   "assignment_statements": 1,
+   "binding_line": 536,
+   "call_sites": [
+    {
+     "argument": "gr",
+     "line": 538,
+     "site_module": "e278_spread_floor",
+     "surface": "census_groups"
+    },
+    {
+     "argument": "gr",
+     "line": 538,
+     "site_module": "e278_spread_floor",
+     "surface": "census_groups"
+    }
+   ],
+   "enclosing_function": "selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "gr",
+   "module": "e278_spread_floor",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "groups_from_rows"
+   },
+   "parameters": [
+    "groups"
+   ],
+   "site_module": "e278_spread_floor",
+   "sites": 2,
+   "source": "scripts/e278_spread_floor.py",
+   "surface": "census_groups",
+   "surfaces": [
+    "census_groups"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    421
+   ],
+   "assignment_statements": 1,
+   "binding_line": 421,
+   "call_sites": [
+    {
+     "argument": "rows",
+     "line": 423,
+     "site_module": "e279_substitution_soundness",
+     "surface": "census"
+    },
+    {
+     "argument": "rows",
+     "line": 424,
+     "site_module": "e279_substitution_soundness",
+     "surface": "census"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "rows",
+   "module": "e279_substitution_soundness",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "rows_from"
+   },
+   "parameters": [
+    "rows"
+   ],
+   "site_module": "e279_substitution_soundness",
+   "sites": 2,
+   "source": "scripts/e279_substitution_soundness.py",
+   "surface": "census",
+   "surfaces": [
+    "census"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [],
+   "assignment_statements": 0,
+   "binding_line": null,
+   "call_sites": [
+    {
+     "argument": "rows",
+     "line": 239,
+     "site_module": "e279_substitution_soundness",
+     "surface": "census"
+    }
+   ],
+   "enclosing_function": "censused",
+   "is_a_parameter_of_the_caller": true,
+   "local": "rows",
+   "module": "e279_substitution_soundness",
+   "origin": "a_parameter_of_the_calling_function_itself",
+   "origin_detail": {
+    "parameter": "rows"
+   },
+   "parameters": [
+    "rows"
+   ],
+   "site_module": "e279_substitution_soundness",
+   "sites": 1,
+   "source": "scripts/e279_substitution_soundness.py",
+   "surface": "census",
+   "surfaces": [
+    "census"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    208
+   ],
+   "assignment_statements": 1,
+   "binding_line": 208,
+   "call_sites": [
+    {
+     "argument": "name",
+     "line": 228,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "name",
+   "module": "e298_replay_control_census",
+   "origin": "a_method_called_on_a_value_the_caller_already_holds",
+   "origin_detail": {
+    "callee": "basename",
+    "receiver": null
+   },
+   "parameters": [
+    "face_name"
+   ],
+   "site_module": "e298_replay_control_census",
+   "sites": 1,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface": "census_face",
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [],
+   "assignment_statements": 0,
+   "binding_line": null,
+   "call_sites": [
+    {
+     "argument": "payload",
+     "line": 228,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "payload",
+     "line": 228,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "payload",
+     "line": 228,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "payload",
+   "module": "e298_replay_control_census",
+   "origin": "no_binding_in_the_calling_function_or_its_parameters",
+   "origin_detail": {
+    "note": "the name is neither a parameter nor bound inside the calling function"
+   },
+   "parameters": [
+    "face"
+   ],
+   "site_module": "e298_replay_control_census",
+   "sites": 3,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface": "census_face",
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    421,
+    523
+   ],
+   "assignment_statements": 2,
+   "binding_line": 523,
+   "call_sites": [
+    {
+     "argument": "a",
+     "line": 423,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "a",
+     "line": 423,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "a",
+     "line": 423,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    }
+   ],
+   "enclosing_function": "cmd_selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "a",
+   "module": "e298_replay_control_census",
+   "origin": "a_literal_container_written_inside_the_calling_function",
+   "origin_detail": {},
+   "parameters": [
+    "face"
+   ],
+   "site_module": "e298_replay_control_census",
+   "sites": 3,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface": "census_face",
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    422,
+    524
+   ],
+   "assignment_statements": 2,
+   "binding_line": 524,
+   "call_sites": [
+    {
+     "argument": "b",
+     "line": 424,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "b",
+     "line": 424,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "b",
+     "line": 424,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    }
+   ],
+   "enclosing_function": "cmd_selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "b",
+   "module": "e298_replay_control_census",
+   "origin": "a_literal_container_written_inside_the_calling_function",
+   "origin_detail": {},
+   "parameters": [
+    "face"
+   ],
+   "site_module": "e298_replay_control_census",
+   "sites": 3,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface": "census_face",
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    388,
+    394,
+    400,
+    406,
+    411,
+    416,
+    495,
+    502
+   ],
+   "assignment_statements": 8,
+   "binding_line": 502,
+   "call_sites": [
+    {
+     "argument": "f",
+     "line": 390,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 390,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 390,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 396,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 396,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 396,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 402,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 402,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 402,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 407,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 407,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 407,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 412,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 412,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 412,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 417,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 417,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 417,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 497,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 497,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 497,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 503,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 503,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "f",
+     "line": 503,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    }
+   ],
+   "enclosing_function": "cmd_selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "f",
+   "module": "e298_replay_control_census",
+   "origin": "a_literal_container_written_inside_the_calling_function",
+   "origin_detail": {},
+   "parameters": [
+    "face"
+   ],
+   "site_module": "e298_replay_control_census",
+   "sites": 24,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface": "census_face",
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [],
+   "assignment_statements": 0,
+   "binding_line": null,
+   "call_sites": [
+    {
+     "argument": "name",
+     "line": 528,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    }
+   ],
+   "enclosing_function": "cmd_selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "name",
+   "module": "e298_replay_control_census",
+   "origin": "no_binding_in_the_calling_function_or_its_parameters",
+   "origin_detail": {
+    "note": "the name is neither a parameter nor bound inside the calling function"
+   },
+   "parameters": [
+    "face_name"
+   ],
+   "site_module": "e298_replay_control_census",
+   "sites": 1,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface": "census_face",
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [],
+   "assignment_statements": 0,
+   "binding_line": null,
+   "call_sites": [
+    {
+     "argument": "payload",
+     "line": 528,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "payload",
+     "line": 528,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    },
+    {
+     "argument": "payload",
+     "line": 528,
+     "site_module": "e298_replay_control_census",
+     "surface": "census_face"
+    }
+   ],
+   "enclosing_function": "cmd_selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "payload",
+   "module": "e298_replay_control_census",
+   "origin": "no_binding_in_the_calling_function_or_its_parameters",
+   "origin_detail": {
+    "note": "the name is neither a parameter nor bound inside the calling function"
+   },
+   "parameters": [
+    "face"
+   ],
+   "site_module": "e298_replay_control_census",
+   "sites": 3,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface": "census_face",
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    462
+   ],
+   "assignment_statements": 1,
+   "binding_line": 462,
+   "call_sites": [
+    {
+     "argument": "payload",
+     "line": 463,
+     "site_module": "e305_face_level_row_pricing",
+     "surface": "scan_key"
+    },
+    {
+     "argument": "payload",
+     "line": 463,
+     "site_module": "e305_face_level_row_pricing",
+     "surface": "scan_key"
+    }
+   ],
+   "enclosing_function": "cmd_selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "payload",
+   "module": "e305_face_level_row_pricing",
+   "origin": "a_literal_container_written_inside_the_calling_function",
+   "origin_detail": {},
+   "parameters": [
+    "node"
+   ],
+   "site_module": "e305_face_level_row_pricing",
+   "sites": 2,
+   "source": "scripts/e305_face_level_row_pricing.py",
+   "surface": "scan_key",
+   "surfaces": [
+    "scan_key"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    234
+   ],
+   "assignment_statements": 1,
+   "binding_line": 234,
+   "call_sites": [
+    {
+     "argument": "payload",
+     "line": 237,
+     "site_module": "e305_face_level_row_pricing",
+     "surface": "scan_key"
+    },
+    {
+     "argument": "payload",
+     "line": 237,
+     "site_module": "e305_face_level_row_pricing",
+     "surface": "scan_key"
+    }
+   ],
+   "enclosing_function": "resolve_row",
+   "is_a_parameter_of_the_caller": false,
+   "local": "payload",
+   "module": "e305_face_level_row_pricing",
+   "origin": "a_method_called_on_a_value_the_caller_already_holds",
+   "origin_detail": {
+    "callee": "get",
+    "receiver": "payloads"
+   },
+   "parameters": [
+    "node"
+   ],
+   "site_module": "e305_face_level_row_pricing",
+   "sites": 2,
+   "source": "scripts/e305_face_level_row_pricing.py",
+   "surface": "scan_key",
+   "surfaces": [
+    "scan_key"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    486
+   ],
+   "assignment_statements": 1,
+   "binding_line": 486,
+   "call_sites": [
+    {
+     "argument": "canon",
+     "line": 488,
+     "site_module": "e319_census_self_inclusion_sweep",
+     "surface": "build_census"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "canon",
+   "module": "e319_census_self_inclusion_sweep",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "canonical_faces"
+   },
+   "parameters": [
+    "canon"
+   ],
+   "site_module": "e319_census_self_inclusion_sweep",
+   "sites": 1,
+   "source": "scripts/e319_census_self_inclusion_sweep.py",
+   "surface": "build_census",
+   "surfaces": [
+    "build_census"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    233
+   ],
+   "assignment_statements": 1,
+   "binding_line": null,
+   "call_sites": [
+    {
+     "argument": "root",
+     "line": 234,
+     "site_module": "e328_quoted_number_staleness",
+     "surface": "scan_faces"
+    },
+    {
+     "argument": "root",
+     "line": 234,
+     "site_module": "e328_quoted_number_staleness",
+     "surface": "scan_faces"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": true,
+   "local": "root",
+   "module": "e328_quoted_number_staleness",
+   "origin": "a_parameter_of_the_calling_function_itself",
+   "origin_detail": {
+    "parameter": "root"
+   },
+   "parameters": [
+    "root"
+   ],
+   "site_module": "e328_quoted_number_staleness",
+   "sites": 2,
+   "source": "scripts/e365_face_population_pin.py",
+   "surface": "scan_faces",
+   "surfaces": [
+    "scan_faces"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    247
+   ],
+   "assignment_statements": 1,
+   "binding_line": 247,
+   "call_sites": [
+    {
+     "argument": "parent",
+     "line": 254,
+     "site_module": "e341_sibling_closer_what_changed",
+     "surface": "pinned_corpus"
+    }
+   ],
+   "enclosing_function": "measure_window",
+   "is_a_parameter_of_the_caller": false,
+   "local": "parent",
+   "module": "e341_sibling_closer_what_changed",
+   "origin": "an_expression_computed_inside_the_calling_function",
+   "origin_detail": {
+    "expression": "closer + '^'"
+   },
+   "parameters": [
+    "sha"
+   ],
+   "site_module": "e341_sibling_closer_what_changed",
+   "sites": 1,
+   "source": "scripts/e341_sibling_closer_what_changed.py",
+   "surface": "pinned_corpus",
+   "surfaces": [
+    "pinned_corpus"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    572
+   ],
+   "assignment_statements": 1,
+   "binding_line": 572,
+   "call_sites": [
+    {
+     "argument": "sha",
+     "line": 574,
+     "site_module": "e342_guard_rewrite_records",
+     "surface": "commit_paths"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "sha",
+   "module": "e342_guard_rewrite_records",
+   "origin": "an_expression_computed_inside_the_calling_function",
+   "origin_detail": {
+    "expression": "ev['sha']"
+   },
+   "parameters": [
+    "sha"
+   ],
+   "site_module": "e342_guard_rewrite_records",
+   "sites": 1,
+   "source": "scripts/e342_guard_rewrite_records.py",
+   "surface": "commit_paths",
+   "surfaces": [
+    "commit_paths"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    743
+   ],
+   "assignment_statements": 1,
+   "binding_line": 743,
+   "call_sites": [
+    {
+     "argument": "corpus",
+     "line": 748,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 748,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 748,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "corpus",
+   "module": "e347_published_number_gate_census",
+   "origin": "a_call_into_another_in_repo_module",
+   "origin_detail": {
+    "callee": "pinned_corpus",
+    "module": "e341_sibling_closer_what_changed"
+   },
+   "parameters": [
+    "corpus"
+   ],
+   "site_module": "e347_published_number_gate_census",
+   "sites": 3,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface": "measure_corpus",
+   "surfaces": [
+    "measure_corpus"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    744
+   ],
+   "assignment_statements": 1,
+   "binding_line": 744,
+   "call_sites": [
+    {
+     "argument": "faces",
+     "line": 748,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "faces",
+     "line": 748,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "faces",
+   "module": "e347_published_number_gate_census",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "faces_from_listing"
+   },
+   "parameters": [
+    "faces"
+   ],
+   "site_module": "e347_published_number_gate_census",
+   "sites": 2,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface": "measure_corpus",
+   "surfaces": [
+    "measure_corpus"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    896,
+    910,
+    918,
+    928,
+    941,
+    953,
+    965,
+    976,
+    1000,
+    1010
+   ],
+   "assignment_statements": 10,
+   "binding_line": 1010,
+   "call_sites": [
+    {
+     "argument": "corpus",
+     "line": 903,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 903,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 903,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 914,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 914,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 914,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 924,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 924,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 924,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 933,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 933,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 933,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 947,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 947,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 947,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 960,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 960,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 960,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 970,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 970,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 970,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 982,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 982,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 982,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 1001,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 1001,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 1001,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 1015,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 1015,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 1015,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    }
+   ],
+   "enclosing_function": "cmd_selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "corpus",
+   "module": "e347_published_number_gate_census",
+   "origin": "a_literal_container_written_inside_the_calling_function",
+   "origin_detail": {},
+   "parameters": [
+    "corpus"
+   ],
+   "site_module": "e347_published_number_gate_census",
+   "sites": 30,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface": "measure_corpus",
+   "surfaces": [
+    "measure_corpus"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    864
+   ],
+   "assignment_statements": 1,
+   "binding_line": 864,
+   "call_sites": [
+    {
+     "argument": "corpus",
+     "line": 866,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 866,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "corpus",
+     "line": 866,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    }
+   ],
+   "enclosing_function": "verify",
+   "is_a_parameter_of_the_caller": false,
+   "local": "corpus",
+   "module": "e347_published_number_gate_census",
+   "origin": "a_call_into_another_in_repo_module",
+   "origin_detail": {
+    "callee": "pinned_corpus",
+    "module": "e341_sibling_closer_what_changed"
+   },
+   "parameters": [
+    "corpus"
+   ],
+   "site_module": "e347_published_number_gate_census",
+   "sites": 3,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface": "measure_corpus",
+   "surfaces": [
+    "measure_corpus"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    865
+   ],
+   "assignment_statements": 1,
+   "binding_line": 865,
+   "call_sites": [
+    {
+     "argument": "faces",
+     "line": 866,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    },
+    {
+     "argument": "faces",
+     "line": 866,
+     "site_module": "e347_published_number_gate_census",
+     "surface": "measure_corpus"
+    }
+   ],
+   "enclosing_function": "verify",
+   "is_a_parameter_of_the_caller": false,
+   "local": "faces",
+   "module": "e347_published_number_gate_census",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "faces_from_listing"
+   },
+   "parameters": [
+    "faces"
+   ],
+   "site_module": "e347_published_number_gate_census",
+   "sites": 2,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface": "measure_corpus",
+   "surfaces": [
+    "measure_corpus"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    684
+   ],
+   "assignment_statements": 1,
+   "binding_line": 684,
+   "call_sites": [
+    {
+     "argument": "pin_path",
+     "line": 685,
+     "site_module": "e350_field_branch_census",
+     "surface": "pin_members"
+    },
+    {
+     "argument": "pin_path",
+     "line": 685,
+     "site_module": "e350_field_branch_census",
+     "surface": "pin_members"
+    },
+    {
+     "argument": "pin_path",
+     "line": 685,
+     "site_module": "e350_field_branch_census",
+     "surface": "pin_members"
+    }
+   ],
+   "enclosing_function": "main",
+   "is_a_parameter_of_the_caller": false,
+   "local": "pin_path",
+   "module": "e350_field_branch_census",
+   "origin": "an_expression_computed_inside_the_calling_function",
+   "origin_detail": {
+    "expression": "argv[argv.index('--files') + 1]"
+   },
+   "parameters": [
+    "path"
+   ],
+   "site_module": "e350_field_branch_census",
+   "sites": 3,
+   "source": "scripts/e350_field_branch_census.py",
+   "surface": "pin_members",
+   "surfaces": [
+    "pin_members"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    243
+   ],
+   "assignment_statements": 1,
+   "binding_line": 243,
+   "call_sites": [
+    {
+     "argument": "pin",
+     "line": 244,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 244,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 244,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 244,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 244,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 244,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "pin",
+   "module": "e368_seam_replay",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "load_pin"
+   },
+   "parameters": [
+    "pin"
+   ],
+   "site_module": "e368_seam_replay",
+   "sites": 6,
+   "source": "scripts/e368_seam_replay.py",
+   "surface": "resolve_members",
+   "surfaces": [
+    "resolve_members"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    418
+   ],
+   "assignment_statements": 1,
+   "binding_line": 418,
+   "call_sites": [
+    {
+     "argument": "pin",
+     "line": 419,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 419,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 419,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 419,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 419,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 419,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    }
+   ],
+   "enclosing_function": "selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "pin",
+   "module": "e368_seam_replay",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "load_pin"
+   },
+   "parameters": [
+    "pin"
+   ],
+   "site_module": "e368_seam_replay",
+   "sites": 6,
+   "source": "scripts/e368_seam_replay.py",
+   "surface": "resolve_members",
+   "surfaces": [
+    "resolve_members"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    319
+   ],
+   "assignment_statements": 1,
+   "binding_line": 319,
+   "call_sites": [
+    {
+     "argument": "pin",
+     "line": 324,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 324,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 324,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 324,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 324,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    },
+    {
+     "argument": "pin",
+     "line": 324,
+     "site_module": "e368_seam_replay",
+     "surface": "resolve_members"
+    }
+   ],
+   "enclosing_function": "verify",
+   "is_a_parameter_of_the_caller": false,
+   "local": "pin",
+   "module": "e368_seam_replay",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "load_pin"
+   },
+   "parameters": [
+    "pin"
+   ],
+   "site_module": "e368_seam_replay",
+   "sites": 6,
+   "source": "scripts/e368_seam_replay.py",
+   "surface": "resolve_members",
+   "surfaces": [
+    "resolve_members"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [],
+   "assignment_statements": 0,
+   "binding_line": null,
+   "call_sites": [
+    {
+     "argument": "store",
+     "line": 309,
+     "site_module": "e372_store_the_absent_members",
+     "surface": "store_members"
+    },
+    {
+     "argument": "store",
+     "line": 309,
+     "site_module": "e372_store_the_absent_members",
+     "surface": "store_members"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "store",
+   "module": "e372_store_the_absent_members",
+   "origin": "no_binding_in_the_calling_function_or_its_parameters",
+   "origin_detail": {
+    "note": "the name is neither a parameter nor bound inside the calling function"
+   },
+   "parameters": [
+    "store"
+   ],
+   "site_module": "e372_store_the_absent_members",
+   "sites": 2,
+   "source": "scripts/e372_store_the_absent_members.py",
+   "surface": "store_members",
+   "surfaces": [
+    "store_members"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    503
+   ],
+   "assignment_statements": 1,
+   "binding_line": 503,
+   "call_sites": [
+    {
+     "argument": "store",
+     "line": 509,
+     "site_module": "e372_store_the_absent_members",
+     "surface": "store_members"
+    },
+    {
+     "argument": "store",
+     "line": 509,
+     "site_module": "e372_store_the_absent_members",
+     "surface": "store_members"
+    }
+   ],
+   "enclosing_function": "selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "store",
+   "module": "e372_store_the_absent_members",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "build_store"
+   },
+   "parameters": [
+    "store"
+   ],
+   "site_module": "e372_store_the_absent_members",
+   "sites": 2,
+   "source": "scripts/e372_store_the_absent_members.py",
+   "surface": "store_members",
+   "surfaces": [
+    "store_members"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    388
+   ],
+   "assignment_statements": 1,
+   "binding_line": 388,
+   "call_sites": [
+    {
+     "argument": "store",
+     "line": 419,
+     "site_module": "e372_store_the_absent_members",
+     "surface": "store_members"
+    },
+    {
+     "argument": "store",
+     "line": 419,
+     "site_module": "e372_store_the_absent_members",
+     "surface": "store_members"
+    }
+   ],
+   "enclosing_function": "verify",
+   "is_a_parameter_of_the_caller": false,
+   "local": "store",
+   "module": "e372_store_the_absent_members",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "load_json"
+   },
+   "parameters": [
+    "store"
+   ],
+   "site_module": "e372_store_the_absent_members",
+   "sites": 2,
+   "source": "scripts/e372_store_the_absent_members.py",
+   "surface": "store_members",
+   "surfaces": [
+    "store_members"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [],
+   "assignment_statements": 0,
+   "binding_line": null,
+   "call_sites": [
+    {
+     "argument": "store",
+     "line": 121,
+     "site_module": "e374_store_load_bearing_members",
+     "surface": "store_members"
+    },
+    {
+     "argument": "store",
+     "line": 121,
+     "site_module": "e374_store_load_bearing_members",
+     "surface": "store_members"
+    },
+    {
+     "argument": "store",
+     "line": 121,
+     "site_module": "e374_store_load_bearing_members",
+     "surface": "store_members"
+    }
+   ],
+   "enclosing_function": "attribute",
+   "is_a_parameter_of_the_caller": true,
+   "local": "store",
+   "module": "e374_store_load_bearing_members",
+   "origin": "a_parameter_of_the_calling_function_itself",
+   "origin_detail": {
+    "parameter": "store"
+   },
+   "parameters": [
+    "store"
+   ],
+   "site_module": "e374_store_load_bearing_members",
+   "sites": 3,
+   "source": "scripts/e374_store_load_bearing_members.py",
+   "surface": "store_members",
+   "surfaces": [
+    "store_members"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    168
+   ],
+   "assignment_statements": 1,
+   "binding_line": 168,
+   "call_sites": [
+    {
+     "argument": "store",
+     "line": 170,
+     "site_module": "e374_store_load_bearing_members",
+     "surface": "store_members"
+    },
+    {
+     "argument": "store",
+     "line": 170,
+     "site_module": "e374_store_load_bearing_members",
+     "surface": "store_members"
+    },
+    {
+     "argument": "store",
+     "line": 170,
+     "site_module": "e374_store_load_bearing_members",
+     "surface": "store_members"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "store",
+   "module": "e374_store_load_bearing_members",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "load_json"
+   },
+   "parameters": [
+    "store"
+   ],
+   "site_module": "e374_store_load_bearing_members",
+   "sites": 3,
+   "source": "scripts/e374_store_load_bearing_members.py",
+   "surface": "store_members",
+   "surfaces": [
+    "store_members"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    372
+   ],
+   "assignment_statements": 1,
+   "binding_line": 372,
+   "call_sites": [
+    {
+     "argument": "sources",
+     "line": 374,
+     "site_module": "e377_unresolved_destination",
+     "surface": "census"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "sources",
+   "module": "e377_unresolved_destination",
+   "origin": "a_comprehension_over_another_expression",
+   "origin_detail": {
+    "callee": "_sources",
+    "expression": "[(rel, text) for rel, text in e350._sources() if rel != SELF_REL]",
+    "module": "e350_field_branch_census",
+    "over": "a_call_into_another_in_repo_module"
+   },
+   "parameters": [
+    "sources"
+   ],
+   "site_module": "e377_unresolved_destination",
+   "sites": 1,
+   "source": "scripts/e377_unresolved_destination.py",
+   "surface": "census",
+   "surfaces": [
+    "census"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    389
+   ],
+   "assignment_statements": 1,
+   "binding_line": 389,
+   "call_sites": [
+    {
+     "argument": "sources",
+     "line": 392,
+     "site_module": "e379_unkeyed_face_reader",
+     "surface": "census"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "sources",
+   "module": "e379_unkeyed_face_reader",
+   "origin": "a_comprehension_over_another_expression",
+   "origin_detail": {
+    "callee": "_sources",
+    "expression": "[(rel, text) for rel, text in e350._sources() if rel not in (SELF_REL, UPSTREAM_REL)]",
+    "module": "e350_field_branch_census",
+    "over": "a_call_into_another_in_repo_module"
+   },
+   "parameters": [
+    "sources"
+   ],
+   "site_module": "e379_unkeyed_face_reader",
+   "sites": 1,
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "surface": "census",
+   "surfaces": [
+    "census"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    239
+   ],
+   "assignment_statements": 1,
+   "binding_line": 239,
+   "call_sites": [
+    {
+     "argument": "srcs",
+     "line": 241,
+     "site_module": "e381_component_key_blind_spot",
+     "surface": "scan"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "srcs",
+   "module": "e381_component_key_blind_spot",
+   "origin": "a_comprehension_over_another_expression",
+   "origin_detail": {
+    "callee": "_sources",
+    "expression": "[(rel, text) for rel, text in e350._sources() if rel != SELF_REL]",
+    "module": "e350_field_branch_census",
+    "over": "a_call_into_another_in_repo_module"
+   },
+   "parameters": [
+    "sources"
+   ],
+   "site_module": "e381_component_key_blind_spot",
+   "sites": 1,
+   "source": "scripts/e381_component_key_blind_spot.py",
+   "surface": "scan",
+   "surfaces": [
+    "scan"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    641
+   ],
+   "assignment_statements": 1,
+   "binding_line": 641,
+   "call_sites": [
+    {
+     "argument": "keys",
+     "line": 656,
+     "site_module": "e383_shared_key_collision",
+     "surface": "consumer_scan"
+    }
+   ],
+   "enclosing_function": "selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "keys",
+   "module": "e383_shared_key_collision",
+   "origin": "a_literal_container_written_inside_the_calling_function",
+   "origin_detail": {},
+   "parameters": [
+    "keys"
+   ],
+   "site_module": "e383_shared_key_collision",
+   "sites": 1,
+   "source": "scripts/e383_shared_key_collision.py",
+   "surface": "consumer_scan",
+   "surfaces": [
+    "consumer_scan"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    310
+   ],
+   "assignment_statements": 1,
+   "binding_line": 310,
+   "call_sites": [
+    {
+     "argument": "src_text",
+     "line": 311,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src_text",
+     "line": 311,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src_text",
+     "line": 311,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src_text",
+     "line": 311,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src_text",
+     "line": 311,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "src_text",
+   "module": "e396_last_tick",
+   "origin": "a_method_called_on_a_value_the_caller_already_holds",
+   "origin_detail": {
+    "callee": "read",
+    "receiver": null
+   },
+   "parameters": [
+    "src"
+   ],
+   "site_module": "e396_last_tick",
+   "sites": 5,
+   "source": "scripts/e396_last_tick.py",
+   "surface": "dump_link_targets",
+   "surfaces": [
+    "dump_link_targets"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    271
+   ],
+   "assignment_statements": 1,
+   "binding_line": 271,
+   "call_sites": [
+    {
+     "argument": "src",
+     "line": 276,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src",
+     "line": 276,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src",
+     "line": 276,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src",
+     "line": 276,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src",
+     "line": 276,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    }
+   ],
+   "enclosing_function": "same_doc_under_exact_test",
+   "is_a_parameter_of_the_caller": false,
+   "local": "src",
+   "module": "e396_last_tick",
+   "origin": "a_method_called_on_a_value_the_caller_already_holds",
+   "origin_detail": {
+    "callee": "read",
+    "receiver": null
+   },
+   "parameters": [
+    "src"
+   ],
+   "site_module": "e396_last_tick",
+   "sites": 5,
+   "source": "scripts/e396_last_tick.py",
+   "surface": "dump_link_targets",
+   "surfaces": [
+    "dump_link_targets"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    509
+   ],
+   "assignment_statements": 1,
+   "binding_line": 509,
+   "call_sites": [
+    {
+     "argument": "src",
+     "line": 513,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src",
+     "line": 513,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src",
+     "line": 513,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src",
+     "line": 513,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src",
+     "line": 513,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    }
+   ],
+   "enclosing_function": "selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "src",
+   "module": "e396_last_tick",
+   "origin": "a_method_called_on_a_value_the_caller_already_holds",
+   "origin_detail": {
+    "callee": "join",
+    "receiver": null
+   },
+   "parameters": [
+    "src"
+   ],
+   "site_module": "e396_last_tick",
+   "sites": 5,
+   "source": "scripts/e396_last_tick.py",
+   "surface": "dump_link_targets",
+   "surfaces": [
+    "dump_link_targets"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    518
+   ],
+   "assignment_statements": 1,
+   "binding_line": 518,
+   "call_sites": [
+    {
+     "argument": "src2",
+     "line": 520,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src2",
+     "line": 520,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src2",
+     "line": 520,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src2",
+     "line": 520,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src2",
+     "line": 520,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    }
+   ],
+   "enclosing_function": "selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "src2",
+   "module": "e396_last_tick",
+   "origin": "an_expression_computed_inside_the_calling_function",
+   "origin_detail": {
+    "expression": "\"auto = {'last_tick': None}\\n\" + \"dump(auto, 'logs/iteration-loop/state.json')\""
+   },
+   "parameters": [
+    "src"
+   ],
+   "site_module": "e396_last_tick",
+   "sites": 5,
+   "source": "scripts/e396_last_tick.py",
+   "surface": "dump_link_targets",
+   "surfaces": [
+    "dump_link_targets"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    435
+   ],
+   "assignment_statements": 1,
+   "binding_line": 435,
+   "call_sites": [
+    {
+     "argument": "src",
+     "line": 442,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src",
+     "line": 442,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src",
+     "line": 442,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src",
+     "line": 442,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    },
+    {
+     "argument": "src",
+     "line": 442,
+     "site_module": "e396_last_tick",
+     "surface": "dump_link_targets"
+    }
+   ],
+   "enclosing_function": "verify",
+   "is_a_parameter_of_the_caller": false,
+   "local": "src",
+   "module": "e396_last_tick",
+   "origin": "a_method_called_on_a_value_the_caller_already_holds",
+   "origin_detail": {
+    "callee": "read",
+    "receiver": null
+   },
+   "parameters": [
+    "src"
+   ],
+   "site_module": "e396_last_tick",
+   "sites": 5,
+   "source": "scripts/e396_last_tick.py",
+   "surface": "dump_link_targets",
+   "surfaces": [
+    "dump_link_targets"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    514
+   ],
+   "assignment_statements": 1,
+   "binding_line": null,
+   "call_sites": [
+    {
+     "argument": "sources",
+     "line": 520,
+     "site_module": "e402_fragment_producers",
+     "surface": "scan_sources"
+    },
+    {
+     "argument": "sources",
+     "line": 520,
+     "site_module": "e402_fragment_producers",
+     "surface": "scan_sources"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": true,
+   "local": "sources",
+   "module": "e402_fragment_producers",
+   "origin": "a_parameter_of_the_calling_function_itself",
+   "origin_detail": {
+    "parameter": "sources"
+   },
+   "parameters": [
+    "sources"
+   ],
+   "site_module": "e402_fragment_producers",
+   "sites": 2,
+   "source": "scripts/e402_fragment_producers.py",
+   "surface": "scan_sources",
+   "surfaces": [
+    "scan_sources"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    727
+   ],
+   "assignment_statements": 1,
+   "binding_line": 727,
+   "call_sites": [
+    {
+     "argument": "fixture",
+     "line": 745,
+     "site_module": "e402_fragment_producers",
+     "surface": "scan_sources"
+    },
+    {
+     "argument": "fixture",
+     "line": 745,
+     "site_module": "e402_fragment_producers",
+     "surface": "scan_sources"
+    }
+   ],
+   "enclosing_function": "selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "fixture",
+   "module": "e402_fragment_producers",
+   "origin": "a_literal_container_written_inside_the_calling_function",
+   "origin_detail": {},
+   "parameters": [
+    "sources"
+   ],
+   "site_module": "e402_fragment_producers",
+   "sites": 2,
+   "source": "scripts/e402_fragment_producers.py",
+   "surface": "scan_sources",
+   "surfaces": [
+    "scan_sources"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    667
+   ],
+   "assignment_statements": 1,
+   "binding_line": 667,
+   "call_sites": [
+    {
+     "argument": "sources",
+     "line": 668,
+     "site_module": "e402_fragment_producers",
+     "surface": "scan_sources"
+    },
+    {
+     "argument": "sources",
+     "line": 668,
+     "site_module": "e402_fragment_producers",
+     "surface": "scan_sources"
+    }
+   ],
+   "enclosing_function": "verify",
+   "is_a_parameter_of_the_caller": false,
+   "local": "sources",
+   "module": "e402_fragment_producers",
+   "origin": "a_call_into_another_in_repo_module",
+   "origin_detail": {
+    "callee": "_sources",
+    "module": "e350_field_branch_census"
+   },
+   "parameters": [
+    "sources"
+   ],
+   "site_module": "e402_fragment_producers",
+   "sites": 2,
+   "source": "scripts/e402_fragment_producers.py",
+   "surface": "scan_sources",
+   "surfaces": [
+    "scan_sources"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    321
+   ],
+   "assignment_statements": 1,
+   "binding_line": 321,
+   "call_sites": [
+    {
+     "argument": "names",
+     "line": 322,
+     "site_module": "e406_blob_vs_tree_readers",
+     "surface": "census_modules"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "names",
+   "module": "e406_blob_vs_tree_readers",
+   "origin": "a_comprehension_over_another_expression",
+   "origin_detail": {
+    "alias_of": "rows",
+    "expression": "{r['callable'] for r in rows}",
+    "over": "an_expression_computed_inside_the_calling_function"
+   },
+   "parameters": [
+    "git_names"
+   ],
+   "site_module": "e406_blob_vs_tree_readers",
+   "sites": 1,
+   "source": "scripts/e406_blob_vs_tree_readers.py",
+   "surface": "census_modules",
+   "surfaces": [
+    "census_modules"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [],
+   "assignment_statements": 0,
+   "binding_line": null,
+   "call_sites": [
+    {
+     "argument": "git_names",
+     "line": 136,
+     "site_module": "e406_blob_vs_tree_readers",
+     "surface": "census_modules"
+    }
+   ],
+   "enclosing_function": "call_sites",
+   "is_a_parameter_of_the_caller": true,
+   "local": "git_names",
+   "module": "e406_blob_vs_tree_readers",
+   "origin": "a_parameter_of_the_calling_function_itself",
+   "origin_detail": {
+    "parameter": "git_names"
+   },
+   "parameters": [
+    "git_names"
+   ],
+   "site_module": "e406_blob_vs_tree_readers",
+   "sites": 1,
+   "source": "scripts/e406_blob_vs_tree_readers.py",
+   "surface": "census_modules",
+   "surfaces": [
+    "census_modules"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    139
+   ],
+   "assignment_statements": 1,
+   "binding_line": 139,
+   "call_sites": [
+    {
+     "argument": "carrier",
+     "line": 141,
+     "site_module": "e441_facehome_family",
+     "surface": "members_of"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "carrier",
+   "module": "e441_facehome_family",
+   "origin": "an_expression_computed_inside_the_calling_function",
+   "origin_detail": {
+    "expression": "r['face']"
+   },
+   "parameters": [
+    "carrier"
+   ],
+   "site_module": "e441_facehome_family",
+   "sites": 1,
+   "source": "scripts/e441_facehome_family.py",
+   "surface": "members_of",
+   "surfaces": [
+    "members_of"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    138
+   ],
+   "assignment_statements": 1,
+   "binding_line": 138,
+   "call_sites": [
+    {
+     "argument": "directory",
+     "line": 141,
+     "site_module": "e441_facehome_family",
+     "surface": "members_of"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "directory",
+   "module": "e441_facehome_family",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "_norm"
+   },
+   "parameters": [
+    "directory"
+   ],
+   "site_module": "e441_facehome_family",
+   "sites": 1,
+   "source": "scripts/e441_facehome_family.py",
+   "surface": "members_of",
+   "surfaces": [
+    "members_of"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    130
+   ],
+   "assignment_statements": 1,
+   "binding_line": null,
+   "call_sites": [
+    {
+     "argument": "index",
+     "line": 141,
+     "site_module": "e441_facehome_family",
+     "surface": "members_of"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": true,
+   "local": "index",
+   "module": "e441_facehome_family",
+   "origin": "a_parameter_of_the_calling_function_itself",
+   "origin_detail": {
+    "parameter": "index"
+   },
+   "parameters": [
+    "index"
+   ],
+   "site_module": "e441_facehome_family",
+   "sites": 1,
+   "source": "scripts/e441_facehome_family.py",
+   "surface": "members_of",
+   "surfaces": [
+    "members_of"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    460
+   ],
+   "assignment_statements": 1,
+   "binding_line": 460,
+   "call_sites": [
+    {
+     "argument": "idx",
+     "line": 463,
+     "site_module": "e441_facehome_family",
+     "surface": "members_of"
+    },
+    {
+     "argument": "idx",
+     "line": 475,
+     "site_module": "e441_facehome_family",
+     "surface": "members_of"
+    },
+    {
+     "argument": "idx",
+     "line": 479,
+     "site_module": "e441_facehome_family",
+     "surface": "members_of"
+    }
+   ],
+   "enclosing_function": "selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "idx",
+   "module": "e441_facehome_family",
+   "origin": "a_literal_container_written_inside_the_calling_function",
+   "origin_detail": {},
+   "parameters": [
+    "index"
+   ],
+   "site_module": "e441_facehome_family",
+   "sites": 3,
+   "source": "scripts/e441_facehome_family.py",
+   "surface": "members_of",
+   "surfaces": [
+    "members_of"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    299
+   ],
+   "assignment_statements": 1,
+   "binding_line": 299,
+   "call_sites": [
+    {
+     "argument": "attributed_modules",
+     "line": 300,
+     "site_module": "e444_attr_method",
+     "surface": "module_class_census"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "attributed_modules",
+   "module": "e444_attr_method",
+   "origin": "a_comprehension_over_another_expression",
+   "origin_detail": {
+    "alias_of": "published",
+    "expression": "{g['wrapper_file'] for g in published}",
+    "over": "an_expression_computed_inside_the_calling_function"
+   },
+   "parameters": [
+    "wrapper_files"
+   ],
+   "site_module": "e444_attr_method",
+   "sites": 1,
+   "source": "scripts/e444_attr_method.py",
+   "surface": "module_class_census",
+   "surfaces": [
+    "module_class_census"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [],
+   "assignment_statements": 0,
+   "binding_line": null,
+   "call_sites": [
+    {
+     "argument": "sources",
+     "line": 240,
+     "site_module": "e462_identity_dialect",
+     "surface": "read_census"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "sources",
+   "module": "e462_identity_dialect",
+   "origin": "no_binding_in_the_calling_function_or_its_parameters",
+   "origin_detail": {
+    "note": "the name is neither a parameter nor bound inside the calling function"
+   },
+   "parameters": [
+    "sources"
+   ],
+   "site_module": "e462_identity_dialect",
+   "sites": 1,
+   "source": "scripts/e462_identity_dialect.py",
+   "surface": "read_census",
+   "surfaces": [
+    "read_census"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    239
+   ],
+   "assignment_statements": 1,
+   "binding_line": 239,
+   "call_sites": [
+    {
+     "argument": "universe",
+     "line": 240,
+     "site_module": "e462_identity_dialect",
+     "surface": "read_census"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "universe",
+   "module": "e462_identity_dialect",
+   "origin": "an_expression_computed_inside_the_calling_function",
+   "origin_detail": {
+    "callee": "sorted"
+   },
+   "parameters": [
+    "fields"
+   ],
+   "site_module": "e462_identity_dialect",
+   "sites": 1,
+   "source": "scripts/e462_identity_dialect.py",
+   "surface": "read_census",
+   "surfaces": [
+    "read_census"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    458
+   ],
+   "assignment_statements": 1,
+   "binding_line": 458,
+   "call_sites": [
+    {
+     "argument": "srcs",
+     "line": 460,
+     "site_module": "e462_identity_dialect",
+     "surface": "read_census"
+    }
+   ],
+   "enclosing_function": "selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "srcs",
+   "module": "e462_identity_dialect",
+   "origin": "a_literal_container_written_inside_the_calling_function",
+   "origin_detail": {},
+   "parameters": [
+    "sources"
+   ],
+   "site_module": "e462_identity_dialect",
+   "sites": 1,
+   "source": "scripts/e462_identity_dialect.py",
+   "surface": "read_census",
+   "surfaces": [
+    "read_census"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    211,
+    213
+   ],
+   "assignment_statements": 2,
+   "binding_line": 213,
+   "call_sites": [
+    {
+     "argument": "multi",
+     "line": 212,
+     "site_module": "e475_multideclared_ids",
+     "surface": "declaring_sources"
+    }
+   ],
+   "enclosing_function": "build",
+   "is_a_parameter_of_the_caller": false,
+   "local": "multi",
+   "module": "e475_multideclared_ids",
+   "origin": "a_comprehension_over_another_expression",
+   "origin_detail": {
+    "alias_of": "multi",
+    "expression": "[i for i in multi if len(index.get(i) or []) > 1]",
+    "over": "an_expression_computed_inside_the_calling_function"
+   },
+   "parameters": [
+    "ids"
+   ],
+   "site_module": "e475_multideclared_ids",
+   "sites": 1,
+   "source": "scripts/e475_multideclared_ids.py",
+   "surface": "declaring_sources",
+   "surfaces": [
+    "declaring_sources"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    482
+   ],
+   "assignment_statements": 1,
+   "binding_line": 482,
+   "call_sites": [
+    {
+     "argument": "pm",
+     "line": 487,
+     "site_module": "e479_twin_read",
+     "surface": "producer_sources"
+    }
+   ],
+   "enclosing_function": "classify",
+   "is_a_parameter_of_the_caller": false,
+   "local": "pm",
+   "module": "e479_twin_read",
+   "origin": "a_call_into_another_in_repo_module",
+   "origin_detail": {
+    "callee": "producer_map",
+    "module": "e468_pointer_reach"
+   },
+   "parameters": [
+    "pm"
+   ],
+   "site_module": "e479_twin_read",
+   "sites": 1,
+   "source": "scripts/e479_twin_read.py",
+   "surface": "producer_sources",
+   "surfaces": [
+    "producer_sources"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    481
+   ],
+   "assignment_statements": 1,
+   "binding_line": 481,
+   "call_sites": [
+    {
+     "argument": "sources",
+     "line": 487,
+     "site_module": "e479_twin_read",
+     "surface": "producer_sources"
+    }
+   ],
+   "enclosing_function": "classify",
+   "is_a_parameter_of_the_caller": false,
+   "local": "sources",
+   "module": "e479_twin_read",
+   "origin": "a_call_into_another_in_repo_module",
+   "origin_detail": {
+    "callee": "_walk_py",
+    "module": "e468_pointer_reach"
+   },
+   "parameters": [
+    "sources"
+   ],
+   "site_module": "e479_twin_read",
+   "sites": 1,
+   "source": "scripts/e479_twin_read.py",
+   "surface": "producer_sources",
+   "surfaces": [
+    "producer_sources"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    485
+   ],
+   "assignment_statements": 1,
+   "binding_line": 485,
+   "call_sites": [
+    {
+     "argument": "twin",
+     "line": 487,
+     "site_module": "e479_twin_read",
+     "surface": "producer_sources"
+    }
+   ],
+   "enclosing_function": "classify",
+   "is_a_parameter_of_the_caller": false,
+   "local": "twin",
+   "module": "e479_twin_read",
+   "origin": "an_expression_computed_inside_the_calling_function",
+   "origin_detail": {
+    "expression": "rec['twin']"
+   },
+   "parameters": [
+    "twin"
+   ],
+   "site_module": "e479_twin_read",
+   "sites": 1,
+   "source": "scripts/e479_twin_read.py",
+   "surface": "producer_sources",
+   "surfaces": [
+    "producer_sources"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    362
+   ],
+   "assignment_statements": 1,
+   "binding_line": 362,
+   "call_sites": [
+    {
+     "argument": "line",
+     "line": 365,
+     "site_module": "e489_write_wire",
+     "surface": "write_call_paths"
+    }
+   ],
+   "enclosing_function": "classify",
+   "is_a_parameter_of_the_caller": false,
+   "local": "line",
+   "module": "e489_write_wire",
+   "origin": "a_method_called_on_a_value_the_caller_already_holds",
+   "origin_detail": {
+    "callee": "get",
+    "receiver": "src"
+   },
+   "parameters": [
+    "line"
+   ],
+   "site_module": "e489_write_wire",
+   "sites": 1,
+   "source": "scripts/e489_write_wire.py",
+   "surface": "write_call_paths",
+   "surfaces": [
+    "write_call_paths"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    361
+   ],
+   "assignment_statements": 1,
+   "binding_line": 361,
+   "call_sites": [
+    {
+     "argument": "rel",
+     "line": 365,
+     "site_module": "e489_write_wire",
+     "surface": "write_call_paths"
+    }
+   ],
+   "enclosing_function": "classify",
+   "is_a_parameter_of_the_caller": false,
+   "local": "rel",
+   "module": "e489_write_wire",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "_norm"
+   },
+   "parameters": [
+    "rel"
+   ],
+   "site_module": "e489_write_wire",
+   "sites": 1,
+   "source": "scripts/e489_write_wire.py",
+   "surface": "write_call_paths",
+   "surfaces": [
+    "write_call_paths"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [],
+   "assignment_statements": 0,
+   "binding_line": null,
+   "call_sites": [
+    {
+     "argument": "root",
+     "line": 365,
+     "site_module": "e489_write_wire",
+     "surface": "write_call_paths"
+    }
+   ],
+   "enclosing_function": "classify",
+   "is_a_parameter_of_the_caller": true,
+   "local": "root",
+   "module": "e489_write_wire",
+   "origin": "a_parameter_of_the_calling_function_itself",
+   "origin_detail": {
+    "parameter": "root"
+   },
+   "parameters": [
+    "root"
+   ],
+   "site_module": "e489_write_wire",
+   "sites": 1,
+   "source": "scripts/e489_write_wire.py",
+   "surface": "write_call_paths",
+   "surfaces": [
+    "write_call_paths"
+   ]
+  },
+  {
+   "alias_chain": [],
+   "assignment_lines": [
+    672
+   ],
+   "assignment_statements": 1,
+   "binding_line": 672,
+   "call_sites": [
+    {
+     "argument": "root",
+     "line": 677,
+     "site_module": "e489_write_wire",
+     "surface": "write_call_paths"
+    },
+    {
+     "argument": "root",
+     "line": 681,
+     "site_module": "e489_write_wire",
+     "surface": "write_call_paths"
+    }
+   ],
+   "enclosing_function": "selftest",
+   "is_a_parameter_of_the_caller": false,
+   "local": "root",
+   "module": "e489_write_wire",
+   "origin": "a_call_to_a_function_defined_in_the_calling_module",
+   "origin_detail": {
+    "callee": "_fixture"
+   },
+   "parameters": [
+    "root"
+   ],
+   "site_module": "e489_write_wire",
+   "sites": 2,
+   "source": "scripts/e489_write_wire.py",
+   "surface": "write_call_paths",
+   "surfaces": [
+    "write_call_paths"
+   ]
+  }
+ ],
+ "study": "E519_local_argument_origin",
+ "summary": {
+  "arguments_built_inside_the_calling_function": 44,
+  "arguments_that_are_a_parameter_of_the_caller": 7,
+  "arguments_that_are_a_published_population_two_hops_away": 5,
+  "arguments_with_no_binding_in_the_calling_function": 5,
+  "dependency_modules": [
+   "e341_sibling_closer_what_changed",
+   "e350_field_branch_census",
+   "e468_pointer_reach"
+  ],
+  "distinct_calling_functions": 46,
+  "distinct_local_bindings": 61,
+  "distinct_locals": 37,
+  "external_modules_called": [],
+  "local_call_site_arguments": 183,
+  "locals_bound_by_more_than_one_statement": 5,
+  "locals_read_through_a_method_on_a_value_the_caller_holds": 7,
+  "modules_scanned": 3773,
+  "origin_counts": {
+   "a_call_into_a_module_that_is_not_in_this_repo": 0,
+   "a_call_into_another_in_repo_module": 5,
+   "a_call_to_a_function_defined_in_the_calling_module": 15,
+   "a_comprehension_over_another_expression": 6,
+   "a_file_or_directory_read": 0,
+   "a_literal_container_written_inside_the_calling_function": 9,
+   "a_literal_value_written_inside_the_calling_function": 0,
+   "a_method_called_on_a_value_the_caller_already_holds": 7,
+   "a_module_scope_constant_of_the_calling_module": 0,
+   "a_parameter_of_the_calling_function_itself": 7,
+   "an_attribute_on_an_imported_module": 0,
+   "an_expression_computed_inside_the_calling_function": 7,
+   "no_binding_in_the_calling_function_or_its_parameters": 5
+  },
+  "parameter_names_that_carry_the_population": [
+   "git_names",
+   "index",
+   "root",
+   "rows",
+   "sources",
+   "store"
+  ],
+  "sites_whose_local_is_bound_more_than_one_statement": 61
+ },
+ "title": "Where does a call-site argument that is a local of the caller come from",
+ "unreadable": [
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r1235bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r786bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r787bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r820bmc_close.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r900bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r901bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/s6_chain_bmb.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/tree_shrink_guard.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_card.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_fix_digest.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_patch.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_patch2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_patch3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_poolprobe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe4.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe5.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_smokeleg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_smokeleg2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e317_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e317_probe2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e317_probe3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1085bmb_closeout.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1111bmb_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1131bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1298_amend.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_closeout.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_hb.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_hb2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_hbdiff.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_pool.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_receipt.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_s6leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_card.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_closeout.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_deliv.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_delivrow.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_hbeol.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_hbfix.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_pooledit.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_poolprobe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_poolprobe2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_probe2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_smokeleg_harness.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_stateclock.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_d19.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_d19b.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_dec.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_dec2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_dec3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_gpu.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_gpuall.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_hb2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_leg396.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_nl.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_pool.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_post.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_read.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_read2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_wm.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_card_e259.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e258.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e258b.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259check.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259diag.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259diag2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259diag3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259flat.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259one.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259read.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259seed.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e273_card.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e487_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_final.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_hb.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_hb_write.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool_fix.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool_seed.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool_update.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_poolshape.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_amend.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_card.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_close.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_eol.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_pool.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_receipt.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_report.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_seed.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_seed2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_tag.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_tag2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1303_hbgen.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_rr.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_state2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_state_write.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_time_e259.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_tsg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_w231bmc_prereg_derive_tpl.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e231_band_path_test.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e243_additivity_out_of_sample.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e280_e251_rng_drift_repin.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e308_leg_vs_producer_tolerance.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e371_one_store_member.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e387_republish_audit.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e394_phantom_why.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e429_two_hop_writer.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/run_e335_smoke_leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/run_e349_smoke_leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/run_e353_smoke_leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/run_e463_smoke_leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/t11_negday_ic.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/update_etf_universe.py"
+  }
+ ],
+ "verdict": "some_local_arguments_are_a_published_population_two_hops_away_a_module_constant_of_the_caller_or_a_read_so_local_only_has_to_be_read_row_by_row",
+ "verdict_vocab": [
+  "every_local_argument_is_built_inside_the_calling_function_so_readable_only_through_the_local_still_means_a_value_built_at_the_site",
+  "most_local_arguments_are_a_parameter_of_the_calling_function_itself_so_the_local_is_one_more_hop_not_a_built_value",
+  "some_local_arguments_are_a_published_population_two_hops_away_a_module_constant_of_the_caller_or_a_read_so_local_only_has_to_be_read_row_by_row",
+  "this_tree_has_no_local_call_site_argument_to_measure"
+ ]
+}
