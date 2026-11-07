@@ -1,4 +1,4 @@
-"""One-command smoke test: env / config / data / engine / exit rules / market rules / network.
+﻿"""One-command smoke test: env / config / data / engine / exit rules / market rules / network.
 
 Usage:
     python -m smoke_test
@@ -20717,6 +20717,81 @@ except Exception as _e506x:
     _bad506.append(repr(_e506x)[:160])
     _d506 = "leg could not run"
 check(_name506, not _bad506, "; ".join(_bad506)[:240] or _d506)
+
+# E507 (r1536 bm-b): E504 left 169 (site, member) pairs unresolved because the date symbol is
+# bound outside the naming expression.  This leg holds the residual read: every pair carries a
+# class and a track from the published vocabularies, the class and track tallies add up to the pair
+# total, the pairs-with-a-binding / attributable / ambiguous split is the one the rows imply, the
+# no-site table re-derives its own counts (and every one of the 61 is labelled, history arm
+# included), the verdict is the one the rows imply -- plus three doctored copies (a moved clock
+# count, a hand-written verdict, and a class outside the vocabulary).
+_name507 = ("E507 the residual date symbols of E504 re-derive their binding, their clock/data "
+            "track and the verdict from the published rows (r1536 bm-b)")
+_bad507 = []
+try:
+    _m507 = __import__("importlib").import_module("e507_unresolved_origin")
+    _f507 = json.load(open(os.path.join("results", "state_tilt", "unresolvedorigin_latest.json"),
+                           encoding="utf-8"))
+    _s507 = _f507.get("summary") or {}
+    _r507 = _f507.get("rows") or []
+    _bad507.extend(_m507.row_problems(_f507))
+    if not _r507 or not (_f507.get("symbols") or []):
+        _bad507.append("the residual population is empty")
+    if _s507.get("residual_pairs") != len(_r507):
+        _bad507.append("the published pair count is not the row count")
+    if _s507.get("residual_sites") != len(_f507.get("symbols") or []):
+        _bad507.append("the published site count is not the symbol table length")
+    if sum((_s507.get("pairs_by_residual_class") or {}).values()) != len(_r507):
+        _bad507.append("the per-class counts do not add up to the pair total")
+    if sum((_s507.get("pairs_by_tracks") or {}).values()) != len(_r507):
+        _bad507.append("the per-track counts do not add up to the pair total")
+    _clock507 = sum(1 for r in _r507 if r.get("tracks") == _m507.T_CLOCK)
+    _data507 = sum(1 for r in _r507 if r.get("tracks") == _m507.T_DATA)
+    _mix507 = sum(1 for r in _r507 if r.get("tracks") == _m507.T_MIXED)
+    if _s507.get("clock_pairs") != _clock507:
+        _bad507.append("the clock pair count is not the row count")
+    if _s507.get("attributable_pairs") != _clock507 + _data507:
+        _bad507.append("attributable_pairs is not the clock plus data rows")
+    if _s507.get("ambiguous_pairs") != _mix507:
+        _bad507.append("ambiguous_pairs is not the mixed rows")
+    _ns507 = _f507.get("no_site_members") or []
+    if _s507.get("no_site_members") != len(_ns507):
+        _bad507.append("the no-site count is not the no-site table length")
+    if any(r.get("class") not in _m507.NO_SITE_VOCAB for r in _ns507):
+        _bad507.append("a no-site member carries a class outside the vocabulary")
+    if sum((_s507.get("no_site_by_class") or {}).values()) != len(_ns507):
+        _bad507.append("the no-site classes do not add up to the table")
+    if _f507.get("verdict") != _m507._verdict(_s507):
+        _bad507.append("the verdict is not the one the rows imply")
+    if _s507.get("history_arm", {}).get("ok") is not True:
+        _bad507.append("the history arm did not report a scan")
+    _w507 = json.loads(json.dumps(_f507))
+    _w507["summary"]["clock_pairs"] = (_w507["summary"].get("clock_pairs") or 0) + 1
+    if not _m507.row_problems(_w507):
+        _bad507.append("a doctored clock count survived the guard")
+    _w507b = json.loads(json.dumps(_f507))
+    _w507b["verdict"] = _m507.V_DATA
+    if not _m507.row_problems(_w507b):
+        _bad507.append("a hand-written verdict survived the guard")
+    _w507c = json.loads(json.dumps(_f507))
+    _w507c["rows"][0]["residual_class"] = "guessed"
+    if not _m507.row_problems(_w507c):
+        _bad507.append("a class outside the vocabulary survived the guard")
+    _d507 = ("residual %r pairs / %r sites / %r members | with a binding %r | attributable %r "
+             "(clock %r / data %r) | ambiguous %r | fixtures %r | not-a-date %r | unreadable %r "
+             "| no-site %r (history hits %r) | verdict %r" % (
+                 _s507.get("residual_pairs"), _s507.get("residual_sites"),
+                 _s507.get("residual_members"), _s507.get("pairs_with_a_binding"),
+                 _s507.get("attributable_pairs"), _s507.get("clock_pairs"),
+                 _s507.get("data_pairs"), _s507.get("ambiguous_pairs"),
+                 _s507.get("fixture_pairs"),
+                 (_s507.get("pairs_by_tracks") or {}).get(_m507.T_NEITHER),
+                 _s507.get("unreadable_pairs"), _s507.get("no_site_members"),
+                 _s507.get("no_site_with_history_hit"), _f507.get("verdict")))
+except Exception as _e507x:
+    _bad507.append(repr(_e507x)[:160])
+    _d507 = "leg could not run"
+check(_name507, not _bad507, "; ".join(_bad507)[:240] or _d507)
 
 if __name__ == "__main__":
     sys.exit(main())

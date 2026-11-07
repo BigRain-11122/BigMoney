@@ -1,0 +1,4792 @@
+{
+ "answers": {
+  "fixture_pairs": 29,
+  "history_only_pairs": 0,
+  "how_many_are_ambiguous_because_the_symbol_is_reused": 42,
+  "how_many_are_attributable_to_one_origin": 119,
+  "how_many_now_read": 169,
+  "how_many_pairs_were_unreadable": 0,
+  "largest_residual_symbols": [
+   {
+    "binding": "scripts/update_intraday_marks.py:78",
+    "class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+    "date_expression": "now",
+    "line": 427,
+    "pairs": 58,
+    "source": "scripts/update_intraday_marks.py",
+    "tracks": "clock_the_name_states_the_run_day"
+   },
+   {
+    "binding": "scripts/marks_coverage.py:dig",
+    "class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+    "date_expression": "dig",
+    "line": 307,
+    "pairs": 29,
+    "source": "scripts/marks_coverage.py",
+    "tracks": "data_the_name_states_the_data_day"
+   },
+   {
+    "binding": "scripts/etf_book_order.py:asof",
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "date_expression": "asof",
+    "line": 542,
+    "pairs": 23,
+    "source": "scripts/etf_book_order.py",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   },
+   {
+    "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+    "class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+    "date_expression": "last_day",
+    "line": 354,
+    "pairs": 21,
+    "source": "scripts/ytd_track_record.py",
+    "tracks": "data_the_name_states_the_data_day"
+   },
+   {
+    "binding": "scripts/e24_ladder_weighting.py:54 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54",
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "date_expression": "_cal[-1].replace('-', '')",
+    "line": 27299,
+    "pairs": 8,
+    "source": "scripts/e39_panel_census.py",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   },
+   {
+    "binding": "scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:229",
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "date_expression": "cutoff",
+    "line": 209,
+    "pairs": 6,
+    "source": "scripts/regime5_labeler.py",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   },
+   {
+    "binding": "scripts/e39_panel_census.py:cost_tag",
+    "class": "not_a_date_the_matched_gap_carries_no_date_at_all",
+    "date_expression": "_sv",
+    "line": 28016,
+    "pairs": 5,
+    "source": "scripts/e39_panel_census.py",
+    "tracks": "neither_the_gap_carries_no_date"
+   },
+   {
+    "binding": "scripts/etf_book_production.py:last",
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "date_expression": "last.date()",
+    "line": 647,
+    "pairs": 4,
+    "source": "scripts/etf_book_production.py",
+    "tracks": "data_the_name_states_the_data_day"
+   },
+   {
+    "binding": "scripts/e39_panel_census.py:cost_tag",
+    "class": "not_a_date_the_matched_gap_carries_no_date_at_all",
+    "date_expression": "cost_tag",
+    "line": 27343,
+    "pairs": 3,
+    "source": "scripts/e39_panel_census.py",
+    "tracks": "neither_the_gap_carries_no_date"
+   },
+   {
+    "binding": "scripts/stagestyle_combo_p1_backtest.py:syms ; scripts/stagestyle_combo_p1_backtest.py:arrays ; scripts/stagestyle_combo_p1_backtest.py:meta ; scripts/stagestyle_combo_p1_backtest.py:syms ; scripts/stagestyle_combo_p1_backtest.py:arrays ; s",
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "date_expression": "cutoff",
+    "line": 630,
+    "pairs": 3,
+    "source": "scripts/stagestyle_combo_p1_backtest.py",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   },
+   {
+    "binding": "smoke_test.py:_cut41",
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "date_expression": "str(_cut41)[:10]",
+    "line": 3370,
+    "pairs": 3,
+    "source": "smoke_test.py",
+    "tracks": "data_the_name_states_the_data_day"
+   },
+   {
+    "binding": "smoke_test.py:_cut41",
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "date_expression": "str(_cut42)[:10]",
+    "line": 3442,
+    "pairs": 3,
+    "source": "smoke_test.py",
+    "tracks": "data_the_name_states_the_data_day"
+   },
+   {
+    "binding": "scripts/etf_book_cash_ladder.py:idx",
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "date_expression": "idx[-1].date()",
+    "line": 575,
+    "pairs": 2,
+    "source": "scripts/etf_book_cash_ladder.py",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   },
+   {
+    "binding": "",
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "date_expression": "tk['priced_bar']",
+    "line": 792,
+    "pairs": 1,
+    "source": "scripts/etf_book_order.py",
+    "tracks": "data_the_name_states_the_data_day"
+   }
+  ],
+  "no_site_members": 61,
+  "no_site_with_a_history_hit": 0,
+  "of_which_clock": 58,
+  "of_which_data": 61,
+  "rule_reading": "a name-based rule can find a binding for 169 of 169 residual pairs; 119 of those name exactly one origin (clock 58 / data 61), 42 are ambiguous because the symbol is reused in the same module, 29 are selftest fixtures and 8 carry no date at all"
+ },
+ "card": "E507-WHERE-DOES-THE-DATE-COME-FROM-WHEN-THE-MODULE-NEVER-BINDS-IT",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T21:37:53+08:00",
+ "history_arm": {
+  "blobs_indexed": 110,
+  "cap": 2500,
+  "capped": false,
+  "deleted_paths": 110,
+  "error": "",
+  "git_seconds": 14.61,
+  "ok": true
+ },
+ "method_limits": [
+  "the population is E504's residual rows (origin=unresolved) and the members it published without a composing site; both come from its face, never re-derived here",
+  "resolution is static and single-repository: a symbol is read in the module that names it, then in the module it is imported from (one import hop per level, depth capped at 8), then in the history blob index",
+  "the history arm covers python files reachable from HEAD and absent from the working tree, capped at 2500 blobs, fetched with lazy fetching disabled; a blob that is not present locally is skipped rather than fetched, so a hit of zero is a statement about this clone, not about the remote",
+  "the history arm is a snapshot: its counts are published, but the gate cannot re-derive them without re-reading every blob, so it is labelled, not re-derived",
+  "a track of 'unknown' means the binding says nothing about the day (a caller-supplied parameter, a name bound nowhere); it is never folded into clock or data",
+  "selftest fixtures are labelled by the enclosing function name; a fixture that writes outside a test function would be read as a production site"
+ ],
+ "no_site_members": [
+  {
+   "basename": "_w280bmc_20261019_probe_receipt.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261019",
+   "path": "results/_w280bmc_20261019_probe_receipt.json",
+   "stem": "w280bmc"
+  },
+  {
+   "basename": "_w280bmc_20261021_probe_receipt.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261021",
+   "path": "results/_w280bmc_20261021_probe_receipt.json",
+   "stem": "w280bmc"
+  },
+  {
+   "basename": "PROFILE-20261028.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261028",
+   "path": "results/dom_profile/PROFILE-20261028.json",
+   "stem": "PROFILE"
+  },
+  {
+   "basename": "PROFILE-20261029.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261029",
+   "path": "results/dom_profile/PROFILE-20261029.json",
+   "stem": "PROFILE"
+  },
+  {
+   "basename": "PROFILE-20261030.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261030",
+   "path": "results/dom_profile/PROFILE-20261030.json",
+   "stem": "PROFILE"
+  },
+  {
+   "basename": "PROFILE-20261102.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261102",
+   "path": "results/dom_profile/PROFILE-20261102.json",
+   "stem": "PROFILE"
+  },
+  {
+   "basename": "PROFILE-20261103.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261103",
+   "path": "results/dom_profile/PROFILE-20261103.json",
+   "stem": "PROFILE"
+  },
+  {
+   "basename": "PROFILE-20261104.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261104",
+   "path": "results/dom_profile/PROFILE-20261104.json",
+   "stem": "PROFILE"
+  },
+  {
+   "basename": "PROFILE-20261105.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261105",
+   "path": "results/dom_profile/PROFILE-20261105.json",
+   "stem": "PROFILE"
+  },
+  {
+   "basename": "PROFILE-20261106.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261106",
+   "path": "results/dom_profile/PROFILE-20261106.json",
+   "stem": "PROFILE"
+  },
+  {
+   "basename": "CHURNROBUST-20261022-s2013.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261022",
+   "path": "results/e44_midmonth/CHURNROBUST-20261022-s2013.json",
+   "stem": "CHURNROBUST"
+  },
+  {
+   "basename": "CHURNROBUST-20261026-s2013.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261026",
+   "path": "results/e44_midmonth/CHURNROBUST-20261026-s2013.json",
+   "stem": "CHURNROBUST"
+  },
+  {
+   "basename": "CHURNTOP3-20261022-s2013.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261022",
+   "path": "results/e44_midmonth/CHURNTOP3-20261022-s2013.json",
+   "stem": "CHURNTOP3"
+  },
+  {
+   "basename": "MIDSWEEP-20261020-c0_3.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261020",
+   "path": "results/e44_midmonth/MIDSWEEP-20261020-c0_3.json",
+   "stem": "MIDSWEEP"
+  },
+  {
+   "basename": "OBSRATE-20261028.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261028",
+   "path": "results/obs_rate/OBSRATE-20261028.json",
+   "stem": "OBSRATE"
+  },
+  {
+   "basename": "OBSRATE-20261029.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261029",
+   "path": "results/obs_rate/OBSRATE-20261029.json",
+   "stem": "OBSRATE"
+  },
+  {
+   "basename": "OBSRATE-20261030.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261030",
+   "path": "results/obs_rate/OBSRATE-20261030.json",
+   "stem": "OBSRATE"
+  },
+  {
+   "basename": "OBSRATE-20261102.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261102",
+   "path": "results/obs_rate/OBSRATE-20261102.json",
+   "stem": "OBSRATE"
+  },
+  {
+   "basename": "OBSRATE-20261103.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261103",
+   "path": "results/obs_rate/OBSRATE-20261103.json",
+   "stem": "OBSRATE"
+  },
+  {
+   "basename": "OBSRATE-20261104.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261104",
+   "path": "results/obs_rate/OBSRATE-20261104.json",
+   "stem": "OBSRATE"
+  },
+  {
+   "basename": "OBSRATE-20261105.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261105",
+   "path": "results/obs_rate/OBSRATE-20261105.json",
+   "stem": "OBSRATE"
+  },
+  {
+   "basename": "OBSRATE-20261106.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261106",
+   "path": "results/obs_rate/OBSRATE-20261106.json",
+   "stem": "OBSRATE"
+  },
+  {
+   "basename": "ADDOS-2026-10-29.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-10-29",
+   "path": "results/state_tilt/ADDOS-2026-10-29.json",
+   "stem": "ADDOS"
+  },
+  {
+   "basename": "ADDOS-2026-10-30.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-10-30",
+   "path": "results/state_tilt/ADDOS-2026-10-30.json",
+   "stem": "ADDOS"
+  },
+  {
+   "basename": "ADDOS-2026-11-02.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-02",
+   "path": "results/state_tilt/ADDOS-2026-11-02.json",
+   "stem": "ADDOS"
+  },
+  {
+   "basename": "ADDOS-2026-11-03.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-03",
+   "path": "results/state_tilt/ADDOS-2026-11-03.json",
+   "stem": "ADDOS"
+  },
+  {
+   "basename": "ADDOS-2026-11-04.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-04",
+   "path": "results/state_tilt/ADDOS-2026-11-04.json",
+   "stem": "ADDOS"
+  },
+  {
+   "basename": "ADDOS-2026-11-05.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-05",
+   "path": "results/state_tilt/ADDOS-2026-11-05.json",
+   "stem": "ADDOS"
+  },
+  {
+   "basename": "ADDOS-2026-11-06.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-06",
+   "path": "results/state_tilt/ADDOS-2026-11-06.json",
+   "stem": "ADDOS"
+  },
+  {
+   "basename": "FRESHAIM-2026-11-04.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-04",
+   "path": "results/state_tilt/FRESHAIM-2026-11-04.json",
+   "stem": "FRESHAIM"
+  },
+  {
+   "basename": "FRESHAIM-2026-11-05.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-05",
+   "path": "results/state_tilt/FRESHAIM-2026-11-05.json",
+   "stem": "FRESHAIM"
+  },
+  {
+   "basename": "FRESHAIM-2026-11-06.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-06",
+   "path": "results/state_tilt/FRESHAIM-2026-11-06.json",
+   "stem": "FRESHAIM"
+  },
+  {
+   "basename": "PRECISIONCENSUS-2026-10-29.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-10-29",
+   "path": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "stem": "PRECISIONCENSUS"
+  },
+  {
+   "basename": "PRECISIONCENSUS-2026-10-30.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-10-30",
+   "path": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "stem": "PRECISIONCENSUS"
+  },
+  {
+   "basename": "PRECISIONGAP-2026-10-31.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-10-31",
+   "path": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "stem": "PRECISIONGAP"
+  },
+  {
+   "basename": "PRECISIONGAP-2026-11-01.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-01",
+   "path": "results/state_tilt/PRECISIONGAP-2026-11-01.json",
+   "stem": "PRECISIONGAP"
+  },
+  {
+   "basename": "PRECISIONGAP-2026-11-02.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-02",
+   "path": "results/state_tilt/PRECISIONGAP-2026-11-02.json",
+   "stem": "PRECISIONGAP"
+  },
+  {
+   "basename": "READERTIERS-2026-11-04.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-04",
+   "path": "results/state_tilt/READERTIERS-2026-11-04.json",
+   "stem": "READERTIERS"
+  },
+  {
+   "basename": "READERTIERS-2026-11-05.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-05",
+   "path": "results/state_tilt/READERTIERS-2026-11-05.json",
+   "stem": "READERTIERS"
+  },
+  {
+   "basename": "READERTIERS-2026-11-06.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-06",
+   "path": "results/state_tilt/READERTIERS-2026-11-06.json",
+   "stem": "READERTIERS"
+  },
+  {
+   "basename": "REFRESHSIGNAL-2026-11-04.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-04",
+   "path": "results/state_tilt/REFRESHSIGNAL-2026-11-04.json",
+   "stem": "REFRESHSIGNAL"
+  },
+  {
+   "basename": "REFRESHSIGNAL-2026-11-05.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-05",
+   "path": "results/state_tilt/REFRESHSIGNAL-2026-11-05.json",
+   "stem": "REFRESHSIGNAL"
+  },
+  {
+   "basename": "REFRESHSIGNAL-2026-11-06.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-06",
+   "path": "results/state_tilt/REFRESHSIGNAL-2026-11-06.json",
+   "stem": "REFRESHSIGNAL"
+  },
+  {
+   "basename": "SHADOWFACE-2026-11-04.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-04",
+   "path": "results/state_tilt/SHADOWFACE-2026-11-04.json",
+   "stem": "SHADOWFACE"
+  },
+  {
+   "basename": "SHADOWFACE-2026-11-05.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-05",
+   "path": "results/state_tilt/SHADOWFACE-2026-11-05.json",
+   "stem": "SHADOWFACE"
+  },
+  {
+   "basename": "SHADOWFACE-2026-11-06.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-06",
+   "path": "results/state_tilt/SHADOWFACE-2026-11-06.json",
+   "stem": "SHADOWFACE"
+  },
+  {
+   "basename": "bandpath_by_cell_2026-10-29.csv",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-10-29",
+   "path": "results/state_tilt/bandpath_by_cell_2026-10-29.csv",
+   "stem": "bandpath_by_cell"
+  },
+  {
+   "basename": "bandpath_by_cell_2026-10-30.csv",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-10-30",
+   "path": "results/state_tilt/bandpath_by_cell_2026-10-30.csv",
+   "stem": "bandpath_by_cell"
+  },
+  {
+   "basename": "bandpath_by_cell_2026-11-02.csv",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-02",
+   "path": "results/state_tilt/bandpath_by_cell_2026-11-02.csv",
+   "stem": "bandpath_by_cell"
+  },
+  {
+   "basename": "bandpath_by_cell_2026-11-03.csv",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-03",
+   "path": "results/state_tilt/bandpath_by_cell_2026-11-03.csv",
+   "stem": "bandpath_by_cell"
+  },
+  {
+   "basename": "bandpath_by_cell_2026-11-04.csv",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-04",
+   "path": "results/state_tilt/bandpath_by_cell_2026-11-04.csv",
+   "stem": "bandpath_by_cell"
+  },
+  {
+   "basename": "bandpath_by_cell_2026-11-05.csv",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-05",
+   "path": "results/state_tilt/bandpath_by_cell_2026-11-05.csv",
+   "stem": "bandpath_by_cell"
+  },
+  {
+   "basename": "bandpath_by_cell_2026-11-06.csv",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "2026-11-06",
+   "path": "results/state_tilt/bandpath_by_cell_2026-11-06.csv",
+   "stem": "bandpath_by_cell"
+  },
+  {
+   "basename": "TOMO-20261028.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261028",
+   "path": "results/tom_overlay/TOMO-20261028.json",
+   "stem": "TOMO"
+  },
+  {
+   "basename": "TOMO-20261029.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261029",
+   "path": "results/tom_overlay/TOMO-20261029.json",
+   "stem": "TOMO"
+  },
+  {
+   "basename": "TOMO-20261030.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261030",
+   "path": "results/tom_overlay/TOMO-20261030.json",
+   "stem": "TOMO"
+  },
+  {
+   "basename": "TOMO-20261102.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261102",
+   "path": "results/tom_overlay/TOMO-20261102.json",
+   "stem": "TOMO"
+  },
+  {
+   "basename": "TOMO-20261103.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261103",
+   "path": "results/tom_overlay/TOMO-20261103.json",
+   "stem": "TOMO"
+  },
+  {
+   "basename": "TOMO-20261104.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261104",
+   "path": "results/tom_overlay/TOMO-20261104.json",
+   "stem": "TOMO"
+  },
+  {
+   "basename": "TOMO-20261105.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261105",
+   "path": "results/tom_overlay/TOMO-20261105.json",
+   "stem": "TOMO"
+  },
+  {
+   "basename": "TOMO-20261106.json",
+   "class": "no_script_in_the_tree_or_the_scanned_history_names_this_family",
+   "history_hits": [],
+   "name_date": "20261106",
+   "path": "results/tom_overlay/TOMO-20261106.json",
+   "stem": "TOMO"
+  }
+ ],
+ "no_site_vocab": [
+  "a_script_the_tree_no_longer_holds_names_this_family",
+  "only_scripts_still_in_the_tree_name_this_family",
+  "no_script_in_the_tree_or_the_scanned_history_names_this_family"
+ ],
+ "population_source": "results/state_tilt/NAMECOMPOSE-2026-11-07.json rows with origin=unresolved",
+ "residual_class_vocab": [
+  "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+  "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+  "imported_binding_the_symbol_or_callee_comes_from_another_module",
+  "series_element_the_date_is_an_element_of_loaded_data",
+  "frozen_literal_the_expression_states_the_date_itself",
+  "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+  "history_only_the_symbol_binds_only_in_a_script_the_tree_no_longer_holds",
+  "not_a_date_the_matched_gap_carries_no_date_at_all",
+  "caller_supplied_the_symbol_is_a_function_parameter",
+  "unreadable_no_binding_in_the_tree_or_the_scanned_history"
+ ],
+ "rows": [
+  {
+   "binding": "scripts/e24_ladder_weighting.py:54 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "note": "",
+   "path": "results/e44_midmonth/WIDTHLADDER-20261028.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "_cal[-1]",
+    "_cal",
+    "literal_tag",
+    "cycle:d",
+    "literal_number",
+    "cycle:m",
+    "_base_ll.load_panel()[0]",
+    "load_panel()"
+   ],
+   "resolved_expression": "_cal[-1]",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "subscript:_cal[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/e24_ladder_weighting.py:54 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "note": "",
+   "path": "results/e44_midmonth/WIDTHLADDER-20261029.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "_cal[-1]",
+    "_cal",
+    "literal_tag",
+    "cycle:d",
+    "literal_number",
+    "cycle:m",
+    "_base_ll.load_panel()[0]",
+    "load_panel()"
+   ],
+   "resolved_expression": "_cal[-1]",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "subscript:_cal[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/e24_ladder_weighting.py:54 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "note": "",
+   "path": "results/e44_midmonth/WIDTHLADDER-20261030.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "_cal[-1]",
+    "_cal",
+    "literal_tag",
+    "cycle:d",
+    "literal_number",
+    "cycle:m",
+    "_base_ll.load_panel()[0]",
+    "load_panel()"
+   ],
+   "resolved_expression": "_cal[-1]",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "subscript:_cal[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/e24_ladder_weighting.py:54 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "note": "",
+   "path": "results/e44_midmonth/WIDTHLADDER-20261102.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "_cal[-1]",
+    "_cal",
+    "literal_tag",
+    "cycle:d",
+    "literal_number",
+    "cycle:m",
+    "_base_ll.load_panel()[0]",
+    "load_panel()"
+   ],
+   "resolved_expression": "_cal[-1]",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "subscript:_cal[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/e24_ladder_weighting.py:54 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "note": "",
+   "path": "results/e44_midmonth/WIDTHLADDER-20261103.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "_cal[-1]",
+    "_cal",
+    "literal_tag",
+    "cycle:d",
+    "literal_number",
+    "cycle:m",
+    "_base_ll.load_panel()[0]",
+    "load_panel()"
+   ],
+   "resolved_expression": "_cal[-1]",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "subscript:_cal[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/e24_ladder_weighting.py:54 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "note": "",
+   "path": "results/e44_midmonth/WIDTHLADDER-20261104.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "_cal[-1]",
+    "_cal",
+    "literal_tag",
+    "cycle:d",
+    "literal_number",
+    "cycle:m",
+    "_base_ll.load_panel()[0]",
+    "load_panel()"
+   ],
+   "resolved_expression": "_cal[-1]",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "subscript:_cal[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/e24_ladder_weighting.py:54 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "note": "",
+   "path": "results/e44_midmonth/WIDTHLADDER-20261105.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "_cal[-1]",
+    "_cal",
+    "literal_tag",
+    "cycle:d",
+    "literal_number",
+    "cycle:m",
+    "_base_ll.load_panel()[0]",
+    "load_panel()"
+   ],
+   "resolved_expression": "_cal[-1]",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "subscript:_cal[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/e24_ladder_weighting.py:54 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "note": "",
+   "path": "results/e44_midmonth/WIDTHLADDER-20261106.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "_cal[-1]",
+    "_cal",
+    "literal_tag",
+    "cycle:d",
+    "literal_number",
+    "cycle:m",
+    "_base_ll.load_panel()[0]",
+    "load_panel()"
+   ],
+   "resolved_expression": "_cal[-1]",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "subscript:_cal[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/e39_panel_census.py:cost_tag",
+   "date_expression": "cost_tag",
+   "line": 27343,
+   "note": "",
+   "path": "results/e44_midmonth/MIDSWEEP-20261020.json",
+   "residual_class": "not_a_date_the_matched_gap_carries_no_date_at_all",
+   "resolution_chain": [
+    "cost_tag",
+    "literal_tag"
+   ],
+   "resolved_expression": "''",
+   "site": "S0057",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "neither_the_gap_carries_no_date",
+   "upstream_chain": [
+    "cost_tag",
+    "node:IfExp"
+   ]
+  },
+  {
+   "binding": "scripts/e39_panel_census.py:cost_tag",
+   "date_expression": "cost_tag",
+   "line": 27738,
+   "note": "",
+   "path": "results/e44_midmonth/NEIGHBORHOOD-20261020.json",
+   "residual_class": "not_a_date_the_matched_gap_carries_no_date_at_all",
+   "resolution_chain": [
+    "cost_tag",
+    "literal_tag"
+   ],
+   "resolved_expression": "''",
+   "site": "S0059",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "neither_the_gap_carries_no_date",
+   "upstream_chain": [
+    "cost_tag",
+    "node:IfExp"
+   ]
+  },
+  {
+   "binding": "scripts/e39_panel_census.py:cost_tag",
+   "date_expression": "cost_tag",
+   "line": 27738,
+   "note": "",
+   "path": "results/e44_midmonth/NEIGHBORHOOD-20261021.json",
+   "residual_class": "not_a_date_the_matched_gap_carries_no_date_at_all",
+   "resolution_chain": [
+    "cost_tag",
+    "literal_tag"
+   ],
+   "resolved_expression": "''",
+   "site": "S0059",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "neither_the_gap_carries_no_date",
+   "upstream_chain": [
+    "cost_tag",
+    "node:IfExp"
+   ]
+  },
+  {
+   "binding": "scripts/e39_panel_census.py:cost_tag",
+   "date_expression": "_sv",
+   "line": 28016,
+   "note": "",
+   "path": "results/e44_midmonth/CHURNROBUST-20261021.json",
+   "residual_class": "not_a_date_the_matched_gap_carries_no_date_at_all",
+   "resolution_chain": [
+    "cost_tag",
+    "literal_tag"
+   ],
+   "resolved_expression": "''",
+   "site": "S0067",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "neither_the_gap_carries_no_date",
+   "upstream_chain": [
+    "_sv",
+    "node:IfExp"
+   ]
+  },
+  {
+   "binding": "scripts/e39_panel_census.py:cost_tag",
+   "date_expression": "_sv",
+   "line": 28016,
+   "note": "",
+   "path": "results/e44_midmonth/CHURNROBUST-20261026.json",
+   "residual_class": "not_a_date_the_matched_gap_carries_no_date_at_all",
+   "resolution_chain": [
+    "cost_tag",
+    "literal_tag"
+   ],
+   "resolved_expression": "''",
+   "site": "S0067",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "neither_the_gap_carries_no_date",
+   "upstream_chain": [
+    "_sv",
+    "node:IfExp"
+   ]
+  },
+  {
+   "binding": "scripts/e39_panel_census.py:cost_tag",
+   "date_expression": "_sv",
+   "line": 28084,
+   "note": "",
+   "path": "results/e44_midmonth/SCREENGAP-20261022.json",
+   "residual_class": "not_a_date_the_matched_gap_carries_no_date_at_all",
+   "resolution_chain": [
+    "cost_tag",
+    "literal_tag"
+   ],
+   "resolved_expression": "''",
+   "site": "S0070",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "neither_the_gap_carries_no_date",
+   "upstream_chain": [
+    "_sv",
+    "node:IfExp"
+   ]
+  },
+  {
+   "binding": "scripts/e39_panel_census.py:cost_tag",
+   "date_expression": "_sv",
+   "line": 28084,
+   "note": "",
+   "path": "results/e44_midmonth/SCREENGAP-20261026.json",
+   "residual_class": "not_a_date_the_matched_gap_carries_no_date_at_all",
+   "resolution_chain": [
+    "cost_tag",
+    "literal_tag"
+   ],
+   "resolved_expression": "''",
+   "site": "S0070",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "neither_the_gap_carries_no_date",
+   "upstream_chain": [
+    "_sv",
+    "node:IfExp"
+   ]
+  },
+  {
+   "binding": "scripts/e39_panel_census.py:cost_tag",
+   "date_expression": "_sv",
+   "line": 28104,
+   "note": "",
+   "path": "results/e44_midmonth/CHURNTOP3-20261026.json",
+   "residual_class": "not_a_date_the_matched_gap_carries_no_date_at_all",
+   "resolution_chain": [
+    "cost_tag",
+    "literal_tag"
+   ],
+   "resolved_expression": "''",
+   "site": "S0071",
+   "source": "scripts/e39_panel_census.py",
+   "tracks": "neither_the_gap_carries_no_date",
+   "upstream_chain": [
+    "_sv",
+    "node:IfExp"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_cash_ladder.py:idx",
+   "date_expression": "idx[-1].date()",
+   "line": 575,
+   "note": "",
+   "path": "results/etf_book_cash_ladder/CASH-TICKET-2026-10-19.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "idx[-1]",
+    "idx",
+    "pd.DatetimeIndex",
+    "date_index_constructor",
+    "literal_number",
+    "idx[idx >= WINDOW_START]",
+    "subscript_base_unreadable",
+    "s.index"
+   ],
+   "resolved_expression": "idx[-1]",
+   "site": "S0087",
+   "source": "scripts/etf_book_cash_ladder.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "subscript:idx[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_cash_ladder.py:idx",
+   "date_expression": "idx[-1].date()",
+   "line": 575,
+   "note": "",
+   "path": "results/etf_book_cash_ladder/CASH-TICKET-2026-10-23.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "idx[-1]",
+    "idx",
+    "pd.DatetimeIndex",
+    "date_index_constructor",
+    "literal_number",
+    "idx[idx >= WINDOW_START]",
+    "subscript_base_unreadable",
+    "s.index"
+   ],
+   "resolved_expression": "idx[-1]",
+   "site": "S0087",
+   "source": "scripts/etf_book_cash_ladder.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "subscript:idx[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 542,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-23.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0089",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 542,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-26.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0089",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 542,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-27.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0089",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 542,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-28.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0089",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 1033,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-28-card.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0090",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 543,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-23.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0091",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 543,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-26.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0091",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 543,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-27.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0091",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 543,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-28.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0091",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 568,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-23.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0092",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 568,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-26.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0092",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 568,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-27.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0092",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 568,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-28.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0092",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 1059,
+   "note": "",
+   "path": "results/etf_book_order/ORDER-2026-10-28-card.md",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0093",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 545,
+   "note": "",
+   "path": "results/etf_book_order/ORDER-2026-10-23.md",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0094",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 545,
+   "note": "",
+   "path": "results/etf_book_order/ORDER-2026-10-26.md",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0094",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 545,
+   "note": "",
+   "path": "results/etf_book_order/ORDER-2026-10-27.md",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0094",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 545,
+   "note": "",
+   "path": "results/etf_book_order/ORDER-2026-10-28.md",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0094",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 1043,
+   "note": "",
+   "path": "results/etf_book_order/ORDER-2026-10-28-card.md",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0095",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 227,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-23.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0096",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 227,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-26.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0096",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 227,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-27.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0096",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 227,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-28.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "site": "S0096",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ]
+  },
+  {
+   "binding": "",
+   "date_expression": "tk['priced_bar']",
+   "line": 792,
+   "note": "",
+   "path": "results/etf_book_order/TICKET-2026-10-28-card.json",
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "tk['priced_bar']",
+    "payload_field"
+   ],
+   "resolved_expression": "tk['priced_bar']",
+   "site": "S0097",
+   "source": "scripts/etf_book_order.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "subscript:tk['priced_bar']"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_production.py:last",
+   "date_expression": "last.date()",
+   "line": 647,
+   "note": "",
+   "path": "results/etf_book_production/PRODUCTION-2026-10-23.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "last",
+    "masked.index",
+    "element_of_loaded_series"
+   ],
+   "resolved_expression": "masked.index[-1]",
+   "site": "S0098",
+   "source": "scripts/etf_book_production.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last",
+    "subscript:masked.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_production.py:last",
+   "date_expression": "last.date()",
+   "line": 647,
+   "note": "",
+   "path": "results/etf_book_production/PRODUCTION-2026-10-26.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "last",
+    "masked.index",
+    "element_of_loaded_series"
+   ],
+   "resolved_expression": "masked.index[-1]",
+   "site": "S0098",
+   "source": "scripts/etf_book_production.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last",
+    "subscript:masked.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_production.py:last",
+   "date_expression": "last.date()",
+   "line": 647,
+   "note": "",
+   "path": "results/etf_book_production/PRODUCTION-2026-10-27.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "last",
+    "masked.index",
+    "element_of_loaded_series"
+   ],
+   "resolved_expression": "masked.index[-1]",
+   "site": "S0098",
+   "source": "scripts/etf_book_production.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last",
+    "subscript:masked.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/etf_book_production.py:last",
+   "date_expression": "last.date()",
+   "line": 647,
+   "note": "",
+   "path": "results/etf_book_production/PRODUCTION-2026-10-28.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "last",
+    "masked.index",
+    "element_of_loaded_series"
+   ],
+   "resolved_expression": "masked.index[-1]",
+   "site": "S0098",
+   "source": "scripts/etf_book_production.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last",
+    "subscript:masked.index[-1]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20260924.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20260925.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20260928.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20260929.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20260930.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261001.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261002.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261005.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261006.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261007.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261008.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261009.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261012.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261013.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261014.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261015.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261016.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261019.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261020.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261021.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261027.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261028.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261029.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261030.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261102.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261103.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261104.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261105.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "path": "results/paper/marks/marks-20261106.jsonl",
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "site": "S0100",
+   "source": "scripts/marks_coverage.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ]
+  },
+  {
+   "binding": "scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:229",
+   "date_expression": "cutoff",
+   "line": 209,
+   "note": "",
+   "path": "results/regime5_labels/REGIME5-2026-09-30.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "cutoff",
+    "bench[-1][0]",
+    "bench[-1]",
+    "bench",
+    "_load()",
+    "helper_reads_a_file",
+    "_panel_a()"
+   ],
+   "resolved_expression": "bench[-1][0]",
+   "site": "S0101",
+   "source": "scripts/regime5_labeler.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "cutoff",
+    "subscript:bench[-1][0]"
+   ]
+  },
+  {
+   "binding": "scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:229",
+   "date_expression": "cutoff",
+   "line": 209,
+   "note": "",
+   "path": "results/regime5_labels/REGIME5-2026-10-19.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "cutoff",
+    "bench[-1][0]",
+    "bench[-1]",
+    "bench",
+    "_load()",
+    "helper_reads_a_file",
+    "_panel_a()"
+   ],
+   "resolved_expression": "bench[-1][0]",
+   "site": "S0101",
+   "source": "scripts/regime5_labeler.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "cutoff",
+    "subscript:bench[-1][0]"
+   ]
+  },
+  {
+   "binding": "scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:229",
+   "date_expression": "cutoff",
+   "line": 209,
+   "note": "",
+   "path": "results/regime5_labels/REGIME5-2026-11-03.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "cutoff",
+    "bench[-1][0]",
+    "bench[-1]",
+    "bench",
+    "_load()",
+    "helper_reads_a_file",
+    "_panel_a()"
+   ],
+   "resolved_expression": "bench[-1][0]",
+   "site": "S0101",
+   "source": "scripts/regime5_labeler.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "cutoff",
+    "subscript:bench[-1][0]"
+   ]
+  },
+  {
+   "binding": "scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:229",
+   "date_expression": "cutoff",
+   "line": 215,
+   "note": "",
+   "path": "results/regime5_diag/REGIME5-DIAG-2026-09-30.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "cutoff",
+    "bench[-1][0]",
+    "bench[-1]",
+    "bench",
+    "_load()",
+    "helper_reads_a_file",
+    "_panel_a()"
+   ],
+   "resolved_expression": "bench[-1][0]",
+   "site": "S0102",
+   "source": "scripts/regime5_labeler.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "cutoff",
+    "subscript:bench[-1][0]"
+   ]
+  },
+  {
+   "binding": "scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:229",
+   "date_expression": "cutoff",
+   "line": 215,
+   "note": "",
+   "path": "results/regime5_diag/REGIME5-DIAG-2026-10-19.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "cutoff",
+    "bench[-1][0]",
+    "bench[-1]",
+    "bench",
+    "_load()",
+    "helper_reads_a_file",
+    "_panel_a()"
+   ],
+   "resolved_expression": "bench[-1][0]",
+   "site": "S0102",
+   "source": "scripts/regime5_labeler.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "cutoff",
+    "subscript:bench[-1][0]"
+   ]
+  },
+  {
+   "binding": "scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:229",
+   "date_expression": "cutoff",
+   "line": 215,
+   "note": "",
+   "path": "results/regime5_diag/REGIME5-DIAG-2026-11-03.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "cutoff",
+    "bench[-1][0]",
+    "bench[-1]",
+    "bench",
+    "_load()",
+    "helper_reads_a_file",
+    "_panel_a()"
+   ],
+   "resolved_expression": "bench[-1][0]",
+   "site": "S0102",
+   "source": "scripts/regime5_labeler.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "cutoff",
+    "subscript:bench[-1][0]"
+   ]
+  },
+  {
+   "binding": "scripts/stagestyle_combo_p1_backtest.py:syms ; scripts/stagestyle_combo_p1_backtest.py:arrays ; scripts/stagestyle_combo_p1_backtest.py:meta ; scripts/stagestyle_combo_p1_backtest.py:syms ; scripts/stagestyle_combo_p1_backtest.py:arrays ; s",
+   "date_expression": "cutoff",
+   "line": 630,
+   "note": "",
+   "path": "results/stagestyle_combo_p1/SSCOMBO-P1-2013-10-15.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "cutoff",
+    "idx[hi]",
+    "idx",
+    "pd.to_datetime",
+    "date_index_constructor",
+    "panel",
+    "load_local_panel()",
+    "pd.date_range"
+   ],
+   "resolved_expression": "idx[hi]",
+   "site": "S0105",
+   "source": "scripts/stagestyle_combo_p1_backtest.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "cutoff",
+    "subscript:idx[hi]"
+   ]
+  },
+  {
+   "binding": "scripts/stagestyle_combo_p1_backtest.py:syms ; scripts/stagestyle_combo_p1_backtest.py:arrays ; scripts/stagestyle_combo_p1_backtest.py:meta ; scripts/stagestyle_combo_p1_backtest.py:syms ; scripts/stagestyle_combo_p1_backtest.py:arrays ; s",
+   "date_expression": "cutoff",
+   "line": 630,
+   "note": "",
+   "path": "results/stagestyle_combo_p1/SSCOMBO-P1-2014-04-18.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "cutoff",
+    "idx[hi]",
+    "idx",
+    "pd.to_datetime",
+    "date_index_constructor",
+    "panel",
+    "load_local_panel()",
+    "pd.date_range"
+   ],
+   "resolved_expression": "idx[hi]",
+   "site": "S0105",
+   "source": "scripts/stagestyle_combo_p1_backtest.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "cutoff",
+    "subscript:idx[hi]"
+   ]
+  },
+  {
+   "binding": "scripts/stagestyle_combo_p1_backtest.py:syms ; scripts/stagestyle_combo_p1_backtest.py:arrays ; scripts/stagestyle_combo_p1_backtest.py:meta ; scripts/stagestyle_combo_p1_backtest.py:syms ; scripts/stagestyle_combo_p1_backtest.py:arrays ; s",
+   "date_expression": "cutoff",
+   "line": 630,
+   "note": "",
+   "path": "results/stagestyle_combo_p1/SSCOMBO-P1-2026-10-19.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "cutoff",
+    "idx[hi]",
+    "idx",
+    "pd.to_datetime",
+    "date_index_constructor",
+    "panel",
+    "load_local_panel()",
+    "pd.date_range"
+   ],
+   "resolved_expression": "idx[hi]",
+   "site": "S0105",
+   "source": "scripts/stagestyle_combo_p1_backtest.py",
+   "tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "upstream_chain": [
+    "cutoff",
+    "subscript:idx[hi]"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20260924.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20260925.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20260928.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20260929.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20260930.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261001.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261002.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261005.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261006.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261007.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261008.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261009.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261012.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261013.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261014.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261015.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261016.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261019.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261020.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261021.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261027.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261028.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261029.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261030.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261102.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261103.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261104.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261105.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "path": "results/paper/marks/marks-20261106.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0110",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20260924.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20260925.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20260928.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20260929.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20260930.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261001.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261002.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261005.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261006.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261007.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261008.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261009.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261012.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261013.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261014.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261015.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261016.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261019.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261020.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261021.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261027.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261028.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261029.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261030.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261102.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261103.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261104.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261105.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 413,
+   "note": "",
+   "path": "results/paper/marks/marks-20261106.jsonl",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "site": "S0111",
+   "source": "scripts/update_intraday_marks.py",
+   "tracks": "clock_the_name_states_the_run_day",
+   "upstream_chain": [
+    "now",
+    "call:_now()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-09-24.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-09-28.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-09-29.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-09-30.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-08.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-09.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-12.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-13.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-14.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-15.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-16.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-19.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-20.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-21.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-22.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-23.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-26.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-27.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-28.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-10-30.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "path": "results/paper_export/export-2026-11-03.json",
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "site": "S0114",
+   "source": "scripts/ytd_track_record.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ]
+  },
+  {
+   "binding": "smoke_test.py:_cut41",
+   "date_expression": "str(_cut41)[:10]",
+   "line": 3370,
+   "note": "",
+   "path": "results/state_tilt/REPRO-2026-10-29.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "str(_cut41)[:10]",
+    "_cut41",
+    "_f41.get('evidence_cutoff')",
+    "payload_field"
+   ],
+   "resolved_expression": "str(_cut41)[:10]",
+   "site": "S0121",
+   "source": "smoke_test.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "subscript:str(_cut41)[:10]"
+   ]
+  },
+  {
+   "binding": "smoke_test.py:_cut41",
+   "date_expression": "str(_cut41)[:10]",
+   "line": 3370,
+   "note": "",
+   "path": "results/state_tilt/REPRO-2026-10-30.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "str(_cut41)[:10]",
+    "_cut41",
+    "_f41.get('evidence_cutoff')",
+    "payload_field"
+   ],
+   "resolved_expression": "str(_cut41)[:10]",
+   "site": "S0121",
+   "source": "smoke_test.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "subscript:str(_cut41)[:10]"
+   ]
+  },
+  {
+   "binding": "smoke_test.py:_cut41",
+   "date_expression": "str(_cut41)[:10]",
+   "line": 3370,
+   "note": "",
+   "path": "results/state_tilt/REPRO-2026-11-03.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "str(_cut41)[:10]",
+    "_cut41",
+    "_f41.get('evidence_cutoff')",
+    "payload_field"
+   ],
+   "resolved_expression": "str(_cut41)[:10]",
+   "site": "S0121",
+   "source": "smoke_test.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "subscript:str(_cut41)[:10]"
+   ]
+  },
+  {
+   "binding": "smoke_test.py:_cut41",
+   "date_expression": "str(_cut42)[:10]",
+   "line": 3442,
+   "note": "",
+   "path": "results/state_tilt/OMISSION-2026-10-29.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "str(_cut41)[:10]",
+    "_cut41",
+    "_f41.get('evidence_cutoff')",
+    "payload_field"
+   ],
+   "resolved_expression": "str(_cut41)[:10]",
+   "site": "S0122",
+   "source": "smoke_test.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "subscript:str(_cut42)[:10]"
+   ]
+  },
+  {
+   "binding": "smoke_test.py:_cut41",
+   "date_expression": "str(_cut42)[:10]",
+   "line": 3442,
+   "note": "",
+   "path": "results/state_tilt/OMISSION-2026-10-30.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "str(_cut41)[:10]",
+    "_cut41",
+    "_f41.get('evidence_cutoff')",
+    "payload_field"
+   ],
+   "resolved_expression": "str(_cut41)[:10]",
+   "site": "S0122",
+   "source": "smoke_test.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "subscript:str(_cut42)[:10]"
+   ]
+  },
+  {
+   "binding": "smoke_test.py:_cut41",
+   "date_expression": "str(_cut42)[:10]",
+   "line": 3442,
+   "note": "",
+   "path": "results/state_tilt/OMISSION-2026-11-03.json",
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "str(_cut41)[:10]",
+    "_cut41",
+    "_f41.get('evidence_cutoff')",
+    "payload_field"
+   ],
+   "resolved_expression": "str(_cut41)[:10]",
+   "site": "S0122",
+   "source": "smoke_test.py",
+   "tracks": "data_the_name_states_the_data_day",
+   "upstream_chain": [
+    "subscript:str(_cut42)[:10]"
+   ]
+  }
+ ],
+ "study": "E507_unresolved_origin",
+ "summary": {
+  "ambiguous_pairs": 42,
+  "attributable_pairs": 119,
+  "clock_pairs": 58,
+  "data_pairs": 61,
+  "evidence_cutoff": "2026-11-07",
+  "fixture_pairs": 29,
+  "history_arm": {
+   "blobs_indexed": 110,
+   "cap": 2500,
+   "capped": false,
+   "deleted_paths": 110,
+   "ok": true
+  },
+  "history_only_pairs": 0,
+  "members_by_tracks": {
+   "clock_the_name_states_the_run_day": 0,
+   "data_the_name_states_the_data_day": 31,
+   "mixed_the_binding_carries_more_than_one_origin": 58,
+   "neither_the_gap_carries_no_date": 8,
+   "unknown_no_binding_could_be_read": 0
+  },
+  "no_site_by_class": {
+   "a_script_the_tree_no_longer_holds_names_this_family": 0,
+   "no_script_in_the_tree_or_the_scanned_history_names_this_family": 61,
+   "only_scripts_still_in_the_tree_name_this_family": 0
+  },
+  "no_site_members": 61,
+  "no_site_with_history_hit": 0,
+  "pairs_by_residual_class": {
+   "caller_supplied_the_symbol_is_a_function_parameter": 0,
+   "frozen_literal_the_expression_states_the_date_itself": 0,
+   "history_only_the_symbol_binds_only_in_a_script_the_tree_no_longer_holds": 0,
+   "imported_binding_the_symbol_or_callee_comes_from_another_module": 0,
+   "local_helper_the_composition_calls_a_function_defined_in_the_same_module": 79,
+   "not_a_date_the_matched_gap_carries_no_date_at_all": 8,
+   "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves": 24,
+   "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test": 29,
+   "series_element_the_date_is_an_element_of_loaded_data": 29,
+   "unreadable_no_binding_in_the_tree_or_the_scanned_history": 0
+  },
+  "pairs_by_tracks": {
+   "clock_the_name_states_the_run_day": 58,
+   "data_the_name_states_the_data_day": 61,
+   "mixed_the_binding_carries_more_than_one_origin": 42,
+   "neither_the_gap_carries_no_date": 8,
+   "unknown_no_binding_could_be_read": 0
+  },
+  "pairs_with_a_binding": 169,
+  "readable_pairs": 169,
+  "readable_share": 1.0,
+  "residual_members": 97,
+  "residual_pairs": 169,
+  "residual_share_of_upstream_pairs": 0.191,
+  "residual_sites": 14,
+  "unreadable_pairs": 0,
+  "upstream_members": 61,
+  "upstream_pairs": 885
+ },
+ "symbols": [
+  {
+   "binding": "scripts/update_intraday_marks.py:78",
+   "date_expression": "now",
+   "line": 427,
+   "note": "",
+   "pairs": 58,
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "now",
+    "_now()"
+   ],
+   "resolved_expression": "dt.datetime.now()",
+   "source": "scripts/update_intraday_marks.py",
+   "symbols": [
+    "now",
+    "call:_now()"
+   ],
+   "tracks": "clock_the_name_states_the_run_day"
+  },
+  {
+   "binding": "scripts/marks_coverage.py:dig",
+   "date_expression": "dig",
+   "line": 307,
+   "note": "the naming site lives inside _selftest(); the path it composes is a test fixture, not a published face",
+   "pairs": 29,
+   "residual_class": "selftest_fixture_the_site_writes_a_temporary_path_inside_a_test",
+   "resolution_chain": [
+    "dig",
+    "fn[len('marks-'):-len('.jsonl')]",
+    "subscript_base_unreadable",
+    "literal"
+   ],
+   "resolved_expression": "fn[len('marks-'):-len('.jsonl')]",
+   "source": "scripts/marks_coverage.py",
+   "symbols": [
+    "dig",
+    "subscript:fn[len('marks-'):-len('.jsonl')]"
+   ],
+   "tracks": "data_the_name_states_the_data_day"
+  },
+  {
+   "binding": "scripts/etf_book_order.py:asof",
+   "date_expression": "asof",
+   "line": 542,
+   "note": "",
+   "pairs": 23,
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "asof",
+    "slip.index",
+    "element_of_loaded_series",
+    "tk['priced_bar']",
+    "payload_field",
+    "literal_tag"
+   ],
+   "resolved_expression": "slip.index[-1]",
+   "source": "scripts/etf_book_order.py",
+   "symbols": [
+    "asof",
+    "subscript:slip.index[-1]"
+   ],
+   "tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "binding": "scripts/ytd_track_record.py:d ; scripts/ytd_track_record.py:param:marks_days ; scripts/ytd_track_record.py:219 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.py:143 ; scripts/ytd_track_record.py:261 ; scripts/ytd_track_record.",
+   "date_expression": "last_day",
+   "line": 354,
+   "note": "",
+   "pairs": 21,
+   "residual_class": "local_helper_the_composition_calls_a_function_defined_in_the_same_module",
+   "resolution_chain": [
+    "last_day",
+    "emp_days",
+    "employee_paper_leg()",
+    "helper_reads_a_file",
+    "assemble()"
+   ],
+   "resolved_expression": "{t: {} for t in EMPLOYEES}",
+   "source": "scripts/ytd_track_record.py",
+   "symbols": [
+    "last_day",
+    "emp_days",
+    "panel_days",
+    "call:panel_trading_days()"
+   ],
+   "tracks": "data_the_name_states_the_data_day"
+  },
+  {
+   "binding": "scripts/e24_ladder_weighting.py:54 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; _r1007bma_census.py:8 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "note": "",
+   "pairs": 8,
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "_cal[-1]",
+    "_cal",
+    "literal_tag",
+    "cycle:d",
+    "literal_number",
+    "cycle:m",
+    "_base_ll.load_panel()[0]",
+    "load_panel()"
+   ],
+   "resolved_expression": "_cal[-1]",
+   "source": "scripts/e39_panel_census.py",
+   "symbols": [
+    "subscript:_cal[-1]"
+   ],
+   "tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "binding": "scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:229",
+   "date_expression": "cutoff",
+   "line": 209,
+   "note": "",
+   "pairs": 6,
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "cutoff",
+    "bench[-1][0]",
+    "bench[-1]",
+    "bench",
+    "_load()",
+    "helper_reads_a_file",
+    "_panel_a()"
+   ],
+   "resolved_expression": "bench[-1][0]",
+   "source": "scripts/regime5_labeler.py",
+   "symbols": [
+    "cutoff",
+    "subscript:bench[-1][0]"
+   ],
+   "tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "binding": "scripts/e39_panel_census.py:cost_tag",
+   "date_expression": "_sv",
+   "line": 28016,
+   "note": "",
+   "pairs": 5,
+   "residual_class": "not_a_date_the_matched_gap_carries_no_date_at_all",
+   "resolution_chain": [
+    "cost_tag",
+    "literal_tag"
+   ],
+   "resolved_expression": "''",
+   "source": "scripts/e39_panel_census.py",
+   "symbols": [
+    "_sv",
+    "node:IfExp"
+   ],
+   "tracks": "neither_the_gap_carries_no_date"
+  },
+  {
+   "binding": "scripts/etf_book_production.py:last",
+   "date_expression": "last.date()",
+   "line": 647,
+   "note": "",
+   "pairs": 4,
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "last",
+    "masked.index",
+    "element_of_loaded_series"
+   ],
+   "resolved_expression": "masked.index[-1]",
+   "source": "scripts/etf_book_production.py",
+   "symbols": [
+    "last",
+    "subscript:masked.index[-1]"
+   ],
+   "tracks": "data_the_name_states_the_data_day"
+  },
+  {
+   "binding": "scripts/e39_panel_census.py:cost_tag",
+   "date_expression": "cost_tag",
+   "line": 27343,
+   "note": "",
+   "pairs": 3,
+   "residual_class": "not_a_date_the_matched_gap_carries_no_date_at_all",
+   "resolution_chain": [
+    "cost_tag",
+    "literal_tag"
+   ],
+   "resolved_expression": "''",
+   "source": "scripts/e39_panel_census.py",
+   "symbols": [
+    "cost_tag",
+    "node:IfExp"
+   ],
+   "tracks": "neither_the_gap_carries_no_date"
+  },
+  {
+   "binding": "scripts/stagestyle_combo_p1_backtest.py:syms ; scripts/stagestyle_combo_p1_backtest.py:arrays ; scripts/stagestyle_combo_p1_backtest.py:meta ; scripts/stagestyle_combo_p1_backtest.py:syms ; scripts/stagestyle_combo_p1_backtest.py:arrays ; s",
+   "date_expression": "cutoff",
+   "line": 630,
+   "note": "",
+   "pairs": 3,
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "cutoff",
+    "idx[hi]",
+    "idx",
+    "pd.to_datetime",
+    "date_index_constructor",
+    "panel",
+    "load_local_panel()",
+    "pd.date_range"
+   ],
+   "resolved_expression": "idx[hi]",
+   "source": "scripts/stagestyle_combo_p1_backtest.py",
+   "symbols": [
+    "cutoff",
+    "subscript:idx[hi]"
+   ],
+   "tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "binding": "smoke_test.py:_cut41",
+   "date_expression": "str(_cut41)[:10]",
+   "line": 3370,
+   "note": "",
+   "pairs": 3,
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "str(_cut41)[:10]",
+    "_cut41",
+    "_f41.get('evidence_cutoff')",
+    "payload_field"
+   ],
+   "resolved_expression": "str(_cut41)[:10]",
+   "source": "smoke_test.py",
+   "symbols": [
+    "subscript:str(_cut41)[:10]"
+   ],
+   "tracks": "data_the_name_states_the_data_day"
+  },
+  {
+   "binding": "smoke_test.py:_cut41",
+   "date_expression": "str(_cut42)[:10]",
+   "line": 3442,
+   "note": "",
+   "pairs": 3,
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "str(_cut41)[:10]",
+    "_cut41",
+    "_f41.get('evidence_cutoff')",
+    "payload_field"
+   ],
+   "resolved_expression": "str(_cut41)[:10]",
+   "source": "smoke_test.py",
+   "symbols": [
+    "subscript:str(_cut42)[:10]"
+   ],
+   "tracks": "data_the_name_states_the_data_day"
+  },
+  {
+   "binding": "scripts/etf_book_cash_ladder.py:idx",
+   "date_expression": "idx[-1].date()",
+   "line": 575,
+   "note": "",
+   "pairs": 2,
+   "residual_class": "series_element_the_date_is_an_element_of_loaded_data",
+   "resolution_chain": [
+    "idx[-1]",
+    "idx",
+    "pd.DatetimeIndex",
+    "date_index_constructor",
+    "literal_number",
+    "idx[idx >= WINDOW_START]",
+    "subscript_base_unreadable",
+    "s.index"
+   ],
+   "resolved_expression": "idx[-1]",
+   "source": "scripts/etf_book_cash_ladder.py",
+   "symbols": [
+    "subscript:idx[-1]"
+   ],
+   "tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "binding": "",
+   "date_expression": "tk['priced_bar']",
+   "line": 792,
+   "note": "",
+   "pairs": 1,
+   "residual_class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+   "resolution_chain": [
+    "tk['priced_bar']",
+    "payload_field"
+   ],
+   "resolved_expression": "tk['priced_bar']",
+   "source": "scripts/etf_book_order.py",
+   "symbols": [
+    "subscript:tk['priced_bar']"
+   ],
+   "tracks": "data_the_name_states_the_data_day"
+  }
+ ],
+ "title": "For each date symbol E504 left unresolved: which binding fills it anywhere in the tree or the scanned history, and does the resulting name state the run clock or the data day?",
+ "tracks_vocab": [
+  "clock_the_name_states_the_run_day",
+  "data_the_name_states_the_data_day",
+  "mixed_the_binding_carries_more_than_one_origin",
+  "neither_the_gap_carries_no_date",
+  "unknown_no_binding_could_be_read"
+ ],
+ "verdict": "the_residual_bucket_splits_between_the_run_clock_and_the_data",
+ "verdict_vocab": [
+  "every_residual_that_names_a_day_reads_the_data_so_the_bucket_states_the_data_day",
+  "the_residual_bucket_splits_between_the_run_clock_and_the_data",
+  "the_residual_bucket_reads_the_run_clock_so_those_names_state_the_write_day",
+  "no_residual_pair_carries_a_date_symbol_at_all"
+ ]
+}

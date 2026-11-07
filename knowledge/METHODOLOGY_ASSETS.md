@@ -12756,3 +12756,22 @@ cause_verdict=`the_one_day_cases_split_between_structured_fields_and_free_text`�
 **边界**：人口是 E503 的 C_NODATE 关系表（同窗口重导，非另行解析链条）；只认**值**不认键；只认 ISO/紧凑两种形状的日期；`cheapest_hit` 是按类别的首个命中样本，不是唯一修复点；reliance 是整脚本字面扫描，**不证明该 leg 读的是这张面的日期**；`st_mtime` 在本树不能定龄（E453 地板随行）；「无写者」只指本链条里没有写模式 leg 点名它，手跑/池卡/另一台机的写者不可见。
 
 **验证**：`scripts/e506_nodate_witness.py`（`run` rc0 / `check` problems=[] / `verify` problems=[] 重建恒等 / **selftest 37/37**）；产物 `results/state_tilt/NODATEWITNESS-2026-11-07.json` + `nodatewitness_latest.json`（逐行 class / cheapest_hit / 前 5 条 hits / mtime 年龄 / writer_free / leg_reliance）；S6 腿 `nodate_witness` rc0 0.05s（receipt `results/_r1535bmb_s6_chain.json`）；smoke 腿 `# E506 (r1535 bm-b)` 原文单跑 1/1 绿、`--doctor` 1/1 红且面逐字节还原（sha 5d747486c259）；digest=`research/digests/DIGEST-20261107-r1535-e506-nodate-witness.md`。未做不宣称：全量 smoke 套件未跑、其余 S6 链腿未重跑、无云端无 GPU 无删除。
+
+
+## 卡 E507 — 残差符号先问「绑在哪」再问「是钟还是数据」（r1536 bm-b）
+
+**场景**：一个命名表达式里的日期符号在**本模块内找不到赋值**时，静态审计最容易把它归成「不可读」一格了事（E504 的 169 / 885 对就是这样）。但「模块内没赋过」不等于「仓库里没有出处」——它可能是同模块的辅助函数返回值、本模块别处的右值、导入模块的属性、已载入数据的取元素、selftest 里往临时目录写的字符串，或者只存在于 git 历史里的一次性脚本。
+
+**做法**：对这 169 对逐对解绑，每一对发布两个正交字段——`residual_class`（绑定来自哪：本模块右值 / 本地辅助函数 / 导入 / 数据取元素 / 冻结字面量 / selftest 夹具 / 仅历史 / 根本不是日期 / 调用方参数 / 仍不可读）与 `tracks`（clock=名字写的是跑批日 / data=名字写的是数据日 / mixed / neither / unknown）。发布「有绑定」「可归一到单一出处」「因符号复用而含糊」「夹具」「非日期」五个计数，判决只从行重算。
+
+**读数**：169 对全部找到绑定（不可读 0），其中 119 对单一出处（58 钟 / 61 数据）、42 对因同符号复用而含糊、29 对其实是 selftest 夹具、8 对那个 gap 根本不是日期（剩下的日期在表达式另一处）；61 个无站点成员里**没有任何一个**只被历史脚本命名（HEAD 里 110 个已删 py blob 一个都没提到它们）——所以「无站点」不是「生成器被删了」。
+
+**三条可复用教训**：
+
+1. **模块级赋值表会制造虚假的 mixed**：`for d in ...` 里的 `d` 会命中同模块所有别的 `d`，把一条干净的链读成「多处绑定」。推导式目标必须先 shadow，再谈判读；否则发布出去的「代码里的歧义」里有一半是仪器制造的。
+2. **「未知」里混着两种完全不同的东西**：一类是 `rows.append(...)` 这种「打开文件再累加返回」的本地辅助函数（判 data），另一类是 `pd.DatetimeIndex(...)` 这种日期索引构造器被导入分支吞掉。凡 `tracks=unknown` 成规模出现，先把它们分型再计数，别把它当结论。
+3. **夹具要单独成类**：selftest 里 `marks-<dig>.jsonl` 写的是临时目录，与发布面的同名族长得一模一样。按名字做保留/陈旧规则的仪器如果把它算进去，就是在数测试字符串。
+
+**边界**：静态、单仓、导入一跳（深度 ≤ 8）。历史臂是**带标签的快照**（110 个 blob，禁懒取），零命中说的是本 clone 不是远端；闸除历史臂外全部可从行重算。`mixed` 永不折进 clock 或 data。
+
+**正向证据**：`scripts/e507_unresolved_origin.py`（`run` rc0 / `check` problems=[] / `verify` problems=[] 重建恒等 / **selftest 18/18**），产物 `results/state_tilt/UNRESOLVEDORIGIN-2026-11-07.json` + `unresolvedorigin_latest.json`；S6 腿 `unresolved_origin` rc0 0.06s；smoke 腿 `# E507 (r1536 bm-b)` 原文单跑 1/1 绿、`--doctor` 1/1 红后逐字节还原。

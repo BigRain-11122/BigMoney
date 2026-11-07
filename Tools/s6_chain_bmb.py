@@ -1892,6 +1892,13 @@ LEGS = [
     # writer-free split and the verdict from the published rows.  This leg is excluded from its
     # own population (E180/E207: the scanner must not measure itself).
     ("nodate_witness", ["python", "scripts/e506_nodate_witness.py", "check"]),
+
+    # E507 reads the residual date symbols E504 could not resolve inside one module: a local helper
+    # returning the clock, a right-hand side in the same module, an imported attribute, an element
+    # of loaded data, a selftest fixture writing a temp path, or a script only history holds.
+    # `check` re-derives the class/track tallies, the attributable/ambiguous split, the no-site
+    # table and the verdict from the published rows -- the history arm is a labelled snapshot.
+    ("unresolved_origin", ["python", "scripts/e507_unresolved_origin.py", "check"]),
 ]
 
 

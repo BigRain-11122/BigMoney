@@ -28949,9 +28949,22 @@
    "lane": "cpu-only",
    "target": "scripts/e504_name_compose.py",
    "deliverable": "results/state_tilt/unresolvedorigin_latest.json",
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-11-07T19:43+08:00",
-   "entered_by": "bm-b r1533 (supply floor refill after E504)"
+   "entered_by": "bm-b r1533 (supply floor refill after E504)",
+   "result_ref": "results/state_tilt/unresolvedorigin_latest.json",
+   "closed_by": "Tools/pool_deliverable_audit.py apply",
+   "closed_at": "2026-11-07T21:40:08+0800",
+   "close_note": "deliverable landed on disk 1.94h after entry; closed by the reconciliation audit",
+   "owner": "bm-b",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-07T21:05+08:00",
+   "done_at": "2026-11-07T21:38+08:00",
+   "done_by": "bm-b",
+   "done_round": 1536,
+   "script": "scripts/e507_unresolved_origin.py",
+   "selftest": "18/18",
+   "result_note": "r1536 bm-b: all 169 residual (site, member) pairs now resolve to a binding -- 0 unreadable, down from 169. Of them 119 name exactly one origin (58 clock / 61 data), 42 are ambiguous because the symbol is reused in the same module, 8 are not dates at all (the matched gap is a cost or mode suffix and the date slot is filled elsewhere in the expression), and 29 live inside a selftest writing a temporary path. 0 pairs and 0 of the 61 no-site members bind only in history: the 110 deleted python blobs HEAD still holds name none of them, so the no-site bucket is not a deleted-generator artifact. The residual is 14 sites / 97 members / 19.1% of E504's 885 pairs. Self-caught: a module-wide assignment table made `_cal` in a 28k-line module resolve through unrelated loop variables (comprehension targets are now shadowed); a helper that opens a file and returns a locally accumulated value was reading as unknown (file-reading helpers are data-derived); a date-index constructor (pd.DatetimeIndex) was falling through the import branch into unknown."
   },
   {
    "id": "E508-WHICH-CALLER-SUPPLIES-THE-POPULATION-TO-THE-35-ARGUMENT-ONLY-SURFACES",
@@ -28980,6 +28993,20 @@
    "source": "E506 (r1535 bm-b): 17 of the 27 hidden-date faces carry their date under a top-level field name outside DATE_FIELDS, and the cheapest-hit sample already contains a constant (inception 2024-01-01) beside run stamps (report_date, asof)",
    "entered_at": "2026-11-07T20:48+08:00",
    "entered_by": "bm-b r1535 (supply floor refill after E506)"
+  },
+  {
+   "id": "E510-WHICH-OF-THE-42-AMBIGUOUS-RESIDUALS-BECOME-SINGLE-ORIGIN-WHEN-THE-BINDING-TABLE-IS-SCOPED",
+   "title": "E507 published 42 pairs whose date symbol binds more than one way; in at least one case (`_cal` in a 28k-line census module) the ambiguity is the instrument's: the E504/E507 binding table is module-wide, so a comprehension target and an unrelated function-local carry the same name. Re-read those 42 pairs with a scope-aware table (nearest enclosing function first, then module, comprehension targets shadowed) and publish, per pair, the binding it gets under each table and whether the ambiguous bucket shrinks. The point is to separate the ambiguity that lives in the code from the ambiguity the resolver manufactures, so the remaining reuses can be named as real symbol collisions.",
+   "deliverable": "results/state_tilt/SCOPEDBINDING-<cutoff>.json",
+   "target": "results/state_tilt/scopedbinding_latest.json",
+   "evidence_cutoff": "2026-11-07",
+   "lane": "cpu-only",
+   "lane_note": "static: re-read the 42 pairs with a scoped table, no network, no rewrites",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E507 (r1536 bm-b): 42 of 169 residual pairs stay ambiguous under a module-wide assignment table, and the largest one shares its date symbol with a comprehension target and two unrelated function-local chains",
+   "entered_at": "2026-11-07T21:38+08:00",
+   "entered_by": "bm-b r1536 (supply floor refill after E507)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28994,6 +29021,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T20:48+08:00",
+ "updated_at": "2026-11-07T21:45+08:00",
  "version": 1
 }
