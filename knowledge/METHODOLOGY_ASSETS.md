@@ -12519,3 +12519,28 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 4. **unresolved 必须自成一类**——3 个 `mod.load(path)` 型的站点若被算成读，会凭空多出 3 个读者并可能把 never 面抬成 leg-only。
 
 **验证**：`scripts/e496_twin_mode.py`（run / check / verify / **selftest 15/15**），产物 `results/state_tilt/TWINMODE-2026-11-07.json` + `twinmode_latest.json`（36 行，逐站点带 mode/role/is_producer，含 `cross_check_vs_e483` 机读对账块与 deltas）。
+## E497 -- E496 说 `results/market_clock` 的孪生「没有任何站点在读」，于是它的退役是免费的；把整个 CALL 家族（孪生 / 三台机器车道 / 16 个日期成员）按三条臂（字面量 / 交给 helper / 车道 face key）量完，孪生其实被三个 S6 链生产者在读，而 16 个日期成员无人读（r1523 bm-b）
+
+**问题**：E496 用「只数读口径的开点」把 36 个孪生重判了一遍，得到一个很干净的结论：`results/market_clock/CALL_latest.json` 的 7 个开点全是写，于是它落进 `never_opened_by_any_site_in_the_corpus`，「退役不破坏任何站点」。但「孪生没人读」和「整个家族没人读」是两件事，卡片问的是后者：同一个目录里还有 16 个 `CALL-<asof>.md` 日期成员和 3 个 `call_latest.<machine>.json` 车道件。如果读它们的是**日期成员**，那退役孪生仍然免费；如果读的其实是孪生，那 E496 的「从没被打开」就是**仪器的视野**而不是面的状态。
+
+**方法**：人口从盘上枚举（不继承父面的成员计数）：`results/market_clock/call_*` 与 `CALL-<date>.md` 分成四类——孪生 1 / 每机车道 3 / 日期成员 16 / 非成员 1（`l3_activation_table.json`，按文件名不属于本家族，如实排除）。每个成员过三条臂：
+- **臂 A 字面量**——`open()`/`json.load()` 自带的字面量拼成员（`e479.match_kind` 的 exact/tail/basename 三档，大小写不敏感）。这是 E479/E483/E496 量的那一臂，本研逐成员复现。
+- **臂 B 交给 helper**——调用把**折得出成员**的表达式（名 → 模块常量 → 路径分段，`e470._assignments` 一跳）交给**本模块内的函数**，而该函数用 `open(<那个形参>)` 打开它。`_read_json(CLOCK_JSON)` 就是这样读文件：读者在源里从不在 opener 行上写文件名，字面量普查因此看不见它。只统计「opener 的实参就是该形参」的调用：`json.load(fh)` 收的是句柄不是路径，第一次自测就是因为把它也算成路径 opener 才红的。
+- **臂 C 车道 face key**——把 `market_clock/call_latest` 这个 key 交给 `config/lane_io` 的 `write_lane` / `mirror_shared` / `mirror_shared_if_changed`，它们用 `lane_path(face, machine)` 在运行期拼出 `<face>.<machine>.json`。三条 helper 的效果按源码逐条冻结成表（`lane_io.py:99/140/199`：`write_lane` 只写车道；`mirror_shared` 读共享面再写车道；`mirror_shared_if_changed` 读共享面、读车道做比较、必要时写车道），不写「大概都在写」这种一句带过。
+- **不可归属的写**：日期成员由 `f"CALL-{asof}.md"` 拼出来，任何一条字面量都对不上某个具体成员，于是发布为 `composed_write_spellings`（一条，`market_clock_call.py:403`），**不**分摊到 16 个成员上假装知道是哪一份。
+- 性能：E442 的二次扫描坑重演了一次——逐站点调 `e483.mode_of_site()` 会为每个节点 `ast.walk` 整棵树，全树 12,338 个源跑不完（五分钟零输出被杀）。正法＝手里已有 call 节点，直接走同一条三分支阶梯（`_mode_of_call`），并在 selftest 里用夹具把两条实现钉成等价（读 / 写 / 文本读三行各一腿）。另外加**文本预筛**（源里出现 `call_latest` / `market_clock` / `call-` / `lane_io` 之一才解析），被筛掉的源数与筛子令牌逐条发布。
+
+**读数**（2026-11-07，20 成员 / 14 站点 = 3 读 + 11 写 + 0 间接）：
+- **孪生 `call_latest.json`：0 个字面量读者 / 3 个 helper 读者 / 7 个字面量写者**。三个读者全在 S6 链上——`scripts/ceo_live_usage.py:400`（`_read_json(CLOCK_JSON)`，且该件缺了会 `RuntimeError`）、`scripts/daily_report.py:91`（`_read_json(os.path.join(ROOT,"results","market_clock","call_latest.json"))`）、`scripts/system_v1_paper.py:681`。**退役这个孪生会破坏 3 个站点**，`retirement_breaks_any_site=true`。
+- **16 个日期成员：0 个被任何站点读**（字面量 0 / helper 0），合计 30,743 B；写侧是 1 条组合拼名（`market_clock_call.py:403`）＋ 1 个字面量写点（`results/_r392_resolve6.py:97` 写 `CALL-2026-09-28.md`）。也就是说「家族里没人读的是日期成员，不是孪生」——与 E496 的读法正好相反。
+- **3 个每机车道：字面量生产者 0 / face-key 生产者 3（各 1 个 `write_lane` 调用）/ 读者 0**。`mirror_shared*` 从未以这个 key 被调用，所以这份车道的 `lane_machine` 镜像写了就没人并回、没人读——一个只写不读的侧车面（与 E492 的「写了一个自己的 payload」不同族：这里连读者都不存在）。
+- **对账父面**：E496 的 `read_sites=0` 与本研臂 A 的 `direct_read_sites=0` **逐位相等**（`direct_arm_agrees_with_the_parent=true`），分歧全部落在臂 B 上（0 → 3）。所以这不是「父面算错了」，而是**父面的口径只覆盖了 opener 行上的字面量**。
+
+**三条可复用**：
+1. **「没人读」必须先说清是哪一臂的没人读**——`open(<字面量>)` 只覆盖读者自己写文件名的那一种写法；把路径塞进模块常量再交给该模块内的 `_read_json/load_json` helper，是读者最省事的写法，也是字面量普查**结构性**看不见的那一种（本窗 3/3 个读者全是这种）。任何「这个面是死的」判决，都要先跑一次「把路径交给 helper」的臂，否则死面结论可能只是仪器没往那边看。
+2. **祖先的成员数不是人口的完备性**——`results/market_clock` 里有 16 个日期成员和 3 个车道件，父面只量了孪生那一个文件（`members` 字段只是计数）。「孪生可退役」与「家族可退役」是两个判决，前者为假不代表后者为假：本例恰好相反。
+3. **运行期拼名的写不能摊到成员上**——`f"CALL-{asof}.md"` 能证明「这个家族有写者」，不能证明「这 16 份分别是谁写的」。发布成一列 `composed_write_spellings` 加写点位置，比把 1 个写点复制成 16 份诚实；同时这也是「组合拼名的面在静态普查里恒为无生产者」这类假阴性的根。
+
+**验证**：`scripts/e497_twindead.py`（`run` rc0 / `check` problems=[] / `verify` problems=[] 重建恒等 / **selftest 26/26**：helper 臂读出读模式、折出常量、跳过句柄 load、本地模式阶梯与 `e483.mode_of_site` 三行等价、机器车道不等于孪生 basename、组合拼名对不上任何日期成员、五个 reading 阶梯、三个家族判决、六种篡改面全红、模式词表与 E483 同源）；产物 `results/state_tilt/TWINDEAD-2026-11-07.json` + `twindead_latest.json`（20 行，逐成员带 tier/mode/role/helper 与 `cross_check_vs_the_parent` 机读块）；S6 腿 `twin_dead` rc0 0.07s（receipt `results/_r1523bmb_s6_chain.json`）；smoke 腿 `E497 ...` 单跑 1/1 绿，doctored（把孪生读者清零）1/1 红，面字节归位（sha `8c00e4754f7da2c9` 进出一致）。
+
+**适用范围**：只回答 `results/market_clock` 这一个家族这一时点的成员；臂 B 只认**本模块内**定义的 helper，跨模块 helper（`from x import read_json`）不在人口内；臂 C 的效果表是按 `config/lane_io.py` 三个函数的源码冻结的，`lane_io` 改了必须同步改表。文本预筛的前提是成员名（或其分段）以字面量出现在源里——把路径从别的模块 import 进来的读者看不见，这一条作为边界发布。

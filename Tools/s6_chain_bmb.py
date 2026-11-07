@@ -1813,6 +1813,14 @@ LEGS = [
     # checked against the binding the line actually opens.  `check` re-derives every tally,
     # every per-twin class and the verdict from the rows.
     ("leg_debt", ["python", "scripts/e483_leg_debt.py", "check"]),
+
+    # E497 measures the whole CALL family instead of the twin alone: a literal at an opener, a
+    # path handed to a helper that opens its parameter, and the lane face key that composes a
+    # per-machine path at run time.  The arm that matters is B -- three S6 chain producers read
+    # the twin through ``_read_json(<path constant>)``, which no literal census can see, so the
+    # parent's never-opened class is a reader-instrument limit rather than a dead face.  `check`
+    # re-derives every tally, every member reading and the family verdict from the rows.
+    ("twin_dead", ["python", "scripts/e497_twindead.py", "check"]),
 ]
 
 

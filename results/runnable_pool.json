@@ -28742,8 +28742,28 @@
    "evidence_cutoff": "2026-11-07",
    "entered_at": "2026-11-07T13:11:57+08:00",
    "entered_by": "bm-b r1522 (supply floor refill after E496)",
-   "status": "ready"
+   "status": "done",
+   "outcome": "ok",
+   "result_ref": "results/state_tilt/TWINDEAD-2026-11-07.json",
+   "closed_at": "2026-11-07T13:40+08:00",
+   "closed_by": "bm-b r1523"
+  },
+{
+   "id": "E498-WHICH-HELPERS-HIDE-READERS-ACROSS-THE-OTHER-FAMILIES",
+   "title": "E497 found three S6 chain producers reading results/market_clock/call_latest.json through a module helper (_read_json(<path constant>)) that no literal opener census can see. If that is one instance of a tree-wide pattern, the same blindness applies to every face an earlier residue study called unread. For every python module that defines a file-opening helper taking a path parameter, measure: how many faces are handed to it as a path-shaped argument, which of those faces are classed as unread by the existing census faces (E472/E479/E496), and how many of the 'unread' classes change once helper hand-offs count as reads -- published per face with the site that moved it, so the size of the blind spot is known instead of inferred from one family.",
+   "source": "E497 (r1523): the only twin E496 called never-opened has 3 helper readers, and the arm that found them is generic (any in-module function that opens its parameter)",
+   "lane": "cpu-only",
+   "lane_note": "static: AST scan over the same corpus as E479/E496/E497, no network, no engine",
+   "target": "scripts/e497_twindead.py",
+   "deliverable": "results/state_tilt/HELPERREAD-<cutoff>.json",
+   "evidence_cutoff": "2026-11-07",
+   "priority": "normal",
+   "question": "how large is the helper-handoff blind spot across the tree: which faces that a literal census calls unread are actually read through a module helper, and which helpers carry the most of them",
+   "status": "ready",
+   "entered_at": "2026-11-07T13:40+08:00",
+   "entered_by": "bm-b r1523 (supply floor refill after E497)"
   }
+
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {

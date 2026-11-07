@@ -19895,5 +19895,64 @@ except Exception as _e496x:
     _d496 = "leg could not run"
 check(_name496, not _bad496, "; ".join(_bad496)[:240] or _d496)
 
+# E497 -- is the one write-only twin's retirement free?  E496 called the results/market_clock
+# twin never-opened.  This leg holds the whole family: the twin is read by three S6 chain
+# producers that hand its path constant to a helper (so no literal census sees them), the 16
+# dated CALL-*.md members are read by nothing and are written through one composed f-string, and
+# the three per-machine lanes are written by the lane helper and read by no site at all.
+_name497 = ("E497 re-deriving the CALL family across literal, helper-handoff and lane-key arms "
+            "moves the twin from never-opened to read through a helper (3 readers) while all 16 "
+            "dated members stay unread (r1523 bm-b)")
+_bad497 = []
+try:
+    _m497 = __import__("importlib").import_module("e497_twindead")
+    _f497 = json.load(open(os.path.join("results", "state_tilt", "twindead_latest.json"),
+                           encoding="utf-8"))
+    _s497 = _f497.get("summary") or {}
+    _r497 = _f497.get("rows") or []
+    _bad497.extend(_m497.tally_problems(_f497))
+    if not _r497:
+        _bad497.append("the family population is empty")
+    if _f497.get("verdict") not in _m497.VERDICT_VOCAB:
+        _bad497.append("the verdict is not in the vocabulary")
+    if _s497.get("twins") != 1:
+        _bad497.append("the family carries %r twins, not 1" % _s497.get("twins"))
+    if (_s497.get("twin_direct_read_sites") or 0):
+        _bad497.append("a literal reader of the twin appeared where E496 measured none")
+    if not (_s497.get("twin_read_sites") or 0):
+        _bad497.append("the twin is reported with no reader at all")
+    if not _s497.get("twin_retirement_breaks_any_site"):
+        _bad497.append("a twin with readers is reported as free to retire")
+    if _s497.get("dated_members") != 16:
+        _bad497.append("the dated population is %r, not the 16 on disk"
+                       % _s497.get("dated_members"))
+    if _s497.get("dated_members_read_by_a_site"):
+        _bad497.append("%r dated members are reported as read"
+                       % _s497.get("dated_members_read_by_a_site"))
+    if _s497.get("per_machine_twins_with_a_literal_producer"):
+        _bad497.append("a per-machine lane has a literal producer, which it cannot have")
+    _cross497 = _f497.get("cross_check_vs_the_parent") or {}
+    if _cross497.get("available") is not True:
+        _bad497.append("the parent face E496 is not readable")
+    if _cross497.get("direct_arm_agrees_with_the_parent") is not True:
+        _bad497.append("the direct arm disagrees with E496: parent %r this %r"
+                       % (_cross497.get("parent_read_sites"),
+                          _cross497.get("this_study_direct_read_sites")))
+    _w497 = json.loads(json.dumps(_f497))
+    _w497["summary"]["twin_read_sites"] = 0
+    if not _m497.tally_problems(_w497):
+        _bad497.append("a twin read count that does not re-derive survived the guard")
+    _d497 = ("twin reads %r (helper %r, direct %r) | dated read %r of %r | machine lanes with a "
+             "face-key producer %r | verdict %r"
+             % (_s497.get("twin_read_sites"), _s497.get("twin_helper_read_sites"),
+                _s497.get("twin_direct_read_sites"),
+                _s497.get("dated_members_read_by_a_site"), _s497.get("dated_members"),
+                _s497.get("per_machine_twins_with_a_face_key_producer"),
+                _f497.get("verdict")))
+except Exception as _e497x:
+    _bad497.append(repr(_e497x)[:160])
+    _d497 = "leg could not run"
+check(_name497, not _bad497, "; ".join(_bad497)[:240] or _d497)
+
 if __name__ == "__main__":
     sys.exit(main())
