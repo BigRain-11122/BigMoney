@@ -1,0 +1,228 @@
+{
+ "face": "candidate_year_gate",
+ "asof": "2026-11-08T07:04:20+0800",
+ "rule": {
+  "positive_years_share": 0.7,
+  "worst_year_floor_pp": -15.0,
+  "top2_share_max": 0.7,
+  "capacity_floor_cny": 20000000.0,
+  "r1411_phase_spread_max_pp": 4.74
+ },
+ "sources": {
+  "smallcap_book": {
+   "path": "results/smallcap_book/astock_smallcap_book.json",
+   "status": "read",
+   "schema": "by_year_percent",
+   "sha16": "728df80d4f6a9fac",
+   "evidence_cutoff": "2026-11-06",
+   "arms_priced": [
+    "n20"
+   ],
+   "published_verdict": "ADOPT_AS_CANDIDATE",
+   "published_candidate_width": 20
+  },
+  "breadth_book": {
+   "path": "results/breadth_book/astock_breadth_book.json",
+   "status": "read",
+   "schema": "per_year_fraction",
+   "sha16": "100e4afb70462cc0",
+   "evidence_cutoff": "2026-06-15",
+   "arms_priced": [
+    "ALL"
+   ],
+   "published_verdict": "REFUSE_AS_CANDIDATE",
+   "published_candidate_width": null
+  }
+ },
+ "candidates": [
+  {
+   "verdict": "CONDITIONAL",
+   "capacity_checked": true,
+   "cagr_pct": 25.3788,
+   "capacity_cny_1day_5pct": 48343880.0,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 5,
+    "median": 35.722,
+    "worst": -18.709,
+    "best": 75.939,
+    "annual_sum": 179.634,
+    "top2_share": 0.6951,
+    "worst_full_only": -7.608,
+    "top2_share_full_only": 0.6295
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": false,
+    "Y4_top2_share": true,
+    "C1_capacity": true
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 41.862,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 35.722,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": 3.501,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": -7.608,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 48.927,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 75.939,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": -18.709,
+     "cohorts": 2,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2026",
+     "net_pct": -18.709,
+     "cohorts": 2,
+     "approx_months_of_evidence": 5.7
+    }
+   ],
+   "gate_conflict": {
+    "r1411_phase_spread_max_pp": 4.74,
+    "this_candidate_phase_spread_pp": 17.2,
+    "passes_this_year_gate": true,
+    "passes_r1411_phase_rule": false,
+    "note": "two frozen rules; both verdicts are reported, neither is retired",
+    "rules_disagree": true
+   },
+   "candidate": "smallcap_book",
+   "arm": "n20",
+   "published_verdict": "ADOPT_AS_CANDIDATE",
+   "published_candidate_width": 20
+  },
+  {
+   "verdict": "CONDITIONAL",
+   "capacity_checked": false,
+   "cagr_pct": 10.1104,
+   "capacity_cny_1day_5pct": null,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 5,
+    "median": 13.1933,
+    "worst": -12.4961,
+    "best": 31.2443,
+    "annual_sum": 67.2873,
+    "top2_share": 0.7934,
+    "worst_full_only": -12.4961,
+    "top2_share_full_only": 0.6957
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 15.317468787482479,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 13.19332971461189,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": 7.339577742349501,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": -12.496061740813602,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 22.140205481740118,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 31.244340844927333,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": -9.451591685173423,
+     "cohorts": 2,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2026",
+     "net_pct": -9.451591685173423,
+     "cohorts": 2,
+     "approx_months_of_evidence": 5.7
+    }
+   ],
+   "gate_conflict": null,
+   "candidate": "breadth_book",
+   "arm": "ALL",
+   "published_verdict": "REFUSE_AS_CANDIDATE",
+   "published_candidate_width": null
+  }
+ ],
+ "pool_ready": [],
+ "honest": [
+  "annual returns are per-cohort sums inside a calendar year, not a compounded series",
+  "a partial year is a real loss and stays in Y3/Y4; the full-year-only twins are printed beside it",
+  "capacity is one-day entry at 5% of trailing turnover (r1414), not an exit number",
+  "C1 null means the receipt publishes no capacity face: printed as unchecked, never as a pass",
+  "no new pricing happens here: this file only re-reads published receipts"
+ ],
+ "published_vs_year_gate": [
+  {
+   "candidate": "smallcap_book",
+   "arm": "n20",
+   "published": "ADOPT_AS_CANDIDATE",
+   "year_gate": "CONDITIONAL",
+   "failed_checks": [
+    "Y3_worst_year"
+   ]
+  }
+ ],
+ "elapsed_sec": 0.0
+}
