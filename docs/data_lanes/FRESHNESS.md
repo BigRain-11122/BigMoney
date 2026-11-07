@@ -7,7 +7,7 @@ Verdict: **host_down** -- 5/10 lanes in sync, 5/10 auditable from this machine, 
 
 ## Whose disk these numbers are on
 
-以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（191.98h 未报到）；留在本机盘上的 5 条里 5 条可核实。
+以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（192.36h 未报到）；留在本机盘上的 5 条里 5 条可核实。
 
 - `bm-b`: heat, marks, moneyflow, zt_pool (host down)
 | lane | host | tail | missing (official days) | verdict | authority |
@@ -32,7 +32,7 @@ Verdict: **host_down** -- 5/10 lanes in sync, 5/10 auditable from this machine, 
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (191.98h ago) -- holding back moneyflow, marks, zt_pool, heat
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (192.36h ago) -- holding back moneyflow, marks, zt_pool, heat
 
 ## Lanes nobody can pick up while the host is away
 
@@ -49,3 +49,16 @@ A status envelope is committed by whichever machine ran the leg, and every machi
 - `marks`: the envelope does not name the machine whose data it describes
 - `zt_pool`: read from this machine's local copy; the lane is hosted by bm-b
 - `heat`: the lane publishes no tail and this reading is this machine's local copy; it is hosted by bm-b
+
+## Copies that hold less than their envelope claims
+
+The envelope is what some machine says it collected; the panel is what is on this disk. Where the copy is behind its own envelope the row cannot be read as current here, even though the lane itself may be alive elsewhere.
+
+- `moneyflow`: envelope says 2026-10-19, this copy holds 2026-10-13 (4 official days behind)
+
+## Tails read from a sample
+
+The per-symbol panels hold thousands of files, so their tail is read through an evenly spaced sample rather than a full sweep. A sample can miss a single laggard symbol; it cannot miss a panel that stopped weeks ago. Each row below says how many symbols were read out of how many.
+
+- `moneyflow`: 40 of 5222 symbols read, tail 2026-10-13
+- `astock_daily`: 40 of 5222 symbols read, tail 2026-11-06

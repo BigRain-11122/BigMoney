@@ -85,10 +85,12 @@ LANES = [
      "panel_csv": {"dir": "data/repo_daily", "pattern": "*.csv"}},
     {"lane": "moneyflow", "dept": "data", "owner": "bm-a",
      "writer": "update_moneyflow", "kind": "status",
-     "path": "results/moneyflow_update_status.json", "key": "panel.cutoff"},
+     "path": "results/moneyflow_update_status.json", "key": "panel.cutoff",
+     "panel_csv": {"dir": "data/moneyflow/per", "pattern": "*.csv"}},
     {"lane": "astock_daily", "dept": "data", "owner": "bm-b",
      "writer": "update_astock_daily", "kind": "status",
-     "path": "results/astock_daily_update_status.json", "key": "panel.cutoff"},
+     "path": "results/astock_daily_update_status.json", "key": "panel.cutoff",
+     "panel_csv": {"dir": "data/astock_daily/per", "pattern": "*.csv"}},
     {"lane": "options", "dept": "data", "owner": "bm-a", "writer": "update_options",
      "kind": "status", "path": "results/options_update_status.json",
      "key": "panel.max_collected",
@@ -185,12 +187,30 @@ def panel_tail_csv(dirpath, pattern="*.csv", max_files=40):
     restore an OLDER copy of it while the panel on disk is newer. The panel is
     the measurement (this module's own rule); the envelope is a report about it.
     Cheap by design: 9-11 small CSVs, last line only.
+
+    r1259: the same cross-check now runs on the per-symbol panels (moneyflow and
+    astock_daily hold 5,222 files each). Reading all of them every few minutes is
+    not a measurement, it is a disk sweep -- so above max_files the panel is read
+    through an evenly spaced deterministic sample and `sampled` is published
+    beside the number. A sample can miss one laggard symbol; it cannot miss a
+    panel that stopped a month ago, which is the case this face exists to catch.
     """
     if not os.path.isdir(dirpath):
         return None, {"files": 0}
     names = sorted(n for n in os.listdir(dirpath) if fnmatch.fnmatch(n, pattern))
+    total = len(names)
+    sampled = total > max_files
+    if sampled:
+        step = (total - 1) / float(max_files - 1) if max_files > 1 else 0.0
+        idx, seen = [], set()
+        for i in range(max_files):
+            j = int(round(i * step))
+            if j not in seen:
+                seen.add(j)
+                idx.append(j)
+        names = [names[j] for j in idx]
     tails = {}
-    for name in names[:max_files]:
+    for name in names:
         p = os.path.join(dirpath, name)
         try:
             with open(p, "rb") as f:
@@ -206,8 +226,12 @@ def panel_tail_csv(dirpath, pattern="*.csv", max_files=40):
                 tails[name] = day
                 break
     if not tails:
-        return None, {"files": len(names)}
-    return max(tails.values()), {"files": len(names), "per_file": len(tails)}
+        return None, {"files": total, "sampled": sampled,
+                      "per_file": 0}
+    info = {"files": total, "per_file": len(tails)}
+    if sampled:
+        info["sampled"] = True
+    return max(tails.values()), info
 
 
 def tail_zt_days(path):
@@ -386,6 +410,17 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
                             extra["envelope_lag_beyond_calendar"] = beyond
                         if ptail > tail:
                             tail = ptail   # the panel is the measurement
+                        elif ptail < tail:
+                            # r1259: the opposite gap has to be said out loud
+                            # too. The envelope is what some machine claims; the
+                            # panel is what is actually on this disk. A lane
+                            # whose envelope names a day the local copy has not
+                            # reached is not current here, whatever the envelope
+                            # says (live: moneyflow envelope 2026-10-19 against a
+                            # copy holding 2026-10-13).
+                            extra["panel_behind_envelope"] = tail
+                            back = [d for d in days if ptail < d <= tail]
+                            extra["panel_behind_days"] = len(back)
             else:
                 raise ValueError(f"unknown lane kind {spec['kind']!r}")
         except Exception as ex:  # noqa: BLE001
@@ -755,6 +790,34 @@ def render_md(report):
                          + (f" ({lag} official days behind)" if lag is not None
                             else " (past the calendar, day count N/A)")
                          + "\n")
+    sampled = [r for r in report["lanes"]
+               if (r.get("panel_read") or {}).get("sampled")]
+    behind = [r for r in report["lanes"] if r.get("panel_behind_envelope")]
+    if behind:
+        tailnote += ("\n## Copies that hold less than their envelope claims\n\n"
+                     "The envelope is what some machine says it collected; the "
+                     "panel is what is on this disk. Where the copy is behind "
+                     "its own envelope the row cannot be read as current here, "
+                     "even though the lane itself may be alive elsewhere.\n\n")
+        for r in behind:
+            n = r.get("panel_behind_days")
+            tailnote += (f"- `{r['lane']}`: envelope says "
+                         f"{r['panel_behind_envelope']}, this copy holds "
+                         f"{r.get('panel_tail')}"
+                         + (f" ({n} official days behind)" if n else "")
+                         + "\n")
+    if sampled:
+        tailnote += ("\n## Tails read from a sample\n\n"
+                     "The per-symbol panels hold thousands of files, so their "
+                     "tail is read through an evenly spaced sample rather than a "
+                     "full sweep. A sample can miss a single laggard symbol; it "
+                     "cannot miss a panel that stopped weeks ago. Each row below "
+                     "says how many symbols were read out of how many.\n\n")
+        for r in sampled:
+            pr = r["panel_read"]
+            tailnote += (f"- `{r['lane']}`: {pr.get('per_file')} of "
+                         f"{pr.get('files')} symbols read, tail "
+                         f"{r.get('panel_tail') or r.get('tail')}\n")
     return head + disks + cols + body + tailnote
 
 
@@ -1127,10 +1190,44 @@ def selftest():
                    lanes=spec)["lanes"][0]
         assert r2["tail"] == "2026-11-06", r2         # envelope still governs
         assert r2["envelope_stale"] is False, r2
+        # r1259: and the gap is named rather than left to the reader
+        assert r2["panel_behind_envelope"] == "2026-11-06", r2
+        assert r2["panel_behind_days"] >= 1, r2
         assert r2["verdict"] in ("in_sync", "today_pending"), r2
     print("[PASS] L17/L18 an older envelope cannot stall a lane that holds "
           "newer bars, and a lagging panel cannot heal a lagging envelope",
           flush=True)
+
+    # L22 the per-symbol panels (5,222 files each) are read through a
+    # deterministic sample, and that sample has to reach the END of the
+    # alphabet -- a first-N read would call a panel current whether the tail
+    # symbols had stopped or not, which is the failure this cross-check is for.
+    with tempfile.TemporaryDirectory() as td:
+        pdir = os.path.join(td, "per")
+        os.makedirs(pdir)
+        for i in range(200):
+            day = "2026-11-06" if i == 199 else "2026-10-20"
+            with open(os.path.join(pdir, "%06d.csv" % i), "w") as fh:
+                fh.write("date,close\n%s,1.0\n" % day)
+        t22, i22 = panel_tail_csv(pdir)
+        assert t22 == "2026-11-06", (t22, i22)   # the last symbol, not the first 40
+        assert i22.get("sampled") is True and i22["files"] == 200, i22
+        assert i22["per_file"] == 40, i22        # one sampled file per slot
+        # a real panel with 9 symbols is NOT sampled: the count is exact
+        for i in range(200, 209):
+            with open(os.path.join(pdir, "%06d.csv" % i), "w") as fh:
+                fh.write("date,close\n2026-11-06,1.0\n")
+        t9, i9 = panel_tail_csv(pdir, max_files=40)
+        assert i9["files"] == 209 and i9["per_file"] == 40, i9
+        with tempfile.TemporaryDirectory() as td2:
+            os.makedirs(os.path.join(td2, "per"))
+            for i in range(5):
+                with open(os.path.join(td2, "per", "%06d.csv" % i), "w") as fh:
+                    fh.write("date,close\n2026-11-03,1.0\n")
+            _, i5 = panel_tail_csv(os.path.join(td2, "per"))
+            assert i5 == {"files": 5, "per_file": 5}, i5   # no `sampled` when exact
+    print("[PASS] L22 a 5,222-file panel is read by an evenly spaced sample "
+          "that reaches the last symbol, and the sample is disclosed", flush=True)
 
     # L21 a lane whose host is silent splits in two: the ones a healthy machine
     # may declare a stand-in for, and the ones nobody is allowed to move at all.
