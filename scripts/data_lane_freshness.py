@@ -742,7 +742,50 @@ def disk_face(rows, hosts=None, here=None):
                        for r in live}}
 
 
-def render_md(report):
+def read_certification(path=None):
+    """The last full-scan certification, or None if it has never been run.
+
+    The board's per-symbol rows are read through a sample, so the holder count
+    of the newest bar can only come from the full scan. Returning None (rather
+    than an empty truth) keeps a missing certification readable as "unknown"
+    instead of being folded into "every symbol holds it".
+    """
+    try:
+        with open(path or CERT_PATH, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except (OSError, ValueError):
+        return None
+    rows = {r.get("lane"): r for r in (d.get("lanes") or []) if r.get("lane")}
+    return {"as_of": d.get("as_of"), "rows": rows, "verdict": d.get("verdict")}
+
+
+def _holder_sentence(row, cert_row, cert_as_of):
+    """One row's holder facts, or the honest reason they are not printed."""
+    if not cert_row:
+        return " (holder share unknown -- run `certify`)"
+    share = cert_row.get("tail_holder_share")
+    holders = cert_row.get("tail_holders")
+    files = cert_row.get("files")
+    full_tail = cert_row.get("full_tail")
+    board_tail = row.get("panel_tail") or row.get("tail")
+    if full_tail and board_tail and str(full_tail) < str(board_tail):
+        # The scan that counted holders read an older tail than this board row:
+        # its counts describe a different panel state and must not be quoted.
+        return (f" (certification is older than this scan: full scan read "
+                f"{full_tail}, this row reads {board_tail})")
+    txt = ""
+    if holders is not None and files:
+        pct = f"{share * 100:.2f}%" if share is not None else "?"
+        txt += f"; the full scan holds it in {holders:,} of {files:,} symbols ({pct})"
+    if cert_row.get("thin_tail"):
+        txt += (" -- **thin tail**: that is a handful of symbols' bar, not the "
+                "panel's state")
+    if cert_as_of:
+        txt += f" (certified {cert_as_of})"
+    return txt
+
+
+def render_md(report, cert="auto"):
     head = (f"# Data lane freshness -- {report['as_of'][:10]}\n\n"
             f"Official reference: last day that must exist by "
             f"{report['close_accept_time']} = **{report['expected_last_official_day']}** "
@@ -858,11 +901,21 @@ def render_md(report):
                      "full sweep. A sample can miss a single laggard symbol; it "
                      "cannot miss a panel that stopped weeks ago. Each row below "
                      "says how many symbols were read out of how many.\n\n")
+        cert_rows = {}
+        cert_as_of = None
+        if cert == "auto":
+            cert = read_certification()
+        if isinstance(cert, dict):
+            cert_rows = cert.get("rows") or {}
+            cert_as_of = cert.get("as_of")
         for r in sampled:
             pr = r["panel_read"]
             tailnote += (f"- `{r['lane']}`: {pr.get('per_file')} of "
                          f"{pr.get('files')} symbols read, tail "
-                         f"{r.get('panel_tail') or r.get('tail')}\n")
+                         f"{r.get('panel_tail') or r.get('tail')}"
+                         + _holder_sentence(r, cert_rows.get(r["lane"]),
+                                            cert_as_of)
+                         + "\n")
         # r1261: the sample is certified against a full scan, and that scan also
         # says how many symbols hold the newest bar -- a tail held by two files
         # is one symbol's bar, not the panel's.
@@ -1376,7 +1429,45 @@ def selftest():
     print("[PASS] L23 a panel tail read by sample is certified against a full "
           "scan, and the symbols sitting behind the newest bar are named", flush=True)
 
-    print("selftest: 21/21 PASS", flush=True)
+    # L24 the human row has to carry the holder count, or the board keeps
+    # quoting "the panel's tail" for a bar two symbols hold. Three branches:
+    # a matching certification is quoted; a missing one is printed as unknown
+    # (never as "all symbols"); an older certification is refused against a
+    # newer board tail instead of lending it numbers it never measured.
+    rep24 = {"as_of": "2026-11-07T14:00:00", "verdict": "host_down",
+             "counts": {"in_sync": 0}, "n_lanes": 1, "n_auditable": 0,
+             "worst": None,
+             "lanes": [{"lane": "per_lane", "lane_host": "bm-b",
+                        "tail": "2026-10-19", "panel_tail": "2026-10-19",
+                        "panel_read": {"files": 5222, "per_file": 40,
+                                       "sampled": True},
+                        "verdict": "unverifiable", "authority": None}],
+             "expected_last_official_day": "2026-11-06",
+             "calendar_days": 100, "close_accept_time": "15:30"}
+    md24 = render_md(rep24, cert={
+        "as_of": "2026-11-07T13:47:58",
+        "rows": {"per_lane": {"lane": "per_lane", "full_tail": "2026-10-19",
+                              "tail_holders": 2, "tail_holder_share": 0.0004,
+                              "files": 5222, "thin_tail": True}}})
+    sect24 = md24.split("Tails read from a sample")[1]
+    assert "2 of 5,222 symbols (0.04%)" in sect24, sect24
+    assert "thin tail" in sect24, sect24
+    md24b = render_md(rep24, cert=None)
+    assert "holder share unknown" in md24b, md24b
+    md24c = render_md(rep24, cert={
+        "as_of": "2026-11-06T10:00:00",
+        "rows": {"per_lane": {"lane": "per_lane", "full_tail": "2026-10-13",
+                              "tail_holders": 1, "tail_holder_share": 0.0002,
+                              "files": 5222, "thin_tail": True}}})
+    sect24c = md24c.split("Tails read from a sample")[1].split(
+        "Full-scan certification")[0]
+    assert "certification is older than this scan" in sect24c, sect24c
+    assert "thin tail" not in sect24c, sect24c
+    print("[PASS] L24 the human row quotes the full scan's holder count, says "
+          "unknown when it was never certified, and refuses a stale "
+          "certification", flush=True)
+
+    print("selftest: 22/22 PASS", flush=True)
     return 0
 
 
