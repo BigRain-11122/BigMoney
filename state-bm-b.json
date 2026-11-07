@@ -25,6 +25,7 @@
  "agenda_starved": false,
  "aggregate": "engineering",
  "ahead_of_origin_main": 567,
+ "attrition": "CLEAN (4 ledgers, 3 healed rows)",
  "audit_flag_note": "compute_audit FLAG supply_gap: ready 3 vs floor 3 (not breached); the card burned and the card seeded keep the floor exactly at 3",
  "audit_flags": [
   "supply_gap"
@@ -5908,7 +5909,7 @@
  "s1": "no full suite launched this window (a suite is ~20-30 min); the E512 leg ran standalone",
  "s1_note": "the E508 leg was exec'd verbatim from smoke_test.py with a stub check (_r1538_leg508.py): 1/1 green, three doctored arms refused",
  "s4": "card E502 appended to knowledge/METHODOLOGY_ASSETS.md (17/1 numstat): a replay budget is part of the instrument -- a timeout is its own class and the budget must be several times the slowest observed arm, or the clock decides the published count",
- "s6": "callee_return leg rc0 0.05s (receipt results/_r1540bmb_s6_chain.json); dualrun / attrition / watermark / collectors / paper family NOT re-run and not claimed",
+ "s6": "callee_return leg rc0 0.05s (receipt results/_r1540bmb_s6_chain.json) | pool_dualrun ZERO-DRIFT 988 entries streak 17 | attrition guard CLEAN (4 ledgers, 3 historical shrinks healed) | collectors / paper family / build_status / daily_scorecard NOT re-run and not claimed",
  "s6_flag_guard": "python Tools/s6_chain_bmb.py --leg undated_vintage -> rc2 'unknown option(s): --leg'; 1509 --only undated_vintage -> rc0 0.05s",
  "s6_leg": "callee_return",
  "s6_leg_added": "callee_return (Tools/s6_chain_bmb.py)",
