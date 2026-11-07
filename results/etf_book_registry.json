@@ -8,7 +8,7 @@
    "in_chain": true,
    "chain_note": "wired as etf_book_order",
    "status": "ok",
-   "as_of": "2026-11-02",
+   "as_of": "2026-10-30",
    "n_names": 5,
    "names": [
     "159263",
@@ -20,7 +20,7 @@
    "rule": "beta",
    "rule_param": 0.2,
    "k_now": 0.460253,
-   "artefact": "results/etf_book_order/TICKET-2026-11-02.json"
+   "artefact": "results/etf_book_order/TICKET-2026-10-30.json"
   },
   {
    "id": "card",
@@ -30,7 +30,7 @@
    "in_chain": true,
    "chain_note": "wired as etf_book_production",
    "status": "ok",
-   "as_of": "2026-11-02",
+   "as_of": "2026-10-30",
    "n_names": 12,
    "names": [
     "159207",
@@ -59,7 +59,7 @@
    "in_chain": true,
    "chain_note": "wired as etf_book_forward",
    "status": "ok",
-   "as_of": "2026-11-02",
+   "as_of": "2026-11-04",
    "n_names": 12,
    "names": [
     "159207",
@@ -77,7 +77,7 @@
    ],
    "rule": "vol",
    "rule_param": 0.08,
-   "k_now": 1.0086329582,
+   "k_now": 1.0120725673,
    "artefact": "results/etf_book_forward/LEDGER.json"
   },
   {
@@ -88,29 +88,29 @@
    "in_chain": true,
    "chain_note": "wired as etf_paper_signal",
    "status": "ok",
-   "as_of": "2026-11-02",
+   "as_of": "2026-11-06",
    "n_names": 10,
    "names": [
     "159307",
+    "159519",
     "159980",
     "510760",
     "510980",
-    "511180",
-    "511380",
+    "512040",
     "512890",
     "513400",
     "515300",
     "515450"
    ],
    "rule": "vol",
-   "rule_param": 0.0654,
+   "rule_param": 0.073,
    "k_now": 1.0,
    "artefact": "results/etf_paper/ledger.jsonl",
    "config": "bond-free, staggered 5+5, R10, 8% vol target",
    "next_turn": [
     {
      "leg": 0,
-     "due": "2026-11-06",
+     "due": "2026-11-20",
      "anchor": "estimate",
      "clock_anchor": "pos"
     },
@@ -130,7 +130,7 @@
    "in_chain": true,
    "chain_note": "wired as etf_book_ceo_page",
    "status": "ok",
-   "as_of": "2026-11-02",
+   "as_of": "2026-10-30",
    "n_names": 5,
    "names": [
     "159263",
@@ -141,11 +141,11 @@
    ],
    "rule": "beta",
    "rule_param": 0.2,
-   "rule_source": "results/etf_book_order/TICKET-2026-11-02.json",
+   "rule_source": "results/etf_book_order/TICKET-2026-10-30.json",
    "k_now": 0.460253,
-   "generated_for_date": "2026-11-02",
-   "feed_lag_days": 0,
-   "artefact": "docs/live_book/LIVE-BOOK-20261102.json"
+   "generated_for_date": "2026-11-07",
+   "feed_lag_days": 5,
+   "artefact": "docs/live_book/LIVE-BOOK-20261107.json"
   }
  ],
  "n_faces": 5,

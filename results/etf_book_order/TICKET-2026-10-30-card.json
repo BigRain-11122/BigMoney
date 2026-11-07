@@ -197,15 +197,16 @@
   "ledger_scale": 0.700775,
   "same_scale_as_ledger": true,
   "ledger_book_bar": "2026-10-14",
-  "ledger_last_bar": "2026-11-02",
-  "ledger_last_nav": 1.0086329582,
+  "ledger_last_bar": "2026-11-04",
+  "ledger_last_nav": 1.0120725673,
   "ledger_status": "live",
   "ledger_source": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
   "restatements_readable": true,
   "restatements_source": "restatements",
   "restated_bars": [
    "2026-10-29",
-   "2026-11-02"
+   "2026-11-02",
+   "2026-11-03"
   ],
   "restatements": [
    {
@@ -223,9 +224,17 @@
     "nav_settled": null,
     "delta": null,
     "reason": "published on a bar the panel's coverage gate has since refused; the panel's last bar is earlier than this date, so it can never re-derive"
+   },
+   {
+    "bar": "2026-11-03",
+    "ts": "2026-11-05T20:29:33+0800",
+    "nav_published": 1.0037553579,
+    "nav_settled": 1.0037561821,
+    "delta": 8.242e-07,
+    "reason": "published while the panel for that date was still gaining symbols"
    }
   ],
-  "ledger_bars_published": 7,
+  "ledger_bars_published": 9,
   "card_cash_weight": 0.2992,
   "card_cash_amount": 301289.0,
   "card_cash_is_executable": true,
@@ -249,10 +258,10 @@
  "bars_until_next_decision": 8,
  "feed": {
   "ticket_bar": "2026-10-30",
-  "expected_bar": "2026-11-03",
-  "lag_days": 2,
-  "status": "feed_broken",
-  "detail": "the maintained panel is missing an official trading day that should already be published -- a stopped feed, not a delay"
+  "expected_bar": "2026-11-06",
+  "lag_days": 5,
+  "status": "stale_feed",
+  "detail": "the bar this ticket is priced on is 5 official day(s) behind the market; the signal is that old"
  },
  "caveats": [
   "exploratory: no prereg, no verdict, not in the scorecard",

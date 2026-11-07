@@ -1,9 +1,9 @@
 {
  "schema": "etf-book-forward-settle-audit/v1",
- "generated": "2026-11-05T20:46:24+0800",
- "evidence_cutoff": "2026-11-05",
+ "generated": "2026-11-07T09:25:37+0800",
+ "evidence_cutoff": "2026-11-06",
  "ledger": {
-  "path": "..\\results\\etf_book_forward\\LEDGER.json",
+  "path": "results\\etf_book_forward\\LEDGER.json",
   "status": "live",
   "published_bars": [
    "2026-10-23",
@@ -17,26 +17,34 @@
    "2026-11-04"
   ],
   "drift": {
-   "faces": [],
+   "faces": [
+    "2026-11-02:missing",
+    "2026-11-03:missing",
+    "2026-11-04:missing"
+   ],
    "max_abs": 0.0,
    "checked_bars": 9,
    "gate": "settled_bars_only",
    "settled_bars": [
     "2026-10-23",
     "2026-10-26",
-    "2026-10-27",
+    "2026-10-27"
+   ],
+   "provisional_bars": [
     "2026-10-28",
     "2026-10-29",
     "2026-10-30",
     "2026-11-02",
-    "2026-11-03"
-   ],
-   "provisional_bars": [
+    "2026-11-03",
     "2026-11-04"
    ],
-   "carry_last_bar": "2026-11-05",
+   "carry_last_bar": "2026-10-27",
    "settled_faces": [],
-   "provisional_faces": [],
+   "provisional_faces": [
+    "2026-11-02:missing",
+    "2026-11-03:missing",
+    "2026-11-04:missing"
+   ],
    "benchmark_settled_faces": [],
    "benchmark_provisional_faces": [],
    "restated_bars": [],
@@ -47,49 +55,53 @@
   "drift_tol_source": "read from scripts/etf_book_forward.py"
  },
  "panel": {
-  "daily_dir": "..\\data\\daily",
+  "daily_dir": "data\\daily",
   "universe_symbols": 1725,
   "coverage_by_day": {
-   "2026-10-23": 1723,
    "2026-10-26": 1723,
    "2026-10-27": 1720,
    "2026-10-28": 1721,
    "2026-10-29": 1723,
-   "2026-10-30": 1723,
-   "2026-11-02": 1723,
-   "2026-11-03": 1723,
-   "2026-11-04": 1723,
-   "2026-11-05": 47
+   "2026-10-30": 1717,
+   "2026-11-02": 53,
+   "2026-11-03": 53,
+   "2026-11-04": 53,
+   "2026-11-05": 53,
+   "2026-11-06": 53
   },
   "pending_symbols_by_day": {
-   "2026-10-23": 2,
    "2026-10-26": 2,
    "2026-10-27": 5,
    "2026-10-28": 4,
    "2026-10-29": 2,
-   "2026-10-30": 2,
-   "2026-11-02": 2,
-   "2026-11-03": 2,
-   "2026-11-04": 2,
-   "2026-11-05": 1678
+   "2026-10-30": 8,
+   "2026-11-02": 1672,
+   "2026-11-03": 1672,
+   "2026-11-04": 1672,
+   "2026-11-05": 1672,
+   "2026-11-06": 1672
   }
  },
  "classification": {
-  "verdict": "no_drift",
+  "verdict": "drift_only_on_unsettled_bar",
   "settled": [
    "2026-10-23",
    "2026-10-26",
-   "2026-10-27",
+   "2026-10-27"
+  ],
+  "provisional": [
    "2026-10-28",
    "2026-10-29",
    "2026-10-30",
    "2026-11-02",
-   "2026-11-03"
-  ],
-  "provisional": [
+   "2026-11-03",
    "2026-11-04"
   ],
-  "drifted_bars": [],
+  "drifted_bars": [
+   "2026-11-02",
+   "2026-11-03",
+   "2026-11-04"
+  ],
   "max_abs": 0.0,
   "checks": {
    "drift_faces_are_provisional": true,
@@ -99,12 +111,11 @@
    "published_bars": 9
   },
   "newest_bar": "2026-11-04",
-  "panel_last_date": "2026-11-05"
+  "panel_last_date": "2026-11-06"
  },
  "data_lag_audit": {
-  "as_of": "2026-11-05T19:35:03",
+  "as_of": "2026-11-07T09:21:46",
   "coverage_by_day": {
-   "2026-10-23": 1.0,
    "2026-10-26": 1.0,
    "2026-10-27": 1.0,
    "2026-10-28": 1.0,
@@ -113,12 +124,13 @@
    "2026-11-02": 1.0,
    "2026-11-03": 1.0,
    "2026-11-04": 1.0,
-   "2026-11-05": 0.0273
+   "2026-11-05": 1.0,
+   "2026-11-06": 1.0
   },
-  "detail": "2026-11-05 is an official trading day; the market closed 4.1h ago and no bar has been published to this panel yet",
-  "ledger_last_bar": "2026-11-03"
+  "detail": "the maintained panel covers every official trading day it should by now",
+  "ledger_last_bar": "2026-11-04"
  },
- "headline": "ledger re-derives clean",
+ "headline": "no published bars to audit",
  "recommended_rule": "A drift gate may only police SETTLED bars. The newest published bar is provisional until its panel date stops gaining symbols (coverage stable across consecutive runs); while it is provisional, a re-derivation mismatch is expected and must be reported, not frozen on -- and never bought with a history rewrite.",
  "caveats": [
   "Point-in-time coverage at pricing time is not recorded anywhere, so 'the panel was still filling' is inferred from the panel's current shape (post-close arrivals) plus the timestamp of the run that priced the bar, not observed directly.",

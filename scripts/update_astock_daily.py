@@ -904,6 +904,28 @@ def _disk_truth_override(complete, panel, per_on_disk):
     return per_on_disk == 0 or per_on_disk < claimed
 
 
+def _authority_block(takeover):
+    """Who owns this lane, who wrote this reading, whether a stand-in is in force.
+
+    r1256: the takeover below was already declared, but only in the top-level
+    `takeover{}` shape. The two readers that decide whether a lane's number may
+    be trusted (data_lane_freshness, lane_ownership_declaration) read
+    `authority.took_over_by`, so a legal, disclosed takeover still surfaced as
+    "written by bm-a, not the lane host bm-b" -> verdict `unverifiable` on a
+    panel bm-a was building at that very minute (live 2026-11-07). Same cure as
+    r1253 on update_repo: the writer publishes the key the readers read.
+    """
+    return {
+        "lane_owner": LANE_OWNER,
+        "writer_machine": _lane_owner_id(),
+        "data_face_machine": _lane_owner_id(),
+        "declared_takeover": bool(takeover),
+        "took_over_by": (takeover or {}).get("by"),
+        "took_over_at": (takeover or {}).get("ts"),
+        "reason": (takeover or {}).get("reason"),
+    }
+
+
 def gate():
     """S6 step: freshness verdict -> detached spawn (daily-forward face)."""
     st = load_status()
@@ -943,6 +965,7 @@ def gate():
         st["takeover"] = takeover
     else:
         st.pop("takeover", None)
+    st["authority"] = _authority_block(takeover)
     needs, reason = stale_gate(cutoff, now,
                                observed_cutoff=panel.get("cutoff"),
                                observed_coverage=panel.get("coverage_pct"))
@@ -1263,6 +1286,15 @@ def _selftest():
                 "000019": {"exp": "2026-09-24", "n": 3}}
         finally:
             PROGRESS = orig
+    # r1256: a declared takeover must be published in the shape the authority
+    # readers read, otherwise a legal stand-in still reads as a foreign writer.
+    ab = _authority_block({"owner": LANE_OWNER, "by": "bm-a",
+                           "reason": "owner silent", "ts": "2026-11-07T10:36:24"})
+    assert ab["lane_owner"] == LANE_OWNER and ab["declared_takeover"] is True, ab
+    assert ab["took_over_by"] == "bm-a" and ab["took_over_at"] == "2026-11-07T10:36:24", ab
+    assert ab["data_face_machine"] == _lane_owner_id(), ab
+    ab0 = _authority_block(None)
+    assert ab0["declared_takeover"] is False and ab0["took_over_by"] is None, ab0
     print("selftest: all guard cases PASS")
     return 0
 

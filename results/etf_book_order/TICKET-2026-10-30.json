@@ -18,12 +18,12 @@
  },
  "feed_status": {
   "ticket_bar": "2026-10-30",
-  "expected_bar": "2026-11-03",
-  "lag_days": 2,
-  "status": "feed_broken",
-  "detail": "the maintained panel is missing an official trading day that should already be published -- a stopped feed, not a delay"
+  "expected_bar": "2026-11-06",
+  "lag_days": 5,
+  "status": "stale_feed",
+  "detail": "the bar this ticket is priced on is 5 official day(s) behind the market; the signal is that old"
  },
- "k_now": 0.47149,
+ "k_now": 0.460253,
  "book_decided_at": "2026-10-14",
  "card_agreement": {
   "card_decided_at": "2026-10-14",
@@ -34,71 +34,71 @@
   "card_priced_bar": "2026-10-30",
   "ticket_priced_bar": "2026-10-30",
   "same_priced_bar": true,
-  "card_feed_status": "feed_broken"
+  "card_feed_status": "stale_feed"
  },
  "next_decision_bars": 8,
  "ticket": {
-  "beta_k": 0.47149,
-  "book_weight": 0.47149,
-  "cash_weight": 0.52851,
+  "beta_k": 0.460253,
+  "book_weight": 0.460253,
+  "cash_weight": 0.539747,
   "nav": 1000000.0,
   "order": [
    {
     "symbol": "159501",
-    "weight": 0.094298,
+    "weight": 0.092051,
     "price": 2.158,
-    "lots": 436,
-    "shares": 43600,
-    "amount": 94088.8,
+    "lots": 426,
+    "shares": 42600,
+    "amount": 91930.8,
     "class": "crossborder",
     "note": ""
    },
    {
     "symbol": "513100",
-    "weight": 0.094298,
+    "weight": 0.092051,
     "price": 11.4531,
-    "lots": 82,
-    "shares": 8200,
-    "amount": 93915.35,
+    "lots": 80,
+    "shares": 8000,
+    "amount": 91624.73,
     "class": "crossborder",
     "note": ""
    },
    {
     "symbol": "513690",
-    "weight": 0.094298,
+    "weight": 0.092051,
     "price": 1.123,
-    "lots": 839,
-    "shares": 83900,
-    "amount": 94219.7,
+    "lots": 819,
+    "shares": 81900,
+    "amount": 91973.7,
     "class": "crossborder",
     "note": ""
    },
    {
     "symbol": "159577",
-    "weight": 0.094298,
+    "weight": 0.092051,
     "price": 1.662,
-    "lots": 567,
-    "shares": 56700,
-    "amount": 94235.4,
+    "lots": 553,
+    "shares": 55300,
+    "amount": 91908.6,
     "class": "crossborder",
     "note": ""
    },
    {
     "symbol": "159263",
-    "weight": 0.094298,
+    "weight": 0.092051,
     "price": 1.129,
-    "lots": 835,
-    "shares": 83500,
-    "amount": 94271.5,
+    "lots": 815,
+    "shares": 81500,
+    "amount": 92013.5,
     "class": "equity",
     "note": ""
    }
   ],
-  "book_amount": 470730.75,
-  "cash_amount": 529269.25,
+  "book_amount": 459451.33,
+  "cash_amount": 540548.67,
   "cash_leg": "GC001 (1-day repo, observed close)",
   "basket_drift": [],
-  "underspend_pct": 0.076
+  "underspend_pct": 0.0802
  },
  "metrics": {
   "book": {
@@ -125,8 +125,8 @@
   "n_names": 5,
   "n_repriced": 5,
   "worst_drift_pct": 6.6691,
-  "amount_delta_cny": 522.28,
-  "lots_delta": 72,
+  "amount_delta_cny": -408.08,
+  "lots_delta": 70,
   "missing": [],
   "names": [
    {
@@ -134,53 +134,53 @@
     "decision_price": 2.229,
     "priced_price": 2.158,
     "drift_pct": -3.1853,
-    "lots_at_decision": 423,
-    "lots_at_priced": 436,
-    "amount_at_decision": 94286.7,
-    "amount_at_priced": 94088.8
+    "lots_at_decision": 412,
+    "lots_at_priced": 426,
+    "amount_at_decision": 91834.8,
+    "amount_at_priced": 91930.8
    },
    {
     "symbol": "513100",
     "decision_price": 12.2715,
     "priced_price": 11.4531,
     "drift_pct": -6.6691,
-    "lots_at_decision": 76,
-    "lots_at_priced": 82,
-    "amount_at_decision": 93263.67,
-    "amount_at_priced": 93915.35
+    "lots_at_decision": 75,
+    "lots_at_priced": 80,
+    "amount_at_decision": 92036.51,
+    "amount_at_priced": 91624.73
    },
    {
     "symbol": "513690",
     "decision_price": 1.137,
     "priced_price": 1.123,
     "drift_pct": -1.2313,
-    "lots_at_decision": 829,
-    "lots_at_priced": 839,
-    "amount_at_decision": 94257.3,
-    "amount_at_priced": 94219.7
+    "lots_at_decision": 809,
+    "lots_at_priced": 819,
+    "amount_at_decision": 91983.3,
+    "amount_at_priced": 91973.7
    },
    {
     "symbol": "159577",
     "decision_price": 1.75,
     "priced_price": 1.662,
     "drift_pct": -5.0286,
-    "lots_at_decision": 538,
-    "lots_at_priced": 567,
-    "amount_at_decision": 94150.0,
-    "amount_at_priced": 94235.4
+    "lots_at_decision": 526,
+    "lots_at_priced": 553,
+    "amount_at_decision": 92050.0,
+    "amount_at_priced": 91908.6
    },
    {
     "symbol": "159263",
     "decision_price": 1.148,
     "priced_price": 1.129,
     "drift_pct": -1.6551,
-    "lots_at_decision": 821,
-    "lots_at_priced": 835,
-    "amount_at_decision": 94250.8,
-    "amount_at_priced": 94271.5
+    "lots_at_decision": 801,
+    "lots_at_priced": 815,
+    "amount_at_decision": 91954.8,
+    "amount_at_priced": 92013.5
    }
   ],
-  "sentence": "5 of 5 names moved between the decision bar (2026-10-14 00:00:00) and the priced bar (2026-10-30); worst drift 6.67%, whole book +522 CNY and +72 lots versus the same weights priced on the decision bar"
+  "sentence": "5 of 5 names moved between the decision bar (2026-10-14 00:00:00) and the priced bar (2026-10-30); worst drift 6.67%, whole book -408 CNY and +70 lots versus the same weights priced on the decision bar"
  },
  "book_leg": {
   "turnover_per_rebal": 1.5301,
@@ -196,32 +196,32 @@
   },
   "missing_bar_steps": 2,
   "money": {
-   "cash_amount_cny": 529269.25,
+   "cash_amount_cny": 540548.67,
    "spot": {
     "pct": 1.09,
     "date": "2026-10-27",
-    "annual_cny": 5769.0,
+    "annual_cny": 5892.0,
     "quotes": 250
    },
    "mean_tail": {
     "pct": 1.3559,
-    "annual_cny": 7176.0
+    "annual_cny": 7329.0
    },
    "window": {
     "pct": 2.0858,
-    "annual_cny": 11039.0
+    "annual_cny": 11275.0
    },
    "tail": 250,
    "fall_bp": 25.0,
    "verdict": "RATES_FELL",
-   "sentence": "现金 ¥529,269 按 2026-10-27 报价 1.09% 一年赚 ¥5,769；按自己近 250 个报价的均值 1.36% 是 ¥7,176；按账本自己走过的全窗均值 2.09% 是 ¥11,039。差出来的 ¥1,407 是利率掉了，不是这个月选错了票。",
-   "spread_vs_tail_cny": -1407.0,
-   "spread_vs_window_cny": -5270.0
+   "sentence": "现金 ¥540,548 按 2026-10-27 报价 1.09% 一年赚 ¥5,892；按自己近 250 个报价的均值 1.36% 是 ¥7,329；按账本自己走过的全窗均值 2.09% 是 ¥11,275。差出来的 ¥1,437 是利率掉了，不是这个月选错了票。",
+   "spread_vs_tail_cny": -1437.0,
+   "spread_vs_window_cny": -5383.0
   }
  },
  "ledger": {
-  "bars": 683,
-  "nav": 1.46793171,
+  "bars": 686,
+  "nav": 1.47135534,
   "rows_added": 0,
   "engine_naive_vs_ledger": null
  },
@@ -316,89 +316,89 @@
   "ticket_rule": "beta",
   "card_rule": "vol",
   "ticket": {
-   "cagr": 0.1119,
-   "sharpe": 1.373,
+   "cagr": 0.1116,
+   "sharpe": 1.369,
    "maxdd": -0.0601,
    "vol": 0.0815
   },
   "card": {
-   "cagr": 0.1221,
-   "sharpe": 1.389,
+   "cagr": 0.1217,
+   "sharpe": 1.386,
    "maxdd": -0.0795,
-   "vol": 0.0879
+   "vol": 0.0878
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1197,
-    "card_width_cagr": 0.1221,
-    "pp": 0.24
-   },
    "beta": {
-    "ticket_width_cagr": 0.1119,
-    "card_width_cagr": 0.0966,
+    "ticket_width_cagr": 0.1116,
+    "card_width_cagr": 0.0963,
     "pp": -1.53
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1194,
+    "card_width_cagr": 0.1217,
+    "pp": 0.23
    }
   },
   "rules_differ": true,
   "delta_ticket_minus_card": {
-   "cagr_pp": -1.02,
-   "sharpe": -0.016,
+   "cagr_pp": -1.01,
+   "sharpe": -0.017,
    "maxdd_pp": 1.94,
-   "vol_pp": -0.64
+   "vol_pp": -0.63
   },
   "square": {
    "cells": {
     "beta@5": {
-     "cagr": 0.1119,
-     "sharpe": 1.373,
+     "cagr": 0.1116,
+     "sharpe": 1.369,
      "maxdd": -0.0601,
      "turnover": 1.5301,
      "cash_share": 0.5501
     },
     "beta@12": {
-     "cagr": 0.0966,
-     "sharpe": 1.583,
+     "cagr": 0.0963,
+     "sharpe": 1.579,
      "maxdd": -0.0417,
      "turnover": 1.3032,
      "cash_share": 0.6191
     },
     "vol@5": {
-     "cagr": 0.1197,
-     "sharpe": 1.382,
+     "cagr": 0.1194,
+     "sharpe": 1.379,
      "maxdd": -0.0756,
      "turnover": 1.5301,
-     "cash_share": 0.4792
+     "cash_share": 0.4788
     },
     "vol@12": {
-     "cagr": 0.1221,
-     "sharpe": 1.389,
+     "cagr": 0.1217,
+     "sharpe": 1.386,
      "maxdd": -0.0795,
      "turnover": 1.3032,
-     "cash_share": 0.4271
+     "cash_share": 0.4266
     }
    },
    "width_effect_pp": {
     "beta": -1.53,
-    "vol": 0.24
+    "vol": 0.23
    },
    "rule_effect_pp": {
     "n5": 0.78,
-    "n12": 2.55
+    "n12": 2.54
    },
-   "interaction_pp": 1.77,
-   "published_diagonal_pp": 1.02,
+   "interaction_pp": 1.76,
+   "published_diagonal_pp": 1.01,
    "sharpe_width_effect": {
     "beta": 0.21,
     "vol": 0.007
    },
    "sharpe_rule_effect": {
-    "n5": 0.009,
-    "n12": -0.194
+    "n5": 0.01,
+    "n12": -0.193
    }
   },
   "same_accounting": "one ledger (GC001 cash leg, next-open fills, 8bp/side); width and leverage rule each varied in turn",
   "source": "results/etf_book_width_audit.json",
-  "evidence_cutoff": "2026-10-30"
+  "evidence_cutoff": "2026-11-02"
  },
  "live_width_ruler": {
   "state": "inside_disagreement",
@@ -480,12 +480,12 @@
   "faces": {
    "card": "2026-10-30",
    "ticket": "2026-10-30",
-   "page": "2026-10-30"
+   "page": "2026-11-06"
   },
-  "verdict": "SAME_DAY",
-  "detail": "all three papers priced the 2026-10-30 bar",
+  "verdict": "DIFFERENT_DAYS",
+  "detail": "priced on different bars: card 2026-10-30 / ticket 2026-10-30 / page 2026-11-06",
   "missing": [],
-  "same_day": true
+  "same_day": false
  },
  "carry_split": {
   "artifact": "results/etf_book_return_regime.json",
@@ -503,7 +503,7 @@
   "rate_today_pct": 1.09,
   "rate_today_date": "2026-10-27",
   "rate_observed_pct": 1.9819,
-  "identity_matched": true
+  "identity_matched": false
  },
  "restatements": {
   "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
@@ -525,13 +525,22 @@
     "nav_settled": null,
     "delta": null,
     "reason": "published on a bar the panel's coverage gate has since refused; the panel's last bar is earlier than this date, so it can never re-derive"
+   },
+   {
+    "bar": "2026-11-03",
+    "ts": "2026-11-05T20:29:33+0800",
+    "nav_published": 1.0037553579,
+    "nav_settled": 1.0037561821,
+    "delta": 8.242e-07,
+    "reason": "published while the panel for that date was still gaining symbols"
    }
   ],
   "bars": [
    "2026-10-29",
-   "2026-11-02"
+   "2026-11-02",
+   "2026-11-03"
   ],
-  "bars_published": 7
+  "bars_published": 9
  },
  "bets": {
   "status": "ok",
@@ -540,7 +549,7 @@
   "effective_bets": 2.1648970197587434,
   "risk_split": 4.29358560781991,
   "nominal_bets": 4.999999999999999,
-  "evidence_cutoff": "2026-11-02"
+  "evidence_cutoff": "2026-11-05"
  },
  "concentration": {
   "status": "ok",
@@ -553,7 +562,7 @@
   "ticket prices are closes; no impact cost, no limit-move guard",
   "GC001 single tenor, rolling assumed cost-free",
   "k revised every 20 bars so delivered beta still wanders",
-  "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it (measured on the 2026-11-02 bar)",
+  "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it (measured on the 2026-11-05 bar)",
   "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
   "exploratory: no preregistration, no verdict, no ledger booking",
   "this ticket is the 5-name aggressive end of the book; the production card runs 12 names -- see width_disclosure"

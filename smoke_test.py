@@ -1740,6 +1740,46 @@ def main() -> int:
         check("product: a lane takeover declares whose disk holds the rows",
               False, str(e))
     try:
+        # r1255: an envelope is a report ABOUT a panel. A rebase can restore an
+        # older committed envelope over a newer panel, and the lane then reads
+        # "stalled" while its data is current (live 2026-11-07). Recomputed here
+        # from the published rows: no row may quote a tail older than the panel
+        # it also publishes, and a stale envelope must publish BOTH numbers.
+        _lfz3 = json.load(open("results/data_lane_freshness.json",
+                               encoding="utf-8"))
+        _rows3 = _lfz3.get("lanes") or []
+        _tail_ok, _stale_ok, _why3 = True, True, "no stale envelope today"
+        for _r in _rows3:
+            _pt, _et = _r.get("panel_tail"), _r.get("envelope_tail")
+            if _pt and _r.get("tail") and str(_r["tail"]) < str(_pt):
+                _tail_ok = False
+                _why3 = f"{_r['lane']}: tail {_r['tail']} < panel {_pt}"
+            if _r.get("envelope_stale"):
+                _stale_ok = _stale_ok and bool(_pt) and bool(_et)
+                _why3 = f"{_r['lane']}: envelope {_et} -> panel {_pt}"
+                if str(_r["tail"]) != str(_pt):
+                    _tail_ok = False
+        check("fleet: a panel newer than its envelope is not a stall",
+              _tail_ok and _stale_ok, _why3)
+    except Exception as e:
+        check("fleet: a panel newer than its envelope is not a stall",
+              False, str(e))
+    try:
+        # r1256: a lane that declares its stand-in is not uncertified. Recomputed
+        # from the published rows: any row naming `declared_takeover_by` must be
+        # auditable, so a legal takeover can never resurface as "cannot certify".
+        _rows4 = (json.load(open("results/data_lane_freshness.json",
+                                 encoding="utf-8")).get("lanes") or [])
+        _bad4 = [r["lane"] for r in _rows4
+                 if r.get("declared_takeover_by") and not r.get("auditable")]
+        check("fleet: a lane that declares its stand-in is not uncertified",
+              not _bad4,
+              ("declared stand-in still uncertified: " + ", ".join(_bad4)
+               if _bad4 else "every declared stand-in is auditable"))
+    except Exception as e:
+        check("fleet: a lane that declares its stand-in is not uncertified",
+              False, str(e))
+    try:
         # r1162: "cannot certify here" is about our copy; whose disk the rows are
         # on is the actionable half. The board derives that sentence ONCE, and the
         # two faces a human opens must carry it verbatim -- so this leg recomputes
