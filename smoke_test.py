@@ -20084,5 +20084,78 @@ except Exception as _e499x:
     _d499 = "leg could not run"
 check(_name499, not _bad499, "; ".join(_bad499)[:240] or _d499)
 
+# E500 -- the twins whose retirement status did not move.  "Did not move" is not evidence on its
+# own: it can be the strict rule agreeing, or a population that never held the deciding sites.  The
+# leg holds five things: the tallies re-derive from the rows, the population is exactly E499's
+# non-moved set, the kept/retirable split adds up, the residual total is its read part plus its
+# writer part, and a doctored residual price or verdict is caught.
+_name500 = ("E500 re-scans the 35 twins whose retirement status did not move and prices every site "
+            "outside E499's priced set: 0 residual reads, 25 residual writers on 15 twins, and one "
+            "twin whose non-movement is emptiness rather than agreement (r1526 bm-b)")
+_bad500 = []
+try:
+    _m500 = __import__("importlib").import_module("e500_strictgap")
+    _f500 = json.load(open(os.path.join("results", "state_tilt", "strictgap_latest.json"),
+                           encoding="utf-8"))
+    _s500 = _f500.get("summary") or {}
+    _r500 = _f500.get("rows") or []
+    _bad500.extend(_m500.tally_problems(_f500))
+    if not _r500:
+        _bad500.append("the population is empty")
+    if _f500.get("verdict") not in _m500.VERDICT_VOCAB:
+        _bad500.append("the verdict is not in the vocabulary")
+    _p499 = json.load(open(os.path.join("results", "state_tilt", "helperprice_latest.json"),
+                           encoding="utf-8"))
+    _want500 = sorted(p["row"]["twin"] for p in _m500.non_moved(_p499))
+    if sorted(r.get("twin") for r in _r500) != _want500:
+        _bad500.append("the population is not E499's non-moved set (%r vs %r)"
+                       % (len(_r500), len(_want500)))
+    if (_s500.get("twins_kept_under_the_priced_set") or 0) + \
+            (_s500.get("twins_retirable_under_the_priced_set") or 0) != len(_r500):
+        _bad500.append("the kept/retirable split does not add up to the population")
+    if (_s500.get("residual_sites_scanned") or 0) != \
+            (_s500.get("residual_read_sites") or 0) + (_s500.get("residual_writer_sites") or 0):
+        _bad500.append("the residual total is not its read part plus its writer part")
+    _vac = _s500.get("twins_whose_non_movement_is_vacuous") or []
+    if not _vac:
+        _bad500.append("no twin is classed as a vacuous non-movement -- emptiness is being read "
+                       "as agreement")
+    for _t in _vac:
+        _row = [r for r in _r500 if r.get("twin") == _t]
+        if not _row:
+            _bad500.append("%s is called vacuous but carries no row" % _t)
+        elif _row[0].get("priced_read_sites"):
+            _bad500.append("%s is called vacuous but carries %r priced read sites"
+                           % (_t, _row[0].get("priced_read_sites")))
+    _outside500 = sorted({s.get("price") for r in _r500 for s in (r.get("read_residue") or [])
+                          if s.get("price") not in _m500.e499.PRICE_VOCAB})
+    if _outside500:
+        _bad500.append("residual prices outside the vocabulary: %r" % (_outside500[:3],))
+    _w500 = _m500._doctor_with_a_bad_price(_f500)
+    if not _w500:
+        _bad500.append("the live face carries no row to doctor")
+    elif not _m500.tally_problems(_w500):
+        _bad500.append("a residual price outside the vocabulary survived the guard")
+    _w500b = json.loads(json.dumps(_f500))
+    _w500b["verdict"] = (_m500.V_AGREE if _f500.get("verdict") != _m500.V_AGREE
+                         else _m500.V_GAP_UNPRICED)
+    if not _m500.tally_problems(_w500b):
+        _bad500.append("a verdict that does not re-derive survived the guard")
+    _d500 = ("population %r (kept %r / retirable %r) | residual %r sites (%r read + %r writer) | "
+             "producers %r | vacuous %r | kept-only-by-opening strict %r / parent %r | verdict %r"
+             % (_s500.get("twins_in_the_population"),
+                _s500.get("twins_kept_under_the_priced_set"),
+                _s500.get("twins_retirable_under_the_priced_set"),
+                _s500.get("residual_sites_scanned"), _s500.get("residual_read_sites"),
+                _s500.get("residual_writer_sites"),
+                _s500.get("twins_whose_producer_was_never_priced"), _vac,
+                _s500.get("twins_kept_only_by_sites_that_just_open_the_file_under_the_strict_rule"),
+                _s500.get("twins_kept_only_by_sites_that_just_open_the_file_under_the_parent_rule"),
+                _f500.get("verdict")))
+except Exception as _e500x:
+    _bad500.append(repr(_e500x)[:160])
+    _d500 = "leg could not run"
+check(_name500, not _bad500, "; ".join(_bad500)[:240] or _d500)
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -1836,6 +1836,13 @@ LEGS = [
     # reader applies.  `check` re-derives every price tally, the moved list and all four ladder
     # arms from the rows.
     ("helper_price", ["python", "scripts/e499_helperprice.py", "check"]),
+
+    # E500 asks the next question about the same twins: 35 of them did not move under the strict
+    # rule, and "did not move" is not evidence by itself.  It re-scans those twins and prices every
+    # site outside E499's priced set -- 0 residual reads, 25 residual writers on 15 twins -- and
+    # separates agreement from a twin whose non-movement is emptiness.  `check` re-derives the
+    # population split, the vacuity class, both residual tallies and the verdict from the rows.
+    ("strict_gap", ["python", "scripts/e500_strictgap.py", "check"]),
 ]
 
 
