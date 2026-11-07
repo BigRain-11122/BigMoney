@@ -226,7 +226,7 @@ def write_status(payload):
         "ts", "mode", "verdict", "complete", "blocked", "block_reason",
         "cutoff", "n_periods_expected", "n_periods_present", "rows_total",
         "last_refresh_exit", "requests_used", "zero_row_periods",
-        "last_spawn_attempt")}
+        "last_spawn_attempt", "authority")}
     face["host"] = LANE_OWNER
     face["evidence_cutoff"] = payload.get("cutoff")
     atomic_write_json(COMMITTED_STATUS, face)
@@ -285,6 +285,84 @@ def _lane_owner_id():
             return str(json.load(f).get("machine_id", ""))
     except Exception:
         return ""
+
+
+# ------------------------------------------------- declared stale takeover
+_ACTIVE_TAKEOVER = None      # set by gate()/refresh() when a stand-in is in force
+
+
+def _authority_block(takeover):
+    """Who owns this lane, who wrote this reading, whether a stand-in is in force.
+
+    r1265: this lane had no takeover path at all, so when its declared host went
+    silent the panel froze and no machine was allowed to fill it (live: bm-b
+    silent 194h while the 2026Q3 statutory deadline passed on 2026-10-31 and the
+    status face still claimed `complete` for 20260630). The block itself is
+    imported from update_etf_daily -- one implementation for every writer that
+    declares a stand-in (a second copy of a defect is a second defect).
+    """
+    from update_etf_daily import authority_block
+    return authority_block(takeover, LANE_OWNER, _lane_owner_id())
+
+
+def _takeover_gate(owner):
+    """R31 lane guard + declared stale takeover (r1265 port of the r1264 shape).
+
+    A non-owner machine stays a stdout-only no-op UNLESS it passes an explicit
+    --takeover flag AND the declared lane host's heartbeat has been silent for at
+    least TAKEOVER_STALE_MIN. The decision is imported from update_etf_daily
+    (single source), never re-implemented here.
+    """
+    if owner == LANE_OWNER:
+        return None
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from update_etf_daily import (TAKEOVER_STALE_MIN, _owner_stale_min,
+                                  takeover_decision)
+    stale = _owner_stale_min(LANE_OWNER)
+    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale)
+    if not ok:
+        print(f"no-op: fund statements lane owned by {LANE_OWNER}, not this "
+              f"machine ({owner or '?'}) -- takeover refused: {why}")
+        return None
+    reason = (f"owner {LANE_OWNER} heartbeat silent {stale / 60:.1f}h "
+              f">= {TAKEOVER_STALE_MIN}min")
+    print(f"TAKEOVER: declared stale takeover of {LANE_OWNER}'s fund-statements "
+          f"lane by {owner} ({reason})")
+    # the canonical block reads `by`/`ts` (update_etf_daily.authority_block), so
+    # the declaration is spelled once, in the shape the readers consume
+    return {"by": owner, "ts": dt.datetime.now().isoformat(timespec="seconds"),
+            "lane_owner": LANE_OWNER, "reason": reason}
+
+
+def panel_period_facts(now=None):
+    """Statutory clock vs panel bytes, computed with zero network.
+
+    The freshness board's clock is the official TRADING calendar, so a lane
+    whose unit is a statutory REPORT PERIOD was invisible to it: on 2026-11-07
+    the 2026Q3 deadline had been missed for a week and no board row existed to
+    say so. This is the reader for such lanes -- expected periods from the
+    statute, present periods from the panel bytes (the envelope is a report
+    about the panel, the panel is the measurement).
+    """
+    now = now or dt.datetime.now()
+    expected = expected_period_set(now)
+    cov, rows_total = panel_coverage()
+    present = set()
+    for s in cov.values():
+        present |= set(s)
+    missing = sorted(set(expected) - present)
+    return {
+        "clock": "statutory_period",
+        "expected_latest": expected[-1],
+        "expected_deadline": statutory_deadline(expected[-1]).isoformat(),
+        "n_expected": len(expected),
+        "n_present": len(set(expected) & present),
+        "missing_periods": missing,
+        "cutoff": panel_cutoff(cov),
+        "rows_total": rows_total,
+        "faces": sorted(cov),
+        "as_of": now.strftime("%Y-%m-%dT%H:%M:%S"),
+    }
 
 
 # ------------------------------------------------------------ normalization
@@ -470,23 +548,28 @@ def gate_verdict(now, done_blocked, cov, expected):
                     f"(latest expected {max(expected)})"
 
 
-def spawn_detached_refresh():
+def spawn_detached_refresh(takeover=False):
     os.makedirs(os.path.dirname(LOG), exist_ok=True)
     flags = (subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
              | subprocess.CREATE_NO_WINDOW | 0x00004000)  # BELOW_NORMAL (CEO 10% CPU margin law)
+    argv = [sys.executable, os.path.abspath(__file__), "refresh"]
+    if takeover or _ACTIVE_TAKEOVER is not None:
+        # the child cannot see this process's decision, so the declaration must
+        # travel with the spawn or the child re-refuses as a bare non-owner
+        argv.append("--takeover")
     with io.open(LOG, "a", encoding="utf-8") as lf:
-        subprocess.Popen([sys.executable, os.path.abspath(__file__), "refresh"],
+        subprocess.Popen(argv,
                          stdout=lf, stderr=subprocess.STDOUT,
                          stdin=subprocess.DEVNULL, creationflags=flags, close_fds=True)
 
 
 def gate(now_fn=None, spawn_fn=None):
+    global _ACTIVE_TAKEOVER
     now = (now_fn or dt.datetime.now)()
     spawn_fn = spawn_fn or spawn_detached_refresh
     owner = _lane_owner_id()
-    if owner != LANE_OWNER:
-        print(f"no-op: fund statements lane owned by {LANE_OWNER}, "
-              f"not this machine ({owner or '?'})")
+    _ACTIVE_TAKEOVER = _takeover_gate(owner)
+    if owner != LANE_OWNER and _ACTIVE_TAKEOVER is None:
         return 0
     st = load_status()
     cov, rows_total = panel_coverage()
@@ -498,6 +581,8 @@ def gate(now_fn=None, spawn_fn=None):
                                         default=0),
                   rows_total=rows_total,
                   cutoff=panel_cutoff(cov))
+    if _ACTIVE_TAKEOVER is not None:
+        common["authority"] = _authority_block(_ACTIVE_TAKEOVER)
     if action == "blocked":
         st.update(common, mode=f"blocked: {st.get('block_reason', 'shape drift')}")
         write_status(st)
@@ -560,9 +645,12 @@ def refresh(now_fn=None, fetch=None, sleep_fn=None):
     sleep_fn = sleep_fn or time.sleep
     owner = _lane_owner_id()
     if owner != LANE_OWNER:
-        print(f"no-op: fund statements lane owned by {LANE_OWNER}, "
-              f"not this machine ({owner or '?'})")
-        return 0
+        # a spawned child re-decides from its own argv, never from the parent's
+        # memory (declaration travels as --takeover, r1265)
+        global _ACTIVE_TAKEOVER
+        _ACTIVE_TAKEOVER = _takeover_gate(owner)
+        if _ACTIVE_TAKEOVER is None:
+            return 0
     now = now_fn()
     expected = expected_period_set(now)
     st = load_status()
@@ -876,6 +964,43 @@ def _selftest():
     # incomplete annual chain (missing Q3) -> honest None
     assert ttm_from_cumulative([("2025-03-31", 100.0), ("2025-06-30", 220.0),
                                 ("2025-12-31", 400.0)]) is None
+
+    # ---- declared stale takeover (r1265) -------------------------------------
+    # A lane whose writer cannot declare a stand-in freezes forever when its host
+    # dies: that is the r1258 finding, and the only cure is the writer carrying
+    # the path. These legs pin the three-way decision, not the flag's spelling.
+    sys.path.insert(0, os.path.join(ROOT, "scripts"))
+    from update_etf_daily import (TAKEOVER_STALE_MIN, takeover_decision,
+                                  authority_block)
+    ok, why = takeover_decision(False, 999 * 60)       # silent host, no flag
+    assert ok is False and "--takeover" in why, why
+    ok, why = takeover_decision(True, 0)               # flag, live host
+    assert ok is False and "fresh" in why.lower(), why
+    ok, why = takeover_decision(True, TAKEOVER_STALE_MIN * 60 + 1)
+    assert ok is True, why
+    # the board reads capability off the writer's own source sentence, so the
+    # sentence existing here IS the contract (r1258: a capability list beside
+    # the code drifts the day the mechanism is transplanted)
+    here = io.open(os.path.abspath(__file__), "r", encoding="utf-8").read()
+    assert "TAKEOVER: declared stale takeover of" in here
+    # and the declaration has to reach the key the readers read
+    blk = authority_block({"by": "bm-a", "ts": "2026-11-07T15:30:00",
+                           "reason": "test"}, "bm-b", "bm-a")
+    assert isinstance(blk, dict) and blk.get("took_over_by") == "bm-a", blk
+    assert blk.get("declared_takeover") is True, blk
+    # the statutory clock is the lane's own unit; the board must be able to ask
+    # for it without a network call and get the period the statute demands now
+    facts = panel_period_facts(dt.datetime(2026, 11, 7, 12, 0))
+    assert facts["expected_latest"] == "20260930", facts
+    assert facts["expected_deadline"] == "2026-10-31", facts
+    assert facts["n_expected"] == 87, facts["n_expected"]
+    assert "20260930" in facts["missing_periods"], facts["missing_periods"]
+    assert facts["n_present"] == 86, facts["n_present"]
+    # the day BEFORE the deadline the same panel is complete: the missing period
+    # is a clock fact, not a defect of the collector
+    pre = panel_period_facts(dt.datetime(2026, 10, 30, 12, 0))
+    assert pre["expected_latest"] == "20260630", pre
+    assert pre["missing_periods"] == [], pre
 
     print("selftest: all fund statement panel guard cases PASS")
     return 0

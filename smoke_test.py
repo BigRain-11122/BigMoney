@@ -1893,6 +1893,49 @@ def main() -> int:
         check("fleet: the board page carries the full scan's holder count",
               False, str(e))
     try:
+        # r1265: every row above is judged on the official TRADING calendar, so a
+        # lane whose unit is a statutory REPORT PERIOD had no row at all and the
+        # 2026Q3 deadline passed unnoticed (r1263 found it by running the
+        # collector by hand). Recompute the statutory demand from the writer and
+        # require the board row + the human section to agree with it.
+        _lfd5 = json.load(open("results/data_lane_freshness.json",
+                               encoding="utf-8"))
+        _pl5 = _lfd5.get("period_lanes") or []
+        _why5 = []
+        if not _pl5:
+            _why5.append("no period-lane row: a statutory clock has no place "
+                         "on this board")
+        _md5 = open("docs/data_lanes/FRESHNESS.md", encoding="utf-8").read()
+        if "clock is the statute" not in _md5:
+            _why5.append("the human page carries no statute-clock section")
+        for _r5 in _pl5:
+            _mod5 = importlib.import_module(_r5["writer"])
+            _f5 = _mod5.panel_period_facts(
+                dt.datetime.fromisoformat(_r5["as_of"]))
+            if _f5["expected_latest"] != _r5.get("expected_latest"):
+                _why5.append(f"{_r5['lane']}: statute demand differs between "
+                             "the writer and the board")
+            if (_r5.get("verdict") == "period_missing") != bool(
+                    _f5["missing_periods"]):
+                _why5.append(f"{_r5['lane']}: verdict does not follow the "
+                             "missing periods")
+            if _r5.get("verdict") == "period_missing" and not _r5.get("why"):
+                _why5.append(f"{_r5['lane']}: a missing period is printed with "
+                             "no sentence saying why")
+            if (_r5.get("host_alive") is False
+                    and not _r5.get("takeover_capable")
+                    and _r5.get("frozen_without_takeover") is not True):
+                _why5.append(f"{_r5['lane']}: a hostage statutory lane is not "
+                             "named as a decision")
+        check("fleet: a lane whose clock is the statute is judged on the statute",
+              not _why5, "; ".join(_why5) or
+              f"{len(_pl5)} statutory lane(s) re-derived from the writer, "
+              f"{sum(len(r.get('missing_periods') or []) for r in _pl5)} "
+              "period(s) missing")
+    except Exception as e:
+        check("fleet: a lane whose clock is the statute is judged on the statute",
+              False, str(e))
+    try:
         # r1162: "cannot certify here" is about our copy; whose disk the rows are
         # on is the actionable half. The board derives that sentence ONCE, and the
         # two faces a human opens must carry it verbatim -- so this leg recomputes

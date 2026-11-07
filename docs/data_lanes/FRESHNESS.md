@@ -7,7 +7,7 @@ Verdict: **host_down** -- 5/10 lanes in sync, 5/10 auditable from this machine, 
 
 ## Whose disk these numbers are on
 
-以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（194.12h 未报到）；留在本机盘上的 5 条里 5 条可核实。
+以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（194.78h 未报到）；留在本机盘上的 5 条里 5 条可核实。
 
 - `bm-b`: astock_daily, marks, moneyflow, zt_pool (host down)
 | lane | host | tail | missing (official days) | verdict | authority |
@@ -31,7 +31,7 @@ Verdict: **host_down** -- 5/10 lanes in sync, 5/10 auditable from this machine, 
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (194.12h ago) -- holding back moneyflow, marks, zt_pool, astock_daily
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (194.78h ago) -- holding back moneyflow, marks, zt_pool, astock_daily
 
 ## Lanes nobody can pick up while the host is away
 
@@ -62,3 +62,14 @@ The per-symbol panels hold thousands of files, so their tail is read through an 
 - `astock_daily`: 40 of 5222 symbols read, tail 2026-11-06; the full scan holds it in 4,783 of 5,222 symbols (91.59%) (certified 2026-11-07T13:47:58)
 
 Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).
+
+## Lanes whose clock is the statute, not the trading calendar
+
+A quarterly report period cannot be judged by an official trading day: the unit is the period and the deadline is statutory.
+
+| lane | host | panel cutoff | statute demands | missing | verdict | takeover path |
+|---|---|---|---|---|---|---|
+| `fund_statements` | bm-b | 20260630 | 20260930 (due 2026-10-31) | 1 | period_missing | yes |
+
+- `fund_statements`: the statute demanded 20260930 from 2026-10-31; the panel on this disk stops at 20260630 (1 period(s) missing) -- host `bm-b` silent 194.78h
+
