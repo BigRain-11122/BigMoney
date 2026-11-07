@@ -32,10 +32,12 @@
 
 | 规则 \ 名数 | 5 | 12 |
 |---|---|---|
-| beta | +10.98pp | +9.51pp |
-| vol | +11.65pp | +11.92pp |
+| beta | +11.19pp | +9.66pp |
+| vol | +11.97pp | +12.21pp |
 
-对角差 +0.94pp，但宽度效应在 beta 规则下是 -1.47pp、在 vol 规则下是 +0.27pp，交互项 +1.74pp 大于任一主效应。两条分解路径分别得 +0.94 / +0.94（一致 = True）。
+对角差 +1.02pp，但宽度效应在 beta 规则下是 -1.53pp、在 vol 规则下是 +0.24pp，交互项 +1.77pp 大于任一主效应。两条分解路径分别得 +1.02 / +1.02（一致 = True）。
+
+> 巧合而告：the beta-rule width effect (-1.530pp) equals the capacity engine's 5->12 rung (-1.530pp) to the basis point. They are different quantities on different windows -- one is a live 2x2 cell difference, the other a second engine's rung. Recording the collision so nobody reads it as confirmation
 
 
 Verdict: **COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT**
@@ -48,4 +50,5 @@ Verdict: **COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT**
 - gap is 5.9% of the engine disagreement and 1.8% of the atlas ruler 6.73pp
 - this pairing's own resolution is 0.793pp at 80% power (20 phases, sd 1.265), so a gap of +0.120pp is 15% of what it could have detected -- below its own ruler, so 'no difference' is not the finding either
 - the two live widths are not separated by their own phases AND the engine disagreement on the same rung is wider than the gap: no part of the difference between card and ticket is quotable as a width effect
-- as issued the two faces print 11.92pp vs 10.98pp (+0.94pp diagonal), but the 2x2 moves two knobs at once: width effect -1.47pp under the beta rule and +0.27pp under the vol rule, with an interaction of +1.74pp (bigger than both width effects = True)
+- as issued the two faces print 12.21pp vs 11.19pp (+1.02pp diagonal), but the 2x2 moves two knobs at once: width effect -1.53pp under the beta rule and +0.24pp under the vol rule, with an interaction of +1.77pp (bigger than both width effects = True)
+- COINCIDENCE, not agreement: the beta-rule width effect (-1.530pp) equals the capacity engine's 5->12 rung (-1.530pp) to the basis point. They are different quantities on different windows -- one is a live 2x2 cell difference, the other a second engine's rung. Recording the collision so nobody reads it as confirmation

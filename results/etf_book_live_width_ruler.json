@@ -127,33 +127,39 @@
  },
  "as_issued": {
   "source": "results/etf_book_order/TICKET-*.json width_disclosure.square",
-  "ticket_asof": "2026-11-03",
-  "square_fingerprint": "cb869a36c8915f1c",
+  "ticket_asof": "2026-11-06",
+  "square_fingerprint": "23dec130b262bdd9",
   "cells_cagr_pp": {
-   "beta@5": 10.98,
-   "beta@12": 9.51,
-   "vol@5": 11.65,
-   "vol@12": 11.92
+   "beta@5": 11.19,
+   "beta@12": 9.66,
+   "vol@5": 11.97,
+   "vol@12": 12.21
   },
-  "card_cagr_pp": 11.92,
-  "ticket_cagr_pp": 10.98,
-  "diagonal_pp": 0.94,
+  "card_cagr_pp": 12.21,
+  "ticket_cagr_pp": 11.19,
+  "diagonal_pp": 1.02,
   "width_effect_pp": {
-   "beta": -1.47,
-   "vol": 0.27
+   "beta": -1.53,
+   "vol": 0.24
   },
   "rule_effect_pp": {
-   "n5": 0.67,
-   "n12": 2.41
+   "n5": 0.78,
+   "n12": 2.55
   },
-  "interaction_pp": 1.74,
+  "interaction_pp": 1.77,
   "decomposition": {
-   "width_first": 0.94,
-   "rule_first": 0.94,
+   "width_first": 1.02,
+   "rule_first": 1.02,
    "paths_agree": true
   },
   "interaction_exceeds_both_width_effects": true,
-  "coincidences": [],
+  "coincidences": [
+   {
+    "value_pp": -1.53,
+    "same_as": "capacity engine's 5->12 rung",
+    "note": "the beta-rule width effect (-1.530pp) equals the capacity engine's 5->12 rung (-1.530pp) to the basis point. They are different quantities on different windows -- one is a live 2x2 cell difference, the other a second engine's rung. Recording the collision so nobody reads it as confirmation"
+   }
+  ],
   "window": "ticket inception 2024-01-02, 682 bars (not the atlas window)",
   "rules_differ": true
  },
@@ -167,6 +173,7 @@
   "gap is 5.9% of the engine disagreement and 1.8% of the atlas ruler 6.73pp",
   "this pairing's own resolution is 0.793pp at 80% power (20 phases, sd 1.265), so a gap of +0.120pp is 15% of what it could have detected -- below its own ruler, so 'no difference' is not the finding either",
   "the two live widths are not separated by their own phases AND the engine disagreement on the same rung is wider than the gap: no part of the difference between card and ticket is quotable as a width effect",
-  "as issued the two faces print 11.92pp vs 10.98pp (+0.94pp diagonal), but the 2x2 moves two knobs at once: width effect -1.47pp under the beta rule and +0.27pp under the vol rule, with an interaction of +1.74pp (bigger than both width effects = True)"
+  "as issued the two faces print 12.21pp vs 11.19pp (+1.02pp diagonal), but the 2x2 moves two knobs at once: width effect -1.53pp under the beta rule and +0.24pp under the vol rule, with an interaction of +1.77pp (bigger than both width effects = True)",
+  "COINCIDENCE, not agreement: the beta-rule width effect (-1.530pp) equals the capacity engine's 5->12 rung (-1.530pp) to the basis point. They are different quantities on different windows -- one is a live 2x2 cell difference, the other a second engine's rung. Recording the collision so nobody reads it as confirmation"
  ]
 }

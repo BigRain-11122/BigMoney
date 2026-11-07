@@ -1,42 +1,42 @@
 {
-  "ts": "2026-11-02T21:26:44",
+  "ts": "2026-11-07T11:27:16",
   "mode": "refresh in progress (lock alive)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-11-02",
+    "cutoff": "2026-11-06",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 13.2,
-    "coverage_90": "2026-10-30",
+    "coverage_pct": 42.3,
+    "coverage_90": "2026-11-02",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
+        "2026-11-06",
+        2208
+      ],
+      [
+        "2026-11-05",
+        995
+      ],
+      [
+        "2026-11-04",
+        1005
+      ],
+      [
         "2026-11-02",
-        687
+        1009
       ],
       [
         "2026-10-30",
-        4529
-      ],
-      [
-        "2026-10-28",
-        1
-      ],
-      [
-        "2026-10-23",
         2
       ],
       [
-        "2026-10-20",
-        1
-      ],
-      [
-        "2026-10-12",
+        "2026-10-28",
         1
       ]
     ],
     "universe_n": 5226,
     "per_files": 5222,
-    "cycle_cutoff": "2026-10-30",
+    "cycle_cutoff": "2026-11-05",
     "cycle_cutoff_is": "the cutoff the last completed refresh cycle built its todo against -- always <= cutoff (cutoff is the disk max tail)"
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
@@ -64,7 +64,7 @@
     "repull": false
   },
   "quarantined_n": 4,
-  "last_spawn_attempt": "2026-11-02T20:48:25",
+  "last_spawn_attempt": "2026-11-07T09:24:55",
   "settled_n": 6,
   "settled": [
     "002717",
@@ -83,9 +83,18 @@
   "takeover": {
     "owner": "bm-b",
     "by": "bm-a",
-    "reason": "owner bm-b silent 80.7h >= 120min",
-    "ts": "2026-11-02T21:26:44"
+    "reason": "owner bm-b silent 190.7h >= 120min",
+    "ts": "2026-11-07T11:27:16"
   },
-  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-11-02 (coverage 13.2%, 90% date 2026-10-30)",
-  "spawn_mode": "continuation"
+  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-11-06 (coverage 42.3%, 90% date 2026-11-02)",
+  "spawn_mode": "continuation",
+  "authority": {
+    "lane_owner": "bm-b",
+    "writer_machine": "bm-a",
+    "data_face_machine": "bm-a",
+    "declared_takeover": true,
+    "took_over_by": "bm-a",
+    "took_over_at": "2026-11-07T11:27:16",
+    "reason": "owner bm-b silent 190.7h >= 120min"
+  }
 }

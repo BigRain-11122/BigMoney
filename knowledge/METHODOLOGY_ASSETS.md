@@ -9447,3 +9447,31 @@ D-19 决策水位在 state-bm-c.json 里存的是 `b8609238434092e2`（真实是
 **How to apply**：新增/修改任何「读别人写的状态件」的看板时，问三句——
 ① 它描述的那个实物我能自己读一次吗？② 两处不一致时我印哪一种？（必须有三态，不是二态）
 ③ 我的写者是不是在每一条早退分支上都写了读者要读的键？
+
+
+## E395 代班声明只有写进「读者读的那个键」才算数——两处都没写就同时输两次
+
+**实锚 2026-11-07 r1256（bm-a）**：`update_astock_daily` 在 bm-a 上合法接管 bm-b 的车道（owner 静默 190h >= 120min），
+顶层写了 `takeover{owner,by,reason,ts}` 并打印 `TAKEOVER:` 行；而 `data_lane_freshness` 与
+`lane_ownership_declaration` 两个读者都只看 `authority.took_over_by`。于是板面把一条 **本机正在写、cutoff 已到 11-06**
+的车道读成 `unverifiable / the envelope does not name the machine whose data it describes`——同一块板子上，
+「我核实不了」说的是一份就在本机盘上、此刻正在变新的数据。
+
+**第二个缺口在同一行里**：就算读者读到 `took_over_by`，归属计算仍先要一个 `reported_by`（顶层 `machine`/`reporter`/
+`writer` 之一），而这份信封顶层没有机器名 -> `authority=unattributed` -> 声明被无视。**声明被看见了，却无处安放。**
+
+**正法（两侧各一刀，各自有自己的名字）**：
+1. 写者按正典形状发布（E289 同族）：`_authority_block()` 输出 `lane_owner / writer_machine / data_face_machine /
+   declared_takeover / took_over_by / took_over_at / reason`，每个状态写点都要带（no-op 分支也算一个写点）。
+2. 读者把规范块当归属来源：顶层 reporter 缺位时用 `authority.writer_machine`——这不是「兼容旧形状」，
+   而是这个块本来就在说「谁写的」。
+实况读数：astock_daily `unverifiable -> in_sync`（authority=declared_takeover，tail 2026-11-06），
+板面 counts `unverifiable 6 -> 5 / in_sync 3 -> 4`。
+
+**判据（可复用）**：凡「接管/代理/降级/暂停」这类状态，问三句——
+① 声明写在哪个键？② 有哪几个读者、他们读哪个键？③ 读者在拿到声明之前还需要什么前置字段（这里=归属名）？
+三问有一问答不上，声明就只是日志里的一行字。闸要落在**已发布行**上：任何带 `declared_takeover_by` 的行都必须
+`auditable`，否则 smoke 红（r1256 新腿）。
+
+**How to apply**：给任何车道加接管/代班能力时，先在读器里搜 `took_over_by` 出现的地方，再决定写者写哪个键；
+写完立刻用读者重算一遍，看那条车道从「核实不了」变成了什么。别用「写者已经打印了 TAKEOVER」当证据。
