@@ -345,6 +345,11 @@ def measure(root=None):
     root = root or ROOT
     parent = _load_json(os.path.join(root, "results", "state_tilt", PARENT_FACE))
     members, keep, toks = e498.apply_arm(root)
+    # a scanner must not count its own sources (E180/E207 family): e498.apply_arm() excludes
+    # e498's files because they are ITS population's readers, and this module's own scripts and its
+    # standalone leg runner would otherwise enter the tree and move the source count under the face
+    # it just published (E455: a census over a growing tree re-reds one round after republish).
+    e497.SELF_PREFIX = tuple(e497.SELF_PREFIX) + ("e499_", "run_e499", "_e499")
     try:
         sites, meta = e497.scan(members, root=root)
     finally:

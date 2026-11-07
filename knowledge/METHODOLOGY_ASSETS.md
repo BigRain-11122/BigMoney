@@ -12577,9 +12577,10 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 - **helper 站点的 payload 根是调用点绑的名字**。站点行是 `x = _read_json(p)`，`e483.payload_roots()` 只认 `load/loads/read/read_text/read_bytes`，于是根集为空，分类器会把每天都读字段的块判成「读了文件但没读任何字段」——正是本研要测的那种假阴性。补法：看该 helper **自己的定义**是否返回解析后的 payload（返回表达式的调用尾在 `load*/read*`，或返回一个由它们绑定的名字）；是，则调用点绑的名字进根集。补出来的分类器与 `e483.classify_block()` 在「无需扩根」的单元上必须**逐字相等**，selftest 用一条等价腿钉住（不是「大概一样」）。
 - **站点行不是 opener 时，断言块不能是整个模块**。`e483.asserting_block()` 从 open 调用往上爬，对 helper 站点它爬不到任何 opener，于是返回整棵 Module 树——第一版 90 站点里有 **28 个是按整个文件打分**的（全文件的 assert 都为一个站点作证）。正法：从**这一行本身**建祖先链，再套 e483 的同两条规则（最近的有断言块 → 否则最近的函数）。改后读数立刻变了：重算类 19→4、钉值类 46→49，helper 站点里「算得上读者」的 14→4。这不是放松判据，是把**作用域**从文件收到块。
 - **只读字段、什么都不断言**的块，e483 的词表里没有类。`clock = _read_json(...) or {}` 然后 `{k: clock.get(k) for k in (...)}` 被返回——它读字段、会因形状漂移崩掉整条链，但没有任何 Compare/If，于是被印成「只要求文件存在」或「读了文件但没读字段」，两句都对代码不成立。补一个类 `reads_payload_fields_and_asserts_nothing_here`（证据＝块内对 payload 根的 `get/items/keys/values` 与下标访问计数），18 个站点落在这里。
+- **扫描器必须排除自己的源**。第一版把 `sources_scanned_with_a_tree` 印成 1,556 并在提交后把面推进到 1,557——因为 `e498.apply_arm()` 只排除了 E498 自己的文件，本研的 `scripts/e499_helperprice.py` 与 `scripts/run_e499_smoke_leg.py` 就成了自己人口里的源（E455 「长树的普查发布一轮后又变红」的同族，E180/E207 的自排除律）。正法：在换完臂之后把 `e499_/run_e499/_e499` 追加进 `SELF_PREFIX`，再扫；读数回到 1,553 且 `verify` 重建恒等。这条不是装饰——一个会数自己的扫描器，每次本研被编辑一次就会自己变红一次。
 - 另有两个被单独定价的臂：`compares_the_face_with_a_copy_of_itself_and_reads_no_field`（块里比两次同一个**非解析** helper 的返回，即摘要/文本，4 个站点）与 `raises_a_fault_when_the_payload_lacks_a_field`（`if not heat: raise`，本轮 0 命中，保留在词表里作为敏感度臂）。
 
-**读数**（2026-11-07，36 孪生 / 90 读站点 / 1,556 源带树）：
+**读数**（2026-11-07，36 孪生 / 90 读站点 / 1,553 源带树）：
 
 - **价格分布**：钉字段 49 / 只要求存在 4 / 读字段但不断言 18 / 只比拷贝 4 / 只断言字段存在 2 / 从 payload 重算 4 / 读文件但零字段 9（9 个几乎全是 `sha()` 摘要位点）。按卡片口径（只认重算 + 钉值）= **53 个算读者 / 37 个不算**；21 个 helper 站点里只有 **4 个**算读者。
 - **退役阶梯（计数集越宽，可退役越少，单调）**：①只认重算+钉值（卡片口径）：保留 34 / 可退役 **2** / 570,452+94,798 = **665,250 B**；②+抛错块：同 ①；③+presence 与「读字段不断言」：回到保留 35 / 可退役 **1** / 94,798 B；④每个读站点都算（E479 口径）：保留 35 / 可退役 1。
