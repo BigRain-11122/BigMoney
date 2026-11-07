@@ -19287,5 +19287,62 @@ except Exception as _e488x:
     _d488 = "leg could not run"
 check(_name488, not _bad488, "; ".join(_bad488)[:240] or _d488)
 
+# E489 -- the write call behind a same-directory writer composes the path its reader opens.
+# E488 showed the writer's *module* names the reader's directory; this leg holds the face that
+# folds the write call's own path argument and holds that every row's class re-derives from the
+# sites it publishes, that the population is reproduced, and that three doctored copies go red.
+_name489 = ("E489 a same-directory writer's write call composes the path its reader opens "
+            "(r1514 bm-b)")
+_bad489 = []
+try:
+    _m489 = __import__("importlib").import_module("e489_write_wire")
+    _f489 = json.load(open(os.path.join("results", "state_tilt", "writewire_latest.json"),
+                           encoding="utf-8"))
+    _s489 = _f489.get("summary") or {}
+    _r489 = _f489.get("rows") or []
+    _bad489.extend(_m489.row_problems(_f489))
+    if not _r489:
+        _bad489.append("the same-directory population is empty")
+    if _s489.get("population_reproduced") is not True:
+        _bad489.append("the parent's same-directory tally is not reproduced")
+    if _f489.get("verdict") != _m489._verdict(_m489._recompute(_f489)):
+        _bad489.append("the verdict is not the one the counts imply")
+    _wired489 = next((r for r in _r489 if r.get("wire_class") == _m489.W_WIRED), None)
+    if _wired489 is None:
+        _bad489.append("no wired row: the leg cannot be shown to measure anything")
+    else:
+        _w489 = json.loads(json.dumps(_f489))
+        for _row in _w489["rows"]:
+            if _row.get("spelling") == _wired489.get("spelling"):
+                _row["folded_write_paths"] = []
+                for _site in _row.get("write_sites") or []:
+                    _site["folded_write_paths"] = []
+        if not _m489.row_problems(_w489):
+            _bad489.append("a wired row with no folded path survived the guard")
+        _w489b = json.loads(json.dumps(_f489))
+        for _row in _w489b["rows"]:
+            if _row.get("spelling") == _wired489.get("spelling"):
+                _row["expected_reader_paths"] = []
+        if not _m489.row_problems(_w489b):
+            _bad489.append("a row with no expected reader path survived the guard")
+    _w489c = json.loads(json.dumps(_f489))
+    _w489c["verdict"] = _m489.V_ALL
+    if not _m489.row_problems(_w489c):
+        _bad489.append("a verdict that does not re-derive survived the guard")
+    _c489 = _s489.get("wire_class_counts") or {}
+    _d489 = ("%d same-directory writers | write call composes the reader path %d | reader dir "
+             "another basename %d | elsewhere %d | unfoldable %d | no call %d | reproduced %s"
+             % (len(_r489),
+                _c489.get(_m489.W_WIRED) or 0,
+                _c489.get(_m489.W_DIR_ONLY) or 0,
+                _c489.get(_m489.W_ELSEWHERE) or 0,
+                _c489.get(_m489.W_UNFOLDABLE) or 0,
+                _c489.get(_m489.W_NO_CALL) or 0,
+                _s489.get("population_reproduced")))
+except Exception as _e489x:
+    _bad489.append(repr(_e489x)[:160])
+    _d489 = "leg could not run"
+check(_name489, not _bad489, "; ".join(_bad489)[:240] or _d489)
+
 if __name__ == "__main__":
     sys.exit(main())

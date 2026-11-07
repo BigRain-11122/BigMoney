@@ -12354,3 +12354,22 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 3. **类必须能从发布的行重算**：每行发布它折出的 `module_directory_expressions`（名字/表达式原文/折出的路径/是否不可折）与 `reader_directories`，`check` 只吃这两样重算类——把「解释」写进行里、把「类」交给闸算，改口径就是测量而不是宣称（E444/E461 族）。
 
 **验证**：`scripts/e488_writer_directory.py`（run rc0 / check problems=[] / verify problems=[] / **selftest 23/23**：六条折叠规则各一腿 + 别名折进本仓模块 + 仓根折成空串 + 单段目录判据 + 类可重算 + 深目录不算祖先 + 四个篡改面被拒 + 双面落盘）；面 `results/state_tilt/WRITERDIR-2026-11-07.json` + `writerdir_latest.json`（51 行）；S6 腿 `writer_directory`；smoke 腿 standalone 1/1 绿 + doctored（伪 verdict）1/1 红（恢复后重跑 1/1 绿）。
+
+## E489 -- E488 说那 50 个写手的模块目录就是读者目录：把写调用自己的路径表达式折出来，39 个确实拼出读者打开的那条路径，9 个折不动（r1514 bm-b）
+
+**问题**：E488 把 51 个 basename-only 写手里 50 个放进了读者目录——但那是**模块自己声明了一个目录常量**，不是**这次写调用真的按那个目录拼了路径**（E487 只追到裸 basename）。这一面把写调用自己的路径实参折出来，问它拼出的字符串是不是**恰好等于**读者打开的那条路径。
+
+**做法**：population = E488 的同目录臂 50 行（原样读父面）。对每行的每个 tracing source，在记录的写站点上找写调用（`open`/`io.open`/`write_json`/`write_text`/`dump` 的首个位置实参；先精确行、再 ±2 行），用与 E488 同一套折叠规则（字面量 / 模块级与同函数赋值 / `os.path.join` 笛卡尔 / `a + b` / `__file__` 上溯 / 一个仓内模块别名跳）**外加三条**：`for name in (a, b)` 的循环变量折成备选集合（`names[name] = iter`，元组按分支展开）、`x or CONST` 折两侧备选、静态 `"%s.json" % NAME` 与 `.lower()/.upper()/.strip()/.replace()` 求值。折完分五档：**拼出读者那条路径 / 拼出读者目录但另一个 basename / 拼到别的目录 / 有写调用但路径折不动 / 站点上没有写调用**。
+
+**读数**（2026-11-07，50 行）：**39 个写调用拼出的路径恰好是读者打开的那条**；**1 个**拼出读者目录但是**另一个 basename**（`bandthreshguard`：追踪行只写 `BANDTHRESHGUARD-2026-10-29.json`，`_latest` 副本在别处写）；0 个写到别的目录；**9 个折不动**（多数是把目录当函数参数传给 `_write(face, outdir)` 这类 helper——目录在调用点才给出，本面只允许一层模块别名、不追调用点；另有 temp 目录写法）；**1 个没有写调用**（E487 记的是 helper 调用行，写发生在被调函数里）。父面 50/50 复现。判决：`most_same_directory_writer_write_calls_compose_the_path_their_reader_opens`。
+- **「模块声明了那个目录」到「写调用真的拼了那条路径」掉 11 个**：50 → 39。E488 的「同目录」是真结论，但它度量的是模块，不是调用；只在 39 行上可以同时说「写进那个目录」。
+- 剩下 9 个不是「写错地方」，是**折叠边界**：目录经 helper 参数传进来，多一跳就能到达。这一档必须与「写到别处」分开，否则「折不动」会被读成缺陷。
+
+**三条可复用**：
+1. **hop 预算要按「新加的那一层」重新定价**（承 E488/r1513，第二次发作）：写调用的路径常走 `for p in (dated, latest)` → `Name` → `Call` → 别名常量，比 E488 的目录常量多两三层，12 hops 恰好在别名链 `e453→e452→e451` 上掉出来，同一行在 depth 0 折得出、depth 1 折不出。正法=把 foreign module 也建成**同一个 Folder 子类**（而不是父类另用一个更小的预算），预算单源；预算不足时症状是「整面 0 wired」，不是报错。
+2. **父面的键名要照着读，不照着自己想的读**：E488 发布的是 `reader_directories`，首版按 `resolved_directories` 读 → 每行 expected 为空 → 整面 0 wired / 20 elsewhere。同一个概念两个名字，会把键名错误印成一个科学结论（E366/E462 族）。
+3. **「不可折」要再分「多一跳能到」与「静态到不了」**：9 个里多数是 helper 参数（下一跳在调用点），1 个写 temp 目录。混成一档会把「我的折法不够」说成「写手跑偏」；下一张卡（E490）就把 helper 参数这一档拆开。
+
+**验证**：`scripts/e489_write_wire.py`（run rc0 / check problems=[] / verify 同树重建 problems=[] / **selftest 24/24**：直接拼名 / 循环变量 / 别的目录 / argv 不可折 / 无调用五档 + 类可从发布行重算 + 四个篡改面全红 + 双面落盘）；面 `results/state_tilt/WRITEWIRE-2026-11-07.json` + `writewire_latest.json`（50 行）；S6 腿 `write_wire` rc0 0.07s（receipt `results/_r1514bmb_s6_chain.json`）；smoke 腿 `E489 a same-directory writer's write call composes the path its reader opens` 单跑 1/1 绿、doctored（wired 计数 +1）1/1 红、面 sha 归位。
+
+**适用范围**：只回答「记录的写站点上那次写调用折出来的路径是不是读者那条」；不回答文件运行时是否存在、写是否真的执行，也不构成删面许可（E477/E479 的字节账不变）。

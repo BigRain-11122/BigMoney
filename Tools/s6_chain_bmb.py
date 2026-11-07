@@ -1764,6 +1764,12 @@ LEGS = [
     # directory its reader resolves to.  `check` re-derives every row's class from the published
     # expressions, so the face cannot claim a placement its own evidence does not carry.
     ("writer_directory", ["python", "scripts/e488_writer_directory.py", "check"]),
+    # E489 closes what E488 left asserted: E488 placed the writer's *module* in the reader's
+    # directory, but E487 had traced the write path only to a bare basename.  This face folds the
+    # write call's own path argument (following the for-loop variable it is passed through, one
+    # repository-module alias hop, and static %-formatting) and asks whether it composes exactly
+    # the path the reader opens.  `check` re-derives every row's class from the published sites.
+    ("write_wire", ["python", "scripts/e489_write_wire.py", "check"]),
 ]
 
 

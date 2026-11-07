@@ -1,0 +1,1912 @@
+{
+ "card": "E489-DOES-THE-TRACED-WRITE-CALL-JOIN-THE-VERY-CONSTANT-THAT-PLACED-ITS-ROW-IN-THE-READER-DIRECTORY",
+ "study": "E489_does_the_traced_write_call_join_the_very_constant_that_placed_its_row_in_the_reader_directory",
+ "title": "for the same-directory basename-only writers, does the write call's own path expression compose the path the reader opens?",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T08:52:42+0800",
+ "population_source": {
+  "face": "writerdir_latest.json",
+  "face_verdict": "most_basename_only_writer_modules_name_the_reader_directory",
+  "face_evidence_cutoff": "2026-11-07",
+  "parent_directory_class_counts": {
+   "the_module_directory_expression_names_the_reader_directory": 50,
+   "the_module_directory_expression_names_an_ancestor_of_the_reader_directory": 0,
+   "the_module_directory_expression_names_a_directory_that_is_not_the_reader_directory": 0,
+   "the_module_states_a_directory_expression_that_cannot_be_folded_statically": 1,
+   "the_module_states_no_directory_expression_at_all": 0
+  },
+  "parent_same_directory_spellings": 50,
+  "population_rows_agree_with_the_parent_tally": true,
+  "population_definition": "rows of E488 whose directory_class is the same-directory class (the writer module names the reader directory)",
+  "excluded_source_prefixes": [
+   "e479_",
+   "run_e479",
+   "e480_",
+   "run_e480",
+   "e481_",
+   "run_e481",
+   "e482_",
+   "run_e482",
+   "e484_",
+   "run_e484",
+   "e487_",
+   "run_e487",
+   "e488_",
+   "run_e488",
+   "e489_",
+   "run_e489"
+  ]
+ },
+ "fold_rule": {
+  "constant": "a string constant is a path fragment",
+  "name": "module, same-function and loop-target assignments fold up to 24 hops",
+  "for": "a for-target binds to its iterable; a tuple/list iterable folds as alternatives (the loop produces one of them)",
+  "join": "os.path.join(a, b, ...) folds as the cartesian concatenation",
+  "format": "'NAME-%s.json' % x is a format string, not a path, so it does not fold",
+  "file": "os.path.dirname(...(os.path.abspath(__file__))) folds to the module directory, walked up once per dirname wrapper",
+  "call": "open/io.open/write_json/write_text first positional argument is the write path"
+ },
+ "class_definition": {
+  "the_write_call_composes_the_exact_path_the_reader_opens": "a folded write path equals <reader directory>/<spelling>",
+  "the_write_call_composes_the_reader_directory_with_another_basename": "a folded write path has the reader's directory but another basename",
+  "the_write_call_composes_a_path_in_another_directory": "the write call folds, and no path is in the reader's directory",
+  "a_write_call_is_present_but_its_path_argument_does_not_fold": "a write call is found at the site but its path argument folds to nothing (parameter, argv, environment, format string)",
+  "no_write_call_is_published_at_the_recorded_site": "no write call is found at or within 2 lines of the recorded site"
+ },
+ "summary": {
+  "population_spellings": 50,
+  "population_write_sites": 56,
+  "wire_class_counts": {
+   "the_write_call_composes_the_exact_path_the_reader_opens": 39,
+   "the_write_call_composes_the_reader_directory_with_another_basename": 1,
+   "the_write_call_composes_a_path_in_another_directory": 0,
+   "a_write_call_is_present_but_its_path_argument_does_not_fold": 9,
+   "no_write_call_is_published_at_the_recorded_site": 1
+  },
+  "spellings_whose_write_call_composes_the_reader_path": 39,
+  "spellings_whose_write_call_composes_the_reader_directory": 40,
+  "spellings_whose_write_call_folds_elsewhere": 0,
+  "spellings_whose_write_call_cannot_be_folded": 9,
+  "spellings_with_no_published_write_call": 1,
+  "parent_same_directory_spellings": 50,
+  "population_reproduced": true
+ },
+ "verdict": "most_same_directory_writer_write_calls_compose_the_path_their_reader_opens",
+ "verdict_vocab": [
+  "the_parent_published_no_same_directory_spelling",
+  "no_same_directory_writer_write_call_composes_the_path_its_reader_opens",
+  "every_same_directory_writer_write_call_composes_the_path_its_reader_opens",
+  "most_same_directory_writer_write_calls_compose_the_path_their_reader_opens",
+  "a_minority_of_same_directory_writer_write_calls_compose_the_path_their_reader_opens"
+ ],
+ "rows": [
+  {
+   "spelling": "abandonedstale_latest.json",
+   "stem": "abandonedstale",
+   "expected_reader_paths": [
+    "results/state_tilt/abandonedstale_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e453_abandoned_stale.py",
+     "line": 383,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/abandonedstale_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/abandonedstale_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "ballastkeys_latest.json",
+   "stem": "ballastkeys",
+   "expected_reader_paths": [
+    "results/state_tilt/ballastkeys_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e380_ballast_keys_and_readers.py",
+     "line": 280,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "write_json",
+      "expression": "os.path.join(OUTDIR, name)",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BALLASTKEYS-2026-11-03.json",
+      "results/state_tilt/ballastkeys_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BALLASTKEYS-2026-11-03.json",
+    "results/state_tilt/ballastkeys_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "bandambient_latest.json",
+   "stem": "bandambient",
+   "expected_reader_paths": [
+    "results/state_tilt/bandambient_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e291_ambiguity_chance.py",
+     "line": 435,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDAMBIENT-2026-10-29.json",
+      "results/state_tilt/bandambient_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDAMBIENT-2026-10-29.json",
+    "results/state_tilt/bandambient_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "bandclosure_latest.json",
+   "stem": "bandclosure",
+   "expected_reader_paths": [
+    "results/state_tilt/bandclosure_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e295_supply_gap_closure.py",
+     "line": 535,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDCLOSURE-2026-10-29.json",
+      "results/state_tilt/bandclosure_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDCLOSURE-2026-10-29.json",
+    "results/state_tilt/bandclosure_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "bandcountscope_latest.json",
+   "stem": "bandcountscope",
+   "expected_reader_paths": [
+    "results/state_tilt/bandcountscope_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e286_count_field_scope.py",
+     "line": 414,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
+      "results/state_tilt/bandcountscope_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
+    "results/state_tilt/bandcountscope_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "banddisagree_latest.json",
+   "stem": "banddisagree",
+   "expected_reader_paths": [
+    "results/state_tilt/banddisagree_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e282_substitution_disagreement_census.py",
+     "line": 649,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+      "results/state_tilt/banddisagree_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDDISAGREE-2026-10-29.json",
+    "results/state_tilt/banddisagree_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "banddraw_latest.json",
+   "stem": "banddraw",
+   "expected_reader_paths": [
+    "results/state_tilt/banddraw_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e255_band_draw_starvation.py",
+     "line": 508,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "p",
+      "unresolved": true
+     },
+     "folded_write_paths": [],
+     "note": null
+    },
+    {
+     "source": "scripts/e256_band_draw_continuation.py",
+     "line": 337,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "head",
+      "unresolved": true
+     },
+     "folded_write_paths": [],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [],
+   "wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "notes": []
+  },
+  {
+   "spelling": "banddupes_latest.json",
+   "stem": "banddupes",
+   "expected_reader_paths": [
+    "results/state_tilt/banddupes_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e293_duplicate_list_census.py",
+     "line": 464,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDDUPES-2026-10-29.json",
+      "results/state_tilt/banddupes_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDDUPES-2026-10-29.json",
+    "results/state_tilt/banddupes_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "bandflipbudget_latest.json",
+   "stem": "bandflipbudget",
+   "expected_reader_paths": [
+    "results/state_tilt/bandflipbudget_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e272_flip_budget_two_tails.py",
+     "line": 387,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "p",
+      "unresolved": true
+     },
+     "folded_write_paths": [],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [],
+   "wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "notes": []
+  },
+  {
+   "spelling": "bandfloor_latest.json",
+   "stem": "bandfloor",
+   "expected_reader_paths": [
+    "results/state_tilt/bandfloor_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e277_tight_multiplier_floor.py",
+     "line": 411,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDFLOOR-2026-10-29.json",
+      "results/state_tilt/bandfloor_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDFLOOR-2026-10-29.json",
+    "results/state_tilt/bandfloor_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "bandfloormirror_latest.json",
+   "stem": "bandfloormirror",
+   "expected_reader_paths": [
+    "results/state_tilt/bandfloormirror_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e288_below_floor_narrowing.py",
+     "line": 400,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDFLOORMIRROR-2026-10-29.json",
+      "results/state_tilt/bandfloormirror_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDFLOORMIRROR-2026-10-29.json",
+    "results/state_tilt/bandfloormirror_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "bandgapceiling_latest.json",
+   "stem": "bandgapceiling",
+   "expected_reader_paths": [
+    "results/state_tilt/bandgapceiling_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e285_interrange_gap_ceiling.py",
+     "line": 406,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDGAPCEILING-2026-10-29.json",
+      "results/state_tilt/bandgapceiling_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDGAPCEILING-2026-10-29.json",
+    "results/state_tilt/bandgapceiling_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "bandmarginwindow_latest.json",
+   "stem": "bandmarginwindow",
+   "expected_reader_paths": [
+    "results/state_tilt/bandmarginwindow_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e300_window_local_margin_census.py",
+     "line": 434,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDMARGINWINDOW-2026-10-29.json",
+      "results/state_tilt/bandmarginwindow_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDMARGINWINDOW-2026-10-29.json",
+    "results/state_tilt/bandmarginwindow_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "bandscopefix_latest.json",
+   "stem": "bandscopefix",
+   "expected_reader_paths": [
+    "results/state_tilt/bandscopefix_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e292_scope_fix_plan.py",
+     "line": 539,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDSCOPEFIX-2026-10-29.json",
+      "results/state_tilt/bandscopefix_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDSCOPEFIX-2026-10-29.json",
+    "results/state_tilt/bandscopefix_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "bandscreenbudget_latest.json",
+   "stem": "bandscreenbudget",
+   "expected_reader_paths": [
+    "results/state_tilt/bandscreenbudget_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e275_screen_margin_budget.py",
+     "line": 290,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/bandscreenbudget_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/bandscreenbudget_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "bandselfaudit_latest.json",
+   "stem": "bandselfaudit",
+   "expected_reader_paths": [
+    "results/state_tilt/bandselfaudit_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e290_selfauditable_face_profile.py",
+     "line": 408,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDSELFAUDIT-2026-10-29.json",
+      "results/state_tilt/bandselfaudit_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDSELFAUDIT-2026-10-29.json",
+    "results/state_tilt/bandselfaudit_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "bandsupply_latest.json",
+   "stem": "bandsupply",
+   "expected_reader_paths": [
+    "results/state_tilt/bandsupply_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e287_supply_ceiling_axes.py",
+     "line": 589,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDSUPPLY-2026-10-29.json",
+      "results/state_tilt/bandsupply_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDSUPPLY-2026-10-29.json",
+    "results/state_tilt/bandsupply_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "bandthreshguard_latest.json",
+   "stem": "bandthreshguard",
+   "expected_reader_paths": [
+    "results/state_tilt/bandthreshguard_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e273_guard_from_threshold.py",
+     "line": 381,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/BANDTHRESHGUARD-2026-10-29.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/BANDTHRESHGUARD-2026-10-29.json"
+   ],
+   "wire_class": "the_write_call_composes_the_reader_directory_with_another_basename",
+   "notes": []
+  },
+  {
+   "spelling": "chwrcad_latest.json",
+   "stem": "chwrcad",
+   "expected_reader_paths": [
+    "results/state_tilt/chwrcad_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e357_channel_writer_cadence.py",
+     "line": 343,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/CHWRCAD-2026-11-02.json",
+      "results/state_tilt/chwrcad_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/CHWRCAD-2026-11-02.json",
+    "results/state_tilt/chwrcad_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "collisionkey_latest.json",
+   "stem": "collisionkey",
+   "expected_reader_paths": [
+    "results/state_tilt/collisionkey_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e383_shared_key_collision.py",
+     "line": 467,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "target",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/COLLISIONKEY-2026-11-03.json",
+      "results/state_tilt/collisionkey_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/COLLISIONKEY-2026-11-03.json",
+    "results/state_tilt/collisionkey_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "deadread_latest.json",
+   "stem": "deadread",
+   "expected_reader_paths": [
+    "results/state_tilt/deadread_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "helper",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e405_dead_read_failure_mode.py",
+     "line": 496,
+     "route": "helper",
+     "call_found_at": null,
+     "write_call": null,
+     "folded_write_paths": [],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [],
+   "wire_class": "no_write_call_is_published_at_the_recorded_site",
+   "notes": []
+  },
+  {
+   "spelling": "decidegate_latest.json",
+   "stem": "decidegate",
+   "expected_reader_paths": [
+    "results/state_tilt/decidegate_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e347_published_number_gate_census.py",
+     "line": 822,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/DECIDEGATE-2026-11-01.json",
+      "results/state_tilt/decidegate_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/DECIDEGATE-2026-11-01.json",
+    "results/state_tilt/decidegate_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "facevintage_latest.json",
+   "stem": "facevintage",
+   "expected_reader_paths": [
+    "results/state_tilt/facevintage_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e363_corpus_vintage.py",
+     "line": 324,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(target, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/FACEVINTAGE-2026-11-02.json",
+      "results/state_tilt/facevintage_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/FACEVINTAGE-2026-11-02.json",
+    "results/state_tilt/facevintage_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "fragmentproducers_latest.json",
+   "stem": "fragmentproducers",
+   "expected_reader_paths": [
+    "results/state_tilt/fragmentproducers_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e402_fragment_producers.py",
+     "line": 654,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/FRAGMENTPRODUCERS-2026-11-04.json",
+      "results/state_tilt/fragmentproducers_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/FRAGMENTPRODUCERS-2026-11-04.json",
+    "results/state_tilt/fragmentproducers_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "greenwindow_latest.json",
+   "stem": "greenwindow",
+   "expected_reader_paths": [
+    "results/state_tilt/greenwindow_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e338_census_green_window.py",
+     "line": 477,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(OUTDIR, name)",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/GREENWINDOW-2026-11-01.json",
+      "results/state_tilt/greenwindow_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/GREENWINDOW-2026-11-01.json",
+    "results/state_tilt/greenwindow_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "guardloosen_latest.json",
+   "stem": "guardloosen",
+   "expected_reader_paths": [
+    "results/state_tilt/guardloosen_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e339_literal_count_guards.py",
+     "line": 491,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(OUTDIR, name)",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/GUARDLOOSEN-2026-11-01.json",
+      "results/state_tilt/guardloosen_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/GUARDLOOSEN-2026-11-01.json",
+    "results/state_tilt/guardloosen_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "helperrepair_latest.json",
+   "stem": "helperrepair",
+   "expected_reader_paths": [
+    "results/state_tilt/helperrepair_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e334_helper_repair_blast_radius.py",
+     "line": 520,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(target, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/HELPERREPAIR-2026-11-01.json",
+      "results/state_tilt/helperrepair_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/HELPERREPAIR-2026-11-01.json",
+    "results/state_tilt/helperrepair_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "invisibletail_latest.json",
+   "stem": "invisibletail",
+   "expected_reader_paths": [
+    "results/state_tilt/invisibletail_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e332_invisible_tail_recovery.py",
+     "line": 383,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": true
+     },
+     "folded_write_paths": [],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [],
+   "wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "notes": []
+  },
+  {
+   "spelling": "keysens_latest.json",
+   "stem": "keysens",
+   "expected_reader_paths": [
+    "results/state_tilt/keysens_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "line": 354,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "target",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/KEYSENS-2026-11-03.json",
+      "results/state_tilt/keysens_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/KEYSENS-2026-11-03.json",
+    "results/state_tilt/keysens_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "leg_isolation_latest.json",
+   "stem": "leg_isolation",
+   "expected_reader_paths": [
+    "results/state_tilt/leg_isolation_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/prove_smoke_leg_isolation.py",
+     "line": 233,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/leg_isolation_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/leg_isolation_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "leginput_latest.json",
+   "stem": "leginput",
+   "expected_reader_paths": [
+    "results/state_tilt/leginput_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e407_leg_input_stability.py",
+     "line": 284,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(OUTDIR, name)",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/LEGINPUT-2026-11-04.json",
+      "results/state_tilt/leginput_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/LEGINPUT-2026-11-04.json",
+    "results/state_tilt/leginput_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "localreader_latest.json",
+   "stem": "localreader",
+   "expected_reader_paths": [
+    "results/state_tilt/localreader_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e401_local_reader.py",
+     "line": 578,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/LOCALREADER-2026-11-04.json",
+      "results/state_tilt/localreader_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/LOCALREADER-2026-11-04.json",
+    "results/state_tilt/localreader_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "neveropened_latest.json",
+   "stem": "neveropened",
+   "expected_reader_paths": [
+    "results/state_tilt/neveropened_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e384_never_opened_key.py",
+     "line": 359,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/NEVEROPENED-2026-11-03.json",
+      "results/state_tilt/neveropened_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/NEVEROPENED-2026-11-03.json",
+    "results/state_tilt/neveropened_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "pininstability_latest.json",
+   "stem": "pininstability",
+   "expected_reader_paths": [
+    "results/state_tilt/pininstability_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e420_corpus_pin_instability.py",
+     "line": 271,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "p",
+      "unresolved": true
+     },
+     "folded_write_paths": [],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [],
+   "wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "notes": []
+  },
+  {
+   "spelling": "pointerread_latest.json",
+   "stem": "pointerread",
+   "expected_reader_paths": [
+    "results/state_tilt/pointerread_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+     "line": 348,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [],
+   "wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "notes": []
+  },
+  {
+   "spelling": "reachwide_latest.json",
+   "stem": "reachwide",
+   "expected_reader_paths": [
+    "results/state_tilt/reachwide_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e323_reach_under_wider_needle.py",
+     "line": 413,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "target",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/REACHWIDE-2026-10-31.json",
+      "results/state_tilt/reachwide_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/REACHWIDE-2026-10-31.json",
+    "results/state_tilt/reachwide_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "refusalcause_latest.json",
+   "stem": "refusalcause",
+   "expected_reader_paths": [
+    "results/state_tilt/refusalcause_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e322_residual_refusal_causes.py",
+     "line": 296,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "target",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/REFUSALCAUSE-2026-10-31.json",
+      "results/state_tilt/refusalcause_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/REFUSALCAUSE-2026-10-31.json",
+    "results/state_tilt/refusalcause_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "repairrecord_latest.json",
+   "stem": "repairrecord",
+   "expected_reader_paths": [
+    "results/state_tilt/repairrecord_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e342_guard_rewrite_records.py",
+     "line": 657,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(OUTDIR, name)",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/REPAIRRECORD-2026-11-01.json",
+      "results/state_tilt/repairrecord_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/REPAIRRECORD-2026-11-01.json",
+    "results/state_tilt/repairrecord_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "restoredgate_latest.json",
+   "stem": "restoredgate",
+   "expected_reader_paths": [
+    "results/state_tilt/restoredgate_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e348_restored_gate_retrospect.py",
+     "line": 551,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(FACE_DIR, name)",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/RESTOREDGATE-2026-11-01.json",
+      "results/state_tilt/restoredgate_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/RESTOREDGATE-2026-11-01.json",
+    "results/state_tilt/restoredgate_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "scaffold_latest.json",
+   "stem": "scaffold",
+   "expected_reader_paths": [
+    "results/state_tilt/scaffold_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e359_census_scaffolding_split.py",
+     "line": 561,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [],
+   "wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "notes": []
+  },
+  {
+   "spelling": "seamreplay_latest.json",
+   "stem": "seamreplay",
+   "expected_reader_paths": [
+    "results/state_tilt/seamreplay_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e368_seam_replay.py",
+     "line": 304,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "target",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/SEAMREPLAY-2026-11-02.json",
+      "results/state_tilt/seamreplay_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/SEAMREPLAY-2026-11-02.json",
+    "results/state_tilt/seamreplay_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "selfres_latest.json",
+   "stem": "selfres",
+   "expected_reader_paths": [
+    "results/state_tilt/selfres_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e253_self_row_resolution.py",
+     "line": 447,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "p",
+      "unresolved": true
+     },
+     "folded_write_paths": [],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [],
+   "wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "notes": []
+  },
+  {
+   "spelling": "siblingcloser_latest.json",
+   "stem": "siblingcloser",
+   "expected_reader_paths": [
+    "results/state_tilt/siblingcloser_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e341_sibling_closer_what_changed.py",
+     "line": 518,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(outdir, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/SIBLINGCLOSER-2026-11-01.json",
+      "results/state_tilt/siblingcloser_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/SIBLINGCLOSER-2026-11-01.json",
+    "results/state_tilt/siblingcloser_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "splitprice_latest.json",
+   "stem": "splitprice",
+   "expected_reader_paths": [
+    "results/state_tilt/splitprice_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e385_merged_key_split.py",
+     "line": 391,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/SPLITPRICE-2026-11-03.json",
+      "results/state_tilt/splitprice_latest.json"
+     ],
+     "note": null
+    },
+    {
+     "source": "scripts/e397_walk_ambiguity.py",
+     "line": 368,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/WALKAMBIG-2026-11-03.json",
+      "results/state_tilt/walkambig_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/SPLITPRICE-2026-11-03.json",
+    "results/state_tilt/WALKAMBIG-2026-11-03.json",
+    "results/state_tilt/splitprice_latest.json",
+    "results/state_tilt/walkambig_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "stalecutoff_latest.json",
+   "stem": "stalecutoff",
+   "expected_reader_paths": [
+    "results/state_tilt/stalecutoff_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e328_quoted_number_staleness.py",
+     "line": 505,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "disk",
+      "unresolved": true
+     },
+     "folded_write_paths": [],
+     "note": null
+    },
+    {
+     "source": "scripts/e365_face_population_pin.py",
+     "line": 316,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": true
+     },
+     "folded_write_paths": [],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [],
+   "wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "notes": []
+  },
+  {
+   "spelling": "storemembercost_latest.json",
+   "stem": "storemembercost",
+   "expected_reader_paths": [
+    "results/state_tilt/storemembercost_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e371_store_member_cost.py",
+     "line": 311,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "target",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/STOREMEMBERCOST-2026-11-03.json",
+      "results/state_tilt/storemembercost_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/STOREMEMBERCOST-2026-11-03.json",
+    "results/state_tilt/storemembercost_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "survivingconclusions_latest.json",
+   "stem": "survivingconclusions",
+   "expected_reader_paths": [
+    "results/state_tilt/survivingconclusions_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e333_surviving_e3xx_conclusions.py",
+     "line": 446,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(target, name)",
+      "unresolved": true
+     },
+     "folded_write_paths": [
+      "results/state_tilt/SURVIVINGCONCLUSIONS-2026-11-01.json",
+      "results/state_tilt/survivingconclusions_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/SURVIVINGCONCLUSIONS-2026-11-01.json",
+    "results/state_tilt/survivingconclusions_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "undated_latest.json",
+   "stem": "undated",
+   "expected_reader_paths": [
+    "results/state_tilt/undated_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e302_universe_switch_backfill.py",
+     "line": 798,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(tmp2, \"UNDATED.json\")",
+      "unresolved": true
+     },
+     "folded_write_paths": [],
+     "note": null
+    },
+    {
+     "source": "scripts/e307_undated_face_vintage.py",
+     "line": 438,
+     "route": "helper",
+     "call_found_at": null,
+     "write_call": null,
+     "folded_write_paths": [],
+     "note": null
+    },
+    {
+     "source": "scripts/e_band_family_vintage.py",
+     "line": 147,
+     "route": "helper",
+     "call_found_at": null,
+     "write_call": null,
+     "folded_write_paths": [],
+     "note": null
+    },
+    {
+     "source": "scripts/science_audit.py",
+     "line": 874,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(wm_tmp, \"state-bm-undated.json\")",
+      "unresolved": true
+     },
+     "folded_write_paths": [],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [],
+   "wire_class": "a_write_call_is_present_but_its_path_argument_does_not_fold",
+   "notes": []
+  },
+  {
+   "spelling": "unkeyedreader_latest.json",
+   "stem": "unkeyedreader",
+   "expected_reader_paths": [
+    "results/state_tilt/unkeyedreader_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "loop",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e379_unkeyed_face_reader.py",
+     "line": 448,
+     "route": "loop",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "os.path.join(OUTDIR, target_name)",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/UNKEYEDREADER-2026-11-03.json",
+      "results/state_tilt/unkeyedreader_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/UNKEYEDREADER-2026-11-03.json",
+    "results/state_tilt/unkeyedreader_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  },
+  {
+   "spelling": "walkambig_latest.json",
+   "stem": "walkambig",
+   "expected_reader_paths": [
+    "results/state_tilt/walkambig_latest.json"
+   ],
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "parent_route": "direct",
+   "parent_directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "write_sites": [
+    {
+     "source": "scripts/e397_walk_ambiguity.py",
+     "line": 368,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/WALKAMBIG-2026-11-03.json",
+      "results/state_tilt/walkambig_latest.json"
+     ],
+     "note": null
+    },
+    {
+     "source": "scripts/e399_unresolved_names.py",
+     "line": 482,
+     "route": "direct",
+     "call_found_at": "exact_line",
+     "write_call": {
+      "callee": "open",
+      "expression": "path",
+      "unresolved": false
+     },
+     "folded_write_paths": [
+      "results/state_tilt/UNRESOLVED-2026-11-04.json",
+      "results/state_tilt/unresolved_latest.json"
+     ],
+     "note": null
+    }
+   ],
+   "folded_write_paths": [
+    "results/state_tilt/UNRESOLVED-2026-11-04.json",
+    "results/state_tilt/WALKAMBIG-2026-11-03.json",
+    "results/state_tilt/unresolved_latest.json",
+    "results/state_tilt/walkambig_latest.json"
+   ],
+   "wire_class": "the_write_call_composes_the_exact_path_the_reader_opens",
+   "notes": []
+  }
+ ],
+ "method_limits": [
+  "the site is the line E487 traced; a write that happens in a helper called from that line is published as W_UNFOLDABLE rather than guessed",
+  "a folded path is static: a name built from a function parameter, argv, env or a dict key does not fold, and the row is published as W_UNFOLDABLE, never as wired",
+  "W_WIRED says the composed string equals the reader path; it does not claim the file exists at run time or that the write executes",
+  "a %-format string is deliberately excluded from folding, so the dated-face arm of many writers contributes no path while the LATEST arm does",
+  "the population is E488's same-directory arm kept byte-for-byte; this face adds a write-call question and does not re-open E487/E488's class questions"
+ ]
+}

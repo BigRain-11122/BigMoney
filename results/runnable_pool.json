@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1511 bm-b: E482 published (LATESTOUTSIDE-2026-11-07: 201 outside spellings / 512 sites / 147 sources; 195 resolve, 6 do not = 3 templates + 3 selftest fixtures; 84 spellings resolve to a file no source writes literally). E482 closed, E487 seeded.",
+ "_stamp_note": "r1514 bm-b: E489 published (WRITEWIRE-2026-11-07: 50 same-directory writers, 39 write calls compose the exact reader path, 1 composes the reader directory with another basename, 9 unfoldable, 1 no call). E489 closed, E490 seeded.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28602,6 +28602,22 @@
    "evidence_cutoff": "2026-11-07",
    "entered_at": "2026-11-07T08:3x+08:00",
    "entered_by": "bm-b r1513 (supply floor refill after E488)",
+   "status": "done",
+   "result_ref": "results/state_tilt/WRITEWIRE-2026-11-07.json",
+   "closed_at": "2026-11-07T08:54:57+0800",
+   "closed_by": "bm-b r1514"
+  },
+  {
+   "id": "E490-FOR-THE-SAME-DIRECTORY-WRITERS-WHOSE-WRITE-CALL-DOES-NOT-FOLD-IS-THE-DIRECTORY-DELEGATED-TO-A-HELPER-PARAMETER",
+   "title": "E489 folded the write call's own path argument for 50 same-directory writers and 9 did not fold. For each of those 9, is the write done inside a helper that takes the directory as a parameter (so the module constant is passed at the call site), or does the path genuinely come from argv/environment/a temp directory? Publish, per row, the helper and the call site that supplies the directory, so the unfoldable class is split into 'one more hop would reach it' and 'not reachable statically at all'.",
+   "source": "E489 (r1514 bm-b): 39 wired / 1 reader-dir another basename / 9 unfoldable / 1 no call; the 9 include helpers like `def _write(face, outdir)` whose call site passes OUTDIR, and one temp-dir write",
+   "lane": "cpu-only",
+   "lane_note": "static: AST call-site resolution for the non-folding write sites, no network",
+   "deliverable": "results/state_tilt/WRITEHELPER-<cutoff>.json",
+   "target": "results/state_tilt/writehelper_latest.json",
+   "evidence_cutoff": "2026-11-07",
+   "entered_at": "2026-11-07T08:54:57+0800",
+   "entered_by": "bm-b r1514 (supply floor refill after E489)",
    "status": "ready",
    "result_ref": null
   }
@@ -28618,6 +28634,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T08:3x+08:00",
+ "updated_at": "2026-11-07T08:54:57+0800",
  "version": 1
 }
