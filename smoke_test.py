@@ -445,6 +445,15 @@ def main() -> int:
             # the evaluated window inside the bars the rate archive actually measured.
             ("product: repo rate stress supply probe (exit-code contract)",
              "scripts/zoo98_repo_rate_stress_probe.py", ["--selftest"]),
+
+            # r1409: the textbook dual-momentum rotation (zoo #82) priced on the published
+            # book's own panel. Its legs pin the two ways a gate can lie about itself: a name
+            # that fails the 60-bar absolute gate must be unselectable (not merely ranked
+            # low), the defensive sentinel must sit strictly below every passer (so it holds
+            # slots, never the book), and a gate that fails for the whole field must read as
+            # all-defense rather than as "keep yesterday's book".
+            ("product: dual momentum supply probe (exit-code contract)",
+             "scripts/zoo82_dual_momentum_probe.py", ["--selftest"]),
             # r1396: the last free berth on the supply line is the volume state machine (zoo
             # #96) -- HMA(5)/HMA(100) over the market's own traded value, long above 1.15 or
             # below 0.807, cash in between because an ETF book cannot short spot. Its legs pin

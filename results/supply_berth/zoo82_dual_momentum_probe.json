@@ -1,0 +1,94 @@
+{
+  "batch": "SUPPLY_BERTH_SLOT_19_CANDIDATE",
+  "conditions": {
+    "beats_same_exposure_null": false,
+    "cost_is_bounded": true,
+    "drawdown_not_worse": false,
+    "excess_over_ew_ge_admit": false
+  },
+  "construction": {
+    "abs_window_bars": 60,
+    "cost_per_side": 0.0008,
+    "defense_form": "sentinel score below every passer (slots, not a switch)",
+    "defense_legs": [],
+    "execution": "decided on close t, filled at open t+1 (run_next_open)",
+    "exposure": 1.0,
+    "min_amt": 20000000.0,
+    "min_hist": 120,
+    "n_hold": 3,
+    "rebalance_bars": 20,
+    "rel_window_bars": 20,
+    "start": "2020-01-01"
+  },
+  "control_ew": {
+    "bars": 1657,
+    "cagr": 0.0186,
+    "label": "ew_universe",
+    "maxdd": -0.3991,
+    "sharpe": 0.197,
+    "start_level": 1.0009,
+    "total_ret": 0.1347,
+    "vol": 0.1826,
+    "years": 6.84
+  },
+  "evidence_cutoff": "2026-11-06",
+  "excess_vs_ew_pp": -16.03,
+  "excess_vs_published_book_pp": -21.73,
+  "family": "dual_momentum_etf_20_60",
+  "gate": {
+    "all_defense_decisions": 0,
+    "all_defense_share": 0.0,
+    "decisions": 83,
+    "mean_passers": 164.47
+  },
+  "generated": "2026-11-07T23:36:40+0800",
+  "null": {
+    "k": 200,
+    "mean_excess_pp": -9.41,
+    "sd_pp": 5.66,
+    "seed": 20261107
+  },
+  "p_value": 0.9851,
+  "panel": {
+    "bars": 5275,
+    "first": "2005-02-23",
+    "symbols": 1624
+  },
+  "reference_published_book": {
+    "bars": 1658,
+    "cagr": 0.0756,
+    "label": "published_book",
+    "maxdd": -0.1309,
+    "sharpe": 0.788,
+    "start_level": 1.0,
+    "total_ret": 0.6473,
+    "vol": 0.1031,
+    "years": 6.84
+  },
+  "rule": {
+    "bars": 1658,
+    "cagr": -0.1417,
+    "label": "rule",
+    "maxdd": -0.6939,
+    "sharpe": -0.191,
+    "start_level": 1.0,
+    "total_ret": -0.6485,
+    "vol": 0.4007,
+    "years": 6.84
+  },
+  "rule_engine": {
+    "open_gapfill_bars": 11,
+    "turnover_per_rebalance": 1.9317
+  },
+  "turnover": {
+    "decisions": 83,
+    "swapped_slots": 239,
+    "swaps_per_year": 34.92
+  },
+  "vectorised_basis": {
+    "excess_vs_ew_pp": -22.11,
+    "note": "the null's basis (close-to-close periods, same cost convention); p-value is read here",
+    "rule_cagr": -0.1881
+  },
+  "verdict": "REFUSE_AS_CANDIDATE"
+}
