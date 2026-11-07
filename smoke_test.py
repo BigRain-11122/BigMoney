@@ -425,6 +425,16 @@ def main() -> int:
             # The last leg keeps an impossible turnover from making a weight negative.
             ("product: disposition CGO supply probe (exit-code contract)",
              "scripts/zoo93_disposition_cgo_probe.py", ["--selftest"]),
+            # r1408: that berth's verdict bought a prereg, not a profit -- 65% of its decile
+            # spread sits on the short leg an A-share desk cannot hold. This judge asks the
+            # only question that can become money: is the long-only half worth doing after the
+            # cost of turning the book over? Its legs pin the three ways such a judge lies: a
+            # no-signal panel must not manufacture excess, an arm whose prices follow no
+            # mean-reverting level must not read as an edge (constant per-name drift makes the
+            # cost-basis gap and the forward return the same variable), and a full replacement
+            # costs two sides -- a free exit is a free return.
+            ("product: disposition CGO takeable judge (exit-code contract)",
+             "scripts/zoo93_disposition_cgo_judge.py", ["selftest"]),
             # r1394: the supply berth leaves the price/chips axis for the MONEY axis -- the
             # exchange repo rate's own trailing percentile as a funding-stress gate (zoo #98).
             # Its legs pin the three ways a percentile gate lies: a later bar must never move an
